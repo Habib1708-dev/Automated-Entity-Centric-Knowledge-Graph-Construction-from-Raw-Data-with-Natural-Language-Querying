@@ -15,7 +15,7 @@ from kgbuilder.resolve import SamePair
 from kgbuilder.schema import Critique
 from kgbuilder.textschema import EntityType, FactType, TextSchema, validate_text_schema
 
-from .fakes import ScriptedLLM
+from .fakes import RecordingTracker, ScriptedLLM
 from .sample_plans import GOOD_PLAN
 
 SCHEMA = TextSchema(
@@ -88,7 +88,10 @@ def test_full_pipeline(driver, data_dir, tmp_path):
         json.dumps([{"subject": "Table", "predicate": "HAS_PROBLEM", "object": "wobbles"}]), encoding="utf-8"
     )
     out = tmp_path / "out"
-    ctx = pipeline.PipelineContext(settings=Settings(), driver=driver, out=out, llm=ScriptedLLM(script))
+    tracker = RecordingTracker()
+    ctx = pipeline.PipelineContext(
+        settings=Settings(), driver=driver, out=out, llm=ScriptedLLM(script), tracker=tracker
+    )
 
     report = pipeline.run_all(ctx, data_dir, "find product problems", gold=gold, embed=False)
 
@@ -108,6 +111,19 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     assert count("MATCH (:Entity)-[:REFERS_TO]->(:Product) RETURN count(*) AS c") == 1
     assert report.metrics["evidence_verified_rate"] == 1.0
     assert report.metrics["gold_recall"] == 1.0
+
+    # tracking contract (mlflow-tracking skill): one run per stage, with the params that explain the result
+    assert [r.name for r in tracker.runs] == [
+        "pipeline", "profile", "plan", "build_domain", "ingest_text",
+        "text_schema", "extract", "resolve", "link", "validate",
+    ]  # fmt: skip
+    assert {"model", "temperature", "prompt_version", "critic_prompt_version"} <= set(
+        tracker.run("plan").logged_params
+    )
+    assert {"chunk_max_chars", "chunk_min_chars"} <= set(tracker.run("ingest_text").logged_params)
+    assert {"er_auto_merge", "er_borderline"} <= set(tracker.run("resolve").logged_params)
+    assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(tracker.run("extract").logged_metrics)
+    assert "prompts/extract.txt" in tracker.run("extract").artifacts
 
 
 def test_verify_rejects_ungrounded_and_off_schema():

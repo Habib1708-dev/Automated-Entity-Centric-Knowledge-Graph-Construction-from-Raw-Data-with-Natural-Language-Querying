@@ -1,7 +1,7 @@
 """Command line interface and composition root: one Typer command per pipeline stage, plus `run`/`reset`.
 
 Role in the pipeline: the entry point. It is the only place that reads settings and builds the concrete
-LLM client, cache and Neo4j driver; everything below receives them through a `PipelineContext`.
+LLM client, cache, MLflow tracker and Neo4j driver; everything below receives them through a `PipelineContext`.
 Design: composition root (Factory). Expected failures (`KgBuilderError`) become a message and exit code 1.
 Not here: pipeline logic (pipeline.py) and anything that talks to the LLM or Neo4j directly.
 """
@@ -19,6 +19,7 @@ from .graph.connection import open_driver
 from .ingest import load_documents
 from .llm.cache import CachedLLM
 from .llm.gemini import GeminiClient
+from .tracking.mlflow_tracker import create_tracker
 from .validate import ValidationReport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -28,13 +29,22 @@ OUT = Path("out")
 def build_context(out: Path) -> pl.PipelineContext:
     """Wire the concrete adapters. Without an API key the context has no LLM; LLM-free stages still work."""
     settings = Settings()
+    tracker = create_tracker(settings.mlflow_tracking_uri, settings.mlflow_experiment)
     llm = embedder = None
     if settings.gemini_api_key:
-        gemini = GeminiClient(settings.gemini_api_key, settings.embed_model, settings.llm_max_attempts)
-        llm, embedder = CachedLLM(gemini, settings.cache_dir), gemini
+        # both layers report to the tracker: Gemini its live calls (with token usage), the cache its hits
+        gemini = GeminiClient(
+            settings.gemini_api_key,
+            settings.embed_model,
+            settings.llm_max_attempts,
+            listener=tracker.record_llm_call,
+        )
+        llm, embedder = CachedLLM(gemini, settings.cache_dir, tracker.record_llm_call), gemini
     # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
     driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
-    return pl.PipelineContext(settings=settings, driver=driver, out=out, llm=llm, embedder=embedder)
+    return pl.PipelineContext(
+        settings=settings, driver=driver, out=out, llm=llm, embedder=embedder, tracker=tracker
+    )
 
 
 @contextmanager
