@@ -8,11 +8,11 @@ import pytest
 from kgbuilder import pipeline
 from kgbuilder.config import Settings
 from kgbuilder.extract import ChunkExtraction, RawTriple, verify
-from kgbuilder.ingest import Document, json_to_csv, stage_structured
+from kgbuilder.ingest import Document
 from kgbuilder.lexical import chunk_document
-from kgbuilder.plan import ConstructionPlan
 from kgbuilder.resolve import SamePair
-from kgbuilder.schema import Critique
+from kgbuilder.structured.plan import ConstructionPlan
+from kgbuilder.structured.proposer import Critique
 from kgbuilder.textschema import EntityType, FactType, TextSchema, validate_text_schema
 
 from .fakes import RecordingTracker, ScriptedLLM
@@ -144,13 +144,6 @@ def test_text_schema_validation():
     assert validate_text_schema(SCHEMA) == []
 
 
-def test_chunking_and_json_staging(tmp_path):
+def test_chunking():
     chunks = chunk_document(Document(doc_id="a.md", title="a", text=REVIEWS), min_chars=20)
     assert len(chunks) >= 2 and all(c.chunk_id.startswith("a.md#") for c in chunks)
-    src = tmp_path / "x.json"
-    records = [{"id": 1, "o": {"k": "v"}, "l": [1, 2]}, {"id": 2, "o": {"k": "w"}, "l": []}]
-    src.write_text(json.dumps(records), encoding="utf-8")
-    assert json_to_csv(src, tmp_path / "x.csv") == 2
-    assert tmp_path.joinpath("x.csv").read_text().splitlines()[0] == "id,o.k,l"
-    staged = stage_structured(tmp_path, tmp_path / "stage")
-    assert (staged / "x.csv").exists()

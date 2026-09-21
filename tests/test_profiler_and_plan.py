@@ -1,7 +1,7 @@
 """Profiling (uniqueness, foreign keys) and plan validation on small CSV fixtures. No Neo4j needed."""
 
-from kgbuilder.plan import ConstructionPlan, validate_plan
-from kgbuilder.profiler import profile_directory
+from kgbuilder.structured.plan import ConstructionPlan, validate_plan
+from kgbuilder.structured.profiler import profile_directory
 
 from .sample_plans import GOOD_PLAN, node, rel
 

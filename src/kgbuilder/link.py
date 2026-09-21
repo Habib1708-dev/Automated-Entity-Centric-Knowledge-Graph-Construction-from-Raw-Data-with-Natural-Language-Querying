@@ -7,7 +7,7 @@ from rapidfuzz import fuzz
 from .core.cypher import cypher_ident
 from .core.text import norm
 from .core.text import squash as _squash
-from .plan import ConstructionPlan, NodeRule
+from .structured.plan import ConstructionPlan, NodeRule
 
 
 class LinkReport(BaseModel):

@@ -1,13 +1,24 @@
-"""Propose a construction plan with an LLM, checked by code first and an LLM critic second."""
+"""Propose a construction plan with an LLM, checked by code first and by an LLM critic second.
+
+Role in the pipeline: `kg plan`. Input is the exact data profile; output is a `ConstructionPlan` that a
+human reviews in `out/plan.json` before `kg build` executes it.
+Design: the retry loop is `llm.refine.refine` (Template Method); this module only supplies the prompts
+and the three steps. The LLM never sees raw data, only the profile computed by DuckDB.
+Not here: plan validation rules (plan.py) and execution (importer.py).
+"""
 
 from typing import Literal
 
 from pydantic import BaseModel
 
-from .llm.base import LLMClient
+from ..llm.base import LLMClient
+from ..llm.refine import Refinement, refine
 from .plan import ConstructionPlan, validate_plan
 from .profiler import DataProfile
 
+# The proposer is told to trust the profile because models otherwise "recognise" id columns by name and
+# pick non-unique keys. The modeling rules encode the two table shapes (entity table, link table) and the
+# failure modes seen in practice: FK columns duplicated as properties, disconnected islands, inverse pairs.
 PROPOSER_PROMPT = """You are an expert at knowledge graph modeling with property graphs.
 Design construction rules that turn the CSV files below into a graph serving the user's goal.
 
@@ -35,6 +46,8 @@ Modeling rules:
 
 {feedback}"""
 
+# The critic is told what code already guarantees, so it spends its judgement on modeling only, and it
+# must answer "valid" unless a problem would change the plan; otherwise critics nitpick forever.
 CRITIC_PROMPT = """You are reviewing a proposed knowledge graph construction plan.
 The plan already passed mechanical checks (columns exist, keys are unique, graph is connected),
 so judge only the modeling:
@@ -60,15 +73,10 @@ Reply "retry" only for problems that would change the plan; otherwise "valid".
 
 
 class Critique(BaseModel):
+    """The critic's structured reply."""
+
     verdict: Literal["valid", "retry"]
     issues: list[str]
-
-
-class SchemaResult(BaseModel):
-    plan: ConstructionPlan
-    rounds: int
-    accepted: bool  # False when max_rounds ran out with open issues
-    open_issues: list[str]
 
 
 def propose_plan(
@@ -79,32 +87,22 @@ def propose_plan(
     temperature: float = 0.0,
     max_rounds: int = 3,
     use_critic: bool = True,
-) -> SchemaResult:
+) -> Refinement[ConstructionPlan]:
     """Ask `llm` for a plan until it passes `validate_plan` and the critic, or `max_rounds` is used up."""
     profile_json = profile.model_dump_json(indent=1)
-    feedback, plan, issues = "", None, []
 
-    for round_number in range(1, max_rounds + 1):
+    def propose(feedback: str) -> ConstructionPlan:
         prompt = PROPOSER_PROMPT.format(goal=goal, profile=profile_json, feedback=feedback)
-        plan = llm.generate(prompt, ConstructionPlan, model=model, temperature=temperature)
+        return llm.generate(prompt, ConstructionPlan, model=model, temperature=temperature)
 
-        # code first: the critic only sees plans that are already mechanically valid
-        issues = validate_plan(plan, profile)
-        if not issues and use_critic:
-            critique = llm.generate(
-                CRITIC_PROMPT.format(goal=goal, profile=profile_json, plan=plan.model_dump_json(indent=1)),
-                Critique,
-                model=model,
-                temperature=temperature,
-            )
-            issues = critique.issues if critique.verdict == "retry" else []
-        if not issues:
-            return SchemaResult(plan=plan, rounds=round_number, accepted=True, open_issues=[])
+    def critique(plan: ConstructionPlan) -> list[str]:
+        prompt = CRITIC_PROMPT.format(goal=goal, profile=profile_json, plan=plan.model_dump_json(indent=1))
+        reply = llm.generate(prompt, Critique, model=model, temperature=temperature)
+        return reply.issues if reply.verdict == "retry" else []
 
-        feedback = (
-            "Your previous plan is below, followed by the problems found in it. Fix every problem.\n"
-            f"<previous_plan>\n{plan.model_dump_json(indent=1)}\n</previous_plan>\n"
-            "<problems>\n" + "\n".join(f"- {i}" for i in issues) + "\n</problems>"
-        )
-
-    return SchemaResult(plan=plan, rounds=max_rounds, accepted=False, open_issues=issues)
+    return refine(
+        propose,
+        validate=lambda plan: validate_plan(plan, profile),
+        critique=critique if use_critic else None,
+        max_rounds=max_rounds,
+    )

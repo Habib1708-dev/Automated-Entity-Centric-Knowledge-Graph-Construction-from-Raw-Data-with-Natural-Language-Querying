@@ -1,0 +1,84 @@
+{
+  "nodes": [
+    {
+      "source_file": "products.csv",
+      "label": "Product",
+      "unique_column": "product_id",
+      "properties": [
+        "product_name",
+        "price",
+        "description"
+      ],
+      "description": "A finished furniture product sold to customers"
+    },
+    {
+      "source_file": "assemblies.csv",
+      "label": "Assembly",
+      "unique_column": "assembly_id",
+      "properties": [
+        "assembly_name"
+      ],
+      "description": "A sub-assembly that makes up part of a product"
+    },
+    {
+      "source_file": "components.csv",
+      "label": "Part",
+      "unique_column": "part_id",
+      "properties": [
+        "part_name",
+        "sub_assembly_name"
+      ],
+      "description": "An individual component used in an assembly"
+    },
+    {
+      "source_file": "suppliers.csv",
+      "label": "Supplier",
+      "unique_column": "supplier_id",
+      "properties": [
+        "name",
+        "specialty",
+        "city",
+        "country"
+      ],
+      "description": "A company supplying parts"
+    }
+  ],
+  "relationships": [
+    {
+      "source_file": "assemblies.csv",
+      "relationship_type": "CONTAINS",
+      "from_label": "Product",
+      "from_column": "product_id",
+      "to_label": "Assembly",
+      "to_column": "assembly_id",
+      "properties": [
+        "quantity"
+      ]
+    },
+    {
+      "source_file": "components.csv",
+      "relationship_type": "CONTAINS",
+      "from_label": "Assembly",
+      "from_column": "assembly_id",
+      "to_label": "Part",
+      "to_column": "part_id",
+      "properties": [
+        "quantity"
+      ]
+    },
+    {
+      "source_file": "part_supplier_mapping.csv",
+      "relationship_type": "SUPPLIED_BY",
+      "from_label": "Part",
+      "from_column": "part_id",
+      "to_label": "Supplier",
+      "to_column": "supplier_id",
+      "properties": [
+        "lead_time_days",
+        "unit_cost",
+        "minimum_order_quantity",
+        "preferred_supplier"
+      ]
+    }
+  ]
+}

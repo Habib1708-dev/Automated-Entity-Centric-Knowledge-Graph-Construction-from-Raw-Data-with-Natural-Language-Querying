@@ -1,0 +1,14 @@
+{
+  "_comment": "Expected domain graph for data/ built from tests/gold/domain_plan.json (the reviewed plan).",
+  "nodes": {
+    "Product": 10,
+    "Assembly": 64,
+    "Part": 88,
+    "Supplier": 20
+  },
+  "relationships": {
+    "Product-CONTAINS->Assembly": 64,
+    "Assembly-CONTAINS->Part": 88,
+    "Part-SUPPLIED_BY->Supplier": 176
+  }
+}

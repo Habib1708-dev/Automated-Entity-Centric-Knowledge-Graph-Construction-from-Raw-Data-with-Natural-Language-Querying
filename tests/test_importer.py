@@ -2,8 +2,8 @@
 
 import pytest
 
-from kgbuilder.importer import construct_domain_graph
-from kgbuilder.plan import ConstructionPlan
+from kgbuilder.structured.importer import construct_domain_graph
+from kgbuilder.structured.plan import ConstructionPlan
 
 from .sample_plans import GOOD_PLAN, node, rel
 

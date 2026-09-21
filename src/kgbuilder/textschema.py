@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from .lexical import Chunk
 from .llm.base import LLMClient
-from .plan import ConstructionPlan
+from .structured.plan import ConstructionPlan
 
 
 class EntityType(BaseModel):

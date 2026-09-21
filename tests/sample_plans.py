@@ -1,6 +1,6 @@
 """Construction plans matching the CSV fixtures in conftest.py, shared by several test modules."""
 
-from kgbuilder.plan import ConstructionPlan, NodeRule, RelationshipRule
+from kgbuilder.structured.plan import ConstructionPlan, NodeRule, RelationshipRule
 
 
 def node(file, label, key, props=()):

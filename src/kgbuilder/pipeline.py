@@ -3,10 +3,12 @@
 Role in the pipeline: orchestration only. A stage function calls one feature module, logs to MLflow and
 persists the result; `run_all` chains the stages.
 Design: every external dependency (settings, LLM, embedder, Neo4j driver, tracker) arrives in a
-`PipelineContext` built by the composition root (cli.py) or by a test. Nothing here constructs a client or reads globals.
+`PipelineContext` built by the composition root (cli.py) or by a test. Nothing here constructs a client
+or reads globals.
 """
 
-from dataclasses import dataclass, field
+import json
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from neo4j import Driver
@@ -15,18 +17,20 @@ from .config import Settings
 from .core.errors import InvalidPlanError, LLMUnavailableError, MissingInputError, ProposalRejectedError
 from .extract import PROMPT as EXTRACT_PROMPT
 from .extract import Rejected, Triple, extract_all, write_subject_graph
-from .importer import construct_domain_graph
-from .ingest import Document, load_documents, stage_structured
+from .ingest import Document, load_documents
 from .lexical import Chunk, chunk_document, write_lexical_graph
 from .link import LinkReport, link_graphs
 from .llm.base import Embedder, LLMClient, prompt_version
-from .plan import ConstructionPlan, validate_plan
-from .profiler import DataProfile, profile_directory
+from .llm.refine import Refinement
 from .resolve import ADJUDICATE_PROMPT, ResolveReport, resolve_entities
-from .schema import CRITIC_PROMPT, PROPOSER_PROMPT, propose_plan
+from .structured.importer import BATCH_SIZE, construct_domain_graph
+from .structured.plan import ConstructionPlan, validate_plan
+from .structured.profiler import DataProfile, profile_directory
+from .structured.proposer import CRITIC_PROMPT, PROPOSER_PROMPT, propose_plan
+from .structured.staging import stage_structured
 from .textschema import PROMPT as TEXT_SCHEMA_PROMPT
 from .textschema import TextSchema, propose_text_schema
-from .tracking.base import NullTracker, Tracker
+from .tracking.base import NullTracker, Run, Tracker
 from .validate import ValidationReport, validate_graph
 
 
@@ -54,13 +58,28 @@ def _write(path: Path, text: str) -> Path:
     return path
 
 
+def _log_refinement(run: Run, result: Refinement, history_file: Path) -> None:
+    """Metrics and the per-round issue history of a propose/validate/critique loop."""
+    first = result.history[0]
+    run.metrics(
+        rounds=result.rounds,
+        accepted=int(result.accepted),
+        open_issues=len(result.open_issues),
+        # how far the first attempt was from mechanically valid: the number to watch when tuning a prompt
+        validation_errors_round_1=len(first.issues) if first.source == "code" else 0,
+    )
+    run.artifact(_write(history_file, json.dumps([asdict(r) for r in result.history], indent=2)))
+
+
 def stage_profile(ctx: PipelineContext, data_dir: Path) -> tuple[Path, DataProfile]:
     """Stage JSON/CSV under `out/staging` and profile the tables."""
     with ctx.tracker.start_run("profile", data_dir=data_dir) as run:
-        staged = stage_structured(data_dir, ctx.out / "staging")
+        staging = stage_structured(data_dir, ctx.out / "staging")
+        staged = staging.staged_dir
         profile = profile_directory(staged)
         run.metrics(
             files=len(profile.files),
+            files_skipped=len(staging.skipped),
             foreign_key_candidates=len(profile.foreign_keys),
             rows=sum(f.row_count for f in profile.files),
         )
@@ -82,18 +101,18 @@ def stage_plan(ctx: PipelineContext, profile: DataProfile, goal: str) -> Constru
         run.text(PROPOSER_PROMPT, "prompts/plan_proposer.txt")
         run.text(CRITIC_PROMPT, "prompts/plan_critic.txt")
         result = propose_plan(goal, profile, ctx.require_llm(), s.schema_model, s.llm_temperature)
-        run.metrics(rounds=result.rounds, accepted=int(result.accepted), open_issues=len(result.open_issues))
-        run.artifact(_write(ctx.out / "plan.json", result.plan.model_dump_json(indent=2)))
+        _log_refinement(run, result, ctx.out / "plan_rounds.json")
+        run.artifact(_write(ctx.out / "plan.json", result.value.model_dump_json(indent=2)))
     if not result.accepted:
         raise ProposalRejectedError("plan", result.open_issues)
-    return result.plan
+    return result.value
 
 
 def stage_build(
     ctx: PipelineContext, staged: Path, plan: ConstructionPlan, profile: DataProfile
 ) -> dict[str, int]:
     """Import the domain graph. Returns the expected node count per label, for later validation."""
-    with ctx.tracker.start_run("build_domain") as run:
+    with ctx.tracker.start_run("build_domain", batch_size=BATCH_SIZE) as run:
         # re-validated here because a human may have edited out/plan.json since it was proposed
         issues = validate_plan(plan, profile)
         if issues:
@@ -101,8 +120,9 @@ def stage_build(
         report = construct_domain_graph(ctx.driver, staged, plan)
         run.metrics(
             rules=len(report.rules),
-            rows_written=sum(r.rows_written for r in report.rules),
-            rows_dropped=sum(r.rows_unmatched + r.rows_skipped_null_key for r in report.rules),
+            nodes_written=report.written("node"),
+            relationships_written=report.written("relationship"),
+            rows_dropped=report.rows_dropped,
             clean=int(report.clean),
         )
         run.artifact(_write(ctx.out / "build_report.json", report.model_dump_json(indent=2)))
