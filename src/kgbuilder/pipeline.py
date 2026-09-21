@@ -15,12 +15,10 @@ from neo4j import Driver
 
 from .config import Settings
 from .core.errors import InvalidPlanError, LLMUnavailableError, MissingInputError, ProposalRejectedError
-from .extract import PROMPT as EXTRACT_PROMPT
-from .extract import Rejected, Triple, extract_all, write_subject_graph
-from .link import LinkReport, link_graphs
 from .llm.base import Embedder, LLMClient, prompt_version
 from .llm.refine import Refinement
-from .resolve import ADJUDICATE_PROMPT, ResolveReport, resolve_entities
+from .resolution.linking import LinkReport, link_graphs
+from .resolution.resolver import ADJUDICATE_PROMPT, ResolveReport, resolve_entities
 from .structured.importer import BATCH_SIZE, construct_domain_graph
 from .structured.plan import ConstructionPlan, validate_plan
 from .structured.profiler import DataProfile, profile_directory
@@ -28,10 +26,13 @@ from .structured.proposer import CRITIC_PROMPT, PROPOSER_PROMPT, propose_plan
 from .structured.staging import stage_structured
 from .text.chunking import Chunk, chunk_document
 from .text.documents import Document, load_documents
+from .text.extraction import PROMPT as EXTRACT_PROMPT
+from .text.extraction import ExtractionResult, extract_all
 from .text.lexical import read_chunks, write_lexical_graph
 from .text.schema import CRITIC_PROMPT as TEXT_SCHEMA_CRITIC_PROMPT
 from .text.schema import PROMPT as TEXT_SCHEMA_PROMPT
 from .text.schema import TextSchema, propose_text_schema
+from .text.subject_graph import write_subject_graph
 from .tracking.base import NullTracker, Run, Tracker
 from .validate import ValidationReport, validate_graph
 
@@ -196,9 +197,7 @@ def stage_text_schema(
     return result.value
 
 
-def stage_extract(
-    ctx: PipelineContext, chunks: list[Chunk], schema: TextSchema
-) -> tuple[list[Triple], list[Rejected]]:
+def stage_extract(ctx: PipelineContext, chunks: list[Chunk], schema: TextSchema) -> ExtractionResult:
     """Extract evidence-verified triples and write the subject graph."""
     s = ctx.settings
     with ctx.tracker.start_run(
@@ -209,21 +208,23 @@ def stage_extract(
         workers=s.extract_workers,
     ) as run:
         run.text(EXTRACT_PROMPT, "prompts/extract.txt")
-        triples, rejected = extract_all(
+        result = extract_all(
             chunks, schema, ctx.require_llm(), s.extract_model, s.llm_temperature, s.extract_workers
         )
-        counts = write_subject_graph(ctx.driver, triples, extractor=s.extract_model)
-        total = len(triples) + len(rejected)
+        counts = write_subject_graph(ctx.driver, result.triples, extractor=s.extract_model)
         run.metrics(
-            **counts,
+            **counts.model_dump(),
             chunks=len(chunks),
-            rejected=len(rejected),
-            accept_rate=len(triples) / total if total else 1.0,
-            triples_per_chunk=len(triples) / len(chunks) if chunks else 0.0,
+            rejected=len(result.rejected),
+            accept_rate=result.accept_rate,
+            triples_per_chunk=len(result.triples) / len(chunks) if chunks else 0.0,
+            # which verification rule fires most tells you what to fix in the prompt
+            **{f"rejected_{reason}": n for reason, n in result.rejections_by_reason().items()},
         )
-        run.artifact(_write(ctx.out / "triples.jsonl", "\n".join(t.model_dump_json() for t in triples)))
-        run.artifact(_write(ctx.out / "rejected.jsonl", "\n".join(r.model_dump_json() for r in rejected)))
-    return triples, rejected
+        jsonl = "\n".join
+        run.artifact(_write(ctx.out / "triples.jsonl", jsonl(t.model_dump_json() for t in result.triples)))
+        run.artifact(_write(ctx.out / "rejected.jsonl", jsonl(r.model_dump_json() for r in result.rejected)))
+    return result
 
 
 def stage_resolve(ctx: PipelineContext) -> ResolveReport:

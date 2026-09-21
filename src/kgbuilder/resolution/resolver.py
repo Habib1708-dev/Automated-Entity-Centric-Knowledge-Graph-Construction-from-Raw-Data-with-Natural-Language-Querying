@@ -9,8 +9,8 @@ from neo4j import Driver
 from pydantic import BaseModel
 from rapidfuzz import fuzz
 
-from .core.text import norm
-from .llm.base import LLMClient
+from ..core.text import norm
+from ..llm.base import LLMClient
 
 ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same real-world thing?
 Different sizes, models, components or people are NOT the same. Answer conservatively.

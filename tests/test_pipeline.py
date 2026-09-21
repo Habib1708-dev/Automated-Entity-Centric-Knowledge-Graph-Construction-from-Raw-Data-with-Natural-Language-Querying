@@ -7,10 +7,10 @@ import pytest
 
 from kgbuilder import pipeline
 from kgbuilder.config import Settings
-from kgbuilder.extract import ChunkExtraction, RawTriple, verify
 from kgbuilder.llm.refine import Critique
-from kgbuilder.resolve import SamePair
+from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
+from kgbuilder.text.extraction import ChunkExtraction, RawTriple, RejectionReason, verify
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 
 from .fakes import RecordingTracker, ScriptedLLM
@@ -96,7 +96,7 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     failed = [c for c in report.checks if not c.passed]
     assert not failed, failed
     rejected = [json.loads(line) for line in (out / "rejected.jsonl").read_text().splitlines() if line]
-    assert len(rejected) == 1 and "verbatim" in rejected[0]["reason"]
+    assert [r["reason"] for r in rejected] == ["evidence_not_verbatim"]
     # "Table" and "Tables" were merged by entity resolution
     names = [r["n"] for r in driver.execute_query("MATCH (e:Entity {type:'Product'}) RETURN e.name AS n")[0]]
     assert len(names) == 1
@@ -120,17 +120,28 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     )
     assert {"chunk_max_chars", "chunk_min_chars"} <= set(tracker.run("ingest_text").logged_params)
     assert {"er_auto_merge", "er_borderline"} <= set(tracker.run("resolve").logged_params)
-    assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(tracker.run("extract").logged_metrics)
+    extract_metrics = tracker.run("extract").logged_metrics
+    assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(extract_metrics)
+    assert (
+        extract_metrics["rejected_evidence_not_verbatim"] == 1 and extract_metrics["rejected_off_schema"] == 0
+    )
     assert "prompts/extract.txt" in tracker.run("extract").artifacts
 
 
 def test_verify_rejects_ungrounded_and_off_schema():
-    text = "The Table wobbles badly."
-    ok = triple("Table", "wobbles", "The Table wobbles")
+    text = "The **Table** wobbles   badly."
+    ok = triple("table", "wobbles", "The Table wobbles")  # case, markdown and spacing are normalised
     assert verify(ok, text, SCHEMA) is None
-    assert "verbatim" in verify(ok.model_copy(update={"evidence": "made up"}), text, SCHEMA)
-    assert "schema" in verify(ok.model_copy(update={"predicate": "LOVES"}), text, SCHEMA)
-    assert "does not appear" in verify(ok.model_copy(update={"object": "cracks"}), text, SCHEMA)
+
+    def reason(**changes) -> RejectionReason:
+        return verify(ok.model_copy(update=changes), text, SCHEMA).reason
+
+    assert reason(evidence="made up") == RejectionReason.EVIDENCE_NOT_VERBATIM
+    assert reason(evidence="  ") == RejectionReason.EVIDENCE_NOT_VERBATIM
+    assert reason(predicate="LOVES") == RejectionReason.OFF_SCHEMA
+    assert reason(object="cracks") == RejectionReason.ARGUMENT_NOT_IN_CHUNK
+    assert reason(object="") == RejectionReason.EMPTY_ARGUMENT
+    assert reason(object="TABLE") == RejectionReason.SELF_REFERENCE
 
 
 def test_text_schema_validation():

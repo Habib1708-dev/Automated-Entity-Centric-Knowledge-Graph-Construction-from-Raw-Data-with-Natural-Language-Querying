@@ -115,8 +115,10 @@ def extract(out: Path = OUT):
     """Extract evidence-backed facts from the ingested chunks into the subject graph."""
     with session(out) as ctx:
         schema = pl.require(pl.load_text_schema(out), "out/text_schema.json", "kg text-schema")
-        triples, rejected = pl.stage_extract(ctx, pl.stored_chunks(ctx), schema)
-    typer.echo(f"{len(triples)} facts stored, {len(rejected)} rejected (see {out / 'rejected.jsonl'})")
+        result = pl.stage_extract(ctx, pl.stored_chunks(ctx), schema)
+    typer.echo(
+        f"{len(result.triples)} facts stored, {len(result.rejected)} rejected (see {out / 'rejected.jsonl'})"
+    )
 
 
 @app.command()
