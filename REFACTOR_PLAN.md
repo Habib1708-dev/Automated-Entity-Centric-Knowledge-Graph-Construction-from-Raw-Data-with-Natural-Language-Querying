@@ -6,6 +6,7 @@ time**. Rules for how to work are in [CLAUDE.md](CLAUDE.md); each step is execut
 `implement-step` skill (`/implement-step N`).
 
 Baseline on 2026-09-21: 16 modules, about 1,650 lines, 10 tests passing (Neo4j up), no linter, no git repository.
+After R9 (same day): 11 commits, 59 tests passing, `ruff check` clean, every finding below closed except the items listed under "Still open" at the end.
 
 ## Verdict
 
@@ -89,15 +90,15 @@ design and filling the gaps.
 | Step | Title | Status |
 |---|---|---|
 | R0 | Rules, skills, audit | done 2026-09-21 |
-| R1 | Tooling, shared core, file headers | todo |
-| R2 | Ports and adapters: LLM, graph, settings injection | todo |
-| R3 | Tracking port and full MLflow logging | todo |
-| R4 | Structured path (PLAN 1-2) | todo |
-| R5 | Text path: documents, chunks, lexical graph, text schema (PLAN 3-4) | todo |
-| R6 | Extraction and linking (PLAN 5) | todo |
-| R7 | Entity resolution (PLAN 6) | todo |
-| R8 | Validation checks and evaluation harness (PLAN 7) | todo |
-| R9 | Stage abstraction, runner, thin CLI, docs (PLAN 8) | todo |
+| R1 | Tooling, shared core, file headers | done 2026-09-21: ruff + markers, `core/`, `graph/`, headers, lessons moved |
+| R2 | Ports and adapters: LLM, graph, settings injection | done 2026-09-21: LLM port, Gemini adapter with retry, cache decorator, injected context, fakes |
+| R3 | Tracking port and full MLflow logging | done 2026-09-21: tracking port, MLflow adapter, LLM traces + usage metrics, prompt versions |
+| R4 | Structured path (PLAN 1-2) | done 2026-09-21: `structured/`, shared refine loop, staging report + wipe guard, gold expectations |
+| R5 | Text path: documents, chunks, lexical graph, text schema (PLAN 3-4) | done 2026-09-21: `text/`, chunks read back from the graph, stale-chunk cleanup, overlap, schema critic |
+| R6 | Extraction and linking (PLAN 5) | done 2026-09-21: extraction / subject graph split, rejection reason codes, linking as read-match-write |
+| R7 | Entity resolution (PLAN 6) | done 2026-09-21: five-step resolver, Strategy matchers, parallel adjudication, snapshot undo |
+| R8 | Validation checks and evaluation harness (PLAN 7) | done 2026-09-21: `validation/` check families, evaluation harness, `kg eval` |
+| R9 | Stage abstraction, runner, thin CLI, docs (PLAN 8) | done 2026-09-21: `pipeline/` Stage + runner, approval pauses, thin CLI, README |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -176,3 +177,28 @@ Closes A6, A9, D6, remaining E2/E4. Depends on R8.
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+Found and fixed during R1 to R9:
+- **Entity merging never worked (fixed in R7).** The APOC call used `collect(o)` as a procedure argument,
+  which is a Cypher syntax error. It was never noticed because no test reached a merge: see next item.
+- **The end-to-end test did not test what it claimed (fixed in R7).** Its three short reviews were packed
+  into one chunk, so "Tables" was never extracted and "Table/Tables were merged" was vacuously true.
+  "Table" vs "Tables" also scores 90.9, below the 92 auto-merge default. The test now uses small chunks
+  and an explicit threshold, and asserts the chunk count and the merge count.
+- NDJSON with a malformed line crashed staging with an uncaught `JSONDecodeError` (fixed in R4).
+- With `--out` inside the data dir, staged CSVs and generated text were re-ingested on the next run
+  (fixed in R4 and R5).
+- Re-ingesting with other chunk settings left the old chunks in the graph as ghost evidence (fixed in R5).
+- "Every document is linked" failed for text-only data sets, which have nothing to link to (fixed in R8).
+- The LLM cache wrote files non-atomically under a thread pool, and its key ignored temperature (fixed in R2).
+
+Still open (need a human or an API key, so they were not done):
+- **Hand-labelled gold set for `data/` (D5).** The harness and the file format exist (`kg eval`, README),
+  but the labels depend on the approved `out/text_schema.json`, which needs a real LLM run first.
+- **A full `kg run data/` against Gemini** to check the new MLflow params, traces and token metrics in
+  the UI. Everything LLM-free was run on `data/`; the LLM stages were verified with `ScriptedLLM` only.
+- Embedding candidates for ER are implemented but off (`er_embedding_candidates = 0`); choose the
+  threshold by comparing `resolve` runs in MLflow once a gold `er_pairs` list exists.
+- Tests are separated by the `neo4j` marker, not by `tests/unit` and `tests/integration` directories:
+  several files mix pure and database tests of one feature, and the marker gives the same fast subset.
+- PLAN step 8's optional ADK conversational front end and a recorded demo script.

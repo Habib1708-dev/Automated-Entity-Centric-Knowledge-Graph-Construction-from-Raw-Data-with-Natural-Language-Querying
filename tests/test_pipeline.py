@@ -5,9 +5,11 @@ import json
 
 import pytest
 
-from kgbuilder import pipeline
 from kgbuilder.config import Settings
+from kgbuilder.core.errors import InvalidPlanError
 from kgbuilder.llm.refine import Critique
+from kgbuilder.pipeline import PipelineContext, PipelineState, run_all
+from kgbuilder.pipeline.runner import ReviewDeclinedError
 from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.extraction import ChunkExtraction, RawTriple, RejectionReason, verify
@@ -89,11 +91,10 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     tracker = RecordingTracker()
     # small chunks so that each review is its own chunk; 90 so that "Table"/"Tables" (90.9) auto-merge
     settings = Settings(chunk_min_chars=50, er_auto_merge=90)
-    ctx = pipeline.PipelineContext(
-        settings=settings, driver=driver, out=out, llm=ScriptedLLM(script), tracker=tracker
-    )
+    ctx = PipelineContext(settings=settings, driver=driver, out=out, llm=ScriptedLLM(script), tracker=tracker)
 
-    report = pipeline.run_all(ctx, data_dir, "find product problems", gold=gold, embed=False)
+    state = PipelineState(data_dir=data_dir, goal="find product problems", gold=gold, embed=False)
+    report = run_all(ctx, state).validation
 
     failed = [c for c in report.checks if not c.passed]
     assert not failed, failed
@@ -155,3 +156,37 @@ def test_text_schema_validation():
     )
     assert len(validate_text_schema(bad)) >= 3
     assert validate_text_schema(SCHEMA) == []
+
+
+def llm_free_context(driver, out) -> PipelineContext:
+    return PipelineContext(settings=Settings(), driver=driver, out=out, llm=ScriptedLLM(script))
+
+
+@pytest.mark.neo4j
+def test_review_pause_can_stop_the_run_and_a_hand_edit_wins(driver, data_dir, tmp_path):
+    (data_dir / "dirty.csv").unlink()
+    state = PipelineState(data_dir=data_dir, goal="g", embed=False)
+    with pytest.raises(ReviewDeclinedError, match="plan"):
+        run_all(llm_free_context(driver, tmp_path / "declined"), state, approve=lambda stage, path: False)
+
+    def drop_suppliers(stage, path):
+        """The reviewer removes the Supplier node but forgets its relationship: an invalid plan."""
+        plan = ConstructionPlan.model_validate_json(path.read_text(encoding="utf-8"))
+        plan.nodes = [n for n in plan.nodes if n.label != "Supplier"]
+        path.write_text(plan.model_dump_json(), encoding="utf-8")
+        return True
+
+    state = PipelineState(data_dir=data_dir, goal="g", embed=False)
+    with pytest.raises(InvalidPlanError, match="Supplier"):
+        run_all(llm_free_context(driver, tmp_path / "edited"), state, approve=drop_suppliers)
+    assert state.plan.node("Supplier") is None  # the edited file replaced the LLM's plan
+
+
+@pytest.mark.neo4j
+def test_an_empty_data_dir_skips_every_stage_that_has_no_input(driver, tmp_path):
+    (tmp_path / "data").mkdir()
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=driver, out=tmp_path / "out", tracker=tracker)
+    state = run_all(ctx, PipelineState(data_dir=tmp_path / "data", goal="g"))
+    assert [r.name for r in tracker.runs] == ["pipeline", "profile", "ingest_text", "validate"]
+    assert state.validation.passed

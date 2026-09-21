@@ -9,7 +9,7 @@ description: Code quality standard for kgbuilder - SOLID applied to this codebas
 
 | Principle | What it means here | Smell to fix |
 |---|---|---|
-| **S**ingle responsibility | A module does one pipeline concern; a function does one thing at one level of abstraction. Reading data, deciding, and writing to Neo4j are three functions. | `validate_graph` (90 lines, four check families), `resolve_entities` (score + adjudicate + merge + clean), `link_graphs` |
+| **S**ingle responsibility | A module does one pipeline concern; a function does one thing at one level of abstraction. Reading data, deciding, and writing to Neo4j are three functions (see `resolution/resolver.py`, `resolution/linking.py`). | a function that queries, decides and writes |
 | **O**pen/closed | New checks, matchers, providers and stages are new classes registered in a list, not new branches in an old function. | adding a validation check by editing the big function |
 | **L**iskov | Every `LLMClient`, `Tracker` or `Stage` implementation is usable wherever the protocol is expected, including fakes and the Null Object. No `isinstance` checks on implementations. | `if self._mlflow:` guards in every method |
 | **I**nterface segregation | Small protocols: `LLMClient.generate`, `Embedder.embed`, `Tracker.start_run`. A function that only needs to read the graph gets a reader, not the whole context. | passing a god-object around |
@@ -22,12 +22,13 @@ Use a pattern only where it is listed here or where it removes real duplication.
 | Pattern | Where | Why |
 |---|---|---|
 | **Adapter** | `llm/gemini.py`, `tracking/mlflow_tracker.py`, `graph/connection.py` | isolate third-party SDKs behind project protocols |
-| **Decorator** | `llm/cache.py` wraps any `LLMClient` | caching is orthogonal to the provider; also the place for tracing and retry |
-| **Template Method** (or a plain higher-order function) | `llm/refine.py`: propose → validate in code → optional critic → feedback → retry | the plan proposer and the text-schema proposer duplicate this loop today |
+| **Decorator** | `llm/cache.py` wraps any `LLMClient` | caching is orthogonal to the provider |
+| **Observer** | `CallListener` in `llm/base.py`; the tracker subscribes | tracing and usage metering attach to LLM calls without the stages or adapters knowing MLflow |
+| **Template Method** (or a plain higher-order function) | `llm/refine.py`: propose → validate in code → optional critic → feedback → retry | one loop shared by the plan proposer and the text-schema proposer |
 | **Strategy** | validation checks, ER matchers, chunkers | open/closed extension points |
 | **Null Object** | `NullTracker` | tracking can be off without `if` guards |
-| **Factory / composition root** | `cli.py` builds settings → adapters → `StageContext` | single place for wiring |
-| **Pipeline** | `pipeline/stage.py`: uniform `Stage.run(ctx)`; the runner handles tracking, ordering, skipping | removes the repeated `with track(...)`, `driver = get_driver(); try/finally` blocks |
+| **Factory / composition root** | `cli.py` builds settings → adapters → `PipelineContext` | single place for wiring |
+| **Pipeline** | `pipeline/stage.py`: uniform `Stage.run(ctx, state, run)`; the runner handles tracking, ordering, skipping, approval pauses | a stage cannot forget tracking; no repeated run/resource boilerplate |
 | **Repository** (light) | graph read/write functions grouped per graph layer, taking a driver/session | keeps Cypher out of decision logic |
 
 Do not add: abstract base classes with a single implementation and no test fake, builders for plain
@@ -66,9 +67,9 @@ whether Neo4j is needed).
 
 - Python 3.11+, full type hints, `X | None`, `list[str]`. `from __future__ import annotations` not needed.
 - Data crossing a module boundary is a pydantic model (or a frozen dataclass), never a bare `dict`/tuple.
-  Fix on sight: `stage_resolve -> dict`, `propose_text_schema -> tuple[TextSchema, int, list[str]]`.
+  Examples to follow: `ExtractionResult`, `Refinement`, `StagingReport`, `LinkReport`.
 - No module-level mutable state (`_client = None`, `settings = Settings()` read from deep code).
-- Exceptions: subclasses of `KgBuilderError` (`PlanRejectedError`, `LLMUnavailableError`, ...). The CLI
+- Exceptions: subclasses of `KgBuilderError` (`ProposalRejectedError`, `InvalidPlanError`, `LLMUnavailableError`, ...). The CLI
   converts them to exit codes; nothing else catches broadly. `except Exception` needs a comment and a log.
 - Logging with `logging.getLogger(__name__)`; `typer.echo` only in `cli.py`; no `print`.
 - Resources (drivers, connections, DuckDB) are opened by the composition root or a context manager and
@@ -79,9 +80,9 @@ whether Neo4j is needed).
 
 ## Tests
 
-- Unit tests (`tests/unit`) need no Neo4j and no network: inject `ScriptedLLM`, `RecordingTracker`, and
+- Unit tests need no Neo4j and no network: inject `ScriptedLLM`, `RecordingTracker`, and
   test pure functions directly (profiling, plan validation, chunking, evidence verification, scoring).
-- Integration tests (`tests/integration`) are marked `@pytest.mark.neo4j` and skip when Neo4j is down.
+- Database tests are marked `@pytest.mark.neo4j` and skip when Neo4j is down; `pytest -m "not neo4j"` is the fast subset.
 - Each bug fix starts with a failing test. Each new class has a test for its contract.
 - Test names state behaviour: `test_verify_rejects_quote_not_in_chunk`.
 - No monkeypatching of module globals once the protocols exist; pass fakes in.

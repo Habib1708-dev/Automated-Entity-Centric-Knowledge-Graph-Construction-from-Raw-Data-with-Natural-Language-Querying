@@ -7,8 +7,8 @@ description: Package layout, module boundaries and dependency direction for kgbu
 
 ## Target layout
 
-The codebase started as a flat package of 16 modules. The target is packages by graph layer, around a
-small shared core. Reach it through the steps of `REFACTOR_PLAN.md`, never in one move.
+The codebase started as a flat package of 16 modules and was restructured in steps R1 to R9 of
+`REFACTOR_PLAN.md`. This is the layout as built; keep it.
 
 ```
 src/kgbuilder/
@@ -19,14 +19,14 @@ src/kgbuilder/
     cypher.py             cypher_ident() and Cypher helpers
     errors.py             KgBuilderError and its subclasses
   llm/                    LLM port and adapters
-    base.py               LLMClient / Embedder Protocols
+    base.py               LLMClient / Embedder Protocols, LLMCallRecord + CallListener (Observer), prompt_version
     gemini.py             Adapter: google-genai
     cache.py              Decorator: disk cache around any LLMClient
-    refine.py             Template Method: propose -> validate in code -> critique -> retry loop
+    refine.py             Template Method: propose -> validate in code -> critique -> retry loop; Critique
   graph/                  Neo4j port
     connection.py         driver factory, session/context helper
   tracking/               Experiment tracking port
-    base.py               Tracker / Run Protocols, NullTracker (Null Object)
+    base.py               Tracker / Run Protocols, NullTracker (Null Object), UsageMeter
     mlflow_tracker.py     Adapter: MLflow runs, params, metrics, artifacts, tracing
   structured/             Domain graph from tables
     staging.py            JSON/CSV staging
@@ -43,24 +43,25 @@ src/kgbuilder/
     subject_graph.py      write Entity/fact graph
   resolution/
     matchers.py           Strategy: candidate scoring (fuzzy, embedding)
-    resolver.py           merge decisions, audit log, reversible merge
+    resolver.py           read -> find_candidates -> decide -> group_merges -> apply_merges; undo_merges
     linking.py            Document-ABOUT and Entity-REFERS_TO links
   validation/
     checks/               Strategy: one class per check family (structure, provenance, consistency, accuracy)
-    report.py             Check, ValidationReport
-    evaluate.py           gold-set precision/recall
+    report.py             Check, CheckOutput, ValidationReport
+    validator.py          runs the check families (+ accuracy check with gold data)
+    evaluate.py           gold-set scoring: triples, entities, ER pairs, read-only questions
   pipeline/
-    stage.py              Stage protocol + StageContext (tracker, graph, llm, settings, out dir)
-    stages.py             the concrete stages
-    runner.py             run_all: ordering, skipping, approval pauses
+    stage.py              Stage protocol, PipelineContext (deps), PipelineState (data between stages)
+    stages.py             the concrete stages (wiring + MLflow logging only)
+    runner.py             run_stage / run_stages / run_all: tracking, ordering, skipping, approval pauses
 tests/
-  unit/                   no Neo4j, no network; fakes injected via the protocols
-  integration/            marked @pytest.mark.neo4j
-  fakes.py                ScriptedLLM, RecordingTracker, shared by both
+  test_<feature>.py       one file per package; database tests are marked @pytest.mark.neo4j
+  fakes.py                ScriptedLLM, RecordingTracker
+  sample_plans.py         plans matching the conftest CSV fixtures
+  gold/                   reviewed plan + expected counts for data/
 ```
 
-This layout is the agreed direction, not a licence to create empty packages. A package is created in the
-step that first puts real code into it.
+Do not create empty packages or placeholder modules; a file appears when real code needs it.
 
 ## Dependency rules
 
@@ -86,7 +87,7 @@ cli  ->  pipeline  ->  structured | text | resolution | validation  ->  llm | gr
 | a new input format | loader in `structured/staging.py` or `text/documents.py` |
 | a new validation check | new class in `validation/checks/`, registered in the check list |
 | a new ER signal | new matcher in `resolution/matchers.py` |
-| a new pipeline stage | a `Stage` in `pipeline/stages.py` + a CLI command + MLflow logging + a test |
+| a new pipeline stage | a `BaseStage` subclass in `pipeline/stages.py`, its place in `FULL_PIPELINE`, a CLI command, MLflow logging, a test |
 | a prompt | constant next to the code that uses it, with a version comment; its hash is logged to MLflow |
 | a threshold or tunable | `config.py` field with a comment, passed down explicitly, logged as an MLflow param |
 | a helper used by two packages | `core/` |
@@ -100,4 +101,4 @@ cli  ->  pipeline  ->  structured | text | resolution | validation  ->  llm | gr
 - Private helpers are prefixed `_` and are not imported across modules.
 - Generated output goes to `out/`, caches to `.cache/`, MLflow data to `mlflow.db` / `mlruns/`. None of
   these are committed. Test data lives in `tests/` fixtures, never in `data/`.
-- Course notes (`lesson*.md`) are reference material; move them to `docs/lessons/` when the docs step runs.
+- Course notes live in `docs/lessons/` and are reference material only.

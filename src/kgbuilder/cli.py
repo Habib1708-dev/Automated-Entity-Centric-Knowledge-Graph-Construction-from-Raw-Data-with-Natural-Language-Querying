@@ -3,8 +3,9 @@
 Role in the pipeline: the entry point. It is the only place that reads settings and builds the concrete
 LLM client, cache, MLflow tracker and Neo4j driver; everything below receives them through a
 `PipelineContext`.
-Design: composition root (Factory). Expected failures (`KgBuilderError`) become a message and exit code 1.
-Not here: pipeline logic (pipeline.py) and anything that talks to the LLM or Neo4j directly.
+Design: composition root (Factory). A command only chooses stages, fills `PipelineState` from its
+arguments and prints the result. Expected failures (`KgBuilderError`) become a message and exit code 1.
+Not here: pipeline logic (pipeline/) and anything that talks to the LLM or Neo4j directly.
 """
 
 from collections.abc import Iterator
@@ -13,12 +14,13 @@ from pathlib import Path
 
 import typer
 
-from . import pipeline as pl
 from .config import Settings
 from .core.errors import KgBuilderError
 from .graph.connection import open_driver
 from .llm.cache import CachedLLM
 from .llm.gemini import GeminiClient
+from .pipeline import PipelineContext, PipelineState, run_all, run_stages
+from .pipeline import stages as st
 from .tracking.mlflow_tracker import create_tracker
 from .validation.report import ValidationReport
 
@@ -26,7 +28,7 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
 
 
-def build_context(out: Path) -> pl.PipelineContext:
+def build_context(out: Path) -> PipelineContext:
     """Wire the concrete adapters. Without an API key the context has no LLM; LLM-free stages still work."""
     settings = Settings()
     tracker = create_tracker(settings.mlflow_tracking_uri, settings.mlflow_experiment)
@@ -42,13 +44,13 @@ def build_context(out: Path) -> pl.PipelineContext:
         llm, embedder = CachedLLM(gemini, settings.cache_dir, tracker.record_llm_call), gemini
     # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
     driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
-    return pl.PipelineContext(
+    return PipelineContext(
         settings=settings, driver=driver, out=out, llm=llm, embedder=embedder, tracker=tracker
     )
 
 
 @contextmanager
-def session(out: Path) -> Iterator[pl.PipelineContext]:
+def session(out: Path) -> Iterator[PipelineContext]:
     """A context for one command: closes the driver, and reports expected failures without a traceback."""
     ctx = build_context(out)
     try:
@@ -60,11 +62,16 @@ def session(out: Path) -> Iterator[pl.PipelineContext]:
         ctx.driver.close()
 
 
+def _ask_reviewer(stage: str, path: Path) -> bool:
+    """The approval pause of `kg run --review`: the human may edit the file before answering."""
+    return typer.confirm(f"[{stage}] review {path} (you may edit it now). Continue?", default=True)
+
+
 @app.command()
 def profile(data_dir: Path, out: Path = OUT):
     """Stage JSON as CSV and profile all tables: types, uniqueness, foreign key candidates."""
     with session(out) as ctx:
-        _, result = pl.stage_profile(ctx, data_dir)
+        result = run_stages(ctx, PipelineState(data_dir=data_dir), [st.ProfileStage()]).profile
     for f in result.files:
         keys = [c.name for c in f.columns if c.is_unique]
         typer.echo(f"{f.file}: {f.row_count} rows, unique columns: {keys}")
@@ -79,8 +86,7 @@ def profile(data_dir: Path, out: Path = OUT):
 def plan(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT):
     """Propose and critique a construction plan with the LLM. Review out/plan.json before `kg build`."""
     with session(out) as ctx:
-        _, prof = pl.stage_profile(ctx, data_dir)
-        pl.stage_plan(ctx, prof, goal)
+        run_stages(ctx, PipelineState(data_dir=data_dir, goal=goal), [st.ProfileStage(), st.PlanStage()])
     typer.echo(f"Wrote {out / 'plan.json'}")
 
 
@@ -88,9 +94,7 @@ def plan(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT):
 def build(data_dir: Path, out: Path = OUT):
     """Import out/plan.json (structured data) into Neo4j and print a reconciliation report."""
     with session(out) as ctx:
-        construction_plan = pl.require(pl.load_plan(out), "out/plan.json", "kg plan")
-        staged, prof = pl.stage_profile(ctx, data_dir)
-        pl.stage_build(ctx, staged, construction_plan, prof)
+        run_stages(ctx, PipelineState(data_dir=data_dir), [st.ProfileStage(), st.BuildStage()])
     typer.echo((out / "build_report.json").read_text(encoding="utf-8"))
 
 
@@ -98,7 +102,7 @@ def build(data_dir: Path, out: Path = OUT):
 def ingest_text(data_dir: Path, out: Path = OUT, embed: bool = True):
     """Chunk md/txt/pdf documents and write the lexical graph."""
     with session(out) as ctx:
-        chunks = pl.stage_ingest_text(ctx, data_dir, embed)
+        chunks = run_stages(ctx, PipelineState(data_dir=data_dir, embed=embed), [st.IngestTextStage()]).chunks
     typer.echo(f"{len({c.doc_id for c in chunks})} documents, {len(chunks)} chunks")
 
 
@@ -106,7 +110,7 @@ def ingest_text(data_dir: Path, out: Path = OUT, embed: bool = True):
 def text_schema(goal: str = typer.Option(...), out: Path = OUT):
     """Propose entity and fact types from the ingested chunks. Review out/text_schema.json next."""
     with session(out) as ctx:
-        pl.stage_text_schema(ctx, goal, pl.stored_chunks(ctx), pl.load_plan(out))
+        run_stages(ctx, PipelineState(goal=goal), [st.TextSchemaStage()])
     typer.echo(f"Wrote {out / 'text_schema.json'}")
 
 
@@ -114,8 +118,7 @@ def text_schema(goal: str = typer.Option(...), out: Path = OUT):
 def extract(out: Path = OUT):
     """Extract evidence-backed facts from the ingested chunks into the subject graph."""
     with session(out) as ctx:
-        schema = pl.require(pl.load_text_schema(out), "out/text_schema.json", "kg text-schema")
-        result = pl.stage_extract(ctx, pl.stored_chunks(ctx), schema)
+        result = run_stages(ctx, PipelineState(), [st.ExtractStage()]).extraction
     typer.echo(
         f"{len(result.triples)} facts stored, {len(result.rejected)} rejected (see {out / 'rejected.jsonl'})"
     )
@@ -126,9 +129,10 @@ def resolve(out: Path = OUT, undo: bool = False):
     """Detect and merge duplicate entities. `--undo` reverts the last run (then re-run `kg link`)."""
     with session(out) as ctx:
         if undo:
-            typer.echo(f"{pl.stage_undo_resolve(ctx)} entities restored")
+            run_stages(ctx, PipelineState(), [st.UndoResolveStage()])
+            typer.echo("Merges of the last resolve run were undone.")
             return
-        r = pl.stage_resolve(ctx)
+        r = run_stages(ctx, PipelineState(), [st.ResolveStage()]).resolution
     typer.echo(f"entities {r.entities_before} -> {r.entities_after} ({r.merges} merged)")
 
 
@@ -136,23 +140,23 @@ def resolve(out: Path = OUT, undo: bool = False):
 def link(out: Path = OUT):
     """Link documents and entities to the domain graph."""
     with session(out) as ctx:
-        report = pl.stage_link(ctx, pl.require(pl.load_plan(out), "out/plan.json", "kg plan"))
+        report = run_stages(ctx, PipelineState(), [st.LinkStage()]).links
     typer.echo(report.model_dump())
 
 
 @app.command()
 def validate(out: Path = OUT, gold: Path | None = None):
-    """Validate structure, provenance, consistency and accuracy of the whole graph."""
+    """Validate structure, provenance, consistency and (with --gold) accuracy of the whole graph."""
     with session(out) as ctx:
-        report = pl.stage_validate(ctx, pl.load_plan(out), pl.load_text_schema(out), None, gold)
+        report = run_stages(ctx, PipelineState(gold=gold), [st.ValidateStage()]).validation
     _print_report(report)
 
 
 @app.command("eval")
 def evaluate(gold: Path, out: Path = OUT):
-    """Score the graph against a hand-labelled gold file (see validation/evaluate.py for the format)."""
+    """Score the graph against a hand-labelled gold file (format: see validation/evaluate.py)."""
     with session(out) as ctx:
-        report = pl.stage_eval(ctx, gold)
+        report = run_stages(ctx, PipelineState(gold=gold), [st.EvalStage()]).evaluation
     for name, value in report.metrics().items():
         typer.echo(f"{name:20} {value:.3f}")
     for q in report.questions:
@@ -167,11 +171,13 @@ def run(
     out: Path = OUT,
     gold: Path | None = None,
     embed: bool = True,
+    review: bool = typer.Option(False, help="Pause after the plan and the text schema for human review."),
 ):
     """Whole pipeline: profile, plan, build, ingest, schema, extract, resolve, link, validate."""
+    state = PipelineState(data_dir=data_dir, goal=goal, gold=gold, embed=embed)
     with session(out) as ctx:
-        report = pl.run_all(ctx, data_dir, goal, gold, embed)
-    _print_report(report)
+        run_all(ctx, state, approve=_ask_reviewer if review else None)
+    _print_report(state.validation)
 
 
 @app.command()

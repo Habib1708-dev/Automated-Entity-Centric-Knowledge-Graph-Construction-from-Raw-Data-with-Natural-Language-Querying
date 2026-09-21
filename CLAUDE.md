@@ -11,7 +11,9 @@ The first version of this codebase was generated in one shot and the 8-step plan
 That must not happen again.
 
 - **One step per session.** A step is one entry of `REFACTOR_PLAN.md` (or, for new features, of `PLAN.md`).
-  Never start the next step in the same turn, even if the current one went quickly.
+  Never start the next step in the same turn, even if the current one went quickly. The only exception is
+  the user explicitly asking for several steps at once; then every step still gets its own green gate
+  (`pytest` and `ruff check` both passing, checked **before** committing) and its own commit.
 - **A step is big enough to matter and small enough to review**: one coherent concern, roughly
   150 to 600 changed lines, ending in something runnable and tested. If a step grows past that, split it
   and record the split in `REFACTOR_PLAN.md` before continuing.
@@ -23,7 +25,8 @@ That must not happen again.
   it in its own step (or a clearly separated commit), with a test that fails before the fix.
 - **No speculative code.** Do not add features, options, abstractions or files that the current step
   does not need. No dead code, no commented-out code, no TODOs without a roadmap entry.
-- If the repository is under git: one commit per step, message `step N: <what>`. Commit only when asked.
+- One commit per step, message `step N: <what>`, only after the gate is green. Never chain the commit
+  after the checks with `;` or behind a pipe that hides their exit code.
 
 ## 2. Architecture rules
 

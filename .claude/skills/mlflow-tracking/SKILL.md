@@ -86,10 +86,11 @@ Rules for values:
 
 ## LLM tracing
 
-- Tracing lives in the LLM decorator chain (`Traced(Cached(Gemini))`), not in feature code.
+- Tracing is an Observer, not feature code: `GeminiClient` reports live calls and `CachedLLM` reports
+  cache hits to a `CallListener`; the composition root subscribes `tracker.record_llm_call`.
 - Each call records: model, temperature, prompt, raw response, parsed-OK flag, latency, cache hit/miss,
-  token usage when the provider returns it. Prefer MLflow Tracing spans (`mlflow.start_span`) inside the
-  adapter; aggregate counters are logged as run metrics at stage end.
+  token usage when the provider returns it. `MlflowTracker` writes one span per call and adds the call
+  to the `UsageMeter` of every open run; the totals are logged as run metrics when the run closes.
 - Never log secrets. The API key never reaches a param, tag, span or artifact.
 
 ## Comparing variants (how to evaluate a change)

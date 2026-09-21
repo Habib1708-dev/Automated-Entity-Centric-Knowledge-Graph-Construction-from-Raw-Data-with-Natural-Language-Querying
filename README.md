@@ -1,10 +1,11 @@
 # kgbuilder
 
-Automated knowledge graph construction from CSV files and text, into Neo4j.
+Automated knowledge graph construction from CSV/JSON tables and text documents, into Neo4j.
 
-The design follows the course notes in `lesson*.md` (LLM proposes a declarative plan, rules execute it),
-with one change: everything that can be computed exactly is computed in code, and the LLM only decides
-what is left.
+The design follows the course notes in `docs/lessons/` (an LLM proposes a declarative plan, rules execute
+it), with one change: everything that can be computed exactly is computed in code, and the LLM only
+decides what is left. Every LLM output is parsed into a pydantic model and validated in code before use;
+every extracted fact carries a verbatim evidence quote that is verified against its source chunk.
 
 ## Setup
 
@@ -17,40 +18,98 @@ copy .env.example .env      # then set GEMINI_API_KEY
 ## Usage
 
 ```
-uv run kg run data/ --goal "supply chain root cause analysis"   # whole pipeline, needs GEMINI_API_KEY
-uv run kg run data/ --goal "..." --gold gold.json               # also scores recall against labelled triples
-uv run kg reset                                                  # clear Neo4j before a clean rerun
-uv run mlflow ui --backend-store-uri sqlite:///mlflow.db         # inspect runs, params, metrics, artifacts
-uv run pytest                                                    # end-to-end test uses a scripted LLM, needs Neo4j
+uv run kg run data/ --goal "supply chain root cause analysis"    # whole pipeline, needs GEMINI_API_KEY
+uv run kg run data/ --goal "..." --review                         # pause for review after plan and text schema
+uv run kg run data/ --goal "..." --gold gold.json                 # also checks recall against labelled triples
+uv run kg eval gold.json                                          # precision/recall/F1, ER accuracy, questions
+uv run kg reset                                                   # clear Neo4j before a clean rerun
+uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
 
 Stages can also be run one at a time, with human review points in between:
-`kg profile` -> `kg plan` (review `out/plan.json`) -> `kg build` -> `kg ingest-text` -> `kg text-schema`
-(review `out/text_schema.json`) -> `kg extract` -> `kg resolve` -> `kg link` -> `kg validate`.
 
-Inputs in the data dir: CSV and JSON (staged to CSV tables), plus md/txt/pdf (documents).
+```
+kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
+                  ->  kg build data/
+                  ->  kg ingest-text data/
+                  ->  kg text-schema --goal "..."   (review out/text_schema.json)
+                  ->  kg extract  ->  kg resolve [--undo]  ->  kg link  ->  kg validate [--gold gold.json]
+```
+
+`text-schema` and `extract` work on the chunks stored by `ingest-text`, never on re-chunked files, so
+chunk ids in the graph and in the provenance of facts always agree.
+
+Inputs in the data dir: CSV and tabular JSON/NDJSON (staged to CSV), plus md/txt/pdf (documents).
+JSON files that are not tabular are reported as skipped, not silently ignored.
 
 ## Graph model
 
 - Domain graph: labels and relationships from the approved plan (Product, Part, Supplier, ...).
-- Lexical graph: `(Chunk)-[:PART_OF]->(Document)`, `(Chunk)-[:NEXT_CHUNK]->(Chunk)`, optional chunk embeddings.
-- Subject graph: `(:Entity {type, name, aliases})`, `(Chunk)-[:MENTIONS]->(Entity)`, facts as relationships carrying
-  `chunk_id` and a verbatim `evidence` quote.
+- Lexical graph: `(Chunk)-[:PART_OF]->(Document)`, `(Chunk)-[:NEXT_CHUNK]->(Chunk)`, optional embeddings.
+- Subject graph: `(:Entity {type, name, aliases})`, `(Chunk)-[:MENTIONS]->(Entity)`, facts as
+  relationships carrying `chunk_id` and a verbatim `evidence` quote.
 - Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)`.
 
-## Pipeline
+## Code map
 
-| Stage | Module | LLM? |
+```
+src/kgbuilder/
+  cli.py            composition root + Typer commands (the only place adapters are built)
+  config.py         settings from the environment / .env
+  core/             shared kernel: text normalisation, Cypher identifier escaping, error types
+  llm/              LLMClient/Embedder protocols, Gemini adapter (retry), disk-cache decorator,
+                    refine.py = the propose -> validate -> critique -> retry loop
+  graph/            Neo4j driver factory
+  tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
+  structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
+  text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
+  resolution/       matchers (Strategy) -> resolver (merge, undo) ; linking
+  validation/       checks/ (Strategy families), validator, evaluate (gold-set scoring)
+  pipeline/         Stage protocol + context/state, the concrete stages, the runner
+```
+
+| Stage (MLflow run) | Module | LLM? |
 |---|---|---|
-| Stage JSON, profile tables | `ingest.py`, `profiler.py` | no |
-| Propose + critique plan | `schema.py`, `plan.py` | yes, validated in code each round |
-| Import domain graph + reconciliation | `importer.py` | no |
-| Chunk text, lexical graph | `lexical.py` | no (embeddings optional) |
-| Propose entity/fact types | `textschema.py` | yes, validated in code |
-| Extract triples, evidence verified in code | `extract.py` | yes |
-| Entity resolution | `resolve.py` | borderline pairs only |
-| Link the three graphs | `link.py` | no |
-| Validate structure, provenance, consistency, accuracy | `validate.py` | no |
+| `profile` | `structured/staging.py`, `structured/profiler.py` | no |
+| `plan` | `structured/proposer.py`, `structured/plan.py` | yes, code-validated, then critic |
+| `build_domain` | `structured/importer.py` | no |
+| `ingest_text` | `text/documents.py`, `text/chunking.py`, `text/lexical.py` | embeddings only |
+| `text_schema` | `text/schema.py` | yes, code-validated, then critic |
+| `extract` | `text/extraction.py`, `text/subject_graph.py` | yes, every triple verified in code |
+| `resolve` | `resolution/matchers.py`, `resolution/resolver.py` | borderline pairs only |
+| `link` | `resolution/linking.py` | no |
+| `validate`, `eval` | `validation/` | no |
 
-Every stage is one MLflow run (`tracking.py`); the whole pipeline is a parent run. LLM responses are cached
-under `.cache/llm`, keyed by model, prompt and output schema.
+## Experiment tracking
+
+Every stage is one MLflow run; `kg run` is a parent run with nested stage runs. Each run logs the params
+that explain its result (models, temperature, prompt version hashes, chunk sizes, thresholds), metrics
+(counts, rates, rounds, duration, LLM calls, cache hits, tokens, latency), the files written to `out/`,
+the prompt templates, and one trace per LLM call. LLM responses are cached under `.cache/llm`, keyed by
+model, temperature, prompt and output schema, so reruns are free and reproducible.
+
+To evaluate a change (prompt, model, threshold): run, change one thing, run again, compare the two runs
+in the MLflow UI on the stage metrics and on `validate` / `eval`.
+
+## Gold file
+
+```json
+{"triples":   [{"subject": "Stockholm Chair", "predicate": "HAS_PROBLEM", "object": "wobbly legs",
+                "doc_id": "product_reviews/stockholm_chair_reviews.md"}],
+ "er_pairs":  [{"a": "Table", "b": "Tables", "same": true}],
+ "questions": [{"question": "Who supplies part X?", "cypher": "MATCH ... RETURN s.name", "expected": ["..."]}]}
+```
+
+Every section is optional. Give `doc_id` and label those documents exhaustively: precision is computed
+only over facts from labelled documents. Question Cypher runs in a read-only transaction.
+
+## Development
+
+```
+uv run pytest                    # all tests; those marked neo4j skip when Neo4j is down
+uv run pytest -m "not neo4j"     # fast tests, no database, no network
+uv run ruff check . ; uv run ruff format .
+```
+
+Note: the `neo4j` tests wipe the database they connect to. Working rules for contributors (and for
+Claude) are in `CLAUDE.md`; the audit and the refactoring history are in `REFACTOR_PLAN.md`.
