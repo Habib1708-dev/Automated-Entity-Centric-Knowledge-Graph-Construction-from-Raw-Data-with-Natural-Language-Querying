@@ -10,11 +10,18 @@ Not here: prompts, models or schemas; the callables close over those.
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Generic, TypeVar
+from typing import Generic, Literal, TypeVar
 
 from pydantic import BaseModel
 
 T = TypeVar("T", bound=BaseModel)
+
+
+class Critique(BaseModel):
+    """An LLM reviewer's structured reply, shared by every critic prompt."""
+
+    verdict: Literal["valid", "retry"]
+    issues: list[str]
 
 
 @dataclass

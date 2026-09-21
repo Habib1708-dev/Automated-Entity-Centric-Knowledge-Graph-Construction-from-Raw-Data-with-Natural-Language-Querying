@@ -7,12 +7,8 @@ and the three steps. The LLM never sees raw data, only the profile computed by D
 Not here: plan validation rules (plan.py) and execution (importer.py).
 """
 
-from typing import Literal
-
-from pydantic import BaseModel
-
 from ..llm.base import LLMClient
-from ..llm.refine import Refinement, refine
+from ..llm.refine import Critique, Refinement, refine
 from .plan import ConstructionPlan, validate_plan
 from .profiler import DataProfile
 
@@ -70,13 +66,6 @@ Reply "retry" only for problems that would change the plan; otherwise "valid".
 <plan>
 {plan}
 </plan>"""
-
-
-class Critique(BaseModel):
-    """The critic's structured reply."""
-
-    verdict: Literal["valid", "retry"]
-    issues: list[str]
 
 
 def propose_plan(

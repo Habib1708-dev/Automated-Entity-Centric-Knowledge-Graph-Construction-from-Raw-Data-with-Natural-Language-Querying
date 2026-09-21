@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from .core.cypher import cypher_ident
 from .core.text import norm
 from .structured.plan import ConstructionPlan
-from .textschema import TextSchema
+from .text.schema import TextSchema
 
 
 class Check(BaseModel):

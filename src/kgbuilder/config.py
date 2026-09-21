@@ -31,6 +31,7 @@ class Settings(BaseSettings):
 
     chunk_max_chars: int = 1500
     chunk_min_chars: int = 200
+    chunk_overlap_chars: int = 0  # carried over between cuts of one oversized section; 0 = off
     er_auto_merge: float = 92.0  # rapidfuzz token_sort_ratio at or above: merge without asking
     er_borderline: float = 80.0  # between this and auto_merge: ask the LLM (if available)
     domain_link_threshold: float = 90.0

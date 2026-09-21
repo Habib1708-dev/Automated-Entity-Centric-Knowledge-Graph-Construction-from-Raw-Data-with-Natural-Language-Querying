@@ -8,11 +8,11 @@ import pytest
 from pydantic import BaseModel
 
 from kgbuilder.core.errors import KgBuilderError
-from kgbuilder.llm.refine import refine
+from kgbuilder.llm.refine import Critique, refine
 from kgbuilder.structured.importer import construct_domain_graph
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.structured.profiler import profile_directory
-from kgbuilder.structured.proposer import Critique, propose_plan
+from kgbuilder.structured.proposer import propose_plan
 from kgbuilder.structured.staging import json_to_csv, stage_structured
 
 from .fakes import ScriptedLLM

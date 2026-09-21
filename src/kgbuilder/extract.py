@@ -9,9 +9,9 @@ from pydantic import BaseModel
 
 from .core.cypher import cypher_ident
 from .core.text import norm
-from .lexical import Chunk
 from .llm.base import LLMClient
-from .textschema import TextSchema
+from .text.chunking import Chunk
+from .text.schema import TextSchema
 
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 

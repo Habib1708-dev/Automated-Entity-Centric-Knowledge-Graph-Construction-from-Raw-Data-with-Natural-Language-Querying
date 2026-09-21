@@ -1,7 +1,8 @@
 """Command line interface and composition root: one Typer command per pipeline stage, plus `run`/`reset`.
 
 Role in the pipeline: the entry point. It is the only place that reads settings and builds the concrete
-LLM client, cache, MLflow tracker and Neo4j driver; everything below receives them through a `PipelineContext`.
+LLM client, cache, MLflow tracker and Neo4j driver; everything below receives them through a
+`PipelineContext`.
 Design: composition root (Factory). Expected failures (`KgBuilderError`) become a message and exit code 1.
 Not here: pipeline logic (pipeline.py) and anything that talks to the LLM or Neo4j directly.
 """
@@ -16,7 +17,6 @@ from . import pipeline as pl
 from .config import Settings
 from .core.errors import KgBuilderError
 from .graph.connection import open_driver
-from .ingest import load_documents
 from .llm.cache import CachedLLM
 from .llm.gemini import GeminiClient
 from .tracking.mlflow_tracker import create_tracker
@@ -98,26 +98,24 @@ def build(data_dir: Path, out: Path = OUT):
 def ingest_text(data_dir: Path, out: Path = OUT, embed: bool = True):
     """Chunk md/txt/pdf documents and write the lexical graph."""
     with session(out) as ctx:
-        docs, chunks = pl.stage_ingest_text(ctx, data_dir, embed)
-    typer.echo(f"{len(docs)} documents, {len(chunks)} chunks")
+        chunks = pl.stage_ingest_text(ctx, data_dir, embed)
+    typer.echo(f"{len({c.doc_id for c in chunks})} documents, {len(chunks)} chunks")
 
 
 @app.command("text-schema")
-def text_schema(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT):
-    """Propose entity and fact types for the text. Review out/text_schema.json before `kg extract`."""
+def text_schema(goal: str = typer.Option(...), out: Path = OUT):
+    """Propose entity and fact types from the ingested chunks. Review out/text_schema.json next."""
     with session(out) as ctx:
-        chunks = pl.chunk_documents(ctx, load_documents(data_dir))
-        pl.stage_text_schema(ctx, goal, chunks, pl.load_plan(out))
+        pl.stage_text_schema(ctx, goal, pl.stored_chunks(ctx), pl.load_plan(out))
     typer.echo(f"Wrote {out / 'text_schema.json'}")
 
 
 @app.command()
-def extract(data_dir: Path, out: Path = OUT):
-    """Extract evidence-backed facts from the chunks into the subject graph."""
+def extract(out: Path = OUT):
+    """Extract evidence-backed facts from the ingested chunks into the subject graph."""
     with session(out) as ctx:
         schema = pl.require(pl.load_text_schema(out), "out/text_schema.json", "kg text-schema")
-        chunks = pl.chunk_documents(ctx, load_documents(data_dir))
-        triples, rejected = pl.stage_extract(ctx, chunks, schema)
+        triples, rejected = pl.stage_extract(ctx, pl.stored_chunks(ctx), schema)
     typer.echo(f"{len(triples)} facts stored, {len(rejected)} rejected (see {out / 'rejected.jsonl'})")
 
 

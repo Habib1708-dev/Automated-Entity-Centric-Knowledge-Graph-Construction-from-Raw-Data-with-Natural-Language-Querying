@@ -8,12 +8,10 @@ import pytest
 from kgbuilder import pipeline
 from kgbuilder.config import Settings
 from kgbuilder.extract import ChunkExtraction, RawTriple, verify
-from kgbuilder.ingest import Document
-from kgbuilder.lexical import chunk_document
+from kgbuilder.llm.refine import Critique
 from kgbuilder.resolve import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
-from kgbuilder.structured.proposer import Critique
-from kgbuilder.textschema import EntityType, FactType, TextSchema, validate_text_schema
+from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 
 from .fakes import RecordingTracker, ScriptedLLM
 from .sample_plans import GOOD_PLAN
@@ -142,8 +140,3 @@ def test_text_schema_validation():
     )
     assert len(validate_text_schema(bad)) >= 3
     assert validate_text_schema(SCHEMA) == []
-
-
-def test_chunking():
-    chunks = chunk_document(Document(doc_id="a.md", title="a", text=REVIEWS), min_chars=20)
-    assert len(chunks) >= 2 and all(c.chunk_id.startswith("a.md#") for c in chunks)

@@ -17,8 +17,6 @@ from .config import Settings
 from .core.errors import InvalidPlanError, LLMUnavailableError, MissingInputError, ProposalRejectedError
 from .extract import PROMPT as EXTRACT_PROMPT
 from .extract import Rejected, Triple, extract_all, write_subject_graph
-from .ingest import Document, load_documents
-from .lexical import Chunk, chunk_document, write_lexical_graph
 from .link import LinkReport, link_graphs
 from .llm.base import Embedder, LLMClient, prompt_version
 from .llm.refine import Refinement
@@ -28,8 +26,12 @@ from .structured.plan import ConstructionPlan, validate_plan
 from .structured.profiler import DataProfile, profile_directory
 from .structured.proposer import CRITIC_PROMPT, PROPOSER_PROMPT, propose_plan
 from .structured.staging import stage_structured
-from .textschema import PROMPT as TEXT_SCHEMA_PROMPT
-from .textschema import TextSchema, propose_text_schema
+from .text.chunking import Chunk, chunk_document
+from .text.documents import Document, load_documents
+from .text.lexical import read_chunks, write_lexical_graph
+from .text.schema import CRITIC_PROMPT as TEXT_SCHEMA_CRITIC_PROMPT
+from .text.schema import PROMPT as TEXT_SCHEMA_PROMPT
+from .text.schema import TextSchema, propose_text_schema
 from .tracking.base import NullTracker, Run, Tracker
 from .validate import ValidationReport, validate_graph
 
@@ -129,34 +131,45 @@ def stage_build(
     return {n.label: profile.file(n.source_file).row_count for n in plan.nodes}
 
 
-def chunk_documents(ctx: PipelineContext, docs: list[Document]) -> list[Chunk]:
-    """Chunk with the configured sizes. One definition, so every caller produces the same chunk ids."""
-    s = ctx.settings
-    return [c for d in docs for c in chunk_document(d, s.chunk_max_chars, s.chunk_min_chars)]
-
-
-def stage_ingest_text(
-    ctx: PipelineContext, data_dir: Path, embed: bool = True
-) -> tuple[list[Document], list[Chunk]]:
+def stage_ingest_text(ctx: PipelineContext, data_dir: Path, embed: bool = True) -> list[Chunk]:
     """Load and chunk documents, embed the chunks when an embedder is available, write the lexical graph."""
     s = ctx.settings
     with ctx.tracker.start_run(
-        "ingest_text", data_dir=data_dir, chunk_max_chars=s.chunk_max_chars, chunk_min_chars=s.chunk_min_chars
+        "ingest_text",
+        data_dir=data_dir,
+        chunk_max_chars=s.chunk_max_chars,
+        chunk_min_chars=s.chunk_min_chars,
+        chunk_overlap_chars=s.chunk_overlap_chars,
+        embed_model=s.embed_model,
     ) as run:
-        docs = load_documents(data_dir)
-        chunks = chunk_documents(ctx, docs)
+        docs: list[Document] = load_documents(data_dir, exclude=ctx.out)
+        chunks = [
+            c
+            for d in docs
+            for c in chunk_document(d, s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
+        ]
         embeddings = None
         if embed and chunks and ctx.embedder is not None:
             vectors = ctx.embedder.embed([c.text for c in chunks])
             embeddings = {c.chunk_id: v for c, v in zip(chunks, vectors, strict=True)}
-        write_lexical_graph(ctx.driver, docs, chunks, embeddings)
+        stale = write_lexical_graph(ctx.driver, docs, chunks, embeddings)
         run.metrics(
             documents=len(docs),
             chunks=len(chunks),
             embedded=int(bool(embeddings)),
             avg_chunk_chars=sum(len(c.text) for c in chunks) / len(chunks) if chunks else 0.0,
+            stale_chunks_removed=stale,
         )
-    return docs, chunks
+    return chunks
+
+
+def stored_chunks(ctx: PipelineContext) -> list[Chunk]:
+    """The chunks as ingested. Later stages never re-chunk: chunk ids depend on the chunk settings, and
+    ids that differ from the stored ones would silently break MENTIONS and fact provenance."""
+    chunks = read_chunks(ctx.driver)
+    if not chunks:
+        raise MissingInputError("no chunks in the graph; run `kg ingest-text` first")
+    return chunks
 
 
 def stage_text_schema(
@@ -170,21 +183,17 @@ def stage_text_schema(
         model=s.schema_model,
         temperature=s.llm_temperature,
         prompt_version=prompt_version(TEXT_SCHEMA_PROMPT),
+        critic_prompt_version=prompt_version(TEXT_SCHEMA_CRITIC_PROMPT),
     ) as run:
-        run.text(TEXT_SCHEMA_PROMPT, "prompts/text_schema.txt")
-        schema, rounds, issues = propose_text_schema(
-            goal, chunks, ctx.require_llm(), s.schema_model, plan, s.llm_temperature
-        )
-        run.metrics(
-            rounds=rounds,
-            open_issues=len(issues),
-            entity_types=len(schema.entity_types),
-            fact_types=len(schema.fact_types),
-        )
-        run.artifact(_write(ctx.out / "text_schema.json", schema.model_dump_json(indent=2)))
-    if issues:
-        raise ProposalRejectedError("text schema", issues)
-    return schema
+        run.text(TEXT_SCHEMA_PROMPT, "prompts/text_schema_proposer.txt")
+        run.text(TEXT_SCHEMA_CRITIC_PROMPT, "prompts/text_schema_critic.txt")
+        result = propose_text_schema(goal, chunks, ctx.require_llm(), s.schema_model, plan, s.llm_temperature)
+        _log_refinement(run, result, ctx.out / "text_schema_rounds.json")
+        run.metrics(entity_types=len(result.value.entity_types), fact_types=len(result.value.fact_types))
+        run.artifact(_write(ctx.out / "text_schema.json", result.value.model_dump_json(indent=2)))
+    if not result.accepted:
+        raise ProposalRejectedError("text schema", result.open_issues)
+    return result.value
 
 
 def stage_extract(
@@ -294,7 +303,7 @@ def run_all(
         staged, profile = stage_profile(ctx, data_dir)
         plan = stage_plan(ctx, profile, goal) if profile.files else None
         expected = stage_build(ctx, staged, plan, profile) if plan else None
-        _, chunks = stage_ingest_text(ctx, data_dir, embed)
+        chunks = stage_ingest_text(ctx, data_dir, embed)
         schema = None
         if chunks:
             schema = stage_text_schema(ctx, goal, chunks, plan)
