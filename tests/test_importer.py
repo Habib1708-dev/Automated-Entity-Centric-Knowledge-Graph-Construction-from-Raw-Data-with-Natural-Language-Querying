@@ -1,21 +1,13 @@
+"""Domain graph import against a live Neo4j: reconciliation, idempotence, dangling references."""
+
 import pytest
 
-from kgbuilder.importer import construct_domain_graph, get_driver
+from kgbuilder.importer import construct_domain_graph
 from kgbuilder.plan import ConstructionPlan
 
 from .test_profiler_and_plan import GOOD_PLAN, node, rel
 
-
-@pytest.fixture
-def driver():
-    driver = get_driver()
-    try:
-        driver.verify_connectivity()
-    except Exception:
-        pytest.skip("Neo4j is not running (docker compose up -d)")
-    driver.execute_query("MATCH (n) DETACH DELETE n")
-    yield driver
-    driver.close()
+pytestmark = pytest.mark.neo4j
 
 
 def count(driver, query):

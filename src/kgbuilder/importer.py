@@ -5,10 +5,11 @@ from decimal import Decimal
 from pathlib import Path
 
 import duckdb
-from neo4j import Driver, GraphDatabase
+from neo4j import Driver
 from pydantic import BaseModel
 
-from .config import settings
+from .core.cypher import cypher_ident
+from .graph.connection import get_driver
 from .plan import ConstructionPlan, NodeRule, RelationshipRule
 from .profiler import quote_ident, read_csv
 
@@ -32,15 +33,6 @@ class ImportReport(BaseModel):
     @property
     def clean(self) -> bool:
         return all(r.rows_unmatched == 0 and r.rows_skipped_null_key == 0 for r in self.rules)
-
-
-def get_driver() -> Driver:
-    return GraphDatabase.driver(settings.neo4j_uri, auth=(settings.neo4j_username, settings.neo4j_password))
-
-
-def cypher_ident(name: str) -> str:
-    # labels, types and property keys cannot be query parameters, so escape them instead
-    return "`" + name.replace("`", "``") + "`"
 
 
 def _to_neo4j(value):
@@ -123,7 +115,9 @@ def import_relationships(
     )
 
 
-def construct_domain_graph(data_dir: Path, plan: ConstructionPlan, driver: Driver | None = None) -> ImportReport:
+def construct_domain_graph(
+    data_dir: Path, plan: ConstructionPlan, driver: Driver | None = None
+) -> ImportReport:
     """Import all nodes, then all relationships. Safe to rerun: everything is MERGEd."""
     data_dir = Path(data_dir)
     own_driver = driver is None

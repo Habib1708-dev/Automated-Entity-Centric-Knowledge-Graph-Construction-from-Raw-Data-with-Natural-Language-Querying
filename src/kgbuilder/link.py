@@ -1,14 +1,13 @@
 """Link the three graphs: Document -ABOUT-> domain node, and Entity -REFERS_TO-> domain node."""
 
-import re
-
 from neo4j import Driver
 from pydantic import BaseModel
 from rapidfuzz import fuzz
 
 from .config import settings
-from .extract import norm
-from .importer import cypher_ident
+from .core.cypher import cypher_ident
+from .core.text import norm
+from .core.text import squash as _squash
 from .plan import ConstructionPlan, NodeRule
 
 
@@ -24,10 +23,6 @@ def name_property(rule: NodeRule) -> str:
         if "name" in p.lower() or "title" in p.lower():
             return p
     return rule.unique_column
-
-
-def _squash(s: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", norm(s))
 
 
 def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
@@ -46,19 +41,26 @@ def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
     linked_docs = 0
     for d in docs:
         stem = _squash(d["title"])
-        hits = [(label, k, name) for label, k, name in domain if len(_squash(name)) >= 4 and _squash(name) in stem]
+        hits = [
+            (label, k, name) for label, k, name in domain if len(_squash(name)) >= 4 and _squash(name) in stem
+        ]
         if not hits:
             continue
-        best = max(hits, key=lambda h: len(_squash(h[2])))  # longest name wins, so "Coffee Table" beats "Table"
+        best = max(
+            hits, key=lambda h: len(_squash(h[2]))
+        )  # longest name wins, so "Coffee Table" beats "Table"
         driver.execute_query(
             f"MATCH (d:Document {{doc_id: $id}}), (n:{cypher_ident(best[0])} {{{cypher_ident(keys[best[0]])}: $k}}) "
             "MERGE (d)-[:ABOUT]->(n)",
-            id=d["id"], k=best[1],
+            id=d["id"],
+            k=best[1],
         )
         linked_docs += 1
 
     # entities: near-exact name match with a domain node
-    ents, _, _ = driver.execute_query("MATCH (e:Entity) RETURN e.id AS id, e.name AS name, coalesce(e.aliases, []) AS aliases")
+    ents, _, _ = driver.execute_query(
+        "MATCH (e:Entity) RETURN e.id AS id, e.name AS name, coalesce(e.aliases, []) AS aliases"
+    )
     linked_ents = 0
     for e in ents:
         names = {norm(n) for n in [e["name"], *e["aliases"]]}
@@ -71,7 +73,9 @@ def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
             driver.execute_query(
                 f"MATCH (e:Entity {{id: $id}}), (n:{cypher_ident(best[0])} {{{cypher_ident(keys[best[0]])}: $k}}) "
                 "MERGE (e)-[r:REFERS_TO]->(n) SET r.score = $score",
-                id=e["id"], k=best[1], score=best_score,
+                id=e["id"],
+                k=best[1],
+                score=best_score,
             )
             linked_ents += 1
     return LinkReport(documents_linked=linked_docs, documents_total=len(docs), entities_linked=linked_ents)

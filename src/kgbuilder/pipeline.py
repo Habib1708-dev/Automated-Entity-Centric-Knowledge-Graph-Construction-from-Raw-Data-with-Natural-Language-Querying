@@ -1,11 +1,11 @@
 """Stage functions and the end-to-end run. Each stage is one MLflow run and writes its artifacts to `out/`."""
 
-import json
 from pathlib import Path
 
 from . import llm
 from .extract import Rejected, Triple, extract_all, write_subject_graph
-from .importer import construct_domain_graph, get_driver
+from .graph.connection import get_driver
+from .importer import construct_domain_graph
 from .ingest import Document, load_documents, stage_structured
 from .lexical import Chunk, chunk_document, write_lexical_graph
 from .link import link_graphs
@@ -28,7 +28,11 @@ def stage_profile(data_dir: Path, out: Path) -> tuple[Path, DataProfile]:
     staged = stage_structured(data_dir, out / "staging")
     with track("profile", data_dir=data_dir) as run:
         profile = profile_directory(staged)
-        run.metrics(files=len(profile.files), foreign_key_candidates=len(profile.foreign_keys), rows=sum(f.row_count for f in profile.files))
+        run.metrics(
+            files=len(profile.files),
+            foreign_key_candidates=len(profile.foreign_keys),
+            rows=sum(f.row_count for f in profile.files),
+        )
         run.artifact(_write(out / "profile.json", profile.model_dump_json(indent=2)))
     return staged, profile
 
@@ -78,7 +82,12 @@ def stage_ingest_text(data_dir: Path, out: Path, embed: bool = True) -> tuple[li
 def stage_text_schema(goal: str, chunks: list[Chunk], plan: ConstructionPlan | None, out: Path) -> TextSchema:
     with track("text_schema", goal=goal) as run:
         schema, rounds, issues = propose_text_schema(goal, chunks, plan)
-        run.metrics(rounds=rounds, open_issues=len(issues), entity_types=len(schema.entity_types), fact_types=len(schema.fact_types))
+        run.metrics(
+            rounds=rounds,
+            open_issues=len(issues),
+            entity_types=len(schema.entity_types),
+            fact_types=len(schema.fact_types),
+        )
         run.artifact(_write(out / "text_schema.json", schema.model_dump_json(indent=2)))
     if issues:
         raise RuntimeError("text schema not accepted: " + "; ".join(issues))
@@ -107,7 +116,12 @@ def stage_resolve(out: Path) -> dict:
             report = resolve_entities(driver)
         finally:
             driver.close()
-        run.metrics(before=report.entities_before, after=report.entities_after, merges=report.merges, self_loops_removed=report.self_loops_removed)
+        run.metrics(
+            before=report.entities_before,
+            after=report.entities_after,
+            merges=report.merges,
+            self_loops_removed=report.self_loops_removed,
+        )
         run.artifact(_write(out / "resolve.json", report.model_dump_json(indent=2)))
     return report.model_dump()
 
@@ -124,7 +138,11 @@ def stage_link(plan: ConstructionPlan) -> dict:
 
 
 def stage_validate(
-    plan: ConstructionPlan | None, schema: TextSchema | None, expected: dict[str, int] | None, out: Path, gold: Path | None = None
+    plan: ConstructionPlan | None,
+    schema: TextSchema | None,
+    expected: dict[str, int] | None,
+    out: Path,
+    gold: Path | None = None,
 ) -> ValidationReport:
     with track("validate") as run:
         driver = get_driver()
@@ -132,7 +150,11 @@ def stage_validate(
             report = validate_graph(driver, plan, schema, expected, gold)
         finally:
             driver.close()
-        run.metrics(**report.metrics, checks_passed=sum(c.passed for c in report.checks), checks_total=len(report.checks))
+        run.metrics(
+            **report.metrics,
+            checks_passed=sum(c.passed for c in report.checks),
+            checks_total=len(report.checks),
+        )
         run.artifact(_write(out / "validation.json", report.model_dump_json(indent=2)))
     return report
 
@@ -145,7 +167,9 @@ def load_text_schema(out: Path) -> TextSchema:
     return TextSchema.model_validate_json((out / "text_schema.json").read_text(encoding="utf-8"))
 
 
-def run_all(data_dir: Path, goal: str, out: Path, gold: Path | None = None, embed: bool = True) -> ValidationReport:
+def run_all(
+    data_dir: Path, goal: str, out: Path, gold: Path | None = None, embed: bool = True
+) -> ValidationReport:
     with track("pipeline", data_dir=data_dir, goal=goal):
         staged, profile = stage_profile(data_dir, out)
         plan = stage_plan(profile, goal, out) if profile.files else None

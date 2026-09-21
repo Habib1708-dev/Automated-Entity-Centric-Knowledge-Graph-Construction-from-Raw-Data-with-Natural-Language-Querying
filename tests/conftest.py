@@ -1,4 +1,8 @@
+"""Shared fixtures: a temp data dir with small CSVs, including one deliberately dirty file."""
+
 import pytest
+
+from kgbuilder.graph.connection import get_driver
 
 FILES = {
     "products.csv": "product_id,product_name,price\nP1,Table,199.5\nP2,Chair,89\nP3,Lamp,35\n",
@@ -18,3 +22,17 @@ def data_dir(tmp_path):
     for name, content in FILES.items():
         (tmp_path / name).write_text(content, encoding="utf-8")
     return tmp_path
+
+
+@pytest.fixture
+def driver():
+    """An empty Neo4j database. Skips the test when Neo4j is down; wipes the database first."""
+    d = get_driver()
+    try:
+        d.verify_connectivity()
+    except Exception:  # any connection failure means "no database available", which is a skip, not an error
+        d.close()
+        pytest.skip("Neo4j is not running (docker compose up -d)")
+    d.execute_query("MATCH (n) DETACH DELETE n")
+    yield d
+    d.close()

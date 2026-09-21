@@ -71,7 +71,9 @@ class SchemaResult(BaseModel):
     open_issues: list[str]
 
 
-def propose_plan(goal: str, profile: DataProfile, max_rounds: int = 3, use_critic: bool = True) -> SchemaResult:
+def propose_plan(
+    goal: str, profile: DataProfile, max_rounds: int = 3, use_critic: bool = True
+) -> SchemaResult:
     profile_json = profile.model_dump_json(indent=1)
     feedback, plan, issues = "", None, []
 

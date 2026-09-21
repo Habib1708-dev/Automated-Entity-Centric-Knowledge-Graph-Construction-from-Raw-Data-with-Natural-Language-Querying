@@ -1,3 +1,9 @@
+"""All tunable settings, read from the environment or `.env` (pydantic-settings).
+
+Role in the pipeline: the single source of models, connection details, thresholds and paths.
+Every field that influences a result must also be logged as an MLflow param by the stage that uses it.
+"""
+
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict

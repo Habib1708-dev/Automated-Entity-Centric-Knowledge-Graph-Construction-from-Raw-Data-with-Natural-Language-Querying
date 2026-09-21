@@ -2,8 +2,6 @@
 verified in code against the chunk text; anything unverifiable is rejected, not stored."""
 
 import hashlib
-import re
-import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
 from neo4j import Driver
@@ -11,8 +9,9 @@ from pydantic import BaseModel
 
 from . import llm
 from .config import settings
+from .core.cypher import cypher_ident
+from .core.text import norm
 from .lexical import Chunk
-from .importer import cypher_ident
 from .textschema import TextSchema
 
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
@@ -57,13 +56,6 @@ class Rejected(BaseModel):
     reason: str
 
 
-def norm(s: str) -> str:
-    """Case-, accent-, whitespace- and markdown-insensitive form used for verification and matching."""
-    s = "".join(ch for ch in unicodedata.normalize("NFKD", s) if not unicodedata.combining(ch))
-    s = re.sub(r"[*_`#>]", "", s.lower())
-    return re.sub(r"\s+", " ", s).strip()
-
-
 def entity_id(entity_type: str, name: str) -> str:
     return hashlib.sha1(f"{entity_type}|{norm(name)}".encode()).hexdigest()[:16]
 
@@ -88,7 +80,10 @@ def verify(t: RawTriple, chunk_text: str, schema: TextSchema) -> str | None:
 def extract_chunk(chunk: Chunk, schema: TextSchema) -> tuple[list[Triple], list[Rejected]]:
     prompt = PROMPT.format(
         entity_types="\n".join(f"- {e.name}: {e.description}" for e in schema.entity_types),
-        fact_types="\n".join(f"- {f.subject_type} -[{f.predicate}]-> {f.object_type}: {f.description}" for f in schema.fact_types),
+        fact_types="\n".join(
+            f"- {f.subject_type} -[{f.predicate}]-> {f.object_type}: {f.description}"
+            for f in schema.fact_types
+        ),
         chunk_id=chunk.chunk_id,
         text=chunk.text,
     )
@@ -107,7 +102,9 @@ def extract_chunk(chunk: Chunk, schema: TextSchema) -> tuple[list[Triple], list[
     return accepted, rejected
 
 
-def extract_all(chunks: list[Chunk], schema: TextSchema, workers: int = 8) -> tuple[list[Triple], list[Rejected]]:
+def extract_all(
+    chunks: list[Chunk], schema: TextSchema, workers: int = 8
+) -> tuple[list[Triple], list[Rejected]]:
     with ThreadPoolExecutor(max_workers=workers) as pool:
         results = list(pool.map(lambda c: extract_chunk(c, schema), chunks))
     return [t for a, _ in results for t in a], [r for _, rej in results for r in rej]

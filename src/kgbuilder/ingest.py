@@ -92,7 +92,11 @@ def load_documents(data_dir: Path) -> list[Document]:
     for path in sorted(data_dir.rglob("*")):
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
-        text = read_pdf(path) if path.suffix.lower() == ".pdf" else path.read_text(encoding="utf-8", errors="replace")
+        text = (
+            read_pdf(path)
+            if path.suffix.lower() == ".pdf"
+            else path.read_text(encoding="utf-8", errors="replace")
+        )
         if text.strip():
             docs.append(Document(doc_id=path.relative_to(data_dir).as_posix(), title=path.stem, text=text))
     return docs

@@ -1,12 +1,18 @@
+"""Command line interface: one Typer command per pipeline stage, plus `run` and `reset`.
+
+Role in the pipeline: the entry point. Parses arguments, calls the stage functions, prints results.
+Not here: pipeline logic (pipeline.py) and anything that talks to the LLM or Neo4j directly.
+"""
+
 from pathlib import Path
 
 import typer
 
 from . import pipeline as pl
-from .importer import get_driver
-from .lexical import chunk_document
+from .graph.connection import get_driver
 from .ingest import load_documents
-from .plan import ConstructionPlan, validate_plan
+from .lexical import chunk_document
+from .plan import validate_plan
 from .profiler import profile_directory
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -22,7 +28,9 @@ def profile(data_dir: Path, out: Path = OUT):
         typer.echo(f"{f.file}: {f.row_count} rows, unique columns: {keys}")
     for fk in result.foreign_keys:
         mark = "" if fk.name_match else "  (name mismatch)"
-        typer.echo(f"  {fk.from_file}.{fk.from_column} -> {fk.to_file}.{fk.to_column} [{fk.inclusion:.0%}]{mark}")
+        typer.echo(
+            f"  {fk.from_file}.{fk.from_column} -> {fk.to_file}.{fk.to_column} [{fk.inclusion:.0%}]{mark}"
+        )
     typer.echo(f"Wrote {out / 'profile.json'}")
 
 
@@ -97,7 +105,9 @@ def validate(out: Path = OUT, gold: Path | None = None):
     report = pl.stage_validate(
         pl.load_plan(out) if plan_file.exists() else None,
         pl.load_text_schema(out) if schema_file.exists() else None,
-        None, out, gold,
+        None,
+        out,
+        gold,
     )
     _print_report(report)
     if not report.passed:
@@ -105,7 +115,13 @@ def validate(out: Path = OUT, gold: Path | None = None):
 
 
 @app.command()
-def run(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT, gold: Path | None = None, embed: bool = True):
+def run(
+    data_dir: Path,
+    goal: str = typer.Option(...),
+    out: Path = OUT,
+    gold: Path | None = None,
+    embed: bool = True,
+):
     """Whole pipeline: profile, plan, build, ingest, schema, extract, resolve, link, validate."""
     report = pl.run_all(data_dir, goal, out, gold, embed)
     _print_report(report)

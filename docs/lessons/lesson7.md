@@ -603,7 +603,6 @@ The top-level agent will manage collaboration with the user and coordinates the 
 of the sub-agents by calling them as a tool.
 
 ```python
-
 from google.adk.tools import agent_tool
 from google.adk.agents.callback_context import CallbackContext
 
@@ -630,32 +629,32 @@ refinement_loop_as_tool = agent_tool.AgentTool(schema_refinement_loop)
 def initialize_feedback(callback_context: CallbackContext) -> None:
     callback_context.state["feedback"] = ""
 
+
 schema_proposal_coordinator = LlmAgent(
     name="schema_proposal_coordinator",
     model=llm,
     instruction=schema_proposal_coordinator_instruction,
-    tools=[
-        refinement_loop_as_tool, 
-        get_proposed_construction_plan, 
-        approve_proposed_construction_plan
-    ], 
-    before_agent_callback=initialize_feedback
+    tools=[refinement_loop_as_tool, get_proposed_construction_plan, approve_proposed_construction_plan],
+    before_agent_callback=initialize_feedback,
 )
 
-structured_schema_proposal_caller = await make_agent_caller(schema_proposal_coordinator, {
-    "feedback": "",
-    "approved_user_goal": {
-        "kind_of_graph": "supply chain analysis",
-        "description": "A multi-level bill of materials for manufactured products, useful for root cause analysis.."
+structured_schema_proposal_caller = await make_agent_caller(
+    schema_proposal_coordinator,
+    {
+        "feedback": "",
+        "approved_user_goal": {
+            "kind_of_graph": "supply chain analysis",
+            "description": "A multi-level bill of materials for manufactured products, useful for root cause analysis..",
+        },
+        "approved_files": [
+            "assemblies.csv",
+            "parts.csv",
+            "part_supplier_mapping.csv",
+            "products.csv",
+            "suppliers.csv",
+        ],
     },
-    "approved_files": [
-        'assemblies.csv', 
-        'parts.csv', 
-        'part_supplier_mapping.csv', 
-        'products.csv', 
-        'suppliers.csv'
-    ]
-})
+)
 
 # Run the Initial Conversation
 await structured_schema_proposal_caller.call("How can these files be imported?")
@@ -668,6 +667,5 @@ await structured_schema_proposal_caller.call("Yes, let's do it!", True)
 
 session_end = await structured_schema_proposal_caller.get_session()
 
-print("Approved construction plan: ", session_end.state['approved_user_goal'])
-
+print("Approved construction plan: ", session_end.state["approved_user_goal"])
 ```

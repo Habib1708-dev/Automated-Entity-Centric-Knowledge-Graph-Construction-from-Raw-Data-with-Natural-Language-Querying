@@ -53,11 +53,16 @@ def chunk_document(doc: Document, max_chars: int | None = None, min_chars: int |
     if carry:
         packed.append(f"{packed.pop()}\n\n{carry}" if packed else carry)
 
-    return [Chunk(chunk_id=f"{doc.doc_id}#{i}", doc_id=doc.doc_id, index=i, text=t) for i, t in enumerate(packed)]
+    return [
+        Chunk(chunk_id=f"{doc.doc_id}#{i}", doc_id=doc.doc_id, index=i, text=t) for i, t in enumerate(packed)
+    ]
 
 
 def write_lexical_graph(
-    driver: Driver, docs: list[Document], chunks: list[Chunk], embeddings: dict[str, list[float]] | None = None
+    driver: Driver,
+    docs: list[Document],
+    chunks: list[Chunk],
+    embeddings: dict[str, list[float]] | None = None,
 ) -> None:
     driver.execute_query("CREATE CONSTRAINT IF NOT EXISTS FOR (d:Document) REQUIRE d.doc_id IS UNIQUE")
     driver.execute_query("CREATE CONSTRAINT IF NOT EXISTS FOR (c:Chunk) REQUIRE c.chunk_id IS UNIQUE")
@@ -67,7 +72,13 @@ def write_lexical_graph(
     )
     embeddings = embeddings or {}
     rows = [
-        {"chunk_id": c.chunk_id, "doc_id": c.doc_id, "index": c.index, "text": c.text, "embedding": embeddings.get(c.chunk_id)}
+        {
+            "chunk_id": c.chunk_id,
+            "doc_id": c.doc_id,
+            "index": c.index,
+            "text": c.text,
+            "embedding": embeddings.get(c.chunk_id),
+        }
         for c in chunks
     ]
     for i in range(0, len(rows), 500):

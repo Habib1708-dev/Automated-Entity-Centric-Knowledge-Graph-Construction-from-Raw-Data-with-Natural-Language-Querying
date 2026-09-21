@@ -11,7 +11,7 @@ from rapidfuzz import fuzz
 
 from . import llm
 from .config import settings
-from .extract import norm
+from .core.text import norm
 
 ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same real-world thing?
 Different sizes, models, components or people are NOT the same. Answer conservatively.
@@ -75,7 +75,11 @@ def resolve_entities(driver: Driver, use_llm: bool | None = None) -> ResolveRepo
             elif use_llm:
                 verdict = llm.generate(
                     ADJUDICATE_PROMPT.format(
-                        etype=etype, a=a["name"], b=b["name"], ctx_a=_context(driver, x), ctx_b=_context(driver, y)
+                        etype=etype,
+                        a=a["name"],
+                        b=b["name"],
+                        ctx_a=_context(driver, x),
+                        ctx_b=_context(driver, y),
                     ),
                     SamePair,
                     model=settings.extract_model,
@@ -83,7 +87,9 @@ def resolve_entities(driver: Driver, use_llm: bool | None = None) -> ResolveRepo
                 action = "llm_merge" if verdict.same else "llm_keep"
             else:
                 action = "skipped_borderline"
-            decisions.append(Decision(a=a["name"], b=b["name"], type=etype, score=round(score, 1), action=action))
+            decisions.append(
+                Decision(a=a["name"], b=b["name"], type=etype, score=round(score, 1), action=action)
+            )
             if action in ("auto", "llm_merge"):
                 parent[_find(parent, y)] = _find(parent, x)
 
@@ -101,7 +107,9 @@ def resolve_entities(driver: Driver, use_llm: bool | None = None) -> ResolveRepo
             "CALL apoc.refactor.mergeNodes([c] + collect(o), {properties: 'discard', mergeRels: true}) "
             "YIELD node SET node.aliases = $aliases, node.merged_from = $others "
             "RETURN count(node)",
-            c=canonical, others=others, aliases=aliases,
+            c=canonical,
+            others=others,
+            aliases=aliases,
         )
         merges += len(others)
 

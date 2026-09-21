@@ -26,10 +26,19 @@ class Run(Protocol):
     def artifact(self, path: Path) -> None: ...
     def tags(self, **values: str) -> None: ...
 
+
 class Tracker(Protocol):
     def start_run(self, name: str, **params: object) -> ContextManager[Run]: ...
-    def trace_llm_call(self, *, model: str, prompt: str, response: str,
-                       latency_s: float, cache_hit: bool, usage: TokenUsage | None) -> None: ...
+    def trace_llm_call(
+        self,
+        *,
+        model: str,
+        prompt: str,
+        response: str,
+        latency_s: float,
+        cache_hit: bool,
+        usage: TokenUsage | None,
+    ) -> None: ...
 ```
 
 `NullTracker` (Null Object) implements the same protocol and does nothing. If MLflow cannot start, the
