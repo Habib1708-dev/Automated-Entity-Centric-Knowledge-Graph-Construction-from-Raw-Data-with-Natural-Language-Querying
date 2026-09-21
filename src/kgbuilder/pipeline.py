@@ -34,7 +34,9 @@ from .text.schema import PROMPT as TEXT_SCHEMA_PROMPT
 from .text.schema import TextSchema, propose_text_schema
 from .text.subject_graph import write_subject_graph
 from .tracking.base import NullTracker, Run, Tracker
-from .validate import ValidationReport, validate_graph
+from .validation.evaluate import EvalReport, evaluate, load_gold
+from .validation.report import ValidationReport
+from .validation.validator import validate_graph
 
 
 @dataclass
@@ -290,8 +292,10 @@ def stage_validate(
     gold: Path | None = None,
 ) -> ValidationReport:
     """Run all graph checks and, with a gold file, the accuracy check."""
-    with ctx.tracker.start_run("validate", gold=gold) as run:
-        report = validate_graph(ctx.driver, plan, schema, expected, gold)
+    s = ctx.settings
+    with ctx.tracker.start_run("validate", gold=gold, gold_min_recall=s.gold_min_recall) as run:
+        gold_set = load_gold(_existing(gold)) if gold else None
+        report = validate_graph(ctx.driver, plan, schema, expected, gold_set, s.gold_min_recall)
         run.metrics(
             **report.metrics,
             checks_passed=sum(c.passed for c in report.checks),
@@ -299,6 +303,22 @@ def stage_validate(
         )
         run.artifact(_write(ctx.out / "validation.json", report.model_dump_json(indent=2)))
     return report
+
+
+def stage_eval(ctx: PipelineContext, gold: Path) -> EvalReport:
+    """Score the graph against gold data: precision/recall/F1, ER accuracy, question answers."""
+    with ctx.tracker.start_run("eval", gold=gold) as run:
+        report = evaluate(ctx.driver, load_gold(_existing(gold)))
+        run.metrics(**report.metrics())
+        run.artifact(_existing(gold))  # the gold file defines what the scores mean, so it travels with them
+        run.artifact(_write(ctx.out / "eval_report.json", report.model_dump_json(indent=2)))
+    return report
+
+
+def _existing(path: Path) -> Path:
+    if not Path(path).exists():
+        raise MissingInputError(f"gold file '{path}' not found")
+    return Path(path)
 
 
 def load_plan(out: Path) -> ConstructionPlan | None:

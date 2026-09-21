@@ -20,7 +20,7 @@ from .graph.connection import open_driver
 from .llm.cache import CachedLLM
 from .llm.gemini import GeminiClient
 from .tracking.mlflow_tracker import create_tracker
-from .validate import ValidationReport
+from .validation.report import ValidationReport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
@@ -146,6 +146,18 @@ def validate(out: Path = OUT, gold: Path | None = None):
     with session(out) as ctx:
         report = pl.stage_validate(ctx, pl.load_plan(out), pl.load_text_schema(out), None, gold)
     _print_report(report)
+
+
+@app.command("eval")
+def evaluate(gold: Path, out: Path = OUT):
+    """Score the graph against a hand-labelled gold file (see validation/evaluate.py for the format)."""
+    with session(out) as ctx:
+        report = pl.stage_eval(ctx, gold)
+    for name, value in report.metrics().items():
+        typer.echo(f"{name:20} {value:.3f}")
+    for q in report.questions:
+        typer.echo(f"[{'PASS' if q.correct else 'FAIL'}] {q.question} -> {q.answered}")
+    typer.echo(f"Wrote {out / 'eval_report.json'}")
 
 
 @app.command()

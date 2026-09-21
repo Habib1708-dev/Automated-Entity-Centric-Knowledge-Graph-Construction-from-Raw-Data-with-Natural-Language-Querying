@@ -37,3 +37,4 @@ class Settings(BaseSettings):
     # cosine*100 of name embeddings at or above: also ask the LLM (finds synonyms). 0 = off
     er_embedding_candidates: float = 0.0
     domain_link_threshold: float = 90.0
+    gold_min_recall: float = 0.5  # `kg validate --gold` fails below this triple recall
