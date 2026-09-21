@@ -1,17 +1,30 @@
-"""Entity resolution: merge duplicate Entity nodes of the same type.
+"""Entity resolution: find and merge duplicate `:Entity` nodes of the same type, reversibly.
 
-Exact/near-exact names merge automatically; borderline pairs go to the LLM when one is available;
-everything else stays separate. Every decision is logged."""
+Role in the pipeline: `kg resolve`, after extraction and before linking.
+Design: five small steps instead of one function, and only the first and the last two touch Neo4j:
+  1. read_entities      load entities and their mention counts
+  2. find_candidates    pure: score all same-type pairs with the matchers (Strategy, see matchers.py)
+  3. decide             pure given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
+  4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
+  5. apply_merges       snapshot the members, then merge them with APOC
+Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
+graph, because a wrong merge silently corrupts every later query.
+Not here: similarity functions (matchers.py) and links to the domain graph (linking.py).
+"""
 
+from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
+from typing import Literal
 
 from neo4j import Driver
 from pydantic import BaseModel
-from rapidfuzz import fuzz
 
-from ..core.text import norm
-from ..llm.base import LLMClient
+from ..core.cypher import cypher_ident
+from ..llm.base import Embedder, LLMClient
+from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
 
+# Conservative on purpose: a false merge destroys information, a missed merge only leaves a duplicate.
 ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same real-world thing?
 Different sizes, models, components or people are NOT the same. Answer conservatively.
 
@@ -21,32 +34,230 @@ B: {b}
 Context for A: {ctx_a}
 Context for B: {ctx_b}"""
 
+_CONTEXT_CHARS = 300  # enough of one mentioning chunk to disambiguate, small enough to keep calls cheap
+_ADJUDICATION_WORKERS = 8
+
+Action = Literal["auto", "llm_merge", "llm_keep", "skipped_borderline"]
+Adjudicator = Callable[[EntityRecord, EntityRecord], bool]
+
 
 class SamePair(BaseModel):
+    """The LLM's response schema for one adjudication."""
+
     same: bool
 
 
-class Decision(BaseModel):
-    a: str
+class Candidate(BaseModel):
+    a: str  # entity ids
     b: str
+    score: float
+    signal: str  # name of the matcher that nominated the pair
+
+
+class Decision(BaseModel):
+    a: str  # names, for a readable audit log
+    b: str
+    a_id: str
+    b_id: str
     type: str
     score: float
-    action: str  # auto | llm_merge | llm_keep | skipped_borderline
+    signal: str
+    action: Action
+
+
+class MergeGroup(BaseModel):
+    canonical: str
+    absorbed: list[str]
+
+
+class FactSnapshot(BaseModel):
+    type: str
+    source: str
+    target: str
+    props: dict
+
+
+class EntitySnapshot(BaseModel):
+    id: str
+    props: dict
+    mentions: list[str]  # chunk ids
 
 
 class ResolveReport(BaseModel):
+    """Result and audit log of one run. `snapshots` and `facts` are the pre-merge state for `undo_merges`."""
+
     entities_before: int
     entities_after: int
     merges: int
     self_loops_removed: int
     decisions: list[Decision]
+    groups: list[MergeGroup] = []
+    snapshots: list[EntitySnapshot] = []
+    facts: list[FactSnapshot] = []
 
 
-def _find(parent: dict, x):
-    while parent[x] != x:
-        parent[x] = parent[parent[x]]
-        x = parent[x]
-    return x
+def read_entities(driver: Driver) -> list[EntityRecord]:
+    records, _, _ = driver.execute_query(
+        "MATCH (e:Entity) OPTIONAL MATCH (:Chunk)-[m:MENTIONS]->(e) "
+        "RETURN e.id AS id, e.name AS name, e.type AS type, coalesce(e.aliases, [e.name]) AS aliases, "
+        "count(m) AS mentions ORDER BY id"
+    )
+    return [EntityRecord(**r.data()) for r in records]
+
+
+def find_candidates(
+    entities: list[EntityRecord],
+    borderline: float,
+    embedding: Matcher | None = None,
+    embedding_threshold: float = 0.0,
+) -> list[Candidate]:
+    """All same-type pairs worth a decision: fuzzy score >= `borderline`, or nominated by embeddings.
+
+    Entities of different types are never compared: a Product and a Problem with the same name are
+    different things. Within a type every pair is scored; the fuzzy cutoff makes hopeless pairs cheap.
+    """
+    fuzzy = FuzzyNameMatcher()
+    by_type: dict[str, list[EntityRecord]] = {}
+    for entity in entities:
+        by_type.setdefault(entity.type, []).append(entity)
+
+    candidates = []
+    for members in by_type.values():
+        for a, b in combinations(members, 2):
+            score = fuzzy.score(a, b, cutoff=borderline)
+            if score >= borderline:
+                candidates.append(Candidate(a=a.id, b=b.id, score=round(score, 1), signal=fuzzy.name))
+            elif embedding is not None and (similarity := embedding.score(a, b)) >= embedding_threshold:
+                candidates.append(
+                    Candidate(a=a.id, b=b.id, score=round(similarity, 1), signal=embedding.name)
+                )
+    return candidates
+
+
+def decide(
+    candidates: list[Candidate],
+    entities: dict[str, EntityRecord],
+    auto_merge: float,
+    adjudicate: Adjudicator | None,
+) -> list[Decision]:
+    """Turn candidates into decisions. Only a fuzzy score >= `auto_merge` merges without the LLM."""
+
+    def is_auto(c: Candidate) -> bool:
+        return c.signal == FuzzyNameMatcher.name and c.score >= auto_merge
+
+    borderline = [c for c in candidates if not is_auto(c)]
+    verdicts: dict[tuple[str, str], bool] = {}
+    if adjudicate is not None and borderline:
+        # independent LLM calls: run them in parallel, keep the order for a deterministic log
+        with ThreadPoolExecutor(max_workers=_ADJUDICATION_WORKERS) as pool:
+            answers = pool.map(lambda c: adjudicate(entities[c.a], entities[c.b]), borderline)
+            verdicts = {(c.a, c.b): same for c, same in zip(borderline, answers, strict=True)}
+
+    decisions = []
+    for c in candidates:
+        if is_auto(c):
+            action: Action = "auto"
+        elif adjudicate is None:
+            action = "skipped_borderline"
+        else:
+            action = "llm_merge" if verdicts[(c.a, c.b)] else "llm_keep"
+        a, b = entities[c.a], entities[c.b]
+        decisions.append(
+            Decision(
+                a=a.name,
+                b=b.name,
+                a_id=a.id,
+                b_id=b.id,
+                type=a.type,
+                score=c.score,
+                signal=c.signal,
+                action=action,
+            )
+        )
+    return decisions
+
+
+def group_merges(entities: dict[str, EntityRecord], decisions: list[Decision]) -> list[MergeGroup]:
+    """Union-find over merge decisions: A=B and B=C puts A, B, C in one group, merged in one step."""
+    parent = {entity_id: entity_id for entity_id in entities}
+
+    def find(x: str) -> str:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]  # path halving keeps the trees flat
+            x = parent[x]
+        return x
+
+    for d in decisions:
+        if d.action in ("auto", "llm_merge"):
+            parent[find(d.b_id)] = find(d.a_id)
+
+    members_by_root: dict[str, list[str]] = {}
+    for entity_id in entities:
+        members_by_root.setdefault(find(entity_id), []).append(entity_id)
+
+    groups = []
+    for members in members_by_root.values():
+        if len(members) > 1:
+            # canonical: most mentioned, then the longest (most specific) name, then id for determinism
+            members.sort(key=lambda i: (-entities[i].mentions, -len(entities[i].name), i))
+            groups.append(MergeGroup(canonical=members[0], absorbed=members[1:]))
+    return groups
+
+
+def _llm_adjudicator(driver: Driver, llm: LLMClient, model: str, candidates: list[Candidate]) -> Adjudicator:
+    """An adjudicator that shows the LLM both names plus one mentioning chunk each."""
+    ids = sorted({i for c in candidates for i in (c.a, c.b)})
+    records, _, _ = driver.execute_query(
+        "MATCH (c:Chunk)-[:MENTIONS]->(e:Entity) WHERE e.id IN $ids "
+        "RETURN e.id AS id, head(collect(c.text)) AS text",
+        ids=ids,
+    )
+    context = {r["id"]: r["text"][:_CONTEXT_CHARS] for r in records}
+
+    def adjudicate(a: EntityRecord, b: EntityRecord) -> bool:
+        prompt = ADJUDICATE_PROMPT.format(
+            etype=a.type,
+            a=a.name,
+            b=b.name,
+            ctx_a=context.get(a.id, "(none)"),
+            ctx_b=context.get(b.id, "(none)"),
+        )
+        return llm.generate(prompt, SamePair, model=model).same
+
+    return adjudicate
+
+
+def snapshot(driver: Driver, ids: list[str]) -> tuple[list[EntitySnapshot], list[FactSnapshot]]:
+    """The state of the given entities before a merge: properties, mentions, and every fact touching them."""
+    nodes, _, _ = driver.execute_query(
+        "MATCH (e:Entity) WHERE e.id IN $ids OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e) "
+        "RETURN e.id AS id, properties(e) AS props, collect(c.chunk_id) AS mentions ORDER BY id",
+        ids=ids,
+    )
+    facts, _, _ = driver.execute_query(
+        "MATCH (s:Entity)-[r]->(o:Entity) WHERE s.id IN $ids OR o.id IN $ids "
+        "RETURN type(r) AS type, s.id AS source, o.id AS target, properties(r) AS props",
+        ids=ids,
+    )
+    return [EntitySnapshot(**n.data()) for n in nodes], [FactSnapshot(**f.data()) for f in facts]
+
+
+def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list[MergeGroup]) -> None:
+    """Physically merge each group into its canonical entity; all names survive as aliases."""
+    for group in groups:
+        members = [group.canonical, *group.absorbed]
+        aliases = sorted({alias for i in members for alias in entities[i].aliases})
+        driver.execute_query(
+            "MATCH (c:Entity {id: $canonical}) MATCH (o:Entity) WHERE o.id IN $absorbed "
+            # aggregate first: a procedure call cannot take collect() as an argument
+            "WITH c, collect(o) AS others "
+            # 'discard' keeps the canonical's properties; mergeRels folds identical relationships together
+            "CALL apoc.refactor.mergeNodes([c] + others, {properties: 'discard', mergeRels: true}) "
+            "YIELD node SET node.aliases = $aliases, node.merged_from = $absorbed RETURN count(node)",
+            canonical=group.canonical,
+            absorbed=group.absorbed,
+            aliases=aliases,
+        )
 
 
 def resolve_entities(
@@ -55,85 +266,79 @@ def resolve_entities(
     model: str,
     auto_merge: float = 92.0,
     borderline: float = 80.0,
+    embedder: Embedder | None = None,
+    embedding_threshold: float = 0.0,
 ) -> ResolveReport:
-    """Merge duplicate entities. With `llm=None`, borderline pairs stay separate (logged as skipped)."""
-    rows, _, _ = driver.execute_query(
-        "MATCH (e:Entity) OPTIONAL MATCH (:Chunk)-[m:MENTIONS]->(e) "
-        "RETURN e.id AS id, e.name AS name, e.type AS type, coalesce(e.aliases, [e.name]) AS aliases, count(m) AS n"
-    )
-    ents = {r["id"]: dict(r) for r in rows}
-    parent = {i: i for i in ents}
-    decisions: list[Decision] = []
+    """Run the five steps. With `llm=None`, borderline pairs stay separate (logged as skipped).
 
-    by_type: dict[str, list[str]] = {}
-    for i, e in ents.items():
-        by_type.setdefault(e["type"], []).append(i)
+    Embedding candidates are used only when an embedder is given and `embedding_threshold` > 0.
+    """
+    records = read_entities(driver)
+    entities = {e.id: e for e in records}
+    use_embeddings = embedder is not None and embedding_threshold > 0
+    embedding = EmbeddingMatcher(embedder, records) if use_embeddings else None
 
-    for etype, ids in by_type.items():
-        for x, y in combinations(ids, 2):
-            a, b = ents[x], ents[y]
-            score = fuzz.token_sort_ratio(norm(a["name"]), norm(b["name"]))
-            if score < borderline:
-                continue
-            if score >= auto_merge:
-                action = "auto"
-            elif llm is not None:
-                verdict = llm.generate(
-                    ADJUDICATE_PROMPT.format(
-                        etype=etype,
-                        a=a["name"],
-                        b=b["name"],
-                        ctx_a=_context(driver, x),
-                        ctx_b=_context(driver, y),
-                    ),
-                    SamePair,
-                    model=model,
-                )
-                action = "llm_merge" if verdict.same else "llm_keep"
-            else:
-                action = "skipped_borderline"
-            decisions.append(
-                Decision(a=a["name"], b=b["name"], type=etype, score=round(score, 1), action=action)
-            )
-            if action in ("auto", "llm_merge"):
-                parent[_find(parent, y)] = _find(parent, x)
+    candidates = find_candidates(records, borderline, embedding, embedding_threshold)
+    adjudicate = _llm_adjudicator(driver, llm, model, candidates) if llm is not None else None
+    decisions = decide(candidates, entities, auto_merge, adjudicate)
+    groups = group_merges(entities, decisions)
 
-    groups: dict[str, list[str]] = {}
-    for i in ents:
-        groups.setdefault(_find(parent, i), []).append(i)
+    member_ids = [i for g in groups for i in (g.canonical, *g.absorbed)]
+    snapshots, facts = snapshot(driver, member_ids) if groups else ([], [])
+    apply_merges(driver, entities, groups)
 
-    merges = 0
-    for members in (g for g in groups.values() if len(g) > 1):
-        members.sort(key=lambda i: (-ents[i]["n"], -len(ents[i]["name"]), i))
-        canonical, others = members[0], members[1:]
-        aliases = sorted({a for i in members for a in ents[i]["aliases"]})
-        driver.execute_query(
-            "MATCH (c:Entity {id: $c}) MATCH (o:Entity) WHERE o.id IN $others "
-            "CALL apoc.refactor.mergeNodes([c] + collect(o), {properties: 'discard', mergeRels: true}) "
-            "YIELD node SET node.aliases = $aliases, node.merged_from = $others "
-            "RETURN count(node)",
-            c=canonical,
-            others=others,
-            aliases=aliases,
-        )
-        merges += len(others)
-
-    # a merge can turn a fact between two duplicates into a self-loop; those are noise
+    # a merge turns a fact between two duplicates into a self-loop; those are noise
     loops, _, _ = driver.execute_query(
         "MATCH (e:Entity)-[r]->(e) WHERE type(r) <> 'MENTIONS' DELETE r RETURN count(r) AS n"
     )
     remaining, _, _ = driver.execute_query("MATCH (e:Entity) RETURN count(e) AS n")
     return ResolveReport(
-        entities_before=len(ents),
+        entities_before=len(records),
         entities_after=remaining[0]["n"],
-        merges=merges,
-        self_loops_removed=loops[0]["n"] if loops else 0,
+        merges=sum(len(g.absorbed) for g in groups),
+        self_loops_removed=loops[0]["n"],
         decisions=decisions,
+        groups=groups,
+        snapshots=snapshots,
+        facts=facts,
     )
 
 
-def _context(driver: Driver, entity_id: str) -> str:
-    rows, _, _ = driver.execute_query(
-        "MATCH (c:Chunk)-[:MENTIONS]->(:Entity {id: $id}) RETURN c.text AS t LIMIT 1", id=entity_id
+def undo_merges(driver: Driver, report: ResolveReport) -> int:
+    """Restore the entities merged by the run that produced `report`. Returns how many came back.
+
+    Meant to follow a `kg resolve` directly: facts extracted after the merge are dropped from the
+    canonical entities. REFERS_TO links are derived data; re-run `kg link` afterwards. Idempotent.
+    """
+    if not report.groups:
+        return 0
+    canonical_ids = [g.canonical for g in report.groups]
+    # 1. strip the canonical entities: everything they legitimately had is in the snapshot
+    driver.execute_query(
+        "MATCH (e:Entity) WHERE e.id IN $ids OPTIONAL MATCH (e)-[r]-(:Entity) DELETE r", ids=canonical_ids
     )
-    return rows[0]["t"][:300] if rows else "(none)"
+    driver.execute_query(
+        "MATCH (:Chunk)-[m:MENTIONS]->(e:Entity) WHERE e.id IN $ids DELETE m", ids=canonical_ids
+    )
+    # 2. recreate absorbed entities and reset canonical ones (`SET e = props` also drops merged_from)
+    driver.execute_query(
+        "UNWIND $rows AS r MERGE (e:Entity {id: r.id}) SET e = r.props",
+        rows=[s.model_dump() for s in report.snapshots],
+    )
+    # 3. mentions and facts exactly as they were
+    driver.execute_query(
+        "UNWIND $rows AS r MATCH (c:Chunk {chunk_id: r.c}), (e:Entity {id: r.e}) MERGE (c)-[:MENTIONS]->(e)",
+        rows=[{"c": c, "e": s.id} for s in report.snapshots for c in s.mentions],
+    )
+    facts_by_type: dict[str, list[dict]] = {}
+    for fact in report.facts:
+        facts_by_type.setdefault(fact.type, []).append(fact.model_dump())
+    for fact_type, rows in facts_by_type.items():
+        driver.execute_query(
+            "UNWIND $rows AS r MATCH (s:Entity {id: r.source}), (o:Entity {id: r.target}) "
+            # same MERGE key as the subject-graph writer, so a second undo cannot duplicate facts
+            f"MERGE (s)-[f:{cypher_ident(fact_type)} "
+            "{chunk_id: r.props.chunk_id, evidence: r.props.evidence}]->(o) SET f = r.props",
+            rows=rows,
+        )
+    return sum(len(g.absorbed) for g in report.groups)

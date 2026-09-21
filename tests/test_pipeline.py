@@ -87,8 +87,10 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     )
     out = tmp_path / "out"
     tracker = RecordingTracker()
+    # small chunks so that each review is its own chunk; 90 so that "Table"/"Tables" (90.9) auto-merge
+    settings = Settings(chunk_min_chars=50, er_auto_merge=90)
     ctx = pipeline.PipelineContext(
-        settings=Settings(), driver=driver, out=out, llm=ScriptedLLM(script), tracker=tracker
+        settings=settings, driver=driver, out=out, llm=ScriptedLLM(script), tracker=tracker
     )
 
     report = pipeline.run_all(ctx, data_dir, "find product problems", gold=gold, embed=False)
@@ -100,6 +102,8 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     # "Table" and "Tables" were merged by entity resolution
     names = [r["n"] for r in driver.execute_query("MATCH (e:Entity {type:'Product'}) RETURN e.name AS n")[0]]
     assert len(names) == 1
+    assert tracker.run("ingest_text").logged_metrics["chunks"] == 3
+    assert tracker.run("resolve").logged_metrics["merges"] >= 1
 
     def count(query: str) -> int:
         return driver.execute_query(query)[0][0]["c"]

@@ -1,0 +1,121 @@
+"""Entity resolution: candidate finding, decisions and grouping as pure functions, and the
+merge -> undo round trip against Neo4j."""
+
+import pytest
+
+from kgbuilder.resolution.matchers import EmbeddingMatcher, EntityRecord
+from kgbuilder.resolution.resolver import (
+    SamePair,
+    decide,
+    find_candidates,
+    group_merges,
+    resolve_entities,
+    undo_merges,
+)
+from kgbuilder.text.chunking import Chunk
+from kgbuilder.text.documents import Document
+from kgbuilder.text.extraction import Triple
+from kgbuilder.text.lexical import write_lexical_graph
+from kgbuilder.text.subject_graph import write_subject_graph
+
+from .fakes import ScriptedLLM
+
+
+def entity(id: str, name: str, type: str = "Product", mentions: int = 1) -> EntityRecord:
+    return EntityRecord(id=id, name=name, type=type, aliases=[name], mentions=mentions)
+
+
+ENTITIES = [
+    entity("t1", "Table", mentions=3),
+    entity("t2", "Tables"),
+    entity("t3", "Table Lamp"),
+    entity("s1", "Sofa"),
+    entity("x1", "Table", type="Problem"),  # same name, other type: never a candidate
+]
+BY_ID = {e.id: e for e in ENTITIES}
+
+
+def pairs(candidates):
+    return {(c.a, c.b) for c in candidates}
+
+
+def test_candidates_are_same_type_pairs_above_the_borderline():
+    assert pairs(find_candidates(ENTITIES, borderline=80)) == {("t1", "t2")}
+    assert ("t1", "t3") in pairs(find_candidates(ENTITIES, borderline=50))
+    assert not any("x1" in p for p in pairs(find_candidates(ENTITIES, borderline=0.1)))
+
+
+def test_embeddings_nominate_synonyms_but_never_auto_merge():
+    class FakeEmbedder:
+        def embed(self, texts):
+            return [[1.0, 0.0] if t in ("Sofa", "Couch") else [0.0, 1.0] for t in texts]
+
+    records = [entity("s1", "Sofa"), entity("s2", "Couch"), entity("t1", "Table")]
+    matcher = EmbeddingMatcher(FakeEmbedder(), records)
+    candidates = find_candidates(records, borderline=80, embedding=matcher, embedding_threshold=95)
+    assert [(c.a, c.b, c.signal, c.score) for c in candidates] == [("s1", "s2", "embedding", 100.0)]
+    by_id = {e.id: e for e in records}
+    assert decide(candidates, by_id, auto_merge=92, adjudicate=None)[0].action == "skipped_borderline"
+    assert decide(candidates, by_id, auto_merge=92, adjudicate=lambda a, b: True)[0].action == "llm_merge"
+
+
+def test_decisions_auto_llm_and_skipped():
+    candidates = find_candidates(ENTITIES, borderline=50)
+    actions = {(d.a_id, d.b_id): d.action for d in decide(candidates, BY_ID, 90, lambda a, b: False)}
+    assert actions[("t1", "t2")] == "auto" and actions[("t1", "t3")] == "llm_keep"
+
+
+def test_grouping_is_transitive_and_the_most_mentioned_entity_stays():
+    records = [entity("a", "Desk"), entity("b", "Desks", mentions=5), entity("c", "Desk's")]
+    by_id = {e.id: e for e in records}
+    decisions = decide(find_candidates(records, borderline=80), by_id, auto_merge=80, adjudicate=None)
+    (group,) = group_merges(by_id, decisions)
+    assert group.canonical == "b" and sorted(group.absorbed) == ["a", "c"]
+
+
+def dump(driver) -> dict:
+    """Everything entity resolution may touch, in a comparable form."""
+
+    def rows(query):
+        return sorted(str(r.data()) for r in driver.execute_query(query)[0])
+
+    return {
+        "entities": rows("MATCH (e:Entity) RETURN properties(e) AS p"),
+        "mentions": rows("MATCH (c:Chunk)-[:MENTIONS]->(e:Entity) RETURN c.chunk_id AS c, e.id AS e"),
+        "facts": rows(
+            "MATCH (s:Entity)-[r]->(o:Entity) RETURN s.id AS s, type(r) AS t, o.id AS o, properties(r) AS p"
+        ),
+    }
+
+
+@pytest.mark.neo4j
+def test_merge_then_undo_restores_the_graph(driver):
+    chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
+    write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
+
+    def fact(subject, predicate, obj, obj_type, chunk):
+        return Triple(
+            subject=subject, subject_type="Product", predicate=predicate, object=obj,
+            object_type=obj_type, evidence=f"{subject} {obj}", chunk_id=chunk,
+        )  # fmt: skip
+
+    write_subject_graph(
+        driver,
+        [
+            fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#0"),
+            fact("Tables", "HAS_PROBLEM", "scratch", "Problem", "d.md#1"),
+            fact("Table", "SIMILAR_TO", "Tables", "Product", "d.md#1"),  # becomes a self-loop when merged
+        ],
+        extractor="test",
+    )
+    before = dump(driver)
+
+    llm = ScriptedLLM(lambda prompt, schema: SamePair(same=False))
+    report = resolve_entities(driver, llm, model="m", auto_merge=90)  # "Table"/"Tables" scores 90.9
+    assert report.merges == 1 and report.self_loops_removed == 1
+    assert report.entities_after == report.entities_before - 1
+    assert dump(driver) != before
+
+    assert undo_merges(driver, report) == 1
+    assert dump(driver) == before
+    assert undo_merges(driver, report) == 1 and dump(driver) == before  # idempotent

@@ -18,7 +18,7 @@ from .core.errors import InvalidPlanError, LLMUnavailableError, MissingInputErro
 from .llm.base import Embedder, LLMClient, prompt_version
 from .llm.refine import Refinement
 from .resolution.linking import LinkReport, link_graphs
-from .resolution.resolver import ADJUDICATE_PROMPT, ResolveReport, resolve_entities
+from .resolution.resolver import ADJUDICATE_PROMPT, ResolveReport, resolve_entities, undo_merges
 from .structured.importer import BATCH_SIZE, construct_domain_graph
 from .structured.plan import ConstructionPlan, validate_plan
 from .structured.profiler import DataProfile, profile_directory
@@ -235,19 +235,43 @@ def stage_resolve(ctx: PipelineContext) -> ResolveReport:
         model=s.extract_model,
         er_auto_merge=s.er_auto_merge,
         er_borderline=s.er_borderline,
+        er_embedding_candidates=s.er_embedding_candidates,
         prompt_version=prompt_version(ADJUDICATE_PROMPT),
         llm_adjudication=int(ctx.llm is not None),
     ) as run:
-        report = resolve_entities(ctx.driver, ctx.llm, s.extract_model, s.er_auto_merge, s.er_borderline)
+        report = resolve_entities(
+            ctx.driver,
+            ctx.llm,
+            s.extract_model,
+            s.er_auto_merge,
+            s.er_borderline,
+            ctx.embedder,
+            s.er_embedding_candidates,
+        )
         run.metrics(
             before=report.entities_before,
             after=report.entities_after,
             merges=report.merges,
+            candidates=len(report.decisions),
             llm_adjudications=sum(d.action.startswith("llm_") for d in report.decisions),
+            skipped_borderline=sum(d.action == "skipped_borderline" for d in report.decisions),
             self_loops_removed=report.self_loops_removed,
         )
+        # resolve.json is both the audit log and the input of `kg resolve --undo`
         run.artifact(_write(ctx.out / "resolve.json", report.model_dump_json(indent=2)))
     return report
+
+
+def stage_undo_resolve(ctx: PipelineContext) -> int:
+    """Undo the merges of the last `kg resolve`, from the snapshot in out/resolve.json."""
+    path = ctx.out / "resolve.json"
+    if not path.exists():
+        raise MissingInputError("out/resolve.json not found; there is no resolve run to undo")
+    report = ResolveReport.model_validate_json(path.read_text(encoding="utf-8"))
+    with ctx.tracker.start_run("resolve_undo") as run:
+        restored = undo_merges(ctx.driver, report)
+        run.metrics(entities_restored=restored)
+    return restored
 
 
 def stage_link(ctx: PipelineContext, plan: ConstructionPlan) -> LinkReport:

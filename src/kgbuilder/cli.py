@@ -122,9 +122,12 @@ def extract(out: Path = OUT):
 
 
 @app.command()
-def resolve(out: Path = OUT):
-    """Detect and merge duplicate entities."""
+def resolve(out: Path = OUT, undo: bool = False):
+    """Detect and merge duplicate entities. `--undo` reverts the last run (then re-run `kg link`)."""
     with session(out) as ctx:
+        if undo:
+            typer.echo(f"{pl.stage_undo_resolve(ctx)} entities restored")
+            return
         r = pl.stage_resolve(ctx)
     typer.echo(f"entities {r.entities_before} -> {r.entities_after} ({r.merges} merged)")
 

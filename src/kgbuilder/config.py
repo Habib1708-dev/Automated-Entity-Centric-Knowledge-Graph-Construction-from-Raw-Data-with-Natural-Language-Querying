@@ -34,4 +34,6 @@ class Settings(BaseSettings):
     chunk_overlap_chars: int = 0  # carried over between cuts of one oversized section; 0 = off
     er_auto_merge: float = 92.0  # rapidfuzz token_sort_ratio at or above: merge without asking
     er_borderline: float = 80.0  # between this and auto_merge: ask the LLM (if available)
+    # cosine*100 of name embeddings at or above: also ask the LLM (finds synonyms). 0 = off
+    er_embedding_candidates: float = 0.0
     domain_link_threshold: float = 90.0
