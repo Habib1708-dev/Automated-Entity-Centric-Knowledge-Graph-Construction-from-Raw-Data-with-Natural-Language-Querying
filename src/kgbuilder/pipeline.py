@@ -1,21 +1,48 @@
-"""Stage functions and the end-to-end run. Each stage is one MLflow run and writes its artifacts to `out/`."""
+"""Stage functions and the end-to-end run. Each stage is one MLflow run and writes its artifacts to `out/`.
 
+Role in the pipeline: orchestration only. A stage function calls one feature module, logs to MLflow and
+persists the result; `run_all` chains the stages.
+Design: every external dependency (settings, LLM, embedder, Neo4j driver) arrives in a `PipelineContext`
+built by the composition root (cli.py) or by a test. Nothing here constructs a client or reads globals.
+"""
+
+from dataclasses import dataclass
 from pathlib import Path
 
-from . import llm
+from neo4j import Driver
+
+from .config import Settings
+from .core.errors import InvalidPlanError, LLMUnavailableError, MissingInputError, ProposalRejectedError
 from .extract import Rejected, Triple, extract_all, write_subject_graph
-from .graph.connection import get_driver
 from .importer import construct_domain_graph
 from .ingest import Document, load_documents, stage_structured
 from .lexical import Chunk, chunk_document, write_lexical_graph
-from .link import link_graphs
+from .link import LinkReport, link_graphs
+from .llm.base import Embedder, LLMClient
 from .plan import ConstructionPlan, validate_plan
 from .profiler import DataProfile, profile_directory
-from .resolve import resolve_entities
+from .resolve import ResolveReport, resolve_entities
 from .schema import propose_plan
 from .textschema import TextSchema, propose_text_schema
 from .tracking import track
 from .validate import ValidationReport, validate_graph
+
+
+@dataclass
+class PipelineContext:
+    """Everything a stage needs from the outside world. `llm`/`embedder` are None without an API key."""
+
+    settings: Settings
+    driver: Driver
+    out: Path
+    llm: LLMClient | None = None
+    embedder: Embedder | None = None
+
+    def require_llm(self) -> LLMClient:
+        """Return the LLM client, or fail with a clear message for stages that cannot work without one."""
+        if self.llm is None:
+            raise LLMUnavailableError("this stage needs an LLM: set GEMINI_API_KEY (see .env.example)")
+        return self.llm
 
 
 def _write(path: Path, text: str) -> Path:
@@ -24,162 +51,190 @@ def _write(path: Path, text: str) -> Path:
     return path
 
 
-def stage_profile(data_dir: Path, out: Path) -> tuple[Path, DataProfile]:
-    staged = stage_structured(data_dir, out / "staging")
+def stage_profile(ctx: PipelineContext, data_dir: Path) -> tuple[Path, DataProfile]:
+    """Stage JSON/CSV under `out/staging` and profile the tables."""
     with track("profile", data_dir=data_dir) as run:
+        staged = stage_structured(data_dir, ctx.out / "staging")
         profile = profile_directory(staged)
         run.metrics(
             files=len(profile.files),
             foreign_key_candidates=len(profile.foreign_keys),
             rows=sum(f.row_count for f in profile.files),
         )
-        run.artifact(_write(out / "profile.json", profile.model_dump_json(indent=2)))
+        run.artifact(_write(ctx.out / "profile.json", profile.model_dump_json(indent=2)))
     return staged, profile
 
 
-def stage_plan(profile: DataProfile, goal: str, out: Path) -> ConstructionPlan:
-    with track("plan", goal=goal, model=llm.settings.schema_model) as run:
-        result = propose_plan(goal, profile)
+def stage_plan(ctx: PipelineContext, profile: DataProfile, goal: str) -> ConstructionPlan:
+    """Propose and critique the construction plan. The plan file is written even when it is rejected."""
+    s = ctx.settings
+    with track("plan", goal=goal, model=s.schema_model, temperature=s.llm_temperature) as run:
+        result = propose_plan(goal, profile, ctx.require_llm(), s.schema_model, s.llm_temperature)
         run.metrics(rounds=result.rounds, accepted=int(result.accepted), open_issues=len(result.open_issues))
-        run.artifact(_write(out / "plan.json", result.plan.model_dump_json(indent=2)))
+        run.artifact(_write(ctx.out / "plan.json", result.plan.model_dump_json(indent=2)))
     if not result.accepted:
-        raise RuntimeError("plan not accepted: " + "; ".join(result.open_issues))
+        raise ProposalRejectedError("plan", result.open_issues)
     return result.plan
 
 
-def stage_build(staged: Path, plan: ConstructionPlan, profile: DataProfile, out: Path) -> dict[str, int]:
-    issues = validate_plan(plan, profile)
-    if issues:
-        raise RuntimeError("invalid plan: " + "; ".join(issues))
+def stage_build(
+    ctx: PipelineContext, staged: Path, plan: ConstructionPlan, profile: DataProfile
+) -> dict[str, int]:
+    """Import the domain graph. Returns the expected node count per label, for later validation."""
     with track("build_domain") as run:
-        report = construct_domain_graph(staged, plan)
+        # re-validated here because a human may have edited out/plan.json since it was proposed
+        issues = validate_plan(plan, profile)
+        if issues:
+            raise InvalidPlanError(issues)
+        report = construct_domain_graph(ctx.driver, staged, plan)
         run.metrics(
             rules=len(report.rules),
             rows_written=sum(r.rows_written for r in report.rules),
             rows_dropped=sum(r.rows_unmatched + r.rows_skipped_null_key for r in report.rules),
             clean=int(report.clean),
         )
-        run.artifact(_write(out / "build_report.json", report.model_dump_json(indent=2)))
+        run.artifact(_write(ctx.out / "build_report.json", report.model_dump_json(indent=2)))
     return {n.label: profile.file(n.source_file).row_count for n in plan.nodes}
 
 
-def stage_ingest_text(data_dir: Path, out: Path, embed: bool = True) -> tuple[list[Document], list[Chunk]]:
-    with track("ingest_text", data_dir=data_dir) as run:
+def chunk_documents(ctx: PipelineContext, docs: list[Document]) -> list[Chunk]:
+    """Chunk with the configured sizes. One definition, so every caller produces the same chunk ids."""
+    s = ctx.settings
+    return [c for d in docs for c in chunk_document(d, s.chunk_max_chars, s.chunk_min_chars)]
+
+
+def stage_ingest_text(
+    ctx: PipelineContext, data_dir: Path, embed: bool = True
+) -> tuple[list[Document], list[Chunk]]:
+    """Load and chunk documents, embed the chunks when an embedder is available, write the lexical graph."""
+    s = ctx.settings
+    with track(
+        "ingest_text", data_dir=data_dir, chunk_max_chars=s.chunk_max_chars, chunk_min_chars=s.chunk_min_chars
+    ) as run:
         docs = load_documents(data_dir)
-        chunks = [c for d in docs for c in chunk_document(d)]
+        chunks = chunk_documents(ctx, docs)
         embeddings = None
-        if embed and chunks and llm.available():
-            embeddings = dict(zip((c.chunk_id for c in chunks), llm.embed([c.text for c in chunks])))
-        driver = get_driver()
-        try:
-            write_lexical_graph(driver, docs, chunks, embeddings)
-        finally:
-            driver.close()
+        if embed and chunks and ctx.embedder is not None:
+            vectors = ctx.embedder.embed([c.text for c in chunks])
+            embeddings = {c.chunk_id: v for c, v in zip(chunks, vectors, strict=True)}
+        write_lexical_graph(ctx.driver, docs, chunks, embeddings)
         run.metrics(documents=len(docs), chunks=len(chunks), embedded=int(bool(embeddings)))
     return docs, chunks
 
 
-def stage_text_schema(goal: str, chunks: list[Chunk], plan: ConstructionPlan | None, out: Path) -> TextSchema:
-    with track("text_schema", goal=goal) as run:
-        schema, rounds, issues = propose_text_schema(goal, chunks, plan)
+def stage_text_schema(
+    ctx: PipelineContext, goal: str, chunks: list[Chunk], plan: ConstructionPlan | None
+) -> TextSchema:
+    """Propose entity and fact types for the text. The schema file is written even when it is rejected."""
+    s = ctx.settings
+    with track("text_schema", goal=goal, model=s.schema_model, temperature=s.llm_temperature) as run:
+        schema, rounds, issues = propose_text_schema(
+            goal, chunks, ctx.require_llm(), s.schema_model, plan, s.llm_temperature
+        )
         run.metrics(
             rounds=rounds,
             open_issues=len(issues),
             entity_types=len(schema.entity_types),
             fact_types=len(schema.fact_types),
         )
-        run.artifact(_write(out / "text_schema.json", schema.model_dump_json(indent=2)))
+        run.artifact(_write(ctx.out / "text_schema.json", schema.model_dump_json(indent=2)))
     if issues:
-        raise RuntimeError("text schema not accepted: " + "; ".join(issues))
+        raise ProposalRejectedError("text schema", issues)
     return schema
 
 
-def stage_extract(chunks: list[Chunk], schema: TextSchema, out: Path) -> tuple[list[Triple], list[Rejected]]:
-    with track("extract", model=llm.settings.extract_model, chunks=len(chunks)) as run:
-        triples, rejected = extract_all(chunks, schema)
-        driver = get_driver()
-        try:
-            counts = write_subject_graph(driver, triples)
-        finally:
-            driver.close()
+def stage_extract(
+    ctx: PipelineContext, chunks: list[Chunk], schema: TextSchema
+) -> tuple[list[Triple], list[Rejected]]:
+    """Extract evidence-verified triples and write the subject graph."""
+    s = ctx.settings
+    with track("extract", model=s.extract_model, temperature=s.llm_temperature, chunks=len(chunks)) as run:
+        triples, rejected = extract_all(
+            chunks, schema, ctx.require_llm(), s.extract_model, s.llm_temperature, s.extract_workers
+        )
+        counts = write_subject_graph(ctx.driver, triples, extractor=s.extract_model)
         total = len(triples) + len(rejected)
         run.metrics(**counts, rejected=len(rejected), accept_rate=len(triples) / total if total else 1.0)
-        run.artifact(_write(out / "triples.jsonl", "\n".join(t.model_dump_json() for t in triples)))
-        run.artifact(_write(out / "rejected.jsonl", "\n".join(r.model_dump_json() for r in rejected)))
+        run.artifact(_write(ctx.out / "triples.jsonl", "\n".join(t.model_dump_json() for t in triples)))
+        run.artifact(_write(ctx.out / "rejected.jsonl", "\n".join(r.model_dump_json() for r in rejected)))
     return triples, rejected
 
 
-def stage_resolve(out: Path) -> dict:
-    with track("resolve") as run:
-        driver = get_driver()
-        try:
-            report = resolve_entities(driver)
-        finally:
-            driver.close()
+def stage_resolve(ctx: PipelineContext) -> ResolveReport:
+    """Merge duplicate entities. Works without an LLM; borderline pairs are then left unmerged."""
+    s = ctx.settings
+    with track("resolve", er_auto_merge=s.er_auto_merge, er_borderline=s.er_borderline) as run:
+        report = resolve_entities(ctx.driver, ctx.llm, s.extract_model, s.er_auto_merge, s.er_borderline)
         run.metrics(
             before=report.entities_before,
             after=report.entities_after,
             merges=report.merges,
             self_loops_removed=report.self_loops_removed,
         )
-        run.artifact(_write(out / "resolve.json", report.model_dump_json(indent=2)))
-    return report.model_dump()
+        run.artifact(_write(ctx.out / "resolve.json", report.model_dump_json(indent=2)))
+    return report
 
 
-def stage_link(plan: ConstructionPlan) -> dict:
-    with track("link") as run:
-        driver = get_driver()
-        try:
-            report = link_graphs(driver, plan)
-        finally:
-            driver.close()
+def stage_link(ctx: PipelineContext, plan: ConstructionPlan) -> LinkReport:
+    """Link documents and entities to the domain graph."""
+    with track("link", domain_link_threshold=ctx.settings.domain_link_threshold) as run:
+        report = link_graphs(ctx.driver, plan, ctx.settings.domain_link_threshold)
         run.metrics(**report.model_dump())
-    return report.model_dump()
+    return report
 
 
 def stage_validate(
+    ctx: PipelineContext,
     plan: ConstructionPlan | None,
     schema: TextSchema | None,
     expected: dict[str, int] | None,
-    out: Path,
     gold: Path | None = None,
 ) -> ValidationReport:
+    """Run all graph checks and, with a gold file, the accuracy check."""
     with track("validate") as run:
-        driver = get_driver()
-        try:
-            report = validate_graph(driver, plan, schema, expected, gold)
-        finally:
-            driver.close()
+        report = validate_graph(ctx.driver, plan, schema, expected, gold)
         run.metrics(
             **report.metrics,
             checks_passed=sum(c.passed for c in report.checks),
             checks_total=len(report.checks),
         )
-        run.artifact(_write(out / "validation.json", report.model_dump_json(indent=2)))
+        run.artifact(_write(ctx.out / "validation.json", report.model_dump_json(indent=2)))
     return report
 
 
-def load_plan(out: Path) -> ConstructionPlan:
-    return ConstructionPlan.model_validate_json((out / "plan.json").read_text(encoding="utf-8"))
+def load_plan(out: Path) -> ConstructionPlan | None:
+    """The reviewed plan from `out/plan.json`, or None when the structured path has not run."""
+    path = out / "plan.json"
+    return ConstructionPlan.model_validate_json(path.read_text(encoding="utf-8")) if path.exists() else None
 
 
-def load_text_schema(out: Path) -> TextSchema:
-    return TextSchema.model_validate_json((out / "text_schema.json").read_text(encoding="utf-8"))
+def load_text_schema(out: Path) -> TextSchema | None:
+    """The reviewed schema from `out/text_schema.json`, or None when it has not been proposed."""
+    path = out / "text_schema.json"
+    return TextSchema.model_validate_json(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def require(value, what: str, produced_by: str):
+    """Return `value`, or explain which command has to run first."""
+    if value is None:
+        raise MissingInputError(f"{what} not found; run `{produced_by}` first")
+    return value
 
 
 def run_all(
-    data_dir: Path, goal: str, out: Path, gold: Path | None = None, embed: bool = True
+    ctx: PipelineContext, data_dir: Path, goal: str, gold: Path | None = None, embed: bool = True
 ) -> ValidationReport:
+    """Whole pipeline. The structured and the text path are each skipped when their input is absent."""
     with track("pipeline", data_dir=data_dir, goal=goal):
-        staged, profile = stage_profile(data_dir, out)
-        plan = stage_plan(profile, goal, out) if profile.files else None
-        expected = stage_build(staged, plan, profile, out) if plan else None
-        docs, chunks = stage_ingest_text(data_dir, out, embed)
+        staged, profile = stage_profile(ctx, data_dir)
+        plan = stage_plan(ctx, profile, goal) if profile.files else None
+        expected = stage_build(ctx, staged, plan, profile) if plan else None
+        _, chunks = stage_ingest_text(ctx, data_dir, embed)
         schema = None
         if chunks:
-            schema = stage_text_schema(goal, chunks, plan, out)
-            stage_extract(chunks, schema, out)
-            stage_resolve(out)
+            schema = stage_text_schema(ctx, goal, chunks, plan)
+            stage_extract(ctx, chunks, schema)
+            stage_resolve(ctx)
         if plan:
-            stage_link(plan)
-        return stage_validate(plan, schema, expected, out, gold)
+            stage_link(ctx, plan)
+        return stage_validate(ctx, plan, schema, expected, gold)

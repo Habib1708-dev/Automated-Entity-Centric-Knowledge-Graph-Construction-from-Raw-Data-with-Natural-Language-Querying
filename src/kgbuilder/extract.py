@@ -7,11 +7,10 @@ from concurrent.futures import ThreadPoolExecutor
 from neo4j import Driver
 from pydantic import BaseModel
 
-from . import llm
-from .config import settings
 from .core.cypher import cypher_ident
 from .core.text import norm
 from .lexical import Chunk
+from .llm.base import LLMClient
 from .textschema import TextSchema
 
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
@@ -77,7 +76,10 @@ def verify(t: RawTriple, chunk_text: str, schema: TextSchema) -> str | None:
     return None
 
 
-def extract_chunk(chunk: Chunk, schema: TextSchema) -> tuple[list[Triple], list[Rejected]]:
+def extract_chunk(
+    chunk: Chunk, schema: TextSchema, llm: LLMClient, model: str, temperature: float = 0.0
+) -> tuple[list[Triple], list[Rejected]]:
+    """Extract one chunk, then verify every triple in code. Returns (accepted, rejected)."""
     prompt = PROMPT.format(
         entity_types="\n".join(f"- {e.name}: {e.description}" for e in schema.entity_types),
         fact_types="\n".join(
@@ -87,7 +89,7 @@ def extract_chunk(chunk: Chunk, schema: TextSchema) -> tuple[list[Triple], list[
         chunk_id=chunk.chunk_id,
         text=chunk.text,
     )
-    result = llm.generate(prompt, ChunkExtraction, model=settings.extract_model)
+    result = llm.generate(prompt, ChunkExtraction, model=model, temperature=temperature)
     accepted, rejected, seen = [], [], set()
     for raw in result.triples:
         t = Triple(**raw.model_dump(), chunk_id=chunk.chunk_id)
@@ -103,14 +105,20 @@ def extract_chunk(chunk: Chunk, schema: TextSchema) -> tuple[list[Triple], list[
 
 
 def extract_all(
-    chunks: list[Chunk], schema: TextSchema, workers: int = 8
+    chunks: list[Chunk],
+    schema: TextSchema,
+    llm: LLMClient,
+    model: str,
+    temperature: float = 0.0,
+    workers: int = 8,
 ) -> tuple[list[Triple], list[Rejected]]:
+    """Extract every chunk in parallel. The calls are I/O bound, so threads are enough."""
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        results = list(pool.map(lambda c: extract_chunk(c, schema), chunks))
+        results = list(pool.map(lambda c: extract_chunk(c, schema, llm, model, temperature), chunks))
     return [t for a, _ in results for t in a], [r for _, rej in results for r in rej]
 
 
-def write_subject_graph(driver: Driver, triples: list[Triple]) -> dict[str, int]:
+def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -> dict[str, int]:
     """Entities are keyed by (type, normalized name); facts keep chunk + evidence as provenance."""
     driver.execute_query("CREATE CONSTRAINT IF NOT EXISTS FOR (e:Entity) REQUIRE e.id IS UNIQUE")
 
@@ -150,6 +158,6 @@ def write_subject_graph(driver: Driver, triples: list[Triple]) -> dict[str, int]
             f"MERGE (s)-[f:{cypher_ident(pred)} {{chunk_id: r.chunk_id, evidence: r.evidence}}]->(o) "
             "SET f.extractor = $model",
             rows=rows,
-            model=settings.extract_model,
+            model=extractor,
         )
     return {"entities": len(entities), "facts": len(triples), "mentions": len(mentions)}

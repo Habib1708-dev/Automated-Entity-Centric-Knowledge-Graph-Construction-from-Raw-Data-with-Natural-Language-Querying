@@ -1,36 +1,9 @@
 """Profiling (uniqueness, foreign keys) and plan validation on small CSV fixtures. No Neo4j needed."""
 
-from kgbuilder.plan import ConstructionPlan, NodeRule, RelationshipRule, validate_plan
+from kgbuilder.plan import ConstructionPlan, validate_plan
 from kgbuilder.profiler import profile_directory
 
-
-def node(file, label, key, props=()):
-    return NodeRule(source_file=file, label=label, unique_column=key, properties=list(props), description="")
-
-
-def rel(file, rel_type, from_label, from_col, to_label, to_col, props=()):
-    return RelationshipRule(
-        source_file=file,
-        relationship_type=rel_type,
-        from_label=from_label,
-        from_column=from_col,
-        to_label=to_label,
-        to_column=to_col,
-        properties=list(props),
-    )
-
-
-GOOD_PLAN = ConstructionPlan(
-    nodes=[
-        node("products.csv", "Product", "product_id", ["product_name", "price"]),
-        node("assemblies.csv", "Assembly", "assembly_id", ["assembly_name"]),
-        node("suppliers.csv", "Supplier", "supplier_id", ["name"]),
-    ],
-    relationships=[
-        rel("assemblies.csv", "CONTAINS", "Product", "product_id", "Assembly", "assembly_id", ["quantity"]),
-        rel("assembly_supplier.csv", "SUPPLIED_BY", "Assembly", "assembly_id", "Supplier", "supplier_id"),
-    ],
-)
+from .sample_plans import GOOD_PLAN, node, rel
 
 
 def test_uniqueness(data_dir):

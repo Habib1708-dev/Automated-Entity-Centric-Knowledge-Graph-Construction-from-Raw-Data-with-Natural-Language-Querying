@@ -5,7 +5,7 @@ import pytest
 from kgbuilder.importer import construct_domain_graph
 from kgbuilder.plan import ConstructionPlan
 
-from .test_profiler_and_plan import GOOD_PLAN, node, rel
+from .sample_plans import GOOD_PLAN, node, rel
 
 pytestmark = pytest.mark.neo4j
 
@@ -16,7 +16,7 @@ def count(driver, query):
 
 def test_import_is_clean_and_idempotent(driver, data_dir):
     for _ in range(2):
-        report = construct_domain_graph(data_dir, GOOD_PLAN, driver)
+        report = construct_domain_graph(driver, data_dir, GOOD_PLAN)
         assert report.clean
     assert count(driver, "MATCH (n:Assembly) RETURN count(n) AS c") == 4
     assert count(driver, "MATCH (:Product)-[r:CONTAINS]->(:Assembly) RETURN count(r) AS c") == 4
@@ -30,6 +30,6 @@ def test_dangling_references_are_reported(driver, data_dir):
         nodes=[node("products.csv", "Product", "product_id")],
         relationships=[rel("dirty.csv", "ABOUT", "Product", "product_id", "Product", "product_id")],
     )
-    report = construct_domain_graph(data_dir, plan, driver)
+    report = construct_domain_graph(driver, data_dir, plan)
     assert not report.clean
     assert report.rules[1].rows_unmatched == 1  # the P9 row

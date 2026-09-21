@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     schema_model: str = "gemini-2.5-pro"
     extract_model: str = "gemini-2.5-flash"
     embed_model: str = "gemini-embedding-001"
+    llm_temperature: float = 0.0  # 0 keeps runs comparable and the disk cache meaningful
+    llm_max_attempts: int = 3  # retries per call on API errors or unparsable replies
+    extract_workers: int = 8  # parallel per-chunk extraction calls
 
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_username: str = "neo4j"
@@ -31,6 +34,3 @@ class Settings(BaseSettings):
     er_auto_merge: float = 92.0  # rapidfuzz token_sort_ratio at or above: merge without asking
     er_borderline: float = 80.0  # between this and auto_merge: ask the LLM (if available)
     domain_link_threshold: float = 90.0
-
-
-settings = Settings()

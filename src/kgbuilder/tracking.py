@@ -4,7 +4,7 @@ import logging
 from contextlib import contextmanager
 from pathlib import Path
 
-from .config import settings
+from .config import Settings
 
 log = logging.getLogger(__name__)
 
@@ -32,6 +32,7 @@ def track(name: str, **params):
     try:
         import mlflow
 
+        settings = Settings()  # transitional: R3 injects a Tracker instead
         mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
         mlflow.set_experiment(settings.mlflow_experiment)
         active = mlflow.active_run() is not None

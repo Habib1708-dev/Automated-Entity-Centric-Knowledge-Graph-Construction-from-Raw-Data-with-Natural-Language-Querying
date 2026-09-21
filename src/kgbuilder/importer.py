@@ -9,7 +9,6 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from .core.cypher import cypher_ident
-from .graph.connection import get_driver
 from .plan import ConstructionPlan, NodeRule, RelationshipRule
 from .profiler import quote_ident, read_csv
 
@@ -115,17 +114,9 @@ def import_relationships(
     )
 
 
-def construct_domain_graph(
-    data_dir: Path, plan: ConstructionPlan, driver: Driver | None = None
-) -> ImportReport:
+def construct_domain_graph(driver: Driver, data_dir: Path, plan: ConstructionPlan) -> ImportReport:
     """Import all nodes, then all relationships. Safe to rerun: everything is MERGEd."""
     data_dir = Path(data_dir)
-    own_driver = driver is None
-    driver = driver or get_driver()
-    try:
-        reports = [import_nodes(driver, data_dir, rule) for rule in plan.nodes]
-        reports += [import_relationships(driver, data_dir, rule, plan) for rule in plan.relationships]
-    finally:
-        if own_driver:
-            driver.close()
+    reports = [import_nodes(driver, data_dir, rule) for rule in plan.nodes]
+    reports += [import_relationships(driver, data_dir, rule, plan) for rule in plan.relationships]
     return ImportReport(rules=reports)

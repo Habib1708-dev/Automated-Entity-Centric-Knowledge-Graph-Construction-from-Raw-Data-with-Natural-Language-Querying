@@ -4,7 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from . import llm
+from .llm.base import LLMClient
 from .plan import ConstructionPlan, validate_plan
 from .profiler import DataProfile
 
@@ -72,20 +72,30 @@ class SchemaResult(BaseModel):
 
 
 def propose_plan(
-    goal: str, profile: DataProfile, max_rounds: int = 3, use_critic: bool = True
+    goal: str,
+    profile: DataProfile,
+    llm: LLMClient,
+    model: str,
+    temperature: float = 0.0,
+    max_rounds: int = 3,
+    use_critic: bool = True,
 ) -> SchemaResult:
+    """Ask `llm` for a plan until it passes `validate_plan` and the critic, or `max_rounds` is used up."""
     profile_json = profile.model_dump_json(indent=1)
     feedback, plan, issues = "", None, []
 
     for round_number in range(1, max_rounds + 1):
         prompt = PROPOSER_PROMPT.format(goal=goal, profile=profile_json, feedback=feedback)
-        plan = llm.generate(prompt, ConstructionPlan)
+        plan = llm.generate(prompt, ConstructionPlan, model=model, temperature=temperature)
 
+        # code first: the critic only sees plans that are already mechanically valid
         issues = validate_plan(plan, profile)
         if not issues and use_critic:
             critique = llm.generate(
                 CRITIC_PROMPT.format(goal=goal, profile=profile_json, plan=plan.model_dump_json(indent=1)),
                 Critique,
+                model=model,
+                temperature=temperature,
             )
             issues = critique.issues if critique.verdict == "retry" else []
         if not issues:

@@ -4,9 +4,8 @@ import re
 
 from pydantic import BaseModel, Field
 
-from . import llm
-from .config import settings
 from .lexical import Chunk
+from .llm.base import LLMClient
 from .plan import ConstructionPlan
 
 
@@ -105,14 +104,20 @@ def sample_chunks(chunks: list[Chunk], n: int = 12) -> list[Chunk]:
 
 
 def propose_text_schema(
-    goal: str, chunks: list[Chunk], plan: ConstructionPlan | None = None, max_rounds: int = 3
+    goal: str,
+    chunks: list[Chunk],
+    llm: LLMClient,
+    model: str,
+    plan: ConstructionPlan | None = None,
+    temperature: float = 0.0,
+    max_rounds: int = 3,
 ) -> tuple[TextSchema, int, list[str]]:
     """Returns (schema, rounds used, open issues). Code validation gates every round."""
     body = "\n\n".join(f"[{c.chunk_id}]\n{c.text[:1200]}" for c in sample_chunks(chunks))
     feedback, schema, issues = "", None, []
     for round_number in range(1, max_rounds + 1):
         prompt = PROMPT.format(goal=goal, domain=domain_summary(plan), chunks=body, feedback=feedback)
-        schema = llm.generate(prompt, TextSchema, model=settings.schema_model)
+        schema = llm.generate(prompt, TextSchema, model=model, temperature=temperature)
         issues = validate_text_schema(schema)
         if not issues:
             return schema, round_number, []

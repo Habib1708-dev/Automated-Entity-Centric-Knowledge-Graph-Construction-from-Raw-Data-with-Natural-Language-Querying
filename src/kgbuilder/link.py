@@ -4,7 +4,6 @@ from neo4j import Driver
 from pydantic import BaseModel
 from rapidfuzz import fuzz
 
-from .config import settings
 from .core.cypher import cypher_ident
 from .core.text import norm
 from .core.text import squash as _squash
@@ -25,7 +24,7 @@ def name_property(rule: NodeRule) -> str:
     return rule.unique_column
 
 
-def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
+def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0) -> LinkReport:
     domain: list[tuple[str, str, str]] = []  # (label, key value, name)
     for rule in plan.nodes:
         prop = name_property(rule)
@@ -69,7 +68,7 @@ def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
             score = max(fuzz.token_sort_ratio(n, norm(dname)) for n in names)
             if score > best_score:
                 best, best_score = (label, k), score
-        if best and best_score >= settings.domain_link_threshold:
+        if best and best_score >= threshold:
             driver.execute_query(
                 f"MATCH (e:Entity {{id: $id}}), (n:{cypher_ident(best[0])} {{{cypher_ident(keys[best[0]])}: $k}}) "
                 "MERGE (e)-[r:REFERS_TO]->(n) SET r.score = $score",

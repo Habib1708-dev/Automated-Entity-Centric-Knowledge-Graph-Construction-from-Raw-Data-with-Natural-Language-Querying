@@ -9,9 +9,8 @@ from neo4j import Driver
 from pydantic import BaseModel
 from rapidfuzz import fuzz
 
-from . import llm
-from .config import settings
 from .core.text import norm
+from .llm.base import LLMClient
 
 ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same real-world thing?
 Different sizes, models, components or people are NOT the same. Answer conservatively.
@@ -50,8 +49,14 @@ def _find(parent: dict, x):
     return x
 
 
-def resolve_entities(driver: Driver, use_llm: bool | None = None) -> ResolveReport:
-    use_llm = llm.available() if use_llm is None else use_llm
+def resolve_entities(
+    driver: Driver,
+    llm: LLMClient | None,
+    model: str,
+    auto_merge: float = 92.0,
+    borderline: float = 80.0,
+) -> ResolveReport:
+    """Merge duplicate entities. With `llm=None`, borderline pairs stay separate (logged as skipped)."""
     rows, _, _ = driver.execute_query(
         "MATCH (e:Entity) OPTIONAL MATCH (:Chunk)-[m:MENTIONS]->(e) "
         "RETURN e.id AS id, e.name AS name, e.type AS type, coalesce(e.aliases, [e.name]) AS aliases, count(m) AS n"
@@ -68,11 +73,11 @@ def resolve_entities(driver: Driver, use_llm: bool | None = None) -> ResolveRepo
         for x, y in combinations(ids, 2):
             a, b = ents[x], ents[y]
             score = fuzz.token_sort_ratio(norm(a["name"]), norm(b["name"]))
-            if score < settings.er_borderline:
+            if score < borderline:
                 continue
-            if score >= settings.er_auto_merge:
+            if score >= auto_merge:
                 action = "auto"
-            elif use_llm:
+            elif llm is not None:
                 verdict = llm.generate(
                     ADJUDICATE_PROMPT.format(
                         etype=etype,
@@ -82,7 +87,7 @@ def resolve_entities(driver: Driver, use_llm: bool | None = None) -> ResolveRepo
                         ctx_b=_context(driver, y),
                     ),
                     SamePair,
-                    model=settings.extract_model,
+                    model=model,
                 )
                 action = "llm_merge" if verdict.same else "llm_keep"
             else:

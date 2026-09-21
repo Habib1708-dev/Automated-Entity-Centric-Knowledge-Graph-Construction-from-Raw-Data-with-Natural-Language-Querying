@@ -5,7 +5,6 @@ import re
 from neo4j import Driver
 from pydantic import BaseModel
 
-from .config import settings
 from .ingest import Document
 
 
@@ -16,10 +15,8 @@ class Chunk(BaseModel):
     text: str
 
 
-def chunk_document(doc: Document, max_chars: int | None = None, min_chars: int | None = None) -> list[Chunk]:
+def chunk_document(doc: Document, max_chars: int = 1500, min_chars: int = 200) -> list[Chunk]:
     """Split on rules, then pack: tiny sections join their neighbour, oversized ones are cut on paragraphs."""
-    max_chars = max_chars or settings.chunk_max_chars
-    min_chars = min_chars or settings.chunk_min_chars
     sections = [s.strip() for s in re.split(r"\n\s*(?:---+|\*\*\*+)\s*\n", doc.text) if s.strip()]
 
     pieces: list[str] = []

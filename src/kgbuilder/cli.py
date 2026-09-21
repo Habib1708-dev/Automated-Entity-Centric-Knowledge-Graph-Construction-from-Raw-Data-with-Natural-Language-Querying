@@ -1,117 +1,138 @@
-"""Command line interface: one Typer command per pipeline stage, plus `run` and `reset`.
+"""Command line interface and composition root: one Typer command per pipeline stage, plus `run`/`reset`.
 
-Role in the pipeline: the entry point. Parses arguments, calls the stage functions, prints results.
+Role in the pipeline: the entry point. It is the only place that reads settings and builds the concrete
+LLM client, cache and Neo4j driver; everything below receives them through a `PipelineContext`.
+Design: composition root (Factory). Expected failures (`KgBuilderError`) become a message and exit code 1.
 Not here: pipeline logic (pipeline.py) and anything that talks to the LLM or Neo4j directly.
 """
 
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 
 import typer
 
 from . import pipeline as pl
-from .graph.connection import get_driver
+from .config import Settings
+from .core.errors import KgBuilderError
+from .graph.connection import open_driver
 from .ingest import load_documents
-from .lexical import chunk_document
-from .plan import validate_plan
-from .profiler import profile_directory
+from .llm.cache import CachedLLM
+from .llm.gemini import GeminiClient
+from .validate import ValidationReport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
 
 
+def build_context(out: Path) -> pl.PipelineContext:
+    """Wire the concrete adapters. Without an API key the context has no LLM; LLM-free stages still work."""
+    settings = Settings()
+    llm = embedder = None
+    if settings.gemini_api_key:
+        gemini = GeminiClient(settings.gemini_api_key, settings.embed_model, settings.llm_max_attempts)
+        llm, embedder = CachedLLM(gemini, settings.cache_dir), gemini
+    # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
+    driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
+    return pl.PipelineContext(settings=settings, driver=driver, out=out, llm=llm, embedder=embedder)
+
+
+@contextmanager
+def session(out: Path) -> Iterator[pl.PipelineContext]:
+    """A context for one command: closes the driver, and reports expected failures without a traceback."""
+    ctx = build_context(out)
+    try:
+        yield ctx
+    except KgBuilderError as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(1) from e
+    finally:
+        ctx.driver.close()
+
+
 @app.command()
 def profile(data_dir: Path, out: Path = OUT):
     """Stage JSON as CSV and profile all tables: types, uniqueness, foreign key candidates."""
-    _, result = pl.stage_profile(data_dir, out)
+    with session(out) as ctx:
+        _, result = pl.stage_profile(ctx, data_dir)
     for f in result.files:
         keys = [c.name for c in f.columns if c.is_unique]
         typer.echo(f"{f.file}: {f.row_count} rows, unique columns: {keys}")
     for fk in result.foreign_keys:
         mark = "" if fk.name_match else "  (name mismatch)"
-        typer.echo(
-            f"  {fk.from_file}.{fk.from_column} -> {fk.to_file}.{fk.to_column} [{fk.inclusion:.0%}]{mark}"
-        )
+        source, target = f"{fk.from_file}.{fk.from_column}", f"{fk.to_file}.{fk.to_column}"
+        typer.echo(f"  {source} -> {target} [{fk.inclusion:.0%}]{mark}")
     typer.echo(f"Wrote {out / 'profile.json'}")
 
 
 @app.command()
 def plan(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT):
     """Propose and critique a construction plan with the LLM. Review out/plan.json before `kg build`."""
-    _, prof = pl.stage_profile(data_dir, out)
-    try:
-        pl.stage_plan(prof, goal, out)
-    except RuntimeError as e:
-        typer.echo(str(e))
-        raise typer.Exit(1)
+    with session(out) as ctx:
+        _, prof = pl.stage_profile(ctx, data_dir)
+        pl.stage_plan(ctx, prof, goal)
     typer.echo(f"Wrote {out / 'plan.json'}")
 
 
 @app.command()
 def build(data_dir: Path, out: Path = OUT):
     """Import out/plan.json (structured data) into Neo4j and print a reconciliation report."""
-    staged = out / "staging"
-    if not staged.exists():
-        staged, _ = pl.stage_profile(data_dir, out)
-    prof = profile_directory(staged)
-    construction_plan = pl.load_plan(out)
-    for issue in validate_plan(construction_plan, prof):
-        typer.echo(f"invalid plan: {issue}")
-    pl.stage_build(staged, construction_plan, prof, out)
+    with session(out) as ctx:
+        construction_plan = pl.require(pl.load_plan(out), "out/plan.json", "kg plan")
+        staged, prof = pl.stage_profile(ctx, data_dir)
+        pl.stage_build(ctx, staged, construction_plan, prof)
     typer.echo((out / "build_report.json").read_text(encoding="utf-8"))
 
 
 @app.command("ingest-text")
 def ingest_text(data_dir: Path, out: Path = OUT, embed: bool = True):
     """Chunk md/txt/pdf documents and write the lexical graph."""
-    docs, chunks = pl.stage_ingest_text(data_dir, out, embed)
+    with session(out) as ctx:
+        docs, chunks = pl.stage_ingest_text(ctx, data_dir, embed)
     typer.echo(f"{len(docs)} documents, {len(chunks)} chunks")
 
 
 @app.command("text-schema")
 def text_schema(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT):
     """Propose entity and fact types for the text. Review out/text_schema.json before `kg extract`."""
-    chunks = [c for d in load_documents(data_dir) for c in chunk_document(d)]
-    plan_file = out / "plan.json"
-    construction_plan = pl.load_plan(out) if plan_file.exists() else None
-    pl.stage_text_schema(goal, chunks, construction_plan, out)
+    with session(out) as ctx:
+        chunks = pl.chunk_documents(ctx, load_documents(data_dir))
+        pl.stage_text_schema(ctx, goal, chunks, pl.load_plan(out))
     typer.echo(f"Wrote {out / 'text_schema.json'}")
 
 
 @app.command()
 def extract(data_dir: Path, out: Path = OUT):
     """Extract evidence-backed facts from the chunks into the subject graph."""
-    chunks = [c for d in load_documents(data_dir) for c in chunk_document(d)]
-    triples, rejected = pl.stage_extract(chunks, pl.load_text_schema(out), out)
+    with session(out) as ctx:
+        schema = pl.require(pl.load_text_schema(out), "out/text_schema.json", "kg text-schema")
+        chunks = pl.chunk_documents(ctx, load_documents(data_dir))
+        triples, rejected = pl.stage_extract(ctx, chunks, schema)
     typer.echo(f"{len(triples)} facts stored, {len(rejected)} rejected (see {out / 'rejected.jsonl'})")
 
 
 @app.command()
 def resolve(out: Path = OUT):
     """Detect and merge duplicate entities."""
-    r = pl.stage_resolve(out)
-    typer.echo(f"entities {r['entities_before']} -> {r['entities_after']} ({r['merges']} merged)")
+    with session(out) as ctx:
+        r = pl.stage_resolve(ctx)
+    typer.echo(f"entities {r.entities_before} -> {r.entities_after} ({r.merges} merged)")
 
 
 @app.command()
 def link(out: Path = OUT):
     """Link documents and entities to the domain graph."""
-    typer.echo(pl.stage_link(pl.load_plan(out)))
+    with session(out) as ctx:
+        report = pl.stage_link(ctx, pl.require(pl.load_plan(out), "out/plan.json", "kg plan"))
+    typer.echo(report.model_dump())
 
 
 @app.command()
 def validate(out: Path = OUT, gold: Path | None = None):
     """Validate structure, provenance, consistency and accuracy of the whole graph."""
-    plan_file, schema_file = out / "plan.json", out / "text_schema.json"
-    report = pl.stage_validate(
-        pl.load_plan(out) if plan_file.exists() else None,
-        pl.load_text_schema(out) if schema_file.exists() else None,
-        None,
-        out,
-        gold,
-    )
+    with session(out) as ctx:
+        report = pl.stage_validate(ctx, pl.load_plan(out), pl.load_text_schema(out), None, gold)
     _print_report(report)
-    if not report.passed:
-        raise typer.Exit(1)
 
 
 @app.command()
@@ -123,24 +144,23 @@ def run(
     embed: bool = True,
 ):
     """Whole pipeline: profile, plan, build, ingest, schema, extract, resolve, link, validate."""
-    report = pl.run_all(data_dir, goal, out, gold, embed)
+    with session(out) as ctx:
+        report = pl.run_all(ctx, data_dir, goal, gold, embed)
     _print_report(report)
-    if not report.passed:
-        raise typer.Exit(1)
 
 
 @app.command()
-def reset():
+def reset(out: Path = OUT):
     """Delete everything in the Neo4j database (use before a clean rerun)."""
-    driver = get_driver()
-    try:
-        driver.execute_query("MATCH (n) DETACH DELETE n")
-    finally:
-        driver.close()
+    with session(out) as ctx:
+        ctx.driver.execute_query("MATCH (n) DETACH DELETE n")
     typer.echo("Database cleared.")
 
 
-def _print_report(report):
+def _print_report(report: ValidationReport) -> None:
+    """Print every check, then exit 1 when any failed so scripts and CI can react."""
     for c in report.checks:
         typer.echo(f"[{'PASS' if c.passed else 'FAIL'}] {c.category:11} {c.name}: {c.detail}")
     typer.echo(f"metrics: {report.metrics}")
+    if not report.passed:
+        raise typer.Exit(1)
