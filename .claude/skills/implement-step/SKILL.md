@@ -1,6 +1,6 @@
 ---
 name: implement-step
-description: The procedure for implementing exactly one step of REFACTOR_PLAN.md (or PLAN.md) in kgbuilder. Use whenever the user asks to do, start, continue or fix a roadmap step, to refactor part of the codebase, or to add a feature. Enforces scoped, tested, reviewable increments instead of one-shot rewrites.
+description: The procedure for implementing one step of REFACTOR_PLAN.md (or PLAN.md) in kgbuilder, repeated per step when several are asked for. Use whenever the user asks to do, start, continue or fix a roadmap step, to refactor part of the codebase, or to add a feature. Enforces sequential, scoped, tested, committed increments instead of one-shot rewrites.
 ---
 
 # Implement one step
@@ -29,12 +29,14 @@ step in `REFACTOR_PLAN.md` whose status is not `done`.
 6. **Update the docs.** Set the step's status in `REFACTOR_PLAN.md` to `done` with the date and a one-line
    result; tick the findings it closed; add anything discovered to "Found along the way". Update
    `README.md` only if usage or the module map changed.
-7. **Stop and report**: what changed (files), what was verified (commands and results), which acceptance
-   criteria are met, what was deliberately left out, and which step is next. Do not start the next step.
+7. **Commit and report**: one commit `step N: <what>`, then say what changed (files), what was verified
+   (commands and results), which acceptance criteria are met, what was deliberately left out, and which
+   step is next. Only then, if more steps were asked for, start the next one from step 1 of this procedure.
 
 ## Hard rules
 
-- Never widen the scope mid-step. New ideas go to "Found along the way".
+- One step at a time: never work on two steps in parallel or start the next before the current one is
+  committed. Never widen the scope mid-step. New ideas go to "Found along the way".
 - Never mix a behaviour change into a behaviour-preserving refactor.
 - Never delete or weaken a test to get green. If a test is wrong, say why in the report.
 - Never leave the tree in a half-migrated state: no file that exists in both the old and the new location,

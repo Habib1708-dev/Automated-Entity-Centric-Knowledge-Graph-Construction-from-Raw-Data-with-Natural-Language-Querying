@@ -10,16 +10,18 @@ Read [README.md](README.md) for usage, [PLAN.md](PLAN.md) for the original featu
 The first version of this codebase was generated in one shot and the 8-step plan was skipped.
 That must not happen again.
 
-- **One step per session.** A step is one entry of `REFACTOR_PLAN.md` (or, for new features, of `PLAN.md`).
-  Never start the next step in the same turn, even if the current one went quickly. The only exception is
-  the user explicitly asking for several steps at once; then every step still gets its own green gate
-  (`pytest` and `ruff check` both passing, checked **before** committing) and its own commit.
+- **One big-enough step at a time.** A step is one entry of `REFACTOR_PLAN.md` (or, for new features, of
+  `PLAN.md`). Steps are done strictly one after the other, never interleaved: a step is finished (gate
+  green, roadmap updated, committed) before the next one starts. Several steps may be done in one session
+  when the task calls for it, but never several at once.
 - **A step is big enough to matter and small enough to review**: one coherent concern, roughly
   150 to 600 changed lines, ending in something runnable and tested. If a step grows past that, split it
-  and record the split in `REFACTOR_PLAN.md` before continuing.
+  and record the split in `REFACTOR_PLAN.md` before continuing. Do not make steps artificially small
+  either: a step that leaves the tree half-migrated is too small.
 - **Every step follows the `implement-step` skill**: state scope, run the test baseline, implement,
-  add or update tests, run `uv run pytest` and `uv run ruff check`, update the step's status in
-  `REFACTOR_PLAN.md`, then stop and report what changed, what was verified, and what is next.
+  add or update tests, run `uv run pytest` and `uv run ruff check` (both green, exit codes unmasked),
+  update the step's status in `REFACTOR_PLAN.md`, commit, then report what changed, what was verified,
+  and what is next before moving on.
 - **Refactoring steps preserve behaviour.** Do not mix a behaviour change into a structural move.
   If a bug is found during a refactor, note it in `REFACTOR_PLAN.md` under "Found along the way" and fix
   it in its own step (or a clearly separated commit), with a test that fails before the fix.
