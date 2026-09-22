@@ -105,3 +105,6 @@ uv run kg run data/ --goal "..."          # whole pipeline (needs GEMINI_API_KEY
 | `project-organization` | creating, moving or renaming a file; deciding where code belongs |
 | `code-quality` | writing or reviewing any code; choosing a pattern; writing comments |
 | `mlflow-tracking` | adding or changing a stage, an LLM call, a metric, a prompt or a threshold |
+| `reply-style` | writing any reply to the user (always: simple language, explain the why, end with a summary) |
+
+Skill files live in `.claude/skills/` and are git-ignored: they exist only in the local checkout.
