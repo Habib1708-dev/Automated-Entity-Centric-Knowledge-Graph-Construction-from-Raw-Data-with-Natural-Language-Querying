@@ -121,6 +121,7 @@ design and filling the gaps.
 | R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | done 2026-09-22: run **$0.07** (extract `fc26bfe4`, 70 paid calls), judge pass by Claude Fable 5.1, eval `0002b0c0`: validated P/R/F1 1.00/0.77/0.87 (from 1.00/0.71/0.83), exact 0.35/0.28/0.31 (from 0.14/0.16/0.15), gold corrections 40 → 11; `docs/evaluation/results_2026-09-22_r29.md` |
 | R30 | Exhaustive extraction prompt; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
 | R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
+| R32 | Derivation reuses the product entity that resolution merged under another spelling | done 2026-09-22 (before R30): `existing_entities` lookup by name or alias, `entity_id` only as fallback; 1 test (149 total, 5 blocked by a Windows policy, see Found along the way) |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -583,9 +584,30 @@ Depends on R30 and on the user's yes for one run (medium costs more; quote the n
 - **Accept:** validated recall and `cost_usd` of both levels side by side; the preset keeps the level
   that the numbers justify.
 
+### R32. Derivation reuses the entity that resolution merged
+Closes the first R29 finding. Done before R30 (out of number order) so that the next paid run does not
+carry a known duplicate; R30's report says so.
+- `resolution/derivation.py`: before creating the object entity, look for an existing entity of the
+  object type whose name or aliases contain the product name (`existing_entities`); `entity_id` is the
+  fallback for a product no fact has named yet.
+- **Accept:** a Neo4j test with a product merged under another spelling: one derived fact, it points at
+  the canonical entity, no entity created; the earlier derivation tests unchanged.
+- **Result (met):** `existing_entities` reads every entity of the object type once per derived fact type
+  and maps each name and alias to its id. New test passes; `ruff` clean; 144 of 149 tests pass, the other
+  5 (four in `test_tracking.py`, one in `test_cli.py`) fail on an environmental import error that started
+  during this step and is unrelated to the change (see Found along the way). No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Windows Smart App Control blocks pandas's `sparse` extension (found in R32, 2026-09-22 18:39).**
+  `pandas._libs.sparse...pyd` fails to load with "An Application Control policy has blocked this file"
+  (Code Integrity events 3033/3077; `VerifiedAndReputablePolicyState` = 1). MLflow imports pandas only for
+  `search_runs`, which five tests use (`test_tracking.py` ×4, `test_cli.py` ×1); the pipeline and the
+  other 144 tests do not touch it. Not a code problem: the same files passed earlier the same day. To
+  clear it: allow the file in Windows Security (App & browser control → Smart App Control), or reinstall
+  pandas from a signed wheel, then rerun `uv run pytest`.
 
 - **Derivation re-creates an entity that resolution absorbed (found in R29).** Resolve merged
   "Västerås Bookshelf" into "Västerås Bookshelves" (longer name canonical); the derivation looked the

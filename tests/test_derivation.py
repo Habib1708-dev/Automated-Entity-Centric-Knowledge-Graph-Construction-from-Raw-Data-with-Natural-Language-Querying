@@ -1,6 +1,7 @@
 """Derived facts: sentence picking as a pure function, and (with Neo4j) the rule that a named part is
 PART_OF the product its document is about: one fact per mention chunk, verbatim evidence, product entity
-created once, idempotent, scored by the gold set and accepted by the validation checks."""
+created once (or reused when resolution merged it under another spelling), idempotent, scored by the
+gold set and accepted by the validation checks."""
 
 import pytest
 
@@ -46,6 +47,25 @@ def test_pick_sentence_returns_the_first_verbatim_sentence_naming_the_entity():
     assert pick_sentence(text, ["handles", "rails"]) == "The Drawer Rails stick badly!"  # any alias
     assert pick_sentence(text, ["handles"]) is None
     assert pick_sentence(text, [""]) is None
+
+
+@pytest.mark.neo4j
+def test_derivation_reuses_the_product_entity_that_resolution_merged_under_another_spelling(driver):
+    driver.execute_query(
+        "CREATE (p:Product {product_id: 'P1', product_name: 'Västerås Bookshelf'}), "
+        "(d:Document {doc_id: 'v.md', title: 'vasteras_bookshelf_reviews'})-[:ABOUT]->(p), "
+        "(c:Chunk {chunk_id: 'v.md#0', text: 'The shelves sag.'})-[:PART_OF]->(d), "
+        "(shelves:Entity {id: 'e1', name: 'shelves', type: 'Component', aliases: ['shelves']}), "
+        "(c)-[:MENTIONS]->(shelves), "
+        # resolution kept the plural spelling as canonical; the singular survives only as an alias
+        "(canon:Entity {id: 'merged', name: 'Västerås Bookshelves', type: 'Product', "
+        "aliases: ['Västerås Bookshelf', 'Västerås Bookshelves']}), (c)-[:MENTIONS]->(canon)"
+    )
+    report = derive_facts(driver, SCHEMA, PLAN)
+    assert report.facts_derived == 1 and report.entities_created == 0
+    records, _, _ = driver.execute_query("MATCH (:Entity)-[:PART_OF]->(o:Entity) RETURN o.id AS id")
+    assert [r["id"] for r in records] == ["merged"]
+    assert driver.execute_query("MATCH (e:Entity {type: 'Product'}) RETURN count(e) AS n")[0][0]["n"] == 1
 
 
 @pytest.mark.neo4j

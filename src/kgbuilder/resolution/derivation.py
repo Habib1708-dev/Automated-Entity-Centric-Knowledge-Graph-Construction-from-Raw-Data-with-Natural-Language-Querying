@@ -53,11 +53,28 @@ def pick_sentence(text: str, names: list[str]) -> str | None:
     return None
 
 
+def existing_entities(driver: Driver, entity_type: str) -> dict[str, str]:
+    """Normalised name or alias -> entity id, for every stored entity of `entity_type`.
+
+    The link stage runs after entity resolution, which may have absorbed the entity that carries the
+    product's own name into a differently spelled canonical one ("Västerås Bookshelf" into "Västerås
+    Bookshelves"). Looking the product up by `entity_id` alone would then create the absorbed entity a
+    second time (found in R29); its aliases still know the name, so they are the lookup key.
+    """
+    records, _, _ = driver.execute_query(
+        "MATCH (e:Entity {type: $etype}) RETURN e.id AS id, [e.name] + coalesce(e.aliases, []) AS names "
+        "ORDER BY id",
+        etype=entity_type,
+    )
+    return {norm(name): r["id"] for r in records for name in r["names"] if norm(name)}
+
+
 def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> DerivationReport:
     """Write every fact the schema marks `derived`. Idempotent; returns the counts."""
     names_by_node = {n.element_id: n.name for n in read_domain_nodes(driver, plan)}
     facts = created = skipped = 0
     for fact_type in schema.derived():
+        known = existing_entities(driver, fact_type.object_type)
         records, _, _ = driver.execute_query(
             # ORDER BY keeps the write order, and so the report, deterministic
             "MATCH (e:Entity {type: $stype})<-[:MENTIONS]-(c:Chunk)-[:PART_OF]->(:Document)-[:ABOUT]->(n) "
@@ -69,7 +86,11 @@ def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> 
         for r in records:
             product = names_by_node.get(r["node"])  # None: the ABOUT node has no name in the plan
             sentence = pick_sentence(r["text"], r["names"]) if product is not None else None
-            target = entity_id(fact_type.object_type, product) if product is not None else None
+            target = (
+                known.get(norm(product), entity_id(fact_type.object_type, product))
+                if product is not None
+                else None
+            )
             if sentence is None or target == r["id"]:  # no quote, or a self-reference: no fact
                 skipped += 1
                 continue
