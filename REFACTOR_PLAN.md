@@ -102,6 +102,7 @@ design and filling the gaps.
 | R10 | Trustworthy tracking after the first real run; current model defaults | done 2026-09-22: thinking tokens, failed attempts, embedding calls, traces linked from worker threads, guarded run open/close, `git_sha`/`code_version` tags, Gemini 3 defaults |
 | R11 | Scoped linking of text entities to the domain graph | done 2026-09-22: plan `name_column` (code rejects code-like columns), matching inside the document's product neighbourhood, recomputed links; defect → part → supplier now answerable (entities linked 9 → 17) |
 | R12 | Local LLM provider (Ollama) for free smoke runs | done 2026-09-22: `llm/ollama.py`, shared retry loop `llm/retry.py`, `LLM_PROVIDER` setting; full local run on `data/` for $0 |
+| R13 | Model presets (`presets.yaml`): smoke, dev, quality | done 2026-09-22: preset settings source between environment and `.env`, `kg --preset`, `preset` tag on every run; dev run measured at $0.06 |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -229,6 +230,17 @@ Asked for to test that the code works without paying for Gemini; not for quality
   proposals (code gate), so the reviewed plan was used and every other stage ran: 19/19 checks pass,
   70 extract traces linked to their run, 69 facts stored and 285 rejected (off-schema 158, evidence not
   verbatim 107, argument not in chunk 20), extract 22 minutes, cost $0. `qwen3.5:4b` broke the JSON.
+
+### R13. Model presets (`presets.yaml`): smoke, dev, quality
+Asked for to keep test runs cheap: two cheap presets for checking the pipeline and one for reported results.
+- `presets.yaml`: `smoke` (Ollama, $0), `dev` (`gemini-3.5-flash-lite`), `quality` (`gemini-3.1-pro-preview`
+  for schema work + `gemini-3.8-flash`), each with its own MLflow experiment.
+- `PresetSettingsSource` in `config.py`: priority environment > preset > `.env` > defaults. An unknown preset,
+  a misspelled key or the API key in the file is a `ConfigurationError`, shown by the CLI without a traceback.
+- `kg --preset <name>` and `KG_PRESET`; every run gets a `preset` tag.
+- **Accept (met):** unit tests for loading, typos, the forbidden key, the priority order and the committed
+  file; CLI tests for an unknown preset and the tag. A full `kg --preset dev run data/` cost $0.057 in about
+  30 seconds, 19/19 checks, 167 facts extracted and 18 rejected, plan accepted in round 2.
 
 ## Found along the way
 

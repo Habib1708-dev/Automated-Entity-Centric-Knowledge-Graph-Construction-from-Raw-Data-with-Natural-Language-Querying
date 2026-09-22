@@ -33,5 +33,9 @@ class InvalidPlanError(KgBuilderError):
         self.issues = issues
 
 
+class ConfigurationError(KgBuilderError):
+    """The settings cannot be loaded: an unknown preset, an unknown key in presets.yaml, or a bad value."""
+
+
 class MissingInputError(KgBuilderError):
     """A stage was started before the stage that produces its input (for example no out/plan.json)."""

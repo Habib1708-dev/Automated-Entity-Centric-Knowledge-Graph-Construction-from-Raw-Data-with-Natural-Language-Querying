@@ -1,17 +1,75 @@
-"""All tunable settings, read from the environment or `.env` (pydantic-settings).
+"""All tunable settings, read from the environment, a preset in `presets.yaml`, or `.env` (pydantic-settings).
 
 Role in the pipeline: the single source of models, connection details, thresholds and paths.
 Every field that influences a result must also be logged as an MLflow param by the stage that uses it.
+Design: a preset is one more settings source, placed between the process environment and `.env`, so it
+replaces the model lines of `.env` but a variable set in the terminal still wins for a single run.
 """
 
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
+import yaml
+from pydantic.fields import FieldInfo
+from pydantic_settings import (
+    BaseSettings,
+    PydanticBaseSettingsSource,
+    SettingsConfigDict,
+)
+
+from .core.errors import ConfigurationError
+
+PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `.env`
+
+# Keys a preset may hold besides settings: documentation only.
+_PRESET_DOC_KEYS = {"description"}
+# Settings a preset must never hold: presets.yaml is committed.
+_PRESET_FORBIDDEN_KEYS = {"gemini_api_key"}
+
+
+def load_preset(path: Path, name: str, allowed: set[str]) -> dict[str, Any]:
+    """The settings of preset `name` in the YAML file `path`, without its documentation keys.
+
+    Raises `ConfigurationError` when the file or the preset is missing, or a key is not in `allowed`
+    (a typo would otherwise be ignored silently and the run would use a different model than intended).
+    """
+    if not path.exists():
+        raise ConfigurationError(f"preset '{name}' requested but {path} does not exist")
+    presets = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if name not in presets:
+        raise ConfigurationError(f"unknown preset '{name}'; {path} defines: {', '.join(presets)}")
+    values = {k: v for k, v in (presets[name] or {}).items() if k not in _PRESET_DOC_KEYS}
+    unknown = sorted(set(values) - allowed)
+    if unknown:
+        raise ConfigurationError(f"preset '{name}' has unknown or forbidden keys: {', '.join(unknown)}")
+    return values
+
+
+class PresetSettingsSource(PydanticBaseSettingsSource):
+    """Settings source for the preset named by `kg_preset` (constructor argument, environment or `.env`)."""
+
+    def __init__(self, settings_cls: type[BaseSettings], *name_sources: PydanticBaseSettingsSource):
+        super().__init__(settings_cls)
+        self._name_sources = name_sources
+
+    def get_field_value(self, field: FieldInfo, field_name: str) -> tuple[Any, str, bool]:
+        # not used: __call__ returns the whole preset at once
+        return None, field_name, False
+
+    def __call__(self) -> dict[str, Any]:
+        # the first source that names a preset wins, in the same priority order as the settings themselves
+        name = next((n for s in self._name_sources if (n := s().get("kg_preset"))), None)
+        if not name:
+            return {}
+        allowed = set(self.settings_cls.model_fields) - _PRESET_FORBIDDEN_KEYS - {"kg_preset"}
+        return load_preset(PRESETS_FILE, name, allowed)
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    # name of a preset in presets.yaml (smoke, dev, quality); empty = settings from .env and defaults only
+    kg_preset: str = ""
 
     # "ollama" runs a local model for free smoke runs that check the code, not the method's quality;
     # SCHEMA_MODEL / EXTRACT_MODEL / EMBED_MODEL then name Ollama models (see README)
@@ -49,3 +107,16 @@ class Settings(BaseSettings):
     er_embedding_candidates: float = 0.0
     domain_link_threshold: float = 90.0
     gold_min_recall: float = 0.5  # `kg validate --gold` fails below this triple recall
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        """Earlier sources win: arguments > environment > preset > .env > defaults."""
+        preset = PresetSettingsSource(settings_cls, init_settings, env_settings, dotenv_settings)
+        return init_settings, env_settings, preset, dotenv_settings, file_secret_settings

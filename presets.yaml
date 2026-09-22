@@ -1,0 +1,40 @@
+# Model presets: named sets of settings for the three kinds of run.
+#
+# Choose one per command with `uv run kg --preset <name> ...`, or as a default with KG_PRESET=<name> in .env.
+# Priority: a variable set in the terminal > the preset > .env > the defaults in config.py, so a preset
+# replaces the model lines of .env, and one value can still be overridden for a single run.
+# Keys are Settings fields (see src/kgbuilder/config.py); an unknown key or preset is an error, not ignored.
+# Never put the API key here: this file is committed.
+
+# Free check that the code runs end to end, on a local Ollama model. The graph it produces says nothing about
+# quality: a 7B model cannot design a valid plan (continue with tests/gold/domain_plan.json, see README) and
+# about 80 % of its extracted facts fail the evidence checks. About 25 minutes on an 8 GB laptop GPU.
+smoke:
+  description: local Ollama model, $0, checks the code only
+  llm_provider: ollama
+  schema_model: qwen2.5:7b-instruct # qwen3.5:4b thinks at length and then breaks the JSON
+  extract_model: qwen2.5:7b-instruct
+  embed_model: nomic-embed-text
+  mlflow_experiment: kgbuilder-smoke
+
+# Cheap check with real Gemini behaviour (API errors, schemas, tracking). Flash-Lite does not think, which is
+# where the cost of Flash goes. Measured on data/ (2026-09-22): full run $0.06 in about 30 seconds, 19/19
+# checks, 167 facts extracted and 18 rejected; the plan needed a second round. Not for reported results.
+dev:
+  description: gemini-3.5-flash-lite everywhere, cents per run
+  llm_provider: gemini
+  schema_model: gemini-3.5-flash-lite
+  extract_model: gemini-3.5-flash-lite
+  embed_model: gemini-embedding-001
+  mlflow_experiment: kgbuilder-dev
+
+# Genuine quality and performance runs: the numbers reported in the thesis come from this preset only.
+# The stronger model designs the plan and the text schema; Flash extracts per chunk. Measured on data/
+# (2026-09-22): $1.25 per run, $1.05 of it Flash thinking during extraction.
+quality:
+  description: gemini-3.1-pro-preview for schema work + gemini-3.8-flash for extraction
+  llm_provider: gemini
+  schema_model: gemini-3.1-pro-preview
+  extract_model: gemini-3.8-flash
+  embed_model: gemini-embedding-001
+  mlflow_experiment: kgbuilder

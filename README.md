@@ -26,30 +26,38 @@ uv run kg reset                                                   # clear Neo4j 
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
 
-Models: both roles default to `gemini-3.8-flash` to keep development runs cheap (a full run on `data/` is
-about $1). For a run whose results you report, use the stronger model for the plan and text schema, for
-that run only (the model is logged as a param, so MLflow keeps the runs apart):
+### Model presets
+
+The models are chosen by a **preset** from [presets.yaml](presets.yaml): two cheap ones for checking that
+the pipeline works, and one for the results you report. Pick one per command, or set a default with
+`KG_PRESET=dev` in `.env`:
 
 ```
-$env:SCHEMA_MODEL="gemini-3.1-pro-preview"; uv run kg run data/ --goal "..."   # PowerShell
-SCHEMA_MODEL=gemini-3.1-pro-preview uv run kg run data/ --goal "..."           # bash
+uv run kg --preset smoke   run data/ --goal "..."   # local Ollama, $0, ~25 min: does the code run?
+uv run kg --preset dev     run data/ --goal "..."   # gemini-3.5-flash-lite, ~$0.06, ~30 s: does it run with Gemini?
+uv run kg --preset quality run data/ --goal "..."   # Pro for schema work + 3.8 Flash, ~$1.25: reported results
 ```
 
-In PowerShell the variable stays set for the rest of that terminal session; `Remove-Item Env:SCHEMA_MODEL`
-switches back.
+| Preset | Models | Measured on `data/` | MLflow experiment | Use for |
+|---|---|---|---|---|
+| `smoke` | `qwen2.5:7b-instruct`, `nomic-embed-text` (Ollama) | $0, ~25 min, ~80 % of facts rejected | `kgbuilder-smoke` | code checks only |
+| `dev` | `gemini-3.5-flash-lite` | $0.06, ~30 s, 19/19 checks | `kgbuilder-dev` | cheap end-to-end checks |
+| `quality` | `gemini-3.1-pro-preview` + `gemini-3.8-flash` | $1.25, ~5 min | `kgbuilder` | the numbers in the thesis |
+
+Priority: a variable set in the terminal > the preset > `.env` > the defaults, so one value can still be
+changed for a single run (`$env:EXTRACT_MODEL="..."` in PowerShell). Every run is tagged with its preset in
+MLflow. An unknown preset or a misspelled key in `presets.yaml` stops with an error instead of being ignored.
 
 ### Free smoke runs with a local model (Ollama)
 
-To check that the pipeline *works* without paying for API calls, run it on a local model with
-[Ollama](https://ollama.com). Small local models are much weaker than Gemini, so the resulting graph says
-nothing about the quality of the method: use this for plumbing checks only, never for reported results.
+The `smoke` preset needs [Ollama](https://ollama.com) with two models, pulled once:
 
 ```
-ollama pull qwen2.5:7b-instruct ; ollama pull nomic-embed-text      # once
-$env:LLM_PROVIDER="ollama"; $env:SCHEMA_MODEL="qwen2.5:7b-instruct"; $env:EXTRACT_MODEL="qwen2.5:7b-instruct"
-$env:EMBED_MODEL="nomic-embed-text"; $env:MLFLOW_EXPERIMENT="kgbuilder-smoke"
-uv run kg reset ; uv run kg run data/ --goal "supply chain root cause analysis"
+ollama pull qwen2.5:7b-instruct ; ollama pull nomic-embed-text
 ```
+
+Small local models are much weaker than Gemini, so the resulting graph says nothing about the quality of
+the method: use this for plumbing checks only, never for reported results.
 
 - `qwen2.5:7b-instruct` follows the JSON schemas reliably; `qwen3.5:4b` did not (it thinks at length and
   then breaks the JSON). The adapter always sends `think: false` and a 16k-token context window
@@ -61,6 +69,7 @@ uv run kg reset ; uv run kg run data/ --goal "supply chain root cause analysis"
 
   ```
   copy tests\gold\domain_plan.json out\plan.json
+  $env:KG_PRESET="smoke"
   uv run kg build data/ ; uv run kg ingest-text data/ ; uv run kg text-schema --goal "..."
   uv run kg extract ; uv run kg resolve ; uv run kg link ; uv run kg validate
   ```

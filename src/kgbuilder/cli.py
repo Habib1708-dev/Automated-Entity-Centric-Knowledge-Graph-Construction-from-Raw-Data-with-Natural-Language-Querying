@@ -9,6 +9,7 @@ Not here: pipeline logic (pipeline/) and anything that talks to the LLM or Neo4j
 """
 
 import logging
+import os
 import subprocess
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -16,9 +17,10 @@ from importlib.metadata import version
 from pathlib import Path
 
 import typer
+from pydantic import ValidationError
 
 from .config import Settings
-from .core.errors import KgBuilderError
+from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
 from .llm.base import CallListener
 from .llm.cache import CachedLLM
@@ -33,13 +35,26 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
 
 
-def run_tags() -> dict[str, str]:
-    """Tags put on every MLflow run, so a run can be traced back to the exact code that produced it.
+@app.callback()
+def main(
+    preset: str | None = typer.Option(
+        None, help="Model preset from presets.yaml: smoke ($0, local), dev (cents), quality (reported runs)."
+    ),
+):
+    """Build a knowledge graph from tables and documents. Options here apply to every command."""
+    # The flag is one more way to set KG_PRESET: Settings reads it like any other variable, in its priority.
+    if preset is not None:
+        os.environ["KG_PRESET"] = preset
 
-    `git_sha` is left out when git or the repository is not available (an installed package, a zip
-    download); a `-dirty` suffix marks runs made with uncommitted changes, whose code no commit holds.
+
+def run_tags(preset: str) -> dict[str, str]:
+    """Tags put on every MLflow run, so a run can be traced back to the exact code and models that made it.
+
+    `preset` is "none" when no preset was chosen. `git_sha` is left out when git or the repository is not
+    available (an installed package, a zip download); a `-dirty` suffix marks runs made with uncommitted
+    changes, whose code no commit holds.
     """
-    tags = {"code_version": version("kgbuilder")}
+    tags = {"code_version": version("kgbuilder"), "preset": preset or "none"}
     try:
         sha = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True
@@ -75,8 +90,13 @@ def build_provider(settings: Settings, listener: CallListener) -> GeminiClient |
 
 def build_context(out: Path) -> PipelineContext:
     """Wire the concrete adapters. Without a provider the context has no LLM; LLM-free stages still work."""
-    settings = Settings()
-    tracker = create_tracker(settings.mlflow_tracking_uri, settings.mlflow_experiment, run_tags())
+    try:
+        settings = Settings()
+    except ValidationError as e:  # a bad value in .env, the environment or a preset
+        raise ConfigurationError(str(e)) from e
+    tracker = create_tracker(
+        settings.mlflow_tracking_uri, settings.mlflow_experiment, run_tags(settings.kg_preset)
+    )
     llm = embedder = None
     # both layers report to the tracker: the provider its live calls (with token usage), the cache its hits
     provider = build_provider(settings, tracker.record_llm_call)
@@ -92,7 +112,11 @@ def build_context(out: Path) -> PipelineContext:
 @contextmanager
 def session(out: Path) -> Iterator[PipelineContext]:
     """A context for one command: closes the driver, and reports expected failures without a traceback."""
-    ctx = build_context(out)
+    try:
+        ctx = build_context(out)
+    except KgBuilderError as e:  # the settings could not be loaded: nothing was opened yet
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(1) from e
     try:
         yield ctx
     except KgBuilderError as e:
