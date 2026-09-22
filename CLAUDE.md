@@ -27,6 +27,12 @@ That must not happen again.
   it in its own step (or a clearly separated commit), with a test that fails before the fix.
 - **No speculative code.** Do not add features, options, abstractions or files that the current step
   does not need. No dead code, no commented-out code, no TODOs without a roadmap entry.
+- **A comprehensive test runs only with the user's explicit permission.** A comprehensive test is any
+  LLM run on the whole dataset or with a preset marked `ask_permission` in `presets.yaml` (today:
+  `quality`). Ask each time, naming what the run answers and its estimated cost, and wait for a yes in the
+  current conversation. An earlier yes, a roadmap acceptance criterion or a plan never counts as permission.
+  `.claude/hooks/run_guard.py` makes Claude Code ask as well; the rule holds even where the hook cannot see
+  the run (a script, an unusual command line).
 - **Pipeline runs are rare and follow the `run-policy` skill.** Runs cost money, free quota and time, so
   the default is no run: `uv run pytest` and `uv run ruff check` prove docs, refactors, small fixes and
   anything the tests cover. `smoke` and `dev` run on small subsets (`samples/`) with a cheap model and only

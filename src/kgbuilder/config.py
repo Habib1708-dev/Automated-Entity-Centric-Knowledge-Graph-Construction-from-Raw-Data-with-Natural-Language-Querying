@@ -22,14 +22,15 @@ from .llm.base import ThinkingLevel
 
 PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `.env`
 
-# Keys a preset may hold besides settings: documentation only.
-_PRESET_DOC_KEYS = {"description"}
+# Keys a preset may hold that are about the preset, not settings: its description, and whether a run
+# with it needs the user's permission first (read by .claude/hooks/run_guard.py, not by the pipeline).
+_PRESET_META_KEYS = {"description", "ask_permission"}
 # Settings a preset must never hold: presets.yaml is committed.
 _PRESET_FORBIDDEN_KEYS = {"gemini_api_key", "gemini_free_api_key"}
 
 
 def load_preset(path: Path, name: str, allowed: set[str]) -> dict[str, Any]:
-    """The settings of preset `name` in the YAML file `path`, without its documentation keys.
+    """The settings of preset `name` in the YAML file `path`, without its meta keys (description, permission).
 
     Raises `ConfigurationError` when the file or the preset is missing, or a key is not in `allowed`
     (a typo would otherwise be ignored silently and the run would use a different model than intended).
@@ -39,7 +40,7 @@ def load_preset(path: Path, name: str, allowed: set[str]) -> dict[str, Any]:
     presets = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     if name not in presets:
         raise ConfigurationError(f"unknown preset '{name}'; {path} defines: {', '.join(presets)}")
-    values = {k: v for k, v in (presets[name] or {}).items() if k not in _PRESET_DOC_KEYS}
+    values = {k: v for k, v in (presets[name] or {}).items() if k not in _PRESET_META_KEYS}
     unknown = sorted(set(values) - allowed)
     if unknown:
         raise ConfigurationError(f"preset '{name}' has unknown or forbidden keys: {', '.join(unknown)}")

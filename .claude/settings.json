@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run --project \"$CLAUDE_PROJECT_DIR\" python \"$CLAUDE_PROJECT_DIR/.claude/hooks/run_guard.py\"",
+            "timeout": 30,
+            "statusMessage": "Checking for a comprehensive kg run"
+          }
+        ]
+      }
+    ]
+  }
+}

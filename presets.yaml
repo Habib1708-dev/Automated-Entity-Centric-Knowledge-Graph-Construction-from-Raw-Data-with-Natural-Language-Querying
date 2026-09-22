@@ -40,6 +40,9 @@ dev:
 # tasks (low); the plan and the text schema are one hard design task each (medium).
 quality:
   description: gemini-3.8-flash everywhere, thinking medium for schema work and low for extraction, data/
+  # a run with this preset is a comprehensive test: Claude Code asks the user before starting one
+  # (.claude/hooks/run_guard.py). A person typing the command is not asked.
+  ask_permission: true
   llm_provider: gemini
   gemini_key: paid
   schema_model: gemini-3.8-flash

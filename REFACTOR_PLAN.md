@@ -107,6 +107,9 @@ design and filling the gaps.
 | R15 | Small data subsets for smoke and dev; smoke on a free Gemini key | done 2026-09-22: `samples/smoke`, `samples/dev`, `data_dir` and `gemini_key` settings, optional `DATA_DIR` argument; a run on the smoke subset costs $0.012 on the paid key |
 | R16 | Thinking level per role; quality preset on Gemini 3.8 Flash | done 2026-09-22: `schema_thinking` / `extract_thinking`, `ThinkingLLM` decorator; a quality run costs $0.17 instead of $1.25, 19/19 checks |
 | R17 | Run policy: when and how often any pipeline run may happen | done 2026-09-22: `run-policy` skill (default no run, one smoke/dev run per step, quality only with agreement, cost in every report); CLAUDE.md and skills point to it |
+| R18 | Permission gate: a comprehensive run needs the user's approval, enforced by a hook | done 2026-09-22: `ask_permission` in presets.yaml, `.claude/hooks/run_guard.py` registered in `.claude/settings.json`, rule in CLAUDE.md and `run-policy`; 18 tests |
+| R19 | Subsets built from config: a `sample` block per preset and `kg sample` | planned |
+| R20 | Cost in one place: a price table and a `cost_usd` metric per run | planned |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -349,6 +352,40 @@ Rules only, no code limits (user decision).
   (`kg reset` after the tests, no data directory with smoke/dev) and the prices for cost reports.
   CLAUDE.md (section 1, the MLflow rule and the skill table), `implement-step` and `mlflow-tracking`
   point to it. No code change, so no run (tests and ruff unchanged).
+
+### R18. Permission gate: a comprehensive run needs the user's approval, enforced by a hook
+Asked for by the user: "run a comprehensive test only with my permission". A rule in text can be
+overlooked, so Claude Code itself asks.
+- `presets.yaml`: `ask_permission: true` on `quality` (a key about the preset, not a setting).
+- `.claude/hooks/run_guard.py`, a PreToolUse hook on Bash and PowerShell: for a `kg` command that calls
+  an LLM (`run`, `plan`, `text-schema`, `extract`, `resolve`) it resolves the preset (`--preset`, a
+  `KG_PRESET` assignment in the command, else `.env`) and the data directory; if the preset has
+  `ask_permission` or the directory is outside `samples/`, it answers "ask" and Claude Code shows a prompt.
+- `.claude/settings.json` registers the hook (committed). CLAUDE.md and `run-policy` state the rule.
+- **Accept:** tests for the guard's decisions (preset flag, flag, environment variable, `.env`, explicit
+  `data/`, cheap presets, non-LLM commands, non-`kg` commands); a committed-preset test that quality asks.
+- **Result (met):** 18 tests in `tests/test_run_guard.py`, including the hook run as a subprocess (the JSON
+  Claude Code reads, and silence when nothing needs asking). Pipe-tested by hand on eight commands; one call
+  takes about 0.13 s. The guard errs on the side of asking: a `kg` command quoted inside another command (an
+  `echo`, a commit message) also asks. No pipeline run: nothing in the pipeline changed.
+
+### R19. Subsets built from config: a `sample` block per preset and `kg sample`
+The subsets of R15 were made by a throwaway script, so nothing records how. Move that into config and code.
+- A `sample` block in the smoke and dev presets: source directory, root table, key column and values, the
+  documents to keep and how many sections each keeps.
+- `kg sample [--preset]` writes the preset's `data_dir` from its `sample` block, following the foreign keys
+  the profiler finds (down from the root rows, then up to every row they reference).
+- **Accept:** unit tests for the key following and the section cut; a test that the committed `samples/`
+  equal what the config produces, so config and files cannot drift.
+
+### R20. Cost in one place: a price table and a `cost_usd` metric per run
+Prices live in a skill and costs were worked out by hand. Move them into config and tracking.
+- `prices.yaml`: USD per 1M input and output tokens per model (thinking billed as output), with the date.
+- Every run logs `cost_usd` from its token metrics; a model without a price logs no cost and a warning.
+- README, CLAUDE.md and `run-policy` stop repeating numbers: they point to `presets.yaml`, `prices.yaml`
+  and the MLflow metric.
+- **Accept:** unit tests for the cost formula and the missing-price case; tracking test that the metric
+  is logged.
 
 ## Found along the way
 

@@ -55,6 +55,11 @@ reasoning is billed as output: on `data/` it was $1.00 of a $1.25 run. `SCHEMA_T
 the quality preset uses medium for the plan and the text schema and low for extraction, which brought a
 run to $0.17 (see R16 in REFACTOR_PLAN.md).
 
+**Permission for comprehensive runs.** Presets with `ask_permission: true` (today `quality`) and any
+LLM run on a directory outside `samples/` are comprehensive runs: Claude Code asks you before it starts
+one, through the hook `.claude/hooks/run_guard.py` (registered in `.claude/settings.json`). Commands you
+type yourself are not affected.
+
 **The free key.** `smoke` sends its requests with `GEMINI_FREE_API_KEY`, a key from a Google AI Studio
 project *without billing*: requests cost nothing but are capped per day, and Google may use them to improve
 its products (fine for the synthetic data here). Create it in AI Studio in a new project, then put it in
