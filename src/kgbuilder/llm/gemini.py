@@ -2,7 +2,8 @@
 
 Role in the pipeline: the only module that talks to the Gemini API, for generation and for embeddings.
 Design: Adapter. It translates the project's `LLMClient` / `Embedder` protocols to the SDK, adds retry
-with backoff, and turns SDK and parsing failures into `LLMResponseError`.
+with backoff, and turns SDK and parsing failures into `LLMResponseError`. Every request, including failed
+attempts and embedding batches, is reported to the listener (Observer) with the usage the API returns.
 Not here: caching (llm/cache.py wraps this class) and prompt construction (each feature owns its prompts).
 """
 
@@ -52,6 +53,7 @@ class GeminiClient:
         last_error: Exception | None = None
         for attempt in range(1, self._max_attempts + 1):
             started = time.perf_counter()
+            response = None  # stays None when the SDK raised before answering: no usage to report
             try:
                 response = self._client.models.generate_content(model=model, contents=prompt, config=config)
                 result = schema.model_validate_json(response.text or "")
@@ -60,8 +62,11 @@ class GeminiClient:
                 # a malformed reply (ValidationError) is retried too, because truncation and safety blocks
                 # are not deterministic even at temperature 0. Everything ends as LLMResponseError below.
                 last_error = e
+                elapsed = time.perf_counter() - started
+                self._report(model, temperature, prompt, f"error: {e}", elapsed, response, ok=False)
             else:
-                self._report(model, temperature, prompt, result, time.perf_counter() - started, response)
+                elapsed = time.perf_counter() - started
+                self._report(model, temperature, prompt, result.model_dump_json(), elapsed, response)
                 return result
             log.warning("LLM call failed (attempt %d/%d): %s", attempt, self._max_attempts, last_error)
             if attempt < self._max_attempts:
@@ -74,25 +79,50 @@ class GeminiClient:
         vectors: list[list[float]] = []
         for start in range(0, len(texts), _EMBED_BATCH_SIZE):
             batch = texts[start : start + _EMBED_BATCH_SIZE]
+            started = time.perf_counter()
             response = self._client.models.embed_content(model=self._embed_model, contents=batch)
             vectors.extend(e.values for e in response.embeddings)
+            if self._listener is not None:
+                # the Gemini API reports no token usage for embeddings, so only count and latency are known
+                self._listener(
+                    LLMCallRecord(
+                        model=self._embed_model,
+                        temperature=0.0,
+                        prompt=f"{len(batch)} texts, {sum(len(t) for t in batch)} chars",
+                        response=f"{len(response.embeddings)} vectors",
+                        latency_s=time.perf_counter() - started,
+                        cache_hit=False,
+                        kind="embed",
+                    )
+                )
         return vectors
 
     def _report(
-        self, model: str, temperature: float, prompt: str, result, latency_s: float, response
+        self,
+        model: str,
+        temperature: float,
+        prompt: str,
+        response_text: str,
+        latency_s: float,
+        response: object | None,  # the SDK's GenerateContentResponse; read with getattr, fields may be absent
+        ok: bool = True,
     ) -> None:
         if self._listener is None:
             return
+        # `candidates_token_count` is the visible answer only; thinking models report their hidden
+        # reasoning separately in `thoughts_token_count`, and both are billed as output
         usage = getattr(response, "usage_metadata", None)
         self._listener(
             LLMCallRecord(
                 model=model,
                 temperature=temperature,
                 prompt=prompt,
-                response=result.model_dump_json(),
+                response=response_text,
                 latency_s=latency_s,
                 cache_hit=False,
+                ok=ok,
                 prompt_tokens=getattr(usage, "prompt_token_count", None),
                 completion_tokens=getattr(usage, "candidates_token_count", None),
+                thinking_tokens=getattr(usage, "thoughts_token_count", None),
             )
         )

@@ -73,24 +73,37 @@ class UsageMeter:
 
     def __init__(self) -> None:
         self._lock = threading.Lock()  # extraction reports from a thread pool
-        self._calls = self._cache_hits = self._prompt_tokens = self._completion_tokens = 0
+        self._calls = self._failures = self._cache_hits = self._embed_calls = 0
+        self._prompt_tokens = self._completion_tokens = self._thinking_tokens = 0
         self._latency_s = 0.0
 
     def add(self, record: LLMCallRecord) -> None:
         with self._lock:
-            self._calls += 1
-            self._cache_hits += int(record.cache_hit)
+            # embedding batches are counted apart, so `llm_calls` keeps meaning "generate requests"
+            if record.kind == "embed":
+                self._embed_calls += 1
+            else:
+                self._calls += 1  # failed attempts included: each one is a request that was sent
+                self._failures += int(not record.ok)
+                self._cache_hits += int(record.cache_hit)
             self._prompt_tokens += record.prompt_tokens or 0
             self._completion_tokens += record.completion_tokens or 0
+            self._thinking_tokens += record.thinking_tokens or 0
             self._latency_s += record.latency_s
 
     def as_metrics(self) -> dict[str, float]:
-        """Metric names are part of the MLflow contract (see the mlflow-tracking skill); keep them stable."""
+        """Metric names are part of the MLflow contract (see the mlflow-tracking skill); keep them stable.
+
+        Billed output tokens are `completion_tokens + thinking_tokens`.
+        """
         with self._lock:
             return {
                 "llm_calls": self._calls,
+                "llm_failures": self._failures,
                 "cache_hits": self._cache_hits,
+                "embed_calls": self._embed_calls,
                 "prompt_tokens": self._prompt_tokens,
                 "completion_tokens": self._completion_tokens,
+                "thinking_tokens": self._thinking_tokens,
                 "llm_latency_s": round(self._latency_s, 3),
             }

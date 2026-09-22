@@ -10,7 +10,7 @@ Not here: any provider SDK (llm/gemini.py) or caching (llm/cache.py).
 
 import hashlib
 from collections.abc import Callable
-from typing import Protocol, TypeVar
+from typing import Literal, Protocol, TypeVar
 
 from pydantic import BaseModel
 
@@ -18,19 +18,27 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class LLMCallRecord(BaseModel):
-    """One completed `generate` call, as reported to a `CallListener`."""
+    """One request to a model (a `generate` attempt or an `embed` batch), as reported to a `CallListener`.
+
+    Failed attempts are reported too (`ok=False`): they cost time and, when the provider answered with a
+    reply that did not fit the schema, tokens.
+    """
 
     model: str
     temperature: float
-    prompt: str
-    response: str  # the parsed result as JSON, so a cached and a live call look the same
+    prompt: str  # for an embedding batch: a short description, not the texts
+    response: str  # the parsed result as JSON (so a cached and a live call look the same), or the error
     latency_s: float
     cache_hit: bool
+    kind: Literal["generate", "embed"] = "generate"
+    ok: bool = True
     prompt_tokens: int | None = None  # None when the provider did not report usage, or on a cache hit
-    completion_tokens: int | None = None
+    completion_tokens: int | None = None  # the visible answer only
+    # Hidden reasoning of thinking models. Billed as output, so cost = completion + thinking tokens.
+    thinking_tokens: int | None = None
 
 
-# Receives every completed call. Must be cheap and must not raise: it runs inside worker threads.
+# Receives every request, successful or not. Must be cheap and must not raise: it runs in worker threads.
 CallListener = Callable[[LLMCallRecord], None]
 
 

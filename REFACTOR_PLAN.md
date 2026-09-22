@@ -99,6 +99,7 @@ design and filling the gaps.
 | R7 | Entity resolution (PLAN 6) | done 2026-09-21: five-step resolver, Strategy matchers, parallel adjudication, snapshot undo |
 | R8 | Validation checks and evaluation harness (PLAN 7) | done 2026-09-21: `validation/` check families, evaluation harness, `kg eval` |
 | R9 | Stage abstraction, runner, thin CLI, docs (PLAN 8) | done 2026-09-21: `pipeline/` Stage + runner, approval pauses, thin CLI, README |
+| R10 | Trustworthy tracking after the first real run; current model defaults | done 2026-09-22: thinking tokens, failed attempts, embedding calls, traces linked from worker threads, guarded run open/close, `git_sha`/`code_version` tags, Gemini 3 defaults |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -174,9 +175,31 @@ Closes A6, A9, D6, remaining E2/E4. Depends on R8.
 - Split tests into `tests/unit` and `tests/integration`; README module map and demo script.
 - **Accept:** clean clone → `uv sync` → `kg run data/` → graph + evaluation report, as PLAN step 8 demands.
 
+### R10. Trustworthy tracking after the first real run; current model defaults
+Found by reviewing the MLflow adapter and by the first `kg run data/` against Gemini (2026-09-22).
+- Token usage left out thinking tokens (`thoughts_token_count`), which are billed as output: on the plan
+  stage they were 2,843 of 3,511 output tokens, so MLflow showed about a fifth of the billed output.
+- Traces of calls made in extraction's worker threads were not attached to any run (MLflow links a trace
+  only to the calling thread's active run); now the innermost open run is set on each trace.
+- Failed attempts and embedding batches were not reported at all; now `llm_failures` and `embed_calls`.
+- Opening or closing a run was not guarded, so a locked store could stop the pipeline.
+- No tag tied a run to its code; now `git_sha` (with `-dirty`) and `code_version` on every run.
+- `gemini-2.5-pro` / `gemini-2.5-flash` return 404 "no longer available to new users"; defaults are now
+  `gemini-3.1-pro-preview` and `gemini-3.8-flash`.
+- **Accept:** unit tests for each item; a live `kg plan` and `kg ingest-text` show `thinking_tokens`,
+  `embed_calls`, the tags, and the plan's two traces under the plan run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Temperature 0 with Gemini 3 (found in R10).** Google recommends temperature 1.0 for Gemini 3 models and
+  warns that lower values can cause looping or degraded answers. The first run at 0 looked fine; changing it
+  is a behaviour change, to be decided by comparing MLflow runs.
+- **First real run, 2026-09-22 (`kg run data/`, Gemini 3.1 Pro + 3.8 Flash).** All 19 checks pass, domain
+  counts match the gold expectations, 171 facts with 100 % verified evidence. Weak for the goal: 70 of 171
+  facts are `Customer LOCATED_IN Location`, `Customer REPORTED Defect` got none, and no text component is
+  linked to a domain `Component`, so a defect cannot be traced to a supplier yet.
 
 Found and fixed during R1 to R9:
 - **Entity merging never worked (fixed in R7).** The APOC call used `collect(o)` as a procedure argument,

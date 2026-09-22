@@ -3,7 +3,8 @@
 Role in the pipeline: built once by the composition root and handed to the pipeline (as `Tracker`) and
 to the LLM adapters (as the call listener).
 Design: Adapter. The only module that imports mlflow. `create_tracker` falls back to `NullTracker` when
-MLflow cannot start, and every logging call is guarded, because tracking must never break a pipeline run.
+MLflow cannot start, and every MLflow call (including opening and closing a run) is guarded, because
+tracking must never break a pipeline run.
 """
 
 import logging
@@ -11,28 +12,36 @@ import threading
 import time
 from collections.abc import Iterator
 from contextlib import contextmanager
+from dataclasses import dataclass
 from pathlib import Path
 
 import mlflow
 
 from ..llm.base import LLMCallRecord
-from .base import NullTracker, Run, Tracker, UsageMeter
+from .base import NullRun, NullTracker, Run, Tracker, UsageMeter
 
 log = logging.getLogger(__name__)
 
 # MLflow rejects param values longer than this (6000 in recent versions; 500 is safe everywhere).
 _MAX_PARAM_CHARS = 500
 
+# The trace metadata key MLflow itself uses to attach a trace to a run. MLflow fills it only from the
+# calling thread's active run, and worker threads have none, so we set it ourselves.
+_SOURCE_RUN_KEY = "mlflow.sourceRun"
 
-def create_tracker(tracking_uri: str, experiment: str) -> Tracker:
-    """Return an `MlflowTracker`, or a `NullTracker` (with one warning) when the store is unusable."""
+
+def create_tracker(tracking_uri: str, experiment: str, tags: dict[str, str] | None = None) -> Tracker:
+    """Return an `MlflowTracker`, or a `NullTracker` (with one warning) when the store is unusable.
+
+    `tags` are put on every run (for example `git_sha`, `code_version`), next to the `stage` tag.
+    """
     try:
         mlflow.set_tracking_uri(tracking_uri)
         mlflow.set_experiment(experiment)
     except Exception as e:  # any store/config problem: degrade to no tracking instead of failing the run
         log.warning("MLflow disabled: %s", e)
         return NullTracker()
-    return MlflowTracker()
+    return MlflowTracker(tags)
 
 
 class MlflowRun:
@@ -52,61 +61,93 @@ class MlflowRun:
         _guarded(mlflow.log_text, content, artifact_path)
 
 
+@dataclass
+class _OpenRun:
+    """A run that is open right now: its id (None when MLflow failed to open it) and its usage meter."""
+
+    run_id: str | None
+    meter: UsageMeter
+
+
 class MlflowTracker:
     """`Tracker` backed by MLflow. Expects `create_tracker` to have selected the store and experiment."""
 
-    def __init__(self) -> None:
-        # Meters of all runs that are open right now (pipeline + current stage). A plain list under a
+    def __init__(self, tags: dict[str, str] | None = None) -> None:
+        self._tags = dict(tags or {})
+        # All runs open right now, outermost first (pipeline, then the current stage). A plain list under a
         # lock, not thread-local state: LLM calls arrive from extraction worker threads, and they must
-        # count towards the stage run that the main thread opened.
-        self._meters: list[UsageMeter] = []
+        # count towards (and be traced under) the runs that the main thread opened.
+        self._open: list[_OpenRun] = []
         self._lock = threading.Lock()
 
     @contextmanager
     def start_run(self, name: str, **params: object) -> Iterator[Run]:
-        nested = mlflow.active_run() is not None
-        meter = UsageMeter()
+        run_id = _open_mlflow_run(name, {**self._tags, "stage": name})
+        run: Run = MlflowRun() if run_id is not None else NullRun()
+        entry = _OpenRun(run_id, UsageMeter())
         started = time.perf_counter()
-        with mlflow.start_run(run_name=name, nested=nested, tags={"stage": name}):
-            run = MlflowRun()
-            run.params(**params)
+        run.params(**params)
+        with self._lock:
+            self._open.append(entry)
+        failed = False
+        try:
+            yield run
+        except BaseException:
+            failed = True
+            raise
+        finally:
+            # logged even when the stage fails, so failed runs still show their cost and duration
             with self._lock:
-                self._meters.append(meter)
-            try:
-                yield run
-            finally:
-                # logged even when the stage fails, so failed runs still show their cost and duration
-                with self._lock:
-                    self._meters.remove(meter)
-                run.metrics(duration_s=round(time.perf_counter() - started, 3), **meter.as_metrics())
+                self._open.remove(entry)
+            run.metrics(duration_s=round(time.perf_counter() - started, 3), **entry.meter.as_metrics())
+            if run_id is not None:
+                _guarded(mlflow.end_run, "FAILED" if failed else "FINISHED")
 
     def record_llm_call(self, record: LLMCallRecord) -> None:
         with self._lock:
-            meters = list(self._meters)
-        for meter in meters:
-            meter.add(record)
-        _guarded(_trace, record)
+            open_runs = list(self._open)
+        for entry in open_runs:
+            entry.meter.add(record)
+        # the innermost open run is the stage that made the call
+        run_id = open_runs[-1].run_id if open_runs else None
+        _guarded(_trace, record, run_id)
 
 
-def _trace(record: LLMCallRecord) -> None:
-    """Write one MLflow Tracing span for a finished call.
+def _open_mlflow_run(name: str, tags: dict[str, str]) -> str | None:
+    """Start a run (nested when another one is active) and return its id, or None if MLflow fails."""
+    try:
+        nested = mlflow.active_run() is not None
+        return mlflow.start_run(run_name=name, nested=nested, tags=tags).info.run_id
+    except Exception as e:  # broad on purpose: a locked or broken store must not stop the pipeline
+        log.warning("MLflow could not open run '%s'; continuing without tracking it: %s", name, e)
+        return None
+
+
+def _trace(record: LLMCallRecord, run_id: str | None) -> None:
+    """Write one MLflow Tracing span for a finished request and attach it to `run_id`.
 
     The span is created after the fact, so its own duration is meaningless; the real latency is an
     attribute. The API key is never part of a record, so nothing secret can end up in a trace.
     """
-    with mlflow.start_span(name="llm.generate", span_type="LLM") as span:
+    with mlflow.start_span(
+        name=f"llm.{record.kind}", span_type="EMBEDDING" if record.kind == "embed" else "LLM"
+    ) as span:
         span.set_inputs({"prompt": record.prompt})
         span.set_outputs({"response": record.response})
         span.set_attributes(
             {
                 "model": record.model,
                 "temperature": record.temperature,
+                "ok": record.ok,
                 "latency_s": record.latency_s,
                 "cache_hit": record.cache_hit,
                 "prompt_tokens": record.prompt_tokens,
                 "completion_tokens": record.completion_tokens,
+                "thinking_tokens": record.thinking_tokens,
             }
         )
+        if run_id is not None:
+            mlflow.update_current_trace(metadata={_SOURCE_RUN_KEY: run_id})
 
 
 def _guarded(fn, *args) -> None:

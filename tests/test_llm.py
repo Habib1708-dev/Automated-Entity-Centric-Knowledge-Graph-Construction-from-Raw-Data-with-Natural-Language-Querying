@@ -61,16 +61,26 @@ def test_prompt_version_is_stable_and_changes_with_the_text():
 
 
 class _FlakyModels:
-    """Stands in for the SDK's `client.models`: fails `failures` times, then returns `text`."""
+    """Stands in for the SDK's `client.models`: fails `failures` times, then returns `text` with `usage`."""
 
-    def __init__(self, failures: int, text: str):
-        self.failures, self.text, self.calls = failures, text, 0
+    def __init__(self, failures: int, text: str, usage: object | None = None):
+        self.failures, self.text, self.usage, self.calls = failures, text, usage, 0
 
     def generate_content(self, **_):
         self.calls += 1
         if self.calls <= self.failures:
             raise ConnectionError("simulated outage")
-        return type("Response", (), {"text": self.text, "usage_metadata": None})()
+        return type("Response", (), {"text": self.text, "usage_metadata": self.usage})()
+
+    def embed_content(self, *, model, contents):
+        vectors = [type("Embedding", (), {"values": [1.0, 0.0]})() for _ in contents]
+        return type("EmbedResponse", (), {"embeddings": vectors})()
+
+
+# The usage fields the Gemini SDK reports for a thinking model
+_USAGE = type(
+    "Usage", (), {"prompt_token_count": 100, "candidates_token_count": 20, "thoughts_token_count": 300}
+)()
 
 
 def _gemini_with(models, listener=None):
@@ -86,12 +96,47 @@ def _gemini_with(models, listener=None):
     return client
 
 
-def test_gemini_retries_then_succeeds_and_reports_the_call():
+def test_gemini_retries_then_succeeds_and_reports_every_attempt():
     records = []
     models = _FlakyModels(failures=2, text='{"text": "ok"}')
     assert _gemini_with(models, records.append).generate("p", Answer, model="m") == Answer(text="ok")
     assert models.calls == 3
-    assert len(records) == 1 and records[0].cache_hit is False
+    # the two outages are reported as failed requests, then the success
+    assert [r.ok for r in records] == [False, False, True]
+    assert "simulated outage" in records[0].response and records[0].prompt_tokens is None
+    assert all(r.cache_hit is False for r in records)
+
+
+def test_gemini_reports_thinking_tokens_apart_from_the_visible_answer():
+    records = []
+    models = _FlakyModels(failures=0, text='{"text": "ok"}', usage=_USAGE)
+    _gemini_with(models, records.append).generate("p", Answer, model="m")
+    assert (records[0].prompt_tokens, records[0].completion_tokens, records[0].thinking_tokens) == (
+        100,
+        20,
+        300,
+    )
+
+
+def test_gemini_reports_the_tokens_of_a_reply_that_did_not_fit_the_schema():
+    import pytest
+
+    from kgbuilder.core.errors import LLMResponseError
+
+    records = []
+    models = _FlakyModels(failures=0, text="not json", usage=_USAGE)
+    with pytest.raises(LLMResponseError):
+        _gemini_with(models, records.append).generate("p", Answer, model="m")
+    # the provider answered and billed each time, so each failed attempt carries its usage
+    assert [r.ok for r in records] == [False] * 3
+    assert sum(r.thinking_tokens for r in records) == 900
+
+
+def test_gemini_reports_each_embedding_batch():
+    records = []
+    vectors = _gemini_with(_FlakyModels(0, ""), records.append).embed(["a", "bb"])
+    assert vectors == [[1.0, 0.0], [1.0, 0.0]]
+    assert len(records) == 1 and records[0].kind == "embed" and records[0].model == "embed-model"
 
 
 def test_gemini_gives_up_with_a_typed_error_on_unparsable_replies():

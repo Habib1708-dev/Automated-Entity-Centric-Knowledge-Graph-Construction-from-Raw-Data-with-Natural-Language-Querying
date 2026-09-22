@@ -8,8 +8,11 @@ arguments and prints the result. Expected failures (`KgBuilderError`) become a m
 Not here: pipeline logic (pipeline/) and anything that talks to the LLM or Neo4j directly.
 """
 
+import logging
+import subprocess
 from collections.abc import Iterator
 from contextlib import contextmanager
+from importlib.metadata import version
 from pathlib import Path
 
 import typer
@@ -28,10 +31,33 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
 
 
+def run_tags() -> dict[str, str]:
+    """Tags put on every MLflow run, so a run can be traced back to the exact code that produced it.
+
+    `git_sha` is left out when git or the repository is not available (an installed package, a zip
+    download); a `-dirty` suffix marks runs made with uncommitted changes, whose code no commit holds.
+    """
+    tags = {"code_version": version("kgbuilder")}
+    try:
+        sha = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True
+        ).stdout.strip()
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=no"],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+        tags["git_sha"] = f"{sha}-dirty" if dirty else sha
+    except (OSError, subprocess.CalledProcessError) as e:
+        logging.getLogger(__name__).info("no git_sha tag: %s", e)
+    return tags
+
+
 def build_context(out: Path) -> PipelineContext:
     """Wire the concrete adapters. Without an API key the context has no LLM; LLM-free stages still work."""
     settings = Settings()
-    tracker = create_tracker(settings.mlflow_tracking_uri, settings.mlflow_experiment)
+    tracker = create_tracker(settings.mlflow_tracking_uri, settings.mlflow_experiment, run_tags())
     llm = embedder = None
     if settings.gemini_api_key:
         # both layers report to the tracker: Gemini its live calls (with token usage), the cache its hits

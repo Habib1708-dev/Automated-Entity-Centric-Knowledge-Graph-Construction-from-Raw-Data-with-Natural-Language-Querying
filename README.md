@@ -84,8 +84,11 @@ src/kgbuilder/
 
 Every stage is one MLflow run; `kg run` is a parent run with nested stage runs. Each run logs the params
 that explain its result (models, temperature, prompt version hashes, chunk sizes, thresholds), metrics
-(counts, rates, rounds, duration, LLM calls, cache hits, tokens, latency), the files written to `out/`,
-the prompt templates, and one trace per LLM call. LLM responses are cached under `.cache/llm`, keyed by
+(counts, rates, rounds, duration, LLM calls and failed attempts, cache hits, embedding calls, latency, and
+tokens: `prompt_tokens`, `completion_tokens` for the visible answer and `thinking_tokens` for the hidden
+reasoning, which is billed as output too), the files written to `out/`, the prompt templates, and one trace
+per LLM request, attached to its stage run. Every run is tagged with `git_sha` (`-dirty` when there were
+uncommitted changes) and `code_version`. LLM responses are cached under `.cache/llm`, keyed by
 model, temperature, prompt and output schema, so reruns are free and reproducible.
 
 To evaluate a change (prompt, model, threshold): run, change one thing, run again, compare the two runs

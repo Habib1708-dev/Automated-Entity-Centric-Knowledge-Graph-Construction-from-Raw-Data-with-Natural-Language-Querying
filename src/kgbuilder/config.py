@@ -13,8 +13,9 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     gemini_api_key: str = ""
-    schema_model: str = "gemini-2.5-pro"
-    extract_model: str = "gemini-2.5-flash"
+    # Gemini 2.5 is closed to new API keys (404 "no longer available to new users") since 2026-09
+    schema_model: str = "gemini-3.1-pro-preview"
+    extract_model: str = "gemini-3.8-flash"
     embed_model: str = "gemini-embedding-001"
     llm_temperature: float = 0.0  # 0 keeps runs comparable and the disk cache meaningful
     llm_max_attempts: int = 3  # retries per call on API errors or unparsable replies
