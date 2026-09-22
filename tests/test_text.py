@@ -1,10 +1,11 @@
-"""Text path: document loading, chunking (sections, oversized cuts, overlap, packing), the text-schema
-proposer with its critic, and the lexical graph round trip (needs Neo4j)."""
+"""Text path: document loading, chunking (sections, oversized cuts, overlap, packing, the document
+context on every chunk), the text-schema proposer with its critic, and the lexical graph round trip
+(needs Neo4j)."""
 
 import pytest
 
 from kgbuilder.llm.refine import Critique
-from kgbuilder.text.chunking import chunk_document
+from kgbuilder.text.chunking import chunk_document, document_context
 from kgbuilder.text.documents import Document, load_documents
 from kgbuilder.text.lexical import read_chunks, write_lexical_graph
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, propose_text_schema
@@ -21,6 +22,21 @@ def test_sections_become_chunks_with_stable_ids():
     chunks = chunk_document(doc(text))
     assert [c.chunk_id for c in chunks] == ["a.md#0", "a.md#1", "a.md#2"]
     assert all(c.text.startswith(f"Review {c.index}") for c in chunks)
+
+
+def test_every_chunk_carries_the_documents_first_heading_as_context():
+    # the heading is in section 0 only; sections 1 and 2 say "it", and the extractor must still be able
+    # to name the product there
+    text = "# Helsingborg Dresser Reviews\n\nScraped from a shop.\n\n---\n\nIt wobbles. " + "x " * 100
+    chunks = chunk_document(doc(text), min_chars=10)
+    assert len(chunks) == 2
+    assert [c.context for c in chunks] == ["Helsingborg Dresser Reviews"] * 2
+    assert "Helsingborg" not in chunks[1].text  # the context is metadata, the chunk text is unchanged
+
+
+def test_context_falls_back_to_the_title_when_there_is_no_heading():
+    assert document_context(doc("no heading here", doc_id="malmo_desk.md")) == "malmo_desk"
+    assert document_context(doc("intro\n\n## Second-level heading\n\nbody")) == "Second-level heading"
 
 
 def test_tiny_sections_are_packed_onto_a_neighbour():
@@ -91,7 +107,8 @@ def test_chunks_read_back_as_written_and_stale_chunks_are_replaced(driver):
     document = doc("\n\n---\n\n".join(f"Review {i}: " + "word " * 60 for i in range(4)))
     fine = chunk_document(document, max_chars=400, min_chars=50)
     assert write_lexical_graph(driver, [document], fine) == 0
-    assert read_chunks(driver) == fine
+    assert read_chunks(driver) == fine  # includes the context: the extractor reads chunks from the graph
+    assert all(c.context == "a" for c in read_chunks(driver))
 
     # re-ingest with settings that produce fewer chunks: the surplus ids must not survive as ghosts
     coarse = chunk_document(document, max_chars=5000, min_chars=800)

@@ -16,6 +16,9 @@ from .documents import Document
 # Public: the sampler (sampling.py) cuts documents at the same places the chunker splits them.
 SECTION_BREAK = re.compile(r"\n\s*(?:---+|\*\*\*+)\s*\n")
 _PARAGRAPH_BREAK = re.compile(r"\n\s*\n")
+# The first markdown heading of a document ("# Helsingborg Dresser Reviews"): the name of what the whole
+# document is about, which the sections after the first one never repeat.
+_FIRST_HEADING = re.compile(r"^\s*#+\s*(.+?)\s*$", re.MULTILINE)
 
 
 class Chunk(BaseModel):
@@ -23,6 +26,16 @@ class Chunk(BaseModel):
     doc_id: str
     index: int  # position within the document, 0-based
     text: str
+    # What the document is about, carried by every chunk. Reviews after the first one say "this dresser",
+    # never the product name, and the extractor may only use names that occur in what it is shown; without
+    # this the same product becomes "dresser" in one chunk and "Helsingborg Dresser" in another.
+    context: str = ""
+
+
+def document_context(doc: Document) -> str:
+    """The document's first heading text, or its title when it has no heading."""
+    match = _FIRST_HEADING.search(doc.text)
+    return match.group(1) if match else doc.title
 
 
 def _split_oversized(section: str, max_chars: int) -> list[str]:
@@ -82,8 +95,9 @@ def chunk_document(
 ) -> list[Chunk]:
     """Split on section rules, cut oversized sections (with optional overlap), then pack tiny pieces.
 
-    A chunk can exceed `max_chars` by up to `overlap_chars` plus one packed neighbour; the limits steer
-    the split, they are not hard guarantees.
+    Every chunk carries the document's context (`document_context`). A chunk can exceed `max_chars` by
+    up to `overlap_chars` plus one packed neighbour; the limits steer the split, they are not hard
+    guarantees.
     """
     sections = [s.strip() for s in SECTION_BREAK.split(doc.text) if s.strip()]
     pieces: list[str] = []
@@ -92,7 +106,8 @@ def chunk_document(
             pieces.append(section)
         else:
             pieces.extend(_with_overlap(_split_oversized(section, max_chars), overlap_chars))
+    context = document_context(doc)
     return [
-        Chunk(chunk_id=f"{doc.doc_id}#{i}", doc_id=doc.doc_id, index=i, text=text)
+        Chunk(chunk_id=f"{doc.doc_id}#{i}", doc_id=doc.doc_id, index=i, text=text, context=context)
         for i, text in enumerate(_pack(pieces, min_chars))
     ]

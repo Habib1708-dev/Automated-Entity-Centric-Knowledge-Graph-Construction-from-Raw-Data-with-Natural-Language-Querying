@@ -115,6 +115,12 @@ design and filling the gaps.
 | R23 | LLM-as-a-judge scoring: judge sheet, verdict file, `kg eval --verdicts`, validated metrics in MLflow | done 2026-09-22: `validation/judge.py` + `gold.py`, `EvaluationError`, stage params/metrics/artifacts, 7 tests |
 | R24 | First judge pass on a quality run; `PART_OF` gold triples | done 2026-09-22: 96 gold triples, pinned plan + schema, validated P/R/F1 1.00/0.71/0.83 vs exact 0.14/0.16/0.15, schema drift found |
 | R25 | `evaluation/` folder: criteria and metric definitions, dated result snapshots | done 2026-09-22: `evaluation/README.md`, `evaluation/results_2026-09-22.md` (assessment of R24's numbers), README pointer. Moved to the git-ignored `docs/evaluation/` the same day (local only); section 6 of the snapshot holds the stage-by-stage root-cause analysis of the recall gap and the recommended steps |
+| R26 | Document context on every chunk: the extractor may name the product the document is about | done 2026-09-22: `Chunk.context` (first heading, else title) stored in the graph, shown as `<document>` in the extraction prompt, accepted by `verify` for names only; 4 tests (144 total); effect measured in R29 |
+| R27 | `PART_OF` derived in code from mention → document → product; removed from the extraction schema | planned 2026-09-22 |
+| R28 | Entity merging must not fold repeated evidence (`mergeRels`) | planned 2026-09-22 |
+| R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | planned 2026-09-22 (needs the user's yes, about $0.13) |
+| R30 | Exhaustive extraction prompt; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
+| R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -491,9 +497,74 @@ Depends on R23 and on the user's yes for one `quality` run (about $0.17, mostly 
   "the holes") and objects are phrased freely; it is kept as the reproducible floor. Limitation: gold and
   verdicts come from the same model family, labelled before the output was opened.
 
+### R26. Document context on every chunk
+Closes finding 3 of the root-cause analysis (`docs/evaluation/results_2026-09-22.md`, section 6): the
+file title is only in chunk 0, so in 39 of 70 chunks the extractor cannot name the product ("dresser",
+"table", "lamp": 23 product entities for 10 products, `er_accuracy` 0.667, the holes question fails).
+- `text/chunking.py`: `Chunk.context`, the document's first markdown heading (else its title), set on
+  every chunk. Chunk ids and chunk text unchanged.
+- `text/lexical.py`: `context` stored on the `Chunk` node and read back by `read_chunks`.
+- `text/extraction.py`: the prompt shows `<document>` above the chunk with a rule to use its proper
+  name for the thing the text refers to generically; `verify` accepts an entity name that occurs in the
+  chunk *or* in the context. Evidence must still be verbatim in the chunk.
+- **Accept:** unit tests for the context (heading, fallback), the verifier and the prompt; the lexical
+  round trip keeps the context. No run: the prompt version changes, so the effect is measured in R29.
+- **Result (met):** 4 new tests (144 total), `ruff check` and `ruff format --check` clean. No run: the
+  prompt version changes (new `prompt_version` on the next extract run), so the effect on product naming,
+  `er_accuracy` and the holes question is measured in R29, not here.
+
+### R27. `PART_OF` derived in code
+Closes finding 2: 76 of 132 raw triples are `PART_OF` although "this part was named in a review about
+this product" is the path Entity ←MENTIONS− Chunk −PART_OF→ Document −ABOUT→ Product, built by code.
+- `resolution/linking.py` (link stage): for every Component or Assembly entity, one `PART_OF` fact per
+  product its documents are about, to the text-graph Product entity of that name (created if missing),
+  with the mention's `chunk_id`, the chunk sentence containing the part name as verbatim `evidence`,
+  and `extractor = "derived"`. `MERGE` on the usual key; metric `part_of_derived`.
+- The three `PART_OF` fact types leave `tests/gold/text_schema.json` (schema version change, noted
+  here); the extraction prompt therefore no longer lists them. Part-to-assembly structure stays in the
+  domain graph (CONTAINS via REFERS_TO).
+- **Accept:** unit tests for sentence picking and the rule (one part in one review → one fact with the
+  right product, chunk and evidence; no ABOUT link → no fact); the 22 gold `PART_OF` triples are still
+  matched by `kg eval` against derived facts (Neo4j test).
+
+### R28. Entity merging must not fold repeated evidence
+Closes finding 4: `apoc.refactor.mergeNodes(..., mergeRels: true)` folded 6 of 132 facts (three reviews
+stating "drawer PART_OF nightstand" became one relationship), against the invariant of
+`text/subject_graph.py` that each statement is separate evidence.
+- `resolution/resolver.py`: merge with `mergeRels: false` and re-create the snapshotted facts on the
+  canonical entity with the chunk-and-evidence `MERGE` key (the code `undo_merges` already has).
+- **Accept:** a Neo4j test that fails before the fix: two facts of one predicate between merged entities
+  from different chunks both survive; `facts` before and after resolve differ only by self-loops.
+
+### R29. Quality run and judge pass after the structural fixes
+Depends on R26–R28 and on the user's yes (about $0.13 for extraction, no cache hits possible).
+- Pinned plan and schema, `build → ingest-text → extract → resolve → link → validate → eval`, judge
+  pass by Claude with the same gold (hash `3c847ee7dec4`), `docs/evaluation/results_<date>.md`.
+- **Accept:** validated and exact-match scores next to the 2026-09-22 snapshot, `er_accuracy`, the five
+  questions, `cost_usd`; the report says which numbers moved and attributes them to R26–R28 only.
+
+### R30. Exhaustive extraction prompt
+Depends on R29 and on the user's yes for one run.
+- `text/extraction.py` prompt: one triple per distinct claim; a sentence listing several defects yields
+  one triple per item; mild or hedged complaints are still defects; a complaint about the product as a
+  whole goes on the product. Nothing else changes.
+- **Accept:** one run, one judge pass, the two eval runs side by side; the report names the prompt
+  versions and says the judge was not used to tune wording between passes.
+
+### R31. Extraction thinking level: `low` against `medium`
+Depends on R30 and on the user's yes for one run (medium costs more; quote the no-cache ceiling).
+- Same prompt and schema as R30, `extract_thinking: medium`; one run, one judge pass.
+- **Accept:** validated recall and `cost_usd` of both levels side by side; the preset keeps the level
+  that the numbers justify.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Mixed line endings in the index (found in R26).** Some committed files are CRLF (`REFACTOR_PLAN.md`,
+  `tests/test_pipeline.py`), most are LF, and there is no `.gitattributes`, so a script that rewrites a
+  file with the platform default turns the whole file into a diff. Each file was restored to its own
+  ending in R26. Open: add `.gitattributes` with `* text=auto eol=lf` and renormalise in one commit.
 
 - **A smoke run on `samples/smoke` extracts no facts (found in R15).** Flash-Lite's text schema copied the
   domain types (Product, Assembly, Part, Supplier, and their relations), which three reviews never state,

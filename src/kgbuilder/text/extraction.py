@@ -3,8 +3,9 @@
 Role in the pipeline: `kg extract`. Input is the stored chunks and the approved `TextSchema`; output is
 accepted triples (written by subject_graph.py) and rejected triples (kept as an artifact for analysis).
 Design: the LLM proposes, code decides. A fact is stored only if its type is in the schema, its evidence
-quote is a verbatim span of the chunk, and both entity names occur in the chunk. This is the project's
-guard against hallucinated facts, and the rejection rate per reason is a logged quality metric.
+quote is a verbatim span of the chunk, and both entity names occur in the chunk or in the document's
+name (the chunk's context). This is the project's guard against hallucinated facts, and the rejection
+rate per reason is a logged quality metric.
 Not here: graph writes (subject_graph.py) and entity merging (resolution/).
 """
 
@@ -20,6 +21,8 @@ from .schema import TextSchema
 
 # "exactly as written" and "verbatim" make code verification possible at all; "never use pronouns" avoids
 # entities called "it"; the explicit permission to return nothing reduces forced, low-quality facts.
+# The <document> line is the chunk's context (chunking.py): a review after the first one says "this
+# dresser", and without the document's name the extractor had to call the product "dresser".
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 
 Allowed entity types:
@@ -30,11 +33,14 @@ Allowed fact types (subject_type -[PREDICATE]-> object_type):
 
 Rules:
 - Use only the entity types and fact types above. Skip anything that does not fit.
-- `subject` and `object` are the entity names exactly as written in the text (or the proper name of the
-  product/thing the text is about when it is named in the chunk). Never use pronouns.
+- `subject` and `object` are the entity names exactly as written in the text. Never use pronouns.
+- The chunk comes from the document named in <document>. When the text refers to the product or thing
+  the document is about with a pronoun or a generic word ("it", "this dresser"), use the proper name
+  from the document name as the entity name.
 - `evidence` must be ONE contiguous quote copied verbatim from the chunk that supports the fact.
 - Extract only what the text states. Do not infer. Return an empty list when nothing qualifies.
 
+<document>{context}</document>
 <chunk id="{chunk_id}">
 {text}
 </chunk>"""
@@ -98,12 +104,17 @@ class ExtractionResult(BaseModel):
         return {reason: sum(r.reason == reason for r in self.rejected) for reason in RejectionReason}
 
 
-def verify(triple: RawTriple, chunk_text: str, schema: TextSchema) -> Rejection | None:
+def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str = "") -> Rejection | None:
     """Return why the triple must be rejected, or None when it is grounded and schema-conformant.
 
-    All comparisons use `norm`, so case, accents, markdown markers and whitespace do not cause rejections.
+    An entity name must occur in the chunk or in `context` (the document's name, which the prompt shows);
+    the evidence quote must occur in the chunk itself. All comparisons use `norm`, so case, accents,
+    markdown markers and whitespace do not cause rejections.
     """
     text = norm(chunk_text)
+    # the document name is a legitimate source of a name, never of a quote: a quote proves a claim
+    # was made in this chunk, and the document name makes no claims
+    names_source = text + " " + norm(context)
     subject, obj, evidence = norm(triple.subject), norm(triple.object), norm(triple.evidence)
     if not schema.allows(triple.subject_type, triple.predicate, triple.object_type):
         fact_type = f"{triple.subject_type} -[{triple.predicate}]-> {triple.object_type}"
@@ -120,10 +131,10 @@ def verify(triple: RawTriple, chunk_text: str, schema: TextSchema) -> Rejection 
     if subject == obj:
         return Rejection(reason=RejectionReason.SELF_REFERENCE, detail="subject equals object")
     for role, name, normalised in (("subject", triple.subject, subject), ("object", triple.object, obj)):
-        if normalised not in text:
+        if normalised not in names_source:
             return Rejection(
                 reason=RejectionReason.ARGUMENT_NOT_IN_CHUNK,
-                detail=f"{role} '{name}' does not appear in the chunk",
+                detail=f"{role} '{name}' does not appear in the chunk or the document name",
             )
     return None
 
@@ -136,6 +147,7 @@ def build_prompt(chunk: Chunk, schema: TextSchema) -> str:
             f"- {f.subject_type} -[{f.predicate}]-> {f.object_type}: {f.description}"
             for f in schema.fact_types
         ),
+        context=chunk.context,
         chunk_id=chunk.chunk_id,
         text=chunk.text,
     )
@@ -151,7 +163,7 @@ def extract_chunk(
     seen: set[tuple[str, str, str, str]] = set()
     for raw in reply.triples:
         triple = Triple(**raw.model_dump(), chunk_id=chunk.chunk_id)
-        rejection = verify(raw, chunk.text, schema)
+        rejection = verify(raw, chunk.text, schema, chunk.context)
         if rejection:
             rejected.append(Rejected(triple=triple, reason=rejection.reason, detail=rejection.detail))
             continue

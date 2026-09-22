@@ -47,7 +47,7 @@ def write_lexical_graph(
         driver.execute_query(
             "UNWIND $rows AS r MATCH (d:Document {doc_id: r.doc_id}) "
             "MERGE (c:Chunk {chunk_id: r.chunk_id}) "
-            "SET c.index = r.index, c.text = r.text, c.doc_id = r.doc_id "
+            "SET c.index = r.index, c.text = r.text, c.doc_id = r.doc_id, c.context = r.context "
             # FOREACH-as-IF: only set the vector when we have one, so a run without embeddings does
             # not erase vectors from an earlier run
             "FOREACH (_ IN CASE WHEN r.embedding IS NULL THEN [] ELSE [1] END | "
@@ -82,7 +82,8 @@ def write_lexical_graph(
 def read_chunks(driver: Driver) -> list[Chunk]:
     """All stored chunks, ordered by document and position: the single source of truth after ingestion."""
     records, _, _ = driver.execute_query(
-        "MATCH (c:Chunk) RETURN c.chunk_id AS chunk_id, c.doc_id AS doc_id, c.index AS index, c.text AS text "
-        "ORDER BY doc_id, index"
+        "MATCH (c:Chunk) RETURN c.chunk_id AS chunk_id, c.doc_id AS doc_id, c.index AS index, "
+        # chunks written before the context existed have none; an empty context is a chunk without one
+        "c.text AS text, coalesce(c.context, '') AS context ORDER BY doc_id, index"
     )
     return [Chunk(**r.data()) for r in records]

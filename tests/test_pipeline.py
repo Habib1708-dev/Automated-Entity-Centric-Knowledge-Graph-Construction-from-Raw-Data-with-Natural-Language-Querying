@@ -13,7 +13,8 @@ from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import ReviewDeclinedError
 from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
-from kgbuilder.text.extraction import ChunkExtraction, RawTriple, RejectionReason, verify
+from kgbuilder.text.chunking import Chunk
+from kgbuilder.text.extraction import ChunkExtraction, RawTriple, RejectionReason, build_prompt, verify
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 
 from .fakes import RecordingTracker, ScriptedLLM
@@ -148,6 +149,25 @@ def test_verify_rejects_ungrounded_and_off_schema():
     assert reason(object="cracks") == RejectionReason.ARGUMENT_NOT_IN_CHUNK
     assert reason(object="") == RejectionReason.EMPTY_ARGUMENT
     assert reason(object="TABLE") == RejectionReason.SELF_REFERENCE
+
+
+def test_verify_accepts_a_name_from_the_document_context_but_never_a_quote_from_it():
+    text = "It wobbles badly."
+    named = triple("Gothenburg Table", "wobbles", "It wobbles")
+    assert verify(named, text, SCHEMA).reason == RejectionReason.ARGUMENT_NOT_IN_CHUNK
+    assert verify(named, text, SCHEMA, context="Gothenburg Table Reviews") is None
+    # the document name is metadata, not a statement: it cannot serve as evidence
+    quoted = triple("Gothenburg Table", "wobbles", "Gothenburg Table Reviews")
+    assert verify(quoted, text, SCHEMA, context="Gothenburg Table Reviews").reason == (
+        RejectionReason.EVIDENCE_NOT_VERBATIM
+    )
+
+
+def test_extraction_prompt_shows_the_document_context_above_the_chunk():
+    chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="It wobbles.", context="Malmo Desk Reviews")
+    prompt = build_prompt(chunk, SCHEMA)
+    assert "<document>Malmo Desk Reviews</document>" in prompt
+    assert prompt.index("<document>") < prompt.index('<chunk id="r.md#1">')
 
 
 def test_text_schema_validation():
