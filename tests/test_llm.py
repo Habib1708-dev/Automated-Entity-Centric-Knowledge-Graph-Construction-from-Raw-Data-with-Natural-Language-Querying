@@ -158,3 +158,72 @@ def test_gemini_without_key_is_unavailable():
 
     with pytest.raises(LLMUnavailableError):
         GeminiClient("", "embed-model")
+
+
+def _ollama(handler, listener=None):
+    """An OllamaClient whose HTTP requests go to `handler` instead of a server."""
+    import httpx
+
+    from kgbuilder.llm.ollama import OllamaClient
+
+    http = httpx.Client(base_url="http://ollama.test", transport=httpx.MockTransport(handler))
+    return OllamaClient("unused", "embed-model", num_ctx=16384, backoff_s=0, listener=listener, http=http)
+
+
+def test_ollama_asks_for_the_schema_without_thinking_in_a_large_window_and_reports_usage():
+    import json
+
+    import httpx
+
+    sent, records = [], []
+
+    def handler(request):
+        sent.append(json.loads(request.content))
+        return httpx.Response(
+            200, json={"message": {"content": '{"text": "ok"}'}, "prompt_eval_count": 12, "eval_count": 5}
+        )
+
+    assert _ollama(handler, records.append).generate("p", Answer, model="qwen") == Answer(text="ok")
+    body = sent[0]
+    assert body["format"] == Answer.model_json_schema() and body["think"] is False
+    assert body["options"] == {"temperature": 0.0, "num_ctx": 16384}
+    assert (records[0].prompt_tokens, records[0].completion_tokens, records[0].ok) == (12, 5, True)
+
+
+def test_ollama_retries_a_server_error_and_reports_the_failed_attempt():
+    import httpx
+
+    replies = iter(
+        [
+            httpx.Response(500, text="model loading"),
+            httpx.Response(200, json={"message": {"content": '{"text": "ok"}'}}),
+        ]
+    )
+    records = []
+    assert _ollama(lambda _: next(replies), records.append).generate("p", Answer, model="m").text == "ok"
+    assert [r.ok for r in records] == [False, True]
+
+
+def test_ollama_embeds_in_batches_and_reports_each_one():
+    import json
+
+    import httpx
+
+    def handler(request):
+        texts = json.loads(request.content)["input"]
+        return httpx.Response(200, json={"embeddings": [[0.5, 0.5] for _ in texts], "prompt_eval_count": 3})
+
+    records = []
+    assert _ollama(handler, records.append).embed(["a", "b"]) == [[0.5, 0.5], [0.5, 0.5]]
+    assert records[0].kind == "embed" and records[0].prompt_tokens == 3
+
+
+def test_the_composition_root_builds_the_configured_provider():
+    from kgbuilder.cli import build_provider
+    from kgbuilder.config import Settings
+    from kgbuilder.llm.ollama import OllamaClient
+
+    # _env_file=None: the developer's own .env must not decide what this test sees
+    ollama = Settings(_env_file=None, llm_provider="ollama")
+    assert isinstance(build_provider(ollama, lambda _: None), OllamaClient)
+    assert build_provider(Settings(_env_file=None, gemini_api_key=""), lambda _: None) is None

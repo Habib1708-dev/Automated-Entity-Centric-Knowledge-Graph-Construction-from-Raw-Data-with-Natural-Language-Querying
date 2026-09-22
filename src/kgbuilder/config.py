@@ -5,6 +5,7 @@ Every field that influences a result must also be logged as an MLflow param by t
 """
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -12,7 +13,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
+    # "ollama" runs a local model for free smoke runs that check the code, not the method's quality;
+    # SCHEMA_MODEL / EXTRACT_MODEL / EMBED_MODEL then name Ollama models (see README)
+    llm_provider: Literal["gemini", "ollama"] = "gemini"
     gemini_api_key: str = ""
+    ollama_url: str = "http://localhost:11434"
+    # context window per Ollama request, in tokens: must hold the longest prompt (the plan prompt is
+    # about 8,000) plus the answer, or Ollama cuts the prompt without an error
+    ollama_num_ctx: int = 16384
     # Gemini 2.5 is closed to new API keys (404 "no longer available to new users") since 2026-09.
     # Flash for schema work too, to keep development runs cheap (~4x cheaper than Pro per token); set
     # SCHEMA_MODEL=gemini-3.1-pro-preview for runs whose results are reported.

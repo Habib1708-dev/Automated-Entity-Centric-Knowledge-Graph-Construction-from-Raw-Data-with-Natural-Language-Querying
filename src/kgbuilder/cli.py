@@ -20,8 +20,10 @@ import typer
 from .config import Settings
 from .core.errors import KgBuilderError
 from .graph.connection import open_driver
+from .llm.base import CallListener
 from .llm.cache import CachedLLM
 from .llm.gemini import GeminiClient
+from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import stages as st
 from .tracking.mlflow_tracker import create_tracker
@@ -54,20 +56,32 @@ def run_tags() -> dict[str, str]:
     return tags
 
 
+def build_provider(settings: Settings, listener: CallListener) -> GeminiClient | OllamaClient | None:
+    """The LLM adapter named by `llm_provider`, or None when Gemini is chosen but has no API key."""
+    if settings.llm_provider == "ollama":
+        return OllamaClient(
+            settings.ollama_url,
+            settings.embed_model,
+            settings.ollama_num_ctx,
+            settings.llm_max_attempts,
+            listener=listener,
+        )
+    if not settings.gemini_api_key:
+        return None
+    return GeminiClient(
+        settings.gemini_api_key, settings.embed_model, settings.llm_max_attempts, listener=listener
+    )
+
+
 def build_context(out: Path) -> PipelineContext:
-    """Wire the concrete adapters. Without an API key the context has no LLM; LLM-free stages still work."""
+    """Wire the concrete adapters. Without a provider the context has no LLM; LLM-free stages still work."""
     settings = Settings()
     tracker = create_tracker(settings.mlflow_tracking_uri, settings.mlflow_experiment, run_tags())
     llm = embedder = None
-    if settings.gemini_api_key:
-        # both layers report to the tracker: Gemini its live calls (with token usage), the cache its hits
-        gemini = GeminiClient(
-            settings.gemini_api_key,
-            settings.embed_model,
-            settings.llm_max_attempts,
-            listener=tracker.record_llm_call,
-        )
-        llm, embedder = CachedLLM(gemini, settings.cache_dir, tracker.record_llm_call), gemini
+    # both layers report to the tracker: the provider its live calls (with token usage), the cache its hits
+    provider = build_provider(settings, tracker.record_llm_call)
+    if provider is not None:
+        llm, embedder = CachedLLM(provider, settings.cache_dir, tracker.record_llm_call), provider
     # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
     driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
     return PipelineContext(

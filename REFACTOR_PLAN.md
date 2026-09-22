@@ -101,6 +101,7 @@ design and filling the gaps.
 | R9 | Stage abstraction, runner, thin CLI, docs (PLAN 8) | done 2026-09-21: `pipeline/` Stage + runner, approval pauses, thin CLI, README |
 | R10 | Trustworthy tracking after the first real run; current model defaults | done 2026-09-22: thinking tokens, failed attempts, embedding calls, traces linked from worker threads, guarded run open/close, `git_sha`/`code_version` tags, Gemini 3 defaults |
 | R11 | Scoped linking of text entities to the domain graph | done 2026-09-22: plan `name_column` (code rejects code-like columns), matching inside the document's product neighbourhood, recomputed links; defect → part → supplier now answerable (entities linked 9 → 17) |
+| R12 | Local LLM provider (Ollama) for free smoke runs | done 2026-09-22: `llm/ollama.py`, shared retry loop `llm/retry.py`, `LLM_PROVIDER` setting; full local run on `data/` for $0 |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -215,10 +216,28 @@ to a part or supplier.
   | R11, LLM chose `assembly_name` | 14 | 12 | 1 | 14 |
   | R11, with the code check | 17 | 17 | 1 | 19 |
 
+### R12. Local LLM provider (Ollama) for free smoke runs
+Asked for to test that the code works without paying for Gemini; not for quality results.
+- `llm/retry.py`: the retry, parse and report loop moved out of the Gemini adapter (behaviour kept, its
+  tests unchanged and green), so both providers share it.
+- `llm/ollama.py`: `/api/chat` with the pydantic JSON schema as `format`, `think: false`, an explicit
+  `num_ctx` (Ollama silently cuts prompts at its default window), token usage from `prompt_eval_count` /
+  `eval_count`; `/api/embed` in batches. httpx only, no SDK.
+- `LLM_PROVIDER`, `OLLAMA_URL`, `OLLAMA_NUM_CTX` settings; `build_provider` in the composition root.
+- **Accept (met):** unit tests with an httpx MockTransport; a real run with `qwen2.5:7b-instruct` +
+  `nomic-embed-text` in the `kgbuilder-smoke` experiment. The plan stage stopped after 3 invalid
+  proposals (code gate), so the reviewed plan was used and every other stage ran: 19/19 checks pass,
+  70 extract traces linked to their run, 69 facts stored and 285 rejected (off-schema 158, evidence not
+  verbatim 107, argument not in chunk 20), extract 22 minutes, cost $0. `qwen3.5:4b` broke the JSON.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
+- **The vector index keeps its first dimension (found in R12).** `chunk_embeddings` was created with 3,072
+  dimensions by a Gemini run; `kg reset` deletes nodes but not indexes, so the 768-dim Ollama vectors are
+  silently not indexed. Harmless today (nothing queries the index), but `kg reset` should drop the index,
+  or the index name should include the embedding model.
 - **Profile samples are not deterministic (found in R11).** `profiler.py` takes `SELECT DISTINCT ... LIMIT 5`
   without `ORDER BY`, so the samples, and therefore the plan prompt, differ between runs: the plan is never
   served from the cache and runs are not exactly reproducible. Fix with an `ORDER BY` and a test.

@@ -38,6 +38,36 @@ SCHEMA_MODEL=gemini-3.1-pro-preview uv run kg run data/ --goal "..."           #
 In PowerShell the variable stays set for the rest of that terminal session; `Remove-Item Env:SCHEMA_MODEL`
 switches back.
 
+### Free smoke runs with a local model (Ollama)
+
+To check that the pipeline *works* without paying for API calls, run it on a local model with
+[Ollama](https://ollama.com). Small local models are much weaker than Gemini, so the resulting graph says
+nothing about the quality of the method: use this for plumbing checks only, never for reported results.
+
+```
+ollama pull qwen2.5:7b-instruct ; ollama pull nomic-embed-text      # once
+$env:LLM_PROVIDER="ollama"; $env:SCHEMA_MODEL="qwen2.5:7b-instruct"; $env:EXTRACT_MODEL="qwen2.5:7b-instruct"
+$env:EMBED_MODEL="nomic-embed-text"; $env:MLFLOW_EXPERIMENT="kgbuilder-smoke"
+uv run kg reset ; uv run kg run data/ --goal "supply chain root cause analysis"
+```
+
+- `qwen2.5:7b-instruct` follows the JSON schemas reliably; `qwen3.5:4b` did not (it thinks at length and
+  then breaks the JSON). The adapter always sends `think: false` and a 16k-token context window
+  (`OLLAMA_NUM_CTX`), because Ollama silently cuts longer prompts.
+- The separate MLflow experiment keeps smoke runs out of the real results; the LLM cache never mixes
+  providers because its key contains the model name.
+- A 7B model usually cannot design a valid construction plan: `kg run` then stops at the plan stage
+  (the code gate working as intended). Continue with the reviewed plan and run the stages one by one:
+
+  ```
+  copy tests\gold\domain_plan.json out\plan.json
+  uv run kg build data/ ; uv run kg ingest-text data/ ; uv run kg text-schema --goal "..."
+  uv run kg extract ; uv run kg resolve ; uv run kg link ; uv run kg validate
+  ```
+
+  On an 8 GB laptop GPU this takes about 25 minutes (Ollama answers one request at a time), and about
+  80 % of the extracted facts are rejected by the evidence checks, against 0 % with Gemini.
+
 Stages can also be run one at a time, with human review points in between:
 
 ```
