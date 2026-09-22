@@ -119,7 +119,7 @@ design and filling the gaps.
 | R27 | `PART_OF` derived in code from mention → document → product; removed from the extraction schema | done 2026-09-22: `FactType.derived`, `resolution/derivation.py` in the link stage (`facts_derived` metric, `extractor: derived`), `core/identity.py`, reference schema updated; 3 tests (147 total); effect measured in R29 |
 | R28 | Entity merging must not fold repeated evidence (`mergeRels`) | done 2026-09-22: `mergeRels: false`, exact repeats (same type, ends, chunk, quote) and doubled mentions removed explicitly, `duplicate_facts_removed` metric; test failed before the fix (2 facts folded to 1), 148 tests |
 | R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | done 2026-09-22: run **$0.07** (extract `fc26bfe4`, 70 paid calls), judge pass by Claude Fable 5.1, eval `0002b0c0`: validated P/R/F1 1.00/0.77/0.87 (from 1.00/0.71/0.83), exact 0.35/0.28/0.31 (from 0.14/0.16/0.15), gold corrections 40 → 11; `docs/evaluation/results_2026-09-22_r29.md` |
-| R30 | Exhaustive extraction prompt; one run, one judge pass | in progress 2026-09-22: prompt version `f19abd49dec8` committed (was `63b4a11c5b95`); the run and judge pass wait for the user's yes |
+| R30 | Exhaustive extraction prompt; one run, one judge pass | done 2026-09-22: prompt `f19abd49dec8`, run **$0.085** (extract `b1fa5eec`), judge pass, eval `d9ce6ed8`: validated P/R/F1 **1.00/1.00/1.00** (strict 0.99 / 0.96; from 1.00/0.77/0.87), `vague_rate` 0.064, gold corrections 23; `docs/evaluation/results_2026-09-22_r30.md` |
 | R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
 | R32 | Derivation reuses the product entity that resolution merged under another spelling | done 2026-09-22 (before R30): `existing_entities` lookup by name or alias, `entity_id` only as fallback; 1 test (149 total, 5 blocked by a Windows policy, see Found along the way) |
 
@@ -583,6 +583,17 @@ Depends on R29 and on the user's yes for one run.
   `63b4a11c5b95` → `f19abd49dec8`. One wording test. The wording was written from the R29 miss analysis,
   not adjusted against the judge. Part 2 (the run, the judge pass, the snapshot) follows the user's yes.
   The run will also carry R32 (deterministic, one product entity), which the report will say.
+- **Part 2 (done):** user's yes given in the session; same procedure as R29 (`kg reset`, pinned plan and
+  schema, build → ingest-text → extract → resolve → link → validate → eval, `--preset quality`). Extract
+  `b1fa5eec`: 91 facts (R29: 60), 0 rejected, 58 634 / 8 278 / 2 617 tokens, **$0.085**; resolve 6 cache
+  hits; link `b479311e` 49 `PART_OF` derived, 0 entities created (R32 works). Judge pass
+  (`tests/gold/judge_verdicts_2026-09-22_r30.json`, hash `8c9ed01361ac`, gold `3c847ee7dec4`): 140 facts
+  in scope, 35 exact, 105 judged, all `SUPPORTED`, 9 vague; gold found 27 + 69 = **96 of 96**. Validated
+  P/R/F1 **1.000 / 1.000 / 1.000** (R29: 1.000 / 0.771 / 0.871); strict readings 0.990 (without the one
+  predicate-tolerant match) and 0.958 (also without three matches on the generic subject "parts").
+  Exact-match F1 0.265 (R29 0.314: longer objects, larger denominator). `vague_rate` 0.064 (from 0):
+  six subjective complaints entered the graph, listed among the 23 gold corrections. The eval runs
+  `0002b0c0` (R29) and `d9ce6ed8` (R30) stand side by side in MLflow with their prompt versions.
 
 ### R31. Extraction thinking level: `low` against `medium`
 Depends on R30 and on the user's yes for one run (medium costs more; quote the no-cache ceiling).
@@ -606,6 +617,14 @@ carry a known duplicate; R30's report says so.
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **15 of 70 extraction traces lost to the pandas policy block (found in R30).** MLflow's trace export
+  thread imports pandas; the blocked DLL made some exports fail (`FileNotFoundError ... pandas.libs`),
+  so run `b1fa5eec` has 55 traces. Usage metrics are complete (counted in-process). Same fix as above.
+- **The exhaustive rule lets subjective complaints in (found in R30).** "feels kinda cheap", "materials
+  feel cheap", "wood feels kinda lightweight" are stated by the reviews (judged `SUPPORTED`, flagged vague)
+  but the schema's Defect type excludes subjective complaints. Candidate: "a hedged *physical* complaint".
+  Decide with the goal in mind; not a step yet.
 
 - **Windows Smart App Control blocks pandas's `sparse` extension (found in R32, 2026-09-22 18:39).**
   `pandas._libs.sparse...pyd` fails to load with "An Application Control policy has blocked this file"
