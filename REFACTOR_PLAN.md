@@ -118,7 +118,7 @@ design and filling the gaps.
 | R26 | Document context on every chunk: the extractor may name the product the document is about | done 2026-09-22: `Chunk.context` (first heading, else title) stored in the graph, shown as `<document>` in the extraction prompt, accepted by `verify` for names only; 4 tests (144 total); effect measured in R29 |
 | R27 | `PART_OF` derived in code from mention → document → product; removed from the extraction schema | done 2026-09-22: `FactType.derived`, `resolution/derivation.py` in the link stage (`facts_derived` metric, `extractor: derived`), `core/identity.py`, reference schema updated; 3 tests (147 total); effect measured in R29 |
 | R28 | Entity merging must not fold repeated evidence (`mergeRels`) | done 2026-09-22: `mergeRels: false`, exact repeats (same type, ends, chunk, quote) and doubled mentions removed explicitly, `duplicate_facts_removed` metric; test failed before the fix (2 facts folded to 1), 148 tests |
-| R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | planned 2026-09-22 (needs the user's yes, about $0.13) |
+| R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | done 2026-09-22: run **$0.07** (extract `fc26bfe4`, 70 paid calls), judge pass by Claude Fable 5.1, eval `0002b0c0`: validated P/R/F1 1.00/0.77/0.87 (from 1.00/0.71/0.83), exact 0.35/0.28/0.31 (from 0.14/0.16/0.15), gold corrections 40 → 11; `docs/evaluation/results_2026-09-22_r29.md` |
 | R30 | Exhaustive extraction prompt; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
 | R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
 
@@ -555,6 +555,19 @@ Depends on R26–R28 and on the user's yes (about $0.13 for extraction, no cache
   pass by Claude with the same gold (hash `3c847ee7dec4`), `docs/evaluation/results_<date>.md`.
 - **Accept:** validated and exact-match scores next to the 2026-09-22 snapshot, `er_accuracy`, the five
   questions, `cost_usd`; the report says which numbers moved and attributes them to R26–R28 only.
+- **Result (met):** user's yes given in the session; `kg reset`, pinned plan and schema (R27 version),
+  build → ingest-text → extract → resolve → link → validate → eval with `--preset quality`. Extract
+  `fc26bfe4`: 60 facts (no `PART_OF` asked), 0 rejected, 49 674 / 5 810 / 2 662 tokens, **$0.069**;
+  resolve `df856359` $0.002, 6 merges, 0 facts folded; link `91472b1a` 36 `PART_OF` derived. Judge pass
+  (`tests/gold/judge_verdicts_2026-09-22_r29.json`, hash `f5c738def4d9`, same gold `3c847ee7dec4`):
+  96 facts in scope, 34 exact, 62 judged, all `SUPPORTED`; gold found 27 + 47 = 74 of 96. Validated
+  P/R/F1 **1.000 / 0.771 / 0.871** (baseline 1.000 / 0.708 / 0.829); exact-match 0.354 / 0.281 / 0.314
+  (baseline 0.143 / 0.156 / 0.149); gold corrections 11 (from 40); `er_accuracy` 0.667 and
+  `question_accuracy` 0.8 unchanged (both for reasons in the snapshot's findings); 19/19 checks. Recall:
+  11 gold facts newly found, 5 newly lost (all in the bookshelf file: prompt change reshuffles borderline
+  claims), net +6. Three judge decisions disclosed in the snapshot (two predicate-tolerant matches, one
+  subject generalisation); without them recall is 0.740. 12 of the 22 remaining misses are hedged
+  wording, the target of R30.
 
 ### R30. Exhaustive extraction prompt
 Depends on R29 and on the user's yes for one run.
@@ -573,6 +586,19 @@ Depends on R30 and on the user's yes for one run (medium costs more; quote the n
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Derivation re-creates an entity that resolution absorbed (found in R29).** Resolve merged
+  "Västerås Bookshelf" into "Västerås Bookshelves" (longer name canonical); the derivation looked the
+  product up by `entity_id(Product, name)`, found no node under that id and created it again: 11 product
+  entities for 10 products. Fix in its own step (R32): find an existing entity of the object type whose
+  name or aliases contain the product name before creating one; test with a merged product.
+- **`er_accuracy` scores absence as "not merged" (found in R29).** Three of the four failing gold pairs
+  name an entity the graph does not contain at all ("drawer rail", "dimmer", "predrilled holes"). For the
+  next gold version: score a pair only when both names exist, or report "not extracted" apart.
+- **The misaligned-holes gold question depends on the old naming (found in R29).** Its Cypher wants a
+  Defect entity named with "hole"; the extractor now names the part "pre-drilled holes" and the defect
+  "didn't line up". Through the Component name the question returns all six expected products. Gold
+  correction candidate for the next gold version; not changed in the judging step.
 
 - **Mixed line endings in the index (found in R26).** Some committed files are CRLF (`REFACTOR_PLAN.md`,
   `tests/test_pipeline.py`), most are LF, and there is no `.gitattributes`, so a script that rewrites a
