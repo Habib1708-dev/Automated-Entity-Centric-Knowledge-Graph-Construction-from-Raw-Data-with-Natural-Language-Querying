@@ -184,7 +184,9 @@ in the MLflow UI on the stage metrics and on `validate` / `eval`.
 ```
 
 Every section is optional. Give `doc_id` and label those documents exhaustively: precision is computed
-only over facts from labelled documents. Question Cypher runs in a read-only transaction.
+only over facts from labelled documents. A triple may carry `evidence`, the verbatim sentence it rests
+on. Question Cypher runs in a read-only transaction. The committed reference set for `data/` is
+`tests/gold/text_gold.json` (all 10 review files, labelled by Claude, not by hand; see its `_comment`).
 
 ## Development
 

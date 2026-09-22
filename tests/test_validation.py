@@ -1,7 +1,8 @@
-"""Evaluation scoring as pure functions, the gold file formats, and the check families plus read-only
-question answering against Neo4j."""
+"""Evaluation scoring as pure functions, the gold file formats, the committed gold set's integrity against
+the corpus it labels, and the check families plus read-only question answering against Neo4j."""
 
 import json
+from pathlib import Path
 
 import pytest
 from neo4j.exceptions import Neo4jError
@@ -21,6 +22,9 @@ from kgbuilder.validation.evaluate import (
 )
 from kgbuilder.validation.report import CheckOutput
 from kgbuilder.validation.validator import validate_graph
+
+ROOT = Path(__file__).parent.parent
+TEXT_GOLD = ROOT / "tests" / "gold" / "text_gold.json"
 
 
 def fact(
@@ -85,6 +89,28 @@ def test_gold_file_may_be_a_bare_triple_list_or_sections(tmp_path):
     )
     assert len(load_gold(tmp_path / "list.json").triples) == 1
     assert len(load_gold(tmp_path / "full.json").er_pairs) == 1
+
+
+def test_committed_gold_quotes_the_corpus_verbatim():
+    """The gold set is only checkable if every label points at a sentence that really is in its document,
+    and it is only a precision baseline if every document it names is labelled once, without repeats."""
+    gold = load_gold(TEXT_GOLD)
+    documents = {
+        doc: (ROOT / "data" / doc).read_text(encoding="utf-8") for doc in {t.doc_id for t in gold.triples}
+    }
+
+    assert set(documents) == {
+        f"product_reviews/{p.name}" for p in (ROOT / "data" / "product_reviews").glob("*.md")
+    }, "every review file is labelled (precision is computed over labelled documents only)"
+    for triple in gold.triples:
+        assert triple.evidence, triple
+        assert triple.evidence in documents[triple.doc_id], f"quote not found verbatim: {triple}"
+        assert triple.predicate.isupper(), triple.predicate
+    keys = [(t.subject, t.predicate, t.object, t.doc_id) for t in gold.triples]
+    assert len(keys) == len(set(keys)), "a claim is labelled twice"
+
+    assert all(p.a != p.b for p in gold.er_pairs)
+    assert all(q.expected and q.cypher.lstrip().upper().startswith("MATCH") for q in gold.questions)
 
 
 @pytest.mark.neo4j

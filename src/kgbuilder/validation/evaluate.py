@@ -6,11 +6,13 @@ Design: pure scoring functions over `StoredFact` lists, so they are unit-tested 
 `run_questions` and `evaluate` touch the database.
 
 Gold file format (every section optional; a bare list is read as `triples`):
-    {"triples":   [{"subject": "...", "predicate": "HAS_PROBLEM", "object": "...", "doc_id": "a.md"}],
+    {"triples":   [{"subject": "...", "predicate": "HAS_PROBLEM", "object": "...", "doc_id": "a.md",
+                    "evidence": "the sentence the fact comes from"}],
      "er_pairs":  [{"a": "Table", "b": "Tables", "same": true}],
      "questions": [{"question": "...", "cypher": "MATCH ... RETURN x", "expected": ["..."]}]}
 Precision is only meaningful over text that was labelled exhaustively. When gold triples carry
 `doc_id`, precision is computed over facts from those documents only; label whole documents.
+The committed gold set is `tests/gold/text_gold.json`; a test keeps its quotes verbatim in the corpus.
 """
 
 import json
@@ -28,6 +30,9 @@ class GoldTriple(BaseModel):
     predicate: str
     object: str
     doc_id: str | None = None
+    # the verbatim sentence the label rests on: lets a reader check the label without re-reading the
+    # document; not used by the scoring, which compares names only
+    evidence: str | None = None
 
 
 class GoldPair(BaseModel):

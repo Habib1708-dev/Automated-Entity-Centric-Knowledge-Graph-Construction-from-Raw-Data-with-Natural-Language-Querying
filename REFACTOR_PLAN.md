@@ -111,7 +111,7 @@ design and filling the gaps.
 | R19 | Subsets built from config: a `sample` block per preset and `kg sample` | done 2026-09-22: `sampling.py` follows the profiler's foreign keys; the regenerated `samples/` equal the committed ones; drift test |
 | R20 | Cost in one place: a price table and a `cost_usd` metric per run | done 2026-09-22: `prices.yaml`, per-model tokens in `UsageMeter`, `cost_usd` on every run; docs point to presets.yaml, prices.yaml and MLflow |
 | R21 | Evaluation rules: gold set written by Claude, Claude as the LLM judge | done 2026-09-22: `evaluation` skill, CLAUDE.md section 5, run-policy and tracking pointers, R22/R23 planned |
-| R22 | Gold set for 2 to 3 review files, written before seeing output | planned |
+| R22 | Gold set for all 10 review files, written before seeing output | done 2026-09-22: `tests/gold/text_gold.json` (74 triples, 12 ER pairs, 5 questions, verbatim evidence), `GoldTriple.evidence`, integrity test |
 | R23 | Judge verdict file, `validation/judge.py`, `kg eval --verdicts`, judge metrics | planned |
 
 ### R1. Tooling, shared core, file headers
@@ -413,14 +413,27 @@ any gold or verdict exists, so the order "label first, look at output second" is
   makes the thesis state that limitation and lists the two mitigations (label before looking; every gold
   correction reported).
 
-### R22. Gold set for 2 to 3 review files
+### R22. Gold set for all 10 review files
 Closes D5 (as a Claude-labelled reference set, not a human one). Depends on R21 and an approved
-`out/text_schema.json` from a quality run.
+`out/text_schema.json` from a quality run. Widened from "2 to 3 files" to all 10 on 2026-09-22: the
+corpus is four pages, 3 files would give about 25 facts (one fact = 4 points of precision, pure noise),
+and Claude labels, so the time argument for a subset no longer holds.
 - `tests/gold/text_gold.json`: every fact in the chosen files, `doc_id`, schema predicate, `evidence`.
 - `GoldTriple.evidence` (optional) in `validation/evaluate.py`; a test that every committed gold triple's
   evidence is a substring of its document.
 - **Accept:** `kg eval tests/gold/text_gold.json` runs against the current graph and logs exact-match
   scores; the step report confirms no extraction output was opened before labelling.
+- **Result (met, `kg eval` deferred):** 74 triples (42 `HAS_DEFECT`, 21 `EXHIBITS_FAILURE`,
+  8 `IMPEDES_ASSEMBLY_OF`, 3 `CAUSES_FAILURE`), 12 ER pairs, 5 goal questions (drawer rails → supplier
+  through the domain graph and through the text graph; wobbling, misaligned holes, squeaking products),
+  from the schema of quality run `f55a8747` (its `text_schema.json` artifact hash equals `out/`). Labelled
+  from the review text alone; `out/triples.jsonl` and `rejected.jsonl` were not opened. Rules in the
+  file's `_comment`: only defects, failures and assembly-impeding defects; praise, taste, instructions and
+  assembly time are not facts; `PART_OF` not labelled (implied, never stated). Helsingborg Dresser holds
+  21 of the 74 facts, Stockholm Chair 1: the corpus is skewed and every rate needs its `n`. The integrity
+  test found all 74 quotes verbatim. `kg eval` against the graph was not run: the Neo4j tests wipe the
+  database, so the quality graph must be rebuilt first (a `quality` run, mostly cache hits; needs the
+  user's yes), which R23 does together with the first judge pass.
 
 ### R23. Judge verdicts and scoring
 Depends on R22 and on a quality run's `out/`.
@@ -490,9 +503,13 @@ Found and fixed during R1 to R9:
 - The LLM cache wrote files non-atomically under a thread pool, and its key ignored temperature (fixed in R2).
 
 Still open (need a human or an API key, so they were not done):
-- **Gold set for `data/` (D5).** The harness and the file format exist (`kg eval`, README), but the
-  labels depend on the approved `out/text_schema.json`. Decided 2026-09-22: Claude writes it (R22) and
-  judges against it (R23), under the `evaluation` skill; no human labels.
+- **Gold set for `data/` (D5).** Done in R22 as a Claude-labelled reference set (`tests/gold/text_gold.json`);
+  the judge pass against it is R23. No human labels exist, and the thesis must say so.
+- **`PART_OF` facts and exact-match precision (found in R22).** The gold labels no `PART_OF` (a review
+  implies that its parts belong to its product, it never states it), but the extractor produces them (51 of
+  171 facts in R14). Exact-match precision therefore counts every `PART_OF` fact as wrong. Decide in R23:
+  either the judge scores them as `supported` from context, or `score_triples` ignores predicates absent
+  from the gold; report which.
 - **A full `kg run data/` against Gemini** to check the new MLflow params, traces and token metrics in
   the UI. Everything LLM-free was run on `data/`; the LLM stages were verified with `ScriptedLLM` only.
 - Embedding candidates for ER are implemented but off (`er_embedding_candidates = 0`); choose the
