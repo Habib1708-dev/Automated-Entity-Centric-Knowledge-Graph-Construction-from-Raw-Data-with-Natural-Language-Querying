@@ -106,7 +106,7 @@ design and filling the gaps.
 | R14 | A goal-neutral text schema prompt | done 2026-09-22: example list removed (it invited reviewers and locations), goal-question rule for proposer and critic, `facts_touching_domain_rate`; MLflow comparison mixed, accuracy left to the gold set |
 | R15 | Small data subsets for smoke and dev; smoke on a free Gemini key | done 2026-09-22: `samples/smoke`, `samples/dev`, `data_dir` and `gemini_key` settings, optional `DATA_DIR` argument; a run on the smoke subset costs $0.012 on the paid key |
 | R16 | Thinking level per role; quality preset on Gemini 3.8 Flash | done 2026-09-22: `schema_thinking` / `extract_thinking`, `ThinkingLLM` decorator; a quality run costs $0.17 instead of $1.25, 19/19 checks |
-| R17 | Run policy: when and how often any pipeline run may happen | planned |
+| R17 | Run policy: when and how often any pipeline run may happen | done 2026-09-22: `run-policy` skill (default no run, one smoke/dev run per step, quality only with agreement, cost in every report); CLAUDE.md and skills point to it |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -344,6 +344,11 @@ Rules only, no code limits (user decision).
 - A `run-policy` skill: which change justifies which run, preset order (tests, then smoke, then dev,
   quality only when the user asks), at most one smoke or dev run per step, cost stated in every report.
 - CLAUDE.md section 1 and the `implement-step` skill point to it.
+- **Result (met):** `.claude/skills/run-policy/SKILL.md` (local, like every skill): preset table with
+  measured costs, a change-to-run table, the quality agreement rule, a per-step budget, how to run cheaply
+  (`kg reset` after the tests, no data directory with smoke/dev) and the prices for cost reports.
+  CLAUDE.md (section 1, the MLflow rule and the skill table), `implement-step` and `mlflow-tracking`
+  point to it. No code change, so no run (tests and ruff unchanged).
 
 ## Found along the way
 

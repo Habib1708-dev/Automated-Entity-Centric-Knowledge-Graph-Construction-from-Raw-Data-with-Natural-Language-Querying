@@ -27,14 +27,12 @@ That must not happen again.
   it in its own step (or a clearly separated commit), with a test that fails before the fix.
 - **No speculative code.** Do not add features, options, abstractions or files that the current step
   does not need. No dead code, no commented-out code, no TODOs without a roadmap entry.
-- **Pipeline runs only after a meaningful change.** Runs that call an LLM cost money and time, so a
-  slight update is proven by `uv run pytest` and `uv run ruff check` alone. Run the pipeline (whole or one
-  stage) only when the change can alter the graph or its numbers: a prompt, a model, a threshold, the
-  logic of a stage, the plan or schema models, or before results are reported. Not after docs, comments,
-  renames, test-only or tooling changes, small fixes, or refactors the tests fully cover. When a run is
-  needed, use the cheapest preset that answers the question (`smoke` or `dev` to see that the code works,
-  `quality` only for comparisons and reported numbers), prefer a single stage to a full run, and say in
-  the report which run was made, or why none was.
+- **Pipeline runs are rare and follow the `run-policy` skill.** Runs cost money, free quota and time, so
+  the default is no run: `uv run pytest` and `uv run ruff check` prove docs, refactors, small fixes and
+  anything the tests cover. `smoke` and `dev` run on small subsets (`samples/`) with a cheap model and only
+  show that the code works; at most one such run per step. `quality` runs on the whole dataset and is
+  started only with the user's agreement, for comparisons and reported numbers. Every report names the
+  runs made and their cost, or says why none was made.
 - One commit per step, message `step N: <what>`, only after the gate is green. Never chain the commit
   after the checks with `;` or behind a pipe that hides their exit code.
 
@@ -90,9 +88,9 @@ Details live in the `mlflow-tracking` skill. The invariants:
 - Every LLM call is **traced** (prompt, response, model, latency, cache hit or miss).
 - All MLflow access goes through the `Tracker` protocol in `tracking/`. A new stage without tracking is
   an incomplete stage. Tracking failures must never break the pipeline (Null Object fallback).
-- Any change to a prompt, model or threshold is evaluated by comparing MLflow runs before and after (with
-  the `quality` preset when the comparison is about quality), and the comparison is mentioned in the step
-  report.
+- Any change to a prompt, model or threshold is evaluated by comparing MLflow runs before and after, and
+  the comparison is mentioned in the step report. A comparison about quality needs a `quality` run, which
+  is proposed with its estimated cost and made only with the user's agreement (`run-policy` skill).
 
 ## 5. Commands
 
@@ -114,6 +112,7 @@ uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's datas
 | `project-organization` | creating, moving or renaming a file; deciding where code belongs |
 | `code-quality` | writing or reviewing any code; choosing a pattern; writing comments |
 | `mlflow-tracking` | adding or changing a stage, an LLM call, a metric, a prompt or a threshold |
+| `run-policy` | before any pipeline run (any preset); deciding whether a change needs one at all |
 | `reply-style` | writing any reply to the user (always: simple language, explain the why, end with a summary) |
 
 Skill files live in `.claude/skills/` and are git-ignored: they exist only in the local checkout.
