@@ -23,6 +23,9 @@ from .schema import TextSchema
 # entities called "it"; the explicit permission to return nothing reduces forced, low-quality facts.
 # The <document> line is the chunk's context (chunking.py): a review after the first one says "this
 # dresser", and without the document's name the extractor had to call the product "dresser".
+# The "be exhaustive" rule (R30) answers the judge pass of 2026-09-22: with only "skip" rules the model
+# kept one or two claims per sentence, dropped the third item of a list and skipped hedged complaints
+# ("a bit thin", "feels flimsy"); 12 of 22 missed reference facts were of that kind.
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 
 Allowed entity types:
@@ -33,6 +36,12 @@ Allowed fact types (subject_type -[PREDICATE]-> object_type):
 
 Rules:
 - Use only the entity types and fact types above. Skip anything that does not fit.
+- Be exhaustive: one triple per distinct claim. A sentence that lists several defects or failures
+  ("rough edges, uneven surfaces, and they don't match each other's dimensions") gives one triple per
+  item. A mild or hedged complaint ("a bit thin", "feels flimsy", "lighter than I expected", "a bit
+  stiff") is still a defect or failure. A complaint about the product as a whole ("it scratches easily")
+  goes on the product. A defect that complicates assembly is also a defect of the part or product that
+  has it: state both facts.
 - `subject` and `object` are the entity names exactly as written in the text. Never use pronouns.
 - The chunk comes from the document named in <document>. When the text refers to the product or thing
   the document is about with a pronoun or a generic word ("it", "this dresser"), use the proper name

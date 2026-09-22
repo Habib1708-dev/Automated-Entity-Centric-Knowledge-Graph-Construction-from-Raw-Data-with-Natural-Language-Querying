@@ -190,6 +190,13 @@ def test_derived_fact_types_are_hidden_from_the_extractor_and_rejected_if_it_ret
     assert derived.allows("Problem", "PART_OF", "Product")  # a stored derived fact still conforms
 
 
+def test_extraction_prompt_asks_for_every_claim_and_for_hedged_complaints():
+    # R30: the deterministic part of the change is the wording; its effect is measured by a judge pass
+    chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="It wobbles.", context="Malmo Desk Reviews")
+    prompt = build_prompt(chunk, SCHEMA)
+    assert "one triple per distinct claim" in prompt and "hedged complaint" in prompt
+
+
 def test_extraction_prompt_shows_the_document_context_above_the_chunk():
     chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="It wobbles.", context="Malmo Desk Reviews")
     prompt = build_prompt(chunk, SCHEMA)
