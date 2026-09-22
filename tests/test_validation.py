@@ -131,3 +131,18 @@ def test_checks_report_a_damaged_graph_and_custom_families_plug_in(driver):
 
     custom = validate_graph(driver, None, None, checks=[AlwaysFails()])
     assert [c.name for c in custom.checks] == ["custom: plugged in"] and custom.metrics == {"custom": 1.0}
+
+
+def test_facts_touching_the_domain_graph_are_measured(driver):
+    # two facts: the defect of a linked part touches the domain graph, the reviewer's city does not
+    driver.execute_query(
+        "CREATE (p:Part {part_id: 'S1'}), (c:Chunk {chunk_id: 'k1', text: 'x'}), "
+        "(rails:Entity {id: '1', name: 'rails', type: 'Component'})-[:REFERS_TO]->(p), "
+        "(rough:Entity {id: '2', name: 'rough', type: 'Issue'}), "
+        "(anna:Entity {id: '3', name: '@anna', type: 'Customer'}), "
+        "(oslo:Entity {id: '4', name: 'Oslo', type: 'Location'}), "
+        "(rails)-[:HAS_ISSUE {chunk_id: 'k1', evidence: 'x'}]->(rough), "
+        "(anna)-[:LOCATED_IN {chunk_id: 'k1', evidence: 'x'}]->(oslo)"
+    )
+    report = validate_graph(driver, plan=None, schema=None)
+    assert report.metrics["facts_touching_domain_rate"] == 0.5

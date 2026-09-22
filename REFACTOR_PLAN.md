@@ -103,6 +103,7 @@ design and filling the gaps.
 | R11 | Scoped linking of text entities to the domain graph | done 2026-09-22: plan `name_column` (code rejects code-like columns), matching inside the document's product neighbourhood, recomputed links; defect → part → supplier now answerable (entities linked 9 → 17) |
 | R12 | Local LLM provider (Ollama) for free smoke runs | done 2026-09-22: `llm/ollama.py`, shared retry loop `llm/retry.py`, `LLM_PROVIDER` setting; full local run on `data/` for $0 |
 | R13 | Model presets (`presets.yaml`): smoke, dev, quality | done 2026-09-22: preset settings source between environment and `.env`, `kg --preset`, `preset` tag on every run; dev run measured at $0.06 |
+| R14 | A goal-neutral text schema prompt | done 2026-09-22: example list removed (it invited reviewers and locations), goal-question rule for proposer and critic, `facts_touching_domain_rate`; MLflow comparison mixed, accuracy left to the gold set |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -242,9 +243,41 @@ Asked for to keep test runs cheap: two cheap presets for checking the pipeline a
   file; CLI tests for an unknown preset and the tag. A full `kg --preset dev run data/` cost $0.057 in about
   30 seconds, 19/19 checks, 167 facts extracted and 18 rejected, plan accepted in round 2.
 
+### R14. A goal-neutral text schema prompt
+The strong models extracted every reviewer and their city (70 of ~150 facts). The proposer prompt caused
+it: its only example list was "products, parts, problems, materials, locations, people/roles".
+- Decision (with the user): the system must represent any kind of data, so no domain-specific exclusion
+  rule ("leave out authors / locations") was added. Instead the example list was removed; types come from
+  the goal, the domain graph and the text, and each fact type must answer a question of the goal. The
+  critic asks the same. Nothing is lost: the text stays in the lexical graph for another schema.
+- New descriptive metric `facts_touching_domain_rate` (validate): share of facts with an end linked to the
+  domain graph. Not a target: 0 for text-only data, and a goal may rightly want unlinked facts.
+- **Comparison** (same plan, `dev` preset with `SCHEMA_MODEL=gemini-3.1-pro-preview`, one run each; the
+  before schema was rejected by the critic after 3 rounds and accepted by hand to extract):
+
+  | | before (prompt 33bc13d3f026) | after (prompt c8f4a6d96e5a) |
+  |---|---|---|
+  | schema | rejected after 3 rounds | accepted in round 2 |
+  | entity types | +Customer, Location, Process, Material | +Assembly (domain reuse), UseCondition, Reviewer |
+  | facts / `LOCATED_IN` | 296 / 69 | 184 / 0 |
+  | reviewer facts (REVIEWED, REPORTED) | 111 (38 %) | 110 (60 %) |
+  | defect facts on a part (Component, Assembly) | 27 | 15 |
+  | `facts_touching_domain_rate` | 0.301 | 0.321 |
+  | text schema stage cost | $0.26 (6 calls) | $0.11 (4 calls) |
+
+  Result: mixed. Locations are gone and the schema reuses the domain's Assembly, but reviewer facts
+  remain and fewer defects are tied to a part. One run per side cannot separate the prompt from LLM
+  variance, and without a gold set neither side can be called more accurate. The neutral prompt is kept
+  on principle (no domain bias); its effect on accuracy is measured once the gold set exists (next step).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Plan and text schema share one model setting (found in R14).** `SCHEMA_MODEL` drives both, so testing a
+  stronger text-schema model also changes (and pays for) the plan. Split into `PLAN_MODEL` if it matters.
+- **Single runs are too noisy to judge a prompt (found in R14).** Fact counts moved by a third between
+  prompts on one run each. Prompt comparisons need the gold set, and ideally two or three runs per side.
 
 - **LLM requests had no time limit (found in R14, fixed in its own commit).** A `gemini-3.1-pro-preview`
   plan request stalled and the run waited 62 minutes: the SDK's default timeout is none, so no error was

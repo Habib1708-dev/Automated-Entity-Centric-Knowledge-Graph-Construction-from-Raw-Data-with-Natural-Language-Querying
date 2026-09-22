@@ -51,4 +51,13 @@ class SubjectConsistencyCheck:
         out.metrics["entities_linked_to_domain"] = ctx.scalar(
             "MATCH (e:Entity)-[:REFERS_TO]->() RETURN count(DISTINCT e)"
         )
+        # Descriptive, not a target: how much of the text knowledge can be joined to the structured data
+        # (a fact with neither end linked, like a reviewer LOCATED_IN a city, cannot). Always 0 for text-only
+        # data, and a goal may rightly want unlinked facts, so never optimise a prompt for this number alone.
+        # Only facts count, not REFERS_TO itself, which points from an entity to a domain node.
+        touching = ctx.scalar(
+            "MATCH (s:Entity)-[r]->(o:Entity) "
+            "WHERE (s)-[:REFERS_TO]->() OR (o)-[:REFERS_TO]->() RETURN count(r)"
+        )
+        out.metrics["facts_touching_domain_rate"] = round(touching / len(facts), 3) if facts else 0.0
         return out

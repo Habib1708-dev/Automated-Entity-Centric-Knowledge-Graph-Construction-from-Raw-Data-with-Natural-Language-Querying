@@ -53,7 +53,11 @@ class TextSchema(BaseModel):
 
 
 # The domain graph summary is passed in so that a type like "Assembly" keeps the meaning it has in the
-# structured data. The exclusions (ratings, dates, adjectives) are the types models over-produce on reviews.
+# structured data. The prompt names no example entity types on purpose: the system must work for any data,
+# and an example list steers the model. Until R14 it listed "products, parts, problems, materials, locations,
+# people/roles", and the stronger models then extracted every reviewer and their city (70 of ~150 facts on
+# data/). Relevance is decided by the goal alone, which the user states per run; the text stays in the
+# lexical graph, so facts a schema leaves out can still be extracted later under another goal.
 PROMPT = """You design the schema for extracting knowledge from unstructured text into a knowledge graph.
 
 <goal>
@@ -72,9 +76,10 @@ Representative text chunks:
 </chunks>
 
 Rules:
-- Propose entity types that are things a reader would want as nodes (products, parts, problems, materials,
-  locations, people/roles...). Do not make types for ratings, dates or generic adjectives.
-- Propose fact types as (subject_type, PREDICATE, object_type) that appear in the text and serve the goal.
+- Derive the entity types from the goal, the domain graph and the text: things the goal's questions are
+  about. Do not make types for ratings, dates or generic adjectives.
+- Propose fact types as (subject_type, PREDICATE, object_type) that appear in the text and serve the goal:
+  for each one, you should be able to name a question of the goal that it helps answer.
 - Every fact type must reference only entity types you defined. Keep both lists small and precise
   (at most 12 entity types and 20 fact types).
 
@@ -89,6 +94,7 @@ types), so judge only the modeling:
 - Does any entity type clash in meaning with a node of the domain graph that has the same name?
 - Are there fact types the sample text clearly supports and the goal needs, but that are missing?
 - Are there fact types the sample text gives no evidence for?
+- Is there a fact type that answers none of the goal's questions?
 
 Reply "retry" only for problems that would change the schema; otherwise "valid".
 
