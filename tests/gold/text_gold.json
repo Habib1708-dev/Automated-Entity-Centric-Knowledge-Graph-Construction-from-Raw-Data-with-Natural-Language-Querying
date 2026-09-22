@@ -6,8 +6,9 @@
     "Component, Defect, FailureMode; HAS_DEFECT, EXHIBITS_FAILURE, CAUSES_FAILURE, IMPEDES_ASSEMBLY_OF).",
     "Rules: only facts of the schema's types (physical defects, operational failures, defects that impeded",
     "assembly); praise, taste, instructions and assembly time are not facts; the subject is the named component",
-    "when the review names one, else the product's full name; PART_OF is not labelled because a review implies",
-    "it and never states it; one triple per distinct claim per document; `evidence` is a verbatim quote."
+    "when the review names one, else the product's full name; one PART_OF per component a review names, to",
+    "the document's product (added 2026-09-22, before any output was opened: the title plus the sentence",
+    "state it); one triple per distinct claim per document; `evidence` is a verbatim quote."
   ],
   "triples": [
     {"subject": "Gothenburg Table", "predicate": "HAS_DEFECT", "object": "misaligned pre-drilled holes", "doc_id": "product_reviews/gothenburg_table_reviews.md", "evidence": "some of the pre-drilled holes didn't line up properly"},
@@ -92,7 +93,30 @@
     {"subject": "Västerås Bookshelf", "predicate": "HAS_DEFECT", "object": "parts not fitting together", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "some of the parts didn't fit together properly"},
     {"subject": "parts not fitting together", "predicate": "IMPEDES_ASSEMBLY_OF", "object": "Västerås Bookshelf", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "it was a nightmare - took over 3 hours and some of the parts didn't fit together properly"},
     {"subject": "Västerås Bookshelf", "predicate": "EXHIBITS_FAILURE", "object": "wobbles", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "Now that it's built, it wobbles slightly"},
-    {"subject": "back panel", "predicate": "HAS_DEFECT", "object": "thin", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "the back panel is quite thin and feels a bit flimsy"}
+    {"subject": "back panel", "predicate": "HAS_DEFECT", "object": "thin", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "the back panel is quite thin and feels a bit flimsy"},
+
+    {"subject": "drawer rails", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "The biggest issue is with the drawer rails"},
+    {"subject": "drawers", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "don't allow the drawers to slide smoothly"},
+    {"subject": "screws", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "half the screws didn't fit where they were supposed to"},
+    {"subject": "panels", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "several of the panels were warped"},
+    {"subject": "back panel", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "the back panel is basically cardboard"},
+    {"subject": "drawer bottoms", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "the drawer bottoms feel flimsy"},
+    {"subject": "drawer handle", "predicate": "PART_OF", "object": "Helsingborg Dresser", "doc_id": "product_reviews/helsingborg_dresser_reviews.md", "evidence": "One of the drawer handles was scratched right out of the box"},
+    {"subject": "veneer", "predicate": "PART_OF", "object": "Jönköping Coffee Table", "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md", "evidence": "The veneer is extremely thin and already chipping at the corners"},
+    {"subject": "slats", "predicate": "PART_OF", "object": "Linköping Bed", "doc_id": "product_reviews/linkoping_bed_reviews.md", "evidence": "the slats make noise sometimes when i move around at night"},
+    {"subject": "storage drawer", "predicate": "PART_OF", "object": "Linköping Bed", "doc_id": "product_reviews/linkoping_bed_reviews.md", "evidence": "one of the storage drawers no longer opens smoothly"},
+    {"subject": "drawer pull", "predicate": "PART_OF", "object": "Linköping Bed", "doc_id": "product_reviews/linkoping_bed_reviews.md", "evidence": "one of the drawer pulls arrived damaged"},
+    {"subject": "drawer", "predicate": "PART_OF", "object": "Malmö Desk", "doc_id": "product_reviews/malmo_desk_reviews.md", "evidence": "the drawer doesn't open as smoothly as I'd like"},
+    {"subject": "back panel", "predicate": "PART_OF", "object": "Norrköping Nightstand", "doc_id": "product_reviews/norrkoping_nightstand_reviews.md", "evidence": "the back panel is a bit thin"},
+    {"subject": "drawer", "predicate": "PART_OF", "object": "Norrköping Nightstand", "doc_id": "product_reviews/norrkoping_nightstand_reviews.md", "evidence": "the drawer sometimes sticks when i open it too fast"},
+    {"subject": "base", "predicate": "PART_OF", "object": "Örebro Lamp", "doc_id": "product_reviews/orebro_lamp_reviews.md", "evidence": "the base is lighter than i expected"},
+    {"subject": "shade", "predicate": "PART_OF", "object": "Örebro Lamp", "doc_id": "product_reviews/orebro_lamp_reviews.md", "evidence": "the shade which is unevenly colored"},
+    {"subject": "dimmer switch", "predicate": "PART_OF", "object": "Örebro Lamp", "doc_id": "product_reviews/orebro_lamp_reviews.md", "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings"},
+    {"subject": "cushions", "predicate": "PART_OF", "object": "Uppsala Sofa", "doc_id": "product_reviews/uppsala_sofa_reviews.md", "evidence": "the cushions are already losing their shape"},
+    {"subject": "frame", "predicate": "PART_OF", "object": "Uppsala Sofa", "doc_id": "product_reviews/uppsala_sofa_reviews.md", "evidence": "the frame creaks whenever someone sits down"},
+    {"subject": "leg", "predicate": "PART_OF", "object": "Uppsala Sofa", "doc_id": "product_reviews/uppsala_sofa_reviews.md", "evidence": "one of the legs arrived with a small chip"},
+    {"subject": "veneer", "predicate": "PART_OF", "object": "Västerås Bookshelf", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "The veneer is extremely thin and chipped in several places during assembly"},
+    {"subject": "back panel", "predicate": "PART_OF", "object": "Västerås Bookshelf", "doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "evidence": "the back panel is quite thin and feels a bit flimsy"}
   ],
   "er_pairs": [
     {"a": "drawer rails", "b": "metal rails", "same": true},
