@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from kgbuilder.config import Settings, load_preset
+from kgbuilder.config import Settings, load_preset, read_presets, read_prices
 from kgbuilder.core.errors import ConfigurationError
 
 REPO = Path(__file__).resolve().parent.parent
@@ -81,3 +81,23 @@ def test_environment_beats_preset_beats_dotenv(tmp_path, monkeypatch):
     assert settings.schema_model == "from-environment"  # a terminal variable wins for one run
     assert settings.extract_model == "from-preset"  # the preset replaces the model lines of .env
     assert settings.embed_model == "from-dotenv"  # what the preset leaves out still comes from .env
+
+
+def test_the_price_table_is_read_and_a_malformed_one_is_an_error(tmp_path):
+    prices = write(tmp_path / "prices.yaml", "checked: 2026-09-22\nmodels:\n  m: {input: 0.3, output: 2.5}\n")
+    assert read_prices(prices)["m"].output == 2.5
+    assert read_prices(tmp_path / "missing.yaml") is None  # no table: runs log no cost
+    with pytest.raises(ConfigurationError, match="malformed"):
+        read_prices(write(tmp_path / "bad.yaml", "models:\n  m: {input: cheap}\n"))
+
+
+def test_every_model_a_committed_preset_uses_has_a_price():
+    # otherwise its runs would silently log no cost_usd
+    prices = read_prices(REPO / "prices.yaml")
+    models = {
+        values[key]
+        for values in read_presets(REPO_PRESETS).values()
+        for key in ("schema_model", "extract_model")
+        if key in values
+    }
+    assert models <= set(prices), sorted(models - set(prices))

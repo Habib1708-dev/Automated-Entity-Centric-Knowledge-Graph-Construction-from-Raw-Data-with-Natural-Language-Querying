@@ -34,16 +34,16 @@ report, on the whole dataset. Without a directory argument a command reads the p
 preset per command, or set a default with `KG_PRESET=dev` in `.env`:
 
 ```
-uv run kg --preset smoke   run --goal "..."   # samples/smoke, free Gemini key, $0: does the code run?
-uv run kg --preset dev     run --goal "..."   # samples/dev, paid key, ~$0.02: does it run with real Gemini?
-uv run kg --preset quality run --goal "..."   # data/, 3.8 Flash with thinking levels, ~$0.17: reported results
+uv run kg --preset smoke   run --goal "..."   # tiny subset, free Gemini key: does the code run?
+uv run kg --preset dev     run --goal "..."   # small subset, paid key: does it run with real Gemini?
+uv run kg --preset quality run --goal "..."   # the whole dataset, proper models: reported results (asks first)
 ```
 
-| Preset | Models | Dataset | Key | MLflow experiment | Use for |
-|---|---|---|---|---|---|
-| `smoke` | `gemini-3.5-flash-lite` | `samples/smoke/`: 1 product, 10 parts, 3 reviews | free | `kgbuilder-smoke` | code checks only |
-| `dev` | `gemini-3.5-flash-lite` | `samples/dev/`: 3 products, 34 parts, 12 reviews | paid | `kgbuilder-dev` | cheap end-to-end checks |
-| `quality` | `gemini-3.8-flash`, thinking medium (schema) / low (extraction) | `data/` | paid | `kgbuilder` | the numbers in the thesis |
+Everything about a preset lives in [presets.yaml](presets.yaml) and nowhere else: models, thinking levels,
+which key, the dataset and how it is sampled, the MLflow experiment, whether a run needs permission, and
+a one-line description with the expected cost. What a run really cost is the `cost_usd` metric of its
+MLflow run, computed from the token counts and the list prices in [prices.yaml](prices.yaml) (update the
+prices there when Google changes them; a test checks that every preset's models have a price).
 
 Graphs from `smoke` and `dev` say nothing about quality: too little data, a weak model.
 The subsets are described in `presets.yaml`: the `sample` block of a preset names the source, the root

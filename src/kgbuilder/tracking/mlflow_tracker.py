@@ -18,7 +18,7 @@ from pathlib import Path
 import mlflow
 
 from ..llm.base import LLMCallRecord
-from .base import NullRun, NullTracker, Run, Tracker, UsageMeter
+from .base import ModelPrice, NullRun, NullTracker, Run, Tracker, UsageMeter
 
 log = logging.getLogger(__name__)
 
@@ -30,10 +30,16 @@ _MAX_PARAM_CHARS = 500
 _SOURCE_RUN_KEY = "mlflow.sourceRun"
 
 
-def create_tracker(tracking_uri: str, experiment: str, tags: dict[str, str] | None = None) -> Tracker:
+def create_tracker(
+    tracking_uri: str,
+    experiment: str,
+    tags: dict[str, str] | None = None,
+    prices: dict[str, ModelPrice] | None = None,
+) -> Tracker:
     """Return an `MlflowTracker`, or a `NullTracker` (with one warning) when the store is unusable.
 
-    `tags` are put on every run (for example `git_sha`, `code_version`), next to the `stage` tag.
+    `tags` are put on every run (for example `git_sha`, `code_version`), next to the `stage` tag;
+    `prices` (prices.yaml) lets every run log `cost_usd`.
     """
     try:
         mlflow.set_tracking_uri(tracking_uri)
@@ -41,7 +47,7 @@ def create_tracker(tracking_uri: str, experiment: str, tags: dict[str, str] | No
     except Exception as e:  # any store/config problem: degrade to no tracking instead of failing the run
         log.warning("MLflow disabled: %s", e)
         return NullTracker()
-    return MlflowTracker(tags)
+    return MlflowTracker(tags, prices)
 
 
 class MlflowRun:
@@ -72,8 +78,11 @@ class _OpenRun:
 class MlflowTracker:
     """`Tracker` backed by MLflow. Expects `create_tracker` to have selected the store and experiment."""
 
-    def __init__(self, tags: dict[str, str] | None = None) -> None:
+    def __init__(
+        self, tags: dict[str, str] | None = None, prices: dict[str, ModelPrice] | None = None
+    ) -> None:
         self._tags = dict(tags or {})
+        self._prices = prices
         # All runs open right now, outermost first (pipeline, then the current stage). A plain list under a
         # lock, not thread-local state: LLM calls arrive from extraction worker threads, and they must
         # count towards (and be traced under) the runs that the main thread opened.
@@ -84,7 +93,7 @@ class MlflowTracker:
     def start_run(self, name: str, **params: object) -> Iterator[Run]:
         run_id = _open_mlflow_run(name, {**self._tags, "stage": name})
         run: Run = MlflowRun() if run_id is not None else NullRun()
-        entry = _OpenRun(run_id, UsageMeter())
+        entry = _OpenRun(run_id, UsageMeter(self._prices))
         started = time.perf_counter()
         run.params(**params)
         with self._lock:

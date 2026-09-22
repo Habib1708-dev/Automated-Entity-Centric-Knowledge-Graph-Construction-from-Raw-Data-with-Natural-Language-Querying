@@ -19,7 +19,7 @@ from pathlib import Path
 import typer
 from pydantic import ValidationError
 
-from .config import PRESETS_FILE, Settings, read_presets
+from .config import PRESETS_FILE, PRICES_FILE, Settings, read_presets, read_prices
 from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
 from .llm.base import CallListener
@@ -122,7 +122,10 @@ def build_context(out: Path) -> PipelineContext:
     except ValidationError as e:  # a bad value in .env, the environment or a preset
         raise ConfigurationError(str(e)) from e
     tracker = create_tracker(
-        settings.mlflow_tracking_uri, settings.mlflow_experiment, run_tags(settings.kg_preset)
+        settings.mlflow_tracking_uri,
+        settings.mlflow_experiment,
+        run_tags(settings.kg_preset),
+        read_prices(PRICES_FILE),
     )
     llm = embedder = None
     # both layers report to the tracker: the provider its live calls (with token usage), the cache its hits

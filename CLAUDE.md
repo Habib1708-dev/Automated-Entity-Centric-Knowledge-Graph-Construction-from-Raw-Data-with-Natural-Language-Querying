@@ -90,7 +90,8 @@ Details live in the `mlflow-tracking` skill. The invariants:
 
 - **Every pipeline stage is one MLflow run**; a full pipeline is a parent run with nested stage runs.
 - Every run logs **params** (models, temperature, prompt version hash, thresholds, dataset path),
-  **metrics** (counts, rates, rounds, latency, token usage) and **artifacts** (the files written to `out/`).
+  **metrics** (counts, rates, rounds, latency, token usage, `cost_usd` from `prices.yaml`) and **artifacts**
+  (the files written to `out/`).
 - Every LLM call is **traced** (prompt, response, model, latency, cache hit or miss).
 - All MLflow access goes through the `Tracker` protocol in `tracking/`. A new stage without tracking is
   an incomplete stage. Tracking failures must never break the pipeline (Null Object fallback).

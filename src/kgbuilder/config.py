@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
+from pydantic import ValidationError
 from pydantic.fields import FieldInfo
 from pydantic_settings import (
     BaseSettings,
@@ -19,8 +20,10 @@ from pydantic_settings import (
 
 from .core.errors import ConfigurationError
 from .llm.base import ThinkingLevel
+from .tracking.base import ModelPrice
 
 PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `.env`
+PRICES_FILE = Path("prices.yaml")  # model prices for the cost_usd metric
 
 # Keys a preset may hold that are about the preset, not settings: its description, whether a run with it
 # needs the user's permission first (read by .claude/hooks/run_guard.py), and how its data_dir is made
@@ -56,6 +59,20 @@ def read_presets(path: Path) -> dict[str, dict[str, Any]]:
         name: values or {}
         for name, values in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).items()
     }
+
+
+def read_prices(path: Path) -> dict[str, ModelPrice] | None:
+    """The `models` table of prices.yaml; None when the file is missing (runs then log no cost).
+
+    Raises `ConfigurationError` for a malformed file: a typo must not silently change reported costs.
+    """
+    if not path.exists():
+        return None
+    try:
+        models = (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("models") or {}
+        return {name: ModelPrice.model_validate(price) for name, price in models.items()}
+    except (yaml.YAMLError, AttributeError, ValidationError) as e:
+        raise ConfigurationError(f"{path} is malformed: {e}") from e
 
 
 class PresetSettingsSource(PydanticBaseSettingsSource):

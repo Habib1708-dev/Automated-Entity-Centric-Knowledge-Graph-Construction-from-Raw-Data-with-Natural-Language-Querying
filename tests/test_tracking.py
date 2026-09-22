@@ -1,5 +1,5 @@
-"""The tracking port: usage metering, the Null Object, and the MLflow adapter against a temporary store.
-Never touches the project's real mlflow.db."""
+"""The tracking port: usage metering and cost, the Null Object, and the MLflow adapter against a temporary
+store. Never touches the project's real mlflow.db."""
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -7,13 +7,13 @@ import mlflow
 import pytest
 
 from kgbuilder.llm.base import LLMCallRecord
-from kgbuilder.tracking.base import NullTracker, UsageMeter
+from kgbuilder.tracking.base import ModelPrice, NullTracker, UsageMeter
 from kgbuilder.tracking.mlflow_tracker import MlflowTracker, create_tracker
 
 
 def call(cache_hit: bool, prompt_tokens: int | None = None, completion_tokens: int | None = None, **extra):
+    extra = {"model": "m"} | extra  # one default model; cost tests name a second one
     return LLMCallRecord(
-        model="m",
         temperature=0.0,
         prompt="p",
         response="{}",
@@ -41,6 +41,25 @@ def test_usage_meter_totals():
         "thinking_tokens": 30,
         "llm_latency_s": 2.0,
     }
+
+
+PRICES = {"m": ModelPrice(input=1.0, output=10.0), "big": ModelPrice(input=2.0, output=20.0)}
+
+
+def test_cost_is_priced_per_model_and_thinking_is_billed_as_output():
+    meter = UsageMeter(PRICES)
+    meter.add(call(False, 1_000, 100, thinking_tokens=900))  # m: 1000 in, 1000 billed out
+    meter.add(call(False, 500, 50, model="big"))  # big: 500 in, 50 out
+    meter.add(call(True))  # a cache hit costs nothing
+    assert meter.as_metrics()["cost_usd"] == pytest.approx((1_000 * 1 + 1_000 * 10 + 500 * 2 + 50 * 20) / 1e6)
+
+
+def test_no_cost_is_logged_rather_than_a_partial_one():
+    meter = UsageMeter(PRICES)
+    meter.add(call(False, 10, 4))
+    meter.add(call(False, 10, 4, model="unpriced"))
+    assert "cost_usd" not in meter.as_metrics()  # a partial sum would understate the cost
+    assert "cost_usd" not in UsageMeter().as_metrics()  # no price table: no cost at all
 
 
 def test_null_tracker_accepts_everything(tmp_path):
@@ -79,6 +98,16 @@ def test_mlflow_runs_are_nested_and_llm_usage_counts_towards_every_open_run(stor
     assert stage["metrics.llm_calls"] == 1 and stage["metrics.prompt_tokens"] == 10
     assert parent["metrics.llm_calls"] == 2 and parent["metrics.cache_hits"] == 1
     assert stage["metrics.duration_s"] >= 0
+
+
+def test_every_run_logs_its_cost_when_prices_are_given(tmp_path):
+    previous = mlflow.get_tracking_uri()
+    tracker = create_tracker(f"sqlite:///{(tmp_path / 'm.db').as_posix()}", "priced", prices=PRICES)
+    with tracker.start_run("pipeline"), tracker.start_run("extract"):
+        tracker.record_llm_call(call(False, 1_000_000, 0))
+    runs = mlflow.search_runs(experiment_names=["priced"]).set_index("tags.mlflow.runName")
+    mlflow.set_tracking_uri(previous)
+    assert runs.loc["extract", "metrics.cost_usd"] == runs.loc["pipeline", "metrics.cost_usd"] == 1.0
 
 
 def test_stage_metrics_are_logged_even_when_the_stage_fails(store):

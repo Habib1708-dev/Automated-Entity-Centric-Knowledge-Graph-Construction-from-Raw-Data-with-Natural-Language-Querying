@@ -1,0 +1,14 @@
+# Model prices: the single source for the `cost_usd` metric that every MLflow run logs.
+#
+# USD per 1M tokens, standard tier, list price (no cache or batch discount); thinking tokens are billed as
+# output. A model that a run used with tokens but that is missing here makes the run log no `cost_usd`
+# (and a warning), rather than a wrong number. Models that report no tokens (Gemini embeddings) need no line.
+# Update `checked` together with the numbers; `presets.yaml` models must all be listed (a test checks it).
+checked: 2026-09-22 # https://ai.google.dev/gemini-api/docs/pricing
+models:
+  gemini-3.5-flash-lite: {input: 0.30, output: 2.50}
+  gemini-3.8-flash: {input: 0.75, output: 3.75} # output rises to 7.50 in 2027: update then
+  gemini-3.1-pro-preview: {input: 2.00, output: 12.00}
+  # local models through Ollama (LLM_PROVIDER=ollama): no bill
+  qwen2.5:7b-instruct: {input: 0, output: 0}
+  nomic-embed-text: {input: 0, output: 0}

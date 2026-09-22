@@ -109,7 +109,7 @@ design and filling the gaps.
 | R17 | Run policy: when and how often any pipeline run may happen | done 2026-09-22: `run-policy` skill (default no run, one smoke/dev run per step, quality only with agreement, cost in every report); CLAUDE.md and skills point to it |
 | R18 | Permission gate: a comprehensive run needs the user's approval, enforced by a hook | done 2026-09-22: `ask_permission` in presets.yaml, `.claude/hooks/run_guard.py` registered in `.claude/settings.json`, rule in CLAUDE.md and `run-policy`; 18 tests |
 | R19 | Subsets built from config: a `sample` block per preset and `kg sample` | done 2026-09-22: `sampling.py` follows the profiler's foreign keys; the regenerated `samples/` equal the committed ones; drift test |
-| R20 | Cost in one place: a price table and a `cost_usd` metric per run | planned |
+| R20 | Cost in one place: a price table and a `cost_usd` metric per run | done 2026-09-22: `prices.yaml`, per-model tokens in `UsageMeter`, `cost_usd` on every run; docs point to presets.yaml, prices.yaml and MLflow |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -390,6 +390,12 @@ Prices live in a skill and costs were worked out by hand. Move them into config 
   and the MLflow metric.
 - **Accept:** unit tests for the cost formula and the missing-price case; tracking test that the metric
   is logged.
+- **Result (met):** `ModelPrice` in the tracking port; `UsageMeter` sums tokens per model and logs
+  `cost_usd` (list price, thinking as output); an unpriced model gives no number and a warning, never a
+  partial sum. `config.read_prices` (missing file: no cost; malformed: `ConfigurationError`), wired in the
+  composition root. 5 new tests, including one that every model a committed preset uses has a price. The
+  README and `run-policy` no longer repeat models, datasets or prices. No pipeline run: the tests cover the
+  metric end to end with a temporary MLflow store, and nothing that shapes the graph changed.
 
 ## Found along the way
 

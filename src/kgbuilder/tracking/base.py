@@ -7,12 +7,24 @@ so tracking can be switched off (tests, a broken MLflow store) without a single 
 Not here: anything that imports mlflow (tracking/mlflow_tracker.py).
 """
 
+import logging
 import threading
 from contextlib import AbstractContextManager, nullcontext
 from pathlib import Path
 from typing import Protocol
 
+from pydantic import BaseModel, Field
+
 from ..llm.base import LLMCallRecord
+
+log = logging.getLogger(__name__)
+
+
+class ModelPrice(BaseModel):
+    """List price of one model in USD per 1M tokens (prices.yaml). Thinking tokens are billed as output."""
+
+    input: float = Field(ge=0)
+    output: float = Field(ge=0)
 
 
 class Run(Protocol):
@@ -69,13 +81,20 @@ class NullTracker:
 
 
 class UsageMeter:
-    """Thread-safe totals of the LLM calls made while one run was active."""
+    """Thread-safe totals of the LLM calls made while one run was active, and their cost.
 
-    def __init__(self) -> None:
+    `prices` is the table from prices.yaml; without it (None) no cost is computed.
+    """
+
+    def __init__(self, prices: dict[str, ModelPrice] | None = None) -> None:
         self._lock = threading.Lock()  # extraction reports from a thread pool
         self._calls = self._failures = self._cache_hits = self._embed_calls = 0
         self._prompt_tokens = self._completion_tokens = self._thinking_tokens = 0
         self._latency_s = 0.0
+        self._prices = prices
+        # per model, because a price belongs to a model and one run may use several (plan and extraction)
+        self._input_by_model: dict[str, int] = {}
+        self._output_by_model: dict[str, int] = {}  # billed output: visible answer + thinking
 
     def add(self, record: LLMCallRecord) -> None:
         with self._lock:
@@ -90,13 +109,21 @@ class UsageMeter:
             self._completion_tokens += record.completion_tokens or 0
             self._thinking_tokens += record.thinking_tokens or 0
             self._latency_s += record.latency_s
+            input_tokens = record.prompt_tokens or 0
+            output_tokens = (record.completion_tokens or 0) + (record.thinking_tokens or 0)
+            if input_tokens or output_tokens:  # a cache hit or an embedding without usage costs nothing
+                model = record.model
+                self._input_by_model[model] = self._input_by_model.get(model, 0) + input_tokens
+                self._output_by_model[model] = self._output_by_model.get(model, 0) + output_tokens
 
     def as_metrics(self) -> dict[str, float]:
         """Metric names are part of the MLflow contract (see the mlflow-tracking skill); keep them stable.
 
-        Billed output tokens are `completion_tokens + thinking_tokens`.
+        Billed output tokens are `completion_tokens + thinking_tokens`. `cost_usd` (list price, see
+        prices.yaml) is left out when no price table was given or a model that used tokens has no price.
         """
         with self._lock:
+            cost = self._cost()
             return {
                 "llm_calls": self._calls,
                 "llm_failures": self._failures,
@@ -106,4 +133,23 @@ class UsageMeter:
                 "completion_tokens": self._completion_tokens,
                 "thinking_tokens": self._thinking_tokens,
                 "llm_latency_s": round(self._latency_s, 3),
+                **({"cost_usd": round(cost, 6)} if cost is not None else {}),
             }
+
+    def _cost(self) -> float | None:
+        """USD for the tokens so far, or None when it cannot be known. Call with the lock held."""
+        if self._prices is None:
+            return None
+        unpriced = sorted(set(self._input_by_model) - set(self._prices))
+        if unpriced:
+            # a partial sum would look like a real cost and understate it: log no number instead
+            log.warning("no price in prices.yaml for %s: cost_usd not logged", ", ".join(unpriced))
+            return None
+        return sum(
+            (
+                self._input_by_model[m] * self._prices[m].input
+                + self._output_by_model[m] * self._prices[m].output
+            )
+            / 1_000_000
+            for m in self._input_by_model
+        )
