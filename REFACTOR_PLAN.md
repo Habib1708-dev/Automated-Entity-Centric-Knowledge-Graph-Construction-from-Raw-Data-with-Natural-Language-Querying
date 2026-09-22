@@ -113,7 +113,7 @@ design and filling the gaps.
 | R21 | Evaluation rules: gold set written by Claude, Claude as the LLM judge | done 2026-09-22: `evaluation` skill, CLAUDE.md section 5, run-policy and tracking pointers, R22/R23 planned |
 | R22 | Gold set for all 10 review files, written before seeing output | done 2026-09-22: `tests/gold/text_gold.json` (74 triples, 12 ER pairs, 5 questions, verbatim evidence), `GoldTriple.evidence`, integrity test |
 | R23 | LLM-as-a-judge scoring: judge sheet, verdict file, `kg eval --verdicts`, validated metrics in MLflow | done 2026-09-22: `validation/judge.py` + `gold.py`, `EvaluationError`, stage params/metrics/artifacts, 7 tests |
-| R24 | First judge pass on a quality run; `PART_OF` gold triples | planned |
+| R24 | First judge pass on a quality run; `PART_OF` gold triples | done 2026-09-22: 96 gold triples, pinned plan + schema, validated P/R/F1 1.00/0.71/0.83 vs exact 0.14/0.16/0.15, schema drift found |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -467,6 +467,28 @@ Depends on R23 and on the user's yes for one `quality` run (about $0.17, mostly 
   `out/judge_verdicts.json` as the judge (Claude Fable 5.1), `kg eval ... --verdicts`.
 - **Accept:** the eval run shows exact-match and validated scores side by side; the step report gives
   both with `n`, the gold corrections, the run id and its `cost_usd`.
+- **Result (met, with a detour):** gold grown to 96 triples (22 `PART_OF`, own commit, before any sheet
+  was opened). A first `quality` run (`84e5eccf`, **$0.32**, 81 calls, 2 cache hits; the ≤$0.17 estimate
+  assumed cache hits that a changed prompt made impossible) proposed a *different* schema and plan than
+  the gold was built on (see "Found along the way"), so the graph was rebuilt with the pinned
+  `tests/gold/domain_plan.json` and the new `tests/gold/text_schema.json` (the reviewed schema of
+  `f55a8747`): stages `build → link → validate` as runs `55de714a … 5eece5b1`, extract `6d69b626`,
+  **$0.00** (70/70 extraction and 4/4 resolve calls from the cache), 126 facts, 120 entities, 19/19 checks.
+  Judge pass by Claude Fable 5.1 on the 108 facts and 81 gold triples exact matching could not settle
+  (`tests/gold/judge_verdicts_2026-09-22.json`, also an artifact of eval run `9d3e5113`). Numbers,
+  n = 126 facts, 96 gold:
+  exact-match precision 0.143 / recall 0.156 / F1 0.149; **validated precision 1.000 / recall 0.708 /
+  F1 0.829**; ambiguous 1 of 108 (0.9 %), vague 2 (1.6 %), unsupported 0 of every kind; `er_accuracy`
+  0.667 (8 of 12 pairs); `question_accuracy` 0.8 (4 of 5; the drawer-rails → supplier chain answers
+  through the text graph; the misaligned-holes question fails because the extractor makes the holes,
+  not the product, the subject). Reading: the extractor invents nothing (every quote is verbatim and
+  states its fact) but misses 28 of 96 gold facts, 13 of them in the Helsingborg Dresser file, the
+  densest one; 14 misses are `HAS_DEFECT`, 4 `IMPEDES_ASSEMBLY_OF`. 40 gold corrections, all `PART_OF`
+  for parts named only in praise sentences (35 distinct pairs): the gold labelled `PART_OF` only for parts
+  with a defect, the extractor labels every named part, and the document supports both. 70 of the 126
+  facts are `PART_OF`. Exact match understates precision by 0.86 because entity names differ ("table",
+  "the holes") and objects are phrased freely; it is kept as the reproducible floor. Limitation: gold and
+  verdicts come from the same model family, labelled before the output was opened.
 
 ## Found along the way
 
@@ -530,6 +552,18 @@ Found and fixed during R1 to R9:
 Still open (need a human or an API key, so they were not done):
 - **Gold set for `data/` (D5).** Done in R22 as a Claude-labelled reference set (`tests/gold/text_gold.json`);
   the judge pass against it is R23. No human labels exist, and the thesis must say so.
+- **The proposed schema and plan drift between runs (found in R24, 2026-09-22).** A fresh quality run
+  (`84e5eccf`, $0.32) proposed a text schema with `OCCURS_IN` (Defect→Product, the reverse of
+  `HAS_DEFECT`), `EXHIBITS`, `CAUSES`, no `IMPEDES_ASSEMBLY_OF` and no `Assembly` type, and a plan with
+  label `Component` and relationship `PART_OF` instead of `Part` / `CONTAINS`. Same prompts, same model,
+  same data. Exact-match scores against the gold fell to 0.055 / 0.073 and all five questions failed on
+  names alone. Consequence: evaluation runs pin the reviewed plan and schema (`tests/gold/domain_plan.json`,
+  `tests/gold/text_schema.json`, copied into `out/` before `kg build`); the proposal stages are evaluated
+  separately. Open: a schema-stability metric (overlap of a proposed schema with the reviewed one).
+- **`kg eval` without `--preset` logs to the `.env` preset's experiment (found in R24).** `.env` has
+  `KG_PRESET=dev`, so the first eval runs of the quality graph landed in `kgbuilder-dev`. Always give the
+  preset of the graph being scored: `kg --preset quality eval ...`. Open: `kg eval` could refuse when the
+  preset's experiment differs from the one the graph's stage runs are in.
 - **`PART_OF` facts and exact-match precision (found in R22).** The gold labels no `PART_OF` (a review
   implies that its parts belong to its product, it never states it), but the extractor produces them (51 of
   171 facts in R14). Exact-match precision therefore counts every `PART_OF` fact as wrong. Decide in R23:

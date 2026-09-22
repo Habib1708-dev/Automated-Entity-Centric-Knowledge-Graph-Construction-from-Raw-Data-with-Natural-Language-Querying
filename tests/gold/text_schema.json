@@ -1,0 +1,92 @@
+{
+  "entity_types": [
+    {
+      "name": "Product",
+      "description": "A finished furniture item available in the catalog or evaluated by customers, excluding standalone sub-units and replacement parts."
+    },
+    {
+      "name": "Assembly",
+      "description": "An intermediate structural sub-assembly, mechanism, or composite module within a product, excluding single monolithic parts."
+    },
+    {
+      "name": "Component",
+      "description": "An individual physical part, hardware fastener, surface, or discrete piece of a product, excluding assembled multi-piece units."
+    },
+    {
+      "name": "Defect",
+      "description": "A specific physical flaw, dimensional inaccuracy, material defect, or shipping damage, excluding subjective stylistic complaints."
+    },
+    {
+      "name": "FailureMode",
+      "description": "An observable operational breakdown, instability, noise, or functional malfunction experienced during use or assembly, excluding cosmetic wear."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Assembly",
+      "object_type": "Product",
+      "description": "Identifies which product an assembly belongs to, helping determine which product lines are impacted by sub-assembly failures."
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Assembly",
+      "description": "Identifies which assembly contains a specific component, enabling defect localization to intermediate units."
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Product",
+      "description": "Identifies direct product-to-component relationships when intermediate assemblies are not specified, tracing parts to finished goods."
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Component",
+      "object_type": "Defect",
+      "description": "Pinpoints the exact part exhibiting a manufacturing or material defect to isolate supplier quality issues."
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Assembly",
+      "object_type": "Defect",
+      "description": "Associates an intermediate assembly with a physical defect to isolate assembly-level production errors."
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Product",
+      "object_type": "Defect",
+      "description": "Identifies defects reported directly against the product to aggregate defect frequencies across the catalog."
+    },
+    {
+      "predicate": "EXHIBITS_FAILURE",
+      "subject_type": "Product",
+      "object_type": "FailureMode",
+      "description": "Tracks what operational failure symptoms or performance malfunctions are reported for a given product."
+    },
+    {
+      "predicate": "EXHIBITS_FAILURE",
+      "subject_type": "Assembly",
+      "object_type": "FailureMode",
+      "description": "Captures which specific sub-assemblies or mechanisms produce operational failures in the field."
+    },
+    {
+      "predicate": "EXHIBITS_FAILURE",
+      "subject_type": "Component",
+      "object_type": "FailureMode",
+      "description": "Captures functional malfunctions originating from an individual component (such as noise or flickering)."
+    },
+    {
+      "predicate": "CAUSES_FAILURE",
+      "subject_type": "Defect",
+      "object_type": "FailureMode",
+      "description": "Maps a root-cause physical defect directly to the observable operational malfunction experienced by the user."
+    },
+    {
+      "predicate": "IMPEDES_ASSEMBLY_OF",
+      "subject_type": "Defect",
+      "object_type": "Product",
+      "description": "Identifies which component or material defects prevent or complicate the proper assembly of the finished product."
+    }
+  ]
+}

@@ -1,0 +1,1603 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1",
+  "date": "2026-09-22",
+  "run_id": "6d69b626 (extract) / 5eece5b1 (validate); pinned plan and text schema of f55a8747",
+  "git_sha": "6b409b7"
+ },
+ "gold": "tests/gold/text_gold.json",
+ "facts": [
+  {
+   "id": "0192431ca592",
+   "subject": "surface",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches pretty easily",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 27,
+   "reason": "review 3 says the surface scratches easily; the surface is the table's, same claim as gold 27",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop"
+  },
+  {
+   "id": "cc359d0df1d9",
+   "subject": "surface",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "the document is about the Jönköping Coffee Table and names its surface",
+   "evidence": "I appreciate the thoughtful engineering of the Jönköping Coffee Table. The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time. The surface employs a multi-layer finish"
+  },
+  {
+   "id": "3d2c27664cd7",
+   "subject": "surface",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "same part, named in review 1",
+   "evidence": "Assembly was straightforward and took about 30 minutes. The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear."
+  },
+  {
+   "id": "0a5cc004f1f7",
+   "subject": "surface",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "same part, named in review 6",
+   "evidence": "Taking off one star because the surface shows fingerprints easily and requires frequent cleaning, but otherwise very satisfied with this purchase!"
+  },
+  {
+   "id": "ee35167c9cea",
+   "subject": "surface",
+   "predicate": "PART_OF",
+   "object": "Gothenburg Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "the Gothenburg document names the table's surface",
+   "evidence": "The surface is easy to clean and surprisingly resistant to scratches."
+  },
+  {
+   "id": "f108257138a5",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't perfectly aligned",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 66,
+   "reason": "review 2 states the misaligned holes; subject is the holes rather than the product, same claim",
+   "evidence": "some of the pre-drilled holes weren't perfectly aligned"
+  },
+  {
+   "id": "f66ec74b22fb",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't align properly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 42,
+   "reason": "review 5 states it; same claim as gold 42",
+   "evidence": "some of the pre-drilled holes didn't align properly"
+  },
+  {
+   "id": "625f88fd1ffc",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't line up correctly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 5,
+   "reason": "review 1 states it; same claim as gold 5",
+   "evidence": "many of the pre-drilled holes didn't line up correctly"
+  },
+  {
+   "id": "da0378558f68",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't line up properly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 0,
+   "reason": "review 2 states it; same claim as gold 0",
+   "evidence": "some of the pre-drilled holes didn't line up properly and I had to drill new ones"
+  },
+  {
+   "id": "f26f98dd8d23",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Gothenburg Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "the holes are the table's, document context",
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that. But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+  },
+  {
+   "id": "3ac1c94132a0",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "the holes are the dresser's, document context",
+   "evidence": "many of the pre-drilled holes didn't line up correctly"
+  },
+  {
+   "id": "4540e1160f30",
+   "subject": "didn't line up properly",
+   "predicate": "IMPEDES_ASSEMBLY_OF",
+   "object": "Gothenburg Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 1,
+   "reason": "review 2: the misaligned holes made assembly a nightmare; the defect name is a fragment but the claim is gold 1",
+   "evidence": "assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones"
+  },
+  {
+   "id": "6dd4b8503c03",
+   "subject": "table",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "wobbles",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 3,
+   "reason": "'the table' is the Gothenburg Table; review 5 says it wobbles",
+   "evidence": "The table also wobbles slightly on my hardwood floor despite multiple attempts to adjust it."
+  },
+  {
+   "id": "b435530ec9a7",
+   "subject": "table",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "wobbles",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 31,
+   "reason": "'the table' is the Jönköping Coffee Table; review 5 says it wobbles",
+   "evidence": "The table also wobbles slightly on my flat floor despite attempts to adjust it."
+  },
+  {
+   "id": "571399ea412a",
+   "subject": "table",
+   "predicate": "HAS_DEFECT",
+   "object": "pre-drilled holes weren't aligned properly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 30,
+   "reason": "review 5 states the misaligned holes",
+   "evidence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+  },
+  {
+   "id": "58bde7ac5097",
+   "subject": "table",
+   "predicate": "HAS_DEFECT",
+   "object": "small dent",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 2,
+   "reason": "review 5: arrived with a small dent",
+   "evidence": "The table arrived with a small dent on one edge"
+  },
+  {
+   "id": "e726251d652e",
+   "subject": "drawer rails",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "wouldn't align properly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 12,
+   "reason": "review 2: the rails would not align during installation",
+   "evidence": "When I tried to install them, they wouldn't align properly no matter what I did."
+  },
+  {
+   "id": "09576250093a",
+   "subject": "drawer rails",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "annoying scraping sound",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 9,
+   "reason": "review 1: 'They constantly stick and make an annoying scraping sound'; 'they' reads as the rails, the gold put it on the drawers; same claim about the sliding system",
+   "evidence": "They constantly stick and make an annoying scraping sound."
+  },
+  {
+   "id": "5b530c90bce7",
+   "subject": "drawer rails",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "stick",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 8,
+   "reason": "review 1: 'They constantly stick'; same pronoun reading as above",
+   "evidence": "They constantly stick and make an annoying scraping sound."
+  },
+  {
+   "id": "af931988e496",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough, uneven surfaces",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 13,
+   "reason": "review 4 states it word for word",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "b013a57bc64f",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 13,
+   "reason": "review 7: 'the drawer rails seemed a bit rough'; the same rough-rails claim as gold 13",
+   "evidence": "I noticed the drawer rails seemed a bit rough"
+  },
+  {
+   "id": "c8ea69088a94",
+   "subject": "drawer rails",
+   "predicate": "PART_OF",
+   "object": "dresser",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 74,
+   "reason": "'this dresser' is the Helsingborg Dresser; the rails are named",
+   "evidence": "I spent 3 hours trying to assemble this dresser before GIVING UP. The instructions might as well be written in hieroglyphics. The drawer rails were the worst part"
+  },
+  {
+   "id": "b14e1dc586c6",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough, uneven surfaces",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 13,
+   "reason": "review 3 calls the same rails 'metal rails' with rough edges and uneven surfaces",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "5f7ef30e1566",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough edges",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 10,
+   "reason": "review 3: rough edges on the rails; the same edge defect as gold 10 (review 2's uneven metal edges)",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "7b170ebb3d64",
+   "subject": "rough, uneven surfaces",
+   "predicate": "CAUSES_FAILURE",
+   "object": "stick and misalign",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 17,
+   "reason": "review 4 states the cause; one fact covers gold 17 and 18",
+   "evidence": "they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "dddceb72c833",
+   "subject": "drawer",
+   "predicate": "PART_OF",
+   "object": "nightstand",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 87,
+   "reason": "'these nightstands' are the Norrköping Nightstand; the drawer is named",
+   "evidence": "I purchased two of these nightstands for our master bedroom and I'm quite pleased with them. The design is simple yet elegant, and they pair well with our existing furniture. Assembly was straightforward and took about 30 minutes per unit. The drawer operates smoothly"
+  },
+  {
+   "id": "da5c068d8a01",
+   "subject": "drawer",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "horrible metal-on-metal sound",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 16,
+   "reason": "review 3 states it word for word",
+   "evidence": "drawers still stick and make this horrible metal-on-metal sound."
+  },
+  {
+   "id": "3f9701994ef0",
+   "subject": "drawer",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "doesn't close properly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 48,
+   "reason": "review 5 states it",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap."
+  },
+  {
+   "id": "b36269b3986f",
+   "subject": "drawer",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "sticks when i open it too fast",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 47,
+   "reason": "review 3 states it",
+   "evidence": "only giving 3 stars because the drawer sometimes sticks when i open it too fast"
+  },
+  {
+   "id": "e3164c101336",
+   "subject": "drawer",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "doesn't open as smoothly as I'd like",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 45,
+   "reason": "review 6 states it",
+   "evidence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like."
+  },
+  {
+   "id": "cc36bddc0ada",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "crack",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 20,
+   "reason": "review 4 states the crack",
+   "evidence": "one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+  },
+  {
+   "id": "bf2c107f4341",
+   "subject": "panels",
+   "predicate": "PART_OF",
+   "object": "dresser",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 77,
+   "reason": "'this dresser' is the Helsingborg Dresser; the panels are named",
+   "evidence": "This dresser should come with a warning label! Assembly instructions were incomprehensible, with tiny diagrams and missing steps. After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly."
+  },
+  {
+   "id": "52dcafa948bd",
+   "subject": "warped",
+   "predicate": "IMPEDES_ASSEMBLY_OF",
+   "object": "dresser",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 22,
+   "reason": "review 5: warped panels made assembly impossible",
+   "evidence": "several of the panels were warped, making it impossible to assemble correctly."
+  },
+  {
+   "id": "4cc5fad9377b",
+   "subject": "drawer handles",
+   "predicate": "HAS_DEFECT",
+   "object": "scratched",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 25,
+   "reason": "review 6 states it",
+   "evidence": "One of the drawer handles was scratched right out of the box."
+  },
+  {
+   "id": "d1042bbcf341",
+   "subject": "lower shelf",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "the lower shelf is named as the table's",
+   "evidence": "The table feels sturdy and the lower shelf is handy for storing remote controls and magazines."
+  },
+  {
+   "id": "6ba0ddb871ee",
+   "subject": "lower shelf",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "same part, review 4",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+  },
+  {
+   "id": "4145bb668b62",
+   "subject": "lower shelf",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "same part, review 1",
+   "evidence": "The Jönköping Coffee Table is the perfect centerpiece for our living room! The design is sleek yet practical with the lower shelf providing great storage for books and magazines."
+  },
+  {
+   "id": "2ad0f6fcb12e",
+   "subject": "leg attachment mechanism",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the table's leg attachment mechanism",
+   "evidence": "I appreciate the thoughtful engineering of the Jönköping Coffee Table. The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time."
+  },
+  {
+   "id": "05f88d12bbd0",
+   "subject": "metal-to-metal fasteners",
+   "predicate": "PART_OF",
+   "object": "leg attachment mechanism",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the mechanism utilizes metal-to-metal fasteners",
+   "evidence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time."
+  },
+  {
+   "id": "225194902298",
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "extremely thin",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 68,
+   "reason": "review 5 states it",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly."
+  },
+  {
+   "id": "b72dc353c94b",
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "chipped in several places",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 69,
+   "reason": "review 5 states it",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly."
+  },
+  {
+   "id": "7beefd15aa05",
+   "subject": "veneer",
+   "predicate": "PART_OF",
+   "object": "bookshelf",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 94,
+   "reason": "'the bookshelf' is the Västerås Bookshelf; the veneer is named",
+   "evidence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected. The veneer is extremely thin"
+  },
+  {
+   "id": "c2927fb97697",
+   "subject": "slats",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "make noise",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 33,
+   "reason": "review 3 states it",
+   "evidence": "the slats make noise sometimes when i move around at night"
+  },
+  {
+   "id": "7019f1464b03",
+   "subject": "slats",
+   "predicate": "HAS_DEFECT",
+   "object": "crack",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 34,
+   "reason": "review 5 states it",
+   "evidence": "after just two months of use the slats have started to crack"
+  },
+  {
+   "id": "39fd76056944",
+   "subject": "slats",
+   "predicate": "PART_OF",
+   "object": "bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 82,
+   "reason": "'bed' is the Linköping Bed; the slats are named",
+   "evidence": "bed looks amazing in my room, super stylish and i love the storage drawers! but assembly was a total nightmare, took me and my roommate like 4 hours and we're usually good at this stuff. also the slats make noise sometimes when i move around at night"
+  },
+  {
+   "id": "828dbdbfea71",
+   "subject": "headboard",
+   "predicate": "PART_OF",
+   "object": "bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 2 names the bed's headboard",
+   "evidence": "The headboard is the perfect height for sitting up and reading."
+  },
+  {
+   "id": "170cad522755",
+   "subject": "edges",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 32,
+   "reason": "review 2: some edges were sharp; the gold put the subject on the bed, same claim",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+  },
+  {
+   "id": "e3519eef5e3f",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "the edges are the bed's, document context",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+  },
+  {
+   "id": "a20e74769674",
+   "subject": "storage drawers",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "no longer opens smoothly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 35,
+   "reason": "review 5 states it",
+   "evidence": "one of the storage drawers no longer opens smoothly"
+  },
+  {
+   "id": "f9cb8dc51e97",
+   "subject": "storage drawers",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 83,
+   "reason": "review 7 names the bed's storage drawers",
+   "evidence": "We've had our Linköping Bed for over a year now and couldn't be happier! The frame has remained solid with no squeaking or wobbling despite daily use. The storage drawers slide smoothly and hold a surprising amount of items."
+  },
+  {
+   "id": "b54011c23f57",
+   "subject": "storage drawers",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 83,
+   "reason": "review 6 names them",
+   "evidence": "The Linköping Bed is a great addition to our guest room. The design is simple but elegant, and the storage drawers are perfect for extra linens."
+  },
+  {
+   "id": "4225388c91ad",
+   "subject": "storage drawers",
+   "predicate": "PART_OF",
+   "object": "bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 83,
+   "reason": "review 3 names them",
+   "evidence": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+  },
+  {
+   "id": "185dbad80644",
+   "subject": "frame",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the bed's frame",
+   "evidence": "I was pleasantly surprised by the quality of the Linköping Bed. The frame utilizes proper joinery techniques"
+  },
+  {
+   "id": "d61e6917b802",
+   "subject": "corner blocks",
+   "predicate": "PART_OF",
+   "object": "frame",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the frame has reinforced corner blocks",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports"
+  },
+  {
+   "id": "e796ba24a14a",
+   "subject": "center supports",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the shelf is reinforced with a center support",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+  },
+  {
+   "id": "bfe4e8d79d95",
+   "subject": "center supports",
+   "predicate": "PART_OF",
+   "object": "frame",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the frame has center supports",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports"
+  },
+  {
+   "id": "87fbe416ac3b",
+   "subject": "slat system",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the bed's slat system",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+  },
+  {
+   "id": "4e0598cfd0df",
+   "subject": "storage mechanism",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the bed's storage mechanism",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+  },
+  {
+   "id": "243cb5f682b3",
+   "subject": "drawer slides",
+   "predicate": "PART_OF",
+   "object": "storage mechanism",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the storage mechanism uses drawer slides",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+  },
+  {
+   "id": "c718f5497a7b",
+   "subject": "drawer pulls",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 38,
+   "reason": "review 6 states it",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement."
+  },
+  {
+   "id": "9bdeb1502f36",
+   "subject": "drawer pulls",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 84,
+   "reason": "review 6 names the bed's drawer pulls",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement."
+  },
+  {
+   "id": "bb5d37c20f4b",
+   "subject": "desk",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp",
+   "verdict": "SUPPORTED",
+   "vague": true,
+   "gold_index": 39,
+   "reason": "review 2: the edges of the desk are sharp; the object dropped 'edges', so the fact says only 'desk: sharp'",
+   "evidence": "the edges of the desk are a bit sharp"
+  },
+  {
+   "id": "3a8a63b48a78",
+   "subject": "work surface",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the desk's work surface",
+   "evidence": "The Malmö Desk exceeds expectations on both fronts. The work surface maintains perfect flatness under the weight of my drafting equipment."
+  },
+  {
+   "id": "b33e3c4e5fe9",
+   "subject": "storage compartments",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the storage compartments",
+   "evidence": "The Malmö Desk exceeds expectations on both fronts. The work surface maintains perfect flatness under the weight of my drafting equipment. The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies."
+  },
+  {
+   "id": "e7b35369f745",
+   "subject": "cable management system",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the cable management system",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "1b817fd38ba1",
+   "subject": "rubber grommets",
+   "predicate": "PART_OF",
+   "object": "cable management system",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the system has rubber grommets",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "ee86508509f1",
+   "subject": "finish",
+   "predicate": "HAS_DEFECT",
+   "object": "inconsistencies",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 40,
+   "reason": "review 5 states it; the gold put the subject on the desk, same claim",
+   "evidence": "the finish has inconsistencies"
+  },
+  {
+   "id": "ceb7e4fc0959",
+   "subject": "desk",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "wobbles slightly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 44,
+   "reason": "'it' is the Malmö Desk; review 5 says it wobbles when typing",
+   "evidence": "Now that it's built, it's functional but I notice it wobbles slightly when I'm typing."
+  },
+  {
+   "id": "54c2d7059951",
+   "subject": "desk",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 41,
+   "reason": "review 5 states it",
+   "evidence": "there were several scratches right out of the box"
+  },
+  {
+   "id": "a75e4df00393",
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "slightly damaged",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 51,
+   "reason": "review 6: one corner arrived slightly damaged; the object dropped 'corner' but still states the damage",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall."
+  },
+  {
+   "id": "6c6082f7c9a3",
+   "subject": "open shelf",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 1 names the nightstand's open shelf",
+   "evidence": "while the open shelf below is great for displaying decorative items."
+  },
+  {
+   "id": "1199ce5f7917",
+   "subject": "back panel",
+   "predicate": "PART_OF",
+   "object": "nightstand",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 86,
+   "reason": "'these nightstands'; the back panel is named",
+   "evidence": "Taking off one star because the back panel is a bit thin, but overall these are quality pieces at a reasonable price."
+  },
+  {
+   "id": "fa57cf78a33e",
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "quite thin",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 73,
+   "reason": "review 6 states it",
+   "evidence": "the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+  },
+  {
+   "id": "df46c176b9db",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't aligned correctly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 49,
+   "reason": "review 5 states it",
+   "evidence": "pre-drilled holes for the drawer handle weren't aligned correctly"
+  },
+  {
+   "id": "3f2af01a749c",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "PART_OF",
+   "object": "drawer",
+   "verdict": "AMBIGUOUS",
+   "reason": "review 5 says the holes for the drawer handle were misaligned; whether those holes sit in the drawer or in the handle is not stated"
+  },
+  {
+   "id": "bab832081152",
+   "subject": "dimmer",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 90,
+   "reason": "review 1 names the lamp's dimmer (the dimmer switch of gold 90)",
+   "evidence": "The materials feel high-quality and the dimmer function is smooth and responsive."
+  },
+  {
+   "id": "bb0c7a83c395",
+   "subject": "dimmer",
+   "predicate": "PART_OF",
+   "object": "lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 90,
+   "reason": "review 3 names the dimmer",
+   "evidence": "lamp looks super cute in my bedroom! gives off nice vibes and the dimmer is perfect for creating mood lighting."
+  },
+  {
+   "id": "7b4fac59a073",
+   "subject": "shade",
+   "predicate": "PART_OF",
+   "object": "lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 89,
+   "reason": "review 5 names the lamp's shade",
+   "evidence": "While the lamp looks nice in photos, the reality is much less impressive. The materials feel cheap, particularly the shade which is unevenly colored."
+  },
+  {
+   "id": "844eb24be375",
+   "subject": "lamp",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "tips over easily",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 53,
+   "reason": "review 3 states it",
+   "evidence": "the base is lighter than i expected so it tips over easily if you bump it."
+  },
+  {
+   "id": "0a7c8399f89a",
+   "subject": "lamp",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "wobbles slightly on its base",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 57,
+   "reason": "review 5 states it",
+   "evidence": "the lamp wobbles slightly on its base"
+  },
+  {
+   "id": "e52f80379f3d",
+   "subject": "switch",
+   "predicate": "PART_OF",
+   "object": "lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 3 names the lamp's switch",
+   "evidence": "only giving 3 stars because the switch feels kinda cheap"
+  },
+  {
+   "id": "0c8389a08c5d",
+   "subject": "base",
+   "predicate": "PART_OF",
+   "object": "lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 88,
+   "reason": "review 5 names the base",
+   "evidence": "the lamp wobbles slightly on its base"
+  },
+  {
+   "id": "0e9b30d24559",
+   "subject": "base",
+   "predicate": "PART_OF",
+   "object": "lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 88,
+   "reason": "review 3 names the base",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it."
+  },
+  {
+   "id": "13ae964de070",
+   "subject": "LED driver",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the lamp's LED driver",
+   "evidence": "I'm thoroughly impressed with the Örebro Lamp. The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings"
+  },
+  {
+   "id": "4fa1a95221c1",
+   "subject": "weighted base",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the weighted base (the base again, not merged by ER; the fact itself is stated)",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+  },
+  {
+   "id": "70c2dc779773",
+   "subject": "dimmer switch",
+   "predicate": "PART_OF",
+   "object": "lamp",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 90,
+   "reason": "review 5 names the dimmer switch",
+   "evidence": "While the lamp looks nice in photos, the reality is much less impressive. The materials feel cheap, particularly the shade which is unevenly colored. The dimmer switch is finicky and sometimes flickers at lower settings."
+  },
+  {
+   "id": "05918fd9819c",
+   "subject": "back rest",
+   "predicate": "PART_OF",
+   "object": "Stockholm Chair",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 2 names the chair's back rest",
+   "evidence": "I had to redo one section when I realized I had attached the back rest upside down."
+  },
+  {
+   "id": "3206743bdd45",
+   "subject": "chair",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "squeaking",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 60,
+   "reason": "'chair' is the Stockholm Chair; review 4 reports squeaking",
+   "evidence": "Functional chair with decent build quality. However, after about 3 months of use, I've noticed some squeaking when I lean back."
+  },
+  {
+   "id": "bb1dc4a1b9fd",
+   "subject": "removable covers",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 7 names the sofa's removable covers",
+   "evidence": "We've had our Uppsala Sofa for over a year now and couldn't be happier! It's the perfect size for our apartment living room, comfortably seating 3-4 people. The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times"
+  },
+  {
+   "id": "08aa27e81395",
+   "subject": "removable covers",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 1 names them",
+   "evidence": "The Uppsala Sofa is everything I hoped for and more! The clean lines fit perfectly with our Scandinavian-inspired living room, and the comfort level is exceptional. The removable covers are a game-changer"
+  },
+  {
+   "id": "9d175ad0eb37",
+   "subject": "cushions",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "losing their shape",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 61,
+   "reason": "review 5 states it",
+   "evidence": "the cushions are already losing their shape"
+  },
+  {
+   "id": "0d04e799ae2c",
+   "subject": "cushions",
+   "predicate": "PART_OF",
+   "object": "sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 91,
+   "reason": "'the sofa'; the cushions are named",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape"
+  },
+  {
+   "id": "838f4a5ce820",
+   "subject": "reinforced corner blocks",
+   "predicate": "PART_OF",
+   "object": "frame",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the frame has reinforced corner blocks",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks"
+  },
+  {
+   "id": "02a5246f2c52",
+   "subject": "upholstery",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the upholstery",
+   "evidence": "I can confidently say the Uppsala Sofa represents exceptional value. The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces. The cushion density (28kg/m³) provides the perfect balance between support and comfort. The upholstery is a commercial-grade polyester blend"
+  },
+  {
+   "id": "49ab7ac323dc",
+   "subject": "covers",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the covers",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams. This sofa exemplifies thoughtful design at an accessible price point."
+  },
+  {
+   "id": "4862ce45f5f9",
+   "subject": "YKK zippers",
+   "predicate": "PART_OF",
+   "object": "covers",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4: the covers feature YKK zippers",
+   "evidence": "The removable covers feature quality YKK zippers"
+  },
+  {
+   "id": "058d182779e1",
+   "subject": "frame",
+   "predicate": "PART_OF",
+   "object": "sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 92,
+   "reason": "'the sofa'; the frame is named",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+  },
+  {
+   "id": "b4353b68c193",
+   "subject": "parts not fitting together properly",
+   "predicate": "IMPEDES_ASSEMBLY_OF",
+   "object": "sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 64,
+   "reason": "review 5 states it",
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "1fb659bb33b4",
+   "subject": "legs",
+   "predicate": "HAS_DEFECT",
+   "object": "small chip",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 65,
+   "reason": "review 6 states it",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip"
+  },
+  {
+   "id": "41d77f088ff7",
+   "subject": "legs",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 93,
+   "reason": "review 6 names the sofa's legs",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip"
+  },
+  {
+   "id": "f8f0ed2b36b5",
+   "subject": "shelves",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 1 names the bookshelf's shelves",
+   "evidence": "The Västerås Bookshelf is exactly what I was looking for! The modular design allowed me to configure it perfectly for my space. Assembly was straightforward and took about 90 minutes. The shelves are sturdy enough to hold my extensive book collection without any sagging."
+  },
+  {
+   "id": "7c08ca69b00c",
+   "subject": "weren't perfectly aligned",
+   "predicate": "IMPEDES_ASSEMBLY_OF",
+   "object": "Västerås Bookshelf",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 67,
+   "reason": "review 2 states it; the defect name is a fragment but the claim is gold 67",
+   "evidence": "some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+  },
+  {
+   "id": "a757e917f916",
+   "subject": "vertical supports",
+   "predicate": "PART_OF",
+   "object": "Västerås",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 ('the Västerås') names the vertical supports",
+   "evidence": "The vertical supports utilize a proper mortise and tenon construction rather than the cam-lock fasteners common at this price point."
+  },
+  {
+   "id": "05cecce13577",
+   "subject": "shelf",
+   "predicate": "PART_OF",
+   "object": "Västerås",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "review 4 names the shelf",
+   "evidence": "I've tested each shelf with approximately 20kg of books with no deflection."
+  },
+  {
+   "id": "190fe321da29",
+   "subject": "bookshelf",
+   "predicate": "EXHIBITS_FAILURE",
+   "object": "wobbles slightly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 72,
+   "reason": "'it' is the bookshelf; review 5 says it wobbles",
+   "evidence": "Now that it's built, it wobbles slightly"
+  },
+  {
+   "id": "af482fb3a326",
+   "subject": "parts",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't fit together properly",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": 70,
+   "reason": "review 5 states it; subject 'parts' rather than the product, same claim",
+   "evidence": "some of the parts didn't fit together properly."
+  },
+  {
+   "id": "69bc64b882d4",
+   "subject": "parts",
+   "predicate": "PART_OF",
+   "object": "bookshelf",
+   "verdict": "SUPPORTED",
+   "vague": true,
+   "gold_index": null,
+   "reason": "true by construction ('parts' of the bookshelf) and says nothing a goal question could use",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+  },
+  {
+   "id": "9315013bc89b",
+   "subject": "adjustable shelves",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "verdict": "SUPPORTED",
+   "vague": false,
+   "gold_index": null,
+   "reason": "reviews 6 and 7 name the adjustable shelves",
+   "evidence": "We've had our Västerås Bookshelf for over a year now and it's held up beautifully! The construction is solid and there's been no sagging despite heavy use. The design is timeless and blends well with both our modern and antique pieces. Assembly was straightforward with clear instructions. The adjustable shelves have been a great feature as our needs have changed."
+  }
+ ],
+ "recall": [
+  {
+   "gold_index": 0,
+   "matched_fact": "da0378558f68",
+   "reason": "stated by pre-drilled holes -HAS_DEFECT-> didn't line up properly"
+  },
+  {
+   "gold_index": 1,
+   "matched_fact": "4540e1160f30",
+   "reason": "stated by didn't line up properly -IMPEDES_ASSEMBLY_OF-> Gothenburg Table"
+  },
+  {
+   "gold_index": 2,
+   "matched_fact": "58bde7ac5097",
+   "reason": "stated by table -HAS_DEFECT-> small dent"
+  },
+  {
+   "gold_index": 3,
+   "matched_fact": "6dd4b8503c03",
+   "reason": "stated by table -EXHIBITS_FAILURE-> wobbles"
+  },
+  {
+   "gold_index": 4,
+   "matched_fact": null,
+   "reason": "no fact about the table scratching easily"
+  },
+  {
+   "gold_index": 5,
+   "matched_fact": "625f88fd1ffc",
+   "reason": "stated by pre-drilled holes -HAS_DEFECT-> didn't line up correctly"
+  },
+  {
+   "gold_index": 6,
+   "matched_fact": null,
+   "reason": "no fact says the dresser's holes impeded assembly"
+  },
+  {
+   "gold_index": 7,
+   "matched_fact": null,
+   "reason": "no fact says the rails are poorly manufactured"
+  },
+  {
+   "gold_index": 9,
+   "matched_fact": "09576250093a",
+   "reason": "stated by drawer rails -EXHIBITS_FAILURE-> annoying scraping sound"
+  },
+  {
+   "gold_index": 11,
+   "matched_fact": null,
+   "reason": "no fact names rough sliding mechanisms"
+  },
+  {
+   "gold_index": 12,
+   "matched_fact": "e726251d652e",
+   "reason": "stated by drawer rails -EXHIBITS_FAILURE-> wouldn't align properly"
+  },
+  {
+   "gold_index": 13,
+   "matched_fact": "af931988e496",
+   "reason": "stated by drawer rails -HAS_DEFECT-> rough, uneven surfaces"
+  },
+  {
+   "gold_index": 14,
+   "matched_fact": null,
+   "reason": "no fact about mismatched rail dimensions"
+  },
+  {
+   "gold_index": 15,
+   "matched_fact": null,
+   "reason": "no fact about the screws"
+  },
+  {
+   "gold_index": 16,
+   "matched_fact": "da5c068d8a01",
+   "reason": "stated by drawer -EXHIBITS_FAILURE-> horrible metal-on-metal sound"
+  },
+  {
+   "gold_index": 17,
+   "matched_fact": "7b170ebb3d64",
+   "reason": "stated by rough, uneven surfaces -CAUSES_FAILURE-> stick and misalign"
+  },
+  {
+   "gold_index": 18,
+   "matched_fact": "7b170ebb3d64",
+   "reason": "stated by rough, uneven surfaces -CAUSES_FAILURE-> stick and misalign"
+  },
+  {
+   "gold_index": 19,
+   "matched_fact": null,
+   "reason": "no fact says the dresser's drawers do not close"
+  },
+  {
+   "gold_index": 20,
+   "matched_fact": "cc36bddc0ada",
+   "reason": "stated by drawer -HAS_DEFECT-> crack"
+  },
+  {
+   "gold_index": 22,
+   "matched_fact": "52dcafa948bd",
+   "reason": "stated by warped -IMPEDES_ASSEMBLY_OF-> dresser"
+  },
+  {
+   "gold_index": 23,
+   "matched_fact": null,
+   "reason": "no fact about the cardboard back panel"
+  },
+  {
+   "gold_index": 24,
+   "matched_fact": null,
+   "reason": "no fact about the flimsy drawer bottoms"
+  },
+  {
+   "gold_index": 25,
+   "matched_fact": "4cc5fad9377b",
+   "reason": "stated by drawer handles -HAS_DEFECT-> scratched"
+  },
+  {
+   "gold_index": 26,
+   "matched_fact": null,
+   "reason": "no fact about the coffee table's sharp edges"
+  },
+  {
+   "gold_index": 27,
+   "matched_fact": "0192431ca592",
+   "reason": "stated by surface -HAS_DEFECT-> scratches pretty easily"
+  },
+  {
+   "gold_index": 28,
+   "matched_fact": null,
+   "reason": "the veneer fact for this table states the chipping, not the thinness"
+  },
+  {
+   "gold_index": 30,
+   "matched_fact": "571399ea412a",
+   "reason": "stated by table -HAS_DEFECT-> pre-drilled holes weren't aligned properly"
+  },
+  {
+   "gold_index": 31,
+   "matched_fact": "b435530ec9a7",
+   "reason": "stated by table -EXHIBITS_FAILURE-> wobbles"
+  },
+  {
+   "gold_index": 32,
+   "matched_fact": "170cad522755",
+   "reason": "stated by edges -HAS_DEFECT-> sharp"
+  },
+  {
+   "gold_index": 33,
+   "matched_fact": "c2927fb97697",
+   "reason": "stated by slats -EXHIBITS_FAILURE-> make noise"
+  },
+  {
+   "gold_index": 34,
+   "matched_fact": "7019f1464b03",
+   "reason": "stated by slats -HAS_DEFECT-> crack"
+  },
+  {
+   "gold_index": 35,
+   "matched_fact": "a20e74769674",
+   "reason": "stated by storage drawers -EXHIBITS_FAILURE-> no longer opens smoothly"
+  },
+  {
+   "gold_index": 36,
+   "matched_fact": null,
+   "reason": "no fact says the bed's parts did not fit"
+  },
+  {
+   "gold_index": 37,
+   "matched_fact": null,
+   "reason": "no fact about the bed's assembly being impeded"
+  },
+  {
+   "gold_index": 38,
+   "matched_fact": "c718f5497a7b",
+   "reason": "stated by drawer pulls -HAS_DEFECT-> damaged"
+  },
+  {
+   "gold_index": 39,
+   "matched_fact": "bb5d37c20f4b",
+   "reason": "stated by desk -HAS_DEFECT-> sharp"
+  },
+  {
+   "gold_index": 40,
+   "matched_fact": "ee86508509f1",
+   "reason": "stated by finish -HAS_DEFECT-> inconsistencies"
+  },
+  {
+   "gold_index": 41,
+   "matched_fact": "54c2d7059951",
+   "reason": "stated by desk -HAS_DEFECT-> scratches"
+  },
+  {
+   "gold_index": 42,
+   "matched_fact": "f66ec74b22fb",
+   "reason": "stated by pre-drilled holes -HAS_DEFECT-> didn't align properly"
+  },
+  {
+   "gold_index": 43,
+   "matched_fact": null,
+   "reason": "no fact says the desk's holes impeded assembly"
+  },
+  {
+   "gold_index": 44,
+   "matched_fact": "ceb7e4fc0959",
+   "reason": "stated by desk -EXHIBITS_FAILURE-> wobbles slightly"
+  },
+  {
+   "gold_index": 45,
+   "matched_fact": "e3164c101336",
+   "reason": "stated by drawer -EXHIBITS_FAILURE-> doesn't open as smoothly as I'd like"
+  },
+  {
+   "gold_index": 46,
+   "matched_fact": null,
+   "reason": "the nightstand's thin back panel appears only as PART_OF, not as a defect"
+  },
+  {
+   "gold_index": 47,
+   "matched_fact": "b36269b3986f",
+   "reason": "stated by drawer -EXHIBITS_FAILURE-> sticks when i open it too fast"
+  },
+  {
+   "gold_index": 48,
+   "matched_fact": "3f9701994ef0",
+   "reason": "stated by drawer -EXHIBITS_FAILURE-> doesn't close properly"
+  },
+  {
+   "gold_index": 49,
+   "matched_fact": "df46c176b9db",
+   "reason": "stated by pre-drilled holes for the drawer handle -HAS_DEFECT-> weren't aligned correctly"
+  },
+  {
+   "gold_index": 50,
+   "matched_fact": null,
+   "reason": "no fact about the nightstand scratching easily"
+  },
+  {
+   "gold_index": 51,
+   "matched_fact": "a75e4df00393",
+   "reason": "stated by Norrköping Nightstand -HAS_DEFECT-> slightly damaged"
+  },
+  {
+   "gold_index": 52,
+   "matched_fact": null,
+   "reason": "the base appears only as PART_OF; no fact says it is too light"
+  },
+  {
+   "gold_index": 53,
+   "matched_fact": "844eb24be375",
+   "reason": "stated by lamp -EXHIBITS_FAILURE-> tips over easily"
+  },
+  {
+   "gold_index": 54,
+   "matched_fact": null,
+   "reason": "no cause fact for the lamp tipping over"
+  },
+  {
+   "gold_index": 57,
+   "matched_fact": "0a7c8399f89a",
+   "reason": "stated by lamp -EXHIBITS_FAILURE-> wobbles slightly on its base"
+  },
+  {
+   "gold_index": 58,
+   "matched_fact": null,
+   "reason": "no fact about the stiff dimmer"
+  },
+  {
+   "gold_index": 60,
+   "matched_fact": "3206743bdd45",
+   "reason": "stated by chair -EXHIBITS_FAILURE-> squeaking"
+  },
+  {
+   "gold_index": 61,
+   "matched_fact": "9d175ad0eb37",
+   "reason": "stated by cushions -EXHIBITS_FAILURE-> losing their shape"
+  },
+  {
+   "gold_index": 63,
+   "matched_fact": null,
+   "reason": "the parts-not-fitting defect appears only as the subject of IMPEDES_ASSEMBLY_OF, not as HAS_DEFECT on the sofa"
+  },
+  {
+   "gold_index": 64,
+   "matched_fact": "b4353b68c193",
+   "reason": "stated by parts not fitting together properly -IMPEDES_ASSEMBLY_OF-> sofa"
+  },
+  {
+   "gold_index": 65,
+   "matched_fact": "1fb659bb33b4",
+   "reason": "stated by legs -HAS_DEFECT-> small chip"
+  },
+  {
+   "gold_index": 66,
+   "matched_fact": "f108257138a5",
+   "reason": "stated by pre-drilled holes -HAS_DEFECT-> weren't perfectly aligned"
+  },
+  {
+   "gold_index": 67,
+   "matched_fact": "7c08ca69b00c",
+   "reason": "stated by weren't perfectly aligned -IMPEDES_ASSEMBLY_OF-> Västerås Bookshelf"
+  },
+  {
+   "gold_index": 68,
+   "matched_fact": "225194902298",
+   "reason": "stated by veneer -HAS_DEFECT-> extremely thin"
+  },
+  {
+   "gold_index": 69,
+   "matched_fact": "b72dc353c94b",
+   "reason": "stated by veneer -HAS_DEFECT-> chipped in several places"
+  },
+  {
+   "gold_index": 70,
+   "matched_fact": "af482fb3a326",
+   "reason": "stated by parts -HAS_DEFECT-> didn't fit together properly"
+  },
+  {
+   "gold_index": 71,
+   "matched_fact": null,
+   "reason": "no fact says the bookshelf's parts impeded assembly"
+  },
+  {
+   "gold_index": 72,
+   "matched_fact": "190fe321da29",
+   "reason": "stated by bookshelf -EXHIBITS_FAILURE-> wobbles slightly"
+  },
+  {
+   "gold_index": 73,
+   "matched_fact": "fa57cf78a33e",
+   "reason": "stated by back panel -HAS_DEFECT-> quite thin"
+  },
+  {
+   "gold_index": 75,
+   "matched_fact": null,
+   "reason": "no PART_OF fact for the dresser's drawers"
+  },
+  {
+   "gold_index": 76,
+   "matched_fact": null,
+   "reason": "no fact about the screws"
+  },
+  {
+   "gold_index": 77,
+   "matched_fact": "bf2c107f4341",
+   "reason": "stated by panels -PART_OF-> dresser"
+  },
+  {
+   "gold_index": 78,
+   "matched_fact": null,
+   "reason": "no PART_OF fact for the dresser's back panel"
+  },
+  {
+   "gold_index": 79,
+   "matched_fact": null,
+   "reason": "no fact about the drawer bottoms"
+  },
+  {
+   "gold_index": 80,
+   "matched_fact": null,
+   "reason": "no PART_OF fact for the drawer handles"
+  },
+  {
+   "gold_index": 81,
+   "matched_fact": null,
+   "reason": "no PART_OF fact for the coffee table's veneer"
+  },
+  {
+   "gold_index": 83,
+   "matched_fact": "f9cb8dc51e97",
+   "reason": "stated by storage drawers -PART_OF-> Linköping Bed"
+  },
+  {
+   "gold_index": 84,
+   "matched_fact": "9bdeb1502f36",
+   "reason": "stated by drawer pulls -PART_OF-> Linköping Bed"
+  },
+  {
+   "gold_index": 86,
+   "matched_fact": "1199ce5f7917",
+   "reason": "stated by back panel -PART_OF-> nightstand"
+  },
+  {
+   "gold_index": 88,
+   "matched_fact": "0c8389a08c5d",
+   "reason": "stated by base -PART_OF-> lamp"
+  },
+  {
+   "gold_index": 90,
+   "matched_fact": "70c2dc779773",
+   "reason": "stated by dimmer switch -PART_OF-> lamp"
+  },
+  {
+   "gold_index": 93,
+   "matched_fact": "41d77f088ff7",
+   "reason": "stated by legs -PART_OF-> Uppsala Sofa"
+  },
+  {
+   "gold_index": 94,
+   "matched_fact": "7beefd15aa05",
+   "reason": "stated by veneer -PART_OF-> bookshelf"
+  },
+  {
+   "gold_index": 95,
+   "matched_fact": null,
+   "reason": "no PART_OF fact for the bookshelf's back panel"
+  }
+ ]
+}

@@ -95,6 +95,10 @@ an 8 GB laptop GPU. That is why the smoke preset moved to the free Gemini key.
   (`OLLAMA_NUM_CTX`), because Ollama silently cuts longer prompts.
 - When the plan stage fails, continue with the reviewed plan and run the stages one by one:
   `copy tests\gold\domain_plan.json out\plan.json`, then `kg build data/`, `kg ingest-text data/` and so on.
+- The proposal stages are not deterministic: a rerun can propose other labels and relation names. An
+  evaluation run therefore pins both reviewed proposals before building: `copy tests\gold\domain_plan.json
+  out\plan.json` and `copy tests\gold\text_schema.json out\text_schema.json`, then `kg build`,
+  `kg ingest-text`, `kg extract`, `kg resolve`, `kg link`, `kg eval tests/gold/text_gold.json`.
 
 Stages can also be run one at a time, with human review points in between:
 
