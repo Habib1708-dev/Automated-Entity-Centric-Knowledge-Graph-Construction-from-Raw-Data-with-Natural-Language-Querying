@@ -340,6 +340,7 @@ class ResolveStage(_TextStage):
             llm_adjudications=sum(d.action.startswith("llm_") for d in report.decisions),
             skipped_borderline=sum(d.action == "skipped_borderline" for d in report.decisions),
             self_loops_removed=report.self_loops_removed,
+            duplicate_facts_removed=report.duplicate_facts_removed,
         )
         # resolve.json is both the audit log and the input of `kg resolve --undo`
         run.artifact(ctx.write("resolve.json", report.model_dump_json(indent=2)))

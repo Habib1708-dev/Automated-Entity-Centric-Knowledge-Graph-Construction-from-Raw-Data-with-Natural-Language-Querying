@@ -117,7 +117,7 @@ design and filling the gaps.
 | R25 | `evaluation/` folder: criteria and metric definitions, dated result snapshots | done 2026-09-22: `evaluation/README.md`, `evaluation/results_2026-09-22.md` (assessment of R24's numbers), README pointer. Moved to the git-ignored `docs/evaluation/` the same day (local only); section 6 of the snapshot holds the stage-by-stage root-cause analysis of the recall gap and the recommended steps |
 | R26 | Document context on every chunk: the extractor may name the product the document is about | done 2026-09-22: `Chunk.context` (first heading, else title) stored in the graph, shown as `<document>` in the extraction prompt, accepted by `verify` for names only; 4 tests (144 total); effect measured in R29 |
 | R27 | `PART_OF` derived in code from mention → document → product; removed from the extraction schema | done 2026-09-22: `FactType.derived`, `resolution/derivation.py` in the link stage (`facts_derived` metric, `extractor: derived`), `core/identity.py`, reference schema updated; 3 tests (147 total); effect measured in R29 |
-| R28 | Entity merging must not fold repeated evidence (`mergeRels`) | planned 2026-09-22 |
+| R28 | Entity merging must not fold repeated evidence (`mergeRels`) | done 2026-09-22: `mergeRels: false`, exact repeats (same type, ends, chunk, quote) and doubled mentions removed explicitly, `duplicate_facts_removed` metric; test failed before the fix (2 facts folded to 1), 148 tests |
 | R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | planned 2026-09-22 (needs the user's yes, about $0.13) |
 | R30 | Exhaustive extraction prompt; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
 | R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
@@ -542,6 +542,12 @@ stating "drawer PART_OF nightstand" became one relationship), against the invari
   canonical entity with the chunk-and-evidence `MERGE` key (the code `undo_merges` already has).
 - **Accept:** a Neo4j test that fails before the fix: two facts of one predicate between merged entities
   from different chunks both survive; `facts` before and after resolve differ only by self-loops.
+- **Result (met):** `apply_merges` merges with `mergeRels: false` (APOC then moves relationships instead
+  of folding them) and afterwards deletes only exact repeats: facts identical in type, ends, `chunk_id` and
+  `evidence` (one statement extracted under two spellings), and doubled `MENTIONS` of one chunk.
+  `ResolveReport.duplicate_facts_removed` (default 0, so older `resolve.json` files still load for
+  `--undo`) is logged by the stage. The new test failed before the fix with the two facts folded into one
+  (`[('d.md#1', 'Tables wobble')]`), passes after; the undo round trip is unchanged. 148 tests, `ruff` clean.
 
 ### R29. Quality run and judge pass after the structural fixes
 Depends on R26–R28 and on the user's yes (about $0.13 for extraction, no cache hits possible).

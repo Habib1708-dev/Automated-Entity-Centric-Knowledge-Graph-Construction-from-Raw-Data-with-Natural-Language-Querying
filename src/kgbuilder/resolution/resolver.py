@@ -6,7 +6,8 @@ Design: five small steps instead of one function, and only the first and the las
   2. find_candidates    pure: score all same-type pairs with the matchers (Strategy, see matchers.py)
   3. decide             pure given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
   4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
-  5. apply_merges       snapshot the members, then merge them with APOC
+  5. apply_merges       snapshot the members, then merge them with APOC (relationships are moved, never
+                        folded: three reviews stating one fact stay three facts; only exact repeats go)
 Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
 graph, because a wrong merge silently corrupts every later query.
 Not here: similarity functions (matchers.py) and links to the domain graph (linking.py).
@@ -90,6 +91,9 @@ class ResolveReport(BaseModel):
     entities_after: int
     merges: int
     self_loops_removed: int
+    # facts identical in type, ends, chunk and quote after a merge (the same statement extracted under
+    # two spellings); default 0 so that resolve.json files written before R28 still load for --undo
+    duplicate_facts_removed: int = 0
     decisions: list[Decision]
     groups: list[MergeGroup] = []
     snapshots: list[EntitySnapshot] = []
@@ -242,8 +246,12 @@ def snapshot(driver: Driver, ids: list[str]) -> tuple[list[EntitySnapshot], list
     return [EntitySnapshot(**n.data()) for n in nodes], [FactSnapshot(**f.data()) for f in facts]
 
 
-def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list[MergeGroup]) -> None:
-    """Physically merge each group into its canonical entity; all names survive as aliases."""
+def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list[MergeGroup]) -> int:
+    """Physically merge each group into its canonical entity; all names survive as aliases.
+
+    Returns the number of exact repeats removed afterwards: facts that became identical in type, ends,
+    chunk and quote (one statement extracted under two spellings), and doubled mentions of one chunk.
+    """
     for group in groups:
         members = [group.canonical, *group.absorbed]
         aliases = sorted({alias for i in members for alias in entities[i].aliases})
@@ -251,13 +259,28 @@ def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list
             "MATCH (c:Entity {id: $canonical}) MATCH (o:Entity) WHERE o.id IN $absorbed "
             # aggregate first: a procedure call cannot take collect() as an argument
             "WITH c, collect(o) AS others "
-            # 'discard' keeps the canonical's properties; mergeRels folds identical relationships together
-            "CALL apoc.refactor.mergeNodes([c] + others, {properties: 'discard', mergeRels: true}) "
+            # 'discard' keeps the canonical's properties. mergeRels stays false: with true, APOC folds every
+            # relationship of one type between the same two nodes into one, and three reviews stating the
+            # same fact (three chunk ids, three quotes) became one relationship with one quote (found in R25)
+            "CALL apoc.refactor.mergeNodes([c] + others, {properties: 'discard', mergeRels: false}) "
             "YIELD node SET node.aliases = $aliases, node.merged_from = $absorbed RETURN count(node)",
             canonical=group.canonical,
             absorbed=group.absorbed,
             aliases=aliases,
         )
+    if not groups:
+        return 0
+    # the subject-graph writer's MERGE key, applied after the fact: same statement, same evidence = one fact
+    facts, _, _ = driver.execute_query(
+        "MATCH (s:Entity)-[r]->(o:Entity) "
+        "WITH s, o, type(r) AS t, r.chunk_id AS chunk, r.evidence AS evidence, collect(r) AS repeats "
+        "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DELETE x) RETURN sum(size(repeats) - 1) AS n"
+    )
+    driver.execute_query(
+        "MATCH (c:Chunk)-[m:MENTIONS]->(e:Entity) WITH c, e, collect(m) AS repeats "
+        "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DELETE x)"
+    )
+    return facts[0]["n"] or 0
 
 
 def resolve_entities(
@@ -285,7 +308,7 @@ def resolve_entities(
 
     member_ids = [i for g in groups for i in (g.canonical, *g.absorbed)]
     snapshots, facts = snapshot(driver, member_ids) if groups else ([], [])
-    apply_merges(driver, entities, groups)
+    duplicates = apply_merges(driver, entities, groups)
 
     # a merge turns a fact between two duplicates into a self-loop; those are noise
     loops, _, _ = driver.execute_query(
@@ -297,6 +320,7 @@ def resolve_entities(
         entities_after=remaining[0]["n"],
         merges=sum(len(g.absorbed) for g in groups),
         self_loops_removed=loops[0]["n"],
+        duplicate_facts_removed=duplicates,
         decisions=decisions,
         groups=groups,
         snapshots=snapshots,

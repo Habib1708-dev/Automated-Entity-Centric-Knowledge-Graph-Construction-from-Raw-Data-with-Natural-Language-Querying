@@ -1,5 +1,5 @@
-"""Entity resolution: candidate finding, decisions and grouping as pure functions, and the
-merge -> undo round trip against Neo4j."""
+"""Entity resolution: candidate finding, decisions and grouping as pure functions, the merge -> undo
+round trip against Neo4j, and the rule that merging keeps every separately stated fact."""
 
 import pytest
 
@@ -88,17 +88,52 @@ def dump(driver) -> dict:
     }
 
 
+def fact(subject, predicate, obj, obj_type, chunk, evidence=None):
+    return Triple(
+        subject=subject, subject_type="Product", predicate=predicate, object=obj, object_type=obj_type,
+        evidence=evidence or f"{subject} {obj}", chunk_id=chunk,
+    )  # fmt: skip
+
+
+@pytest.mark.neo4j
+def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driver):
+    """Three reviews saying "the drawers stick" are three pieces of evidence (subject_graph.py keeps one
+    fact per chunk and quote). Merging "Table" into "Tables" must not fold them into one relationship; only
+    a fact that is identical in type, ends, chunk and quote after the merge is a repeat."""
+    chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
+    write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
+    write_subject_graph(
+        driver,
+        [
+            fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#0"),
+            fact("Tables", "HAS_PROBLEM", "wobble", "Problem", "d.md#1"),
+            # the same statement once more under the other spelling: identical after the merge
+            fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#1", evidence="Tables wobble"),
+        ],
+        extractor="test",
+    )
+    report = resolve_entities(driver, None, model="m", auto_merge=90)
+
+    records, _, _ = driver.execute_query(
+        "MATCH (:Entity)-[f:HAS_PROBLEM]->(:Entity {name: 'wobble'}) "
+        "RETURN f.chunk_id AS chunk, f.evidence AS evidence ORDER BY chunk"
+    )
+    assert [(r["chunk"], r["evidence"]) for r in records] == [
+        ("d.md#0", "Table wobble"),
+        ("d.md#1", "Tables wobble"),
+    ]
+    mentions, _, _ = driver.execute_query(
+        "MATCH (c:Chunk)-[m:MENTIONS]->(e:Entity) WHERE e.name <> 'wobble' "
+        "RETURN c.chunk_id AS c, count(m) AS n"
+    )
+    assert {r["c"]: r["n"] for r in mentions} == {"d.md#0": 1, "d.md#1": 1}  # one mention per chunk, not two
+    assert report.merges == 1 and report.duplicate_facts_removed == 1
+
+
 @pytest.mark.neo4j
 def test_merge_then_undo_restores_the_graph(driver):
     chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
     write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
-
-    def fact(subject, predicate, obj, obj_type, chunk):
-        return Triple(
-            subject=subject, subject_type="Product", predicate=predicate, object=obj,
-            object_type=obj_type, evidence=f"{subject} {obj}", chunk_id=chunk,
-        )  # fmt: skip
-
     write_subject_graph(
         driver,
         [
