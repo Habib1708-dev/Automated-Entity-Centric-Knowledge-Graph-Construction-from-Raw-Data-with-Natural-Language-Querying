@@ -193,6 +193,12 @@ only over facts from labelled documents. A triple may carry `evidence`, the verb
 on. Question Cypher runs in a read-only transaction. The committed reference set for `data/` is
 `tests/gold/text_gold.json` (all 10 review files, labelled by Claude, not by hand; see its `_comment`).
 
+## Evaluation results
+
+The criteria and metric definitions live in [evaluation/README.md](evaluation/README.md); measured
+numbers are dated snapshots next to it (`evaluation/results_<date>.md`), each pinned to a commit and an
+MLflow run. A snapshot describes the system on its date only.
+
 ## LLM-as-a-judge
 
 Exact matching undercounts (`wobbly legs` versus `legs wobble`), so `kg eval` also supports a second,
