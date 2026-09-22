@@ -7,9 +7,16 @@ Design: the field descriptions are sent to the LLM inside the response schema, s
 Not here: LLM calls (proposer.py) and graph writes (importer.py).
 """
 
+import re
+
 from pydantic import BaseModel, Field
 
 from .profiler import DataProfile
+
+# A value made of letters/digits joined by _ - or . without spaces is a code, not a name a person writes:
+# "jönköping_coffee_table_assembly", "P-1000", "drawer.unit" match; "Legs" and "Drawer Rails" do not.
+# [^\W_] is any Unicode letter or digit (\w without the underscore), so Swedish names count as letters.
+_CODE_LIKE = re.compile(r"^[^\W_]+(?:[_.-][^\W_]+)+$")
 
 
 class NodeRule(BaseModel):
@@ -18,6 +25,14 @@ class NodeRule(BaseModel):
     unique_column: str = Field(description="Column that uniquely identifies each node")
     properties: list[str] = Field(description="Other columns to import as node properties")
     description: str = Field(description="One sentence on what this node represents")
+    # Optional so hand-written plans from before this field keep working; linking then guesses the column.
+    name_column: str | None = Field(
+        default=None,
+        description=(
+            "The column people would use to refer to one node in text, e.g. part_name. It must be "
+            "unique_column or one of properties. Null when no column holds a readable name."
+        ),
+    )
 
 
 class RelationshipRule(BaseModel):
@@ -66,6 +81,7 @@ def validate_plan(plan: ConstructionPlan, profile: DataProfile) -> list[str]:
                 f"({column.distinct_count} distinct values, {column.null_count} nulls, "
                 f"{file_profile.row_count} rows)"
             )
+        issues.extend(_name_column_issues(name, node, profile))
 
     seen = set()
     for rel in plan.relationships:
@@ -81,6 +97,25 @@ def validate_plan(plan: ConstructionPlan, profile: DataProfile) -> list[str]:
 
     issues.extend(_connectivity_issues(plan))
     return issues
+
+
+def _name_column_issues(name: str, node: NodeRule, profile: DataProfile) -> list[str]:
+    """The name column must be imported, and must hold names people write rather than codes."""
+    if node.name_column is None:
+        return []
+    # linking reads the name from the node, so it must be a column that is actually imported
+    if node.name_column not in (node.unique_column, *node.properties):
+        return [f"{name}: name_column '{node.name_column}' must be unique_column or one of properties"]
+    file_profile = profile.file(node.source_file)
+    column = file_profile.column(node.name_column) if file_profile else None
+    # Text says "legs", never "uppsala_sofa_assembly": a code column links nothing. The LLM picked such a
+    # column in a real run despite a prompt rule, so this is checked in code from the profiled samples.
+    if column is not None and column.samples and all(_CODE_LIKE.match(s) for s in column.samples):
+        return [
+            f"{name}: name_column '{node.name_column}' holds codes such as '{column.samples[0]}', not names "
+            "people write; choose a column with readable names, or null"
+        ]
+    return []
 
 
 def _connectivity_issues(plan: ConstructionPlan) -> list[str]:

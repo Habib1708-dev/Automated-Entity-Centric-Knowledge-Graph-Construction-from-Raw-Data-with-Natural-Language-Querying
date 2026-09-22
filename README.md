@@ -48,7 +48,18 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
 - Lexical graph: `(Chunk)-[:PART_OF]->(Document)`, `(Chunk)-[:NEXT_CHUNK]->(Chunk)`, optional embeddings.
 - Subject graph: `(:Entity {type, name, aliases})`, `(Chunk)-[:MENTIONS]->(Entity)`, facts as
   relationships carrying `chunk_id` and a verbatim `evidence` quote.
-- Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)`.
+- Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)`, recomputed on
+  every `kg link`. Entities are matched by the plan's `name_column` inside the neighbourhood (2 hops) of
+  the node their documents are ABOUT, so "legs" in a chair review links to the chair's legs; an entity
+  named for several products gets one REFERS_TO per product. To follow a fact to the right one, go from
+  its `chunk_id` to the document's ABOUT node:
+
+  ```cypher
+  MATCH (part:Entity)-[f:HAS_DEFECT]->(defect:Entity)
+  MATCH (:Chunk {chunk_id: f.chunk_id})-[:PART_OF]->(:Document)-[:ABOUT]->(product)
+  MATCH (part)-[:REFERS_TO]->(node)-[*0..2]-(product)
+  RETURN defect.name, part.name, labels(node)[0], product
+  ```
 
 ## Code map
 

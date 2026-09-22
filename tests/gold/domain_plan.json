@@ -9,16 +9,19 @@
         "price",
         "description"
       ],
-      "description": "A finished furniture product sold to customers"
+      "description": "A finished furniture product sold to customers",
+      "name_column": "product_name"
     },
     {
       "source_file": "assemblies.csv",
       "label": "Assembly",
       "unique_column": "assembly_id",
       "properties": [
-        "assembly_name"
+        "assembly_name",
+        "component_name"
       ],
-      "description": "A sub-assembly that makes up part of a product"
+      "description": "A sub-assembly that makes up part of a product",
+      "name_column": "component_name"
     },
     {
       "source_file": "components.csv",
@@ -28,7 +31,8 @@
         "part_name",
         "sub_assembly_name"
       ],
-      "description": "An individual component used in an assembly"
+      "description": "An individual component used in an assembly",
+      "name_column": "part_name"
     },
     {
       "source_file": "suppliers.csv",
@@ -40,7 +44,8 @@
         "city",
         "country"
       ],
-      "description": "A company supplying parts"
+      "description": "A company supplying parts",
+      "name_column": "name"
     }
   ],
   "relationships": [

@@ -100,6 +100,7 @@ design and filling the gaps.
 | R8 | Validation checks and evaluation harness (PLAN 7) | done 2026-09-21: `validation/` check families, evaluation harness, `kg eval` |
 | R9 | Stage abstraction, runner, thin CLI, docs (PLAN 8) | done 2026-09-21: `pipeline/` Stage + runner, approval pauses, thin CLI, README |
 | R10 | Trustworthy tracking after the first real run; current model defaults | done 2026-09-22: thinking tokens, failed attempts, embedding calls, traces linked from worker threads, guarded run open/close, `git_sha`/`code_version` tags, Gemini 3 defaults |
+| R11 | Scoped linking of text entities to the domain graph | done 2026-09-22: plan `name_column` (code rejects code-like columns), matching inside the document's product neighbourhood, recomputed links; defect → part → supplier now answerable (entities linked 9 → 17) |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -189,9 +190,44 @@ Found by reviewing the MLflow adapter and by the first `kg run data/` against Ge
 - **Accept:** unit tests for each item; a live `kg plan` and `kg ingest-text` show `thinking_tokens`,
   `embed_calls`, the tags, and the plan's two traces under the plan run.
 
+### R11. Scoped linking of text entities to the domain graph
+Found in the first real run: no review component linked to the domain, so a defect could not be traced
+to a part or supplier.
+- Cause 1 (bug): the linker guessed the name column as the first column containing "name", which is
+  `sub_assembly_name` for parts and `assembly_name` for assemblies (codes like "uppsala_sofa_assembly").
+  Now `NodeRule.name_column`, proposed by the LLM and checked in code: it must be imported, and a column
+  whose profiled samples all look like codes is rejected with a hint (the LLM chose `assembly_name` once
+  even with the prompt rule).
+- Cause 2: generic names repeat across products ("Legs" in every chair and table). Entities are matched
+  inside the 2-hop domain neighbourhood of the node their documents are ABOUT, with one REFERS_TO per
+  product; outside every scope only names unique in the domain link, ties are counted as ambiguous.
+  Chosen over splitting entities per product, which would have meant graph surgery after resolution
+  and would have broken `kg resolve --undo`.
+- Links are recomputed on each `kg link`; new metrics `entities_linked_in_scope`, `entities_ambiguous`,
+  `entity_links`.
+- **Accept (met):** a Neo4j test traces a defect in a chair review to the chair's supplier, not the
+  table's. On `data/` the MLflow runs compare as below; the defect → part → supplier query answers for 7
+  product/part pairs (e.g. Helsingborg Dresser drawer rails "rough sliding mechanisms" → 2 suppliers).
+
+  | Run | entities linked | in scope | ambiguous | REFERS_TO |
+  |---|---|---|---|---|
+  | first real run (before R11) | 9 | – | – | 9 |
+  | R11, LLM chose `assembly_name` | 14 | 12 | 1 | 14 |
+  | R11, with the code check | 17 | 17 | 1 | 19 |
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Profile samples are not deterministic (found in R11).** `profiler.py` takes `SELECT DISTINCT ... LIMIT 5`
+  without `ORDER BY`, so the samples, and therefore the plan prompt, differ between runs: the plan is never
+  served from the cache and runs are not exactly reproducible. Fix with an `ORDER BY` and a test.
+- **The test suite wipes the working graph (found in R11).** `neo4j` tests share the one database with
+  the pipeline, so `uv run pytest` deletes the graph of the last `kg run`. Point tests at a separate
+  Neo4j (a second container or port).
+- **Extraction thinking dominates cost (found in R11, visible since R10).** A full run costs about $1.25;
+  extraction is $1.05 of it, and 258k of its 270k output tokens are Gemini Flash thinking for 70 short
+  chunks. Try a thinking budget for extraction and compare the facts in MLflow.
 
 - **Temperature 0 with Gemini 3 (found in R10).** Google recommends temperature 1.0 for Gemini 3 models and
   warns that lower values can cause looping or degraded answers. The first run at 0 looked fine; changing it

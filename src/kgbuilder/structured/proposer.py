@@ -37,6 +37,8 @@ Modeling rules:
 - A file with no unique identifier and two foreign keys is a relationship file; its other columns
   are relationship properties.
 - Do not import foreign key columns as node properties.
+- Set `name_column` to the column holding the name a person would write in a review or report
+  (e.g. part_name "Drawer Rails", not a code like "drawer_unit_subassembly"); text is linked to nodes by it.
 - The schema must be one connected graph. Skip files that are irrelevant to the goal.
 - No two relationships between the same pair of labels may be inverses or synonyms of each other.
 
