@@ -195,9 +195,10 @@ on. Question Cypher runs in a read-only transaction. The committed reference set
 
 ## Evaluation results
 
-The criteria and metric definitions live in [evaluation/README.md](evaluation/README.md); measured
-numbers are dated snapshots next to it (`evaluation/results_<date>.md`), each pinned to a commit and an
-MLflow run. A snapshot describes the system on its date only.
+The criteria and metric definitions live in `docs/evaluation/README.md`; measured numbers are dated
+snapshots next to it (`docs/evaluation/results_<date>.md`), each pinned to a commit and an MLflow run.
+A snapshot describes the system on its date only. `docs/` is git-ignored (moved there on 2026-09-22),
+so these files exist only in the local checkout, like the skills.
 
 ## LLM-as-a-judge
 
