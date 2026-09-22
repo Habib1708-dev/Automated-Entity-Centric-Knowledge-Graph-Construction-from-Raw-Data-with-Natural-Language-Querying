@@ -99,7 +99,23 @@ Details live in the `mlflow-tracking` skill. The invariants:
   the comparison is mentioned in the step report. A comparison about quality needs a `quality` run, which
   is proposed with its estimated cost and made only with the user's agreement (`run-policy` skill).
 
-## 5. Commands
+## 5. Evaluation rules
+
+Details live in the `evaluation` skill. The invariants:
+
+- **Two accuracy scores, always both named.** Exact match (`kg eval`, deterministic) and the LLM judge
+  (by meaning). A number in a report or the thesis says which one it is and its `n`.
+- **The judge is Claude in the Claude Code session** (Fable 5.1 preferred, else Opus 5), never the model
+  that built the graph (Gemini / Ollama), and never an API call from the pipeline. The judge writes a
+  verdict file with a reason and an evidence quote per verdict; code parses it and computes the scores.
+- **The gold set is written by Claude, not hand-labelled**, from whole review files, before any pipeline
+  output for those files is opened, with a verbatim evidence sentence per triple. Any later gold change
+  made after seeing output is listed as a "gold correction" in the step report. The thesis states that
+  gold and verdicts come from the same model family.
+- **Judging never triggers a run.** It scores the `out/` of one named existing run (MLflow run id and
+  `git_sha` in the verdict file) and only `quality` or user-approved full runs, never `smoke`/`dev` output.
+
+## 6. Commands
 
 ```
 uv sync                                   # install
@@ -111,7 +127,7 @@ uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's dataset: smoke / dev (subsets) / quality (data/)
 ```
 
-## 6. Skills
+## 7. Skills
 
 | Skill | Use it when |
 |---|---|
@@ -120,6 +136,7 @@ uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's datas
 | `code-quality` | writing or reviewing any code; choosing a pattern; writing comments |
 | `mlflow-tracking` | adding or changing a stage, an LLM call, a metric, a prompt or a threshold |
 | `run-policy` | before any pipeline run (any preset); deciding whether a change needs one at all |
+| `evaluation` | creating or changing gold data; judging extracted facts as the LLM judge; adding an eval metric; writing accuracy numbers |
 | `reply-style` | writing any reply to the user (always: simple language, explain the why, end with a summary) |
 
 Skill files live in `.claude/skills/` and are git-ignored: they exist only in the local checkout.

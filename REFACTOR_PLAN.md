@@ -110,6 +110,9 @@ design and filling the gaps.
 | R18 | Permission gate: a comprehensive run needs the user's approval, enforced by a hook | done 2026-09-22: `ask_permission` in presets.yaml, `.claude/hooks/run_guard.py` registered in `.claude/settings.json`, rule in CLAUDE.md and `run-policy`; 18 tests |
 | R19 | Subsets built from config: a `sample` block per preset and `kg sample` | done 2026-09-22: `sampling.py` follows the profiler's foreign keys; the regenerated `samples/` equal the committed ones; drift test |
 | R20 | Cost in one place: a price table and a `cost_usd` metric per run | done 2026-09-22: `prices.yaml`, per-model tokens in `UsageMeter`, `cost_usd` on every run; docs point to presets.yaml, prices.yaml and MLflow |
+| R21 | Evaluation rules: gold set written by Claude, Claude as the LLM judge | done 2026-09-22: `evaluation` skill, CLAUDE.md section 5, run-policy and tracking pointers, R22/R23 planned |
+| R22 | Gold set for 2 to 3 review files, written before seeing output | planned |
+| R23 | Judge verdict file, `validation/judge.py`, `kg eval --verdicts`, judge metrics | planned |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -397,6 +400,36 @@ Prices live in a skill and costs were worked out by hand. Move them into config 
   README and `run-policy` no longer repeat models, datasets or prices. No pipeline run: the tests cover the
   metric end to end with a temporary MLflow store, and nothing that shapes the graph changed.
 
+### R21. Evaluation rules: gold set written by Claude, Claude as the LLM judge
+Nobody has time to hand-label, and the builder model must not grade itself. Write the rules down before
+any gold or verdict exists, so the order "label first, look at output second" is enforceable.
+- `evaluation` skill: the two scores (exact match and judge), who labels and who judges, gold rules
+  (whole documents, schema predicates, verbatim evidence, gold corrections listed), the judging
+  procedure and verdict kinds, the verdict file format, the metrics, and how to write numbers up.
+- CLAUDE.md section 5 with the invariants; `run-policy` (judging needs no run) and `mlflow-tracking`
+  (judge metrics row, comparison step 5) point to the skill.
+- **Accept:** rules and skill only, no code; `uv run pytest` and `uv run ruff check` unchanged.
+- **Result (met):** as listed. The gold and the verdicts will come from the same model family; the skill
+  makes the thesis state that limitation and lists the two mitigations (label before looking; every gold
+  correction reported).
+
+### R22. Gold set for 2 to 3 review files
+Closes D5 (as a Claude-labelled reference set, not a human one). Depends on R21 and an approved
+`out/text_schema.json` from a quality run.
+- `tests/gold/text_gold.json`: every fact in the chosen files, `doc_id`, schema predicate, `evidence`.
+- `GoldTriple.evidence` (optional) in `validation/evaluate.py`; a test that every committed gold triple's
+  evidence is a substring of its document.
+- **Accept:** `kg eval tests/gold/text_gold.json` runs against the current graph and logs exact-match
+  scores; the step report confirms no extraction output was opened before labelling.
+
+### R23. Judge verdicts and scoring
+Depends on R22 and on a quality run's `out/`.
+- `validation/judge.py`: pydantic models for `judge_verdicts.json`, pure scoring functions, run-id check.
+- `kg eval --verdicts out/judge_verdicts.json`: judge metrics and params on the `eval` run.
+- The first verdict file, written by Claude in the session for the named quality run.
+- **Accept:** unit tests for the scoring and the stale-run error; the eval run shows exact-match and judge
+  scores side by side; the step report gives both numbers with `n`.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -457,8 +490,9 @@ Found and fixed during R1 to R9:
 - The LLM cache wrote files non-atomically under a thread pool, and its key ignored temperature (fixed in R2).
 
 Still open (need a human or an API key, so they were not done):
-- **Hand-labelled gold set for `data/` (D5).** The harness and the file format exist (`kg eval`, README),
-  but the labels depend on the approved `out/text_schema.json`, which needs a real LLM run first.
+- **Gold set for `data/` (D5).** The harness and the file format exist (`kg eval`, README), but the
+  labels depend on the approved `out/text_schema.json`. Decided 2026-09-22: Claude writes it (R22) and
+  judges against it (R23), under the `evaluation` skill; no human labels.
 - **A full `kg run data/` against Gemini** to check the new MLflow params, traces and token metrics in
   the UI. Everything LLM-free was run on `data/`; the LLM stages were verified with `ScriptedLLM` only.
 - Embedding candidates for ER are implemented but off (`er_embedding_candidates = 0`); choose the
