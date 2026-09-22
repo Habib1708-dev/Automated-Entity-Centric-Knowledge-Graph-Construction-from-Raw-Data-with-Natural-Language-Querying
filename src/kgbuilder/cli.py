@@ -19,7 +19,7 @@ from pathlib import Path
 import typer
 from pydantic import ValidationError
 
-from .config import Settings
+from .config import PRESETS_FILE, Settings, read_presets
 from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
 from .llm.base import CallListener
@@ -28,6 +28,7 @@ from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import stages as st
+from .sampling import preset_samples, write_sample
 from .tracking.mlflow_tracker import create_tracker
 from .validation.report import ValidationReport
 
@@ -35,6 +36,7 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
 # optional everywhere: without it a command reads DATA_DIR, which the smoke and dev presets set to a subset
 DATA_DIR = typer.Argument(None, help="Data directory; default: the data_dir setting (the preset's dataset).")
+PRESET_NAMES = typer.Argument(None, help="Presets to rebuild; default: every one with a sample block.")
 
 
 @app.callback()
@@ -276,6 +278,20 @@ def run(
         state = PipelineState(data_dir=_data(ctx, data_dir), goal=goal, gold=gold, embed=embed)
         run_all(ctx, state, approve=_ask_reviewer if review else None)
     _print_report(state.validation)
+
+
+@app.command()
+def sample(
+    presets: list[str] = PRESET_NAMES,
+):
+    """Rebuild the small datasets of the cheap presets from the full data (no LLM, no Neo4j)."""
+    try:
+        for name, (spec, target) in preset_samples(read_presets(PRESETS_FILE), presets or []).items():
+            report = write_sample(spec, target)
+            typer.echo(f"{name}: {target}  rows {report.rows}  sections {report.sections}")
+    except KgBuilderError as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(1) from e
 
 
 @app.command()

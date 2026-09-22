@@ -22,9 +22,10 @@ from .llm.base import ThinkingLevel
 
 PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `.env`
 
-# Keys a preset may hold that are about the preset, not settings: its description, and whether a run
-# with it needs the user's permission first (read by .claude/hooks/run_guard.py, not by the pipeline).
-_PRESET_META_KEYS = {"description", "ask_permission"}
+# Keys a preset may hold that are about the preset, not settings: its description, whether a run with it
+# needs the user's permission first (read by .claude/hooks/run_guard.py), and how its data_dir is made
+# from the full dataset (read by `kg sample`). The pipeline never sees them.
+_PRESET_META_KEYS = {"description", "ask_permission", "sample"}
 # Settings a preset must never hold: presets.yaml is committed.
 _PRESET_FORBIDDEN_KEYS = {"gemini_api_key", "gemini_free_api_key"}
 
@@ -37,14 +38,24 @@ def load_preset(path: Path, name: str, allowed: set[str]) -> dict[str, Any]:
     """
     if not path.exists():
         raise ConfigurationError(f"preset '{name}' requested but {path} does not exist")
-    presets = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    presets = read_presets(path)
     if name not in presets:
         raise ConfigurationError(f"unknown preset '{name}'; {path} defines: {', '.join(presets)}")
-    values = {k: v for k, v in (presets[name] or {}).items() if k not in _PRESET_META_KEYS}
+    values = {k: v for k, v in presets[name].items() if k not in _PRESET_META_KEYS}
     unknown = sorted(set(values) - allowed)
     if unknown:
         raise ConfigurationError(f"preset '{name}' has unknown or forbidden keys: {', '.join(unknown)}")
     return values
+
+
+def read_presets(path: Path) -> dict[str, dict[str, Any]]:
+    """Every preset in the YAML file `path` with all its keys; `ConfigurationError` if the file is missing."""
+    if not path.exists():
+        raise ConfigurationError(f"{path} does not exist")
+    return {
+        name: values or {}
+        for name, values in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).items()
+    }
 
 
 class PresetSettingsSource(PydanticBaseSettingsSource):

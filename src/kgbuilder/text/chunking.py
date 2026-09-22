@@ -13,7 +13,8 @@ from pydantic import BaseModel
 from .documents import Document
 
 # A horizontal rule on its own line ("---" or "***"): the separator between reviews in the corpus.
-_SECTION_BREAK = re.compile(r"\n\s*(?:---+|\*\*\*+)\s*\n")
+# Public: the sampler (sampling.py) cuts documents at the same places the chunker splits them.
+SECTION_BREAK = re.compile(r"\n\s*(?:---+|\*\*\*+)\s*\n")
 _PARAGRAPH_BREAK = re.compile(r"\n\s*\n")
 
 
@@ -84,7 +85,7 @@ def chunk_document(
     A chunk can exceed `max_chars` by up to `overlap_chars` plus one packed neighbour; the limits steer
     the split, they are not hard guarantees.
     """
-    sections = [s.strip() for s in _SECTION_BREAK.split(doc.text) if s.strip()]
+    sections = [s.strip() for s in SECTION_BREAK.split(doc.text) if s.strip()]
     pieces: list[str] = []
     for section in sections:
         if len(section) <= max_chars:

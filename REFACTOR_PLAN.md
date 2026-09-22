@@ -108,7 +108,7 @@ design and filling the gaps.
 | R16 | Thinking level per role; quality preset on Gemini 3.8 Flash | done 2026-09-22: `schema_thinking` / `extract_thinking`, `ThinkingLLM` decorator; a quality run costs $0.17 instead of $1.25, 19/19 checks |
 | R17 | Run policy: when and how often any pipeline run may happen | done 2026-09-22: `run-policy` skill (default no run, one smoke/dev run per step, quality only with agreement, cost in every report); CLAUDE.md and skills point to it |
 | R18 | Permission gate: a comprehensive run needs the user's approval, enforced by a hook | done 2026-09-22: `ask_permission` in presets.yaml, `.claude/hooks/run_guard.py` registered in `.claude/settings.json`, rule in CLAUDE.md and `run-policy`; 18 tests |
-| R19 | Subsets built from config: a `sample` block per preset and `kg sample` | planned |
+| R19 | Subsets built from config: a `sample` block per preset and `kg sample` | done 2026-09-22: `sampling.py` follows the profiler's foreign keys; the regenerated `samples/` equal the committed ones; drift test |
 | R20 | Cost in one place: a price table and a `cost_usd` metric per run | planned |
 
 ### R1. Tooling, shared core, file headers
@@ -377,6 +377,10 @@ The subsets of R15 were made by a throwaway script, so nothing records how. Move
   the profiler finds (down from the root rows, then up to every row they reference).
 - **Accept:** unit tests for the key following and the section cut; a test that the committed `samples/`
   equal what the config produces, so config and files cannot drift.
+- **Result (met):** `sample` is a preset meta key (like `description`), read with `config.read_presets`.
+  `kg sample` rebuilt both subsets byte for byte the same as the R15 files (git saw no change), so the
+  config now fully describes them. `SECTION_BREAK` in `text/chunking.py` became public so documents are cut
+  where the chunker splits. 9 tests in `tests/test_sampling.py`. No pipeline run: the datasets did not change.
 
 ### R20. Cost in one place: a price table and a `cost_usd` metric per run
 Prices live in a skill and costs were worked out by hand. Move them into config and tracking.

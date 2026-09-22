@@ -18,6 +18,13 @@ smoke:
   extract_model: gemini-3.5-flash-lite
   embed_model: gemini-embedding-001
   data_dir: samples/smoke
+  # how data_dir is made from the full dataset: `uv run kg sample` rewrites it (see sampling.py)
+  sample:
+    source: data
+    root: {file: products.csv, column: product_id, values: [P-1000]}
+    documents:
+      - product_reviews/stockholm_chair_reviews.md
+    sections: 3
   mlflow_experiment: kgbuilder-smoke
 
 # Cheap check with real Gemini behaviour on the paid key (API errors, schemas, tracking), on a subset of
@@ -31,6 +38,15 @@ dev:
   extract_model: gemini-3.5-flash-lite
   embed_model: gemini-embedding-001
   data_dir: samples/dev
+  # how data_dir is made from the full dataset: `uv run kg sample` rewrites it (see sampling.py)
+  sample:
+    source: data
+    root: {file: products.csv, column: product_id, values: [P-1000, P-1003, P-1007]}
+    documents:
+      - product_reviews/stockholm_chair_reviews.md
+      - product_reviews/uppsala_sofa_reviews.md
+      - product_reviews/helsingborg_dresser_reviews.md
+    sections: 4
   mlflow_experiment: kgbuilder-dev
 
 # Genuine quality and performance runs: the numbers reported in the thesis come from this preset only.

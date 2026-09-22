@@ -46,8 +46,12 @@ uv run kg --preset quality run --goal "..."   # data/, 3.8 Flash with thinking l
 | `quality` | `gemini-3.8-flash`, thinking medium (schema) / low (extraction) | `data/` | paid | `kgbuilder` | the numbers in the thesis |
 
 Graphs from `smoke` and `dev` say nothing about quality: too little data, a weak model.
-The subsets keep every key consistent (each assembly, part, mapping and supplier row of the chosen
-products) and live outside `data/`, because every stage reads its directory recursively.
+The subsets are described in `presets.yaml`: the `sample` block of a preset names the source, the root
+rows (for example `product_id` P-1000) and the documents with how many sections each keeps.
+`uv run kg sample` rebuilds every subset from those blocks (`uv run kg sample dev` just one). It follows
+the foreign keys the profiler finds: down from the root rows to every row that belongs to them, then up to
+every row they point at, so no key dangles. The subsets live outside `data/`, because every stage reads
+its directory recursively, and a test fails if the committed files ever differ from what the config says.
 
 **Thinking levels.** Gemini 3 Flash reasons at length before it answers unless told otherwise, and that
 reasoning is billed as output: on `data/` it was $1.00 of a $1.25 run. `SCHEMA_THINKING` and
