@@ -116,7 +116,7 @@ design and filling the gaps.
 | R24 | First judge pass on a quality run; `PART_OF` gold triples | done 2026-09-22: 96 gold triples, pinned plan + schema, validated P/R/F1 1.00/0.71/0.83 vs exact 0.14/0.16/0.15, schema drift found |
 | R25 | `evaluation/` folder: criteria and metric definitions, dated result snapshots | done 2026-09-22: `evaluation/README.md`, `evaluation/results_2026-09-22.md` (assessment of R24's numbers), README pointer. Moved to the git-ignored `docs/evaluation/` the same day (local only); section 6 of the snapshot holds the stage-by-stage root-cause analysis of the recall gap and the recommended steps |
 | R26 | Document context on every chunk: the extractor may name the product the document is about | done 2026-09-22: `Chunk.context` (first heading, else title) stored in the graph, shown as `<document>` in the extraction prompt, accepted by `verify` for names only; 4 tests (144 total); effect measured in R29 |
-| R27 | `PART_OF` derived in code from mention → document → product; removed from the extraction schema | planned 2026-09-22 |
+| R27 | `PART_OF` derived in code from mention → document → product; removed from the extraction schema | done 2026-09-22: `FactType.derived`, `resolution/derivation.py` in the link stage (`facts_derived` metric, `extractor: derived`), `core/identity.py`, reference schema updated; 3 tests (147 total); effect measured in R29 |
 | R28 | Entity merging must not fold repeated evidence (`mergeRels`) | planned 2026-09-22 |
 | R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | planned 2026-09-22 (needs the user's yes, about $0.13) |
 | R30 | Exhaustive extraction prompt; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
@@ -526,6 +526,13 @@ this product" is the path Entity ←MENTIONS− Chunk −PART_OF→ Document −
 - **Accept:** unit tests for sentence picking and the rule (one part in one review → one fact with the
   right product, chunk and evidence; no ABOUT link → no fact); the 22 gold `PART_OF` triples are still
   matched by `kg eval` against derived facts (Neo4j test).
+- **Result (met):** `FactType.derived` (the extractor's prompt and `verify` see only extractable fact
+  types; `TextSchema.allows` still accepts derived ones for stored facts), `resolution/derivation.py`
+  (`pick_sentence`, `derive_facts`, `DerivationReport`) called by the link stage, `entity_id` moved to
+  `core/identity.py` because two packages now write entities. Reference schema: the two product `PART_OF`
+  types are `derived`, the part-to-assembly one is gone. 3 tests (147 total), `ruff` clean. No run.
+  Note: the LLM's schema proposal could set `derived` itself (the field is in the response schema, with a
+  description); the reviewer of `out/text_schema.json` checks it, as for every other field.
 
 ### R28. Entity merging must not fold repeated evidence
 Closes finding 4: `apoc.refactor.mergeNodes(..., mergeRels: true)` folded 6 of 132 facts (three reviews

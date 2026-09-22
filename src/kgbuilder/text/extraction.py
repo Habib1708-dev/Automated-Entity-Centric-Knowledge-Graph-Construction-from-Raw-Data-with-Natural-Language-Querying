@@ -116,11 +116,14 @@ def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str 
     # was made in this chunk, and the document name makes no claims
     names_source = text + " " + norm(context)
     subject, obj, evidence = norm(triple.subject), norm(triple.object), norm(triple.evidence)
-    if not schema.allows(triple.subject_type, triple.predicate, triple.object_type):
+    if not schema.allows_extraction(triple.subject_type, triple.predicate, triple.object_type):
         fact_type = f"{triple.subject_type} -[{triple.predicate}]-> {triple.object_type}"
-        return Rejection(
-            reason=RejectionReason.OFF_SCHEMA, detail=f"fact type {fact_type} is not in the schema"
+        why = (
+            "is derived by code, not extracted"
+            if schema.allows(triple.subject_type, triple.predicate, triple.object_type)
+            else "is not in the schema"
         )
+        return Rejection(reason=RejectionReason.OFF_SCHEMA, detail=f"fact type {fact_type} {why}")
     if not evidence or evidence not in text:
         return Rejection(
             reason=RejectionReason.EVIDENCE_NOT_VERBATIM,
@@ -145,7 +148,7 @@ def build_prompt(chunk: Chunk, schema: TextSchema) -> str:
         entity_types="\n".join(f"- {e.name}: {e.description}" for e in schema.entity_types),
         fact_types="\n".join(
             f"- {f.subject_type} -[{f.predicate}]-> {f.object_type}: {f.description}"
-            for f in schema.fact_types
+            for f in schema.extractable()  # derived fact types are code's job, the model never sees them
         ),
         context=chunk.context,
         chunk_id=chunk.chunk_id,

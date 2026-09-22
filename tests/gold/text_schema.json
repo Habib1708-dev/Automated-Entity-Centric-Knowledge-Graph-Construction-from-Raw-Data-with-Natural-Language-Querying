@@ -26,19 +26,15 @@
       "predicate": "PART_OF",
       "subject_type": "Assembly",
       "object_type": "Product",
-      "description": "Identifies which product an assembly belongs to, helping determine which product lines are impacted by sub-assembly failures."
-    },
-    {
-      "predicate": "PART_OF",
-      "subject_type": "Component",
-      "object_type": "Assembly",
-      "description": "Identifies which assembly contains a specific component, enabling defect localization to intermediate units."
+      "description": "Identifies which product an assembly belongs to, helping determine which product lines are impacted by sub-assembly failures.",
+      "derived": true
     },
     {
       "predicate": "PART_OF",
       "subject_type": "Component",
       "object_type": "Product",
-      "description": "Identifies direct product-to-component relationships when intermediate assemblies are not specified, tracing parts to finished goods."
+      "description": "Identifies direct product-to-component relationships when intermediate assemblies are not specified, tracing parts to finished goods.",
+      "derived": true
     },
     {
       "predicate": "HAS_DEFECT",

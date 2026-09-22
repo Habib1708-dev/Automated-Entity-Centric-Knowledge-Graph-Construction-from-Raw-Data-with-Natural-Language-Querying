@@ -35,6 +35,14 @@ class FactType(BaseModel):
     subject_type: str
     object_type: str
     description: str
+    # A derived fact type is computed by code in the link stage (resolution/derivation.py) from what the
+    # document is about, and is never shown to the extractor: the model used to spend more than half of
+    # its output on "part X is part of the product" facts that the document title already states.
+    derived: bool = Field(
+        default=False,
+        description="True only for a relation that follows from the document itself (a named part belongs "
+        "to the product the document is about); code derives it and the extractor never sees it",
+    )
 
 
 class TextSchema(BaseModel):
@@ -44,12 +52,36 @@ class TextSchema(BaseModel):
     def entity_names(self) -> set[str]:
         return {e.name for e in self.entity_types}
 
-    def allows(self, subject_type: str, predicate: str, object_type: str) -> bool:
-        """True when (subject_type, predicate, object_type) is one of the approved fact types."""
-        return any(
-            f.predicate == predicate and f.subject_type == subject_type and f.object_type == object_type
-            for f in self.fact_types
+    def find(self, subject_type: str, predicate: str, object_type: str) -> FactType | None:
+        """The fact type with this signature, derived or not; None when the schema has none."""
+        return next(
+            (
+                f
+                for f in self.fact_types
+                if f.predicate == predicate
+                and f.subject_type == subject_type
+                and f.object_type == object_type
+            ),
+            None,
         )
+
+    def allows(self, subject_type: str, predicate: str, object_type: str) -> bool:
+        """True when the signature is one of the schema's fact types, derived or not: a stored fact may be
+        either."""
+        return self.find(subject_type, predicate, object_type) is not None
+
+    def allows_extraction(self, subject_type: str, predicate: str, object_type: str) -> bool:
+        """True when the extractor may return this signature: in the schema and not derived by code."""
+        fact = self.find(subject_type, predicate, object_type)
+        return fact is not None and not fact.derived
+
+    def extractable(self) -> list[FactType]:
+        """The fact types the extractor is asked for."""
+        return [f for f in self.fact_types if not f.derived]
+
+    def derived(self) -> list[FactType]:
+        """The fact types code derives in the link stage."""
+        return [f for f in self.fact_types if f.derived]
 
 
 # The domain graph summary is passed in so that a type like "Assembly" keeps the meaning it has in the

@@ -1,19 +1,18 @@
 """Write the subject graph: `(:Entity)` nodes, `(Chunk)-[:MENTIONS]->(Entity)` and facts between entities.
 
 Role in the pipeline: second half of `kg extract`; input is the verified triples from extraction.py.
-Design: entities are keyed by (type, normalised name), so the same name in two chunks is one node.
+Design: entities are keyed by (type, normalised name) through `core.identity.entity_id`, so the same
+name in two chunks is one node, and the derivation in the link stage finds the same entities.
 Every fact relationship carries `chunk_id` and `evidence`, which is what makes the graph auditable.
 All writes are MERGE, so re-running extraction does not duplicate anything.
 Not here: deciding which triples are valid (extraction.py) and merging near-duplicates (resolution/).
 """
 
-import hashlib
-
 from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
-from ..core.text import norm
+from ..core.identity import entity_id
 from .extraction import Triple
 
 
@@ -21,12 +20,6 @@ class SubjectGraphCounts(BaseModel):
     entities: int
     facts: int
     mentions: int
-
-
-def entity_id(entity_type: str, name: str) -> str:
-    """Deterministic id from type and normalised name: "Table" and "table " are the same entity."""
-    # sha1 is used as a short stable hash, not for security
-    return hashlib.sha1(f"{entity_type}|{norm(name)}".encode()).hexdigest()[:16]
 
 
 def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -> SubjectGraphCounts:

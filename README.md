@@ -122,6 +122,10 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
 - Lexical graph: `(Chunk)-[:PART_OF]->(Document)`, `(Chunk)-[:NEXT_CHUNK]->(Chunk)`, optional embeddings.
 - Subject graph: `(:Entity {type, name, aliases})`, `(Chunk)-[:MENTIONS]->(Entity)`, facts as
   relationships carrying `chunk_id` and a verbatim `evidence` quote.
+- Derived facts: a fact type the text schema marks `"derived": true` (in the reference schema:
+  `PART_OF` from a Component or Assembly to a Product) is never asked from the extractor. `kg link` writes
+  it from `Entity <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one fact per mention
+  chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`.
 - Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)`, recomputed on
   every `kg link`. Entities are matched by the plan's `name_column` inside the neighbourhood (2 hops) of
   the node their documents are ABOUT, so "legs" in a chair review links to the chair's legs; an entity

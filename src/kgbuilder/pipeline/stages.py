@@ -16,6 +16,7 @@ from ..llm.base import prompt_version
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
 from ..resolution import resolver
+from ..resolution.derivation import DerivationReport, derive_facts
 from ..resolution.linking import link_graphs
 from ..structured import proposer
 from ..structured.importer import BATCH_SIZE, construct_domain_graph
@@ -360,7 +361,7 @@ class UndoResolveStage(BaseStage):
 
 
 class LinkStage(BaseStage):
-    """Link documents and entities to the domain graph."""
+    """Link documents and entities to the domain graph, then write the facts the text schema derives."""
 
     name = "link"
 
@@ -371,8 +372,16 @@ class LinkStage(BaseStage):
         return {"domain_link_threshold": ctx.settings.domain_link_threshold}
 
     def run(self, ctx, state, run):
-        state.links = link_graphs(ctx.driver, state.load_plan(ctx), ctx.settings.domain_link_threshold)
-        run.metrics(**state.links.model_dump())
+        plan = state.load_plan(ctx)
+        state.links = link_graphs(ctx.driver, plan, ctx.settings.domain_link_threshold)
+        # derivation needs the ABOUT links written just above; without a text schema there is no text path
+        schema = state.load_text_schema(ctx, required=False)
+        derived = (
+            derive_facts(ctx.driver, schema, plan)
+            if schema is not None
+            else DerivationReport(facts_derived=0, entities_created=0, skipped_no_evidence=0)
+        )
+        run.metrics(**state.links.model_dump(), **derived.model_dump())
 
 
 class ValidateStage(BaseStage):

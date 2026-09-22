@@ -127,6 +127,7 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     )
     assert {"chunk_max_chars", "chunk_min_chars"} <= set(tracker.run("ingest_text").logged_params)
     assert {"er_auto_merge", "er_borderline"} <= set(tracker.run("resolve").logged_params)
+    assert tracker.run("link").logged_metrics["facts_derived"] == 0  # the scripted schema derives nothing
     extract_metrics = tracker.run("extract").logged_metrics
     assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(extract_metrics)
     assert (
@@ -161,6 +162,32 @@ def test_verify_accepts_a_name_from_the_document_context_but_never_a_quote_from_
     assert verify(quoted, text, SCHEMA, context="Gothenburg Table Reviews").reason == (
         RejectionReason.EVIDENCE_NOT_VERBATIM
     )
+
+
+def test_derived_fact_types_are_hidden_from_the_extractor_and_rejected_if_it_returns_them():
+    derived = SCHEMA.model_copy(
+        update={
+            "fact_types": SCHEMA.fact_types
+            + [
+                FactType(
+                    predicate="PART_OF",
+                    subject_type="Problem",
+                    object_type="Product",
+                    description="d",
+                    derived=True,
+                )
+            ]
+        }
+    )
+    chunk = Chunk(chunk_id="r.md#0", doc_id="r.md", index=0, text="The table wobbles.")
+    assert "PART_OF" not in build_prompt(chunk, derived) and "HAS_PROBLEM" in build_prompt(chunk, derived)
+    part_of = RawTriple(
+        subject="wobbles", subject_type="Problem", predicate="PART_OF", object="table", object_type="Product",
+        evidence="The table wobbles.",
+    )  # fmt: skip
+    rejection = verify(part_of, chunk.text, derived)
+    assert rejection.reason == RejectionReason.OFF_SCHEMA and "derived" in rejection.detail
+    assert derived.allows("Problem", "PART_OF", "Product")  # a stored derived fact still conforms
 
 
 def test_extraction_prompt_shows_the_document_context_above_the_chunk():
