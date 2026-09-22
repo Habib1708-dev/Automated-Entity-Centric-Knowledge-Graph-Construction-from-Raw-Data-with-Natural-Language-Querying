@@ -39,3 +39,11 @@ class ConfigurationError(KgBuilderError):
 
 class MissingInputError(KgBuilderError):
     """A stage was started before the stage that produces its input (for example no out/plan.json)."""
+
+
+class EvaluationError(KgBuilderError):
+    """A judge verdict file does not fit the graph being scored (stale, incomplete, or unknown fact ids)."""
+
+    def __init__(self, issues: list[str]):
+        super().__init__("verdicts do not match the graph: " + "; ".join(issues))
+        self.issues = issues

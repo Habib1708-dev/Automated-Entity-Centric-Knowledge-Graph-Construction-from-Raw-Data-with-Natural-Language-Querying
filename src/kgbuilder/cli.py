@@ -256,14 +256,21 @@ def validate(out: Path = OUT, gold: Path | None = None):
 
 
 @app.command("eval")
-def evaluate(gold: Path, out: Path = OUT):
-    """Score the graph against a hand-labelled gold file (format: see validation/evaluate.py)."""
+def evaluate(gold: Path, out: Path = OUT, verdicts: Path | None = None):
+    """Score the graph against a gold file (format: validation/gold.py); with --verdicts, also against
+    the judge's verdict file (validation/judge.py). Always writes the judge sheet under out/."""
     with session(out) as ctx:
-        report = run_stages(ctx, PipelineState(gold=gold), [st.EvalStage()]).evaluation
+        report = run_stages(ctx, PipelineState(gold=gold, verdicts=verdicts), [st.EvalStage()]).evaluation
     for name, value in report.metrics().items():
-        typer.echo(f"{name:20} {value:.3f}")
+        typer.echo(f"{name:24} {value:.3f}")
     for q in report.questions:
         typer.echo(f"[{'PASS' if q.correct else 'FAIL'}] {q.question} -> {q.answered}")
+    if report.judge_sheet is not None:
+        sheet = report.judge_sheet
+        typer.echo(
+            f"Wrote {out / st.EvalStage.SHEET_FILE}: {len(sheet.to_judge())} of {len(sheet.facts)} facts "
+            f"and {len(sheet.gold_to_find())} of {len(sheet.gold)} gold triples need a judge"
+        )
     typer.echo(f"Wrote {out / 'eval_report.json'}")
 
 

@@ -10,7 +10,8 @@ from neo4j import Driver
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
 from .checks import DEFAULT_CHECKS, CheckContext, GraphCheck
-from .evaluate import GoldSet, evaluate
+from .evaluate import evaluate
+from .gold import GoldSet
 from .report import CheckOutput, ValidationReport
 
 

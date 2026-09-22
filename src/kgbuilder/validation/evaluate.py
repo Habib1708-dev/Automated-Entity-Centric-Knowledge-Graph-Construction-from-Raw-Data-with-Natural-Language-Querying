@@ -1,58 +1,21 @@
-"""Score the graph against hand-labelled gold data: triples, entities, entity resolution, questions.
+"""Score the graph against gold data: triples, entities, entity resolution, questions, and (with a
+verdict file) the judge's validated precision and recall.
 
-Role in the pipeline: `kg eval --gold gold.json`, and the accuracy check inside `kg validate --gold`.
-This is the regression suite for comparing prompt, model and threshold variants in MLflow.
+Role in the pipeline: `kg eval gold.json [--verdicts out/judge_verdicts.json]`, and the accuracy check
+inside `kg validate --gold`. This is the regression suite for comparing prompt, model and threshold
+variants in MLflow. Two accuracy sources are always logged side by side: exact match (deterministic,
+`triple_*`) and the judge (by meaning, `*_validated`; see judge.py and the `evaluation` skill).
 Design: pure scoring functions over `StoredFact` lists, so they are unit-tested without Neo4j; only
-`run_questions` and `evaluate` touch the database.
-
-Gold file format (every section optional; a bare list is read as `triples`):
-    {"triples":   [{"subject": "...", "predicate": "HAS_PROBLEM", "object": "...", "doc_id": "a.md",
-                    "evidence": "the sentence the fact comes from"}],
-     "er_pairs":  [{"a": "Table", "b": "Tables", "same": true}],
-     "questions": [{"question": "...", "cypher": "MATCH ... RETURN x", "expected": ["..."]}]}
-Precision is only meaningful over text that was labelled exhaustively. When gold triples carry
-`doc_id`, precision is computed over facts from those documents only; label whole documents.
-The committed gold set is `tests/gold/text_gold.json`; a test keeps its quotes verbatim in the corpus.
+`run_questions` and `evaluate` touch the database. Gold models and matching live in gold.py.
 """
-
-import json
-from pathlib import Path
 
 from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.text import norm
 from .checks.base import CheckContext, StoredFact
-
-
-class GoldTriple(BaseModel):
-    subject: str
-    predicate: str
-    object: str
-    doc_id: str | None = None
-    # the verbatim sentence the label rests on: lets a reader check the label without re-reading the
-    # document; not used by the scoring, which compares names only
-    evidence: str | None = None
-
-
-class GoldPair(BaseModel):
-    """Two names that are (or are not) the same real-world thing, for scoring entity resolution."""
-
-    a: str
-    b: str
-    same: bool
-
-
-class GoldQuestion(BaseModel):
-    question: str
-    cypher: str  # read-only query; the first column of its rows is the answer
-    expected: list[str]
-
-
-class GoldSet(BaseModel):
-    triples: list[GoldTriple] = []
-    er_pairs: list[GoldPair] = []
-    questions: list[GoldQuestion] = []
+from .gold import GoldPair, GoldQuestion, GoldSet, GoldTriple, in_scope, matches
+from .judge import JudgeReport, JudgeSheet, Verdicts, build_sheet, score_verdicts
 
 
 class Score(BaseModel):
@@ -85,6 +48,9 @@ class EvalReport(BaseModel):
     entities: Score | None = None
     er_accuracy: float | None = None
     questions: list[QuestionResult] = []
+    judge: JudgeReport | None = None
+    # what the judge still has to decide; written as its own artifact, so it is left out of the report file
+    judge_sheet: JudgeSheet | None = None
 
     def metrics(self) -> dict[str, float]:
         """Flat metric names for MLflow; stable across runs so that variants can be compared."""
@@ -98,38 +64,15 @@ class EvalReport(BaseModel):
             out["er_accuracy"] = self.er_accuracy
         if self.questions:
             out["question_accuracy"] = sum(q.correct for q in self.questions) / len(self.questions)
+        if self.judge is not None:
+            out.update(self.judge.metrics())
         return out
 
 
-def load_gold(path: Path) -> GoldSet:
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
-    return GoldSet(triples=data) if isinstance(data, list) else GoldSet.model_validate(data)
-
-
-def _doc_of(fact: StoredFact) -> str | None:
-    """Chunk ids are `<doc_id>#<index>`."""
-    return fact.chunk_id.rsplit("#", 1)[0] if fact.chunk_id else None
-
-
-def _matches(gold: GoldTriple, fact: StoredFact) -> bool:
-    """Same predicate, and the gold names are among the entity's names or aliases (after `norm`)."""
-    return (
-        gold.predicate == fact.predicate
-        and norm(gold.subject) in {norm(n) for n in fact.subject_names}
-        and norm(gold.object) in {norm(n) for n in fact.object_names}
-    )
-
-
-def _in_scope(facts: list[StoredFact], gold: list[GoldTriple]) -> list[StoredFact]:
-    """Facts from the labelled documents; all facts when the gold set names no documents."""
-    labelled_docs = {g.doc_id for g in gold if g.doc_id}
-    return [f for f in facts if _doc_of(f) in labelled_docs] if labelled_docs else facts
-
-
 def score_triples(facts: list[StoredFact], gold: list[GoldTriple]) -> Score:
-    scoped = _in_scope(facts, gold)
-    correct = sum(any(_matches(g, f) for g in gold) for f in scoped)
-    found = sum(any(_matches(g, f) for f in scoped) for g in gold)
+    scoped = in_scope(facts, gold)
+    correct = sum(any(matches(g, f) for g in gold) for f in scoped)
+    found = sum(any(matches(g, f) for f in scoped) for g in gold)
     return Score.of(correct, len(scoped), found, len(gold))
 
 
@@ -138,7 +81,7 @@ def score_entities(facts: list[StoredFact], gold: list[GoldTriple]) -> Score:
     gold_names = {norm(name) for g in gold for name in (g.subject, g.object)}
     predicted = {
         frozenset(norm(n) for n in names)
-        for f in _in_scope(facts, gold)
+        for f in in_scope(facts, gold)
         for names in (f.subject_names, f.object_names)
     }
     correct = sum(bool(names & gold_names) for names in predicted)
@@ -172,13 +115,19 @@ def run_questions(driver: Driver, questions: list[GoldQuestion]) -> list[Questio
     return results
 
 
-def evaluate(driver: Driver, gold: GoldSet) -> EvalReport:
-    """Score every section present in the gold set."""
+def evaluate(driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None) -> EvalReport:
+    """Score every section present in the gold set; with `verdicts`, add the judge's validated scores.
+
+    Raises `EvaluationError` when the verdicts do not cover exactly what the graph's judge sheet asks for.
+    """
     facts = CheckContext(driver=driver).facts
     report = EvalReport()
     if gold.triples:
         report.triples = score_triples(facts, gold.triples)
         report.entities = score_entities(facts, gold.triples)
+        report.judge_sheet = build_sheet(facts, gold.triples)
+        if verdicts is not None:
+            report.judge = score_verdicts(report.judge_sheet, verdicts)
     if gold.er_pairs:
         records, _, _ = driver.execute_query(
             "MATCH (e:Entity) RETURN [e.name] + coalesce(e.aliases, []) AS names"

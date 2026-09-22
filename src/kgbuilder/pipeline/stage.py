@@ -65,6 +65,7 @@ class PipelineState:
     data_dir: Path | None = None
     goal: str | None = None
     gold: Path | None = None
+    verdicts: Path | None = None  # the judge's verdict file for `kg eval --verdicts`
     embed: bool = True
 
     staged_dir: Path | None = None

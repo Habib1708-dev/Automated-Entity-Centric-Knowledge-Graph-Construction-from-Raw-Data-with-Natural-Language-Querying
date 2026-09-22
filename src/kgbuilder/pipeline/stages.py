@@ -6,6 +6,7 @@ Design: stages contain no business logic, only wiring and logging. What each sta
 specified in the `mlflow-tracking` skill; metric names are a contract, keep them stable.
 """
 
+import hashlib
 import json
 from dataclasses import asdict
 from pathlib import Path
@@ -28,7 +29,9 @@ from ..text.documents import load_documents
 from ..text.lexical import write_lexical_graph
 from ..text.subject_graph import write_subject_graph
 from ..tracking.base import Run
-from ..validation.evaluate import evaluate, load_gold
+from ..validation.evaluate import evaluate
+from ..validation.gold import load_gold
+from ..validation.judge import load_verdicts
 from ..validation.validator import validate_graph
 from .stage import PLAN_FILE, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 
@@ -62,10 +65,16 @@ def _log_refinement(ctx: PipelineContext, run: Run, result: Refinement, history_
     run.artifact(ctx.write(history_file, json.dumps([asdict(r) for r in result.history], indent=2)))
 
 
-def _gold_file(path: Path) -> Path:
+def _input_file(path: Path, what: str) -> Path:
     if not Path(path).exists():
-        raise MissingInputError(f"gold file '{path}' not found")
+        raise MissingInputError(f"{what} '{path}' not found")
     return Path(path)
+
+
+def _digest(path: Path) -> str:
+    """Short content hash of an input file, logged as a param so runs scored against different gold or
+    verdict files are never compared as if they were the same."""
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()[:12]
 
 
 class ProfileStage(BaseStage):
@@ -380,7 +389,7 @@ class ValidateStage(BaseStage):
             state.load_plan(ctx, required=False),
             state.load_text_schema(ctx, required=False),
             state.expected_counts,
-            load_gold(_gold_file(state.gold)) if state.gold else None,
+            load_gold(_input_file(state.gold, "gold file")) if state.gold else None,
             ctx.settings.gold_min_recall,
         )
         state.validation = report
@@ -393,16 +402,32 @@ class ValidateStage(BaseStage):
 
 
 class EvalStage(BaseStage):
-    """Score the graph against gold data: precision/recall/F1, ER accuracy, question answers."""
+    """Score the graph against gold data (exact match, ER accuracy, questions) and, with a verdict file,
+    against the judge's verdicts. Always writes the judge sheet: the list of what a judge would decide."""
 
     name = "eval"
+    SHEET_FILE = "judge_sheet.json"
 
     def params(self, ctx, state):
-        return {"gold": state.gold}
+        gold = _input_file(state.need("gold", "pass the gold file"), "gold file")
+        params: dict[str, object] = {"gold": gold, "gold_hash": _digest(gold), "verdicts": state.verdicts}
+        if state.verdicts:
+            verdicts = _input_file(state.verdicts, "verdict file")
+            # the judge model and the verdict content identify what "validated" means for this run
+            params.update(
+                judge_model=load_verdicts(verdicts).judge.model, judge_verdicts_hash=_digest(verdicts)
+            )
+        return params
 
     def run(self, ctx, state, run):
-        gold = _gold_file(state.need("gold", "pass the gold file"))
-        state.evaluation = evaluate(ctx.driver, load_gold(gold))
-        run.metrics(**state.evaluation.metrics())
+        gold = _input_file(state.gold, "gold file")
+        verdicts = load_verdicts(_input_file(state.verdicts, "verdict file")) if state.verdicts else None
+        report = evaluate(ctx.driver, load_gold(gold), verdicts)
+        state.evaluation = report
+        run.metrics(**report.metrics())
         run.artifact(gold)  # the gold file defines what the scores mean, so it travels with them
-        run.artifact(ctx.write("eval_report.json", state.evaluation.model_dump_json(indent=2)))
+        if report.judge_sheet is not None:
+            run.artifact(ctx.write(self.SHEET_FILE, report.judge_sheet.model_dump_json(indent=2)))
+        if state.verdicts:
+            run.artifact(Path(state.verdicts))
+        run.artifact(ctx.write("eval_report.json", report.model_dump_json(indent=2, exclude={"judge_sheet"})))

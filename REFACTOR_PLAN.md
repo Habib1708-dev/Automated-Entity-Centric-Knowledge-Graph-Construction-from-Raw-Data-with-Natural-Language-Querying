@@ -112,7 +112,8 @@ design and filling the gaps.
 | R20 | Cost in one place: a price table and a `cost_usd` metric per run | done 2026-09-22: `prices.yaml`, per-model tokens in `UsageMeter`, `cost_usd` on every run; docs point to presets.yaml, prices.yaml and MLflow |
 | R21 | Evaluation rules: gold set written by Claude, Claude as the LLM judge | done 2026-09-22: `evaluation` skill, CLAUDE.md section 5, run-policy and tracking pointers, R22/R23 planned |
 | R22 | Gold set for all 10 review files, written before seeing output | done 2026-09-22: `tests/gold/text_gold.json` (74 triples, 12 ER pairs, 5 questions, verbatim evidence), `GoldTriple.evidence`, integrity test |
-| R23 | Judge verdict file, `validation/judge.py`, `kg eval --verdicts`, judge metrics | planned |
+| R23 | LLM-as-a-judge scoring: judge sheet, verdict file, `kg eval --verdicts`, validated metrics in MLflow | done 2026-09-22: `validation/judge.py` + `gold.py`, `EvaluationError`, stage params/metrics/artifacts, 7 tests |
+| R24 | First judge pass on a quality run; `PART_OF` gold triples | planned |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -435,13 +436,37 @@ and Claude labels, so the time argument for a subset no longer holds.
   database, so the quality graph must be rebuilt first (a `quality` run, mostly cache hits; needs the
   user's yes), which R23 does together with the first judge pass.
 
-### R23. Judge verdicts and scoring
-Depends on R22 and on a quality run's `out/`.
-- `validation/judge.py`: pydantic models for `judge_verdicts.json`, pure scoring functions, run-id check.
-- `kg eval --verdicts out/judge_verdicts.json`: judge metrics and params on the `eval` run.
-- The first verdict file, written by Claude in the session for the named quality run.
-- **Accept:** unit tests for the scoring and the stale-run error; the eval run shows exact-match and judge
-  scores side by side; the step report gives both numbers with `n`.
+### R23. LLM-as-a-judge scoring: judge sheet, verdict file, `kg eval --verdicts`, validated metrics
+Depends on R22. Split on 2026-09-22: the code here, the first judge pass (which needs a quality graph) in R24.
+Scheme agreed with the user: gold for recall, the review text for precision, each with an exact-match
+shortcut; three verdicts (`SUPPORTED` with quote, `UNSUPPORTED` with a reason code, `AMBIGUOUS` outside
+the denominator), a `vague` flag, and `gold_corrections` for supported facts the gold lacks.
+- `validation/gold.py`: gold models, loader and matching moved out of `evaluate.py` (structural), so that
+  `judge.py` and `evaluate.py` share them without a cycle.
+- `validation/judge.py`: `build_sheet` (code decides what still needs a verdict: in-scope facts with a
+  stable id and their exact-match result, gold triples with found/unfound), the verdict models with their
+  own consistency rules, `score_verdicts`, and a coverage check that raises `EvaluationError` when a
+  verdict file does not fit the graph's sheet (missing, duplicate, unknown or stale ids).
+- `kg eval gold.json` always writes `out/judge_sheet.json`; `--verdicts` adds the validated metrics.
+- Tracking: params `gold_hash`, `verdicts`, `judge_model`, `judge_verdicts_hash`; metrics
+  `precision_validated`, `recall_validated`, `f1_validated`, `ambiguous_rate`, `vague_rate`, `judged_facts`,
+  `gold_corrections`, `unsupported_<reason>` (all four, 0 when unused); artifacts gold, sheet, verdicts,
+  `eval_report.json`.
+- **Accept:** unit tests for the sheet, the verdict rules, the metrics and the refusal cases; a Neo4j test
+  of the eval stage's tracking contract in two passes (sheet, then verdicts).
+- **Result (met):** 7 tests (140 total), `ruff` clean. No pipeline run: nothing that shapes the graph
+  changed, and the stage test covers the MLflow contract with `RecordingTracker`. The eval report file no
+  longer embeds the sheet (own artifact). Exact-match metric names unchanged (`triple_*`), so earlier runs
+  stay comparable; the skill maps `precision_exact` to `triple_precision`.
+
+### R24. First judge pass on a quality run; `PART_OF` gold triples
+Depends on R23 and on the user's yes for one `quality` run (about $0.17, mostly cache hits).
+- Gold: add one `PART_OF` triple per component a review names, to its product (about 22; the title plus the
+  sentence state it). Done before the sheet is opened, in its own commit.
+- Rebuild the graph (`kg --preset quality run`), `kg eval tests/gold/text_gold.json`, fill
+  `out/judge_verdicts.json` as the judge (Claude Fable 5.1), `kg eval ... --verdicts`.
+- **Accept:** the eval run shows exact-match and validated scores side by side; the step report gives
+  both with `n`, the gold corrections, the run id and its `cost_usd`.
 
 ## Found along the way
 

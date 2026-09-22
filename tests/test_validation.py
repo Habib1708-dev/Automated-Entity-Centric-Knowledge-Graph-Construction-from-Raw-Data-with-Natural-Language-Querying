@@ -10,16 +10,13 @@ from neo4j.exceptions import Neo4jError
 from kgbuilder.validation.checks import CheckContext
 from kgbuilder.validation.checks.base import StoredFact
 from kgbuilder.validation.evaluate import (
-    GoldPair,
-    GoldQuestion,
-    GoldTriple,
     Score,
-    load_gold,
     run_questions,
     score_entities,
     score_er,
     score_triples,
 )
+from kgbuilder.validation.gold import GoldPair, GoldQuestion, GoldTriple, load_gold
 from kgbuilder.validation.report import CheckOutput
 from kgbuilder.validation.validator import validate_graph
 

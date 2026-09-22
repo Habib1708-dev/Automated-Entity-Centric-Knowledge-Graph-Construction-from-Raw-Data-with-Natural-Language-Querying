@@ -21,7 +21,8 @@ copy .env.example .env      # then set GEMINI_API_KEY
 uv run kg run data/ --goal "supply chain root cause analysis"    # whole pipeline, needs GEMINI_API_KEY
 uv run kg run data/ --goal "..." --review                         # pause for review after plan and text schema
 uv run kg run data/ --goal "..." --gold gold.json                 # also checks recall against labelled triples
-uv run kg eval gold.json                                          # precision/recall/F1, ER accuracy, questions
+uv run kg eval gold.json                                          # precision/recall/F1, ER accuracy, questions; writes out/judge_sheet.json
+uv run kg eval gold.json --verdicts out/judge_verdicts.json       # plus the judge's validated precision/recall (see below)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -144,7 +145,7 @@ src/kgbuilder/
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
   resolution/       matchers (Strategy) -> resolver (merge, undo) ; linking
-  validation/       checks/ (Strategy families), validator, evaluate (gold-set scoring)
+  validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
 ```
 
@@ -187,6 +188,22 @@ Every section is optional. Give `doc_id` and label those documents exhaustively:
 only over facts from labelled documents. A triple may carry `evidence`, the verbatim sentence it rests
 on. Question Cypher runs in a read-only transaction. The committed reference set for `data/` is
 `tests/gold/text_gold.json` (all 10 review files, labelled by Claude, not by hand; see its `_comment`).
+
+## LLM-as-a-judge
+
+Exact matching undercounts (`wobbly legs` versus `legs wobble`), so `kg eval` also supports a second,
+meaning-based score. The judge is Claude in the Claude Code session, never the model that built the graph.
+
+1. `kg eval gold.json` writes `out/judge_sheet.json`: every in-scope fact with its exact-match result, and
+   every gold triple with whether it was found. Only unsettled facts and unfound gold need a judge.
+2. The judge writes `out/judge_verdicts.json`: per unsettled fact `SUPPORTED` (with the review sentence),
+   `UNSUPPORTED` (with a reason code: `not_in_text`, `wrong_relation`, `wrong_entity`, `contradicted`)
+   or `AMBIGUOUS`; per unfound gold triple the sheet fact that states it, or `null`. Format:
+   `validation/judge.py`.
+3. `kg eval gold.json --verdicts out/judge_verdicts.json` logs `precision_validated`,
+   `recall_validated`, `f1_validated`, `ambiguous_rate`, `vague_rate`, `unsupported_<reason>` and
+   `gold_corrections` next to the exact-match metrics, with `judge_model` and the file hashes as params.
+   A verdict file that does not cover exactly the graph's sheet is refused, never scored silently.
 
 ## Development
 
