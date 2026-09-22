@@ -64,6 +64,10 @@ quality:
   schema_model: gemini-3.8-flash
   extract_model: gemini-3.8-flash
   schema_thinking: medium
+  # low kept after the R31 comparison (2026-09-22): medium reached the same validated precision and
+  # recall (1.00 / 1.00 on the 96-fact gold set) and exact-match F1 0.273 against 0.265, for 4.2x the
+  # extraction cost ($0.354 against $0.085, 1 064 thinking tokens per call against 37). Override per run
+  # with EXTRACT_THINKING=medium; see docs/evaluation/results_2026-09-22_r31.md.
   extract_thinking: low
   embed_model: gemini-embedding-001
   data_dir: data

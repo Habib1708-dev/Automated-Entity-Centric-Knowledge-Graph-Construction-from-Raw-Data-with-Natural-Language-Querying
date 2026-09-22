@@ -120,7 +120,7 @@ design and filling the gaps.
 | R28 | Entity merging must not fold repeated evidence (`mergeRels`) | done 2026-09-22: `mergeRels: false`, exact repeats (same type, ends, chunk, quote) and doubled mentions removed explicitly, `duplicate_facts_removed` metric; test failed before the fix (2 facts folded to 1), 148 tests |
 | R29 | One quality extraction run and judge pass after R26–R28; new results snapshot | done 2026-09-22: run **$0.07** (extract `fc26bfe4`, 70 paid calls), judge pass by Claude Fable 5.1, eval `0002b0c0`: validated P/R/F1 1.00/0.77/0.87 (from 1.00/0.71/0.83), exact 0.35/0.28/0.31 (from 0.14/0.16/0.15), gold corrections 40 → 11; `docs/evaluation/results_2026-09-22_r29.md` |
 | R30 | Exhaustive extraction prompt; one run, one judge pass | done 2026-09-22: prompt `f19abd49dec8`, run **$0.085** (extract `b1fa5eec`), judge pass, eval `d9ce6ed8`: validated P/R/F1 **1.00/1.00/1.00** (strict 0.99 / 0.96; from 1.00/0.77/0.87), `vague_rate` 0.064, gold corrections 23; `docs/evaluation/results_2026-09-22_r30.md` |
-| R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | planned 2026-09-22 (needs the user's yes) |
+| R31 | Extraction thinking `low` against `medium` on the pinned schema; one run, one judge pass | done 2026-09-22: run **$0.354** (extract `9e24bde4`, 74 452 thinking tokens), judge pass, eval `ac83d9a2`: validated 1.00/1.00/1.00, exact F1 0.273 (low: 0.265), vague 0.044 (0.064), 5 fewer facts; **preset keeps `low`**; `docs/evaluation/results_2026-09-22_r31.md` |
 | R32 | Derivation reuses the product entity that resolution merged under another spelling | done 2026-09-22 (before R30): `existing_entities` lookup by name or alias, `entity_id` only as fallback; 1 test (149 total, 5 blocked by a Windows policy, see Found along the way) |
 
 ### R1. Tooling, shared core, file headers
@@ -600,6 +600,16 @@ Depends on R30 and on the user's yes for one run (medium costs more; quote the n
 - Same prompt and schema as R30, `extract_thinking: medium`; one run, one judge pass.
 - **Accept:** validated recall and `cost_usd` of both levels side by side; the preset keeps the level
   that the numbers justify.
+- **Result (met):** user's yes given in the session; `EXTRACT_THINKING=medium` in the environment for the
+  extract command only (the preset and the resolve stage unchanged), same prompt `f19abd49dec8`, same
+  pinned plan and schema. Extract `9e24bde4`: 86 facts (low: 91), 0 rejected, 58 634 / 8 132 / **74 452**
+  tokens (1 064 thinking tokens per call against 37), **$0.354** (low: $0.085), 385 s of model latency.
+  Judge pass (`tests/gold/judge_verdicts_2026-09-22_r31.json`, hash `365ec394febd`): 136 facts, 35 exact,
+  101 judged, all `SUPPORTED`, 6 vague; gold 28 + 68 = 96 of 96. Validated P/R/F1 1.000 / 1.000 / 1.000,
+  identical to `low`, strict readings identical (0.990 / 0.958); exact-match F1 0.273 (+0.008); 25 gold
+  corrections of the same kinds. Eval runs `d9ce6ed8` (low) and `ac83d9a2` (medium) side by side.
+  Decision: the `quality` preset keeps `extract_thinking: low` (same accuracy, 4.2× cheaper, shorter
+  entity names); `presets.yaml` records the comparison. 13 of 70 traces missing again (pandas block).
 
 ### R32. Derivation reuses the entity that resolution merged
 Closes the first R29 finding. Done before R30 (out of number order) so that the next paid run does not
