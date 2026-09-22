@@ -27,6 +27,14 @@ That must not happen again.
   it in its own step (or a clearly separated commit), with a test that fails before the fix.
 - **No speculative code.** Do not add features, options, abstractions or files that the current step
   does not need. No dead code, no commented-out code, no TODOs without a roadmap entry.
+- **Pipeline runs only after a meaningful change.** Runs that call an LLM cost money and time, so a
+  slight update is proven by `uv run pytest` and `uv run ruff check` alone. Run the pipeline (whole or one
+  stage) only when the change can alter the graph or its numbers: a prompt, a model, a threshold, the
+  logic of a stage, the plan or schema models, or before results are reported. Not after docs, comments,
+  renames, test-only or tooling changes, small fixes, or refactors the tests fully cover. When a run is
+  needed, use the cheapest preset that answers the question (`smoke` or `dev` to see that the code works,
+  `quality` only for comparisons and reported numbers), prefer a single stage to a full run, and say in
+  the report which run was made, or why none was.
 - One commit per step, message `step N: <what>`, only after the gate is green. Never chain the commit
   after the checks with `;` or behind a pipe that hides their exit code.
 
@@ -82,8 +90,9 @@ Details live in the `mlflow-tracking` skill. The invariants:
 - Every LLM call is **traced** (prompt, response, model, latency, cache hit or miss).
 - All MLflow access goes through the `Tracker` protocol in `tracking/`. A new stage without tracking is
   an incomplete stage. Tracking failures must never break the pipeline (Null Object fallback).
-- Any change to a prompt, model or threshold is evaluated by comparing MLflow runs before and after, and
-  the comparison is mentioned in the step report.
+- Any change to a prompt, model or threshold is evaluated by comparing MLflow runs before and after (with
+  the `quality` preset when the comparison is about quality), and the comparison is mentioned in the step
+  report.
 
 ## 5. Commands
 
@@ -94,7 +103,7 @@ uv run pytest                             # all tests (Neo4j tests skip when it 
 uv run pytest -m "not neo4j"              # fast unit tests only
 uv run ruff check . ; uv run ruff format . # lint and format
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
-uv run kg run data/ --goal "..."          # whole pipeline (needs GEMINI_API_KEY)
+uv run kg --preset dev run data/ --goal "..."   # whole pipeline; presets: smoke ($0) / dev / quality
 ```
 
 ## 6. Skills
