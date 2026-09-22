@@ -1,10 +1,11 @@
-"""The LLM port's decorators and helpers: disk cache behaviour, call reporting, prompt versioning.
-No network: the inner client is a ScriptedLLM."""
+"""The LLM port's decorators and helpers: disk cache behaviour, thinking levels, call reporting, prompt
+versioning, and the provider adapters with their SDK or HTTP client swapped out. No network."""
 
 from pydantic import BaseModel
 
 from kgbuilder.llm.base import LLMCallRecord, prompt_version
 from kgbuilder.llm.cache import CachedLLM
+from kgbuilder.llm.thinking import ThinkingLLM, with_thinking
 
 from .fakes import ScriptedLLM
 
@@ -33,6 +34,24 @@ def test_model_temperature_and_prompt_are_part_of_the_key(tmp_path):
     cached.generate("hi", Answer, model="m", temperature=0.7)
     cached.generate("hello", Answer, model="m")
     assert len(inner.calls) == 4
+
+
+def test_the_thinking_level_is_part_of_the_key_only_when_set(tmp_path):
+    inner, cached = make(tmp_path)
+    cached.generate("hi", Answer, model="m")
+    cached.generate("hi", Answer, model="m", thinking="")  # the model default: same entry as before
+    cached.generate("hi", Answer, model="m", thinking="low")
+    cached.generate("hi", Answer, model="m", thinking="high")
+    assert inner.thinking == ["", "low", "high"]
+
+
+def test_a_role_level_is_sent_with_every_request_unless_the_call_sets_one():
+    inner = ScriptedLLM(lambda prompt, schema: Answer(text="x"))
+    llm = with_thinking(inner, "low")
+    llm.generate("a", Answer, model="m")
+    llm.generate("b", Answer, model="m", thinking="high")
+    assert isinstance(llm, ThinkingLLM) and inner.thinking == ["low", "high"]
+    assert with_thinking(inner, "") is inner  # no level: nothing is wrapped, the model default applies
 
 
 def test_corrupt_cache_entry_is_a_miss_and_gets_rewritten(tmp_path):
@@ -66,8 +85,9 @@ class _FlakyModels:
     def __init__(self, failures: int, text: str, usage: object | None = None):
         self.failures, self.text, self.usage, self.calls = failures, text, usage, 0
 
-    def generate_content(self, **_):
+    def generate_content(self, **request):
         self.calls += 1
+        self.request = request
         if self.calls <= self.failures:
             raise ConnectionError("simulated outage")
         return type("Response", (), {"text": self.text, "usage_metadata": self.usage})()
@@ -116,6 +136,15 @@ def test_gemini_reports_thinking_tokens_apart_from_the_visible_answer():
         20,
         300,
     )
+
+
+def test_gemini_sends_the_thinking_level_only_when_one_is_set():
+    models = _FlakyModels(failures=0, text='{"text": "ok"}')
+    client = _gemini_with(models)
+    client.generate("p", Answer, model="m", thinking="low")
+    assert models.request["config"].thinking_config.thinking_level == "LOW"
+    client.generate("p", Answer, model="m")
+    assert models.request["config"].thinking_config is None  # the model decides
 
 
 def test_gemini_reports_the_tokens_of_a_reply_that_did_not_fit_the_schema():

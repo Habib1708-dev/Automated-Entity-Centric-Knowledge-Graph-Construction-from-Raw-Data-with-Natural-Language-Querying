@@ -34,14 +34,18 @@ dev:
   mlflow_experiment: kgbuilder-dev
 
 # Genuine quality and performance runs: the numbers reported in the thesis come from this preset only.
-# The stronger model designs the plan and the text schema; Flash extracts per chunk. Measured on data/
-# (2026-09-22): $1.25 per run, $1.05 of it Flash thinking during extraction.
+# Gemini 3.8 Flash for every role: it scores higher than 3.1 Pro (Artificial Analysis index 41 vs 30) at
+# less than half the price. Without a thinking level it cost $1.25 per run on data/ (2026-09-22), $1.00 of
+# it thinking during extraction; the levels below cap that. Extraction and adjudication are many small
+# tasks (low); the plan and the text schema are one hard design task each (medium).
 quality:
-  description: gemini-3.1-pro-preview for schema work + gemini-3.8-flash for extraction
+  description: gemini-3.8-flash everywhere, thinking medium for schema work and low for extraction, data/
   llm_provider: gemini
   gemini_key: paid
-  schema_model: gemini-3.1-pro-preview
+  schema_model: gemini-3.8-flash
   extract_model: gemini-3.8-flash
+  schema_thinking: medium
+  extract_thinking: low
   embed_model: gemini-embedding-001
   data_dir: data
   mlflow_experiment: kgbuilder

@@ -10,7 +10,7 @@ Not here: caching (llm/cache.py wraps this class) and prompt construction (each 
 import time
 
 from ..core.errors import LLMUnavailableError
-from .base import CallListener, T
+from .base import CallListener, T, ThinkingLevel
 from .retry import RawReply, generate_with_retry, report_embedding
 
 # The embedding endpoint accepts at most 100 texts per request.
@@ -46,7 +46,15 @@ class GeminiClient:
         self._backoff_s = backoff_s
         self._listener = listener
 
-    def generate(self, prompt: str, schema: type[T], *, model: str, temperature: float = 0.0) -> T:
+    def generate(
+        self,
+        prompt: str,
+        schema: type[T],
+        *,
+        model: str,
+        temperature: float = 0.0,
+        thinking: ThinkingLevel = "",
+    ) -> T:
         from google.genai import types
 
         config = types.GenerateContentConfig(
@@ -54,6 +62,9 @@ class GeminiClient:
             # JSON mode + a response schema makes the API constrain decoding to the pydantic model
             response_mime_type="application/json",
             response_schema=schema,
+            # left unset, Gemini 3 Flash thinks at length even for a short chunk: 250k thinking tokens were
+            # $1.00 of a $1.25 run; the level is chosen per role in the settings
+            thinking_config=types.ThinkingConfig(thinking_level=thinking.upper()) if thinking else None,
         )
 
         def send() -> RawReply:

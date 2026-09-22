@@ -14,7 +14,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from .base import CallListener, LLMCallRecord, LLMClient, T
+from .base import CallListener, LLMCallRecord, LLMClient, T, ThinkingLevel
 
 
 class CachedLLM:
@@ -25,22 +25,32 @@ class CachedLLM:
         self._cache_dir = cache_dir
         self._listener = listener  # told about cache hits only; the inner client reports its own calls
 
-    def generate(self, prompt: str, schema: type[T], *, model: str, temperature: float = 0.0) -> T:
-        cache_file = self._cache_dir / f"{self._key(prompt, schema, model, temperature)}.json"
+    def generate(
+        self,
+        prompt: str,
+        schema: type[T],
+        *,
+        model: str,
+        temperature: float = 0.0,
+        thinking: ThinkingLevel = "",
+    ) -> T:
+        cache_file = self._cache_dir / f"{self._key(prompt, schema, model, temperature, thinking)}.json"
         started = time.perf_counter()
         cached = self._read(cache_file, schema)
         if cached is not None:
             self._report_hit(model, temperature, prompt, cached, time.perf_counter() - started)
             return cached
 
-        result = self._inner.generate(prompt, schema, model=model, temperature=temperature)
+        result = self._inner.generate(prompt, schema, model=model, temperature=temperature, thinking=thinking)
         self._write(cache_file, result.model_dump_json())
         return result
 
     @staticmethod
-    def _key(prompt: str, schema: type[T], model: str, temperature: float) -> str:
+    def _key(prompt: str, schema: type[T], model: str, temperature: float, thinking: str) -> str:
         # The output schema is part of the key: changing a pydantic model must not return stale shapes.
-        material = json.dumps([model, temperature, prompt, schema.model_json_schema()], sort_keys=True)
+        parts = [model, temperature, prompt, schema.model_json_schema()]
+        # the level only when set, so entries written before levels existed (the model default) stay valid
+        material = json.dumps(parts + [thinking] if thinking else parts, sort_keys=True)
         return hashlib.sha256(material.encode("utf-8")).hexdigest()
 
     @staticmethod

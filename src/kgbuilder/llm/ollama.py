@@ -12,7 +12,7 @@ import time
 
 import httpx
 
-from .base import CallListener, T
+from .base import CallListener, T, ThinkingLevel
 from .retry import RawReply, generate_with_retry, report_embedding
 
 # Texts per /api/embed request. Ollama has no fixed limit; this keeps one request well under a minute
@@ -42,15 +42,23 @@ class OllamaClient:
         self._backoff_s = backoff_s
         self._listener = listener
 
-    def generate(self, prompt: str, schema: type[T], *, model: str, temperature: float = 0.0) -> T:
+    def generate(
+        self,
+        prompt: str,
+        schema: type[T],
+        *,
+        model: str,
+        temperature: float = 0.0,
+        thinking: ThinkingLevel = "",
+    ) -> T:
         body = {
             "model": model,
             "messages": [{"role": "user", "content": prompt}],
             "stream": False,
             # a JSON schema in `format` makes Ollama constrain decoding to it (structured outputs)
             "format": schema.model_json_schema(),
-            # Thinking off: a small thinking model spent 4,000 tokens thinking and then broke the JSON.
-            # Models that cannot think accept the flag and ignore it.
+            # Thinking off, whatever `thinking` asks: a small thinking model spent 4,000 tokens thinking and
+            # then broke the JSON. Models that cannot think accept the flag and ignore it.
             "think": False,
             # Ollama silently cuts a prompt longer than its context window (often 4,096 tokens by
             # default), and the plan prompt alone is about 8,000, so the window is always set.

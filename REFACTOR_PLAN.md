@@ -105,7 +105,7 @@ design and filling the gaps.
 | R13 | Model presets (`presets.yaml`): smoke, dev, quality | done 2026-09-22: preset settings source between environment and `.env`, `kg --preset`, `preset` tag on every run; dev run measured at $0.06 |
 | R14 | A goal-neutral text schema prompt | done 2026-09-22: example list removed (it invited reviewers and locations), goal-question rule for proposer and critic, `facts_touching_domain_rate`; MLflow comparison mixed, accuracy left to the gold set |
 | R15 | Small data subsets for smoke and dev; smoke on a free Gemini key | done 2026-09-22: `samples/smoke`, `samples/dev`, `data_dir` and `gemini_key` settings, optional `DATA_DIR` argument; a run on the smoke subset costs $0.012 on the paid key |
-| R16 | Thinking level per role; quality preset on Gemini 3.8 Flash | planned |
+| R16 | Thinking level per role; quality preset on Gemini 3.8 Flash | done 2026-09-22: `schema_thinking` / `extract_thinking`, `ThinkingLLM` decorator; a quality run costs $0.17 instead of $1.25, 19/19 checks |
 | R17 | Run policy: when and how often any pipeline run may happen | planned |
 
 ### R1. Tooling, shared core, file headers
@@ -317,6 +317,27 @@ Smoke and dev runs only show that the system works, so they need little data and
 - `quality`: `gemini-3.8-flash` for every role, `extract_thinking: low`, `schema_thinking: medium`.
 - **Accept:** adapter test that the level reaches the request; one `quality` run compared in MLflow with
   the last quality run (cost, facts, rejections, checks). Target: well under $1.25.
+- **Design:** the level is part of the `LLMClient` port (`thinking=""` = model default; Ollama ignores it,
+  it always turns thinking off). A stage wraps its client with `with_thinking(llm, level)` (Decorator), so
+  proposer, extraction and resolver are unchanged. The cache key includes the level only when one is set,
+  so earlier entries stay valid.
+- **Result (met):** 5 new tests (100 in total). Comparison on `data/`, goal "supply chain root cause
+  analysis", one run per side:
+
+  | | before (8657dca, Pro + Flash, no level) | after (3.8 Flash, medium / low) |
+  |---|---|---|
+  | plan | Pro, 3.8k thinking, $0.07 | Flash medium, 9.9k thinking, $0.05 |
+  | text schema | Pro, 2 rounds, $0.13 | Flash medium, 1 round, $0.03 |
+  | extraction (70 chunks) | 258k thinking tokens, $1.05 | 3.3k thinking tokens, $0.10 |
+  | **LLM cost / wall time** | **$1.25 / about 5 min** | **$0.17 / 1 min 45 s** |
+  | facts / rejected | 145 / 0 | 126 / 2 (evidence stitched with "...") |
+  | entities linked to the domain | 17 | 26 |
+  | checks | 19/19 | 19/19 |
+
+  The cost result is clean: extraction used the same model and prompt, only the level changed. The
+  quality result is not: the "before" run predates R11 (linking) and R14 (text schema prompt), and the
+  schema model changed too. The new facts fit the goal (26 component defects, failure modes, no reviewer or
+  city facts); 51 are "Component PART_OF Product", which restate the tables. Accuracy is for the gold set.
 
 ### R17. Run policy: when and how often any pipeline run may happen
 Rules only, no code limits (user decision).
@@ -357,7 +378,7 @@ Rules only, no code limits (user decision).
 - **The test suite wipes the working graph (found in R11).** `neo4j` tests share the one database with
   the pipeline, so `uv run pytest` deletes the graph of the last `kg run`. Point tests at a separate
   Neo4j (a second container or port).
-- **Extraction thinking dominates cost (found in R11, visible since R10).** A full run costs about $1.25;
+- **Extraction thinking dominated cost (found in R11, fixed in R16).** A full run costs about $1.25;
   extraction is $1.05 of it, and 258k of its 270k output tokens are Gemini Flash thinking for 70 short
   chunks. Try a thinking budget for extraction and compare the facts in MLflow.
 

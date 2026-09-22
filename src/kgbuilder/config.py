@@ -18,6 +18,7 @@ from pydantic_settings import (
 )
 
 from .core.errors import ConfigurationError
+from .llm.base import ThinkingLevel
 
 PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `.env`
 
@@ -93,6 +94,11 @@ class Settings(BaseSettings):
     schema_model: str = "gemini-3.8-flash"
     extract_model: str = "gemini-3.8-flash"
     embed_model: str = "gemini-embedding-001"
+    # thinking level per role ("" = the model's default, which for Gemini 3 Flash is long and billed as
+    # output): schema work (plan, text schema) is one hard task per stage, extraction and adjudication
+    # are many small ones, so they get less. Flash-Lite ignores it in practice: it hardly thinks.
+    schema_thinking: ThinkingLevel = ""
+    extract_thinking: ThinkingLevel = ""
     llm_temperature: float = 0.0  # 0 keeps runs comparable and the disk cache meaningful
     llm_max_attempts: int = 3  # retries per call on API errors or unparsable replies
     # per request, in seconds: a stalled request becomes a failed, retried attempt instead of a hang (a

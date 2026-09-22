@@ -12,9 +12,11 @@ class ScriptedLLM:
     def __init__(self, script: Callable[[str, type[BaseModel]], BaseModel]):
         self._script = script
         self.calls: list[tuple[str, str]] = []  # (schema name, model)
+        self.thinking: list[str] = []  # the thinking level of each call, "" = model default
 
-    def generate(self, prompt, schema, *, model, temperature=0.0):
+    def generate(self, prompt, schema, *, model, temperature=0.0, thinking=""):
         self.calls.append((schema.__name__, model))
+        self.thinking.append(thinking)
         return self._script(prompt, schema)
 
 

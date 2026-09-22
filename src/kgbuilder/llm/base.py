@@ -16,6 +16,10 @@ from pydantic import BaseModel
 
 T = TypeVar("T", bound=BaseModel)
 
+# How much hidden reasoning a thinking model may do before it answers; "" = the model's own default.
+# Thinking is billed as output, so it is the main cost lever of a model that thinks by default.
+ThinkingLevel = Literal["", "minimal", "low", "medium", "high"]
+
 
 class LLMCallRecord(BaseModel):
     """One request to a model (a `generate` attempt or an `embed` batch), as reported to a `CallListener`.
@@ -45,8 +49,16 @@ CallListener = Callable[[LLMCallRecord], None]
 class LLMClient(Protocol):
     """Structured generation: the reply is always parsed into a pydantic model, never returned as text."""
 
-    def generate(self, prompt: str, schema: type[T], *, model: str, temperature: float = 0.0) -> T:
-        """Return the model's reply parsed into `schema`.
+    def generate(
+        self,
+        prompt: str,
+        schema: type[T],
+        *,
+        model: str,
+        temperature: float = 0.0,
+        thinking: ThinkingLevel = "",
+    ) -> T:
+        """Return the model's reply parsed into `schema`. Providers without thinking levels ignore `thinking`.
 
         Raises `LLMResponseError` when the provider keeps failing or the reply does not fit `schema`.
         """

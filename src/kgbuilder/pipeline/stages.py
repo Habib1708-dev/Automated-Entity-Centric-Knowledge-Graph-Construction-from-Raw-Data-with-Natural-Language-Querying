@@ -13,6 +13,7 @@ from pathlib import Path
 from ..core.errors import InvalidPlanError, MissingInputError, ProposalRejectedError
 from ..llm.base import prompt_version
 from ..llm.refine import Refinement
+from ..llm.thinking import with_thinking
 from ..resolution import resolver
 from ..resolution.linking import link_graphs
 from ..structured import proposer
@@ -104,6 +105,7 @@ class PlanStage(BaseStage):
             "goal": state.goal,
             "model": s.schema_model,
             "temperature": s.llm_temperature,
+            "thinking": s.schema_thinking,
             "prompt_version": prompt_version(proposer.PROPOSER_PROMPT),
             "critic_prompt_version": prompt_version(proposer.CRITIC_PROMPT),
         }
@@ -115,7 +117,7 @@ class PlanStage(BaseStage):
         result = proposer.propose_plan(
             state.need("goal", "pass --goal"),
             state.need("profile", "run the profile stage first"),
-            ctx.require_llm(),
+            with_thinking(ctx.require_llm(), s.schema_thinking),
             s.schema_model,
             s.llm_temperature,
         )
@@ -217,6 +219,7 @@ class TextSchemaStage(_TextStage):
             "goal": state.goal,
             "model": s.schema_model,
             "temperature": s.llm_temperature,
+            "thinking": s.schema_thinking,
             "prompt_version": prompt_version(text_schema.PROMPT),
             "critic_prompt_version": prompt_version(text_schema.CRITIC_PROMPT),
         }
@@ -228,7 +231,7 @@ class TextSchemaStage(_TextStage):
         result = text_schema.propose_text_schema(
             state.need("goal", "pass --goal"),
             state.load_chunks(ctx),
-            ctx.require_llm(),
+            with_thinking(ctx.require_llm(), s.schema_thinking),
             s.schema_model,
             state.load_plan(ctx, required=False),
             s.llm_temperature,
@@ -258,6 +261,7 @@ class ExtractStage(_TextStage):
         return {
             "model": s.extract_model,
             "temperature": s.llm_temperature,
+            "thinking": s.extract_thinking,
             "prompt_version": prompt_version(extraction.PROMPT),
             "workers": s.extract_workers,
         }
@@ -269,7 +273,7 @@ class ExtractStage(_TextStage):
         result = extraction.extract_all(
             chunks,
             state.load_text_schema(ctx),
-            ctx.require_llm(),
+            with_thinking(ctx.require_llm(), s.extract_thinking),
             s.extract_model,
             s.llm_temperature,
             s.extract_workers,
@@ -298,6 +302,7 @@ class ResolveStage(_TextStage):
         s = ctx.settings
         return {
             "model": s.extract_model,
+            "thinking": s.extract_thinking,
             "er_auto_merge": s.er_auto_merge,
             "er_borderline": s.er_borderline,
             "er_embedding_candidates": s.er_embedding_candidates,
@@ -309,7 +314,7 @@ class ResolveStage(_TextStage):
         s = ctx.settings
         report = resolver.resolve_entities(
             ctx.driver,
-            ctx.llm,
+            with_thinking(ctx.llm, s.extract_thinking) if ctx.llm else None,
             s.extract_model,
             s.er_auto_merge,
             s.er_borderline,

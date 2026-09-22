@@ -36,18 +36,24 @@ preset per command, or set a default with `KG_PRESET=dev` in `.env`:
 ```
 uv run kg --preset smoke   run --goal "..."   # samples/smoke, free Gemini key, $0: does the code run?
 uv run kg --preset dev     run --goal "..."   # samples/dev, paid key, ~$0.02: does it run with real Gemini?
-uv run kg --preset quality run --goal "..."   # data/, Pro for schema work + 3.8 Flash, ~$1.25: reported results
+uv run kg --preset quality run --goal "..."   # data/, 3.8 Flash with thinking levels, ~$0.17: reported results
 ```
 
 | Preset | Models | Dataset | Key | MLflow experiment | Use for |
 |---|---|---|---|---|---|
 | `smoke` | `gemini-3.5-flash-lite` | `samples/smoke/`: 1 product, 10 parts, 3 reviews | free | `kgbuilder-smoke` | code checks only |
 | `dev` | `gemini-3.5-flash-lite` | `samples/dev/`: 3 products, 34 parts, 12 reviews | paid | `kgbuilder-dev` | cheap end-to-end checks |
-| `quality` | `gemini-3.1-pro-preview` + `gemini-3.8-flash` | `data/` | paid | `kgbuilder` | the numbers in the thesis |
+| `quality` | `gemini-3.8-flash`, thinking medium (schema) / low (extraction) | `data/` | paid | `kgbuilder` | the numbers in the thesis |
 
 Graphs from `smoke` and `dev` say nothing about quality: too little data, a weak model.
 The subsets keep every key consistent (each assembly, part, mapping and supplier row of the chosen
 products) and live outside `data/`, because every stage reads its directory recursively.
+
+**Thinking levels.** Gemini 3 Flash reasons at length before it answers unless told otherwise, and that
+reasoning is billed as output: on `data/` it was $1.00 of a $1.25 run. `SCHEMA_THINKING` and
+`EXTRACT_THINKING` (`minimal`, `low`, `medium`, `high`; empty = the model's default) set the level per role;
+the quality preset uses medium for the plan and the text schema and low for extraction, which brought a
+run to $0.17 (see R16 in REFACTOR_PLAN.md).
 
 **The free key.** `smoke` sends its requests with `GEMINI_FREE_API_KEY`, a key from a Google AI Studio
 project *without billing*: requests cost nothing but are capped per day, and Google may use them to improve

@@ -8,7 +8,8 @@ import pytest
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import InvalidPlanError
 from kgbuilder.llm.refine import Critique
-from kgbuilder.pipeline import PipelineContext, PipelineState, run_all
+from kgbuilder.pipeline import PipelineContext, PipelineState, run_all, run_stages
+from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import ReviewDeclinedError
 from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
@@ -190,3 +191,14 @@ def test_an_empty_data_dir_skips_every_stage_that_has_no_input(driver, tmp_path)
     state = run_all(ctx, PipelineState(data_dir=tmp_path / "data", goal="g"))
     assert [r.name for r in tracker.runs] == ["pipeline", "profile", "ingest_text", "validate"]
     assert state.validation.passed
+
+
+def test_the_plan_stage_sends_and_logs_the_schema_thinking_level(data_dir, tmp_path):
+    (data_dir / "dirty.csv").unlink()
+    llm, tracker = ScriptedLLM(script), RecordingTracker()
+    settings = Settings(_env_file=None, schema_thinking="medium", extract_thinking="low")
+    # profile and plan never query Neo4j, so no driver is needed
+    ctx = PipelineContext(settings=settings, driver=None, out=tmp_path / "out", llm=llm, tracker=tracker)
+    run_stages(ctx, PipelineState(data_dir=data_dir, goal="g"), [st.ProfileStage(), st.PlanStage()])
+    assert llm.thinking and set(llm.thinking) == {"medium"}  # proposer and critic alike
+    assert tracker.run("plan").logged_params["thinking"] == "medium"
