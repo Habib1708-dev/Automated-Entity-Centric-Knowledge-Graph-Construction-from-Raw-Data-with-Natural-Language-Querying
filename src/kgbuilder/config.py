@@ -13,8 +13,10 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     gemini_api_key: str = ""
-    # Gemini 2.5 is closed to new API keys (404 "no longer available to new users") since 2026-09
-    schema_model: str = "gemini-3.1-pro-preview"
+    # Gemini 2.5 is closed to new API keys (404 "no longer available to new users") since 2026-09.
+    # Flash for schema work too, to keep development runs cheap (~4x cheaper than Pro per token); set
+    # SCHEMA_MODEL=gemini-3.1-pro-preview for runs whose results are reported.
+    schema_model: str = "gemini-3.8-flash"
     extract_model: str = "gemini-3.8-flash"
     embed_model: str = "gemini-embedding-001"
     llm_temperature: float = 0.0  # 0 keeps runs comparable and the disk cache meaningful

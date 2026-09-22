@@ -26,6 +26,18 @@ uv run kg reset                                                   # clear Neo4j 
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
 
+Models: both roles default to `gemini-3.8-flash` to keep development runs cheap (a full run on `data/` is
+about $1). For a run whose results you report, use the stronger model for the plan and text schema, for
+that run only (the model is logged as a param, so MLflow keeps the runs apart):
+
+```
+$env:SCHEMA_MODEL="gemini-3.1-pro-preview"; uv run kg run data/ --goal "..."   # PowerShell
+SCHEMA_MODEL=gemini-3.1-pro-preview uv run kg run data/ --goal "..."           # bash
+```
+
+In PowerShell the variable stays set for the rest of that terminal session; `Remove-Item Env:SCHEMA_MODEL`
+switches back.
+
 Stages can also be run one at a time, with human review points in between:
 
 ```
