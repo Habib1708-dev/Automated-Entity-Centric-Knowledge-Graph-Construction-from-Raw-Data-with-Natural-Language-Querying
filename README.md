@@ -26,56 +26,59 @@ uv run kg reset                                                   # clear Neo4j 
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
 
-### Model presets
+### Model presets and datasets
 
-The models are chosen by a **preset** from [presets.yaml](presets.yaml): two cheap ones for checking that
-the pipeline works, and one for the results you report. Pick one per command, or set a default with
-`KG_PRESET=dev` in `.env`:
+A **preset** from [presets.yaml](presets.yaml) chooses the models *and the dataset*: two cheap ones that only
+show the pipeline works, on small committed subsets of `data/` in `samples/`, and one for the results you
+report, on the whole dataset. Without a directory argument a command reads the preset's dataset. Pick a
+preset per command, or set a default with `KG_PRESET=dev` in `.env`:
 
 ```
-uv run kg --preset smoke   run data/ --goal "..."   # local Ollama, $0, ~25 min: does the code run?
-uv run kg --preset dev     run data/ --goal "..."   # gemini-3.5-flash-lite, ~$0.06, ~30 s: does it run with Gemini?
-uv run kg --preset quality run data/ --goal "..."   # Pro for schema work + 3.8 Flash, ~$1.25: reported results
+uv run kg --preset smoke   run --goal "..."   # samples/smoke, free Gemini key, $0: does the code run?
+uv run kg --preset dev     run --goal "..."   # samples/dev, paid key, ~$0.02: does it run with real Gemini?
+uv run kg --preset quality run --goal "..."   # data/, Pro for schema work + 3.8 Flash, ~$1.25: reported results
 ```
 
-| Preset | Models | Measured on `data/` | MLflow experiment | Use for |
-|---|---|---|---|---|
-| `smoke` | `qwen2.5:7b-instruct`, `nomic-embed-text` (Ollama) | $0, ~25 min, ~80 % of facts rejected | `kgbuilder-smoke` | code checks only |
-| `dev` | `gemini-3.5-flash-lite` | $0.06, ~30 s, 19/19 checks | `kgbuilder-dev` | cheap end-to-end checks |
-| `quality` | `gemini-3.1-pro-preview` + `gemini-3.8-flash` | $1.25, ~5 min | `kgbuilder` | the numbers in the thesis |
+| Preset | Models | Dataset | Key | MLflow experiment | Use for |
+|---|---|---|---|---|---|
+| `smoke` | `gemini-3.5-flash-lite` | `samples/smoke/`: 1 product, 10 parts, 3 reviews | free | `kgbuilder-smoke` | code checks only |
+| `dev` | `gemini-3.5-flash-lite` | `samples/dev/`: 3 products, 34 parts, 12 reviews | paid | `kgbuilder-dev` | cheap end-to-end checks |
+| `quality` | `gemini-3.1-pro-preview` + `gemini-3.8-flash` | `data/` | paid | `kgbuilder` | the numbers in the thesis |
+
+Graphs from `smoke` and `dev` say nothing about quality: too little data, a weak model.
+The subsets keep every key consistent (each assembly, part, mapping and supplier row of the chosen
+products) and live outside `data/`, because every stage reads its directory recursively.
+
+**The free key.** `smoke` sends its requests with `GEMINI_FREE_API_KEY`, a key from a Google AI Studio
+project *without billing*: requests cost nothing but are capped per day, and Google may use them to improve
+its products (fine for the synthetic data here). Create it in AI Studio in a new project, then put it in
+`.env` next to `GEMINI_API_KEY`. If it is missing, `smoke` stops with an error instead of falling back to
+the billed key.
 
 Priority: a variable set in the terminal > the preset > `.env` > the defaults, so one value can still be
-changed for a single run (`$env:EXTRACT_MODEL="..."` in PowerShell). Every run is tagged with its preset in
-MLflow. An unknown preset or a misspelled key in `presets.yaml` stops with an error instead of being ignored.
+changed for a single run (`$env:EXTRACT_MODEL="..."` in PowerShell); a directory given on the command line
+beats the preset's dataset. Every run is tagged with its preset in MLflow. An unknown preset or a
+misspelled key in `presets.yaml` stops with an error instead of being ignored.
 
-### Free smoke runs with a local model (Ollama)
+### A local model (Ollama)
 
-The `smoke` preset needs [Ollama](https://ollama.com) with two models, pulled once:
+`LLM_PROVIDER=ollama` runs a local model instead of Gemini (no preset uses it). It needs
+[Ollama](https://ollama.com) with two models, pulled once:
 
 ```
 ollama pull qwen2.5:7b-instruct ; ollama pull nomic-embed-text
 ```
 
-Small local models are much weaker than Gemini, so the resulting graph says nothing about the quality of
-the method: use this for plumbing checks only, never for reported results.
+Then set `SCHEMA_MODEL` and `EXTRACT_MODEL` to `qwen2.5:7b-instruct` and `EMBED_MODEL` to `nomic-embed-text`.
+Small local models are much weaker than Gemini: on `data/`, a 7B model could not design a valid
+construction plan, about 80 % of its facts failed the evidence checks, and a run took about 25 minutes on
+an 8 GB laptop GPU. That is why the smoke preset moved to the free Gemini key.
 
 - `qwen2.5:7b-instruct` follows the JSON schemas reliably; `qwen3.5:4b` did not (it thinks at length and
   then breaks the JSON). The adapter always sends `think: false` and a 16k-token context window
   (`OLLAMA_NUM_CTX`), because Ollama silently cuts longer prompts.
-- The separate MLflow experiment keeps smoke runs out of the real results; the LLM cache never mixes
-  providers because its key contains the model name.
-- A 7B model usually cannot design a valid construction plan: `kg run` then stops at the plan stage
-  (the code gate working as intended). Continue with the reviewed plan and run the stages one by one:
-
-  ```
-  copy tests\gold\domain_plan.json out\plan.json
-  $env:KG_PRESET="smoke"
-  uv run kg build data/ ; uv run kg ingest-text data/ ; uv run kg text-schema --goal "..."
-  uv run kg extract ; uv run kg resolve ; uv run kg link ; uv run kg validate
-  ```
-
-  On an 8 GB laptop GPU this takes about 25 minutes (Ollama answers one request at a time), and about
-  80 % of the extracted facts are rejected by the evidence checks, against 0 % with Gemini.
+- When the plan stage fails, continue with the reviewed plan and run the stages one by one:
+  `copy tests\gold\domain_plan.json out\plan.json`, then `kg build data/`, `kg ingest-text data/` and so on.
 
 Stages can also be run one at a time, with human review points in between:
 

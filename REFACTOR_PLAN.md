@@ -104,6 +104,9 @@ design and filling the gaps.
 | R12 | Local LLM provider (Ollama) for free smoke runs | done 2026-09-22: `llm/ollama.py`, shared retry loop `llm/retry.py`, `LLM_PROVIDER` setting; full local run on `data/` for $0 |
 | R13 | Model presets (`presets.yaml`): smoke, dev, quality | done 2026-09-22: preset settings source between environment and `.env`, `kg --preset`, `preset` tag on every run; dev run measured at $0.06 |
 | R14 | A goal-neutral text schema prompt | done 2026-09-22: example list removed (it invited reviewers and locations), goal-question rule for proposer and critic, `facts_touching_domain_rate`; MLflow comparison mixed, accuracy left to the gold set |
+| R15 | Small data subsets for smoke and dev; smoke on a free Gemini key | done 2026-09-22: `samples/smoke`, `samples/dev`, `data_dir` and `gemini_key` settings, optional `DATA_DIR` argument; a run on the smoke subset costs $0.012 on the paid key |
+| R16 | Thinking level per role; quality preset on Gemini 3.8 Flash | planned |
+| R17 | Run policy: when and how often any pipeline run may happen | planned |
 
 ### R1. Tooling, shared core, file headers
 Closes A2, B8, E1, E2 (headers only), E3, E5, E6.
@@ -270,9 +273,69 @@ it: its only example list was "products, parts, problems, materials, locations, 
   variance, and without a gold set neither side can be called more accurate. The neutral prompt is kept
   on principle (no domain bias); its effect on accuracy is measured once the gold set exists (next step).
 
+### Model choice for the three presets (decided with the user, 2026-09-22)
+Running and developing the system was too expensive, and local models do not work well enough. Prices
+(USD per 1M tokens, input / output) were checked on the providers' pages on 2026-09-22. The quality score is
+the Artificial Analysis Intelligence Index (AA): a general score, since no public benchmark measures
+fact extraction into strict JSON, so our own gold set is the final judge.
+
+| Model | Price | AA | Role |
+|---|---|---|---|
+| gemini-3.5-flash-lite | 0.30 / 2.50 | 22 | smoke (free-tier key) and dev (paid key) |
+| gemini-3.8-flash | 0.75 / 3.75 (7.50 output from 2027) | 41 | quality, every role, with a set thinking level |
+| gemini-3.1-pro-preview | 2.00 / 12.00 | 30 | dropped: 2.7x Flash's price, lower score |
+| gpt-5.6-luna / qwen3.8-flash (OpenRouter) | 0.20 / 1.20 and 0.15 / 0.47 | 37 / 40 | not now: need an OpenAI-compatible adapter |
+
+Measured on `data/`, a quality run cost $1.25, of which $1.00 was Flash thinking during extraction (about
+250k tokens for 70 short chunks), because no thinking level is set. So the savings come from small data
+subsets for smoke and dev (R15) and a thinking level per role (R16). The run limits are rules for the
+assistant, not code (R17, user decision).
+
+### R15. Small data subsets for smoke and dev; smoke on a free Gemini key
+Smoke and dev runs only show that the system works, so they need little data and no quality.
+- `samples/smoke/` (one product) and `samples/dev/` (three products): committed subsets of `data/` that
+  keep their keys consistent (every assembly, part, mapping and supplier row of the chosen products), with
+  the review files cut short. They live outside `data/`, because every stage reads `data/` recursively.
+- New setting `data_dir` (default `data`), so a preset names its dataset; the `DATA_DIR` argument of the
+  CLI becomes optional and, when given, wins like any other explicit value.
+- Smoke moves from Ollama to `gemini-3.5-flash-lite` on a second, free-tier key: new setting
+  `gemini_free_api_key` (forbidden in presets) and `gemini_key: paid | free`, chosen in the composition root.
+  The Ollama provider stays available through `LLM_PROVIDER`, but no preset uses it.
+- **Accept:** config tests for `data_dir` and key choice (missing free key is a clear `ConfigurationError`);
+  CLI test that `run` without an argument uses the preset's data; one smoke run on `samples/smoke/`.
+- **Result (met, with one substitution):** 8 new tests (96 in total): API keys refused in presets, each
+  preset's dataset exists, cheap presets read `samples/`, every key of a subset resolves inside it, a command
+  without a directory reads `DATA_DIR`, the free key is used only when chosen and never replaced by the paid
+  one. No free key exists in `.env` yet, so the run used the `dev` preset on `samples/smoke`: 10 to 12 LLM
+  calls, about 18.7k input and 2.6k output tokens, $0.012 and 18 seconds; after a `kg reset` all 12 checks
+  passed (counts 1 / 5 / 10 / 10 as expected). Two thirds of the cost is the plan prompt, whose size depends
+  on the columns, not the rows, so a smaller subset would not make it cheaper.
+
+### R16. Thinking level per role; quality preset on Gemini 3.8 Flash
+- Settings `schema_thinking` and `extract_thinking` (`minimal | low | medium | high`, empty = model
+  default), passed to Gemini as `thinking_level` and logged as params.
+- `quality`: `gemini-3.8-flash` for every role, `extract_thinking: low`, `schema_thinking: medium`.
+- **Accept:** adapter test that the level reaches the request; one `quality` run compared in MLflow with
+  the last quality run (cost, facts, rejections, checks). Target: well under $1.25.
+
+### R17. Run policy: when and how often any pipeline run may happen
+Rules only, no code limits (user decision).
+- A `run-policy` skill: which change justifies which run, preset order (tests, then smoke, then dev,
+  quality only when the user asks), at most one smoke or dev run per step, cost stated in every report.
+- CLAUDE.md section 1 and the `implement-step` skill point to it.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **A smoke run on `samples/smoke` extracts no facts (found in R15).** Flash-Lite's text schema copied the
+  domain types (Product, Assembly, Part, Supplier, and their relations), which three reviews never state,
+  so extraction returned empty lists and resolve / link ran on nothing. The code worked; the weak model
+  on tiny data did not exercise the later stages. Watch it in the next smoke runs; if it persists, the
+  text-schema prompt may need to discourage restating the domain graph (a behaviour change, own step).
+- **A smoke run checks the whole pipeline but fails on a graph left by the tests (found in R15).** The
+  first run after `uv run pytest` failed five checks because of the test nodes (11 parts instead of 10, an
+  orphan chunk). The fix is the open item "the test suite wipes the working graph": a separate Neo4j.
 
 - **Plan and text schema share one model setting (found in R14).** `SCHEMA_MODEL` drives both, so testing a
   stronger text-schema model also changes (and pays for) the plan. Split into `PLAN_MODEL` if it matters.

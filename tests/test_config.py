@@ -1,6 +1,8 @@
-"""Settings and model presets: loading presets.yaml, rejecting typos, and the priority of the sources
-(environment > preset > .env > defaults). No Neo4j, no network."""
+"""Settings and model presets: loading presets.yaml, rejecting typos, the priority of the sources
+(environment > preset > .env > defaults), and the committed data subsets the cheap presets read.
+No Neo4j, no network."""
 
+import csv
 from pathlib import Path
 
 import pytest
@@ -8,8 +10,9 @@ import pytest
 from kgbuilder.config import Settings, load_preset
 from kgbuilder.core.errors import ConfigurationError
 
-REPO_PRESETS = Path(__file__).resolve().parent.parent / "presets.yaml"
-SETTING_NAMES = set(Settings.model_fields) - {"gemini_api_key", "kg_preset"}
+REPO = Path(__file__).resolve().parent.parent
+REPO_PRESETS = REPO / "presets.yaml"
+SETTING_NAMES = set(Settings.model_fields) - {"gemini_api_key", "gemini_free_api_key", "kg_preset"}
 
 
 def write(path: Path, text: str) -> Path:
@@ -39,7 +42,31 @@ def test_the_api_key_is_not_allowed_in_a_preset(tmp_path):
 @pytest.mark.parametrize("name", ["smoke", "dev", "quality"])
 def test_every_committed_preset_is_valid(name):
     values = load_preset(REPO_PRESETS, name, SETTING_NAMES)
-    assert {"llm_provider", "schema_model", "extract_model", "mlflow_experiment"} <= set(values)
+    assert {"llm_provider", "schema_model", "extract_model", "mlflow_experiment", "data_dir"} <= set(values)
+    assert (REPO / values["data_dir"]).is_dir()
+
+
+@pytest.mark.parametrize("name", ["smoke", "dev"])
+def test_cheap_presets_read_a_subset_outside_data(name):
+    # every stage reads its data directory recursively, so a subset inside data/ would be read twice
+    data_dir = Path(load_preset(REPO_PRESETS, name, SETTING_NAMES)["data_dir"])
+    assert data_dir.parts[0] == "samples"
+
+
+def read(path: Path, column: str) -> set[str]:
+    with path.open(encoding="utf-8", newline="") as f:
+        return {row[column] for row in csv.DictReader(f)}
+
+
+@pytest.mark.parametrize("subset", ["smoke", "dev"])
+def test_every_key_in_a_subset_points_at_a_row_of_the_same_subset(subset):
+    # a subset with dangling keys would make the build and the link checks fail for a reason that has
+    # nothing to do with the code under test
+    d = REPO / "samples" / subset
+    assert read(d / "assemblies.csv", "product_id") <= read(d / "products.csv", "product_id")
+    assert read(d / "components.csv", "assembly_id") <= read(d / "assemblies.csv", "assembly_id")
+    assert read(d / "part_supplier_mapping.csv", "part_id") <= read(d / "components.csv", "part_id")
+    assert read(d / "part_supplier_mapping.csv", "supplier_id") <= read(d / "suppliers.csv", "supplier_id")
 
 
 def test_environment_beats_preset_beats_dotenv(tmp_path, monkeypatch):

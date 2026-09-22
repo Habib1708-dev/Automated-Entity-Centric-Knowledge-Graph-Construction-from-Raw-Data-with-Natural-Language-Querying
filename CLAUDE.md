@@ -103,7 +103,7 @@ uv run pytest                             # all tests (Neo4j tests skip when it 
 uv run pytest -m "not neo4j"              # fast unit tests only
 uv run ruff check . ; uv run ruff format . # lint and format
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
-uv run kg --preset dev run data/ --goal "..."   # whole pipeline; presets: smoke ($0) / dev / quality
+uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's dataset: smoke / dev (subsets) / quality (data/)
 ```
 
 ## 6. Skills

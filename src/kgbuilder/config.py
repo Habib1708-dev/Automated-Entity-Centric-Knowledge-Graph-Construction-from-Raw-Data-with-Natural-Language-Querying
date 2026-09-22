@@ -24,7 +24,7 @@ PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `
 # Keys a preset may hold besides settings: documentation only.
 _PRESET_DOC_KEYS = {"description"}
 # Settings a preset must never hold: presets.yaml is committed.
-_PRESET_FORBIDDEN_KEYS = {"gemini_api_key"}
+_PRESET_FORBIDDEN_KEYS = {"gemini_api_key", "gemini_free_api_key"}
 
 
 def load_preset(path: Path, name: str, allowed: set[str]) -> dict[str, Any]:
@@ -70,11 +70,19 @@ class Settings(BaseSettings):
 
     # name of a preset in presets.yaml (smoke, dev, quality); empty = settings from .env and defaults only
     kg_preset: str = ""
+    # the dataset a command reads when none is given on the command line; the smoke and dev presets point
+    # at the small subsets in samples/, so a cheap run cannot read the whole dataset by accident
+    data_dir: Path = Path("data")
 
     # "ollama" runs a local model for free smoke runs that check the code, not the method's quality;
     # SCHEMA_MODEL / EXTRACT_MODEL / EMBED_MODEL then name Ollama models (see README)
     llm_provider: Literal["gemini", "ollama"] = "gemini"
     gemini_api_key: str = ""
+    # a key from a Google project without billing: its requests are free but capped per day, and Google
+    # may use them to improve its products (acceptable for the synthetic data in samples/)
+    gemini_free_api_key: str = ""
+    # which of the two keys Gemini requests use; the smoke preset chooses "free"
+    gemini_key: Literal["paid", "free"] = "paid"
     ollama_url: str = "http://localhost:11434"
     # context window per Ollama request, in tokens: must hold the longest prompt (the plan prompt is
     # about 8,000) plus the answer, or Ollama cuts the prompt without an error

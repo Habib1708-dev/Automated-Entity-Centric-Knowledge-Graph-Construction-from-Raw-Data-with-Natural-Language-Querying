@@ -33,12 +33,15 @@ from .validation.report import ValidationReport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
+# optional everywhere: without it a command reads DATA_DIR, which the smoke and dev presets set to a subset
+DATA_DIR = typer.Argument(None, help="Data directory; default: the data_dir setting (the preset's dataset).")
 
 
 @app.callback()
 def main(
     preset: str | None = typer.Option(
-        None, help="Model preset from presets.yaml: smoke ($0, local), dev (cents), quality (reported runs)."
+        None,
+        help="Preset from presets.yaml: smoke ($0, tiny subset), dev (cents, subset), quality (full data).",
     ),
 ):
     """Build a knowledge graph from tables and documents. Options here apply to every command."""
@@ -71,6 +74,22 @@ def run_tags(preset: str) -> dict[str, str]:
     return tags
 
 
+def gemini_key(settings: Settings) -> str:
+    """The Gemini API key chosen by `gemini_key`; empty when the paid key is chosen but not set.
+
+    Raises `ConfigurationError` when the free key is chosen but missing: falling back to the paid key would
+    turn a run meant to be free into a billed one without anyone noticing.
+    """
+    if settings.gemini_key == "paid":
+        return settings.gemini_api_key
+    if not settings.gemini_free_api_key:
+        raise ConfigurationError(
+            "this preset uses the free Gemini key, but GEMINI_FREE_API_KEY is not set in .env "
+            "(create a key in a Google AI Studio project without billing; see README)"
+        )
+    return settings.gemini_free_api_key
+
+
 def build_provider(settings: Settings, listener: CallListener) -> GeminiClient | OllamaClient | None:
     """The LLM adapter named by `llm_provider`, or None when Gemini is chosen but has no API key."""
     if settings.llm_provider == "ollama":
@@ -82,10 +101,11 @@ def build_provider(settings: Settings, listener: CallListener) -> GeminiClient |
             listener=listener,
             timeout_s=settings.llm_timeout_s,
         )
-    if not settings.gemini_api_key:
+    key = gemini_key(settings)
+    if not key:
         return None
     return GeminiClient(
-        settings.gemini_api_key,
+        key,
         settings.embed_model,
         settings.llm_max_attempts,
         listener=listener,
@@ -131,16 +151,21 @@ def session(out: Path) -> Iterator[PipelineContext]:
         ctx.driver.close()
 
 
+def _data(ctx: PipelineContext, data_dir: Path | None) -> Path:
+    """The directory given on the command line, else the `data_dir` setting (the preset's dataset)."""
+    return data_dir or ctx.settings.data_dir
+
+
 def _ask_reviewer(stage: str, path: Path) -> bool:
     """The approval pause of `kg run --review`: the human may edit the file before answering."""
     return typer.confirm(f"[{stage}] review {path} (you may edit it now). Continue?", default=True)
 
 
 @app.command()
-def profile(data_dir: Path, out: Path = OUT):
+def profile(data_dir: Path | None = DATA_DIR, out: Path = OUT):
     """Stage JSON as CSV and profile all tables: types, uniqueness, foreign key candidates."""
     with session(out) as ctx:
-        result = run_stages(ctx, PipelineState(data_dir=data_dir), [st.ProfileStage()]).profile
+        result = run_stages(ctx, PipelineState(data_dir=_data(ctx, data_dir)), [st.ProfileStage()]).profile
     for f in result.files:
         keys = [c.name for c in f.columns if c.is_unique]
         typer.echo(f"{f.file}: {f.row_count} rows, unique columns: {keys}")
@@ -152,26 +177,30 @@ def profile(data_dir: Path, out: Path = OUT):
 
 
 @app.command()
-def plan(data_dir: Path, goal: str = typer.Option(...), out: Path = OUT):
+def plan(data_dir: Path | None = DATA_DIR, goal: str = typer.Option(...), out: Path = OUT):
     """Propose and critique a construction plan with the LLM. Review out/plan.json before `kg build`."""
     with session(out) as ctx:
-        run_stages(ctx, PipelineState(data_dir=data_dir, goal=goal), [st.ProfileStage(), st.PlanStage()])
+        run_stages(
+            ctx, PipelineState(data_dir=_data(ctx, data_dir), goal=goal), [st.ProfileStage(), st.PlanStage()]
+        )
     typer.echo(f"Wrote {out / 'plan.json'}")
 
 
 @app.command()
-def build(data_dir: Path, out: Path = OUT):
+def build(data_dir: Path | None = DATA_DIR, out: Path = OUT):
     """Import out/plan.json (structured data) into Neo4j and print a reconciliation report."""
     with session(out) as ctx:
-        run_stages(ctx, PipelineState(data_dir=data_dir), [st.ProfileStage(), st.BuildStage()])
+        run_stages(ctx, PipelineState(data_dir=_data(ctx, data_dir)), [st.ProfileStage(), st.BuildStage()])
     typer.echo((out / "build_report.json").read_text(encoding="utf-8"))
 
 
 @app.command("ingest-text")
-def ingest_text(data_dir: Path, out: Path = OUT, embed: bool = True):
+def ingest_text(data_dir: Path | None = DATA_DIR, out: Path = OUT, embed: bool = True):
     """Chunk md/txt/pdf documents and write the lexical graph."""
     with session(out) as ctx:
-        chunks = run_stages(ctx, PipelineState(data_dir=data_dir, embed=embed), [st.IngestTextStage()]).chunks
+        chunks = run_stages(
+            ctx, PipelineState(data_dir=_data(ctx, data_dir), embed=embed), [st.IngestTextStage()]
+        ).chunks
     typer.echo(f"{len({c.doc_id for c in chunks})} documents, {len(chunks)} chunks")
 
 
@@ -235,7 +264,7 @@ def evaluate(gold: Path, out: Path = OUT):
 
 @app.command()
 def run(
-    data_dir: Path,
+    data_dir: Path | None = DATA_DIR,
     goal: str = typer.Option(...),
     out: Path = OUT,
     gold: Path | None = None,
@@ -243,8 +272,8 @@ def run(
     review: bool = typer.Option(False, help="Pause after the plan and the text schema for human review."),
 ):
     """Whole pipeline: profile, plan, build, ingest, schema, extract, resolve, link, validate."""
-    state = PipelineState(data_dir=data_dir, goal=goal, gold=gold, embed=embed)
     with session(out) as ctx:
+        state = PipelineState(data_dir=_data(ctx, data_dir), goal=goal, gold=gold, embed=embed)
         run_all(ctx, state, approve=_ask_reviewer if review else None)
     _print_report(state.validation)
 
