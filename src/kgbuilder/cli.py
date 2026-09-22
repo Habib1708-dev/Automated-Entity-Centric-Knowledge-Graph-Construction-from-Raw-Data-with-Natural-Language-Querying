@@ -80,11 +80,16 @@ def build_provider(settings: Settings, listener: CallListener) -> GeminiClient |
             settings.ollama_num_ctx,
             settings.llm_max_attempts,
             listener=listener,
+            timeout_s=settings.llm_timeout_s,
         )
     if not settings.gemini_api_key:
         return None
     return GeminiClient(
-        settings.gemini_api_key, settings.embed_model, settings.llm_max_attempts, listener=listener
+        settings.gemini_api_key,
+        settings.embed_model,
+        settings.llm_max_attempts,
+        listener=listener,
+        timeout_s=settings.llm_timeout_s,
     )
 
 

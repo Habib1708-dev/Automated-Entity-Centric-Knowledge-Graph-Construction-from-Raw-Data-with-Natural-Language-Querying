@@ -246,6 +246,11 @@ Asked for to keep test runs cheap: two cheap presets for checking the pipeline a
 
 (Add items here during a step instead of widening its scope.)
 
+- **LLM requests had no time limit (found in R14, fixed in its own commit).** A `gemini-3.1-pro-preview`
+  plan request stalled and the run waited 62 minutes: the SDK's default timeout is none, so no error was
+  raised and the retry loop never ran. Now `LLM_TIMEOUT_S` (300 s) for both providers; a stall is a failed,
+  retried attempt.
+
 - **The vector index keeps its first dimension (found in R12).** `chunk_embeddings` was created with 3,072
   dimensions by a Gemini run; `kg reset` deletes nodes but not indexes, so the 768-dim Ollama vectors are
   silently not indexed. Harmless today (nothing queries the index), but `kg reset` should drop the index,

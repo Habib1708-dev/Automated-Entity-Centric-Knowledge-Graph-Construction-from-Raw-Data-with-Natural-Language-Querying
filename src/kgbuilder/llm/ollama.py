@@ -31,11 +31,10 @@ class OllamaClient:
         max_attempts: int = 3,
         backoff_s: float = 2.0,
         listener: CallListener | None = None,
-        timeout_s: float = 600.0,
+        timeout_s: float = 300.0,
         http: httpx.Client | None = None,
     ):
         """`http` is for tests (an httpx.Client with a MockTransport); by default one is created."""
-        # Local generation of a long plan can take minutes on a laptop GPU, hence the generous timeout.
         self._http = http or httpx.Client(base_url=base_url, timeout=timeout_s)
         self._embed_model = embed_model
         self._num_ctx = num_ctx

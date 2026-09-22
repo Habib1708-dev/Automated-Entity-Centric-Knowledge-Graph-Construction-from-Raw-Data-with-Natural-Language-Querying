@@ -227,3 +227,14 @@ def test_the_composition_root_builds_the_configured_provider():
     ollama = Settings(_env_file=None, llm_provider="ollama")
     assert isinstance(build_provider(ollama, lambda _: None), OllamaClient)
     assert build_provider(Settings(_env_file=None, gemini_api_key=""), lambda _: None) is None
+
+
+def test_gemini_requests_have_a_time_limit():
+    import pytest
+
+    pytest.importorskip("google.genai")
+    from kgbuilder.llm.gemini import GeminiClient
+
+    # without a limit the SDK waits forever: a stalled preview-model request once blocked a run for an hour
+    client = GeminiClient("fake-key", "embed-model", timeout_s=5)
+    assert client._client._api_client._http_options.timeout == 5000  # the SDK counts milliseconds

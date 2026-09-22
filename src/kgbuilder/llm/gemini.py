@@ -27,13 +27,20 @@ class GeminiClient:
         max_attempts: int = 3,
         backoff_s: float = 2.0,
         listener: CallListener | None = None,
+        timeout_s: float = 300.0,
     ):
         if not api_key:
             raise LLMUnavailableError("GEMINI_API_KEY is not set (see .env.example)")
         # Imported here so that the package (and the test suite) loads without the SDK being touched.
         from google import genai
+        from google.genai import types
 
-        self._client = genai.Client(api_key=api_key)
+        # Without a limit the SDK waits forever: a stalled request never raises, so the retry loop never
+        # runs. With one, a stall becomes a failed attempt that is retried and reported.
+        self._client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(timeout=int(timeout_s * 1000)),  # milliseconds
+        )
         self._embed_model = embed_model
         self._max_attempts = max_attempts
         self._backoff_s = backoff_s

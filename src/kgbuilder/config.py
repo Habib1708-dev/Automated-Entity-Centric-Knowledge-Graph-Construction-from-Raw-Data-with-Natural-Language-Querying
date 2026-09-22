@@ -87,6 +87,10 @@ class Settings(BaseSettings):
     embed_model: str = "gemini-embedding-001"
     llm_temperature: float = 0.0  # 0 keeps runs comparable and the disk cache meaningful
     llm_max_attempts: int = 3  # retries per call on API errors or unparsable replies
+    # per request, in seconds: a stalled request becomes a failed, retried attempt instead of a hang (a
+    # preview model once kept a run waiting for an hour). Generous, because a local model with 8 queued
+    # extraction requests can take minutes to answer the last one.
+    llm_timeout_s: float = 300.0
     extract_workers: int = 8  # parallel per-chunk extraction calls
 
     neo4j_uri: str = "bolt://localhost:7687"
