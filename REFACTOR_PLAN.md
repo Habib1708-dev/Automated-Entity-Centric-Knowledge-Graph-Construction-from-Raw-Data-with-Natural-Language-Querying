@@ -748,6 +748,25 @@ re-tuned for every dataset. The system must work for any dataset without hand-tu
   kept apart by the LLM. Facts unchanged (0.976 / 0.906; 2 renamed facts judged, 91 carried over by id).
   The `quality` preset now uses `mutual_nearest`, `er_neighbours: 2`.
 
+### R38. Gold correction: "dimmer switch" and "dimmer function" are different things
+Decided by the user on 2026-09-23, after the R36/R37 output had been seen: a dimmer switch is the
+physical device, a dimmer function the capability of adjusting light. Gold-only step, a **gold
+correction that favours the system** (the LLM had kept the pair apart), disclosed as such.
+- `tests/gold/text_gold.json` `er_pairs`: "dimmer switch" / "dimmer function" `same` true → false;
+  "dimmer switch" / "dimmer" removed ("dimmer" alone can mean either). 26 → 25 pairs (7 same, 18 apart).
+- Rescored in code, no run, from the judge sheets logged by the eval runs and the committed ER
+  placements (the placements are per name pair, so none had to change):
+
+  | Candidate rule | `er_accuracy` (exact) | `er_accuracy_valid` |
+  |---|---|---|
+  | off (eval `4cce6055`) | 0.929 (13 of 14) | 0.955 (21 of 22) |
+  | threshold 78 (R36, `30337d52`) | 1.000 (14 of 14) | 1.000 (22 of 22) |
+  | mutual nearest k = 2 (R37, `24fa0c89`) | 1.000 (14 of 14) | 1.000 (22 of 22) |
+
+  The MLflow eval runs keep their logged values (old gold hash); the next eval run logs these.
+- **Result (done, 2026-09-23):** as listed; 3 of 25 pairs are still "not extracted" (drawer bottoms,
+  the lamp's base, the cheap-feeling switch). n = 22: every pair moves the score by 0.045.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -755,7 +774,7 @@ re-tuned for every dataset. The system must work for any dataset without hand-tu
 - **Adjudication prompts are not deterministic (found in R36).** `_llm_adjudicator` shows the LLM
   `head(collect(c.text))`, an unordered pick of a mentioning chunk, so a rerun can build another prompt:
   2 of 65 calls missed the cache. Fix with an `ORDER BY c.chunk_id` and a test.
-- **The adjudicator keeps "dimmer switch" / "dimmer function" apart (found in R36).** Nominated at 84.3,
+- **(Closed by R38: the gold was wrong, the LLM right.) The adjudicator keeps "dimmer switch" / "dimmer function" apart (found in R36).** Nominated at 84.3,
   answered "not the same" (conservative prompt, one context sentence each). Candidates: show every
   mentioning sentence of the same document, or accept it as a conservative choice.
 - **Lowering the ER threshold to 75 or 70 would not help on the gold (analysis in R36, no run).** Every

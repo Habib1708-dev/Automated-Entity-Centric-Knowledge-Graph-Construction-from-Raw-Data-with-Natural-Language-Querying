@@ -12,7 +12,10 @@
     "er_pairs (widened 2026-09-23 by Claude Opus 5.5, R35, after the R34 output had been seen: listed as a gold",
     "correction): both names of every pair occur as whole words in the corpus; `same` means the same kind of",
     "thing (entities are one node per type and name across products); keep-apart pairs are related things a",
-    "meaning-based matcher could confuse. Pairs 1 and 4 replaced names the corpus never contains."
+    "meaning-based matcher could confuse. Pairs 1 and 4 replaced names the corpus never contains.",
+    "Gold correction R38 (2026-09-23, decided by the user after seeing output): a dimmer switch is the device,",
+    "a dimmer function the capability, so they are kept apart; the pair 'dimmer switch' / 'dimmer' was removed",
+    "because 'dimmer' alone can mean either. 25 pairs (7 same, 18 keep apart)."
   ],
   "triples": [
     {"subject": "Gothenburg Table", "predicate": "HAS_DEFECT", "object": "misaligned pre-drilled holes", "doc_id": "product_reviews/gothenburg_table_reviews.md", "evidence": "some of the pre-drilled holes didn't line up properly"},
@@ -126,8 +129,7 @@
     {"a": "drawer rails", "b": "metal rails", "same": true},
     {"a": "Västerås Bookshelf", "b": "Västerås Bookshelves", "same": true},
     {"a": "drawers", "b": "drawer", "same": true},
-    {"a": "dimmer switch", "b": "dimmer", "same": true},
-    {"a": "dimmer switch", "b": "dimmer function", "same": true},
+    {"a": "dimmer switch", "b": "dimmer function", "same": false},
     {"a": "Jönköping Coffee Table", "b": "Jonkoping Coffee Table", "same": true},
     {"a": "drawer rails", "b": "drawer handle", "same": false},
     {"a": "drawer bottoms", "b": "back panel", "same": false},
