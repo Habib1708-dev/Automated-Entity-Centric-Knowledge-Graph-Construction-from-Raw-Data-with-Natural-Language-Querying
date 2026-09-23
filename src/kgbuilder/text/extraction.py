@@ -29,6 +29,11 @@ from .schema import TextSchema
 # R34 made the rule domain-neutral: R30 wrote it in the words of furniture reviews (defects, failures,
 # assembly, examples quoted from the corpus), which would steer the model on any other dataset. The four
 # instructions are the same; the examples are generic hedge words, none taken from the corpus.
+# The naming rule (R47): without a limit on what a name contains, the model copied whole clauses
+# ("... sticks when i open it too fast"), so one kind got a name no other wording could match and entity
+# resolution never compared it. The rule is grammatical (a clause of time or condition, a frequency
+# word), stated with generic function words only, so it applies to any text; the hedge rule above still
+# keeps degree words ("a bit") in the claim, and the evidence keeps the full sentence.
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 
 Allowed entity types:
@@ -43,7 +48,10 @@ Rules:
   per item of the list. A mild or hedged claim ("a bit", "somewhat", "seems to", "more than expected")
   still counts. A claim about the thing the document is about as a whole goes on that thing. When one
   statement supports two of the allowed fact types, state both facts.
-- `subject` and `object` are the entity names exactly as written in the text. Never use pronouns.
+- `subject` and `object` are names exactly as written in the text, with only the words that name the thing:
+  leave out a clause that says when or under which condition the claim holds ("when ...", "if ...",
+  "after ...") and words of frequency ("sometimes", "often"); they stay in the evidence. Never use
+  pronouns.
 - The chunk comes from the document named in <document>. When the text refers to the product or thing
   the document is about with a pronoun or a generic word ("it", "this dresser"), use the proper name
   from the document name as the entity name.

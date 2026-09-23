@@ -2,11 +2,14 @@
 unit tests for evidence verification, text-schema validation, chunking and JSON staging."""
 
 import json
+import re
+from pathlib import Path
 
 import pytest
 
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import InvalidPlanError
+from kgbuilder.core.text import norm
 from kgbuilder.llm.refine import Critique
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_all, run_stages
 from kgbuilder.pipeline import stages as st
@@ -19,6 +22,8 @@ from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_tex
 
 from .fakes import RecordingTracker, ScriptedLLM
 from .sample_plans import GOOD_PLAN
+
+REVIEW_CORPUS = Path(__file__).parent.parent / "data" / "product_reviews"  # the gold's documents
 
 SCHEMA = TextSchema(
     entity_types=[
@@ -198,6 +203,35 @@ def test_extraction_prompt_asks_for_every_claim_in_domain_neutral_words():
     rule = build_prompt(chunk, SCHEMA).split("- Be exhaustive:")[1].split("\n- ")[0]
     assert "one triple per distinct claim" in rule and "hedged claim" in rule
     assert not any(word in rule.lower() for word in ("defect", "failure", "complaint", "assembly", "product"))
+
+
+def test_extraction_prompt_keeps_circumstances_out_of_entity_names():
+    # R47: "the drawer sometimes sticks when i open it too fast" gave the failure the name "sticks when i
+    # open it too fast", which no resolver can match with "stick". The rule is about grammar (a clause
+    # saying when or under which condition), so it holds for any dataset.
+    chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="It wobbles.", context="Malmo Desk Reviews")
+    rules = build_prompt(chunk, SCHEMA).split("Rules:")[1].split("<document>")[0]
+    naming = next(rule for rule in rules.split("\n- ") if "exactly as written" in rule)
+    assert "only the words that name the thing" in naming and "stay in the evidence" in naming
+    assert not any(
+        word in naming.lower()
+        for word in ("defect", "failure", "complaint", "assembly", "product", "drawer", "stick", "open")
+    )
+
+
+def test_no_extraction_rule_quotes_the_evaluation_corpus():
+    """A rule that borrows the gold documents' wording steers the model toward them (found in R34): no four
+    consecutive words of the rules may occur in the review corpus."""
+
+    def words(text: str) -> list[str]:
+        return re.findall(r"[a-z0-9]+", norm(text))
+
+    corpus = words(" ".join(p.read_text(encoding="utf-8") for p in REVIEW_CORPUS.glob("*.md")))
+    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
+    chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="x", context="x")
+    rules = words(build_prompt(chunk, SCHEMA).split("Rules:")[1].split("<document>")[0])
+    quoted = [" ".join(rules[i : i + 4]) for i in range(len(rules) - 3) if tuple(rules[i : i + 4]) in seen]
+    assert not quoted, f"prompt rules quote the corpus: {quoted}"
 
 
 def test_extraction_prompt_shows_the_document_context_above_the_chunk():

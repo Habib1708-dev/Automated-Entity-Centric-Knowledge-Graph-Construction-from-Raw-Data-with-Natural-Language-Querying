@@ -945,6 +945,21 @@ unchanged, only its Cypher now follows the schema.
   answers all six products); every other score as R45 (validated 0.976 / 0.906 / 0.940, exact 0.299 /
   0.292, `er_accuracy` 1.000 (n = 41), `er_accuracy_valid` 0.983 (n = 58)).
 
+### R47. Entity names leave out when and under which condition a claim holds
+Asked for by the user on 2026-09-23 ("fix pair 43, keep the prompt general"). The extractor named the
+Norrköping failure "sticks when i open it too fast"; the clause dominates the name, so no resolver can
+match it with "stick" (ER pair 43). Behaviour change in the extraction prompt.
+- `text/extraction.py` `PROMPT`: names contain only the words that name the thing; a clause of time or
+  condition ("when ...", "if ...", "after ...") and frequency words ("sometimes", "often") stay in the
+  evidence. Generic function words only; the hedge rule still keeps degree words in the claim.
+- **Tests first:** the rule's wording, with no domain word (it failed before); a guard that no four
+  consecutive words of the prompt's rules occur in the review corpus (passes before and after: the
+  rules share no 4-gram with the corpus today, and must not start to).
+- **Accept:** gate green; one `quality` run (the prompt changes every extraction prompt, so no cache:
+  extract, resolve, link, eval; needs the user's yes) and a full judge pass next to R46: pair 43, the
+  fact scores (names change, so fact ids change) and the keep-apart ER pairs.
+- **Part 1 (done, 2026-09-23).** As listed; 175 passed, `ruff` clean. No run yet.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
