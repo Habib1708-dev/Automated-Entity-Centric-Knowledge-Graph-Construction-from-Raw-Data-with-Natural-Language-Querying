@@ -730,6 +730,10 @@ embedding matcher that finds synonyms is built but off (`er_embedding_candidates
 - **The adjudicator keeps "dimmer switch" / "dimmer function" apart (found in R36).** Nominated at 84.3,
   answered "not the same" (conservative prompt, one context sentence each). Candidates: show every
   mentioning sentence of the same document, or accept it as a conservative choice.
+- **Lowering the ER threshold to 75 or 70 would not help on the gold (analysis in R36, no run).** Every
+  "same" pair already scores >= 78; lower thresholds add 15 or 86 LLM questions and nominate more
+  keep-apart pairs. Kept at 78; rerun `kg resolve --preview` for every new dataset or embedding model.
+  Full list of the day's findings: local `docs/evaluation/experiments_2026-09-23.md`.
 - **Embedding calls have no cost (found in R36).** Gemini embeddings report no tokens, so `cost_usd`
   excludes the `resolve_preview` / `resolve` embedding calls (2 per run, about 100 short names).
 
@@ -753,7 +757,7 @@ embedding matcher that finds synonyms is built but off (`er_embedding_candidates
   but the schema's Defect type excludes subjective complaints. Candidate: "a hedged *physical* complaint".
   Decide with the goal in mind; not a step yet.
 
-- **Windows Smart App Control blocks pandas's `sparse` extension (found in R32, 2026-09-22 18:39).**
+- **(Resolved by 2026-09-23, R36: the 5 tests pass again.) Windows Smart App Control blocks pandas's `sparse` extension (found in R32, 2026-09-22 18:39).**
   `pandas._libs.sparse...pyd` fails to load with "An Application Control policy has blocked this file"
   (Code Integrity events 3033/3077; `VerifiedAndReputablePolicyState` = 1). MLflow imports pandas only for
   `search_runs`, which five tests use (`test_tracking.py` ×4, `test_cli.py` ×1); the pipeline and the
@@ -766,7 +770,7 @@ embedding matcher that finds synonyms is built but off (`er_embedding_candidates
   product up by `entity_id(Product, name)`, found no node under that id and created it again: 11 product
   entities for 10 products. Fix in its own step (R32): find an existing entity of the object type whose
   name or aliases contain the product name before creating one; test with a merged product.
-- **(Closed by R33.) `er_accuracy` scores absence as "not merged" (found in R29).** Three of the four failing gold pairs
+- **(Closed by R33, R35.) `er_accuracy` scores absence as "not merged" (found in R29).** Three of the four failing gold pairs
   name an entity the graph does not contain at all ("drawer rail", "dimmer", "predrilled holes"). For the
   next gold version: score a pair only when both names exist, or report "not extracted" apart.
 - **The misaligned-holes gold question depends on the old naming (found in R29).** Its Cypher wants a
