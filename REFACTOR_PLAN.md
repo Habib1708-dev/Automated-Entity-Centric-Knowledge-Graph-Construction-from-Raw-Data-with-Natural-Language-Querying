@@ -823,10 +823,31 @@ the document names since R39, kept same-kind wordings apart across products (all
 - **Accept:** the prompt test checks the wording; one resolve run (no cache: the prompt changed) and an ER
   judge pass on the 69 R40 pairs next to the R39 baseline (0.793, n = 58).
 - **Part 1 (done, 2026-09-23):** as listed; 166 passed, `ruff` clean. No run.
+- **Part 2 (done, 2026-09-23):** user's yes given in the session. Graph rebuilt from the cache ($0);
+  resolve `4ba527f2`: 56 adjudications, 28 merges (R39: 11), **$0.0143**. Judge Claude Opus 5.5, eval
+  `682b849d`, `tests/gold/judge_verdicts_2026-09-23_r41.json` (17 renamed facts judged, 71 carried over):
+  `er_accuracy` 0.780 → **0.976** (n = 41), `er_accuracy_valid` 0.793 → **0.966** (56 of 58, n = 58);
+  facts unchanged (0.976 / 0.906). No keep-apart pair merged; merges checked one by one, two debatable
+  as before ("defective" / "poorly manufactured", "rough" / "rough edges"). Remaining errors: the six
+  misalignment wordings form two groups of three (each name nominates only its 2 nearest), and
+  "stick" / "sticks when i open it too fast" stay apart. Three findings below.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Exact matching ignores the document (found in R41).** `gold.matches` compares predicate and names
+  only; since kinds merge across products, a fact can match a gold triple of another review (the
+  Västerås "veneer chipped" fact was attached to the Jönköping triple through the merged alias, and the
+  Västerås triple was left unfound). Exact-match scores can be inflated and a gold triple marked found by
+  another document's fact. Fix in its own step: match only facts from the triple's `doc_id`, test first.
+- **A merged kind takes its longest name (found in R41).** The canonical entity is the most mentioned,
+  then the longest name, so the slats' crack reads "crack developing along the bottom" and the shade's
+  dent "small dent on one edge", descriptions of other products. For kinds, the shortest name ("crack",
+  "small dent") describes every member; the aliases keep the rest.
+- **k = 2 splits large groups of wordings (found in R41).** Six wordings of misaligned holes became two
+  groups of three: a name nominates only its 2 nearest neighbours, and the groups are not linked. Union-
+  find joins chains, but only through nominated pairs. Candidate: k = 3 (cost bound 1.5x), measured.
 
 - **(Closed by R39.) Adjudication prompts are not deterministic (found in R36).** `_llm_adjudicator` shows the LLM
   `head(collect(c.text))`, an unordered pick of a mentioning chunk, so a rerun can build another prompt:
