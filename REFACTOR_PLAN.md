@@ -959,6 +959,19 @@ match it with "stick" (ER pair 43). Behaviour change in the extraction prompt.
   extract, resolve, link, eval; needs the user's yes) and a full judge pass next to R46: pair 43, the
   fact scores (names change, so fact ids change) and the keep-apart ER pairs.
 - **Part 1 (done, 2026-09-23).** As listed; 175 passed, `ruff` clean. No run yet.
+- **Part 2 (done, 2026-09-23).** User's yes given in the session. Uncached `quality` run: extract
+  `defa4806` 70 calls **$0.0826** (76 facts, R46: 84), resolve `59e5c327` 3 passes, 36 new questions
+  **$0.0097**, 28 merges; total **$0.092**. Judge Claude Opus 5.5, eval `29b64199`,
+  `tests/gold/judge_verdicts_2026-09-23_r47.json` (55 fact verdicts carried unchanged, 20 new facts
+  judged, 17 gold triples and 12 ER placements judged anew; names not extracted are placed on nothing).
+  **Pair 43 right**: "sticks" is now a name and merged with "stick". Scores next to R46: `er_accuracy_valid`
+  0.983 (n = 58) → **1.000** (n = 57), `er_accuracy` 1.000 (n = 40); facts validated P / R / F1 0.976 /
+  0.906 / 0.940 → **0.992 / 0.865 / 0.924** (n = 96 gold), exact 0.299 / 0.292 → 0.370 / 0.365;
+  `question_accuracy` 1.000. Recall lost 4 gold triples: both "veneer extremely thin" (the sentence
+  "extremely thin and chipped" gave only the chipping), the Jönköping sharp edges and the Helsingborg
+  rails' mismatched dimensions; "quite thin" / "a bit thin" became "thin" (degree words dropped against
+  the rule's intent). One uncached run cannot separate the rule's effect from run-to-run variation: see
+  Found along the way.
 
 ## Found along the way
 
@@ -999,13 +1012,19 @@ match it with "stick" (ER pair 43). Behaviour change in the extraction prompt.
   pinned schema stores the holes as a `Component` ("pre-drilled holes") with `HAS_DEFECT` to a wording
   such as "didn't line up properly", so it answers `[]` in every run (R41 `question_accuracy` 0.8 = 4 of
   5). Rewriting it now would be a gold correction made after seeing output: decide with the user.
-- **Pair 43 is an extraction naming problem (found in R45, 2026-09-23).** The Norrköping review says "the
+- **(Closed by R47.) Pair 43 is an extraction naming problem (found in R45, 2026-09-23).** The Norrköping review says "the
   drawer sometimes sticks when i open it too fast"; the extractor named the failure with the whole clause,
   "sticks when i open it too fast", where Helsingborg's reviews give "stick". The extra words dominate the
   name, so it is neither a spelling nor a meaning neighbour of "stick" (below 70) and the pair is never
   asked; R45's second pass instead merged it into "no longer opens smoothly" (debatable). A fix belongs
   in the extraction prompt (name the failure, not the circumstance), a prompt change with a `quality`
   comparison; not a step yet.
+- **Run-to-run variation is unmeasured (found in R47, 2026-09-23).** Every comparison since R34 reused the
+  LLM cache, so extraction was identical; R47 changed the prompt and re-sampled all 70 chunks, and
+  validated recall fell 0.906 → 0.865 (4 of 96 triples) while precision rose. Part may be the rule
+  (degree words were dropped, "extremely thin and chipped" lost the thinness), part ordinary sampling.
+  Measuring it needs repeated uncached runs of one prompt (about $0.08 each); needed anyway for the
+  thesis's final numbers (see the methodology plan, R48 onwards).
 - **Merges raise exact-match scores through aliases (found while verifying F1, 2026-09-23).** A merged
   alias lets a same-document fact match gold wording it never used (R41: Västerås "extremely thin" now
   carries "thin" and matches triple 68). Correct by meaning, but exact scores of two resolve variants are
