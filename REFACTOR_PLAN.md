@@ -812,6 +812,18 @@ R39 all score 1.000). Gold-only step, written before the R41 run.
 - **Result (done, 2026-09-23).** Found along the way: a Neo4j test without its marker wiped the graph
   under `-m "not neo4j"`; fixed in its own commit (conftest marks every `driver` test).
 
+### R41. Adjudication asks "same item" for items and "same kind" for kinds
+Asked for by the user on 2026-09-23. Entities are one node per type and name across documents, so for
+most types an entity is a kind; the adjudicator was asked about "the same real-world thing" and, shown
+the document names since R39, kept same-kind wordings apart across products (all 12 R40 baseline errors).
+- `resolution/resolver.py` `ADJUDICATE_PROMPT`: if the type names individual items (product, person,
+  organisation, place) the question is "the same item", otherwise "the same kind, even across
+  documents". The LLM reads the type name, so no schema needs a flag. `prompt_version` 8dc5bcb0cb7d →
+  f8ad72ce4935.
+- **Accept:** the prompt test checks the wording; one resolve run (no cache: the prompt changed) and an ER
+  judge pass on the 69 R40 pairs next to the R39 baseline (0.793, n = 58).
+- **Part 1 (done, 2026-09-23):** as listed; 166 passed, `ruff` clean. No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

@@ -278,3 +278,5 @@ def test_the_adjudication_prompt_carries_each_names_sentences_and_document(drive
     assert "- [Desk Reviews] The Table wobbles." in prompt  # the sentence, not the praise before it
     assert "- [Desk Reviews] The Tables scratch easily." in prompt
     assert "Great desk" not in prompt
+    # R41: the type decides between "same item" and "same kind" (entities are kinds across documents)
+    assert "If Product names individual items" in prompt and "the same kind" in prompt

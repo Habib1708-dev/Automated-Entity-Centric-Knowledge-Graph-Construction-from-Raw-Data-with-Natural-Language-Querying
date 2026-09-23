@@ -34,7 +34,16 @@ from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
 # ambiguous ("rails", "switch"), and whether two names come from the same product's reviews matters. Until
 # R39 the context was the first 300 characters of one arbitrary chunk, which for 20 of 78 names never
 # contained the name at all.
-ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same real-world thing?
+# Item or kind (R41): an entity is one node per type and name across all documents, so for most types it
+# stands for a kind ("drawer", "didn't align properly"), shared by every product that has it. Asked about
+# "the same real-world thing" and shown the document names, the LLM kept same-kind wordings apart across
+# products (all 12 errors on the R40 pairs). Whether a type names items or kinds is decided by the LLM
+# from the type name, so the rule holds for any schema.
+ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same thing?
+The names may come from different documents. If {etype} names individual items (one specific product,
+person, organisation or place), answer whether A and B are the same item. Otherwise {etype} names a kind
+of thing (such as a part, a defect or a symptom): answer whether A and B are the same kind, even when
+they are mentioned in different documents.
 Different sizes, models, components or people are NOT the same. Answer conservatively.
 
 A: {a}
