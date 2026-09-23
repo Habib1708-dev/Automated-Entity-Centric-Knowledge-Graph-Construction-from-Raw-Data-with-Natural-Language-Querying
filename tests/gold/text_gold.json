@@ -213,17 +213,17 @@
     },
     {
       "question": "Which products do reviews report as wobbling?",
-      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(:Entity)-[:EXHIBITS_FAILURE]->(f:Entity) WHERE toLower(f.name) CONTAINS 'wobbl' MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(:Entity)-[:EXHIBITS_FAILURE]->(f:Entity) WHERE any(n IN [f.name] + coalesce(f.aliases, []) WHERE toLower(n) CONTAINS 'wobbl') MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
       "expected": ["Gothenburg Table", "Jönköping Coffee Table", "Malmö Desk", "Örebro Lamp", "Västerås Bookshelf"]
     },
     {
       "question": "Which products are reported with misaligned pre-drilled holes?",
-      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(f:Entity {type: 'Defect'}) WHERE toLower(f.name) CONTAINS 'hole' MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(f:Entity {type: 'Defect'}) WHERE any(n IN [f.name] + coalesce(f.aliases, []) WHERE toLower(n) CONTAINS 'hole') MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
       "expected": ["Gothenburg Table", "Helsingborg Dresser", "Jönköping Coffee Table", "Malmö Desk", "Norrköping Nightstand", "Västerås Bookshelf"]
     },
     {
       "question": "Which products are reported to squeak or creak?",
-      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(:Entity)-[:EXHIBITS_FAILURE]->(f:Entity) WHERE toLower(f.name) CONTAINS 'squeak' OR toLower(f.name) CONTAINS 'creak' MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(:Entity)-[:EXHIBITS_FAILURE]->(f:Entity) WHERE any(n IN [f.name] + coalesce(f.aliases, []) WHERE toLower(n) CONTAINS 'squeak' OR toLower(n) CONTAINS 'creak') MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
       "expected": ["Stockholm Chair", "Uppsala Sofa"]
     }
   ]

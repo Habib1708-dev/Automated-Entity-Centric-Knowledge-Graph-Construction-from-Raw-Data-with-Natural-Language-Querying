@@ -121,6 +121,19 @@ def test_committed_er_pairs_name_things_the_corpus_contains():
 
 
 @pytest.mark.neo4j
+def test_committed_questions_find_a_word_carried_only_by_an_alias(driver):
+    """A merge keeps one name and moves the others to aliases (R43): the question must still see them."""
+    driver.execute_query(
+        "CREATE (c:Chunk)-[:MENTIONS]->(s:Entity {name: 'table'}), "
+        "(s)-[:EXHIBITS_FAILURE]->(:Entity {name: 'unstable', aliases: ['unstable', 'wobbles slightly']}), "
+        "(c)-[:PART_OF]->(:Document)-[:ABOUT]->(:Product {product_name: 'Gothenburg Table'})"
+    )
+    wobbling = next(q for q in load_gold(TEXT_GOLD).questions if "wobbl" in q.cypher)
+    only_this_graph = wobbling.model_copy(update={"expected": ["Gothenburg Table"]})
+    assert run_questions(driver, [only_this_graph])[0].answered == ["gothenburg table"]
+
+
+@pytest.mark.neo4j
 def test_questions_are_answered_read_only(driver):
     driver.execute_query("CREATE (:Supplier {name: 'Nordic Wood'}), (:Supplier {name: 'Lux Metal'})")
     ask = GoldQuestion(

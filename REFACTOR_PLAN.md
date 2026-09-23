@@ -862,6 +862,10 @@ Gold-only step. Questions 3-5 filter on `f.name`, so the canonical name a merge 
 - `tests/gold/text_gold.json`: the name filters test `[f.name] + coalesce(f.aliases, [])`.
 - **Test first:** a Neo4j test where a merged entity carries the searched word only as an alias.
 - **Accept:** gate green; expected answers unchanged. No run (measured with R44's run).
+- **Result (done, 2026-09-23).** Questions 3-5 filter `any(n IN [f.name] + coalesce(f.aliases, []) WHERE
+  ...)`; expected answers, triples and ER pairs unchanged (`gold_hash` changes). New Neo4j test runs the
+  committed wobbling question on a graph where "wobbles slightly" is only an alias; it failed before
+  (`[]`). 168 passed, `ruff` clean. No run; `question_accuracy` is measured with R44's run.
 
 ### R44. A merged kind is named by its most general name; every fact keeps its own wording
 Closes the F2 finding. Behaviour change in resolution and in the fact writer.
@@ -916,10 +920,15 @@ Closes the F3 finding. Behaviour change in resolution.
   longer"). About 10 of 127 in-scope facts display a wording their review does not use. Scores unaffected: the judge judges on name + aliases (8 R41 verdicts say "the object
   carries the name of its merged kind"). Derivation (R32) looks up name + aliases, so it is safe under any
   canonical rule.
-- **Gold questions read `name` only, not aliases (found while verifying F2, 2026-09-23).** Questions 3-5
+- **(Closed by R43.) Gold questions read `name` only, not aliases (found while verifying F2, 2026-09-23).** Questions 3-5
   filter `toLower(f.name) CONTAINS 'wobbl' / 'hole' / 'squeak'`, so which name a merge makes canonical
   can change `question_accuracy` without any fact changing. Candidate: match on `[f.name] + f.aliases`
   (a gold change, its own step).
+- **Question 4 cannot be answered by the graph's shape (found in R43, 2026-09-23).** "Which products
+  are reported with misaligned pre-drilled holes?" looks for a `Defect` whose name contains "hole"; the
+  pinned schema stores the holes as a `Component` ("pre-drilled holes") with `HAS_DEFECT` to a wording
+  such as "didn't line up properly", so it answers `[]` in every run (R41 `question_accuracy` 0.8 = 4 of
+  5). Rewriting it now would be a gold correction made after seeing output: decide with the user.
 - **Merges raise exact-match scores through aliases (found while verifying F1, 2026-09-23).** A merged
   alias lets a same-document fact match gold wording it never used (R41: Västerås "extremely thin" now
   carries "thin" and matches triple 68). Correct by meaning, but exact scores of two resolve variants are
