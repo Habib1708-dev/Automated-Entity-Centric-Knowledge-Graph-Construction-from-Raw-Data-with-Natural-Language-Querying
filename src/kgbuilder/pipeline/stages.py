@@ -34,7 +34,8 @@ from ..text.subject_graph import write_subject_graph
 from ..tracking.base import Run
 from ..validation.evaluate import evaluate
 from ..validation.gold import load_gold
-from ..validation.judge import load_verdicts
+from ..validation.judge import JudgeSheet, load_verdicts
+from ..validation.rescore import rescore
 from ..validation.validator import validate_graph
 from .stage import PLAN_FILE, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 
@@ -488,3 +489,31 @@ class EvalStage(BaseStage):
         if state.verdicts:
             run.artifact(Path(state.verdicts))
         run.artifact(ctx.write("eval_report.json", report.model_dump_json(indent=2, exclude={"judge_sheet"})))
+
+
+class RescoreStage(EvalStage):
+    """Score the judge sheet an earlier eval run logged with today's matching and gold (R48): no graph,
+    no LLM. Same params as `eval` plus the source sheet and its hash; its own output file names, so the
+    current graph's judge sheet under out/ is never overwritten."""
+
+    name = "rescore"
+    SHEET_FILE = "rescore_sheet.json"
+
+    def params(self, ctx, state):
+        sheet = _input_file(state.need("sheet", "pass the logged judge sheet"), "judge sheet")
+        return {**super().params(ctx, state), "sheet": sheet, "sheet_hash": _digest(sheet)}
+
+    def run(self, ctx, state, run):
+        sheet = _input_file(state.sheet, "judge sheet")
+        gold = _input_file(state.gold, "gold file")
+        verdicts = load_verdicts(_input_file(state.verdicts, "verdict file")) if state.verdicts else None
+        logged = JudgeSheet.model_validate_json(sheet.read_text(encoding="utf-8"))
+        report = rescore(logged, load_gold(gold), verdicts)
+        state.evaluation = report
+        run.metrics(**report.metrics())
+        for source in (sheet, gold, *([Path(state.verdicts)] if state.verdicts else [])):
+            run.artifact(source)
+        run.artifact(ctx.write(self.SHEET_FILE, report.judge_sheet.model_dump_json(indent=2)))
+        run.artifact(
+            ctx.write("rescore_report.json", report.model_dump_json(indent=2, exclude={"judge_sheet"}))
+        )

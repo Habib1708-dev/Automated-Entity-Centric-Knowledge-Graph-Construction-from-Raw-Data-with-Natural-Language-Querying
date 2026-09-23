@@ -66,6 +66,7 @@ class PipelineState:
     goal: str | None = None
     gold: Path | None = None
     verdicts: Path | None = None  # the judge's verdict file for `kg eval --verdicts`
+    sheet: Path | None = None  # a judge sheet an earlier eval run logged, for `kg rescore`
     embed: bool = True
 
     staged_dir: Path | None = None

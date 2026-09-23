@@ -23,6 +23,7 @@ uv run kg run data/ --goal "..." --review                         # pause for re
 uv run kg run data/ --goal "..." --gold gold.json                 # also checks recall against labelled triples
 uv run kg eval gold.json                                          # precision/recall/F1, ER accuracy, questions; writes out/judge_sheet.json
 uv run kg eval gold.json --verdicts out/judge_verdicts.json       # plus the judge's validated precision/recall (see below)
+uv run kg rescore SHEET gold.json --verdicts V.json              # re-score an earlier eval run's logged sheet (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```

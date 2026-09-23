@@ -284,6 +284,22 @@ def evaluate(gold: Path, out: Path = OUT, verdicts: Path | None = None):
 
 
 @app.command()
+def rescore(sheet: Path, gold: Path, out: Path = OUT, verdicts: Path | None = None):
+    """Score the judge sheet an earlier eval run logged (mlruns/<exp>/<run>/artifacts/judge_sheet.json)
+    with today's matching and gold, without the graph; with --verdicts, the judge's validated scores."""
+    state = PipelineState(sheet=sheet, gold=gold, verdicts=verdicts)
+    with session(out) as ctx:
+        report = run_stages(ctx, state, [st.RescoreStage()]).evaluation
+    for name, value in report.metrics().items():
+        typer.echo(f"{name:24} {value:.3f}")
+    sheet_out = report.judge_sheet
+    typer.echo(
+        f"Wrote {out / st.RescoreStage.SHEET_FILE}: {len(sheet_out.to_judge())} facts, "
+        f"{len(sheet_out.gold_to_find())} gold triples, {len(sheet_out.er.to_judge())} ER pairs need a judge"
+    )
+
+
+@app.command()
 def run(
     data_dir: Path | None = DATA_DIR,
     goal: str = typer.Option(...),

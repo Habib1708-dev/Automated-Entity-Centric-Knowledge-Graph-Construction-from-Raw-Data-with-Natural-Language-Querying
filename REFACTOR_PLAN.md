@@ -973,6 +973,52 @@ match it with "stick" (ER pair 43). Behaviour change in the extraction prompt.
   the rule's intent). One uncached run cannot separate the rule's effect from run-to-run variation: see
   Found along the way.
 
+### R48. Every reported run re-scored on one scorer and one gold version ($0)
+Asked for by the user on 2026-09-23 ("correct the past results with you as the judge"). Reported numbers
+were computed with a doc-blind exact match (fixed in R42) and on changing gold versions (ER pairs 12 → 26
+→ 25 → 69, question 4 in R46), so they could not be compared across steps. Evaluation only; no graph,
+no LLM, no run.
+- `validation/rescore.py`: `rescore(sheet, gold, verdicts)` rebuilds each logged fact's names from the
+  sheet's entity list and passes them through the same `build_sheet`, `score_verdicts` and ER functions
+  as `kg eval`, keeping the logged fact ids so the run's verdicts still apply; a sheet written before
+  R33 (no entity list) is refused. `RescoreStage` (MLflow run `rescore`: params sheet, gold and verdict
+  hashes; artifacts the three inputs, `rescore_sheet.json`, `rescore_report.json`), `kg rescore SHEET
+  GOLD --verdicts FILE`. Questions need the graph: reported from R46 on only.
+- **Judging rules for the re-score** (Claude Opus 5.5): no existing verdict changed. Added only what the
+  corrected sheets ask: gold triple 73 → the Västerås "back panel quite thin" fact in R34-R40 (its
+  SUPPORTED verdict gets `gold_index` 73: the doc-blind sheet never showed the triple as unfound, so it
+  had been counted as a gold correction), fact `b72dc353c94b` in R41 (R42's verdict). ER placements for
+  R34-R39, judged on older pair lists (whose indices no longer match), come from one set of **name
+  anchors** judged once on the R39 graph for all 69 pairs (the extracted name each gold name refers to),
+  applied identically to every run of the same extraction; they agree with every placement the older runs
+  judged themselves (0 conflicts) and with R41's independently judged placements (28 of 28). Verdict
+  files: `tests/gold/rescore_r48/` (R34-R41); R44-R47 use their committed files unchanged.
+- **Tests first:** re-scoring the R41 case in miniature (cross-document match removed, ids kept, ER on
+  today's pairs), refusal of a sheet without entities, the stage's tracking contract. Checks on real
+  artifacts: re-scoring R47 reproduces its logged numbers exactly, R41 + R42's verdicts reproduce R42.
+- **Result (done, 2026-09-23).** 178 passed, `ruff` clean, 11 `rescore` runs logged, $0. All on
+  `tests/gold/text_gold.json` as of R46 (96 triples, 69 ER pairs); judge Claude Opus 5.5:
+
+| Step (eval run) | What changed | Exact P / R | Validated P (n) | Validated R (n = 96) | ER valid (n) | ER exact (n) |
+|---|---|---|---|---|---|---|
+| R34 (`cbcf2764`) | domain-neutral extraction rule | 0.260 / 0.260 | 0.976 (127) | 0.906 | 0.724 (58) | 0.683 (41) |
+| R36 off (`4cce6055`) | spelling candidates only | 0.260 / 0.260 | 0.976 (127) | 0.906 | 0.724 (58) | 0.683 (41) |
+| R36 (`30337d52`) | meaning candidates, threshold 78 | 0.283 / 0.260 | 0.976 (127) | 0.906 | 0.759 (58) | 0.707 (41) |
+| R37 (`24fa0c89`) | mutual nearest, k = 2 | 0.268 / 0.260 | 0.976 (127) | 0.906 | 0.759 (58) | 0.707 (41) |
+| R39 (`a9f36ae3`) | sentence context for the adjudicator | 0.276 / 0.260 | 0.976 (127) | 0.906 | 0.793 (58) | 0.780 (41) |
+| R41 (`682b849d`) | "same item" / "same kind" question | 0.299 / 0.292 | 0.976 (127) | 0.906 | 0.966 (58) | 0.976 (41) |
+| R44 (`dfe61e24`) | general names, own wording | 0.299 / 0.292 | 0.976 (127) | 0.906 | 0.966 (58) | 0.976 (41) |
+| R45 (`35be69bf`) | second resolution pass | 0.299 / 0.292 | 0.976 (127) | 0.906 | 0.983 (58) | 1.000 (41) |
+| R46 (`cf8e30d3`) | gold question 4 (questions 1.000) | 0.299 / 0.292 | 0.976 (127) | 0.906 | 0.983 (58) | 1.000 (41) |
+| R47 (`29b64199`) | naming rule, uncached extraction | 0.370 / 0.365 | 0.992 (119) | 0.865 | 1.000 (57) | 1.000 (40) |
+
+  95% Wilson intervals: validated precision 124/127 [0.93, 0.99]; recall 87/96 [0.83, 0.95] (R47 83/96
+  [0.78, 0.92]); ER valid R34 42/58 [0.60, 0.82], R39 46/58 [0.67, 0.88], R41 56/58 [0.88, 0.99], R45
+  57/58 [0.91, 1.00], R47 57/57 [0.94, 1.00]. Corrections to earlier reports: exact recall R34-R40 0.271 →
+  0.260; ER numbers of R34-R39 were on 12-25 pairs (R36 / R37 0.913 on n = 23, R39 1.000 on n = 22) and
+  are 0.724-0.793 on the 69 pairs; the step that moved ER is R41's question (0.793 → 0.966), then R45.
+  Fact scores R34-R46 are identical because extraction was served from the cache; only R47 re-sampled it.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -1025,6 +1071,11 @@ match it with "stick" (ER pair 43). Behaviour change in the extraction prompt.
   (degree words were dropped, "extremely thin and chipped" lost the thinness), part ordinary sampling.
   Measuring it needs repeated uncached runs of one prompt (about $0.08 each); needed anyway for the
   thesis's final numbers (see the methodology plan, R48 onwards).
+- **Judge passes disagree on gold links (found in R48, 2026-09-23).** R34-R40 judged the same 127 facts
+  (cache) in separate passes; the validated scores are identical, but `gold_corrections` ranges 22-25:
+  whether a SUPPORTED fact is linked to a gold triple or counted as missing from the gold differs by
+  pass. A measure of the judge's own consistency; the human spot-check proposed for the thesis would
+  quantify it.
 - **Merges raise exact-match scores through aliases (found while verifying F1, 2026-09-23).** A merged
   alias lets a same-document fact match gold wording it never used (R41: Västerås "extremely thin" now
   carries "thin" and matches triple 68). Correct by meaning, but exact scores of two resolve variants are
