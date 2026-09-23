@@ -112,10 +112,12 @@ def test_committed_er_pairs_name_things_the_corpus_contains():
         # whole words only: "drawer rail" must not count as found inside "drawer rails"
         return re.search(rf"(?<![a-z0-9]){re.escape(norm(name))}(?![a-z0-9])", corpus) is not None
 
-    missing = [
-        name for pair in load_gold(TEXT_GOLD).er_pairs for name in (pair.a, pair.b) if not occurs(name)
-    ]
+    pairs = load_gold(TEXT_GOLD).er_pairs
+    missing = [name for pair in pairs for name in (pair.a, pair.b) if not occurs(name)]
     assert not missing, f"ER pair names not in the corpus: {missing}"
+    # a pair listed twice (in either order) would count twice in er_accuracy
+    keys = [frozenset((norm(p.a), norm(p.b))) for p in pairs]
+    assert len(keys) == len(set(keys)), "an ER pair is listed twice"
 
 
 @pytest.mark.neo4j

@@ -793,6 +793,25 @@ was missing.
   manufactured"; lost "no longer opens smoothly" / "doesn't open as smoothly as I'd like" (a miss) and
   "rough" / "rough edges" (debatable). Net: 3 right merges gained, 1 lost, cheaper per question.
 
+### R40. A larger ER test set: products are items, everything else is a kind
+Asked for by the user on 2026-09-23: the 25 ER pairs no longer separate resolver versions (R36, R37 and
+R39 all score 1.000). Gold-only step, written before the R41 run.
+- `tests/gold/text_gold.json` `er_pairs`: 25 → 69 (30 same, 39 keep apart), from the review text alone,
+  no pipeline output opened while writing; not blind (the day's earlier outputs of this corpus were
+  seen, and the pairs were written knowing the "item or kind" question R41 addresses). Rule written into
+  the file: for products `same` means the same item; for every other type the same kind of thing, since
+  entities are one node per type and name across documents. New pairs: wordings of one kind across
+  products ("didn't line up properly" / "didn't align properly", "drawer handles" / "drawer pulls"),
+  different products, and related-but-different parts, defects and failures.
+- Test: no pair listed twice (either order); every name occurs in the corpus (R35 test).
+- **Baseline (R39 graph, rebuilt from the cache at $0: resolve 56/56 cache hits):** `er_accuracy` 0.780
+  (n = 41), **`er_accuracy_valid` 0.793** (46 of 58, 11 not extracted), verdicts
+  `tests/gold/judge_verdicts_2026-09-23_r40_on_r39.json`. All 12 errors are same-kind pairs the LLM kept
+  apart (misalignment wordings across products, "drawer handles" / "drawer pulls", thin, chipping,
+  dent, stick, opening smoothly); no keep-apart pair is merged.
+- **Result (done, 2026-09-23).** Found along the way: a Neo4j test without its marker wiped the graph
+  under `-m "not neo4j"`; fixed in its own commit (conftest marks every `driver` test).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
