@@ -654,10 +654,38 @@ on any other dataset.
 - **Part 1 (done, 2026-09-23):** rule reworded, `prompt_version` `f19abd49dec8` → `984fbd29166b`; the
   R30 wording test now also asserts the rule contains none of "defect", "failure", "complaint",
   "assembly", "product". 149 passed (5 pandas-blocked), `ruff` clean. Part 2 is the run.
+- **Part 2 (done, 2026-09-23):** user's yes given in the session; R30 procedure (`kg reset`, pinned plan
+  and schema, build → ingest-text → extract → resolve → link → validate → eval, `--preset quality`).
+  Extract `b83972d7`: 84 facts (R30: 91), 0 rejected, 55 974 / 7 769 / 2 580 tokens, **$0.081**;
+  resolve 5/5 cache hits, 4 merges; link 43 `PART_OF` derived, 0 entities created; 19/19 checks.
+  Judge pass by Claude Opus 5.5 (R30: Fable 5.1), `tests/gold/judge_verdicts_2026-09-23_r34.json`, same
+  gold `3c847ee7dec4`, eval run `cbcf2764`: 127 facts, 33 exact, 94 judged: 91 `SUPPORTED`, 3
+  `UNSUPPORTED` (all `wrong_relation`), 3 vague; gold 26 + 61 = 87 of 96. Validated P/R/F1
+  **0.976 / 0.906 / 0.940** (R30 1.000 / 1.000 / 1.000); exact-match F1 0.265 (same as R30);
+  `er_accuracy` 0.800 (4 of 5 scored, 7 not found by name), **`er_accuracy_valid` 0.800** (8 of 10,
+  2 not extracted; pairs 1 and 4 are right by construction, their variant spelling never occurs in the
+  corpus: 6 of 8 without them); `question_accuracy` 0.8. Reading: all 9 recall misses (back panel
+  "basically cardboard", drawer bottoms "feel flimsy", the lamp's light base ×3, Gothenburg "scratches
+  a bit more easily", Linköping parts as a defect, two derived `PART_OF`) are claims that R30's rule
+  quoted almost word for word ("feels flimsy", "lighter than I expected", "it scratches easily"): part
+  of R30's 1.000 came from examples copied from the evaluation corpus. 0.906 is the more honest
+  estimate for unseen text. Confounds: the judge model changed, and this judge rejected three relation
+  choices R30's judge had no counterpart for (a coordinated "and" read as `CAUSES_FAILURE`, "assembly
+  was simple enough" read as `IMPEDES_ASSEMBLY_OF`, "flimsy" as a failure mode); recall misses are
+  absent facts, not judge calls. The two failing ER pairs are synonyms the resolver keeps apart
+  ("drawer rails" / "metal rails", "dimmer switch" / "dimmer function").
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Prompt examples copied from the evaluation corpus inflate recall (found in R34).** R30's quoted
+  hedges were phrases of the gold's own documents; the neutral rule loses exactly those 9 facts
+  (validated recall 1.000 → 0.906). Rule for later prompt work: examples never come from a document
+  the gold labels. Held-out datasets (proposed 2026-09-23) are the clean test.
+- **The resolver keeps synonyms apart (found in R34).** "drawer rails" / "metal rails" (same dresser)
+  and "dimmer switch" / "dimmer function" (same lamp) stay two entities; `er_accuracy_valid` 0.800.
+  Candidates: give the adjudicator the document context, or block pairs within one product's reviews.
 
 - **A second, smaller furniture hint in the extraction prompt (found in R34).** The pronoun rule says
   "the product or thing the document is about" and gives the example "this dresser". Harmless on other
