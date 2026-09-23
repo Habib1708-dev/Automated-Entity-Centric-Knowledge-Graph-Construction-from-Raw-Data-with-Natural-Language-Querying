@@ -357,6 +357,7 @@ class ResolveStage(_TextStage):
             before=report.entities_before,
             after=report.entities_after,
             merges=report.merges,
+            passes=report.passes,
             candidates=len(report.decisions),
             llm_adjudications=sum(d.action.startswith("llm_") for d in report.decisions),
             skipped_borderline=sum(d.action == "skipped_borderline" for d in report.decisions),

@@ -107,6 +107,7 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     assert len(names) == 1
     assert tracker.run("ingest_text").logged_metrics["chunks"] == 3
     assert tracker.run("resolve").logged_metrics["merges"] >= 1
+    assert tracker.run("resolve").logged_metrics["passes"] >= 1
 
     def count(query: str) -> int:
         return driver.execute_query(query)[0][0]["c"]

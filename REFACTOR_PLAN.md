@@ -906,6 +906,15 @@ Closes the F3 finding. Behaviour change in resolution.
   keep-apart pair answered "no" stays apart.
 - **Accept:** gate green; one `quality` resolve on the cached graph (estimate $0.003-0.008, needs the
   user's yes) and an ER judge pass; pair 35 checked, keep-apart pairs 49, 61, 64, 65 checked.
+- **Part 1 (done, 2026-09-23).** `decide_in_passes` repeats nominate, decide and group on a merged view
+  (`merged_view`: a group is one record with its canonical's id and name, so pass 1's embeddings still
+  score it, and every member's aliases) until a pass merges nothing, at most 3 passes; the graph is
+  written once from one union-find over all decisions, so the snapshot and `--undo` are unchanged. A
+  question is not asked again unless one side gained members. The adjudicator shows a merged entity the
+  sentences of all its members (`mention_lines(owner=...)`). Pass 1 builds the same candidates and
+  prompts as before (tests unchanged, cache hits). `ResolveReport.passes` and a `passes` metric. Tests:
+  two trios with a fake embedder (one pass: two groups; three passes: one group of six, the keep-apart
+  name apart, 9 questions, none repeated), merged-entity context; 172 passed, `ruff` clean. No run yet.
 
 ## Found along the way
 

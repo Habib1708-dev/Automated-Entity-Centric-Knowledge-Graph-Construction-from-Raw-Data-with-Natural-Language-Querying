@@ -2,6 +2,7 @@
 the merge -> undo round trip against Neo4j, and the rule that merging keeps every separately stated fact."""
 
 import json
+import math
 
 import pytest
 
@@ -9,12 +10,13 @@ from kgbuilder.config import Settings
 from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import PipelineContext, PipelineState
-from kgbuilder.resolution.blocking import ScoreThreshold
+from kgbuilder.resolution.blocking import MutualNearest, ScoreThreshold
 from kgbuilder.resolution.matchers import EmbeddingMatcher, EntityRecord
 from kgbuilder.resolution.resolver import (
     MentionRow,
     SamePair,
     decide,
+    decide_in_passes,
     find_candidates,
     group_merges,
     mention_lines,
@@ -73,6 +75,48 @@ def test_embeddings_nominate_synonyms_but_never_auto_merge():
     by_id = {e.id: e for e in records}
     assert decide(candidates, by_id, auto_merge=92, adjudicate=None)[0].action == "skipped_borderline"
     assert decide(candidates, by_id, auto_merge=92, adjudicate=lambda a, b: True)[0].action == "llm_merge"
+
+
+class AngleEmbedder:
+    """Each name sits on the unit circle at a fixed angle, so cosine similarity follows the angle."""
+
+    ANGLES = {"da": 0, "dbb": 2.9, "dccc": 16.7, "wccc": 31, "wbb": 42, "wa": 43.5, "k-apart": 90}
+
+    def embed(self, texts):
+        return [
+            [math.cos(math.radians(self.ANGLES[t])), math.sin(math.radians(self.ANGLES[t]))] for t in texts
+        ]
+
+
+def test_a_second_pass_joins_groups_that_filled_each_others_nearest_slots():
+    """Six wordings of one kind in two trios (R45, the misaligned holes of R41): each trio fills its
+    members' 2 nearest slots, so the bridge "dccc" / "wccc" is not mutual and one pass leaves two groups.
+    Merged, each trio is one entity and the two meet. "k-apart" is answered "not the same" every time."""
+    records = [entity(n, n, "Defect") for n in AngleEmbedder.ANGLES]
+    asked = []
+
+    def adjudicator_for(candidates, members):
+        def same(a, b):
+            # a merged entity keeps its canonical id, so "the same question" means the same members
+            asked.append((tuple(a.aliases), tuple(b.aliases)))
+            return "k-apart" not in (a.id, b.id)
+
+        return same
+
+    def run(max_passes):
+        asked.clear()
+        matcher = EmbeddingMatcher(AngleEmbedder(), records)
+        return decide_in_passes(records, 101, matcher, MutualNearest(2), 92, adjudicator_for, max_passes)
+
+    _, groups, passes = run(max_passes=1)
+    assert sorted(sorted([g.canonical, *g.absorbed]) for g in groups) == [
+        ["da", "dbb", "dccc"],
+        ["wa", "wbb", "wccc"],
+    ]
+    _, (group,), passes = run(max_passes=3)
+    assert sorted([group.canonical, *group.absorbed]) == ["da", "dbb", "dccc", "wa", "wbb", "wccc"]
+    assert passes == 3  # the third pass asks the merged six about "k-apart" once more and merges nothing
+    assert len(asked) == len(set(asked)) == 9  # 5 + 3 + 1: never the same members asked twice
 
 
 def test_meaning_based_candidates_need_an_embedder_and_a_threshold():
@@ -280,6 +324,21 @@ def test_mention_lines_show_the_sentences_that_name_the_entity_with_their_docume
         ]
     }
     assert mention_lines([row("x", ["shade"], "Lamp Reviews", "No mention.")]) == {"x": []}
+
+
+def test_a_merged_entity_shows_the_sentences_of_all_its_members():
+    rows = [
+        row("a", ["crack"], "Bed Reviews", "The slats started to crack."),
+        row("b", ["crack along the bottom"], "Dresser Reviews", "A crack along the bottom of a drawer."),
+        row("x", ["dent"], "Lamp Reviews", "A small dent."),
+    ]
+    assert mention_lines(rows, owner={"a": "a", "b": "a", "x": "x"}) == {
+        "a": [
+            "[Bed Reviews] The slats started to crack.",
+            "[Dresser Reviews] A crack along the bottom of a drawer.",
+        ],
+        "x": ["[Lamp Reviews] A small dent."],
+    }
 
 
 @pytest.mark.neo4j

@@ -7,6 +7,8 @@ Design: five small steps instead of one function, and only the first and the las
                         meaning are nominated by a blocking rule (blocking.py); both are Strategies
   3. decide             pure given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
   4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
+     Steps 2-4 repeat on the merged view (decide_in_passes, R45): a group of more than k wordings fills
+     its members' k nearest slots, so it can meet a neighbouring group only once each is one entity.
   5. apply_merges       snapshot the members, then merge them with APOC (relationships are moved, never
                         folded: three reviews stating one fact stay three facts; only exact repeats go)
 Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
@@ -58,6 +60,9 @@ Where B is mentioned ([document] sentence):
 _MENTIONS_PER_ENTITY = 3  # enough to see how a name is used, few enough to keep each call cheap
 _SENTENCE_CHARS = 400  # bounds a runaway "sentence" (a table row, a list without full stops) on any data
 _ADJUDICATION_WORKERS = 8
+# a pass after the first asks only about groups the previous pass formed; the loop stops as soon as a pass
+# merges nothing, and this cap bounds the LLM cost of a pathological chain of merges
+_MAX_PASSES = 3
 
 Action = Literal["auto", "llm_merge", "llm_keep", "skipped_borderline"]
 Adjudicator = Callable[[EntityRecord, EntityRecord], bool]
@@ -119,6 +124,7 @@ class ResolveReport(BaseModel):
     groups: list[MergeGroup] = []
     snapshots: list[EntitySnapshot] = []
     facts: list[FactSnapshot] = []
+    passes: int = 1  # rounds of nominate-and-decide (R45); 1 for resolve.json files written before
 
 
 class MentionRow(BaseModel):
@@ -191,17 +197,22 @@ def find_candidates(
     return candidates
 
 
+def embedding_matcher(
+    entities: list[EntityRecord], embedder: Embedder | None, blocking: Blocking | None
+) -> EmbeddingMatcher | None:
+    """The meaning-based matcher, switched on when both an embedder and a blocking are given (one batched
+    embedding call for all names), else None."""
+    return EmbeddingMatcher(embedder, entities) if embedder is not None and blocking is not None else None
+
+
 def nominate(
     entities: list[EntityRecord],
     borderline: float,
     embedder: Embedder | None,
     blocking: Blocking | None,
 ) -> list[Candidate]:
-    """Step 2 with the meaning-based matcher switched on when both an embedder and a blocking are given
-    (one batched embedding call for all names)."""
-    use_embeddings = embedder is not None and blocking is not None
-    embedding = EmbeddingMatcher(embedder, entities) if use_embeddings else None
-    return find_candidates(entities, borderline, embedding, blocking)
+    """Step 2 with the meaning-based matcher when it is switched on."""
+    return find_candidates(entities, borderline, embedding_matcher(entities, embedder, blocking), blocking)
 
 
 def is_auto_merge(candidate: Candidate, auto_merge: float) -> bool:
@@ -279,6 +290,75 @@ def group_merges(entities: dict[str, EntityRecord], decisions: list[Decision]) -
     return groups
 
 
+def merged_view(
+    entities: dict[str, EntityRecord], groups: list[MergeGroup]
+) -> tuple[list[EntityRecord], dict[str, list[str]]]:
+    """Pure: the entities as they will be once `groups` are merged, and the member ids behind each.
+
+    A merged entity keeps its canonical member's id and name (so the embedding computed for that name
+    still scores it) and gathers every member's aliases. Entity order is kept, so a first pass with no
+    groups builds exactly the candidates, and therefore the prompts, of a single-pass run.
+    """
+    canonical = {g.canonical: [g.canonical, *g.absorbed] for g in groups}
+    absorbed = {i for g in groups for i in g.absorbed}
+    members = {i: canonical.get(i, [i]) for i in entities if i not in absorbed}
+    view = [
+        entities[i]
+        if len(ids) == 1
+        else entities[i].model_copy(
+            update={
+                "aliases": sorted({a for m in ids for a in entities[m].aliases}),
+                "mentions": sum(entities[m].mentions for m in ids),
+            }
+        )
+        for i, ids in members.items()
+    ]
+    return view, members
+
+
+AdjudicatorFor = Callable[[list[Candidate], dict[str, list[str]]], Adjudicator]
+
+
+def decide_in_passes(
+    records: list[EntityRecord],
+    borderline: float,
+    embedding: Matcher | None,
+    blocking: Blocking | None,
+    auto_merge: float,
+    adjudicator_for: AdjudicatorFor | None,
+    max_passes: int = _MAX_PASSES,
+) -> tuple[list[Decision], list[MergeGroup], int]:
+    """Steps 2-4, repeated on the merged view until a pass merges nothing: all decisions, the final
+    groups (over the original entities, so one snapshot and one merge apply them) and the passes run.
+
+    A pair is asked again only when one side gained members since it was asked. `adjudicator_for` builds
+    the adjudicator for one pass's candidates and member ids; None leaves borderline pairs undecided.
+    """
+    entities = {e.id: e for e in records}
+    decisions: list[Decision] = []
+    groups: list[MergeGroup] = []
+    asked: set[frozenset[tuple[str, ...]]] = set()
+    passes = 0
+    while passes < max_passes:
+        passes += 1
+        view, members = merged_view(entities, groups)
+
+        def key(c: Candidate, members: dict[str, list[str]] = members) -> frozenset[tuple[str, ...]]:
+            return frozenset((tuple(members[c.a]), tuple(members[c.b])))
+
+        fresh = [c for c in find_candidates(view, borderline, embedding, blocking) if key(c) not in asked]
+        if not fresh:
+            break
+        asked |= {key(c) for c in fresh}
+        adjudicate = adjudicator_for(fresh, members) if adjudicator_for is not None else None
+        decisions += decide(fresh, {e.id: e for e in view}, auto_merge, adjudicate)
+        regrouped = group_merges(entities, decisions)
+        if regrouped == groups:
+            break
+        groups = regrouped
+    return decisions, groups, passes
+
+
 def read_mentions(driver: Driver, ids: list[str]) -> list[MentionRow]:
     """Every chunk mentioning one of `ids`, ordered by entity, document and position in the document, so
     the same graph always builds the same prompts (and hits the LLM cache)."""
@@ -294,15 +374,18 @@ def read_mentions(driver: Driver, ids: list[str]) -> list[MentionRow]:
     return [MentionRow.model_validate(dict(r)) for r in records]
 
 
-def mention_lines(rows: list[MentionRow], limit: int = _MENTIONS_PER_ENTITY) -> dict[str, list[str]]:
-    """Up to `limit` distinct "[document] sentence" lines per entity, in the order of `rows`.
+def mention_lines(
+    rows: list[MentionRow], limit: int = _MENTIONS_PER_ENTITY, owner: dict[str, str] | None = None
+) -> dict[str, list[str]]:
+    """Up to `limit` distinct "[document] sentence" lines per entity, in the order of `rows`. With `owner`
+    (member id -> merged entity id), the lines of all members of a merged entity are gathered under it.
 
     A chunk without a sentence naming the entity (it reached the chunk through the document context or an
     alias) contributes nothing: the LLM sees only what the text really says about the name.
     """
     lines: dict[str, list[str]] = {}
     for row in rows:
-        found = lines.setdefault(row.entity, [])
+        found = lines.setdefault(owner.get(row.entity, row.entity) if owner else row.entity, [])
         if len(found) >= limit:
             continue
         sentence = pick_sentence(row.text, row.names)
@@ -314,10 +397,14 @@ def mention_lines(rows: list[MentionRow], limit: int = _MENTIONS_PER_ENTITY) -> 
     return lines
 
 
-def _llm_adjudicator(driver: Driver, llm: LLMClient, model: str, candidates: list[Candidate]) -> Adjudicator:
-    """An adjudicator that shows the LLM both names with the sentences that mention them."""
-    ids = sorted({i for c in candidates for i in (c.a, c.b)})
-    context = mention_lines(read_mentions(driver, ids))
+def _llm_adjudicator(
+    driver: Driver, llm: LLMClient, model: str, candidates: list[Candidate], members: dict[str, list[str]]
+) -> Adjudicator:
+    """An adjudicator that shows the LLM both names with the sentences that mention them (for an entity
+    merged in an earlier pass, the sentences of all its members)."""
+    shown = sorted({i for c in candidates for i in (c.a, c.b)})
+    owner = {m: i for i in shown for m in members.get(i, [i])}
+    context = mention_lines(read_mentions(driver, sorted(owner)), owner=owner)
 
     def render(entity: str) -> str:
         return "\n".join(f"- {line}" for line in context.get(entity, [])) or "- (no sentence names it)"
@@ -400,10 +487,16 @@ def resolve_entities(
     """
     records = read_entities(driver)
     entities = {e.id: e for e in records}
-    candidates = nominate(records, borderline, embedder, blocking)
-    adjudicate = _llm_adjudicator(driver, llm, model, candidates) if llm is not None else None
-    decisions = decide(candidates, entities, auto_merge, adjudicate)
-    groups = group_merges(entities, decisions)
+    adjudicator_for: AdjudicatorFor | None = None
+    if llm is not None:
+
+        def adjudicator_for(candidates: list[Candidate], members: dict[str, list[str]]) -> Adjudicator:
+            return _llm_adjudicator(driver, llm, model, candidates, members)
+
+    embedding = embedding_matcher(records, embedder, blocking)
+    decisions, groups, passes = decide_in_passes(
+        records, borderline, embedding, blocking, auto_merge, adjudicator_for
+    )
 
     member_ids = [i for g in groups for i in (g.canonical, *g.absorbed)]
     snapshots, facts = snapshot(driver, member_ids) if groups else ([], [])
@@ -424,6 +517,7 @@ def resolve_entities(
         groups=groups,
         snapshots=snapshots,
         facts=facts,
+        passes=passes,
     )
 
 
