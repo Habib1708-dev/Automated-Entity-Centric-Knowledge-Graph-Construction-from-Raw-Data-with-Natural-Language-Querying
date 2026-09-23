@@ -915,6 +915,18 @@ Closes the F3 finding. Behaviour change in resolution.
   prompts as before (tests unchanged, cache hits). `ResolveReport.passes` and a `passes` metric. Tests:
   two trios with a fake embedder (one pass: two groups; three passes: one group of six, the keep-apart
   name apart, 9 questions, none repeated), merged-entity context; 172 passed, `ruff` clean. No run yet.
+- **Part 2 (done, 2026-09-23).** User's yes given in the session. Rebuild (`quality`; extract `65aabedc`
+  70/70 cache), resolve `7a9dc180`: 3 passes, 85 adjudications (56 cache hits, 29 new), 32 merges (R44:
+  28), **$0.0080**. Pass 2 asked the 93.2 bridge and merged the two misalignment trios into one entity
+  of six. Judge Claude Opus 5.5, eval `35be69bf`, `tests/gold/judge_verdicts_2026-09-23_r45.json`: all
+  89 fact and 68 recall verdicts carried over unchanged (fact ids from own wording, R44); ER pairs 23
+  and 43 placed anew. `er_accuracy` 0.976 → **1.000** (n = 41), `er_accuracy_valid` 0.966 → **0.983**
+  (57 of 58, n = 58): pair 35 right; no keep-apart pair merged (64 and 65 asked and kept apart). Facts
+  unchanged (validated 0.976 / 0.906 / 0.940, exact 0.299 / 0.292), `question_accuracy` 0.8. The 4 new
+  merges outside the gold: 3 clearly right ("didn't fit where they were supposed to" / "not fitting
+  together properly", "don't allow the drawers to slide smoothly" / "no longer opens smoothly", the six
+  misalignment wordings), 1 debatable ("sticks when i open it too fast" into "no longer opens
+  smoothly"). Still wrong: pair 43 ("stick" / "sticks"), an over-long extracted name.
 
 ## Found along the way
 
@@ -962,7 +974,7 @@ Closes the F3 finding. Behaviour change in resolution.
 - **Embeddings are not cached (found while verifying F3, 2026-09-23).** `llm/cache.py` wraps the chat
   client only, so every `kg resolve --preview` makes one live embedding call and a rebuild from the cache
   still embeds. Cheap (about 100 short names), but not $0 and not offline.
-- **k = 2 splits large groups of wordings (found in R41).** Six wordings of misaligned holes became two
+- **(Closed by R45.) k = 2 splits large groups of wordings (found in R41).** Six wordings of misaligned holes became two
   groups of three: a name nominates only its 2 nearest neighbours, and the groups are not linked. Union-
   find joins chains, but only through nominated pairs. Candidate: k = 3 (cost bound 1.5x), measured.
   *Verified 2026-09-23 from previews `eeed9e07` (threshold 70) and `c1b4ad6c` (mutual k = 2):* the three
