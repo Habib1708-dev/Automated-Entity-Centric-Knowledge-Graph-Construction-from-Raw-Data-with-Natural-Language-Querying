@@ -13,22 +13,18 @@ reader can tell them from model output. All writes are MERGE: a rerun adds nothi
 Not here: matching entities to domain nodes (linking.py) and the extracted facts (text/extraction.py).
 """
 
-import re
-
 from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
 from ..core.identity import entity_id
-from ..core.text import norm
+from ..core.text import norm, pick_sentence
 from ..structured.plan import ConstructionPlan
 from ..text.schema import FactType, TextSchema
 from .linking import read_domain_nodes
 
 # The `extractor` property of a derived fact; facts from the model carry the model id instead.
 DERIVED_EXTRACTOR = "derived"
-# A sentence ends at ".", "!" or "?" followed by whitespace, or at a line break (headings, list items).
-_SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
 
 
 class DerivationReport(BaseModel):
@@ -37,20 +33,6 @@ class DerivationReport(BaseModel):
     facts_derived: int
     entities_created: int  # object entities (the products) that no extracted fact had created before
     skipped_no_evidence: int  # mentions whose chunk has no sentence naming the entity: no quote, no fact
-
-
-def pick_sentence(text: str, names: list[str]) -> str | None:
-    """The first sentence of `text` containing one of `names` (compared with `norm`), returned verbatim.
-
-    None when no sentence does: the entity reached this chunk through the document context or through an
-    alias merged from another chunk, and a derived fact must not quote what its chunk does not say.
-    """
-    wanted = [norm(name) for name in names if norm(name)]
-    for sentence in _SENTENCE_END.split(text):
-        sentence = sentence.strip()
-        if sentence and any(w in norm(sentence) for w in wanted):
-            return sentence
-    return None
 
 
 def existing_entities(driver: Driver, entity_type: str) -> dict[str, str]:

@@ -1,4 +1,5 @@
-"""Text normalisation shared by evidence verification, entity resolution, linking and validation.
+"""Text normalisation and sentence picking shared by evidence verification, entity resolution, linking,
+derivation and validation.
 
 Role in the pipeline: every comparison between an LLM-produced string and source text (or between two
 entity names) goes through `norm`, so all stages agree on what "the same text" means.
@@ -34,3 +35,22 @@ def squash(text: str) -> str:
     ``"Stockholm Chair"`` and ``"stockholm_chair_reviews"`` both contain ``"stockholmchair"``.
     """
     return _NON_ALPHANUMERIC.sub("", norm(text))
+
+
+# A sentence ends at ".", "!" or "?" followed by whitespace, or at a line break (headings, list items).
+_SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
+
+
+def pick_sentence(text: str, names: list[str]) -> str | None:
+    """The first sentence of `text` containing one of `names` (compared with `norm`), returned verbatim.
+
+    None when no sentence does (an entity can reach a chunk through the document context or through an
+    alias merged from another chunk). Used for a derived fact's quote and for the entity-resolution
+    context: both must show what the chunk really says, never an invented sentence.
+    """
+    wanted = [norm(name) for name in names if norm(name)]
+    for sentence in _SENTENCE_END.split(text):
+        sentence = sentence.strip()
+        if sentence and any(w in norm(sentence) for w in wanted):
+            return sentence
+    return None

@@ -5,7 +5,8 @@ gold set and accepted by the validation checks."""
 
 import pytest
 
-from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, derive_facts, pick_sentence
+from kgbuilder.core.text import pick_sentence
+from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, derive_facts
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.schema import EntityType, FactType, TextSchema
 from kgbuilder.validation.checks.base import CheckContext

@@ -12,10 +12,12 @@ from kgbuilder.pipeline.stage import PipelineContext, PipelineState
 from kgbuilder.resolution.blocking import ScoreThreshold
 from kgbuilder.resolution.matchers import EmbeddingMatcher, EntityRecord
 from kgbuilder.resolution.resolver import (
+    MentionRow,
     SamePair,
     decide,
     find_candidates,
     group_merges,
+    mention_lines,
     nominate,
     preview,
     resolve_entities,
@@ -211,3 +213,68 @@ def test_preview_stage_lists_candidates_and_changes_nothing(driver, tmp_path):
     assert run.logged_params["embed_model"] is None  # no embedder: meaning-based candidates impossible
     written = json.loads((tmp_path / st.PreviewResolveStage.PREVIEW_FILE).read_text(encoding="utf-8"))
     assert written["pairs"][0]["route"] in ("auto", "llm")
+
+
+def row(entity: str, names: list[str], document: str, text: str) -> MentionRow:
+    return MentionRow(entity=entity, names=names, document=document, text=text)
+
+
+def test_mention_lines_show_the_sentences_that_name_the_entity_with_their_document():
+    long_praise = "Lovely colour and a great price overall, we are very happy with it. " * 5
+    rows = [
+        row("r", ["drawer rails"], "Dresser Reviews", long_praise + "The drawer rails stick badly."),
+        row("r", ["drawer rails"], "Dresser Reviews", "Nothing about them here."),  # reached via context
+        row("r", ["drawer rails", "metal rails"], "Desk Reviews", "The metal rails are rough."),  # alias
+        row("r", ["drawer rails"], "Desk Reviews", "The drawer rails stick badly."),  # repeated sentence
+        row("r", ["drawer rails"], "Bed Reviews", "Drawer rails wobble."),
+        row("r", ["drawer rails"], "Sofa Reviews", "Drawer rails squeak."),  # beyond the limit of 3
+    ]
+    assert mention_lines(rows, limit=3) == {
+        "r": [
+            # the name is past character 300 of its chunk: the old 300-character window never showed it
+            "[Dresser Reviews] The drawer rails stick badly.",
+            "[Desk Reviews] The metal rails are rough.",
+            "[Desk Reviews] The drawer rails stick badly.",
+        ]
+    }
+    assert mention_lines([row("x", ["shade"], "Lamp Reviews", "No mention.")]) == {"x": []}
+
+
+@pytest.mark.neo4j
+def test_the_adjudication_prompt_carries_each_names_sentences_and_document(driver):
+    chunks = [
+        Chunk(
+            chunk_id="d.md#0",
+            doc_id="d.md",
+            index=0,
+            text="Great desk. The Table wobbles.",
+            context="Desk Reviews",
+        ),
+        Chunk(
+            chunk_id="d.md#1",
+            doc_id="d.md",
+            index=1,
+            text="The Tables scratch easily.",
+            context="Desk Reviews",
+        ),
+    ]
+    write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
+    write_subject_graph(
+        driver,
+        [
+            fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#0"),
+            fact("Tables", "HAS_PROBLEM", "scratch", "Problem", "d.md#1"),
+        ],
+        extractor="test",
+    )
+    prompts: list[str] = []
+
+    def answer(prompt, schema):
+        prompts.append(prompt)
+        return SamePair(same=False)
+
+    resolve_entities(driver, ScriptedLLM(answer), model="m", auto_merge=95)  # "Table"/"Tables" 90.9: ask
+    [prompt] = prompts
+    assert "- [Desk Reviews] The Table wobbles." in prompt  # the sentence, not the praise before it
+    assert "- [Desk Reviews] The Tables scratch easily." in prompt
+    assert "Great desk" not in prompt

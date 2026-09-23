@@ -767,11 +767,27 @@ correction that favours the system** (the LLM had kept the pair apart), disclose
 - **Result (done, 2026-09-23):** as listed; 3 of 25 pairs are still "not extracted" (drawer bottoms,
   the lamp's base, the cheap-feeling switch). n = 22: every pair moves the score by 0.045.
 
+### R39. Adjudication context: the sentences that name the entity, with their document
+Asked for by the user on 2026-09-23. The adjudicator showed the first 300 characters of one arbitrary
+mentioning chunk; measured on the 70 chunks (median 468, max 813 characters), 20 of the 78 names the LLM
+judged never appear within the first 300 characters of any of their chunks, so the LLM often saw only a
+star rating and praise. The pick was also unordered (the R36 cache-miss finding), and the document name
+was missing.
+- `core/text.py`: `pick_sentence` moved from `resolution/derivation.py` (now used by two modules).
+- `resolution/resolver.py`: `read_mentions` (every mentioning chunk, ordered by entity, document and
+  position) and `mention_lines` (up to 3 distinct "[document] sentence" lines per entity, only sentences
+  that name the entity or an alias, capped at 400 characters); the prompt lists them per name.
+  `prompt_version` 5a6f0ee58a4d → 8dc5bcb0cb7d.
+- **Accept:** unit test of the lines (order, alias, repeated sentence, limit, a name past character
+  300); a Neo4j test that the prompt carries each name's sentence and document and not the praise before
+  it; one resolve run (no cache hits possible: the prompt changed) and the ER judge pass on the 25 pairs.
+- **Part 1 (done, 2026-09-23):** as listed; 2 tests (166 passed), `ruff` clean. No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
-- **Adjudication prompts are not deterministic (found in R36).** `_llm_adjudicator` shows the LLM
+- **(Closed by R39.) Adjudication prompts are not deterministic (found in R36).** `_llm_adjudicator` shows the LLM
   `head(collect(c.text))`, an unordered pick of a mentioning chunk, so a rerun can build another prompt:
   2 of 65 calls missed the cache. Fix with an `ORDER BY c.chunk_id` and a test.
 - **(Closed by R38: the gold was wrong, the LLM right.) The adjudicator keeps "dimmer switch" / "dimmer function" apart (found in R36).** Nominated at 84.3,

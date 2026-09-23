@@ -24,21 +24,30 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
+from ..core.text import pick_sentence
 from ..llm.base import Embedder, LLMClient
 from .blocking import Blocking
 from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
 
 # Conservative on purpose: a false merge destroys information, a missed merge only leaves a duplicate.
+# Each name comes with the sentences that mention it and their document (R39): a name alone is often
+# ambiguous ("rails", "switch"), and whether two names come from the same product's reviews matters. Until
+# R39 the context was the first 300 characters of one arbitrary chunk, which for 20 of 78 names never
+# contained the name at all.
 ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same real-world thing?
 Different sizes, models, components or people are NOT the same. Answer conservatively.
 
 A: {a}
 B: {b}
 
-Context for A: {ctx_a}
-Context for B: {ctx_b}"""
+Where A is mentioned ([document] sentence):
+{ctx_a}
 
-_CONTEXT_CHARS = 300  # enough of one mentioning chunk to disambiguate, small enough to keep calls cheap
+Where B is mentioned ([document] sentence):
+{ctx_b}"""
+
+_MENTIONS_PER_ENTITY = 3  # enough to see how a name is used, few enough to keep each call cheap
+_SENTENCE_CHARS = 400  # bounds a runaway "sentence" (a table row, a list without full stops) on any data
 _ADJUDICATION_WORKERS = 8
 
 Action = Literal["auto", "llm_merge", "llm_keep", "skipped_borderline"]
@@ -101,6 +110,15 @@ class ResolveReport(BaseModel):
     groups: list[MergeGroup] = []
     snapshots: list[EntitySnapshot] = []
     facts: list[FactSnapshot] = []
+
+
+class MentionRow(BaseModel):
+    """One chunk mentioning an entity, as the adjudication context is built from it."""
+
+    entity: str  # entity id
+    names: list[str]  # name and aliases: the sentence may use any of them
+    document: str  # the chunk's context (its document heading), else its document id
+    text: str
 
 
 class PreviewPair(BaseModel):
@@ -249,23 +267,52 @@ def group_merges(entities: dict[str, EntityRecord], decisions: list[Decision]) -
     return groups
 
 
-def _llm_adjudicator(driver: Driver, llm: LLMClient, model: str, candidates: list[Candidate]) -> Adjudicator:
-    """An adjudicator that shows the LLM both names plus one mentioning chunk each."""
-    ids = sorted({i for c in candidates for i in (c.a, c.b)})
+def read_mentions(driver: Driver, ids: list[str]) -> list[MentionRow]:
+    """Every chunk mentioning one of `ids`, ordered by entity, document and position in the document, so
+    the same graph always builds the same prompts (and hits the LLM cache)."""
     records, _, _ = driver.execute_query(
         "MATCH (c:Chunk)-[:MENTIONS]->(e:Entity) WHERE e.id IN $ids "
-        "RETURN e.id AS id, head(collect(c.text)) AS text",
+        "RETURN e.id AS entity, [e.name] + coalesce(e.aliases, []) AS names, "
+        # chunks written before R26 have no context, or an empty one: name them by their document id
+        "CASE WHEN coalesce(c.context, '') = '' THEN c.doc_id ELSE c.context END AS document, "
+        "c.text AS text "
+        "ORDER BY entity, c.doc_id, c.index",
         ids=ids,
     )
-    context = {r["id"]: r["text"][:_CONTEXT_CHARS] for r in records}
+    return [MentionRow.model_validate(dict(r)) for r in records]
+
+
+def mention_lines(rows: list[MentionRow], limit: int = _MENTIONS_PER_ENTITY) -> dict[str, list[str]]:
+    """Up to `limit` distinct "[document] sentence" lines per entity, in the order of `rows`.
+
+    A chunk without a sentence naming the entity (it reached the chunk through the document context or an
+    alias) contributes nothing: the LLM sees only what the text really says about the name.
+    """
+    lines: dict[str, list[str]] = {}
+    for row in rows:
+        found = lines.setdefault(row.entity, [])
+        if len(found) >= limit:
+            continue
+        sentence = pick_sentence(row.text, row.names)
+        if sentence is None:
+            continue
+        line = f"[{row.document}] {sentence[:_SENTENCE_CHARS]}"
+        if line not in found:  # the same sentence repeated in two reviews says nothing new
+            found.append(line)
+    return lines
+
+
+def _llm_adjudicator(driver: Driver, llm: LLMClient, model: str, candidates: list[Candidate]) -> Adjudicator:
+    """An adjudicator that shows the LLM both names with the sentences that mention them."""
+    ids = sorted({i for c in candidates for i in (c.a, c.b)})
+    context = mention_lines(read_mentions(driver, ids))
+
+    def render(entity: str) -> str:
+        return "\n".join(f"- {line}" for line in context.get(entity, [])) or "- (no sentence names it)"
 
     def adjudicate(a: EntityRecord, b: EntityRecord) -> bool:
         prompt = ADJUDICATE_PROMPT.format(
-            etype=a.type,
-            a=a.name,
-            b=b.name,
-            ctx_a=context.get(a.id, "(none)"),
-            ctx_b=context.get(b.id, "(none)"),
+            etype=a.type, a=a.name, b=b.name, ctx_a=render(a.id), ctx_b=render(b.id)
         )
         return llm.generate(prompt, SamePair, model=model).same
 
