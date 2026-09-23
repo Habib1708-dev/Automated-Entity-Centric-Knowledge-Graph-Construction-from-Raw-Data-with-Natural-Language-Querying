@@ -1,14 +1,22 @@
-"""Entity resolution: candidate finding, decisions and grouping as pure functions, the merge -> undo
-round trip against Neo4j, and the rule that merging keeps every separately stated fact."""
+"""Entity resolution: candidate finding, decisions and grouping as pure functions, the candidate preview,
+the merge -> undo round trip against Neo4j, and the rule that merging keeps every separately stated fact."""
+
+import json
 
 import pytest
 
+from kgbuilder.config import Settings
+from kgbuilder.pipeline import stages as st
+from kgbuilder.pipeline.runner import run_stages
+from kgbuilder.pipeline.stage import PipelineContext, PipelineState
 from kgbuilder.resolution.matchers import EmbeddingMatcher, EntityRecord
 from kgbuilder.resolution.resolver import (
     SamePair,
     decide,
     find_candidates,
     group_merges,
+    nominate,
+    preview,
     resolve_entities,
     undo_merges,
 )
@@ -18,7 +26,7 @@ from kgbuilder.text.extraction import Triple
 from kgbuilder.text.lexical import write_lexical_graph
 from kgbuilder.text.subject_graph import write_subject_graph
 
-from .fakes import ScriptedLLM
+from .fakes import RecordingTracker, ScriptedLLM
 
 
 def entity(id: str, name: str, type: str = "Product", mentions: int = 1) -> EntityRecord:
@@ -45,18 +53,40 @@ def test_candidates_are_same_type_pairs_above_the_borderline():
     assert not any("x1" in p for p in pairs(find_candidates(ENTITIES, borderline=0.1)))
 
 
-def test_embeddings_nominate_synonyms_but_never_auto_merge():
-    class FakeEmbedder:
-        def embed(self, texts):
-            return [[1.0, 0.0] if t in ("Sofa", "Couch") else [0.0, 1.0] for t in texts]
+class SynonymEmbedder:
+    """Puts "Sofa" and "Couch" on one vector and every other name on another: cosine 100 or 0."""
 
+    def embed(self, texts):
+        return [[1.0, 0.0] if t in ("Sofa", "Couch") else [0.0, 1.0] for t in texts]
+
+
+def test_embeddings_nominate_synonyms_but_never_auto_merge():
     records = [entity("s1", "Sofa"), entity("s2", "Couch"), entity("t1", "Table")]
-    matcher = EmbeddingMatcher(FakeEmbedder(), records)
+    matcher = EmbeddingMatcher(SynonymEmbedder(), records)
     candidates = find_candidates(records, borderline=80, embedding=matcher, embedding_threshold=95)
     assert [(c.a, c.b, c.signal, c.score) for c in candidates] == [("s1", "s2", "embedding", 100.0)]
     by_id = {e.id: e for e in records}
     assert decide(candidates, by_id, auto_merge=92, adjudicate=None)[0].action == "skipped_borderline"
     assert decide(candidates, by_id, auto_merge=92, adjudicate=lambda a, b: True)[0].action == "llm_merge"
+
+
+def test_meaning_based_candidates_need_an_embedder_and_a_threshold():
+    records = [entity("s1", "Sofa"), entity("s2", "Couch")]
+    assert nominate(records, 80, SynonymEmbedder(), embedding_threshold=0) == []  # 0 = switched off
+    assert nominate(records, 80, None, embedding_threshold=95) == []  # no embedder, nothing to compare
+    assert [c.signal for c in nominate(records, 80, SynonymEmbedder(), embedding_threshold=95)] == [
+        "embedding"
+    ]
+
+
+def test_preview_names_each_pair_its_route_and_orders_by_score():
+    records = [*ENTITIES, entity("s2", "Couch")]
+    candidates = nominate(records, borderline=50, embedder=SynonymEmbedder(), embedding_threshold=95)
+    rows = [(p.signal, p.a, p.b, p.route) for p in preview(records, candidates, auto_merge=90).pairs]
+    assert rows[0] == ("embedding", "Sofa", "Couch", "llm")  # a meaning score always goes to the LLM
+    fuzzy = [r for r in rows if r[0] == "fuzzy"]
+    assert fuzzy[0] == ("fuzzy", "Table", "Tables", "auto")  # 90.9 >= 90: merged on spelling alone
+    assert all(route == "llm" for *_, route in fuzzy[1:])
 
 
 def test_decisions_auto_llm_and_skipped():
@@ -154,3 +184,29 @@ def test_merge_then_undo_restores_the_graph(driver):
     assert undo_merges(driver, report) == 1
     assert dump(driver) == before
     assert undo_merges(driver, report) == 1 and dump(driver) == before  # idempotent
+
+
+@pytest.mark.neo4j
+def test_preview_stage_lists_candidates_and_changes_nothing(driver, tmp_path):
+    chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
+    write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
+    write_subject_graph(
+        driver,
+        [
+            fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#0"),
+            fact("Tables", "HAS_PROBLEM", "scratch", "Problem", "d.md#1"),
+        ],
+        extractor="test",
+    )
+    before = dump(driver)
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=driver, out=tmp_path, tracker=tracker)
+
+    result = run_stages(ctx, PipelineState(), [st.PreviewResolveStage()]).resolve_preview
+    assert [{p.a, p.b} for p in result.pairs] == [{"Table", "Tables"}]  # order follows entity ids
+    assert dump(driver) == before
+    run = tracker.run("resolve_preview")
+    assert run.logged_metrics["candidates"] == 1 and run.logged_metrics["candidates_embedding"] == 0
+    assert run.logged_params["embed_model"] is None  # no embedder: meaning-based candidates impossible
+    written = json.loads((tmp_path / st.PreviewResolveStage.PREVIEW_FILE).read_text(encoding="utf-8"))
+    assert written["pairs"][0]["route"] in ("auto", "llm")

@@ -18,6 +18,7 @@ from ..llm.thinking import with_thinking
 from ..resolution import resolver
 from ..resolution.derivation import DerivationReport, derive_facts
 from ..resolution.linking import link_graphs
+from ..resolution.matchers import EmbeddingMatcher, FuzzyNameMatcher
 from ..structured import proposer
 from ..structured.importer import BATCH_SIZE, construct_domain_graph
 from ..structured.plan import validate_plan
@@ -70,6 +71,18 @@ def _input_file(path: Path, what: str) -> Path:
     if not Path(path).exists():
         raise MissingInputError(f"{what} '{path}' not found")
     return Path(path)
+
+
+def _er_thresholds(ctx: PipelineContext) -> dict[str, object]:
+    """The entity-resolution thresholds, logged the same way by the resolve run and its preview, and
+    whether meaning-based candidates could be computed at all (they need an embedder)."""
+    s = ctx.settings
+    return {
+        "er_auto_merge": s.er_auto_merge,
+        "er_borderline": s.er_borderline,
+        "er_embedding_candidates": s.er_embedding_candidates,
+        "embed_model": s.embed_model if ctx.embedder is not None else None,
+    }
 
 
 def _digest(path: Path) -> str:
@@ -311,11 +324,9 @@ class ResolveStage(_TextStage):
     def params(self, ctx, state):
         s = ctx.settings
         return {
+            **_er_thresholds(ctx),
             "model": s.extract_model,
             "thinking": s.extract_thinking,
-            "er_auto_merge": s.er_auto_merge,
-            "er_borderline": s.er_borderline,
-            "er_embedding_candidates": s.er_embedding_candidates,
             "prompt_version": prompt_version(resolver.ADJUDICATE_PROMPT),
             "llm_adjudication": int(ctx.llm is not None),
         }
@@ -344,6 +355,31 @@ class ResolveStage(_TextStage):
         )
         # resolve.json is both the audit log and the input of `kg resolve --undo`
         run.artifact(ctx.write("resolve.json", report.model_dump_json(indent=2)))
+
+
+class PreviewResolveStage(_TextStage):
+    """List the pairs a resolve run would consider, with scores and routes; no LLM call, no write."""
+
+    name = "resolve_preview"
+    PREVIEW_FILE = "resolve_preview.json"
+
+    def params(self, ctx, state):
+        return _er_thresholds(ctx)
+
+    def run(self, ctx, state, run):
+        s = ctx.settings
+        preview = resolver.preview_candidates(
+            ctx.driver, s.er_auto_merge, s.er_borderline, ctx.embedder, s.er_embedding_candidates
+        )
+        state.resolve_preview = preview
+        run.metrics(
+            entities=preview.entities,
+            candidates=len(preview.pairs),
+            candidates_fuzzy=sum(p.signal == FuzzyNameMatcher.name for p in preview.pairs),
+            candidates_embedding=sum(p.signal == EmbeddingMatcher.name for p in preview.pairs),
+            would_auto_merge=sum(p.route == "auto" for p in preview.pairs),
+        )
+        run.artifact(ctx.write(self.PREVIEW_FILE, preview.model_dump_json(indent=2)))
 
 
 class UndoResolveStage(BaseStage):

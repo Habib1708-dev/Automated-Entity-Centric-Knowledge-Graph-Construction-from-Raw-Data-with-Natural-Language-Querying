@@ -690,6 +690,22 @@ Gold-only step, written after the R34 output had been seen, so every change is a
   ER scores before and after R35 are not comparable.
 - **Result (met, 2026-09-23):** as listed; triples unchanged (96). No run.
 
+### R36. Meaning-based ER candidates, with the threshold chosen from real scores
+Closes the R34 finding "the resolver keeps synonyms apart": spelling scores of 61 ("drawer rails" /
+"metal rails") and 57 ("dimmer switch" / "dimmer function") never reach the LLM (cut-off 80), and the
+embedding matcher that finds synonyms is built but off (`er_embedding_candidates: 0`). Depends on R35.
+- `resolution/resolver.py`: `nominate` (step 2 with the optional embedding matcher, shared by a run and
+  its preview), `is_auto_merge` (the one rule "only a spelling score merges alone", shared too),
+  `preview` / `preview_candidates` with `ResolvePreview` (every candidate pair by name, signal, score and
+  route, highest score first). `pipeline/stages.py`: `PreviewResolveStage` (`resolve_preview` run: ER
+  params incl. `embed_model`, metrics `candidates`, `candidates_fuzzy`, `candidates_embedding`,
+  `would_auto_merge`, artifact `resolve_preview.json`). `kg resolve --preview`.
+- Part 2: preview with a low threshold on the R34 graph, choose `er_embedding_candidates` from the
+  scores, set it in the `quality` preset, one resolve run and an ER judge pass against the R35 pairs.
+- **Accept:** unit tests for the switch, routes and order; a Neo4j test that the preview changes
+  nothing; part 2 reports `er_accuracy_valid` before and after with n, and the new LLM calls' cost.
+- **Part 1 (done, 2026-09-23):** as listed; 4 tests (154 passed, 5 pandas-blocked), `ruff` clean. No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

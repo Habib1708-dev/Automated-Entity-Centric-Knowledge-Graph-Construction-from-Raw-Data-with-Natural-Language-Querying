@@ -110,6 +110,9 @@ kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
                   ->  kg extract  ->  kg resolve [--undo]  ->  kg link  ->  kg validate [--gold gold.json]
 ```
 
+`kg resolve --preview` lists the pairs a resolve run would consider (spelling or meaning, score, merged
+on spelling alone or asked to the LLM) without an LLM call or a write: use it to choose `er_*` thresholds.
+
 `text-schema` and `extract` work on the chunks stored by `ingest-text`, never on re-chunked files, so
 chunk ids in the graph and in the provenance of facts always agree.
 

@@ -28,6 +28,7 @@ from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import stages as st
+from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
 from .tracking.mlflow_tracker import create_tracker
 from .validation.report import ValidationReport
@@ -228,9 +229,16 @@ def extract(out: Path = OUT):
 
 
 @app.command()
-def resolve(out: Path = OUT, undo: bool = False):
-    """Detect and merge duplicate entities. `--undo` reverts the last run (then re-run `kg link`)."""
+def resolve(out: Path = OUT, undo: bool = False, preview: bool = False):
+    """Detect and merge duplicate entities. `--undo` reverts the last run (then re-run `kg link`);
+    `--preview` lists the candidate pairs with their scores and changes nothing."""
+    if undo and preview:
+        raise typer.BadParameter("--undo and --preview exclude each other")
     with session(out) as ctx:
+        if preview:
+            _print_preview(run_stages(ctx, PipelineState(), [st.PreviewResolveStage()]).resolve_preview)
+            typer.echo(f"Wrote {out / st.PreviewResolveStage.PREVIEW_FILE}")
+            return
         if undo:
             run_stages(ctx, PipelineState(), [st.UndoResolveStage()])
             typer.echo("Merges of the last resolve run were undone.")
@@ -311,6 +319,13 @@ def reset(out: Path = OUT):
     with session(out) as ctx:
         ctx.driver.execute_query("MATCH (n) DETACH DELETE n")
     typer.echo("Database cleared.")
+
+
+def _print_preview(preview: ResolvePreview) -> None:
+    """One line per candidate pair: signal, score, route (auto merge or LLM), type and the two names."""
+    for p in preview.pairs:
+        typer.echo(f"{p.signal:9} {p.score:5.1f} {p.route:4} {p.type:12} {p.a} | {p.b}")
+    typer.echo(f"{len(preview.pairs)} candidate pairs among {preview.entities} entities")
 
 
 def _print_report(report: ValidationReport) -> None:

@@ -84,3 +84,9 @@ def test_a_missing_free_key_is_reported_by_the_cli(data_dir, tmp_path, monkeypat
     result = runner.invoke(app, ["plan", str(data_dir), "--goal", "g", "--out", str(tmp_path / "out")])
     assert result.exit_code == 1
     assert "GEMINI_FREE_API_KEY" in result.output and "Traceback" not in result.output
+
+
+def test_resolve_refuses_preview_and_undo_together(tmp_path):
+    # checked before any connection is opened: the two flags contradict each other
+    result = runner.invoke(app, ["resolve", "--preview", "--undo", "--out", str(tmp_path / "out")])
+    assert result.exit_code != 0 and "exclude each other" in result.output

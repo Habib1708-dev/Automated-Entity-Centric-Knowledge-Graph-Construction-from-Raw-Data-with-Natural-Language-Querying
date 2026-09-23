@@ -18,7 +18,7 @@ from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
 from ..llm.base import Embedder, LLMClient
 from ..resolution.linking import LinkReport
-from ..resolution.resolver import ResolveReport
+from ..resolution.resolver import ResolvePreview, ResolveReport
 from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
 from ..text.chunking import Chunk
@@ -77,6 +77,7 @@ class PipelineState:
 
     extraction: ExtractionResult | None = None
     resolution: ResolveReport | None = None
+    resolve_preview: ResolvePreview | None = None
     links: LinkReport | None = None
     validation: ValidationReport | None = None
     evaluation: EvalReport | None = None

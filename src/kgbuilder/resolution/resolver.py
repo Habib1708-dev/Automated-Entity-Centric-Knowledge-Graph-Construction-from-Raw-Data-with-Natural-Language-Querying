@@ -9,7 +9,8 @@ Design: five small steps instead of one function, and only the first and the las
   5. apply_merges       snapshot the members, then merge them with APOC (relationships are moved, never
                         folded: three reviews stating one fact stay three facts; only exact repeats go)
 Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
-graph, because a wrong merge silently corrupts every later query.
+graph, because a wrong merge silently corrupts every later query. `preview_candidates` runs steps 1-2
+only (`kg resolve --preview`), to choose the thresholds from real scores.
 Not here: similarity functions (matchers.py) and links to the domain graph (linking.py).
 """
 
@@ -100,6 +101,25 @@ class ResolveReport(BaseModel):
     facts: list[FactSnapshot] = []
 
 
+class PreviewPair(BaseModel):
+    """One candidate pair as `kg resolve --preview` shows it."""
+
+    a: str  # names
+    b: str
+    type: str
+    score: float
+    signal: str
+    route: Literal["auto", "llm"]  # a real run merges it by spelling alone, or asks the LLM
+
+
+class ResolvePreview(BaseModel):
+    """What a resolve run would consider, without an LLM call or a write: thresholds are chosen from
+    the real score distribution instead of being guessed."""
+
+    entities: int
+    pairs: list[PreviewPair]
+
+
 def read_entities(driver: Driver) -> list[EntityRecord]:
     records, _, _ = driver.execute_query(
         "MATCH (e:Entity) OPTIONAL MATCH (:Chunk)-[m:MENTIONS]->(e) "
@@ -138,6 +158,25 @@ def find_candidates(
     return candidates
 
 
+def nominate(
+    entities: list[EntityRecord],
+    borderline: float,
+    embedder: Embedder | None,
+    embedding_threshold: float,
+) -> list[Candidate]:
+    """Step 2 with the meaning-based matcher switched on when an embedder is given and
+    `embedding_threshold` > 0 (one batched embedding call for all names)."""
+    use_embeddings = embedder is not None and embedding_threshold > 0
+    embedding = EmbeddingMatcher(embedder, entities) if use_embeddings else None
+    return find_candidates(entities, borderline, embedding, embedding_threshold)
+
+
+def is_auto_merge(candidate: Candidate, auto_merge: float) -> bool:
+    """Only a spelling score this high merges without the LLM. A meaning score never does: short names
+    of different things ("drawer rails", "drawer handles") can have very close embeddings."""
+    return candidate.signal == FuzzyNameMatcher.name and candidate.score >= auto_merge
+
+
 def decide(
     candidates: list[Candidate],
     entities: dict[str, EntityRecord],
@@ -145,11 +184,7 @@ def decide(
     adjudicate: Adjudicator | None,
 ) -> list[Decision]:
     """Turn candidates into decisions. Only a fuzzy score >= `auto_merge` merges without the LLM."""
-
-    def is_auto(c: Candidate) -> bool:
-        return c.signal == FuzzyNameMatcher.name and c.score >= auto_merge
-
-    borderline = [c for c in candidates if not is_auto(c)]
+    borderline = [c for c in candidates if not is_auto_merge(c, auto_merge)]
     verdicts: dict[tuple[str, str], bool] = {}
     if adjudicate is not None and borderline:
         # independent LLM calls: run them in parallel, keep the order for a deterministic log
@@ -159,7 +194,7 @@ def decide(
 
     decisions = []
     for c in candidates:
-        if is_auto(c):
+        if is_auto_merge(c, auto_merge):
             action: Action = "auto"
         elif adjudicate is None:
             action = "skipped_borderline"
@@ -298,10 +333,7 @@ def resolve_entities(
     """
     records = read_entities(driver)
     entities = {e.id: e for e in records}
-    use_embeddings = embedder is not None and embedding_threshold > 0
-    embedding = EmbeddingMatcher(embedder, records) if use_embeddings else None
-
-    candidates = find_candidates(records, borderline, embedding, embedding_threshold)
+    candidates = nominate(records, borderline, embedder, embedding_threshold)
     adjudicate = _llm_adjudicator(driver, llm, model, candidates) if llm is not None else None
     decisions = decide(candidates, entities, auto_merge, adjudicate)
     groups = group_merges(entities, decisions)
@@ -326,6 +358,37 @@ def resolve_entities(
         snapshots=snapshots,
         facts=facts,
     )
+
+
+def preview(entities: list[EntityRecord], candidates: list[Candidate], auto_merge: float) -> ResolvePreview:
+    """Describe `candidates` by name and route, highest score first within each signal, so the point
+    where real synonyms stop and unrelated pairs begin can be read off the list."""
+    by_id = {e.id: e for e in entities}
+    pairs = [
+        PreviewPair(
+            a=by_id[c.a].name,
+            b=by_id[c.b].name,
+            type=by_id[c.a].type,
+            score=c.score,
+            signal=c.signal,
+            route="auto" if is_auto_merge(c, auto_merge) else "llm",
+        )
+        for c in candidates
+    ]
+    pairs.sort(key=lambda p: (p.signal, -p.score, p.a, p.b))
+    return ResolvePreview(entities=len(entities), pairs=pairs)
+
+
+def preview_candidates(
+    driver: Driver,
+    auto_merge: float,
+    borderline: float,
+    embedder: Embedder | None,
+    embedding_threshold: float,
+) -> ResolvePreview:
+    """Steps 1 and 2 of `resolve_entities` on the current graph. Reads only; no LLM call."""
+    records = read_entities(driver)
+    return preview(records, nominate(records, borderline, embedder, embedding_threshold), auto_merge)
 
 
 def undo_merges(driver: Driver, report: ResolveReport) -> int:
