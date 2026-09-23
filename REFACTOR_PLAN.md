@@ -884,6 +884,17 @@ Closes the F2 finding. Behaviour change in resolution and in the fact writer.
   it). `fact_id` uses the fact's own wording, so a canonical name no longer changes the ids the verdicts
   refer to. Tests: shortest canonical (unit), own wording after a merge (Neo4j), the surviving repeat
   (extended). 170 passed, `ruff` clean. Local `docs/system-overview.html` updated. No run yet.
+- **Part 2 (done, 2026-09-23).** User's yes given in the session. Cache-only rebuild of the R41 graph
+  (`quality`; `ingest-text`'s chunk embedding hit 429 three times, worked after a 30-minute wait):
+  extract `63696a58` 70/70 cache, resolve `d7d881f6` 56/56 cache, 28 merges, **$0** (embedding calls
+  unpriced). Canonical names now general: "crack", "small dent", "damaged", "scratches", "Västerås
+  Bookshelf" (was "Bookshelves"); a few same-review groups got a terser name ("rough" for "rough edges",
+  "misalign"), with each fact still showing its own wording. Judge Claude Opus 5.5, eval `dfe61e24`,
+  `tests/gold/judge_verdicts_2026-09-23_r44.json`: the 33 facts whose id changed once (ids now come
+  from the fact's own wording) mapped by document, relation and quote and re-read; every verdict holds,
+  26 reasons that named a merged kind rewritten. Scores equal R41: validated 0.976 / 0.906 / 0.940,
+  exact 0.299 / 0.292, `er_accuracy` 0.976 (n = 41), `er_accuracy_valid` 0.966 (n = 58),
+  `question_accuracy` 0.8 (question 4, see Found along the way). Naming changed, merges did not.
 
 ### R45. A second resolution pass over the merged groups
 Closes the F3 finding. Behaviour change in resolution.
@@ -914,7 +925,7 @@ Closes the F3 finding. Behaviour change in resolution.
   R34 and R39 counted the Västerås "back panel quite thin" fact as a gold correction because triple 73
   never reached the judge: `gold_corrections` is 1 too high there. Failing test written (uncommitted):
   `test_a_fact_matches_only_gold_triples_of_its_own_document`.
-- **A merged kind takes its longest name (found in R41).** The canonical entity is the most mentioned,
+- **(Closed by R44.) A merged kind takes its longest name (found in R41).** The canonical entity is the most mentioned,
   then the longest name, so the slats' crack reads "crack developing along the bottom" and the shade's
   dent "small dent on one edge", descriptions of other products. For kinds, the shortest name ("crack",
   "small dent") describes every member; the aliases keep the rest.
