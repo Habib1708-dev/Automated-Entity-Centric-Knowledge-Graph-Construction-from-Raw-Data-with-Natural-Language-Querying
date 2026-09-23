@@ -782,6 +782,16 @@ was missing.
   300); a Neo4j test that the prompt carries each name's sentence and document and not the praise before
   it; one resolve run (no cache hits possible: the prompt changed) and the ER judge pass on the 25 pairs.
 - **Part 1 (done, 2026-09-23):** as listed; 2 tests (166 passed), `ruff` clean. No run.
+- **Part 2 (done, 2026-09-23):** user's yes given in the session. Graph rebuilt from the cache ($0);
+  resolve `a0c06737` (`mutual_nearest`, k = 2): 56 adjudications, 0 cache hits (new prompt), 11 merges,
+  **$0.0099** (8 007 prompt tokens, $0.00018 per question against $0.00027 with the old context). Judge
+  Claude Opus 5.5, eval `a9f36ae3`, `tests/gold/judge_verdicts_2026-09-23_r39.json`: `er_accuracy` 1.000
+  (n = 14), `er_accuracy_valid` 1.000 (n = 22), facts unchanged (0.976 / 0.906). The gold pairs cannot
+  separate R37 and R39; the merges that changed are outside the gold, judged directly: new and right
+  "wobbles slightly on its base" / "wobbles slightly", "sharper than I'd prefer" / "sharp", "horrible
+  metal-on-metal sound" / "annoying scraping sound"; new and debatable "defective" / "poorly
+  manufactured"; lost "no longer opens smoothly" / "doesn't open as smoothly as I'd like" (a miss) and
+  "rough" / "rough edges" (debatable). Net: 3 right merges gained, 1 lost, cheaper per question.
 
 ## Found along the way
 
