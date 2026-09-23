@@ -624,6 +624,24 @@ carry a known duplicate; R30's report says so.
   5 (four in `test_tracking.py`, one in `test_cli.py`) fail on an environmental import error that started
   during this step and is unrelated to the change (see Found along the way). No run.
 
+### R33. `er_accuracy` over extracted names only; judge-validated `er_accuracy_valid`
+Closes the R29 finding "`er_accuracy` scores absence as not merged". Asked for by the user on 2026-09-23,
+together with a judge-validated variant (the judge being Claude in the session, as for facts).
+- `validation/er.py` (new): the ER sheet (every entity with id, type, name, aliases; every gold pair with
+  the entities exact lookup finds for each name), `score_er` (exact: a pair is scored only when both
+  names exist; the rest is `not_extracted`), `PairVerdict` (the judge maps an unplaced name to an entity
+  id or `null`; code decides merged and right) and `score_er_verdicts` with a coverage guard.
+- `judge.py`: `JudgeSheet.er`, `Verdicts.er` (optional, so the R29-R31 verdict files still score);
+  `evaluate.py`: `EvalReport.er` / `er_valid`, metrics `er_accuracy`, `er_pairs_scored`,
+  `er_not_extracted` and the same three with `_valid`; `kg eval` prints the ER pairs needing a judge.
+- Metric definition change: `er_accuracy` before R33 is not comparable with R33 on (0.667 in R24-R31
+  counted 3 absent names as errors). Behaviour of the pipeline is unchanged; only scoring changes.
+- **Accept:** unit tests for exact scoring, the absent-name rule, judge placements and the refusal cases;
+  a Neo4j test of both metrics on the eval run.
+- **Result (met, 2026-09-23):** 5 tests (the old `score_er` test replaced by the stricter ones in
+  `tests/test_er.py`); 149 passed, 5 failed only on the known pandas block (Smart App Control), `ruff`
+  clean. No run: scoring only; the first judged `er_accuracy_valid` comes with R34's run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -649,7 +667,7 @@ carry a known duplicate; R30's report says so.
   product up by `entity_id(Product, name)`, found no node under that id and created it again: 11 product
   entities for 10 products. Fix in its own step (R32): find an existing entity of the object type whose
   name or aliases contain the product name before creating one; test with a merged product.
-- **`er_accuracy` scores absence as "not merged" (found in R29).** Three of the four failing gold pairs
+- **(Closed by R33.) `er_accuracy` scores absence as "not merged" (found in R29).** Three of the four failing gold pairs
   name an entity the graph does not contain at all ("drawer rail", "dimmer", "predrilled holes"). For the
   next gold version: score a pair only when both names exist, or report "not extracted" apart.
 - **The misaligned-holes gold question depends on the old naming (found in R29).** Its Cypher wants a

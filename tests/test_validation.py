@@ -13,10 +13,9 @@ from kgbuilder.validation.evaluate import (
     Score,
     run_questions,
     score_entities,
-    score_er,
     score_triples,
 )
-from kgbuilder.validation.gold import GoldPair, GoldQuestion, GoldTriple, load_gold
+from kgbuilder.validation.gold import GoldQuestion, GoldTriple, load_gold
 from kgbuilder.validation.report import CheckOutput
 from kgbuilder.validation.validator import validate_graph
 
@@ -66,16 +65,6 @@ def test_entity_scores_ignore_how_entities_are_connected():
 def test_empty_sides_do_not_divide_by_zero():
     assert Score.of(0, 0, 0, 0).f1 == 1.0
     assert score_triples([], GOLD).recall == 0.0 and score_triples([], GOLD).precision == 1.0
-
-
-def test_er_accuracy_counts_correct_merges_and_correct_separations():
-    names = [["Table", "Tables"], ["Table Lamp"]]
-    pairs = [
-        GoldPair(a="table", b="Tables", same=True),  # merged: right
-        GoldPair(a="Table", b="Table Lamp", same=False),  # kept apart: right
-        GoldPair(a="Table Lamp", b="Lamp", same=True),  # not merged: wrong
-    ]
-    assert score_er(names, pairs) == pytest.approx(2 / 3)
 
 
 def test_gold_file_may_be_a_bare_triple_list_or_sections(tmp_path):

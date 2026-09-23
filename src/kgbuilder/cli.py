@@ -267,9 +267,10 @@ def evaluate(gold: Path, out: Path = OUT, verdicts: Path | None = None):
         typer.echo(f"[{'PASS' if q.correct else 'FAIL'}] {q.question} -> {q.answered}")
     if report.judge_sheet is not None:
         sheet = report.judge_sheet
+        er = f", {len(sheet.er.to_judge())} of {len(sheet.er.pairs)} ER pairs" if sheet.er else ""
         typer.echo(
-            f"Wrote {out / st.EvalStage.SHEET_FILE}: {len(sheet.to_judge())} of {len(sheet.facts)} facts "
-            f"and {len(sheet.gold_to_find())} of {len(sheet.gold)} gold triples need a judge"
+            f"Wrote {out / st.EvalStage.SHEET_FILE}: {len(sheet.to_judge())} of {len(sheet.facts)} facts, "
+            f"{len(sheet.gold_to_find())} of {len(sheet.gold)} gold triples{er} need a judge"
         )
     typer.echo(f"Wrote {out / 'eval_report.json'}")
 

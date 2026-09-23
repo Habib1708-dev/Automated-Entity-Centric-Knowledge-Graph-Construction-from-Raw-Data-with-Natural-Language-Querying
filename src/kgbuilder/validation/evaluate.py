@@ -4,7 +4,8 @@ verdict file) the judge's validated precision and recall.
 Role in the pipeline: `kg eval gold.json [--verdicts out/judge_verdicts.json]`, and the accuracy check
 inside `kg validate --gold`. This is the regression suite for comparing prompt, model and threshold
 variants in MLflow. Two accuracy sources are always logged side by side: exact match (deterministic,
-`triple_*`) and the judge (by meaning, `*_validated`; see judge.py and the `evaluation` skill).
+`triple_*`) and the judge (by meaning, `*_validated`; see judge.py and the `evaluation` skill); the same
+for entity resolution (`er_accuracy` and `er_accuracy_valid`, see er.py).
 Design: pure scoring functions over `StoredFact` lists, so they are unit-tested without Neo4j; only
 `run_questions` and `evaluate` touch the database. Gold models and matching live in gold.py.
 """
@@ -14,7 +15,8 @@ from pydantic import BaseModel
 
 from ..core.text import norm
 from .checks.base import CheckContext, StoredFact
-from .gold import GoldPair, GoldQuestion, GoldSet, GoldTriple, in_scope, matches
+from .er import ErScore, SheetEntity, build_er_sheet, score_er, score_er_verdicts
+from .gold import GoldQuestion, GoldSet, GoldTriple, in_scope, matches
 from .judge import JudgeReport, JudgeSheet, Verdicts, build_sheet, score_verdicts
 
 
@@ -46,7 +48,8 @@ class QuestionResult(BaseModel):
 class EvalReport(BaseModel):
     triples: Score | None = None
     entities: Score | None = None
-    er_accuracy: float | None = None
+    er: ErScore | None = None
+    er_valid: ErScore | None = None  # needs a verdict file with an `er` section
     questions: list[QuestionResult] = []
     judge: JudgeReport | None = None
     # what the judge still has to decide; written as its own artifact, so it is left out of the report file
@@ -60,8 +63,15 @@ class EvalReport(BaseModel):
                 out.update({f"{level}_{k}": getattr(score, k) for k in ("precision", "recall", "f1")})
         if self.triples is not None:
             out["gold_recall"] = self.triples.recall  # name kept from the first version of the pipeline
-        if self.er_accuracy is not None:
-            out["er_accuracy"] = self.er_accuracy
+        # before R33 `er_accuracy` also counted pairs with a missing name (as "not merged"); from R33 on it
+        # is over the pairs whose names both exist, and the rest is `er_not_extracted`
+        for suffix, er in (("", self.er), ("_valid", self.er_valid)):
+            if er is None:
+                continue
+            if er.accuracy is not None:
+                out[f"er_accuracy{suffix}"] = er.accuracy
+            out[f"er_pairs_scored{suffix}"] = er.scored
+            out[f"er_not_extracted{suffix}"] = er.not_extracted
         if self.questions:
             out["question_accuracy"] = sum(q.correct for q in self.questions) / len(self.questions)
         if self.judge is not None:
@@ -89,16 +99,6 @@ def score_entities(facts: list[StoredFact], gold: list[GoldTriple]) -> Score:
     return Score.of(correct, len(predicted), found, len(gold_names))
 
 
-def score_er(entity_names: list[list[str]], pairs: list[GoldPair]) -> float:
-    """Share of gold pairs the graph gets right: `same` pairs share an entity, others do not."""
-    normalised = [{norm(n) for n in names} for names in entity_names]
-
-    def merged(pair: GoldPair) -> bool:
-        return any(norm(pair.a) in names and norm(pair.b) in names for names in normalised)
-
-    return sum(merged(p) == p.same for p in pairs) / len(pairs)
-
-
 def run_questions(driver: Driver, questions: list[GoldQuestion]) -> list[QuestionResult]:
     """Run each question's Cypher in a READ transaction (a gold file can never modify the graph)."""
     results = []
@@ -115,6 +115,15 @@ def run_questions(driver: Driver, questions: list[GoldQuestion]) -> list[Questio
     return results
 
 
+def read_entities(driver: Driver) -> list[SheetEntity]:
+    """Every `:Entity` with its aliases, ordered by id so that the sheet is the same for the same graph."""
+    records, _, _ = driver.execute_query(
+        "MATCH (e:Entity) RETURN e.id AS id, e.type AS type, e.name AS name, "
+        "coalesce(e.aliases, []) AS aliases ORDER BY id"
+    )
+    return [SheetEntity.model_validate(dict(r)) for r in records]
+
+
 def evaluate(driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None) -> EvalReport:
     """Score every section present in the gold set; with `verdicts`, add the judge's validated scores.
 
@@ -129,10 +138,12 @@ def evaluate(driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None) ->
         if verdicts is not None:
             report.judge = score_verdicts(report.judge_sheet, verdicts)
     if gold.er_pairs:
-        records, _, _ = driver.execute_query(
-            "MATCH (e:Entity) RETURN [e.name] + coalesce(e.aliases, []) AS names"
-        )
-        report.er_accuracy = score_er([r["names"] for r in records], gold.er_pairs)
+        er_sheet = build_er_sheet(read_entities(driver), gold.er_pairs)
+        report.er = score_er(er_sheet)
+        report.judge_sheet = report.judge_sheet or JudgeSheet(facts=[], gold=[])
+        report.judge_sheet.er = er_sheet
+        if verdicts is not None and verdicts.er is not None:
+            report.er_valid = score_er_verdicts(er_sheet, verdicts.er)
     if gold.questions:
         report.questions = run_questions(driver, gold.questions)
     return report

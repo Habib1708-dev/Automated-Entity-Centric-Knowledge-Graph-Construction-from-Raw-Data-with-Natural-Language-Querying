@@ -5,7 +5,9 @@ Role in the pipeline: `kg eval gold.json` writes `out/judge_sheet.json`; the jud
 Code session, never the model that built the graph: see the `evaluation` skill) fills a verdict per
 unsettled fact and per unfound gold triple into `out/judge_verdicts.json`; `kg eval gold.json --verdicts
 out/judge_verdicts.json` turns them into metrics. Scheme: gold for recall, the review text for precision,
-each with an exact-match shortcut so the judge only sees what string matching could not settle.
+each with an exact-match shortcut so the judge only sees what string matching could not settle. The
+sheet and the verdict file also carry the entity-resolution part (er.py), optional in the verdict file so
+that verdict files written before it existed still score.
 Design: pure functions over `StoredFact` lists, no LLM call and no graph access here. Code decides what
 needs judging and computes every number; the judge supplies verdicts only ("the LLM proposes, code
 decides"). Not here: exact-match scoring (evaluate.py) and MLflow logging (pipeline/stages.py).
@@ -21,6 +23,7 @@ from pydantic import BaseModel, model_validator
 from ..core.errors import EvaluationError
 from ..core.text import norm
 from .checks.base import StoredFact
+from .er import ErSheet, PairVerdict
 from .gold import GoldTriple, doc_of, in_scope, matches
 
 
@@ -74,6 +77,7 @@ class SheetGold(BaseModel):
 class JudgeSheet(BaseModel):
     facts: list[SheetFact]
     gold: list[SheetGold]
+    er: ErSheet | None = None  # set when the gold file has `er_pairs`
 
     def to_judge(self) -> list[SheetFact]:
         return [f for f in self.facts if f.needs_verdict]
@@ -132,6 +136,9 @@ class Verdicts(BaseModel):
     gold: str
     facts: list[FactVerdict] = []
     recall: list[GoldVerdict] = []
+    # None: this file does not judge entity resolution (every verdict file before R33); then no
+    # `er_accuracy_valid` is computed, instead of refusing the file
+    er: list[PairVerdict] | None = None
 
 
 class JudgeReport(BaseModel):
