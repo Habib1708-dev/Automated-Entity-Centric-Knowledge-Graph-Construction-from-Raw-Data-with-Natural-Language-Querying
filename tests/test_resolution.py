@@ -28,6 +28,8 @@ from kgbuilder.text.documents import Document
 from kgbuilder.text.extraction import Triple
 from kgbuilder.text.lexical import write_lexical_graph
 from kgbuilder.text.subject_graph import write_subject_graph
+from kgbuilder.validation.checks import CheckContext
+from kgbuilder.validation.judge import build_sheet
 
 from .fakes import RecordingTracker, ScriptedLLM
 
@@ -106,6 +108,16 @@ def test_grouping_is_transitive_and_the_most_mentioned_entity_stays():
     assert group.canonical == "b" and sorted(group.absorbed) == ["a", "c"]
 
 
+def test_a_merged_group_is_named_by_its_most_general_name():
+    """For a kind merged across products, the shortest name is the one true of every member (R44): the
+    longest carried one review's detail to all of them."""
+    records = [entity("h", "crack developing along the bottom", "Defect"), entity("l", "crack", "Defect")]
+    by_id = {e.id: e for e in records}
+    decisions = decide(find_candidates(records, borderline=0), by_id, 90, lambda a, b: True)
+    (group,) = group_merges(by_id, decisions)
+    assert group.canonical == "l" and group.absorbed == ["h"]
+
+
 def dump(driver) -> dict:
     """Everything entity resolution may touch, in a comparable form."""
 
@@ -149,11 +161,12 @@ def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driv
 
     records, _, _ = driver.execute_query(
         "MATCH (:Entity)-[f:HAS_PROBLEM]->(:Entity {name: 'wobble'}) "
-        "RETURN f.chunk_id AS chunk, f.evidence AS evidence ORDER BY chunk"
+        "RETURN f.chunk_id AS chunk, f.evidence AS evidence, f.subject_name AS said ORDER BY chunk"
     )
-    assert [(r["chunk"], r["evidence"]) for r in records] == [
-        ("d.md#0", "Table wobble"),
-        ("d.md#1", "Tables wobble"),
+    # of the two repeats in d.md#1, the one with the first wording survives, on every rebuild (R44)
+    assert [(r["chunk"], r["evidence"], r["said"]) for r in records] == [
+        ("d.md#0", "Table wobble", "Table"),
+        ("d.md#1", "Tables wobble", "Table"),
     ]
     mentions, _, _ = driver.execute_query(
         "MATCH (c:Chunk)-[m:MENTIONS]->(e:Entity) WHERE e.name <> 'wobble' "
@@ -161,6 +174,35 @@ def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driv
     )
     assert {r["c"]: r["n"] for r in mentions} == {"d.md#0": 1, "d.md#1": 1}  # one mention per chunk, not two
     assert report.merges == 1 and report.duplicate_facts_removed == 1
+
+
+@pytest.mark.neo4j
+def test_each_fact_keeps_its_own_wording_after_a_merge(driver):
+    """The node takes one name for the kind; the fact still says what its review said (R44)."""
+    chunks = [Chunk(chunk_id=f"{d}.md#0", doc_id=f"{d}.md", index=0, text="text") for d in ("h", "l")]
+    documents = [Document(doc_id=f"{d}.md", title=d, text="x") for d in ("h", "l")]
+    write_lexical_graph(driver, documents, chunks)
+    detailed = "crack developing along the bottom"
+    write_subject_graph(
+        driver,
+        [
+            fact("Helsingborg Dresser", "HAS_DEFECT", detailed, "Defect", "h.md#0"),
+            fact("Linköping Bed", "HAS_DEFECT", "crack", "Defect", "l.md#0"),
+        ],
+        extractor="test",
+    )
+    # only the two defects are the same kind; the products stay apart
+    llm = ScriptedLLM(lambda prompt, schema: SamePair(same="crack developing" in prompt))
+    report = resolve_entities(driver, llm, model="m", borderline=0)
+    assert report.merges == 1
+
+    sheet = build_sheet(CheckContext(driver).facts, [])
+    assert sorted((f.subject, f.object) for f in sheet.facts) == [
+        ("Helsingborg Dresser", detailed),
+        ("Linköping Bed", "crack"),
+    ]
+    (name,) = driver.execute_query("MATCH (e:Entity {type: 'Defect'}) RETURN e.name AS n")[0]
+    assert name["n"] == "crack"
 
 
 @pytest.mark.neo4j

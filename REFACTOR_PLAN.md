@@ -878,6 +878,12 @@ Closes the F2 finding. Behaviour change in resolution and in the fact writer.
   each fact still reads its own wording.
 - **Accept:** gate green; one cache rebuild of the R41 graph (`quality`, $0 LLM, needs the user's yes)
   and a judge pass on the renamed facts; ER and fact scores next to R41.
+- **Part 1 (done, 2026-09-23).** As listed, plus one determinism fix the new property needs: after a
+  merge, `apply_merges` deletes exact repeats (one quote extracted under two spellings); they now differ
+  in wording, so they are ordered by it and the same one survives every rebuild (the fact id depends on
+  it). `fact_id` uses the fact's own wording, so a canonical name no longer changes the ids the verdicts
+  refer to. Tests: shortest canonical (unit), own wording after a merge (Neo4j), the surviving repeat
+  (extended). 170 passed, `ruff` clean. Local `docs/system-overview.html` updated. No run yet.
 
 ### R45. A second resolution pass over the merged groups
 Closes the F3 finding. Behaviour change in resolution.

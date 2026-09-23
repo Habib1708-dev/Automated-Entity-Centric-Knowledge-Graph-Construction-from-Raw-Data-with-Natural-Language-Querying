@@ -181,10 +181,9 @@ class JudgeReport(BaseModel):
 
 def fact_id(fact: StoredFact) -> str:
     """Stable id of a stored fact: same graph, same id; a rebuilt graph with other names gives other ids,
-    which is how a verdict file written for another graph is detected."""
-    key = "|".join(
-        [fact.chunk_id or "", fact.predicate, norm(fact.subject_names[0]), norm(fact.object_names[0])]
-    )
+    which is how a verdict file written for another graph is detected. Built from the fact's own wording
+    (R44), so which name a merge makes canonical does not change it."""
+    key = "|".join([fact.chunk_id or "", fact.predicate, norm(fact.own_subject), norm(fact.own_object)])
     return hashlib.sha1(key.encode("utf-8")).hexdigest()[:12]
 
 
@@ -195,9 +194,9 @@ def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
         SheetFact(
             id=fact_id(f),
             doc_id=doc_of(f) or "",
-            subject=f.subject_names[0],
+            subject=f.own_subject,
             predicate=f.predicate,
-            object=f.object_names[0],
+            object=f.own_object,
             subject_type=f.subject_type,
             object_type=f.object_type,
             evidence=f.evidence,

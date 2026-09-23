@@ -270,8 +270,11 @@ def group_merges(entities: dict[str, EntityRecord], decisions: list[Decision]) -
     groups = []
     for members in members_by_root.values():
         if len(members) > 1:
-            # canonical: most mentioned, then the longest (most specific) name, then id for determinism
-            members.sort(key=lambda i: (-entities[i].mentions, -len(entities[i].name), i))
+            # canonical: most mentioned, then the shortest (most general) name, then id for determinism.
+            # A group is often one kind stated by several reviews; the longest name carried one review's
+            # detail to all ("crack developing along the bottom" for a bed's cracked slats, R44). Every
+            # other name stays an alias, and each fact keeps its own wording (subject_graph.py).
+            members.sort(key=lambda i: (-entities[i].mentions, len(entities[i].name), i))
             groups.append(MergeGroup(canonical=members[0], absorbed=members[1:]))
     return groups
 
@@ -367,9 +370,11 @@ def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list
         )
     if not groups:
         return 0
-    # the subject-graph writer's MERGE key, applied after the fact: same statement, same evidence = one fact
+    # the subject-graph writer's MERGE key, applied after the fact: same statement, same evidence = one fact.
+    # The repeats can differ in the wording they keep (R44); ordered, the same one survives every rebuild,
+    # so the fact id the judge's verdicts refer to is stable
     facts, _, _ = driver.execute_query(
-        "MATCH (s:Entity)-[r]->(o:Entity) "
+        "MATCH (s:Entity)-[r]->(o:Entity) WITH s, o, r ORDER BY r.subject_name, r.object_name "
         "WITH s, o, type(r) AS t, r.chunk_id AS chunk, r.evidence AS evidence, collect(r) AS repeats "
         "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DELETE x) RETURN sum(size(repeats) - 1) AS n"
     )

@@ -27,6 +27,19 @@ class StoredFact(BaseModel):
     evidence: str | None
     subject_names: list[str]  # display name first, then aliases
     object_names: list[str]
+    # the names the extractor gave this fact's ends (R44); None for derived facts and older graphs
+    subject_name: str | None = None
+    object_name: str | None = None
+
+    @property
+    def own_subject(self) -> str:
+        """What this fact calls its subject: its own wording, else the entity's display name."""
+        return self.subject_name or self.subject_names[0]
+
+    @property
+    def own_object(self) -> str:
+        """What this fact calls its object: its own wording, else the entity's display name."""
+        return self.object_name or self.object_names[0]
 
 
 @dataclass
@@ -50,6 +63,7 @@ class CheckContext:
             "MATCH (s:Entity)-[r]->(o:Entity) "
             "RETURN type(r) AS predicate, s.type AS subject_type, o.type AS object_type, "
             "r.chunk_id AS chunk_id, r.evidence AS evidence, "
+            "r.subject_name AS subject_name, r.object_name AS object_name, "
             "[s.name] + coalesce(s.aliases, []) AS subject_names, "
             "[o.name] + coalesce(o.aliases, []) AS object_names"
         )

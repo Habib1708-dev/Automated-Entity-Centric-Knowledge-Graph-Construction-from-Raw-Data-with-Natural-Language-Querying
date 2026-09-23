@@ -3,7 +3,9 @@
 Role in the pipeline: second half of `kg extract`; input is the verified triples from extraction.py.
 Design: entities are keyed by (type, normalised name) through `core.identity.entity_id`, so the same
 name in two chunks is one node, and the derivation in the link stage finds the same entities.
-Every fact relationship carries `chunk_id` and `evidence`, which is what makes the graph auditable.
+Every fact relationship carries `chunk_id` and `evidence`, which is what makes the graph auditable, and
+the names the extractor gave its two ends (`subject_name`, `object_name`): entity resolution may rename
+the node to another review's wording of the same kind, the fact keeps what its own review said (R44).
 All writes are MERGE, so re-running extraction does not duplicate anything.
 Not here: deciding which triples are valid (extraction.py) and merging near-duplicates (resolution/).
 """
@@ -40,7 +42,14 @@ def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -
             mentions.add((t.chunk_id, eid))
             ids.append(eid)
         facts_by_predicate.setdefault(t.predicate, []).append(
-            {"s": ids[0], "o": ids[1], "chunk_id": t.chunk_id, "evidence": t.evidence}
+            {
+                "s": ids[0],
+                "o": ids[1],
+                "chunk_id": t.chunk_id,
+                "evidence": t.evidence,
+                "subject_name": t.subject.strip(),
+                "object_name": t.object.strip(),
+            }
         )
 
     driver.execute_query(
@@ -60,6 +69,9 @@ def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -
             # chunk_id + evidence are part of the MERGE key: the same fact stated in two chunks is kept
             # twice on purpose, because each statement is separate evidence
             f"MERGE (s)-[f:{cypher_ident(predicate)} {{chunk_id: r.chunk_id, evidence: r.evidence}}]->(o) "
+            # the names stay out of the MERGE key, so a rerun cannot add a second edge for one statement;
+            # ON CREATE keeps the first wording when two spellings of one entity state the same quote
+            "ON CREATE SET f.subject_name = r.subject_name, f.object_name = r.object_name "
             "SET f.extractor = $extractor",
             rows=rows,
             extractor=extractor,
