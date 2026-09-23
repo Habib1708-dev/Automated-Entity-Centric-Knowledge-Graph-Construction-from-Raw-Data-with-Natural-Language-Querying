@@ -928,6 +928,23 @@ Closes the F3 finding. Behaviour change in resolution.
   misalignment wordings), 1 debatable ("sticks when i open it too fast" into "no longer opens
   smoothly"). Still wrong: pair 43 ("stick" / "sticks"), an over-long extracted name.
 
+### R46. Gold question 4 follows the pinned schema (gold correction, decided by the user)
+Asked for by the user on 2026-09-23 after R45. Question 4 ("Which products are reported with misaligned
+pre-drilled holes?") looked for "hole" in a `Defect` name; the pinned schema stores the holes as a
+`Component` with `HAS_DEFECT` to the misalignment, so it answered `[]` in every run. **A gold correction
+made after seeing output**, disclosed as such: the question text and the six expected products are
+unchanged, only its Cypher now follows the schema.
+- `tests/gold/text_gold.json`: a `Component` whose name or alias contains "hole", `HAS_DEFECT` to a
+  `Defect` whose name or alias says "align" or "line up"; the product comes from that fact's own chunk,
+  because the holes node is one entity shared by every review.
+- **Test first:** a Neo4j test with one holes node, a misalignment fact from one review and an unrelated
+  defect from another; only the first product is answered (failed before: `[]`).
+- **Result (done, 2026-09-23).** 173 passed, `ruff` clean. Cache-only rebuild of the R45 graph (user's
+  request): extract `5480aa1b` 70/70 and resolve `9c819dc6` 85/85 from the cache, **$0**; eval `cf8e30d3`
+  with `judge_verdicts_2026-09-23_r45.json`: `question_accuracy` 0.8 → **1.000** (5 of 5; question 4
+  answers all six products); every other score as R45 (validated 0.976 / 0.906 / 0.940, exact 0.299 /
+  0.292, `er_accuracy` 1.000 (n = 41), `er_accuracy_valid` 0.983 (n = 58)).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -962,11 +979,18 @@ Closes the F3 finding. Behaviour change in resolution.
   filter `toLower(f.name) CONTAINS 'wobbl' / 'hole' / 'squeak'`, so which name a merge makes canonical
   can change `question_accuracy` without any fact changing. Candidate: match on `[f.name] + f.aliases`
   (a gold change, its own step).
-- **Question 4 cannot be answered by the graph's shape (found in R43, 2026-09-23).** "Which products
+- **(Closed by R46.) Question 4 cannot be answered by the graph's shape (found in R43, 2026-09-23).** "Which products
   are reported with misaligned pre-drilled holes?" looks for a `Defect` whose name contains "hole"; the
   pinned schema stores the holes as a `Component` ("pre-drilled holes") with `HAS_DEFECT` to a wording
   such as "didn't line up properly", so it answers `[]` in every run (R41 `question_accuracy` 0.8 = 4 of
   5). Rewriting it now would be a gold correction made after seeing output: decide with the user.
+- **Pair 43 is an extraction naming problem (found in R45, 2026-09-23).** The Norrköping review says "the
+  drawer sometimes sticks when i open it too fast"; the extractor named the failure with the whole clause,
+  "sticks when i open it too fast", where Helsingborg's reviews give "stick". The extra words dominate the
+  name, so it is neither a spelling nor a meaning neighbour of "stick" (below 70) and the pair is never
+  asked; R45's second pass instead merged it into "no longer opens smoothly" (debatable). A fix belongs
+  in the extraction prompt (name the failure, not the circumstance), a prompt change with a `quality`
+  comparison; not a step yet.
 - **Merges raise exact-match scores through aliases (found while verifying F1, 2026-09-23).** A merged
   alias lets a same-document fact match gold wording it never used (R41: Västerås "extremely thin" now
   carries "thin" and matches triple 68). Correct by meaning, but exact scores of two resolve variants are

@@ -218,7 +218,7 @@
     },
     {
       "question": "Which products are reported with misaligned pre-drilled holes?",
-      "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(f:Entity {type: 'Defect'}) WHERE any(n IN [f.name] + coalesce(f.aliases, []) WHERE toLower(n) CONTAINS 'hole') MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+      "cypher": "MATCH (h:Entity {type: 'Component'})-[f:HAS_DEFECT]->(d:Entity {type: 'Defect'}) WHERE any(n IN [h.name] + coalesce(h.aliases, []) WHERE toLower(n) CONTAINS 'hole') AND any(n IN [d.name] + coalesce(d.aliases, []) WHERE toLower(n) CONTAINS 'align' OR toLower(n) CONTAINS 'line up') MATCH (:Chunk {chunk_id: f.chunk_id})-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
       "expected": ["Gothenburg Table", "Helsingborg Dresser", "Jönköping Coffee Table", "Malmö Desk", "Norrköping Nightstand", "Västerås Bookshelf"]
     },
     {

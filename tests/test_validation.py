@@ -134,6 +134,24 @@ def test_committed_questions_find_a_word_carried_only_by_an_alias(driver):
 
 
 @pytest.mark.neo4j
+def test_committed_hole_question_follows_the_schema_and_each_facts_own_review(driver):
+    """The pinned schema stores misaligned holes as `Component -[HAS_DEFECT]-> Defect` (R46: the question
+    looked for "hole" in a Defect name and answered [] in every run). The holes node is one entity shared
+    by every review, so the product comes from the fact's own chunk, not from the node."""
+    driver.execute_query(
+        "CREATE (h:Entity {type: 'Component', name: 'pre-drilled holes', aliases: ['pre-drilled holes']}), "
+        "(h)-[:HAS_DEFECT {chunk_id: 'g.md#0'}]->(:Entity {type: 'Defect', name: 'misaligned'}), "
+        "(h)-[:HAS_DEFECT {chunk_id: 'm.md#0'}]->(:Entity {type: 'Defect', name: 'wobbly'}), "
+        "(:Chunk {chunk_id: 'g.md#0'})-[:PART_OF]->(:Document)-[:ABOUT]->(:Product {product_name: $g}), "
+        "(:Chunk {chunk_id: 'm.md#0'})-[:PART_OF]->(:Document)-[:ABOUT]->(:Product {product_name: $m})",
+        g="Gothenburg Table",
+        m="Malmö Desk",
+    )
+    holes = next(q for q in load_gold(TEXT_GOLD).questions if "pre-drilled holes" in q.question)
+    assert run_questions(driver, [holes])[0].answered == ["gothenburg table"]  # the desk's holes are fine
+
+
+@pytest.mark.neo4j
 def test_questions_are_answered_read_only(driver):
     driver.execute_query("CREATE (:Supplier {name: 'Nordic Wood'}), (:Supplier {name: 'Lux Metal'})")
     ask = GoldQuestion(
