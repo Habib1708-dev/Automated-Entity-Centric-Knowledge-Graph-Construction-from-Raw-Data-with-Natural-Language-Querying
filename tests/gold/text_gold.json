@@ -8,7 +8,11 @@
     "assembly); praise, taste, instructions and assembly time are not facts; the subject is the named component",
     "when the review names one, else the product's full name; one PART_OF per component a review names, to",
     "the document's product (added 2026-09-22, before any output was opened: the title plus the sentence",
-    "state it); one triple per distinct claim per document; `evidence` is a verbatim quote."
+    "state it); one triple per distinct claim per document; `evidence` is a verbatim quote.",
+    "er_pairs (widened 2026-09-23 by Claude Opus 5.5, R35, after the R34 output had been seen: listed as a gold",
+    "correction): both names of every pair occur as whole words in the corpus; `same` means the same kind of",
+    "thing (entities are one node per type and name across products); keep-apart pairs are related things a",
+    "meaning-based matcher could confuse. Pairs 1 and 4 replaced names the corpus never contains."
   ],
   "triples": [
     {"subject": "Gothenburg Table", "predicate": "HAS_DEFECT", "object": "misaligned pre-drilled holes", "doc_id": "product_reviews/gothenburg_table_reviews.md", "evidence": "some of the pre-drilled holes didn't line up properly"},
@@ -120,17 +124,31 @@
   ],
   "er_pairs": [
     {"a": "drawer rails", "b": "metal rails", "same": true},
-    {"a": "drawer rails", "b": "drawer rail", "same": true},
+    {"a": "Västerås Bookshelf", "b": "Västerås Bookshelves", "same": true},
     {"a": "drawers", "b": "drawer", "same": true},
     {"a": "dimmer switch", "b": "dimmer", "same": true},
-    {"a": "pre-drilled holes", "b": "predrilled holes", "same": true},
+    {"a": "dimmer switch", "b": "dimmer function", "same": true},
     {"a": "Jönköping Coffee Table", "b": "Jonkoping Coffee Table", "same": true},
     {"a": "drawer rails", "b": "drawer handle", "same": false},
     {"a": "drawer bottoms", "b": "back panel", "same": false},
     {"a": "Gothenburg Table", "b": "Jönköping Coffee Table", "same": false},
     {"a": "Stockholm Chair", "b": "Uppsala Sofa", "same": false},
     {"a": "shade", "b": "switch", "same": false},
-    {"a": "wobbles", "b": "squeaking", "same": false}
+    {"a": "wobbles", "b": "squeaking", "same": false},
+    {"a": "Norrköping Nightstand", "b": "Norrköping Nightstands", "same": true},
+    {"a": "drawer handle", "b": "drawer handles", "same": true},
+    {"a": "leg", "b": "legs", "same": true},
+    {"a": "veneer", "b": "finish", "same": false},
+    {"a": "back panel", "b": "panels", "same": false},
+    {"a": "slats", "b": "frame", "same": false},
+    {"a": "cushions", "b": "frame", "same": false},
+    {"a": "shade", "b": "base", "same": false},
+    {"a": "dimmer switch", "b": "cord", "same": false},
+    {"a": "edges", "b": "corner", "same": false},
+    {"a": "scratches", "b": "dent", "same": false},
+    {"a": "wobbles", "b": "tips over easily", "same": false},
+    {"a": "sticks", "b": "doesn't close properly", "same": false},
+    {"a": "drawer rails", "b": "drawers", "same": false}
   ],
   "questions": [
     {

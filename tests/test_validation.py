@@ -2,11 +2,13 @@
 the corpus it labels, and the check families plus read-only question answering against Neo4j."""
 
 import json
+import re
 from pathlib import Path
 
 import pytest
 from neo4j.exceptions import Neo4jError
 
+from kgbuilder.core.text import norm
 from kgbuilder.validation.checks import CheckContext
 from kgbuilder.validation.checks.base import StoredFact
 from kgbuilder.validation.evaluate import (
@@ -97,6 +99,23 @@ def test_committed_gold_quotes_the_corpus_verbatim():
 
     assert all(p.a != p.b for p in gold.er_pairs)
     assert all(q.expected and q.cypher.lstrip().upper().startswith("MATCH") for q in gold.questions)
+
+
+def test_committed_er_pairs_name_things_the_corpus_contains():
+    """A pair with a spelling the corpus never uses ("predrilled holes") can only land on the one entity
+    that exists, so it scores as a correct merge without testing the resolver (found in R34)."""
+    corpus = " ".join(
+        norm(p.read_text(encoding="utf-8")) for p in (ROOT / "data" / "product_reviews").glob("*.md")
+    )
+
+    def occurs(name: str) -> bool:
+        # whole words only: "drawer rail" must not count as found inside "drawer rails"
+        return re.search(rf"(?<![a-z0-9]){re.escape(norm(name))}(?![a-z0-9])", corpus) is not None
+
+    missing = [
+        name for pair in load_gold(TEXT_GOLD).er_pairs for name in (pair.a, pair.b) if not occurs(name)
+    ]
+    assert not missing, f"ER pair names not in the corpus: {missing}"
 
 
 @pytest.mark.neo4j

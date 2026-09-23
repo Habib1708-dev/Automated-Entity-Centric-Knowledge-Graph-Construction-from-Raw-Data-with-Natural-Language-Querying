@@ -675,6 +675,21 @@ on any other dataset.
   absent facts, not judge calls. The two failing ER pairs are synonyms the resolver keeps apart
   ("drawer rails" / "metal rails", "dimmer switch" / "dimmer function").
 
+### R35. ER gold pairs that test the resolver
+Asked for by the user on 2026-09-23 (the "keep apart" safety net before meaning-based candidates).
+Gold-only step, written after the R34 output had been seen, so every change is a **gold correction**.
+- `tests/gold/text_gold.json` `er_pairs`: 12 → 26 (9 same, 17 keep apart). Pairs 1 ("drawer rail") and 4
+  ("predrilled holes") named spellings the corpus never uses and scored as right by construction; they
+  now test real variants ("Västerås Bookshelf" / "Västerås Bookshelves", "dimmer switch" / "dimmer
+  function"). New same pairs: "Norrköping Nightstand(s)", "drawer handle(s)", "leg(s)". New keep-apart
+  pairs are related things a meaning-based matcher could confuse ("veneer" / "finish", "back panel" /
+  "panels", "slats" / "frame", "scratches" / "dent", "wobbles" / "tips over easily", "drawer rails" /
+  "drawers", ...). `same` means the same kind of thing, because entities are one node per type and name.
+- Test: every ER pair name occurs as a whole word in the corpus (after `norm`).
+- **Accept:** the test fails on the old pairs 1 and 4 and passes on the new set; gold hash changes, so
+  ER scores before and after R35 are not comparable.
+- **Result (met, 2026-09-23):** as listed; triples unchanged (96). No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
