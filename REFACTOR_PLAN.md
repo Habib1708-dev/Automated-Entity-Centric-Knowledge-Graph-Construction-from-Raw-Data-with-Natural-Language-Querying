@@ -1019,6 +1019,33 @@ no LLM, no run.
   are 0.724-0.793 on the 69 pairs; the step that moved ER is R41's question (0.793 → 0.966), then R45.
   Fact scores R34-R46 are identical because extraction was served from the cache; only R47 re-sampled it.
 
+### R49. Rule or chance? The old and the new extraction prompt, each sampled once more uncached
+Asked for by the user on 2026-09-23 (both runs, about $0.18). R47's recall fell 0.906 → 0.865 on its
+first uncached extraction since R34, so the naming rule and run-to-run variation were confounded. No code
+change: a fresh cache folder (`CACHE_DIR`) forces new samples; the old prompt ran from a temporary
+worktree of `e65422b` (R46) into this project's MLflow database, then every graph was evaluated here
+with today's scorer and gold and judged (Claude Opus 5.5; a fact verdict carries over when the fact id,
+i.e. chunk, relation and wording, was judged before; everything else judged anew).
+- **Result (done, 2026-09-23).** Run A, old prompt: extract `aa34e105` $0.0762, resolve `0ac20077`
+  $0.0210, eval `f4db4823`, `tests/gold/judge_verdicts_2026-09-23_r49a.json`. Run B, new prompt: extract
+  `fc7ad5e5` $0.0788, resolve `d036d115` $0.0204, eval `c4ecfdee`, `..._r49b.json`. Total **$0.196**.
+
+  | Prompt, sample | Validated P | Validated R (n = 96) | ER valid (n) | Exact P / R |
+  |---|---|---|---|---|
+  | old, cached (R46) | 0.976 | 0.906 (87) | 0.983 (58) | 0.299 / 0.292 |
+  | old, fresh (A) | 1.000 | 0.906 (87) | 0.982 (55) | 0.355 / 0.365 |
+  | new, fresh (R47) | 0.992 | 0.865 (83) | 1.000 (57) | 0.370 / 0.365 |
+  | new, fresh (B) | 1.000 | 0.854 (82) | 1.000 (53) | 0.385 / 0.396 |
+
+  Reading: validated recall is stable within a prompt (old 87 and 87, new 83 and 82) and 4-5 triples
+  lower with the naming rule in both samples, so the drop is the rule's, not chance (two samples per
+  arm: a direction, not a proof). Both new samples lose the veneer's thinness ("extremely thin and
+  chipped" gives only the chipping) and drop degree words. Pair 43 is right in both new samples and
+  wrong in the old one. Exact scores move by up to 0.07 between two samples of one prompt, so they
+  cannot rank prompt variants; validated scores can. Next candidate (not started): keep the rule and
+  say explicitly that degree words ("a bit", "extremely") stay in the name and that one sentence with
+  "X and Y" gives both claims, then the same two-sample comparison.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -1076,6 +1103,9 @@ no LLM, no run.
   whether a SUPPORTED fact is linked to a gold triple or counted as missing from the gold differs by
   pass. A measure of the judge's own consistency; the human spot-check proposed for the thesis would
   quantify it.
+- **Windows blocks a new virtual environment's `kg.exe` (found in R49, 2026-09-23).** Smart App Control
+  refused the launcher of a fresh worktree's venv (os error 4551), as it blocked pandas in R32. Workaround
+  without touching the policy: `uv run python -c "from kgbuilder.cli import app; app()" ...`.
 - **Merges raise exact-match scores through aliases (found while verifying F1, 2026-09-23).** A merged
   alias lets a same-document fact match gold wording it never used (R41: Västerås "extremely thin" now
   carries "thin" and matches triple 68). Correct by meaning, but exact scores of two resolve variants are
