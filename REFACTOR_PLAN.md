@@ -832,6 +832,52 @@ the document names since R39, kept same-kind wordings apart across products (all
   misalignment wordings form two groups of three (each name nominates only its 2 nearest), and
   "stick" / "sticks when i open it too fast" stay apart. Three findings below.
 
+### Verification of the three R41 findings (2026-09-23, no run, $0)
+Asked for by the user: confirm or refute each finding from the code and the saved artifacts, measure it,
+fix nothing. All three confirmed; details and numbers under "Found along the way" (entries marked
+*Verified 2026-09-23*). Recomputed offline from the logged `judge_sheet.json` of eval runs `cbcf2764`
+(R34), `9a79cfee` (R39), `682b849d` (R41), the R41 resolve report `4ba527f2` and the previews
+`eeed9e07` / `c1b4ad6c`. Order agreed with the user: R42 → R43 → R44 → R45.
+
+### R42. Exact matching only within the gold triple's document
+Closes the F1 finding. Evaluation code only; the graph does not change.
+- `validation/gold.py` `matches`: a fact matches a gold triple only when the triple has no `doc_id` or
+  the fact comes from that document. Used by `score_triples` and `build_sheet`, so both agree.
+- **Test first:** `test_a_fact_matches_only_gold_triples_of_its_own_document` (fails before: `[0, 0]`).
+- **Accept:** gate green; the R41 sheet re-scored in code from the logged artifact with the one verdict
+  the doc-aware sheet adds (fact `b72dc353c94b`, the Västerås veneer): exact 0.299 / 0.292, validated
+  unchanged 0.976 / 0.906; R34 / R39 exact recall 0.260 recorded as corrections. No pipeline run.
+
+### R43. Gold questions read aliases as well as names
+Gold-only step. Questions 3-5 filter on `f.name`, so the canonical name a merge picks (R44) could move
+`question_accuracy` without any fact changing.
+- `tests/gold/text_gold.json`: the name filters test `[f.name] + coalesce(f.aliases, [])`.
+- **Test first:** a Neo4j test where a merged entity carries the searched word only as an alias.
+- **Accept:** gate green; expected answers unchanged. No run (measured with R44's run).
+
+### R44. A merged kind is named by its most general name; every fact keeps its own wording
+Closes the F2 finding. Behaviour change in resolution and in the fact writer.
+- `resolution/resolver.py` `group_merges`: canonical = most mentioned, then the **shortest** name, then
+  id; the other names stay aliases (derivation, R32, looks up name + aliases, so it is unaffected).
+- `text/subject_graph.py`: each fact edge stores the subject and object names the extractor gave it,
+  set on create only (not part of the `MERGE` key, so writes stay idempotent); `StoredFact` and the
+  judge sheet show them.
+- **Test first:** a merge of "crack developing along the bottom" and "crack" names the node "crack";
+  each fact still reads its own wording.
+- **Accept:** gate green; one cache rebuild of the R41 graph (`quality`, $0 LLM, needs the user's yes)
+  and a judge pass on the renamed facts; ER and fact scores next to R41.
+
+### R45. A second resolution pass over the merged groups
+Closes the F3 finding. Behaviour change in resolution.
+- `resolution/resolver.py`: after merging, block and adjudicate again on the merged entities, until a
+  pass merges nothing (at most 3 passes). A group of more than k near-identical wordings fills its
+  members' k slots; once merged it is one entity and can meet its neighbour group. Keeps mutual
+  nearest, k = 2. Unchanged pairs are answered from the LLM cache.
+- **Test first:** a fake embedder with two trios: one pass gives two groups, the repeat gives one; a
+  keep-apart pair answered "no" stays apart.
+- **Accept:** gate green; one `quality` resolve on the cached graph (estimate $0.003-0.008, needs the
+  user's yes) and an ER judge pass; pair 35 checked, keep-apart pairs 49, 61, 64, 65 checked.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -841,13 +887,47 @@ the document names since R39, kept same-kind wordings apart across products (all
   Västerås "veneer chipped" fact was attached to the Jönköping triple through the merged alias, and the
   Västerås triple was left unfound). Exact-match scores can be inflated and a gold triple marked found by
   another document's fact. Fix in its own step: match only facts from the triple's `doc_id`, test first.
+  *Verified 2026-09-23 ($0, recomputed from the logged `judge_sheet.json` of eval runs `cbcf2764`,
+  `9a79cfee`, `682b849d`).* Older than R41: entities are one node per type + name across documents, so
+  R34 and R39 already marked Västerås triple 73 ("back panel thin") found by a Norrköping fact. Doc-aware
+  exact scores: R34 and R39 recall 0.271 → 0.260 (26 → 25 of 96); R41 precision 0.307 → 0.299 (39 → 38
+  of 127), recall 0.292 unchanged; in R41 3 facts point `gold_index` at another review's triple. Judge-
+  validated P/R stay 0.976 / 0.906 (the missing verdicts are one obvious recall match per run), but
+  R34 and R39 counted the Västerås "back panel quite thin" fact as a gold correction because triple 73
+  never reached the judge: `gold_corrections` is 1 too high there. Failing test written (uncommitted):
+  `test_a_fact_matches_only_gold_triples_of_its_own_document`.
 - **A merged kind takes its longest name (found in R41).** The canonical entity is the most mentioned,
   then the longest name, so the slats' crack reads "crack developing along the bottom" and the shade's
   dent "small dent on one edge", descriptions of other products. For kinds, the shortest name ("crack",
   "small dent") describes every member; the aliases keep the rest.
+  *Verified 2026-09-23 from resolve run `4ba527f2`:* 24 groups, 16 span several reviews; in 5 of those
+  the canonical name adds another review's detail ("slightly damaged" for Linköping's "damaged" pull,
+  "extremely thin" for Västerås's "quite thin" and Norrköping's "thin", "chipped in several places" for
+  Jönköping's corners, "small dent on one edge", "crack developing along the bottom"), in 3 more a
+  milder shade ("pretty easily" vs "very easily", "perfectly aligned", "as smoothly as I'd like" vs "no
+  longer"). About 10 of 127 in-scope facts display a wording their review does not use. Scores unaffected: the judge judges on name + aliases (8 R41 verdicts say "the object
+  carries the name of its merged kind"). Derivation (R32) looks up name + aliases, so it is safe under any
+  canonical rule.
+- **Gold questions read `name` only, not aliases (found while verifying F2, 2026-09-23).** Questions 3-5
+  filter `toLower(f.name) CONTAINS 'wobbl' / 'hole' / 'squeak'`, so which name a merge makes canonical
+  can change `question_accuracy` without any fact changing. Candidate: match on `[f.name] + f.aliases`
+  (a gold change, its own step).
+- **Merges raise exact-match scores through aliases (found while verifying F1, 2026-09-23).** A merged
+  alias lets a same-document fact match gold wording it never used (R41: Västerås "extremely thin" now
+  carries "thin" and matches triple 68). Correct by meaning, but exact scores of two resolve variants are
+  not comparable; compare them on the judge-validated scores.
+- **Embeddings are not cached (found while verifying F3, 2026-09-23).** `llm/cache.py` wraps the chat
+  client only, so every `kg resolve --preview` makes one live embedding call and a rebuild from the cache
+  still embeds. Cheap (about 100 short names), but not $0 and not offline.
 - **k = 2 splits large groups of wordings (found in R41).** Six wordings of misaligned holes became two
   groups of three: a name nominates only its 2 nearest neighbours, and the groups are not linked. Union-
   find joins chains, but only through nominated pairs. Candidate: k = 3 (cost bound 1.5x), measured.
+  *Verified 2026-09-23 from previews `eeed9e07` (threshold 70) and `c1b4ad6c` (mutual k = 2):* the three
+  "weren't … aligned" wordings met through the spelling matcher, the three "didn't …" wordings through
+  meaning; each trio fills its members' 2 nearest slots, so the strongest bridge ("didn't align properly"
+  / "weren't aligned properly", 93.2) is not mutual. Pair 43 ("stick" / "sticks when i open it too
+  fast") scores below 70 and is not a blocking problem that k = 3 is likely to fix. Keep-apart pairs
+  scoring >= 70 but not nominated at k = 2 (new risk under any wider blocking): 49, 61, 64 (86.8), 65.
 
 - **(Closed by R39.) Adjudication prompts are not deterministic (found in R36).** `_llm_adjudicator` shows the LLM
   `head(collect(c.text))`, an unordered pick of a mentioning chunk, so a rerun can build another prompt:
