@@ -705,10 +705,33 @@ embedding matcher that finds synonyms is built but off (`er_embedding_candidates
 - **Accept:** unit tests for the switch, routes and order; a Neo4j test that the preview changes
   nothing; part 2 reports `er_accuracy_valid` before and after with n, and the new LLM calls' cost.
 - **Part 1 (done, 2026-09-23):** as listed; 4 tests (154 passed, 5 pandas-blocked), `ruff` clean. No run.
+- **Part 2 (done, 2026-09-23):** user's yes given in the session. R34 graph rebuilt from the cache (extract
+  `aac6a258`, 70/70 hits, $0). Preview `eeed9e07` at 70: 147 meaning-based pairs; same-meaning rewordings
+  above ~78, related-but-different things below ("wobbles" / "tips over", "drawer handles" / "drawer
+  rails", "back panel" / "panels"). `quality` preset: `er_embedding_candidates: 78` (61 pairs to the
+  LLM). Disclosed: the gold pair "drawer rails" / "metal rails" scores 78.7 and was visible when choosing.
+  Resolve `32bdf0fb`: 65 adjudications (60 new), 10 merges (R34: 4), **$0.016**; restore after the
+  baseline `8eb07f3e` $0.0004 (2 cache misses, see Found along the way). Same 26 R35 pairs, judge Claude
+  Opus 5.5, both verdict files committed: `er_accuracy` 0.857 → **0.929** (n = 14), `er_accuracy_valid`
+  0.870 → **0.913** (n = 23, 3 not extracted; eval runs `4cce6055` off, `30337d52` on). The one gained pair
+  is "drawer rails" / "metal rails"; the two still wrong are the dimmer pairs, which the LLM saw and kept
+  apart. No keep-apart pair was merged. Other merges: "rough" / "rough edges", "uneven metal edges" /
+  "rough edges" (debatable), "constantly stick" / "stick", "misalign" / "wouldn't align properly",
+  "no longer opens smoothly" / "doesn't open as smoothly as I'd like". Fact scores unchanged
+  (0.976 / 0.906; 6 renamed facts re-judged, 85 verdicts carried over by id from R34).
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Adjudication prompts are not deterministic (found in R36).** `_llm_adjudicator` shows the LLM
+  `head(collect(c.text))`, an unordered pick of a mentioning chunk, so a rerun can build another prompt:
+  2 of 65 calls missed the cache. Fix with an `ORDER BY c.chunk_id` and a test.
+- **The adjudicator keeps "dimmer switch" / "dimmer function" apart (found in R36).** Nominated at 84.3,
+  answered "not the same" (conservative prompt, one context sentence each). Candidates: show every
+  mentioning sentence of the same document, or accept it as a conservative choice.
+- **Embedding calls have no cost (found in R36).** Gemini embeddings report no tokens, so `cost_usd`
+  excludes the `resolve_preview` / `resolve` embedding calls (2 per run, about 100 short names).
 
 - **Prompt examples copied from the evaluation corpus inflate recall (found in R34).** R30's quoted
   hedges were phrases of the gold's own documents; the neutral rule loses exactly those 9 facts

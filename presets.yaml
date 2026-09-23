@@ -70,5 +70,10 @@ quality:
   # with EXTRACT_THINKING=medium; see docs/evaluation/results_2026-09-22_r31.md.
   extract_thinking: low
   embed_model: gemini-embedding-001
+  # meaning-based ER candidates (R36, 2026-09-23): `kg resolve --preview` at 70 on the R34 graph showed
+  # same-meaning rewordings above ~78 ("didn't line up" / "didn't align", "dimmer switch" / "dimmer
+  # function") and related-but-different things below ("wobbles" / "tips over", "drawer handles" /
+  # "drawer rails"). 78 sends 61 pairs to the LLM, which decides; nothing merges on this score alone.
+  er_embedding_candidates: 78
   data_dir: data
   mlflow_experiment: kgbuilder
