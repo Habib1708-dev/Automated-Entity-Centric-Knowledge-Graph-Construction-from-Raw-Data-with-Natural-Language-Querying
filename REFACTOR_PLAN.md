@@ -720,6 +720,24 @@ embedding matcher that finds synonyms is built but off (`er_embedding_candidates
   "no longer opens smoothly" / "doesn't open as smoothly as I'd like". Fact scores unchanged
   (0.976 / 0.906; 6 renamed facts re-judged, 85 verdicts carried over by id from R34).
 
+### R37. A blocking rule that fits any dataset: mutual nearest neighbours
+Asked for by the user on 2026-09-23: the R36 threshold (78) was read off this dataset's scores, and the
+scale of embedding similarity changes with the embedding model and the domain, so it would have to be
+re-tuned for every dataset. The system must work for any dataset without hand-tuning.
+- `resolution/blocking.py` (new, Strategy): `ScoreThreshold(t)` (the R36 behaviour) and
+  `MutualNearest(k)` (a pair when each name is among the other's k most similar names of its type;
+  ranks only, so no scale; at most k*n/2 pairs per type). `blocking_from` maps the settings.
+- `resolver.find_candidates` / `nominate` / `resolve_entities` / `preview_candidates` take a `Blocking`
+  instead of a threshold number. Settings: `er_embedding_blocking` (`off` / `threshold` /
+  `mutual_nearest`, default `off`), `er_neighbours` (default 2, >= 1). The `quality` preset names
+  `threshold` explicitly, so part 1 changes no behaviour.
+- `k = 2` fixed before any result was seen: a name rarely has more than one or two other wordings in
+  one corpus, and it is the cheapest k that allows more than one.
+- **Accept:** unit tests (threshold, mutual rule with a hub, scale invariance, ties, settings); part 2:
+  a preview of `mutual_nearest` on the current graph (no LLM), one resolve, and the ER judge pass on the
+  R35 pairs next to R36's threshold result, at the lowest cost the cache allows.
+- **Part 1 (done, 2026-09-23):** as listed; 5 new tests, gate green. No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

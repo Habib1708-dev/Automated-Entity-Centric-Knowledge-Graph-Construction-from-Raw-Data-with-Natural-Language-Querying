@@ -16,6 +16,7 @@ from ..llm.base import prompt_version
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
 from ..resolution import resolver
+from ..resolution.blocking import Blocking, blocking_from
 from ..resolution.derivation import DerivationReport, derive_facts
 from ..resolution.linking import link_graphs
 from ..resolution.matchers import EmbeddingMatcher, FuzzyNameMatcher
@@ -73,16 +74,25 @@ def _input_file(path: Path, what: str) -> Path:
     return Path(path)
 
 
-def _er_thresholds(ctx: PipelineContext) -> dict[str, object]:
-    """The entity-resolution thresholds, logged the same way by the resolve run and its preview, and
-    whether meaning-based candidates could be computed at all (they need an embedder)."""
+def _er_settings(ctx: PipelineContext) -> dict[str, object]:
+    """The entity-resolution settings (thresholds and blocking rule), logged the same way by the resolve
+    run and its preview, and whether meaning-based candidates could be computed at all (they need an
+    embedder)."""
     s = ctx.settings
     return {
         "er_auto_merge": s.er_auto_merge,
         "er_borderline": s.er_borderline,
+        "er_embedding_blocking": s.er_embedding_blocking,
         "er_embedding_candidates": s.er_embedding_candidates,
+        "er_neighbours": s.er_neighbours,
         "embed_model": s.embed_model if ctx.embedder is not None else None,
     }
+
+
+def _er_blocking(ctx: PipelineContext) -> Blocking | None:
+    """The blocking rule the settings name; None = spelling candidates only."""
+    s = ctx.settings
+    return blocking_from(s.er_embedding_blocking, s.er_embedding_candidates, s.er_neighbours)
 
 
 def _digest(path: Path) -> str:
@@ -324,7 +334,7 @@ class ResolveStage(_TextStage):
     def params(self, ctx, state):
         s = ctx.settings
         return {
-            **_er_thresholds(ctx),
+            **_er_settings(ctx),
             "model": s.extract_model,
             "thinking": s.extract_thinking,
             "prompt_version": prompt_version(resolver.ADJUDICATE_PROMPT),
@@ -340,7 +350,7 @@ class ResolveStage(_TextStage):
             s.er_auto_merge,
             s.er_borderline,
             ctx.embedder,
-            s.er_embedding_candidates,
+            _er_blocking(ctx),
         )
         state.resolution = report
         run.metrics(
@@ -364,12 +374,12 @@ class PreviewResolveStage(_TextStage):
     PREVIEW_FILE = "resolve_preview.json"
 
     def params(self, ctx, state):
-        return _er_thresholds(ctx)
+        return _er_settings(ctx)
 
     def run(self, ctx, state, run):
         s = ctx.settings
         preview = resolver.preview_candidates(
-            ctx.driver, s.er_auto_merge, s.er_borderline, ctx.embedder, s.er_embedding_candidates
+            ctx.driver, s.er_auto_merge, s.er_borderline, ctx.embedder, _er_blocking(ctx)
         )
         state.resolve_preview = preview
         run.metrics(

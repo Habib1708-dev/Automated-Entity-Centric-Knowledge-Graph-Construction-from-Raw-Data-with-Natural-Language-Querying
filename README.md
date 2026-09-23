@@ -111,7 +111,9 @@ kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
 ```
 
 `kg resolve --preview` lists the pairs a resolve run would consider (spelling or meaning, score, merged
-on spelling alone or asked to the LLM) without an LLM call or a write: use it to choose `er_*` thresholds.
+on spelling alone or asked to the LLM) without an LLM call or a write. Which pairs close in meaning are
+asked is a blocking rule (`er_embedding_blocking`): `threshold` (an absolute score, chosen per dataset) or
+`mutual_nearest` (each name among the other's `er_neighbours` nearest; no scale to choose).
 
 `text-schema` and `extract` work on the chunks stored by `ingest-text`, never on re-chunked files, so
 chunk ids in the graph and in the provenance of facts always agree.

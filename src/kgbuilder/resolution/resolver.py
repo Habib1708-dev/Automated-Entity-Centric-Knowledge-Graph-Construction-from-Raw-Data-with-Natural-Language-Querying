@@ -3,14 +3,15 @@
 Role in the pipeline: `kg resolve`, after extraction and before linking.
 Design: five small steps instead of one function, and only the first and the last two touch Neo4j:
   1. read_entities      load entities and their mention counts
-  2. find_candidates    pure: score all same-type pairs with the matchers (Strategy, see matchers.py)
+  2. find_candidates    pure: score same-type pairs with the matchers (matchers.py); pairs close in
+                        meaning are nominated by a blocking rule (blocking.py); both are Strategies
   3. decide             pure given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
   4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
   5. apply_merges       snapshot the members, then merge them with APOC (relationships are moved, never
                         folded: three reviews stating one fact stay three facts; only exact repeats go)
 Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
 graph, because a wrong merge silently corrupts every later query. `preview_candidates` runs steps 1-2
-only (`kg resolve --preview`), to choose the thresholds from real scores.
+only (`kg resolve --preview`), to see what the thresholds and the blocking nominate.
 Not here: similarity functions (matchers.py) and links to the domain graph (linking.py).
 """
 
@@ -24,6 +25,7 @@ from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
 from ..llm.base import Embedder, LLMClient
+from .blocking import Blocking
 from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
 
 # Conservative on purpose: a false merge destroys information, a missed merge only leaves a duplicate.
@@ -133,9 +135,10 @@ def find_candidates(
     entities: list[EntityRecord],
     borderline: float,
     embedding: Matcher | None = None,
-    embedding_threshold: float = 0.0,
+    blocking: Blocking | None = None,
 ) -> list[Candidate]:
-    """All same-type pairs worth a decision: fuzzy score >= `borderline`, or nominated by embeddings.
+    """All same-type pairs worth a decision: fuzzy score >= `borderline`, or nominated by `blocking` on
+    the `embedding` scores (both needed; either None means spelling candidates only).
 
     Entities of different types are never compared: a Product and a Problem with the same name are
     different things. Within a type every pair is scored; the fuzzy cutoff makes hopeless pairs cheap.
@@ -147,11 +150,14 @@ def find_candidates(
 
     candidates = []
     for members in by_type.values():
+        by_meaning = blocking.pairs(members, embedding.score) if embedding and blocking else {}
         for a, b in combinations(members, 2):
             score = fuzzy.score(a, b, cutoff=borderline)
             if score >= borderline:
                 candidates.append(Candidate(a=a.id, b=b.id, score=round(score, 1), signal=fuzzy.name))
-            elif embedding is not None and (similarity := embedding.score(a, b)) >= embedding_threshold:
+            elif (
+                embedding is not None and (similarity := by_meaning.get(frozenset((a.id, b.id)))) is not None
+            ):
                 candidates.append(
                     Candidate(a=a.id, b=b.id, score=round(similarity, 1), signal=embedding.name)
                 )
@@ -162,13 +168,13 @@ def nominate(
     entities: list[EntityRecord],
     borderline: float,
     embedder: Embedder | None,
-    embedding_threshold: float,
+    blocking: Blocking | None,
 ) -> list[Candidate]:
-    """Step 2 with the meaning-based matcher switched on when an embedder is given and
-    `embedding_threshold` > 0 (one batched embedding call for all names)."""
-    use_embeddings = embedder is not None and embedding_threshold > 0
+    """Step 2 with the meaning-based matcher switched on when both an embedder and a blocking are given
+    (one batched embedding call for all names)."""
+    use_embeddings = embedder is not None and blocking is not None
     embedding = EmbeddingMatcher(embedder, entities) if use_embeddings else None
-    return find_candidates(entities, borderline, embedding, embedding_threshold)
+    return find_candidates(entities, borderline, embedding, blocking)
 
 
 def is_auto_merge(candidate: Candidate, auto_merge: float) -> bool:
@@ -325,15 +331,15 @@ def resolve_entities(
     auto_merge: float = 92.0,
     borderline: float = 80.0,
     embedder: Embedder | None = None,
-    embedding_threshold: float = 0.0,
+    blocking: Blocking | None = None,
 ) -> ResolveReport:
     """Run the five steps. With `llm=None`, borderline pairs stay separate (logged as skipped).
 
-    Embedding candidates are used only when an embedder is given and `embedding_threshold` > 0.
+    Meaning-based candidates are used only when both an embedder and a `blocking` are given.
     """
     records = read_entities(driver)
     entities = {e.id: e for e in records}
-    candidates = nominate(records, borderline, embedder, embedding_threshold)
+    candidates = nominate(records, borderline, embedder, blocking)
     adjudicate = _llm_adjudicator(driver, llm, model, candidates) if llm is not None else None
     decisions = decide(candidates, entities, auto_merge, adjudicate)
     groups = group_merges(entities, decisions)
@@ -384,11 +390,11 @@ def preview_candidates(
     auto_merge: float,
     borderline: float,
     embedder: Embedder | None,
-    embedding_threshold: float,
+    blocking: Blocking | None,
 ) -> ResolvePreview:
     """Steps 1 and 2 of `resolve_entities` on the current graph. Reads only; no LLM call."""
     records = read_entities(driver)
-    return preview(records, nominate(records, borderline, embedder, embedding_threshold), auto_merge)
+    return preview(records, nominate(records, borderline, embedder, blocking), auto_merge)
 
 
 def undo_merges(driver: Driver, report: ResolveReport) -> int:

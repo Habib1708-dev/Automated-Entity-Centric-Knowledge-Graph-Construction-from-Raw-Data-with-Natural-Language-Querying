@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
-from pydantic import ValidationError
+from pydantic import Field, ValidationError
 from pydantic.fields import FieldInfo
 from pydantic_settings import (
     BaseSettings,
@@ -20,6 +20,7 @@ from pydantic_settings import (
 
 from .core.errors import ConfigurationError
 from .llm.base import ThinkingLevel
+from .resolution.blocking import BlockingMode
 from .tracking.base import ModelPrice
 
 PRESETS_FILE = Path("presets.yaml")  # relative to the working directory, like `.env`
@@ -150,8 +151,13 @@ class Settings(BaseSettings):
     chunk_overlap_chars: int = 0  # carried over between cuts of one oversized section; 0 = off
     er_auto_merge: float = 92.0  # rapidfuzz token_sort_ratio at or above: merge without asking
     er_borderline: float = 80.0  # between this and auto_merge: ask the LLM (if available)
-    # cosine*100 of name embeddings at or above: also ask the LLM (finds synonyms). 0 = off
+    # which pairs close in meaning are also sent to the LLM (resolution/blocking.py): "off", "threshold"
+    # (cosine*100 at or above er_embedding_candidates; that scale depends on the embedding model and the
+    # data, so it is chosen per dataset) or "mutual_nearest" (each name among the other's er_neighbours
+    # most similar names of its type: rank-based, no scale to choose)
+    er_embedding_blocking: BlockingMode = "off"
     er_embedding_candidates: float = 0.0
+    er_neighbours: int = Field(default=2, ge=1)
     domain_link_threshold: float = 90.0
     gold_min_recall: float = 0.5  # `kg validate --gold` fails below this triple recall
 

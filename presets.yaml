@@ -74,6 +74,7 @@ quality:
   # same-meaning rewordings above ~78 ("didn't line up" / "didn't align", "dimmer switch" / "dimmer
   # function") and related-but-different things below ("wobbles" / "tips over", "drawer handles" /
   # "drawer rails"). 78 sends 61 pairs to the LLM, which decides; nothing merges on this score alone.
+  er_embedding_blocking: threshold
   er_embedding_candidates: 78
   data_dir: data
   mlflow_experiment: kgbuilder

@@ -9,6 +9,7 @@ from kgbuilder.config import Settings
 from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import PipelineContext, PipelineState
+from kgbuilder.resolution.blocking import ScoreThreshold
 from kgbuilder.resolution.matchers import EmbeddingMatcher, EntityRecord
 from kgbuilder.resolution.resolver import (
     SamePair,
@@ -63,7 +64,7 @@ class SynonymEmbedder:
 def test_embeddings_nominate_synonyms_but_never_auto_merge():
     records = [entity("s1", "Sofa"), entity("s2", "Couch"), entity("t1", "Table")]
     matcher = EmbeddingMatcher(SynonymEmbedder(), records)
-    candidates = find_candidates(records, borderline=80, embedding=matcher, embedding_threshold=95)
+    candidates = find_candidates(records, borderline=80, embedding=matcher, blocking=ScoreThreshold(95))
     assert [(c.a, c.b, c.signal, c.score) for c in candidates] == [("s1", "s2", "embedding", 100.0)]
     by_id = {e.id: e for e in records}
     assert decide(candidates, by_id, auto_merge=92, adjudicate=None)[0].action == "skipped_borderline"
@@ -72,16 +73,16 @@ def test_embeddings_nominate_synonyms_but_never_auto_merge():
 
 def test_meaning_based_candidates_need_an_embedder_and_a_threshold():
     records = [entity("s1", "Sofa"), entity("s2", "Couch")]
-    assert nominate(records, 80, SynonymEmbedder(), embedding_threshold=0) == []  # 0 = switched off
-    assert nominate(records, 80, None, embedding_threshold=95) == []  # no embedder, nothing to compare
-    assert [c.signal for c in nominate(records, 80, SynonymEmbedder(), embedding_threshold=95)] == [
+    assert nominate(records, 80, SynonymEmbedder(), blocking=None) == []  # no blocking rule = switched off
+    assert nominate(records, 80, None, blocking=ScoreThreshold(95)) == []  # no embedder, nothing to compare
+    assert [c.signal for c in nominate(records, 80, SynonymEmbedder(), blocking=ScoreThreshold(95))] == [
         "embedding"
     ]
 
 
 def test_preview_names_each_pair_its_route_and_orders_by_score():
     records = [*ENTITIES, entity("s2", "Couch")]
-    candidates = nominate(records, borderline=50, embedder=SynonymEmbedder(), embedding_threshold=95)
+    candidates = nominate(records, borderline=50, embedder=SynonymEmbedder(), blocking=ScoreThreshold(95))
     rows = [(p.signal, p.a, p.b, p.route) for p in preview(records, candidates, auto_merge=90).pairs]
     assert rows[0] == ("embedding", "Sofa", "Couch", "llm")  # a meaning score always goes to the LLM
     fuzzy = [r for r in rows if r[0] == "fuzzy"]
