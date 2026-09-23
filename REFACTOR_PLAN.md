@@ -642,9 +642,26 @@ together with a judge-validated variant (the judge being Claude in the session, 
   `tests/test_er.py`); 149 passed, 5 failed only on the known pandas block (Smart App Control), `ruff`
   clean. No run: scoring only; the first judged `er_accuracy_valid` comes with R34's run.
 
+### R34. Domain-neutral "be exhaustive" rule
+Asked for by the user on 2026-09-23 before testing other datasets: the R30 rule was written in the
+furniture reviews' words (defects, failures, assembly, quotes from the corpus) and would steer extraction
+on any other dataset.
+- `text/extraction.py`: same four instructions (one triple per claim; one per list item; hedged claims
+  count; a whole-document claim goes on the document's thing; one statement, two fact types: both
+  facts), in general words, examples limited to hedge words. Nothing else changes.
+- **Accept:** a wording test that the rule names no domain word; one `quality` run and one judge pass
+  (with the R33 ER verdicts) against R30 (`d9ce6ed8`); the report names both prompt versions.
+- **Part 1 (done, 2026-09-23):** rule reworded, `prompt_version` `f19abd49dec8` → `984fbd29166b`; the
+  R30 wording test now also asserts the rule contains none of "defect", "failure", "complaint",
+  "assembly", "product". 149 passed (5 pandas-blocked), `ruff` clean. Part 2 is the run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **A second, smaller furniture hint in the extraction prompt (found in R34).** The pronoun rule says
+  "the product or thing the document is about" and gives the example "this dresser". Harmless on other
+  domains (it says "or thing"), but not neutral; reword before the other-dataset runs if the user agrees.
 
 - **15 of 70 extraction traces lost to the pandas policy block (found in R30).** MLflow's trace export
   thread imports pandas; the blocked DLL made some exports fail (`FileNotFoundError ... pandas.libs`),
