@@ -847,6 +847,14 @@ Closes the F1 finding. Evaluation code only; the graph does not change.
 - **Accept:** gate green; the R41 sheet re-scored in code from the logged artifact with the one verdict
   the doc-aware sheet adds (fact `b72dc353c94b`, the Västerås veneer): exact 0.299 / 0.292, validated
   unchanged 0.976 / 0.906; R34 / R39 exact recall 0.260 recorded as corrections. No pipeline run.
+- **Result (done, 2026-09-23).** As listed; 167 passed (166 + the new test), `ruff` clean. No run, $0.
+  The R41 sheet re-scored in code (`score_verdicts` on the logged sheet with doc-aware matching): exact
+  precision / recall 0.307 / 0.292 → **0.299 / 0.292** (n = 127 facts, 96 gold); validated 0.976 / 0.906 /
+  0.940 unchanged with `tests/gold/judge_verdicts_2026-09-23_r42.json` (R41's verdicts plus fact
+  `b72dc353c94b` SUPPORTED as triple 69; judge Claude Opus 5.5); the R41 file is refused as stale, as it
+  should be. Corrected exact numbers for earlier reports: R34 and R39 recall 0.271 → 0.260, their
+  `gold_corrections` one too high (the Västerås back-panel fact is triple 73). The `evaluation` skill's
+  definition of exact match now says "of the fact's own document".
 
 ### R43. Gold questions read aliases as well as names
 Gold-only step. Questions 3-5 filter on `f.name`, so the canonical name a merge picks (R44) could move
@@ -882,7 +890,7 @@ Closes the F3 finding. Behaviour change in resolution.
 
 (Add items here during a step instead of widening its scope.)
 
-- **Exact matching ignores the document (found in R41).** `gold.matches` compares predicate and names
+- **(Closed by R42.) Exact matching ignores the document (found in R41).** `gold.matches` compares predicate and names
   only; since kinds merge across products, a fact can match a gold triple of another review (the
   Västerås "veneer chipped" fact was attached to the Jönköping triple through the merged alias, and the
   Västerås triple was left unfound). Exact-match scores can be inflated and a gold triple marked found by

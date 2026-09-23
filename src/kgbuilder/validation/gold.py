@@ -64,9 +64,16 @@ def doc_of(fact: StoredFact) -> str | None:
 
 
 def matches(gold: GoldTriple, fact: StoredFact) -> bool:
-    """Same predicate, and the gold names are among the entity's names or aliases (after `norm`)."""
+    """Same predicate, the gold names among the entity's names or aliases (after `norm`), and the fact
+    from the gold triple's document when the triple names one.
+
+    The document check matters because an entity is one node per type and name across all documents,
+    and a merge adds every member's names as aliases: without it, a fact of one review matched another
+    review's triple and marked it found (R42, found in R41).
+    """
     return (
-        gold.predicate == fact.predicate
+        (gold.doc_id is None or gold.doc_id == doc_of(fact))
+        and gold.predicate == fact.predicate
         and norm(gold.subject) in {norm(n) for n in fact.subject_names}
         and norm(gold.object) in {norm(n) for n in fact.object_names}
     )

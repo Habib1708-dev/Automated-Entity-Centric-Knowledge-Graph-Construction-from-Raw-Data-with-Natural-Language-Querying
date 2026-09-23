@@ -14,6 +14,7 @@ from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import PipelineContext, PipelineState
 from kgbuilder.validation.checks.base import StoredFact
+from kgbuilder.validation.evaluate import score_triples
 from kgbuilder.validation.gold import GoldTriple
 from kgbuilder.validation.judge import (
     FactVerdict,
@@ -203,3 +204,18 @@ def test_eval_stage_logs_the_judge_sheet_then_the_validated_metrics(driver, tmp_
     assert second.logged_metrics["triple_recall"] == 0.0
     assert second.logged_metrics["recall_validated"] == 1.0 and second.logged_metrics["f1_validated"] == 1.0
     assert "judge_verdicts.json" in {Path(a).name for a in second.artifacts}
+
+
+def test_a_fact_matches_only_gold_triples_of_its_own_document():
+    # F1 (2026-09-23): entities are shared across documents and a merge adds aliases, so a fact from b.md
+    # carrying an a.md wording as alias matched a.md's triple and left b.md's own triple unfound
+    shared = ["chipped in several places", "chipping at the corners"]
+    facts = [
+        fact("veneer", "x", chunk="a.md#0").model_copy(update={"object_names": shared}),
+        fact("veneer", "x", chunk="b.md#0").model_copy(update={"object_names": shared}),
+    ]
+    golds = [gold("veneer", "chipping at the corners", doc="a.md"), gold("veneer", "chipped", doc="b.md")]
+    sheet = build_sheet(facts, golds)
+    assert [f.gold_index for f in sheet.facts] == [0, None]  # the b.md fact is not a.md's triple
+    assert [g.found for g in sheet.gold] == [True, False]
+    assert score_triples(facts, golds).precision == 0.5
