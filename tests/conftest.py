@@ -1,4 +1,5 @@
-"""Shared fixtures: a temp data dir with small CSVs, including one deliberately dirty file."""
+"""Shared fixtures: a temp data dir with small CSVs (one deliberately dirty file) and an empty Neo4j
+database; every test that uses the database is marked `neo4j` here, so none can forget the marker."""
 
 import pytest
 
@@ -18,6 +19,18 @@ FILES = {
     # duplicate id and a dangling product reference
     "dirty.csv": "item_id,product_id\nX1,P1\nX1,P2\nX2,P9\n",
 }
+
+
+@pytest.hookimpl(tryfirst=True)  # before `-m` deselects: the marker must exist when it is read
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """Mark every test that uses the `driver` fixture as `neo4j`.
+
+    The fixture wipes the database, so a Neo4j test without the marker also runs under
+    `pytest -m "not neo4j"` and deletes the working graph (found in R40: one test did).
+    """
+    for item in items:
+        if "driver" in getattr(item, "fixturenames", ()):
+            item.add_marker(pytest.mark.neo4j)
 
 
 @pytest.fixture
