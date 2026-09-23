@@ -737,6 +737,16 @@ re-tuned for every dataset. The system must work for any dataset without hand-tu
   a preview of `mutual_nearest` on the current graph (no LLM), one resolve, and the ER judge pass on the
   R35 pairs next to R36's threshold result, at the lowest cost the cache allows.
 - **Part 1 (done, 2026-09-23):** as listed; 5 new tests, gate green. No run.
+- **Part 2 (done, 2026-09-23):** user's yes given in the session. Graph rebuilt from the cache ($0).
+  Preview `c1b4ad6c` (`mutual_nearest`, k = 2): 51 meaning-based pairs (threshold 78: 61), including both
+  target pairs ("drawer rails" / "metal rails" 78.7, "dimmer switch" / "dimmer function" 84.3) and
+  near-synonyms below 78 ("sharper than I'd prefer" / "sharp"). Resolve `9351d5e2`: 56 adjudications
+  (27 cache hits), 9 merges, **$0.0074**; the merges are R36's minus the debatable "uneven metal edges"
+  / "rough edges", which is not a mutual pair. Judge Claude Opus 5.5, same 26 R35 pairs, eval `24fa0c89`,
+  `tests/gold/judge_verdicts_2026-09-23_r37.json`: `er_accuracy` 0.929 (n = 14), `er_accuracy_valid`
+  **0.913** (n = 23), identical to the threshold; no keep-apart pair merged; the dimmer pairs are still
+  kept apart by the LLM. Facts unchanged (0.976 / 0.906; 2 renamed facts judged, 91 carried over by id).
+  The `quality` preset now uses `mutual_nearest`, `er_neighbours: 2`.
 
 ## Found along the way
 
