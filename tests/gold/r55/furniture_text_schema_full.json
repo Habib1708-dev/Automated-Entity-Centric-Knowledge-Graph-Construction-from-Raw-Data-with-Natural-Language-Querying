@@ -1,0 +1,71 @@
+{
+  "entity_types": [
+    {
+      "name": "Product",
+      "description": "A finished commercial furniture item sold in the catalog, excluding individual sub-assemblies, spare hardware, or component parts."
+    },
+    {
+      "name": "Component",
+      "description": "An individual physical part, structural piece, hardware item, or material incorporated into a product, excluding complete finished furniture products."
+    },
+    {
+      "name": "Defect",
+      "description": "A physical flaw, dimensional error, material imperfection, or manufacturing damage present in a component or product, excluding subjective aesthetic preferences."
+    },
+    {
+      "name": "Symptom",
+      "description": "An observable operational malfunction, functional failure, abnormal noise, or assembly difficulty experienced during product use, excluding subjective dissatisfaction with styling."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Product",
+      "description": "Identifies that a component mentioned in a review document belongs to the product being reviewed.",
+      "derived": true
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Component",
+      "object_type": "Defect",
+      "description": "Identifies an inherent manufacturing flaw, dimensional inaccuracy, or material defect present on a specific component.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Product",
+      "object_type": "Defect",
+      "description": "Identifies a direct physical flaw, surface defect, or shipping damage present on the product as received.",
+      "derived": false
+    },
+    {
+      "predicate": "EXHIBITS_SYMPTOM",
+      "subject_type": "Component",
+      "object_type": "Symptom",
+      "description": "Indicates that a component exhibits an operational malfunction, improper fit, or failure during assembly or use.",
+      "derived": false
+    },
+    {
+      "predicate": "EXHIBITS_SYMPTOM",
+      "subject_type": "Product",
+      "object_type": "Symptom",
+      "description": "Indicates that a finished product demonstrates an overall operational problem, structural instability, or functional failure.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES",
+      "subject_type": "Defect",
+      "object_type": "Symptom",
+      "description": "Connects a root-cause manufacturing or physical defect to the observable operational symptom or assembly failure it triggers.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES",
+      "subject_type": "Defect",
+      "object_type": "Defect",
+      "description": "Connects an initial physical defect or dimensional flaw to secondary physical degradation or structural failure.",
+      "derived": false
+    }
+  ]
+}

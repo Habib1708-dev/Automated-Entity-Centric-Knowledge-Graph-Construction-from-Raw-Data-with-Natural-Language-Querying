@@ -1256,6 +1256,29 @@ Both corpora are small (about 8,600 and 2,900 tokens), so the whole text fits. B
   `context_chars` (metrics); `propose_text_schema` shows exactly the chunks it is given. Prompt wording
   unchanged. Tests: all chunks under the budget, an even sample that fits above it, every chunk whole in the
   prompt, the stage's tracking contract. 193 passed (Neo4j up), `ruff` clean. No run.
+- **Part 3 (done, 2026-09-24).** Part 1's plan reused, whole text: text schema `0dcdf55e` $0.0607 (all
+  70 chunks; accepted in round 1: Product, Component, Defect, Symptom; `HAS_DEFECT`, `EXHIBITS_SYMPTOM`
+  from a component or product, `CAUSES` Defect→Symptom and Defect→Defect, `PART_OF` derived), extract
+  `94a3cef3` $0.0767 (88 facts), resolve `a6eefade` $0.0165; **$0.154**. Gold mapped before extraction
+  (`furniture_gold_full.json`): EXHIBITS_FAILURE → EXHIBITS_SYMPTOM, CAUSES_FAILURE → CAUSES (now
+  expressible), IMPEDES_ASSEMBLY_OF → product EXHIBITS_SYMPTOM defect, the rest unchanged; question 4
+  accepts the misalignment as a defect or a symptom (the schema allows both; decided before extraction).
+  Judge Claude Opus 5.5 (47 of 88 facts carried over by id), eval `e0519d5e`.
+  **Judging rule made explicit (applies to every arm):** a swap between two problem relations with the
+  same subject and object (defect / failure / symptom / assembly issue) is the same claim, as R45-R49
+  already judged ("cushions losing their shape"); a change of claim structure (CAUSES instead of a problem
+  relation, another subject) is not. Part 1 re-scored under it with `kg rescore` ($0, run `bf462659`,
+  verdict file updated): gold 36, 63, 70 found, recall 0.823 → 0.854. R53 / R54 have no such swaps.
+
+  | Furniture, automatic arm | Precision (judge) | Recall (judge, n = 96) | F1 | ER valid | Questions |
+  |---|---|---|---|---|---|
+  | 12 sampled chunks (Part 1) | 1.000 (n = 136) | 0.854 [0.77, 0.91] | 0.921 | 0.983 | 5 / 5 |
+  | whole text (Part 3) | 0.969 (n = 129) | 0.854 [0.77, 0.91] | 0.908 | 0.948 | 5 / 5 |
+  | pinned schema, same prompts (R47 / R49b) | 0.992 / 1.000 | 0.865 / 0.854 | – | 1.000 | 5 / 5 |
+
+  On furniture the whole text changes the schema (a Symptom type, CAUSES expressible: gold 17 and 18
+  found) but not the recall; precision drops by 4 facts that type the instructions as a Component. The
+  automatic arm on furniture is as good as the pinned schema either way.
 
 ## Found along the way
 
