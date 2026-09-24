@@ -1046,6 +1046,55 @@ i.e. chunk, relation and wording, was judged before; everything else judged anew
   say explicitly that degree words ("a bit", "extremely") stay in the name and that one sentence with
   "X and Y" gives both claims, then the same two-sample comparison.
 
+### Held-out benchmark: does the system generalise? (R50-R53, planned 2026-09-24)
+Asked for by the user on 2026-09-24: a second, heterogeneous dataset, of good quality and small enough to
+keep runs cheap, with its own gold set, to show that the system works beyond the furniture reviews.
+Decisions made by the user: **NHTSA vehicle safety data** (US government, public domain: real records
+and real owner narratives), the **automatic arm** (the pipeline proposes the plan and the text schema
+itself; nothing is pinned) and **about 50 gold triples**. Rules for the whole benchmark:
+- **The pipeline is frozen.** No prompt, threshold or model is changed because of this dataset. A crash
+  or a code bug found on it is fixed in its own step with a test and reported as such; a quality problem
+  is a result, recorded, not tuned away.
+- **Label before looking.** The gold claims are written from the source files before any pipeline output
+  for this dataset exists (R51). Only the predicate names are aligned to the proposed schema afterwards,
+  before extraction (R52); that mapping is listed as its own table, not hidden in the gold.
+- Five vehicles of five makes, one model year each (2016 Honda Civic, 2017 Nissan Rogue, 2019 Toyota
+  RAV4, 2015 Ford Escape, 2019 Subaru Outback). Complaints are chosen by a fixed rule, not by content.
+
+### R50. The held-out dataset `heldout/nhtsa/` and a `heldout` preset
+- `heldout/nhtsa/build.py`: fetches the five vehicles' recalls and complaints from api.nhtsa.gov, keeps
+  every recall and, per vehicle, the 5 complaints with the lowest ODI number whose narrative has 40-110
+  words, and saves only those records under `raw/` (with the fetch date). From `raw/` alone (no network)
+  it writes `data/`: `vehicles.csv` (CSV), `recalls.json` (the API's nested JSON shape), `complaints.ndjson`
+  (one record per line, the product as a nested object), `complaints/<make>_<model>_complaints.md` (one
+  document per vehicle, one section per complaint narrative). `README.md`: source, licence, selection
+  rule, transformations. Nothing in `data/` is edited by hand.
+- `presets.yaml`: `heldout` = the `quality` models and thinking levels on `heldout/nhtsa/data`,
+  `ask_permission: true`, experiment `kgbuilder-heldout`.
+- **Tests:** rebuilding `data/` from `raw/` reproduces the committed files; staging and profiling the
+  dataset (no LLM) stage three tables and find the recall -> vehicle key; the preset loads.
+- **Accept:** gate green. No run.
+
+### R51. Gold set for the held-out dataset, written before any run
+- `tests/gold/heldout_nhtsa_gold.json`: every complaint section labelled exhaustively, each claim with
+  `doc_id`, verbatim `evidence` and a plain-words `relation` ("component has defect", ...); no predicate
+  names yet, because the schema does not exist. ER pairs whose names occur in the narratives; 3-5
+  questions with expected answers from the data (Cypher follows in R52).
+- Integrity test as for the furniture gold (quotes verbatim, every section labelled, no repeats).
+- **Accept:** gate green. No run; the step report states that no output for this dataset existed.
+
+### R52. Proposal stages on the held-out dataset; predicate mapping
+- One `heldout` run of profile, plan, build, ingest-text and text-schema (user's yes needed; estimate
+  about $0.03). The accepted plan and schema are frozen as this arm's result.
+- Each gold `relation` is mapped to one proposed predicate, or marked "not expressible" (a recall loss the
+  schema causes, counted as such); the question Cypher is written against the proposed labels.
+- **Accept:** gate green; the mapping table in this file.
+
+### R53. Extraction, resolution and the judge pass on the held-out dataset
+- One `heldout` run of extract, resolve, link, eval (user's yes needed; estimate about $0.03-0.05), a
+  judge pass (Claude in the session), both scores with `n` and Wilson intervals, next to the furniture
+  numbers; a dated results snapshot.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
