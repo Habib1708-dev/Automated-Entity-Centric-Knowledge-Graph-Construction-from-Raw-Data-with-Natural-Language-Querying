@@ -210,3 +210,4 @@ def test_facts_touching_the_domain_graph_are_measured(driver):
     )
     report = validate_graph(driver, plan=None, schema=None)
     assert report.metrics["facts_touching_domain_rate"] == 0.5
+    assert report.metrics["predicates_distinct"] == 2  # HAS_ISSUE and LOCATED_IN; REFERS_TO is not a fact

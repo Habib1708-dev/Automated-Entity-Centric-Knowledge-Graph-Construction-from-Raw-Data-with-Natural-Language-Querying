@@ -1347,9 +1347,89 @@ nothing breaks, not that the rule helps where a record node exists.
   the model chose, not that it covers what the text observes. Any later goal-driven design needs a check in
   the other direction too (every observed problem type reaches the thing it happens to). R56 total $0.249.
 
+### Plan R57-R61: as many true, consistent, linked facts as possible
+Decided by the user on 2026-09-24 after R56. The system's main job is a faithful graph: as many true facts
+as possible, stored consistently and linked to each other. The goal decides which subjects matter (scope),
+not how the graph is shaped. A question-answering layer can walk any well-built graph, and it can fall back
+to a fact's chunk for a question about one thing ("lookup"). It cannot count, list or chain facts that were
+never extracted ("aggregate"), so recall on text stays the main gap. The steps in order: R57 measure,
+R58 schema proposer, R59 near misses in `verify`, R60 generic names and the duplicate vehicle, R61 a second
+extraction pass (`extract_passes`; the user asked for it to be planned now). **Methodology limit (the
+user's decision):** R58-R61 are designed from the furniture and NHTSA misses, so NHTSA is a development set
+from here on. No new held-out set is built, and the thesis states that the NHTSA numbers after R55 are not
+from a blind test.
+
+### R57. Measure first: consistency and coverage metrics
+No behaviour change. Split in two parts (one concern each).
+- **Part 1 (done, 2026-09-24).**
+  - What was added:
+    - The extract stage logs `rejected_off_schema_rate`: triples the schema had no fact type for, as a
+      share of all returned triples.
+    - It also writes `off_schema.json`, which lists each missing fact type as `Subject -[P]-> Object`
+      with its count (`ExtractionResult.off_schema_rate` / `off_schema_signatures`).
+    - The consistency check logs `predicates_distinct`, the number of relation names among the facts.
+  - Dropped from the plan, with reasons:
+    - `entities_without_facts`: entities are only created by facts, so the number is always 0.
+    - The "facts on source-record types" share (see "Found along the way": the rule behind it does not
+      fit the data).
+  - Tests: the rate and the report on a hand-made result; both metrics in the end-to-end run and on a
+    hand-made graph. 194 passed (193 before), `ruff` clean.
+  - Baseline from the saved outputs, recomputed with the new code. Counts are before resolution; no run,
+    $0.
+
+    | Output | Facts | Rejected | Off-schema rate | Relation names |
+    |---|---|---|---|---|
+    | R55 furniture, whole text (`out/r55_full`) | 88 | 0 | 0.000 | 3 |
+    | R55 held-out, whole text (`out/r55_heldout_full`) | 140 | 0 | 0.000 | 6 |
+    | R53 held-out, automatic arm (`out/heldout`) | 134 | 1 | 0.000 | 5 |
+    | R54 held-out, controlled arm (`out/heldout_controlled`) | 73 | 0 | 0.000 | 3 |
+    | R56 furniture (`out/r56_furniture`) | 55 | 0 | 0.000 | 2 |
+
+    **Reading:** code never rejected a fact for its type in any of these runs. The extractor follows
+    "Skip anything that does not fit" and never returns what the schema cannot hold, so missed facts are
+    lost silently inside the model, before `verify` sees them. The recall gap is therefore the schema's
+    and the single pass's, not the code's. R59 (repair near misses in `verify`) has nothing to repair
+    (its own condition: under ~2% of facts), so it is skipped unless a later run shows off-schema
+    rejections.
+- **Part 2 (open): question kinds.** `GoldQuestion.kind` (`lookup` | `aggregate`), with
+  `question_accuracy_lookup` and `question_accuracy_aggregate`. Every committed text question lists
+  things across documents, so it is aggregate already. New questions need Cypher per schema variant, so
+  this part is decided with the user before it starts.
+
+### R58. Schema proposer: cover what the text observes (open, to be redesigned)
+Planned: the prompt says the goal chooses the subjects and every kind of claim about them gets a fact
+type. `domain_summary` stops inviting "reuse its concepts". A code check blocks the `Complaint`-hub shape.
+The code check as planned ("a fact type touching a type that documents are `ABOUT` must be derived") is
+wrong for the data: see "Found along the way". Redesign it before the step starts.
+
+### R59. Extraction keeps deterministic near misses (skipped by R57's measurement)
+Planned: swap a reversed direction and normalise predicate spelling in `verify`. R57 found 0 off-schema
+rejections in five runs, so there is nothing to repair.
+
+### R60. Linking and naming: no generic entities, one node per thing (open)
+- Reject names that are only a type name (the "PART" and "SYSTEMS" misses of R54).
+- Derivation reuses the entity that `REFERS_TO` the document's `ABOUT` node, which fixes "OUTBACK" vs
+  "2019 Subaru Outback".
+
+### R61. Second extraction pass (open)
+- `extract_passes` (default 1; `quality` sets 2). Pass 2 shows each chunk's facts and asks for missed
+  claims, with the same `verify`.
+- R57 shows that missed facts are skipped by the model, not rejected by code, so this is now the most
+  direct lever after the schema.
+- Needs the user's yes for its two runs (about $0.45).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **"The type documents are ABOUT" does not find the record type (found in R57, 2026-09-24).** On NHTSA the
+  documents are `ABOUT` the `Vehicle`. Each complaint is a `## Complaint <number>` section inside a document,
+  and the extractor's `Complaint` entities are named after those headings. A code rule built on `ABOUT`
+  would point at the vehicle and miss the complaint hub. Whether a type is a *source* (a complaint, a
+  report, a post) or a *subject* (a part, a product) is a question of meaning. The candidate for R58 is a
+  prompt and critic rule (R56's "do not route a fact through the source a text comes from", which was never
+  tested where a record type exists), measured on both datasets. A code rule built on section headings is
+  not a candidate: furniture reviews name the product in their headings, and product facts are right there.
 
 - **The schema proposer mirrors the plan's record nodes (found in R55, 2026-09-24).** With the whole text
   in view, the held-out proposer still made `Complaint` the hub of every problem fact, as it did from 12

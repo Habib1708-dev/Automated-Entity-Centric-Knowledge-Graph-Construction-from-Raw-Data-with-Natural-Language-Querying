@@ -17,7 +17,16 @@ from kgbuilder.pipeline.runner import ReviewDeclinedError
 from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
-from kgbuilder.text.extraction import ChunkExtraction, RawTriple, RejectionReason, build_prompt, verify
+from kgbuilder.text.extraction import (
+    ChunkExtraction,
+    ExtractionResult,
+    RawTriple,
+    Rejected,
+    RejectionReason,
+    Triple,
+    build_prompt,
+    verify,
+)
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 
 from .fakes import RecordingTracker, ScriptedLLM
@@ -142,6 +151,9 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     assert tracker.run("link").logged_metrics["facts_derived"] == 0  # the scripted schema derives nothing
     extract_metrics = tracker.run("extract").logged_metrics
     assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(extract_metrics)
+    assert extract_metrics["rejected_off_schema_rate"] == 0.0
+    assert json.loads((out / "off_schema.json").read_text()) == {}
+    assert report.metrics["predicates_distinct"] == 1  # the scripted schema has one fact type
     assert (
         extract_metrics["rejected_evidence_not_verbatim"] == 1 and extract_metrics["rejected_off_schema"] == 0
     )
@@ -162,6 +174,24 @@ def test_verify_rejects_ungrounded_and_off_schema():
     assert reason(object="cracks") == RejectionReason.ARGUMENT_NOT_IN_CHUNK
     assert reason(object="") == RejectionReason.EMPTY_ARGUMENT
     assert reason(object="TABLE") == RejectionReason.SELF_REFERENCE
+
+
+def test_off_schema_rejections_are_counted_per_missing_fact_type():
+    ok = Triple(**triple("table", "wobbles", "x").model_dump(), chunk_id="d#0")
+
+    def off(predicate: str) -> Rejected:
+        t = ok.model_copy(update={"predicate": predicate})
+        return Rejected(triple=t, reason=RejectionReason.OFF_SCHEMA, detail="")
+
+    grounded = Rejected(triple=ok, reason=RejectionReason.EVIDENCE_NOT_VERBATIM, detail="")
+    result = ExtractionResult(triples=[ok], rejected=[off("LOVES"), off("HATES"), off("LOVES"), grounded])
+    # 3 of 5 returned triples had no fact type; the grounding rejection is not a schema gap
+    assert result.off_schema_rate == 0.6
+    assert result.off_schema_signatures() == {
+        "Product -[LOVES]-> Problem": 2,
+        "Product -[HATES]-> Problem": 1,
+    }
+    assert ExtractionResult(triples=[], rejected=[]).off_schema_rate == 0.0
 
 
 def test_verify_accepts_a_name_from_the_document_context_but_never_a_quote_from_it():

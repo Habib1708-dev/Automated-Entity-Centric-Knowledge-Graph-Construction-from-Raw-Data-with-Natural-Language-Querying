@@ -121,6 +121,27 @@ class ExtractionResult(BaseModel):
         """Count per reason, including zeros, so every run logs the same metric names."""
         return {reason: sum(r.reason == reason for r in self.rejected) for reason in RejectionReason}
 
+    @property
+    def off_schema_rate(self) -> float:
+        """Share of all returned triples that the schema had no fact type for: claims the text made but
+        the graph cannot hold. A high rate points at the schema, not at the extractor (R57)."""
+        total = len(self.triples) + len(self.rejected)
+        off = sum(r.reason == RejectionReason.OFF_SCHEMA for r in self.rejected)
+        return off / total if total else 0.0
+
+    def off_schema_signatures(self) -> dict[str, int]:
+        """How often each missing fact type was asked for, most frequent first, as
+        `Subject -[PREDICATE]-> Object`. A recurring signature is a schema gap; a reversed or
+        differently spelled one is a near miss (R57 report, input to R59)."""
+        counts: dict[str, int] = {}
+        for r in self.rejected:
+            if r.reason == RejectionReason.OFF_SCHEMA:
+                t = r.triple
+                key = f"{t.subject_type} -[{t.predicate}]-> {t.object_type}"
+                counts[key] = counts.get(key, 0) + 1
+        # ties ordered by name, so the same result gives the same file
+        return dict(sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
+
 
 def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str = "") -> Rejection | None:
     """Return why the triple must be rejected, or None when it is grounded and schema-conformant.

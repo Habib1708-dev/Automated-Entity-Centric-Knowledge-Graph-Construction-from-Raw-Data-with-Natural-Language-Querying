@@ -328,12 +328,14 @@ class ExtractStage(_TextStage):
             chunks=len(chunks),
             rejected=len(result.rejected),
             accept_rate=result.accept_rate,
+            rejected_off_schema_rate=result.off_schema_rate,
             triples_per_chunk=len(result.triples) / len(chunks),
             # which verification rule fires most tells you what to fix in the prompt
             **{f"rejected_{reason}": n for reason, n in result.rejections_by_reason().items()},
         )
         run.artifact(ctx.write("triples.jsonl", "\n".join(t.model_dump_json() for t in result.triples)))
         run.artifact(ctx.write("rejected.jsonl", "\n".join(r.model_dump_json() for r in result.rejected)))
+        run.artifact(ctx.write("off_schema.json", json.dumps(result.off_schema_signatures(), indent=2)))
 
 
 class ResolveStage(_TextStage):

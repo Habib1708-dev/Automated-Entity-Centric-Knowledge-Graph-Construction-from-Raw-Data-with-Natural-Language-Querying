@@ -13,6 +13,10 @@ class SubjectConsistencyCheck:
             return out
         facts = ctx.facts
         out.metrics["facts"] = len(facts)
+        # Descriptive (R57): how many relation names the graph uses. More names for the same number of
+        # facts make a graph harder to query (a question has to know every synonym), so a change that
+        # raises recall should not raise this number without a reason.
+        out.metrics["predicates_distinct"] = len({f.predicate for f in facts})
 
         if ctx.schema is not None:
             off_schema = [
