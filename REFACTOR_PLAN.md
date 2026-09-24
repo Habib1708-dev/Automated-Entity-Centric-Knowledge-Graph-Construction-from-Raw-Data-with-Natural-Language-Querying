@@ -1279,10 +1279,46 @@ Both corpora are small (about 8,600 and 2,900 tokens), so the whole text fits. B
   On furniture the whole text changes the schema (a Symptom type, CAUSES expressible: gold 17 and 18
   found) but not the recall; precision drops by 4 facts that type the instructions as a Component. The
   automatic arm on furniture is as good as the pinned schema either way.
+- **Part 4 (done, 2026-09-24).** Held-out, R52's frozen plan, whole text: text schema `634d8d36` $0.0403
+  (all 25 chunks, accepted in round 1: Complaint, Recall, Vehicle, Component, Problem; `REPORTS_PROBLEM`,
+  `IDENTIFIES_COMPONENT`, `REFERENCES_RECALL`, `CONCERNS_VEHICLE` from the complaint, `AFFECTS_COMPONENT`
+  Problem→Component, `CAUSES_PROBLEM`, `COVERS_COMPONENT` / `ADDRESSES_PROBLEM` / `AFFECTS_VEHICLE` from a
+  recall, `SUBCOMPONENT_OF`, `PART_OF_VEHICLE` derived), extract `8776a278` $0.0670 (140 facts), resolve
+  `e39b86cf` $0.0054; **$0.113**. Gold's R51 labels mapped before extraction as in R52
+  (`r55/heldout_gold_full.json`; 3 problem CAUSES now expressible, 2 component CAUSES not). Judge Claude
+  Opus 5.5 (88 of 168 facts carried over from R53 by id), eval `9c7bc139`: precision **0.994** (180 / 181)
+  [0.97, 1.00], recall **0.706** (48 / 68) [0.59, 0.80], F1 0.826, ER valid 0.905, questions 5 / 5.
+  Judged on name + aliases: the merged "SYSTEM" entity carries NAV / NAVIGATION SYSTEM, so its facts count
+  for the navigation system (R54's "SYSTEMS" and "PART" were unmerged and stay misses).
+
+  | Automatic arm, recall (judge) | Sampled context | Whole text | Pinned schema |
+  |---|---|---|---|
+  | furniture (n = 96) | 0.854 (R55 part 1) | 0.854 (part 3) | 0.854-0.865 (R47 / R49b) |
+  | held-out NHTSA (n = 68) | 0.706 (R53) | 0.706 (part 4) | 0.838 (R54) |
+
+  **Answer: the whole text does not fix the held-out gap.** It changes the schemas (furniture gains a
+  Symptom type and a Defect→Defect cause; the held-out schema gains `CAUSES_PROBLEM` and the recall
+  relations, and its critic no longer strikes them), costs about $0.005 more per proposal, and moves
+  precision by a few facts (furniture −0.031, held-out +0.017), but recall is identical in both datasets.
+  The held-out schema is still centred on the complaint: the Civic ACC / LKAS problems again went to the
+  complaint (8 misses), and none of the 3 now-expressible causes was extracted. The context size was not
+  the cause; the plan's `Complaint` node, which the proposer copies, remains the lead candidate (finding
+  below). One sample per variant. R55 total **$0.535**.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The schema proposer mirrors the plan's record nodes (found in R55, 2026-09-24).** With the whole text
+  in view, the held-out proposer still made `Complaint` the hub of every problem fact, as it did from 12
+  chunks; on furniture, where the plan has no record-like node, the proposal is as good as the pinned
+  schema. The domain summary lists the plan's labels as existing types, which invites reusing them.
+  Candidate, measured on furniture first: tell the proposer that plan labels are for linking, and that a
+  fact type should connect what the text states (a problem to the part it is in), plus a critic check
+  that every problem-like type can reach a component-like type.
+- **Expressible is not extracted (R55).** The held-out whole-text schema can express 3 of the gold's
+  causes; the extractor stated none of them (R54's pinned schema: 3 of 5). Worth a look at how fact-type
+  descriptions steer the extractor.
 
 - **The vehicle exists twice in the text graph (found in R54, 2026-09-24).** Derived `PART_OF` facts point
   at an entity named after the domain node ("OUTBACK", the plan's `name_column` `model`), the extractor

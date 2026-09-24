@@ -1,0 +1,103 @@
+{
+  "entity_types": [
+    {
+      "name": "Complaint",
+      "description": "A safety-related problem or failure report submitted by a vehicle owner to NHTSA, excluding general feedback or customer service inquiries."
+    },
+    {
+      "name": "Recall",
+      "description": "An official safety recall campaign or stop-sale action issued to address a vehicle safety defect, excluding routine technical service bulletins."
+    },
+    {
+      "name": "Vehicle",
+      "description": "A specific make, model, and model year of an automobile, excluding generic classes of vehicles."
+    },
+    {
+      "name": "Component",
+      "description": "A distinct mechanical, electrical, structural, or software part or assembly of a vehicle, excluding entire vehicles and external objects."
+    },
+    {
+      "name": "Problem",
+      "description": "A specific functional failure, abnormal symptom, or safety hazard experienced in a vehicle, distinct from the physical part itself."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "REPORTS_PROBLEM",
+      "subject_type": "Complaint",
+      "object_type": "Problem",
+      "description": "Connects an owner complaint to a specific malfunction, symptom, or safety hazard experienced.",
+      "derived": false
+    },
+    {
+      "predicate": "IDENTIFIES_COMPONENT",
+      "subject_type": "Complaint",
+      "object_type": "Component",
+      "description": "Links a complaint to a specific vehicle part or assembly mentioned by the owner or service technician.",
+      "derived": false
+    },
+    {
+      "predicate": "REFERENCES_RECALL",
+      "subject_type": "Complaint",
+      "object_type": "Recall",
+      "description": "Identifies an official recall or stop-sale campaign cited within an owner complaint.",
+      "derived": false
+    },
+    {
+      "predicate": "CONCERNS_VEHICLE",
+      "subject_type": "Complaint",
+      "object_type": "Vehicle",
+      "description": "Identifies the specific vehicle model and year that is the subject of the complaint.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFECTS_COMPONENT",
+      "subject_type": "Problem",
+      "object_type": "Component",
+      "description": "Associates a reported failure symptom or defect condition with the vehicle component that failed or malfunctioned.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES_PROBLEM",
+      "subject_type": "Problem",
+      "object_type": "Problem",
+      "description": "Indicates that one reported failure condition or symptom triggers or results in another hazard or failure.",
+      "derived": false
+    },
+    {
+      "predicate": "COVERS_COMPONENT",
+      "subject_type": "Recall",
+      "object_type": "Component",
+      "description": "Identifies the vehicle component that an official safety recall targets for repair, inspection, or replacement.",
+      "derived": false
+    },
+    {
+      "predicate": "ADDRESSES_PROBLEM",
+      "subject_type": "Recall",
+      "object_type": "Problem",
+      "description": "Specifies the safety hazard, symptom, or failure mode that the recall campaign is designed to rectify.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFECTS_VEHICLE",
+      "subject_type": "Recall",
+      "object_type": "Vehicle",
+      "description": "Identifies the vehicle model and year impacted by the safety recall campaign.",
+      "derived": false
+    },
+    {
+      "predicate": "SUBCOMPONENT_OF",
+      "subject_type": "Component",
+      "object_type": "Component",
+      "description": "Specifies that a smaller part belongs structurally or functionally to a larger vehicle subsystem.",
+      "derived": false
+    },
+    {
+      "predicate": "PART_OF_VEHICLE",
+      "subject_type": "Component",
+      "object_type": "Vehicle",
+      "description": "Connects a vehicle component to the vehicle model featured in the document context.",
+      "derived": true
+    }
+  ]
+}
