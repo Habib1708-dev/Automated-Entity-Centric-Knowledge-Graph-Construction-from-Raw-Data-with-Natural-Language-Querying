@@ -1,0 +1,1558 @@
+{
+ "_comment": [
+  "R58 (furniture), 2026-09-24, Claude Opus 5.5: tests/gold/text_gold.json with its predicates mapped by a fixed",
+  "rule to the R58 proposed schema (out/r58_furniture/text_schema.json), before any extraction on it; each triple keeps its labels in `labelled_as`.",
+  "Mapping: HAS_DEFECT -> HAS_DEFECT (42); EXHIBITS_FAILURE -> HAS_DEFECT (21, the schema's Defect includes operational failures); IMPEDES_ASSEMBLY_OF defect->product -> product HAS_DEFECT defect (8); CAUSES_FAILURE -> CAUSES (3); PART_OF -> PART_OF (22). Nothing is not expressible.",
+  "Question Cypher as in R55 with EXHIBITS_SYMPTOM replaced by HAS_DEFECT (the schema has one problem type); expected answers unchanged."
+ ],
+ "triples": [
+  {
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "evidence": "some of the pre-drilled holes didn't line up properly",
+   "labelled_as": {
+    "subject": "Gothenburg Table",
+    "predicate": "HAS_DEFECT",
+    "object": "misaligned pre-drilled holes"
+   }
+  },
+  {
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "evidence": "assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones",
+   "labelled_as": {
+    "subject": "misaligned pre-drilled holes",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Gothenburg Table"
+   }
+  },
+  {
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "dent on one edge",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "evidence": "The table arrived with a small dent on one edge",
+   "labelled_as": {
+    "subject": "Gothenburg Table",
+    "predicate": "HAS_DEFECT",
+    "object": "dent on one edge"
+   }
+  },
+  {
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "wobbles",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "evidence": "The table also wobbles slightly on my hardwood floor",
+   "labelled_as": {
+    "subject": "Gothenburg Table",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "wobbles"
+   }
+  },
+  {
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches easily",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "evidence": "it scratches a bit more easily than I'd like",
+   "labelled_as": {
+    "subject": "Gothenburg Table",
+    "predicate": "HAS_DEFECT",
+    "object": "scratches easily"
+   }
+  },
+  {
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "many of the pre-drilled holes didn't line up correctly",
+   "labelled_as": {
+    "subject": "Helsingborg Dresser",
+    "predicate": "HAS_DEFECT",
+    "object": "misaligned pre-drilled holes"
+   }
+  },
+  {
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "many of the pre-drilled holes didn't line up correctly. I had to re-drill several holes myself",
+   "labelled_as": {
+    "subject": "misaligned pre-drilled holes",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "poorly manufactured",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "they seem poorly manufactured and don't allow the drawers to slide smoothly",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "HAS_DEFECT",
+    "object": "poorly manufactured"
+   }
+  },
+  {
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "stick",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "They constantly stick and make an annoying scraping sound",
+   "labelled_as": {
+    "subject": "drawers",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "stick"
+   }
+  },
+  {
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "scraping sound",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "make an annoying scraping sound",
+   "labelled_as": {
+    "subject": "drawers",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "scraping sound"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "uneven metal edges",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "they were clearly defective with uneven metal edges and rough sliding mechanisms",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "HAS_DEFECT",
+    "object": "uneven metal edges"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough sliding mechanisms",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "uneven metal edges and rough sliding mechanisms",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "HAS_DEFECT",
+    "object": "rough sliding mechanisms"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "would not align",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "When I tried to install them, they wouldn't align properly no matter what I did",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "would not align"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough uneven surfaces",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "HAS_DEFECT",
+    "object": "rough uneven surfaces"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "mismatched dimensions",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "they don't even match each other's dimensions",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "HAS_DEFECT",
+    "object": "mismatched dimensions"
+   }
+  },
+  {
+   "subject": "screws",
+   "predicate": "HAS_DEFECT",
+   "object": "did not fit",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "half the screws didn't fit where they were supposed to",
+   "labelled_as": {
+    "subject": "screws",
+    "predicate": "HAS_DEFECT",
+    "object": "did not fit"
+   }
+  },
+  {
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "metal-on-metal sound",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "drawers still stick and make this horrible metal-on-metal sound",
+   "labelled_as": {
+    "subject": "drawers",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "metal-on-metal sound"
+   }
+  },
+  {
+   "subject": "rough uneven surfaces",
+   "predicate": "CAUSES",
+   "object": "stick",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "rough, uneven surfaces that cause the drawers to stick and misalign",
+   "labelled_as": {
+    "subject": "rough uneven surfaces",
+    "predicate": "CAUSES_FAILURE",
+    "object": "stick"
+   }
+  },
+  {
+   "subject": "rough uneven surfaces",
+   "predicate": "CAUSES",
+   "object": "misalign",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "rough, uneven surfaces that cause the drawers to stick and misalign",
+   "labelled_as": {
+    "subject": "rough uneven surfaces",
+    "predicate": "CAUSES_FAILURE",
+    "object": "misalign"
+   }
+  },
+  {
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "do not close properly",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them",
+   "labelled_as": {
+    "subject": "drawers",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "do not close properly"
+   }
+  },
+  {
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "crack along the bottom",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "one drawer already has a crack developing along the bottom",
+   "labelled_as": {
+    "subject": "drawer",
+    "predicate": "HAS_DEFECT",
+    "object": "crack along the bottom"
+   }
+  },
+  {
+   "subject": "panels",
+   "predicate": "HAS_DEFECT",
+   "object": "warped",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "several of the panels were warped, making it impossible to assemble correctly",
+   "labelled_as": {
+    "subject": "panels",
+    "predicate": "HAS_DEFECT",
+    "object": "warped"
+   }
+  },
+  {
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_DEFECT",
+   "object": "warped panels",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "several of the panels were warped, making it impossible to assemble correctly",
+   "labelled_as": {
+    "subject": "warped panels",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "flimsy",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "the back panel is basically cardboard",
+   "labelled_as": {
+    "subject": "back panel",
+    "predicate": "HAS_DEFECT",
+    "object": "flimsy"
+   }
+  },
+  {
+   "subject": "drawer bottoms",
+   "predicate": "HAS_DEFECT",
+   "object": "flimsy",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "the drawer bottoms feel flimsy",
+   "labelled_as": {
+    "subject": "drawer bottoms",
+    "predicate": "HAS_DEFECT",
+    "object": "flimsy"
+   }
+  },
+  {
+   "subject": "drawer handle",
+   "predicate": "HAS_DEFECT",
+   "object": "scratched out of the box",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "One of the drawer handles was scratched right out of the box",
+   "labelled_as": {
+    "subject": "drawer handle",
+    "predicate": "HAS_DEFECT",
+    "object": "scratched out of the box"
+   }
+  },
+  {
+   "subject": "Jönköping Coffee Table",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp edges",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "the edges are a bit sharper than I'd prefer",
+   "labelled_as": {
+    "subject": "Jönköping Coffee Table",
+    "predicate": "HAS_DEFECT",
+    "object": "sharp edges"
+   }
+  },
+  {
+   "subject": "Jönköping Coffee Table",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches easily",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "the surface scratches pretty easily - already got a few marks just from setting down my laptop",
+   "labelled_as": {
+    "subject": "Jönköping Coffee Table",
+    "predicate": "HAS_DEFECT",
+    "object": "scratches easily"
+   }
+  },
+  {
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "thin",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "The veneer is extremely thin and already chipping at the corners",
+   "labelled_as": {
+    "subject": "veneer",
+    "predicate": "HAS_DEFECT",
+    "object": "thin"
+   }
+  },
+  {
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "chipping at the corners",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "already chipping at the corners after just a few weeks",
+   "labelled_as": {
+    "subject": "veneer",
+    "predicate": "HAS_DEFECT",
+    "object": "chipping at the corners"
+   }
+  },
+  {
+   "subject": "Jönköping Coffee Table",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "some of the pre-drilled holes weren't aligned properly",
+   "labelled_as": {
+    "subject": "Jönköping Coffee Table",
+    "predicate": "HAS_DEFECT",
+    "object": "misaligned pre-drilled holes"
+   }
+  },
+  {
+   "subject": "Jönköping Coffee Table",
+   "predicate": "HAS_DEFECT",
+   "object": "wobbles",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "The table also wobbles slightly on my flat floor",
+   "labelled_as": {
+    "subject": "Jönköping Coffee Table",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "wobbles"
+   }
+  },
+  {
+   "subject": "Linköping Bed",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp edges",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "some of the edges were a bit sharp and needed sanding",
+   "labelled_as": {
+    "subject": "Linköping Bed",
+    "predicate": "HAS_DEFECT",
+    "object": "sharp edges"
+   }
+  },
+  {
+   "subject": "slats",
+   "predicate": "HAS_DEFECT",
+   "object": "noise",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "the slats make noise sometimes when i move around at night",
+   "labelled_as": {
+    "subject": "slats",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "noise"
+   }
+  },
+  {
+   "subject": "slats",
+   "predicate": "HAS_DEFECT",
+   "object": "cracking",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "the slats have started to crack",
+   "labelled_as": {
+    "subject": "slats",
+    "predicate": "HAS_DEFECT",
+    "object": "cracking"
+   }
+  },
+  {
+   "subject": "storage drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "does not open smoothly",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "one of the storage drawers no longer opens smoothly",
+   "labelled_as": {
+    "subject": "storage drawer",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "does not open smoothly"
+   }
+  },
+  {
+   "subject": "Linköping Bed",
+   "predicate": "HAS_DEFECT",
+   "object": "parts not fitting together",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "some parts not fitting together properly",
+   "labelled_as": {
+    "subject": "Linköping Bed",
+    "predicate": "HAS_DEFECT",
+    "object": "parts not fitting together"
+   }
+  },
+  {
+   "subject": "Linköping Bed",
+   "predicate": "HAS_DEFECT",
+   "object": "parts not fitting together",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "Assembly was also much more complicated than advertised, with some parts not fitting together properly",
+   "labelled_as": {
+    "subject": "parts not fitting together",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Linköping Bed"
+   }
+  },
+  {
+   "subject": "drawer pull",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged on arrival",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "one of the drawer pulls arrived damaged",
+   "labelled_as": {
+    "subject": "drawer pull",
+    "predicate": "HAS_DEFECT",
+    "object": "damaged on arrival"
+   }
+  },
+  {
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp edges",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "the edges of the desk are a bit sharp",
+   "labelled_as": {
+    "subject": "Malmö Desk",
+    "predicate": "HAS_DEFECT",
+    "object": "sharp edges"
+   }
+  },
+  {
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "inconsistent finish",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "the finish has inconsistencies",
+   "labelled_as": {
+    "subject": "Malmö Desk",
+    "predicate": "HAS_DEFECT",
+    "object": "inconsistent finish"
+   }
+  },
+  {
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches out of the box",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "there were several scratches right out of the box",
+   "labelled_as": {
+    "subject": "Malmö Desk",
+    "predicate": "HAS_DEFECT",
+    "object": "scratches out of the box"
+   }
+  },
+  {
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "some of the pre-drilled holes didn't align properly",
+   "labelled_as": {
+    "subject": "Malmö Desk",
+    "predicate": "HAS_DEFECT",
+    "object": "misaligned pre-drilled holes"
+   }
+  },
+  {
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly",
+   "labelled_as": {
+    "subject": "misaligned pre-drilled holes",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Malmö Desk"
+   }
+  },
+  {
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "wobbles",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "it wobbles slightly when I'm typing",
+   "labelled_as": {
+    "subject": "Malmö Desk",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "wobbles"
+   }
+  },
+  {
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "does not open smoothly",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "the drawer doesn't open as smoothly as I'd like",
+   "labelled_as": {
+    "subject": "drawer",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "does not open smoothly"
+   }
+  },
+  {
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "thin",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "the back panel is a bit thin",
+   "labelled_as": {
+    "subject": "back panel",
+    "predicate": "HAS_DEFECT",
+    "object": "thin"
+   }
+  },
+  {
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "sticks",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "the drawer sometimes sticks when i open it too fast",
+   "labelled_as": {
+    "subject": "drawer",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "sticks"
+   }
+  },
+  {
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "does not close properly",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap",
+   "labelled_as": {
+    "subject": "drawer",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "does not close properly"
+   }
+  },
+  {
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "the pre-drilled holes for the drawer handle weren't aligned correctly",
+   "labelled_as": {
+    "subject": "Norrköping Nightstand",
+    "predicate": "HAS_DEFECT",
+    "object": "misaligned pre-drilled holes"
+   }
+  },
+  {
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches easily",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "The nightstand also scratches very easily",
+   "labelled_as": {
+    "subject": "Norrköping Nightstand",
+    "predicate": "HAS_DEFECT",
+    "object": "scratches easily"
+   }
+  },
+  {
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged corner",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "one corner arrived slightly damaged",
+   "labelled_as": {
+    "subject": "Norrköping Nightstand",
+    "predicate": "HAS_DEFECT",
+    "object": "damaged corner"
+   }
+  },
+  {
+   "subject": "base",
+   "predicate": "HAS_DEFECT",
+   "object": "too light",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the base is lighter than i expected so it tips over easily if you bump it",
+   "labelled_as": {
+    "subject": "base",
+    "predicate": "HAS_DEFECT",
+    "object": "too light"
+   }
+  },
+  {
+   "subject": "Örebro Lamp",
+   "predicate": "HAS_DEFECT",
+   "object": "tips over easily",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "it tips over easily if you bump it",
+   "labelled_as": {
+    "subject": "Örebro Lamp",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "tips over easily"
+   }
+  },
+  {
+   "subject": "too light",
+   "predicate": "CAUSES",
+   "object": "tips over easily",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the base is lighter than i expected so it tips over easily",
+   "labelled_as": {
+    "subject": "too light",
+    "predicate": "CAUSES_FAILURE",
+    "object": "tips over easily"
+   }
+  },
+  {
+   "subject": "shade",
+   "predicate": "HAS_DEFECT",
+   "object": "unevenly colored",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the shade which is unevenly colored",
+   "labelled_as": {
+    "subject": "shade",
+    "predicate": "HAS_DEFECT",
+    "object": "unevenly colored"
+   }
+  },
+  {
+   "subject": "dimmer switch",
+   "predicate": "HAS_DEFECT",
+   "object": "flickers at lower settings",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings",
+   "labelled_as": {
+    "subject": "dimmer switch",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "flickers at lower settings"
+   }
+  },
+  {
+   "subject": "Örebro Lamp",
+   "predicate": "HAS_DEFECT",
+   "object": "wobbles",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the lamp wobbles slightly on its base",
+   "labelled_as": {
+    "subject": "Örebro Lamp",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "wobbles"
+   }
+  },
+  {
+   "subject": "dimmer",
+   "predicate": "HAS_DEFECT",
+   "object": "stiff to turn",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "The dimmer function works well though it's a bit stiff to turn",
+   "labelled_as": {
+    "subject": "dimmer",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "stiff to turn"
+   }
+  },
+  {
+   "subject": "shade",
+   "predicate": "HAS_DEFECT",
+   "object": "dent",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the shade arrived with a small dent",
+   "labelled_as": {
+    "subject": "shade",
+    "predicate": "HAS_DEFECT",
+    "object": "dent"
+   }
+  },
+  {
+   "subject": "Stockholm Chair",
+   "predicate": "HAS_DEFECT",
+   "object": "squeaking",
+   "doc_id": "product_reviews/stockholm_chair_reviews.md",
+   "evidence": "I've noticed some squeaking when I lean back",
+   "labelled_as": {
+    "subject": "Stockholm Chair",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "squeaking"
+   }
+  },
+  {
+   "subject": "cushions",
+   "predicate": "HAS_DEFECT",
+   "object": "losing shape",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "the cushions are already losing their shape",
+   "labelled_as": {
+    "subject": "cushions",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "losing shape"
+   }
+  },
+  {
+   "subject": "frame",
+   "predicate": "HAS_DEFECT",
+   "object": "creaks",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "the frame creaks whenever someone sits down",
+   "labelled_as": {
+    "subject": "frame",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "creaks"
+   }
+  },
+  {
+   "subject": "Uppsala Sofa",
+   "predicate": "HAS_DEFECT",
+   "object": "parts not fitting together",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "some parts not fitting together properly",
+   "labelled_as": {
+    "subject": "Uppsala Sofa",
+    "predicate": "HAS_DEFECT",
+    "object": "parts not fitting together"
+   }
+  },
+  {
+   "subject": "Uppsala Sofa",
+   "predicate": "HAS_DEFECT",
+   "object": "parts not fitting together",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly",
+   "labelled_as": {
+    "subject": "parts not fitting together",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Uppsala Sofa"
+   }
+  },
+  {
+   "subject": "leg",
+   "predicate": "HAS_DEFECT",
+   "object": "chip",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "one of the legs arrived with a small chip",
+   "labelled_as": {
+    "subject": "leg",
+    "predicate": "HAS_DEFECT",
+    "object": "chip"
+   }
+  },
+  {
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "some of the pre-drilled holes weren't perfectly aligned",
+   "labelled_as": {
+    "subject": "Västerås Bookshelf",
+    "predicate": "HAS_DEFECT",
+    "object": "misaligned pre-drilled holes"
+   }
+  },
+  {
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_DEFECT",
+   "object": "misaligned pre-drilled holes",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times",
+   "labelled_as": {
+    "subject": "misaligned pre-drilled holes",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Västerås Bookshelf"
+   }
+  },
+  {
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "thin",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly",
+   "labelled_as": {
+    "subject": "veneer",
+    "predicate": "HAS_DEFECT",
+    "object": "thin"
+   }
+  },
+  {
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "chipped",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "chipped in several places during assembly",
+   "labelled_as": {
+    "subject": "veneer",
+    "predicate": "HAS_DEFECT",
+    "object": "chipped"
+   }
+  },
+  {
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_DEFECT",
+   "object": "parts not fitting together",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "some of the parts didn't fit together properly",
+   "labelled_as": {
+    "subject": "Västerås Bookshelf",
+    "predicate": "HAS_DEFECT",
+    "object": "parts not fitting together"
+   }
+  },
+  {
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_DEFECT",
+   "object": "parts not fitting together",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "it was a nightmare - took over 3 hours and some of the parts didn't fit together properly",
+   "labelled_as": {
+    "subject": "parts not fitting together",
+    "predicate": "IMPEDES_ASSEMBLY_OF",
+    "object": "Västerås Bookshelf"
+   }
+  },
+  {
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_DEFECT",
+   "object": "wobbles",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "Now that it's built, it wobbles slightly",
+   "labelled_as": {
+    "subject": "Västerås Bookshelf",
+    "predicate": "EXHIBITS_FAILURE",
+    "object": "wobbles"
+   }
+  },
+  {
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "thin",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "the back panel is quite thin and feels a bit flimsy",
+   "labelled_as": {
+    "subject": "back panel",
+    "predicate": "HAS_DEFECT",
+    "object": "thin"
+   }
+  },
+  {
+   "subject": "drawer rails",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "The biggest issue is with the drawer rails",
+   "labelled_as": {
+    "subject": "drawer rails",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "drawers",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "don't allow the drawers to slide smoothly",
+   "labelled_as": {
+    "subject": "drawers",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "screws",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "half the screws didn't fit where they were supposed to",
+   "labelled_as": {
+    "subject": "screws",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "panels",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "several of the panels were warped",
+   "labelled_as": {
+    "subject": "panels",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "back panel",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "the back panel is basically cardboard",
+   "labelled_as": {
+    "subject": "back panel",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "drawer bottoms",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "the drawer bottoms feel flimsy",
+   "labelled_as": {
+    "subject": "drawer bottoms",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "drawer handle",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "evidence": "One of the drawer handles was scratched right out of the box",
+   "labelled_as": {
+    "subject": "drawer handle",
+    "predicate": "PART_OF",
+    "object": "Helsingborg Dresser"
+   }
+  },
+  {
+   "subject": "veneer",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "evidence": "The veneer is extremely thin and already chipping at the corners",
+   "labelled_as": {
+    "subject": "veneer",
+    "predicate": "PART_OF",
+    "object": "Jönköping Coffee Table"
+   }
+  },
+  {
+   "subject": "slats",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "the slats make noise sometimes when i move around at night",
+   "labelled_as": {
+    "subject": "slats",
+    "predicate": "PART_OF",
+    "object": "Linköping Bed"
+   }
+  },
+  {
+   "subject": "storage drawer",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "one of the storage drawers no longer opens smoothly",
+   "labelled_as": {
+    "subject": "storage drawer",
+    "predicate": "PART_OF",
+    "object": "Linköping Bed"
+   }
+  },
+  {
+   "subject": "drawer pull",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "evidence": "one of the drawer pulls arrived damaged",
+   "labelled_as": {
+    "subject": "drawer pull",
+    "predicate": "PART_OF",
+    "object": "Linköping Bed"
+   }
+  },
+  {
+   "subject": "drawer",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "evidence": "the drawer doesn't open as smoothly as I'd like",
+   "labelled_as": {
+    "subject": "drawer",
+    "predicate": "PART_OF",
+    "object": "Malmö Desk"
+   }
+  },
+  {
+   "subject": "back panel",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "the back panel is a bit thin",
+   "labelled_as": {
+    "subject": "back panel",
+    "predicate": "PART_OF",
+    "object": "Norrköping Nightstand"
+   }
+  },
+  {
+   "subject": "drawer",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "evidence": "the drawer sometimes sticks when i open it too fast",
+   "labelled_as": {
+    "subject": "drawer",
+    "predicate": "PART_OF",
+    "object": "Norrköping Nightstand"
+   }
+  },
+  {
+   "subject": "base",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the base is lighter than i expected",
+   "labelled_as": {
+    "subject": "base",
+    "predicate": "PART_OF",
+    "object": "Örebro Lamp"
+   }
+  },
+  {
+   "subject": "shade",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "the shade which is unevenly colored",
+   "labelled_as": {
+    "subject": "shade",
+    "predicate": "PART_OF",
+    "object": "Örebro Lamp"
+   }
+  },
+  {
+   "subject": "dimmer switch",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings",
+   "labelled_as": {
+    "subject": "dimmer switch",
+    "predicate": "PART_OF",
+    "object": "Örebro Lamp"
+   }
+  },
+  {
+   "subject": "cushions",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "the cushions are already losing their shape",
+   "labelled_as": {
+    "subject": "cushions",
+    "predicate": "PART_OF",
+    "object": "Uppsala Sofa"
+   }
+  },
+  {
+   "subject": "frame",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "the frame creaks whenever someone sits down",
+   "labelled_as": {
+    "subject": "frame",
+    "predicate": "PART_OF",
+    "object": "Uppsala Sofa"
+   }
+  },
+  {
+   "subject": "leg",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "evidence": "one of the legs arrived with a small chip",
+   "labelled_as": {
+    "subject": "leg",
+    "predicate": "PART_OF",
+    "object": "Uppsala Sofa"
+   }
+  },
+  {
+   "subject": "veneer",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly",
+   "labelled_as": {
+    "subject": "veneer",
+    "predicate": "PART_OF",
+    "object": "Västerås Bookshelf"
+   }
+  },
+  {
+   "subject": "back panel",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "evidence": "the back panel is quite thin and feels a bit flimsy",
+   "labelled_as": {
+    "subject": "back panel",
+    "predicate": "PART_OF",
+    "object": "Västerås Bookshelf"
+   }
+  }
+ ],
+ "er_pairs": [
+  {
+   "a": "drawer rails",
+   "b": "metal rails",
+   "same": true
+  },
+  {
+   "a": "Västerås Bookshelf",
+   "b": "Västerås Bookshelves",
+   "same": true
+  },
+  {
+   "a": "drawers",
+   "b": "drawer",
+   "same": true
+  },
+  {
+   "a": "dimmer switch",
+   "b": "dimmer function",
+   "same": false
+  },
+  {
+   "a": "Jönköping Coffee Table",
+   "b": "Jonkoping Coffee Table",
+   "same": true
+  },
+  {
+   "a": "drawer rails",
+   "b": "drawer handle",
+   "same": false
+  },
+  {
+   "a": "drawer bottoms",
+   "b": "back panel",
+   "same": false
+  },
+  {
+   "a": "Gothenburg Table",
+   "b": "Jönköping Coffee Table",
+   "same": false
+  },
+  {
+   "a": "Stockholm Chair",
+   "b": "Uppsala Sofa",
+   "same": false
+  },
+  {
+   "a": "shade",
+   "b": "switch",
+   "same": false
+  },
+  {
+   "a": "wobbles",
+   "b": "squeaking",
+   "same": false
+  },
+  {
+   "a": "Norrköping Nightstand",
+   "b": "Norrköping Nightstands",
+   "same": true
+  },
+  {
+   "a": "drawer handle",
+   "b": "drawer handles",
+   "same": true
+  },
+  {
+   "a": "leg",
+   "b": "legs",
+   "same": true
+  },
+  {
+   "a": "veneer",
+   "b": "finish",
+   "same": false
+  },
+  {
+   "a": "back panel",
+   "b": "panels",
+   "same": false
+  },
+  {
+   "a": "slats",
+   "b": "frame",
+   "same": false
+  },
+  {
+   "a": "cushions",
+   "b": "frame",
+   "same": false
+  },
+  {
+   "a": "shade",
+   "b": "base",
+   "same": false
+  },
+  {
+   "a": "dimmer switch",
+   "b": "cord",
+   "same": false
+  },
+  {
+   "a": "edges",
+   "b": "corner",
+   "same": false
+  },
+  {
+   "a": "scratches",
+   "b": "dent",
+   "same": false
+  },
+  {
+   "a": "wobbles",
+   "b": "tips over easily",
+   "same": false
+  },
+  {
+   "a": "sticks",
+   "b": "doesn't close properly",
+   "same": false
+  },
+  {
+   "a": "drawer rails",
+   "b": "drawers",
+   "same": false
+  },
+  {
+   "a": "drawer handles",
+   "b": "drawer pulls",
+   "same": true
+  },
+  {
+   "a": "drawer slides",
+   "b": "drawer slide mechanism",
+   "same": true
+  },
+  {
+   "a": "shelves",
+   "b": "shelf",
+   "same": true
+  },
+  {
+   "a": "cushions",
+   "b": "cushion",
+   "same": true
+  },
+  {
+   "a": "removable covers",
+   "b": "cover",
+   "same": true
+  },
+  {
+   "a": "pre-drilled holes",
+   "b": "holes",
+   "same": true
+  },
+  {
+   "a": "base",
+   "b": "weighted base",
+   "same": true
+  },
+  {
+   "a": "scratches pretty easily",
+   "b": "scratches very easily",
+   "same": true
+  },
+  {
+   "a": "didn't line up properly",
+   "b": "didn't align properly",
+   "same": true
+  },
+  {
+   "a": "weren't aligned properly",
+   "b": "weren't aligned correctly",
+   "same": true
+  },
+  {
+   "a": "didn't line up correctly",
+   "b": "weren't perfectly aligned",
+   "same": true
+  },
+  {
+   "a": "didn't fit together properly",
+   "b": "not fitting together properly",
+   "same": true
+  },
+  {
+   "a": "sharp",
+   "b": "sharper than I'd prefer",
+   "same": true
+  },
+  {
+   "a": "extremely thin",
+   "b": "quite thin",
+   "same": true
+  },
+  {
+   "a": "a bit thin",
+   "b": "quite thin",
+   "same": true
+  },
+  {
+   "a": "chipping at the corners",
+   "b": "chipped in several places",
+   "same": true
+  },
+  {
+   "a": "small dent",
+   "b": "small dent on one edge",
+   "same": true
+  },
+  {
+   "a": "wobbles slightly",
+   "b": "wobbles slightly on its base",
+   "same": true
+  },
+  {
+   "a": "stick",
+   "b": "sticks",
+   "same": true
+  },
+  {
+   "a": "doesn't close properly",
+   "b": "don't close properly",
+   "same": true
+  },
+  {
+   "a": "no longer opens smoothly",
+   "b": "doesn't open as smoothly",
+   "same": true
+  },
+  {
+   "a": "annoying scraping sound",
+   "b": "horrible metal-on-metal sound",
+   "same": true
+  },
+  {
+   "a": "flickers",
+   "b": "flickering",
+   "same": true
+  },
+  {
+   "a": "Helsingborg Dresser",
+   "b": "Norrköping Nightstand",
+   "same": false
+  },
+  {
+   "a": "Malmö Desk",
+   "b": "Gothenburg Table",
+   "same": false
+  },
+  {
+   "a": "Örebro Lamp",
+   "b": "Linköping Bed",
+   "same": false
+  },
+  {
+   "a": "Västerås Bookshelf",
+   "b": "Helsingborg Dresser",
+   "same": false
+  },
+  {
+   "a": "legs",
+   "b": "frame",
+   "same": false
+  },
+  {
+   "a": "shelves",
+   "b": "back panel",
+   "same": false
+  },
+  {
+   "a": "screws",
+   "b": "pre-drilled holes",
+   "same": false
+  },
+  {
+   "a": "pre-drilled holes for the drawer handle",
+   "b": "drawer handles",
+   "same": false
+  },
+  {
+   "a": "headboard",
+   "b": "slats",
+   "same": false
+  },
+  {
+   "a": "adjustable arm",
+   "b": "base",
+   "same": false
+  },
+  {
+   "a": "removable covers",
+   "b": "cushions",
+   "same": false
+  },
+  {
+   "a": "warped",
+   "b": "crack",
+   "same": false
+  },
+  {
+   "a": "extremely thin",
+   "b": "chipping at the corners",
+   "same": false
+  },
+  {
+   "a": "rough edges",
+   "b": "uneven surfaces",
+   "same": false
+  },
+  {
+   "a": "unevenly colored",
+   "b": "uneven surfaces",
+   "same": false
+  },
+  {
+   "a": "sharp",
+   "b": "rough edges",
+   "same": false
+  },
+  {
+   "a": "didn't line up properly",
+   "b": "didn't fit together properly",
+   "same": false
+  },
+  {
+   "a": "scratched right out of the box",
+   "b": "scratches very easily",
+   "same": false
+  },
+  {
+   "a": "flickers",
+   "b": "stiff to turn",
+   "same": false
+  },
+  {
+   "a": "creaks",
+   "b": "wobbles",
+   "same": false
+  },
+  {
+   "a": "losing their shape",
+   "b": "creaks",
+   "same": false
+  }
+ ],
+ "questions": [
+  {
+   "question": "Which suppliers provide the drawer rails of the Helsingborg Dresser? (domain graph only)",
+   "cypher": "MATCH (p:Product {product_name: 'Helsingborg Dresser'})<-[:PART_OF]-(:Assembly)<-[:PART_OF]-(pt:Component {part_name: 'Drawer Rails'})-[:SUPPLIED_BY]->(s:Supplier) RETURN DISTINCT s.name",
+   "expected": [
+    "Shanghai Metal Corp",
+    "Korean Metal Works"
+   ]
+  },
+  {
+   "question": "Which suppliers are behind the drawer rails that Helsingborg Dresser reviews report as defective? (text graph to domain graph to supplier)",
+   "cypher": "MATCH (:Document {doc_id: 'product_reviews/helsingborg_dresser_reviews.md'})<-[:PART_OF]-(:Chunk)-[:MENTIONS]->(e:Entity)-[:HAS_DEFECT]->(:Entity), (e)-[:REFERS_TO]->(:Component {part_name: 'Drawer Rails'})-[:SUPPLIED_BY]->(s:Supplier) RETURN DISTINCT s.name",
+   "expected": [
+    "Shanghai Metal Corp",
+    "Korean Metal Works"
+   ]
+  },
+  {
+   "question": "Which products do reviews report as wobbling?",
+   "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(:Entity)-[:HAS_DEFECT]->(f:Entity) WHERE any(n IN [f.name] + coalesce(f.aliases, []) WHERE toLower(n) CONTAINS 'wobbl') MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+   "expected": [
+    "Gothenburg Table",
+    "Jönköping Coffee Table",
+    "Malmö Desk",
+    "Örebro Lamp",
+    "Västerås Bookshelf"
+   ]
+  },
+  {
+   "question": "Which products are reported with misaligned pre-drilled holes?",
+   "cypher": "MATCH (h:Entity {type: 'Component'})-[f:HAS_DEFECT]->(d:Entity) WHERE d.type = 'Defect' WITH h, f, d WHERE any(n IN [h.name] + coalesce(h.aliases, []) WHERE toLower(n) CONTAINS 'hole') AND any(n IN [d.name] + coalesce(d.aliases, []) WHERE toLower(n) CONTAINS 'align' OR toLower(n) CONTAINS 'line up') MATCH (:Chunk {chunk_id: f.chunk_id})-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+   "expected": [
+    "Gothenburg Table",
+    "Helsingborg Dresser",
+    "Jönköping Coffee Table",
+    "Malmö Desk",
+    "Norrköping Nightstand",
+    "Västerås Bookshelf"
+   ]
+  },
+  {
+   "question": "Which products are reported to squeak or creak?",
+   "cypher": "MATCH (c:Chunk)-[:MENTIONS]->(:Entity)-[:HAS_DEFECT]->(f:Entity) WHERE any(n IN [f.name] + coalesce(f.aliases, []) WHERE toLower(n) CONTAINS 'squeak' OR toLower(n) CONTAINS 'creak') MATCH (c)-[:PART_OF]->(:Document)-[:ABOUT]->(p:Product) RETURN DISTINCT p.product_name",
+   "expected": [
+    "Stockholm Chair",
+    "Uppsala Sofa"
+   ]
+  }
+ ]
+}

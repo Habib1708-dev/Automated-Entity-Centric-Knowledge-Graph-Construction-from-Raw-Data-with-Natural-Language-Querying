@@ -1,0 +1,53 @@
+{
+  "entity_types": [
+    {
+      "name": "Product",
+      "description": "Finished furniture catalog items such as tables, dressers, beds, and desks, excluding individual component parts, raw materials, or accessories."
+    },
+    {
+      "name": "Component",
+      "description": "Discrete physical parts, structural pieces, fasteners, hardware, or materials that make up a product, excluding complete finished catalog products or quality defects."
+    },
+    {
+      "name": "Defect",
+      "description": "Physical flaws, material imperfections, manufacturing errors, damage, or operational failures observed in a product or component, excluding normal product wear or subjective aesthetic preferences."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Product",
+      "description": "Identifies that a component belongs to the product reviewed in the document.",
+      "derived": true
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Component",
+      "description": "Identifies that a sub-component, fastener, or piece of hardware is part of a larger component.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Component",
+      "object_type": "Defect",
+      "description": "Identifies that a specific component exhibits a physical flaw, material failure, or manufacturing defect.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Product",
+      "object_type": "Defect",
+      "description": "Identifies that a finished product exhibits an overall defect, instability, or operational failure.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES",
+      "subject_type": "Defect",
+      "object_type": "Defect",
+      "description": "Identifies that a physical or manufacturing defect directly causes another defect, damage, or functional failure.",
+      "derived": false
+    }
+  ]
+}

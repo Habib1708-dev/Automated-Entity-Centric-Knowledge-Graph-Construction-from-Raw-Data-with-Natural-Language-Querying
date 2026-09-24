@@ -1,0 +1,78 @@
+{
+  "entity_types": [
+    {
+      "name": "Vehicle",
+      "description": "A specific motor vehicle make, model, or year subject to complaints and recalls, excluding individual automotive components and replacement parts."
+    },
+    {
+      "name": "Component",
+      "description": "A physical vehicle part, assembly, or integrated automotive system, excluding entire vehicle models and reported failure symptoms."
+    },
+    {
+      "name": "Problem",
+      "description": "An abnormal vehicle behavior, malfunction, failure mode, or symptom reported by an owner, excluding the physical automotive component itself."
+    },
+    {
+      "name": "Recall",
+      "description": "An official safety recall campaign or stop-sale action issued to remedy a vehicle defect, excluding standard dealership service visits or warranty repairs."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "AFFECTS_COMPONENT",
+      "subject_type": "Problem",
+      "object_type": "Component",
+      "description": "The reported problem, symptom, or failure mode involves, damages, or manifests in the automotive component.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES_PROBLEM",
+      "subject_type": "Problem",
+      "object_type": "Problem",
+      "description": "One reported symptom or failure condition directly induces or triggers another safety problem.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFECTS_VEHICLE",
+      "subject_type": "Problem",
+      "object_type": "Vehicle",
+      "description": "The reported safety problem or failure is experienced by or reported on the vehicle model.",
+      "derived": false
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Component",
+      "description": "A component is a physical subpart, assembly member, or subassembly of a larger automotive component.",
+      "derived": false
+    },
+    {
+      "predicate": "INSTALLED_IN",
+      "subject_type": "Component",
+      "object_type": "Vehicle",
+      "description": "The named component belongs to or is installed in the vehicle model that the document concerns.",
+      "derived": true
+    },
+    {
+      "predicate": "COVERS_COMPONENT",
+      "subject_type": "Recall",
+      "object_type": "Component",
+      "description": "The official safety recall campaign applies to, repairs, replaces, or inspects the defective component.",
+      "derived": false
+    },
+    {
+      "predicate": "ADDRESSES_PROBLEM",
+      "subject_type": "Recall",
+      "object_type": "Problem",
+      "description": "The official safety recall campaign is initiated to remedy or mitigate the reported safety problem or defect.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFECTS_VEHICLE",
+      "subject_type": "Recall",
+      "object_type": "Vehicle",
+      "description": "The official safety recall campaign applies to the designated vehicle model.",
+      "derived": false
+    }
+  ]
+}

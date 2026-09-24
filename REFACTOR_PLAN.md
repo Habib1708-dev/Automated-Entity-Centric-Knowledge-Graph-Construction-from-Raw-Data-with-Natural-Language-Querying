@@ -1396,7 +1396,7 @@ No behaviour change. Split in two parts (one concern each).
   things across documents, so it is aggregate already. New questions need Cypher per schema variant, so
   this part is decided with the user before it starts.
 
-### R58. Schema proposer: cover what the text observes, attach facts to the thing they are about
+### R58. Schema proposer: cover what the text observes, attach facts to the thing they are about (done, 2026-09-24)
 The planned code check ("a fact type touching the type documents are ABOUT must be derived") does not fit
 the data (see "Found along the way"), so the source/subject distinction is made in the prompt and the
 critic. Behaviour change in `text/schema.py`. Measured on furniture and on the held-out data. The user
@@ -1416,10 +1416,63 @@ said yes in the session to the two runs (about $0.35).
   - Tests: the unused-type check; the rules name no domain word and share no 4-gram with either corpus.
     198 passed (196 before), `ruff` clean.
   - No run, $0.
-- **Part 2 (open):** furniture, `quality`, R55's frozen plan, goal "supply chain root cause analysis".
-- **Part 3 (open):** held-out, R52's frozen plan, the R52 goal.
-- For both runs: text schema first, then the gold mapped to it before extraction, then extract,
-  resolve, link, eval and a judge pass.
+- **Part 2 (done, 2026-09-24): furniture.**
+  - Setup: `quality`, R55's frozen plan, output `out/r58_furniture/`.
+  - Text schema `e7bc53c3` **$0.1469**, 2 rounds (the critic struck a Supplier type the text gives no
+    named instance of). The result:
+    - Entity types: Product, Component, Defect. Defect now includes operational failures, so R55's
+      separate Symptom type is gone.
+    - Fact types: `HAS_DEFECT` from a component or a product, `Defect CAUSES Defect`,
+      `Component PART_OF Component`, and the derived `PART_OF`.
+  - Extract `ee76fea7` $0.0836 (90 facts, 0 rejected), resolve `d219ab0b` $0.0097 (114 → 81 entities).
+    Total **$0.240**.
+  - Gold mapped before extraction (`r58/furniture_gold.json`): HAS_DEFECT and EXHIBITS_FAILURE →
+    `HAS_DEFECT`, IMPEDES_ASSEMBLY_OF → product `HAS_DEFECT`, CAUSES_FAILURE → `CAUSES`. Nothing is
+    inexpressible.
+  - Judge: Claude Opus 5.5, eval `adfe5cad`. 73 of 98 verdicts were carried over by fact id (all
+    SUPPORTED, and their gold links point into the same documents); 25 are new.
+- **Part 3 (done, 2026-09-24): held-out.**
+  - Setup: R52's frozen plan, output `out/r58_heldout/`.
+  - Text schema `83894b4b` **$0.0895**, accepted in round 1. **No Complaint type.** The result:
+    - Entity types: Vehicle, Component, Problem, Recall.
+    - Fact types: `Problem AFFECTS_COMPONENT Component`, `AFFECTS_VEHICLE`, `CAUSES_PROBLEM`,
+      `Component PART_OF Component`, `Recall COVERS_COMPONENT` / `ADDRESSES_PROBLEM` /
+      `AFFECTS_VEHICLE`, and the derived `INSTALLED_IN`.
+  - Extract `60c5114b` $0.0483 (88 facts), resolve `1182f162` $0.0054. Total **$0.143**.
+  - Gold mapped before extraction (`r58/heldout_gold.json`): 2 component causes are inexpressible.
+  - Judge: eval `dfad8a45`, 9 of 77 verdicts carried over.
+- R58 total **$0.383** (estimate $0.35).
+
+  | Automatic arm, judge (Claude Opus 5.5) | Furniture R55 | Furniture **R58** | Held-out R55 | Held-out **R58** | Held-out controlled (R54) |
+  |---|---|---|---|---|---|
+  | precision | 0.969 | **1.000** (155 / 155) [0.98, 1.00] | 0.994 | **0.950** (115 / 121) [0.90, 0.98] | 0.942 |
+  | recall | 0.854 | **0.885** (85 / 96) [0.81, 0.93] | 0.706 | **0.750** (51 / 68) [0.64, 0.84] | 0.838 |
+  | ER accuracy (valid) | 0.948 | 0.984 | 0.905 | 1.000 | 1.000 |
+  | questions | 5 / 5 | 4 / 5 | 5 / 5 | 5 / 5 | |
+  | relation names extracted | 3 | 3 | 6 | 5 | |
+
+  - **Judging rules, kept from R55:**
+    - An assembly gold triple (IMPEDES_ASSEMBLY_OF) counts only if a fact states the effect on
+      assembly. Under R58's mapping, 7 of the 8 are textually identical to a defect triple, and one fact
+      is not counted twice.
+    - A problem stated on the vehicle while the gold places it on the part is a recall miss, but a
+      SUPPORTED fact.
+    - An entity is judged on its name and aliases, so the unmerged "SYSTEM" is not the navigation
+      system.
+  - **Reading:**
+    - The source rule did what it was meant to do: the held-out schema no longer has a Complaint hub, and
+      problems sit on parts.
+    - Held-out recall rose by 3 triples. The misses that are left are mostly the 6 ACC / LKAS problems
+      (put on the vehicle, not on the systems), 2 inexpressible component causes, and 3 unmerged or
+      generic names.
+    - Held-out precision fell (6 unsupported, all readings of the text, not invented facts). The new
+      `AFFECTS_VEHICLE` doubles many part-level problems on the vehicle: 58 gold corrections, most of them
+      those copies.
+    - Furniture gained 3 triples (the dimmer flicker, the light base's cause, the rails not aligning).
+    - The failed furniture question is a flaw in the question's query, not in the graph (see "Found
+      along the way").
+    - One sample per dataset, so this is a direction, not a proof. NHTSA is a development set from R57
+      on.
 - **Accept:** held-out recall above 0.706; furniture recall not below 0.854; precision at least 0.94;
   `predicates_distinct` not above R55's (3 furniture, 6 held-out).
 
@@ -1481,6 +1534,20 @@ rejections in five runs, so there is nothing to repair.
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Questions 3 and 5 join through an entity's mentions, not the fact's own chunk (found in R58).** Entities
+  are kinds shared across documents, so the Uppsala Sofa's "frame creaks" answers "which products squeak or
+  creak" for the Linköping Bed too: the Linköping reviews mention a frame. Question 4 was fixed for this
+  in R43/R44 (`f.chunk_id`). Fix the other questions the same way in their own step. That is a gold
+  correction, to be listed.
+- **Text vehicles never link to the Vehicle domain node (found in R58).** `entities_linked` fell from 25 to
+  0 on the held-out data, because the 25 links were Complaint entities. The fuzzy match (`token_sort_ratio`
+  ≥ 90) does not match "2019 Subaru Outback" to "OUTBACK". R60's containment rule (whole words, within
+  the document's `ABOUT` scope) is the candidate for linking too.
+- **`AFFECTS_VEHICLE` duplicates part-level problems (found in R58).** The held-out extractor states many
+  problems both on the part and on the vehicle. These are true, but redundant, because
+  part `INSTALLED_IN` vehicle already carries them to the vehicle. Candidate: an extraction or schema rule
+  that keeps the vehicle-level fact only when the text names no part.
 
 - **"The type documents are ABOUT" does not find the record type (found in R57, 2026-09-24).** On NHTSA the
   documents are `ABOUT` the `Vehicle`. Each complaint is a `## Complaint <number>` section inside a document,
