@@ -1,0 +1,57 @@
+{
+  "entity_types": [
+    {
+      "name": "Product",
+      "description": "Finished furniture item sold in the catalog and reviewed by customers, excluding sub-assemblies and individual replacement parts."
+    },
+    {
+      "name": "Component",
+      "description": "Individual hardware part, material, surface, or structural member of a product, excluding the fully assembled finished product itself."
+    },
+    {
+      "name": "Defect",
+      "description": "Physical imperfection, material failure, functional malfunction, or transit damage observed in a product or component, excluding subjective styling preferences and user comfort ratings."
+    },
+    {
+      "name": "AssemblyIssue",
+      "description": "Procedural difficulty, instructional error, or physical impediment experienced during product assembly, excluding normal wear and tear after successful assembly."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Product",
+      "description": "Indicates that a component part belongs to the reviewed product, derived automatically from the document context.",
+      "derived": true
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Component",
+      "object_type": "Defect",
+      "description": "Links a specific component part to an observed physical flaw, damage, or functional failure.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_DEFECT",
+      "subject_type": "Product",
+      "object_type": "Defect",
+      "description": "Links a finished product to an observed defect or damage upon arrival that is not isolated to a specific component.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_ASSEMBLY_ISSUE",
+      "subject_type": "Product",
+      "object_type": "AssemblyIssue",
+      "description": "Identifies an assembly complication, documentation flaw, or assembly failure encountered with a product.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES",
+      "subject_type": "Defect",
+      "object_type": "AssemblyIssue",
+      "description": "Indicates that a physical or manufacturing defect directly resulted in an assembly difficulty or assembly failure.",
+      "derived": false
+    }
+  ]
+}

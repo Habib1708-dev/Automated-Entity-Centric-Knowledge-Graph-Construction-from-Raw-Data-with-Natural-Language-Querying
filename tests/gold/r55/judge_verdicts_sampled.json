@@ -1,0 +1,1474 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-09-24",
+  "run_id": "947ebf16",
+  "git_sha": "17eeabb"
+ },
+ "gold": "tests/gold/r55/furniture_gold_sampled.json",
+ "facts": [
+  {
+   "id": "805a7f6270c8",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: holes of the bookshelf",
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "808a12c419c5",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: holes of this desk",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f25e7803feb3",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: holes of this table",
+   "evidence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f26f98dd8d23",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Gothenburg Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the review names the holes of this table",
+   "evidence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3ac1c94132a0",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: holes named in a review of this dresser",
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f66ec74b22fb",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't align properly",
+   "verdict": "SUPPORTED",
+   "reason": "holes didn't align properly (part-or-product subject)",
+   "evidence": "some of the pre-drilled holes didn't align properly",
+   "vague": false,
+   "gold_index": 42
+  },
+  {
+   "id": "f108257138a5",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't perfectly aligned",
+   "verdict": "SUPPORTED",
+   "reason": "holes weren't perfectly aligned (part-or-product subject)",
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times.",
+   "vague": false,
+   "gold_index": 66
+  },
+  {
+   "id": "da0378558f68",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't line up properly",
+   "verdict": "SUPPORTED",
+   "reason": "the holes didn't line up; gold states it on the product (part-or-product subject)",
+   "evidence": "some of the pre-drilled holes didn't line up properly",
+   "vague": false,
+   "gold_index": 0
+  },
+  {
+   "id": "625f88fd1ffc",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't line up correctly",
+   "verdict": "SUPPORTED",
+   "reason": "many holes didn't line up correctly (part-or-product subject)",
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly.",
+   "vague": false,
+   "gold_index": 5
+  },
+  {
+   "id": "23ee4be2154f",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't aligned properly",
+   "verdict": "SUPPORTED",
+   "reason": "holes weren't aligned properly (part-or-product subject)",
+   "evidence": "some of the pre-drilled holes weren't aligned properly.",
+   "vague": false,
+   "gold_index": 30
+  },
+  {
+   "id": "bde2a2fc69c5",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "complicated to put together",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "took off a star because it was kinda complicated to put together and the instructions were confusing."
+  },
+  {
+   "id": "dffb6741d4c7",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "assembly was a nightmare",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that. But assembly was a nightmare"
+  },
+  {
+   "id": "8c1386b352c2",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "instructions were confusing",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "took off a star because it was kinda complicated to put together and the instructions were confusing."
+  },
+  {
+   "id": "af69623cd682",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "small dent",
+   "verdict": "SUPPORTED",
+   "reason": "the table arrived with a small dent on one edge",
+   "evidence": "The table arrived with a small dent on one edge",
+   "vague": false,
+   "gold_index": 2
+  },
+  {
+   "id": "162da5e319b1",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches",
+   "verdict": "SUPPORTED",
+   "reason": "the table scratches more easily than the reviewer likes",
+   "gold_index": 4,
+   "vague": false,
+   "evidence": "I'm taking off one star because it scratches a bit more easily than I'd like"
+  },
+  {
+   "id": "3554fc6ec1d7",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "instructions might as well be written in hieroglyphics",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "The instructions might as well be written in hieroglyphics."
+  },
+  {
+   "id": "1ba2664c328e",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "instructions made no sense",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "instructions made no sense and half the screws didn't fit where they were supposed to"
+  },
+  {
+   "id": "43a39b1af652",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "assembly was the worst experience ever",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "assembly was the worst experience ever"
+  },
+  {
+   "id": "abfe65493908",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "took nearly 7 hours and a lot of improvisation",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "I managed to assemble this dresser, but it took nearly 7 hours and a lot of improvisation."
+  },
+  {
+   "id": "86d90afb9196",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "challenging",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "Yes, the assembly is challenging, but if you carefully follow the instructions and have the right tools, it's completely doable."
+  },
+  {
+   "id": "6479c496ef0c",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "instructions were confusing",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+  },
+  {
+   "id": "c256c8a9fd4f",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "wouldn't align properly",
+   "verdict": "SUPPORTED",
+   "reason": "installing the rails, they would not align",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "When I tried to install them, they wouldn't align properly no matter what I did."
+  },
+  {
+   "id": "8b9081693bb1",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "incomprehensible",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+  },
+  {
+   "id": "314f9ab6d48a",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "impossible to assemble correctly",
+   "verdict": "SUPPORTED",
+   "reason": "the warped panels made correct assembly impossible",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "several of the panels were warped, making it impossible to assemble correctly."
+  },
+  {
+   "id": "5f7ef30e1566",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough edges",
+   "verdict": "SUPPORTED",
+   "reason": "review 3: rough edges of the metal rails",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "471266d44d56",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "uneven surfaces",
+   "verdict": "SUPPORTED",
+   "reason": "review 3: uneven surfaces of the metal rails; R44: shown in the review's own wording",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d52d5edcbd22",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "don't even match each other's dimensions",
+   "verdict": "SUPPORTED",
+   "reason": "the rails don't match each other's dimensions",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "vague": false,
+   "gold_index": 14
+  },
+  {
+   "id": "d12cb3c227b6",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "constantly stick",
+   "verdict": "AMBIGUOUS",
+   "reason": "'They constantly stick' follows 'the drawer rails - they seem poorly manufactured and don't allow the drawers to slide': the rails or the drawers"
+  },
+  {
+   "id": "af931988e496",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough, uneven surfaces",
+   "verdict": "SUPPORTED",
+   "reason": "rough, uneven surfaces of the drawer rails",
+   "evidence": "they have rough, uneven surfaces that cause the drawers to stick and misalign",
+   "vague": false,
+   "gold_index": 13
+  },
+  {
+   "id": "a8b4816df74b",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "make an annoying scraping sound",
+   "verdict": "AMBIGUOUS",
+   "reason": "same sentence: the scraping sound can be the rails' or the drawers'"
+  },
+  {
+   "id": "b013a57bc64f",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough",
+   "verdict": "SUPPORTED",
+   "reason": "the 5-star review says the rails seemed a bit rough (hedged claim)",
+   "evidence": "I noticed the drawer rails seemed a bit rough, so I took 10 minutes to sand them down and apply a tiny bit of lubricant before installing.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "bc45561e9f3d",
+   "subject": "screws",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't fit where they were supposed to",
+   "verdict": "SUPPORTED",
+   "reason": "half the screws didn't fit",
+   "evidence": "half the screws didn't fit where they were supposed to.",
+   "vague": false,
+   "gold_index": 15
+  },
+  {
+   "id": "bbf966995eaf",
+   "subject": "weren't perfectly aligned",
+   "predicate": "CAUSES",
+   "object": "assembly a bit frustrating",
+   "verdict": "SUPPORTED",
+   "reason": "the misaligned holes made assembly a bit frustrating (a CAUSES fact; the gold states it as HAS_ASSEMBLY_ISSUE)",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+  },
+  {
+   "id": "454a10a765ce",
+   "subject": "didn't line up properly",
+   "predicate": "CAUSES",
+   "object": "had to drill new ones",
+   "verdict": "SUPPORTED",
+   "reason": "the misaligned holes made the reviewer drill new ones",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+  },
+  {
+   "id": "0d634e9cf14b",
+   "subject": "didn't align properly",
+   "predicate": "CAUSES",
+   "object": "Assembly was frustrating",
+   "verdict": "SUPPORTED",
+   "reason": "assembly was frustrating because the holes didn't align (CAUSES; the gold states it as HAS_ASSEMBLY_ISSUE)",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+  },
+  {
+   "id": "62b7bbf477f4",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "crack developing along the bottom",
+   "verdict": "SUPPORTED",
+   "reason": "one drawer has a crack developing along the bottom",
+   "evidence": "one drawer already has a crack developing along the bottom from the strain of forcing it open and closed",
+   "vague": false,
+   "gold_index": 20
+  },
+  {
+   "id": "8a4a9aa78d99",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "make this horrible metal-on-metal sound",
+   "verdict": "SUPPORTED",
+   "reason": "drawers make a metal-on-metal sound",
+   "gold_index": 16,
+   "vague": false,
+   "evidence": "drawers still stick and make this horrible metal-on-metal sound"
+  },
+  {
+   "id": "86ee02dbafa8",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "misalign",
+   "verdict": "SUPPORTED",
+   "reason": "the rails cause the drawers to misalign",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "ed93e5f2a6f5",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "don't close properly",
+   "verdict": "SUPPORTED",
+   "reason": "two drawers don't close properly",
+   "gold_index": 19,
+   "vague": false,
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them"
+  },
+  {
+   "id": "5be4e45030e4",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "doesn't open as smoothly as I'd like",
+   "verdict": "SUPPORTED",
+   "reason": "the desk drawer doesn't open smoothly",
+   "gold_index": 45,
+   "vague": false,
+   "evidence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like."
+  },
+  {
+   "id": "3c2dfaba796f",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "doesn't close properly",
+   "verdict": "SUPPORTED",
+   "reason": "the nightstand drawer doesn't close properly",
+   "gold_index": 48,
+   "vague": false,
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap."
+  },
+  {
+   "id": "e73ff544df82",
+   "subject": "warped",
+   "predicate": "CAUSES",
+   "object": "impossible to assemble correctly",
+   "verdict": "SUPPORTED",
+   "reason": "the warped panels made correct assembly impossible (CAUSES; the gold states it as HAS_ASSEMBLY_ISSUE)",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "several of the panels were warped, making it impossible to assemble correctly."
+  },
+  {
+   "id": "6e9124eda3d8",
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "basically cardboard",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 says the back panel is basically cardboard; same claim as gold 23",
+   "evidence": "the back panel is basically cardboard",
+   "vague": false,
+   "gold_index": 23
+  },
+  {
+   "id": "922dfe2f3d3b",
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "flimsy",
+   "verdict": "SUPPORTED",
+   "reason": "the back panel feels a bit flimsy (hedged); the gold lacks it for this review",
+   "evidence": "the back panel is quite thin and feels a bit flimsy compared to the rest of the unit",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "61cc85c8451a",
+   "subject": "surface",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the table's surface",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "0192431ca592",
+   "subject": "surface",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches pretty easily",
+   "verdict": "SUPPORTED",
+   "reason": "the surface scratches pretty easily (part-or-product subject)",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "vague": false,
+   "gold_index": 27
+  },
+  {
+   "id": "9cbe95b5544c",
+   "subject": "veneer",
+   "predicate": "HAS_DEFECT",
+   "object": "chipping",
+   "verdict": "SUPPORTED",
+   "reason": "the veneer is chipping at the corners",
+   "evidence": "The veneer is extremely thin and already chipping at the corners after just a few weeks.",
+   "vague": false,
+   "gold_index": 29
+  },
+  {
+   "id": "7094c4710ac5",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the bed's edges",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b5f0e366025d",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the edges of the desk",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp - I had to add some edge protectors to avoid scratching myself.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "170cad522755",
+   "subject": "edges",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp",
+   "verdict": "SUPPORTED",
+   "reason": "some edges were a bit sharp (part-or-product subject)",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase.",
+   "vague": false,
+   "gold_index": 32
+  },
+  {
+   "id": "91f6b1d0532e",
+   "subject": "edges",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp",
+   "verdict": "SUPPORTED",
+   "reason": "the edges of the desk are a bit sharp (part-or-product subject)",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp",
+   "vague": false,
+   "gold_index": 39
+  },
+  {
+   "id": "66bce995cead",
+   "subject": "Linköping Bed",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "much more complicated than advertised",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "Assembly was also much more complicated than advertised"
+  },
+  {
+   "id": "500ca0c475d3",
+   "subject": "Linköping Bed",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "assembly was a total nightmare",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "assembly was a total nightmare, took me and my roommate like 4 hours"
+  },
+  {
+   "id": "b4daf7445b71",
+   "subject": "Linköping Bed",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "parts not fitting together properly",
+   "verdict": "SUPPORTED",
+   "reason": "parts did not fit together in assembly",
+   "gold_index": 37,
+   "vague": false,
+   "evidence": "with some parts not fitting together properly"
+  },
+  {
+   "id": "63389dfe234b",
+   "subject": "slats",
+   "predicate": "HAS_DEFECT",
+   "object": "make noise",
+   "verdict": "SUPPORTED",
+   "reason": "the slats make noise",
+   "gold_index": 33,
+   "vague": false,
+   "evidence": "slats make noise sometimes when i move around at night"
+  },
+  {
+   "id": "7019f1464b03",
+   "subject": "slats",
+   "predicate": "HAS_DEFECT",
+   "object": "crack",
+   "verdict": "SUPPORTED",
+   "reason": "the slats have started to crack",
+   "evidence": "the slats have started to crack",
+   "vague": false,
+   "gold_index": 34
+  },
+  {
+   "id": "7cec3f9c384a",
+   "subject": "storage drawers",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: storage drawers of the bed",
+   "evidence": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "vague": false,
+   "gold_index": 83
+  },
+  {
+   "id": "d62cfb23c4bb",
+   "subject": "storage drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "no longer opens smoothly",
+   "verdict": "SUPPORTED",
+   "reason": "a storage drawer no longer opens smoothly",
+   "gold_index": 35,
+   "vague": false,
+   "evidence": "one of the storage drawers no longer opens smoothly"
+  },
+  {
+   "id": "9bdeb1502f36",
+   "subject": "drawer pulls",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: drawer pulls of the bed",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement.",
+   "vague": false,
+   "gold_index": 84
+  },
+  {
+   "id": "abb213fdc2dc",
+   "subject": "drawer pulls",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: drawer handles of this dresser",
+   "evidence": "One of the drawer handles was scratched right out of the box.",
+   "vague": false,
+   "gold_index": 80
+  },
+  {
+   "id": "4cc5fad9377b",
+   "subject": "drawer handles",
+   "predicate": "HAS_DEFECT",
+   "object": "scratched",
+   "verdict": "SUPPORTED",
+   "reason": "one drawer handle was scratched right out of the box",
+   "evidence": "One of the drawer handles was scratched right out of the box.",
+   "vague": false,
+   "gold_index": 25
+  },
+  {
+   "id": "c718f5497a7b",
+   "subject": "drawer pulls",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged",
+   "verdict": "SUPPORTED",
+   "reason": "a drawer pull arrived damaged",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement.",
+   "vague": false,
+   "gold_index": 38
+  },
+  {
+   "id": "64aa9b89fb86",
+   "subject": "Malmö Desk",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "Assembly was frustrating",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+  },
+  {
+   "id": "782e6fb356a5",
+   "subject": "Malmö Desk",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "pretty complicated",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "assembly was pretty complicated, took me like 3 hours"
+  },
+  {
+   "id": "894443a70a4c",
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches",
+   "verdict": "SUPPORTED",
+   "reason": "several scratches right out of the box",
+   "evidence": "there were several scratches right out of the box",
+   "vague": false,
+   "gold_index": 41
+  },
+  {
+   "id": "1cddebce5ed4",
+   "subject": "finish",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the desk's finish",
+   "evidence": "The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ee86508509f1",
+   "subject": "finish",
+   "predicate": "HAS_DEFECT",
+   "object": "inconsistencies",
+   "verdict": "SUPPORTED",
+   "reason": "the finish has inconsistencies",
+   "evidence": "in person the finish has inconsistencies",
+   "vague": false,
+   "gold_index": 40
+  },
+  {
+   "id": "d50ba642b9f9",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: holes for the drawer handle of this nightstand",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "df46c176b9db",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't aligned correctly",
+   "verdict": "SUPPORTED",
+   "reason": "holes for the drawer handle weren't aligned (part-or-product subject)",
+   "evidence": "the pre-drilled holes for the drawer handle weren't aligned correctly",
+   "vague": false,
+   "gold_index": 49
+  },
+  {
+   "id": "8a3143e93b1a",
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches very easily",
+   "verdict": "SUPPORTED",
+   "reason": "the nightstand scratches very easily; R44: shown in the review's own wording",
+   "evidence": "The nightstand also scratches very easily - I already have several marks just from normal use.",
+   "vague": false,
+   "gold_index": 50
+  },
+  {
+   "id": "919735539233",
+   "subject": "corner",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the nightstand's corner",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "49cfe9e3a15e",
+   "subject": "corner",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged",
+   "verdict": "SUPPORTED",
+   "reason": "one corner arrived slightly damaged",
+   "evidence": "Taking off one star because one corner arrived slightly damaged",
+   "vague": false,
+   "gold_index": 51
+  },
+  {
+   "id": "64b0bbf21df1",
+   "subject": "cord",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the lamp's cord",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c97c45c30eed",
+   "subject": "cord",
+   "predicate": "HAS_DEFECT",
+   "object": "short",
+   "verdict": "SUPPORTED",
+   "reason": "the cord is a bit short (hedged); the gold lacks it",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "8f1df67d47b8",
+   "subject": "base",
+   "predicate": "HAS_DEFECT",
+   "object": "tips over easily",
+   "verdict": "SUPPORTED",
+   "reason": "the light base makes the lamp tip over easily; the fact names the part and keeps the gold claim",
+   "gold_index": 53,
+   "vague": false,
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it"
+  },
+  {
+   "id": "1c6699611cf6",
+   "subject": "shade",
+   "predicate": "HAS_DEFECT",
+   "object": "small dent",
+   "verdict": "SUPPORTED",
+   "reason": "the shade arrived with a small dent; R44: shown in the review's own wording",
+   "evidence": "Taking off one star because the shade arrived with a small dent",
+   "vague": false,
+   "gold_index": 59
+  },
+  {
+   "id": "b711b46bb68a",
+   "subject": "switch",
+   "predicate": "HAS_DEFECT",
+   "object": "feels kinda cheap",
+   "verdict": "SUPPORTED",
+   "reason": "the switch feels kinda cheap: stated, but subjective and unspecific",
+   "evidence": "only giving 3 stars because the switch feels kinda cheap",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "a3997ee8dc6d",
+   "subject": "dimmer switch",
+   "predicate": "HAS_DEFECT",
+   "object": "finicky",
+   "verdict": "SUPPORTED",
+   "reason": "the dimmer switch is finicky",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings."
+  },
+  {
+   "id": "515ef189fdc7",
+   "subject": "Stockholm Chair",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "assembly instructions could have been clearer",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "I'm taking off one star because the assembly instructions could have been clearer"
+  },
+  {
+   "id": "61465c42952a",
+   "subject": "cushions",
+   "predicate": "HAS_DEFECT",
+   "object": "losing their shape",
+   "verdict": "SUPPORTED",
+   "reason": "cushions losing their shape; gold has EXHIBITS_FAILURE, the fact HAS_DEFECT (predicate-tolerant match, as in R30)",
+   "evidence": "the cushions are already losing their shape",
+   "vague": false,
+   "gold_index": 61
+  },
+  {
+   "id": "d76343af063e",
+   "subject": "Uppsala Sofa",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "more complicated than advertised",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "e9de7582e31c",
+   "subject": "Uppsala Sofa",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "parts not fitting together properly",
+   "verdict": "SUPPORTED",
+   "reason": "parts did not fit together in assembly",
+   "gold_index": 64,
+   "vague": false,
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "41d77f088ff7",
+   "subject": "legs",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: legs of the sofa",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "vague": false,
+   "gold_index": 93
+  },
+  {
+   "id": "1fb659bb33b4",
+   "subject": "legs",
+   "predicate": "HAS_DEFECT",
+   "object": "small chip",
+   "verdict": "SUPPORTED",
+   "reason": "one of the legs arrived with a small chip",
+   "evidence": "one of the legs arrived with a small chip",
+   "vague": false,
+   "gold_index": 65
+  },
+  {
+   "id": "24885c36f4b2",
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "parts didn't fit together properly",
+   "verdict": "SUPPORTED",
+   "reason": "parts did not fit together in assembly",
+   "gold_index": 71,
+   "vague": false,
+   "evidence": "took over 3 hours and some of the parts didn't fit together properly."
+  },
+  {
+   "id": "2152a873a0d4",
+   "subject": "Västerås Bookshelves",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "assembly a bit frustrating",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+  },
+  {
+   "id": "b1c8955bf9f6",
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "complicated to assemble",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "just wish it wasn't so complicated to assemble."
+  },
+  {
+   "id": "558bc90af359",
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "took over 3 hours",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+  },
+  {
+   "id": "12e77e82af1b",
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "redo some steps",
+   "verdict": "SUPPORTED",
+   "reason": "the reviewer had to redo assembly steps",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "instructions were confusing and i had to redo some steps."
+  },
+  {
+   "id": "3643cb9d49e6",
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "instructions were confusing",
+   "verdict": "SUPPORTED",
+   "reason": "the review reports confusing or unclear instructions",
+   "gold_index": null,
+   "vague": false,
+   "evidence": "instructions were confusing and i had to redo some steps."
+  },
+  {
+   "id": "a455643f67da",
+   "subject": "Västerås Bookshelf",
+   "predicate": "HAS_ASSEMBLY_ISSUE",
+   "object": "pain to put together",
+   "verdict": "SUPPORTED",
+   "reason": "the review says assembly was hard, without saying what made it so",
+   "gold_index": null,
+   "vague": true,
+   "evidence": "looks great in my apartment but was a pain to put together tbh."
+  }
+ ],
+ "recall": [
+  {
+   "gold_index": 0,
+   "matched_fact": "da0378558f68",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 1,
+   "matched_fact": null,
+   "reason": "the holes' effect on assembly is stated only as CAUSES (misaligned holes -> had to drill new ones) and as a vague 'nightmare'"
+  },
+  {
+   "gold_index": 2,
+   "matched_fact": "af69623cd682",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 4,
+   "matched_fact": "162da5e319b1",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 5,
+   "matched_fact": "625f88fd1ffc",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 6,
+   "matched_fact": null,
+   "reason": "no fact states that the misaligned holes hindered assembly"
+  },
+  {
+   "gold_index": 9,
+   "matched_fact": null,
+   "reason": "the only facts put the scraping sound on the drawer rails (judged ambiguous)"
+  },
+  {
+   "gold_index": 12,
+   "matched_fact": null,
+   "reason": "the rails not aligning is stated as the dresser's assembly issue, without the rails"
+  },
+  {
+   "gold_index": 13,
+   "matched_fact": "af931988e496",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 14,
+   "matched_fact": "d52d5edcbd22",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 15,
+   "matched_fact": "bc45561e9f3d",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 16,
+   "matched_fact": "8a4a9aa78d99",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 17,
+   "matched_fact": null,
+   "reason": "CAUSES_FAILURE has no equivalent in the proposed schema"
+  },
+  {
+   "gold_index": 18,
+   "matched_fact": null,
+   "reason": "CAUSES_FAILURE has no equivalent in the proposed schema"
+  },
+  {
+   "gold_index": 19,
+   "matched_fact": "ed93e5f2a6f5",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 20,
+   "matched_fact": "62b7bbf477f4",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 22,
+   "matched_fact": null,
+   "reason": "the warped panels are stated only as CAUSES of an assembly issue"
+  },
+  {
+   "gold_index": 23,
+   "matched_fact": "6e9124eda3d8",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 25,
+   "matched_fact": "4cc5fad9377b",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 26,
+   "matched_fact": null,
+   "reason": "no fact states the coffee table's sharp edges"
+  },
+  {
+   "gold_index": 27,
+   "matched_fact": "0192431ca592",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 28,
+   "matched_fact": null,
+   "reason": "only the chipping was extracted, not the thinness"
+  },
+  {
+   "gold_index": 29,
+   "matched_fact": "9cbe95b5544c",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 30,
+   "matched_fact": "23ee4be2154f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 32,
+   "matched_fact": "170cad522755",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 33,
+   "matched_fact": "63389dfe234b",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 34,
+   "matched_fact": "7019f1464b03",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 35,
+   "matched_fact": "d62cfb23c4bb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 36,
+   "matched_fact": null,
+   "reason": "stated only as an assembly issue, not as a defect of the bed"
+  },
+  {
+   "gold_index": 37,
+   "matched_fact": "b4daf7445b71",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 38,
+   "matched_fact": "c718f5497a7b",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 39,
+   "matched_fact": "91f6b1d0532e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 40,
+   "matched_fact": "ee86508509f1",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 41,
+   "matched_fact": "894443a70a4c",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 42,
+   "matched_fact": "f66ec74b22fb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 43,
+   "matched_fact": null,
+   "reason": "the holes' effect on assembly is stated only as CAUSES"
+  },
+  {
+   "gold_index": 45,
+   "matched_fact": "5be4e45030e4",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 48,
+   "matched_fact": "3c2dfaba796f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 49,
+   "matched_fact": "df46c176b9db",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 50,
+   "matched_fact": "8a3143e93b1a",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 51,
+   "matched_fact": "49cfe9e3a15e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 52,
+   "matched_fact": null,
+   "reason": "the fact states that the base tips over, not that it is too light"
+  },
+  {
+   "gold_index": 53,
+   "matched_fact": "8f1df67d47b8",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 54,
+   "matched_fact": null,
+   "reason": "CAUSES_FAILURE has no equivalent in the proposed schema"
+  },
+  {
+   "gold_index": 59,
+   "matched_fact": "1c6699611cf6",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 61,
+   "matched_fact": "61465c42952a",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 63,
+   "matched_fact": null,
+   "reason": "stated only as an assembly issue, not as a defect of the sofa"
+  },
+  {
+   "gold_index": 64,
+   "matched_fact": "e9de7582e31c",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 65,
+   "matched_fact": "1fb659bb33b4",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 66,
+   "matched_fact": "f108257138a5",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 67,
+   "matched_fact": null,
+   "reason": "the holes' effect on assembly is stated only as CAUSES"
+  },
+  {
+   "gold_index": 68,
+   "matched_fact": null,
+   "reason": "no fact states the Vasteras veneer's thinness"
+  },
+  {
+   "gold_index": 70,
+   "matched_fact": null,
+   "reason": "stated only as an assembly issue, not as a defect of the bookshelf"
+  },
+  {
+   "gold_index": 71,
+   "matched_fact": "24885c36f4b2",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 80,
+   "matched_fact": "abb213fdc2dc",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 83,
+   "matched_fact": "7cec3f9c384a",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 84,
+   "matched_fact": "9bdeb1502f36",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 93,
+   "matched_fact": "41d77f088ff7",
+   "reason": "same claim by meaning; see the fact's verdict"
+  }
+ ],
+ "er": [
+  {
+   "pair_index": 3,
+   "a_entity": "6c9335f1facdd9c4",
+   "b_entity": null,
+   "reason": "nothing in the graph is the dimmer function"
+  },
+  {
+   "pair_index": 5,
+   "a_entity": "4a29470cf58558bf",
+   "b_entity": "373cb9c50d552773",
+   "reason": "the drawer handles are the drawer pulls entity"
+  },
+  {
+   "pair_index": 11,
+   "a_entity": "e6a7e73bd345a391",
+   "b_entity": "e6a7e73bd345a391",
+   "reason": "one product"
+  },
+  {
+   "pair_index": 12,
+   "a_entity": "373cb9c50d552773",
+   "b_entity": "373cb9c50d552773",
+   "reason": "drawer pulls / handles"
+  },
+  {
+   "pair_index": 13,
+   "a_entity": "f97c0136c2c8474b",
+   "b_entity": "f97c0136c2c8474b",
+   "reason": "legs"
+  },
+  {
+   "pair_index": 21,
+   "a_entity": "52a575186d91bf3d",
+   "b_entity": "fc96ba21ae7b9c31",
+   "reason": "a dent is the small dent entity"
+  },
+  {
+   "pair_index": 26,
+   "a_entity": null,
+   "b_entity": null,
+   "reason": "no drawer slide component was extracted"
+  },
+  {
+   "pair_index": 27,
+   "a_entity": null,
+   "b_entity": null,
+   "reason": "no shelf was extracted"
+  },
+  {
+   "pair_index": 28,
+   "a_entity": "6e7fcb564b22a307",
+   "b_entity": "6e7fcb564b22a307",
+   "reason": "cushions"
+  },
+  {
+   "pair_index": 29,
+   "a_entity": null,
+   "b_entity": null,
+   "reason": "no cover was extracted"
+  },
+  {
+   "pair_index": 30,
+   "a_entity": "6a7586176e607eb6",
+   "b_entity": "6a7586176e607eb6",
+   "reason": "the holes are the pre-drilled holes"
+  },
+  {
+   "pair_index": 31,
+   "a_entity": "166d3be5b9d6f2e3",
+   "b_entity": "166d3be5b9d6f2e3",
+   "reason": "the lamp's weighted base is the base entity"
+  },
+  {
+   "pair_index": 36,
+   "a_entity": "f59d0f676bcd1da7",
+   "b_entity": "f59d0f676bcd1da7",
+   "reason": "both wordings are one assembly issue"
+  },
+  {
+   "pair_index": 37,
+   "a_entity": "c15b6d99fab1d03d",
+   "b_entity": "c15b6d99fab1d03d",
+   "reason": "sharp"
+  },
+  {
+   "pair_index": 38,
+   "a_entity": null,
+   "b_entity": "914af3a3e2a8c696",
+   "reason": "'extremely thin' was not extracted (the veneer's thinness is missing)"
+  },
+  {
+   "pair_index": 39,
+   "a_entity": "914af3a3e2a8c696",
+   "b_entity": "914af3a3e2a8c696",
+   "reason": "'a bit thin' became 'thin'"
+  },
+  {
+   "pair_index": 40,
+   "a_entity": "630ecb4a8d30e375",
+   "b_entity": "630ecb4a8d30e375",
+   "reason": "one chipping entity"
+  },
+  {
+   "pair_index": 41,
+   "a_entity": "fc96ba21ae7b9c31",
+   "b_entity": "fc96ba21ae7b9c31",
+   "reason": "small dent"
+  },
+  {
+   "pair_index": 45,
+   "a_entity": "620ed9870f6171a3",
+   "b_entity": "620ed9870f6171a3",
+   "reason": "one opening-smoothly entity"
+  },
+  {
+   "pair_index": 46,
+   "a_entity": "73ad649f739f09f8",
+   "b_entity": "73ad649f739f09f8",
+   "reason": "one sound entity"
+  },
+  {
+   "pair_index": 47,
+   "a_entity": "e69152d92e02cc9c",
+   "b_entity": "e69152d92e02cc9c",
+   "reason": "flickers at lower settings"
+  },
+  {
+   "pair_index": 53,
+   "a_entity": null,
+   "b_entity": "5f11b0114e9a9cb0",
+   "reason": "no shelf was extracted"
+  },
+  {
+   "pair_index": 56,
+   "a_entity": null,
+   "b_entity": "35fdf57f43737bff",
+   "reason": "no headboard was extracted"
+  },
+  {
+   "pair_index": 57,
+   "a_entity": null,
+   "b_entity": "166d3be5b9d6f2e3",
+   "reason": "no adjustable arm was extracted"
+  },
+  {
+   "pair_index": 58,
+   "a_entity": null,
+   "b_entity": "6e7fcb564b22a307",
+   "reason": "no cover was extracted"
+  },
+  {
+   "pair_index": 60,
+   "a_entity": null,
+   "b_entity": "630ecb4a8d30e375",
+   "reason": "'extremely thin' was not extracted; 'chipping at the corners' is the chipping entity"
+  },
+  {
+   "pair_index": 64,
+   "a_entity": "1ed7e6895b8014a9",
+   "b_entity": "f59d0f676bcd1da7",
+   "reason": "misalignment and not fitting are separate entities"
+  },
+  {
+   "pair_index": 65,
+   "a_entity": "52a575186d91bf3d",
+   "b_entity": "52a575186d91bf3d",
+   "reason": "'scratched' out of the box was merged with 'scratches very easily'"
+  },
+  {
+   "pair_index": 66,
+   "a_entity": "e69152d92e02cc9c",
+   "b_entity": "29db563d838ab855",
+   "reason": "separate entities"
+  }
+ ]
+}

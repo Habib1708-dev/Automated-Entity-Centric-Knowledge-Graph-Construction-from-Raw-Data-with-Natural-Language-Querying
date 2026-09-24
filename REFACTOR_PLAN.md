@@ -1233,6 +1233,22 @@ Both corpora are small (about 8,600 and 2,900 tokens), so the whole text fits. B
 - **Part 4:** one held-out run with the whole text, reusing R52's frozen plan, next to R53 (recall 0.706).
 - User's yes given in the session for the three runs (estimate about $0.70 in all). One sample per
   variant: proposals drift between runs (R24), so the result is a direction, not a proof.
+- **Part 1 (done, 2026-09-24).** `quality`, goal "supply chain root cause analysis", output
+  `out/r55_sampled/`: plan `05389321` $0.1147 (Product, Assembly, Component, Supplier; `PART_OF`,
+  `SUPPLIED_BY`), text schema `699aa31c` $0.0552 (accepted in round 1: Product, Component, Defect,
+  AssemblyIssue; `HAS_DEFECT` from a component or product, `HAS_ASSEMBLY_ISSUE`, `CAUSES`
+  Defect→AssemblyIssue, `PART_OF` derived), extract `3873cbf9` $0.0804 (98 facts), resolve `832109b8`
+  $0.0172 (123 → 79 entities); **$0.268**. Frozen under `tests/gold/r55/`. Gold mapped before extraction
+  (`furniture_gold_sampled.json`): HAS_DEFECT 42 and PART_OF 22 unchanged, EXHIBITS_FAILURE 21 →
+  HAS_DEFECT (the schema's Defect includes "functional malfunction"), IMPEDES_ASSEMBLY_OF 8 → product
+  HAS_ASSEMBLY_ISSUE defect, CAUSES_FAILURE 3 not expressible; questions follow the plan's `PART_OF` /
+  `Component`. Judge Claude Opus 5.5 (48 of 91 facts carried over from earlier passes by fact id, 43 new),
+  eval `8988a1fc`: validated P **1.000** (n = 136), R **0.823** (79 / 96) [0.73, 0.89], F1 0.903; exact
+  0.359 / 0.396; ER valid 0.983; questions 5 / 5; vague 0.107 (assembly-difficulty statements); 2
+  ambiguous ("They constantly stick": rails or drawers). Strict rule as in R54: 7 near-misses would count
+  under a lenient reading (4 "impedes assembly" claims stated as CAUSES, 3 "parts not fitting" stated
+  only as assembly issues). Against the pinned schema with the same prompts (R47 / R49b recall 0.865 /
+  0.854), the furniture automatic arm loses about 3 gold triples: the proposer works on this data.
 
 ## Found along the way
 

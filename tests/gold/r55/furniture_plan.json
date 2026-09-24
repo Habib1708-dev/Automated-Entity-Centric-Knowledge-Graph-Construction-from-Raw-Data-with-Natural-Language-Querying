@@ -1,0 +1,91 @@
+{
+  "nodes": [
+    {
+      "source_file": "products.csv",
+      "label": "Product",
+      "unique_column": "product_id",
+      "properties": [
+        "product_name",
+        "price",
+        "description"
+      ],
+      "description": "Finished product offered in the catalog.",
+      "name_column": "product_name"
+    },
+    {
+      "source_file": "assemblies.csv",
+      "label": "Assembly",
+      "unique_column": "assembly_id",
+      "properties": [
+        "assembly_name",
+        "component_name",
+        "quantity"
+      ],
+      "description": "Product assembly specification linking components to products.",
+      "name_column": "component_name"
+    },
+    {
+      "source_file": "components.csv",
+      "label": "Component",
+      "unique_column": "part_id",
+      "properties": [
+        "sub_assembly_name",
+        "part_name",
+        "quantity"
+      ],
+      "description": "Individual component part required for an assembly.",
+      "name_column": "part_name"
+    },
+    {
+      "source_file": "suppliers.csv",
+      "label": "Supplier",
+      "unique_column": "supplier_id",
+      "properties": [
+        "name",
+        "specialty",
+        "city",
+        "country",
+        "website",
+        "contact_email"
+      ],
+      "description": "External vendor providing parts and materials.",
+      "name_column": "name"
+    }
+  ],
+  "relationships": [
+    {
+      "source_file": "assemblies.csv",
+      "relationship_type": "PART_OF",
+      "from_label": "Assembly",
+      "from_column": "assembly_id",
+      "to_label": "Product",
+      "to_column": "product_id",
+      "properties": []
+    },
+    {
+      "source_file": "components.csv",
+      "relationship_type": "PART_OF",
+      "from_label": "Component",
+      "from_column": "part_id",
+      "to_label": "Assembly",
+      "to_column": "assembly_id",
+      "properties": []
+    },
+    {
+      "source_file": "part_supplier_mapping.csv",
+      "relationship_type": "SUPPLIED_BY",
+      "from_label": "Component",
+      "from_column": "part_id",
+      "to_label": "Supplier",
+      "to_column": "supplier_id",
+      "properties": [
+        "part_name",
+        "supplier_name",
+        "lead_time_days",
+        "unit_cost",
+        "minimum_order_quantity",
+        "preferred_supplier"
+      ]
+    }
+  ]
+}
