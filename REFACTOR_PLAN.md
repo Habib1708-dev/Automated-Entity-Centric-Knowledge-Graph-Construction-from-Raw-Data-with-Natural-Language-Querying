@@ -1337,8 +1337,15 @@ nothing breaks, not that the rule helps where a record node exists.
   paths never needed a failure-to-part fact type; code confirmed the paths exist, not that they cover what
   the text says. Goal-first narrowed the schema to the goal's causal chain and lost the direct
   observations the chain starts from.
-- **Part 3:** one `heldout` run with R52's plan, frozen Part 1 code; next to R53 / R55 (0.706) and R54
-  (0.838). User's yes given in the session for both runs (estimate about $0.30-0.40 together).
+- **Part 3: not run (the user's decision, 2026-09-24).** A design that failed on the development data does
+  not get the held-out set's one look. **Reverted:** `text/schema.py`, `pipeline/stages.py`,
+  `tests/test_text.py`, `tests/test_pipeline.py` restored to `8451910` (R55's state) in their own commit;
+  the default proposer is R55's again (furniture 0.854). Kept as a documented negative result: this entry,
+  `tests/gold/r56/` (the proposal, the mapped gold, the verdicts) and eval `89930703` in MLflow.
+  **Finding for the thesis:** a goal stated as a causal question ("root cause analysis") made the proposer
+  model the causal chain only; code-checked question paths prove that the schema can answer the questions
+  the model chose, not that it covers what the text observes. Any later goal-driven design needs a check in
+  the other direction too (every observed problem type reaches the thing it happens to). R56 total $0.249.
 
 ## Found along the way
 

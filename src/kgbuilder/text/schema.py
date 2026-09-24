@@ -41,31 +41,7 @@ class FactType(BaseModel):
     )
 
 
-class PathStep(BaseModel):
-    """One fact type on the way from what a goal question starts with to what it asks for."""
-
-    subject_type: str
-    predicate: str
-    object_type: str
-
-
-class GoalQuestion(BaseModel):
-    """A question the goal asks of the text, with the chain of fact types that answers it (R56)."""
-
-    question: str = Field(description="A concrete question the user's goal asks of this text")
-    path: list[PathStep] = Field(
-        description="The fact types, in order, that lead from what the question starts with to what it asks "
-        "for; consecutive steps share an entity type"
-    )
-
-
 class TextSchema(BaseModel):
-    # first, so that the model writes the questions before it designs the types (R56: goal-first design);
-    # empty in the reviewed schemas pinned before R56, which stay valid
-    goal_questions: list[GoalQuestion] = Field(
-        default=[],
-        description="3 to 6 questions of the goal, each with the path of fact types that answers it",
-    )
     entity_types: list[EntityType]
     fact_types: list[FactType]
 
@@ -110,23 +86,14 @@ class TextSchema(BaseModel):
 # people/roles", and the stronger models then extracted every reviewer and their city (70 of ~150 facts on
 # data/). Relevance is decided by the goal alone, which the user states per run; the text stays in the
 # lexical graph, so facts a schema leaves out can still be extracted later under another goal.
-# R56, goal first: until R55 the goal was one rule ("name a question each fact type helps answer"), which
-# an indirect design passes, while "reuse the domain concepts" came first. On the held-out data the
-# proposer made the plan's record node (Complaint) the hub of every fact, so a problem reached its part only
-# through the report that mentions both (R53, R55). Now the model writes the goal's questions and the path
-# of fact types that answers each (checked in code, `_goal_path_issues`), and one general rule keeps the
-# source of a text out of the paths: provenance is already stored (chunk, evidence) outside the schema.
-# Disclosed: the rule was motivated by a held-out failure; it names no domain and is measured on furniture
-# before one held-out run.
 PROMPT = """You design the schema for extracting knowledge from unstructured text into a knowledge graph.
-The user's goal decides the design: the graph must answer the goal's questions by following facts.
 
 <goal>
 {goal}
 </goal>
 
-The graph already contains this structured (domain) data. Name an entity type like a domain node when the
-text talks about the same things, so that code can link the two; keep the meaning of each type distinct:
+The graph already contains this structured (domain) data. Reuse its concepts as entity types where the
+text talks about the same things, and keep the meaning of each type distinct from these:
 <domain_graph>
 {domain}
 </domain_graph>
@@ -136,18 +103,11 @@ Representative text chunks:
 {chunks}
 </chunks>
 
-Work in this order:
-1. goal_questions: write the 3 to 6 concrete questions the goal asks of this text.
-2. For each question, its path: the fact types, in order, that lead from what the question starts with to
-   what it asks for. Consecutive steps share an entity type.
-3. Define the entity types and fact types the paths use, plus any fact type the text states often and the
-   goal needs.
-
 Rules:
-- A path follows what the text states. When the text says that something happens to or in a thing,
-  connect the two directly; do not route the connection through the source the text comes from (a
-  document, a report, a message, a post): where a statement comes from is recorded outside the schema.
-- Do not make types for ratings, dates or generic adjectives.
+- Derive the entity types from the goal, the domain graph and the text: things the goal's questions are
+  about. Do not make types for ratings, dates or generic adjectives.
+- Propose fact types as (subject_type, PREDICATE, object_type) that appear in the text and serve the goal:
+  for each one, you should be able to name a question of the goal that it helps answer.
 - Every fact type must reference only entity types you defined. Keep both lists small and precise
   (at most 12 entity types and 20 fact types).
 
@@ -163,8 +123,6 @@ types), so judge only the modeling:
 - Are there fact types the sample text clearly supports and the goal needs, but that are missing?
 - Are there fact types the sample text gives no evidence for?
 - Is there a fact type that answers none of the goal's questions?
-- Does a goal question's path pass through the source a text comes from (a document, a report, a message)
-  where the text itself connects the two things directly?
 
 Reply "retry" only for problems that would change the schema; otherwise "valid".
 
@@ -211,45 +169,7 @@ def validate_text_schema(schema: TextSchema) -> list[str]:
         issues.append("no entity types")
     if not schema.fact_types:
         issues.append("no fact types")
-    return issues + _goal_path_issues(schema)
-
-
-# A longer chain is no longer "following what the text states": four steps reach from a thing through its
-# problem and part to a record about the part, which is the longest route the thesis goals need.
-_MAX_PATH_STEPS = 4
-
-
-def _goal_path_issues(schema: TextSchema) -> list[str]:
-    """Every goal question's path must be a chain of the schema's own fact types (R56).
-
-    A step names a fact type by its signature; consecutive steps share an entity type (in either
-    direction, since a question may follow a fact backwards). The model's claim that its schema answers a
-    question is thereby checked in code, not taken on trust.
-    """
-    issues = []
-    for q in schema.goal_questions:
-        if not q.path:
-            issues.append(f"goal question '{q.question}': the path is empty")
-            continue
-        if len(q.path) > _MAX_PATH_STEPS:
-            issues.append(f"goal question '{q.question}': the path has more than {_MAX_PATH_STEPS} steps")
-        for step in q.path:
-            if schema.find(step.subject_type, step.predicate, step.object_type) is None:
-                signature = f"{step.subject_type} -[{step.predicate}]-> {step.object_type}"
-                issues.append(f"goal question '{q.question}': {signature} is not a fact type of the schema")
-        for before, after in zip(q.path, q.path[1:], strict=False):
-            if not {before.subject_type, before.object_type} & {after.subject_type, after.object_type}:
-                gap = f"step {before.predicate} does not connect to {after.predicate}"
-                issues.append(f"goal question '{q.question}': {gap}")
     return issues
-
-
-def _proposal_issues(schema: TextSchema) -> list[str]:
-    """What a proposal must satisfy beyond a valid schema: it states the goal's questions and their paths."""
-    missing = (
-        [] if schema.goal_questions else ["no goal questions: write the goal's questions and their paths"]
-    )
-    return validate_text_schema(schema) + missing
 
 
 def domain_summary(plan: ConstructionPlan | None) -> str:
@@ -311,4 +231,4 @@ def propose_text_schema(
         reply = llm.generate(prompt, Critique, model=model, temperature=temperature)
         return reply.issues if reply.verdict == "retry" else []
 
-    return refine(propose, _proposal_issues, critique if use_critic else None, max_rounds)
+    return refine(propose, validate_text_schema, critique if use_critic else None, max_rounds)

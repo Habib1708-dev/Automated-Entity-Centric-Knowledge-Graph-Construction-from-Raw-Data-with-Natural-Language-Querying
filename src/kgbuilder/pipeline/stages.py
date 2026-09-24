@@ -280,11 +280,7 @@ class TextSchemaStage(_TextStage):
             s.llm_temperature,
         )
         _log_refinement(ctx, run, result, "text_schema_rounds.json")
-        run.metrics(
-            entity_types=len(result.value.entity_types),
-            fact_types=len(result.value.fact_types),
-            goal_questions=len(result.value.goal_questions),  # each with a code-checked path (R56)
-        )
+        run.metrics(entity_types=len(result.value.entity_types), fact_types=len(result.value.fact_types))
         run.artifact(ctx.write(TEXT_SCHEMA_FILE, result.value.model_dump_json(indent=2)))
         if not result.accepted:
             raise ProposalRejectedError("text schema", result.open_issues)
