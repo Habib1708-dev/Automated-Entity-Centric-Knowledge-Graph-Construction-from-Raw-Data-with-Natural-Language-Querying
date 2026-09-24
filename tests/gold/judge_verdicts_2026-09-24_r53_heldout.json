@@ -1,0 +1,2084 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-09-24",
+  "run_id": "4ac375b6",
+  "git_sha": "5699960"
+ },
+ "gold": "tests/gold/heldout_nhtsa_gold.json",
+ "facts": [
+  {
+   "id": "4282331c8786",
+   "subject": "10667633",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "RUSTED",
+   "verdict": "SUPPORTED",
+   "evidence": "IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED.",
+   "reason": "complaint 10667633 states 'rusted'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "79cdd40be092",
+   "subject": "10667633",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "REAR WHEEL WELLS",
+   "verdict": "SUPPORTED",
+   "evidence": "IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED.",
+   "reason": "complaint 10667633 names the rear wheel wells as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "9ddb642298f8",
+   "subject": "10667633",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2015 FORD ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "2015 Ford Escape owner complaints to NHTSA",
+   "reason": "complaint 10667633 is a section of the 2015 ford escape document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "cbc2a2952a08",
+   "subject": "REAR WHEEL WELLS",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE, IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED.",
+   "reason": "derived PART_OF: the escape document names its rear wheel wells",
+   "vague": false,
+   "gold_index": 1
+  },
+  {
+   "id": "d18ec767254e",
+   "subject": "10689793",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "ACCELERATOR HESITATION",
+   "verdict": "SUPPORTED",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason": "complaint 10689793 states 'accelerator hesitation'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1f67172ec959",
+   "subject": "10689793",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ACCELERATOR",
+   "verdict": "SUPPORTED",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason": "complaint 10689793 names the accelerator as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b130a96c079a",
+   "subject": "10689793",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ENGINE",
+   "verdict": "SUPPORTED",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"",
+   "reason": "complaint 10689793 names the engine as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "322f4efb8d90",
+   "subject": "10689793",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "TURBO",
+   "verdict": "SUPPORTED",
+   "evidence": "\"THE TURBO IS SPOOLING UP\"",
+   "reason": "complaint 10689793 names the turbo as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e7aa554b9154",
+   "subject": "10689793",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2015 FORD ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "2015 Ford Escape owner complaints to NHTSA",
+   "reason": "complaint 10689793 is a section of the 2015 ford escape document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "fcd777dc39fa",
+   "subject": "ACCELERATOR",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason": "derived PART_OF: the escape document names its accelerator",
+   "vague": false,
+   "gold_index": 3
+  },
+  {
+   "id": "7e78c7cc4824",
+   "subject": "ENGINE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "WOULD LIKE FOR HONDA TO PROVIDE ALTERNATIVE TRANSPORTATION UNTIL ENGINE CAN BE REPAIRED/REPLACED OR BUY THE VEHICLE BACK SINCE DEALERS HAVE BEEN FORCED TO STOP SELLING 2016 CIVICS.",
+   "reason": "derived PART_OF: the civic document names its engine",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d0db44f15b1f",
+   "subject": "ENGINE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason": "derived PART_OF: the civic document names its engine",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d91d29772f83",
+   "subject": "ENGINE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "THE ENGINE DOES NOT STOP RUNNING.",
+   "reason": "derived PART_OF: the rav4 document names its engine",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4f31b217e470",
+   "subject": "ENGINE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "reason": "derived PART_OF: the escape document names its engine",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6a6f137808de",
+   "subject": "TURBO",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "reason": "derived PART_OF: the escape document names its turbo",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "55a5683d7fee",
+   "subject": "10690483",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "BRAKE SQUEAL",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "reason": "complaint 10690483 states 'brake squeal'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "43e5f2a1589f",
+   "subject": "10690483",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "SQUEAL",
+   "verdict": "SUPPORTED",
+   "evidence": "SQUEAL RETURNED IN TWO DAYS.",
+   "reason": "complaint 10690483 states 'squeal'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ac3f2ed61d90",
+   "subject": "10690483",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "PADS",
+   "verdict": "SUPPORTED",
+   "evidence": "3RD TIME, PADS CHANGED AND ROTORS MACHINED.",
+   "reason": "complaint 10690483 names the pads as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4b16062d698a",
+   "subject": "10690483",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "LEFT REAR BRAKE",
+   "verdict": "SUPPORTED",
+   "evidence": "SECOND TIME, WITH VIDEO EVIDENCE OF SQUEAL, TECH DIAGNOSED LEFT REAR BRAKE.",
+   "reason": "complaint 10690483 names the left rear brake as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "28f6dce75d45",
+   "subject": "10690483",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "BRAKE",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "reason": "complaint 10690483 names the brake as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "8d55a974020a",
+   "subject": "10690483",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ROTORS",
+   "verdict": "SUPPORTED",
+   "evidence": "3RD TIME, PADS CHANGED AND ROTORS MACHINED.",
+   "reason": "complaint 10690483 names the rotors as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "797b71ac4146",
+   "subject": "10690483",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2015 Ford Escape",
+   "verdict": "SUPPORTED",
+   "evidence": "2015 Ford Escape owner complaints to NHTSA",
+   "reason": "complaint 10690483 is a section of the 2015 ford escape document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d870c66a9581",
+   "subject": "BRAKE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "reason": "derived PART_OF: the escape document names its brake",
+   "vague": false,
+   "gold_index": 5
+  },
+  {
+   "id": "75aee1a5e00b",
+   "subject": "BRAKE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason": "derived PART_OF: the rogue document names its brake",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3ecd6b95c6c2",
+   "subject": "LEFT REAR BRAKE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "SECOND TIME, WITH VIDEO EVIDENCE OF SQUEAL, TECH DIAGNOSED LEFT REAR BRAKE.",
+   "reason": "derived PART_OF: the escape document names its left rear brake",
+   "vague": false,
+   "gold_index": 7
+  },
+  {
+   "id": "60ff8c34c1df",
+   "subject": "PADS",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "3RD TIME, PADS CHANGED AND ROTORS MACHINED.",
+   "reason": "derived PART_OF: the escape document names its pads",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "65f3122d40af",
+   "subject": "ROTORS",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "3RD TIME, PADS CHANGED AND ROTORS MACHINED.",
+   "reason": "derived PART_OF: the escape document names its rotors",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "cc0ceb0e3f18",
+   "subject": "10691672",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "AIR BAGS FAILED TO DEPLOY",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "reason": "complaint 10691672 states 'air bags failed to deploy'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "46a676f6c8a8",
+   "subject": "10691672",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "AIR BAGS",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "reason": "complaint 10691672 names the air bags as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5ca3409e90e6",
+   "subject": "10691672",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2015 FORD ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "2015 Ford Escape owner complaints to NHTSA",
+   "reason": "complaint 10691672 is a section of the 2015 ford escape document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ce562565bef9",
+   "subject": "AIR BAGS FAILED TO DEPLOY",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "AIR BAGS",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "reason": "the text puts 'air bags failed to deploy' on the air bags",
+   "vague": false,
+   "gold_index": 8
+  },
+  {
+   "id": "a0fae4e96d8f",
+   "subject": "AIR BAGS",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "reason": "derived PART_OF: the escape document names its air bags",
+   "vague": false,
+   "gold_index": 9
+  },
+  {
+   "id": "7ca3acbf1e41",
+   "subject": "10692693",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "HESITATING",
+   "verdict": "SUPPORTED",
+   "evidence": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION.",
+   "reason": "complaint 10692693 states 'hesitating'",
+   "vague": false,
+   "gold_index": 11
+  },
+  {
+   "id": "84f20e975ffb",
+   "subject": "10692693",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "STALLING",
+   "verdict": "SUPPORTED",
+   "evidence": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION.",
+   "reason": "complaint 10692693 states 'stalling'",
+   "vague": false,
+   "gold_index": 10
+  },
+  {
+   "id": "3478ae69a524",
+   "subject": "10692693",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "TRANSMISSION",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION.",
+   "reason": "complaint 10692693 names the transmission as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "32c3301bcfa5",
+   "subject": "10692693",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2015 Ford Escape",
+   "verdict": "SUPPORTED",
+   "evidence": "2015 Ford Escape owner complaints to NHTSA",
+   "reason": "complaint 10692693 is a section of the 2015 ford escape document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "817517078598",
+   "subject": "ACCELERATOR HESITATION",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "ACCELERATOR",
+   "verdict": "SUPPORTED",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason": "the text puts 'accelerator hesitation' on the accelerator",
+   "vague": false,
+   "gold_index": 2
+  },
+  {
+   "id": "411ede5b21a9",
+   "subject": "TRANSMISSION",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "derived PART_OF: the rav4 document names its transmission",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4d92928e6c83",
+   "subject": "TRANSMISSION",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ESCAPE",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION.",
+   "reason": "derived PART_OF: the escape document names its transmission",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "52464e814ce1",
+   "subject": "TRANSMISSION",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "reason": "derived PART_OF: the rogue document names its transmission",
+   "vague": false,
+   "gold_index": 39
+  },
+  {
+   "id": "69199cd0aa3b",
+   "subject": "10809523",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "NOT BE ABLE TO LOCK",
+   "verdict": "SUPPORTED",
+   "evidence": "IT MAKES ABSOLUTELY NO SENSE NOT BE ABLE TO LOCK THE TRUNK.",
+   "reason": "complaint 10809523 states 'not be able to lock'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "a639f9244ae9",
+   "subject": "10809523",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "DO NOT LOCK",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "reason": "complaint 10809523 states 'do not lock'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "9afcfaf2b448",
+   "subject": "10809523",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "GLOVE COMPARTMENT",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "reason": "complaint 10809523 names the glove compartment as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c407dfffa163",
+   "subject": "10809523",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "TRUNK",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "reason": "complaint 10809523 names the trunk as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3874ce181954",
+   "subject": "10809523",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2016 Honda Civic",
+   "verdict": "SUPPORTED",
+   "evidence": "2016 Honda Civic owner complaints to NHTSA",
+   "reason": "complaint 10809523 is a section of the 2016 honda civic document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4f1a60eac251",
+   "subject": "TRUNK",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "reason": "derived PART_OF: the civic document names its trunk",
+   "vague": false,
+   "gold_index": 13
+  },
+  {
+   "id": "b537abb65ddb",
+   "subject": "GLOVE COMPARTMENT",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "reason": "derived PART_OF: the civic document names its glove compartment",
+   "vague": false,
+   "gold_index": 15
+  },
+  {
+   "id": "0e05dbd1163f",
+   "subject": "10816192",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "BRAKE SUDDENLY",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason": "complaint 10816192 states 'brake suddenly'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "88ebc3fcf728",
+   "subject": "10816192",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "REACT UNPREDICTABLY",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason": "complaint 10816192 states 'react unpredictably'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "86cc81ceddc6",
+   "subject": "10816192",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "QUICKLY DEPART THE HIGHWAY",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason": "complaint 10816192 states 'quickly depart the highway'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6dc7ded3e896",
+   "subject": "10816192",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "RAPIDLY DECELERATE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason": "complaint 10816192 states 'rapidly decelerate'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4ca98b525f8d",
+   "subject": "10816192",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "LANE KEEPING ASSIST SYSTEM",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason": "complaint 10816192 names the lane keeping assist system as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c888f3fa7206",
+   "subject": "10816192",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ADAPTIVE CRUISE CONTROL",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason": "complaint 10816192 names the adaptive cruise control as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f6a50c6546bf",
+   "subject": "10816192",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2016 Honda Civic",
+   "verdict": "SUPPORTED",
+   "evidence": "2016 Honda Civic owner complaints to NHTSA",
+   "reason": "complaint 10816192 is a section of the 2016 honda civic document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "7614879a9477",
+   "subject": "ADAPTIVE CRUISE CONTROL",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason": "derived PART_OF: the civic document names its adaptive cruise control",
+   "vague": false,
+   "gold_index": 24
+  },
+  {
+   "id": "295e80369a4d",
+   "subject": "LANE KEEPING ASSIST SYSTEM",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason": "derived PART_OF: the civic document names its lane keeping assist system",
+   "vague": false,
+   "gold_index": 25
+  },
+  {
+   "id": "7cfe2482c3ac",
+   "subject": "10823637",
+   "predicate": "MENTIONS_RECALL",
+   "object": "PISTON CLIP RING RECALL",
+   "verdict": "SUPPORTED",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "reason": "complaint 10823637 cites the piston clip ring recall",
+   "vague": false,
+   "gold_index": 29
+  },
+  {
+   "id": "4b873b97064b",
+   "subject": "10823637",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "ENGINE FAILURE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason": "complaint 10823637 states 'engine failure'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6fffc8b8649d",
+   "subject": "10823637",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "STALLING",
+   "verdict": "SUPPORTED",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason": "complaint 10823637 states 'stalling'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3216e07d9325",
+   "subject": "10823637",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "PISTON CLIP RING",
+   "verdict": "SUPPORTED",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "reason": "complaint 10823637 names the piston clip ring as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f9a14b2ea1c0",
+   "subject": "10823637",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ENGINE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason": "complaint 10823637 names the engine as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ef79f8587a3f",
+   "subject": "10823637",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2016 Honda Civic",
+   "verdict": "SUPPORTED",
+   "evidence": "2016 Honda Civic owner complaints to NHTSA",
+   "reason": "complaint 10823637 is a section of the 2016 honda civic document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ed82ff02a7d0",
+   "subject": "PISTON CLIP RING",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "reason": "derived PART_OF: the civic document names its piston clip ring",
+   "vague": false,
+   "gold_index": 28
+  },
+  {
+   "id": "1891f6277342",
+   "subject": "PISTON CLIP RING",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.",
+   "reason": "derived PART_OF: the civic document names its piston clip ring",
+   "vague": false,
+   "gold_index": 28
+  },
+  {
+   "id": "9d441895c868",
+   "subject": "ENGINE FAILURE",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "ENGINE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason": "the text puts 'engine failure' on the engine",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "be9609342ae8",
+   "subject": "10824361",
+   "predicate": "MENTIONS_RECALL",
+   "object": "RECALL",
+   "verdict": "SUPPORTED",
+   "evidence": "I WAS SOLD A BRAND NEW 2016 HONDA CIVIC THE DAY AFTER A RECALL AND STOP OF SALE WAS ISSUED.",
+   "reason": "complaint 10824361 cites the recall",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "011fc43aa7d6",
+   "subject": "10824361",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2016 HONDA CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "2016 Honda Civic owner complaints to NHTSA",
+   "reason": "complaint 10824361 is a section of the 2016 honda civic document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b4c53d2a8d53",
+   "subject": "10825467",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "PISTON SNAP RING",
+   "verdict": "SUPPORTED",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.",
+   "reason": "complaint 10825467 names the piston snap ring as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3f230bf6f4c2",
+   "subject": "10825467",
+   "predicate": "MENTIONS_RECALL",
+   "object": "PISTON SNAP RING RECALL",
+   "verdict": "SUPPORTED",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.",
+   "reason": "complaint 10825467 cites the piston snap ring recall",
+   "vague": false,
+   "gold_index": 30
+  },
+  {
+   "id": "e96fd469e3fc",
+   "subject": "10825467",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ENGINE",
+   "verdict": "SUPPORTED",
+   "evidence": "WOULD LIKE FOR HONDA TO PROVIDE ALTERNATIVE TRANSPORTATION UNTIL ENGINE CAN BE REPAIRED/REPLACED",
+   "reason": "complaint 10825467 names the engine as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "655739a51d37",
+   "subject": "10825467",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2016 HONDA CIVIC",
+   "verdict": "SUPPORTED",
+   "evidence": "2016 Honda Civic owner complaints to NHTSA",
+   "reason": "complaint 10825467 is a section of the 2016 honda civic document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "bc6ec64d2b86",
+   "subject": "10957753",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "FAILED WITHOUT WARNING",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "reason": "complaint 10957753 states 'failed without warning'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f3036eedd2f4",
+   "subject": "10957753",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "SPEEDOMETER",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "reason": "complaint 10957753 names the speedometer as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "17bf67474987",
+   "subject": "10957753",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2017 NISSAN ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "2017 Nissan Rogue owner complaints to NHTSA",
+   "reason": "complaint 10957753 is a section of the 2017 nissan rogue document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "8a59607f3b22",
+   "subject": "FAILED WITHOUT WARNING",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "SPEEDOMETER",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "reason": "the text puts 'failed without warning' on the speedometer",
+   "vague": false,
+   "gold_index": 31
+  },
+  {
+   "id": "161aaea22b41",
+   "subject": "SPEEDOMETER",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "reason": "derived PART_OF: the rogue document names its speedometer",
+   "vague": false,
+   "gold_index": 32
+  },
+  {
+   "id": "6db8fb67f24a",
+   "subject": "10972343",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "BRAKES",
+   "verdict": "SUPPORTED",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason": "complaint 10972343 names the brakes as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "84484ecbb27a",
+   "subject": "10972343",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "BRAKED ON ITS OWN",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CAR BRAKED ON ITS OWN.",
+   "reason": "complaint 10972343 states 'braked on its own'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "927a10da9a55",
+   "subject": "10972343",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "FRONT CAMERA SYSTEM",
+   "verdict": "SUPPORTED",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason": "complaint 10972343 names the front camera system as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "897109e9be26",
+   "subject": "10972343",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2017 Nissan Rogue",
+   "verdict": "SUPPORTED",
+   "evidence": "2017 Nissan Rogue owner complaints to NHTSA",
+   "reason": "complaint 10972343 is a section of the 2017 nissan rogue document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "abbdcdabed3e",
+   "subject": "FRONT CAMERA SYSTEM",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason": "derived PART_OF: the rogue document names its front camera system",
+   "vague": false,
+   "gold_index": 35
+  },
+  {
+   "id": "ea8ab3dc88bc",
+   "subject": "BRAKED ON ITS OWN",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "BRAKES",
+   "verdict": "SUPPORTED",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.  THE CAR BRAKED ON ITS OWN.",
+   "reason": "the text puts 'braked on its own' on the brakes",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e6f8f34d2e1f",
+   "subject": "11010220",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "DID NOT STOP",
+   "verdict": "SUPPORTED",
+   "evidence": "AS I TRIED TO SLOWDOWN THE VEHICLE INTO PARKING, THE CAR DID NOT STOP.",
+   "reason": "complaint 11010220 states 'did not stop'",
+   "vague": false,
+   "gold_index": 36
+  },
+  {
+   "id": "90a537cb2f3f",
+   "subject": "11010220",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "BRAKE PEDAL",
+   "verdict": "SUPPORTED",
+   "evidence": "I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE.",
+   "reason": "complaint 11010220 names the brake pedal as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "da6db3dd73cb",
+   "subject": "11010220",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2017 Nissan Rogue",
+   "verdict": "SUPPORTED",
+   "evidence": "2017 Nissan Rogue owner complaints to NHTSA",
+   "reason": "complaint 11010220 is a section of the 2017 nissan rogue document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1ec010245519",
+   "subject": "BRAKE PEDAL",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE.",
+   "reason": "derived PART_OF: the rogue document names its brake pedal",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1e00a2da73e6",
+   "subject": "11030208",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "ERRONEOUSLY SWITCHED TO REVERSE",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE",
+   "reason": "complaint 11030208 states 'erroneously switched to reverse'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "002e5bed97ee",
+   "subject": "11030208",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "MOVED BACKWARDS",
+   "verdict": "SUPPORTED",
+   "evidence": "THE VEHICLE MOVED BACKWARDS.",
+   "reason": "complaint 11030208 states 'moved backwards'",
+   "vague": false,
+   "gold_index": 40
+  },
+  {
+   "id": "7a74aceabd85",
+   "subject": "11030208",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "TRANSMISSION",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE",
+   "reason": "complaint 11030208 names the transmission as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "86fe95334cc9",
+   "subject": "11030208",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2017 NISSAN ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "2017 Nissan Rogue owner complaints to NHTSA",
+   "reason": "complaint 11030208 is a section of the 2017 nissan rogue document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5a23daf3673c",
+   "subject": "ERRONEOUSLY SWITCHED TO REVERSE",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "TRANSMISSION",
+   "verdict": "SUPPORTED",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE",
+   "reason": "the text puts 'erroneously switched to reverse' on the transmission",
+   "vague": false,
+   "gold_index": 38
+  },
+  {
+   "id": "6d8377e45287",
+   "subject": "11032133",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "NOT MOVEING",
+   "verdict": "SUPPORTED",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING",
+   "reason": "complaint 11032133 states 'not moveing'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "2d3d7ee2dfae",
+   "subject": "11032133",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "GAS GAUGE",
+   "verdict": "SUPPORTED",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING",
+   "reason": "complaint 11032133 names the gas gauge as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "bfd052fa2370",
+   "subject": "11032133",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2017 Nissan Rogue",
+   "verdict": "SUPPORTED",
+   "evidence": "2017 Nissan Rogue owner complaints to NHTSA",
+   "reason": "complaint 11032133 is a section of the 2017 nissan rogue document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "09410e00feac",
+   "subject": "GAS GAUGE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "I KNOW THIS BECAUSE MY GAS GAUGE DOES NOT INDICATE FULL AND I AM ABLE TO ADD AN ADDITIONAL 2-2.5 GALLONS TO MY TANK, THOUGH IT TAKES A WHILE BECAUSE I HAVE TO PUSH THROUGH ALL THE AUTO SHUTOFFS.",
+   "reason": "derived PART_OF: the rav4 document names its gas gauge",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4420360d6a04",
+   "subject": "GAS GAUGE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "ROGUE",
+   "verdict": "SUPPORTED",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY",
+   "reason": "derived PART_OF: the rogue document names its gas gauge",
+   "vague": false,
+   "gold_index": 42
+  },
+  {
+   "id": "05cd15284738",
+   "subject": "11123359",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "CRACK",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP.",
+   "reason": "complaint 11123359 states 'crack'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d4864d1d7b11",
+   "subject": "11123359",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "WINDSHIELD",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP.",
+   "reason": "complaint 11123359 names the windshield as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "0129c87fba1b",
+   "subject": "11123359",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 Subaru Outback",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Subaru Outback owner complaints to NHTSA",
+   "reason": "complaint 11123359 is a section of the 2019 subaru outback document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "db2f7b824a7d",
+   "subject": "WINDSHIELD",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD, UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY.",
+   "reason": "derived PART_OF: the outback document names its windshield",
+   "vague": false,
+   "gold_index": 44
+  },
+  {
+   "id": "010194b99fb3",
+   "subject": "WINDSHIELD",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP.",
+   "reason": "derived PART_OF: the outback document names its windshield",
+   "vague": false,
+   "gold_index": 44
+  },
+  {
+   "id": "a216f5c52f8f",
+   "subject": "11166434",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "NAVIGATION SYSTEM",
+   "verdict": "SUPPORTED",
+   "evidence": "NAVIGATION SYSTEM FAILURE!",
+   "reason": "complaint 11166434 names the navigation system as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "0255fe5fe778",
+   "subject": "11166434",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Subaru Outback owner complaints to NHTSA",
+   "reason": "complaint 11166434 is a section of the 2019 outback document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5bd6ab6b6a8d",
+   "subject": "11166434",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "FREEZES UP COMPLETELY",
+   "verdict": "SUPPORTED",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason": "complaint 11166434 states 'freezes up completely'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4bd9f4f03939",
+   "subject": "11166434",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "DEAD BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "reason": "complaint 11166434 states 'dead battery'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "66beffeac24f",
+   "subject": "11166434",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "FAILURE",
+   "verdict": "SUPPORTED",
+   "evidence": "NAVIGATION SYSTEM FAILURE!",
+   "reason": "complaint 11166434 states 'failure'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "8401e0580c3c",
+   "subject": "11166434",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "DRAINING BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason": "complaint 11166434 states 'draining battery'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "89fed8668583",
+   "subject": "11166434",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "BACK UP CAMERA",
+   "verdict": "SUPPORTED",
+   "evidence": "CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason": "complaint 11166434 names the back up camera as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "fd67868eef6f",
+   "subject": "11166434",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "NAV SYSTEM",
+   "verdict": "SUPPORTED",
+   "evidence": "PROBLEMS USING THE NAV SYSTEM.",
+   "reason": "complaint 11166434 names the nav system as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4631c37940d3",
+   "subject": "11166434",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason": "complaint 11166434 names the battery as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1f1269e17822",
+   "subject": "11166434",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "RADIO",
+   "verdict": "SUPPORTED",
+   "evidence": "CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason": "complaint 11166434 names the radio as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "183f00425bc5",
+   "subject": "NAV SYSTEM",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "NAVIGATION SYSTEM FAILURE!",
+   "reason": "derived PART_OF: the outback document names its nav system",
+   "vague": false,
+   "gold_index": 50
+  },
+  {
+   "id": "d5c6d6259528",
+   "subject": "RADIO",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason": "derived PART_OF: the outback document names its radio",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1b394f97c0c6",
+   "subject": "BACK UP CAMERA",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason": "derived PART_OF: the outback document names its back up camera",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1b140910b6fb",
+   "subject": "BATTERY",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason": "derived PART_OF: the outback document names its battery",
+   "vague": false,
+   "gold_index": 52
+  },
+  {
+   "id": "a3ae792842d7",
+   "subject": "BATTERY",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "reason": "derived PART_OF: the outback document names its battery",
+   "vague": false,
+   "gold_index": 52
+  },
+  {
+   "id": "dff5fe578034",
+   "subject": "DEAD BATTERY",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "reason": "the text puts 'dead battery' on the battery",
+   "vague": false,
+   "gold_index": 51
+  },
+  {
+   "id": "4bb40361a726",
+   "subject": "DEAD BATTERY",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "reason": "the text puts 'dead battery' on the battery",
+   "vague": false,
+   "gold_index": 51
+  },
+  {
+   "id": "2b44e1b3a7bf",
+   "subject": "11176393",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "NO FEEDBACK FROM A STEERING WHEEL",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason": "complaint 11176393 states 'no feedback from a steering wheel'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "50b12ea31fe9",
+   "subject": "11176393",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "FEELS LIKE I DO NOT HAVE ANY CONTROL",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason": "complaint 11176393 states 'feels like i do not have any control'",
+   "vague": false,
+   "gold_index": 57
+  },
+  {
+   "id": "1e3715a7f99b",
+   "subject": "11176393",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "STEERING WHEEL",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason": "complaint 11176393 names the steering wheel as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c5c2a72271ec",
+   "subject": "11176393",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 Subaru Outback",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Subaru Outback owner complaints to NHTSA",
+   "reason": "complaint 11176393 is a section of the 2019 subaru outback document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6bd03c31a9e8",
+   "subject": "NO FEEDBACK FROM A STEERING WHEEL",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "STEERING WHEEL",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason": "the text puts 'no feedback from a steering wheel' on the steering wheel",
+   "vague": false,
+   "gold_index": 55
+  },
+  {
+   "id": "e248453ed9fb",
+   "subject": "STEERING WHEEL",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason": "derived PART_OF: the outback document names its steering wheel",
+   "vague": false,
+   "gold_index": 56
+  },
+  {
+   "id": "671ffde05538",
+   "subject": "11180230",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "CRACKED",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD",
+   "reason": "complaint 11180230 states 'cracked'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "a7861aac1ab1",
+   "subject": "11180230",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "WINDSHIELD",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD",
+   "reason": "complaint 11180230 names the windshield as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d05282c65615",
+   "subject": "11180230",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "WIPER BLADE",
+   "verdict": "UNSUPPORTED",
+   "reason_code": "wrong_relation",
+   "reason": "the wiper blade only marks where the crack is; the schema's INVOLVES_COMPONENT is a part mentioned as failing, inspected or replaced"
+  },
+  {
+   "id": "113956a0fba5",
+   "subject": "11180230",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 Subaru Outback",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Subaru Outback owner complaints to NHTSA",
+   "reason": "complaint 11180230 is a section of the 2019 subaru outback document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c600bfae740b",
+   "subject": "WIPER BLADE",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "OUTBACK",
+   "verdict": "SUPPORTED",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD, UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY.",
+   "reason": "derived PART_OF: the outback document names its wiper blade",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "7d78ffb56a2f",
+   "subject": "11185059",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "PARASITIC BATTERY DRAIN",
+   "verdict": "SUPPORTED",
+   "evidence": "IT IS A PARASITIC BATTERY DRAIN.",
+   "reason": "complaint 11185059 states 'parasitic battery drain'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "8d86c8cbc862",
+   "subject": "11185059",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "DEAD BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "reason": "complaint 11185059 states 'dead battery'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "738b1606d6d4",
+   "subject": "11185059",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "WOULDN'T TAKE A JUMP",
+   "verdict": "SUPPORTED",
+   "evidence": "NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP.",
+   "reason": "complaint 11185059 states 'wouldn't take a jump'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e1c7216a6224",
+   "subject": "11185059",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "BATTERY",
+   "verdict": "SUPPORTED",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "reason": "complaint 11185059 names the battery as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "43b472722180",
+   "subject": "11204698",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "TRANSMISSION BOX",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "complaint 11204698 names the transmission box as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ae5ba9bba9e0",
+   "subject": "11204698",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "complaint 11204698 states 'gear shifter came out of the transmission box'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1db34a42b005",
+   "subject": "11204698",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "GEAR SHIFTER",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "complaint 11204698 names the gear shifter as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e3a480f807b5",
+   "subject": "11204698",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 TOYOTA RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "reason": "complaint 11204698 is a section of the 2019 toyota rav4 document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "2f8ddd38543f",
+   "subject": "GEAR SHIFTER",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "derived PART_OF: the rav4 document names its gear shifter",
+   "vague": false,
+   "gold_index": 59
+  },
+  {
+   "id": "6e57beadd14a",
+   "subject": "GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "TRANSMISSION BOX",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "the text puts 'gear shifter came out of the transmission box' on the transmission box",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5cf2fd8b0a77",
+   "subject": "GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "GEAR SHIFTER",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason": "the text puts 'gear shifter came out of the transmission box' on the gear shifter",
+   "vague": false,
+   "gold_index": 58
+  },
+  {
+   "id": "676a8e52f036",
+   "subject": "11205702",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "SHOOK",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "reason": "complaint 11205702 states 'shook'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "209dd7b78769",
+   "subject": "11205702",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "RATTLED",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "reason": "complaint 11205702 states 'rattled'",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "306ead4ddd42",
+   "subject": "11205702",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "EXTERIOR REARVIEW MIRRORS",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "reason": "complaint 11205702 names the exterior rearview mirrors as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b9a05c79690a",
+   "subject": "11205702",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "DRIVER'S SIDE REARVIEW MIRROR",
+   "verdict": "SUPPORTED",
+   "evidence": "THE DRIVER'S SIDE REARVIEW MIRROR WAS ESPECIALLY AFFECTED.",
+   "reason": "complaint 11205702 names the driver's side rearview mirror as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "822e8eddc3ed",
+   "subject": "11205702",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 TOYOTA RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "reason": "complaint 11205702 is a section of the 2019 toyota rav4 document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "0c9c1860bf56",
+   "subject": "EXTERIOR REARVIEW MIRRORS",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "reason": "derived PART_OF: the rav4 document names its exterior rearview mirrors",
+   "vague": false,
+   "gold_index": 63
+  },
+  {
+   "id": "8850dfdd8468",
+   "subject": "DRIVER'S SIDE REARVIEW MIRROR",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "THE DRIVER'S SIDE REARVIEW MIRROR WAS ESPECIALLY AFFECTED.",
+   "reason": "derived PART_OF: the rav4 document names its driver's side rearview mirror",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "930bd5e5c1f2",
+   "subject": "11209676",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "WILL NOT ACCELERATE",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.",
+   "reason": "complaint 11209676 states 'will not accelerate'",
+   "vague": false,
+   "gold_index": 64
+  },
+  {
+   "id": "7efbb87b07af",
+   "subject": "11209676",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "ENGINE",
+   "verdict": "UNSUPPORTED",
+   "reason_code": "wrong_relation",
+   "reason": "the text says the engine does not stop running: it is named as not failing, and was not inspected or replaced"
+  },
+  {
+   "id": "39147e2c2bd1",
+   "subject": "11209676",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "GAS PEDAL",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.",
+   "reason": "complaint 11209676 names the gas pedal as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1c6af50efe13",
+   "subject": "11209676",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 Toyota Rav4",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "reason": "complaint 11209676 is a section of the 2019 toyota rav4 document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5aca0276d1bf",
+   "subject": "GAS PEDAL",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.",
+   "reason": "derived PART_OF: the rav4 document names its gas pedal",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b7925f05e149",
+   "subject": "11221492",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "DOES NOT INDICATE FULL",
+   "verdict": "AMBIGUOUS",
+   "reason": "'does not indicate full' can be read as the symptom of the premature shutoff or only as the owner's evidence for it"
+  },
+  {
+   "id": "067152a30151",
+   "subject": "11221492",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "GAS GAUGE",
+   "verdict": "UNSUPPORTED",
+   "reason_code": "wrong_relation",
+   "reason": "the gas gauge reads correctly (the tank is not full); it is the owner's evidence, not a failing, inspected or replaced part"
+  },
+  {
+   "id": "3d4ea871d287",
+   "subject": "11221492",
+   "predicate": "INVOLVES_COMPONENT",
+   "object": "TANK",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "reason": "complaint 11221492 names the tank as failing, inspected or replaced",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "483abdf3ac03",
+   "subject": "11221492",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 Toyota Rav4",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "reason": "complaint 11221492 is a section of the 2019 toyota rav4 document",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "d6e6b80564ac",
+   "subject": "TANK",
+   "predicate": "PART_OF_VEHICLE",
+   "object": "RAV4",
+   "verdict": "SUPPORTED",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "reason": "derived PART_OF: the rav4 document names its tank",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "0311395b6640",
+   "subject": "DOES NOT INDICATE FULL",
+   "predicate": "OCCURS_IN_COMPONENT",
+   "object": "GAS GAUGE",
+   "verdict": "UNSUPPORTED",
+   "reason_code": "wrong_relation",
+   "reason": "the gauge correctly shows the tank is not full; the text states no malfunction of the gauge"
+  },
+  {
+   "id": "b15051b4eb96",
+   "subject": "11229137",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "HEAR WIND",
+   "verdict": "SUPPORTED",
+   "evidence": "YOU CAN HEAR WIND WHEN DRIVING YOUR VEHICLE.",
+   "reason": "complaint 11229137 states 'hear wind'",
+   "vague": false,
+   "gold_index": 66
+  },
+  {
+   "id": "c2223974fbab",
+   "subject": "11229137",
+   "predicate": "REPORTS_PROBLEM",
+   "object": "SMELL FREON",
+   "verdict": "SUPPORTED",
+   "evidence": "ALSO YOU CAN SMELL FREON.",
+   "reason": "complaint 11229137 states 'smell freon'",
+   "vague": false,
+   "gold_index": 67
+  },
+  {
+   "id": "f14714959278",
+   "subject": "11229137",
+   "predicate": "CONCERNS_VEHICLE",
+   "object": "2019 Toyota Rav4",
+   "verdict": "SUPPORTED",
+   "evidence": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "reason": "complaint 11229137 is a section of the 2019 toyota rav4 document",
+   "vague": false,
+   "gold_index": null
+  }
+ ],
+ "recall": [
+  {
+   "gold_index": 1,
+   "matched_fact": "cbc2a2952a08",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 2,
+   "matched_fact": "817517078598",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 3,
+   "matched_fact": "fcd777dc39fa",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 5,
+   "matched_fact": "d870c66a9581",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 7,
+   "matched_fact": "3ecd6b95c6c2",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 8,
+   "matched_fact": "ce562565bef9",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 9,
+   "matched_fact": "a0fae4e96d8f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 10,
+   "matched_fact": "84f20e975ffb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 11,
+   "matched_fact": "7ca3acbf1e41",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 13,
+   "matched_fact": "4f1a60eac251",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 15,
+   "matched_fact": "b537abb65ddb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 16,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 17,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 18,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 19,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 20,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 21,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 22,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 23,
+   "matched_fact": null,
+   "reason": "the extractor put this problem on the complaint (REPORTS_PROBLEM) and the system on the complaint (INVOLVES_COMPONENT); no fact places the problem in the system"
+  },
+  {
+   "gold_index": 24,
+   "matched_fact": "7614879a9477",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 25,
+   "matched_fact": "295e80369a4d",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 26,
+   "matched_fact": null,
+   "reason": "CAUSES is not in the proposed schema"
+  },
+  {
+   "gold_index": 27,
+   "matched_fact": null,
+   "reason": "CAUSES is not in the proposed schema"
+  },
+  {
+   "gold_index": 28,
+   "matched_fact": "ed82ff02a7d0",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 29,
+   "matched_fact": "7cfe2482c3ac",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 30,
+   "matched_fact": "3f230bf6f4c2",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 31,
+   "matched_fact": "8a59607f3b22",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 32,
+   "matched_fact": "161aaea22b41",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 33,
+   "matched_fact": null,
+   "reason": "no fact states the camera's misreading of the bridge"
+  },
+  {
+   "gold_index": 34,
+   "matched_fact": null,
+   "reason": "the only fact puts 'braked on its own' on the brakes, not on the front camera system that activated them"
+  },
+  {
+   "gold_index": 35,
+   "matched_fact": "abbdcdabed3e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 36,
+   "matched_fact": "e6f8f34d2e1f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 37,
+   "matched_fact": null,
+   "reason": "CAUSES is not in the proposed schema"
+  },
+  {
+   "gold_index": 38,
+   "matched_fact": "5a23daf3673c",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 39,
+   "matched_fact": "52464e814ce1",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 40,
+   "matched_fact": "002e5bed97ee",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 42,
+   "matched_fact": "4420360d6a04",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 44,
+   "matched_fact": "db2f7b824a7d",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 46,
+   "matched_fact": null,
+   "reason": "'freezes up completely' is only reported by the complaint; no fact places it in the navigation system"
+  },
+  {
+   "gold_index": 47,
+   "matched_fact": null,
+   "reason": "CAUSES is not in the proposed schema"
+  },
+  {
+   "gold_index": 48,
+   "matched_fact": null,
+   "reason": "no fact states that the navigation system stays on at night"
+  },
+  {
+   "gold_index": 49,
+   "matched_fact": null,
+   "reason": "CAUSES is not in the proposed schema"
+  },
+  {
+   "gold_index": 50,
+   "matched_fact": "183f00425bc5",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 51,
+   "matched_fact": "dff5fe578034",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 52,
+   "matched_fact": "1b140910b6fb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 54,
+   "matched_fact": null,
+   "reason": "'wouldn't take a jump' is only reported by the complaint; no fact places it in the battery"
+  },
+  {
+   "gold_index": 55,
+   "matched_fact": "6bd03c31a9e8",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 56,
+   "matched_fact": "e248453ed9fb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 57,
+   "matched_fact": "50b12ea31fe9",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 58,
+   "matched_fact": "5cf2fd8b0a77",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 59,
+   "matched_fact": "2f8ddd38543f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 62,
+   "matched_fact": null,
+   "reason": "no fact states the double image in the mirrors"
+  },
+  {
+   "gold_index": 63,
+   "matched_fact": "0c9c1860bf56",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 64,
+   "matched_fact": "930bd5e5c1f2",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 65,
+   "matched_fact": null,
+   "reason": "no fact states the premature shutoff; the extractor kept the tank and the gas gauge only"
+  },
+  {
+   "gold_index": 66,
+   "matched_fact": "b15051b4eb96",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 67,
+   "matched_fact": "c2223974fbab",
+   "reason": "same claim by meaning; see the fact's verdict"
+  }
+ ],
+ "er": [
+  {
+   "pair_index": 1,
+   "a_entity": "2517ea3ee0b3a4de",
+   "b_entity": "2517ea3ee0b3a4de",
+   "reason": "'hesitation' is the accelerator hesitation, merged with 'hesitating'"
+  },
+  {
+   "pair_index": 7,
+   "a_entity": "7de4aedb019e5e13",
+   "b_entity": "7de4aedb019e5e13",
+   "reason": "'ACC' is the text's abbreviation of the adaptive cruise control entity"
+  },
+  {
+   "pair_index": 8,
+   "a_entity": "76cd849b365c78ee",
+   "b_entity": "76cd849b365c78ee",
+   "reason": "'LKAS' is the text's abbreviation of the lane keeping assist system entity"
+  },
+  {
+   "pair_index": 14,
+   "a_entity": "84481f5beb151904",
+   "b_entity": "2517ea3ee0b3a4de",
+   "reason": "'hesitation' is the merged hesitation entity; 'will not accelerate' is its own"
+  }
+ ]
+}

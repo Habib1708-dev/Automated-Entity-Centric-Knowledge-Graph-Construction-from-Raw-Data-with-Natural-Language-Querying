@@ -1145,10 +1145,53 @@ itself; nothing is pinned) and **about 50 gold triples**. Rules for the whole be
 - One `heldout` run of extract, resolve, link, eval (user's yes needed; estimate about $0.03-0.05), a
   judge pass (Claude in the session), both scores with `n` and Wilson intervals, next to the furniture
   numbers; a dated results snapshot.
+- **Result (done, 2026-09-24).** User's yes given in the session. Extract `fa8abb59` 25 calls $0.0627 (134
+  facts, 1 rejected), resolve `374037af` 81 adjudications $0.0192 (106 → 94 entities, 12 merges), link
+  `732c9b91` (5 of 5 documents, 25 entities linked); **R53 $0.082, benchmark total $0.177**. Judge Claude
+  Opus 5.5, `tests/gold/judge_verdicts_2026-09-24_r53_heldout.json`, eval `d332c60f`:
+
+  | Score | Held-out NHTSA (automatic arm) | Furniture, R49 new prompt (pinned schema) |
+  |---|---|---|
+  | validated precision | **0.977** (170 / 174) [0.94, 0.99] | 0.992-1.000 |
+  | validated recall, all gold | **0.706** (48 / 68) [0.59, 0.80] | 0.854-0.865 (n = 96) |
+  | validated recall, expressible gold | 0.762 (48 / 63) [0.64, 0.85] | – |
+  | exact precision / recall | 0.080 / 0.162 | 0.370-0.385 / 0.365-0.396 |
+  | ER valid (exact) | 0.952 (20 / 21) [0.77, 0.99] (0.941, n = 17) | 1.000 |
+  | questions | **1.000** (5 / 5) | 1.000 |
+
+  95% Wilson intervals in brackets. The 20 missed gold triples: 5 `CAUSES` (not in the proposed schema),
+  11 where the extractor put the problem on the complaint (`REPORTS_PROBLEM`) and the part on the complaint
+  (`INVOLVES_COMPONENT`) instead of the problem on the part (8 of them the Civic ACC / LKAS complaint), 4
+  content misses (the camera misreading the bridge, the navigation system staying on at night, the double
+  image in the mirrors, the premature shutoff). Unsupported: 4, all `wrong_relation` (wiper blade and RAV4
+  engine / gas gauge named as involved or faulty although the text says otherwise); 1 ambiguous.
+  `gold_corrections` 115 is a count, not a gap: 111 are facts of the complaint-centred schema the
+  component-centred gold has no counterpart for (INVOLVES_COMPONENT 39, REPORTS_PROBLEM 30,
+  CONCERNS_VEHICLE 24, derived PART_OF_VEHICLE of parts the gold does not list 18); 4 are content (3
+  OCCURS_IN_COMPONENT, the vague "recall" mention). ER: pair 4 ("brake suddenly" / "braked on its own")
+  not merged. Reading: on unseen, real, mixed-format data the frozen pipeline designed a working plan and
+  schema, stays precise (0.977) and answers every question; recall falls from about 0.86 to 0.71, mostly
+  through the proposed schema's shape (16 of 20 misses), not through missed text (4 of 20). Arm and domain
+  are confounded: furniture ran the pinned schema, this ran the automatic arm. One sample; n is small.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The automatic arm's schema decides where a problem lives (found in R53, 2026-09-24).** The proposed
+  schema offers both `Complaint REPORTS_PROBLEM Problem` and `Problem OCCURS_IN_COMPONENT Component`; the
+  extractor often chose only the first, so 11 gold claims lost their part (all of the Civic ACC / LKAS
+  complaint). A root-cause question that goes from a problem to its part then fails although both are in
+  the graph (joined only through the complaint). Not tuned on the held-out data (frozen pipeline).
+  Candidates for a later, measured step on the development data: a schema-critic check that a problem
+  type can reach a component type, or an extraction rule to state both facts when the text names the part
+  (the "state both facts" rule exists, but only for one statement supporting two types).
+- **Complaints are named by their bare number (found in R53).** The extractor called a complaint
+  "10667633", the gold mapping "Complaint 10667633" (the heading). Exact match misses every complaint fact
+  for that reason alone; the judge is unaffected. Next held-out gold: name such entities as the text's
+  identifier only, decided before the run.
+- **Arm and domain are confounded in the held-out comparison (R53).** Separating them needs one controlled
+  run on the held-out data (a reviewed schema, pinned) or one automatic-arm run on the furniture data.
 
 - **(Closed by R42.) Exact matching ignores the document (found in R41).** `gold.matches` compares predicate and names
   only; since kinds merge across products, a fact can match a gold triple of another review (the
