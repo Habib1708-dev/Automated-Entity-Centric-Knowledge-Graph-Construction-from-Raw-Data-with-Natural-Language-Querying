@@ -1,0 +1,122 @@
+{
+  "goal_questions": [
+    {
+      "question": "Which physical defect caused an observed operational failure mode?",
+      "path": [
+        {
+          "subject_type": "FailureMode",
+          "predicate": "CAUSED_BY",
+          "object_type": "Defect"
+        }
+      ]
+    },
+    {
+      "question": "Which component is affected by the physical defect causing a reported failure mode?",
+      "path": [
+        {
+          "subject_type": "FailureMode",
+          "predicate": "CAUSED_BY",
+          "object_type": "Defect"
+        },
+        {
+          "subject_type": "Defect",
+          "predicate": "AFFECTS",
+          "object_type": "Component"
+        }
+      ]
+    },
+    {
+      "question": "Which catalog product contains the defective component causing a reported failure mode?",
+      "path": [
+        {
+          "subject_type": "FailureMode",
+          "predicate": "CAUSED_BY",
+          "object_type": "Defect"
+        },
+        {
+          "subject_type": "Defect",
+          "predicate": "AFFECTS",
+          "object_type": "Component"
+        },
+        {
+          "subject_type": "Component",
+          "predicate": "PART_OF",
+          "object_type": "Product"
+        }
+      ]
+    },
+    {
+      "question": "Which catalog product incorporates a component reported to have a physical defect?",
+      "path": [
+        {
+          "subject_type": "Defect",
+          "predicate": "AFFECTS",
+          "object_type": "Component"
+        },
+        {
+          "subject_type": "Component",
+          "predicate": "PART_OF",
+          "object_type": "Product"
+        }
+      ]
+    },
+    {
+      "question": "Which finished product directly exhibits a reported physical defect?",
+      "path": [
+        {
+          "subject_type": "Defect",
+          "predicate": "AFFECTS",
+          "object_type": "Product"
+        }
+      ]
+    }
+  ],
+  "entity_types": [
+    {
+      "name": "Product",
+      "description": "Finished furniture item offered in the catalog, excluding individual structural parts or replacement hardware."
+    },
+    {
+      "name": "Component",
+      "description": "Individual structural part, hardware element, or material piece of a furniture product, excluding complete finished catalog products."
+    },
+    {
+      "name": "Defect",
+      "description": "Specific physical flaw, manufacturing imperfection, material damage, or dimensional flaw, excluding functional failure symptoms and subjective styling preferences."
+    },
+    {
+      "name": "FailureMode",
+      "description": "Functional malfunction, operational failure, or assembly breakdown experienced during product use or assembly, excluding underlying physical material flaws."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "CAUSED_BY",
+      "subject_type": "FailureMode",
+      "object_type": "Defect",
+      "description": "Connects an observed operational failure mode, functional malfunction, or assembly problem to the underlying physical defect that caused it.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFECTS",
+      "subject_type": "Defect",
+      "object_type": "Component",
+      "description": "Connects a reported physical flaw, manufacturing error, or damage to the specific component part exhibiting it.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFECTS",
+      "subject_type": "Defect",
+      "object_type": "Product",
+      "description": "Connects an observed physical flaw, surface damage, or defect directly to the finished catalog product.",
+      "derived": false
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Product",
+      "description": "Links an individual component mentioned in a review to the catalog product that the review document is about.",
+      "derived": true
+    }
+  ]
+}

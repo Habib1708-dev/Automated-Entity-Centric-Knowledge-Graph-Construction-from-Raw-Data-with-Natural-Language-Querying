@@ -1322,8 +1322,21 @@ nothing breaks, not that the rule helps where a record node exists.
   message: provenance is stored outside the schema). Critic: one more check for that. Stage metric
   `goal_questions`. Tests: path checks, the retry for a proposal without questions, goal-first order and
   domain-neutral wording, no 4-gram of either corpus in the prompt. 197 passed (Neo4j up), `ruff` clean.
-- **Part 2:** one `quality` run on furniture with R55's plan (text schema, gold mapped before extraction,
-  extract, resolve, link, eval) and a judge pass; next to R55 (0.854).
+- **Part 2 (done, 2026-09-24): a clear regression on the development data.** R55's plan, output
+  `out/r56_furniture/`: text schema `d2663328` **$0.1691** (2 rounds: the critic struck the copied domain
+  relations; 5 goal questions, all paths valid: FailureMode `CAUSED_BY` Defect, Defect `AFFECTS`
+  Component / Product, `PART_OF` derived), extract `fc735ba7` $0.0731 (**55 facts**; R55: 88-98), resolve
+  `2ae42fe4` $0.0070; **$0.249**. Gold mapped before extraction (`r56/furniture_gold.json`): HAS_DEFECT and
+  EXHIBITS_FAILURE → `AFFECTS` (inverted; a failure counts only if stated as a defect, since the schema
+  attaches failures to nothing), CAUSES_FAILURE → `CAUSED_BY` (inverted), IMPEDES_ASSEMBLY_OF not
+  expressible (8). Judge Claude Opus 5.5, eval `89930703`: precision **1.000** (n = 99), recall **0.552**
+  (53 / 96) [0.45, 0.65], F1 0.711, ER valid 0.972, questions **2 / 5** (wobbling, holes, squeaking fail).
+  Of 43 misses, 19 are failures (wobbles, sticks, squeaks, noise, doesn't close) the schema gives no place
+  on a part or product, 8 are not expressible, the rest not extracted. **Reading:** the questions the model
+  wrote all start from a failure and ask for its cause ("which defect caused an observed failure?"), so the
+  paths never needed a failure-to-part fact type; code confirmed the paths exist, not that they cover what
+  the text says. Goal-first narrowed the schema to the goal's causal chain and lost the direct
+  observations the chain starts from.
 - **Part 3:** one `heldout` run with R52's plan, frozen Part 1 code; next to R53 / R55 (0.706) and R54
   (0.838). User's yes given in the session for both runs (estimate about $0.30-0.40 together).
 
