@@ -8,8 +8,10 @@ mention chunk, with the chunk's sentence that names the entity as verbatim evide
 Design: "the LLM proposes, code decides", one step further: what the document states by itself (the title
 names the product, the review names the part) is never asked from the model, which used to spend more
 than half of its output on it. The rule only reads the path Entity <-MENTIONS- Chunk -PART_OF-> Document
--ABOUT-> node, written by three deterministic stages. Derived facts carry `extractor = "derived"`, so a
-reader can tell them from model output. All writes are MERGE: a rerun adds nothing.
+-ABOUT-> node, written by three deterministic stages. The object entity is the one the text already has
+for that node when its name contains the node's name ("2019 Subaru Outback" for "OUTBACK", R60), so the
+thing is one node, not two. Derived facts carry `extractor = "derived"`, so a reader can tell them from
+model output. All writes are MERGE: a rerun adds nothing.
 Not here: matching entities to domain nodes (linking.py) and the extracted facts (text/extraction.py).
 """
 
@@ -33,6 +35,35 @@ class DerivationReport(BaseModel):
     facts_derived: int
     entities_created: int  # object entities (the products) that no extracted fact had created before
     skipped_no_evidence: int  # mentions whose chunk has no sentence naming the entity: no quote, no fact
+    # domain nodes whose object entity was found by containment ("2019 Subaru Outback" for "OUTBACK", R60)
+    targets_by_containment: int = 0
+
+
+class Candidate(BaseModel):
+    """An entity of the object type that the chunks of one document mention."""
+
+    id: str
+    names: list[str]  # display name first, then aliases
+    mentions: int  # chunks of the ABOUT node's documents that mention it
+
+
+def containing_entity(node_name: str, candidates: list[Candidate]) -> str | None:
+    """The id of the entity whose name contains every word of the domain node's name, or None.
+
+    The plan names a node by one column ("OUTBACK", the `model`), while the text names the same thing in
+    full ("2019 Subaru Outback"); without this, derivation created a second entity for it (found in R54).
+    Only entities mentioned in the documents ABOUT that node are candidates, so a word the node's name
+    shares with another thing elsewhere cannot pull that thing in. Whole words, not substrings: "ESCAPE"
+    must not match "ESCAPED". Several candidates: the most-mentioned one, as in entity resolution, then
+    the shortest name and the id, so that the choice is deterministic.
+    """
+    wanted = set(norm(node_name).split())
+    if not wanted:
+        return None
+    matching = [c for c in candidates if any(wanted <= set(norm(n).split()) for n in c.names)]
+    if not matching:
+        return None
+    return min(matching, key=lambda c: (-c.mentions, len(c.names[0]), c.id)).id
 
 
 def existing_entities(driver: Driver, entity_type: str) -> dict[str, str]:
@@ -54,9 +85,10 @@ def existing_entities(driver: Driver, entity_type: str) -> dict[str, str]:
 def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> DerivationReport:
     """Write every fact the schema marks `derived`. Idempotent; returns the counts."""
     names_by_node = {n.element_id: n.name for n in read_domain_nodes(driver, plan)}
-    facts = created = skipped = 0
+    facts = created = skipped = contained = 0
     for fact_type in schema.derived():
-        known = existing_entities(driver, fact_type.object_type)
+        targets, by_containment = _targets(driver, fact_type.object_type, names_by_node)
+        contained += by_containment
         records, _, _ = driver.execute_query(
             # ORDER BY keeps the write order, and so the report, deterministic
             "MATCH (e:Entity {type: $stype})<-[:MENTIONS]-(c:Chunk)-[:PART_OF]->(:Document)-[:ABOUT]->(n) "
@@ -68,11 +100,7 @@ def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> 
         for r in records:
             product = names_by_node.get(r["node"])  # None: the ABOUT node has no name in the plan
             sentence = pick_sentence(r["text"], r["names"]) if product is not None else None
-            target = (
-                known.get(norm(product), entity_id(fact_type.object_type, product))
-                if product is not None
-                else None
-            )
+            target = targets.get(r["node"])
             if sentence is None or target == r["id"]:  # no quote, or a self-reference: no fact
                 skipped += 1
                 continue
@@ -81,7 +109,51 @@ def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> 
             )
         created += _write(driver, fact_type, rows)
         facts += len(rows)
-    return DerivationReport(facts_derived=facts, entities_created=created, skipped_no_evidence=skipped)
+    return DerivationReport(
+        facts_derived=facts,
+        entities_created=created,
+        skipped_no_evidence=skipped,
+        targets_by_containment=contained,
+    )
+
+
+def _targets(
+    driver: Driver, object_type: str, names_by_node: dict[str, str | None]
+) -> tuple[dict[str, str], int]:
+    """Domain node element id -> the id of the `object_type` entity its derived facts point at, and how
+    many of those were found by containment.
+
+    Order: an entity carrying the node's name or alias (R29), then the entity of its documents whose
+    name contains the node's name (R60), else a new entity named like the node.
+    """
+    known = existing_entities(driver, object_type)
+    in_documents = _candidates_by_node(driver, object_type)
+    targets: dict[str, str] = {}
+    contained = 0
+    for node, name in names_by_node.items():
+        if name is None:
+            continue
+        target = known.get(norm(name)) or containing_entity(name, in_documents.get(node, []))
+        if target is None:
+            target = entity_id(object_type, name)
+        elif norm(name) not in known:
+            contained += 1
+        targets[node] = target
+    return targets, contained
+
+
+def _candidates_by_node(driver: Driver, entity_type: str) -> dict[str, list[Candidate]]:
+    """Domain node element id -> the `entity_type` entities that its documents' chunks mention."""
+    records, _, _ = driver.execute_query(
+        "MATCH (e:Entity {type: $etype})<-[:MENTIONS]-(c:Chunk)-[:PART_OF]->(:Document)-[:ABOUT]->(n) "
+        "RETURN elementId(n) AS node, e.id AS id, [e.name] + coalesce(e.aliases, []) AS names, "
+        "count(DISTINCT c) AS mentions ORDER BY node, id",
+        etype=entity_type,
+    )
+    out: dict[str, list[Candidate]] = {}
+    for r in records:
+        out.setdefault(r["node"], []).append(Candidate(id=r["id"], names=r["names"], mentions=r["mentions"]))
+    return out
 
 
 def _write(driver: Driver, fact_type: FactType, rows: list[dict]) -> int:

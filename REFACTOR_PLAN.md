@@ -1406,10 +1406,30 @@ wrong for the data: see "Found along the way". Redesign it before the step start
 Planned: swap a reversed direction and normalise predicate spelling in `verify`. R57 found 0 off-schema
 rejections in five runs, so there is nothing to repair.
 
-### R60. Linking and naming: no generic entities, one node per thing (open)
-- Reject names that are only a type name (the "PART" and "SYSTEMS" misses of R54).
-- Derivation reuses the entity that `REFERS_TO` the document's `ABOUT` node, which fixes "OUTBACK" vs
-  "2019 Subaru Outback".
+### R60. Linking and naming: no generic entities, one node per thing
+- **Part 1 (done, 2026-09-24): one node per vehicle.** Behaviour change in `resolution/derivation.py`.
+  - What changed: derivation looks for an existing entity before it creates the object entity of a
+    derived fact.
+    - It first tries the node's name or an alias (as before, R29).
+    - Then it tries the entity whose name contains every word of the node's name (`containing_entity`:
+      whole words, the most-mentioned first).
+    - Only entities of the object type that the documents `ABOUT` that node mention are candidates.
+  - Why: the plan names a vehicle by its `model` ("OUTBACK"), while the text says "2019 Subaru Outback".
+    So every NHTSA vehicle existed twice, and the gold's derived triples ("... PART_OF 2016 Honda
+    Civic") could not match exactly. Furniture is unchanged, because its product names match exactly.
+  - New metric `targets_by_containment`.
+  - Tests: the selection rule as a pure function (whole words, ties, no match), and with Neo4j the
+    vehicle case: reused, not created, an entity from another vehicle's document ignored, and
+    idempotent. 196 passed (194 before), `ruff` clean.
+  - No run, $0.
+- **Dropped: rejecting generic names.** The saved outputs hold only a few such names (`PART`,
+  `SYSTEMS`, `ISSUES`, `FAILURE`: about 5 facts in R54, 2 in R53). A rule of the form "the name is a word
+  of its type's description" would also reject true facts ("damaged" against the description's "damage",
+  a "noise" symptom). And removing a generic fact does not raise recall. The fix, if any, is a naming
+  instruction in the extraction prompt, which needs a run to measure.
+- **Part 2 (open): measure.** Rebuild the held-out graph from the LLM cache ($0, no new model call), then
+  compare exact recall and `er_accuracy_valid` with R53. This needs the user's yes, because the `heldout`
+  preset is marked `ask_permission`.
 
 ### R61. Second extraction pass (open)
 - `extract_passes` (default 1; `quality` sets 2). Pass 2 shows each chunk's facts and asks for missed

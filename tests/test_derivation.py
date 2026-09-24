@@ -1,12 +1,12 @@
 """Derived facts: sentence picking as a pure function, and (with Neo4j) the rule that a named part is
 PART_OF the product its document is about: one fact per mention chunk, verbatim evidence, product entity
-created once (or reused when resolution merged it under another spelling), idempotent, scored by the
-gold set and accepted by the validation checks."""
+created once (or reused when resolution merged it under another spelling, or when the text names it in
+full, R60), idempotent, scored by the gold set and accepted by the validation checks."""
 
 import pytest
 
 from kgbuilder.core.text import pick_sentence
-from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, derive_facts
+from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_entity, derive_facts
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.schema import EntityType, FactType, TextSchema
 from kgbuilder.validation.checks.base import CheckContext
@@ -48,6 +48,74 @@ def test_pick_sentence_returns_the_first_verbatim_sentence_naming_the_entity():
     assert pick_sentence(text, ["handles", "rails"]) == "The Drawer Rails stick badly!"  # any alias
     assert pick_sentence(text, ["handles"]) is None
     assert pick_sentence(text, [""]) is None
+
+
+def test_the_containing_entity_names_every_word_of_the_node_as_whole_words():
+    full = Candidate(id="full", names=["2019 Subaru Outback"], mentions=3)
+    short = Candidate(id="short", names=["2019 OUTBACK"], mentions=1)
+    escaped = Candidate(id="escaped", names=["escaped coolant"], mentions=9)
+    assert containing_entity("OUTBACK", [short, full]) == "full"  # the most-mentioned wins
+    assert containing_entity("Subaru Outback", [short, full]) == "full"  # every word, any order
+    assert containing_entity("ESCAPE", [escaped]) is None  # a word inside another word is no match
+    assert containing_entity("OUTBACK", []) is None
+    assert containing_entity("", [full]) is None
+    # a tie on mentions goes to the shorter name, then to the id: the same graph gives the same choice
+    tied = Candidate(id="tied", names=["Outback 2019"], mentions=3)
+    assert containing_entity("OUTBACK", [full, tied]) == "tied"
+    twin = Candidate(id="a-twin", names=["2019 Outback"], mentions=3)
+    assert containing_entity("OUTBACK", [tied, twin]) == "a-twin"
+
+
+@pytest.mark.neo4j
+def test_the_vehicle_the_text_names_in_full_is_the_target_not_a_second_entity(driver):
+    plan = ConstructionPlan(
+        nodes=[
+            node("vehicles.csv", "Vehicle", "vehicle_id", ["model"]).model_copy(
+                update={"name_column": "model"}
+            )
+        ],
+        relationships=[],
+    )
+    schema = TextSchema(
+        entity_types=[
+            EntityType(name="Vehicle", description="a vehicle"),
+            EntityType(name="Component", description="a part"),
+        ],
+        fact_types=[
+            FactType(
+                predicate="PART_OF",
+                subject_type="Component",
+                object_type="Vehicle",
+                description="y",
+                derived=True,
+            )
+        ],
+    )
+    driver.execute_query(
+        "CREATE (v:Vehicle {vehicle_id: 'V1', model: 'OUTBACK'}), "
+        "(w:Vehicle {vehicle_id: 'V2', model: 'ESCAPE'}), "
+        "(d:Document {doc_id: 's.md', title: 'subaru_outback_complaints'})-[:ABOUT]->(v), "
+        "(c:Chunk {chunk_id: 's.md#0', text: 'The 2019 Subaru Outback battery died.'})-[:PART_OF]->(d), "
+        "(bat:Entity {id: 'e1', name: 'battery', type: 'Component', aliases: ['battery']}), "
+        "(c)-[:MENTIONS]->(bat), "
+        "(car:Entity {id: 'e2', name: '2019 Subaru Outback', type: 'Vehicle', "
+        "aliases: ['2019 Subaru Outback']}), (c)-[:MENTIONS]->(car), "
+        # a vehicle entity containing OUTBACK, but in a document about another vehicle: not a candidate
+        "(e:Document {doc_id: 'f.md', title: 'ford_escape_complaints'})-[:ABOUT]->(w), "
+        "(k:Chunk {chunk_id: 'f.md#0', text: 'My old Outback never did this.'})-[:PART_OF]->(e), "
+        "(old:Entity {id: 'e3', name: 'old Outback', type: 'Vehicle', aliases: ['old Outback']}), "
+        "(k)-[:MENTIONS]->(old)"
+    )
+    report = derive_facts(driver, schema, plan)
+    assert report.facts_derived == 1 and report.entities_created == 0 and report.targets_by_containment == 1
+    records, _, _ = driver.execute_query(
+        "MATCH (:Entity {id: 'e1'})-[:PART_OF]->(o:Entity) RETURN o.id AS id"
+    )
+    assert [r["id"] for r in records] == ["e2"]
+    # a rerun picks the same entity and adds nothing
+    again = derive_facts(driver, schema, plan)
+    assert again.facts_derived == 1 and again.entities_created == 0
+    assert driver.execute_query("MATCH ()-[f:PART_OF]->(:Entity) RETURN count(f) AS n")[0][0]["n"] == 1
 
 
 @pytest.mark.neo4j
@@ -95,7 +163,12 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
     )
 
     report = derive_facts(driver, SCHEMA, PLAN)
-    assert report.model_dump() == {"facts_derived": 2, "entities_created": 1, "skipped_no_evidence": 1}
+    assert report.model_dump() == {
+        "facts_derived": 2,
+        "entities_created": 1,
+        "skipped_no_evidence": 1,
+        "targets_by_containment": 0,
+    }
 
     records, _, _ = driver.execute_query(
         "MATCH (s:Entity)-[f:PART_OF]->(o:Entity) "
