@@ -54,7 +54,7 @@ dev:
 # less than half the price. Without a thinking level it cost $1.25 per run on data/ (2026-09-22), $1.00 of
 # it thinking during extraction; the levels below cap that. Extraction and adjudication are many small
 # tasks (low); the plan and the text schema are one hard design task each (medium).
-quality:
+quality: &quality
   description: gemini-3.8-flash everywhere, thinking medium for schema work and low for extraction, data/
   # a run with this preset is a comprehensive test: Claude Code asks the user before starting one
   # (.claude/hooks/run_guard.py). A person typing the command is not asked.
@@ -78,3 +78,13 @@ quality:
   er_neighbours: 2
   data_dir: data
   mlflow_experiment: kgbuilder
+
+# The held-out benchmark (REFACTOR_PLAN R50-R53): the same models and settings as quality, merged in with
+# `<<`, so the pipeline tested on unseen data is exactly the one developed on data/; only the dataset and
+# the experiment differ. Like quality, every run needs the user's permission. Its size is about a third
+# of data/ (25 short narratives), so a whole run should cost well under a quality run.
+heldout:
+  <<: *quality
+  description: the quality settings on the held-out NHTSA dataset (heldout/nhtsa/data), under $0.10 per run
+  data_dir: heldout/nhtsa/data
+  mlflow_experiment: kgbuilder-heldout

@@ -63,8 +63,8 @@ def test_the_flags_and_the_default_preset_come_from_the_project_files(tmp_path):
     assert guard.preset_flags(tmp_path / "missing") == {} and guard.dotenv_preset(tmp_path / "missing") == ""
 
 
-def test_the_committed_quality_preset_asks_and_the_cheap_ones_do_not():
-    assert guard.preset_flags(REPO) == {"smoke": False, "dev": False, "quality": True}
+def test_the_committed_full_dataset_presets_ask_and_the_cheap_ones_do_not():
+    assert guard.preset_flags(REPO) == {"smoke": False, "dev": False, "quality": True, "heldout": True}
 
 
 def test_the_hook_answers_ask_in_the_format_claude_code_reads():

@@ -39,7 +39,7 @@ def test_the_api_key_is_not_allowed_in_a_preset(tmp_path):
         load_preset(presets, "dev", SETTING_NAMES)
 
 
-@pytest.mark.parametrize("name", ["smoke", "dev", "quality"])
+@pytest.mark.parametrize("name", ["smoke", "dev", "quality", "heldout"])
 def test_every_committed_preset_is_valid(name):
     values = load_preset(REPO_PRESETS, name, SETTING_NAMES)
     assert {"llm_provider", "schema_model", "extract_model", "mlflow_experiment", "data_dir"} <= set(values)

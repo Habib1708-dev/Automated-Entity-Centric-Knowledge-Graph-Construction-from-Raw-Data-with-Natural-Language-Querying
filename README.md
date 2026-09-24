@@ -39,6 +39,7 @@ preset per command, or set a default with `KG_PRESET=dev` in `.env`:
 uv run kg --preset smoke   run --goal "..."   # tiny subset, free Gemini key: does the code run?
 uv run kg --preset dev     run --goal "..."   # small subset, paid key: does it run with real Gemini?
 uv run kg --preset quality run --goal "..."   # the whole dataset, proper models: reported results (asks first)
+uv run kg --preset heldout run --goal "..."   # quality settings on the held-out NHTSA data (asks first)
 ```
 
 Everything about a preset lives in [presets.yaml](presets.yaml) and nowhere else: models, thinking levels,
@@ -54,6 +55,10 @@ rows (for example `product_id` P-1000) and the documents with how many sections 
 the foreign keys the profiler finds: down from the root rows to every row that belongs to them, then up to
 every row they point at, so no key dangles. The subsets live outside `data/`, because every stage reads
 its directory recursively, and a test fails if the committed files ever differ from what the config says.
+
+**The held-out dataset.** `heldout/nhtsa/` holds a second, mixed-format dataset (CSV, nested JSON,
+NDJSON, Markdown; real NHTSA recalls and owner complaints) used only to test generalisation, with the
+pipeline frozen; see its README.
 
 **Thinking levels.** Gemini 3 Flash reasons at length before it answers unless told otherwise, and that
 reasoning is billed as output: on `data/` it was $1.00 of a $1.25 run. `SCHEMA_THINKING` and

@@ -1074,6 +1074,13 @@ itself; nothing is pinned) and **about 50 gold triples**. Rules for the whole be
 - **Tests:** rebuilding `data/` from `raw/` reproduces the committed files; staging and profiling the
   dataset (no LLM) stage three tables and find the recall -> vehicle key; the preset loads.
 - **Accept:** gate green. No run.
+- **Result (done, 2026-09-24).** As listed; fetched 2026-09-24: 29 recalls (Civic 5, Rogue 5, RAV4 7,
+  Escape 9, Outback 3), 25 complaints of 596-1 095 per vehicle, 1 974 words of narrative, 25 chunks at
+  the default chunk size (one per complaint). Offline check: staging reads all three tables (nothing
+  skipped; the nested product becomes `product.productModel`), the profiler finds `recalls.Model` and
+  `complaints.product.productModel` -> `vehicles.model`. The `heldout` preset merges the `quality` block
+  (YAML `<<`), so the two cannot drift apart. 161 passed, 23 skipped (Neo4j down; no graph code
+  touched), `ruff` clean. No run, $0.
 
 ### R51. Gold set for the held-out dataset, written before any run
 - `tests/gold/heldout_nhtsa_gold.json`: every complaint section labelled exhaustively, each claim with
