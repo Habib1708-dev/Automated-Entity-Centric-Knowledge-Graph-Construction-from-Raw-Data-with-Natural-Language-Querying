@@ -1427,9 +1427,28 @@ rejections in five runs, so there is nothing to repair.
   of its type's description" would also reject true facts ("damaged" against the description's "damage",
   a "noise" symptom). And removing a generic fact does not raise recall. The fix, if any, is a naming
   instruction in the extraction prompt, which needs a run to measure.
-- **Part 2 (open): measure.** Rebuild the held-out graph from the LLM cache ($0, no new model call), then
-  compare exact recall and `er_accuracy_valid` with R53. This needs the user's yes, because the `heldout`
-  preset is marked `ask_permission`.
+- **Part 2 (done, 2026-09-24): measured on the held-out data, $0.** The user said yes in the session.
+  - Setup: R55 part 4 rebuilt from the LLM cache with R52's frozen plan and R55's frozen whole-text
+    schema (both byte-identical to `out/r55_heldout_full`). Output `out/r60_heldout/`.
+  - Runs: extract `76030c05` (140 facts, as in R55), resolve `8860b465` (112 → 100 entities), link
+    `fb62d5de` (43 derived facts, `entities_created` 0, `targets_by_containment` 5), eval `0d5df53c`.
+  - Cost: 111 LLM calls, all cache hits, and 3 embedding calls; `cost_usd` 0.0 in every stage.
+  - Result: the graph has 5 vehicle entities, one per vehicle, each with its facts. Resolution also
+    folded "2019 OUTBACK" into "2019 Subaru Outback".
+
+  | Held-out, R55 gold (`r55/heldout_gold_full.json`), exact match | R55 (eval `9c7bc139`) | R60 (eval `0d5df53c`) |
+  |---|---|---|
+  | triple recall (n = 68) | 0.176 (12) | **0.456** (31) |
+  | triple precision | 0.077 | **0.198** |
+  | ER accuracy, exact (n = 16) | 0.875 | 0.875 |
+  | questions | 5 / 5 | 5 / 5 |
+
+  **Reading:** the derived `PART_OF` triples now match the gold by name, because the gold names the
+  vehicle as the text does. The validated (judge) scores were not recomputed. The R55 judge already
+  matched these facts by meaning ("OUTBACK" is the 2019 Subaru Outback), so validated recall (0.706) is
+  expected to stay the same. A judge pass on the 57 facts without a verdict (their fact ids changed with
+  the object's name) would confirm it. The gain is in exact recall and in the graph's shape: one node per
+  thing, so a query from a vehicle entity now reaches all of its parts.
 
 ### R61. Second extraction pass (open)
 - `extract_passes` (default 1; `quality` sets 2). Pass 2 shows each chunk's facts and asks for missed
