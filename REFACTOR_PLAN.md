@@ -1097,6 +1097,17 @@ itself; nothing is pinned) and **about 50 gold triples**. Rules for the whole be
   (quotes verbatim, every document labelled once per claim; ER names occur as whole words; expected
   answers exist in the data). The question Cypher is a `MATCH` placeholder until R52. 164 passed, 23
   skipped (Neo4j down), `ruff` clean. No run, $0.
+- **Part 2: the user's review (done, 2026-09-24), before any run, so not a gold correction.** (1) The Civic
+  ACC/LKAS complaint put its problems on the vehicle although the text names the two systems; they are now
+  the subjects (4 problems each) with a `PART_OF` each. (2) "windshield crack" and "cracked" were one claim
+  counted twice in one document; one kept. (3) The placeholder node "part failure" is replaced by
+  `piston clip ring CAUSES engine failure / stalling`. (4) "auto-shutoff" named a normal feature;
+  "premature auto-shutoff" says what is wrong (the one name not copied from the text). Applying (1)'s
+  principle, Claude also removed the Rogue's vehicle-level "braked on its own" (the same event as the
+  front camera system's "activated the brakes"). ER pairs: ACC / adaptive cruise control, LKAS / lane
+  keeping assist system (same), the two systems (apart). Now **68 triples** (HAS_PROBLEM 41, PART_OF 20,
+  CAUSES 5, COVERED_BY_RECALL 2), **21 ER pairs** (9 same, 12 apart), 5 questions. The ACC/LKAS complaint
+  now carries 10 of the 68 triples, so it weighs more in recall than any other complaint.
 
 ### R52. Proposal stages on the held-out dataset; predicate mapping
 - One `heldout` run of profile, plan, build, ingest-text and text-schema (user's yes needed; estimate
