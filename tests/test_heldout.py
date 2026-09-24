@@ -1,16 +1,20 @@
-"""The held-out NHTSA dataset (heldout/nhtsa/): it is exactly what its build script writes from the raw
-records, the raw records follow the selection rule, and the pipeline's LLM-free first stages accept it
-(three tables staged, the keys to the vehicles found, every document linkable to its vehicle).
+"""The held-out NHTSA dataset (heldout/nhtsa/) and its gold set: the data is exactly what its build script
+writes from the raw records, the raw records follow the selection rule, the pipeline's LLM-free first
+stages accept it (three tables staged, the keys to the vehicles found, every document linkable to its
+vehicle), and the gold quotes every document verbatim, once per claim.
 No Neo4j, no network, no LLM.
 """
 
 import importlib.util
 import json
+import re
 from pathlib import Path
 
+from kgbuilder.core.text import norm
 from kgbuilder.resolution.linking import DomainNode, match_document
 from kgbuilder.structured.profiler import profile_directory
 from kgbuilder.structured.staging import stage_structured
+from kgbuilder.validation.gold import load_gold
 
 REPO = Path(__file__).resolve().parent.parent
 HELDOUT = REPO / "heldout" / "nhtsa"
@@ -75,3 +79,41 @@ def test_every_document_is_named_after_the_model_of_its_vehicle():
     assert len(documents) == len(nhtsa.VEHICLES)
     for doc in documents:
         assert match_document(doc.stem, vehicles).name.lower() in doc.stem
+
+
+GOLD = REPO / "tests" / "gold" / "heldout_nhtsa_gold.json"
+
+
+def test_the_heldout_gold_quotes_every_document_verbatim_and_labels_each_claim_once():
+    gold = load_gold(GOLD)
+    data = HELDOUT / "data"
+    documents = {p.relative_to(data).as_posix(): p.read_text("utf-8") for p in data.rglob("*.md")}
+    assert {t.doc_id for t in gold.triples} == set(documents), "every document is labelled"
+    for triple in gold.triples:
+        assert triple.evidence and triple.evidence in documents[triple.doc_id], f"not verbatim: {triple}"
+        assert triple.predicate.isupper(), triple.predicate
+    keys = [(norm(t.subject), t.predicate, norm(t.object), t.doc_id) for t in gold.triples]
+    assert len(keys) == len(set(keys)), "a claim is labelled twice"
+
+
+def test_the_heldout_er_pairs_name_things_the_corpus_contains_once_each():
+    corpus = " ".join(norm(p.read_text("utf-8")) for p in (HELDOUT / "data").rglob("*.md"))
+    pairs = load_gold(GOLD).er_pairs
+    # whole words only, as for the furniture gold: "brake" must not count as found inside "braked"
+    missing = [
+        name
+        for pair in pairs
+        for name in (pair.a, pair.b)
+        if not re.search(rf"(?<![a-z0-9]){re.escape(norm(name))}(?![a-z0-9])", corpus)
+    ]
+    assert not missing, f"ER pair names not in the corpus: {missing}"
+    keys = [frozenset((norm(p.a), norm(p.b))) for p in pairs]
+    assert len(keys) == len(set(keys)), "an ER pair is listed twice"
+
+
+def test_the_heldout_questions_expect_values_that_exist_in_the_data():
+    # expected answers are vehicle models or recall campaign numbers, read from the source files
+    recalls = json.loads((HELDOUT / "data" / "recalls.json").read_text("utf-8"))["results"]
+    known = {model for _, model, _ in nhtsa.VEHICLES} | {r["NHTSACampaignNumber"] for r in recalls}
+    questions = load_gold(GOLD).questions
+    assert questions and all(q.expected and set(q.expected) <= known for q in questions)

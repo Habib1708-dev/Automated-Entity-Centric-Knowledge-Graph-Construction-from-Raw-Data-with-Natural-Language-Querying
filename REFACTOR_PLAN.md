@@ -1084,11 +1084,19 @@ itself; nothing is pinned) and **about 50 gold triples**. Rules for the whole be
 
 ### R51. Gold set for the held-out dataset, written before any run
 - `tests/gold/heldout_nhtsa_gold.json`: every complaint section labelled exhaustively, each claim with
-  `doc_id`, verbatim `evidence` and a plain-words `relation` ("component has defect", ...); no predicate
-  names yet, because the schema does not exist. ER pairs whose names occur in the narratives; 3-5
+  `doc_id` and verbatim `evidence`; the predicates are Claude's own vocabulary, fixed before any proposal
+  (`HAS_PROBLEM`, `CAUSES`, `PART_OF`, `COVERED_BY_RECALL`), because the schema does not exist yet. ER pairs whose names occur in the narratives; 3-5
   questions with expected answers from the data (Cypher follows in R52).
 - Integrity test as for the furniture gold (quotes verbatim, every section labelled, no repeats).
 - **Accept:** gate green. No run; the step report states that no output for this dataset existed.
+- **Result (done, 2026-09-24).** Written by Claude Opus 5.5 from the five documents alone; no pipeline
+  output for this dataset existed (no run had ever been made on it). **65 triples** (HAS_PROBLEM 40,
+  PART_OF 18, CAUSES 5, COVERED_BY_RECALL 2; 10-16 per document), **18 ER pairs** (7 same, 11 keep
+  apart), **5 questions** (1 domain only, 4 text or text + domain) with expected vehicle models or campaign
+  numbers; the goal string and the labelling rules are in the file's `_comment`. Three integrity tests
+  (quotes verbatim, every document labelled once per claim; ER names occur as whole words; expected
+  answers exist in the data). The question Cypher is a `MATCH` placeholder until R52. 164 passed, 23
+  skipped (Neo4j down), `ruff` clean. No run, $0.
 
 ### R52. Proposal stages on the held-out dataset; predicate mapping
 - One `heldout` run of profile, plan, build, ingest-text and text-schema (user's yes needed; estimate
