@@ -1,0 +1,1638 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-09-24",
+  "run_id": "1d6f6552",
+  "git_sha": "7e1d009"
+ },
+ "gold": "tests/gold/r58/furniture_gold.json",
+ "facts": [
+  {
+   "id": "805a7f6270c8",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Västerås Bookshelf and review 2 names its pre-drilled holes; no PART_OF for the holes in the gold (carried over by fact id)",
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f26f98dd8d23",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Gothenburg Table",
+   "verdict": "SUPPORTED",
+   "reason": "the holes are the table's, document context (carried over by fact id)",
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that. But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3ac1c94132a0",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "verdict": "SUPPORTED",
+   "reason": "the holes are the dresser's, document context (carried over by fact id)",
+   "evidence": "many of the pre-drilled holes didn't line up correctly",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "808a12c419c5",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Malmö Desk and review 5 names its pre-drilled holes; the gold has the holes only as a product-level defect (carried over by fact id)",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "f25e7803feb3",
+   "subject": "pre-drilled holes",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Jönköping Coffee Table and review 5 names its pre-drilled holes; no PART_OF for the holes in the gold (carried over by fact id)",
+   "evidence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "da0378558f68",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't line up properly",
+   "verdict": "SUPPORTED",
+   "reason": "review 2 states it; same claim as gold 0 (carried over by fact id)",
+   "evidence": "some of the pre-drilled holes didn't line up properly and I had to drill new ones",
+   "vague": false,
+   "gold_index": 0
+  },
+  {
+   "id": "f108257138a5",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't perfectly aligned",
+   "verdict": "SUPPORTED",
+   "reason": "review 2 states the misaligned holes; subject is the holes rather than the product, same claim (carried over by fact id)",
+   "evidence": "some of the pre-drilled holes weren't perfectly aligned",
+   "vague": false,
+   "gold_index": 66
+  },
+  {
+   "id": "23ee4be2154f",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't aligned properly",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 says the table's pre-drilled holes weren't aligned; same claim as gold 30 with the part as subject (carried over by fact id)",
+   "evidence": "some of the pre-drilled holes weren't aligned properly.",
+   "vague": false,
+   "gold_index": 30
+  },
+  {
+   "id": "f66ec74b22fb",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't align properly",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 states it; same claim as gold 42 (carried over by fact id)",
+   "evidence": "some of the pre-drilled holes didn't align properly",
+   "vague": false,
+   "gold_index": 42
+  },
+  {
+   "id": "625f88fd1ffc",
+   "subject": "pre-drilled holes",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't line up correctly",
+   "verdict": "SUPPORTED",
+   "reason": "review 1 states it; same claim as gold 5 (carried over by fact id)",
+   "evidence": "many of the pre-drilled holes didn't line up correctly",
+   "vague": false,
+   "gold_index": 5
+  },
+  {
+   "id": "af69623cd682",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "small dent",
+   "verdict": "SUPPORTED",
+   "reason": "the table arrived with a small dent on one edge (carried over by fact id)",
+   "evidence": "The table arrived with a small dent on one edge",
+   "vague": false,
+   "gold_index": 2
+  },
+  {
+   "id": "b0c97a31b5ec",
+   "subject": "Gothenburg Table",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches a bit more easily",
+   "verdict": "SUPPORTED",
+   "reason": "the Gothenburg Table scratches easily",
+   "evidence": "I'm taking off one star because it scratches a bit more easily than I'd like, but overall I'm happy with the purchase.",
+   "vague": false,
+   "gold_index": 4
+  },
+  {
+   "id": "32ba3f18e2c5",
+   "subject": "drawer rails",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the bed review names its drawer slides (an alias of the drawer rails entity) (carried over by fact id)",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5f7ef30e1566",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough edges",
+   "verdict": "SUPPORTED",
+   "reason": "review 3: rough edges on the rails; the same edge defect as gold 10 (review 2's uneven metal edges) (carried over by fact id)",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "vague": false,
+   "gold_index": 10
+  },
+  {
+   "id": "d52d5edcbd22",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "don't even match each other's dimensions",
+   "verdict": "SUPPORTED",
+   "reason": "review 3 says the rails don't even match each other's dimensions (carried over by fact id)",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "vague": false,
+   "gold_index": 14
+  },
+  {
+   "id": "243cb5f682b3",
+   "subject": "drawer slides",
+   "predicate": "PART_OF",
+   "object": "storage mechanism",
+   "verdict": "SUPPORTED",
+   "reason": "review 4: the storage mechanism uses drawer slides (carried over by fact id)",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "471266d44d56",
+   "subject": "metal rails",
+   "predicate": "HAS_DEFECT",
+   "object": "uneven surfaces",
+   "verdict": "SUPPORTED",
+   "reason": "review 3: uneven surfaces of the metal rails; R44: shown in the review's own wording (carried over by fact id)",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e279b4578c1d",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "don't allow the drawers to slide smoothly",
+   "verdict": "SUPPORTED",
+   "reason": "the rails keep the drawers from sliding smoothly",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b3841e08d402",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "wouldn't align properly",
+   "verdict": "SUPPORTED",
+   "reason": "the drawer rails would not align (carried over by fact id)",
+   "evidence": "When I tried to install them, they wouldn't align properly no matter what I did.",
+   "vague": false,
+   "gold_index": 12
+  },
+  {
+   "id": "af931988e496",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough, uneven surfaces",
+   "verdict": "SUPPORTED",
+   "reason": "review 4 states it word for word (carried over by fact id)",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign.",
+   "vague": false,
+   "gold_index": 13
+  },
+  {
+   "id": "b013a57bc64f",
+   "subject": "drawer rails",
+   "predicate": "HAS_DEFECT",
+   "object": "rough",
+   "verdict": "SUPPORTED",
+   "reason": "review 7: 'the drawer rails seemed a bit rough'; the same rough-rails claim as gold 13 (carried over by fact id)",
+   "evidence": "I noticed the drawer rails seemed a bit rough",
+   "vague": false,
+   "gold_index": 13
+  },
+  {
+   "id": "bf1a27902c88",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_DEFECT",
+   "object": "impossible to assemble correctly",
+   "verdict": "SUPPORTED",
+   "reason": "the dresser was impossible to assemble correctly (carried over by fact id)",
+   "evidence": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "71696b0d1044",
+   "subject": "Helsingborg Dresser",
+   "predicate": "HAS_DEFECT",
+   "object": "couldn't get the drawers to slide right",
+   "verdict": "SUPPORTED",
+   "reason": "the dresser's drawers would not slide right (carried over by fact id)",
+   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "eb5d164af189",
+   "subject": "rough, uneven surfaces",
+   "predicate": "CAUSES",
+   "object": "stick",
+   "verdict": "SUPPORTED",
+   "reason": "the rough surfaces cause the drawers to stick (carried over by fact id)",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign.",
+   "vague": false,
+   "gold_index": 17
+  },
+  {
+   "id": "b1d497cbd11e",
+   "subject": "rough, uneven surfaces",
+   "predicate": "CAUSES",
+   "object": "misalign",
+   "verdict": "SUPPORTED",
+   "reason": "the rough, uneven surfaces cause the drawers to misalign (carried over by fact id)",
+   "evidence": "they have rough, uneven surfaces that cause the drawers to stick and misalign.",
+   "vague": false,
+   "gold_index": 18
+  },
+  {
+   "id": "bc45561e9f3d",
+   "subject": "screws",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't fit where they were supposed to",
+   "verdict": "SUPPORTED",
+   "reason": "review 3 says half the screws didn't fit where they were supposed to (carried over by fact id)",
+   "evidence": "instructions made no sense and half the screws didn't fit where they were supposed to.",
+   "vague": false,
+   "gold_index": 15
+  },
+  {
+   "id": "c0a4d093d656",
+   "subject": "bottom",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF of the generic word 'bottom' (carried over by fact id)",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed.",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "a99a98c64165",
+   "subject": "bottom",
+   "predicate": "PART_OF",
+   "object": "drawer",
+   "verdict": "SUPPORTED",
+   "reason": "the crack runs along the bottom of a drawer (carried over by fact id)",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "a6c07fbef506",
+   "subject": "bottom",
+   "predicate": "HAS_DEFECT",
+   "object": "crack",
+   "verdict": "SUPPORTED",
+   "reason": "the drawer bottom has a crack (carried over by fact id)",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed.",
+   "vague": false,
+   "gold_index": 20
+  },
+  {
+   "id": "ed93e5f2a6f5",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "don't close properly",
+   "verdict": "SUPPORTED",
+   "reason": "two drawers don't close properly (carried over by fact id)",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them",
+   "vague": false,
+   "gold_index": 19
+  },
+  {
+   "id": "86ee02dbafa8",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "misalign",
+   "verdict": "SUPPORTED",
+   "reason": "the rails cause the drawers to misalign (carried over by fact id)",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "67d61b70e1b6",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "couldn't get the drawers to slide right",
+   "verdict": "SUPPORTED",
+   "reason": "the drawers would not slide right (carried over by fact id)",
+   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "a8a872e9e065",
+   "subject": "drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "don't allow the drawers to slide smoothly",
+   "verdict": "SUPPORTED",
+   "reason": "the drawers do not slide smoothly (carried over by fact id)",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5be4e45030e4",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "doesn't open as smoothly as I'd like",
+   "verdict": "SUPPORTED",
+   "reason": "the desk drawer doesn't open smoothly (carried over by fact id)",
+   "evidence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like.",
+   "vague": false,
+   "gold_index": 45
+  },
+  {
+   "id": "3c2dfaba796f",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "doesn't close properly",
+   "verdict": "SUPPORTED",
+   "reason": "the nightstand drawer doesn't close properly (carried over by fact id)",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap.",
+   "vague": false,
+   "gold_index": 48
+  },
+  {
+   "id": "c5aa7259d7e1",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "leaves a small gap",
+   "verdict": "SUPPORTED",
+   "reason": "the drawer does not close and leaves a gap (carried over by fact id)",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap.",
+   "vague": false,
+   "gold_index": 48
+  },
+  {
+   "id": "cc36bddc0ada",
+   "subject": "drawer",
+   "predicate": "HAS_DEFECT",
+   "object": "crack",
+   "verdict": "SUPPORTED",
+   "reason": "review 4 states the crack (carried over by fact id)",
+   "evidence": "one drawer already has a crack developing along the bottom from the strain of forcing it open and closed.",
+   "vague": false,
+   "gold_index": 20
+  },
+  {
+   "id": "8bf396b6e93e",
+   "subject": "drawer hardware",
+   "predicate": "PART_OF",
+   "object": "Helsingborg Dresser",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the dresser review names its drawer hardware (carried over by fact id)",
+   "evidence": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "bd312e7bc80d",
+   "subject": "drawer hardware",
+   "predicate": "HAS_DEFECT",
+   "object": "issues",
+   "verdict": "SUPPORTED",
+   "reason": "customer service confirms issues with the drawer hardware, without saying which (carried over by fact id)",
+   "evidence": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "e73ff544df82",
+   "subject": "warped",
+   "predicate": "CAUSES",
+   "object": "impossible to assemble correctly",
+   "verdict": "SUPPORTED",
+   "reason": "the warped panels made correct assembly impossible (CAUSES; the gold states it as HAS_ASSEMBLY_ISSUE) (carried over by fact id)",
+   "evidence": "several of the panels were warped, making it impossible to assemble correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "922dfe2f3d3b",
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "flimsy",
+   "verdict": "SUPPORTED",
+   "reason": "the back panel feels a bit flimsy (hedged); the gold lacks it for this review (carried over by fact id)",
+   "evidence": "the back panel is quite thin and feels a bit flimsy compared to the rest of the unit",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6e9124eda3d8",
+   "subject": "back panel",
+   "predicate": "HAS_DEFECT",
+   "object": "basically cardboard",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 says the back panel is basically cardboard; same claim as gold 23 (flimsy) (carried over by fact id)",
+   "evidence": "the back panel is basically cardboard",
+   "vague": false,
+   "gold_index": 23
+  },
+  {
+   "id": "b5f0e366025d",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the edges of the desk (carried over by fact id)",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp - I had to add some edge protectors to avoid scratching myself.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e2a9db426ddb",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived from the document and the review sentence naming the part; the gold labels this claim on the product and has no PART_OF for the part (carried over by fact id)",
+   "evidence": "Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6117dee00561",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "Gothenburg Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the review names an edge of the table (carried over by fact id)",
+   "evidence": "The table arrived with a small dent on one edge, and while customer service was helpful in sending a replacement part, it was a hassle to deal with.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "7094c4710ac5",
+   "subject": "edges",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Linköping Bed and review 2 names its edges; the gold has the sharp edges only as a product-level defect (carried over by fact id)",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1600d9f0bbd0",
+   "subject": "edge",
+   "predicate": "HAS_DEFECT",
+   "object": "small dent",
+   "verdict": "SUPPORTED",
+   "reason": "a small dent on one edge, stated on the edge (part-or-product subject) (carried over by fact id)",
+   "evidence": "The table arrived with a small dent on one edge",
+   "vague": false,
+   "gold_index": 2
+  },
+  {
+   "id": "b8f3f90bf373",
+   "subject": "edges",
+   "predicate": "HAS_DEFECT",
+   "object": "sharper than I'd prefer",
+   "verdict": "SUPPORTED",
+   "reason": "the edges are a bit sharper than preferred (gold states it on the product) (carried over by fact id)",
+   "evidence": "Taking off one star because the edges are a bit sharper than I'd prefer",
+   "vague": false,
+   "gold_index": 26
+  },
+  {
+   "id": "91f6b1d0532e",
+   "subject": "edges",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp",
+   "verdict": "SUPPORTED",
+   "reason": "the edges of the desk are a bit sharp (part-or-product subject) (carried over by fact id)",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp",
+   "vague": false,
+   "gold_index": 39
+  },
+  {
+   "id": "170cad522755",
+   "subject": "edges",
+   "predicate": "HAS_DEFECT",
+   "object": "sharp",
+   "verdict": "SUPPORTED",
+   "reason": "review 2: some edges were sharp; the gold put the subject on the bed, same claim (carried over by fact id)",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase.",
+   "vague": false,
+   "gold_index": 32
+  },
+  {
+   "id": "61cc85c8451a",
+   "subject": "surface",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Jönköping Coffee Table and review 3 names its surface; the gold has the scratching only as a product-level defect (carried over by fact id)",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "8556db9611de",
+   "subject": "surface",
+   "predicate": "HAS_DEFECT",
+   "object": "marks",
+   "verdict": "SUPPORTED",
+   "reason": "review 3: marks from setting down a laptop; same claim as gold 27 (carried over by fact id)",
+   "evidence": "already got a few marks just from setting down my laptop.",
+   "vague": false,
+   "gold_index": 27
+  },
+  {
+   "id": "42cee8b3c339",
+   "subject": "surface",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches",
+   "verdict": "SUPPORTED",
+   "reason": "the surface scratches pretty easily (carried over by fact id)",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "vague": false,
+   "gold_index": 27
+  },
+  {
+   "id": "8e56a70d5769",
+   "subject": "metal-to-metal fasteners",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the coffee table review names its fasteners (carried over by fact id)",
+   "evidence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "05f88d12bbd0",
+   "subject": "metal-to-metal fasteners",
+   "predicate": "PART_OF",
+   "object": "leg attachment mechanism",
+   "verdict": "SUPPORTED",
+   "reason": "review 4: the mechanism utilizes metal-to-metal fasteners (carried over by fact id)",
+   "evidence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "2ad0f6fcb12e",
+   "subject": "leg attachment mechanism",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "review 4 names the table's leg attachment mechanism (carried over by fact id)",
+   "evidence": "I appreciate the thoughtful engineering of the Jönköping Coffee Table. The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "785527a1de21",
+   "subject": "center support",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the bed review names its center supports (carried over by fact id)",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "10c3a2e4d28d",
+   "subject": "center support",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the coffee table review names its center support (carried over by fact id)",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "bfe4e8d79d95",
+   "subject": "center supports",
+   "predicate": "PART_OF",
+   "object": "frame",
+   "verdict": "SUPPORTED",
+   "reason": "review 4: the frame has center supports (carried over by fact id)",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "5b73ff3a9e37",
+   "subject": "center support",
+   "predicate": "PART_OF",
+   "object": "lower shelf",
+   "verdict": "SUPPORTED",
+   "reason": "the center support reinforces the lower shelf (carried over by fact id)",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "01f5d5e3850e",
+   "subject": "lower shelf",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the coffee table review names its shelf underneath (an alias of lower shelf)",
+   "evidence": "love the scandinavian vibes and the shelf underneath is perfect for my art books.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "6ba0ddb871ee",
+   "subject": "lower shelf",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "same part, review 4 (carried over by fact id)",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "0dc0d9c4eb83",
+   "subject": "shelf underneath",
+   "predicate": "PART_OF",
+   "object": "Jönköping Coffee Table",
+   "verdict": "SUPPORTED",
+   "reason": "the coffee table has a shelf underneath",
+   "evidence": "love the scandinavian vibes and the shelf underneath is perfect for my art books.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "7019f1464b03",
+   "subject": "slats",
+   "predicate": "HAS_DEFECT",
+   "object": "crack",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 states it (carried over by fact id)",
+   "evidence": "after just two months of use the slats have started to crack",
+   "vague": false,
+   "gold_index": 34
+  },
+  {
+   "id": "c887c2dcafdf",
+   "subject": "reinforced corner blocks",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the bed review names its corner blocks (carried over by fact id)",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3da223bea72c",
+   "subject": "reinforced corner blocks",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the sofa review names its corner blocks (carried over by fact id)",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "838f4a5ce820",
+   "subject": "reinforced corner blocks",
+   "predicate": "PART_OF",
+   "object": "frame",
+   "verdict": "SUPPORTED",
+   "reason": "review 4: the frame has reinforced corner blocks (carried over by fact id)",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "fe4434507c53",
+   "subject": "reinforced corner blocks",
+   "predicate": "PART_OF",
+   "object": "frame",
+   "verdict": "SUPPORTED",
+   "reason": "the corner blocks are part of the frame (carried over by fact id)",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "185dbad80644",
+   "subject": "frame",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "review 4 names the bed's frame (carried over by fact id)",
+   "evidence": "I was pleasantly surprised by the quality of the Linköping Bed. The frame utilizes proper joinery techniques",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "4e0598cfd0df",
+   "subject": "storage mechanism",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "review 4 names the bed's storage mechanism (carried over by fact id)",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "b54011c23f57",
+   "subject": "storage drawers",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 names them (carried over by fact id)",
+   "evidence": "The Linköping Bed is a great addition to our guest room. The design is simple but elegant, and the storage drawers are perfect for extra linens.",
+   "vague": false,
+   "gold_index": 83
+  },
+  {
+   "id": "7cec3f9c384a",
+   "subject": "storage drawers",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 names the storage drawers of the bed (carried over by fact id)",
+   "evidence": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "vague": false,
+   "gold_index": 83
+  },
+  {
+   "id": "d62cfb23c4bb",
+   "subject": "storage drawers",
+   "predicate": "HAS_DEFECT",
+   "object": "no longer opens smoothly",
+   "verdict": "SUPPORTED",
+   "reason": "a storage drawer no longer opens smoothly (carried over by fact id)",
+   "evidence": "one of the storage drawers no longer opens smoothly",
+   "vague": false,
+   "gold_index": 35
+  },
+  {
+   "id": "04da747fa135",
+   "subject": "parts",
+   "predicate": "PART_OF",
+   "object": "Västerås Bookshelf",
+   "verdict": "SUPPORTED",
+   "reason": "derived from a generic word ('parts', 'wood'), not a named part; says nothing a reader can use (carried over by fact id)",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly.",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "a63e1911b293",
+   "subject": "parts",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "derived from 'some parts not fitting together'; 'parts' is a generic word, not a named part (carried over by fact id)",
+   "evidence": "Assembly was also much more complicated than advertised, with some parts not fitting together properly.",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "759da5084c60",
+   "subject": "parts",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "reason": "derived from 'some parts not fitting together'; 'parts' is a generic word, not a named part (carried over by fact id)",
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly.",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "af482fb3a326",
+   "subject": "parts",
+   "predicate": "HAS_DEFECT",
+   "object": "didn't fit together properly",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 states it; subject 'parts' rather than the product, same claim (carried over by fact id)",
+   "evidence": "some of the parts didn't fit together properly.",
+   "vague": false,
+   "gold_index": 70
+  },
+  {
+   "id": "a0698e8de7a9",
+   "subject": "parts",
+   "predicate": "HAS_DEFECT",
+   "object": "not fitting together properly",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 says some parts did not fit together properly; same claim as gold 63 with the parts as subject (carried over by fact id)",
+   "evidence": "with some parts not fitting together properly",
+   "vague": false,
+   "gold_index": 63
+  },
+  {
+   "id": "618ba1c1cb0e",
+   "subject": "parts",
+   "predicate": "HAS_DEFECT",
+   "object": "not fitting together properly",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 says some parts did not fit together properly; same claim as gold 36 with the parts as subject (carried over by fact id)",
+   "evidence": "some parts not fitting together properly",
+   "vague": false,
+   "gold_index": 36
+  },
+  {
+   "id": "9be3fe831726",
+   "subject": "drawer pulls",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the nightstand review names its drawer handle (an alias of drawer pulls) (carried over by fact id)",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "9bdeb1502f36",
+   "subject": "drawer pulls",
+   "predicate": "PART_OF",
+   "object": "Linköping Bed",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 names the bed's drawer pulls (carried over by fact id)",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement.",
+   "vague": false,
+   "gold_index": 84
+  },
+  {
+   "id": "4cc5fad9377b",
+   "subject": "drawer handles",
+   "predicate": "HAS_DEFECT",
+   "object": "scratched",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 states it (carried over by fact id)",
+   "evidence": "One of the drawer handles was scratched right out of the box.",
+   "vague": false,
+   "gold_index": 25
+  },
+  {
+   "id": "2c137b1529bc",
+   "subject": "drawer handle",
+   "predicate": "PART_OF",
+   "object": "drawer",
+   "verdict": "SUPPORTED",
+   "reason": "the drawer handle belongs to the drawer (carried over by fact id)",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3120283b53cc",
+   "subject": "drawer pulls",
+   "predicate": "PART_OF",
+   "object": "storage drawers",
+   "verdict": "AMBIGUOUS",
+   "reason": "the review names drawer pulls; that they sit on the storage drawers is likely but not stated"
+  },
+  {
+   "id": "c718f5497a7b",
+   "subject": "drawer pulls",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 states it (carried over by fact id)",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement.",
+   "vague": false,
+   "gold_index": 38
+  },
+  {
+   "id": "57476a9daf50",
+   "subject": "rubber grommets",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the desk review names its grommets (carried over by fact id)",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1b817fd38ba1",
+   "subject": "rubber grommets",
+   "predicate": "PART_OF",
+   "object": "cable management system",
+   "verdict": "SUPPORTED",
+   "reason": "review 4: the system has rubber grommets (carried over by fact id)",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "e7b35369f745",
+   "subject": "cable management system",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "review 4 names the cable management system (carried over by fact id)",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "1cddebce5ed4",
+   "subject": "finish",
+   "predicate": "PART_OF",
+   "object": "Malmö Desk",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Malmö Desk and review 5 names its finish; the gold has the finish only as a product-level defect (carried over by fact id)",
+   "evidence": "The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "ee86508509f1",
+   "subject": "finish",
+   "predicate": "HAS_DEFECT",
+   "object": "inconsistencies",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 states it; the gold put the subject on the desk, same claim (carried over by fact id)",
+   "evidence": "the finish has inconsistencies",
+   "vague": false,
+   "gold_index": 40
+  },
+  {
+   "id": "894443a70a4c",
+   "subject": "Malmö Desk",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 says there were several scratches right out of the box (carried over by fact id)",
+   "evidence": "there were several scratches right out of the box",
+   "vague": false,
+   "gold_index": 41
+  },
+  {
+   "id": "d50ba642b9f9",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Norrköping Nightstand and review 5 names the holes for the drawer handle; no PART_OF for them in the gold (carried over by fact id)",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "df46c176b9db",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "HAS_DEFECT",
+   "object": "weren't aligned correctly",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 states it (carried over by fact id)",
+   "evidence": "pre-drilled holes for the drawer handle weren't aligned correctly",
+   "vague": false,
+   "gold_index": 49
+  },
+  {
+   "id": "1bee63cc9fe8",
+   "subject": "pre-drilled holes for the drawer handle",
+   "predicate": "PART_OF",
+   "object": "drawer handle",
+   "verdict": "AMBIGUOUS",
+   "reason": "the text does not say whether the holes for the handle sit in the drawer or in the handle (as 2026-09-22)"
+  },
+  {
+   "id": "8a3143e93b1a",
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "scratches very easily",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 says the nightstand scratches very easily (carried over by fact id)",
+   "evidence": "The nightstand also scratches very easily - I already have several marks just from normal use.",
+   "vague": false,
+   "gold_index": 50
+  },
+  {
+   "id": "1b875e926532",
+   "subject": "Norrköping Nightstand",
+   "predicate": "HAS_DEFECT",
+   "object": "marks",
+   "verdict": "SUPPORTED",
+   "reason": "the nightstand gets marks from normal use (carried over by fact id)",
+   "evidence": "I already have several marks just from normal use.",
+   "vague": false,
+   "gold_index": 50
+  },
+  {
+   "id": "919735539233",
+   "subject": "corner",
+   "predicate": "PART_OF",
+   "object": "Norrköping Nightstand",
+   "verdict": "SUPPORTED",
+   "reason": "the document is about the Norrköping Nightstand and review 6 names a corner; the gold has the damaged corner only as a product-level defect (carried over by fact id)",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "49cfe9e3a15e",
+   "subject": "corner",
+   "predicate": "HAS_DEFECT",
+   "object": "damaged",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 says one corner arrived slightly damaged; same claim as gold 51 (carried over by fact id)",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall.",
+   "vague": false,
+   "gold_index": 51
+  },
+  {
+   "id": "64b0bbf21df1",
+   "subject": "cord",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "verdict": "SUPPORTED",
+   "reason": "derived from 'the cord is a bit short'; the gold treats the cord length as a design characteristic, not a defect, and has no cord triple (carried over by fact id)",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c97c45c30eed",
+   "subject": "cord",
+   "predicate": "HAS_DEFECT",
+   "object": "short",
+   "verdict": "SUPPORTED",
+   "reason": "the cord is a bit short (hedged); the gold lacks it (carried over by fact id)",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "a3997ee8dc6d",
+   "subject": "dimmer switch",
+   "predicate": "HAS_DEFECT",
+   "object": "finicky",
+   "verdict": "SUPPORTED",
+   "reason": "the dimmer switch is finicky (carried over by fact id)",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "c019f3a800c5",
+   "subject": "dimmer switch",
+   "predicate": "HAS_DEFECT",
+   "object": "flickers",
+   "verdict": "SUPPORTED",
+   "reason": "the dimmer switch flickers (carried over by fact id)",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings.",
+   "vague": false,
+   "gold_index": 56
+  },
+  {
+   "id": "b711b46bb68a",
+   "subject": "switch",
+   "predicate": "HAS_DEFECT",
+   "object": "feels kinda cheap",
+   "verdict": "SUPPORTED",
+   "reason": "the review says it; a subjective quality impression that the gold's labelling rule leaves out on purpose (carried over by fact id)",
+   "evidence": "only giving 3 stars because the switch feels kinda cheap",
+   "vague": true,
+   "gold_index": null
+  },
+  {
+   "id": "83cb4abf71ec",
+   "subject": "base",
+   "predicate": "HAS_DEFECT",
+   "object": "lighter than i expected",
+   "verdict": "SUPPORTED",
+   "reason": "review 3 says the base is lighter than expected (carried over by fact id)",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it",
+   "vague": false,
+   "gold_index": 52
+  },
+  {
+   "id": "4e831e328bf4",
+   "subject": "lighter than i expected",
+   "predicate": "CAUSES",
+   "object": "tips over easily",
+   "verdict": "SUPPORTED",
+   "reason": "the light base makes the lamp tip over (carried over by fact id)",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it.",
+   "vague": false,
+   "gold_index": 54
+  },
+  {
+   "id": "6357259f873c",
+   "subject": "dimmer function",
+   "predicate": "PART_OF",
+   "object": "Örebro Lamp",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 names the dimmer function: the dimmer switch of gold 90 (carried over by fact id)",
+   "evidence": "The dimmer function works well though it's a bit stiff to turn.",
+   "vague": false,
+   "gold_index": 90
+  },
+  {
+   "id": "c481c615e25e",
+   "subject": "dimmer function",
+   "predicate": "HAS_DEFECT",
+   "object": "stiff to turn",
+   "verdict": "SUPPORTED",
+   "reason": "the dimmer is stiff to turn",
+   "evidence": "The dimmer function works well though it's a bit stiff to turn.",
+   "vague": false,
+   "gold_index": 58
+  },
+  {
+   "id": "d348ba0135e1",
+   "subject": "YKK zippers",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "reason": "derived PART_OF: the sofa review names its zippers (carried over by fact id)",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "2e5e4adde3b1",
+   "subject": "YKK zippers",
+   "predicate": "PART_OF",
+   "object": "removable covers",
+   "verdict": "SUPPORTED",
+   "reason": "the zippers are on the covers (carried over by fact id)",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "3a52a11005a1",
+   "subject": "removable covers",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "reason": "the sofa has removable covers (carried over by fact id)",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams.",
+   "vague": false,
+   "gold_index": null
+  },
+  {
+   "id": "61465c42952a",
+   "subject": "cushions",
+   "predicate": "HAS_DEFECT",
+   "object": "losing their shape",
+   "verdict": "SUPPORTED",
+   "reason": "review 5 says the cushions are already losing their shape; typed as a defect where the gold has a failure mode, the claim is the same (see report) (carried over by fact id)",
+   "evidence": "the cushions are already losing their shape",
+   "vague": false,
+   "gold_index": 61
+  },
+  {
+   "id": "41d77f088ff7",
+   "subject": "legs",
+   "predicate": "PART_OF",
+   "object": "Uppsala Sofa",
+   "verdict": "SUPPORTED",
+   "reason": "review 6 names the sofa's legs (carried over by fact id)",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip",
+   "vague": false,
+   "gold_index": 93
+  },
+  {
+   "id": "bf835d7d468e",
+   "subject": "legs",
+   "predicate": "HAS_DEFECT",
+   "object": "chip",
+   "verdict": "SUPPORTED",
+   "reason": "a leg arrived with a small chip (carried over by fact id)",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "vague": false,
+   "gold_index": 65
+  }
+ ],
+ "recall": [
+  {
+   "gold_index": 0,
+   "matched_fact": "da0378558f68",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 1,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect)"
+  },
+  {
+   "gold_index": 2,
+   "matched_fact": "af69623cd682",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 4,
+   "matched_fact": "b0c97a31b5ec",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 5,
+   "matched_fact": "625f88fd1ffc",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 6,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect)"
+  },
+  {
+   "gold_index": 12,
+   "matched_fact": "b3841e08d402",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 13,
+   "matched_fact": "af931988e496",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 14,
+   "matched_fact": "d52d5edcbd22",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 15,
+   "matched_fact": "bc45561e9f3d",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 16,
+   "matched_fact": "f59838b4c31c",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 17,
+   "matched_fact": "eb5d164af189",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 18,
+   "matched_fact": "b1d497cbd11e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 19,
+   "matched_fact": "ed93e5f2a6f5",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 20,
+   "matched_fact": "cc36bddc0ada",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 22,
+   "matched_fact": "e73ff544df82",
+   "reason": "the fact states that the warping made correct assembly impossible"
+  },
+  {
+   "gold_index": 23,
+   "matched_fact": "6e9124eda3d8",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 25,
+   "matched_fact": "4cc5fad9377b",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 26,
+   "matched_fact": "b8f3f90bf373",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 27,
+   "matched_fact": "8556db9611de",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 30,
+   "matched_fact": "23ee4be2154f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 32,
+   "matched_fact": "170cad522755",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 34,
+   "matched_fact": "7019f1464b03",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 35,
+   "matched_fact": "d62cfb23c4bb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 36,
+   "matched_fact": "618ba1c1cb0e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 37,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect); the one fact is the defect triple 36"
+  },
+  {
+   "gold_index": 38,
+   "matched_fact": "c718f5497a7b",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 39,
+   "matched_fact": "91f6b1d0532e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 40,
+   "matched_fact": "ee86508509f1",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 41,
+   "matched_fact": "894443a70a4c",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 42,
+   "matched_fact": "f66ec74b22fb",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 43,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect)"
+  },
+  {
+   "gold_index": 45,
+   "matched_fact": "5be4e45030e4",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 48,
+   "matched_fact": "3c2dfaba796f",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 49,
+   "matched_fact": "df46c176b9db",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 50,
+   "matched_fact": "8a3143e93b1a",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 51,
+   "matched_fact": "49cfe9e3a15e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 52,
+   "matched_fact": "83cb4abf71ec",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 54,
+   "matched_fact": "4e831e328bf4",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 56,
+   "matched_fact": "c019f3a800c5",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 58,
+   "matched_fact": "c481c615e25e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 61,
+   "matched_fact": "61465c42952a",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 63,
+   "matched_fact": "a0698e8de7a9",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 64,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect); the one fact is the defect triple 63"
+  },
+  {
+   "gold_index": 65,
+   "matched_fact": "bf835d7d468e",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 66,
+   "matched_fact": "f108257138a5",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 67,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect)"
+  },
+  {
+   "gold_index": 70,
+   "matched_fact": "af482fb3a326",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 71,
+   "matched_fact": null,
+   "reason": "no fact states that this hindered assembly (R55 rule: the assembly triple needs the assembly effect); the one fact is the defect triple 70"
+  },
+  {
+   "gold_index": 83,
+   "matched_fact": "7cec3f9c384a",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 84,
+   "matched_fact": "9bdeb1502f36",
+   "reason": "same claim by meaning; see the fact's verdict"
+  },
+  {
+   "gold_index": 93,
+   "matched_fact": "41d77f088ff7",
+   "reason": "same claim by meaning; see the fact's verdict"
+  }
+ ],
+ "er": [
+  {
+   "pair_index": 1,
+   "a_entity": "4c074e7380131067",
+   "b_entity": "4c074e7380131067",
+   "reason": "one product (as R58)"
+  },
+  {
+   "pair_index": 11,
+   "a_entity": "e6a7e73bd345a391",
+   "b_entity": "e6a7e73bd345a391",
+   "reason": "one product (as R58)"
+  },
+  {
+   "pair_index": 13,
+   "a_entity": "f97c0136c2c8474b",
+   "b_entity": "f97c0136c2c8474b",
+   "reason": "legs (as R58)"
+  },
+  {
+   "pair_index": 26,
+   "a_entity": "4a29470cf58558bf",
+   "b_entity": "4a29470cf58558bf",
+   "reason": "the drawer slides are an alias of the drawer rails entity; the mechanism is those slides (as R58)"
+  },
+  {
+   "pair_index": 27,
+   "a_entity": null,
+   "b_entity": null,
+   "reason": "no shelf (as R58)"
+  },
+  {
+   "pair_index": 28,
+   "a_entity": "6e7fcb564b22a307",
+   "b_entity": "6e7fcb564b22a307",
+   "reason": "cushions (as R58)"
+  },
+  {
+   "pair_index": 29,
+   "a_entity": "28feaf050d1ef11e",
+   "b_entity": "28feaf050d1ef11e",
+   "reason": "the cover is the removable covers entity (as R58)"
+  },
+  {
+   "pair_index": 30,
+   "a_entity": "6a7586176e607eb6",
+   "b_entity": "6a7586176e607eb6",
+   "reason": "the holes are the pre-drilled holes (as R58)"
+  },
+  {
+   "pair_index": 31,
+   "a_entity": "166d3be5b9d6f2e3",
+   "b_entity": "166d3be5b9d6f2e3",
+   "reason": "the weighted base is the lamp base (as R58)"
+  },
+  {
+   "pair_index": 32,
+   "a_entity": "52a575186d91bf3d",
+   "b_entity": "52a575186d91bf3d",
+   "reason": "one scratches entity (as R58)"
+  },
+  {
+   "pair_index": 39,
+   "a_entity": "cf15f9d47e02f0ee",
+   "b_entity": "cf15f9d47e02f0ee",
+   "reason": "thin: the entity now named 'extremely thin'"
+  },
+  {
+   "pair_index": 40,
+   "a_entity": "0d1932cee49ebcab",
+   "b_entity": "0d1932cee49ebcab",
+   "reason": "one chipping entity (as R58)"
+  },
+  {
+   "pair_index": 41,
+   "a_entity": "edf187e2caa1e553",
+   "b_entity": "edf187e2caa1e553",
+   "reason": "small dent (as R58)"
+  },
+  {
+   "pair_index": 42,
+   "a_entity": "08adb6b33fede724",
+   "b_entity": "08adb6b33fede724",
+   "reason": "wobbles (as R58)"
+  },
+  {
+   "pair_index": 45,
+   "a_entity": "f9725185d9853992",
+   "b_entity": "f9725185d9853992",
+   "reason": "one opening-smoothly entity (as R58)"
+  },
+  {
+   "pair_index": 46,
+   "a_entity": "d454951b8362fb31",
+   "b_entity": "d454951b8362fb31",
+   "reason": "one sound entity (as R58)"
+  },
+  {
+   "pair_index": 47,
+   "a_entity": "b888f3574ae090c2",
+   "b_entity": "b888f3574ae090c2",
+   "reason": "flickers (as R58)"
+  },
+  {
+   "pair_index": 53,
+   "a_entity": null,
+   "b_entity": "5f11b0114e9a9cb0",
+   "reason": "no shelf (as R58)"
+  },
+  {
+   "pair_index": 56,
+   "a_entity": null,
+   "b_entity": "35fdf57f43737bff",
+   "reason": "no headboard (as R58)"
+  },
+  {
+   "pair_index": 57,
+   "a_entity": null,
+   "b_entity": "166d3be5b9d6f2e3",
+   "reason": "no arm (as R58)"
+  },
+  {
+   "pair_index": 65,
+   "a_entity": "52a575186d91bf3d",
+   "b_entity": "52a575186d91bf3d",
+   "reason": "'scratched' out of the box merged with the scratches kind (as R58)"
+  }
+ ]
+}

@@ -1581,7 +1581,7 @@ default is unchanged.
 - **Accept:** recall up on both datasets, precision at least 0.94. If that holds, `quality` gets
   `extract_passes: 2`.
 
-### R62. Precision of the extraction: pronoun names and second-pass over-reach
+### R62. Precision of the extraction: pronoun names and second-pass over-reach (done, 2026-09-24; bar not met)
 Asked for by the user on 2026-09-24 after R61 ("what do you recommend to fix precision; implement it").
 R61's 16 unsupported facts fall into three groups:
 - pronoun names;
@@ -1602,8 +1602,41 @@ Behaviour change in `text/extraction.py`.
     re-scored with their verdicts, with no model call. It removes exactly the 2 "IT" facts of R61
     held-out, both UNSUPPORTED, and nothing else. Held-out R61 precision goes from 0.919 (137 / 149) to
     **0.932** (137 / 147); the other runs have no pronoun names.
-- **Part 2 (open):** the stricter pass-2 rules need pass 2 to be re-run on both datasets (pass 1 is
-  cached), about $0.11. This needs the user's yes.
+- **Part 2 (done, 2026-09-24): measured. Furniture better on both scores; held-out mixed and still below
+  the bar.**
+  - Setup: the user said yes in the session. Same setup as R61 (frozen R58 schemas, `EXTRACT_PASSES=2`,
+    pass 1 cached, R58 gold). Outputs `out/r62_furniture/` and `out/r62_heldout/`.
+  - Furniture: extract `38709bd5` $0.0775 (pass 2 added 13 facts), resolve `362c0c86` $0.0036, eval
+    `1d6f6552`.
+  - Held-out: extract `8bd3d063` $0.0300 (pass 2 added 24 facts), resolve `1b472320` $0.0012, eval
+    `ea6d4f60`.
+  - R62 total **$0.112**.
+  - Judge: Claude Opus 5.5. Verdicts reused by fact id; 7 and 17 new.
+
+  | Judge (Claude Opus 5.5) | Furniture R61 | Furniture **R62** | Held-out R61 | Held-out **R62** |
+  |---|---|---|---|---|
+  | precision | 0.976 (163 / 167) | **1.000** (170 / 170) [0.98, 1.00] | 0.919 (0.932 with the pronoun check) | **0.925** (135 / 146) [0.87, 0.96] |
+  | recall | 0.906 (87 / 96) | **0.927** (89 / 96) [0.86, 0.96] | 0.868 (59 / 68) | **0.824** (56 / 68) [0.72, 0.90] |
+
+  - **Furniture:** the rules removed the instructions-as-part facts and the uncertain cause, and pass 2
+    found two more gold claims: "scratches a bit more easily" (G4) and "dimmer stiff to turn" (G58).
+  - **Held-out:** 11 unsupported facts.
+    - 6 come from pass 1 and were already there in R58: rotors / pads as the squeal's place, "driving on
+      ice", "could cause an accident", and the gauge reading.
+    - 5 come from pass 2. The rules did not stop general knowledge (the clip ring PART_OF the engine), the
+      place of a repair read as the place of a problem (transmission ×2), or a possible outcome read as an
+      event.
+    - Without the pass-2 errors, precision would be 0.957; the pass-1 errors alone cost about 4 points.
+  - **Variation:** pass 2 did not return R61's "stays on at night" and "wouldn't take a jump" facts this
+    time, and the split-fact link for G26 / G27 is missing too. Recall 0.824 against R61's 0.868 (0.838
+    strict) is within one sample's variation (the intervals overlap widely).
+  - **Decision:**
+    - The pass-2 rules stay: they are better on furniture and not worse in precision on the held-out
+      data.
+    - The acceptance bar (held-out precision at least 0.94) is still not met.
+    - The remaining errors are misreadings that no wording rule stopped, in both passes. The next lever
+      is a fact-check call per chunk (the model re-reads its accepted facts against the chunk), proposed
+      as its own step.
 - **Accept:** held-out precision at least 0.94 with recall kept (R61: 0.868), and furniture not worse.
 
 ## Found along the way
