@@ -1189,7 +1189,7 @@ same prompts, models and gold claims.
   and check the schema.
 - **Accept:** gate green; one `heldout` run with both files pinned (reset, build, ingest-text, extract,
   resolve, link, eval; user's yes given; estimate about $0.08), a judge pass, both arms side by side.
-- **Part 1 (done, 2026-09-24).** As listed; 11 held-out tests (2 new). No run yet.
+- **Part 1 (done, 2026-09-24).** As listed; 11 held-out tests (2 new). No run yet.
 - **Part 2 (done, 2026-09-24).** User's yes given in the session. Same frozen plan, pinned controlled schema,
   output `out/heldout_controlled/`: extract `535c1f40` 25 calls $0.0393 (73 facts, 0 rejected), resolve
   `3e4d3242` 67 adjudications $0.0141 (99 → 85 entities), link `0b7617a2`; **$0.053**. Judge Claude Opus
@@ -1638,6 +1638,68 @@ Behaviour change in `text/extraction.py`.
       is a fact-check call per chunk (the model re-reads its accepted facts against the chunk), proposed
       as its own step.
 - **Accept:** held-out precision at least 0.94 with recall kept (R61: 0.868), and furniture not worse.
+
+### Plan R63-R68: the observation graph (branch `observation-graph`)
+Decided with the user on 2026-09-24 after an independent audit of the R62 outputs. Each fact is almost
+always true on its own, but the graph states false things when its links are followed: entities are kinds
+shared across documents (R41), so a derived `PART_OF` attaches one `drawer rails` node to every product
+that mentions it, and a query product → part → claim reaches other products' claims (the Linköping Bed
+got the Helsingborg Dresser's defective drawer rails). The graph also holds defects only, and on NHTSA the
+text never reaches the structured data (`entities_linked` 0). Direction: every claim becomes an
+`Observation` node tied to the thing it is about, its subject and object kinds, polarity, value, time and
+source. The work runs on the branch `observation-graph`; the step list and the checks that close each step
+are in the local task file `docs/tasks/observation-graph.md` (git-ignored, like all of `docs/`):
+R63 path-truth metric, R64 observations in the graph, R65 questions walk observations, R66 polarity,
+values and time, R67 recall texts and NHTSA linking, R68 coverage estimate. `main` keeps R62's system
+until the branch is merged after the user's review.
+
+### R63. Path truth: measure the false paths before fixing them (done, 2026-09-24)
+No behaviour change: a new metric in `kg eval` and `kg rescore`, no change to what is built.
+- A pure function over the stored facts (`validation/paths.py`): a *thing* is the object of a derived fact,
+  and the documents about it are the documents its derived facts come from. For every thing, every part a
+  derived fact attaches to it and every extracted fact with that part at one end, the path is true when a
+  fact with the same subject, relation and object (the same entities after resolution) comes from a
+  document about that thing.
+- Kind structure is left out: a fact between two part types ("drawer pulls PART_OF drawer") says how a
+  kind is built, not what one document claims about one thing, and the observation model keeps it as a
+  shared edge. Counted, it would have made 14 furniture paths and 1 held-out path "false" for good.
+- Metrics `path_truth`, `paths_true`, `paths_total`; the false paths are listed in `eval_report.json` /
+  `rescore_report.json`. The text schema (which fact types are derived) is read from `out/`, and its hash
+  is logged as the param `text_schema_hash`.
+- Tests: the leak case (false for the second product), the same claim in the second product's own
+  document (true), a merged entity under another review's wording (the same claim), a product's own
+  claim and kind structure (not paths), no derived types (no paths), the eval metrics, `rescore` with and
+  without the schema, and the stage's MLflow params and metrics. 210 passed (201 before), `ruff` clean.
+- **Baseline ($0, no graph, no LLM):** `kg rescore` on the judge sheets R62 logged, with R62's text
+  schemas copied to `out/r63_heldout/` and `out/r63_furniture/`. The judge's scores reproduce R62 exactly
+  (held-out 0.925 / 0.824, furniture 1.000 / 0.927), so the sheets were read back faithfully.
+
+  | R62 graph | paths | true | path_truth | false |
+  |---|---|---|---|---|
+  | Held-out NHTSA (`out/r63_heldout/rescore_report.json`) | 56 | 42 | **0.750** | 14 |
+  | Furniture (`out/r63_furniture/rescore_report.json`) | 100 | 64 | **0.640** | 36 |
+
+  Examples of false paths:
+  - `2019 TOYOTA RAV4` via `TRANSMISSION`: "TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE", stated only for
+    the Nissan Rogue.
+  - `Linköping Bed` via `drawer rails`: 8 Helsingborg defects ("defective", "rough", "misalign", ...). The
+    rails reached the bed through the merge with its praised "drawer slides".
+- **Against the audit's hand count** (held-out 36 of 47, 11 false): the audit used each fact's own
+  wording and only `AFFECTS_COMPONENT`. The metric compares resolved entities. That adds 3 false paths
+  created by merges:
+  - "BRAKE SUDDENLY" (the Civic's, merged with the Rogue's "activated the brakes") reaches the Escape via
+    BRAKE;
+  - the RAV4's gear shifter claim reaches the Escape and the Rogue, via the merge TRANSMISSION =
+    TRANSMISSION BOX.
+
+  On furniture the audit found about 10 distinct false product claims by meaning (59 paths by wording).
+  The metric's 36 count every claim entity separately: the bed's 8 rail defects are one false product
+  claim.
+- **Limit, kept on purpose:** "the same claim" means the same entities after resolution. A thing's
+  documents may state a close but unmerged claim, so some false paths are true by meaning. Example:
+  `Norrköping Nightstand` via `back panel` "flimsy", while its review says "a bit thin". Path truth is
+  therefore a strict lower bound. The observation model makes the question moot: a claim can only
+  reach the thing it was stated for.
 
 ## Found along the way
 

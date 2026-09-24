@@ -5,7 +5,9 @@ Role in the pipeline: `kg eval gold.json [--verdicts out/judge_verdicts.json]`, 
 inside `kg validate --gold`. This is the regression suite for comparing prompt, model and threshold
 variants in MLflow. Two accuracy sources are always logged side by side: exact match (deterministic,
 `triple_*`) and the judge (by meaning, `*_validated`; see judge.py and the `evaluation` skill); the same
-for entity resolution (`er_accuracy` and `er_accuracy_valid`, see er.py).
+for entity resolution (`er_accuracy` and `er_accuracy_valid`, see er.py). With the text schema, it also
+scores whether the claims reachable from a thing hold for it (`path_truth`, see paths.py); that needs no
+gold.
 Design: pure scoring functions over `StoredFact` lists, so they are unit-tested without Neo4j; only
 `run_questions` and `evaluate` touch the database. Gold models and matching live in gold.py.
 """
@@ -14,10 +16,12 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.text import norm
+from ..text.schema import TextSchema
 from .checks.base import CheckContext, StoredFact
 from .er import ErScore, SheetEntity, build_er_sheet, score_er, score_er_verdicts
 from .gold import GoldQuestion, GoldSet, GoldTriple, in_scope, matches
 from .judge import JudgeReport, JudgeSheet, Verdicts, build_sheet, score_verdicts
+from .paths import PathReport, score_paths
 
 
 class Score(BaseModel):
@@ -52,6 +56,7 @@ class EvalReport(BaseModel):
     er_valid: ErScore | None = None  # needs a verdict file with an `er` section
     questions: list[QuestionResult] = []
     judge: JudgeReport | None = None
+    paths: PathReport | None = None  # needs the text schema, to know which facts are derived
     # what the judge still has to decide; written as its own artifact, so it is left out of the report file
     judge_sheet: JudgeSheet | None = None
 
@@ -76,6 +81,9 @@ class EvalReport(BaseModel):
             out["question_accuracy"] = sum(q.correct for q in self.questions) / len(self.questions)
         if self.judge is not None:
             out.update(self.judge.metrics())
+        if self.paths is not None:
+            paths = self.paths
+            out.update(path_truth=paths.truth, paths_true=paths.paths_true, paths_total=paths.paths_total)
         return out
 
 
@@ -124,8 +132,11 @@ def read_entities(driver: Driver) -> list[SheetEntity]:
     return [SheetEntity.model_validate(dict(r)) for r in records]
 
 
-def evaluate(driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None) -> EvalReport:
-    """Score every section present in the gold set; with `verdicts`, add the judge's validated scores.
+def evaluate(
+    driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None, schema: TextSchema | None = None
+) -> EvalReport:
+    """Score every section present in the gold set; with `verdicts`, add the judge's validated scores;
+    with the text `schema`, add path truth.
 
     Raises `EvaluationError` when the verdicts do not cover exactly what the graph's judge sheet asks for.
     """
@@ -146,4 +157,6 @@ def evaluate(driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None) ->
             report.er_valid = score_er_verdicts(er_sheet, verdicts.er)
     if gold.questions:
         report.questions = run_questions(driver, gold.questions)
+    if schema is not None:
+        report.paths = score_paths(facts, schema)
     return report

@@ -7,17 +7,20 @@ reported run is compared on one scorer and one gold version.
 Design: a sheet keeps each fact's document, relation, display name and id, and (since R33) every entity
 with its aliases; that is all matching needs. The facts are rebuilt as `StoredFact`s and passed through
 the same `build_sheet`, `score_verdicts` and ER functions as `kg eval`, so the two cannot drift apart;
-the logged fact ids are kept, so the run's own verdicts still apply. Not here: questions (they need the
-graph) and graph access of any kind.
+the logged fact ids are kept, so the run's own verdicts still apply. Path truth (R63) is computed from the
+same rebuilt facts, since a sheet holds every fact of the documents the gold labels. Not here: questions
+(they need the graph) and graph access of any kind.
 """
 
 from ..core.errors import EvaluationError
 from ..core.text import norm
+from ..text.schema import TextSchema
 from .checks.base import StoredFact
 from .er import SheetEntity, build_er_sheet, score_er, score_er_verdicts
 from .evaluate import EvalReport, score_entities, score_triples
 from .gold import GoldSet
 from .judge import JudgeSheet, SheetFact, Verdicts, build_sheet, score_verdicts
+from .paths import score_paths
 
 
 def _names_by_type(entities: list[SheetEntity]) -> dict[tuple[str, str], list[str]]:
@@ -51,8 +54,11 @@ def _stored(fact: SheetFact, names: dict[tuple[str, str], list[str]]) -> StoredF
     )
 
 
-def rescore(sheet: JudgeSheet, gold: GoldSet, verdicts: Verdicts | None = None) -> EvalReport:
-    """The scores today's `kg eval` would give the graph the sheet was written for.
+def rescore(
+    sheet: JudgeSheet, gold: GoldSet, verdicts: Verdicts | None = None, schema: TextSchema | None = None
+) -> EvalReport:
+    """The scores today's `kg eval` would give the graph the sheet was written for; with the text
+    `schema` the sheet's graph was built with, path truth as well.
 
     Raises `EvaluationError` for a sheet without its entity list (written before R33: a fact's aliases
     are unknown), and when `verdicts` do not cover exactly what the re-scored sheet asks.
@@ -74,6 +80,7 @@ def rescore(sheet: JudgeSheet, gold: GoldSet, verdicts: Verdicts | None = None) 
         entities=score_entities(facts, gold.triples),
         er=score_er(rebuilt.er),
         judge_sheet=rebuilt,
+        paths=score_paths(facts, schema) if schema is not None else None,
     )
     if verdicts is not None:
         report.judge = score_verdicts(rebuilt, verdicts)

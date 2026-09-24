@@ -487,6 +487,10 @@ class EvalStage(BaseStage):
     def params(self, ctx, state):
         gold = _input_file(state.need("gold", "pass the gold file"), "gold file")
         params: dict[str, object] = {"gold": gold, "gold_hash": _digest(gold), "verdicts": state.verdicts}
+        schema = ctx.out / TEXT_SCHEMA_FILE
+        if schema.exists():
+            # path truth depends on which fact types the schema derives, so the schema identifies it
+            params["text_schema_hash"] = _digest(schema)
         if state.verdicts:
             verdicts = _input_file(state.verdicts, "verdict file")
             # the judge model and the verdict content identify what "validated" means for this run
@@ -498,7 +502,7 @@ class EvalStage(BaseStage):
     def run(self, ctx, state, run):
         gold = _input_file(state.gold, "gold file")
         verdicts = load_verdicts(_input_file(state.verdicts, "verdict file")) if state.verdicts else None
-        report = evaluate(ctx.driver, load_gold(gold), verdicts)
+        report = evaluate(ctx.driver, load_gold(gold), verdicts, state.load_text_schema(ctx, required=False))
         state.evaluation = report
         run.metrics(**report.metrics())
         run.artifact(gold)  # the gold file defines what the scores mean, so it travels with them
@@ -526,7 +530,7 @@ class RescoreStage(EvalStage):
         gold = _input_file(state.gold, "gold file")
         verdicts = load_verdicts(_input_file(state.verdicts, "verdict file")) if state.verdicts else None
         logged = JudgeSheet.model_validate_json(sheet.read_text(encoding="utf-8"))
-        report = rescore(logged, load_gold(gold), verdicts)
+        report = rescore(logged, load_gold(gold), verdicts, state.load_text_schema(ctx, required=False))
         state.evaluation = report
         run.metrics(**report.metrics())
         for source in (sheet, gold, *([Path(state.verdicts)] if state.verdicts else [])):
