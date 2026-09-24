@@ -14,6 +14,7 @@ from kgbuilder.core.text import norm
 from kgbuilder.resolution.linking import DomainNode, match_document
 from kgbuilder.structured.profiler import profile_directory
 from kgbuilder.structured.staging import stage_structured
+from kgbuilder.text.schema import TextSchema
 from kgbuilder.validation.gold import load_gold
 
 REPO = Path(__file__).resolve().parent.parent
@@ -82,6 +83,8 @@ def test_every_document_is_named_after_the_model_of_its_vehicle():
 
 
 GOLD = REPO / "tests" / "gold" / "heldout_nhtsa_gold.json"
+# the one R51 relation the proposed schema cannot express (R52): its triples stay unmapped
+NOT_EXPRESSIBLE = "CAUSES"
 
 
 def test_the_heldout_gold_quotes_every_document_verbatim_and_labels_each_claim_once():
@@ -117,3 +120,16 @@ def test_the_heldout_questions_expect_values_that_exist_in_the_data():
     known = {model for _, model, _ in nhtsa.VEHICLES} | {r["NHTSACampaignNumber"] for r in recalls}
     questions = load_gold(GOLD).questions
     assert questions and all(q.expected and set(q.expected) <= known for q in questions)
+
+
+def test_every_heldout_gold_predicate_is_in_the_frozen_proposed_schema_or_marked_not_expressible():
+    # the automatic arm scores against the schema the pipeline proposed (R52); a predicate outside it can
+    # only be missed, and that loss must be the schema's, recorded as such, never a mapping slip
+    schema = TextSchema.model_validate_json(
+        (REPO / "tests" / "gold" / "heldout_nhtsa_text_schema.json").read_text("utf-8")
+    )
+    raw = json.loads(GOLD.read_text("utf-8"))["triples"]
+    allowed = {f.predicate for f in schema.fact_types}
+    for triple in raw:
+        assert triple["predicate"] in allowed or triple["predicate"] == NOT_EXPRESSIBLE, triple
+        assert triple["labelled_as"]["predicate"] in {"HAS_PROBLEM", "CAUSES", "PART_OF", "COVERED_BY_RECALL"}

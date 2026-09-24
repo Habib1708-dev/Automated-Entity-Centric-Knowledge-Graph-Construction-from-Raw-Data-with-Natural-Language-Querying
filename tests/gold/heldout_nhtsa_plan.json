@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    {
+      "source_file": "complaints.csv",
+      "label": "Complaint",
+      "unique_column": "odiNumber",
+      "properties": [
+        "crash",
+        "fire",
+        "numberOfInjuries",
+        "numberOfDeaths",
+        "dateOfIncident",
+        "dateComplaintFiled",
+        "components",
+        "product.type",
+        "product.productYear"
+      ],
+      "description": "A safety-related problem or failure report submitted by a vehicle owner.",
+      "name_column": null
+    },
+    {
+      "source_file": "recalls.csv",
+      "label": "Recall",
+      "unique_column": "NHTSACampaignNumber",
+      "properties": [
+        "Manufacturer",
+        "parkIt",
+        "parkOutSide",
+        "overTheAirUpdate",
+        "ReportReceivedDate",
+        "Component",
+        "Summary",
+        "Consequence",
+        "Remedy",
+        "Notes",
+        "ModelYear",
+        "NHTSAActionNumber"
+      ],
+      "description": "An official safety recall campaign issued to address a vehicle safety defect.",
+      "name_column": null
+    },
+    {
+      "source_file": "vehicles.csv",
+      "label": "Vehicle",
+      "unique_column": "model",
+      "properties": [
+        "make",
+        "model_year",
+        "manufacturer"
+      ],
+      "description": "A specific vehicle model subject to consumer complaints and safety recalls.",
+      "name_column": "model"
+    }
+  ],
+  "relationships": [
+    {
+      "source_file": "complaints.csv",
+      "relationship_type": "CONCERNS_VEHICLE",
+      "from_label": "Complaint",
+      "from_column": "odiNumber",
+      "to_label": "Vehicle",
+      "to_column": "product.productModel",
+      "properties": []
+    },
+    {
+      "source_file": "recalls.csv",
+      "relationship_type": "AFFECTS_VEHICLE",
+      "from_label": "Recall",
+      "from_column": "NHTSACampaignNumber",
+      "to_label": "Vehicle",
+      "to_column": "Model",
+      "properties": []
+    }
+  ]
+}

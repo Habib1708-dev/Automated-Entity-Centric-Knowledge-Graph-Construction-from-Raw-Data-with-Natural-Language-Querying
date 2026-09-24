@@ -82,9 +82,9 @@ quality: &quality
 # The held-out benchmark (REFACTOR_PLAN R50-R53): the same models and settings as quality, merged in with
 # `<<`, so the pipeline tested on unseen data is exactly the one developed on data/; only the dataset and
 # the experiment differ. Like quality, every run needs the user's permission. Its size is about a third
-# of data/ (25 short narratives), so a whole run should cost well under a quality run.
+# of data/ (25 short narratives); the plan and text schema cost about the same as on data/ ($0.095 in R52).
 heldout:
   <<: *quality
-  description: the quality settings on the held-out NHTSA dataset (heldout/nhtsa/data), under $0.10 per run
+  description: the quality settings on the held-out NHTSA dataset (heldout/nhtsa/data), about $0.15 per run
   data_dir: heldout/nhtsa/data
   mlflow_experiment: kgbuilder-heldout

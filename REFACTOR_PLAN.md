@@ -1111,10 +1111,35 @@ itself; nothing is pinned) and **about 50 gold triples**. Rules for the whole be
 
 ### R52. Proposal stages on the held-out dataset; predicate mapping
 - One `heldout` run of profile, plan, build, ingest-text and text-schema (user's yes needed; estimate
-  about $0.03). The accepted plan and schema are frozen as this arm's result.
+  about $0.03, corrected to $0.10-0.20 before asking: schema work at medium thinking barely depends on data size). The accepted plan and schema are frozen as this arm's result.
 - Each gold `relation` is mapped to one proposed predicate, or marked "not expressible" (a recall loss the
   schema causes, counted as such); the question Cypher is written against the proposed labels.
 - **Accept:** gate green; the mapping table in this file.
+- **Result (done, 2026-09-24).** User's yes given in the session (for R52 and R53). Goal as in the gold's
+  `_comment`, output in `out/heldout/`. Plan `5306a688` $0.0385 (2 calls, accepted in round 1): `Vehicle`
+  (key and name `model`), `Recall`, `Complaint`, `AFFECTS_VEHICLE`, `CONCERNS_VEHICLE`; build 25 + 29 + 5
+  nodes, 54 relationships, nothing dropped; ingest 5 documents, 25 chunks; text schema `296ec11d` $0.0563
+  (4 calls, 2 rounds): entity types Complaint, Vehicle, Recall, Component, Problem; facts `REPORTS_PROBLEM`
+  (Complaint→Problem), `INVOLVES_COMPONENT` (Complaint→Component), `OCCURS_IN_COMPONENT`
+  (Problem→Component), `MENTIONS_RECALL` (Complaint→Recall), `CONCERNS_VEHICLE` (Complaint→Vehicle),
+  `PART_OF_VEHICLE` (Component→Vehicle, derived). **Total $0.095.** Frozen as
+  `tests/gold/heldout_nhtsa_plan.json` / `heldout_nhtsa_text_schema.json`. Mapping, a fixed rule, done
+  before any extraction; each triple keeps its R51 labels in `labelled_as`:
+
+  | R51 relation | n | Proposed schema |
+  |---|---|---|
+  | component HAS_PROBLEM problem | 32 | problem OCCURS_IN_COMPONENT component (inverted) |
+  | vehicle HAS_PROBLEM problem | 9 | "Complaint <ODI>" REPORTS_PROBLEM problem (no vehicle-problem relation) |
+  | PART_OF | 20 | PART_OF_VEHICLE (derived in code) |
+  | COVERED_BY_RECALL | 2 | "Complaint <ODI>" MENTIONS_RECALL recall |
+  | CAUSES | 5 | not expressible: can only be missed |
+
+  Recall is therefore reported twice: over all 68 triples (end to end) and over the 63 the schema can
+  express (extraction). The schema is complaint-centred where the gold is component-centred: facts such as
+  `Complaint INVOLVES_COMPONENT brake` have no gold counterpart and will surface as judge-supported gold
+  corrections, not as errors. Question Cypher written and dry-run on the built graph: question 1 (domain
+  only) already answers correctly; 2-5 need R53's extraction. New test: every gold predicate is in the
+  frozen schema or is `CAUSES`. The `heldout` preset's cost line corrected (about $0.15 per run).
 
 ### R53. Extraction, resolution and the judge pass on the held-out dataset
 - One `heldout` run of extract, resolve, link, eval (user's yes needed; estimate about $0.03-0.05), a
