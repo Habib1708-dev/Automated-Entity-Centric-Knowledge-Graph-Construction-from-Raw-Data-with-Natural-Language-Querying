@@ -1217,6 +1217,23 @@ same prompts, models and gold claims.
   Limits: one sample per arm; the controlled schema was written after R53's output was seen (disclosed in
   Part 1); gold and judge are one model family.
 
+### R55. The schema proposer sees the whole text (automatic arm, furniture then held-out)
+Asked for by the user on 2026-09-24 after R54: the proposer sees 12 evenly sampled chunks (17 % of the
+furniture text, 48 % of the held-out text), which may be why the automatic arm's schema misses relations.
+Both corpora are small (about 8,600 and 2,900 tokens), so the whole text fits. Behaviour change in
+`text/schema.py`; the prompt wording is unchanged, so only the context differs.
+- **Part 1 (baseline, no code change):** one `quality` automatic-arm run on furniture with today's
+  sampling (profile, plan, build, ingest-text, text-schema; gold predicates mapped to the proposed schema
+  by a fixed rule before extraction; then extract, resolve, link, eval) and a judge pass. The furniture
+  data never had a judged automatic run (R24's `84e5eccf` was set aside unjudged).
+- **Part 2 (code):** a `schema_context_chars` setting (default 200,000, about 50,000 tokens): all chunks,
+  whole, when the corpus fits, else an even sample of as many as fit; logged as a param with
+  `context_chunks` / `chunks_total` metrics. Tests first.
+- **Part 3:** the same furniture run with the whole text, reusing Part 1's plan, mapping, judge pass.
+- **Part 4:** one held-out run with the whole text, reusing R52's frozen plan, next to R53 (recall 0.706).
+- User's yes given in the session for the three runs (estimate about $0.70 in all). One sample per
+  variant: proposals drift between runs (R24), so the result is a direction, not a proof.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
