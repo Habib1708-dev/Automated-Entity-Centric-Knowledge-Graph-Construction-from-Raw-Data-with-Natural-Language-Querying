@@ -86,14 +86,25 @@ class TextSchema(BaseModel):
 # people/roles", and the stronger models then extracted every reviewer and their city (70 of ~150 facts on
 # data/). Relevance is decided by the goal alone, which the user states per run; the text stays in the
 # lexical graph, so facts a schema leaves out can still be extracted later under another goal.
+# R58 (the system's aim is as many true, consistent, linked facts as possible; the goal sets the scope, not
+# the shape): three changes, each answering a measured failure.
+# - "Reuse its concepts as entity types" became "name a type like a domain node ... so that code can link":
+#   on the held-out data the proposer copied the plan's record node (`Complaint`) and made it the hub of
+#   every problem fact, so problems were stored on the complaint, not on the part (R53, R55: 11 misses).
+# - The source rule: a statement's source (a document, a report, a message) is not a thing the statement
+#   is about; provenance (chunk, evidence) already records it. Generic genre words only, no corpus word.
+# - Coverage replaced "name a question of the goal each fact type answers": question-driven schemas keep
+#   the goal's chain and drop the observations it starts from (R56: furniture recall 0.854 -> 0.552).
+#   The goal still decides which things matter, so reviewers and their cities stay out (R14).
 PROMPT = """You design the schema for extracting knowledge from unstructured text into a knowledge graph.
 
 <goal>
 {goal}
 </goal>
 
-The graph already contains this structured (domain) data. Reuse its concepts as entity types where the
-text talks about the same things, and keep the meaning of each type distinct from these:
+The graph already contains this structured (domain) data. When the text talks about the same kind of
+thing as a domain node, name the entity type like that node, so that code can link the two, and keep the
+meaning of each type distinct from these:
 <domain_graph>
 {domain}
 </domain_graph>
@@ -104,25 +115,32 @@ Representative text chunks:
 </chunks>
 
 Rules:
-- Derive the entity types from the goal, the domain graph and the text: things the goal's questions are
-  about. Do not make types for ratings, dates or generic adjectives.
-- Propose fact types as (subject_type, PREDICATE, object_type) that appear in the text and serve the goal:
-  for each one, you should be able to name a question of the goal that it helps answer.
-- Every fact type must reference only entity types you defined. Keep both lists small and precise
-  (at most 12 entity types and 20 fact types).
+- Derive the entity types from the goal and the text: the things the text makes statements about that
+  the goal cares about. Do not make types for ratings, dates or generic adjectives.
+- Do not make an entity type for the source a statement comes from (a document, a report, a message, a
+  post), and do not connect facts through such a source: where each fact comes from is recorded outside
+  the schema. Connect the things a statement is about directly to each other.
+- Propose fact types as (subject_type, PREDICATE, object_type) for every kind of claim the text makes
+  about those things, not only the claims one question needs: a claim the schema cannot hold is lost.
+- Every fact type must reference only entity types you defined, and every entity type must be used by a
+  fact type. Keep both lists small and precise (at most 12 entity types and 20 fact types).
 
 {feedback}"""
 
-# The critic checks what code cannot: whether types overlap in meaning, whether the facts serve the goal,
-# and whether the sample text actually supports them. Naming and references are already verified in code.
+# The critic checks what code cannot: whether types overlap in meaning, whether a type stands for a source
+# instead of a thing (R58), whether the text's claims have a place, and whether the text supports the fact
+# types. Naming, references and unused types are already verified in code.
 CRITIC_PROMPT = """You are reviewing a proposed schema for extracting facts from text into a knowledge graph.
 The schema already passed mechanical checks (naming, no duplicates, fact types reference defined entity
-types), so judge only the modeling:
+types, every entity type is used), so judge only the modeling:
 - Do two entity types overlap so that an extractor could not choose between them?
 - Does any entity type clash in meaning with a node of the domain graph that has the same name?
-- Are there fact types the sample text clearly supports and the goal needs, but that are missing?
+- Does an entity type stand for the source of a statement (a document, a report, a message) instead of a
+  thing the statement is about, or does a fact type connect two things through such a source?
+- Is there a kind of claim the text makes several times about the things the goal cares about that no
+  fact type can hold?
 - Are there fact types the sample text gives no evidence for?
-- Is there a fact type that answers none of the goal's questions?
+- Is there a fact type about things the goal does not care about?
 
 Reply "retry" only for problems that would change the schema; otherwise "valid".
 
@@ -164,6 +182,12 @@ def validate_text_schema(schema: TextSchema) -> list[str]:
         if key in seen:
             issues.append(f"fact {key} defined more than once")
         seen.add(key)
+
+    # an entity type no fact type uses can never hold an entity: entities exist only as ends of facts
+    used = {t for f in schema.fact_types for t in (f.subject_type, f.object_type)}
+    for name in names:
+        if name not in used:
+            issues.append(f"entity type '{name}' is used by no fact type")
 
     if not schema.entity_types:
         issues.append("no entity types")

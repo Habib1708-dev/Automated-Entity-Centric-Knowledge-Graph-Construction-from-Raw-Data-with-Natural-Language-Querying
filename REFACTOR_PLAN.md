@@ -1396,11 +1396,32 @@ No behaviour change. Split in two parts (one concern each).
   things across documents, so it is aggregate already. New questions need Cypher per schema variant, so
   this part is decided with the user before it starts.
 
-### R58. Schema proposer: cover what the text observes (open, to be redesigned)
-Planned: the prompt says the goal chooses the subjects and every kind of claim about them gets a fact
-type. `domain_summary` stops inviting "reuse its concepts". A code check blocks the `Complaint`-hub shape.
-The code check as planned ("a fact type touching a type that documents are `ABOUT` must be derived") is
-wrong for the data: see "Found along the way". Redesign it before the step starts.
+### R58. Schema proposer: cover what the text observes, attach facts to the thing they are about
+The planned code check ("a fact type touching the type documents are ABOUT must be derived") does not fit
+the data (see "Found along the way"), so the source/subject distinction is made in the prompt and the
+critic. Behaviour change in `text/schema.py`. Measured on furniture and on the held-out data. The user
+said yes in the session to the two runs (about $0.35).
+- **Part 1 (done, 2026-09-24).** Three prompt changes, each answering a measured failure:
+  - **Domain wording.** "Reuse its concepts as entity types" became "name the entity type like that node,
+    so that code can link the two". The old wording invited copying the plan's `Complaint` record (R53,
+    R55).
+  - **Source rule.** No entity type for the source a statement comes from (a document, a report, a
+    message, a post), and no fact routed through one: provenance records it.
+  - **Coverage.** A fact type for every kind of claim the text makes about the things the goal cares
+    about. This replaces "name a question of the goal each fact type answers", the narrowing R56 measured.
+  - Critic: a source check and a "claims with no place" check, instead of "answers none of the goal's
+    questions".
+  - Code: `validate_text_schema` sends back an entity type that no fact type uses. All 14 committed and
+    output schemas pass.
+  - Tests: the unused-type check; the rules name no domain word and share no 4-gram with either corpus.
+    198 passed (196 before), `ruff` clean.
+  - No run, $0.
+- **Part 2 (open):** furniture, `quality`, R55's frozen plan, goal "supply chain root cause analysis".
+- **Part 3 (open):** held-out, R52's frozen plan, the R52 goal.
+- For both runs: text schema first, then the gold mapped to it before extraction, then extract,
+  resolve, link, eval and a judge pass.
+- **Accept:** held-out recall above 0.706; furniture recall not below 0.854; precision at least 0.94;
+  `predicates_distinct` not above R55's (3 furniture, 6 held-out).
 
 ### R59. Extraction keeps deterministic near misses (skipped by R57's measurement)
 Planned: swap a reversed direction and normalise predicate spelling in `verify`. R57 found 0 off-schema

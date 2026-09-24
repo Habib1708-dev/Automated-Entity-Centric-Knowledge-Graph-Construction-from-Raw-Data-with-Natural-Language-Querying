@@ -1,16 +1,31 @@
 """Text path: document loading, chunking (sections, oversized cuts, overlap, packing, the document
-context on every chunk), the text-schema proposer with its critic, and the lexical graph round trip
-(needs Neo4j)."""
+context on every chunk), the text-schema proposer with its critic, its domain-neutral rules and its
+unused-type check (R58), and the lexical graph round trip (needs Neo4j)."""
+
+import re
+from pathlib import Path
 
 import pytest
 
+from kgbuilder.core.text import norm
 from kgbuilder.llm.refine import Critique
 from kgbuilder.text.chunking import chunk_document, document_context
 from kgbuilder.text.documents import Document, load_documents
 from kgbuilder.text.lexical import read_chunks, write_lexical_graph
-from kgbuilder.text.schema import EntityType, FactType, TextSchema, propose_text_schema, select_context
+from kgbuilder.text.schema import (
+    CRITIC_PROMPT,
+    PROMPT,
+    EntityType,
+    FactType,
+    TextSchema,
+    propose_text_schema,
+    select_context,
+    validate_text_schema,
+)
 
 from .fakes import ScriptedLLM
+
+ROOT = Path(__file__).parent.parent
 
 
 def doc(text: str, doc_id: str = "a.md") -> Document:
@@ -149,3 +164,32 @@ def test_the_proposer_shows_every_context_chunk_whole():
 
     propose_text_schema("goal", chunks, ScriptedLLM(script), model="m")
     assert all(c.text in prompts[0] and c.chunk_id in prompts[0] for c in chunks)
+
+
+def test_an_entity_type_no_fact_type_uses_is_sent_back():
+    unused = GOOD_SCHEMA.model_copy(
+        update={"entity_types": [*GOOD_SCHEMA.entity_types, EntityType(name="Report", description="r")]}
+    )
+    assert validate_text_schema(unused) == ["entity type 'Report' is used by no fact type"]
+    assert validate_text_schema(GOOD_SCHEMA) == []
+
+
+def _words(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", norm(text))
+
+
+def test_schema_prompts_speak_no_corpus_language():
+    """R58: the proposer and critic rules name no domain and quote neither development corpus: a rule in
+    the corpus's words steers the schema toward that corpus (found for extraction in R34)."""
+    rules = PROMPT.split("Rules:")[1] + CRITIC_PROMPT.split("<goal>")[0]
+    assert "source a statement comes from" in rules and "every kind of claim" in rules
+    assert "Reuse its concepts" not in PROMPT  # the wording that invited copying the plan's record nodes
+    banned = ("complaint", "vehicle", "defect", "product", "furniture", "review", "recall", "component")
+    # whole words ("You are reviewing a proposed schema" is about the critic's task, not the corpus)
+    assert not [w for w in _words(rules) if w in banned or w.removesuffix("s") in banned]
+    corpora = [ROOT / "data" / "product_reviews", ROOT / "heldout" / "nhtsa" / "data" / "complaints"]
+    corpus = _words(" ".join(p.read_text(encoding="utf-8") for d in corpora for p in d.glob("*.md")))
+    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
+    words = _words(rules)
+    quoted = [" ".join(words[i : i + 4]) for i in range(len(words) - 3) if tuple(words[i : i + 4]) in seen]
+    assert not quoted, f"schema prompt rules quote a corpus: {quoted}"
