@@ -1524,7 +1524,7 @@ rejections in five runs, so there is nothing to repair.
   the object's name) would confirm it. The gain is in exact recall and in the graph's shape: one node per
   thing, so a query from a vehicle entity now reaches all of its parts.
 
-### R61. Second extraction pass ("gleaning")
+### R61. Second extraction pass ("gleaning") (done, 2026-09-24; not made the default)
 The user said yes in the session (2026-09-24) to the two runs. Behaviour change behind a setting; the
 default is unchanged.
 - **Part 1 (done, 2026-09-24).**
@@ -1536,9 +1536,48 @@ default is unchanged.
   - Tests: pass 2 sees the found facts, a repeat in other casing is dropped, an ungrounded fact is still
     rejected, and one pass makes one call. The rule is domain-neutral. 200 passed (198 before), `ruff`
     clean. No run, $0.
-- **Part 2 (open):** measured against R58 with R58's frozen text schemas and `EXTRACT_PASSES=2`. Pass 1
-  is then served from the cache, so the difference, and the cost, is pass 2 alone. The same R58 gold,
-  with earlier verdicts reused by fact id.
+- **Part 2 (done, 2026-09-24): measured. Recall up on both datasets; held-out precision below the bar.**
+  - Setup: `EXTRACT_PASSES=2` with R58's frozen plans and text schemas, and the same R58 gold. Outputs
+    `out/r61_furniture/` and `out/r61_heldout/`.
+  - Pass 1 came from the cache (the same 90 and 88 facts as R58), so the difference is pass 2 alone.
+  - Furniture: extract `ac640b42` $0.0791 (pass 2 added 11 facts), resolve `420ee9fc` $0.0016, eval
+    `550595e3`.
+  - Held-out: extract `cba73ffb` $0.0296 (pass 2 added 27), resolve `29525eb6` $0.0020, eval `ed0e1ff5`.
+  - R61 total **$0.112** (estimate $0.45; pass 1 was free).
+  - Judge: Claude Opus 5.5. Earlier verdicts were reused by fact id (101 of 110 and 76 of 102); 9 and 26
+    are new.
+
+  | Judge (Claude Opus 5.5) | Furniture R58 | Furniture **R61** | Held-out R58 | Held-out **R61** |
+  |---|---|---|---|---|
+  | precision | 1.000 (155) | **0.976** (163 / 167) [0.94, 0.99] | 0.950 (121) | **0.919** (137 / 149) [0.86, 0.95] |
+  | recall | 0.885 (85 / 96) | **0.906** (87 / 96) [0.83, 0.95] | 0.750 (51 / 68) | **0.868** (59 / 68) [0.77, 0.93] |
+  | ER accuracy exact / valid | 1.000 / 0.984 | 1.000 / 0.984 | 1.000 / 1.000 | 0.947 / 0.952 |
+  | questions | 4 / 5 | 4 / 5 | 5 / 5 | 5 / 5 |
+
+  - **What pass 2 found:**
+    - The veneer thinness in both furniture reviews (lost since R47's naming rule).
+    - On the held-out data: the double image in the mirrors, "stays on at night" with its cause, the
+      battery that "wouldn't take a jump", the ACC as a part, and the link from "this part failure" to the
+      piston clip ring.
+    - Resolution then merged SYSTEM with the navigation names.
+  - **Judging decisions made in this pass, stated here so they can be checked:**
+    - G26 and G27 (the piston clip ring causes engine failure or stalling) were labelled not expressible.
+      They count as found because two facts together state them ("THIS PART FAILURE affects PISTON CLIP
+      RING" and "THIS PART FAILURE causes …"). The rules allow a split. Without it, held-out recall is
+      0.838.
+    - G46 counts because the SYSTEM entity now carries the navigation names. R58 judged the same fact a
+      miss when it did not.
+  - **What pass 2 got wrong:**
+    - Furniture: 4 "Assembly instructions" facts typed as a physical Component (as in R55).
+    - Held-out: the pronoun "IT" as an entity (2); "SHOWING FULL" (2, R54's rule); the wiper blade
+      PART_OF the windshield; the snap ring PART_OF the engine (general knowledge, not the text); and 3
+      AMBIGUOUS dealer explanations.
+    - Exact entity resolution fell to 0.947, because "ACC" became its own entity next to
+      "adaptive cruise control".
+  - **Decision against the acceptance rule:** furniture passes (recall up, precision 0.976). The held-out
+    data does not: recall rose by 8 triples, but precision is 0.919, below 0.94. `quality` keeps
+    `extract_passes: 1`, and a second pass stays available with `EXTRACT_PASSES=2`. Whether the recall
+    is worth the precision is the user's call (one sample per dataset).
 - **Accept:** recall up on both datasets, precision at least 0.94. If that holds, `quality` gets
   `extract_passes: 2`.
 
@@ -1546,6 +1585,11 @@ default is unchanged.
 
 (Add items here during a step instead of widening its scope.)
 
+- **Pass 2 names an entity "IT" (found in R61).** The prompt forbids pronouns, but nothing in code checks
+  it. Candidate: `verify` rejects a subject or object that is only a pronoun (a closed word list, so it
+  stays domain-neutral). That would remove 2 of the 12 held-out unsupported facts.
+- **Pass 2 types instructions as a physical Component (found in R61, as in R55).** The type description
+  excludes them, and the extractor does not follow it.
 - **Questions 3 and 5 join through an entity's mentions, not the fact's own chunk (found in R58).** Entities
   are kinds shared across documents, so the Uppsala Sofa's "frame creaks" answers "which products squeak or
   creak" for the Linköping Bed too: the Linköping reviews mention a frame. Question 4 was fixed for this
