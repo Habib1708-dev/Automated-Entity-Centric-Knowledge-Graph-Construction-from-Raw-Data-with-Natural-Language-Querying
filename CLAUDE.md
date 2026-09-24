@@ -137,6 +137,6 @@ uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's datas
 | `mlflow-tracking` | adding or changing a stage, an LLM call, a metric, a prompt or a threshold |
 | `run-policy` | before any pipeline run (any preset); deciding whether a change needs one at all |
 | `evaluation` | creating or changing gold data; judging extracted facts as the LLM judge; adding an eval metric; writing accuracy numbers |
-| `reply-style` | writing any reply to the user (always: simple language, explain the why, end with a summary) |
+| `reply-style` | writing any reply to the user (always: simple language, explain the why, real examples of what happened or changed, a summary, then a Changes list with clickable links) |
 
 Skill files live in `.claude/skills/` and are git-ignored: they exist only in the local checkout.
