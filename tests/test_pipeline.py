@@ -18,7 +18,14 @@ from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.extraction import ChunkExtraction, RawTriple, RejectionReason, build_prompt, verify
-from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
+from kgbuilder.text.schema import (
+    EntityType,
+    FactType,
+    GoalQuestion,
+    PathStep,
+    TextSchema,
+    validate_text_schema,
+)
 
 from .fakes import RecordingTracker, ScriptedLLM
 from .sample_plans import GOOD_PLAN
@@ -26,6 +33,12 @@ from .sample_plans import GOOD_PLAN
 REVIEW_CORPUS = Path(__file__).parent.parent / "data" / "product_reviews"  # the gold's documents
 
 SCHEMA = TextSchema(
+    goal_questions=[
+        GoalQuestion(
+            question="Which problems does each product have?",
+            path=[PathStep(subject_type="Product", predicate="HAS_PROBLEM", object_type="Problem")],
+        )
+    ],
     entity_types=[
         EntityType(name="Product", description="a product"),
         EntityType(name="Problem", description="a defect"),
@@ -133,6 +146,7 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     )
     assert {"chunk_max_chars", "chunk_min_chars"} <= set(tracker.run("ingest_text").logged_params)
     assert "schema_context_chars" in tracker.run("text_schema").logged_params
+    assert tracker.run("text_schema").logged_metrics["goal_questions"] == 1
     assert (
         tracker.run("text_schema").logged_metrics["context_chunks"]
         == tracker.run("text_schema").logged_metrics["chunks_total"]

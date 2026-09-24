@@ -1305,6 +1305,28 @@ Both corpora are small (about 8,600 and 2,900 tokens), so the whole text fits. B
   the cause; the plan's `Complaint` node, which the proposer copies, remains the lead candidate (finding
   below). One sample per variant. R55 total **$0.535**.
 
+### R56. Goal-first schema proposal: questions, then paths, then types
+Asked for by the user on 2026-09-24 after R55 ("give priority to the goal"). The goal was one weak rule in
+the schema prompt, while "reuse the domain concepts" came first; on the held-out data the proposer made
+the plan's `Complaint` record the hub of every fact (R53, R55). Behaviour change in `text/schema.py`.
+Disclosed: the idea comes from a held-out failure; the prompt names no domain, a test keeps it from
+quoting either corpus, and it is measured on furniture before one held-out run. No second development
+dataset with a record-like table was built (the user asked to implement and run); furniture can show that
+nothing breaks, not that the rule helps where a record node exists.
+- **Part 1 (done, 2026-09-24).** `TextSchema.goal_questions` (first field, so the model writes them
+  first): each question with its `path` of fact-type signatures. `validate_text_schema` checks every path
+  (each step a fact type of the schema, consecutive steps share a type, at most 4 steps); a proposal
+  without questions goes back (`_proposal_issues`); pinned schemas without questions stay valid. Prompt:
+  goal first ("work in this order": questions, paths, types), plan labels for naming and linking, one rule
+  that a path does not route a connection through the source a text comes from (a document, a report, a
+  message: provenance is stored outside the schema). Critic: one more check for that. Stage metric
+  `goal_questions`. Tests: path checks, the retry for a proposal without questions, goal-first order and
+  domain-neutral wording, no 4-gram of either corpus in the prompt. 197 passed (Neo4j up), `ruff` clean.
+- **Part 2:** one `quality` run on furniture with R55's plan (text schema, gold mapped before extraction,
+  extract, resolve, link, eval) and a judge pass; next to R55 (0.854).
+- **Part 3:** one `heldout` run with R52's plan, frozen Part 1 code; next to R53 / R55 (0.706) and R54
+  (0.838). User's yes given in the session for both runs (estimate about $0.30-0.40 together).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
