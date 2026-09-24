@@ -18,6 +18,7 @@ from kgbuilder.resolution.resolver import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.extraction import (
+    GLEAN_SUFFIX,
     ChunkExtraction,
     ExtractionResult,
     RawTriple,
@@ -25,6 +26,7 @@ from kgbuilder.text.extraction import (
     RejectionReason,
     Triple,
     build_prompt,
+    extract_chunk,
     verify,
 )
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
@@ -152,6 +154,8 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     extract_metrics = tracker.run("extract").logged_metrics
     assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(extract_metrics)
     assert extract_metrics["rejected_off_schema_rate"] == 0.0
+    assert "facts_pass1" in extract_metrics and "facts_pass2" not in extract_metrics  # one pass by default
+    assert tracker.run("extract").logged_params["passes"] == 1
     assert json.loads((out / "off_schema.json").read_text()) == {}
     assert report.metrics["predicates_distinct"] == 1  # the scripted schema has one fact type
     assert (
@@ -174,6 +178,45 @@ def test_verify_rejects_ungrounded_and_off_schema():
     assert reason(object="cracks") == RejectionReason.ARGUMENT_NOT_IN_CHUNK
     assert reason(object="") == RejectionReason.EMPTY_ARGUMENT
     assert reason(object="TABLE") == RejectionReason.SELF_REFERENCE
+
+
+def test_a_second_pass_shows_the_found_facts_and_adds_only_new_verified_ones():
+    chunk = Chunk(
+        chunk_id="r.md#0",
+        doc_id="r.md",
+        index=0,
+        text="The table wobbles. The table cracks.",
+        context="Reviews",
+    )
+    wobbles = triple("table", "wobbles", "The table wobbles.")
+    cracks = triple("table", "cracks", "The table cracks.")
+    invented = triple("table", "cracks", "The table was dropped.")  # evidence not in the chunk
+    prompts: list[str] = []
+
+    def script(prompt, schema):
+        prompts.append(prompt)
+        if "<already_extracted>" not in prompt:
+            return ChunkExtraction(triples=[wobbles])
+        return ChunkExtraction(triples=[wobbles.model_copy(update={"subject": "TABLE"}), cracks, invented])
+
+    result = extract_chunk(chunk, SCHEMA, ScriptedLLM(script), model="m", passes=2)
+    assert [(t.object, t.evidence) for t in result.triples] == [
+        ("wobbles", "The table wobbles."),
+        ("cracks", "The table cracks."),
+    ]  # the repeat of pass 1 (other casing) is dropped, the ungrounded fact rejected
+    assert result.accepted_per_pass == [1, 1]
+    assert [r.reason for r in result.rejected] == [RejectionReason.EVIDENCE_NOT_VERBATIM]
+    assert "- table -[HAS_PROBLEM]-> wobbles" in prompts[1] and prompts[1].startswith(prompts[0])
+
+    single = ScriptedLLM(script)
+    assert extract_chunk(chunk, SCHEMA, single, model="m").accepted_per_pass == [1]
+    assert len(single.calls) == 1
+
+
+def test_the_second_pass_rules_speak_no_corpus_language():
+    rule = GLEAN_SUFFIX.lower()
+    assert "return an empty list" in rule and "do not repeat" in rule
+    assert not any(w in rule for w in ("defect", "failure", "complaint", "product", "drawer", "vehicle"))
 
 
 def test_off_schema_rejections_are_counted_per_missing_fact_type():

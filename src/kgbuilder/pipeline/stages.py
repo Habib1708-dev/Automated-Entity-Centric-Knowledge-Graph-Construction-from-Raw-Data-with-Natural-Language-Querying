@@ -307,11 +307,15 @@ class ExtractStage(_TextStage):
             "thinking": s.extract_thinking,
             "prompt_version": prompt_version(extraction.PROMPT),
             "workers": s.extract_workers,
+            "passes": s.extract_passes,
+            "glean_prompt_version": prompt_version(extraction.GLEAN_SUFFIX),
         }
 
     def run(self, ctx, state, run):
         s = ctx.settings
         run.text(extraction.PROMPT, "prompts/extract.txt")
+        if s.extract_passes > 1:
+            run.text(extraction.GLEAN_SUFFIX, "prompts/extract_glean.txt")
         chunks = state.load_chunks(ctx)
         result = extraction.extract_all(
             chunks,
@@ -320,6 +324,7 @@ class ExtractStage(_TextStage):
             s.extract_model,
             s.llm_temperature,
             s.extract_workers,
+            s.extract_passes,
         )
         counts = write_subject_graph(ctx.driver, result.triples, extractor=s.extract_model)
         state.extraction = result
@@ -329,6 +334,8 @@ class ExtractStage(_TextStage):
             rejected=len(result.rejected),
             accept_rate=result.accept_rate,
             rejected_off_schema_rate=result.off_schema_rate,
+            # what each pass added: pass 2 and later show the value of asking again (R61)
+            **{f"facts_pass{n + 1}": k for n, k in enumerate(result.accepted_per_pass)},
             triples_per_chunk=len(result.triples) / len(chunks),
             # which verification rule fires most tells you what to fix in the prompt
             **{f"rejected_{reason}": n for reason, n in result.rejections_by_reason().items()},

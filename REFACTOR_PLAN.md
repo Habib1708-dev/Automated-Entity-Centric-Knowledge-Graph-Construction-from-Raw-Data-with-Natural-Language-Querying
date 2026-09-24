@@ -1524,12 +1524,23 @@ rejections in five runs, so there is nothing to repair.
   the object's name) would confirm it. The gain is in exact recall and in the graph's shape: one node per
   thing, so a query from a vehicle entity now reaches all of its parts.
 
-### R61. Second extraction pass (open)
-- `extract_passes` (default 1; `quality` sets 2). Pass 2 shows each chunk's facts and asks for missed
-  claims, with the same `verify`.
-- R57 shows that missed facts are skipped by the model, not rejected by code, so this is now the most
-  direct lever after the schema.
-- Needs the user's yes for its two runs (about $0.45).
+### R61. Second extraction pass ("gleaning")
+The user said yes in the session (2026-09-24) to the two runs. Behaviour change behind a setting; the
+default is unchanged.
+- **Part 1 (done, 2026-09-24).**
+  - New setting `extract_passes` (default 1, from 1 to 3).
+  - Pass 2 sends the first-pass prompt plus the facts accepted so far (`GLEAN_SUFFIX`, logged with its
+    own `glean_prompt_version`) and asks only for the claims they miss. The same `verify` and the same
+    repeat key apply across passes, so a later pass can only add verified facts.
+  - Metrics `facts_pass1`, `facts_pass2`; param `passes`; artifact `prompts/extract_glean.txt`.
+  - Tests: pass 2 sees the found facts, a repeat in other casing is dropped, an ungrounded fact is still
+    rejected, and one pass makes one call. The rule is domain-neutral. 200 passed (198 before), `ruff`
+    clean. No run, $0.
+- **Part 2 (open):** measured against R58 with R58's frozen text schemas and `EXTRACT_PASSES=2`. Pass 1
+  is then served from the cache, so the difference, and the cost, is pass 2 alone. The same R58 gold,
+  with earlier verdicts reused by fact id.
+- **Accept:** recall up on both datasets, precision at least 0.94. If that holds, `quality` gets
+  `extract_passes: 2`.
 
 ## Found along the way
 

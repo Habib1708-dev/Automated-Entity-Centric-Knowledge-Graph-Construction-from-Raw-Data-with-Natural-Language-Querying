@@ -111,6 +111,7 @@ class Rejected(BaseModel):
 class ExtractionResult(BaseModel):
     triples: list[Triple]
     rejected: list[Rejected]
+    accepted_per_pass: list[int] = []  # new facts each extraction pass contributed (R61)
 
     @property
     def accept_rate(self) -> float:
@@ -181,6 +182,27 @@ def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str 
     return None
 
 
+# The second pass ("gleaning", R61). R57 measured that facts are lost silently inside the model: across five
+# runs code rejected none for its type, so a missed claim is one the model never returned. Asking again,
+# with what it already found in view, targets exactly that. The facts shown are the accepted ones, so a
+# claim that failed verification may come back in a form that passes. Same rules and the same `verify`:
+# the second pass may only add, never loosen. "Return an empty list" keeps it from padding.
+GLEAN_SUFFIX = """
+
+These triples were already extracted from this chunk:
+<already_extracted>
+{found}
+</already_extracted>
+Return only the claims of the chunk that this list misses, under the same rules and with the same
+fact types. Do not repeat a triple of the list. Return an empty list when it misses nothing."""
+
+
+def build_glean_prompt(chunk: Chunk, schema: TextSchema, found: list[Triple]) -> str:
+    """The prompt for a later pass: the first-pass prompt plus the facts already accepted for this chunk."""
+    listed = "\n".join(f"- {t.subject} -[{t.predicate}]-> {t.object}" for t in found) or "(none)"
+    return build_prompt(chunk, schema) + GLEAN_SUFFIX.format(found=listed)
+
+
 def build_prompt(chunk: Chunk, schema: TextSchema) -> str:
     """The extraction prompt for one chunk, with the schema rendered as two bullet lists."""
     return PROMPT.format(
@@ -196,25 +218,44 @@ def build_prompt(chunk: Chunk, schema: TextSchema) -> str:
 
 
 def extract_chunk(
-    chunk: Chunk, schema: TextSchema, llm: LLMClient, model: str, temperature: float = 0.0
+    chunk: Chunk,
+    schema: TextSchema,
+    llm: LLMClient,
+    model: str,
+    temperature: float = 0.0,
+    passes: int = 1,
 ) -> ExtractionResult:
-    """Extract one chunk, verify every triple, and drop exact repeats within the chunk."""
-    reply = llm.generate(build_prompt(chunk, schema), ChunkExtraction, model=model, temperature=temperature)
-    accepted: list[Triple] = []
-    rejected: list[Rejected] = []
+    """Extract one chunk in `passes` calls, verify every triple, and drop repeats within the chunk.
+
+    Pass 1 uses the extraction prompt; each later pass shows the facts accepted so far and asks only for
+    what they miss (R61). `accepted_per_pass` counts the new facts each pass contributed.
+    """
+    result = ExtractionResult(triples=[], rejected=[])
     seen: set[tuple[str, str, str, str]] = set()
-    for raw in reply.triples:
+    for n in range(passes):
+        prompt = build_prompt(chunk, schema) if n == 0 else build_glean_prompt(chunk, schema, result.triples)
+        reply = llm.generate(prompt, ChunkExtraction, model=model, temperature=temperature)
+        before = len(result.triples)
+        _accept(reply.triples, chunk, schema, seen, result)
+        result.accepted_per_pass.append(len(result.triples) - before)
+    return result
+
+
+def _accept(
+    raws: list[RawTriple], chunk: Chunk, schema: TextSchema, seen: set, result: ExtractionResult
+) -> None:
+    """Verify each triple into `result`; a repeat of an accepted one (across passes too) is dropped."""
+    for raw in raws:
         triple = Triple(**raw.model_dump(), chunk_id=chunk.chunk_id)
         rejection = verify(raw, chunk.text, schema, chunk.context)
         if rejection:
-            rejected.append(Rejected(triple=triple, reason=rejection.reason, detail=rejection.detail))
+            result.rejected.append(Rejected(triple=triple, reason=rejection.reason, detail=rejection.detail))
             continue
-        # models sometimes emit the same fact twice with different casing
+        # models sometimes emit the same fact twice with different casing, and a later pass may repeat one
         key = (norm(triple.subject), triple.predicate, norm(triple.object), norm(triple.evidence))
         if key not in seen:
             seen.add(key)
-            accepted.append(triple)
-    return ExtractionResult(triples=accepted, rejected=rejected)
+            result.triples.append(triple)
 
 
 def extract_all(
@@ -224,14 +265,16 @@ def extract_all(
     model: str,
     temperature: float = 0.0,
     workers: int = 8,
+    passes: int = 1,
 ) -> ExtractionResult:
     """Extract every chunk in parallel. The calls are I/O bound, so threads are enough.
 
     `pool.map` keeps chunk order, so the output (and the artifacts written from it) is deterministic.
     """
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        results = list(pool.map(lambda c: extract_chunk(c, schema, llm, model, temperature), chunks))
+        results = list(pool.map(lambda c: extract_chunk(c, schema, llm, model, temperature, passes), chunks))
     return ExtractionResult(
         triples=[t for r in results for t in r.triples],
         rejected=[x for r in results for x in r.rejected],
+        accepted_per_pass=[sum(r.accepted_per_pass[n] for r in results) for n in range(passes)],
     )

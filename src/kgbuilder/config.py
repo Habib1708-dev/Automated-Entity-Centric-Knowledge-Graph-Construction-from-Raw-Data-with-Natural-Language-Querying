@@ -136,6 +136,9 @@ class Settings(BaseSettings):
     # extraction requests can take minutes to answer the last one.
     llm_timeout_s: float = 300.0
     extract_workers: int = 8  # parallel per-chunk extraction calls
+    # extraction calls per chunk (R61): 1 = one pass; 2 = a second pass that shows the accepted facts and
+    # asks for the claims they miss. Each pass costs about as much as the first.
+    extract_passes: int = Field(default=1, ge=1, le=3)
 
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_username: str = "neo4j"
