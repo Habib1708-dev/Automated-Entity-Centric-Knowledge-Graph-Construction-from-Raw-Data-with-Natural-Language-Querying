@@ -1,0 +1,64 @@
+{
+  "entity_types": [
+    {
+      "name": "Vehicle",
+      "description": "The vehicle a complaint document is about, named as in the text or the document name, excluding its parts."
+    },
+    {
+      "name": "Component",
+      "description": "A part or system of the vehicle that the text names, excluding the symptoms it shows."
+    },
+    {
+      "name": "Problem",
+      "description": "A malfunction, defect or unwanted behaviour the text reports, or an event it leads to, excluding the part itself."
+    },
+    {
+      "name": "Recall",
+      "description": "A safety recall campaign that the text names, excluding the complaint itself."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "HAS_PROBLEM",
+      "subject_type": "Component",
+      "object_type": "Problem",
+      "description": "The text reports the problem in this part or system, also when it names the part only in a when-clause.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_PROBLEM",
+      "subject_type": "Vehicle",
+      "object_type": "Problem",
+      "description": "The text reports the problem for the vehicle without naming a part.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES",
+      "subject_type": "Problem",
+      "object_type": "Problem",
+      "description": "The text says the first problem leads to the second problem or event.",
+      "derived": false
+    },
+    {
+      "predicate": "CAUSES",
+      "subject_type": "Component",
+      "object_type": "Problem",
+      "description": "The text says a failure of this part leads to the problem or event.",
+      "derived": false
+    },
+    {
+      "predicate": "COVERED_BY_RECALL",
+      "subject_type": "Component",
+      "object_type": "Recall",
+      "description": "The text names a recall that covers this part.",
+      "derived": false
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Vehicle",
+      "description": "A named part belongs to the vehicle the document is about.",
+      "derived": true
+    }
+  ]
+}

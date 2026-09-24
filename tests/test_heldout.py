@@ -14,7 +14,7 @@ from kgbuilder.core.text import norm
 from kgbuilder.resolution.linking import DomainNode, match_document
 from kgbuilder.structured.profiler import profile_directory
 from kgbuilder.structured.staging import stage_structured
-from kgbuilder.text.schema import TextSchema
+from kgbuilder.text.schema import TextSchema, validate_text_schema
 from kgbuilder.validation.gold import load_gold
 
 REPO = Path(__file__).resolve().parent.parent
@@ -133,3 +133,27 @@ def test_every_heldout_gold_predicate_is_in_the_frozen_proposed_schema_or_marked
     for triple in raw:
         assert triple["predicate"] in allowed or triple["predicate"] == NOT_EXPRESSIBLE, triple
         assert triple["labelled_as"]["predicate"] in {"HAS_PROBLEM", "CAUSES", "PART_OF", "COVERED_BY_RECALL"}
+
+
+CONTROLLED_GOLD = REPO / "tests" / "gold" / "heldout_nhtsa_gold_controlled.json"
+CONTROLLED_SCHEMA = REPO / "tests" / "gold" / "heldout_nhtsa_text_schema_controlled.json"
+
+
+def test_the_controlled_gold_is_the_heldout_gold_with_its_labels_from_before_any_run():
+    # the two arms must score the same claims: only the predicates' vocabulary may differ (R54)
+    automatic = json.loads(GOLD.read_text("utf-8"))
+    controlled = json.loads(CONTROLLED_GOLD.read_text("utf-8"))
+    expected = [
+        {**t["labelled_as"], "doc_id": t["doc_id"], "evidence": t["evidence"]} for t in automatic["triples"]
+    ]
+    assert controlled["triples"] == expected
+    assert controlled["er_pairs"] == automatic["er_pairs"]
+    assert [q["expected"] for q in controlled["questions"]] == [q["expected"] for q in automatic["questions"]]
+
+
+def test_the_pinned_controlled_schema_is_valid_and_holds_every_controlled_gold_predicate():
+    schema = TextSchema.model_validate_json(CONTROLLED_SCHEMA.read_text("utf-8"))
+    assert validate_text_schema(schema) == []
+    assert {t.predicate for t in load_gold(CONTROLLED_GOLD).triples} <= {
+        f.predicate for f in schema.fact_types
+    }
