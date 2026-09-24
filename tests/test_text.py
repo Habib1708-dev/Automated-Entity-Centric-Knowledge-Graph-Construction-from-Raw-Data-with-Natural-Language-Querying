@@ -8,7 +8,7 @@ from kgbuilder.llm.refine import Critique
 from kgbuilder.text.chunking import chunk_document, document_context
 from kgbuilder.text.documents import Document, load_documents
 from kgbuilder.text.lexical import read_chunks, write_lexical_graph
-from kgbuilder.text.schema import EntityType, FactType, TextSchema, propose_text_schema
+from kgbuilder.text.schema import EntityType, FactType, TextSchema, propose_text_schema, select_context
 
 from .fakes import ScriptedLLM
 
@@ -117,3 +117,35 @@ def test_chunks_read_back_as_written_and_stale_chunks_are_replaced(driver):
     assert read_chunks(driver) == coarse
     links = driver.execute_query("MATCH (:Chunk)-[r:NEXT_CHUNK]->(:Chunk) RETURN count(r) AS c")[0][0]["c"]
     assert links == len(coarse) - 1
+
+
+def chunks_of(sizes: list[int]) -> list:
+    """One chunk per section, of about the given sizes (no packing, no cutting)."""
+    text = "\n\n---\n\n".join(f"Section {i} " + "x" * (size - 10) for i, size in enumerate(sizes))
+    return chunk_document(doc(text), max_chars=5000, min_chars=1)
+
+
+def test_the_schema_context_is_every_chunk_when_the_corpus_fits_the_budget():
+    chunks = chunks_of([900] * 20)
+    assert select_context(chunks, budget_chars=20 * 1000) == chunks
+
+
+def test_above_the_budget_the_context_is_an_even_sample_of_whole_chunks_that_fits():
+    chunks = chunks_of([1000] * 40)
+    context = select_context(chunks, budget_chars=10_000)
+    assert sum(len(c.text) for c in context) <= 10_000
+    assert len(context) >= 9  # as many as fit, not a fixed count
+    assert context[0] == chunks[0] and context[-1].index >= 30  # spread over the whole corpus, not the start
+
+
+def test_the_proposer_shows_every_context_chunk_whole():
+    # the sampled context used to cut each chunk at 1,200 characters and keep 12 chunks (R55)
+    chunks = chunks_of([1400] * 15)
+    prompts: list[str] = []
+
+    def script(prompt, schema):
+        prompts.append(prompt)
+        return Critique(verdict="valid", issues=[]) if schema is Critique else GOOD_SCHEMA
+
+    propose_text_schema("goal", chunks, ScriptedLLM(script), model="m")
+    assert all(c.text in prompts[0] and c.chunk_id in prompts[0] for c in chunks)

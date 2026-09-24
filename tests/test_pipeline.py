@@ -132,6 +132,12 @@ def test_full_pipeline(driver, data_dir, tmp_path):
         tracker.run("plan").logged_params
     )
     assert {"chunk_max_chars", "chunk_min_chars"} <= set(tracker.run("ingest_text").logged_params)
+    assert "schema_context_chars" in tracker.run("text_schema").logged_params
+    assert (
+        tracker.run("text_schema").logged_metrics["context_chunks"]
+        == tracker.run("text_schema").logged_metrics["chunks_total"]
+        == 3
+    )
     assert {"er_auto_merge", "er_borderline"} <= set(tracker.run("resolve").logged_params)
     assert tracker.run("link").logged_metrics["facts_derived"] == 0  # the scripted schema derives nothing
     extract_metrics = tracker.run("extract").logged_metrics

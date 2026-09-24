@@ -1249,6 +1249,13 @@ Both corpora are small (about 8,600 and 2,900 tokens), so the whole text fits. B
   under a lenient reading (4 "impedes assembly" claims stated as CAUSES, 3 "parts not fitting" stated
   only as assembly issues). Against the pinned schema with the same prompts (R47 / R49b recall 0.865 /
   0.854), the furniture automatic arm loses about 3 gold triples: the proposer works on this data.
+- **Part 2 (done, 2026-09-24).** `select_context(chunks, budget_chars)` replaces `sample_chunks`: every
+  chunk whole while the text fits the budget, else an even sample of whole chunks that fits (the old cut at
+  1,200 characters per chunk is gone; it never cut anything here, no chunk exceeds 813). The stage chooses
+  the context and logs `schema_context_chars` (param) and `context_chunks`, `chunks_total`,
+  `context_chars` (metrics); `propose_text_schema` shows exactly the chunks it is given. Prompt wording
+  unchanged. Tests: all chunks under the budget, an even sample that fits above it, every chunk whole in the
+  prompt, the stage's tracking contract. 193 passed (Neo4j up), `ruff` clean. No run.
 
 ## Found along the way
 

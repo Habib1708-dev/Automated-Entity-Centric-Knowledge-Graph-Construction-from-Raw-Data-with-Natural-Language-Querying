@@ -1,7 +1,8 @@
 """The text schema: which entity types and fact types may be extracted from the documents.
 
-Role in the pipeline: `kg text-schema`. The LLM proposes the schema from sample chunks and the domain
-graph's node descriptions; a human reviews `out/text_schema.json`; `kg extract` is then constrained to it.
+Role in the pipeline: `kg text-schema`. The LLM proposes the schema from the text (every chunk, whole, while
+the corpus fits a character budget, else an even sample: `select_context`) and the domain graph's node
+descriptions; a human reviews `out/text_schema.json`; `kg extract` is then constrained to it.
 Design: same shape as the structured path: pydantic models are the LLM's response schema,
 `validate_text_schema` is the code gate, and the retry loop is `llm.refine.refine` with a critic pass.
 Not here: extraction itself (extraction.py).
@@ -18,11 +19,6 @@ from .chunking import Chunk
 
 _PASCAL_CASE = re.compile(r"[A-Z][A-Za-z0-9]*")  # Product, SubAssembly
 _UPPER_SNAKE_CASE = re.compile(r"[A-Z][A-Z0-9_]*")  # HAS_PROBLEM
-
-# How much text the proposer sees: enough variety to find the recurring fact patterns, small enough to
-# keep the prompt cheap. Chunks are sampled evenly across the corpus, not taken from the first document.
-_SAMPLE_CHUNKS = 12
-_SAMPLE_CHARS_PER_CHUNK = 1200
 
 
 class EntityType(BaseModel):
@@ -185,12 +181,26 @@ def domain_summary(plan: ConstructionPlan | None) -> str:
     return "\n".join(lines)
 
 
-def sample_chunks(chunks: list[Chunk], n: int = _SAMPLE_CHUNKS) -> list[Chunk]:
-    """`n` chunks spread evenly over the corpus. Deterministic, so the prompt and its cache key are stable."""
-    if len(chunks) <= n:
+def select_context(chunks: list[Chunk], budget_chars: int) -> list[Chunk]:
+    """The chunks the proposer sees: all of them, whole, when their text fits `budget_chars`; else an even
+    sample of whole chunks over the corpus, as many as fit.
+
+    R55: a fixed sample of 12 chunks, each cut at 1,200 characters, showed the proposer 17 % of the furniture
+    text and 48 % of the held-out text, so a relation stated only in unseen chunks could not enter the
+    schema. Small corpora now go in whole; the budget keeps a large one from overflowing the prompt.
+    Deterministic (no randomness), so the prompt and its cache key are stable.
+    """
+    total = sum(len(c.text) for c in chunks)
+    if total <= budget_chars:
         return chunks
-    step = len(chunks) / n
-    return [chunks[int(i * step)] for i in range(n)]
+    n = max(1, len(chunks) * budget_chars // total)
+    while n > 1:
+        # n comes from the average chunk; unevenly long chunks can still overshoot, so shrink until it fits
+        sample = [chunks[int(i * len(chunks) / n)] for i in range(n)]
+        if sum(len(c.text) for c in sample) <= budget_chars:
+            return sample
+        n -= 1
+    return chunks[:1]
 
 
 def propose_text_schema(
@@ -203,9 +213,12 @@ def propose_text_schema(
     max_rounds: int = 3,
     use_critic: bool = True,
 ) -> Refinement[TextSchema]:
-    """Ask `llm` for a schema until it passes code validation and the critic, or `max_rounds` is used up."""
+    """Ask `llm` for a schema until it passes code validation and the critic, or `max_rounds` is used up.
+
+    `chunks` is the context, shown whole to the proposer and the critic; choose it with `select_context`.
+    """
     domain = domain_summary(plan)
-    body = "\n\n".join(f"[{c.chunk_id}]\n{c.text[:_SAMPLE_CHARS_PER_CHUNK]}" for c in sample_chunks(chunks))
+    body = "\n\n".join(f"[{c.chunk_id}]\n{c.text}" for c in chunks)
 
     def propose(feedback: str) -> TextSchema:
         prompt = PROMPT.format(goal=goal, domain=domain, chunks=body, feedback=feedback)

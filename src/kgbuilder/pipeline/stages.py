@@ -256,15 +256,24 @@ class TextSchemaStage(_TextStage):
             "thinking": s.schema_thinking,
             "prompt_version": prompt_version(text_schema.PROMPT),
             "critic_prompt_version": prompt_version(text_schema.CRITIC_PROMPT),
+            "schema_context_chars": s.schema_context_chars,
         }
 
     def run(self, ctx, state, run):
         s = ctx.settings
         run.text(text_schema.PROMPT, "prompts/text_schema_proposer.txt")
         run.text(text_schema.CRITIC_PROMPT, "prompts/text_schema_critic.txt")
+        chunks = state.load_chunks(ctx)
+        context = text_schema.select_context(chunks, s.schema_context_chars)
+        # how much of the text the proposer saw: all of it unless the corpus exceeds the budget
+        run.metrics(
+            context_chunks=len(context),
+            chunks_total=len(chunks),
+            context_chars=sum(len(c.text) for c in context),
+        )
         result = text_schema.propose_text_schema(
             state.need("goal", "pass --goal"),
-            state.load_chunks(ctx),
+            context,
             with_thinking(ctx.require_llm(), s.schema_thinking),
             s.schema_model,
             state.load_plan(ctx, required=False),
