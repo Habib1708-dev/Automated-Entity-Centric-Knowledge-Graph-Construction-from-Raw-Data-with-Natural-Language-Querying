@@ -216,7 +216,27 @@ def test_a_second_pass_shows_the_found_facts_and_adds_only_new_verified_ones():
 def test_the_second_pass_rules_speak_no_corpus_language():
     rule = GLEAN_SUFFIX.lower()
     assert "return an empty list" in rule and "do not repeat" in rule
+    assert "generally known" in rule and "comparison" in rule  # R62: the over-reach rules
     assert not any(w in rule for w in ("defect", "failure", "complaint", "product", "drawer", "vehicle"))
+    # no four consecutive words of either development corpus (the R34 rule, extended to pass 2)
+    corpora = [REVIEW_CORPUS, REVIEW_CORPUS.parent.parent / "heldout" / "nhtsa" / "data" / "complaints"]
+    words = lambda text: re.findall(r"[a-z0-9]+", norm(text))  # noqa: E731
+    corpus = words(" ".join(p.read_text(encoding="utf-8") for d in corpora for p in d.glob("*.md")))
+    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
+    rules = words(GLEAN_SUFFIX.split("</already_extracted>")[1])
+    assert not [" ".join(rules[i : i + 4]) for i in range(len(rules) - 3) if tuple(rules[i : i + 4]) in seen]
+
+
+def test_a_name_that_is_only_a_pronoun_is_rejected():
+    text = "It works less every day. This one broke. The table wobbles."
+    assert verify(triple("It", "wobbles", "The table wobbles."), text, SCHEMA).reason == (
+        RejectionReason.PRONOUN_ARGUMENT
+    )
+    assert verify(triple("table", "this one", "This one broke."), text, SCHEMA).reason == (
+        RejectionReason.PRONOUN_ARGUMENT
+    )
+    # a real name that contains a pronoun-like word is not touched
+    assert verify(triple("table", "wobbles", "The table wobbles."), text, SCHEMA) is None
 
 
 def test_off_schema_rejections_are_counted_per_missing_fact_type():

@@ -1581,6 +1581,31 @@ default is unchanged.
 - **Accept:** recall up on both datasets, precision at least 0.94. If that holds, `quality` gets
   `extract_passes: 2`.
 
+### R62. Precision of the extraction: pronoun names and second-pass over-reach
+Asked for by the user on 2026-09-24 after R61 ("what do you recommend to fix precision; implement it").
+R61's 16 unsupported facts fall into three groups:
+- pronoun names;
+- second-pass over-reach: general knowledge, a location read as "part of", a non-physical thing typed as
+  a physical one;
+- first-pass misreadings: a comparison, a normal gauge reading, a possible outcome.
+
+The first two groups are addressed here. The third would need a fact-check pass and is not started.
+Behaviour change in `text/extraction.py`.
+- **Part 1 (done, 2026-09-24).**
+  - `verify` rejects a subject or object made only of pronouns or determiners (`PRONOUNS`, a closed word
+    class; new reason `pronoun_argument`).
+  - `GLEAN_SUFFIX` gets three over-reach rules: nothing generally known or only suggested; no place or
+    comparison read as a relation; an entity only of a type whose description covers it.
+  - Tests: the pronoun check, including a real name next to a pronoun. The pass-2 rules name no domain
+    word and share no 4-gram with either corpus.
+  - **Measured at $0 for the pronoun check:** it was applied to the judged facts of R58 and R61 and
+    re-scored with their verdicts, with no model call. It removes exactly the 2 "IT" facts of R61
+    held-out, both UNSUPPORTED, and nothing else. Held-out R61 precision goes from 0.919 (137 / 149) to
+    **0.932** (137 / 147); the other runs have no pronoun names.
+- **Part 2 (open):** the stricter pass-2 rules need pass 2 to be re-run on both datasets (pass 1 is
+  cached), about $0.11. This needs the user's yes.
+- **Accept:** held-out precision at least 0.94 with recall kept (R61: 0.868), and furniture not worse.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

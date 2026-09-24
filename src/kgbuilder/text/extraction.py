@@ -93,6 +93,7 @@ class RejectionReason(StrEnum):
     OFF_SCHEMA = "off_schema"
     EVIDENCE_NOT_VERBATIM = "evidence_not_verbatim"
     EMPTY_ARGUMENT = "empty_argument"
+    PRONOUN_ARGUMENT = "pronoun_argument"
     SELF_REFERENCE = "self_reference"
     ARGUMENT_NOT_IN_CHUNK = "argument_not_in_chunk"
 
@@ -144,6 +145,18 @@ class ExtractionResult(BaseModel):
         return dict(sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
 
 
+# Names that are only pronouns or determiners name nothing: "IT" became an entity in R61's second pass,
+# although the prompt says "Never use pronouns". A closed word class of English, so the check is
+# domain-neutral; a name that merely contains one ("this dresser") is left to the naming rules.
+# fmt: off
+PRONOUNS = frozenset({
+    "i", "me", "my", "we", "us", "our", "you", "your", "he", "him", "his", "she", "her", "it", "its",
+    "they", "them", "their", "this", "that", "these", "those", "one", "ones", "something", "someone",
+    "anything", "everything",
+})
+# fmt: on
+
+
 def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str = "") -> Rejection | None:
     """Return why the triple must be rejected, or None when it is grounded and schema-conformant.
 
@@ -171,6 +184,11 @@ def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str 
         )
     if not subject or not obj:
         return Rejection(reason=RejectionReason.EMPTY_ARGUMENT, detail="empty subject or object")
+    for role, name, normalised in (("subject", triple.subject, subject), ("object", triple.object, obj)):
+        if set(normalised.split()) <= PRONOUNS:
+            return Rejection(
+                reason=RejectionReason.PRONOUN_ARGUMENT, detail=f"{role} '{name}' is a pronoun, not a name"
+            )
     if subject == obj:
         return Rejection(reason=RejectionReason.SELF_REFERENCE, detail="subject equals object")
     for role, name, normalised in (("subject", triple.subject, subject), ("object", triple.object, obj)):
@@ -187,6 +205,9 @@ def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str 
 # with what it already found in view, targets exactly that. The facts shown are the accepted ones, so a
 # claim that failed verification may come back in a form that passes. Same rules and the same `verify`:
 # the second pass may only add, never loosen. "Return an empty list" keeps it from padding.
+# R61's measurement: pass 2 found real misses but also reached past the text (a part placed in another by
+# general knowledge, a location read as "part of", a non-physical thing typed as a physical one). The
+# closing rules (R62) name those three kinds of over-reach in generic words; none is a corpus phrase.
 GLEAN_SUFFIX = """
 
 These triples were already extracted from this chunk:
@@ -194,7 +215,11 @@ These triples were already extracted from this chunk:
 {found}
 </already_extracted>
 Return only the claims of the chunk that this list misses, under the same rules and with the same
-fact types. Do not repeat a triple of the list. Return an empty list when it misses nothing."""
+fact types. Do not repeat a triple of the list. Return an empty list when it misses nothing.
+A second look tends to reach past the text, so each new triple must be stated by the chunk itself:
+- not what is generally known about the things, and not what a sentence only suggests;
+- not a place where something is, or a comparison with something else, read as a relation;
+- an entity only of a type whose description covers it."""
 
 
 def build_glean_prompt(chunk: Chunk, schema: TextSchema, found: list[Triple]) -> str:
