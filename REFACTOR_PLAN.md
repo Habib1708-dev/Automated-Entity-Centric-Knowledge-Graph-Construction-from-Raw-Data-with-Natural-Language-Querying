@@ -1189,11 +1189,47 @@ same prompts, models and gold claims.
   and check the schema.
 - **Accept:** gate green; one `heldout` run with both files pinned (reset, build, ingest-text, extract,
   resolve, link, eval; user's yes given; estimate about $0.08), a judge pass, both arms side by side.
-- **Part 1 (done, 2026-09-24).** As listed; 11 held-out tests (2 new). No run yet.
+- **Part 1 (done, 2026-09-24).** As listed; 11 held-out tests (2 new). No run yet.
+- **Part 2 (done, 2026-09-24).** User's yes given in the session. Same frozen plan, pinned controlled schema,
+  output `out/heldout_controlled/`: extract `535c1f40` 25 calls $0.0393 (73 facts, 0 rejected), resolve
+  `3e4d3242` 67 adjudications $0.0141 (99 → 85 entities), link `0b7617a2`; **$0.053**. Judge Claude Opus
+  5.5, `tests/gold/judge_verdicts_2026-09-24_r54_heldout_controlled.json`, eval `e62bf4ba`:
+
+  | Score | Automatic arm (R53) | Controlled arm (R54) | Furniture, pinned (R49) |
+  |---|---|---|---|
+  | validated precision | 0.977 (170 / 174) [0.94, 0.99] | 0.942 (98 / 104) [0.88, 0.97] | 0.992-1.000 |
+  | validated recall (n = 68) | 0.706 [0.59, 0.80] | **0.838** (57) [0.73, 0.91] | 0.854-0.865 (n = 96) |
+  | validated F1 | 0.820 | **0.887** | – |
+  | exact precision / recall | 0.080 / 0.162 | 0.311 / 0.412 | 0.370-0.385 / 0.365-0.396 |
+  | ER valid | 0.952 (n = 21) | 1.000 (n = 21) | 1.000 |
+  | questions | 5 / 5 | 5 / 5 | 5 / 5 |
+  | gold corrections | 115 | 32 | – |
+
+  **Answer: the recall drop was the proposed schema's, not the domain's.** With the gold's own relations
+  pinned, held-out recall (0.838) is close to the furniture range (0.85-0.87; the intervals overlap), up 9 triples from the automatic
+  arm; `CAUSES` alone now finds 3 of 5. The 11 misses: 6 Civic ACC / LKAS problems put on the vehicle
+  although the schema says a part named in a when-clause is the subject, 2 causes named by the generic word
+  "PART", "SYSTEMS" for the navigation system, the camera's braking stated as CAUSES, the shutoff put on the
+  tank. Precision is lower (0.942): 6 unsupported, of which 3 are the ice-crash sequence stated as vehicle
+  problems (the schema's Problem includes "an event it leads to"), 1 a hypothetical accident as a cause, 2
+  correct gauge readings as faults; vague rate 0.092 (generic names, owner assessments). Judgement calls,
+  applied to both arms: generic subject names and a different relation or subject never find a gold triple.
+  Limits: one sample per arm; the controlled schema was written after R53's output was seen (disclosed in
+  Part 1); gold and judge are one model family.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The vehicle exists twice in the text graph (found in R54, 2026-09-24).** Derived `PART_OF` facts point
+  at an entity named after the domain node ("OUTBACK", the plan's `name_column` `model`), the extractor
+  names the vehicle "2019 Subaru Outback"; resolution does not merge them (different spellings, and
+  derivation runs after resolution). Questions are unaffected (they go through the document's ABOUT
+  node), but a query from a part's vehicle entity to its problems misses the vehicle-level facts.
+  Candidate: derivation looks up an existing entity of the object type that REFERS_TO the ABOUT node.
+- **The automatic arm's schema costs about 9 recall triples on the held-out data (R54).** Measured, not
+  tuned: a schema-critic check that a problem type can reach a component type is the candidate from R53,
+  to be tested on the development data first.
 
 - **The automatic arm's schema decides where a problem lives (found in R53, 2026-09-24).** The proposed
   schema offers both `Complaint REPORTS_PROBLEM Problem` and `Problem OCCURS_IN_COMPONENT Component`; the
