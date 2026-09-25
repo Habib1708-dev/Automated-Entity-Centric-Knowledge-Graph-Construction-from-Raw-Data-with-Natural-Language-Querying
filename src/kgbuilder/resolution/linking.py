@@ -1,4 +1,5 @@
-"""Link the three graphs: `(Document)-[:ABOUT]->(domain node)` and `(Entity)-[:REFERS_TO]->(domain node)`.
+"""Link the three graphs: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)` and
+`(domain node)-[:HAS_OBSERVATION]->(Observation)`.
 
 Role in the pipeline: `kg link`, after the domain graph, the lexical graph and the subject graph exist.
 Design: three separated steps: read names and contexts from Neo4j, match in pure functions (unit-tested
@@ -6,6 +7,9 @@ without a database), write the links in batches. Entities are matched inside the
 node their documents are about, because generic names repeat across the domain ("Legs" is an assembly of
 every chair and table); only names that are unique in the whole domain graph are linked without a scope.
 No LLM: links are either a name contained in a file name, or a near-exact fuzzy name match.
+An observation belongs to the thing its chunk's document is ABOUT (R64): code decides what a claim is
+about, never the model, and never through a shared kind node, which is what made one product's defects
+reachable from another in R62.
 Not here: merging entities with each other (resolver.py).
 """
 
@@ -177,7 +181,9 @@ def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0)
 
     documents, _, _ = driver.execute_query("MATCH (d:Document) RETURN d.doc_id AS id, d.title AS title")
     document_rows = [
-        {"src": d["id"], "dst": node.element_id, "props": {}}
+        # the thing's display name travels on the link, so a reader of the text graph can name what a
+        # document is about without knowing which property the plan names each label by
+        {"src": d["id"], "dst": node.element_id, "props": {"name": node.name}}
         for d in documents
         if (node := match_document(d["title"], domain))
     ]
@@ -215,6 +221,21 @@ def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0)
         entities_ambiguous=sum(r.ambiguous for r in results.values()),
         entity_links=len(entity_rows),
     )
+
+
+def attach_observations(driver: Driver) -> int:
+    """Recompute `(thing)-[:HAS_OBSERVATION {name}]->(o)` for every observation from the ABOUT links of its
+    chunk's document. Returns how many observations are attached.
+
+    Runs after derivation, so derived observations are attached like extracted ones. Recomputed from
+    scratch, like the other links, so a changed plan or an undone merge leaves no stale attachment.
+    """
+    driver.execute_query("MATCH ()-[h:HAS_OBSERVATION]->(:Observation) DELETE h")
+    records, _, _ = driver.execute_query(
+        "MATCH (o:Observation)-[:FROM]->(:Chunk)-[:PART_OF]->(:Document)-[a:ABOUT]->(n) "
+        "MERGE (n)-[h:HAS_OBSERVATION]->(o) SET h.name = a.name RETURN count(DISTINCT o) AS n"
+    )
+    return records[0]["n"]
 
 
 def _write_links(driver: Driver, source_match: str, relationship: str, rows: list[dict]) -> None:

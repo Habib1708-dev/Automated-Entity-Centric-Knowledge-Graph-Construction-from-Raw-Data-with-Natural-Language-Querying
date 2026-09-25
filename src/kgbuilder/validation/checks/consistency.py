@@ -1,4 +1,4 @@
-"""Consistency checks on the subject graph: schema conformance, leftover duplicates, self-loops."""
+"""Consistency checks on the subject graph: schema conformance, leftover duplicates, self-references."""
 
 from ..report import CheckOutput
 from .base import CheckContext
@@ -50,7 +50,8 @@ class SubjectConsistencyCheck:
             f"{duplicates} duplicate name groups",
             "consistency",
         )
-        loops = ctx.scalar("MATCH (e:Entity)-[r]->(e) RETURN count(r)")
+        # an observation whose subject and object are one node says "X relates to X"; resolution removes them
+        loops = ctx.scalar("MATCH (e:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(e) RETURN count(o)")
         out.add("consistency: no self-referencing facts", loops == 0, f"{loops} self loops", "consistency")
         out.metrics["entities_linked_to_domain"] = ctx.scalar(
             "MATCH (e:Entity)-[:REFERS_TO]->() RETURN count(DISTINCT e)"
@@ -60,8 +61,8 @@ class SubjectConsistencyCheck:
         # data, and a goal may rightly want unlinked facts, so never optimise a prompt for this number alone.
         # Only facts count, not REFERS_TO itself, which points from an entity to a domain node.
         touching = ctx.scalar(
-            "MATCH (s:Entity)-[r]->(o:Entity) "
-            "WHERE (s)-[:REFERS_TO]->() OR (o)-[:REFERS_TO]->() RETURN count(r)"
+            "MATCH (o:Observation)-[:SUBJECT|OBJECT]->(e:Entity) WHERE (e)-[:REFERS_TO]->() "
+            "RETURN count(DISTINCT o)"
         )
         out.metrics["facts_touching_domain_rate"] = round(touching / len(facts), 3) if facts else 0.0
         return out

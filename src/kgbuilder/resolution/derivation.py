@@ -3,26 +3,27 @@ document is about.
 
 Role in the pipeline: second half of `kg link`, after the ABOUT links exist. For every fact type the text
 schema marks `derived` (subject type S, predicate P, object type O), every S entity mentioned in a chunk of
-a document ABOUT a domain node becomes `(S entity)-[:P]->(O entity named like that node)`: one fact per
-mention chunk, with the chunk's sentence that names the entity as verbatim evidence.
+a document ABOUT a domain node becomes an observation "S entity P (O entity named like that node)": one per
+mention chunk, with the chunk's sentence that names the entity as verbatim evidence. It is written by the
+subject-graph writer's `write_observations`, so a derived claim has the shape of an extracted one (R64).
 Design: "the LLM proposes, code decides", one step further: what the document states by itself (the title
 names the product, the review names the part) is never asked from the model, which used to spend more
 than half of its output on it. The rule only reads the path Entity <-MENTIONS- Chunk -PART_OF-> Document
 -ABOUT-> node, written by three deterministic stages. The object entity is the one the text already has
 for that node when its name contains the node's name ("2019 Subaru Outback" for "OUTBACK", R60), so the
-thing is one node, not two. Derived facts carry `extractor = "derived"`, so a reader can tell them from
-model output. All writes are MERGE: a rerun adds nothing.
+thing is one node, not two. Derived observations carry `extractor = "derived"`, so a reader can tell them
+from model output. All writes are MERGE: a rerun adds nothing.
 Not here: matching entities to domain nodes (linking.py) and the extracted facts (text/extraction.py).
 """
 
 from neo4j import Driver
 from pydantic import BaseModel
 
-from ..core.cypher import cypher_ident
 from ..core.identity import entity_id
 from ..core.text import norm, pick_sentence
 from ..structured.plan import ConstructionPlan
 from ..text.schema import FactType, TextSchema
+from ..text.subject_graph import observation_row, write_observations
 from .linking import read_domain_nodes
 
 # The `extractor` property of a derived fact; facts from the model carry the model id instead.
@@ -105,7 +106,14 @@ def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> 
                 skipped += 1
                 continue
             rows.append(
-                {"s": r["id"], "o": target, "name": product, "chunk_id": r["chunk_id"], "evidence": sentence}
+                {
+                    "s": r["id"],
+                    "s_name": r["names"][0],
+                    "o": target,
+                    "name": product,
+                    "chunk_id": r["chunk_id"],
+                    "evidence": sentence,
+                }
             )
         created += _write(driver, fact_type, rows)
         facts += len(rows)
@@ -157,7 +165,7 @@ def _candidates_by_node(driver: Driver, entity_type: str) -> dict[str, list[Cand
 
 
 def _write(driver: Driver, fact_type: FactType, rows: list[dict]) -> int:
-    """MERGE the object entities, their mentions and the facts. Returns how many entities were new."""
+    """MERGE the object entities, their mentions and the observations. Returns how many entities were new."""
     if not rows:
         return 0
     targets = sorted({r["o"] for r in rows})
@@ -178,13 +186,22 @@ def _write(driver: Driver, fact_type: FactType, rows: list[dict]) -> int:
         "MERGE (c)-[:MENTIONS]->(o)",
         rows=rows,
     )
-    predicate = cypher_ident(fact_type.predicate)
-    driver.execute_query(
-        "UNWIND $rows AS r MATCH (s:Entity {id: r.s}), (o:Entity {id: r.o}) "
-        # same MERGE key as the subject-graph writer: one fact per statement, never duplicated on rerun
-        f"MERGE (s)-[f:{predicate} {{chunk_id: r.chunk_id, evidence: r.evidence}}]->(o) "
-        "SET f.extractor = $extractor",
-        rows=rows,
-        extractor=DERIVED_EXTRACTOR,
+    # the claim's wording is the two entities' display names as they are now, after resolution: the same
+    # names the judge sheet showed for a derived fact before R64, so the observation id is its fact id
+    names, _, _ = driver.execute_query(
+        "MATCH (e:Entity) WHERE e.id IN $ids RETURN e.id AS id, e.name AS name", ids=targets
     )
+    target_names = {r["id"]: r["name"] for r in names}
+    observations = [
+        observation_row(
+            fact_type.predicate,
+            r["s"],
+            r["o"],
+            r["chunk_id"],
+            r["evidence"],
+            (r["s_name"], target_names[r["o"]]),
+        )
+        for r in rows
+    ]
+    write_observations(driver, observations, DERIVED_EXTRACTOR)
     return len(targets) - existing[0]["n"]

@@ -9,8 +9,9 @@ Design: five small steps instead of one function, and only the first and the las
   4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
      Steps 2-4 repeat on the merged view (decide_in_passes, R45): a group of more than k wordings fills
      its members' k nearest slots, so it can meet a neighbouring group only once each is one entity.
-  5. apply_merges       snapshot the members, then merge them with APOC (relationships are moved, never
-                        folded: three reviews stating one fact stay three facts; only exact repeats go)
+  5. apply_merges       snapshot the members, then merge them with APOC (the SUBJECT / OBJECT edges of
+                        their observations move to the merged node; three reviews stating one claim stay
+                        three observations; only exact repeats go)
 Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
 graph, because a wrong merge silently corrupts every later query. `preview_candidates` runs steps 1-2
 only (`kg resolve --preview`), to see what the thresholds and the blocking nominate.
@@ -25,7 +26,6 @@ from typing import Literal
 from neo4j import Driver
 from pydantic import BaseModel
 
-from ..core.cypher import cypher_ident
 from ..core.text import pick_sentence
 from ..llm.base import Embedder, LLMClient
 from .blocking import Blocking
@@ -97,11 +97,12 @@ class MergeGroup(BaseModel):
     absorbed: list[str]
 
 
-class FactSnapshot(BaseModel):
-    type: str
-    source: str
-    target: str
-    props: dict
+class ObservationSnapshot(BaseModel):
+    """An observation touching a merged entity, as it was before the merge."""
+
+    props: dict  # every property, the id and chunk_id included
+    subject: str  # entity ids
+    object: str
 
 
 class EntitySnapshot(BaseModel):
@@ -111,19 +112,21 @@ class EntitySnapshot(BaseModel):
 
 
 class ResolveReport(BaseModel):
-    """Result and audit log of one run. `snapshots` and `facts` are the pre-merge state for `undo_merges`."""
+    """Result and audit log of one run. `snapshots` and `observations` are the pre-merge state for
+    `undo_merges`."""
 
     entities_before: int
     entities_after: int
     merges: int
     self_loops_removed: int
-    # facts identical in type, ends, chunk and quote after a merge (the same statement extracted under
-    # two spellings); default 0 so that resolve.json files written before R28 still load for --undo
+    # observations identical in predicate, ends, chunk and quote after a merge (the same statement
+    # extracted under two spellings); default 0 so that resolve.json files written before R28 still load
     duplicate_facts_removed: int = 0
     decisions: list[Decision]
     groups: list[MergeGroup] = []
     snapshots: list[EntitySnapshot] = []
-    facts: list[FactSnapshot] = []
+    # before R64 the snapshot held fact edges (`facts`); such a file no longer matches the graph's shape
+    observations: list[ObservationSnapshot] = []
     passes: int = 1  # rounds of nominate-and-decide (R45); 1 for resolve.json files written before
 
 
@@ -418,26 +421,32 @@ def _llm_adjudicator(
     return adjudicate
 
 
-def snapshot(driver: Driver, ids: list[str]) -> tuple[list[EntitySnapshot], list[FactSnapshot]]:
-    """The state of the given entities before a merge: properties, mentions, and every fact touching them."""
+def snapshot(driver: Driver, ids: list[str]) -> tuple[list[EntitySnapshot], list[ObservationSnapshot]]:
+    """The state of the given entities before a merge: properties, mentions, and every observation with
+    one of them as subject or object."""
     nodes, _, _ = driver.execute_query(
         "MATCH (e:Entity) WHERE e.id IN $ids OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e) "
         "RETURN e.id AS id, properties(e) AS props, collect(c.chunk_id) AS mentions ORDER BY id",
         ids=ids,
     )
-    facts, _, _ = driver.execute_query(
-        "MATCH (s:Entity)-[r]->(o:Entity) WHERE s.id IN $ids OR o.id IN $ids "
-        "RETURN type(r) AS type, s.id AS source, o.id AS target, properties(r) AS props",
+    observations, _, _ = driver.execute_query(
+        "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
+        "WHERE s.id IN $ids OR t.id IN $ids "
+        "RETURN properties(o) AS props, s.id AS subject, t.id AS object ORDER BY o.id",
         ids=ids,
     )
-    return [EntitySnapshot(**n.data()) for n in nodes], [FactSnapshot(**f.data()) for f in facts]
+    return (
+        [EntitySnapshot(**n.data()) for n in nodes],
+        [ObservationSnapshot(**o.data()) for o in observations],
+    )
 
 
 def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list[MergeGroup]) -> int:
     """Physically merge each group into its canonical entity; all names survive as aliases.
 
-    Returns the number of exact repeats removed afterwards: facts that became identical in type, ends,
-    chunk and quote (one statement extracted under two spellings), and doubled mentions of one chunk.
+    Returns the number of exact repeats removed afterwards: observations that became identical in
+    predicate, ends, chunk and quote (one statement extracted under two spellings). Doubled mentions of
+    one chunk are removed as well.
     """
     for group in groups:
         members = [group.canonical, *group.absorbed]
@@ -446,9 +455,10 @@ def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list
             "MATCH (c:Entity {id: $canonical}) MATCH (o:Entity) WHERE o.id IN $absorbed "
             # aggregate first: a procedure call cannot take collect() as an argument
             "WITH c, collect(o) AS others "
-            # 'discard' keeps the canonical's properties. mergeRels stays false: with true, APOC folds every
-            # relationship of one type between the same two nodes into one, and three reviews stating the
-            # same fact (three chunk ids, three quotes) became one relationship with one quote (found in R25)
+            # 'discard' keeps the canonical's properties. mergeRels stays false: APOC would fold every
+            # relationship of one type between the same two nodes into one. Since R64 a claim is a node, so
+            # only doubled MENTIONS could fold, and those are removed below; while claims were edges, three
+            # reviews stating one fact became one relationship with one quote (found in R25)
             "CALL apoc.refactor.mergeNodes([c] + others, {properties: 'discard', mergeRels: false}) "
             "YIELD node SET node.aliases = $aliases, node.merged_from = $absorbed RETURN count(node)",
             canonical=group.canonical,
@@ -457,19 +467,22 @@ def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list
         )
     if not groups:
         return 0
-    # the subject-graph writer's MERGE key, applied after the fact: same statement, same evidence = one fact.
+    # The repeat rule: same subject, predicate, object, chunk and quote = one observation (the thing is the
+    # same too, since it follows from the chunk). Three reviews of one claim differ in chunk and stay three.
     # The repeats can differ in the wording they keep (R44); ordered, the same one survives every rebuild,
-    # so the fact id the judge's verdicts refer to is stable
-    facts, _, _ = driver.execute_query(
-        "MATCH (s:Entity)-[r]->(o:Entity) WITH s, o, r ORDER BY r.subject_name, r.object_name "
-        "WITH s, o, type(r) AS t, r.chunk_id AS chunk, r.evidence AS evidence, collect(r) AS repeats "
-        "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DELETE x) RETURN sum(size(repeats) - 1) AS n"
+    # so the id the judge's verdicts refer to is stable
+    repeats, _, _ = driver.execute_query(
+        "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
+        "WITH s, t, o ORDER BY o.subject_name, o.object_name, o.id "
+        "WITH s, t, o.predicate AS p, o.chunk_id AS chunk, o.evidence AS evidence, collect(o) AS repeats "
+        "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DETACH DELETE x) "
+        "RETURN sum(size(repeats) - 1) AS n"
     )
     driver.execute_query(
         "MATCH (c:Chunk)-[m:MENTIONS]->(e:Entity) WITH c, e, collect(m) AS repeats "
         "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DELETE x)"
     )
-    return facts[0]["n"] or 0
+    return repeats[0]["n"] or 0
 
 
 def resolve_entities(
@@ -499,12 +512,12 @@ def resolve_entities(
     )
 
     member_ids = [i for g in groups for i in (g.canonical, *g.absorbed)]
-    snapshots, facts = snapshot(driver, member_ids) if groups else ([], [])
+    snapshots, observations = snapshot(driver, member_ids) if groups else ([], [])
     duplicates = apply_merges(driver, entities, groups)
 
-    # a merge turns a fact between two duplicates into a self-loop; those are noise
+    # a merge turns a claim between two duplicates into "X relates to X"; those are noise
     loops, _, _ = driver.execute_query(
-        "MATCH (e:Entity)-[r]->(e) WHERE type(r) <> 'MENTIONS' DELETE r RETURN count(r) AS n"
+        "MATCH (e:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(e) DETACH DELETE o RETURN count(o) AS n"
     )
     remaining, _, _ = driver.execute_query("MATCH (e:Entity) RETURN count(e) AS n")
     return ResolveReport(
@@ -516,7 +529,7 @@ def resolve_entities(
         decisions=decisions,
         groups=groups,
         snapshots=snapshots,
-        facts=facts,
+        observations=observations,
         passes=passes,
     )
 
@@ -555,15 +568,18 @@ def preview_candidates(
 def undo_merges(driver: Driver, report: ResolveReport) -> int:
     """Restore the entities merged by the run that produced `report`. Returns how many came back.
 
-    Meant to follow a `kg resolve` directly: facts extracted after the merge are dropped from the
-    canonical entities. REFERS_TO links are derived data; re-run `kg link` afterwards. Idempotent.
+    Meant to follow a `kg resolve` directly: observations written after the merge that touch a canonical
+    entity are dropped. REFERS_TO and HAS_OBSERVATION links are derived data; re-run `kg link` afterwards.
+    Idempotent.
     """
     if not report.groups:
         return 0
     canonical_ids = [g.canonical for g in report.groups]
-    # 1. strip the canonical entities: everything they legitimately had is in the snapshot
+    # 1. strip the canonical entities: everything they legitimately had is in the snapshot, including the
+    # observations the merge removed as repeats or self-references
     driver.execute_query(
-        "MATCH (e:Entity) WHERE e.id IN $ids OPTIONAL MATCH (e)-[r]-(:Entity) DELETE r", ids=canonical_ids
+        "MATCH (o:Observation)-[:SUBJECT|OBJECT]->(e:Entity) WHERE e.id IN $ids DETACH DELETE o",
+        ids=canonical_ids,
     )
     driver.execute_query(
         "MATCH (:Chunk)-[m:MENTIONS]->(e:Entity) WHERE e.id IN $ids DELETE m", ids=canonical_ids
@@ -573,20 +589,17 @@ def undo_merges(driver: Driver, report: ResolveReport) -> int:
         "UNWIND $rows AS r MERGE (e:Entity {id: r.id}) SET e = r.props",
         rows=[s.model_dump() for s in report.snapshots],
     )
-    # 3. mentions and facts exactly as they were
+    # 3. mentions and observations exactly as they were
     driver.execute_query(
         "UNWIND $rows AS r MATCH (c:Chunk {chunk_id: r.c}), (e:Entity {id: r.e}) MERGE (c)-[:MENTIONS]->(e)",
         rows=[{"c": c, "e": s.id} for s in report.snapshots for c in s.mentions],
     )
-    facts_by_type: dict[str, list[dict]] = {}
-    for fact in report.facts:
-        facts_by_type.setdefault(fact.type, []).append(fact.model_dump())
-    for fact_type, rows in facts_by_type.items():
-        driver.execute_query(
-            "UNWIND $rows AS r MATCH (s:Entity {id: r.source}), (o:Entity {id: r.target}) "
-            # same MERGE key as the subject-graph writer, so a second undo cannot duplicate facts
-            f"MERGE (s)-[f:{cypher_ident(fact_type)} "
-            "{chunk_id: r.props.chunk_id, evidence: r.props.evidence}]->(o) SET f = r.props",
-            rows=rows,
-        )
+    driver.execute_query(
+        "UNWIND $rows AS r MATCH (s:Entity {id: r.subject}), (t:Entity {id: r.object}), "
+        "(c:Chunk {chunk_id: r.props.chunk_id}) "
+        # same MERGE key as the subject-graph writer, so a second undo cannot duplicate observations
+        "MERGE (o:Observation {id: r.props.id}) SET o = r.props "
+        "MERGE (o)-[:SUBJECT]->(s) MERGE (o)-[:OBJECT]->(t) MERGE (o)-[:FROM]->(c)",
+        rows=[o.model_dump() for o in report.observations],
+    )
     return sum(len(g.absorbed) for g in report.groups)

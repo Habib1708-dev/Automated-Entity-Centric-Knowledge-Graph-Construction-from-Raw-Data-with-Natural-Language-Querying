@@ -1,10 +1,12 @@
 """Linking: the pure matching functions that decide ABOUT and REFERS_TO links, and (with Neo4j) scoped
-linking end to end: a generic part name links to the part of the product its review is about."""
+linking end to end: a generic part name links to the part of the product its review is about, and the
+claim, attached to that product (HAS_OBSERVATION), leads to the supplier of the product's part."""
 
 import pytest
 
 from kgbuilder.resolution.linking import (
     DomainNode,
+    attach_observations,
     link_entity,
     link_graphs,
     match_document,
@@ -126,16 +128,19 @@ def test_a_defect_in_a_review_can_be_traced_to_the_supplier_of_that_products_par
         "<-[:PART_OF]-(c:Chunk {chunk_id: 'k1'}), "
         "(c)-[:MENTIONS]->(legs:Entity {id: 'e1', name: 'legs', type: 'Component', aliases: ['legs']}), "
         "(c)-[:MENTIONS]->(wobble:Entity {id: 'e2', name: 'wobbly', type: 'Defect', aliases: ['wobbly']}), "
-        "(legs)-[:HAS_DEFECT {chunk_id: 'k1', evidence: 'the legs are wobbly'}]->(wobble)"
+        "(o:Observation {id: 'o1', predicate: 'HAS_DEFECT', chunk_id: 'k1', "
+        "evidence: 'the legs are wobbly'}), "
+        "(o)-[:SUBJECT]->(legs), (o)-[:OBJECT]->(wobble), (o)-[:FROM]->(c)"
     )
 
     report = link_graphs(driver, LINK_PLAN)
     assert report.documents_linked == 1 and report.entities_linked_in_scope == 1
+    assert attach_observations(driver) == 1
 
-    # the root-cause question: follow the fact's chunk to its product, then the part of that product
+    # the root-cause question: the product the claim hangs on, then that product's part and its supplier
     records, _, _ = driver.execute_query(
-        "MATCH (part:Entity)-[f:HAS_DEFECT]->(:Entity {name: 'wobbly'}) "
-        "MATCH (:Chunk {chunk_id: f.chunk_id})-[:PART_OF]->(:Document)-[:ABOUT]->(product) "
+        "MATCH (product)-[:HAS_OBSERVATION]->(o:Observation {predicate: 'HAS_DEFECT'}), "
+        "(part:Entity)<-[:SUBJECT]-(o)-[:OBJECT]->(:Entity {name: 'wobbly'}) "
         "MATCH (part)-[:REFERS_TO]->(a:Assembly)-[:USED_IN]->(product) "
         "MATCH (a)-[:SUPPLIED_BY]->(s:Supplier) RETURN s.name AS supplier"
     )

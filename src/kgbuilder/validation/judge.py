@@ -13,7 +13,6 @@ needs judging and computes every number; the judge supplies verdicts only ("the 
 decides"). Not here: exact-match scoring (evaluate.py) and MLflow logging (pipeline/stages.py).
 """
 
-import hashlib
 import json
 from enum import StrEnum
 from pathlib import Path
@@ -21,7 +20,7 @@ from pathlib import Path
 from pydantic import BaseModel, model_validator
 
 from ..core.errors import EvaluationError
-from ..core.text import norm
+from ..core.identity import observation_id
 from .checks.base import StoredFact
 from .er import ErSheet, PairVerdict
 from .gold import GoldTriple, doc_of, in_scope, matches
@@ -56,6 +55,10 @@ class SheetFact(BaseModel):
     object_type: str
     evidence: str | None  # the quote the extractor claimed; the judge checks it against the review
     gold_index: int | None = None
+    # the things the observation hangs on and the things its document is about (R64): not for the judge,
+    # but `kg rescore` needs them to compute path truth for an observation graph from its sheet
+    things: list[str] = []
+    about: list[str] = []
 
     @property
     def needs_verdict(self) -> bool:
@@ -182,9 +185,9 @@ class JudgeReport(BaseModel):
 def fact_id(fact: StoredFact) -> str:
     """Stable id of a stored fact: same graph, same id; a rebuilt graph with other names gives other ids,
     which is how a verdict file written for another graph is detected. Built from the fact's own wording
-    (R44), so which name a merge makes canonical does not change it."""
-    key = "|".join([fact.chunk_id or "", fact.predicate, norm(fact.own_subject), norm(fact.own_object)])
-    return hashlib.sha1(key.encode("utf-8")).hexdigest()[:12]
+    (R44), so which name a merge makes canonical does not change it. It is the id of the fact's
+    observation node (R64)."""
+    return observation_id(fact.chunk_id or "", fact.predicate, fact.own_subject, fact.own_object)
 
 
 def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
@@ -201,6 +204,8 @@ def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
             object_type=f.object_type,
             evidence=f.evidence,
             gold_index=next((i for i, g in enumerate(gold) if matches(g, f)), None),
+            things=f.things,
+            about=f.about,
         )
         for f in scoped
     ]

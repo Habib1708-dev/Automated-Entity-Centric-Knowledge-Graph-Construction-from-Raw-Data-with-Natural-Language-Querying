@@ -131,21 +131,32 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
 
 - Domain graph: labels and relationships from the approved plan (Product, Part, Supplier, ...).
 - Lexical graph: `(Chunk)-[:PART_OF]->(Document)`, `(Chunk)-[:NEXT_CHUNK]->(Chunk)`, optional embeddings.
-- Subject graph: `(:Entity {type, name, aliases})`, `(Chunk)-[:MENTIONS]->(Entity)`, facts as
-  relationships carrying `chunk_id` and a verbatim `evidence` quote.
+- Subject graph: `(:Entity {type, name, aliases})` is a *kind* ("drawer rails"), one node shared by every
+  document that names it; `(Chunk)-[:MENTIONS]->(Entity)`. Each claim is its own node (since R64), so a
+  claim about one product never reaches another product through a shared kind:
+
+  ```
+  (thing)-[:HAS_OBSERVATION]->(:Observation {id, predicate, chunk_id, evidence, subject_name, object_name, extractor})
+  (:Observation)-[:SUBJECT]->(:Entity)   (:Observation)-[:OBJECT]->(:Entity)   (:Observation)-[:FROM]->(:Chunk)
+  ```
+
+  The id is built from the chunk and the claim's own wording, so it survives entity merges. Three reviews
+  of one claim are three observations; only exact repeats (same subject, predicate, object, chunk and
+  quote) are merged by entity resolution.
 - Derived facts: a fact type the text schema marks `"derived": true` (in the reference schema:
   `PART_OF` from a Component or Assembly to a Product) is never asked from the extractor. `kg link` writes
-  it from `Entity <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one fact per mention
-  chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`.
-- Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)`, recomputed on
-  every `kg link`. Entities are matched by the plan's `name_column` inside the neighbourhood (2 hops) of
-  the node their documents are ABOUT, so "legs" in a chair review links to the chair's legs; an entity
-  named for several products gets one REFERS_TO per product. To follow a fact to the right one, go from
-  its `chunk_id` to the document's ABOUT node:
+  it from `Entity <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one observation per
+  mention chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`.
+- Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)` and
+  `(domain node)-[:HAS_OBSERVATION]->(Observation)`, recomputed on every `kg link`. An observation hangs on
+  the thing its chunk's document is ABOUT: code decides what a claim is about, never the model. Entities
+  are matched by the plan's `name_column` inside the neighbourhood (2 hops) of the node their documents
+  are ABOUT, so "legs" in a chair review links to the chair's legs; an entity named for several products
+  gets one REFERS_TO per product. Every question starts at the thing and walks its observations:
 
   ```cypher
-  MATCH (part:Entity)-[f:HAS_DEFECT]->(defect:Entity)
-  MATCH (:Chunk {chunk_id: f.chunk_id})-[:PART_OF]->(:Document)-[:ABOUT]->(product)
+  MATCH (product)-[:HAS_OBSERVATION]->(o:Observation {predicate: 'HAS_DEFECT'})
+  MATCH (part:Entity)<-[:SUBJECT]-(o)-[:OBJECT]->(defect:Entity)
   MATCH (part)-[:REFERS_TO]->(node)-[*0..2]-(product)
   RETURN defect.name, part.name, labels(node)[0], product
   ```

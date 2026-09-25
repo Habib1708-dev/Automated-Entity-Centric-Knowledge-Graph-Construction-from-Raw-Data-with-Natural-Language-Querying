@@ -167,7 +167,9 @@ def test_eval_stage_logs_the_judge_sheet_then_the_validated_metrics(driver, tmp_
         "CREATE (d:Document {doc_id: 'a.md'}), (c:Chunk {chunk_id: 'a.md#0', text: 'x'})-[:PART_OF]->(d), "
         "(t:Entity {id: '1', name: 'Table', type: 'Product'}), "
         "(w:Entity {id: '2', name: 'legs wobble', type: 'Defect'}), "
-        "(c)-[:MENTIONS]->(t), (t)-[:HAS_DEFECT {chunk_id: 'a.md#0', evidence: 'legs wobble'}]->(w)"
+        "(c)-[:MENTIONS]->(t), "
+        "(o:Observation {id: 'o1', predicate: 'HAS_DEFECT', chunk_id: 'a.md#0', evidence: 'legs wobble'}), "
+        "(o)-[:SUBJECT]->(t), (o)-[:OBJECT]->(w), (o)-[:FROM]->(c)"
     )
     gold_file = tmp_path / "gold.json"
     gold_file.write_text(json.dumps([GOLD[0].model_dump()]), encoding="utf-8")

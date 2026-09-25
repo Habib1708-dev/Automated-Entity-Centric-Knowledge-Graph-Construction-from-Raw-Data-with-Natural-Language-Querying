@@ -18,7 +18,7 @@ from ..llm.thinking import with_thinking
 from ..resolution import resolver
 from ..resolution.blocking import Blocking, blocking_from
 from ..resolution.derivation import DerivationReport, derive_facts
-from ..resolution.linking import link_graphs
+from ..resolution.linking import attach_observations, link_graphs
 from ..resolution.matchers import EmbeddingMatcher, FuzzyNameMatcher
 from ..structured import proposer
 from ..structured.importer import BATCH_SIZE, construct_domain_graph
@@ -428,7 +428,8 @@ class UndoResolveStage(BaseStage):
 
 
 class LinkStage(BaseStage):
-    """Link documents and entities to the domain graph, then write the facts the text schema derives."""
+    """Link documents and entities to the domain graph, write the facts the text schema derives, then
+    attach every observation to the thing its document is about."""
 
     name = "link"
 
@@ -448,7 +449,10 @@ class LinkStage(BaseStage):
             if schema is not None
             else DerivationReport(facts_derived=0, entities_created=0, skipped_no_evidence=0)
         )
-        run.metrics(**state.links.model_dump(), **derived.model_dump())
+        # last: derived observations need a thing too. Below the observation count when some documents are
+        # ABOUT nothing (their claims stay in the graph, tied to no thing)
+        attached = attach_observations(ctx.driver)
+        run.metrics(**state.links.model_dump(), **derived.model_dump(), observations_attached=attached)
 
 
 class ValidateStage(BaseStage):

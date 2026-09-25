@@ -3,23 +3,29 @@
 Role in the pipeline: one section of `kg eval` and `kg rescore` (R63, step 1 of the observation-graph task).
 Why: the judge scores each fact against its own sentence, so every fact can be true while the graph still
 states something false. Entities are kinds shared across documents (R41): one `drawer rails` node for the
-whole corpus. A derived fact attaches a part to every product whose document mentions it, so the query
-product <-PART_OF- part -> claim reaches the claims of every product with that part. In R62 the Linköping
-Bed reached the Helsingborg Dresser's defective drawer rails this way.
-Definition: a *thing* is the object of a derived fact, and the documents about it are the documents its
-derived facts come from. For every thing, every part a derived fact attaches to it and every extracted
-fact with that part at one end, the path is true when a fact with the same subject, relation and object
-(the same entities after resolution, whatever each review's wording) comes from a document about the
-thing. One hop only: the path a question takes from a product to what is said about its parts.
-Kind structure is left out: a fact between two part types ("drawer pulls PART_OF drawer") says how a kind
-of thing is built, not what one document claims about one thing, and it stays a shared edge in the
-observation model.
+whole corpus. In the edge graph (before R64), a derived fact attached a part to every product whose
+document mentions it, so the query product <-PART_OF- part -> claim reached the claims of every product
+with that part. In R62 the Linköping Bed reached the Helsingborg Dresser's defective drawer rails this way.
+Two graph shapes, one question:
+- Edge graph (a graph or judge sheet from before R64: no fact is attached to a thing). A *thing* is the
+  object of a derived fact, and the documents about it are the documents its derived facts come from. For
+  every thing, every part a derived fact attaches to it and every extracted fact with that part at one
+  end, the path is true when a fact with the same subject, relation and object (the same entities after
+  resolution, whatever each review's wording) comes from a document about the thing.
+- Observation graph (R64): a path is thing -HAS_OBSERVATION-> observation, and it is true when the
+  observation's own document is ABOUT that thing. The link stage attaches observations exactly that way,
+  so anything below 1.0 means the attachments and the ABOUT links have come apart (a stale link, an undo
+  without `kg link`).
+In both, derived facts and kind structure are not paths: a fact between two part types ("drawer pulls
+PART_OF drawer") says how a kind of thing is built, not what one document claims about one thing, and
+leaving it out keeps the two shapes' numbers comparable.
 Design: a pure function over `StoredFact`s, so it is tested without Neo4j and gives the same number on the
 live graph (`kg eval`) and on a logged judge sheet (`kg rescore`). The text schema is needed only to know
 which fact types are derived. Not here: whether a fact matches its own sentence (judge.py).
 """
 
 from collections import defaultdict
+from collections.abc import Callable
 
 from pydantic import BaseModel
 
@@ -32,13 +38,14 @@ from .gold import doc_of
 # a path runs through nodes, so two wordings of one merged node are one entity here
 EntityKey = tuple[str, str]
 Claim = tuple[EntityKey, str, EntityKey]
+Signature = tuple[str, str, str]  # (subject type, predicate, object type)
 
 
 class FalsePath(BaseModel):
     """A claim the graph reaches from a thing although no document about that thing states it."""
 
     thing: str
-    via: str  # the shared part the path runs through
+    via: str  # what the path runs through: the shared part (edge graph) or the observation's chunk
     claim: str  # "subject -[PREDICATE]-> object", display names
     stated_in: list[str]  # the documents that do state the claim
 
@@ -59,13 +66,53 @@ def _key(entity_type: str, names: list[str]) -> EntityKey:
 
 
 def score_paths(facts: list[StoredFact], schema: TextSchema) -> PathReport:
-    """Count the thing -> part -> claim paths of the graph and how many hold for their thing.
+    """Count the paths from a thing to a claim and how many hold for their thing.
 
-    Inputs: all facts of the graph (or of a logged sheet) and the text schema they were built with.
-    Output: the counts and every false path, sorted so that the report is the same for the same graph.
+    Inputs: all facts of the graph (or of a logged sheet) and the text schema they were built with. The
+    graph's shape is read from the facts: observation paths when any fact is attached to a thing, else
+    paths through shared parts. Output: the counts and every false path, sorted so that the report is the
+    same for the same graph.
     """
     derived = {(f.subject_type, f.predicate, f.object_type) for f in schema.fact_types if f.derived}
     part_types = {subject_type for subject_type, _, _ in derived}
+
+    def is_claim(f: StoredFact) -> bool:
+        signature = (f.subject_type, f.predicate, f.object_type)
+        # kind structure: see the module docstring
+        return signature not in derived and not (f.subject_type in part_types and f.object_type in part_types)
+
+    if any(f.things for f in facts):
+        return _observation_paths([f for f in facts if is_claim(f)])
+    return _part_paths(facts, derived, is_claim)
+
+
+def _observation_paths(claims: list[StoredFact]) -> PathReport:
+    """One path per (thing, observation); true when the observation's document is about the thing."""
+    total = true = 0
+    false_paths: list[FalsePath] = []
+    for f in claims:
+        for thing in sorted(set(f.things)):
+            total += 1
+            if thing in f.about:
+                true += 1
+                continue
+            doc = doc_of(f)
+            false_paths.append(
+                FalsePath(
+                    thing=thing,
+                    via=f.chunk_id or "",
+                    claim=f"{f.own_subject} -[{f.predicate}]-> {f.own_object}",
+                    stated_in=[doc] if doc else [],
+                )
+            )
+    false_paths.sort(key=lambda p: (p.thing, p.via, p.claim))
+    return PathReport(paths_total=total, paths_true=true, false_paths=false_paths)
+
+
+def _part_paths(
+    facts: list[StoredFact], derived: set[Signature], is_claim: Callable[[StoredFact], bool]
+) -> PathReport:
+    """The edge graph's paths: thing <- derived fact - part -> claim."""
     display: dict[EntityKey, str] = {}
     about: dict[EntityKey, set[str]] = defaultdict(set)  # thing -> documents about it
     parts: dict[EntityKey, set[EntityKey]] = defaultdict(set)  # thing -> parts attached to it
@@ -80,8 +127,8 @@ def score_paths(facts: list[StoredFact], schema: TextSchema) -> PathReport:
             if doc:
                 about[o].add(doc)
             continue
-        if f.subject_type in part_types and f.object_type in part_types:
-            continue  # kind structure, see the module docstring
+        if not is_claim(f):
+            continue
         claim = (s, f.predicate, o)
         claims_at[s].add(claim)
         claims_at[o].add(claim)

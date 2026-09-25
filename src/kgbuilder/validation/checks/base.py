@@ -18,7 +18,11 @@ from ..report import CheckOutput
 
 
 class StoredFact(BaseModel):
-    """A fact relationship between two entities, as stored in the graph."""
+    """One observation of the graph, read as a triple: subject kind, predicate, object kind, and its source.
+
+    Every scorer (exact match, the judge sheet, path truth) reads claims in this one shape, so the scores
+    of the observation graph (R64) stay comparable with those of the edge graph before it.
+    """
 
     predicate: str
     subject_type: str
@@ -27,9 +31,13 @@ class StoredFact(BaseModel):
     evidence: str | None
     subject_names: list[str]  # display name first, then aliases
     object_names: list[str]
-    # the names the extractor gave this fact's ends (R44); None for derived facts and older graphs
+    # the names the claim itself gave its ends (R44); None only in judge sheets written before R44
     subject_name: str | None = None
     object_name: str | None = None
+    # display names of the things the observation is attached to (HAS_OBSERVATION), and of the things its
+    # document is ABOUT; both empty for a graph or judge sheet from before R64, and for text-only data
+    things: list[str] = []
+    about: list[str] = []
 
     @property
     def own_subject(self) -> str:
@@ -58,14 +66,21 @@ class CheckContext:
 
     @cached_property
     def facts(self) -> list[StoredFact]:
-        """All entity-to-entity facts. Cached: several families need them and the query is the big one."""
+        """All observations with a subject and an object entity. Cached: several families need them and the
+        query is the big one. An observation missing either end is not a claim; the provenance check
+        counts those."""
         records, _, _ = self.driver.execute_query(
-            "MATCH (s:Entity)-[r]->(o:Entity) "
-            "RETURN type(r) AS predicate, s.type AS subject_type, o.type AS object_type, "
-            "r.chunk_id AS chunk_id, r.evidence AS evidence, "
-            "r.subject_name AS subject_name, r.object_name AS object_name, "
+            "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
+            "RETURN o.predicate AS predicate, s.type AS subject_type, t.type AS object_type, "
+            "o.chunk_id AS chunk_id, o.evidence AS evidence, "
+            "o.subject_name AS subject_name, o.object_name AS object_name, "
             "[s.name] + coalesce(s.aliases, []) AS subject_names, "
-            "[o.name] + coalesce(o.aliases, []) AS object_names"
+            "[t.name] + coalesce(t.aliases, []) AS object_names, "
+            "[(n)-[h:HAS_OBSERVATION]->(o) WHERE h.name IS NOT NULL | h.name] AS things, "
+            "[(o)-[:FROM]->(:Chunk)-[:PART_OF]->(:Document)-[a:ABOUT]->() WHERE a.name IS NOT NULL | a.name] "
+            "AS about "
+            # ordered, so that every report built from the facts is the same for the same graph
+            "ORDER BY o.id"
         )
         return [StoredFact(**r.data()) for r in records]
 

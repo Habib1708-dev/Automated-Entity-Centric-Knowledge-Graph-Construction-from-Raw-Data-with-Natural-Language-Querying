@@ -171,8 +171,10 @@ def dump(driver) -> dict:
     return {
         "entities": rows("MATCH (e:Entity) RETURN properties(e) AS p"),
         "mentions": rows("MATCH (c:Chunk)-[:MENTIONS]->(e:Entity) RETURN c.chunk_id AS c, e.id AS e"),
-        "facts": rows(
-            "MATCH (s:Entity)-[r]->(o:Entity) RETURN s.id AS s, type(r) AS t, o.id AS o, properties(r) AS p"
+        "observations": rows("MATCH (o:Observation) RETURN properties(o) AS p"),
+        # SUBJECT and OBJECT point at entities (by id), FROM at a chunk (by chunk id)
+        "edges": rows(
+            "MATCH (o:Observation)-[r]->(n) RETURN o.id AS o, type(r) AS t, coalesce(n.id, n.chunk_id) AS n"
         ),
     }
 
@@ -186,9 +188,9 @@ def fact(subject, predicate, obj, obj_type, chunk, evidence=None):
 
 @pytest.mark.neo4j
 def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driver):
-    """Three reviews saying "the drawers stick" are three pieces of evidence (subject_graph.py keeps one
-    fact per chunk and quote). Merging "Table" into "Tables" must not fold them into one relationship; only
-    a fact that is identical in type, ends, chunk and quote after the merge is a repeat."""
+    """Two chunks saying "the table wobbles" are two pieces of evidence (subject_graph.py writes one
+    observation per chunk and wording). Merging "Table" into "Tables" must not fold them into one; only an
+    observation identical in predicate, ends, chunk and quote after the merge is a repeat (R64's rule)."""
     chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
     write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
     write_subject_graph(
@@ -204,7 +206,8 @@ def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driv
     report = resolve_entities(driver, None, model="m", auto_merge=90)
 
     records, _, _ = driver.execute_query(
-        "MATCH (:Entity)-[f:HAS_PROBLEM]->(:Entity {name: 'wobble'}) "
+        "MATCH (:Entity)<-[:SUBJECT]-(f:Observation {predicate: 'HAS_PROBLEM'})"
+        "-[:OBJECT]->(:Entity {name: 'wobble'}) "
         "RETURN f.chunk_id AS chunk, f.evidence AS evidence, f.subject_name AS said ORDER BY chunk"
     )
     # of the two repeats in d.md#1, the one with the first wording survives, on every rebuild (R44)
@@ -250,6 +253,32 @@ def test_each_fact_keeps_its_own_wording_after_a_merge(driver):
 
 
 @pytest.mark.neo4j
+def test_three_reviews_of_one_claim_stay_three_observations_and_a_rewrite_adds_nothing(driver):
+    """Counting reports is a question the observation graph must answer ("how many reviews say the drawers
+    stick?"): a merge of the claim's wordings keeps one observation per review, and writing the same
+    extraction again (a rerun of `kg extract`) adds no node or edge."""
+    documents = [Document(doc_id=f"{d}.md", title=d, text="x") for d in ("a", "b", "c")]
+    chunks = [Chunk(chunk_id=f"{d}.md#0", doc_id=f"{d}.md", index=0, text="text") for d in ("a", "b", "c")]
+    write_lexical_graph(driver, documents, chunks)
+    triples = [
+        fact("Table", "HAS_PROBLEM", "wobble", "Problem", "a.md#0"),
+        fact("Table", "HAS_PROBLEM", "wobble", "Problem", "b.md#0"),
+        fact("Tables", "HAS_PROBLEM", "wobble", "Problem", "c.md#0"),
+    ]
+    first = write_subject_graph(driver, triples, extractor="test")
+    before = dump(driver)
+    assert write_subject_graph(driver, triples, extractor="test") == first and dump(driver) == before
+
+    report = resolve_entities(driver, None, model="m", auto_merge=90)  # "Table"/"Tables" 90.9: merged
+    assert report.merges == 1 and report.duplicate_facts_removed == 0
+    records, _, _ = driver.execute_query(
+        "MATCH (:Entity {type: 'Product'})<-[:SUBJECT]-(o:Observation)-[:FROM]->(c:Chunk) "
+        "RETURN c.chunk_id AS chunk ORDER BY chunk"
+    )
+    assert [r["chunk"] for r in records] == ["a.md#0", "b.md#0", "c.md#0"]
+
+
+@pytest.mark.neo4j
 def test_merge_then_undo_restores_the_graph(driver):
     chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
     write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
@@ -267,6 +296,12 @@ def test_merge_then_undo_restores_the_graph(driver):
     llm = ScriptedLLM(lambda prompt, schema: SamePair(same=False))
     report = resolve_entities(driver, llm, model="m", auto_merge=90)  # "Table"/"Tables" scores 90.9
     assert report.merges == 1 and report.self_loops_removed == 1
+    # the self-reference is gone and the other two claims now hang on the merged node
+    assert len(report.observations) == 3
+    after = driver.execute_query(
+        "MATCH (o:Observation)-[:SUBJECT]->(e:Entity) RETURN o.predicate AS p, e.name AS e ORDER BY p"
+    )[0]
+    assert {r["e"] for r in after} == {"Table"} and [r["p"] for r in after] == ["HAS_PROBLEM", "HAS_PROBLEM"]
     assert report.entities_after == report.entities_before - 1
     assert dump(driver) != before
 

@@ -7,11 +7,18 @@ import pytest
 
 from kgbuilder.core.text import pick_sentence
 from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_entity, derive_facts
+from kgbuilder.resolution.linking import attach_observations, link_graphs
 from kgbuilder.structured.plan import ConstructionPlan
+from kgbuilder.text.chunking import Chunk
+from kgbuilder.text.documents import Document
+from kgbuilder.text.extraction import Triple
+from kgbuilder.text.lexical import write_lexical_graph
 from kgbuilder.text.schema import EntityType, FactType, TextSchema
+from kgbuilder.text.subject_graph import write_subject_graph
 from kgbuilder.validation.checks.base import CheckContext
 from kgbuilder.validation.evaluate import score_triples
 from kgbuilder.validation.gold import GoldTriple
+from kgbuilder.validation.paths import score_paths
 from kgbuilder.validation.validator import validate_graph
 
 from .sample_plans import node
@@ -109,13 +116,14 @@ def test_the_vehicle_the_text_names_in_full_is_the_target_not_a_second_entity(dr
     report = derive_facts(driver, schema, plan)
     assert report.facts_derived == 1 and report.entities_created == 0 and report.targets_by_containment == 1
     records, _, _ = driver.execute_query(
-        "MATCH (:Entity {id: 'e1'})-[:PART_OF]->(o:Entity) RETURN o.id AS id"
+        "MATCH (:Entity {id: 'e1'})<-[:SUBJECT]-(:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Entity) "
+        "RETURN o.id AS id"
     )
     assert [r["id"] for r in records] == ["e2"]
     # a rerun picks the same entity and adds nothing
     again = derive_facts(driver, schema, plan)
     assert again.facts_derived == 1 and again.entities_created == 0
-    assert driver.execute_query("MATCH ()-[f:PART_OF]->(:Entity) RETURN count(f) AS n")[0][0]["n"] == 1
+    assert driver.execute_query("MATCH (o:Observation) RETURN count(o) AS n")[0][0]["n"] == 1
 
 
 @pytest.mark.neo4j
@@ -132,7 +140,9 @@ def test_derivation_reuses_the_product_entity_that_resolution_merged_under_anoth
     )
     report = derive_facts(driver, SCHEMA, PLAN)
     assert report.facts_derived == 1 and report.entities_created == 0
-    records, _, _ = driver.execute_query("MATCH (:Entity)-[:PART_OF]->(o:Entity) RETURN o.id AS id")
+    records, _, _ = driver.execute_query(
+        "MATCH (:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Entity) RETURN o.id AS id"
+    )
     assert [r["id"] for r in records] == ["merged"]
     assert driver.execute_query("MATCH (e:Entity {type: 'Product'}) RETURN count(e) AS n")[0][0]["n"] == 1
 
@@ -150,8 +160,9 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
         "(c1)-[:MENTIONS]->(rails), (c2)-[:MENTIONS]->(rails), "
         "(stick:Entity {id: 'e2', name: 'stick', type: 'FailureMode', aliases: ['stick']}), "
         "(c1)-[:MENTIONS]->(stick), "
-        "(rails)-[:EXHIBITS_FAILURE {chunk_id: 'h.md#0', evidence: 'The drawer rails stick badly!'}]"
-        "->(stick), "
+        "(x:Observation {id: 'x', predicate: 'EXHIBITS_FAILURE', chunk_id: 'h.md#0', "
+        "evidence: 'The drawer rails stick badly!'}), "
+        "(x)-[:SUBJECT]->(rails), (x)-[:OBJECT]->(stick), (x)-[:FROM]->(c1), "
         # mentioned in c2 by a name c2's text does not contain (it came through the document context)
         "(handles:Entity {id: 'e3', name: 'handles', type: 'Component', aliases: ['handles']}), "
         "(c2)-[:MENTIONS]->(handles), "
@@ -171,7 +182,8 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
     }
 
     records, _, _ = driver.execute_query(
-        "MATCH (s:Entity)-[f:PART_OF]->(o:Entity) "
+        "MATCH (s:Entity)<-[:SUBJECT]-(f:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Entity), "
+        "(f)-[:FROM]->(:Chunk {chunk_id: f.chunk_id}) "
         "RETURN s.name AS s, o.name AS o, o.type AS t, f.chunk_id AS c, f.evidence AS e, "
         "f.extractor AS x ORDER BY c"
     )
@@ -189,7 +201,8 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
     # a rerun (kg link is recomputed after every resolve) adds nothing
     again = derive_facts(driver, SCHEMA, PLAN)
     assert again.facts_derived == 2 and again.entities_created == 0
-    assert driver.execute_query("MATCH ()-[f:PART_OF]->(:Entity) RETURN count(f) AS n")[0][0]["n"] == 2
+    count = "MATCH (o:Observation {predicate: 'PART_OF'}) RETURN count(o) AS n"
+    assert driver.execute_query(count)[0][0]["n"] == 2
 
     # the gold set's PART_OF triples are scored against derived facts exactly like extracted ones
     facts = CheckContext(driver=driver).facts
@@ -202,3 +215,53 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
     checks = validate_graph(driver, plan=None, schema=SCHEMA)
     assert [c.name for c in checks.checks if not c.passed] == []
     assert checks.metrics["evidence_verified_rate"] == 1.0
+
+
+@pytest.mark.neo4j
+def test_a_shared_part_no_longer_carries_one_products_defect_to_another(driver):
+    """The R62 audit's leak, end to end (R64): both reviews name the drawer rails, only the dresser's says
+    they stick. In the edge graph the bed reached "stick" through the shared rails node; with observations
+    the bed has the rails and nothing the dresser said about them."""
+    dresser, bed = "Helsingborg Dresser", "Linköping Bed"
+    driver.execute_query(
+        "CREATE (:Product {product_id: 'P1', product_name: $dresser}), "
+        "(:Product {product_id: 'P2', product_name: $bed})",
+        dresser=dresser,
+        bed=bed,
+    )
+    documents = [
+        Document(doc_id="h.md", title="helsingborg_dresser_reviews", text="x"),
+        Document(doc_id="l.md", title="linköping_bed_reviews", text="x"),
+    ]
+    chunks = [
+        Chunk(chunk_id="h.md#0", doc_id="h.md", index=0, text="The drawer rails stick badly."),
+        Chunk(chunk_id="l.md#0", doc_id="l.md", index=0, text="The drawer rails glide well."),
+    ]
+    write_lexical_graph(driver, documents, chunks)
+    stick = Triple(
+        subject="drawer rails", subject_type="Component", predicate="EXHIBITS_FAILURE", object="stick",
+        object_type="FailureMode", evidence="The drawer rails stick badly.", chunk_id="h.md#0",
+    )  # fmt: skip
+    write_subject_graph(driver, [stick], extractor="test")
+    # the bed review names the rails without a failure: the extractor's mention, no claim
+    driver.execute_query(
+        "MATCH (c:Chunk {chunk_id: 'l.md#0'}), (e:Entity {name: 'drawer rails'}) MERGE (c)-[:MENTIONS]->(e)"
+    )
+
+    link_graphs(driver, PLAN)
+    derive_facts(driver, SCHEMA, PLAN)
+    assert attach_observations(driver) == 3  # the failure and one derived PART_OF per product
+    assert attach_observations(driver) == 3  # recomputed, not added to
+
+    def claims(product: str) -> list[str]:
+        records, _, _ = driver.execute_query(
+            "MATCH (:Product {product_name: $p})-[:HAS_OBSERVATION]->(o:Observation)-[:OBJECT]->(t:Entity) "
+            "RETURN o.predicate + ' ' + t.name AS claim ORDER BY claim",
+            p=product,
+        )
+        return [r["claim"] for r in records]
+
+    assert claims(dresser) == ["EXHIBITS_FAILURE stick", f"PART_OF {dresser}"]
+    assert claims(bed) == [f"PART_OF {bed}"]
+    report = score_paths(CheckContext(driver=driver).facts, SCHEMA)
+    assert (report.paths_total, report.paths_true) == (1, 1)

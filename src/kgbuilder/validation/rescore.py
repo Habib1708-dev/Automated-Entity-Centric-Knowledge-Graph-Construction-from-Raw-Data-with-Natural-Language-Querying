@@ -51,6 +51,8 @@ def _stored(fact: SheetFact, names: dict[tuple[str, str], list[str]]) -> StoredF
         # the sheet shows the fact's own wording (R44) or, before, the entity's name: keep what it showed
         subject_name=fact.subject,
         object_name=fact.object,
+        things=fact.things,
+        about=fact.about,
     )
 
 

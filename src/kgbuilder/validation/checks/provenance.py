@@ -24,6 +24,19 @@ class ProvenanceCheck:
             "provenance",
         )
 
+        # a claim needs both ends and its chunk; the fact reader skips an observation without them, so
+        # they are counted here, where a merge or an undo that lost an edge would show up
+        incomplete = ctx.scalar(
+            "MATCH (o:Observation) WHERE NOT (o)-[:SUBJECT]->(:Entity) OR NOT (o)-[:OBJECT]->() "
+            "OR NOT (o)-[:FROM]->(:Chunk) RETURN count(o)"
+        )
+        out.add(
+            "provenance: every observation has a subject, an object and a source chunk",
+            incomplete == 0,
+            f"{incomplete} incomplete observations",
+            "provenance",
+        )
+
         facts = ctx.facts
         missing = [f for f in facts if not f.chunk_id or not f.evidence]
         out.add(

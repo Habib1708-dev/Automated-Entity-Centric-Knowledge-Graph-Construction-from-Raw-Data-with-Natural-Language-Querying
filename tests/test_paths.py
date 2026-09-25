@@ -2,6 +2,8 @@
 for the things whose own documents state it; resolution's merges decide what "the same claim" is, not the
 wording each review kept; kind structure between two parts is left out; the metric needs the schema's
 derived types; it reaches `kg eval`'s metrics and `kg rescore`, whose MLflow run logs the schema's hash.
+In the observation graph (R64) a path is thing -> observation, true when the observation's document is
+about the thing, and a logged sheet carries what `kg rescore` needs to say so.
 The stage test needs Neo4j only for the context."""
 
 from kgbuilder.config import Settings
@@ -118,6 +120,47 @@ def test_rescore_adds_path_truth_only_with_the_schema():
     # the logged sheet's facts are both veneer defects; without a derived fact there is no path to judge
     assert rescore(LOGGED, GoldSet()).paths is None
     assert rescore(LOGGED, GoldSet(), schema=SCHEMA).paths.paths_total == 0
+
+
+def attached(fact: StoredFact, things: list[str], about: list[str]) -> StoredFact:
+    """The fact as an observation: hung on `things`, from a document about `about`."""
+    return fact.model_copy(update={"things": things, "about": about})
+
+
+def test_in_the_observation_graph_a_claim_reaches_only_the_thing_its_document_is_about():
+    # the R62 leak case, stored as observations: the bed still has the drawer rails, not their defect
+    graph = [
+        attached(part_of("drawer rails", DRESSER, "dresser.md"), [DRESSER], [DRESSER]),
+        attached(part_of("drawer rails", BED, "bed.md"), [BED], [BED]),
+        attached(defect("drawer rails", "rough", "dresser.md"), [DRESSER], [DRESSER]),
+    ]
+    report = score_paths(graph, SCHEMA)
+    assert (report.paths_total, report.paths_true) == (1, 1)  # derived observations are not paths
+
+
+def test_an_observation_hung_on_a_thing_its_document_is_not_about_is_a_false_path():
+    stale = attached(defect("drawer rails", "rough", "dresser.md"), [DRESSER, BED], [DRESSER])
+    report = score_paths([stale], SCHEMA)
+    assert (report.paths_total, report.paths_true) == (2, 1)
+    [false] = report.false_paths
+    assert (false.thing, false.via, false.stated_in) == (BED, "dresser.md#1", ["dresser.md"])
+    assert false.claim == "drawer rails -[HAS_DEFECT]-> rough"
+
+
+def test_rescore_reads_the_things_of_an_observation_graphs_sheet():
+    desk_fact, shelf_fact = LOGGED.facts
+    sheet = LOGGED.model_copy(
+        update={
+            "facts": [
+                desk_fact.model_copy(update={"things": ["Desk"], "about": ["Desk"]}),
+                # hung on the desk although its document is about the shelf
+                shelf_fact.model_copy(update={"things": ["Desk"], "about": ["Shelf"]}),
+            ]
+        }
+    )
+    report = rescore(sheet, GoldSet(), schema=SCHEMA)
+    assert (report.paths.paths_total, report.paths.paths_true) == (2, 1)
+    assert [f.things for f in report.judge_sheet.facts] == [["Desk"], ["Desk"]]
 
 
 def test_rescore_stage_logs_path_truth_and_the_schema_it_used(driver, tmp_path):

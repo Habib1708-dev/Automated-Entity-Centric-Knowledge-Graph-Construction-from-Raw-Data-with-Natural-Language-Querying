@@ -175,7 +175,11 @@ def test_checks_report_a_damaged_graph_and_custom_families_plug_in(driver):
         "(c)-[:PART_OF]->(d), (:Chunk {chunk_id: 'lost#0', text: 'x'}), "
         "(t:Entity {id: '1', name: 'table', type: 'Product'}), "
         "(w:Entity {id: '2', name: 'wobble', type: 'Problem'}), "
-        "(c)-[:MENTIONS]->(t), (t)-[:HAS_PROBLEM {chunk_id: 'a.md#0', evidence: 'never said'}]->(w)"
+        "(c)-[:MENTIONS]->(t), "
+        "(o:Observation {id: 'o1', predicate: 'HAS_PROBLEM', chunk_id: 'a.md#0', evidence: 'never said'}), "
+        "(o)-[:SUBJECT]->(t), (o)-[:OBJECT]->(w), (o)-[:FROM]->(c), "
+        # an observation that lost its object and its chunk: no claim, and invisible to the fact reader
+        "(:Observation {id: 'o2', predicate: 'HAS_PROBLEM'})-[:SUBJECT]->(t)"
     )
 
     class AlwaysFails:
@@ -189,6 +193,7 @@ def test_checks_report_a_damaged_graph_and_custom_families_plug_in(driver):
     assert failed == {
         "lexical: every chunk belongs to a document",
         "provenance: every entity is mentioned in a chunk",
+        "provenance: every observation has a subject, an object and a source chunk",
         "provenance: evidence quotes exist in their chunk",
     }
     assert report.metrics["evidence_verified_rate"] == 0.0 and not report.passed
@@ -205,8 +210,10 @@ def test_facts_touching_the_domain_graph_are_measured(driver):
         "(rough:Entity {id: '2', name: 'rough', type: 'Issue'}), "
         "(anna:Entity {id: '3', name: '@anna', type: 'Customer'}), "
         "(oslo:Entity {id: '4', name: 'Oslo', type: 'Location'}), "
-        "(rails)-[:HAS_ISSUE {chunk_id: 'k1', evidence: 'x'}]->(rough), "
-        "(anna)-[:LOCATED_IN {chunk_id: 'k1', evidence: 'x'}]->(oslo)"
+        "(i:Observation {id: 'o1', predicate: 'HAS_ISSUE', chunk_id: 'k1', evidence: 'x'}), "
+        "(i)-[:SUBJECT]->(rails), (i)-[:OBJECT]->(rough), (i)-[:FROM]->(c), "
+        "(l:Observation {id: 'o2', predicate: 'LOCATED_IN', chunk_id: 'k1', evidence: 'x'}), "
+        "(l)-[:SUBJECT]->(anna), (l)-[:OBJECT]->(oslo), (l)-[:FROM]->(c)"
     )
     report = validate_graph(driver, plan=None, schema=None)
     assert report.metrics["facts_touching_domain_rate"] == 0.5

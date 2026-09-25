@@ -1701,6 +1701,64 @@ No behaviour change: a new metric in `kg eval` and `kg rescore`, no change to wh
   therefore a strict lower bound. The observation model makes the question moot: a claim can only
   reach the thing it was stated for.
 
+### R64. Observations in the graph (part 1 done, 2026-09-25; part 2 = cached rebuild, needs the user's yes)
+A change of how the graph is stored. Extraction, prompts, the schema and the gold questions are unchanged.
+Every claim becomes its own node, tied to the thing its document is about, instead of an edge between two
+kinds that every product with that kind shares.
+- **Part 1 (done, 2026-09-25): code and tests.**
+  - Shape:
+    `(thing)-[:HAS_OBSERVATION {name}]->(:Observation {id, predicate, chunk_id, evidence, subject_name,
+    object_name, extractor})`, with `-[:SUBJECT]->(:Entity)`, `-[:OBJECT]->(:Entity)` and `-[:FROM]->(:Chunk)`.
+    The id (`core/identity.observation_id`) is built from the chunk, the predicate and the claim's own
+    wording, which is the key the judge sheet has used for fact ids since R44. So the R62 verdicts still
+    apply to R62's claims stored as observations. No R62 triple shares an id with another (103 furniture
+    and 112 held-out triples, 0 collisions).
+  - `text/subject_graph.py` writes observations (`write_observations`, shared with derivation). A triple
+    repeated in its chunk adds no node.
+  - `resolution/derivation.py`: a derived claim is an observation with `extractor = "derived"`. Its wording
+    is the two entities' display names after resolution, which is what the sheet showed before, so its id
+    is unchanged too.
+  - `resolution/linking.py`: `attach_observations` recomputes `HAS_OBSERVATION` from the ABOUT link of the
+    observation's document, after derivation, on every `kg link`. The ABOUT link now carries the thing's
+    display name. The link stage logs `observations_attached`.
+  - `resolution/resolver.py`:
+    - A merge moves the SUBJECT / OBJECT edges.
+    - Repeat rule: same subject, predicate, object, chunk and quote is one observation. It is the old rule;
+      the thing follows from the chunk.
+    - A claim whose subject and object become one node is deleted (`self_loops_removed`).
+    - The snapshot keeps every touched observation (`ResolveReport.observations`, was `facts`), and
+      `undo_merges` restores them with their edges.
+  - Readers and checks:
+    - `CheckContext.facts` reads observations as triples, plus `things` (where it hangs) and `about` (what
+      its document is about). Exact match, the judge sheet and `kg eval` are unchanged in shape.
+    - Consistency counts self-references and `facts_touching_domain_rate` on observations.
+    - A new provenance check: every observation has a subject, an object and a source chunk.
+  - Path truth (`validation/paths.py`) reads the graph's shape from the facts. For an observation graph, a
+    path is thing -> observation, true when the observation's document is about the thing. Pre-R64 graphs
+    and sheets keep R63's part paths, so the R63 baselines rescore unchanged. The judge sheet carries
+    `things` / `about`, so `kg rescore` gives the same number as `kg eval`.
+  - **Deviation from the task plan (for the user's review):** kind structure ("drawer pulls PART_OF
+    drawer") is stored as an observation too, not as a shared edge. It stays true of the thing whose review
+    states it, and one storage shape keeps every reader, the resolver and undo to one code path. Path truth
+    still leaves it out of its counts.
+  - Size: about 710 changed lines (536 added, 176 removed), a third of them tests and docstrings. It is
+    above the 600-line guide, but not split: a writer without the matching resolver and reader leaves
+    `undo_merges` and the checks half-migrated.
+  - Tests:
+    - The leak case end to end with Neo4j: the Linköping Bed has the drawer rails, not the dresser's
+      "stick"; `path_truth` 1.0.
+    - Three reviews of one claim stay three observations after a merge, and rewriting the same extraction
+      adds nothing.
+    - The repeat rule. Undo restores observations and their edges (the dump now compares them).
+    - The incomplete-observation check. Path truth in observation mode, and through `kg rescore`.
+    - 215 passed (210 before), `ruff` clean.
+  - Not done here: the gold questions still walk fact edges, so `question_accuracy` is expected to fall on
+    a rebuilt graph until R65 rewrites them (gold change, listed there).
+- **Part 2 (to do, needs the user's yes): rebuild both R62 datasets from the LLM cache ($0 expected).**
+  Check: `cost_usd` 0 in every stage, the same number of claims as R62, `triple_*` identical, `path_truth`
+  1.0, the Linköping drawer-rails and RAV4 reverse-gear paths gone. Judge scores are not recomputed (the
+  claims and their ids are unchanged).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
