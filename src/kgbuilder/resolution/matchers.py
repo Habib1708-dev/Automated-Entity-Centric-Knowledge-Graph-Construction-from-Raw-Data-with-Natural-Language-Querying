@@ -24,6 +24,9 @@ class EntityRecord(BaseModel):
     type: str
     aliases: list[str]
     mentions: int  # number of chunks mentioning it; the most mentioned member of a group stays canonical
+    # the tones ("positive", "negative") of the claims that have it as their object (R66); neutral claims
+    # are left out, they say nothing about which way a kind points
+    polarities: list[str] = []
 
 
 class Matcher(Protocol):

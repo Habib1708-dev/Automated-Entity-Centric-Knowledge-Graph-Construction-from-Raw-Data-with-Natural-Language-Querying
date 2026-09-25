@@ -161,6 +161,10 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     assert (
         extract_metrics["rejected_evidence_not_verbatim"] == 1 and extract_metrics["rejected_off_schema"] == 0
     )
+    # the claims' qualifiers (R66): the scripted triples carry no tone, number or time
+    assert extract_metrics["observations_neutral"] == extract_metrics["facts"]
+    assert extract_metrics["observations_with_value"] == extract_metrics["observations_with_time"] == 0
+    assert extract_metrics["rejected_time_not_in_evidence"] == 0
     assert "prompts/extract.txt" in tracker.run("extract").artifacts
 
 
@@ -320,15 +324,20 @@ def test_extraction_prompt_keeps_circumstances_out_of_entity_names():
 
 def test_no_extraction_rule_quotes_the_evaluation_corpus():
     """A rule that borrows the gold documents' wording steers the model toward them (found in R34): no four
-    consecutive words of the rules may occur in the review corpus."""
+    consecutive words of the rules may occur in the review corpus or the held-out complaints."""
 
     def words(text: str) -> list[str]:
         return re.findall(r"[a-z0-9]+", norm(text))
 
-    corpus = words(" ".join(p.read_text(encoding="utf-8") for p in REVIEW_CORPUS.glob("*.md")))
+    corpora = [REVIEW_CORPUS, REVIEW_CORPUS.parent.parent / "heldout" / "nhtsa" / "data" / "complaints"]
+    corpus = words(" ".join(p.read_text(encoding="utf-8") for d in corpora for p in d.glob("*.md")))
     seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
     chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="x", context="x")
-    rules = words(build_prompt(chunk, SCHEMA).split("Rules:")[1].split("<document>")[0])
+    # up to the <document> block, not the first "<document>": a rule names the tag (R66 found the test
+    # stopped there, so every rule after it went unchecked)
+    rules_text = build_prompt(chunk, SCHEMA).split("Rules:")[1].split("\n\n<document>")[0]
+    assert "Return an empty list when nothing qualifies" in rules_text  # the last rule is in view
+    rules = words(rules_text)
     quoted = [" ".join(rules[i : i + 4]) for i in range(len(rules) - 3) if tuple(rules[i : i + 4]) in seen]
     assert not quoted, f"prompt rules quote the corpus: {quoted}"
 

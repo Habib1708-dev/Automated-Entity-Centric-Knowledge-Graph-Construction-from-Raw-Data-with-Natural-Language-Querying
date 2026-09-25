@@ -38,6 +38,11 @@ class StoredFact(BaseModel):
     # document is ABOUT; both empty for a graph or judge sheet from before R64, and for text-only data
     things: list[str] = []
     about: list[str] = []
+    # the claim's qualifiers (R66); the defaults are what a claim from before R66 or a derived one carries
+    polarity: str = "neutral"
+    time: str = ""
+    value: float | None = None
+    unit: str | None = None
 
     @property
     def own_subject(self) -> str:
@@ -74,6 +79,9 @@ class CheckContext:
             "RETURN o.predicate AS predicate, s.type AS subject_type, t.type AS object_type, "
             "o.chunk_id AS chunk_id, o.evidence AS evidence, "
             "o.subject_name AS subject_name, o.object_name AS object_name, "
+            # observations written before R66 have no qualifiers: read them as a neutral claim without time
+            "coalesce(o.polarity, 'neutral') AS polarity, coalesce(o.time, '') AS time, "
+            "o.value AS value, o.unit AS unit, "
             "[s.name] + coalesce(s.aliases, []) AS subject_names, "
             "[t.name] + coalesce(t.aliases, []) AS object_names, "
             "[(n)-[h:HAS_OBSERVATION]->(o) WHERE h.name IS NOT NULL | h.name] AS things, "

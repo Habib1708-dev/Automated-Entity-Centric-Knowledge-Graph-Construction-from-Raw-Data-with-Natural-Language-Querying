@@ -5,6 +5,8 @@ the corpus fits a character budget, else an even sample: `select_context`) and t
 descriptions; a human reviews `out/text_schema.json`; `kg extract` is then constrained to it.
 Design: same shape as the structured path: pydantic models are the LLM's response schema,
 `validate_text_schema` is the code gate, and the retry loop is `llm.refine.refine` with a critic pass.
+`Value` (core/values.py) is a built-in object type: a fact type may end in a number with a unit without the
+proposer defining it (R66).
 Not here: extraction itself (extraction.py).
 """
 
@@ -12,6 +14,7 @@ import re
 
 from pydantic import BaseModel, Field
 
+from ..core.values import VALUE_TYPE
 from ..llm.base import LLMClient
 from ..llm.refine import Critique, Refinement, refine
 from ..structured.plan import ConstructionPlan
@@ -96,6 +99,10 @@ class TextSchema(BaseModel):
 # - Coverage replaced "name a question of the goal each fact type answers": question-driven schemas keep
 #   the goal's chain and drop the observations it starts from (R56: furniture recall 0.854 -> 0.552).
 #   The goal still decides which things matter, so reviewers and their cities stay out (R14).
+# R66 (the observation graph): every claim carries its polarity, so the schema describes aspects of things
+# and one fact type holds the good, the bad and the neutral claim of a kind; until R66 the proposals held
+# only problems, and a measure, a material or praise had no place (the R63 audit). Numbers get the
+# built-in `Value` object type, so a measure is stored as a number and a unit, not as a name.
 PROMPT = """You design the schema for extracting knowledge from unstructured text into a knowledge graph.
 
 <goal>
@@ -122,6 +129,11 @@ Rules:
   the schema. Connect the things a statement is about directly to each other.
 - Propose fact types as (subject_type, PREDICATE, object_type) for every kind of claim the text makes
   about those things, not only the claims one question needs: a claim the schema cannot hold is lost.
+- Describe aspects of the things, not only what goes wrong: what they are made of, how they are
+  measured or rated, what they do well and what they do badly. Each extracted claim records whether it is
+  positive, negative or neutral, so one fact type holds all three; do not split a fact type by tone.
+- When the object of a claim is a number with a unit (a measure, a weight, a limit, a price), use the
+  built-in object type {value_type}. It needs no entity type of its own.
 - Every fact type must reference only entity types you defined, and every entity type must be used by a
   fact type. Keep both lists small and precise (at most 12 entity types and 20 fact types).
 
@@ -132,13 +144,14 @@ Rules:
 # types. Naming, references and unused types are already verified in code.
 CRITIC_PROMPT = """You are reviewing a proposed schema for extracting facts from text into a knowledge graph.
 The schema already passed mechanical checks (naming, no duplicates, fact types reference defined entity
-types, every entity type is used), so judge only the modeling:
+types, every entity type is used), so judge only the modeling. {value_type} is a built-in object type for a
+number with a unit, and every extracted claim records whether it is positive, negative or neutral.
 - Do two entity types overlap so that an extractor could not choose between them?
 - Does any entity type clash in meaning with a node of the domain graph that has the same name?
 - Does an entity type stand for the source of a statement (a document, a report, a message) instead of a
   thing the statement is about, or does a fact type connect two things through such a source?
 - Is there a kind of claim the text makes several times about the things the goal cares about that no
-  fact type can hold?
+  fact type can hold, good and neutral claims included?
 - Are there fact types the sample text gives no evidence for?
 - Is there a fact type about things the goal does not care about?
 
@@ -171,12 +184,17 @@ def validate_text_schema(schema: TextSchema) -> list[str]:
         if not _PASCAL_CASE.fullmatch(name):
             issues.append(f"entity type '{name}' must be PascalCase")
 
+    if VALUE_TYPE in names:
+        issues.append(f"entity type '{VALUE_TYPE}' is built in; do not define it")
     seen = set()
     for fact in schema.fact_types:
         if not _UPPER_SNAKE_CASE.fullmatch(fact.predicate):
             issues.append(f"predicate '{fact.predicate}' must be UPPER_SNAKE_CASE")
+        if fact.subject_type == VALUE_TYPE:
+            issues.append(f"fact {fact.predicate}: a number cannot be a subject")
+        # the built-in Value may end a fact type without a definition; a subject Value is reported above
         for type_name in (fact.subject_type, fact.object_type):
-            if type_name not in names:
+            if type_name not in names and type_name != VALUE_TYPE:
                 issues.append(f"fact {fact.predicate}: entity type '{type_name}' is not defined")
         key = (fact.subject_type, fact.predicate, fact.object_type)
         if key in seen:
@@ -245,12 +263,18 @@ def propose_text_schema(
     body = "\n\n".join(f"[{c.chunk_id}]\n{c.text}" for c in chunks)
 
     def propose(feedback: str) -> TextSchema:
-        prompt = PROMPT.format(goal=goal, domain=domain, chunks=body, feedback=feedback)
+        prompt = PROMPT.format(
+            goal=goal, domain=domain, chunks=body, feedback=feedback, value_type=VALUE_TYPE
+        )
         return llm.generate(prompt, TextSchema, model=model, temperature=temperature)
 
     def critique(schema: TextSchema) -> list[str]:
         prompt = CRITIC_PROMPT.format(
-            goal=goal, domain=domain, chunks=body, schema=schema.model_dump_json(indent=1)
+            goal=goal,
+            domain=domain,
+            chunks=body,
+            schema=schema.model_dump_json(indent=1),
+            value_type=VALUE_TYPE,
         )
         reply = llm.generate(prompt, Critique, model=model, temperature=temperature)
         return reply.issues if reply.verdict == "retry" else []

@@ -136,13 +136,21 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   claim about one product never reaches another product through a shared kind:
 
   ```
-  (thing)-[:HAS_OBSERVATION]->(:Observation {id, predicate, chunk_id, evidence, subject_name, object_name, extractor})
+  (thing)-[:HAS_OBSERVATION]->(:Observation {id, predicate, chunk_id, evidence, subject_name, object_name, extractor,
+                                             polarity, time, value, unit})
   (:Observation)-[:SUBJECT]->(:Entity)   (:Observation)-[:OBJECT]->(:Entity)   (:Observation)-[:FROM]->(:Chunk)
   ```
 
-  The id is built from the chunk and the claim's own wording, so it survives entity merges. Three reviews
-  of one claim are three observations; only exact repeats (same subject, predicate, object, chunk and
-  quote) are merged by entity resolution.
+  The id is built from the chunk, the claim's own wording and its time (when it has one), so it survives
+  entity merges. Three reviews of one claim are three observations; only exact repeats (same subject,
+  predicate, object, chunk, quote and time) are merged by entity resolution.
+  Since R66 every claim has a `polarity` (`positive`, `negative` or `neutral`), so one fact type holds
+  praise, faults and plain statements, and a `time` copied from its sentence ("after just two months of
+  use") when the sentence gives one. A claim about a number ends in the built-in type `Value`: its
+  entity is named in a canonical spelling ("25 kg") and the observation carries `value: 25.0, unit: 'kg'`
+  (known units are normalised, others kept as written). Code rejects a number or a time that is not in the
+  quote. Entity resolution never merges two numbers, nor two kinds that claims use with opposite
+  polarity ("resistant to scratches" and "scratches easily").
 - Derived facts: a fact type the text schema marks `"derived": true` (in the reference schema:
   `PART_OF` from a Component or Assembly to a Product) is never asked from the extractor. `kg link` writes
   it from `Entity <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one observation per

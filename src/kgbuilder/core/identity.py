@@ -19,13 +19,16 @@ def entity_id(entity_type: str, name: str) -> str:
     return hashlib.sha1(f"{entity_type}|{norm(name)}".encode()).hexdigest()[:16]
 
 
-def observation_id(chunk_id: str, predicate: str, subject: str, obj: str) -> str:
-    """Deterministic id of one claim from the chunk and the claim's own wording.
+def observation_id(chunk_id: str, predicate: str, subject: str, obj: str, time: str = "") -> str:
+    """Deterministic id of one claim from the chunk and the claim's own wording, and its time if it has one.
 
     The wording, not the entity ids: entity resolution may later merge a claim's subject into a node named
     after another review, and the id (with every judge verdict that refers to it) must survive that
     (R44). The key is the one the judge sheet has used for fact ids since R44, so verdicts written for the
-    edge-based graph of R62 still apply to its observations.
+    edge-based graph of R62 still apply to its observations. The time (R66) joins the key only when set:
+    "slats crack" and "slats crack after two months" in one chunk are two claims, and a claim without a
+    time keeps the id it had before R66.
     """
-    key = "|".join([chunk_id, predicate, norm(subject), norm(obj)])
+    parts = [chunk_id, predicate, norm(subject), norm(obj)]
+    key = "|".join([*parts, norm(time)] if time else parts)
     return hashlib.sha1(key.encode("utf-8")).hexdigest()[:12]

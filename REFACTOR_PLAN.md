@@ -1652,6 +1652,8 @@ are in the local task file `docs/tasks/observation-graph.md` (git-ignored, like 
 R63 path-truth metric, R64 observations in the graph, R65 questions walk observations, R66 polarity,
 values and time, R67 recall texts and NHTSA linking, R68 coverage estimate. `main` keeps R62's system
 until the branch is merged after the user's review.
+Split (2026-09-25, the user's choice): record dates (NHTSA `dateOfIncident`) moved from R66 to R67, because
+they need each complaint section tied to its Complaint record, which is R67's text-to-record linking.
 
 ### R63. Path truth: measure the false paths before fixing them (done, 2026-09-24)
 No behaviour change: a new metric in `kg eval` and `kg rescore`, no change to what is built.
@@ -1828,9 +1830,59 @@ OBJECT]-> kind`. The R58 files stay as the record of R58-R64.
     Linköping Bed through a mentioned "frame"); on the observation walk it passes.
 - Closes the R58 item "Questions 3 and 5 join through an entity's mentions".
 
+### R66. Polarity, values and time (part 1 done, 2026-09-25; part 2 waits for the user's yes)
+Every claim carries its qualifiers: whether it is positive, negative or neutral, the time its sentence gives,
+and a number with a unit as its object. The schema proposer describes aspects of things, not only defects.
+- **Part 1 (done, 2026-09-25): code and tests, $0, no run.**
+  - Decisions taken with the user before the code (all three recommendations accepted):
+    - A number is a `Value` entity at the end of an OBJECT edge, named in a canonical spelling ("25 kg"),
+      and the observation carries `value` and `unit`. The plan said "no OBJECT edge"; one shape keeps the
+      readers, the resolver, snapshot and undo, and path truth to one code path (as R64's kind structure).
+    - No empty subject: a claim about the thing itself keeps the thing as its subject ("Gothenburg Table
+      HAS_DEFECT wobbles"), as the extractor already does.
+    - Record dates (NHTSA `dateOfIncident`) moved to R67 (split recorded in the plan above).
+  - `core/values.py` (new): the built-in type `Value` and `parse_quantity`. "25kg" and "25 kilograms" are
+    `25 kg`; "30,000 Martindale rubs" keeps its unit as written (only units of measurement code knows for
+    certain are normalised); "3,5 kg" and "two months" are no number.
+  - `text/extraction.py`: a triple has `polarity` (default `neutral`) and `time` (default empty). Three
+    prompt rules, in generic words: polarity is the claim's own tone toward its subject; time is copied
+    from the quote; a `Value` object is only the number and unit. `verify` rejects a `Value` object that is
+    no number (`value_not_a_number`) or not in the quote (`value_not_in_evidence`), and a time not in the
+    quote (`time_not_in_evidence`). A repeat within a chunk now also needs the same time.
+  - `text/schema.py`: `Value` may end a fact type without a definition; defining it, or a `Value`
+    subject, is an issue. Proposer rules: describe aspects (what things are made of, how they are
+    measured or rated, what they do well and badly); one fact type holds all three tones; numbers use
+    `Value`. The critic knows both.
+  - `core/identity.observation_id`: the time joins the key only when set, so every claim without a time
+    keeps the id it had (the R62 verdicts still apply to such claims).
+  - `text/subject_graph.py`: stores `polarity`, `time`, `value`, `unit`; the extract run logs
+    `observations_positive`, `_neutral`, `_negative`, `observations_with_value`, `observations_with_time`,
+    and the three new `rejected_<reason>` counts.
+  - `resolution/resolver.py`: two `Value` entities are never candidates ("25 kg" and "35 kg" are 91 alike
+    by spelling); two kinds whose claims use them with opposite polarity are never candidates (`opposed`;
+    neutral use says nothing); the repeat rule includes the time.
+  - `validation/`: `StoredFact` and the judge sheet carry polarity and time (rescore keeps them, since the
+    time is part of the id). A verdict file may hold `polarity`: one `{id, correct, reason}` per sheet fact,
+    exact matches included (the gold has no polarity); code checks the coverage and logs
+    `polarity_accuracy`, `polarity_judged`, `polarity_correct`. Files without it score as before.
+  - Tests (`tests/test_qualifiers.py`, 19): number parsing, the three rejections, a positive and a number
+    claim accepted, the schema's `Value` rules, the id before and after R66, both resolution guards (pure
+    and with Neo4j: resistant to scratches / scratch, 97 alike, not merged), the judge's polarity coverage
+    and score, and what the subject graph stores (two spellings of 25 kg are one node, each claim keeps its
+    wording). The pipeline test checks the new extract metrics. The corpus-quote test now reads every
+    extraction rule (see "Found along the way") and both corpora; the new rules quote neither.
+    242 passed (223 before), `ruff` clean.
+- **Part 2 (waits for the user's yes): one `quality` run per dataset**, a fresh schema proposal with the
+  frozen R62 plan and `EXTRACT_PASSES=2` (as R62), judged with the R65 gold (precision, recall, polarity).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **(Fixed in R66.) The corpus-quote test of the extraction prompt stopped at the first rule naming
+  `<document>` (found in R66).** It split the rules at the first "<document>", which a rule itself
+  contains, so the evidence rule, the closing rule and R66's new rules were never checked. It now splits
+  at the `<document>` block and asserts that the last rule is in view.
 
 - **A derived part claim takes the merged kind's name (found in R64).** The Linköping Bed review praises
   its "drawer slides"; resolution merged them into the "drawer rails" kind (the audit called this merge

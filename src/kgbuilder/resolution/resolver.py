@@ -4,7 +4,9 @@ Role in the pipeline: `kg resolve`, after extraction and before linking.
 Design: five small steps instead of one function, and only the first and the last two touch Neo4j:
   1. read_entities      load entities and their mention counts
   2. find_candidates    pure: score same-type pairs with the matchers (matchers.py); pairs close in
-                        meaning are nominated by a blocking rule (blocking.py); both are Strategies
+                        meaning are nominated by a blocking rule (blocking.py); both are Strategies.
+                        Two guards (R66): numbers (`Value`) are never candidates, and neither are two
+                        kinds that claims use with opposite polarity
   3. decide             pure given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
   4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
      Steps 2-4 repeat on the merged view (decide_in_passes, R45): a group of more than k wordings fills
@@ -27,6 +29,7 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.text import pick_sentence
+from ..core.values import VALUE_TYPE
 from ..llm.base import Embedder, LLMClient
 from .blocking import Blocking
 from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
@@ -161,10 +164,22 @@ class ResolvePreview(BaseModel):
 def read_entities(driver: Driver) -> list[EntityRecord]:
     records, _, _ = driver.execute_query(
         "MATCH (e:Entity) OPTIONAL MATCH (:Chunk)-[m:MENTIONS]->(e) "
+        "WITH e, count(m) AS mentions "
+        # the tones of the claims ending in this kind; sorted, so the same graph gives the same record
+        "WITH e, mentions, apoc.coll.sort(apoc.coll.toSet([(e)<-[:OBJECT]-(o:Observation) "
+        "WHERE o.polarity IN ['positive', 'negative'] | o.polarity])) AS polarities "
         "RETURN e.id AS id, e.name AS name, e.type AS type, coalesce(e.aliases, [e.name]) AS aliases, "
-        "count(m) AS mentions ORDER BY id"
+        "mentions, polarities ORDER BY id"
     )
     return [EntityRecord(**r.data()) for r in records]
+
+
+def opposed(a: EntityRecord, b: EntityRecord) -> bool:
+    """True when claims use one kind positively and the other negatively: "resistant to scratches" and
+    "scratches easily" spell and embed alike, and a merge would turn praise into a complaint (R66)."""
+    return ("positive" in a.polarities and "negative" in b.polarities) or (
+        "negative" in a.polarities and "positive" in b.polarities
+    )
 
 
 def find_candidates(
@@ -178,16 +193,21 @@ def find_candidates(
 
     Entities of different types are never compared: a Product and a Problem with the same name are
     different things. Within a type every pair is scored; the fuzzy cutoff makes hopeless pairs cheap.
+    Numbers are never compared ("25 kg" and "35 kg" are 91 alike by spelling and are different claims),
+    and neither are kinds used with opposite polarity (`opposed`).
     """
     fuzzy = FuzzyNameMatcher()
     by_type: dict[str, list[EntityRecord]] = {}
     for entity in entities:
-        by_type.setdefault(entity.type, []).append(entity)
+        if entity.type != VALUE_TYPE:
+            by_type.setdefault(entity.type, []).append(entity)
 
     candidates = []
     for members in by_type.values():
         by_meaning = blocking.pairs(members, embedding.score) if embedding and blocking else {}
         for a, b in combinations(members, 2):
+            if opposed(a, b):
+                continue
             score = fuzzy.score(a, b, cutoff=borderline)
             if score >= borderline:
                 candidates.append(Candidate(a=a.id, b=b.id, score=round(score, 1), signal=fuzzy.name))
@@ -312,6 +332,8 @@ def merged_view(
             update={
                 "aliases": sorted({a for m in ids for a in entities[m].aliases}),
                 "mentions": sum(entities[m].mentions for m in ids),
+                # a group carries every member's tones, so the guard holds for the merged kind too
+                "polarities": sorted({p for m in ids for p in entities[m].polarities}),
             }
         )
         for i, ids in members.items()
@@ -467,14 +489,16 @@ def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list
         )
     if not groups:
         return 0
-    # The repeat rule: same subject, predicate, object, chunk and quote = one observation (the thing is the
-    # same too, since it follows from the chunk). Three reviews of one claim differ in chunk and stay three.
+    # The repeat rule: same subject, predicate, object, chunk, quote and time = one observation (the thing is
+    # the same too, since it follows from the chunk). Three reviews of one claim differ in chunk and stay
+    # three; a claim with a time and the same claim without one are two (R66).
     # The repeats can differ in the wording they keep (R44); ordered, the same one survives every rebuild,
     # so the id the judge's verdicts refer to is stable
     repeats, _, _ = driver.execute_query(
         "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
         "WITH s, t, o ORDER BY o.subject_name, o.object_name, o.id "
-        "WITH s, t, o.predicate AS p, o.chunk_id AS chunk, o.evidence AS evidence, collect(o) AS repeats "
+        "WITH s, t, o.predicate AS p, o.chunk_id AS chunk, o.evidence AS evidence, "
+        "coalesce(o.time, '') AS time, collect(o) AS repeats "
         "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DETACH DELETE x) "
         "RETURN sum(size(repeats) - 1) AS n"
     )

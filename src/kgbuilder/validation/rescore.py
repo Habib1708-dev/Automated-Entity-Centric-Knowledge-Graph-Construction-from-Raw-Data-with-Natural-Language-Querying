@@ -53,6 +53,9 @@ def _stored(fact: SheetFact, names: dict[tuple[str, str], list[str]]) -> StoredF
         object_name=fact.object,
         things=fact.things,
         about=fact.about,
+        # the time is part of the fact id (R66): without it a timed fact would get another id
+        polarity=fact.polarity,
+        time=fact.time,
     )
 
 

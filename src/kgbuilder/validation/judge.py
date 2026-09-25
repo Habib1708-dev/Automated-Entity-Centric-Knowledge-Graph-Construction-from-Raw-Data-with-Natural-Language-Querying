@@ -7,7 +7,8 @@ unsettled fact and per unfound gold triple into `out/judge_verdicts.json`; `kg e
 out/judge_verdicts.json` turns them into metrics. Scheme: gold for recall, the review text for precision,
 each with an exact-match shortcut so the judge only sees what string matching could not settle. The
 sheet and the verdict file also carry the entity-resolution part (er.py), optional in the verdict file so
-that verdict files written before it existed still score.
+that verdict files written before it existed still score, and a polarity verdict per fact (R66), optional
+for the same reason.
 Design: pure functions over `StoredFact` lists, no LLM call and no graph access here. Code decides what
 needs judging and computes every number; the judge supplies verdicts only ("the LLM proposes, code
 decides"). Not here: exact-match scoring (evaluate.py) and MLflow logging (pipeline/stages.py).
@@ -55,6 +56,10 @@ class SheetFact(BaseModel):
     object_type: str
     evidence: str | None  # the quote the extractor claimed; the judge checks it against the review
     gold_index: int | None = None
+    # the claim's tone and time (R66): the judge checks the tone of every fact, exact matches included,
+    # because the gold has no polarity
+    polarity: str = "neutral"
+    time: str = ""
     # the things the observation hangs on and the things its document is about (R64): not for the judge,
     # but `kg rescore` needs them to compute path truth for an observation graph from its sheet
     things: list[str] = []
@@ -117,6 +122,14 @@ class FactVerdict(BaseModel):
         return self
 
 
+class PolarityVerdict(BaseModel):
+    """The judge's check of one sheet fact's polarity against its evidence sentence."""
+
+    id: str
+    correct: bool
+    reason: str  # for a wrong polarity: the tone the sentence has, and why
+
+
 class GoldVerdict(BaseModel):
     """For a gold triple exact matching did not find: the sheet fact that states it by meaning, or None."""
 
@@ -142,6 +155,8 @@ class Verdicts(BaseModel):
     # None: this file does not judge entity resolution (every verdict file before R33); then no
     # `er_accuracy_valid` is computed, instead of refusing the file
     er: list[PairVerdict] | None = None
+    # None: this file does not judge polarity (every verdict file before R66); then no `polarity_accuracy`
+    polarity: list[PolarityVerdict] | None = None
 
 
 class JudgeReport(BaseModel):
@@ -164,6 +179,9 @@ class JudgeReport(BaseModel):
     f1_validated: float
     ambiguous_rate: float
     vague_rate: float
+    polarity_judged: int = 0
+    polarity_correct: int = 0
+    polarity_accuracy: float | None = None  # None when the verdict file judges no polarity
 
     def metrics(self) -> dict[str, float]:
         """Flat MLflow metrics; every reason count is present (0 when unused) so names stay stable."""
@@ -176,6 +194,12 @@ class JudgeReport(BaseModel):
             "judged_facts": self.judged,
             "gold_corrections": self.gold_corrections,
         }
+        if self.polarity_accuracy is not None:
+            out.update(
+                polarity_accuracy=self.polarity_accuracy,
+                polarity_judged=self.polarity_judged,
+                polarity_correct=self.polarity_correct,
+            )
         out.update(
             {f"unsupported_{reason.value}": count for reason, count in self.unsupported_by_reason.items()}
         )
@@ -187,7 +211,7 @@ def fact_id(fact: StoredFact) -> str:
     which is how a verdict file written for another graph is detected. Built from the fact's own wording
     (R44), so which name a merge makes canonical does not change it. It is the id of the fact's
     observation node (R64)."""
-    return observation_id(fact.chunk_id or "", fact.predicate, fact.own_subject, fact.own_object)
+    return observation_id(fact.chunk_id or "", fact.predicate, fact.own_subject, fact.own_object, fact.time)
 
 
 def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
@@ -206,6 +230,8 @@ def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
             gold_index=next((i for i, g in enumerate(gold) if matches(g, f)), None),
             things=f.things,
             about=f.about,
+            polarity=f.polarity,
+            time=f.time,
         )
         for f in scoped
     ]
@@ -257,8 +283,23 @@ def _check_coverage(sheet: JudgeSheet, verdicts: Verdicts) -> None:
         v.matched_fact for v in verdicts.recall if v.matched_fact and v.matched_fact not in all_ids
     ]:
         issues.append(f"matched_fact ids not on the sheet: {dangling[:3]}")
+    issues += _polarity_coverage(sheet, verdicts)
     if issues:
         raise EvaluationError(issues)
+
+
+def _polarity_coverage(sheet: JudgeSheet, verdicts: Verdicts) -> list[str]:
+    """When the file judges polarity, it judges every fact of the sheet exactly once."""
+    if verdicts.polarity is None:
+        return []
+    given = [v.id for v in verdicts.polarity]
+    needed = {f.id for f in sheet.facts}
+    issues = ["a fact has more than one polarity verdict"] if len(given) != len(set(given)) else []
+    if missing := needed - set(given):
+        issues.append(f"{len(missing)} facts have no polarity verdict (first: {sorted(missing)[:3]})")
+    if unknown := set(given) - needed:
+        issues.append(f"{len(unknown)} polarity verdicts for facts not on the sheet ({sorted(unknown)[:3]})")
+    return issues
 
 
 def score_verdicts(sheet: JudgeSheet, verdicts: Verdicts) -> JudgeReport:
@@ -277,6 +318,8 @@ def score_verdicts(sheet: JudgeSheet, verdicts: Verdicts) -> JudgeReport:
     precision = (exact + supported) / judgeable if judgeable else 1.0
     recall = (found_exact + found_judge) / len(sheet.gold) if sheet.gold else 1.0
     f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    tones = verdicts.polarity
+    polarity_correct = sum(v.correct for v in tones) if tones is not None else 0
     return JudgeReport(
         facts_in_scope=len(sheet.facts),
         exact_matched=exact,
@@ -298,4 +341,7 @@ def score_verdicts(sheet: JudgeSheet, verdicts: Verdicts) -> JudgeReport:
         f1_validated=f1,
         ambiguous_rate=ambiguous / len(verdicts.facts) if verdicts.facts else 0.0,
         vague_rate=vague / (exact + supported) if exact + supported else 0.0,
+        polarity_judged=len(tones) if tones is not None else 0,
+        polarity_correct=polarity_correct,
+        polarity_accuracy=polarity_correct / len(tones) if tones else None,
     )
