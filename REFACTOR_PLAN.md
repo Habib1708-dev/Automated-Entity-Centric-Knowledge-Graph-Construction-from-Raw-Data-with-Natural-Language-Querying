@@ -1701,7 +1701,7 @@ No behaviour change: a new metric in `kg eval` and `kg rescore`, no change to wh
   therefore a strict lower bound. The observation model makes the question moot: a claim can only
   reach the thing it was stated for.
 
-### R64. Observations in the graph (part 1 done, 2026-09-25; part 2 = cached rebuild, needs the user's yes)
+### R64. Observations in the graph (done, 2026-09-25)
 A change of how the graph is stored. Extraction, prompts, the schema and the gold questions are unchanged.
 Every claim becomes its own node, tied to the thing its document is about, instead of an edge between two
 kinds that every product with that kind shares.
@@ -1754,14 +1754,50 @@ kinds that every product with that kind shares.
     - 215 passed (210 before), `ruff` clean.
   - Not done here: the gold questions still walk fact edges, so `question_accuracy` is expected to fall on
     a rebuilt graph until R65 rewrites them (gold change, listed there).
-- **Part 2 (to do, needs the user's yes): rebuild both R62 datasets from the LLM cache ($0 expected).**
-  Check: `cost_usd` 0 in every stage, the same number of claims as R62, `triple_*` identical, `path_truth`
-  1.0, the Linköping drawer-rails and RAV4 reverse-gear paths gone. Judge scores are not recomputed (the
-  claims and their ids are unchanged).
+- **Part 2 (done, 2026-09-25): both R62 datasets rebuilt from the LLM cache, $0.**
+  - Setup: the user said yes in the session. The same as R62: frozen R58 plan and text schema copied from
+    `out/r62_*`, `EXTRACT_PASSES=2`, stage by stage (reset, build, ingest-text, extract, resolve, link,
+    eval with R62's verdict file). Outputs `out/r64_furniture/` and `out/r64_heldout/`.
+  - Runs:
+    - Furniture (`quality`): extract `d888dba5` (140/140 cache hits), resolve `95463b55` (90 calls, 2
+      embedding calls), link `20672b67`, eval `a479d424`.
+    - Held-out (`heldout`): extract `1b2c725b` (50/50 cache hits), resolve `2263093e` (86 calls, 2
+      embedding calls), link `39b77996`, eval `bd1d3b2e`.
+    - `cost_usd` 0 in every stage (MLflow). The only live calls are the embeddings in ingest and resolve.
+  - Same claims as R62, stage by stage:
+
+    | | Furniture R62 | Furniture **R64** | Held-out R62 | Held-out **R64** |
+    |---|---|---|---|---|
+    | extracted (pass 1 + pass 2) | 103 (90 + 13) | 103 (90 + 13) | 112 (88 + 24) | 112 (88 + 24) |
+    | entities after resolution (merges) | 86 (38) | 86 (38) | 79 (24) | 79 (24) |
+    | repeats removed | 1 | 1 | 2 | 2 |
+    | derived | 70 | 70 | 40 | 40 |
+    | claims in the graph | 172 facts | 172 observations, 172 attached | 150 facts | 150 observations, 150 attached |
+
+  - Scores identical to R62: `triple_precision` / `recall` / `f1`, and the judge's validated precision and
+    recall (furniture 1.000 / 0.927, held-out 0.925 / 0.824). R62's verdict files covered every fact id
+    of the new sheets, so the judge scores were not recomputed: the claims and their ids are unchanged.
+  - **`path_truth` 1.000 on both:** furniture 89 / 89, held-out 107 / 107 (R63 baseline on the edge
+    graph: 0.640 and 0.750). The totals are not comparable with R63's: there a path was thing -> shared
+    part -> claim, here it is thing -> observation (derived claims and kind structure excluded in both).
+  - The audit's examples are gone:
+    - "TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE" hangs on the Rogue only (its three observations,
+      chunk `nissan_rogue_complaints.md#3`); the RAV4 has 29 observations, none of them this one.
+    - The Linköping Bed has no claim from another document. Its derived part claim reads "drawer rails
+      PART_OF Linköping Bed": resolution merged its "drawer slides" into the "drawer rails" kind, and a
+      derived claim uses the merged name (see "Found along the way").
+  - `question_accuracy`: furniture 0.8 -> 0.2, because four gold questions walk fact edges that no longer
+    exist; held-out 1.0, unchanged (its questions search chunk mentions). R65 rewrites the questions.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **A derived part claim takes the merged kind's name (found in R64).** The Linköping Bed review praises
+  its "drawer slides"; resolution merged them into the "drawer rails" kind (the audit called this merge
+  wrong), so the derived observation reads "drawer rails PART_OF Linköping Bed". No defect leaks any more,
+  but the part name is another review's. Candidates: the polarity guard of R66 (praised slides and
+  defective rails would not merge), or a derived claim worded with the name its own chunk uses.
 
 - **Pass 2 names an entity "IT" (found in R61).** The prompt forbids pronouns, but nothing in code checks
   it. Candidate: `verify` rejects a subject or object that is only a pronoun (a closed word list, so it
