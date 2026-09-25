@@ -1788,6 +1788,45 @@ kinds that every product with that kind shares.
       derived claim uses the merged name (see "Found along the way").
   - `question_accuracy`: furniture 0.8 -> 0.2, because four gold questions walk fact edges that no longer
     exist; held-out 1.0, unchanged (its questions search chunk mentions). R65 rewrites the questions.
+- The user confirmed the deviation (kind structure stored as observations) on 2026-09-25, before R65.
+
+### R65. Questions walk observations (done, 2026-09-25)
+A gold change only: code, prompts and the graph are unchanged. New gold files `tests/gold/r65/
+furniture_gold.json` and `heldout_gold.json` are R58's with `triples` and `er_pairs` unchanged (a test
+checks it) and the questions rewritten to walk `thing -[:HAS_OBSERVATION]-> Observation -[:SUBJECT|
+OBJECT]-> kind`. The R58 files stay as the record of R58-R64.
+- **Gold corrections** (made after seeing R64 output; expected answers of the old questions unchanged):
+
+  | Dataset | Question | Before (R58) | After (R65) |
+  |---|---|---|---|
+  | furniture | 2 suppliers behind the dresser's defective drawer rails | review document → chunk → mentioned entity `-[:HAS_DEFECT]->` | dresser → HAS_DEFECT observation → SUBJECT kind `-[:REFERS_TO]->` Drawer Rails → supplier |
+  | furniture | 3 wobbling | any chunk mentioning an entity with a HAS_DEFECT edge to "wobbl…", then its Document ABOUT | product → HAS_DEFECT observation → OBJECT "wobbl…" |
+  | furniture | 4 misaligned holes | shared holes node `-[:HAS_DEFECT {chunk_id}]->` Defect, chunk → Document ABOUT | product → HAS_DEFECT observation, SUBJECT "hole", OBJECT "align" / "line up" (the `Defect` type filter dropped: the predicate says it) |
+  | furniture | 5 squeak / creak | as question 3 | as question 3, OBJECT "squeak" / "creak" |
+  | held-out | 2-4 braking, cracked windshield, air bags | chunk MENTIONS Problem, Document ABOUT vehicle | vehicle → observation → SUBJECT or OBJECT Problem (the windshield may be the Problem's name or the observation's other end) |
+  | held-out | 5 piston ring recall → engine recall | chunk MENTIONS, Document ABOUT vehicle ← AFFECTS_VEHICLE recall | vehicle → observation → piston Recall / Component; vehicle ← AFFECTS_VEHICLE recall |
+  | furniture | **6 new**: products with defective drawer rails | - | expected `Helsingborg Dresser` only (the only reviews calling the rails defective; Linköping, Malmö and Norrköping praise their slides) |
+  | held-out | **6 new**: transmission switched to reverse on its own | - | expected `ROGUE` only (the RAV4 complaint says reverse only when shifting) |
+
+  Questions 1 (domain graph only) are unchanged.
+- Tests (`tests/test_observation_questions.py`): no R65 question uses ABOUT, and every question that reads
+  the text graph uses HAS_OBSERVATION; R65 changes only R58's questions; every question is valid Cypher;
+  the two new questions on hand-made graphs where the shared kind is part of both things. 223 passed (215
+  before), `ruff` clean.
+- **Check on the R64 graphs, rebuilt from the cache** (the user said yes; the same recipe as R64 part 2,
+  outputs `out/r65_furniture/`, `out/r65_heldout/`): the same claims as R64 (103 and 112 extracted, 38 and
+  24 merges, 172 and 150 observations), the same triple and judge scores, `path_truth` 1.000 (89 / 89,
+  107 / 107). `cost_usd` 0 in every stage.
+  - Furniture (`quality`): extract `e6c1d939` (140 cache hits), resolve `4fa694a2`, link `f06546ef`, eval
+    `fed59651`. **`question_accuracy` 1.000 (6 / 6)**; R64 0.2, R62 0.8.
+  - Held-out (`heldout`): extract `723d1453` (50 cache hits), resolve `d0c4aeb9`, link `da330e64`, eval
+    `1640e139`. **`question_accuracy` 1.000 (6 / 6)**; R64 and R62 1.0.
+  - The leak the new walk removes, on the rebuilt furniture graph: the old walk shape (chunk MENTIONS the
+    "drawer rails" kind, then Document ABOUT) answers the defective-rails question with Linköping Bed and
+    Helsingborg Dresser, because the bed's chunk mentions the kind under its alias "drawer slides"; the new
+    walk answers Helsingborg Dresser. R62's squeak / creak question failed the same way (it also answered
+    Linköping Bed through a mentioned "frame"); on the observation walk it passes.
+- Closes the R58 item "Questions 3 and 5 join through an entity's mentions".
 
 ## Found along the way
 
@@ -1804,7 +1843,7 @@ kinds that every product with that kind shares.
   stays domain-neutral). That would remove 2 of the 12 held-out unsupported facts.
 - **Pass 2 types instructions as a physical Component (found in R61, as in R55).** The type description
   excludes them, and the extractor does not follow it.
-- **Questions 3 and 5 join through an entity's mentions, not the fact's own chunk (found in R58).** Entities
+- **(Closed by R65: questions walk the thing's observations.) Questions 3 and 5 join through an entity's mentions, not the fact's own chunk (found in R58).** Entities
   are kinds shared across documents, so the Uppsala Sofa's "frame creaks" answers "which products squeak or
   creak" for the Linköping Bed too: the Linköping reviews mention a frame. Question 4 was fixed for this
   in R43/R44 (`f.chunk_id`). Fix the other questions the same way in their own step. That is a gold
