@@ -22,8 +22,9 @@ from pydantic import ValidationError
 from .config import PRESETS_FILE, PRICES_FILE, Settings, read_presets, read_prices
 from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
-from .llm.base import CallListener
+from .llm.base import CallListener, Embedder
 from .llm.cache import CachedLLM
+from .llm.deepseek import DeepSeekClient
 from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
@@ -93,8 +94,22 @@ def gemini_key(settings: Settings) -> str:
     return settings.gemini_free_api_key
 
 
-def build_provider(settings: Settings, listener: CallListener) -> GeminiClient | OllamaClient | None:
-    """The LLM adapter named by `llm_provider`, or None when Gemini is chosen but has no API key."""
+def build_provider(
+    settings: Settings, listener: CallListener
+) -> GeminiClient | OllamaClient | DeepSeekClient | None:
+    """The LLM adapter named by `llm_provider`, or None when Gemini is chosen but has no API key.
+
+    Raises `LLMUnavailableError` when DeepSeek is chosen without its key: unlike a missing Gemini key, it
+    is never the default, so someone chose it and should hear that it cannot work.
+    """
+    if settings.llm_provider == "deepseek":
+        return DeepSeekClient(
+            settings.deepseek_api_key,
+            settings.deepseek_url,
+            settings.llm_max_attempts,
+            listener=listener,
+            timeout_s=settings.llm_timeout_s,
+        )
     if settings.llm_provider == "ollama":
         return OllamaClient(
             settings.ollama_url,
@@ -104,6 +119,25 @@ def build_provider(settings: Settings, listener: CallListener) -> GeminiClient |
             listener=listener,
             timeout_s=settings.llm_timeout_s,
         )
+    key = gemini_key(settings)
+    if not key:
+        return None
+    return GeminiClient(
+        key,
+        settings.embed_model,
+        settings.llm_max_attempts,
+        listener=listener,
+        timeout_s=settings.llm_timeout_s,
+    )
+
+
+def build_embedder(
+    settings: Settings, listener: CallListener, provider: GeminiClient | OllamaClient | DeepSeekClient | None
+) -> Embedder | None:
+    """The embedder: the provider itself, except for DeepSeek, which has no embedding model: then Gemini, or
+    None when it has no key (ingest then stores no vectors and resolution compares spelling only)."""
+    if settings.llm_provider != "deepseek":
+        return provider
     key = gemini_key(settings)
     if not key:
         return None
@@ -132,7 +166,8 @@ def build_context(out: Path) -> PipelineContext:
     # both layers report to the tracker: the provider its live calls (with token usage), the cache its hits
     provider = build_provider(settings, tracker.record_llm_call)
     if provider is not None:
-        llm, embedder = CachedLLM(provider, settings.cache_dir, tracker.record_llm_call), provider
+        llm = CachedLLM(provider, settings.cache_dir, tracker.record_llm_call)
+        embedder = build_embedder(settings, tracker.record_llm_call, provider)
     # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
     driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
     return PipelineContext(

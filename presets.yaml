@@ -88,3 +88,22 @@ heldout:
   description: the quality settings on the held-out NHTSA dataset (heldout/nhtsa/data), about $0.15 per run
   data_dir: heldout/nhtsa/data
   mlflow_experiment: kgbuilder-heldout
+
+# DeepSeek-V4.1-Flash as the builder model (R69, the user's choice for R66's runs): the quality settings
+# with DeepSeek generating and Gemini embedding (DeepSeek has no embedding model, so GEMINI_API_KEY is
+# still needed; the paid key, as in quality). Thinking mirrors quality: DeepSeek has no "medium", so schema
+# work runs at "high" (its default) and extraction and adjudication at "low" (llm/deepseek.py). Same
+# experiments as quality and heldout, so the runs sit next to the Gemini runs; the `model` param tells them
+# apart. A change of builder model is a confound in any comparison with a Gemini run: say so in reports.
+quality_deepseek: &quality_deepseek
+  <<: *quality
+  description: deepseek-flash (V4.1 Flash) for generation, Gemini embeddings, quality settings, data/
+  llm_provider: deepseek
+  schema_model: deepseek-flash
+  extract_model: deepseek-flash
+
+heldout_deepseek:
+  <<: *quality_deepseek
+  description: the quality_deepseek settings on the held-out NHTSA dataset (heldout/nhtsa/data)
+  data_dir: heldout/nhtsa/data
+  mlflow_experiment: kgbuilder-heldout

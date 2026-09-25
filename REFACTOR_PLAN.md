@@ -1872,8 +1872,34 @@ and a number with a unit as its object. The schema proposer describes aspects of
     wording). The pipeline test checks the new extract metrics. The corpus-quote test now reads every
     extraction rule (see "Found along the way") and both corpora; the new rules quote neither.
     242 passed (223 before), `ruff` clean.
-- **Part 2 (waits for the user's yes): one `quality` run per dataset**, a fresh schema proposal with the
-  frozen R62 plan and `EXTRACT_PASSES=2` (as R62), judged with the R65 gold (precision, recall, polarity).
+- **Part 2: one run per dataset**, a fresh schema proposal with the frozen R62 plan and `EXTRACT_PASSES=2`
+  (as R62), judged with the R65 gold (precision, recall, polarity). The user said yes on 2026-09-25 and
+  chose DeepSeek-V4.1-Flash as the builder model, so the runs use the `quality_deepseek` and
+  `heldout_deepseek` presets of R69. The comparison with R62 (Gemini) then changes model and code at once;
+  the user accepted that, and if a bound is missed, a Gemini run is proposed to tell the two apart.
+
+### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
+The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
+step, done before R66 part 2 (numbered after the reserved R67 and R68).
+- `llm/deepseek.py` (new): `DeepSeekClient`, an Adapter over DeepSeek's OpenAI-compatible
+  `POST /chat/completions` with httpx, using the shared retry loop (like `llm/ollama.py`). DeepSeek has no
+  schema-constrained decoding, only JSON mode: the pydantic schema goes as JSON Schema in a system message
+  and code validates the reply; an empty reply (which the docs say JSON mode may return) is a retried
+  failure. Usage: DeepSeek's `completion_tokens` includes the reasoning, so the visible answer is
+  `completion - reasoning_tokens` and the reasoning is reported as thinking tokens.
+- Thinking levels map to DeepSeek's efforts (the user chose to mirror the Gemini presets): `low` → low,
+  `medium` and `high` → high (there is no medium), `minimal` → thinking off, "" → the model's default.
+- No embedding model at DeepSeek: `cli.build_embedder` keeps Gemini embeddings when the provider is
+  DeepSeek (None without a Gemini key). Settings `deepseek_api_key` (in `.env` only), `deepseek_url`.
+- Presets `quality_deepseek` and `heldout_deepseek`: the quality settings with `llm_provider: deepseek`
+  and `deepseek-flash` for schema and extraction; they inherit `ask_permission`, and the same MLflow
+  experiments as `quality` / `heldout`. `prices.yaml`: `deepseek-flash` at the peak price ($0.30 / $1.20 per
+  1M), so `cost_usd` is an upper bound (off-peak costs half, cached input a fiftieth).
+- Tests: the request (schema in the system prompt, JSON mode, effort), the usage split, the effort mapping,
+  an empty reply retried, no key, and the wiring (DeepSeek generates; the embedder is not DeepSeek). The
+  run-guard test lists the two new presets as asking. 247 passed (242 before), `ruff` clean.
+- Verified live with one tiny call (the user's key; well under $0.001): JSON mode with effort `low` returned
+  a valid object, 157 prompt, 13 visible and 100 reasoning tokens, 2.7 s.
 
 ## Found along the way
 

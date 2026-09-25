@@ -40,6 +40,8 @@ uv run kg --preset smoke   run --goal "..."   # tiny subset, free Gemini key: do
 uv run kg --preset dev     run --goal "..."   # small subset, paid key: does it run with real Gemini?
 uv run kg --preset quality run --goal "..."   # the whole dataset, proper models: reported results (asks first)
 uv run kg --preset heldout run --goal "..."   # quality settings on the held-out NHTSA data (asks first)
+uv run kg --preset quality_deepseek run ...    # quality with DeepSeek-V4.1-Flash generating (asks first)
+uv run kg --preset heldout_deepseek run ...    # the same on the held-out data (asks first)
 ```
 
 Everything about a preset lives in [presets.yaml](presets.yaml) and nowhere else: models, thinking levels,
@@ -81,6 +83,16 @@ Priority: a variable set in the terminal > the preset > `.env` > the defaults, s
 changed for a single run (`$env:EXTRACT_MODEL="..."` in PowerShell); a directory given on the command line
 beats the preset's dataset. Every run is tagged with its preset in MLflow. An unknown preset or a
 misspelled key in `presets.yaml` stops with an error instead of being ignored.
+
+### DeepSeek
+
+`LLM_PROVIDER=deepseek` (the presets `quality_deepseek` and `heldout_deepseek`) generates with DeepSeek's
+OpenAI-compatible API (`DEEPSEEK_API_KEY` in `.env`; model id `deepseek-flash` is DeepSeek-V4.1-Flash).
+DeepSeek has no embedding model, so vectors still come from Gemini (`GEMINI_API_KEY`). It also has no
+schema-constrained decoding, only a JSON mode: the adapter sends the pydantic schema as JSON Schema in a
+system message, and a reply that does not validate (or comes back empty, which the API may do in JSON mode)
+is retried. Thinking levels map to DeepSeek's efforts: `low` → low, `medium` and `high` → high, `minimal`
+switches thinking off. `cost_usd` uses the peak price, so it is an upper bound (off-peak costs half).
 
 ### A local model (Ollama)
 

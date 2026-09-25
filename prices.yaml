@@ -9,6 +9,9 @@ models:
   gemini-3.5-flash-lite: {input: 0.30, output: 2.50}
   gemini-3.8-flash: {input: 0.75, output: 3.75} # output rises to 7.50 in 2027: update then
   gemini-3.1-pro-preview: {input: 2.00, output: 12.00}
+  # DeepSeek (checked 2026-09-25, https://api-docs.deepseek.com/quick_start/pricing): the peak price, cache
+  # miss. Off-peak hours cost half and cached input a fiftieth, so `cost_usd` is an upper bound for it.
+  deepseek-flash: {input: 0.30, output: 1.20}
   # local models through Ollama (LLM_PROVIDER=ollama): no bill
   qwen2.5:7b-instruct: {input: 0, output: 0}
   nomic-embed-text: {input: 0, output: 0}

@@ -267,3 +267,99 @@ def test_gemini_requests_have_a_time_limit():
     # without a limit the SDK waits forever: a stalled preview-model request once blocked a run for an hour
     client = GeminiClient("fake-key", "embed-model", timeout_s=5)
     assert client._client._api_client._http_options.timeout == 5000  # the SDK counts milliseconds
+
+
+def _deepseek(handler, listener=None):
+    """A DeepSeekClient whose HTTP requests go to `handler` instead of the API."""
+    import httpx
+
+    from kgbuilder.llm.deepseek import DeepSeekClient
+
+    http = httpx.Client(base_url="http://deepseek.test", transport=httpx.MockTransport(handler))
+    return DeepSeekClient("key", backoff_s=0, listener=listener, http=http)
+
+
+def _completion(content: str, completion: int = 50, reasoning: int = 30) -> dict:
+    return {
+        "choices": [{"message": {"content": content}}],
+        "usage": {
+            "prompt_tokens": 12,
+            "completion_tokens": completion,
+            "completion_tokens_details": {"reasoning_tokens": reasoning},
+        },
+    }
+
+
+def test_deepseek_sends_the_schema_in_json_mode_and_counts_reasoning_apart():
+    import json
+
+    import httpx
+
+    sent, records = [], []
+
+    def handler(request):
+        sent.append(json.loads(request.content))
+        return httpx.Response(200, json=_completion('{"text": "ok"}'))
+
+    client = _deepseek(handler, records.append)
+    assert client.generate("p", Answer, model="deepseek-flash", thinking="low") == Answer(text="ok")
+    body = sent[0]
+    system, user = body["messages"]
+    # JSON mode has no schema-constrained decoding: the schema travels in the prompt, with the word "JSON"
+    assert "JSON" in system["content"] and json.dumps(Answer.model_json_schema()) in system["content"]
+    assert user == {"role": "user", "content": "p"}
+    assert body["response_format"] == {"type": "json_object"} and body["reasoning_effort"] == "low"
+    # completion_tokens includes the reasoning: 50 billed, 20 visible and 30 thinking
+    assert (records[0].prompt_tokens, records[0].completion_tokens, records[0].thinking_tokens) == (
+        12,
+        20,
+        30,
+    )
+
+
+def test_deepseek_maps_the_thinking_levels_to_its_efforts():
+    from kgbuilder.llm.deepseek import DeepSeekClient
+
+    def body(level):
+        return DeepSeekClient._body("p", Answer, "m", 0.0, level)
+
+    assert body("medium")["reasoning_effort"] == "high"  # DeepSeek has no medium
+    assert body("minimal")["thinking"] == {"type": "disabled"} and "reasoning_effort" not in body("minimal")
+    assert "reasoning_effort" not in body("") and "thinking" not in body("")  # the model's own default
+
+
+def test_deepseek_retries_an_empty_json_reply():
+    import httpx
+
+    # the API docs warn that JSON mode "may occasionally return empty content"
+    replies = iter(
+        [httpx.Response(200, json=_completion("")), httpx.Response(200, json=_completion('{"text": "ok"}'))]
+    )
+    records = []
+    assert _deepseek(lambda _: next(replies), records.append).generate("p", Answer, model="m").text == "ok"
+    assert [r.ok for r in records] == [False, True]
+
+
+def test_deepseek_without_key_is_unavailable():
+    import pytest
+
+    from kgbuilder.core.errors import LLMUnavailableError
+    from kgbuilder.llm.deepseek import DeepSeekClient
+
+    with pytest.raises(LLMUnavailableError):
+        DeepSeekClient("")
+
+
+def test_deepseek_generates_and_gemini_embeds():
+    from kgbuilder.cli import build_embedder, build_provider
+    from kgbuilder.config import Settings
+    from kgbuilder.llm.deepseek import DeepSeekClient
+
+    deepseek = Settings(_env_file=None, llm_provider="deepseek", deepseek_api_key="k", gemini_api_key="")
+    provider = build_provider(deepseek, lambda _: None)
+    assert isinstance(provider, DeepSeekClient)
+    # no embedding model at DeepSeek and no Gemini key: no vectors, rather than a DeepSeek embed call
+    assert build_embedder(deepseek, lambda _: None, provider) is None
+    ollama = Settings(_env_file=None, llm_provider="ollama")
+    local = build_provider(ollama, lambda _: None)
+    assert build_embedder(ollama, lambda _: None, local) is local  # a provider that embeds embeds itself

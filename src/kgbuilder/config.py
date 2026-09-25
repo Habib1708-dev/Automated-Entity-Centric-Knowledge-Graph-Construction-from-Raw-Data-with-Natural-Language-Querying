@@ -106,8 +106,11 @@ class Settings(BaseSettings):
     data_dir: Path = Path("data")
 
     # "ollama" runs a local model for free smoke runs that check the code, not the method's quality;
-    # SCHEMA_MODEL / EXTRACT_MODEL / EMBED_MODEL then name Ollama models (see README)
-    llm_provider: Literal["gemini", "ollama"] = "gemini"
+    # SCHEMA_MODEL / EXTRACT_MODEL / EMBED_MODEL then name Ollama models (see README). "deepseek" (R69)
+    # generates with DeepSeek and embeds with Gemini (DeepSeek has no embedding model), so it needs both keys
+    llm_provider: Literal["gemini", "ollama", "deepseek"] = "gemini"
+    deepseek_api_key: str = ""
+    deepseek_url: str = "https://api.deepseek.com"
     gemini_api_key: str = ""
     # a key from a Google project without billing: its requests are free but capped per day, and Google
     # may use them to improve its products (acceptable for the synthetic data in samples/)
