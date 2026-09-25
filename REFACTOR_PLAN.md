@@ -1741,9 +1741,9 @@ kinds that every product with that kind shares.
     drawer") is stored as an observation too, not as a shared edge. It stays true of the thing whose review
     states it, and one storage shape keeps every reader, the resolver and undo to one code path. Path truth
     still leaves it out of its counts.
-  - Size: about 710 changed lines (536 added, 176 removed), a third of them tests and docstrings. It is
-    above the 600-line guide, but not split: a writer without the matching resolver and reader leaves
-    `undo_merges` and the checks half-migrated.
+  - Size: about 710 changed lines (536 added, 176 removed), a third of them tests and docstrings. Not
+    split: a writer without the matching resolver and reader leaves `undo_merges` and the checks
+    half-migrated.
   - Tests:
     - The leak case end to end with Neo4j: the Linköping Bed has the drawer rails, not the dresser's
       "stick"; `path_truth` 1.0.

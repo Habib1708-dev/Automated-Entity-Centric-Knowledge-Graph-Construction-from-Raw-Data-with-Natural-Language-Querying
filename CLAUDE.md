@@ -14,10 +14,10 @@ That must not happen again.
   `PLAN.md`). Steps are done strictly one after the other, never interleaved: a step is finished (gate
   green, roadmap updated, committed) before the next one starts. Several steps may be done in one session
   when the task calls for it, but never several at once.
-- **A step is big enough to matter and small enough to review**: one coherent concern, roughly
-  150 to 600 changed lines, ending in something runnable and tested. If a step grows past that, split it
-  and record the split in `REFACTOR_PLAN.md` before continuing. Do not make steps artificially small
-  either: a step that leaves the tree half-migrated is too small.
+- **A step is big enough to matter and small enough to review**: one coherent concern, ending in
+  something runnable and tested. If a step grows into a second concern, split it and record the split in
+  `REFACTOR_PLAN.md` before continuing. Do not make steps artificially small either: a step that leaves
+  the tree half-migrated is too small.
 - **Every step follows the `implement-step` skill**: state scope, run the test baseline, implement,
   add or update tests, run `uv run pytest` and `uv run ruff check` (both green, exit codes unmasked),
   update the step's status in `REFACTOR_PLAN.md`, commit, then report what changed, what was verified,
