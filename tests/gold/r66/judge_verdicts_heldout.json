@@ -1,0 +1,2441 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1",
+  "date": "2026-09-26",
+  "run_id": "e698cf38b9e242b783ef3d078395e083",
+  "git_sha": "753a200"
+ },
+ "gold": "tests/gold/r65/heldout_gold.json",
+ "facts": [
+  {
+   "id": "01074733e7b5",
+   "verdict": "SUPPORTED",
+   "reason": "the air bag failure's mileage is stated as 2,361",
+   "evidence": "THE FAILURE MILEAGE WAS 2,361.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "1b43d1298235",
+   "verdict": "SUPPORTED",
+   "reason": "the file states the manufacturer's explanation that the hesitation comes from the turbo spooling up; attributed, and normal operation rather than a failure, but stated",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "1e15a3ea39f6",
+   "verdict": "SUPPORTED",
+   "reason": "the rust failure's mileage is stated as 1,800",
+   "evidence": "THE FAILURE MILEAGE WAS 1,800.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "37c3a0c4d346",
+   "verdict": "SUPPORTED",
+   "reason": "brake squeal is reported for this Escape (file is the 2015 Ford Escape)",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "477092b92481",
+   "verdict": "SUPPORTED",
+   "reason": "rusted rear wheel wells are reported for this Escape",
+   "evidence": "THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE, IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5c1f14510ae8",
+   "verdict": "SUPPORTED",
+   "reason": "stalling at traffic lights is reported for this Escape; same claim as gold 10",
+   "evidence": "PICKED UP VEHICLE WITH 810 MILES ON IT AND LESS THAN A WEEK AND 150 MILES LATER THE VEHICLE IS AGAIN STALLING AT TRAFFIC LIGHTS UPON ACCELERATION.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 10,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "693c57660bce",
+   "verdict": "SUPPORTED",
+   "reason": "accelerator hesitation is reported for this Escape; the same claim as gold 11 (the Escape hesitates on acceleration), though from complaint 10689793 while the gold quotes 10692693",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 11,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "751857115f51",
+   "verdict": "SUPPORTED",
+   "reason": "air bags failing to deploy is reported for this Escape",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "75b267594e14",
+   "verdict": "SUPPORTED",
+   "reason": "the file states the manufacturer's explanation that the hesitation comes from the engine gearing down; attributed, but stated",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "83af47e4d58d",
+   "verdict": "UNSUPPORTED",
+   "reason": "circular: the air bags' failure IS the reported problem; the text states no component failure that leads to it, so 'AIR BAGS CAUSES air bags failed to deploy' is not a causal claim the text makes",
+   "evidence": null,
+   "reason_code": "wrong_relation",
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "ae857f7614e8",
+   "verdict": "SUPPORTED",
+   "reason": "the hesitation is of the accelerator; same claim as gold 2, as the earlier pass accepted",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 2,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "c52f419145a3",
+   "verdict": "SUPPORTED",
+   "reason": "the air bags failed to deploy; same claim as gold 8",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 8,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "c81681529120",
+   "verdict": "SUPPORTED",
+   "reason": "the car drove fine until 800+ miles, then the hesitation began: the mileage at first observation",
+   "evidence": "BRAND NEW 2015 FORD ESCAPE DROVE FINE UNTIL 800 + MILES THEN...  ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "cf341f0fd2f7",
+   "verdict": "SUPPORTED",
+   "reason": "the tech diagnosed the squeal to the left rear brake; same claim as gold 6",
+   "evidence": "SECOND TIME, WITH VIDEO EVIDENCE OF SQUEAL, TECH DIAGNOSED LEFT REAR BRAKE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 6,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "d5f5d2d1da18",
+   "verdict": "UNSUPPORTED",
+   "reason": "'150 miles' is the distance driven after pickup at 810 miles, not the odometer mileage of the stalling (about 960) nor its first occurrence (under a week after 3 miles); wrong number for this subject",
+   "evidence": null,
+   "reason_code": "wrong_entity",
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "d7fcfe450e5c",
+   "verdict": "SUPPORTED",
+   "reason": "the manufacturer attributes the hesitation to the engine gearing down, so the problem is associated with the engine",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "ed49f5effcd9",
+   "verdict": "SUPPORTED",
+   "reason": "the rear wheel wells were rusted; same claim as gold 0",
+   "evidence": "THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE, IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 0,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "fd139be995be",
+   "verdict": "SUPPORTED",
+   "reason": "the manufacturer attributes the hesitation to the turbo spooling up, so the problem is associated with the turbo",
+   "evidence": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "0504ffd4913e",
+   "verdict": "SUPPORTED",
+   "reason": "complaint 10816192 reports rapid deceleration for this 2016 Civic",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "05975decf5a3",
+   "verdict": "SUPPORTED",
+   "reason": "the glove compartment does not lock; same claim as gold 14",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 14,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "0e2b6cfb47fd",
+   "verdict": "SUPPORTED",
+   "reason": "the unpredictable reaction happens with LKAS engaged, so the problem involves LKAS; same claim as gold 17",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 17,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "1dbed706568d",
+   "verdict": "SUPPORTED",
+   "reason": "sudden braking is one of the reactions with ACC and LKAS engaged; same claim as gold 19",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 19,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "246a6bd7c1ed",
+   "verdict": "SUPPORTED",
+   "reason": "the complaint names a piston snap ring recall, i.e. a recall about that part; same claim as gold 30",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 30,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "250b2b451e7e",
+   "verdict": "SUPPORTED",
+   "reason": "the trunk of this Civic cannot be locked; a restatement of the do-not-lock problem, still stated",
+   "evidence": "IT MAKES ABSOLUTELY NO SENSE NOT BE ABLE TO LOCK THE TRUNK.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "29bbdae85942",
+   "verdict": "SUPPORTED",
+   "reason": "'this part' is the piston clip ring of the recall and its failure results in stalling; same claim as gold 27",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 27,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "312fce087e8a",
+   "verdict": "SUPPORTED",
+   "reason": "departing the highway is reported for this 2016 Civic",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "41a792e7e112",
+   "verdict": "SUPPORTED",
+   "reason": "the trunk cannot be locked; second wording of the gold 12 claim, gold 12 is matched by the fact quoting the first sentence",
+   "evidence": "IT MAKES ABSOLUTELY NO SENSE NOT BE ABLE TO LOCK THE TRUNK.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "4ddeeeb614e5",
+   "verdict": "SUPPORTED",
+   "reason": "the do-not-lock problem is reported for this 2016 Civic",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "4f6e6b7a4977",
+   "verdict": "SUPPORTED",
+   "reason": "stalling is reported as the consequence of the recalled part failing in this Civic",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5dd0b0e71695",
+   "verdict": "SUPPORTED",
+   "reason": "unpredictable reaction is reported for this 2016 Civic",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5dfb2641359f",
+   "verdict": "SUPPORTED",
+   "reason": "'this part' is the piston clip ring and its failure results in engine failure; same claim as gold 26",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 26,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5f71170c9c12",
+   "verdict": "SUPPORTED",
+   "reason": "a piston clip ring recall is a recall about that part; same claim as gold 29",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 29,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "608d30c29bab",
+   "verdict": "SUPPORTED",
+   "reason": "the 10-15 mph slowing is part of the ACC+LKAS behaviour the complaint describes",
+   "evidence": "THE VEHICLE MAY SLOW BY 10-15 MPH AND DEPART THE HIGHWAY BEFORE THE DRIVER IS ABLE TO RESUME CONTROL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "73fa841e6d8b",
+   "verdict": "SUPPORTED",
+   "reason": "sudden braking is one of the reactions with ACC engaged; same claim as gold 18",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 18,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "76132daa4320",
+   "verdict": "SUPPORTED",
+   "reason": "engine failure results from the piston clip ring failure, so it involves that part; weaker than the CAUSES fact that matches gold 26",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "8af31750940a",
+   "verdict": "SUPPORTED",
+   "reason": "Honda confirmed the writer's new 2016 Civic has a recall, but the recall is unnamed",
+   "evidence": "I CONTACTED AMERICA OF HONDA AND THEY CONFIRMED MY CAR DOES HAVE A RECALL AND I PROVIDED ME WITH A CASE NUMBER.",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "908b8eff65b2",
+   "verdict": "SUPPORTED",
+   "reason": "departing the highway is one of the reactions with LKAS engaged; same claim as gold 23",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 23,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "9dc911b0b70c",
+   "verdict": "SUPPORTED",
+   "reason": "engine failure is reported as the consequence of the recalled part failing in this Civic",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "a05bebc726e0",
+   "verdict": "SUPPORTED",
+   "reason": "the unpredictable reaction happens with ACC engaged; same claim as gold 16",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 16,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "a2bedba22ef6",
+   "verdict": "SUPPORTED",
+   "reason": "the recall from Honda concerns the writer's vehicle, a 2016 Civic in this file",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "a47a1615a4e5",
+   "verdict": "SUPPORTED",
+   "reason": "rapid deceleration is one of the reactions with ACC engaged; same claim as gold 20",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 20,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "d6955afb1fc1",
+   "verdict": "SUPPORTED",
+   "reason": "departing the highway is one of the reactions with ACC engaged; same claim as gold 22",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 22,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "df41cd26e150",
+   "verdict": "SUPPORTED",
+   "reason": "the 10-15 mph slowing is part of the ACC+LKAS behaviour the complaint describes",
+   "evidence": "THE VEHICLE MAY SLOW BY 10-15 MPH AND DEPART THE HIGHWAY BEFORE THE DRIVER IS ABLE TO RESUME CONTROL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e2433b91add6",
+   "verdict": "SUPPORTED",
+   "reason": "the trunk does not lock; same claim as gold 12",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 12,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e515709026bd",
+   "verdict": "SUPPORTED",
+   "reason": "stalling results from the piston clip ring failure, so it involves that part; weaker than the CAUSES fact that matches gold 27",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "f3fd8dca5015",
+   "verdict": "SUPPORTED",
+   "reason": "rapid deceleration is one of the reactions with LKAS engaged; same claim as gold 21",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 21,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "0512821f590b",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the stuck-on-full gas gauge of complaint 11032133 is reported in the 2017 Nissan Rogue file",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "08acba431c46",
+   "verdict": "SUPPORTED",
+   "reason": "the complaint gives 130 as the failure mileage of the speedometer failure; number matches, the text gives no unit either",
+   "evidence": "THE FAILURE MILEAGE WAS 130.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "0d2b46879da3",
+   "verdict": "SUPPORTED",
+   "reason": "the gauge shows full after fill-up and stays there, a problem of the gas gauge; the time 'AFTER FILL UP' is what the text says; gold 41 is the 'not moveing' wording, carried by f7629c778dbf",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "0d4801cb4125",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the vehicle moving backwards is reported for the contact's 2017 Nissan Rogue; same claim as gold 40 (moved backwards affects vehicle)",
+   "evidence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 40,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "1c66023c92e9",
+   "verdict": "SUPPORTED",
+   "reason": "the front camera system mistook the bridge for an object; same claim and sentence as gold 33",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 33,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "249756236987",
+   "verdict": "SUPPORTED",
+   "reason": "the complaint gives 400 as the failure mileage of the reverse-switch failure; number matches",
+   "evidence": "THE FAILURE MILEAGE WAS 400.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "27ef58d4ea2e",
+   "verdict": "SUPPORTED",
+   "reason": "the transmission erroneously switched to reverse; same claim and sentence as gold 38",
+   "evidence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 38,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "32ceff3888e6",
+   "verdict": "SUPPORTED",
+   "reason": "the vehicle moved backwards because the transmission switched to reverse, so the transmission is the component the problem involves",
+   "evidence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "3f5be88bb285",
+   "verdict": "UNSUPPORTED",
+   "reason": "circular: the speedometer is the component that failed, not a component whose failure led to a further problem; the text supports INVOLVES_COMPONENT (already stated by 8de09e3d1d98), not a cause",
+   "evidence": null,
+   "reason_code": "wrong_relation",
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "49be24ef4919",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the car not stopping is reported in the 2017 Nissan Rogue file; same claim as gold 36 (did not stop affects vehicle)",
+   "evidence": "AS I TRIED TO SLOWDOWN THE VEHICLE INTO PARKING, THE CAR DID NOT STOP.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 36,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "49f51a309a03",
+   "verdict": "UNSUPPORTED",
+   "reason": "circular: mistaking the bridge for an object is the camera system's own malfunction, not a further problem it caused; the text supports INVOLVES_COMPONENT (1c66023c92e9), the cause claim the text does make is camera -> activated the brakes (cc7b53e62d6f)",
+   "evidence": null,
+   "reason_code": "wrong_relation",
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5288276df361",
+   "verdict": "SUPPORTED",
+   "reason": "the unwanted brake activation ('THE CAR BRAKED ON ITS OWN') involves the brakes; gold 34 puts the activation on the front camera system, which cc7b53e62d6f states",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "6faffd37e443",
+   "verdict": "SUPPORTED",
+   "reason": "the transmission switching to reverse led to the vehicle moving backwards: a component failure leading to the reported problem",
+   "evidence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "71eda9b85fc2",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the gauge not moving is reported in the 2017 Nissan Rogue file; the problem label 'NOT MOVEING' on its own does not say what is not moving (a reader could take it for the vehicle), the component fact supplies it",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "784b304a22b1",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the unwanted brake activation is reported in the 2017 Nissan Rogue file",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "8de09e3d1d98",
+   "verdict": "SUPPORTED",
+   "reason": "the speedometer failed without warning; same claim and sentence as gold 31",
+   "evidence": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 31,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "a10cfac3758c",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the camera mistaking the bridge is reported in the 2017 Nissan Rogue file",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "c395382563a9",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the transmission switching to reverse is reported for the contact's 2017 Nissan Rogue",
+   "evidence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "cc7b53e62d6f",
+   "verdict": "SUPPORTED",
+   "reason": "the camera's misdetection led to the brakes activating: a component failure leading to the reported problem; gold 34 states the same pairing (brake activation attributed to the front camera system)",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 34,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "cfb22b9b20b9",
+   "verdict": "SUPPORTED",
+   "reason": "the car did not stop although the owner pumped the brake pedal twice, so the brake pedal is a component the not-stopping problem involves (the schema's INVOLVES_COMPONENT includes 'associated with'); the text does not say what part failed",
+   "evidence": "I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e883c5c5449e",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the speedometer failure is reported for the contact's 2017 Nissan Rogue",
+   "evidence": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "f7629c778dbf",
+   "verdict": "SUPPORTED",
+   "reason": "the gas gauge is now not moving, time 'NOW' is the text's word; same claim and sentence as gold 41",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 41,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "097455f6dba1",
+   "verdict": "SUPPORTED",
+   "reason": "the system staying on at night drains the battery, so the battery is the component this problem involves; gold 49 is a cause claim on another subject and gold 53 is the separate parasitic-drain statement of complaint 11185059",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "15925ec05052",
+   "verdict": "SUPPORTED",
+   "reason": "the owner had a dead battery on the 2019 vehicle; same claim as gold 51 (dead affects battery, same sentence)",
+   "evidence": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 51,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "37e3598b2785",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the battery-drain problem is reported in the complaint about 'MY 2019 OUTBACK'",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5033ba19ba8e",
+   "verdict": "SUPPORTED",
+   "reason": "'SYSTEMS' in a complaint whose subject is the nav system ('THE SYSTEM FREEZES UP') is the navigation system; same claim as gold 48",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 48,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "52765226b5de",
+   "verdict": "SUPPORTED",
+   "reason": "the owner's judgement that the windshield quality and design are poor is a claim the complaint states about the windshield; no gold triple for complaint 11180230",
+   "evidence": "THIS IS POOR WINDSHIELD QUALITY AND DESIGN BY SUBARU.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "53a14fbf3c5f",
+   "verdict": "SUPPORTED",
+   "reason": "the back-up camera is listed among the things that stop working when the system freezes",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5825cf77c0e2",
+   "verdict": "SUPPORTED",
+   "reason": "'THE SYSTEM' that freezes is the navigation system the complaint is about; same claim as gold 46",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 46,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "59189cc1752d",
+   "verdict": "SUPPORTED",
+   "reason": "the navigation system, by staying on at night, drains the battery: a component leading to a problem; gold 49 states the same cause-effect with the component's failure mode (stays on at night) as subject, which the new CAUSES type can only carry as the component",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 49,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5d15be31d848",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the freeze-up is reported in the complaint about 'MY 2019 OUTBACK'",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "67d77481d5e6",
+   "verdict": "SUPPORTED",
+   "reason": "derived: complaint 11180230 is in the 2019 Subaru Outback file and blames Subaru's windshield design, so the problem is reported for this vehicle",
+   "evidence": "THIS IS POOR WINDSHIELD QUALITY AND DESIGN BY SUBARU.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "72e43137c318",
+   "verdict": "SUPPORTED",
+   "reason": "the windshield cracked spontaneously while driving; this is the complaint 11180230 statement, gold 43 is the complaint 11123359 crack (one fact per statement)",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD, UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "7532ffcb88f3",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the dead-battery problem of complaint 11185059 is reported in the 2019 Subaru Outback file",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "863bbefc1cc4",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the dead battery of complaint 11166434 is reported for 'MY 2019 OUTBACK'",
+   "evidence": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "8e61f97867bb",
+   "verdict": "SUPPORTED",
+   "reason": "the navigation system's freeze causes everything (radio, camera) to stop working; gold 47 states the same cause-effect with the freeze as subject, which the new CAUSES type carries as the component",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 47,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "9c49e6259c0c",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the spontaneous windshield crack of complaint 11180230 is reported in the 2019 Subaru Outback file",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD, UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "a3812b8357ef",
+   "verdict": "SUPPORTED",
+   "reason": "the complaint opens with the navigation system failure; same claim as gold 45",
+   "evidence": "NAVIGATION SYSTEM FAILURE!",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 45,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "a828f7f20027",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the everything-not-working problem is reported for 'MY 2019 OUTBACK'; on its own the problem label does not say what stopped working (the component facts do)",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "abc22109b0d4",
+   "verdict": "SUPPORTED",
+   "reason": "the complaint gives the car's mileage when the battery died; 2000 miles is the number the text states, though as an upper bound ('LESS THAN 2000 MILES') that the claim drops",
+   "evidence": "LESS THAN 2000 MILES ON THE CAR.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "b003082a42cc",
+   "verdict": "SUPPORTED",
+   "reason": "the owner diagnoses a parasitic battery drain; same claim as gold 53",
+   "evidence": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 53,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "b0e3d3b0db25",
+   "verdict": "SUPPORTED",
+   "reason": "'IT' that works sporadically and less every day is the nav system the complaint is about",
+   "evidence": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "c71324be9806",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the windshield crack of complaint 11123359 is reported for a 2019 Subaru Outback (named in the complaint)",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "cd65a65aaac5",
+   "verdict": "SUPPORTED",
+   "reason": "the owner has had problems using the nav system since day 1, time matches; the claim only says the nav system has problems, the specific failures are separate facts",
+   "evidence": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM.",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "ce47b7b99839",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the parasitic battery drain of complaint 11185059 is reported in the 2019 Subaru Outback file",
+   "evidence": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e23411e1e891",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the sporadic-working nav system is reported for 'MY 2019 OUTBACK'",
+   "evidence": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e241910efcfe",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the navigation system failure is reported for 'MY 2019 OUTBACK'",
+   "evidence": "NAVIGATION SYSTEM FAILURE!",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e345f6e33200",
+   "verdict": "SUPPORTED",
+   "reason": "the windshield cracked on the 4th day of ownership, time matches; same claim and sentence as gold 43",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 43,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "e99273d8bd49",
+   "verdict": "SUPPORTED",
+   "reason": "derived: the no-steering-feedback problem is reported in the 2019 Subaru Outback file ('HAD MULTIPLE OUTBACKS IN THE PAST'); gold 57 is the separate 'do not have any control' symptom",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "f06acd124691",
+   "verdict": "SUPPORTED",
+   "reason": "the battery is dead after the car sits two days; this is the complaint 11185059 statement, gold 51 is the complaint 11166434 dead battery (one fact per statement)",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "f7ee3629b5e5",
+   "verdict": "SUPPORTED",
+   "reason": "the radio is listed among the things that stop working when the system freezes",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "fd9c22bcf825",
+   "verdict": "SUPPORTED",
+   "reason": "the owner feels no feedback from the steering wheel at highway speed; same claim as gold 55",
+   "evidence": "WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 55,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "02057dd9471c",
+   "verdict": "SUPPORTED",
+   "reason": "the mirrors showed two vehicles while driving; time matches the sentence; same claim as gold 62 (earlier pass accepted plain 'mirrors')",
+   "evidence": "ALSO, WHILE DRIVING, IT LOOKED AS IF TWO VEHICLES WERE SHOWN IN THE MIRRORS EVERY TIME.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 62,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "05de8b30791b",
+   "verdict": "UNSUPPORTED",
+   "reason": "the text does not say the gauge causes anything: the gauge correctly reads not-full because the pump shuts off early; the cause is the premature auto-shutoff, not a gauge failure",
+   "evidence": null,
+   "reason_code": "wrong_relation",
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "107fad7224bb",
+   "verdict": "SUPPORTED",
+   "reason": "'the failure' (the mirror problem) is reported for this RAV4, but 'FAILURE' alone names no problem",
+   "evidence": "THE VEHICLE WAS TAKEN TO TOYOTA OF NORTH SCRANTON (3400 N MAIN AVE, SCRANTON, PA 18508, (570) 489-7584), BUT WAS NOT DIAGNOSED OR REPAIRED BECAUSE THEY STATED THE FAILURE WAS A \"MANUFACTURER'S DEFECT\".",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "310574986da3",
+   "verdict": "SUPPORTED",
+   "reason": "the pump auto-shutoff happens while filling the tank, with the tank 2 gallons short, so the problem involves the tank",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "3a1e04cfb08e",
+   "verdict": "SUPPORTED",
+   "reason": "the no-acceleration problem shows when pushing the gas pedal, so it is associated with the pedal",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "3e809c73a877",
+   "verdict": "SUPPORTED",
+   "reason": "the shifter came out of the transmission box, so the problem involves the box",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "57e673410b61",
+   "verdict": "SUPPORTED",
+   "reason": "no acceleration is reported for this RAV4 (file is the 2019 RAV4); same claim as gold 64",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 64,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5d013f3a67b3",
+   "verdict": "SUPPORTED",
+   "reason": "the premature auto-shutoff is reported for this RAV4; 'AUTO-SHUTOFF HAPPENS' drops 'premature' but in context is that problem; same claim as gold 65",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 65,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "5f8fe632746f",
+   "verdict": "SUPPORTED",
+   "reason": "the shifter coming out is reported for this RAV4",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "6958ac424a55",
+   "verdict": "SUPPORTED",
+   "reason": "blurred vision while using the mirror is a symptom the complaint reports for this RAV4",
+   "evidence": "THE CONTACT'S VISION REMAINED BLURRED WHILE USING THE MIRROR.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "6f0096260889",
+   "verdict": "SUPPORTED",
+   "reason": "the blurred vision involves the mirror and the time 'while using the mirror' is what the sentence says",
+   "evidence": "THE CONTACT'S VISION REMAINED BLURRED WHILE USING THE MIRROR.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "8ebb6e5e2fc5",
+   "verdict": "SUPPORTED",
+   "reason": "the exterior mirrors shook and rattled; one fact stating both gold 60 (shook) and gold 61 (rattled)",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 60,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "90078ec9f53e",
+   "verdict": "SUPPORTED",
+   "reason": "the failure mileage is stated as 1,921, but the subject 'FAILURE' names no problem",
+   "evidence": "THE FAILURE MILEAGE WAS 1,921.",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "9a70eb18ece4",
+   "verdict": "SUPPORTED",
+   "reason": "stated, but 'was especially affected' does not say what the problem is; useful only with the other mirror facts",
+   "evidence": "THE DRIVER'S SIDE REARVIEW MIRROR WAS ESPECIALLY AFFECTED.",
+   "reason_code": null,
+   "vague": true,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "9cf283ea8890",
+   "verdict": "SUPPORTED",
+   "reason": "the shaking and rattling mirrors are reported for this RAV4",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "9cfa0f5fcef2",
+   "verdict": "SUPPORTED",
+   "reason": "the shifter failure's mileage is stated as 5,218",
+   "evidence": "THE FAILURE MILEAGE WAS 5,218.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "bdada9e1dcbe",
+   "verdict": "SUPPORTED",
+   "reason": "the gauge does not indicate full; the problem involves the gauge",
+   "evidence": "I KNOW THIS BECAUSE MY GAS GAUGE DOES NOT INDICATE FULL AND I AM ABLE TO ADD AN ADDITIONAL 2-2.5 GALLONS TO MY TANK, THOUGH IT TAKES A WHILE BECAUSE I HAVE TO PUSH THROUGH ALL THE AUTO SHUTOFFS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "cdde66c50509",
+   "verdict": "SUPPORTED",
+   "reason": "the gauge not indicating full is reported for this RAV4",
+   "evidence": "I KNOW THIS BECAUSE MY GAS GAUGE DOES NOT INDICATE FULL AND I AM ABLE TO ADD AN ADDITIONAL 2-2.5 GALLONS TO MY TANK, THOUGH IT TAKES A WHILE BECAUSE I HAVE TO PUSH THROUGH ALL THE AUTO SHUTOFFS.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "d7d91c266e2c",
+   "verdict": "SUPPORTED",
+   "reason": "the gear shifter came out of the transmission box; same claim as gold 58",
+   "evidence": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": 58,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  },
+  {
+   "id": "ebb5ccf12718",
+   "verdict": "SUPPORTED",
+   "reason": "the double image in the mirrors is reported for this RAV4",
+   "evidence": "ALSO, WHILE DRIVING, IT LOOKED AS IF TWO VEHICLES WERE SHOWN IN THE MIRRORS EVERY TIME.",
+   "reason_code": null,
+   "vague": false,
+   "gold_index": null,
+   "subject": null,
+   "predicate": null,
+   "object": null
+  }
+ ],
+ "recall": [
+  {
+   "gold_index": 0,
+   "matched_fact": "ed49f5effcd9",
+   "reason": "the rust problem put on the rear wheel wells"
+  },
+  {
+   "gold_index": 1,
+   "matched_fact": null,
+   "reason": "no fact places the rear wheel wells in the Escape (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 2,
+   "matched_fact": "ae857f7614e8",
+   "reason": "the hesitation put on the accelerator, as the earlier pass accepted"
+  },
+  {
+   "gold_index": 3,
+   "matched_fact": null,
+   "reason": "no fact places the accelerator in the Escape (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 4,
+   "matched_fact": null,
+   "reason": "the only squeal-component fact quotes the diagnosis sentence and names the left rear brake (gold 6); the first sentence's brake squeal was extracted only at vehicle level, and one fact does not count for two statements"
+  },
+  {
+   "gold_index": 5,
+   "matched_fact": null,
+   "reason": "no fact places the brake in the Escape (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 6,
+   "matched_fact": "cf341f0fd2f7",
+   "reason": "the squeal put on the left rear brake the tech diagnosed"
+  },
+  {
+   "gold_index": 7,
+   "matched_fact": null,
+   "reason": "no fact places the left rear brake in the Escape (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 8,
+   "matched_fact": "c52f419145a3",
+   "reason": "the failure to deploy put on the air bags"
+  },
+  {
+   "gold_index": 9,
+   "matched_fact": null,
+   "reason": "no fact places the air bags in the Escape (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 10,
+   "matched_fact": "5c1f14510ae8",
+   "reason": "stalling at traffic lights reported for the Escape"
+  },
+  {
+   "gold_index": 11,
+   "matched_fact": "693c57660bce",
+   "reason": "accelerator hesitation reported for the Escape states the same claim as 'hesitating [upon acceleration]'; the extractor got no hesitation fact from complaint 10692693 itself, but the graph holds the claim"
+  },
+  {
+   "gold_index": 12,
+   "matched_fact": "e2433b91add6",
+   "reason": "the do-not-lock problem put on the trunk, same sentence"
+  },
+  {
+   "gold_index": 13,
+   "matched_fact": null,
+   "reason": "no fact places the trunk in the Civic; the schema has no component-to-vehicle fact type and the part reaches the vehicle only through the problem's two facts"
+  },
+  {
+   "gold_index": 14,
+   "matched_fact": "05975decf5a3",
+   "reason": "the do-not-lock problem put on the glove compartment, same sentence"
+  },
+  {
+   "gold_index": 15,
+   "matched_fact": null,
+   "reason": "no fact places the glove compartment in the Civic (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 16,
+   "matched_fact": "a05bebc726e0",
+   "reason": "unpredictable reaction put on the ACC, the system the when-clause names"
+  },
+  {
+   "gold_index": 17,
+   "matched_fact": "0e2b6cfb47fd",
+   "reason": "unpredictable reaction put on the LKAS, the system the when-clause names"
+  },
+  {
+   "gold_index": 18,
+   "matched_fact": "73fa841e6d8b",
+   "reason": "sudden braking put on the ACC (earlier passes missed only because the problem was on the Civic)"
+  },
+  {
+   "gold_index": 19,
+   "matched_fact": "1dbed706568d",
+   "reason": "sudden braking put on the LKAS"
+  },
+  {
+   "gold_index": 20,
+   "matched_fact": "a47a1615a4e5",
+   "reason": "rapid deceleration put on the ACC"
+  },
+  {
+   "gold_index": 21,
+   "matched_fact": "f3fd8dca5015",
+   "reason": "rapid deceleration put on the LKAS"
+  },
+  {
+   "gold_index": 22,
+   "matched_fact": "d6955afb1fc1",
+   "reason": "departing the highway put on the ACC"
+  },
+  {
+   "gold_index": 23,
+   "matched_fact": "908b8eff65b2",
+   "reason": "departing the highway put on the LKAS"
+  },
+  {
+   "gold_index": 24,
+   "matched_fact": null,
+   "reason": "no fact places the ACC in the Civic (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 25,
+   "matched_fact": null,
+   "reason": "no fact places the LKAS in the Civic (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 26,
+   "matched_fact": "5dfb2641359f",
+   "reason": "the component cause the old schema could not hold: PISTON CLIP RING CAUSES ENGINE FAILURE names the part, unlike the earlier 'this part failure' facts"
+  },
+  {
+   "gold_index": 27,
+   "matched_fact": "29bbdae85942",
+   "reason": "the component cause the old schema could not hold: PISTON CLIP RING CAUSES STALLING names the part"
+  },
+  {
+   "gold_index": 28,
+   "matched_fact": null,
+   "reason": "no fact places the piston clip ring in the Civic; the recall AFFECTS_VEHICLE fact is about the recall, not the part"
+  },
+  {
+   "gold_index": 29,
+   "matched_fact": "5f71170c9c12",
+   "reason": "the piston clip ring recall addresses the piston clip ring (COVERS_COMPONENT ~ ADDRESSES_COMPONENT)"
+  },
+  {
+   "gold_index": 30,
+   "matched_fact": "246a6bd7c1ed",
+   "reason": "the piston snap ring recall addresses the piston snap ring (COVERS_COMPONENT ~ ADDRESSES_COMPONENT)"
+  },
+  {
+   "gold_index": 31,
+   "matched_fact": "8de09e3d1d98",
+   "reason": "same claim and sentence: the speedometer failure involves the speedometer"
+  },
+  {
+   "gold_index": 32,
+   "matched_fact": null,
+   "reason": "no single fact places the speedometer in the Rogue: the schema has no part-to-vehicle type; e883c5c5449e puts the failure on the vehicle, not the speedometer"
+  },
+  {
+   "gold_index": 33,
+   "matched_fact": "1c66023c92e9",
+   "reason": "same claim and sentence: mistaking the bridge for an object involves the front camera system"
+  },
+  {
+   "gold_index": 34,
+   "matched_fact": "cc7b53e62d6f",
+   "reason": "the brake activation is attributed to the front camera system, as the gold does; the R62 miss was because that graph put the braking only on the brakes and the vehicle, this graph has the camera -> braking fact"
+  },
+  {
+   "gold_index": 35,
+   "matched_fact": null,
+   "reason": "no single fact places the front camera system in the Rogue: the schema has no part-to-vehicle type; a10cfac3758c puts the misdetection on the vehicle, not the camera"
+  },
+  {
+   "gold_index": 36,
+   "matched_fact": "49be24ef4919",
+   "reason": "same claim: the car not stopping is reported for the Rogue"
+  },
+  {
+   "gold_index": 37,
+   "matched_fact": null,
+   "reason": "no fact carries the crash: nothing states that not stopping led to hitting the concrete wall"
+  },
+  {
+   "gold_index": 38,
+   "matched_fact": "27ef58d4ea2e",
+   "reason": "same claim and sentence: the erroneous switch to reverse involves the transmission"
+  },
+  {
+   "gold_index": 39,
+   "matched_fact": null,
+   "reason": "no single fact places the transmission in the Rogue: the schema has no part-to-vehicle type; c395382563a9 puts the reverse-switch problem on the vehicle, not the transmission"
+  },
+  {
+   "gold_index": 40,
+   "matched_fact": "0d4801cb4125",
+   "reason": "same claim: the vehicle moving backwards is reported for the Rogue"
+  },
+  {
+   "gold_index": 41,
+   "matched_fact": "f7629c778dbf",
+   "reason": "same claim and sentence: the gauge not moving involves the gas gauge"
+  },
+  {
+   "gold_index": 42,
+   "matched_fact": null,
+   "reason": "no single fact places the gas gauge in the Rogue: the schema has no part-to-vehicle type; 71eda9b85fc2 and 0512821f590b put the problems on the vehicle, not the gauge"
+  },
+  {
+   "gold_index": 43,
+   "matched_fact": "e345f6e33200",
+   "reason": "same claim and sentence: the windshield crack on the 4th day of ownership involves the windshield"
+  },
+  {
+   "gold_index": 44,
+   "matched_fact": null,
+   "reason": "no single fact places the windshield in the Outback: the schema has no part-to-vehicle type, the placement exists only as the two-hop path crack->windshield plus crack->Outback (c71324be9806 puts the crack, not the windshield, on the vehicle)"
+  },
+  {
+   "gold_index": 45,
+   "matched_fact": "a3812b8357ef",
+   "reason": "same claim and sentence: the navigation system failure involves the navigation system"
+  },
+  {
+   "gold_index": 46,
+   "matched_fact": "5825cf77c0e2",
+   "reason": "same claim: the system that freezes up is the navigation system"
+  },
+  {
+   "gold_index": 47,
+   "matched_fact": "8e61f97867bb",
+   "reason": "same cause-effect: the freeze of the navigation system causes everything not to work; the new CAUSES type carries the cause as the component, the gold as its failure mode"
+  },
+  {
+   "gold_index": 48,
+   "matched_fact": "5033ba19ba8e",
+   "reason": "same claim and sentence: the system that stays on at night is the navigation system"
+  },
+  {
+   "gold_index": 49,
+   "matched_fact": "59189cc1752d",
+   "reason": "same cause-effect: the navigation system staying on drains the battery; the new CAUSES type carries the cause as the component, the gold as its failure mode"
+  },
+  {
+   "gold_index": 50,
+   "matched_fact": null,
+   "reason": "no single fact places the navigation system in the Outback: the schema has no part-to-vehicle type; cd65a65aaac5 puts the problem on the nav system and e241910efcfe puts a problem on the Outback, neither places the part"
+  },
+  {
+   "gold_index": 51,
+   "matched_fact": "15925ec05052",
+   "reason": "same claim and sentence: the dead battery of complaint 11166434 involves the battery"
+  },
+  {
+   "gold_index": 52,
+   "matched_fact": null,
+   "reason": "no single fact places the battery in the Outback: the schema has no part-to-vehicle type; 863bbefc1cc4 puts the dead-battery problem on the vehicle, not the battery"
+  },
+  {
+   "gold_index": 53,
+   "matched_fact": "b003082a42cc",
+   "reason": "same claim and sentence: the parasitic battery drain involves the battery"
+  },
+  {
+   "gold_index": 54,
+   "matched_fact": null,
+   "reason": "no fact states that the battery would not take a jump (the sentence 'NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP' produced no claim)"
+  },
+  {
+   "gold_index": 55,
+   "matched_fact": "fd9c22bcf825",
+   "reason": "same claim and sentence: no feedback from the steering wheel involves the steering wheel"
+  },
+  {
+   "gold_index": 56,
+   "matched_fact": null,
+   "reason": "no single fact places the steering wheel in the Outback: the schema has no part-to-vehicle type; e99273d8bd49 puts the no-feedback problem on the vehicle, not the steering wheel"
+  },
+  {
+   "gold_index": 57,
+   "matched_fact": null,
+   "reason": "no fact carries the 'do not have any control' symptom; e99273d8bd49 is the separate no-steering-feedback symptom of the same sentence, a claim on another subject"
+  },
+  {
+   "gold_index": 58,
+   "matched_fact": "d7d91c266e2c",
+   "reason": "the shifter-came-out problem put on the gear shifter, as the earlier pass accepted"
+  },
+  {
+   "gold_index": 59,
+   "matched_fact": null,
+   "reason": "no fact places the gear shifter in the RAV4 (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 60,
+   "matched_fact": "8ebb6e5e2fc5",
+   "reason": "the fact 'shook and rattled' on the exterior mirrors states the shaking"
+  },
+  {
+   "gold_index": 61,
+   "matched_fact": "8ebb6e5e2fc5",
+   "reason": "the same fact states the rattling in its own wording; not a duplicate gold pair but one sentence split into two claims, both stated by this one fact"
+  },
+  {
+   "gold_index": 62,
+   "matched_fact": "02057dd9471c",
+   "reason": "the double image put on the rearview mirrors; the earlier pass accepted plain 'mirrors' for the exterior mirrors"
+  },
+  {
+   "gold_index": 63,
+   "matched_fact": null,
+   "reason": "no fact places the exterior mirrors in the RAV4 (no component-to-vehicle fact type)"
+  },
+  {
+   "gold_index": 64,
+   "matched_fact": "57e673410b61",
+   "reason": "no acceleration reported for the RAV4; 'RAV4' is this file's 2019 Toyota RAV4"
+  },
+  {
+   "gold_index": 65,
+   "matched_fact": "5d013f3a67b3",
+   "reason": "the auto-shutoff problem reported for the RAV4, as the earlier pass accepted; the subject drops 'premature' but the sentence is the same"
+  },
+  {
+   "gold_index": 66,
+   "matched_fact": null,
+   "reason": "no fact from complaint 11229137: the wind noise was not extracted at all"
+  },
+  {
+   "gold_index": 67,
+   "matched_fact": null,
+   "reason": "no fact from complaint 11229137: the freon smell was not extracted at all"
+  }
+ ],
+ "er": [
+  {
+   "pair_index": 1,
+   "a_entity": "baf6feaeb5893c7e",
+   "b_entity": null,
+   "reason": "'hesitation' is ACCELERATOR HESITATION; the Escape's 'stalling ... and hesitating upon acceleration' became only STALLING AT TRAFFIC LIGHTS UPON ACCELERATION: no entity is the hesitating"
+  },
+  {
+   "pair_index": 2,
+   "a_entity": "75893735ae05936a",
+   "b_entity": "75893735ae05936a",
+   "reason": "'crack' and 'cracked' are WINDSHIELD CRACK (alias WINDSHIELD SPONTANEOUSLY CRACKED)"
+  },
+  {
+   "pair_index": 4,
+   "a_entity": "e2f95f39f37fd989",
+   "b_entity": null,
+   "reason": "'brake suddenly' is RAPIDLY DECELERATE (alias VEHICLE MAY BRAKE SUDDENLY); 'THE CAR BRAKED ON ITS OWN' was not extracted"
+  },
+  {
+   "pair_index": 6,
+   "a_entity": "1f02fe6346199e3c",
+   "b_entity": "1f02fe6346199e3c",
+   "reason": "both name the vehicle entity OUTBACK"
+  },
+  {
+   "pair_index": 7,
+   "a_entity": "bc72fcd6a7c83033",
+   "b_entity": "bc72fcd6a7c83033",
+   "reason": "both are ADAPTIVE CRUISE CONTROL (ACC)"
+  },
+  {
+   "pair_index": 8,
+   "a_entity": "de23f8f5d678b7d1",
+   "b_entity": "de23f8f5d678b7d1",
+   "reason": "both are VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS)"
+  },
+  {
+   "pair_index": 9,
+   "a_entity": "bc72fcd6a7c83033",
+   "b_entity": "de23f8f5d678b7d1",
+   "reason": "ACC and LKAS are separate Component entities"
+  },
+  {
+   "pair_index": 11,
+   "a_entity": "17099a50cfcac14c",
+   "b_entity": "0a8eeadf1b5da8bf",
+   "reason": "'brake' is THE BRAKES; 'left rear brake' is LEFT REAR BRAKE"
+  },
+  {
+   "pair_index": 13,
+   "a_entity": "02c776c7c4a820f5",
+   "b_entity": null,
+   "reason": "'did not stop' is THE CAR DID NOT STOP; 'braked on its own' was not extracted"
+  },
+  {
+   "pair_index": 14,
+   "a_entity": "84481f5beb151904",
+   "b_entity": "baf6feaeb5893c7e",
+   "reason": "'hesitation' is ACCELERATOR HESITATION"
+  },
+  {
+   "pair_index": 17,
+   "a_entity": "f1470c5b33ae8a1e",
+   "b_entity": "d8f873eda8fc7aeb",
+   "reason": "'front camera system' is THE FRONT CAMERA SYSTEM"
+  },
+  {
+   "pair_index": 19,
+   "a_entity": "4d34c5b26c82dce1",
+   "b_entity": "4d34c5b26c82dce1",
+   "reason": "'shook' and 'rattled' are one Problem: EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED"
+  },
+  {
+   "pair_index": 20,
+   "a_entity": "1f02fe6346199e3c",
+   "b_entity": "fcc4315a6b8ec895",
+   "reason": "the vehicle entities OUTBACK and RAV4"
+  }
+ ],
+ "polarity": [
+  {
+   "id": "01074733e7b5",
+   "correct": true,
+   "reason": "a mileage is a plain measure: neutral"
+  },
+  {
+   "id": "1b43d1298235",
+   "correct": true,
+   "reason": "defensible: linking the hesitation to the turbo reports a fault (negative), but the source presents it as normal operation"
+  },
+  {
+   "id": "1e15a3ea39f6",
+   "correct": true,
+   "reason": "a mileage is a plain measure: neutral"
+  },
+  {
+   "id": "37c3a0c4d346",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: brake squeal reported for the Escape is a fault report: negative, not neutral"
+  },
+  {
+   "id": "477092b92481",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: rusted wheel wells reported for the Escape is a fault report: negative, not neutral"
+  },
+  {
+   "id": "5c1f14510ae8",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: stalling reported for the Escape is a fault report: negative, not neutral"
+  },
+  {
+   "id": "693c57660bce",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: accelerator hesitation reported for the Escape is a fault report: negative, not neutral"
+  },
+  {
+   "id": "751857115f51",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: air bags failing to deploy, reported for the Escape, is a fault report: negative, not neutral"
+  },
+  {
+   "id": "75b267594e14",
+   "correct": true,
+   "reason": "defensible: linking the hesitation to the engine reports a fault (negative), but the source presents it as normal operation"
+  },
+  {
+   "id": "83af47e4d58d",
+   "correct": true,
+   "reason": "the claim (though unsupported) reports an air bag fault: negative"
+  },
+  {
+   "id": "ae857f7614e8",
+   "correct": true,
+   "reason": "accelerator hesitation is a fault: negative"
+  },
+  {
+   "id": "c52f419145a3",
+   "correct": false,
+   "reason": "air bags failing to deploy is a fault report: negative, not neutral"
+  },
+  {
+   "id": "c81681529120",
+   "correct": true,
+   "reason": "a mileage is a plain measure: neutral"
+  },
+  {
+   "id": "cf341f0fd2f7",
+   "correct": false,
+   "reason": "a squeal diagnosed to the left rear brake is a fault report: negative, not neutral"
+  },
+  {
+   "id": "d5f5d2d1da18",
+   "correct": true,
+   "reason": "a mileage is a plain measure: neutral"
+  },
+  {
+   "id": "d7fcfe450e5c",
+   "correct": true,
+   "reason": "hesitation associated with the engine is a fault: negative"
+  },
+  {
+   "id": "ed49f5effcd9",
+   "correct": true,
+   "reason": "rusted wheel wells is a fault: negative"
+  },
+  {
+   "id": "fd139be995be",
+   "correct": true,
+   "reason": "hesitation associated with the turbo is a fault: negative"
+  },
+  {
+   "id": "0504ffd4913e",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: rapid deceleration reported for the Civic is a fault report: negative, not neutral"
+  },
+  {
+   "id": "05975decf5a3",
+   "correct": true,
+   "reason": "a compartment that does not lock is a fault: negative"
+  },
+  {
+   "id": "0e2b6cfb47fd",
+   "correct": false,
+   "reason": "an unpredictable vehicle reaction involving LKAS is a fault report: negative, not neutral"
+  },
+  {
+   "id": "1dbed706568d",
+   "correct": true,
+   "reason": "sudden braking is a fault: negative"
+  },
+  {
+   "id": "246a6bd7c1ed",
+   "correct": true,
+   "reason": "a recall addressing a part only states what is so: neutral"
+  },
+  {
+   "id": "250b2b451e7e",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: a trunk that cannot be locked, reported for the Civic, is a fault: negative, not neutral"
+  },
+  {
+   "id": "29bbdae85942",
+   "correct": true,
+   "reason": "a part failure causing stalling is a fault: negative"
+  },
+  {
+   "id": "312fce087e8a",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: departing the highway reported for the Civic is a fault: negative, not neutral"
+  },
+  {
+   "id": "41a792e7e112",
+   "correct": true,
+   "reason": "a trunk that cannot be locked is a fault: negative"
+  },
+  {
+   "id": "4ddeeeb614e5",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: compartments that do not lock, reported for the Civic, is a fault: negative, not neutral"
+  },
+  {
+   "id": "4f6e6b7a4977",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: stalling reported for the Civic is a fault: negative, not neutral"
+  },
+  {
+   "id": "5dd0b0e71695",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: an unpredictable reaction reported for the Civic is a fault: negative, not neutral"
+  },
+  {
+   "id": "5dfb2641359f",
+   "correct": true,
+   "reason": "a part failure causing engine failure is a fault: negative"
+  },
+  {
+   "id": "5f71170c9c12",
+   "correct": true,
+   "reason": "defensible: a recall addressing a part is neutral in itself, but the sentence complains of a recall with no fix"
+  },
+  {
+   "id": "608d30c29bab",
+   "correct": true,
+   "reason": "unwanted slowing by 10-15 mph is a fault: negative"
+  },
+  {
+   "id": "73fa841e6d8b",
+   "correct": true,
+   "reason": "sudden braking is a fault: negative"
+  },
+  {
+   "id": "76132daa4320",
+   "correct": true,
+   "reason": "engine failure involving the part is a fault: negative"
+  },
+  {
+   "id": "8af31750940a",
+   "correct": true,
+   "reason": "a recall affecting the vehicle states what is so: neutral (negative defensible from the complaint tone)"
+  },
+  {
+   "id": "908b8eff65b2",
+   "correct": true,
+   "reason": "departing the highway is a fault: negative"
+  },
+  {
+   "id": "9dc911b0b70c",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: engine failure reported for the Civic is a fault: negative, not neutral"
+  },
+  {
+   "id": "a05bebc726e0",
+   "correct": false,
+   "reason": "an unpredictable vehicle reaction involving ACC is a fault report: negative, not neutral"
+  },
+  {
+   "id": "a2bedba22ef6",
+   "correct": true,
+   "reason": "defensible: a recall affecting the vehicle is neutral in itself, but the sentence calls the car unsafe with no fix"
+  },
+  {
+   "id": "a47a1615a4e5",
+   "correct": true,
+   "reason": "rapid deceleration is a fault: negative"
+  },
+  {
+   "id": "d6955afb1fc1",
+   "correct": true,
+   "reason": "departing the highway is a fault: negative"
+  },
+  {
+   "id": "df41cd26e150",
+   "correct": true,
+   "reason": "unwanted slowing by 10-15 mph is a fault: negative"
+  },
+  {
+   "id": "e2433b91add6",
+   "correct": true,
+   "reason": "a trunk that does not lock is a fault: negative"
+  },
+  {
+   "id": "e515709026bd",
+   "correct": true,
+   "reason": "stalling involving the part is a fault: negative"
+  },
+  {
+   "id": "f3fd8dca5015",
+   "correct": true,
+   "reason": "rapid deceleration is a fault: negative"
+  },
+  {
+   "id": "0512821f590b",
+   "correct": true,
+   "reason": "defensible: a derived where-reported relation only states that the problem was reported for this vehicle; the fault itself is carried by the problem's component fact"
+  },
+  {
+   "id": "08acba431c46",
+   "correct": true,
+   "reason": "defensible: a plain mileage measure, but it is the failure mileage of a complaint, so negative is a careful reading too"
+  },
+  {
+   "id": "0d2b46879da3",
+   "correct": true,
+   "reason": "reports a fault (gauge stuck showing full)"
+  },
+  {
+   "id": "0d4801cb4125",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "1c66023c92e9",
+   "correct": true,
+   "reason": "reports a fault (camera misdetection)"
+  },
+  {
+   "id": "249756236987",
+   "correct": true,
+   "reason": "defensible: a plain mileage measure, but it is the failure mileage of a complaint, so negative is a careful reading too"
+  },
+  {
+   "id": "27ef58d4ea2e",
+   "correct": true,
+   "reason": "reports a fault (transmission switched to reverse)"
+  },
+  {
+   "id": "32ceff3888e6",
+   "correct": true,
+   "reason": "reports a fault (vehicle moved backwards)"
+  },
+  {
+   "id": "3f5be88bb285",
+   "correct": true,
+   "reason": "reports a fault (speedometer failure); the tone is right even though the relation is not"
+  },
+  {
+   "id": "49be24ef4919",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "49f51a309a03",
+   "correct": true,
+   "reason": "reports a fault (camera misdetection); the tone is right even though the relation is not"
+  },
+  {
+   "id": "5288276df361",
+   "correct": true,
+   "reason": "reports a fault (brakes activated on their own)"
+  },
+  {
+   "id": "6faffd37e443",
+   "correct": true,
+   "reason": "reports a harm the component causes (vehicle moved backwards)"
+  },
+  {
+   "id": "71eda9b85fc2",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "784b304a22b1",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "8de09e3d1d98",
+   "correct": true,
+   "reason": "reports a fault (speedometer failed)"
+  },
+  {
+   "id": "a10cfac3758c",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "c395382563a9",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "cc7b53e62d6f",
+   "correct": true,
+   "reason": "reports a harm the component causes (unwanted braking)"
+  },
+  {
+   "id": "cfb22b9b20b9",
+   "correct": true,
+   "reason": "reports a fault (car did not stop)"
+  },
+  {
+   "id": "e883c5c5449e",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "f7629c778dbf",
+   "correct": true,
+   "reason": "reports a fault (gauge not moving)"
+  },
+  {
+   "id": "097455f6dba1",
+   "correct": true,
+   "reason": "reports a fault (battery drained by the system staying on)"
+  },
+  {
+   "id": "15925ec05052",
+   "correct": true,
+   "reason": "reports a fault (dead battery)"
+  },
+  {
+   "id": "37e3598b2785",
+   "correct": true,
+   "reason": "defensible: a derived where-reported relation only states that the problem was reported for this vehicle; the fault itself is carried by the problem's component fact"
+  },
+  {
+   "id": "5033ba19ba8e",
+   "correct": true,
+   "reason": "reports a fault (nav system stays on at night)"
+  },
+  {
+   "id": "52765226b5de",
+   "correct": true,
+   "reason": "reports dissatisfaction (poor quality and design)"
+  },
+  {
+   "id": "53a14fbf3c5f",
+   "correct": true,
+   "reason": "reports a fault (back-up camera not working)"
+  },
+  {
+   "id": "5825cf77c0e2",
+   "correct": true,
+   "reason": "reports a fault (system freezes)"
+  },
+  {
+   "id": "59189cc1752d",
+   "correct": true,
+   "reason": "reports a harm the component causes (battery drain)"
+  },
+  {
+   "id": "5d15be31d848",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "67d77481d5e6",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "72e43137c318",
+   "correct": true,
+   "reason": "reports a fault (windshield cracked)"
+  },
+  {
+   "id": "7532ffcb88f3",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "863bbefc1cc4",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "8e61f97867bb",
+   "correct": true,
+   "reason": "reports a harm the component causes (everything stops working)"
+  },
+  {
+   "id": "9c49e6259c0c",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "a3812b8357ef",
+   "correct": true,
+   "reason": "reports a fault (navigation system failure)"
+  },
+  {
+   "id": "a828f7f20027",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "abc22109b0d4",
+   "correct": true,
+   "reason": "defensible: a plain mileage measure, but stated in a complaint about a battery dying under 2000 miles, so negative is a careful reading too"
+  },
+  {
+   "id": "b003082a42cc",
+   "correct": true,
+   "reason": "reports a fault (parasitic drain)"
+  },
+  {
+   "id": "b0e3d3b0db25",
+   "correct": true,
+   "reason": "reports a fault (works less and less)"
+  },
+  {
+   "id": "c71324be9806",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "cd65a65aaac5",
+   "correct": true,
+   "reason": "reports a fault (problems using the nav system)"
+  },
+  {
+   "id": "ce47b7b99839",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "e23411e1e891",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "e241910efcfe",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "e345f6e33200",
+   "correct": true,
+   "reason": "reports a fault (windshield crack)"
+  },
+  {
+   "id": "e99273d8bd49",
+   "correct": true,
+   "reason": "defensible: derived where-reported relation, neutral toward its subject"
+  },
+  {
+   "id": "f06acd124691",
+   "correct": true,
+   "reason": "reports a fault (dead battery)"
+  },
+  {
+   "id": "f7ee3629b5e5",
+   "correct": true,
+   "reason": "reports a fault (radio not working)"
+  },
+  {
+   "id": "fd9c22bcf825",
+   "correct": true,
+   "reason": "reports a fault (no steering feedback)"
+  },
+  {
+   "id": "02057dd9471c",
+   "correct": true,
+   "reason": "mirrors showing a double image is a fault: negative"
+  },
+  {
+   "id": "05de8b30791b",
+   "correct": true,
+   "reason": "the claim (though unsupported) reports a gauge fault: negative"
+  },
+  {
+   "id": "107fad7224bb",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: a failure reported for the RAV4 is a fault report: negative, not neutral"
+  },
+  {
+   "id": "310574986da3",
+   "correct": true,
+   "reason": "premature pump shutoff is a fault: negative"
+  },
+  {
+   "id": "3a1e04cfb08e",
+   "correct": true,
+   "reason": "no acceleration on the pedal is a fault: negative"
+  },
+  {
+   "id": "3e809c73a877",
+   "correct": false,
+   "reason": "a shifter coming out of the transmission box is a fault report: negative, not neutral"
+  },
+  {
+   "id": "57e673410b61",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: no acceleration reported for the RAV4 is a fault report: negative, not neutral"
+  },
+  {
+   "id": "5d013f3a67b3",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: premature auto-shutoff reported for the RAV4 is a fault report: negative, not neutral"
+  },
+  {
+   "id": "5f8fe632746f",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: the shifter coming out, reported for the RAV4, is a fault report: negative, not neutral"
+  },
+  {
+   "id": "6958ac424a55",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: blurred vision from the mirror, reported for the RAV4, is a harm: negative, not neutral"
+  },
+  {
+   "id": "6f0096260889",
+   "correct": true,
+   "reason": "blurred vision caused by the mirror is a harm: negative"
+  },
+  {
+   "id": "8ebb6e5e2fc5",
+   "correct": true,
+   "reason": "shaking and rattling mirrors is a fault: negative"
+  },
+  {
+   "id": "90078ec9f53e",
+   "correct": true,
+   "reason": "defensible: a mileage is a plain measure (neutral), but it is the failure's mileage in a fault sentence"
+  },
+  {
+   "id": "9a70eb18ece4",
+   "correct": true,
+   "reason": "a mirror 'especially affected' by the defect is a fault: negative"
+  },
+  {
+   "id": "9cf283ea8890",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: shaking mirrors reported for the RAV4 is a fault report: negative, not neutral"
+  },
+  {
+   "id": "9cfa0f5fcef2",
+   "correct": true,
+   "reason": "a mileage is a plain measure: neutral"
+  },
+  {
+   "id": "bdada9e1dcbe",
+   "correct": true,
+   "reason": "a gauge not indicating full is a fault: negative"
+  },
+  {
+   "id": "cdde66c50509",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: the gauge not indicating full, reported for the RAV4, is a fault report: negative, not neutral"
+  },
+  {
+   "id": "d7d91c266e2c",
+   "correct": false,
+   "reason": "a shifter coming out of the box is a fault report: negative, not neutral"
+  },
+  {
+   "id": "ebb5ccf12718",
+   "correct": true,
+   "reason": "lead judge (rule 2): a derived 'problem concerns vehicle' states what is so, like a part belongs to a product; neutral is correct. Agent's reading: a double image in the mirrors, reported for the RAV4, is a fault report: negative, not neutral"
+  }
+ ]
+}

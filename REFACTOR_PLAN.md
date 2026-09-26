@@ -1830,7 +1830,7 @@ OBJECT]-> kind`. The R58 files stay as the record of R58-R64.
     Linköping Bed through a mentioned "frame"); on the observation walk it passes.
 - Closes the R58 item "Questions 3 and 5 join through an entity's mentions".
 
-### R66. Polarity, values and time (part 1 done, 2026-09-25; part 2 waits for the user's yes)
+### R66. Polarity, values and time (part 1 done 2026-09-25; part 2 measured 2026-09-26: held-out recall bound missed, decision with the user)
 Every claim carries its qualifiers: whether it is positive, negative or neutral, the time its sentence gives,
 and a number with a unit as its object. The schema proposer describes aspects of things, not only defects.
 - **Part 1 (done, 2026-09-25): code and tests, $0, no run.**
@@ -1877,6 +1877,63 @@ and a number with a unit as its object. The schema proposer describes aspects of
   chose DeepSeek-V4.1-Flash as the builder model, so the runs use the `quality_deepseek` and
   `heldout_deepseek` presets of R69. The comparison with R62 (Gemini) then changes model and code at once;
   the user accepted that, and if a bound is missed, a Gemini run is proposed to tell the two apart.
+  - Runs (fresh text schema each, frozen R62 plan, `EXTRACT_PASSES=2`), $1.35 at the peak price (upper
+    bound; off-peak is half): furniture text_schema `545b0c04` $0.034, extract `76730376` $0.801, resolve
+    `6079366f` $0.147; held-out text_schema `7a1b5611` $0.045, extract `1e579b3b` $0.292, resolve `04f3b7b7`
+    $0.034. DeepSeek at effort `low` still thought about 3,900 tokens per extraction call (Gemini at `low`:
+    37), three times the estimate given to the user. Then a cached rebuild for scoring ($0, every call a
+    cache hit): eval `9bff1263` (furniture) and `bbcd4ded` (held-out), same claims and ids.
+  - The proposed schemas describe aspects: furniture has Product, Component, Material, Supplier,
+    AssemblyProcess, Condition and 15 fact types (HAS_CONDITION for good and bad alike, MADE_OF,
+    HAS_MEASURE / TAKES_TIME / HAS_RATING to `Value`, CAUSES, FITS_WITH); held-out has Vehicle, Recall,
+    Problem, Component and 7 (INVOLVES_COMPONENT, CAUSES, OCCURRED_AT_MILEAGE to `Value`, derived
+    CONCERNS_VEHICLE, three recall types) and **no relation between a part and a vehicle**.
+  - What the graph now holds (MLflow, extract runs): furniture 498 observations, 257 positive / 99 neutral /
+    142 negative, 116 with a number, 29 with a time; held-out 78, 0 / 15 / 63, 9, 6. The criteria's
+    examples are all there: "drawer slides HAS_MEASURE 25kg" (Linköping; neutral, where the plan expected
+    positive), "weighted base HAS_MEASURE 3.2kg" (Örebro), "Gothenburg Table HAS_CONDITION resistant to
+    scratches" (positive) next to "... scratches a bit more easily than I'd like" (negative, another
+    review), "slats HAS_CONDITION started to crack", time "after just two months of use" (Linköping).
+  - Judge: Claude Fable 5.1 in the session, every claim, split by document over 7 agents with one rule set
+    (`tests/gold/r66/`); entity pairs by the lead judge. Gold: `tests/gold/r65/` (R58 triples, unchanged).
+
+    | | Furniture R62 | Furniture **R66** | Held-out R62 | Held-out **R66** |
+    |---|---|---|---|---|
+    | claims in the graph | 172 | 604 | 150 | 118 |
+    | judge precision | 1.000 (170/170) | **0.990** (598/604, CI 0.978-0.995) | 0.925 (135/146) | **0.958** (113/118, CI 0.905-0.982) |
+    | judge recall | 0.927 (89/96) | **0.896** (86/96, CI 0.819-0.942) | 0.824 (56/68) | **0.618** (42/68, CI 0.499-0.724) |
+    | polarity accuracy | - | **0.980** (592/604) | - | **0.949** (112/118) |
+    | `path_truth` | 0.640 | **1.000** (496/496) | 0.750 | **1.000** (78/78) |
+    | `question_accuracy` | 0.8 | 0.167 | 1.0 | 1.0 |
+
+  - Bounds: furniture precision (>= 0.98) and held-out precision (>= 0.87) met; furniture recall within one
+    sample (R62's 0.927 is inside R66's interval); **held-out recall missed** (0.618, interval up to 0.724).
+    Model and code changed together, so the cause is not separated (as agreed with the user).
+  - Held-out recall misses by cause (26): 15 `INSTALLED_IN` gold triples (a part in the complaint's
+    vehicle): the proposed schema has no part-vehicle relation, so no single claim can state it (without
+    them 42/53 = 0.79); 11 others, e.g. a whole complaint with no claim ("you can hear wind ... smell freon",
+    RAV4) and consequences not extracted ("pumped on the brake pedal twice before hitting the concrete wall").
+  - Furniture recall misses (10): the extractor splits a stated cause into two plain conditions ("rough,
+    uneven surfaces that cause the drawers to stick" -> no CAUSES, gold 17/18), assembly-effect duplicates
+    (gold 6, 37, 64, 71), veneer typed as Material so no part claim (gold 81, 94).
+  - Unsupported claims (11 of 722): the negation dropped into polarity ("drawers HAS_CONDITION slide right",
+    from "couldn't get the drawers to slide right": contradicted); a claim lifted onto the product ("Malmö
+    Desk HAS_CONDITION adequate for my needs" from "the storage is adequate"); a figure of speech as a
+    rating ("10/10 would recommend"); a part blamed for the reviewer's own mistake (back rest "upside down");
+    circular causes ("AIR BAGS CAUSES AIR BAGS FAILED TO DEPLOY"); a distance read as a mileage ("150 miles
+    later").
+  - Polarity errors: furniture 12, of which 11 are star ratings tagged neutral while the same rating in
+    another review is tagged right; held-out 6 (INVOLVES_COMPONENT tagged neutral). Lead-judge ruling:
+    derived claims (`PART_OF` a product, `CONCERNS_VEHICLE`) are neutral by rule 2; one held-out agent had
+    marked its 20 derived `CONCERNS_VEHICLE` claims wrong, so held-out polarity is 0.949 under the rule and
+    0.780 (92/118) under that agent's reading. Both readings are in the verdict reasons.
+  - `question_accuracy` 0.167 on furniture: the gold questions filter on `HAS_DEFECT`; the new schema calls
+    faults `HAS_CONDITION` with negative polarity. The questions are tied to one schema's names (R55 saw the
+    same with proposed plans); held-out questions search names and pass.
+  - Gold corrections: 469 (furniture) and 72 (held-out) supported claims are not in the defect-only gold, as
+    expected when the schema widens; none changed the gold.
+  - One bug found and fixed in its own commit: `kg rescore` failed on number claims (see "Found along the
+    way").
 
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
@@ -1904,6 +1961,19 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Star-rating polarity is unstable; it follows from the number (found in R66 part 2).** 11 of the 12
+  furniture polarity errors are `HAS_RATING` "4/5" or "2/5" tagged neutral while the same rating in another
+  review is tagged positive or negative. Candidate: code sets the polarity of a rating out of a maximum.
+- **Circular causes (found in R66 part 2).** "AIR BAGS CAUSES AIR BAGS FAILED TO DEPLOY", "SPEEDOMETER CAUSES
+  SPEEDOMETER FAILED": the component is the failing thing, not a cause. Candidate: `verify` rejects a
+  CAUSES whose object name contains its subject name (a closed, domain-neutral rule).
+- **The held-out schema has no part-vehicle relation (found in R66 part 2).** 15 of the 26 held-out recall
+  misses. The schema prompt asks for every kind of claim; a problem-centred proposal still left parts
+  unplaced. Candidate: a derived `Component <in> Vehicle` like R58's, or the R67 linking.
+- **Gold questions filter on predicate names (found in R66 part 2).** A proposed schema renames them
+  (`HAS_CONDITION` for `HAS_DEFECT`), and 5 of 6 furniture questions answer nothing. Candidate: questions
+  filter on polarity and entity names, not predicates (a gold correction, to be listed).
 
 - **(Fixed in its own commit, R66 part 2.) `kg rescore` failed on number claims (found in R66 part 2).** The
   judge sheet shows a claim's own wording ("30-35 hardcover books", "25kg"); the `Value` entity is named
