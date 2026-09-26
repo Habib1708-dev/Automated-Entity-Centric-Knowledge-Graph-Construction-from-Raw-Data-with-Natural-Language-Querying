@@ -1830,7 +1830,7 @@ OBJECT]-> kind`. The R58 files stay as the record of R58-R64.
     Linköping Bed through a mentioned "frame"); on the observation walk it passes.
 - Closes the R58 item "Questions 3 and 5 join through an entity's mentions".
 
-### R66. Polarity, values and time (part 1 done 2026-09-25; part 2 measured 2026-09-26: held-out recall bound missed, decision with the user)
+### R66. Polarity, values and time (done 2026-09-26: bounds met on Gemini; DeepSeek's held-out schema cost recall)
 Every claim carries its qualifiers: whether it is positive, negative or neutral, the time its sentence gives,
 and a number with a unit as its object. The schema proposer describes aspects of things, not only defects.
 - **Part 1 (done, 2026-09-25): code and tests, $0, no run.**
@@ -1934,6 +1934,30 @@ and a number with a unit as its object. The schema proposer describes aspects of
     expected when the schema widens; none changed the gold.
   - One bug found and fixed in its own commit: `kg rescore` failed on number claims (see "Found along the
     way").
+- **Part 3 (done 2026-09-26): one Gemini held-out run with the R66 code** (the user's choice, to separate the
+  model from the change). `heldout` preset, fresh schema, frozen R62 plan, `EXTRACT_PASSES=2`, output
+  `out/r66g_heldout/`. Runs: text_schema `713cb4ec` $0.114, extract `60beae24` $0.108, resolve `80a6234f`
+  $0.006 (**$0.23**); eval `d6314299`, judge scores logged by rescore `765bb07c`. Judge: Fable 5.1, every claim,
+  two agents with the same rules (`tests/gold/r66/judge_verdicts_heldout_gemini.json`).
+  - Gemini's schema, proposed with the same R66 prompt, keeps the derived `Component INSTALLED_IN Vehicle`
+    and adds numbers (OCCURS_AT_MILEAGE, OCCURS_AT_SPEED, HAS_DURATION, HAS_MILEAGE to `Value`). 152 claims:
+    0 positive / 16 neutral / 101 negative (extract metric; derived ones follow), 18 numbers, 51 times.
+
+    | Held-out | R62 (Gemini, frozen R58 schema) | R66 DeepSeek | **R66 Gemini** |
+    |---|---|---|---|
+    | judge precision | 0.925 (135/146) | 0.958 (113/118) | **0.960** (143/149) |
+    | judge recall | 0.824 (56/68) | 0.618 (42/68) | **0.824** (56/68) |
+    | polarity accuracy | - | 0.949 | **0.993** (151/152) |
+    | `path_truth` | 0.750 | 1.000 | **1.000** (113/113) |
+
+  - **All R66 bounds are met on Gemini**; the held-out recall loss of the DeepSeek run was DeepSeek's schema
+    choice (no part-vehicle relation), not the R66 change. Times: 0 of 51 wrong.
+  - Remaining misses (12): the ACC / LKAS symptoms put only on the vehicle with the when-clause as `time`
+    (Civic gold 18-23, the same miss as R62), "THIS PART FAILURE" causes not named on the piston clip ring
+    (gold 26-27, a two-hop path the one-fact rule does not count), and consequences not extracted (the
+    concrete wall, "wouldn't take a jump"). Unsupported (6): `SUBCOMPONENT_OF` claims from general knowledge
+    ("PADS SUBCOMPONENT_OF LEFT REAR BRAKE", "PISTON SNAP RING SUBCOMPONENT_OF ENGINE"), the gas gauge that is
+    the owner's evidence, not a fault (as R62), and "could cause an accident" stored as "causes".
 
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
