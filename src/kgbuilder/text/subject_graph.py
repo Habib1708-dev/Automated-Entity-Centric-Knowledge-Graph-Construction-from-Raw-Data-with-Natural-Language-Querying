@@ -13,7 +13,9 @@ node (R64):
       -[:SUBJECT]->(:Entity)   -[:OBJECT]->(:Entity)   -[:FROM]->(:Chunk)
 A claim's qualifiers (R66) are properties of its observation: its polarity, the time its sentence gives,
 and for a `Value` object the parsed number and unit. The value's entity is named in the canonical spelling
-("25 kg"), so "25kg" and "25 kilograms" are one node, while the claim keeps its own wording.
+("25 kg"), so "25kg" and "25 kilograms" are one node, while the claim keeps its own wording. Every wording
+is also an alias of that node: numbers are never merged by entity resolution, which is where other entities
+gain their other spellings, and the judge sheet finds a claim's entity by the claim's wording.
 The link stage later attaches it to the thing its document is about (`HAS_OBSERVATION`). The observation
 keeps the names the extractor gave its two ends (`subject_name`, `object_name`): entity resolution may
 rename a node to another review's wording of the same kind, the claim keeps what its own review said (R44).
@@ -120,10 +122,10 @@ def write_observations(driver: Driver, rows: list[ObservationRow], extractor: st
 
 def _collect(
     triples: list[Triple],
-) -> tuple[dict[str, dict[str, str]], set[tuple[str, str]], list[ObservationRow]]:
-    """The rows to write, without touching the graph: entities by id, (chunk id, entity id) mentions, and
-    one observation per distinct claim."""
-    entities: dict[str, dict[str, str]] = {}
+) -> tuple[dict[str, dict], set[tuple[str, str]], list[ObservationRow]]:
+    """The rows to write, without touching the graph: entities by id (id, name, type, aliases),
+    (chunk id, entity id) mentions, and one observation per distinct claim."""
+    entities: dict[str, dict] = {}
     mentions: set[tuple[str, str]] = set()
     observations: dict[str, ObservationRow] = {}
     for t in triples:
@@ -134,9 +136,14 @@ def _collect(
         for name, etype in ((t.subject, t.subject_type), (object_entity, t.object_type)):
             eid = entity_id(etype, name)
             # first spelling seen becomes the display name; other spellings become aliases during ER
-            entities.setdefault(eid, {"id": eid, "name": name.strip(), "type": etype})
+            entities.setdefault(
+                eid, {"id": eid, "name": name.strip(), "type": etype, "aliases": [name.strip()]}
+            )
             mentions.add((t.chunk_id, eid))
             ids.append(eid)
+        if quantity and t.object.strip() not in entities[ids[1]]["aliases"]:
+            # the number as this claim wrote it ("25kg"), next to the canonical name ("25 kg")
+            entities[ids[1]]["aliases"].append(t.object.strip())
         row = observation_row(
             t.predicate,
             ids[0],
@@ -163,8 +170,12 @@ def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -
     driver.execute_query(
         "UNWIND $rows AS r MERGE (e:Entity {id: r.id}) "
         # ON CREATE only: a rerun must not overwrite a name or aliases that entity resolution curated
-        "ON CREATE SET e.name = r.name, e.type = r.type, e.aliases = [r.name]",
+        "ON CREATE SET e.name = r.name, e.type = r.type, e.aliases = r.aliases "
+        # a number is never curated by resolution: a later extraction adds its wordings to the aliases
+        "ON MATCH SET e.aliases = CASE WHEN r.type = $value THEN "
+        "apoc.coll.toSet(coalesce(e.aliases, []) + r.aliases) ELSE e.aliases END",
         rows=list(entities.values()),
+        value=VALUE_TYPE,
     )
     driver.execute_query(
         "UNWIND $rows AS r MATCH (c:Chunk {chunk_id: r.c}), (e:Entity {id: r.e}) MERGE (c)-[:MENTIONS]->(e)",

@@ -241,3 +241,31 @@ def test_resolution_reads_the_tones_and_keeps_opposite_kinds_apart(driver):
     }
     # the two names are 97 alike by spelling and would merge without the guard
     assert resolve_entities(driver, llm=None, model="m", auto_merge=90).merges == 0
+
+
+@pytest.mark.neo4j
+def test_a_number_written_two_ways_can_be_rescored_from_its_judge_sheet(driver):
+    """Found in R66 part 2: the judge sheet shows a claim's own wording ("25kg"), the Value entity is named
+    "25 kg", and numbers are never merged, so no alias carried the wording and `kg rescore` failed."""
+    from kgbuilder.validation.er import ErSheet
+    from kgbuilder.validation.evaluate import read_entities as sheet_entities
+    from kgbuilder.validation.gold import GoldSet
+    from kgbuilder.validation.rescore import rescore
+
+    driver.execute_query("CREATE (:Chunk {chunk_id: 'a.md#0', text: $t})", t=CHUNK)
+    claims = [
+        triple("25kg", VALUE_TYPE),
+        triple("25 kilograms", VALUE_TYPE, evidence="rated for 25 kilograms"),
+    ]
+    write_subject_graph(driver, claims, extractor="m")
+    value = next(e for e in sheet_entities(driver) if e.type == VALUE_TYPE)
+    assert value.name == "25 kg" and {"25kg", "25 kilograms"} <= set(value.aliases)
+
+    gold = [
+        GoldTriple(
+            subject="drawer slides", predicate="RATED_FOR", object="25 kg", doc_id="a.md", evidence="q"
+        )
+    ]
+    sheet = build_sheet(CheckContext(driver=driver).facts, gold)
+    sheet.er = ErSheet(entities=sheet_entities(driver), pairs=[])
+    assert rescore(sheet, GoldSet(triples=gold)).triples.precision == 1.0

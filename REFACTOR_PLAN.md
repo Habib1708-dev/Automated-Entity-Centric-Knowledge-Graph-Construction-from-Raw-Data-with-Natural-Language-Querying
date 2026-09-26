@@ -1905,6 +1905,14 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
 
 (Add items here during a step instead of widening its scope.)
 
+- **(Fixed in its own commit, R66 part 2.) `kg rescore` failed on number claims (found in R66 part 2).** The
+  judge sheet shows a claim's own wording ("30-35 hardcover books", "25kg"); the `Value` entity is named
+  canonically ("30 -35 hardcover books", "25 kg"), and numbers are never merged, which is where other
+  entities gain their other spellings as aliases. So the sheet's entity list had no name for the wording,
+  and rescoring the R66 furniture sheet stopped with "name ... is on no entity of the sheet". Fix: a Value
+  entity keeps every wording it was written from as an alias (`text/subject_graph.py`); failing test first
+  (`test_a_number_written_two_ways_can_be_rescored_from_its_judge_sheet`).
+
 - **(Fixed in R66.) The corpus-quote test of the extraction prompt stopped at the first rule naming
   `<document>` (found in R66).** It split the rules at the first "<document>", which a rule itself
   contains, so the evidence rule, the closing rule and R66's new rules were never checked. It now splits
