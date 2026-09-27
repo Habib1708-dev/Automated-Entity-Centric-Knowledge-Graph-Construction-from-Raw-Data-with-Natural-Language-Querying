@@ -1,0 +1,864 @@
+{
+ "_comment": "R67 part 3: judge precision of the recall observations (every observation attached to a Recall). Judge: Claude Fable 5 in the Claude Code session, 2026-09-27. Scores computed by the script in the roadmap entry; scope is recall observations only, not the full judge sheet.",
+ "mlflow_extract_run": "c8593f5a410c4a1e8bce6a63f3c58943",
+ "git_sha": "18af45a",
+ "scores": {
+  "all": {
+   "true": 52,
+   "n": 92,
+   "precision": 0.565,
+   "wilson95": [
+    0.463,
+    0.662
+   ]
+  },
+  "extracted": {
+   "true": 52,
+   "n": 54,
+   "precision": 0.963,
+   "wilson95": [
+    0.875,
+    0.99
+   ]
+  },
+  "derived": {
+   "true": 0,
+   "n": 38,
+   "precision": 0.0,
+   "wilson95": [
+    0.0,
+    0.092
+   ]
+  }
+ },
+ "verdicts": [
+  {
+   "id": "2f8db0cf8a00",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "blank multiple functional display (MFD) OCCURS_IN_COMPONENT instrument panel cluster",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "the instrument panel cluster be inoperative including a blank multiple functional display (MFD)"
+  },
+  {
+   "id": "5a97e16bbe46",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "non-functional warning chimes OCCURS_IN_COMPONENT instrument panel cluster",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights"
+  },
+  {
+   "id": "5dae1e32ea9d",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "non-functional warning chimes OCCURS_IN_COMPONENT warning chimes",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "non-functional warning chimes"
+  },
+  {
+   "id": "8e4e349fdcda",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "messages OCCURS_IN_COMPONENT instrument panel cluster",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights."
+  },
+  {
+   "id": "92672767b046",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "instrument panel cluster be inoperative OCCURS_IN_COMPONENT instrument panel cluster",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights."
+  },
+  {
+   "id": "945f752b44c9",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "warning lights OCCURS_IN_COMPONENT instrument panel cluster",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights."
+  },
+  {
+   "id": "ac04149c6e2f",
+   "recall": "15V406000",
+   "extractor": "derived",
+   "claim": "multiple functional display (MFD) PART_OF_VEHICLE 15V406000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights."
+  },
+  {
+   "id": "d5be32d56307",
+   "recall": "15V406000",
+   "extractor": "derived",
+   "claim": "warning chimes PART_OF_VEHICLE 15V406000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights."
+  },
+  {
+   "id": "f982d0519066",
+   "recall": "15V406000",
+   "extractor": "derived",
+   "claim": "instrument panel cluster PART_OF_VEHICLE 15V406000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights."
+  },
+  {
+   "id": "fbd9ddf068a6",
+   "recall": "15V406000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "blank multiple functional display (MFD) OCCURS_IN_COMPONENT multiple functional display (MFD)",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights"
+  },
+  {
+   "id": "0f81804dd70b",
+   "recall": "15V436000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "engine may continue to run OCCURS_IN_COMPONENT key",
+   "verdict": false,
+   "reason": "the component is not where the defect lies: the engine runs on after the key is turned off; the key is the timing of the symptom, not a faulty part",
+   "quote": "In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off."
+  },
+  {
+   "id": "29140dea6628",
+   "recall": "15V436000",
+   "extractor": "derived",
+   "claim": "key PART_OF_VEHICLE 15V436000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off."
+  },
+  {
+   "id": "71803484829c",
+   "recall": "15V436000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "engine may continue to run OCCURS_IN_COMPONENT engine",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off."
+  },
+  {
+   "id": "aed5b8ae854f",
+   "recall": "15V436000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "engine may continue to run OCCURS_IN_COMPONENT START/STOP engine button",
+   "verdict": false,
+   "reason": "the component is not where the defect lies: the engine runs on after the button is turned off; the button is the timing of the symptom, not a faulty part",
+   "quote": "In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off."
+  },
+  {
+   "id": "af946815f016",
+   "recall": "15V436000",
+   "extractor": "derived",
+   "claim": "ENGINE PART_OF_VEHICLE 15V436000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off."
+  },
+  {
+   "id": "b541e58831a7",
+   "recall": "15V436000",
+   "extractor": "derived",
+   "claim": "START/STOP engine button PART_OF_VEHICLE 15V436000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off."
+  },
+  {
+   "id": "766889c594ae",
+   "recall": "16V244000",
+   "extractor": "derived",
+   "claim": "passenger frontal air bag PART_OF_VEHICLE 16V244000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash."
+  },
+  {
+   "id": "a309b0e081b0",
+   "recall": "16V244000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "turned off and not deploy in the event of a crash OCCURS_IN_COMPONENT passenger frontal air bag",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash."
+  },
+  {
+   "id": "cb45fd4aa911",
+   "recall": "16V244000",
+   "extractor": "derived",
+   "claim": "Occupant Classification System PART_OF_VEHICLE 16V244000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "In these vehicles, the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied."
+  },
+  {
+   "id": "d5e13260a5d6",
+   "recall": "16V244000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied OCCURS_IN_COMPONENT Occupant Classification System",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "In these vehicles, the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied."
+  },
+  {
+   "id": "539782738989",
+   "recall": "16V526000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "damaged OCCURS_IN_COMPONENT LED side marker light circuit board",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The affected vehicles may have a damaged LED side marker light circuit board inside the taillight assembly"
+  },
+  {
+   "id": "b6fc0ab49ef2",
+   "recall": "16V526000",
+   "extractor": "derived",
+   "claim": "marker light PART_OF_VEHICLE 16V526000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The affected vehicles may have a damaged LED side marker light circuit board inside the taillight assembly, making the marker light inoperable."
+  },
+  {
+   "id": "d9e0b54c05d3",
+   "recall": "16V526000",
+   "extractor": "derived",
+   "claim": "LED side marker light circuit board PART_OF_VEHICLE 16V526000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The affected vehicles may have a damaged LED side marker light circuit board inside the taillight assembly, making the marker light inoperable."
+  },
+  {
+   "id": "f4da521b0c6d",
+   "recall": "16V526000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "inoperable OCCURS_IN_COMPONENT marker light",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "making the marker light inoperable"
+  },
+  {
+   "id": "087f0f25d511",
+   "recall": "16V643000",
+   "extractor": "derived",
+   "claim": "door latches PART_OF_VEHICLE 16V643000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "A component within the door latches may break, preventing the doors from latching and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+  },
+  {
+   "id": "e2f314688d0e",
+   "recall": "16V643000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "doors from latching OCCURS_IN_COMPONENT door latches",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "A component within the door latches may break, preventing the doors from latching"
+  },
+  {
+   "id": "00b709208acc",
+   "recall": "16V725000",
+   "extractor": "derived",
+   "claim": "electric parking brake PART_OF_VEHICLE 16V725000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off."
+  },
+  {
+   "id": "4299cfca7835",
+   "recall": "16V725000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "may not engage OCCURS_IN_COMPONENT electric parking brake",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off."
+  },
+  {
+   "id": "89389bdbe7ad",
+   "recall": "17V663000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "improper welds OCCURS_IN_COMPONENT recliner joints on the lower seat frame for the rear seats",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The recliner joints on the lower seat frame for the rear seats may have improper welds."
+  },
+  {
+   "id": "8a04df763509",
+   "recall": "17V663000",
+   "extractor": "derived",
+   "claim": "recliner joints on the lower seat frame for the rear seats PART_OF_VEHICLE 17V663000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The recliner joints on the lower seat frame for the rear seats may have improper welds."
+  },
+  {
+   "id": "02fe09c03b87",
+   "recall": "19V244000",
+   "extractor": "derived",
+   "claim": "load capacity label PART_OF_VEHICLE 19V244000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The text on the load capacity label may become illegible."
+  },
+  {
+   "id": "f1daf8fa20bd",
+   "recall": "19V244000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "The text on the load capacity label may become illegible OCCURS_IN_COMPONENT load capacity label",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The text on the load capacity label may become illegible."
+  },
+  {
+   "id": "22064ff34722",
+   "recall": "19V493000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "Spot welds located on the duct below the cowl panel may have been improperly applied OCCURS_IN_COMPONENT duct below the cowl panel",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Spot welds located on the duct below the cowl panel may have been improperly applied"
+  },
+  {
+   "id": "c93e28647b3b",
+   "recall": "19V493000",
+   "extractor": "derived",
+   "claim": "duct below the cowl panel PART_OF_VEHICLE 19V493000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Spot welds located on the duct below the cowl panel may have been improperly applied, impacting the vehicle's body strength."
+  },
+  {
+   "id": "0202f368dc89",
+   "recall": "19V503000",
+   "extractor": "derived",
+   "claim": "load carrying capacity modification label PART_OF_VEHICLE 19V503000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The load carrying capacity modification label may be incorrect."
+  },
+  {
+   "id": "797b2b562b0e",
+   "recall": "19V503000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "incorrect OCCURS_IN_COMPONENT load carrying capacity modification label",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The load carrying capacity modification label may be incorrect."
+  },
+  {
+   "id": "0dea8bdf5c80",
+   "recall": "19V576000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "back-up camera may not activate OCCURS_IN_COMPONENT back-up camera",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "the back-up camera may not activate when the vehicle is in reverse"
+  },
+  {
+   "id": "3050cdd5f785",
+   "recall": "19V576000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "back-up camera may not activate OCCURS_IN_COMPONENT electrical connector",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse"
+  },
+  {
+   "id": "56752193a884",
+   "recall": "19V576000",
+   "extractor": "derived",
+   "claim": "electrical connector PART_OF_VEHICLE 19V576000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse."
+  },
+  {
+   "id": "e476b1a4e6e6",
+   "recall": "19V576000",
+   "extractor": "derived",
+   "claim": "back-up camera PART_OF_VEHICLE 19V576000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse."
+  },
+  {
+   "id": "17d330c909b0",
+   "recall": "20V064000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "coolant to leak internally and/or externally OCCURS_IN_COMPONENT engine castings",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Porosity in the engine castings may result in cracks than can allow coolant to leak internally and/or externally."
+  },
+  {
+   "id": "367fe9b46385",
+   "recall": "20V064000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "cracks OCCURS_IN_COMPONENT engine castings",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Porosity in the engine castings may result in cracks than can allow coolant to leak internally and/or externally."
+  },
+  {
+   "id": "7c791182a506",
+   "recall": "20V064000",
+   "extractor": "derived",
+   "claim": "engine castings PART_OF_VEHICLE 20V064000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Porosity in the engine castings may result in cracks than can allow coolant to leak internally and/or externally."
+  },
+  {
+   "id": "bc92ad9e834a",
+   "recall": "20V064000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "Porosity OCCURS_IN_COMPONENT engine castings",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Porosity in the engine castings may result in cracks than can allow coolant to leak internally and/or externally."
+  },
+  {
+   "id": "3984665baed8",
+   "recall": "20V218000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "inoperative OCCURS_IN_COMPONENT low pressure fuel pump",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The low pressure fuel pump may become inoperative."
+  },
+  {
+   "id": "77c264913539",
+   "recall": "20V218000",
+   "extractor": "derived",
+   "claim": "low-pressure fuel pump PART_OF_VEHICLE 20V218000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The low pressure fuel pump may become inoperative."
+  },
+  {
+   "id": "055f0eea4b1d",
+   "recall": "20V286000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "separating from the front wheel assembly OCCURS_IN_COMPONENT suspension arm",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "which may result in the suspension arm separating from the front wheel assembly"
+  },
+  {
+   "id": "4265856b2c53",
+   "recall": "20V286000",
+   "extractor": "derived",
+   "claim": "suspension arm PART_OF_VEHICLE 20V286000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The front lower suspension arms may have cracks, which may result in the suspension arm separating from the front wheel assembly."
+  },
+  {
+   "id": "9a4fadc077e1",
+   "recall": "20V286000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "separating OCCURS_IN_COMPONENT suspension arm",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "suspension arm separating from the front wheel assembly"
+  },
+  {
+   "id": "db7a159d104a",
+   "recall": "20V286000",
+   "extractor": "derived",
+   "claim": "front lower suspension arms PART_OF_VEHICLE 20V286000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The front lower suspension arms may have cracks, which may result in the suspension arm separating from the front wheel assembly."
+  },
+  {
+   "id": "e4a97a3d1171",
+   "recall": "20V286000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "cracks OCCURS_IN_COMPONENT front lower suspension arms",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The front lower suspension arms may have cracks"
+  },
+  {
+   "id": "181c4a29f147",
+   "recall": "20V331000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "break OCCURS_IN_COMPONENT door latches",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "A component within the door latches may break making the doors difficult to latch"
+  },
+  {
+   "id": "2f1ef0b58ea4",
+   "recall": "20V331000",
+   "extractor": "derived",
+   "claim": "door latches PART_OF_VEHICLE 20V331000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "A component within the door latches may break making the doors difficult to latch and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+  },
+  {
+   "id": "8afa41cc625e",
+   "recall": "20V331000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "difficult to latch OCCURS_IN_COMPONENT door latches",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "A component within the door latches may break making the doors difficult to latch"
+  },
+  {
+   "id": "2c9e4ddcd207",
+   "recall": "20V373000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "loss of electric power steering assist OCCURS_IN_COMPONENT electric power steering",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist."
+  },
+  {
+   "id": "4671aefe3489",
+   "recall": "20V373000",
+   "extractor": "derived",
+   "claim": "steering gear box cover PART_OF_VEHICLE 20V373000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist."
+  },
+  {
+   "id": "5f8c05516fe8",
+   "recall": "20V373000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist OCCURS_IN_COMPONENT steering gear box cover",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist."
+  },
+  {
+   "id": "7d8a1038ca25",
+   "recall": "20V373000",
+   "extractor": "derived",
+   "claim": "electric power steering PART_OF_VEHICLE 20V373000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS)."
+  },
+  {
+   "id": "44370b6e1fba",
+   "recall": "20V682000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "fail OCCURS_IN_COMPONENT low-pressure fuel pump",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The low-pressure fuel pump inside the fuel tank may fail."
+  },
+  {
+   "id": "e2bb2da452e8",
+   "recall": "20V682000",
+   "extractor": "derived",
+   "claim": "low-pressure fuel pump PART_OF_VEHICLE 20V682000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The low-pressure fuel pump inside the fuel tank may fail."
+  },
+  {
+   "id": "002cc5f1efe8",
+   "recall": "21V587000",
+   "extractor": "derived",
+   "claim": "low-pressure fuel pump PART_OF_VEHICLE 21V587000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The low-pressure fuel pump inside the fuel tank may fail."
+  },
+  {
+   "id": "62514545e51f",
+   "recall": "21V587000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "fail OCCURS_IN_COMPONENT low-pressure fuel pump",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The low-pressure fuel pump inside the fuel tank may fail."
+  },
+  {
+   "id": "0a20bad20c50",
+   "recall": "21V839000",
+   "extractor": "derived",
+   "claim": "engine harness PART_OF_VEHICLE 21V839000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse."
+  },
+  {
+   "id": "1a26f929400b",
+   "recall": "21V839000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "damage OCCURS_IN_COMPONENT engine harness",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse."
+  },
+  {
+   "id": "56af2036259c",
+   "recall": "21V839000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "blown fuse OCCURS_IN_COMPONENT engine harness",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse."
+  },
+  {
+   "id": "aa8a0755dcd2",
+   "recall": "21V839000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "blown fuse OCCURS_IN_COMPONENT fuse",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "causing a blown fuse"
+  },
+  {
+   "id": "aaa6fb627f1f",
+   "recall": "21V839000",
+   "extractor": "derived",
+   "claim": "fuse PART_OF_VEHICLE 21V839000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse."
+  },
+  {
+   "id": "252fe937dd0f",
+   "recall": "22V254000",
+   "extractor": "derived",
+   "claim": "bushing PART_OF_VEHICLE 22V254000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  {
+   "id": "a8d9f9f7c014",
+   "recall": "22V254000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "degrade OCCURS_IN_COMPONENT bushing",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  {
+   "id": "bb260095175c",
+   "recall": "22V254000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "detach OCCURS_IN_COMPONENT bushing",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  {
+   "id": "12634df6ab1f",
+   "recall": "22V413000",
+   "extractor": "derived",
+   "claim": "bushing PART_OF_VEHICLE 22V413000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  {
+   "id": "16a16d5630f2",
+   "recall": "22V413000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "degrade OCCURS_IN_COMPONENT bushing",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  {
+   "id": "ac8e13675d0b",
+   "recall": "22V413000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "detach OCCURS_IN_COMPONENT bushing",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  {
+   "id": "a8d777505128",
+   "recall": "22V875000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "corrode OCCURS_IN_COMPONENT dash side harness connector",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Water may leak into and corrode the dash side harness connector."
+  },
+  {
+   "id": "ab3901f60ed7",
+   "recall": "22V875000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "Water may leak into OCCURS_IN_COMPONENT dash side harness connector",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "Water may leak into and corrode the dash side harness connector."
+  },
+  {
+   "id": "fc35344a20a8",
+   "recall": "22V875000",
+   "extractor": "derived",
+   "claim": "dash side harness connector PART_OF_VEHICLE 22V875000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "Water may leak into and corrode the dash side harness connector."
+  },
+  {
+   "id": "1ed874772789",
+   "recall": "23V093000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "collapse into a folded position OCCURS_IN_COMPONENT jackknife style ignition key",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "vehicles equipped with a jackknife style ignition key.  The jackknife key may collapse into a folded position while driving."
+  },
+  {
+   "id": "8b6a3460c960",
+   "recall": "23V093000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "collapse into a folded position OCCURS_IN_COMPONENT jackknife key",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The jackknife key may collapse into a folded position while driving."
+  },
+  {
+   "id": "dff09c92f5f4",
+   "recall": "23V093000",
+   "extractor": "derived",
+   "claim": "jackknife key PART_OF_VEHICLE 23V093000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key."
+  },
+  {
+   "id": "17efcca881e0",
+   "recall": "23V858000",
+   "extractor": "derived",
+   "claim": "low-pressure fuel pump PART_OF_VEHICLE 23V858000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The fuel pump inside the fuel tank may fail."
+  },
+  {
+   "id": "dc418731c040",
+   "recall": "23V858000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "fail OCCURS_IN_COMPONENT fuel pump",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The fuel pump inside the fuel tank may fail."
+  },
+  {
+   "id": "5ac589f26f60",
+   "recall": "25V695000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "distorted,  intermittent, or blank image OCCURS_IN_COMPONENT rearview camera",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The rearview camera may display a distorted,  intermittent, or blank image when the vehicle is in reverse."
+  },
+  {
+   "id": "a544a7d1c205",
+   "recall": "25V695000",
+   "extractor": "derived",
+   "claim": "back-up camera PART_OF_VEHICLE 25V695000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The rearview camera may display a distorted,  intermittent, or blank image when the vehicle is in reverse."
+  },
+  {
+   "id": "23f125ccc6ae",
+   "recall": "26V011000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "coolant leak OCCURS_IN_COMPONENT engine block heater",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The engine block heater may crack and develop a coolant leak"
+  },
+  {
+   "id": "4878595b6237",
+   "recall": "26V011000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "short circuit OCCURS_IN_COMPONENT block heater",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "causing it to short circuit when the block heater is plugged in"
+  },
+  {
+   "id": "934419c503e0",
+   "recall": "26V011000",
+   "extractor": "derived",
+   "claim": "block heater PART_OF_VEHICLE 26V011000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The engine block heater may crack and develop a coolant leak, causing it to short circuit when the block heater is plugged in."
+  },
+  {
+   "id": "dd8ad73cb1a6",
+   "recall": "26V011000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "crack OCCURS_IN_COMPONENT engine block heater",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The engine block heater may crack"
+  },
+  {
+   "id": "272e0a40f898",
+   "recall": "26V332000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "crack OCCURS_IN_COMPONENT front passenger seat weight sensor",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The front passenger seat weight sensor may crack and short circuit"
+  },
+  {
+   "id": "452914b5750a",
+   "recall": "26V332000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "short circuit OCCURS_IN_COMPONENT front passenger seat weight sensor",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "The front passenger seat weight sensor may crack and short circuit"
+  },
+  {
+   "id": "63f2cfe3f1a9",
+   "recall": "26V332000",
+   "extractor": "gemini-3.8-flash",
+   "claim": "deploy unintentionally during a crash OCCURS_IN_COMPONENT air bags",
+   "verdict": true,
+   "reason": "the verbatim evidence states this problem in this component",
+   "quote": "can cause the air bags to deploy unintentionally during a crash"
+  },
+  {
+   "id": "6f13d99b490d",
+   "recall": "26V332000",
+   "extractor": "derived",
+   "claim": "front passenger seat weight sensor PART_OF_VEHICLE 26V332000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The front passenger seat weight sensor may crack and short circuit, which can cause the air bags to deploy unintentionally during a crash."
+  },
+  {
+   "id": "afcc838264ab",
+   "recall": "26V332000",
+   "extractor": "derived",
+   "claim": "AIR BAGS PART_OF_VEHICLE 26V332000",
+   "verdict": false,
+   "reason": "the object is the recall campaign number typed as a Vehicle; the evidence supports 'part of the affected vehicles', never a vehicle named like the campaign - derivation on a record document targets the ABOUT record itself instead of that record's vehicle",
+   "quote": "The front passenger seat weight sensor may crack and short circuit, which can cause the air bags to deploy unintentionally during a crash."
+  }
+ ]
+}

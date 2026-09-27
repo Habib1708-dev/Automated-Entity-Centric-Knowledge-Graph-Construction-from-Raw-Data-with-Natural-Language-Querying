@@ -972,6 +972,13 @@
    "expected": [
     "ROGUE"
    ]
+  },
+  {
+   "question": "Which engine recall campaign affects the vehicle of complaint 10823637, whose own record carries a piston claim? (R67: starts at the Complaint record's HAS_OBSERVATION, no Document-ABOUT jump)",
+   "cypher": "MATCH (c:Complaint {odiNumber: 10823637})-[:HAS_OBSERVATION]->(:Observation)-[:SUBJECT|OBJECT]->(e:Entity) WHERE any(n IN [e.name] + coalesce(e.aliases, []) WHERE toLower(n) CONTAINS 'piston') MATCH (c)-[:CONCERNS_VEHICLE]->(:Vehicle)<-[:AFFECTS_VEHICLE]-(r:Recall) WHERE r.Component STARTS WITH 'ENGINE' RETURN DISTINCT r.NHTSACampaignNumber",
+   "expected": [
+    "16V074000"
+   ]
   }
  ]
 }

@@ -1993,6 +1993,17 @@ the furniture graph must come out unchanged (its `description` column is one sho
     at least one observation per recall with the recall as thing, judge precision of the recall observations
     with its `n`, and a gold question from the Civic's piston ring complaint to recall `16V074000` without a
     `Document -ABOUT->` jump.
+    **Done 2026-09-27** (user's yes; $0.271: extract $0.250 + resolve $0.022; MLflow extract run
+    `c8593f5a410c4a1e8bce6a63f3c58943`, git 18af45a, frozen R66 plan and text schema, EXTRACT_PASSES=2):
+    `entities_linked` 0 -> 30 with all 5 text vehicles linked ("2016 Honda Civic" -> CIVIC by containment,
+    5 containment links, 0 ambiguous); 34 of 34 documents linked (29 records by key); 54 complaint sections
+    ABOUT their Complaint; all 7 gold questions pass, including the new complaint-10823637 -> 16V074000
+    question (added before the run); all validation checks pass. Judge (Fable 5 in the session,
+    `tests/gold/r67/recall_observation_verdicts.json`): recall-observation precision **0.963 extracted**
+    (52/54, Wilson 0.875-0.99), **0.0 derived** (0/38, one shared cause, see "Found along the way"), 0.565
+    all (n=92). **Deviation:** 27 of 29 recalls have an observation; for `16V074000` and `17V472000` the
+    extractor returned zero facts from well-formed chunks (nothing rejected) - model variance, not retried
+    (run budget).
 
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
@@ -2033,6 +2044,15 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
 - **Gold questions filter on predicate names (found in R66 part 2).** A proposed schema renames them
   (`HAS_CONDITION` for `HAS_DEFECT`), and 5 of 6 furniture questions answer nothing. Candidate: questions
   filter on polarity and entity names, not predicates (a gold correction, to be listed).
+- **Derivation mistargets record documents (found in R67 part 3).** A derived fact's object is the node
+  the document is ABOUT; for a record document that is the record itself, so all 38 derived recall claims
+  say "part PART_OF_VEHICLE 16V526000" with the campaign number as a Vehicle-typed entity (judge: 0/38
+  true). Candidate: on a record document, derivation targets the record's related domain node (the
+  recall's `AFFECTS_VEHICLE` vehicle), or skips the document. Same root cause: these entities are created
+  after `link_graphs` ran, so they carry no REFERS_TO.
+- **Two recall documents extracted zero facts (found in R67 part 3).** `16V074000` and `17V472000`: 2
+  well-formed chunks each, 0 triples proposed and 0 rejected in both passes (Gemini returned empty lists).
+  Candidate: a repair pass for documents with 0 facts, or accept as model variance and measure its rate.
 
 - **(Fixed in its own commit, R66 part 2.) `kg rescore` failed on number claims (found in R66 part 2).** The
   judge sheet shows a claim's own wording ("30-35 hardcover books", "25kg"); the `Value` entity is named
