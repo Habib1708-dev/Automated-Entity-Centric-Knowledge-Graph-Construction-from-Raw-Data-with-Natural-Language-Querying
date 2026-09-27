@@ -6,9 +6,12 @@ import pytest
 
 from kgbuilder.resolution.linking import (
     DomainNode,
+    RecordKey,
     attach_observations,
+    contain_entity,
     link_entity,
     link_graphs,
+    match_chunk_records,
     match_document,
     match_entity,
 )
@@ -86,6 +89,58 @@ def test_a_name_outside_the_scope_falls_back_to_a_unique_domain_match():
     # a chair review that mentions the table: not in the chair's scope, but unique in the domain
     result = link_entity(["table"], [[CHAIR, CHAIR_LEGS]], FURNITURE, threshold=90)
     assert [m.node.element_id for m in result.matches] == ["p2"] and not result.scoped
+
+
+# The R60 case, now in linking (R67): the plan names the vehicle by one column, the text writes it fully.
+CIVIC = domain_node("v1", "Vehicle", "CIVIC")
+ACCORD = domain_node("v2", "Vehicle", "ACCORD")
+
+
+def test_an_entity_containing_a_nodes_whole_name_links_by_containment():
+    [match] = contain_entity(["2016 Honda Civic"], [CIVIC, ACCORD])
+    assert match.node.element_id == "v1" and match.score == 100.0
+    # whole words only: "ESCAPE" must not match "escaped" (the R60 rule's own counter-example)
+    assert contain_entity(["the car escaped"], [domain_node("v3", "Vehicle", "ESCAPE")]) == []
+    # too short to trust, same bound as document matching: "Leg" is inside too many names
+    assert contain_entity(["table leg"], [domain_node("a1", "Assembly", "Leg")]) == []
+
+
+def test_containment_picks_the_longest_contained_name_and_ties_are_ambiguous():
+    both = [domain_node("p1", "Product", "Table"), domain_node("p2", "Product", "Coffee Table")]
+    [match] = contain_entity(["the jonkoping coffee table"], both)
+    assert match.node.element_id == "p2"
+    twins = [domain_node("a1", "Assembly", "Rails"), domain_node("a2", "Assembly", "Rails")]
+    assert len(contain_entity(["drawer rails"], twins)) == 2  # a tie: link_entity treats it as ambiguous
+
+
+def test_link_entity_uses_containment_only_inside_a_scope_and_after_fuzzy():
+    # fuzzy fails on "2016 Honda Civic" vs "CIVIC"; containment inside the scope catches it
+    result = link_entity(["2016 Honda Civic"], [[CIVIC, ACCORD]], [CIVIC, ACCORD], threshold=90)
+    assert [m.node.element_id for m in result.matches] == ["v1"]
+    assert result.scoped and result.by_containment
+    # outside every scope containment is not trusted: no scope vouches for the document
+    unscoped = link_entity(["2016 Honda Civic"], [], [CIVIC, ACCORD], threshold=90)
+    assert unscoped.matches == [] and not unscoped.by_containment
+    # a fuzzy hit keeps winning unchanged: no containment flag on an exact name
+    exact = link_entity(["civic"], [[CIVIC, ACCORD]], [CIVIC, ACCORD], threshold=90)
+    assert [m.node.element_id for m in exact.matches] == ["v1"] and not exact.by_containment
+
+
+COMPLAINTS = [
+    RecordKey(element_id="c1", key="11440801", name="11440801"),
+    RecordKey(element_id="c2", key="11440802", name="11440802"),
+    RecordKey(element_id="c3", key="P1", name="P1"),
+]
+
+
+def test_a_section_heading_naming_a_records_key_matches_that_record():
+    text = "## Complaint 11440801: brakes failed\n\nThe brakes failed. Similar to complaint 11440802."
+    assert [r.element_id for r in match_chunk_records(text, COMPLAINTS)] == ["c1"]  # body keys do not count
+    # a key inside a longer token is not a match, and separators around the key do not matter
+    assert match_chunk_records("# case 111440801", COMPLAINTS) == []
+    assert [r.element_id for r in match_chunk_records("## (11440802)", COMPLAINTS)] == ["c2"]
+    # "P1" is too short to trust: "## Part 1" would squash to the same token
+    assert match_chunk_records("## P1", COMPLAINTS) == []
 
 
 LINK_PLAN = ConstructionPlan(
@@ -210,3 +265,51 @@ def test_a_record_document_links_to_its_record_by_key_never_by_title(driver):
         "MATCH (r:Recall)-[:HAS_OBSERVATION]->(:Observation {id: 'o1'}) RETURN r.recall_id AS id"
     )
     assert [r["id"] for r in records] == ["16V074000"]
+
+
+@pytest.mark.neo4j
+def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_things(driver):
+    # the held-out shape: one document per vehicle, one "## Complaint <key>" section per complaint
+    driver.execute_query(
+        "CREATE (v:Vehicle {vehicle_id: 'V1', model: 'CIVIC'}), "
+        "(:Complaint {complaint_id: '11440801'}), "
+        "(d:Document {doc_id: 'civic.md', title: '2016_honda_civic_complaints'}), "
+        "(c:Chunk {chunk_id: 'civic.md#0', doc_id: 'civic.md', index: 0, "
+        "text: '## Complaint 11440801: brakes\\n\\nMy 2016 Honda Civic lost its brakes.'}), "
+        "(c)-[:PART_OF]->(d), "
+        # the full vehicle name, which no fuzzy threshold accepts against 'CIVIC' (entities_linked was 0
+        # on held-out since R58): the containment rule must catch it inside the document's scope
+        "(e:Entity {id: 'e1', name: '2016 Honda Civic', type: 'Vehicle', aliases: []}), "
+        "(c)-[:MENTIONS]->(e), "
+        "(o:Observation {id: 'o1', predicate: 'LOST', chunk_id: 'civic.md#0', "
+        "evidence: 'My 2016 Honda Civic lost its brakes.'})-[:FROM]->(c), (o)-[:SUBJECT]->(e)"
+    )
+    plan = ConstructionPlan(
+        nodes=[
+            node("vehicles.csv", "Vehicle", "vehicle_id", ["model"]).model_copy(
+                update={"name_column": "model"}
+            ),
+            node("complaints.csv", "Complaint", "complaint_id"),
+        ],
+        relationships=[],
+    )
+
+    report = link_graphs(driver, plan)
+    assert report.chunks_linked == 1  # the section found its Complaint record by key
+    assert report.entities_linked_by_containment == 1 and report.entities_linked == 1
+
+    # one claim, two things (R67 decision): the vehicle of the document AND the complaint of the section
+    assert attach_observations(driver) == 1
+    records, _, _ = driver.execute_query(
+        "MATCH (n)-[h:HAS_OBSERVATION]->(:Observation {id: 'o1'}) "
+        "RETURN labels(n)[0] AS thing, h.name AS name ORDER BY thing"
+    )
+    assert [(r["thing"], r["name"]) for r in records] == [
+        ("Complaint", "11440801"),
+        ("Vehicle", "CIVIC"),
+    ]
+
+    # rerunning recomputes chunk links too, instead of adding to them
+    link_graphs(driver, plan)
+    records, _, _ = driver.execute_query("MATCH (:Chunk)-[l:ABOUT]->() RETURN count(l) AS n")
+    assert records[0]["n"] == 1

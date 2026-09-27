@@ -1984,6 +1984,11 @@ the furniture graph must come out unchanged (its `description` column is one sho
     Civic" to `Vehicle {model: 'CIVIC'}`. (b) A section whose heading contains a record's unique key as a
     whole token is `ABOUT` that record (`(:Chunk)-[:ABOUT]->(:Complaint)`), and its observations are
     attached to it too.
+    **Done 2026-09-27:** `contain_entity` (whole-word subset, scope-only, after fuzzy, longest name wins,
+    min 4 chars) and `match_chunk_records` (squashed heading tokens, keys >= 4 chars) in linking;
+    `attach_observations` attaches via document AND chunk ABOUT; new metrics
+    `entities_linked_by_containment`, `chunks_linked`. Gate green (257 tests, ruff clean); no run, the
+    linking changes are measured by part 3's held-out run.
   - **Part 3: one held-out run** (asked first), judged: `entities_linked` > 0 with every text vehicle linked,
     at least one observation per recall with the recall as thing, judge precision of the recall observations
     with its `n`, and a gold question from the Civic's piston ring complaint to recall `16V074000` without a
