@@ -58,6 +58,10 @@ Details and the target package layout live in the `project-organization` skill. 
   reading of global `settings` deep inside functions; pass the values in.
 - **The LLM proposes, code decides.** Anything that can be computed exactly is computed in code. Every LLM
   output is parsed into a pydantic model and validated in code before it is used or stored.
+- **Nothing domain-specific in code or prompts.** The pipeline works on any dataset: the domain comes from
+  the LLM-proposed plan and text schema, checked by code. Any text sent to an LLM (prompt templates,
+  pydantic field descriptions, critic and adjudication instructions) follows the `prompt-engineering`
+  skill; examples in prompts never come from a dataset under evaluation.
 - **All Cypher is parameterised.** Labels, types and property keys (which cannot be parameters) go through
   the single `cypher_ident` escape helper. All graph writes are idempotent (`MERGE`).
 
@@ -136,6 +140,7 @@ uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's datas
 | `code-quality` | writing or reviewing any code; choosing a pattern; writing comments |
 | `mlflow-tracking` | adding or changing a stage, an LLM call, a metric, a prompt or a threshold |
 | `run-policy` | before any pipeline run (any preset); deciding whether a change needs one at all |
+| `prompt-engineering` | writing or changing any text sent to an LLM (prompts, field descriptions, critic instructions); adding an example to a prompt |
 | `evaluation` | creating or changing gold data; judging extracted facts as the LLM judge; adding an eval metric; writing accuracy numbers |
 | `reply-style` | writing any reply to the user (always: simple language, explain the why, real examples of what happened or changed, a summary, then a Changes list with clickable links) |
 
