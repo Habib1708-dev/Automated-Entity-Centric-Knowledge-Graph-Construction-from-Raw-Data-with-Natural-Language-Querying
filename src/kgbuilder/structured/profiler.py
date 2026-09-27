@@ -14,6 +14,15 @@ from pydantic import BaseModel
 # types that can plausibly hold an identifier
 _KEY_TYPES = ("VARCHAR", "BIGINT", "INTEGER", "SMALLINT", "HUGEINT", "UUID")
 
+# A column is prose when its values read like running text rather than a name, a code or a tagline:
+# long on average AND usually more than one sentence. Both bounds together keep a one-sentence product
+# tagline out while a multi-sentence report summary passes. Language-level rules, nothing about a domain.
+_PROSE_MIN_AVG_CHARS = 120
+_PROSE_MIN_SENTENCE_RATIO = 0.5
+# an end-of-sentence mark with more text after it ("... failed. The manufacturer ..."): a value that
+# matches has at least two sentences. A single trailing period does not match.
+_SENTENCE_BREAK = r"[.!?]\s+\S"
+
 
 class ColumnProfile(BaseModel):
     name: str
@@ -22,6 +31,9 @@ class ColumnProfile(BaseModel):
     distinct_count: int
     is_unique: bool  # no nulls and no duplicates: usable as a node key
     samples: list[str]
+    avg_chars: float = 0.0  # average length of the non-null values; 0.0 for non-text columns
+    multi_sentence_ratio: float = 0.0  # share of non-null values with more than one sentence
+    is_prose: bool = False  # running text worth reading as a document, not only storing as a property
 
 
 class FileProfile(BaseModel):
@@ -70,6 +82,13 @@ def _profile_file(con: duckdb.DuckDBPyConnection, data_dir: Path, path: Path, vi
         samples = con.sql(
             f"SELECT DISTINCT CAST({col} AS VARCHAR) FROM {view} WHERE {col} IS NOT NULL LIMIT 5"
         ).fetchall()
+        avg_chars, sentence_ratio = 0.0, 0.0
+        if dtype == "VARCHAR":  # only text can be prose; numbers and dates are stored typed anyway
+            avg_chars, sentence_ratio = con.sql(
+                f"SELECT coalesce(avg(length({col})), 0), "
+                f"coalesce(avg(CASE WHEN regexp_matches({col}, '{_SENTENCE_BREAK}') "
+                f"THEN 1.0 ELSE 0.0 END), 0) FROM {view} WHERE {col} IS NOT NULL"
+            ).fetchone()
         columns.append(
             ColumnProfile(
                 name=name,
@@ -78,6 +97,10 @@ def _profile_file(con: duckdb.DuckDBPyConnection, data_dir: Path, path: Path, vi
                 distinct_count=distinct,
                 is_unique=row_count > 0 and nulls == 0 and distinct == row_count,
                 samples=[s[0] for s in samples],
+                avg_chars=round(float(avg_chars), 1),
+                multi_sentence_ratio=round(float(sentence_ratio), 4),
+                is_prose=avg_chars >= _PROSE_MIN_AVG_CHARS
+                and sentence_ratio >= _PROSE_MIN_SENTENCE_RATIO,
             )
         )
     return FileProfile(file=path.relative_to(data_dir).as_posix(), row_count=row_count, columns=columns)

@@ -35,6 +35,22 @@ class NodeRule(BaseModel):
     )
 
 
+def name_property(rule: NodeRule) -> str:
+    """The property holding a node's human-readable name.
+
+    The plan's `name_column` when set. Otherwise a guess: the first name-like column, else the key. The
+    guess is what made R11 necessary: `sub_assembly_name` comes before `part_name`, so parts were matched
+    by their sub-assembly code.
+    Moved here from resolution/linking.py (R67): record documents need it too, and it reads only the plan.
+    """
+    if rule.name_column is not None:
+        return rule.name_column
+    for prop in [*rule.properties, rule.unique_column]:
+        if "name" in prop.lower() or "title" in prop.lower():
+            return prop
+    return rule.unique_column
+
+
 class RelationshipRule(BaseModel):
     source_file: str
     relationship_type: str = Field(description="UPPER_SNAKE_CASE type, e.g. SUPPLIED_BY")

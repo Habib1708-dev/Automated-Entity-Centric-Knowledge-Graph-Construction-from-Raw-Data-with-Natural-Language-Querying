@@ -11,9 +11,11 @@ from kgbuilder.resolution.linking import (
     link_graphs,
     match_document,
     match_entity,
-    name_property,
 )
 from kgbuilder.structured.plan import ConstructionPlan
+from kgbuilder.text.chunking import Chunk
+from kgbuilder.text.documents import Document, RecordRef
+from kgbuilder.text.lexical import write_lexical_graph
 
 from .sample_plans import node, rel
 
@@ -55,15 +57,6 @@ def test_entity_below_threshold_or_without_a_name_is_not_linked():
 def test_match_entity_returns_every_node_tied_for_the_best_score():
     legs = [domain_node("a1", "Assembly", "Legs"), domain_node("a2", "Assembly", "Legs")]
     assert [m.node.element_id for m in match_entity(["legs"], legs, threshold=90)] == ["a1", "a2"]
-
-
-def test_name_property_prefers_the_plans_name_column_then_guesses():
-    part = node("c.csv", "Part", "part_id", ["sub_assembly_name", "part_name"])
-    # without name_column the guess picks the sub-assembly code: the bug R11 fixes
-    assert name_property(part) == "sub_assembly_name"
-    assert name_property(part.model_copy(update={"name_column": "part_name"})) == "part_name"
-    assert name_property(node("p.csv", "Doc", "doc_id", ["Title"])) == "Title"
-    assert name_property(node("p.csv", "Thing", "thing_id", ["price"])) == "thing_id"
 
 
 # Two products that both have an assembly called "Legs": the case that needs scopes.
@@ -150,3 +143,70 @@ def test_a_defect_in_a_review_can_be_traced_to_the_supplier_of_that_products_par
     link_graphs(driver, LINK_PLAN)
     records, _, _ = driver.execute_query("MATCH ()-[l:REFERS_TO|ABOUT]->() RETURN count(l) AS n")
     assert records[0]["n"] == 2
+
+
+@pytest.mark.neo4j
+def test_a_record_document_links_to_its_record_by_key_never_by_title(driver):
+    driver.execute_query(
+        "CREATE (:Recall {recall_id: '16V074000', campaign: 'Piston Rings'}), "
+        "(:Recall {recall_id: '16V075000', campaign: 'Brake Cables'}), "
+        # a product with the record's display name: a title match would link the document here too
+        "(:Product {product_id: 'P1', product_name: 'Piston Rings'}), "
+        # an integer key: the document carries the key as text, so linking must compare toString(key)
+        "(:Case {case_id: 123, case_name: 'Case 123'})"
+    )
+    docs = [
+        Document(
+            doc_id="record/Recall/16V074000",
+            title="Piston Rings",
+            text="# Piston Rings\n\n## summary\n\nThe engine may stall.",
+            record=RecordRef(label="Recall", key_property="recall_id", key="16V074000"),
+        ),
+        Document(
+            doc_id="record/Case/123",
+            title="Case 123",
+            text="# Case 123\n\nnotes",
+            record=RecordRef(label="Case", key_property="case_id", key="123"),
+        ),
+    ]
+    chunks = [
+        Chunk(
+            chunk_id="record/Recall/16V074000#0",
+            doc_id="record/Recall/16V074000",
+            index=0,
+            text="The engine may stall.",
+            context="Piston Rings",
+        )
+    ]
+    write_lexical_graph(driver, docs, chunks)
+    driver.execute_query(
+        "MATCH (c:Chunk {chunk_id: 'record/Recall/16V074000#0'}) "
+        "CREATE (:Observation {id: 'o1', predicate: 'MAY_STALL', chunk_id: c.chunk_id, "
+        "evidence: 'The engine may stall.'})-[:FROM]->(c)"
+    )
+
+    plan = ConstructionPlan(
+        nodes=[
+            node("recalls.csv", "Recall", "recall_id", ["campaign"]),
+            node("products.csv", "Product", "product_id", ["product_name"]),
+            node("cases.csv", "Case", "case_id", ["case_name"]),
+        ],
+        relationships=[],
+    )
+    report = link_graphs(driver, plan)
+    assert report.record_documents_linked == 2 and report.documents_linked == 2
+
+    records, _, _ = driver.execute_query(
+        "MATCH (:Document {doc_id: 'record/Recall/16V074000'})-[l:ABOUT]->(n) "
+        "RETURN labels(n) AS labels, n.recall_id AS key, l.name AS name"
+    )
+    assert [(r["labels"], r["key"], r["name"]) for r in records] == [
+        (["Recall"], "16V074000", "Piston Rings")
+    ]
+
+    # the claim extracted from the record's own text hangs on the record as its thing (R67 part 1)
+    assert attach_observations(driver) == 1
+    records, _, _ = driver.execute_query(
+        "MATCH (r:Recall)-[:HAS_OBSERVATION]->(:Observation {id: 'o1'}) RETURN r.recall_id AS id"
+    )
+    assert [r["id"] for r in records] == ["16V074000"]

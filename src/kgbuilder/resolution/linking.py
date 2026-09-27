@@ -6,7 +6,8 @@ Design: three separated steps: read names and contexts from Neo4j, match in pure
 without a database), write the links in batches. Entities are matched inside the *scope* of the domain
 node their documents are about, because generic names repeat across the domain ("Legs" is an assembly of
 every chair and table); only names that are unique in the whole domain graph are linked without a scope.
-No LLM: links are either a name contained in a file name, or a near-exact fuzzy name match.
+No LLM: links are a name contained in a file name, a near-exact fuzzy name match, or - for a document
+built from a structured record (R67) - the record's own key.
 An observation belongs to the thing its chunk's document is ABOUT (R64): code decides what a claim is
 about, never the model, and never through a shared kind node, which is what made one product's defects
 reachable from another in R62.
@@ -19,7 +20,7 @@ from rapidfuzz import fuzz
 
 from ..core.cypher import cypher_ident
 from ..core.text import norm, squash
-from ..structured.plan import ConstructionPlan, NodeRule
+from ..structured.plan import ConstructionPlan, name_property
 
 # Names shorter than this, once squashed, are too likely to occur inside an unrelated file name ("bed"
 # in "embedded_notes") to be trusted for document linking.
@@ -57,25 +58,11 @@ class LinkReport(BaseModel):
 
     documents_linked: int
     documents_total: int
+    record_documents_linked: int  # documents built from a record, linked to it by key (R67)
     entities_linked: int  # entities with at least one REFERS_TO
     entities_linked_in_scope: int
     entities_ambiguous: int
     entity_links: int  # REFERS_TO relationships; above entities_linked when a name recurs across scopes
-
-
-def name_property(rule: NodeRule) -> str:
-    """The property holding a node's human-readable name.
-
-    The plan's `name_column` when set. Otherwise a guess: the first name-like column, else the key. The
-    guess is what made R11 necessary: `sub_assembly_name` comes before `part_name`, so parts were matched
-    by their sub-assembly code.
-    """
-    if rule.name_column is not None:
-        return rule.name_column
-    for prop in [*rule.properties, rule.unique_column]:
-        if "name" in prop.lower() or "title" in prop.lower():
-            return prop
-    return rule.unique_column
 
 
 def match_document(title: str, domain: list[DomainNode]) -> DomainNode | None:
@@ -179,15 +166,23 @@ def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0)
     driver.execute_query("MATCH (:Document)-[l:ABOUT]->() DELETE l")
     driver.execute_query("MATCH (:Entity)-[l:REFERS_TO]->() DELETE l")
 
-    documents, _, _ = driver.execute_query("MATCH (d:Document) RETURN d.doc_id AS id, d.title AS title")
+    documents, _, _ = driver.execute_query(
+        "MATCH (d:Document) RETURN d.doc_id AS id, d.title AS title, d.record_label AS record_label, "
+        "d.record_key_property AS record_key_property, d.record_key AS record_key"
+    )
+    # a document built from a record is linked to that record by key, never by its title: its title is
+    # the record's display name and could match a different, similarly named node
+    file_docs = [d for d in documents if d["record_label"] is None]
+    record_docs = [d for d in documents if d["record_label"] is not None]
     document_rows = [
         # the thing's display name travels on the link, so a reader of the text graph can name what a
         # document is about without knowing which property the plan names each label by
         {"src": d["id"], "dst": node.element_id, "props": {"name": node.name}}
-        for d in documents
+        for d in file_docs
         if (node := match_document(d["title"], domain))
     ]
     _write_links(driver, "(src:Document {doc_id: r.src})", "ABOUT", document_rows)
+    records_linked = _link_record_documents(driver, record_docs)
 
     # the documents each entity is mentioned in, reduced to the domain nodes they are ABOUT
     entities, _, _ = driver.execute_query(
@@ -214,13 +209,39 @@ def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0)
     _write_links(driver, "(src:Entity {id: r.src})", "REFERS_TO", entity_rows)
 
     return LinkReport(
-        documents_linked=len(document_rows),
+        documents_linked=len(document_rows) + records_linked,
         documents_total=len(documents),
+        record_documents_linked=records_linked,
         entities_linked=sum(bool(r.matches) for r in results.values()),
         entities_linked_in_scope=sum(r.scoped for r in results.values()),
         entities_ambiguous=sum(r.ambiguous for r in results.values()),
         entity_links=len(entity_rows),
     )
+
+
+def _link_record_documents(driver: Driver, docs: list[dict]) -> int:
+    """MERGE `(Document)-[:ABOUT]->(record)` for documents built from a record, matched by the record's
+    key. Returns how many documents found their record; a missing record leaves its document unlinked,
+    which the documents_linked/documents_total gap makes visible.
+
+    Keys are compared as text: the document carries the staged CSV's string while the importer stored
+    the typed value. That comparison cannot use the key index, which is fine for the few record
+    documents a dataset has (29 recalls on NHTSA). The link's name is the record's display name, taken
+    from the document title (record_documents.py set it from the plan's name column).
+    """
+    linked = 0
+    groups: dict[tuple[str, str], list[dict]] = {}
+    for d in docs:
+        groups.setdefault((d["record_label"], d["record_key_property"]), []).append(d)
+    for (label, key_prop), group in groups.items():
+        records, _, _ = driver.execute_query(
+            "UNWIND $rows AS r MATCH (src:Document {doc_id: r.src}) "
+            f"MATCH (n:{cypher_ident(label)}) WHERE toString(n.{cypher_ident(key_prop)}) = r.key "
+            "MERGE (src)-[l:ABOUT]->(n) SET l.name = r.name RETURN count(DISTINCT src) AS c",
+            rows=[{"src": d["id"], "key": d["record_key"], "name": d["title"]} for d in group],
+        )
+        linked += records[0]["c"]
+    return linked
 
 
 def attach_observations(driver: Driver) -> int:

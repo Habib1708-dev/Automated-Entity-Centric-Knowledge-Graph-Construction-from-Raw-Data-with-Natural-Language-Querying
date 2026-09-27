@@ -31,6 +31,8 @@ from ..validation.report import ValidationReport
 
 PLAN_FILE = "plan.json"
 TEXT_SCHEMA_FILE = "text_schema.json"
+PROFILE_FILE = "profile.json"
+STAGING_DIR = "staging"  # where ProfileStage stages the tables, under `out/`
 
 
 @dataclass
@@ -98,6 +100,17 @@ class PipelineState:
         if self.plan is None and required:
             raise MissingInputError(f"{path} not found; run `kg plan` first")
         return self.plan
+
+    def load_profile(self, ctx: PipelineContext) -> DataProfile | None:
+        """The profile from this run, else `out/profile.json` of an earlier command; None without either.
+
+        Never required: a text-only dataset has no tables, so stages that use the profile opportunistically
+        (record documents in ingest) simply skip when it is missing.
+        """
+        path = ctx.out / PROFILE_FILE
+        if self.profile is None and path.exists():
+            self.profile = DataProfile.model_validate_json(path.read_text(encoding="utf-8"))
+        return self.profile
 
     def load_text_schema(self, ctx: PipelineContext, required: bool = True) -> TextSchema | None:
         """The schema from this run, else the reviewed `out/text_schema.json`."""

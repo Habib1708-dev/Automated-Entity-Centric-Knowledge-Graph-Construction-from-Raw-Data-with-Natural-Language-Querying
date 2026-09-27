@@ -9,9 +9,12 @@ import pytest
 
 from kgbuilder.core.text import norm
 from kgbuilder.llm.refine import Critique
+from kgbuilder.structured.plan import ConstructionPlan
+from kgbuilder.structured.profiler import profile_directory
 from kgbuilder.text.chunking import chunk_document, document_context
 from kgbuilder.text.documents import Document, load_documents
 from kgbuilder.text.lexical import read_chunks, write_lexical_graph
+from kgbuilder.text.record_documents import record_documents
 from kgbuilder.text.schema import (
     CRITIC_PROMPT,
     PROMPT,
@@ -24,6 +27,7 @@ from kgbuilder.text.schema import (
 )
 
 from .fakes import ScriptedLLM
+from .sample_plans import node
 
 ROOT = Path(__file__).parent.parent
 
@@ -115,6 +119,62 @@ def test_text_schema_critic_can_send_a_valid_schema_back():
     assert result.accepted and result.rounds == 2
     assert [r.source for r in result.history] == ["critic", "none"]
     assert "Problem overlaps Defect" in prompts[2]  # the critic's issue reached the second proposal
+
+
+# Multi-sentence running text, above the profiler's prose bounds; the tagline below is not.
+RECALL_PROSE = (
+    "The piston rings may wear prematurely and allow oil to enter the combustion chamber. Excessive "
+    "oil consumption can cause the engine to stall without warning. A stall increases the risk of a crash."
+)
+
+
+def record_fixture(tmp_path: Path) -> tuple[Path, ConstructionPlan]:
+    (tmp_path / "recalls.csv").write_text(
+        "recall_id,campaign,summary,consequence\n"
+        f'16V074000,Piston Rings,"{RECALL_PROSE}","{RECALL_PROSE}"\n'
+        f'16V075000,Brake Cables,"{RECALL_PROSE}",\n'
+        "16V076000,Empty One,,\n",
+        encoding="utf-8",
+    )
+    # tagline-length description: the furniture shape, which must yield no record documents
+    (tmp_path / "products.csv").write_text(
+        "product_id,product_name,description\nP1,Table,Sturdy oak table.\n", encoding="utf-8"
+    )
+    plan = ConstructionPlan(
+        nodes=[
+            node("recalls.csv", "Recall", "recall_id", ["campaign", "summary", "consequence"]).model_copy(
+                update={"name_column": "campaign"}
+            ),
+            node("products.csv", "Product", "product_id", ["product_name", "description"]),
+        ],
+        relationships=[],
+    )
+    return tmp_path, plan
+
+
+def test_records_with_prose_become_documents_and_taglines_do_not(tmp_path):
+    staged, plan = record_fixture(tmp_path)
+    docs = record_documents(staged, plan, profile_directory(staged))
+
+    # only the two recalls with text; the empty record and the tagline-only products yield nothing
+    assert [d.doc_id for d in docs] == ["record/Recall/16V074000", "record/Recall/16V075000"]
+    first = docs[0]
+    assert first.title == "Piston Rings"
+    assert first.record.label == "Recall" and first.record.key_property == "recall_id"
+    assert first.record.key == "16V074000"
+    # one section per prose column, each named after its column; empty cells leave no section
+    assert first.text.startswith("# Piston Rings\n") and "## summary" in first.text
+    assert RECALL_PROSE in first.text
+    assert "## consequence" not in docs[1].text
+
+
+def test_record_document_chunks_carry_the_records_name_as_context(tmp_path):
+    staged, plan = record_fixture(tmp_path)
+    docs = record_documents(staged, plan, profile_directory(staged))
+    chunks = chunk_document(docs[0], min_chars=10)
+    # the extractor may only use names it is shown: "the engine may stall" must become a claim it can
+    # tie to this recall's name, exactly like the review documents (R34)
+    assert chunks and all(c.context == "Piston Rings" for c in chunks)
 
 
 @pytest.mark.neo4j

@@ -28,8 +28,21 @@ def write_lexical_graph(
     driver.execute_query("CREATE CONSTRAINT IF NOT EXISTS FOR (d:Document) REQUIRE d.doc_id IS UNIQUE")
     driver.execute_query("CREATE CONSTRAINT IF NOT EXISTS FOR (c:Chunk) REQUIRE c.chunk_id IS UNIQUE")
     driver.execute_query(
-        "UNWIND $rows AS r MERGE (d:Document {doc_id: r.doc_id}) SET d.title = r.title",
-        rows=[{"doc_id": d.doc_id, "title": d.title} for d in docs],
+        # record_* is the RecordRef of a document built from a structured record (R67); setting the
+        # fields to null on a file document erases a leftover ref from an earlier ingest of that doc_id
+        "UNWIND $rows AS r MERGE (d:Document {doc_id: r.doc_id}) SET d.title = r.title, "
+        "d.record_label = r.record_label, d.record_key_property = r.record_key_property, "
+        "d.record_key = r.record_key",
+        rows=[
+            {
+                "doc_id": d.doc_id,
+                "title": d.title,
+                "record_label": d.record.label if d.record else None,
+                "record_key_property": d.record.key_property if d.record else None,
+                "record_key": d.record.key if d.record else None,
+            }
+            for d in docs
+        ],
     )
 
     # Chunks of these documents that the current chunking no longer produces. DETACH also drops their

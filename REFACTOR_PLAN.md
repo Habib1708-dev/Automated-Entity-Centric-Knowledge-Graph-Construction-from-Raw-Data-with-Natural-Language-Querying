@@ -1959,6 +1959,36 @@ and a number with a unit as its object. The schema proposer describes aspects of
     ("PADS SUBCOMPONENT_OF LEFT REAR BRAKE", "PISTON SNAP RING SUBCOMPONENT_OF ENGINE"), the gas gauge that is
     the owner's evidence, not a fault (as R62), and "could cause an accident" stored as "causes".
 
+### R67. Recall texts and NHTSA linking (started 2026-09-27)
+One concern: the held-out text reaches its structured records (`entities_linked` 0 since R58, and the 29
+recall texts are node properties no claim is made from). Every rule is domain-neutral and computed in code;
+the furniture graph must come out unchanged (its `description` column is one short tagline per product).
+- Decisions taken with the user before the code (2026-09-27, both recommendations accepted):
+  - **Record dates stay on the record.** A complaint section is tied to its Complaint record, and its dates
+    (`dateOfIncident`, `dateComplaintFiled`) are read there in one hop. No date is copied onto claims, so code
+    never picks which date column of a dataset is "the" date (a choice about meaning). Deviation from the
+    task file ("dateOfIncident becomes the record time of their observations").
+  - **Claims hang on both things.** `HAS_OBSERVATION` from the thing the document is about (as today, so the
+    R65 questions and `path_truth` keep their meaning) and from the record its section is about.
+- Parts, one commit each; code parts are $0, the run comes last:
+  - **Part 1: record text becomes documents.** A string column whose values are prose (a rule on length and
+    sentences, from the profile) is not only a property: each record's prose columns become one document
+    `ABOUT` that record by its key, so its claims become observations with the record as thing. On NHTSA:
+    the 29 recalls' Summary, Consequence and Remedy (and Notes); on furniture: none.
+    **Done 2026-09-27:** profiler computes `is_prose` (avg ≥ 120 chars and ≥ half the values
+    multi-sentence); `text/record_documents.py` builds one document per record with a `RecordRef`;
+    linking ties it `ABOUT` its record by key (`toString` compare), never by title; `name_property`
+    moved to `structured/plan.py`. Gate green (252 tests, ruff clean); no run, tests are the proof.
+  - **Part 2: text reaches records.** (a) A text entity links to a domain node whose name its name contains
+    as whole words, within its documents' scope (R60's containment rule, now in linking too): "2016 Honda
+    Civic" to `Vehicle {model: 'CIVIC'}`. (b) A section whose heading contains a record's unique key as a
+    whole token is `ABOUT` that record (`(:Chunk)-[:ABOUT]->(:Complaint)`), and its observations are
+    attached to it too.
+  - **Part 3: one held-out run** (asked first), judged: `entities_linked` > 0 with every text vehicle linked,
+    at least one observation per recall with the recall as thing, judge precision of the recall observations
+    with its `n`, and a gold question from the Civic's piston ring complaint to recall `16V074000` without a
+    `Document -ABOUT->` jump.
+
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
 step, done before R66 part 2 (numbered after the reserved R67 and R68).

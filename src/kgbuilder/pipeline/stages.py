@@ -30,6 +30,7 @@ from ..text import schema as text_schema
 from ..text.chunking import chunk_document
 from ..text.documents import load_documents
 from ..text.lexical import write_lexical_graph
+from ..text.record_documents import record_documents
 from ..text.subject_graph import write_subject_graph
 from ..tracking.base import Run
 from ..validation.evaluate import evaluate
@@ -37,7 +38,7 @@ from ..validation.gold import load_gold
 from ..validation.judge import JudgeSheet, load_verdicts
 from ..validation.rescore import rescore
 from ..validation.validator import validate_graph
-from .stage import PLAN_FILE, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
+from .stage import PLAN_FILE, PROFILE_FILE, STAGING_DIR, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 
 
 class BaseStage:
@@ -112,7 +113,7 @@ class ProfileStage(BaseStage):
 
     def run(self, ctx, state, run):
         data_dir = state.need("data_dir", "pass the data directory")
-        staging = stage_structured(data_dir, ctx.out / "staging")
+        staging = stage_structured(data_dir, ctx.out / STAGING_DIR)
         state.staged_dir = staging.staged_dir
         state.profile = profile_directory(staging.staged_dir)
         run.metrics(
@@ -120,8 +121,10 @@ class ProfileStage(BaseStage):
             files_skipped=len(staging.skipped),
             foreign_key_candidates=len(state.profile.foreign_keys),
             rows=sum(f.row_count for f in state.profile.files),
+            # columns holding running text (R67): these records become documents at ingest
+            prose_columns=sum(c.is_prose for f in state.profile.files for c in f.columns),
         )
-        run.artifact(ctx.write("profile.json", state.profile.model_dump_json(indent=2)))
+        run.artifact(ctx.write(PROFILE_FILE, state.profile.model_dump_json(indent=2)))
 
 
 class PlanStage(BaseStage):
@@ -214,6 +217,17 @@ class IngestTextStage(BaseStage):
     def run(self, ctx, state, run):
         s = ctx.settings
         docs = load_documents(state.need("data_dir", "pass the data directory"), exclude=ctx.out)
+        # records with prose columns become documents too (R67). Opportunistic: without a plan, a
+        # profile and staged tables (a text-only dataset, or ingest before profile) there are none.
+        plan = state.load_plan(ctx, required=False)
+        profile = state.load_profile(ctx)
+        staged = Path(state.staged_dir) if state.staged_dir else ctx.out / STAGING_DIR
+        record_docs = (
+            record_documents(staged, plan, profile)
+            if plan is not None and profile is not None and staged.is_dir()
+            else []
+        )
+        docs = [*docs, *record_docs]
         chunks = [
             c
             for d in docs
@@ -227,6 +241,7 @@ class IngestTextStage(BaseStage):
         state.chunks = chunks
         run.metrics(
             documents=len(docs),
+            record_documents=len(record_docs),
             chunks=len(chunks),
             embedded=int(bool(embeddings)),
             avg_chunk_chars=sum(len(c.text) for c in chunks) / len(chunks) if chunks else 0.0,

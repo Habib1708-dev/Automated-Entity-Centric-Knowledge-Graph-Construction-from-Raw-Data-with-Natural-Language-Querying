@@ -11,10 +11,24 @@ from pydantic import BaseModel
 TEXT_SUFFIXES = {".md", ".txt", ".pdf"}
 
 
+class RecordRef(BaseModel):
+    """The structured record a synthetic document was built from (text/record_documents.py, R67).
+
+    Carrying the key lets linking tie the document to its record deterministically, instead of the
+    name-in-title match used for file documents.
+    """
+
+    label: str  # the record's node label, from the plan
+    key_property: str  # the plan's unique_column for that label
+    key: str  # the record's key value as text; linking compares it against toString(node key)
+
+
 class Document(BaseModel):
     doc_id: str  # path relative to the data dir, posix style: stable across machines and reruns
     title: str  # file name without suffix; the linker matches it against domain node names
     text: str
+    # only on documents built from a record's prose columns; documents read from files have none (R67)
+    record: RecordRef | None = None
 
 
 def read_pdf(path: Path) -> str:

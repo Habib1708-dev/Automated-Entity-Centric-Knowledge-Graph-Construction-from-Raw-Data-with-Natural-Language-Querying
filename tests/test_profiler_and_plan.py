@@ -1,6 +1,6 @@
 """Profiling (uniqueness, foreign keys) and plan validation on small CSV fixtures. No Neo4j needed."""
 
-from kgbuilder.structured.plan import ConstructionPlan, validate_plan
+from kgbuilder.structured.plan import ConstructionPlan, name_property, validate_plan
 from kgbuilder.structured.profiler import ColumnProfile, DataProfile, FileProfile, profile_directory
 
 from .sample_plans import GOOD_PLAN, node, rel
@@ -22,6 +22,39 @@ def test_foreign_keys(data_dir):
     assert ("assembly_supplier.csv", "supplier_id", "suppliers.csv") in found
     # P9 does not exist, so inclusion is 2/3 and falls below the threshold
     assert ("dirty.csv", "product_id", "products.csv") not in found
+
+
+# Running text, well above the length bound, three sentences: what a report summary looks like.
+PROSE = (
+    "The unit failed after two weeks of normal use. The maker was informed and offered a replacement "
+    "part free of charge. A second failure followed within days and the case was then escalated."
+)
+
+
+def test_prose_columns_are_detected_by_length_and_sentences(tmp_path):
+    (tmp_path / "records.csv").write_text(
+        "record_id,record_name,summary,tagline,notes\n"
+        f'R1,Alpha,"{PROSE}",Short and sweet.,\n'
+        f'R2,Beta,"{PROSE}",Sturdy oak frame.,\n',
+        encoding="utf-8",
+    )
+    [file] = profile_directory(tmp_path).files
+    summary = file.column("summary")
+    assert summary.is_prose and summary.avg_chars > 120 and summary.multi_sentence_ratio == 1.0
+    # a tagline is one short sentence: text, but never prose - this is what keeps the furniture
+    # description column from becoming record documents
+    assert not file.column("tagline").is_prose
+    assert not file.column("record_name").is_prose and not file.column("record_id").is_prose
+    assert not file.column("notes").is_prose  # all null: the aggregates must not crash or trigger
+
+
+def test_name_property_prefers_the_plans_name_column_then_guesses():
+    part = node("c.csv", "Part", "part_id", ["sub_assembly_name", "part_name"])
+    # without name_column the guess picks the sub-assembly code: the bug R11 fixes
+    assert name_property(part) == "sub_assembly_name"
+    assert name_property(part.model_copy(update={"name_column": "part_name"})) == "part_name"
+    assert name_property(node("p.csv", "Doc", "doc_id", ["Title"])) == "Title"
+    assert name_property(node("p.csv", "Thing", "thing_id", ["price"])) == "thing_id"
 
 
 def test_good_plan_is_valid(data_dir):
