@@ -1,6 +1,6 @@
 """The stage abstraction: what every pipeline stage looks like to the runner.
 
-Role in the pipeline: stages.py implements `Stage` nine times; runner.py executes them.
+Role in the pipeline: stages.py implements `Stage` once per stage; runner.py executes them.
 Design: Pipeline pattern. A stage declares its name, its MLflow params and whether it applies; the runner
 opens the tracked run, so a stage cannot forget tracking. Stages communicate only through
 `PipelineState`, and every piece of state that a human may review is also a file in `out/`, which is how
@@ -26,6 +26,7 @@ from ..text.extraction import ExtractionResult
 from ..text.lexical import read_chunks
 from ..text.schema import TextSchema
 from ..tracking.base import NullTracker, Run, Tracker
+from ..validation.coverage import CoverageReport
 from ..validation.evaluate import EvalReport
 from ..validation.report import ValidationReport
 
@@ -67,8 +68,14 @@ class PipelineState:
     data_dir: Path | None = None
     goal: str | None = None
     gold: Path | None = None
-    verdicts: Path | None = None  # the judge's verdict file for `kg eval --verdicts`
+    verdicts: Path | None = None  # the judge's verdict file for `kg eval --verdicts` or `kg coverage`
     sheet: Path | None = None  # a judge sheet an earlier eval run logged, for `kg rescore`
+    # the coverage estimate (R68): the sentence sample file (written by `kg coverage-sample`, read by
+    # `kg coverage-sheet`), how it is drawn, and the coverage sheet `kg coverage` scores
+    sample: Path | None = None
+    sample_size: int | None = None
+    sample_seed: int | None = None
+    coverage_sheet: Path | None = None
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -84,6 +91,7 @@ class PipelineState:
     links: LinkReport | None = None
     validation: ValidationReport | None = None
     evaluation: EvalReport | None = None
+    coverage: CoverageReport | None = None
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

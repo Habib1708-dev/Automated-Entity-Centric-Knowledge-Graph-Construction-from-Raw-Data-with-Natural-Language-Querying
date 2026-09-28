@@ -1,12 +1,16 @@
 """The CLI as a user sees it: output, and expected failures as a message with exit code 1 (no traceback).
 Uses a temporary MLflow store and no API key; never touches Neo4j."""
 
+import json
+
 import pytest
 from typer.testing import CliRunner
 
 from kgbuilder.cli import app, gemini_key
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ConfigurationError
+from kgbuilder.text.schema import TextSchema
+from kgbuilder.validation.coverage_sheet import CoverageSheet, SheetSentence
 
 runner = CliRunner()
 
@@ -90,3 +94,33 @@ def test_resolve_refuses_preview_and_undo_together(tmp_path):
     # checked before any connection is opened: the two flags contradict each other
     result = runner.invoke(app, ["resolve", "--preview", "--undo", "--out", str(tmp_path / "out")])
     assert result.exit_code != 0 and "exclude each other" in result.output
+
+
+def test_coverage_prints_the_estimate_and_a_bad_verdict_file_is_a_message(tmp_path):
+    sentence = SheetSentence(
+        id="s1", doc_id="a.md", chunk_id="a.md#0", text="It broke.", chunk_text="It broke.", context="",
+        things=[], observations=[],
+    )  # fmt: skip
+    sheet = CoverageSheet(
+        seed=68, population=1, text_schema=TextSchema(entity_types=[], fact_types=[]), sentences=[sentence]
+    )
+    sheet_file, verdicts_file = tmp_path / "coverage_sheet.json", tmp_path / "verdicts.json"
+    sheet_file.write_text(sheet.model_dump_json(), encoding="utf-8")
+    missed = {"claim": "it broke", "polarity": "negative", "about": None, "reason": "the schema has no type"}
+    verdicts = {
+        "judge": {"model": "claude-fable-5-1", "date": "2026-09-28"},
+        "sheet": str(sheet_file),
+        "sentences": [{"id": "s1", "claims": [{**missed, "cause": "no_schema_type"}]}],
+    }
+    verdicts_file.write_text(json.dumps(verdicts), encoding="utf-8")
+    command = ["coverage", str(sheet_file), str(verdicts_file), "--out", str(tmp_path / "out")]
+
+    result = runner.invoke(app, command)
+    assert result.exit_code == 0, result.output
+    assert "missed_no_schema_type          1" in result.output and "coverage_low" in result.output
+
+    verdicts["sentences"][0]["claims"] = [missed]  # neither covered nor given a cause
+    verdicts_file.write_text(json.dumps(verdicts), encoding="utf-8")
+    result = runner.invoke(app, command)
+    assert result.exit_code == 1
+    assert "exactly one" in result.output and "Traceback" not in result.output

@@ -334,6 +334,42 @@ def rescore(sheet: Path, gold: Path, out: Path = OUT, verdicts: Path | None = No
     )
 
 
+@app.command("coverage-sample")
+def coverage_sample(
+    target: Path,
+    size: int = typer.Option(40, min=1, help="Sentences to draw (R68 judges about 40 per dataset)."),
+    # R68's number, fixed before any sentence was seen, so the seed cannot have been tuned to a result
+    seed: int = typer.Option(68, help="Seed of the sample: the same seed draws the same sentences."),
+    out: Path = OUT,
+):
+    """Draw a fixed random sample of sentences from the graph's chunks and write it to TARGET (R68)."""
+    state = PipelineState(sample=target, sample_size=size, sample_seed=seed)
+    with session(out) as ctx:
+        run_stages(ctx, state, [st.CoverageSampleStage()])
+    typer.echo(f"Wrote {target}")
+
+
+@app.command("coverage-sheet")
+def coverage_sheet(sample: Path, out: Path = OUT):
+    """Find every sentence of SAMPLE in the current graph and write the coverage sheet for the judge: the
+    observations of its chunk and the things and records the chunk hangs on (R68)."""
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(sample=sample), [st.CoverageSheetStage()])
+    typer.echo(f"Wrote {out / st.CoverageSheetStage.SHEET_FILE}")
+
+
+@app.command()
+def coverage(sheet: Path, verdicts: Path, out: Path = OUT):
+    """Score the judge's coverage verdicts against their sheet, without the graph (R68)."""
+    state = PipelineState(coverage_sheet=sheet, verdicts=verdicts)
+    with session(out) as ctx:
+        report = run_stages(ctx, state, [st.CoverageStage()]).coverage
+    for name, value in report.metrics().items():
+        shown = "-" if value is None else f"{value:.3f}" if isinstance(value, float) else str(value)
+        typer.echo(f"{name:30} {shown}")
+    typer.echo(f"Wrote {out / st.CoverageStage.REPORT_FILE}")
+
+
 @app.command()
 def run(
     data_dir: Path | None = DATA_DIR,

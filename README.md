@@ -24,6 +24,9 @@ uv run kg run data/ --goal "..." --gold gold.json                 # also checks 
 uv run kg eval gold.json                                          # precision/recall/F1, ER accuracy, questions; writes out/judge_sheet.json
 uv run kg eval gold.json --verdicts out/judge_verdicts.json       # plus the judge's validated precision/recall (see below)
 uv run kg rescore SHEET gold.json --verdicts V.json              # re-score an earlier eval run's logged sheet (no graph)
+uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random sample of sentences (coverage, below)
+uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
+uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -196,6 +199,7 @@ src/kgbuilder/
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
   resolution/       matchers (Strategy) -> resolver (merge, undo) ; linking
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
+                    sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
 ```
 
@@ -210,6 +214,7 @@ src/kgbuilder/
 | `resolve` | `resolution/matchers.py`, `resolution/resolver.py` | borderline pairs only |
 | `link` | `resolution/linking.py` | no |
 | `validate`, `eval` | `validation/` | no |
+| `coverage_sample`, `coverage_sheet`, `coverage` | `validation/sentences.py`, `validation/coverage_sheet.py`, `validation/coverage.py` | no |
 
 ## Experiment tracking
 
@@ -261,6 +266,24 @@ meaning-based score. The judge is Claude in the Claude Code session, never the m
    `recall_validated`, `f1_validated`, `ambiguous_rate`, `vague_rate`, `unsupported_<reason>` and
    `gold_corrections` next to the exact-match metrics, with `judge_model` and the file hashes as params.
    A verdict file that does not cover exactly the graph's sheet is refused, never scored silently.
+
+## Coverage estimate
+
+How much of what the text states can a question reach? No gold set is needed: a fixed sample of sentences
+is judged claim by claim (R68).
+
+1. `kg coverage-sample FILE` splits the graph's chunks into sentences and draws a seeded random sample
+   (default 40 sentences, seed 68). The sample is committed; a sentence is identified by its document and
+   wording, so the same sample can be measured on another graph of the same text.
+2. `kg coverage-sheet FILE` finds each sentence in the current graph and writes `out/coverage_sheet.json`:
+   its chunk, the things the chunk hangs on (with their record fields) and the observations from it.
+3. The judge (Claude in the session) first lists each sentence's claims from the text alone, then says for
+   each which observations or record fields state it, or the first of ten ordered causes why none does
+   (`extraction` first, then `no_schema_type`, `identity`, `attachment`, `assertion`, `attribution`, `role`,
+   `event_structure`, `concept`, `other`). Format: `validation/coverage.py`.
+4. `kg coverage SHEET VERDICTS` logs `coverage` (stated by something stored) and `reachable` (stored, or
+   about a thing its chunk hangs on) with their Wilson intervals, coverage by polarity and over the claims
+   the schema had a place for, and `missed_<cause>` per cause. It needs no graph.
 
 ## Development
 

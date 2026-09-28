@@ -33,10 +33,14 @@ from ..text.lexical import write_lexical_graph
 from ..text.record_documents import record_documents
 from ..text.subject_graph import write_subject_graph
 from ..tracking.base import Run
+from ..validation.checks.base import CheckContext
+from ..validation.coverage import load_coverage_verdicts, score_coverage
+from ..validation.coverage_sheet import CoverageSheet, build_coverage_sheet, read_chunk_things
 from ..validation.evaluate import evaluate
 from ..validation.gold import load_gold
 from ..validation.judge import JudgeSheet, load_verdicts
 from ..validation.rescore import rescore
+from ..validation.sentences import SentenceSample, draw_sample
 from ..validation.validator import validate_graph
 from .stage import PLAN_FILE, PROFILE_FILE, STAGING_DIR, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 
@@ -558,3 +562,90 @@ class RescoreStage(EvalStage):
         run.artifact(
             ctx.write("rescore_report.json", report.model_dump_json(indent=2, exclude={"judge_sheet"}))
         )
+
+
+class CoverageSampleStage(BaseStage):
+    """Draw the fixed sentence sample of the coverage estimate (R68) from the graph's chunks and write it
+    to the sample file, which is committed and judged like a gold file (so not under out/)."""
+
+    name = "coverage_sample"
+
+    def params(self, ctx, state):
+        return {
+            "sample": state.need("sample", "pass the sample file to write"),
+            "sample_size": state.need("sample_size", "pass the sample size"),
+            "sample_seed": state.need("sample_seed", "pass the seed"),
+        }
+
+    def run(self, ctx, state, run):
+        sample = draw_sample(state.load_chunks(ctx), state.sample_size, state.sample_seed)
+        target = Path(state.sample)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(sample.model_dump_json(indent=2), encoding="utf-8")
+        run.metrics(sentences_total=sample.population, sentences_sampled=len(sample.sentences))
+        run.artifact(target)
+
+
+class CoverageSheetStage(BaseStage):
+    """Write the coverage sheet: every sentence of a sample file, found again in the current graph, with
+    the observations of its chunk and the things and records the chunk hangs on (R68)."""
+
+    name = "coverage_sheet"
+    SHEET_FILE = "coverage_sheet.json"
+
+    def params(self, ctx, state):
+        sample = _input_file(state.need("sample", "pass the sample file"), "sample file")
+        params: dict[str, object] = {"sample": sample, "sample_hash": _digest(sample)}
+        schema = ctx.out / TEXT_SCHEMA_FILE
+        if schema.exists():
+            # the sheet shows the schema's fact types, and a missed claim is judged against them
+            params["text_schema_hash"] = _digest(schema)
+        return params
+
+    def run(self, ctx, state, run):
+        sample_file = _input_file(state.sample, "sample file")
+        sample = SentenceSample.model_validate_json(sample_file.read_text(encoding="utf-8"))
+        chunks = state.load_chunks(ctx)
+        things = read_chunk_things(ctx.driver, [c.chunk_id for c in chunks])
+        facts = CheckContext(ctx.driver).facts
+        sheet = build_coverage_sheet(sample, chunks, facts, things, state.load_text_schema(ctx))
+        run.metrics(
+            sentences=len(sheet.sentences),
+            sentences_with_observations=sum(bool(s.observations) for s in sheet.sentences),
+            # a sentence whose chunk hangs on no thing can only be found by searching the text
+            sentences_on_a_thing=sum(bool(s.things) for s in sheet.sentences),
+            observations_shown=sum(len(s.observations) for s in sheet.sentences),
+        )
+        run.artifact(sample_file)
+        run.artifact(ctx.write(self.SHEET_FILE, sheet.model_dump_json(indent=2)))
+
+
+class CoverageStage(BaseStage):
+    """Score the judge's coverage verdicts against their sheet (R68), with no graph and no LLM: coverage
+    and reachability with Wilson intervals, by polarity and schema place, and the misses per cause."""
+
+    name = "coverage"
+    REPORT_FILE = "coverage_report.json"
+
+    def params(self, ctx, state):
+        sheet = _input_file(state.need("coverage_sheet", "pass the coverage sheet"), "coverage sheet")
+        verdicts = _input_file(state.need("verdicts", "pass the verdict file"), "verdict file")
+        # the sheet and the verdicts identify what was judged and how, as gold and verdicts do for `eval`
+        return {
+            "sheet": sheet,
+            "sheet_hash": _digest(sheet),
+            "verdicts": verdicts,
+            "judge_verdicts_hash": _digest(verdicts),
+            "judge_model": load_coverage_verdicts(verdicts).judge.model,
+        }
+
+    def run(self, ctx, state, run):
+        sheet_file = _input_file(state.coverage_sheet, "coverage sheet")
+        verdicts_file = _input_file(state.verdicts, "verdict file")
+        sheet = CoverageSheet.model_validate_json(sheet_file.read_text(encoding="utf-8"))
+        report = score_coverage(sheet, load_coverage_verdicts(verdicts_file))
+        state.coverage = report
+        run.metrics(**report.metrics())
+        run.artifact(sheet_file)
+        run.artifact(verdicts_file)
+        run.artifact(ctx.write(self.REPORT_FILE, report.model_dump_json(indent=2)))

@@ -2005,6 +2005,55 @@ the furniture graph must come out unchanged (its `description` column is one sho
     extractor returned zero facts from well-formed chunks (nothing rejected) - model variance, not retried
     (run budget).
 
+### R68. Coverage: is every fact a question needs reachable? (started 2026-09-28)
+The last step of the observation-graph arm, and Step 0 of the layered-model direction
+(`docs/direction/2026-09-27_layered-knowledge-model/`, section 7; task file
+`docs/tasks/layered-knowledge-model.md`). Precision is judged against the text and recall against a
+defect-only gold, so nothing yet says how much of what the text states a question can reach. No new gold
+set: a fixed random sample of sentences per dataset, judged claim by claim, scored by code.
+- **Reading (the layered-model goal, 2026-09-27).** The judge lists the claims of each sampled sentence
+  that a question could need. A claim is **covered** when an observation from the sentence's chunk states
+  it (subject, relation, object, negation and speaker intact) and hangs on the thing it is about. It is
+  **reachable** when it is covered, or when its chunk hangs on the thing it is about, so that a retrieval
+  route could still read it from the text. Covered is what counting and filtering need; reachable is what
+  locating the evidence needs.
+- **Ten causes, in order; the judge takes the first that fits**, so every miss counts once, and the model's
+  misses are never blamed on the shape (cause 1 comes first):
+
+  | # | Cause | Real example |
+  |---|---|---|
+  | 1 | Extraction miss: the shape and the schema could hold it, the model did not extract it | the RAV4 complaint "YOU CAN HEAR WIND ... ALSO YOU CAN SMELL FREON" gave no claim (R66) |
+  | 2 | No schema type | DeepSeek's held-out schema had no part-vehicle relation: 15 `INSTALLED_IN` gold triples (R66) |
+  | 3 | Entity identity | the bed's "drawer slides" merged into the dresser's "drawer rails" (R64) |
+  | 4 | Wrong attachment | "had multiple Outbacks in the past" can only hang on the complaint's vehicle |
+  | 5 | Assertion | "couldn't get the drawers to slide right" stored as stated |
+  | 6 | Attribution | "ADVISED BY FORD THIS IS NORMAL" |
+  | 7 | Role | the Civic's when-clauses stored as `time` (gold 18-23) |
+  | 8 | Event structure | "3RD TIME, PADS CHANGED AND ROTORS MACHINED ... SQUEAL RETURNED IN TWO DAYS" |
+  | 9 | Concept | veneer typed as a Material, so no part claim (gold 81, 94, R66) |
+  | 10 | Other | |
+- **Order of judging (the gold rule of the `evaluation` skill):** the claims of every sentence are listed
+  before any observation is opened; matching them to observations is a second pass.
+- Parts, one commit each:
+  - **Part 1: code, $0, no run.** A seeded sentence sample over the graph's chunks, a coverage sheet (each
+    sentence with its chunk, the things the chunk hangs on and the observations from it), the verdict file
+    with the ten causes, and pure scoring: `coverage` and `reachable` with Wilson intervals, coverage by
+    polarity and by schema place, the count per cause. Commands `kg coverage-sample`, `kg coverage-sheet`
+    and `kg coverage` (the last one needs no graph).
+    **Done 2026-09-28:** `validation/sentences.py` (line-wise split at sentence stops, never inside a
+    number; sample by SHA-256 rank of seed and sentence id, so it survives re-chunking),
+    `validation/coverage_sheet.py` (a sentence is found by document and wording; its chunk's
+    observations under their own wording and resolved name; the things the chunk hangs on with their
+    record fields, long text cut at 80 characters), `validation/coverage.py` (the ten causes as `Cause`;
+    a claim is covered or missed, never both; a miss names its schema type unless `no_schema_type`;
+    the file must judge every sentence once and cite only its own chunk's items), `validation/interval.py`
+    (`Proportion` with the Wilson interval; reproduces R66's and R67's hand-computed intervals). Stages
+    `coverage_sample`, `coverage_sheet`, `coverage`. Gate green (273 tests, 257 before; ruff clean); no
+    run, tests are the proof.
+  - **Part 2: the estimate.** About 40 sentences per dataset: held-out on the R67 graph, furniture on the
+    R66 graph, both rebuilt from the LLM cache (asked first). Two judge passes, then `kg coverage`; per
+    dataset coverage and reachable with `n` and interval, and the count per cause with one example each.
+
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
 step, done before R66 part 2 (numbered after the reserved R67 and R68).
