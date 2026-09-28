@@ -2053,6 +2053,20 @@ set: a fixed random sample of sentences per dataset, judged claim by claim, scor
   - **Part 2: the estimate.** About 40 sentences per dataset: held-out on the R67 graph, furniture on the
     R66 graph, both rebuilt from the LLM cache (asked first). Two judge passes, then `kg coverage`; per
     dataset coverage and reachable with `n` and interval, and the count per cause with one example each.
+    **Paused 2026-09-28 (the user's choice), $0 so far.** The user said yes to both cached rebuilds and
+    chose the R66 DeepSeek furniture graph (the model confound with the Gemini runs of the layered arm is
+    stated; a Gemini furniture baseline is decided before layered Step 2). Done: the held-out rebuild into
+    `out/r68_heldout` with R67's own plan and text schema (the R52 schema, see "Found along the way"):
+    build, `ingest-text --no-embed` (34 documents, 81 chunks), `EXTRACT_PASSES=2 extract` (MLflow
+    `6a346cdc`: 162 calls, 162 cache hits, `cost_usd` 0; `triples.jsonl` byte-identical to R67's). The
+    sample, drawn from those chunks and committed: `tests/gold/r68/heldout_sample.json`, 40 of 390
+    sentences (21 from complaints, 19 from recall texts), seed 68 (MLflow `coverage_sample` `16b59e95`).
+    Stopped at `resolve`: the Gemini key answers 402 "prepayment credits are depleted", resolution needs
+    live embeddings (never cached) and no free key is set; without them the graph would not be R67's (other
+    merge candidates, whose adjudications would call Gemini as well). To resume once the key has credits:
+    held-out resolve, link and eval (its judge sheet must equal `out/heldout/judge_sheet.json`) and
+    `coverage-sheet`; the furniture rebuild with `quality_deepseek` from `out/r66_furniture` (eval against
+    R66's sheet), its sample and sheet; then the two judge passes and `kg coverage`.
 
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
@@ -2102,6 +2116,17 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
 - **Two recall documents extracted zero facts (found in R67 part 3).** `16V074000` and `17V472000`: 2
   well-formed chunks each, 0 triples proposed and 0 rejected in both passes (Gemini returned empty lists).
   Candidate: a repair pass for documents with 0 facts, or accept as model variance and measure its rate.
+- **R67's held-out graph used the R52 text schema, not R66's (found in R68).** `out/heldout/text_schema.json`
+  is byte-identical to `tests/gold/heldout_nhtsa_text_schema.json` (R52: `Complaint REPORTS_PROBLEM
+  Problem`, `INVOLVES_COMPONENT`, derived `PART_OF_VEHICLE`), and every claim of R67's judge sheet fits only
+  that schema, while the R67 entry says "frozen R66 plan and text schema". The plan is the frozen one.
+  R67's numbers stand, but they are not on the schema of R66 part 3 (Gemini, `INSTALLED_IN`); the
+  layered-model baseline table must name the schema of each graph.
+- **An embedding API error ends a command with a traceback (found in R68).** `GeminiClient.embed` calls
+  the SDK without the retry loop and without turning the error into `LLMUnavailableError`, so the 402
+  (credits depleted) during `resolve` printed the SDK's traceback instead of the CLI's one-line error,
+  and the failed calls were not counted (`embed_calls` 0 on both failed runs). Candidate: `embed` goes
+  through the same retry and error wrapping as `generate`; test first with a failing fake.
 
 - **(Fixed in its own commit, R66 part 2.) `kg rescore` failed on number claims (found in R66 part 2).** The
   judge sheet shows a claim's own wording ("30-35 hardcover books", "25kg"); the `Value` entity is named
@@ -2248,7 +2273,8 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
   not comparable; compare them on the judge-validated scores.
 - **Embeddings are not cached (found while verifying F3, 2026-09-23).** `llm/cache.py` wraps the chat
   client only, so every `kg resolve --preview` makes one live embedding call and a rebuild from the cache
-  still embeds. Cheap (about 100 short names), but not $0 and not offline.
+  still embeds. Cheap (about 100 short names), but not $0 and not offline. R68: it also makes a cached
+  rebuild impossible while the key has no credits (resolve stopped at a 402).
 - **(Closed by R45.) k = 2 splits large groups of wordings (found in R41).** Six wordings of misaligned holes became two
   groups of three: a name nominates only its 2 nearest neighbours, and the groups are not linked. Union-
   find joins chains, but only through nominated pairs. Candidate: k = 3 (cost bound 1.5x), measured.
