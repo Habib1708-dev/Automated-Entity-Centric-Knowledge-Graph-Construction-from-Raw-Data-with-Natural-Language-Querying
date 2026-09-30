@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-09-30",
+    "run_id": "24db0c1416714c6b9bddb4124ccd30f6",
+    "git_sha": "7f95f0c"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r71_furniture/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "Answer says a partial refund; matches the expected answer exactly."
+    },
+    {
+      "question_id": "F38",
+      "correct": true,
+      "reason": "Answer gives both sides: comfortable for long periods of sitting and while working from home, and one reviewer finds it less comfortable for extended work sessions."
+    }
+  ]
+}

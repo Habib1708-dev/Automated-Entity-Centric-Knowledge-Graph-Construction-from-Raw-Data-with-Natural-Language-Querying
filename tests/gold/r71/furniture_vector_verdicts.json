@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-09-30",
+    "run_id": "0cc6c6ac9e084fa2ba43b3677f34a92c",
+    "git_sha": "7f95f0c"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r71_furniture/answers_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": false,
+      "reason": "Answer says the chunks do not cover an Örebro Lamp reviewer with a dented shade and gives no offer; the expected partial refund exists in the source, so no answer is wrong (rule 5)."
+    },
+    {
+      "question_id": "F38",
+      "correct": false,
+      "reason": "Answer gives only the positive side (incredibly comfortable for long sitting, excellent lumbar support) and omits the reviewer who finds it less comfortable for extended work sessions (rule 2)."
+    }
+  ]
+}

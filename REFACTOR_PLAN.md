@@ -2274,7 +2274,7 @@ code exists, as R63 measured false paths before R64 fixed them. $0, no run.
     "counts, ranks or collects every match". Gate: 300 passed (288 after part 1), `ruff check` clean.
     $0, no run. **R70 done.**
 
-### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; parts a and b done 2026-09-30)
+### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; done 2026-09-30 on held-out and furniture, the generality corpus after R72)
 Makes the system GraphRAG end to end on the observation-graph arm's graphs as they are, so every later step
 has a baseline in answer quality (task file, Step 2). Two parts, one commit each, then the runs, asked
 first. The user chose DeepSeek (`deepseek-flash`) for everything the query stage asks a model (2026-09-30);
@@ -2358,12 +2358,109 @@ embeddings stay Gemini's, as DeepSeek has none.
   first (`test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns`), then the fix; two
   pure tests (parameter types, Cypher literals). Gate: 352 passed. The held-out graph answers of that run
   are superseded; the vector answers are unaffected (their prompt did not change).
-- **Runs (open, asked first with a cost estimate):** both gold sets and the generality corpus through both
-  systems on the Step 0 graphs; the judge scores the free-text answers.
+- **Runs (2026-09-30; the user's yes for all, with DeepSeek, thinking `low`; estimate $1.3-2.9, spent $0.46).**
+  The Step 0 graphs were rebuilt from the LLM cache, every call a cache hit and the claims byte-identical to
+  R68's: held-out into `out/r71_heldout` (heldout preset: extract `65dd6b4e` 162/162, resolve `b2ce97b3`
+  349/349 hits; rebuilt a second time after the tests wiped it), furniture into `out/r71_furniture`
+  (quality_deepseek, the DeepSeek key set to an invalid value for the command so a miss would fail).
+  | Run (MLflow) | Answers | Cost |
+  |---|---|---|
+  | held-out `qa_graph` `c8cffdd3` (before the fix, superseded; kept as `answers_graph_before_fix.jsonl`) | 38 | $0.130 |
+  | held-out `qa_vector` `ad747b8b` | 38 | $0.056 |
+  | held-out `qa_graph` `24172a31` (after the fix, the user's yes for the rerun) | 38 | $0.117 |
+  | furniture `qa_graph` `24db0c14` | 38 | $0.115 |
+  | furniture `qa_vector` `0cc6c6ac` | 38 | $0.029 |
+  | generality `plan` `fa27a97b`: stopped, "schema is not connected, isolated groups: StaffMember; Pump" (R72) | - | $0.011 |
+  The graph system averaged about 2.2 calls per question (router, Cypher with its retry, reader), the vector
+  baseline one; DeepSeek thought 250-800 tokens per call here (graph about 600), against 3,900 in R66's
+  extraction calls, which is why the estimate was high. The judge (Fable 5.1, a subagent; lead judge Opus 5.5) decided the 16 free-
+  text answers with `tests/gold/r71/qa_judge_rules.md` (invented examples only) into
+  `tests/gold/r71/{heldout,furniture}_{graph,vector}_verdicts.json`; the two cases it flagged (H20 without
+  "2.0L", the vector H35 without "free of charge") were kept as correct by the lead judge: neither detail is
+  what the question asks. Final scores by `kg qa-score` (no graph, no model): held-out `23cb2d3a` (graph),
+  `23b1cb1f` (vector); furniture `bab5d60e` (graph), `7e344fad` (vector).
+- **Results: answer accuracy per question type** (sets and numbers by code, free text by the judge; k/n and
+  Wilson 95 %):
+
+  | Type | held-out graph | held-out vector | furniture graph | furniture vector |
+  |---|---|---|---|---|
+  | multi_hop | 0.71 (5/7, 0.36-0.92) | 0.57 (4/7, 0.25-0.84) | 0.43 (3/7, 0.16-0.75) | 0.00 (0/7, 0.00-0.35) |
+  | aggregation | 0.83 (5/6, 0.44-0.97) | 0.67 (4/6, 0.30-0.90) | 0.33 (2/6, 0.10-0.70) | 0.17 (1/6, 0.03-0.56) |
+  | structured_filter | 1.00 (7/7, 0.65-1.00) | 0.71 (5/7, 0.36-0.92) | 0.50 (3/6, 0.19-0.81) | 0.00 (0/6, 0.00-0.39) |
+  | disambiguation | 0.50 (3/6, 0.19-0.81) | 0.50 (3/6, 0.19-0.81) | 0.83 (5/6, 0.44-0.97) | 0.83 (5/6, 0.44-0.97) |
+  | negation_sensitive | 0.67 (4/6, 0.30-0.90) | 0.33 (2/6, 0.10-0.70) | 0.57 (4/7, 0.25-0.84) | 0.43 (3/7, 0.16-0.75) |
+  | lookup | 0.83 (5/6, 0.44-0.97) | 0.67 (4/6, 0.30-0.90) | 1.00 (6/6, 0.61-1.00) | 0.67 (4/6, 0.30-0.90) |
+  | **all** | **0.76 (29/38, 0.61-0.87)** | **0.58 (22/38, 0.42-0.72)** | **0.61 (23/38, 0.45-0.74)** | **0.34 (13/38, 0.21-0.50)** |
+  | recall@k, retrieval-route questions | 0.71 (10/14) | 0.86 (12/14) | 0.87 (13/15) | 0.60 (9/15) |
+  | recall@k, all questions with chunk evidence | 0.64 (23/36) | 0.83 (30/36) | 0.30 (22/73) | 0.52 (38/73) |
+  | citation faithfulness | 1.00 (28/28) | 1.00 (60/60) | 1.00 (30/30) | 1.00 (50/50) |
+  | route accuracy | 0.61 (23/38) | - | 0.79 (30/38) | - |
+
+- **Failures of the graph system by cause** (the first cause that fits; one real example each):
+  - router sent a record question to text retrieval: held-out 1, furniture 7. F04 "What is the price in
+    dollars of the product whose frame a reviewer says creaks whenever someone sits down?" was read from
+    the reviews: "The chunks do not give a dollar price".
+  - the query answered wrong: held-out 7, furniture 6. Negated claims counted (F26, F27, F28: "no
+    squeaking or wobbling" counted as wobbling; the `assertion` gap of Step 4); a part of the question
+    dropped (H15 lists all five Civic recalls, not the engine one; F19 ignores "preferred"); the graph's
+    naming or shape missed (F08 wants "misalign" and "hole" in one name, the graph has the holes as the
+    subject and "didn't line up properly" as the object); the answer's form (H09 "FORD ESCAPE 2015" is not
+    the alias "2015 Ford Escape"; H31 returned whole nodes, which code wrote out as node text); a router
+    choice of exact for a text question (H25, H26: two look-alike recalls told apart only by their text;
+    H38 "When did recall 20V373000 begin?" answered 2020).
+  - reader: answer form (H23 and F25 answer a "which" question in text: "The Gothenburg Table") 2; a
+    Cypher refused twice, then retrieval (F14) 1.
+  - names not linked, traversal missed, ranking cut: 0 of the graph's wrong answers once the route is
+    counted first. The vector baseline's wrong answers: held-out 16 (5 without a gold chunk in its top 5,
+    11 with one shown or answerable only from records), furniture 25 (5 and 20): its reader cannot count
+    over the whole corpus or join records it never sees.
+- **Reading.** The graph system answers more questions right than vector-only RAG on both datasets
+  (held-out 29 against 22 of 38, furniture 23 against 13), and never fewer on any type; the gap comes from
+  the exact route (structured filters 7/7 against 5/7 and 3/6 against 0/6; the furniture multi-hop record
+  joins). The intervals overlap per type (6-7 questions each) and for the totals too (held-out 0.61-0.87
+  against 0.42-0.72; furniture 0.45-0.74 against 0.21-0.50, nearly apart), so no difference is shown
+  beyond one sample's variation yet; the direction is the same on both datasets and every type. The stop
+  rule of the task (vector-only matching the graph on every type) does not apply.
+  The graph's own retrieval reaches fewer gold chunks than vector search over all questions (0.64 against
+  0.83, 0.30 against 0.52), because exact answers read no text; on the retrieval-route questions it is
+  lower on held-out (10/14 against 12/14) and higher on furniture (13/15 against 9/15). Citations were
+  always found in the cited chunk. The largest single cause is the router (8 misses), then negation in
+  counts (3, Step 4's concern).
+- Gate after the fix: 352 passed, `ruff check` clean. The generality corpus waits for R72.
+
+### R72. Plans may keep unrelated tables apart (found by the generality corpus in R71; opened 2026-09-30)
+The generality corpus (R70) has two keyed tables from unrelated domains (`institute/staff.csv`,
+`water/pumps.csv`); no foreign-key candidate joins them. The plan check (`structured/plan.py`
+`_connectivity_issues`) and the proposer's prompt ("The schema must be one connected graph. Skip files that
+are irrelevant to the goal.") demand one connected domain graph, so the plan was refused three times
+("schema is not connected, isolated groups: StaffMember; Pump", run `fa27a97b`, $0.011). Both real datasets
+happened to be connected. The user chose to fix it in its own step before building the corpus.
+- Scope: a plan may hold several islands when no foreign-key candidate of the profile joins them; tables
+  that a candidate joins must still be connected (the check keeps catching a forgotten relationship). The
+  proposer's rule is reworded in domain-neutral words. Failing test first. The frozen plans of the real
+  datasets are unaffected.
+- Then, the user's yes given with the choice: the generality build (`generality` preset, the neutral goal,
+  `EXTRACT_PASSES=2`) and `kg qa` on `tests/gold/qa/generality_qa.json` with both systems (estimate
+  $0.25-0.6), judged as in R71, results added to R71's table.
+- Status: open.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The router sends record questions to text (found in R71).** Route accuracy 0.61 (held-out) and 0.79
+  (furniture); 8 of the graph's wrong answers were record questions read from text (F04 "What is the price
+  in dollars of the product whose frame ... creaks ...?"). Candidate: the router sees which question words
+  name record fields; measured against route accuracy before any prompt change.
+- **Exact answers return nodes or joined names (found in R71).** H31's query returned whole `:Vehicle`
+  nodes, which `rows_to_answer` writes as node text; H09 returned "FORD ESCAPE 2015" where the gold alias
+  is "2015 Ford Escape" (the set rule compares names under `norm`, word order included). Candidates: a node
+  value is read as its display name (the plan's name property); and whether set matching should ignore
+  word order is a scoring decision to take before the next runs, not after seeing them.
+- **The reader answers a "which" question in text (found in R71).** H23 ("NHTSA recall campaign
+  22V254000") and F25 ("The Gothenburg Table") are right in substance and scored wrong by form, in both
+  systems alike. Candidate: code reads a lone name out of a text answer only when the gold asks for a set;
+  or leave it, as it costs both systems the same.
 
 - **(Decided in R71: both numbers are reported.) Recall@k rests on few chunks (found in R70).** Only retrieval-route questions count, and they cite 15
   (furniture), 14 (held-out) and 14 (generality) evidence chunks, so a rate of 10 of 15 has a Wilson

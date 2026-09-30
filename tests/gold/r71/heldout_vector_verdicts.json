@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-09-30",
+    "run_id": "ad747b8b81f948a5aebab85f9d8ec297",
+    "git_sha": "1a6e013"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r71_heldout/answers_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": true,
+      "reason": "Answer says dealers will inspect and replace the piston assemblies and damaged engine components as necessary, free of charge; matches the expected remedy in full."
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "Answer says the piston assemblies may have been made without a piston wrist pin circlip or with it incorrectly installed; matches the gold evidence sentence, which itself does not mention 2.0L."
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "No text, but the entities field names Hall Nissan in Chesapeake, VA, which is the expected dealer (judged on content, rule 3)."
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "Answer says a harness protector cover, which is what the question asks dealers will install; it omits the free-of-charge detail but names the installed item correctly."
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "Answer says Nissan engineering declared the system worked as intended; matches the expected answer."
+    },
+    {
+      "question_id": "H38",
+      "correct": false,
+      "reason": "Answer says the chunks do not mention recall 20V373000 and gives no date; the expected answer August 17, 2020 exists in the source, so no answer is wrong (rule 5)."
+    }
+  ]
+}
