@@ -2187,7 +2187,7 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
 - Verified live with one tiny call (the user's key; well under $0.001): JSON mode with effort `low` returned
   a valid object, 157 prompt, 13 visible and 100 reasoning tokens, 2.7 s.
 
-### R70. Question-answer benchmark (layered-model Step 1; part 1 done 2026-09-30)
+### R70. Question-answer benchmark (layered-model Step 1; done 2026-09-30)
 The first step of the layered-model arm (branch `layered-model`, task file
 `docs/tasks/layered-knowledge-model.md`, Step 1): what "answers correctly" means, fixed before any query
 code exists, as R63 measured false paths before R64 fixed them. $0, no run.
@@ -2225,11 +2225,64 @@ code exists, as R63 measured false paths before R64 fixed them. $0, no run.
     and without one; a citation to a chunk not retrieved, and to the wrong retrieved chunk; recall@k at
     k = 1 and 2 with the exact-route question left out; per-type n and interval; the answers file read
     and a bad line named. Gate: 288 passed (273 before), `ruff check` clean. No run: tests are the proof.
-- **Part 2: gold sets and generality corpus (open).**
+- **Part 2: gold sets and generality corpus (done 2026-09-30).** Written by Claude (Opus 5.5) from whole
+  files, before any query code or answer exists: all 70 furniture reviews and the five tables; all 25
+  held-out complaints, the 29 recall texts (as the record documents the pipeline builds from the frozen
+  plan) and the three tables. The only pipeline output opened was R68's coverage sheets, to confirm that
+  the rebuilt chunks equal the graph's (34 of 34 furniture and 29 of 29 held-out chunk texts identical).
+
+  | Gold file (`tests/gold/qa/`) | multi_hop | aggregation | structured_filter | disambiguation | negation_sensitive | lookup | total | exact / retrieval | sets / numbers / texts |
+  |---|---|---|---|---|---|---|---|---|---|
+  | `furniture_qa.json` | 7 | 6 | 6 | 6 | 7 | 6 | 38 | 27 / 11 | 24 / 12 / 2 |
+  | `heldout_qa.json` | 7 | 6 | 7 | 6 | 6 | 6 | 38 | 26 / 12 | 26 / 6 / 6 |
+  | `generality_qa.json` | 3 | 2 | 3 | 4 | 2 | 7 | 21 | 9 / 12 | 10 / 3 / 8 |
+
+  - **Carried over with their answers unchanged:** the six R65 furniture questions and the seven held-out
+    ones (R65's six and R67's complaint question), each with `origin`; a test compares their expected
+    names with `tests/gold/r65/`. Their types: furniture 2 multi-hop, 1 aggregation, 2 negation-sensitive
+    (wobbling, squeak or creak), 1 disambiguation (defective drawer rails); held-out 1 structured filter,
+    1 aggregation, 2 disambiguation (windshield, reverse), 1 negation-sensitive (air bags), 2 multi-hop.
+  - **Evidence** is what supports the expected answer; the traps are named in each question's `note`, not
+    cited, so recall@k never asks a system to fetch a chunk that argues against the answer. An empty answer
+    cites the negated mentions it rests on: F29 "Which products do reviews report as sagging?" expects none
+    and cites four "no sagging" chunks. Examples of the types: H30 "Which vehicles did owners report being
+    in a rear-end collision?" expects none ("A REAR END COLLISION WAS NARROWLY AVOIDED IN ONE CASE."); H23
+    "Which NHTSA recall campaign does Ford number 22S25?" expects 22V254000, not the look-alike 22V413000
+    (22S43); H06 asks for 2019-model complaints of a car that will not accelerate: the RAV4's 11209676,
+    not the 2015 Escape's hesitation.
+  - **Generality corpus** `tests/fixtures/generality/` (synthetic, written by Claude): 11 documents in three
+    unrelated domains, one folder each: a water utility (pump inspection, incident report, shift notes), a
+    research institute (newsletter, committee minutes, field log, seminar notice) and local news (council
+    repairs, works budget, a letter, a reopening). Two have no heading and no separator
+    (`shift_notes.txt`, `fieldwork_log.txt`). Two keyed tables with short fields, `institute/staff.csv`
+    (`staff_id`) and `water/pumps.csv` (`serial_number`), so no record documents arise and the chunk ids do
+    not depend on a plan. Every hard case is asked: two individuals with one name (Maria Lopez S-104, Soil
+    Ecology, and S-219, Finance Office: G01-G03), one individual under several names (Jonathan, Jon and J.
+    Pike: G04, G05), two instances of one model (Hydra P-40 HP40-1183 and HP40-2291: G06), one document
+    about two things (G08, G09), a claim by someone other than the author (the mayor, the pump vendor:
+    G10, G11), negation (G12, G13), numbers to filter on (G07, G14, G15), and four negative controls whose
+    answer is nuance the graph does not model (a counterfactual, two obligations, a nested report:
+    G16-G19). The thesis must state that the corpus is synthetic and that gold, corpus and verdicts come
+    from one model family.
+  - **Tests** `tests/test_qa_gold_files.py` (12): each gold file fits its corpus as the pipeline chunks it
+    (`tests/qa_corpus.py` rebuilds the chunks with the loader, the frozen plan's record documents and the
+    chunker at 1500 / 200 / 0, and the staged tables); the real sets ask every type at least five times in
+    30-50 questions; every earlier question is carried with its answer unchanged; the generality corpus
+    asks every hard case and spans three domains in 10-12 documents. The three prompt guards (extraction
+    rules, second-pass rules, schema rules) now read their corpora from `tests/evaluation_corpora.py`,
+    which adds the generality corpus: no rule quotes it. `QuestionType.AGGREGATION`'s comment now says
+    "counts, ranks or collects every match". Gate: 300 passed (288 after part 1), `ruff check` clean.
+    $0, no run. **R70 done.**
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **Recall@k rests on few chunks (found in R70).** Only retrieval-route questions count, and they cite 15
+  (furniture), 14 (held-out) and 14 (generality) evidence chunks, so a rate of 10 of 15 has a Wilson
+  interval of 0.42-0.85. The questions with any chunk evidence cite 73, 36 and 27. Candidate for Step 2:
+  report recall@k over every question with chunk evidence next to the retrieval-route number (the vector
+  baseline answers every question by retrieval anyway), decided before the first `kg qa` run.
 
 - **Star-rating polarity is unstable; it follows from the number (found in R66 part 2).** 11 of the 12
   furniture polarity errors are `HAS_RATING` "4/5" or "2/5" tagged neutral while the same rating in another

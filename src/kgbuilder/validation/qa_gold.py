@@ -25,7 +25,8 @@ class QuestionType(StrEnum):
     """The six question types of the benchmark (task file, section 1); every score is given per type."""
 
     MULTI_HOP = "multi_hop"  # joins two sources: a text and a record, or two documents
-    AGGREGATION = "aggregation"  # counts or ranks ("which component has the most complaints?")
+    # counts, ranks or collects every match across the corpus ("which component has the most complaints?")
+    AGGREGATION = "aggregation"
     STRUCTURED_FILTER = "structured_filter"  # restricted by a record field ("2019 models only")
     DISAMBIGUATION = "disambiguation"  # right only if two things with similar names are kept apart
     NEGATION_SENSITIVE = "negation_sensitive"  # a negated or merely possible mention must not count

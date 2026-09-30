@@ -2,14 +2,11 @@
 unit tests for evidence verification, text-schema validation, chunking and JSON staging."""
 
 import json
-import re
-from pathlib import Path
 
 import pytest
 
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import InvalidPlanError
-from kgbuilder.core.text import norm
 from kgbuilder.llm.refine import Critique
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_all, run_stages
 from kgbuilder.pipeline import stages as st
@@ -31,10 +28,9 @@ from kgbuilder.text.extraction import (
 )
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 
+from .evaluation_corpora import quoted_four_grams
 from .fakes import RecordingTracker, ScriptedLLM
 from .sample_plans import GOOD_PLAN
-
-REVIEW_CORPUS = Path(__file__).parent.parent / "data" / "product_reviews"  # the gold's documents
 
 SCHEMA = TextSchema(
     entity_types=[
@@ -222,13 +218,8 @@ def test_the_second_pass_rules_speak_no_corpus_language():
     assert "return an empty list" in rule and "do not repeat" in rule
     assert "generally known" in rule and "comparison" in rule  # R62: the over-reach rules
     assert not any(w in rule for w in ("defect", "failure", "complaint", "product", "drawer", "vehicle"))
-    # no four consecutive words of either development corpus (the R34 rule, extended to pass 2)
-    corpora = [REVIEW_CORPUS, REVIEW_CORPUS.parent.parent / "heldout" / "nhtsa" / "data" / "complaints"]
-    words = lambda text: re.findall(r"[a-z0-9]+", norm(text))  # noqa: E731
-    corpus = words(" ".join(p.read_text(encoding="utf-8") for d in corpora for p in d.glob("*.md")))
-    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
-    rules = words(GLEAN_SUFFIX.split("</already_extracted>")[1])
-    assert not [" ".join(rules[i : i + 4]) for i in range(len(rules) - 3) if tuple(rules[i : i + 4]) in seen]
+    # no four consecutive words of any evaluation corpus (the R34 rule, extended to pass 2)
+    assert not quoted_four_grams(GLEAN_SUFFIX.split("</already_extracted>")[1])
 
 
 def test_a_name_that_is_only_a_pronoun_is_rejected():
@@ -324,21 +315,13 @@ def test_extraction_prompt_keeps_circumstances_out_of_entity_names():
 
 def test_no_extraction_rule_quotes_the_evaluation_corpus():
     """A rule that borrows the gold documents' wording steers the model toward them (found in R34): no four
-    consecutive words of the rules may occur in the review corpus or the held-out complaints."""
-
-    def words(text: str) -> list[str]:
-        return re.findall(r"[a-z0-9]+", norm(text))
-
-    corpora = [REVIEW_CORPUS, REVIEW_CORPUS.parent.parent / "heldout" / "nhtsa" / "data" / "complaints"]
-    corpus = words(" ".join(p.read_text(encoding="utf-8") for d in corpora for p in d.glob("*.md")))
-    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
+    consecutive words of the rules may occur in an evaluation corpus (evaluation_corpora.py)."""
     chunk = Chunk(chunk_id="r.md#1", doc_id="r.md", index=1, text="x", context="x")
     # up to the <document> block, not the first "<document>": a rule names the tag (R66 found the test
     # stopped there, so every rule after it went unchecked)
     rules_text = build_prompt(chunk, SCHEMA).split("Rules:")[1].split("\n\n<document>")[0]
     assert "Return an empty list when nothing qualifies" in rules_text  # the last rule is in view
-    rules = words(rules_text)
-    quoted = [" ".join(rules[i : i + 4]) for i in range(len(rules) - 3) if tuple(rules[i : i + 4]) in seen]
+    quoted = quoted_four_grams(rules_text)
     assert not quoted, f"prompt rules quote the corpus: {quoted}"
 
 

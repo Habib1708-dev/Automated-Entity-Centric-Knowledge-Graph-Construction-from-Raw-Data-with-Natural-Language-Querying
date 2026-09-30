@@ -1,0 +1,285 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-09-30",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "G01",
+      "type": "disambiguation",
+      "question": "Which team does the Maria Lopez who received the Hensley Field-Work Award belong to?",
+      "expected": {"entities": [{"name": "Soil Ecology"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/newsletter_spring_2025.md#0", "quote": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award"}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-104", "name": "Maria Lopez", "team": "Soil Ecology"}}
+      ],
+      "hard_case": "same_name",
+      "note": "A second Maria Lopez (S-219) works in the Finance Office."
+    },
+    {
+      "id": "G02",
+      "type": "multi_hop",
+      "question": "What is the role of the Maria Lopez who presented the grants budget on 12 May 2025?",
+      "expected": {"entities": [{"name": "Grants accountant"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Maria Lopez (Finance Office)"},
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Maria Lopez presented the grants budget for 2025-26."}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-219", "name": "Maria Lopez", "team": "Finance Office", "role": "Grants accountant"}}
+      ],
+      "hard_case": "same_name",
+      "note": "The minutes name her team; the staff record of that Maria Lopez gives the role. The other Maria Lopez is a postdoctoral researcher."
+    },
+    {
+      "id": "G03",
+      "type": "disambiguation",
+      "question": "Which team is the person who kept the Aldmoor bog field log in?",
+      "expected": {"entities": [{"name": "Soil Ecology"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."},
+        {"chunk_id": "institute/newsletter_spring_2025.md#0", "quote": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog"}
+      ],
+      "hard_case": "same_name",
+      "note": "\"M. Lopez\" could be either Maria Lopez; only the Soil Ecology one ran the Aldmoor campaign."
+    },
+    {
+      "id": "G04",
+      "type": "multi_hop",
+      "question": "Which team is led by the person who chaired the committee meeting of 12 May 2025?",
+      "expected": {"entities": [{"name": "Soil Ecology"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Present: Jon Pike (chair)"},
+        {"chunk_id": "institute/newsletter_spring_2025.md#0", "quote": "Her group leader, Dr. Jonathan Pike"}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-131", "name": "Jonathan Pike", "team": "Soil Ecology", "role": "Group leader"}}
+      ],
+      "hard_case": "two_names",
+      "note": "Jon Pike in the minutes is Jonathan Pike, the Soil Ecology group leader."
+    },
+    {
+      "id": "G05",
+      "type": "aggregation",
+      "question": "In how many documents does Jonathan Pike appear, under any form of his name?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/newsletter_spring_2025.md#0", "quote": "Dr. Jonathan Pike"},
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Jon Pike (chair)"},
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "was freed by J. Pike"},
+        {"chunk_id": "institute/seminar_notice.md#0", "quote": "Dr. J. Pike (Soil Ecology)"}
+      ],
+      "hard_case": "two_names",
+      "note": "Four spellings of one person: Dr. Jonathan Pike, Jon Pike, J. Pike, Dr. J. Pike."
+    },
+    {
+      "id": "G06",
+      "type": "disambiguation",
+      "question": "Which pump had its mechanical seal replaced on 31 March 2025?",
+      "expected": {"entities": [{"name": "HP40-1183"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "The seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado."}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "HP40-2291 is the same model (Hydra P-40) at the same station; its seal was not touched."
+    },
+    {
+      "id": "G07",
+      "type": "structured_filter",
+      "question": "Which pumps installed before 2015 had a seal failure?",
+      "expected": {"entities": [{"name": "HP40-1183"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "the mechanical seal of pump HP40-1183 failed during the night shift"}
+      ],
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "HP40-1183", "install_year": "2012"}}
+      ],
+      "hard_case": "number_filter"
+    },
+    {
+      "id": "G08",
+      "type": "lookup",
+      "question": "What did the March 2025 inspection find on pump HP40-2291?",
+      "expected": {"text": "It ran quietly, with no leaks and a bearing temperature of 48 °C."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "Pump HP40-2291 ran quietly. No leaks were found on HP40-2291, and its bearing temperature was 48 °C."}
+      ],
+      "hard_case": "two_things",
+      "note": "The same report finds a drip and 71 °C on HP40-1183; an answer mixing the two pumps is wrong."
+    },
+    {
+      "id": "G09",
+      "type": "lookup",
+      "question": "Why is the Eastgate library roof being replaced?",
+      "expected": {"text": "It has leaked into the children's section since the autumn storms."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/mill_lane_and_eastgate.md#0", "quote": "The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer"}
+      ],
+      "hard_case": "two_things",
+      "note": "The article is about the footbridge and the library roof; the reason must not be taken from the footbridge."
+    },
+    {
+      "id": "G10",
+      "type": "disambiguation",
+      "question": "Who says the Mill Lane footbridge is safe to use?",
+      "expected": {"entities": [{"name": "Helen Achterberg", "aliases": ["Mayor Helen Achterberg", "Mayor Achterberg"]}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/mill_lane_and_eastgate.md#0", "quote": "Mayor Helen Achterberg said the footbridge \"is safe to use until the works begin\"."}
+      ],
+      "hard_case": "reported_claim",
+      "note": "The article reports the mayor's claim; the inspector recommended closing the bridge, and the letter writer disputes the mayor."
+    },
+    {
+      "id": "G11",
+      "type": "lookup",
+      "question": "Who says pump HP40-1183 ran dry before its seal failed, and does the utility agree?",
+      "expected": {"text": "Ines Barros, the service manager of Calder Pumps; the utility does not accept it, because its log shows the suction valve open all night."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/shift_notes.txt#0", "quote": "Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal."},
+        {"chunk_id": "water/shift_notes.txt#0", "quote": "so we do not accept that the pump ran dry"}
+      ],
+      "hard_case": "reported_claim",
+      "note": "The claim is the vendor's, reported in the utility's notes; stored as the author's claim it would be wrong."
+    },
+    {
+      "id": "G12",
+      "type": "negation_sensitive",
+      "question": "Which pumps were found leaking at the March 2025 inspection?",
+      "expected": {"entities": [{"name": "HP40-1183"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "Pump HP40-1183 showed a slow drip from the mechanical seal"}
+      ],
+      "hard_case": "negation",
+      "note": "\"No leaks were found on HP40-2291\" does not count."
+    },
+    {
+      "id": "G13",
+      "type": "negation_sensitive",
+      "question": "How many cores were taken on 10 December?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9"}
+      ],
+      "hard_case": "negation",
+      "note": "Core AB-20 of the same day was \"not taken\"."
+    },
+    {
+      "id": "G14",
+      "type": "structured_filter",
+      "question": "Which Aldmoor cores had a pH below 4.0?",
+      "expected": {"entities": [{"name": "AB-19", "aliases": ["Core AB-19"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9"}
+      ],
+      "hard_case": "number_filter",
+      "note": "AB-17 has pH 4.1 and AB-18 pH 4.6; AB-20 was not taken."
+    },
+    {
+      "id": "G15",
+      "type": "structured_filter",
+      "question": "Which projects in Riverton's 2025 works budget cost more than 200,000 pounds?",
+      "expected": {"entities": [
+        {"name": "Eastgate library roof", "aliases": ["Eastgate library"]},
+        {"name": "Station Road drainage"}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Eastgate library roof: 420,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Station Road drainage: 260,000 pounds"}
+      ],
+      "hard_case": "number_filter"
+    },
+    {
+      "id": "G16",
+      "type": "lookup",
+      "question": "According to the site engineer, what would have avoided the flooding of the dry well?",
+      "expected": {"text": "Replacing the seal of HP40-1183 after the March inspection, as the inspection had recommended."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "Site engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended."}
+      ],
+      "hard_case": "nuance_control",
+      "note": "A counterfactual: the graph does not model it and only has to locate the chunk; the reader answers."
+    },
+    {
+      "id": "G17",
+      "type": "lookup",
+      "question": "By when must every project lead submit a data management plan?",
+      "expected": {"text": "By 30 June 2025."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Every project lead must submit a data management plan by 30 June 2025."}
+      ],
+      "hard_case": "nuance_control",
+      "note": "An obligation: the graph only has to locate the chunk."
+    },
+    {
+      "id": "G18",
+      "type": "lookup",
+      "question": "According to the structural inspector's report, who told him that the east railing moved when leaned on?",
+      "expected": {"text": "Residents."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/mill_lane_and_eastgate.md#0", "quote": "wrote in his report that residents had told him the east railing moved when leaned on"}
+      ],
+      "hard_case": "nuance_control",
+      "note": "A nested report (the article reports the inspector's report of what residents said): the graph only has to locate the chunk."
+    },
+    {
+      "id": "G19",
+      "type": "lookup",
+      "question": "By when must the library roof contractor finish?",
+      "expected": {"text": "Before the library reopens on 1 September."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/budget_2025.md#0", "quote": "The contractor for the library roof must finish before the library reopens on 1 September."}
+      ],
+      "hard_case": "nuance_control",
+      "note": "An obligation: the graph only has to locate the chunk."
+    },
+    {
+      "id": "G20",
+      "type": "multi_hop",
+      "question": "When did the footbridge that the structural inspector recommended closing reopen?",
+      "expected": {"text": "On 28 March."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/mill_lane_and_eastgate.md#0", "quote": "he recommended closing the bridge at once"},
+        {"chunk_id": "news/footbridge_reopens.md#0", "quote": "The Mill Lane footbridge reopened on 28 March after eight weeks of works."}
+      ],
+      "note": "Two documents: the first names the bridge the inspector wanted closed, the second its reopening."
+    },
+    {
+      "id": "G21",
+      "type": "aggregation",
+      "question": "How many people attended the institute committee meeting of 12 May 2025?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."}
+      ]
+    }
+  ]
+}

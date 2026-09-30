@@ -1,0 +1,518 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-09-30",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "F01",
+      "type": "multi_hop",
+      "question": "Which suppliers provide the drawer rails of the Helsingborg Dresser?",
+      "expected": {"entities": [{"name": "Shanghai Metal Corp"}, {"name": "Korean Metal Works"}]},
+      "route": "exact",
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1007", "product_name": "Helsingborg Dresser"}},
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1070", "component_name": "Drawers", "product_id": "P-1007"}},
+        {"file": "components.csv", "row": {"part_id": "S-1085", "part_name": "Drawer Rails", "assembly_id": "A-1070"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1085", "supplier_id": "SUP-002"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1085", "supplier_id": "SUP-012"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-002", "name": "Shanghai Metal Corp"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-012", "name": "Korean Metal Works"}}
+      ],
+      "origin": "tests/gold/r65/furniture_gold.json#0",
+      "note": "Records only: product P-1007, assembly A-1070 (Drawers), part S-1085 (Drawer Rails), its two suppliers."
+    },
+    {
+      "id": "F02",
+      "type": "multi_hop",
+      "question": "Which suppliers are behind the drawer rails that Helsingborg Dresser reviews report as defective?",
+      "expected": {"entities": [{"name": "Shanghai Metal Corp"}, {"name": "Korean Metal Works"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1", "quote": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3", "quote": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."}
+      ],
+      "records": [
+        {"file": "components.csv", "row": {"part_id": "S-1085", "part_name": "Drawer Rails", "assembly_id": "A-1070"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1085", "supplier_id": "SUP-002"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1085", "supplier_id": "SUP-012"}}
+      ],
+      "origin": "tests/gold/r65/furniture_gold.json#1",
+      "note": "Text to records: the reviews name the defective part, the records give its suppliers."
+    },
+    {
+      "id": "F03",
+      "type": "multi_hop",
+      "question": "Which suppliers provide the wooden slats of the product whose reviews say its slats have started to crack?",
+      "expected": {"entities": [{"name": "Nordic Wood Industries"}, {"name": "Canadian Timber Products"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#4", "quote": "after just two months of use the slats have started to crack"}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1051", "component_name": "Slats", "product_id": "P-1006"}},
+        {"file": "components.csv", "row": {"part_id": "S-1124", "part_name": "Wooden Slat", "assembly_id": "A-1051"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1124", "supplier_id": "SUP-001"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1124", "supplier_id": "SUP-011"}}
+      ],
+      "note": "The product is the Linköping Bed (P-1006); every Wooden Slat part of its Slats assembly has the same two suppliers."
+    },
+    {
+      "id": "F04",
+      "type": "multi_hop",
+      "question": "What is the price in dollars of the product whose frame a reviewer says creaks whenever someone sits down?",
+      "expected": {"number": 1289},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#4", "quote": "the frame creaks whenever someone sits down"}
+      ],
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1003", "product_name": "Uppsala Sofa", "price": "$1289"}}
+      ]
+    },
+    {
+      "id": "F05",
+      "type": "multi_hop",
+      "question": "Which suppliers provide the shade fabric of the product whose shade a reviewer calls unevenly colored?",
+      "expected": {"entities": [{"name": "Bangalore Textiles Ltd"}, {"name": "Italian Textile Design"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#4", "quote": "The materials feel cheap, particularly the shade which is unevenly colored."}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1033", "component_name": "Shade", "product_id": "P-1005"}},
+        {"file": "components.csv", "row": {"part_id": "S-1131", "part_name": "Shade Fabric", "assembly_id": "A-1033"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1131", "supplier_id": "SUP-003"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1131", "supplier_id": "SUP-013"}}
+      ]
+    },
+    {
+      "id": "F06",
+      "type": "multi_hop",
+      "question": "Which other products did the reviewer who gave the Helsingborg Dresser five stars also rate five stars?",
+      "expected": {"entities": [{"name": "Linköping Bed"}, {"name": "Norrköping Nightstand"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6", "quote": "- @woodworker_amy (Portland)"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "- @woodworker_amy (Portland)"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#3", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#3", "quote": "- @woodworker_amy (Portland)"}
+      ],
+      "note": "The only five-star Helsingborg review is by @woodworker_amy; her Gothenburg Table review gives four stars, so it does not count."
+    },
+    {
+      "id": "F07",
+      "type": "multi_hop",
+      "question": "What is the lead time in days of the preferred supplier for the Helsingborg Dresser's drawer rails, the part its reviewers call defective?",
+      "expected": {"number": 26},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3", "quote": "The drawer rails are clearly defective"}
+      ],
+      "records": [
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1085", "supplier_id": "SUP-002", "lead_time_days": "26", "preferred_supplier": "yes"}}
+      ]
+    },
+    {
+      "id": "F08",
+      "type": "aggregation",
+      "question": "Which products are reported with misaligned pre-drilled holes?",
+      "expected": {"entities": [
+        {"name": "Gothenburg Table"}, {"name": "Helsingborg Dresser"}, {"name": "Jönköping Coffee Table"},
+        {"name": "Malmö Desk"}, {"name": "Norrköping Nightstand"}, {"name": "Västerås Bookshelf"}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#1", "quote": "some of the pre-drilled holes didn't line up properly and I had to drill new ones"},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0", "quote": "many of the pre-drilled holes didn't line up correctly"},
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4", "quote": "some of the pre-drilled holes weren't aligned properly"},
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#4", "quote": "some of the pre-drilled holes didn't align properly"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#4", "quote": "the pre-drilled holes for the drawer handle weren't aligned correctly"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1", "quote": "some of the pre-drilled holes weren't perfectly aligned"}
+      ],
+      "origin": "tests/gold/r65/furniture_gold.json#3",
+      "note": "Collects every matching review over the corpus; six products, one review each."
+    },
+    {
+      "id": "F09",
+      "type": "aggregation",
+      "question": "How many Helsingborg Dresser reviews give it one star out of five?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1", "quote": "## Rating: ★☆☆☆☆ (1/5)"},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4", "quote": "## Rating: ★☆☆☆☆ (1/5)"}
+      ]
+    },
+    {
+      "id": "F10",
+      "type": "aggregation",
+      "question": "How many reviews say customer service sent a replacement?",
+      "expected": {"number": 3},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#4", "quote": "customer service was helpful in sending a replacement part"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#5", "quote": "customer service was quick to send a replacement"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#5", "quote": "customer service was quick to send a replacement"}
+      ],
+      "note": "The Örebro Lamp reviewer got a partial refund, not a replacement; the Helsingborg Dresser reviewer was told to return the whole thing."
+    },
+    {
+      "id": "F11",
+      "type": "aggregation",
+      "question": "Which product has the most five-star reviews?",
+      "expected": {"entities": [{"name": "Stockholm Chair"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#0", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#2", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#4", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#6", "quote": "## Rating: ★★★★★ (5/5)"}
+      ],
+      "note": "Stockholm Chair has 4 five-star reviews; Helsingborg Dresser has 1, every other product 3."
+    },
+    {
+      "id": "F12",
+      "type": "aggregation",
+      "question": "How many Uppsala Sofa reviews mention its removable covers?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#0", "quote": "The removable covers are a game-changer"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#2", "quote": "the removable covers are clutch though"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#3", "quote": "The removable covers feature quality YKK zippers"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#6", "quote": "the removable covers have been washed multiple times with no fading or shrinking"}
+      ]
+    },
+    {
+      "id": "F13",
+      "type": "aggregation",
+      "question": "Which reviewer handle appears on reviews of the most different products?",
+      "expected": {"entities": [{"name": "@scandi_lover", "aliases": ["scandi_lover"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#6", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#0", "quote": "- @scandi_lover (Minneapolis)"}
+      ],
+      "note": "@scandi_lover reviews 8 products; @designer_dave and @angry_customer 7 each."
+    },
+    {
+      "id": "F14",
+      "type": "structured_filter",
+      "question": "Which products cost less than $200?",
+      "expected": {"entities": [{"name": "Örebro Lamp"}, {"name": "Norrköping Nightstand"}]},
+      "route": "exact",
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1005", "product_name": "Örebro Lamp", "price": "$111"}},
+        {"file": "products.csv", "row": {"product_id": "P-1009", "product_name": "Norrköping Nightstand", "price": "$135"}}
+      ]
+    },
+    {
+      "id": "F15",
+      "type": "structured_filter",
+      "question": "Which suppliers specialize in metal?",
+      "expected": {"entities": [{"name": "Shanghai Metal Corp"}, {"name": "Korean Metal Works"}]},
+      "route": "exact",
+      "records": [
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-002", "specialty": "Metal"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-012", "specialty": "Metal"}}
+      ]
+    },
+    {
+      "id": "F16",
+      "type": "structured_filter",
+      "question": "Which products priced under $250 do reviews report as wobbling?",
+      "expected": {"entities": [{"name": "Jönköping Coffee Table"}, {"name": "Örebro Lamp"}, {"name": "Västerås Bookshelf"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4", "quote": "The table also wobbles slightly on my flat floor despite attempts to adjust it."},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#4", "quote": "the lamp wobbles slightly on its base"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#4", "quote": "Now that it's built, it wobbles slightly"}
+      ],
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1008", "price": "$212"}},
+        {"file": "products.csv", "row": {"product_id": "P-1005", "price": "$111"}},
+        {"file": "products.csv", "row": {"product_id": "P-1004", "price": "$222"}}
+      ],
+      "note": "The Gothenburg Table ($489) and the Malmö Desk ($289) also wobble but cost more."
+    },
+    {
+      "id": "F17",
+      "type": "structured_filter",
+      "question": "Which products priced over $500 have a review reporting a creaking or squeaking frame?",
+      "expected": {"entities": [{"name": "Uppsala Sofa"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#4", "quote": "the frame creaks whenever someone sits down"}
+      ],
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1003", "price": "$1289"}}
+      ],
+      "note": "The Linköping Bed ($790) is the other product over $500; its reviews say \"no squeaking\"."
+    },
+    {
+      "id": "F18",
+      "type": "structured_filter",
+      "question": "Which suppliers of the Helsingborg Dresser's parts are based in Sweden?",
+      "expected": {"entities": [{"name": "Nordic Wood Industries"}]},
+      "route": "exact",
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1070", "product_id": "P-1007"}},
+        {"file": "components.csv", "row": {"part_id": "S-1081", "assembly_id": "A-1070"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1081", "supplier_id": "SUP-001"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-001", "name": "Nordic Wood Industries", "country": "Sweden"}}
+      ],
+      "note": "SUP-001 is the only Swedish supplier; it supplies several Helsingborg parts (drawer fronts, bottoms, sides, backs, wood panel, edge banding)."
+    },
+    {
+      "id": "F19",
+      "type": "structured_filter",
+      "question": "Which preferred supplier provides the drawer rails of the Malmö Desk?",
+      "expected": {"entities": [{"name": "Shanghai Metal Corp"}]},
+      "route": "exact",
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1062", "product_id": "P-1002"}},
+        {"file": "components.csv", "row": {"part_id": "S-1078", "part_name": "Drawer Rails", "assembly_id": "A-1062"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1078", "supplier_id": "SUP-002", "preferred_supplier": "yes"}}
+      ]
+    },
+    {
+      "id": "F20",
+      "type": "disambiguation",
+      "question": "Which products do reviews report with defective drawer rails?",
+      "expected": {"entities": [{"name": "Helsingborg Dresser"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1", "quote": "they were clearly defective with uneven metal edges and rough sliding mechanisms"},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3", "quote": "The drawer rails are clearly defective"}
+      ],
+      "origin": "tests/gold/r65/furniture_gold.json#5",
+      "note": "The Malmö Desk also has drawer rails (part S-1078) and its review praises smooth drawer slides; the Linköping Bed's drawer slides are praised. Neither counts."
+    },
+    {
+      "id": "F21",
+      "type": "disambiguation",
+      "question": "Which product has a review reporting a drawer handle that was scratched right out of the box?",
+      "expected": {"entities": [{"name": "Helsingborg Dresser"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5", "quote": "One of the drawer handles was scratched right out of the box."}
+      ],
+      "note": "The Norrköping Nightstand's drawer handle problem is misaligned holes, not a scratch."
+    },
+    {
+      "id": "F22",
+      "type": "disambiguation",
+      "question": "Which product arrived with a small dent on one edge?",
+      "expected": {"entities": [{"name": "Gothenburg Table"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#4", "quote": "The table arrived with a small dent on one edge"}
+      ],
+      "note": "The Örebro Lamp's shade also arrived with a small dent, but not on an edge."
+    },
+    {
+      "id": "F23",
+      "type": "disambiguation",
+      "question": "Which product's slats are reported to crack?",
+      "expected": {"entities": [{"name": "Linköping Bed"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#4", "quote": "the slats have started to crack"}
+      ],
+      "note": "The Helsingborg Dresser's crack is in a drawer bottom; the Uppsala Sofa has support slats in its records but no reported crack."
+    },
+    {
+      "id": "F24",
+      "type": "disambiguation",
+      "question": "Which product had a leg arrive with a small chip?",
+      "expected": {"entities": [{"name": "Uppsala Sofa"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#5", "quote": "one of the legs arrived with a small chip"}
+      ],
+      "note": "The Jönköping Coffee Table and the Västerås Bookshelf have chipped veneer, not a chipped leg."
+    },
+    {
+      "id": "F25",
+      "type": "disambiguation",
+      "question": "Which of the two tables do reviewers describe as 180cm x 90cm?",
+      "expected": {"entities": [{"name": "Gothenburg Table"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#3", "quote": "The dimensions (180cm x 90cm) are perfect for seating 6-8 people comfortably."}
+      ],
+      "note": "The Jönköping Coffee Table measures 110cm x 60cm."
+    },
+    {
+      "id": "F26",
+      "type": "negation_sensitive",
+      "question": "Which products do reviews report as wobbling?",
+      "expected": {"entities": [
+        {"name": "Gothenburg Table"}, {"name": "Jönköping Coffee Table"}, {"name": "Malmö Desk"},
+        {"name": "Örebro Lamp"}, {"name": "Västerås Bookshelf"}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#4", "quote": "The table also wobbles slightly on my hardwood floor despite multiple attempts to adjust it."},
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4", "quote": "The table also wobbles slightly on my flat floor despite attempts to adjust it."},
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#4", "quote": "I notice it wobbles slightly when I'm typing"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#4", "quote": "the lamp wobbles slightly on its base"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#4", "quote": "Now that it's built, it wobbles slightly"}
+      ],
+      "origin": "tests/gold/r65/furniture_gold.json#2",
+      "note": "Negated mentions do not count: the Linköping Bed and the Uppsala Sofa (\"no squeaking or wobbling\"), and further Malmö (\"doesn't wobble at all\") and Jönköping (\"no wobbling\") reviews."
+    },
+    {
+      "id": "F27",
+      "type": "negation_sensitive",
+      "question": "Which products are reported to squeak or creak?",
+      "expected": {"entities": [{"name": "Stockholm Chair"}, {"name": "Uppsala Sofa"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#3", "quote": "I've noticed some squeaking when I lean back"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#4", "quote": "the frame creaks whenever someone sits down"}
+      ],
+      "origin": "tests/gold/r65/furniture_gold.json#4",
+      "note": "The Linköping Bed's \"absolutely no squeaking\" and \"no squeaking or wobbling\" and the Uppsala Sofa's \"no squeaking or wobbling\" do not count."
+    },
+    {
+      "id": "F28",
+      "type": "negation_sensitive",
+      "question": "How many Uppsala Sofa reviews report squeaking or creaking?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#4", "quote": "the frame creaks whenever someone sits down"}
+      ],
+      "note": "Review 6 says \"no squeaking or wobbling\": it does not count."
+    },
+    {
+      "id": "F29",
+      "type": "negation_sensitive",
+      "question": "Which products do reviews report as sagging?",
+      "expected": {"entities": []},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#0", "quote": "without any sagging"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#6", "quote": "there's been no sagging despite heavy use"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#6", "quote": "show no signs of sagging despite daily use"},
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#3", "quote": "a center support that prevents sagging even when loaded with heavy art books"}
+      ],
+      "note": "Every mention of sagging is negated, so the answer is none; the evidence is the negated mentions."
+    },
+    {
+      "id": "F30",
+      "type": "negation_sensitive",
+      "question": "How many Örebro Lamp reviews say the lamp flickers?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#4", "quote": "The dimmer switch is finicky and sometimes flickers at lower settings."}
+      ],
+      "note": "Review 3 says the driver \"eliminates flickering even at the lowest dimmer settings\": it does not count."
+    },
+    {
+      "id": "F31",
+      "type": "negation_sensitive",
+      "question": "How many Malmö Desk reviews say the desk wobbles?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#4", "quote": "I notice it wobbles slightly when I'm typing"}
+      ],
+      "note": "Review 0 (\"doesn't wobble at all\") and review 6 (\"no wobbling\") do not count."
+    },
+    {
+      "id": "F32",
+      "type": "negation_sensitive",
+      "question": "Which products have a drawer that reviewers say does not close properly?",
+      "expected": {"entities": [{"name": "Helsingborg Dresser"}, {"name": "Norrköping Nightstand"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3", "quote": "Two of the drawers don't close properly no matter how I adjust them"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#4", "quote": "The drawer doesn't close properly - it always leaves a small gap."}
+      ],
+      "note": "Here the negation is the claim: a graph that drops it would store drawers that close properly."
+    },
+    {
+      "id": "F33",
+      "type": "lookup",
+      "question": "How long is the Örebro Lamp's cord in meters, according to a reviewer?",
+      "expected": {"number": 1.5},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#1", "quote": "the cord is a bit short (only 1.5m)"}
+      ]
+    },
+    {
+      "id": "F34",
+      "type": "lookup",
+      "question": "What cushion density in kg/m³ does a reviewer give for the Uppsala Sofa?",
+      "expected": {"number": 28},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#3", "quote": "The cushion density (28kg/m³) provides the perfect balance between support and comfort."}
+      ]
+    },
+    {
+      "id": "F35",
+      "type": "lookup",
+      "question": "What slat spacing in centimeters does a reviewer report for the Linköping Bed?",
+      "expected": {"number": 7},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "The slat system is properly engineered with the optimal 7cm spacing"}
+      ]
+    },
+    {
+      "id": "F36",
+      "type": "lookup",
+      "question": "What load in kilograms are the Linköping Bed's drawer slides rated for?",
+      "expected": {"number": 25},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "The storage mechanism uses quality drawer slides rated for 25kg loads."}
+      ]
+    },
+    {
+      "id": "F37",
+      "type": "lookup",
+      "question": "What did customer service offer the Örebro Lamp reviewer whose shade arrived with a small dent?",
+      "expected": {"text": "A partial refund."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#5", "quote": "customer service was helpful and offered a partial refund since I didn't want to go through the hassle of returning it"}
+      ]
+    },
+    {
+      "id": "F38",
+      "type": "lookup",
+      "question": "What do reviewers say about how comfortable the Stockholm Chair is?",
+      "expected": {"text": "Most reviewers find it comfortable, even for long periods of sitting and long dinner parties; one finds it less comfortable for extended work sessions."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#0", "quote": "the ergonomic shape makes it incredibly comfortable for long periods of sitting"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#2", "quote": "so comfy and looks amazing in my space"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#3", "quote": "I find it less comfortable for extended work sessions"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#5", "quote": "Comfortable to sit in while I'm working from home."},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#6", "quote": "They're also surprisingly comfortable for wooden chairs"}
+      ],
+      "note": "A right answer gives both sides: comfortable for most, less so for long work sessions in one review."
+    }
+  ]
+}

@@ -1,0 +1,493 @@
+{
+  "dataset": "heldout_nhtsa",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-09-30",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "H01",
+      "type": "structured_filter",
+      "question": "Which recall campaigns of the 2015 Ford Escape concern its automatic transmission?",
+      "expected": {"entities": [{"name": "22V254000"}, {"name": "22V413000"}]},
+      "route": "exact",
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V254000", "Component": "POWER TRAIN:AUTOMATIC TRANSMISSION:GEAR POSITION INDICATION (PRNDL)", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V413000", "Component": "POWER TRAIN:AUTOMATIC TRANSMISSION:GEAR POSITION INDICATION (PRNDL)", "Model": "ESCAPE"}}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#0"
+    },
+    {
+      "id": "H02",
+      "type": "structured_filter",
+      "question": "Which complaints about the 2015 Ford Escape report a crash?",
+      "expected": {"entities": [{"name": "10691672", "aliases": ["Complaint 10691672"]}]},
+      "route": "exact",
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "10691672", "crash": "True", "product.productModel": "ESCAPE"}}
+      ],
+      "note": "The other complaint with a crash (11010220) concerns the 2017 Nissan Rogue."
+    },
+    {
+      "id": "H03",
+      "type": "structured_filter",
+      "question": "Which complaints report at least one injury?",
+      "expected": {"entities": [
+        {"name": "10691672", "aliases": ["Complaint 10691672"]},
+        {"name": "11010220", "aliases": ["Complaint 11010220"]}
+      ]},
+      "route": "exact",
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "10691672", "numberOfInjuries": "1"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11010220", "numberOfInjuries": "1"}}
+      ]
+    },
+    {
+      "id": "H04",
+      "type": "structured_filter",
+      "question": "Which recall campaigns affecting the 2016 Honda Civic were received by NHTSA in 2016?",
+      "expected": {"entities": [{"name": "16V526000"}, {"name": "16V725000"}, {"name": "16V074000"}]},
+      "route": "exact",
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "16V526000", "ReportReceivedDate": "11/07/2016", "Model": "CIVIC"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "16V725000", "ReportReceivedDate": "11/10/2016", "Model": "CIVIC"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "16V074000", "ReportReceivedDate": "09/02/2016", "Model": "CIVIC"}}
+      ],
+      "note": "The other two Civic recalls (23V858000, 26V332000) were received in 2023 and 2026."
+    },
+    {
+      "id": "H05",
+      "type": "structured_filter",
+      "question": "Which complaints about the 2019 Subaru Outback were filed in 2019?",
+      "expected": {"entities": [
+        {"name": "11166434", "aliases": ["Complaint 11166434"]},
+        {"name": "11176393", "aliases": ["Complaint 11176393"]},
+        {"name": "11180230", "aliases": ["Complaint 11180230"]},
+        {"name": "11185059", "aliases": ["Complaint 11185059"]}
+      ]},
+      "route": "exact",
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "11166434", "dateComplaintFiled": "01/11/2019", "product.productModel": "OUTBACK"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11176393", "dateComplaintFiled": "02/11/2019", "product.productModel": "OUTBACK"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11180230", "dateComplaintFiled": "02/15/2019", "product.productModel": "OUTBACK"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11185059", "dateComplaintFiled": "03/08/2019", "product.productModel": "OUTBACK"}}
+      ],
+      "note": "Complaint 11123359 about the same vehicle was filed on 08/29/2018."
+    },
+    {
+      "id": "H06",
+      "type": "structured_filter",
+      "question": "Which complaints about 2019 model-year vehicles report that the vehicle does not accelerate when the gas pedal is pressed?",
+      "expected": {"entities": [{"name": "11209676", "aliases": ["Complaint 11209676"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/toyota_rav4_complaints.md#2", "quote": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL."}
+      ],
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "11209676", "product.productYear": "2019"}}
+      ],
+      "note": "The 2015 Ford Escape complaints 10689793 and 10692693 report hesitation on acceleration, but the vehicle is a 2015 model."
+    },
+    {
+      "id": "H07",
+      "type": "structured_filter",
+      "question": "Which recall campaigns affecting the 2019 Toyota RAV4 concern the fuel pump?",
+      "expected": {"entities": [{"name": "20V682000"}]},
+      "route": "exact",
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "20V682000", "Component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP", "Model": "RAV4"}}
+      ]
+    },
+    {
+      "id": "H08",
+      "type": "aggregation",
+      "question": "Which vehicles do owners report braking on its own or suddenly?",
+      "expected": {"entities": [
+        {"name": "CIVIC", "aliases": ["Honda Civic", "2016 Honda Civic"]},
+        {"name": "ROGUE", "aliases": ["Nissan Rogue", "2017 Nissan Rogue"]}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#1", "quote": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS."},
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#1", "quote": "THE CAR BRAKED ON ITS OWN."}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#1",
+      "note": "The Civic's \"MAY BRAKE SUDDENLY\" describes what the owner saw happen (\"THE VEHICLE DID THIS TWICE\"), so it counts."
+    },
+    {
+      "id": "H09",
+      "type": "aggregation",
+      "question": "Which vehicle is affected by the most recall campaigns in the data?",
+      "expected": {"entities": [{"name": "ESCAPE", "aliases": ["Ford Escape", "2015 Ford Escape"]}]},
+      "route": "exact",
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "17V472000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "16V643000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "15V406000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "15V436000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "20V331000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V254000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V413000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "25V695000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "26V011000", "Model": "ESCAPE"}}
+      ],
+      "note": "Escape 9 recalls, RAV4 7, Civic 5, Rogue 5, Outback 3."
+    },
+    {
+      "id": "H10",
+      "type": "aggregation",
+      "question": "How many owner complaints in the data report a crash?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "10691672", "crash": "True"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11010220", "crash": "True"}}
+      ]
+    },
+    {
+      "id": "H11",
+      "type": "aggregation",
+      "question": "Which complaint component category appears in the most complaints?",
+      "expected": {"entities": [{"name": "FUEL/PROPULSION SYSTEM"}]},
+      "route": "exact",
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "11032133", "components": "FUEL/PROPULSION SYSTEM"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11209676", "components": "POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "11221492", "components": "FUEL/PROPULSION SYSTEM"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "10689793", "components": "FUEL/PROPULSION SYSTEM"}},
+        {"file": "complaints.csv", "row": {"odiNumber": "10692693", "components": "POWER TRAIN,FUEL/PROPULSION SYSTEM"}}
+      ],
+      "note": "A complaint can list several categories: FUEL/PROPULSION SYSTEM is in 5 complaints, ENGINE and POWER TRAIN in 4 each."
+    },
+    {
+      "id": "H12",
+      "type": "aggregation",
+      "question": "How many complaints report a dead battery?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/subaru_outback_complaints.md#1", "quote": "HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE."},
+        {"chunk_id": "complaints/subaru_outback_complaints.md#4", "quote": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS."}
+      ]
+    },
+    {
+      "id": "H13",
+      "type": "aggregation",
+      "question": "How many recall campaigns in the data concern a fuel pump?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "23V858000", "Component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "20V682000", "Component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "21V587000", "Component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "20V218000", "Component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP"}}
+      ]
+    },
+    {
+      "id": "H14",
+      "type": "multi_hop",
+      "question": "Which engine recall campaign belongs to the vehicle whose owners report a piston ring recall?",
+      "expected": {"entities": [{"name": "16V074000"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#2", "quote": "PISTON CLIP RING RECALL FROM HONDA"},
+        {"chunk_id": "complaints/honda_civic_complaints.md#4", "quote": "PISTON SNAP RING RECALL"}
+      ],
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "16V074000", "Component": "ENGINE AND ENGINE COOLING:ENGINE", "Model": "CIVIC"}}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#4"
+    },
+    {
+      "id": "H15",
+      "type": "multi_hop",
+      "question": "Which engine recall campaign affects the vehicle of complaint 10823637, whose own record carries a piston claim?",
+      "expected": {"entities": [{"name": "16V074000"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#2", "quote": "PISTON CLIP RING RECALL FROM HONDA"}
+      ],
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "10823637", "product.productModel": "CIVIC"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "16V074000", "Component": "ENGINE AND ENGINE COOLING:ENGINE", "Model": "CIVIC"}}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#6"
+    },
+    {
+      "id": "H16",
+      "type": "multi_hop",
+      "question": "The owner in complaint 10692693 had parts replaced on the transmission. Which recall campaigns for that vehicle concern the transmission?",
+      "expected": {"entities": [{"name": "22V254000"}, {"name": "22V413000"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/ford_escape_complaints.md#4", "quote": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION."}
+      ],
+      "records": [
+        {"file": "complaints.csv", "row": {"odiNumber": "10692693", "product.productModel": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V254000", "Model": "ESCAPE"}},
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V413000", "Model": "ESCAPE"}}
+      ]
+    },
+    {
+      "id": "H17",
+      "type": "multi_hop",
+      "question": "Which recall campaigns concern the back-up camera of a vehicle whose owner complains that the back-up camera stopped working?",
+      "expected": {"entities": []},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/subaru_outback_complaints.md#1", "quote": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC."}
+      ],
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "19V493000", "Component": "STRUCTURE", "Model": "OUTBACK"}}
+      ],
+      "note": "Only the Outback owner complains about the back-up camera, and no Outback recall concerns a camera (structure, fuel pump twice). The camera recalls 19V576000 (RAV4) and 25V695000 (Escape) belong to vehicles whose owners do not mention a camera."
+    },
+    {
+      "id": "H18",
+      "type": "multi_hop",
+      "question": "Which fuel pump recall affects a vehicle whose owner complains about filling the fuel tank?",
+      "expected": {"entities": [{"name": "20V682000"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/toyota_rav4_complaints.md#3", "quote": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL."}
+      ],
+      "records": [
+        {"file": "recalls.csv", "row": {"NHTSACampaignNumber": "20V682000", "Component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP", "Model": "RAV4"}}
+      ],
+      "note": "The Rogue owner of complaint 11032133 complains about the gas gauge, not filling, and the Rogue has no fuel pump recall."
+    },
+    {
+      "id": "H19",
+      "type": "multi_hop",
+      "question": "The owner in complaint 10825467 asks about the piston snap ring recall that has no fix yet. What will dealers do under that recall's remedy?",
+      "expected": {"text": "Inspect and replace the piston assemblies and damaged engine components as necessary, free of charge."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#4", "quote": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."},
+        {"chunk_id": "record/Recall/16V074000#1", "quote": "dealers will inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge."}
+      ],
+      "note": "Two documents: the complaint names the recall only by its part; the recall text 16V074000 gives the remedy."
+    },
+    {
+      "id": "H20",
+      "type": "multi_hop",
+      "question": "The owner in complaint 10824361 was sold a 2016 Honda Civic the day after a recall and stop of sale. What defect does the engine recall for that vehicle describe?",
+      "expected": {"text": "Piston assemblies that may have been made without a piston wrist pin circlip, or with the circlip installed incorrectly, in 2.0L engines."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#3", "quote": "I WAS SOLD A BRAND NEW 2016 HONDA CIVIC THE DAY AFTER A RECALL AND STOP OF SALE WAS ISSUED."},
+        {"chunk_id": "record/Recall/16V074000#0", "quote": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."}
+      ]
+    },
+    {
+      "id": "H21",
+      "type": "disambiguation",
+      "question": "Which vehicles do owners report with a cracked windshield?",
+      "expected": {"entities": [{"name": "OUTBACK", "aliases": ["Subaru Outback", "2019 Subaru Outback"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/subaru_outback_complaints.md#0", "quote": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP."},
+        {"chunk_id": "complaints/subaru_outback_complaints.md#3", "quote": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD"}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#2",
+      "note": "Recall texts name other cracks (the engine block heater of 26V011000, the seat weight sensor of 26V332000, the suspension arms of 20V286000, the engine castings of 20V064000); none is a windshield or an owner's report."
+    },
+    {
+      "id": "H22",
+      "type": "disambiguation",
+      "question": "Which vehicles do owners report with a transmission that switched to reverse on its own?",
+      "expected": {"entities": [{"name": "ROGUE", "aliases": ["Nissan Rogue", "2017 Nissan Rogue"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#3", "quote": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS."}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#5",
+      "note": "The Escape had transmission parts replaced and the RAV4's gear shifter came out of the transmission box: other transmission problems."
+    },
+    {
+      "id": "H23",
+      "type": "disambiguation",
+      "question": "Which NHTSA recall campaign does Ford number 22S25?",
+      "expected": {"entities": [{"name": "22V254000"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/22V254000#1", "quote": "Ford's number for this recall is 22S25."}
+      ],
+      "note": "22V413000 has the same shifter bushing remedy but is Ford's 22S43."
+    },
+    {
+      "id": "H24",
+      "type": "disambiguation",
+      "question": "Which door latch recall re-inspects latches whose earlier repair may not have been completed properly?",
+      "expected": {"entities": [{"name": "20V331000"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/20V331000#0", "quote": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly."}
+      ],
+      "note": "16V643000 is the original door latch recall."
+    },
+    {
+      "id": "H25",
+      "type": "disambiguation",
+      "question": "Which of the two Subaru fuel pump recalls also covers Toyota 86 vehicles?",
+      "expected": {"entities": [{"name": "21V587000"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/21V587000#0", "quote": "2018-2019 BRZ, WRX, and Toyota 86 vehicles."}
+      ],
+      "note": "20V218000 covers 2019 Impreza, Outback, Legacy and Ascent vehicles only."
+    },
+    {
+      "id": "H26",
+      "type": "disambiguation",
+      "question": "Which of the two RAV4 load label recalls was issued by Gulf States Toyota?",
+      "expected": {"entities": [{"name": "19V244000"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/19V244000#0", "quote": "Gulf States Toyota (GST) is recalling certain 2019 C-HR"}
+      ],
+      "note": "19V503000, also about a load capacity label, is Southeast Toyota Distributors'."
+    },
+    {
+      "id": "H27",
+      "type": "negation_sensitive",
+      "question": "Which vehicles do owners report with air bags that failed to deploy?",
+      "expected": {"entities": [{"name": "ESCAPE", "aliases": ["Ford Escape", "2015 Ford Escape"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/ford_escape_complaints.md#3", "quote": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY."}
+      ],
+      "origin": "tests/gold/r65/heldout_gold.json#3",
+      "note": "Recall 16V244000 says the Rogue's passenger air bag \"may be turned off and not deploy\": a possibility stated by the maker, not an owner's report."
+    },
+    {
+      "id": "H28",
+      "type": "negation_sensitive",
+      "question": "How many complaints report that the vehicle actually stalled?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/ford_escape_complaints.md#4", "quote": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION."}
+      ],
+      "note": "Complaint 10823637 names stalling only as a possible result of the recalled part (\"THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING\"); complaint 11209676 says \"THE ENGINE DOES NOT STOP RUNNING\"."
+    },
+    {
+      "id": "H29",
+      "type": "negation_sensitive",
+      "question": "Which complaints report that repair work was done on the vehicle?",
+      "expected": {"entities": [
+        {"name": "10690483", "aliases": ["Complaint 10690483"]},
+        {"name": "10692693", "aliases": ["Complaint 10692693"]}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/ford_escape_complaints.md#2", "quote": "3RD TIME, PADS CHANGED AND ROTORS MACHINED."},
+        {"chunk_id": "complaints/ford_escape_complaints.md#4", "quote": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION."}
+      ],
+      "note": "Negated repairs do not count: 10667633 and 10691672 (\"THE VEHICLE WAS NOT REPAIRED\"), 10957753 and 11205702 (\"NOT DIAGNOSED OR REPAIRED\"), 10689793 (\"NO REPAIRS NEEDED OR MADE\")."
+    },
+    {
+      "id": "H30",
+      "type": "negation_sensitive",
+      "question": "Which vehicles did owners report being in a rear-end collision?",
+      "expected": {"entities": []},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#1", "quote": "A REAR END COLLISION WAS NARROWLY AVOIDED IN ONE CASE."}
+      ],
+      "note": "The only rear-end collision in the data was avoided; the two crashes (Escape, Rogue) were into walls."
+    },
+    {
+      "id": "H31",
+      "type": "negation_sensitive",
+      "question": "Which vehicles' owners report that the vehicle crashed?",
+      "expected": {"entities": [
+        {"name": "ESCAPE", "aliases": ["Ford Escape", "2015 Ford Escape"]},
+        {"name": "ROGUE", "aliases": ["Nissan Rogue", "2017 Nissan Rogue"]}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/ford_escape_complaints.md#3", "quote": "THE VEHICLE CRASHED INTO A WALL"},
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#2", "quote": "I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE."}
+      ],
+      "note": "The Civic's rear-end collision was \"NARROWLY AVOIDED\" and the RAV4's problem \"COULD CAUSE AN ACCIDENT\": neither is a crash."
+    },
+    {
+      "id": "H32",
+      "type": "negation_sensitive",
+      "question": "Which vehicles do owners say have a trunk that does not lock?",
+      "expected": {"entities": [{"name": "CIVIC", "aliases": ["Honda Civic", "2016 Honda Civic"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/honda_civic_complaints.md#0", "quote": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK"}
+      ],
+      "note": "Here the negation is the claim: a graph that drops it would store a trunk that locks."
+    },
+    {
+      "id": "H33",
+      "type": "lookup",
+      "question": "What was the failure mileage in complaint 10691672?",
+      "expected": {"number": 2361},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/ford_escape_complaints.md#3", "quote": "THE FAILURE MILEAGE WAS 2,361."}
+      ]
+    },
+    {
+      "id": "H34",
+      "type": "lookup",
+      "question": "To which dealer did the owner in complaint 11030208 take the vehicle?",
+      "expected": {"text": "Hall Nissan in Chesapeake, VA."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#3", "quote": "THE VEHICLE WAS TAKEN TO HALL NISSAN IN CHESAPEAKE, VA"}
+      ]
+    },
+    {
+      "id": "H35",
+      "type": "lookup",
+      "question": "What will dealers install under recall 21V839000?",
+      "expected": {"text": "A harness protector cover, free of charge."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/21V839000#1", "quote": "Dealers will install a harness protector cover, free of charge."}
+      ]
+    },
+    {
+      "id": "H36",
+      "type": "lookup",
+      "question": "How many miles to empty does the owner in complaint 11032133 normally see after filling up?",
+      "expected": {"number": 440},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#4", "quote": "OVER 440 MILES TO EMPTY"}
+      ],
+      "note": "The owner writes \"over 440\"; 440 is the number stated."
+    },
+    {
+      "id": "H37",
+      "type": "lookup",
+      "question": "What did Nissan engineering declare about the automatic braking in complaint 10972343?",
+      "expected": {"text": "That the system worked as intended."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#1", "quote": "ON THE 2ND OCCASION NISSAN ENGINEERING DECLARED THE SYSTEM WORKED AS INTENDED."}
+      ]
+    },
+    {
+      "id": "H38",
+      "type": "lookup",
+      "question": "When did recall 20V373000 begin?",
+      "expected": {"text": "August 17, 2020."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/20V373000#1", "quote": "The recall began August 17, 2020."}
+      ]
+    }
+  ]
+}

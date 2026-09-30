@@ -26,6 +26,7 @@ from kgbuilder.text.schema import (
     validate_text_schema,
 )
 
+from .evaluation_corpora import quoted_four_grams
 from .fakes import ScriptedLLM
 from .sample_plans import node
 
@@ -239,17 +240,13 @@ def _words(text: str) -> list[str]:
 
 
 def test_schema_prompts_speak_no_corpus_language():
-    """R58: the proposer and critic rules name no domain and quote neither development corpus: a rule in
-    the corpus's words steers the schema toward that corpus (found for extraction in R34)."""
+    """R58: the proposer and critic rules name no domain and quote no evaluation corpus: a rule in the
+    corpus's words steers the schema toward that corpus (found for extraction in R34)."""
     rules = PROMPT.split("Rules:")[1] + CRITIC_PROMPT.split("<goal>")[0]
     assert "source a statement comes from" in rules and "every kind of claim" in rules
     assert "Reuse its concepts" not in PROMPT  # the wording that invited copying the plan's record nodes
     banned = ("complaint", "vehicle", "defect", "product", "furniture", "review", "recall", "component")
     # whole words ("You are reviewing a proposed schema" is about the critic's task, not the corpus)
     assert not [w for w in _words(rules) if w in banned or w.removesuffix("s") in banned]
-    corpora = [ROOT / "data" / "product_reviews", ROOT / "heldout" / "nhtsa" / "data" / "complaints"]
-    corpus = _words(" ".join(p.read_text(encoding="utf-8") for d in corpora for p in d.glob("*.md")))
-    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
-    words = _words(rules)
-    quoted = [" ".join(words[i : i + 4]) for i in range(len(words) - 3) if tuple(words[i : i + 4]) in seen]
+    quoted = quoted_four_grams(rules)
     assert not quoted, f"schema prompt rules quote a corpus: {quoted}"
