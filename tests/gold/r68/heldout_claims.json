@@ -1,0 +1,277 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1",
+  "date": "2026-09-30",
+  "pass": 1,
+  "input": "heldout_blind.json (sheet without observations and record fields)"
+ },
+ "sentences": [
+  {
+   "id": "35ef265284c3",
+   "claims": [
+    {"claim": "the contact stated the rear wheel wells were rusted", "polarity": "negative", "about": "ESCAPE"},
+    {"claim": "the rust was discovered while inspecting the vehicle", "polarity": "neutral", "about": "ESCAPE"}
+   ]
+  },
+  {
+   "id": "114c7bd5c3ac",
+   "claims": [
+    {"claim": "the complaint was filed 02/24/2015", "polarity": "neutral", "about": "10690483"}
+   ]
+  },
+  {
+   "id": "5cc5ee267024",
+   "claims": [
+    {"claim": "the vehicle was in for service three times in one month", "polarity": "negative", "about": "ESCAPE"}
+   ]
+  },
+  {
+   "id": "ceef829c5edd",
+   "claims": [
+    {"claim": "the failure mileage was 2,361", "polarity": "neutral", "about": "10691672"}
+   ]
+  },
+  {
+   "id": "056c53e954ea",
+   "claims": [
+    {"claim": "the situation occurs during daylight and nighttime hours", "polarity": "negative", "about": "CIVIC"},
+    {"claim": "the situation occurs with clean cameras and radar window", "polarity": "negative", "about": "CIVIC"}
+   ]
+  },
+  {
+   "id": "3e0818472dcc",
+   "claims": [
+    {"claim": "the vehicle may slow by 10-15 mph", "polarity": "negative", "about": "CIVIC"},
+    {"claim": "the vehicle may depart the highway before the driver is able to resume control", "polarity": "negative", "about": "CIVIC"}
+   ]
+  },
+  {
+   "id": "f4230c015f96",
+   "claims": [
+    {"claim": "a rear end collision was narrowly avoided in one case", "polarity": "negative", "about": "CIVIC"}
+   ]
+  },
+  {
+   "id": "3b01d11e981d",
+   "claims": [
+    {"claim": "the writer contacted American Honda", "polarity": "neutral", "about": "10824361"},
+    {"claim": "Honda confirmed the car does have a recall", "polarity": "negative", "about": "CIVIC"},
+    {"claim": "Honda provided the writer with a case number", "polarity": "neutral", "about": "10824361"}
+   ]
+  },
+  {
+   "id": "cbc946171556",
+   "claims": [
+    {"claim": "the vehicle currently has 350 miles", "polarity": "neutral", "about": "10825467"}
+   ]
+  },
+  {
+   "id": "0ef7c2fcf620",
+   "claims": [
+    {"claim": "the writer does not feel safe driving the brand new car any longer", "polarity": "negative", "about": "CIVIC"}
+   ]
+  },
+  {
+   "id": "d650561de9cf",
+   "claims": [
+    {"claim": "the contact owns a 2017 Nissan Rogue", "polarity": "neutral", "about": "ROGUE"}
+   ]
+  },
+  {
+   "id": "eac2da901c75",
+   "claims": [
+    {"claim": "the contact stated the speedometer failed without warning", "polarity": "negative", "about": "ROGUE"}
+   ]
+  },
+  {
+   "id": "a309c4d22184",
+   "claims": [
+    {"claim": "the car braked on its own on two separate occasions", "polarity": "negative", "about": "ROGUE"},
+    {"claim": "the car was taken to the dealer on both occasions", "polarity": "neutral", "about": "ROGUE"}
+   ]
+  },
+  {
+   "id": "6b02b7628358",
+   "claims": [
+    {"claim": "the gas gauge showed full after fill up", "polarity": "neutral", "about": "ROGUE"},
+    {"claim": "the gas gauge is now not moving", "polarity": "negative", "about": "ROGUE"},
+    {"claim": "the gas gauge still says a full tank, which is not possible with 203 miles to empty", "polarity": "negative", "about": "ROGUE"},
+    {"claim": "normally after a fill up it is over 440 miles to empty", "polarity": "neutral", "about": "ROGUE"}
+   ]
+  },
+  {
+   "id": "d3af2b6ca47f",
+   "claims": [
+    {"claim": "the navigation system works sporadically", "polarity": "negative", "about": "OUTBACK"},
+    {"claim": "the navigation system works less and less every day", "polarity": "negative", "about": "OUTBACK"},
+    {"claim": "the vehicle already had a dead battery, on a 2019 vehicle", "polarity": "negative", "about": "OUTBACK"}
+   ]
+  },
+  {
+   "id": "c4da0454fddc",
+   "claims": [
+    {"claim": "the complaint was filed 02/11/2019", "polarity": "neutral", "about": "11176393"}
+   ]
+  },
+  {
+   "id": "70791cf8fff4",
+   "claims": [
+    {"claim": "the car was taken to a dealer", "polarity": "neutral", "about": "OUTBACK"},
+    {"claim": "the dealer said that nothing is wrong with the car", "polarity": "neutral", "about": "OUTBACK"}
+   ]
+  },
+  {
+   "id": "0cf0e0ff34ac",
+   "claims": [
+    {"claim": "nothing was left on in the car", "polarity": "neutral", "about": "OUTBACK"},
+    {"claim": "the dead battery is a parasitic battery drain", "polarity": "negative", "about": "OUTBACK"}
+   ]
+  },
+  {
+   "id": "60e40266f322",
+   "claims": [
+    {"claim": "the complaint was filed 06/20/2019", "polarity": "neutral", "about": "11221492"}
+   ]
+  },
+  {
+   "id": "57630a4bce21",
+   "claims": [
+    {"claim": "the gas gauge does not indicate full after the auto-shutoff", "polarity": "negative", "about": "RAV4"},
+    {"claim": "the writer is able to add an additional 2-2.5 gallons to the tank after the auto-shutoff", "polarity": "negative", "about": "RAV4"},
+    {"claim": "adding the extra fuel takes a while because the writer has to push through all the auto shutoffs", "polarity": "negative", "about": "RAV4"}
+   ]
+  },
+  {
+   "id": "74b647786e79",
+   "claims": [
+    {"claim": "the wind noise can be heard well when the vehicle gets up to 50 miles per hour", "polarity": "negative", "about": "RAV4"}
+   ]
+  },
+  {
+   "id": "84b3a93ecbe1",
+   "claims": [
+    {"claim": "Ford will notify owners", "polarity": "neutral", "about": "15V406000"},
+    {"claim": "dealers will update the instrument panel software, free of charge", "polarity": "neutral", "about": "15V406000"}
+   ]
+  },
+  {
+   "id": "38a3be2f22db",
+   "claims": [
+    {"claim": "the recall is issued by Ford Motor Company (Ford)", "polarity": "neutral", "about": "15V436000"},
+    {"claim": "the recall covers certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015", "polarity": "neutral", "about": "15V436000"},
+    {"claim": "the recall covers Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015", "polarity": "neutral", "about": "15V436000"},
+    {"claim": "the recall covers Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015", "polarity": "neutral", "about": "15V436000"}
+   ]
+  },
+  {
+   "id": "0d949f7cca98",
+   "claims": [
+    {"claim": "the recall is issued by Nissan North America, Inc.", "polarity": "neutral", "about": "16V244000"}
+   ]
+  },
+  {
+   "id": "d9e3ea3be92c",
+   "claims": [
+    {"claim": "the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child", "polarity": "negative", "about": "16V244000"},
+    {"claim": "the OCS may classify the seat as empty despite it being occupied", "polarity": "negative", "about": "16V244000"}
+   ]
+  },
+  {
+   "id": "86fbcc07b8ed",
+   "claims": [
+    {"claim": "the recall is issued by American Honda Motor Co.", "polarity": "neutral", "about": "16V526000"}
+   ]
+  },
+  {
+   "id": "2ba265557d96",
+   "claims": [
+    {"claim": "the recall began on January 27, 2017", "polarity": "neutral", "about": "16V643000"}
+   ]
+  },
+  {
+   "id": "e1cc700cbcfb",
+   "claims": [
+    {"claim": "Toyota will notify owners", "polarity": "neutral", "about": "19V576000"},
+    {"claim": "dealers will inspect the back-up camera system, free of charge", "polarity": "neutral", "about": "19V576000"},
+    {"claim": "dealers will replace the audio display unit if necessary, free of charge", "polarity": "neutral", "about": "19V576000"}
+   ]
+  },
+  {
+   "id": "6f8011ee4e72",
+   "claims": [
+    {"claim": "owners may contact Toyota customer service at 1-888-270-9371", "polarity": "neutral", "about": "20V286000"}
+   ]
+  },
+  {
+   "id": "e67aaa4ed378",
+   "claims": [
+    {"claim": "water may enter through the steering gear box cover", "polarity": "negative", "about": "20V373000"},
+    {"claim": "water entering may cause a loss of electric power steering assist", "polarity": "negative", "about": "20V373000"}
+   ]
+  },
+  {
+   "id": "5fc5ce41739d",
+   "claims": [
+    {"claim": "remedy parts should be available for all affected vehicles by late March 2021", "polarity": "neutral", "about": "20V682000"}
+   ]
+  },
+  {
+   "id": "5acb39454531",
+   "claims": [
+    {"claim": "Lexus' number for this recall is 20LA01", "polarity": "neutral", "about": "20V682000"}
+   ]
+  },
+  {
+   "id": "0930406385f7",
+   "claims": [
+    {"claim": "the recall is issued by Nissan", "polarity": "neutral", "about": "21V839000"},
+    {"claim": "the recall covers certain 2017-2019 Rogue Hybrid vehicles", "polarity": "neutral", "about": "21V839000"}
+   ]
+  },
+  {
+   "id": "b616ec7176ba",
+   "claims": [
+    {"claim": "contact with the Electronic Control Module (ECM) bracket may damage the engine harness", "polarity": "negative", "about": "21V839000"},
+    {"claim": "the damaged engine harness may cause a blown fuse", "polarity": "negative", "about": "21V839000"}
+   ]
+  },
+  {
+   "id": "5dc27f02e326",
+   "claims": [
+    {"claim": "interim notification letters notifying owners of the safety risk were mailed March 29, 2023", "polarity": "neutral", "about": "23V093000"}
+   ]
+  },
+  {
+   "id": "ecb9c2a6c2da",
+   "claims": [
+    {"claim": "the rearview camera may display a distorted, intermittent or blank image when the vehicle is in reverse", "polarity": "negative", "about": "25V695000"}
+   ]
+  },
+  {
+   "id": "4533e7fa1712",
+   "claims": [
+    {"claim": "the engine block heater may crack", "polarity": "negative", "about": "26V011000"},
+    {"claim": "the engine block heater may develop a coolant leak", "polarity": "negative", "about": "26V011000"},
+    {"claim": "the coolant leak may cause the block heater to short circuit when it is plugged in", "polarity": "negative", "about": "26V011000"}
+   ]
+  },
+  {
+   "id": "53fedfde3aed",
+   "claims": [
+    {"claim": "owners are advised not to plug in their block heater until the vehicle is remedied", "polarity": "neutral", "about": "26V011000"}
+   ]
+  },
+  {
+   "id": "8f4805e04362",
+   "claims": [
+    {"claim": "interim letters notifying owners of the safety risk were mailed March 6, 2026", "polarity": "neutral", "about": "26V011000"}
+   ]
+  },
+  {
+   "id": "651ecafbd360",
+   "claims": [
+    {"claim": "owners may contact Honda's customer service at 1-888-234-2138", "polarity": "neutral", "about": "26V332000"}
+   ]
+  }
+ ]
+}

@@ -1,0 +1,277 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1",
+  "date": "2026-09-30",
+  "pass": 1,
+  "input": "furniture_blind.json (sheet without observations and record fields)"
+ },
+ "sentences": [
+  {
+   "id": "4294b05a9355",
+   "claims": [
+    {"claim": "rated 5/5", "polarity": "positive", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "c96017e13e95",
+   "claims": [
+    {"claim": "loves the look of the table", "polarity": "positive", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "5f9f188691db",
+   "claims": [
+    {"claim": "took off a star because of the complicated assembly and confusing instructions", "polarity": "negative", "about": "Gothenburg Table"},
+    {"claim": "it was kinda complicated to put together", "polarity": "negative", "about": "Gothenburg Table"},
+    {"claim": "the instructions were confusing", "polarity": "negative", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "9a6ca3913a57",
+   "claims": [
+    {"claim": "now that it's built it's perfect", "polarity": "positive", "about": "Gothenburg Table"},
+    {"claim": "all my friends are jealous of the table", "polarity": "positive", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "9742807d1e1c",
+   "claims": [
+    {"claim": "the table delivers on being functional", "polarity": "positive", "about": "Gothenburg Table"},
+    {"claim": "the table delivers on being aesthetically pleasing", "polarity": "positive", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "89b9ea23ae84",
+   "claims": [
+    {"claim": "perfect table for a family of four", "polarity": "positive", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "5d936f224e45",
+   "claims": [
+    {"claim": "taking off one star because it scratches more easily than I'd like", "polarity": "negative", "about": "Gothenburg Table"},
+    {"claim": "it scratches a bit more easily than I'd like", "polarity": "negative", "about": "Gothenburg Table"},
+    {"claim": "overall I'm happy with the purchase", "polarity": "positive", "about": "Gothenburg Table"}
+   ]
+  },
+  {
+   "id": "a762b1753ddc",
+   "claims": []
+  },
+  {
+   "id": "a9ffbcf04eb6",
+   "claims": [
+    {"claim": "I called customer service", "polarity": "neutral", "about": "Helsingborg Dresser"},
+    {"claim": "customer service told me I'd have to disassemble everything I'd already done and return the entire thing to the store", "polarity": "negative", "about": "Helsingborg Dresser"}
+   ]
+  },
+  {
+   "id": "672f25574cf1",
+   "claims": [
+    {"claim": "so satisfied with my purchase", "polarity": "positive", "about": "Helsingborg Dresser"},
+    {"claim": "others clearly struggled with it", "polarity": "negative", "about": "Helsingborg Dresser"}
+   ]
+  },
+  {
+   "id": "66e304c09735",
+   "claims": [
+    {"claim": "the surface is resistant to water rings", "polarity": "positive", "about": "Jönköping Coffee Table"},
+    {"claim": "the surface is resistant to scratches", "polarity": "positive", "about": "Jönköping Coffee Table"},
+    {"claim": "we've been using it daily for 3 months", "polarity": "neutral", "about": "Jönköping Coffee Table"},
+    {"claim": "no signs of wear", "polarity": "positive", "about": "Jönköping Coffee Table"}
+   ]
+  },
+  {
+   "id": "d456c1dabcf5",
+   "claims": [
+    {"claim": "assembly was simple", "polarity": "positive", "about": "Jönköping Coffee Table"},
+    {"claim": "assembly took about 45 minutes", "polarity": "neutral", "about": "Jönköping Coffee Table"}
+   ]
+  },
+  {
+   "id": "7ecd4de0b923",
+   "claims": [
+    {"claim": "assembly wasn't too bad", "polarity": "positive", "about": "Jönköping Coffee Table"},
+    {"claim": "assembly took maybe 40 mins", "polarity": "neutral", "about": "Jönköping Coffee Table"}
+   ]
+  },
+  {
+   "id": "6aa65f711e59",
+   "claims": [
+    {"claim": "the table feels sturdy", "polarity": "positive", "about": "Jönköping Coffee Table"},
+    {"claim": "the lower shelf is handy for storing remote controls and magazines", "polarity": "positive", "about": "Jönköping Coffee Table"}
+   ]
+  },
+  {
+   "id": "889af53d3ee4",
+   "claims": [
+    {"claim": "the bed is rock solid", "polarity": "positive", "about": "Linköping Bed"},
+    {"claim": "absolutely no squeaking", "polarity": "positive", "about": "Linköping Bed"},
+    {"claim": "absolutely no movement", "polarity": "positive", "about": "Linköping Bed"}
+   ]
+  },
+  {
+   "id": "88537dd0f950",
+   "claims": []
+  },
+  {
+   "id": "6605536b6d0b",
+   "claims": [
+    {"claim": "the frame utilizes proper joinery techniques", "polarity": "positive", "about": "Linköping Bed"},
+    {"claim": "the frame has reinforced corner blocks", "polarity": "positive", "about": "Linköping Bed"},
+    {"claim": "the frame has center supports", "polarity": "positive", "about": "Linköping Bed"},
+    {"claim": "these details are typically found in much more expensive pieces", "polarity": "positive", "about": "Linköping Bed"}
+   ]
+  },
+  {
+   "id": "41690ed910ca",
+   "claims": [
+    {"claim": "the bed is a great addition to our guest room", "polarity": "positive", "about": "Linköping Bed"}
+   ]
+  },
+  {
+   "id": "d14fbc961b6b",
+   "claims": [
+    {"claim": "we've had the bed for over a year", "polarity": "neutral", "about": "Linköping Bed"},
+    {"claim": "couldn't be happier with the bed", "polarity": "positive", "about": "Linköping Bed"}
+   ]
+  },
+  {
+   "id": "72eb290b686a",
+   "claims": [
+    {"claim": "rated 5/5", "polarity": "positive", "about": "Malmö Desk"}
+   ]
+  },
+  {
+   "id": "5ab3ba1736c9",
+   "claims": [
+    {"claim": "the desk looks nice in photos", "polarity": "positive", "about": "Malmö Desk"},
+    {"claim": "in person the finish has inconsistencies", "polarity": "negative", "about": "Malmö Desk"},
+    {"claim": "there were several scratches right out of the box", "polarity": "negative", "about": "Malmö Desk"}
+   ]
+  },
+  {
+   "id": "f883d9d2a4e2",
+   "claims": [
+    {"claim": "assembly was frustrating because the pre-drilled holes didn't align", "polarity": "negative", "about": "Malmö Desk"},
+    {"claim": "some of the pre-drilled holes didn't align properly", "polarity": "negative", "about": "Malmö Desk"}
+   ]
+  },
+  {
+   "id": "1c1072a6b63a",
+   "claims": [
+    {"claim": "the drawer is spacious enough for books, reading glasses and other essentials", "polarity": "positive", "about": "Norrköping Nightstand"},
+    {"claim": "the open shelf below is great for displaying decorative items", "polarity": "positive", "about": "Norrköping Nightstand"}
+   ]
+  },
+  {
+   "id": "aecc7cb20167",
+   "claims": [
+    {"claim": "only giving 3 stars because of the sticking drawer and lightweight wood", "polarity": "negative", "about": "Norrköping Nightstand"},
+    {"claim": "the drawer sometimes sticks when I open it too fast", "polarity": "negative", "about": "Norrköping Nightstand"},
+    {"claim": "the wood feels kinda lightweight", "polarity": "negative", "about": "Norrköping Nightstand"}
+   ]
+  },
+  {
+   "id": "7118c0fb6872",
+   "claims": [
+    {"claim": "the nightstand is a great addition to my guest bedroom", "polarity": "positive", "about": "Norrköping Nightstand"}
+   ]
+  },
+  {
+   "id": "9cd18e8e4b96",
+   "claims": [
+    {"claim": "the finish has maintained its appearance", "polarity": "positive", "about": "Norrköping Nightstand"},
+    {"claim": "the finish has no scratches", "polarity": "positive", "about": "Norrköping Nightstand"},
+    {"claim": "the finish has no wear marks", "polarity": "positive", "about": "Norrköping Nightstand"}
+   ]
+  },
+  {
+   "id": "59ef76adb865",
+   "claims": []
+  },
+  {
+   "id": "a6e9b6cc4c60",
+   "claims": [
+    {"claim": "the lamp gives off nice vibes", "polarity": "positive", "about": "Örebro Lamp"},
+    {"claim": "the dimmer is perfect for creating mood lighting", "polarity": "positive", "about": "Örebro Lamp"}
+   ]
+  },
+  {
+   "id": "84b5cf0334af",
+   "claims": []
+  },
+  {
+   "id": "7f9206e17ee5",
+   "claims": [
+    {"claim": "I absolutely love my Stockholm Chair", "polarity": "positive", "about": "Stockholm Chair"}
+   ]
+  },
+  {
+   "id": "81c45bab8b7c",
+   "claims": [
+    {"claim": "assembly was straightforward", "polarity": "positive", "about": "Stockholm Chair"},
+    {"claim": "assembly took less than 20 minutes", "polarity": "neutral", "about": "Stockholm Chair"}
+   ]
+  },
+  {
+   "id": "247cf26bb067",
+   "claims": [
+    {"claim": "everyone who comes over asks where I got the chair", "polarity": "positive", "about": "Stockholm Chair"}
+   ]
+  },
+  {
+   "id": "882b6b990197",
+   "claims": [
+    {"claim": "assembly was consistent across all chairs, which I appreciated", "polarity": "positive", "about": "Stockholm Chair"}
+   ]
+  },
+  {
+   "id": "80ae4d8de5d8",
+   "claims": [
+    {"claim": "the sofa exemplifies thoughtful design", "polarity": "positive", "about": "Uppsala Sofa"},
+    {"claim": "the sofa is at an accessible price point", "polarity": "positive", "about": "Uppsala Sofa"}
+   ]
+  },
+  {
+   "id": "b7dc9a6c914e",
+   "claims": [
+    {"claim": "it's the perfect size for our apartment living room", "polarity": "positive", "about": "Uppsala Sofa"},
+    {"claim": "it comfortably seats 3-4 people", "polarity": "positive", "about": "Uppsala Sofa"}
+   ]
+  },
+  {
+   "id": "47d5f4f8b6f0",
+   "claims": []
+  },
+  {
+   "id": "8031fcffa28b",
+   "claims": [
+    {"claim": "highly recommends the bookshelf", "polarity": "positive", "about": "Västerås Bookshelf"}
+   ]
+  },
+  {
+   "id": "2034ae9218ac",
+   "claims": [
+    {"claim": "the instructions were confusing", "polarity": "negative", "about": "Västerås Bookshelf"},
+    {"claim": "I had to redo some steps", "polarity": "negative", "about": "Västerås Bookshelf"}
+   ]
+  },
+  {
+   "id": "94516b80010d",
+   "claims": [
+    {"claim": "the load capacity is impressive", "polarity": "positive", "about": "Västerås Bookshelf"},
+    {"claim": "I've tested each shelf with approximately 20kg of books", "polarity": "neutral", "about": "Västerås Bookshelf"},
+    {"claim": "no deflection under approximately 20kg of books per shelf", "polarity": "positive", "about": "Västerås Bookshelf"}
+   ]
+  },
+  {
+   "id": "c29f92dd2cdd",
+   "claims": [
+    {"claim": "assembly was straightforward", "polarity": "positive", "about": "Västerås Bookshelf"},
+    {"claim": "assembly was time-consuming", "polarity": "negative", "about": "Västerås Bookshelf"},
+    {"claim": "assembly took about 2 hours", "polarity": "neutral", "about": "Västerås Bookshelf"}
+   ]
+  }
+ ]
+}
