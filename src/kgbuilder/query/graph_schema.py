@@ -23,7 +23,13 @@ _EXAMPLE_CHARS = 60  # an example longer than this is cut: it shows the format, 
 
 
 class PropertyInfo(BaseModel):
+    """A property key with its type and a few values, the values written as Cypher literals."""
+
     name: str
+    # Neo4j's own type name (`valueType`, "NOT NULL" dropped): INTEGER, STRING, DATE, LIST<STRING>, ...
+    # Shown because a query must compare a value with the property's type: an INTEGER year never equals
+    # '2015', and a DATE does not start with '2016' (R71's held-out run: five filters returned nothing)
+    type: str
     examples: list[str]
 
 
@@ -56,11 +62,9 @@ class GraphSchema(BaseModel):
 
     def text(self) -> str:
         """The schema as the prompts show it: one line per label, relationship pattern and claim pattern."""
-        lines = ["Node labels (count) and property keys with example values:"]
+        lines = ["Node labels (count) and property keys (type) with example values as Cypher literals:"]
         for info in self.labels:
-            props = "; ".join(
-                f"{p.name} e.g. {', '.join(repr(e) for e in p.examples)}" for p in info.properties
-            )
+            props = "; ".join(f"{p.name} ({p.type}) e.g. {', '.join(p.examples)}" for p in info.properties)
             lines.append(f"- :{info.label} ({info.count}): {props}")
         lines.append("Relationships (count):")
         lines += [f"- (:{r.source})-[:{r.type}]->(:{r.target}) ({r.count})" for r in self.relationships]
@@ -96,18 +100,36 @@ def _labels(driver: Driver) -> list[LabelInfo]:
 def _property(driver: Driver, label: str, key: str) -> PropertyInfo:
     # a label and a key cannot be parameters: they are escaped, like every identifier in the project
     node, prop = cypher_ident(label), cypher_ident(key)
-    # raw values, not toString(): a property may hold a list (aliases), which toString() refuses
+    # raw values, not toString(): a property may hold a list (aliases), which toString() refuses; the type
+    # is the first value's, as nodes of one label written by one import rule share their types
     records, _, _ = driver.execute_query(
         f"MATCH (n:{node}) WHERE n.{prop} IS NOT NULL "
-        f"RETURN DISTINCT n.{prop} AS v ORDER BY v LIMIT {_EXAMPLES}"
+        f"RETURN DISTINCT n.{prop} AS v, valueType(n.{prop}) AS t ORDER BY v LIMIT {_EXAMPLES}"
     )
-    return PropertyInfo(name=key, examples=[_example(r["v"]) for r in records])
+    value_type = records[0]["t"].replace(" NOT NULL", "") if records else "ANY"
+    return PropertyInfo(name=key, type=value_type, examples=[cypher_literal(r["v"]) for r in records])
 
 
-def _example(value: object) -> str:
-    """A value as the prompt shows it: a list as its items, anything long cut to its start."""
-    text = ", ".join(map(str, value)) if isinstance(value, list) else str(value)
-    return text[:_EXAMPLE_CHARS]
+def cypher_literal(value: object) -> str:
+    """`value` written as a Cypher literal ('text', 2015, true, date('2015-12-10'), ['a']); a long text is
+    cut to its start, as it only shows the format."""
+    if isinstance(value, bool):  # before numbers: a bool is an int in Python
+        return "true" if value else "false"
+    if isinstance(value, int | float):
+        return str(value)
+    if isinstance(value, list):
+        return "[" + ", ".join(cypher_literal(item) for item in value) + "]"
+    if isinstance(value, str):
+        return "'" + value[:_EXAMPLE_CHARS].replace("'", "\\'") + "'"
+    # neo4j.time values (Date, DateTime, ...) print as ISO text; their Cypher function is their type's name
+    return (
+        f"{_temporal_function(value)}('{value.iso_format()}')" if hasattr(value, "iso_format") else str(value)
+    )
+
+
+def _temporal_function(value: object) -> str:
+    """The Cypher function that builds a temporal value of this kind: date, datetime, localdatetime, ..."""
+    return type(value).__name__.lower()
 
 
 def _relationships(driver: Driver) -> list[RelationshipInfo]:

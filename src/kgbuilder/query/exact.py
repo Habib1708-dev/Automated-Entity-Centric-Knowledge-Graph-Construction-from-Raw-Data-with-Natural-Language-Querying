@@ -22,7 +22,9 @@ from .graph_store import CypherStore
 
 # The text2cypher prompt. Rule by rule: the schema lists what exists, and the database refuses anything
 # else (EXPLAIN), so the model is told to keep to it; values as parameters is the injection rule code
-# enforces; case-insensitive CONTAINS and the aliases are how the graph's names are written (entity
+# enforces; the type rule because a year stored as an INTEGER never equals '2015' and a DATE has no text
+# prefix (R71's held-out run: five filters ran and returned nothing); case-insensitive CONTAINS and the
+# aliases are how the graph's names are written (entity
 # resolution keeps other spellings as aliases); the first column is what code reads as the answer. The
 # paragraph on the pipeline's fixed nodes describes this project's graph shape, the same for any dataset.
 PROMPT = """You write one read-only Cypher query for Neo4j that answers a question from the graph below.
@@ -40,6 +42,8 @@ Rules:
 - Use only the labels, relationship types and property keys listed above.
 - Pass every value you compare against as a parameter (`$name`) and give it in `parameters`; never quote
   a text value inside the query.
+- Compare with the property's own type, shown in brackets: give a number or true/false as such, not as
+  text; compare a DATE with `date($p)` and `$p` as 'YYYY-MM-DD', or its year with `.year`.
 - Compare names case-insensitively and allow other wordings: `toLower(x) CONTAINS toLower($p)`, and look
   in `aliases` too where a node has them.
 - Return the answer in the first column: the names of the things when the question asks which things
@@ -57,9 +61,14 @@ Reasons: {reasons}
 Write a corrected query."""
 
 
+# A parameter's value in the type the property holds. bool comes first: pydantic would otherwise read a
+# true as the number 1, and an INTEGER year given as 2015 stays an int.
+ParameterValue = bool | int | float | str | list[str]
+
+
 class CypherParameter(BaseModel):
     name: str = Field(description="The parameter's name, as written after $ in the query.")
-    value: str | float | list[str] = Field(description="The value the query compares against.")
+    value: ParameterValue = Field(description="The value the query compares against, in the property's type.")
 
 
 class CypherProposal(BaseModel):

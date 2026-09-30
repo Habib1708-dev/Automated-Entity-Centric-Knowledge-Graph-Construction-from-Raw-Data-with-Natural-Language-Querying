@@ -34,8 +34,10 @@ PLAN = ConstructionPlan(
 # A press with a part (one hop), the part's maker (two hops) and a ticket about the press (one hop); a second
 # press shares only a document with the first, which must not make them related. Every chunk has one role.
 GRAPH = """
-CREATE (press:Press {press_id: 'P1', name: 'Quill Press'}),
-       (other:Press {press_id: 'P2', name: 'Lark Press'}),
+CREATE (press:Press {press_id: 'P1', name: 'Quill Press', year: 2019, active: true,
+                     since: date('2020-01-02')}),
+       (other:Press {press_id: 'P2', name: 'Lark Press', year: 2016, active: false,
+                     since: date('2015-06-30')}),
        (part:Part {part_id: 'S1', name: 'Spindle'}), (maker:Maker {maker_id: 'M1', name: 'Norcast'}),
        (ticket:Ticket {ticket_id: 'T-1'}),
        (part)-[:PART_OF]->(press), (part)-[:MADE_BY]->(maker), (ticket)-[:CONCERNS]->(press),
@@ -168,8 +170,19 @@ def test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns(
     build(driver)
     schema = Neo4jGraphStore(driver, PLAN, hops=1).schema()
     press = next(info for info in schema.labels if info.label == "Press")
-    assert press.count == 2 and [p.name for p in press.properties] == ["name", "press_id"]
-    assert press.properties[0].examples == ["Lark Press", "Quill Press"]
+    assert press.count == 2 and [p.name for p in press.properties] == [
+        "active",
+        "name",
+        "press_id",
+        "since",
+        "year",
+    ]
+    # each property with its type and its examples written as Cypher literals: a number compared with a
+    # quoted '2019', or a date with a string prefix, matches nothing (found in R71's held-out run)
+    text = schema.text()
+    assert "year (INTEGER) e.g. 2016, 2019" in text and "active (BOOLEAN) e.g. false, true" in text
+    assert "since (DATE) e.g. date('2015-06-30'), date('2020-01-02')" in text
+    assert "name (STRING) e.g. 'Lark Press', 'Quill Press'" in text
     chunk = next(info for info in schema.labels if info.label == "Chunk")
     # long text and vectors are never shown: no filter or count needs them
     assert {p.name for p in chunk.properties} == {"chunk_id"}
@@ -179,7 +192,8 @@ def test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns(
     assert [(c.subject_type, c.predicate, c.object_type) for c in schema.claims] == [
         ("Component", "HAS_CONDITION", "Condition")
     ]
-    assert "- :Press (2): name e.g. 'Lark Press', 'Quill Press'" in schema.text()
+    kind = next(info for info in schema.labels if info.label == "Entity")
+    assert "aliases (LIST<STRING>) e.g. ['spindle'], ['wobbling']" in text and kind.count == 2
 
 
 class AxisEmbedder:

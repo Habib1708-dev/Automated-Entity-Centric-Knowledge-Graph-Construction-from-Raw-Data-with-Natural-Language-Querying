@@ -2347,6 +2347,17 @@ embeddings stay Gemini's, as DeepSeek has none.
     by the read transaction itself; the schema reader; `kg qa` end to end now routes, retries a
     refused query and counts); `tests/test_qa.py` (route accuracy). Gate: 350 passed (326 after part
     a), `ruff check` clean. No run.
+- **Fix after the first held-out run (own commit, 2026-09-30).** The schema text showed every example value
+  quoted (`model_year e.g. '2015'`), while the graph stores integers, booleans and dates (`valueType`:
+  `model_year` INTEGER, `crash` BOOLEAN, `dateComplaintFiled` DATE). DeepSeek therefore wrote
+  `v.model_year = $year` with `$year = '2015'` and `r.ReportReceivedDate STARTS WITH '2016'`: five
+  structured filters (H01, H02, H04, H05, H07) ran and returned nothing. Now each property shows its type
+  and its examples as Cypher literals (`year (INTEGER) e.g. 2016, 2019`, `since (DATE) e.g.
+  date('2015-06-30')`), the Cypher prompt has one rule to compare with the property's own type, and a
+  parameter keeps a JSON number or boolean as such (`bool | int | float | str | list[str]`). Failing test
+  first (`test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns`), then the fix; two
+  pure tests (parameter types, Cypher literals). Gate: 352 passed. The held-out graph answers of that run
+  are superseded; the vector answers are unaffected (their prompt did not change).
 - **Runs (open, asked first with a cost estimate):** both gold sets and the generality corpus through both
   systems on the Step 0 graphs; the judge scores the free-text answers.
 

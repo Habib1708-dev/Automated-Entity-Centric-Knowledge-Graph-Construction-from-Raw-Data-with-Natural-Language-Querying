@@ -4,12 +4,20 @@ fallback to retrieval, and the prompts' domain-neutral wording. The database hal
 the read transaction) is tested in test_query_graph.py."""
 
 import pytest
+from neo4j.time import Date
 
 from kgbuilder.query import exact, router
 from kgbuilder.query.answers import SystemAnswer
 from kgbuilder.query.cypher_check import check_text
 from kgbuilder.query.exact import CypherParameter, CypherProposal, ExactRoute, rows_to_answer
-from kgbuilder.query.graph_schema import ClaimInfo, GraphSchema, LabelInfo, PropertyInfo, RelationshipInfo
+from kgbuilder.query.graph_schema import (
+    ClaimInfo,
+    GraphSchema,
+    LabelInfo,
+    PropertyInfo,
+    RelationshipInfo,
+    cypher_literal,
+)
 from kgbuilder.query.graph_store import ReadResult
 from kgbuilder.query.router import RouteChoice, Router
 from kgbuilder.query.systems import RoutedGraph
@@ -83,7 +91,11 @@ def test_rows_become_distinct_names_or_one_number():
 
 SCHEMA = GraphSchema(
     labels=[
-        LabelInfo(label="Press", count=2, properties=[PropertyInfo(name="name", examples=["Quill Press"])])
+        LabelInfo(
+            label="Press",
+            count=2,
+            properties=[PropertyInfo(name="name", type="STRING", examples=["'Quill Press'"])],
+        )
     ],
     relationships=[RelationshipInfo(source="Part", type="PART_OF", target="Press", count=3)],
     claims=[ClaimInfo(subject_type="Part", predicate="HAS_CONDITION", object_type="Condition", count=4)],
@@ -136,7 +148,25 @@ def test_a_passing_query_runs_once_and_its_rows_answer():
     assert outcome.entities == ["Quill Press"] and outcome.trace.answered and outcome.trace.rows == 1
     assert store.ran == [(READ + "\nLIMIT 100", {"name": "quill"})]
     # the prompt shows the graph's schema and the question
-    assert "- :Press (2): name e.g. 'Quill Press'" in prompts[0] and "HAS_CONDITION" in prompts[0]
+    assert "- :Press (2): name (STRING) e.g. 'Quill Press'" in prompts[0] and "HAS_CONDITION" in prompts[0]
+
+
+def test_parameters_keep_the_type_the_model_gave_them():
+    # an INTEGER year compared with the text "2015" matches nothing; true read as 1 would not match a flag
+    proposal_json = (
+        '{"cypher": "MATCH (r) WHERE r.year = $y AND r.flag = $f RETURN count(r)", "answer_form": "number",'
+        ' "parameters": [{"name": "y", "value": 2015}, {"name": "f", "value": true},'
+        ' {"name": "t", "value": "x"}]}'
+    )
+    values = [p.value for p in CypherProposal.model_validate_json(proposal_json).parameters]
+    assert values == [2015, True, "x"] and [type(v) for v in values] == [int, bool, str]
+
+
+def test_values_are_shown_as_cypher_literals_of_their_type():
+    assert [cypher_literal(v) for v in (2015, 2.5, True, "it's", ["a", 1])] == [
+        "2015", "2.5", "true", "'it\\'s'", "['a', 1]",
+    ]  # fmt: skip
+    assert cypher_literal(Date(2015, 12, 10)) == "date('2015-12-10')"
 
 
 def test_a_refused_query_gets_one_retry_with_its_reasons():

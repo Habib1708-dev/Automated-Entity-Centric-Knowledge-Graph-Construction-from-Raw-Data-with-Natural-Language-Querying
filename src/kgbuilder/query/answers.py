@@ -50,7 +50,7 @@ class ExactAttempt(BaseModel):
     """One Cypher proposal of the exact route and what became of it."""
 
     cypher: str  # as checked and run: with the LIMIT code added
-    parameters: dict[str, str | float | list[str]]
+    parameters: dict[str, bool | int | float | str | list[str]]
     issues: list[str]  # why the checks or the run refused it; empty when it ran
 
 
