@@ -76,6 +76,37 @@ def test_plan_problems_are_reported(data_dir):
     assert "not connected" in issues and "Supplier" in issues
 
 
+def test_tables_that_no_key_joins_may_stand_apart(tmp_path):
+    # R72: two unrelated record sets (the generality corpus has staff and pumps) share no key; the old check
+    # demanded one connected graph and refused every plan for them
+    (tmp_path / "people.csv").write_text("person_id,name\nA-1,Ada\nA-2,Ben\n", encoding="utf-8")
+    (tmp_path / "machines.csv").write_text("serial,model\nM-10,Kestrel\nM-11,Kestrel\n", encoding="utf-8")
+    profile = profile_directory(tmp_path)
+    assert profile.foreign_keys == []
+    plan = ConstructionPlan(
+        nodes=[
+            node("people.csv", "Person", "person_id", ["name"]),
+            node("machines.csv", "Machine", "serial"),
+        ],
+        relationships=[],
+    )
+    assert validate_plan(plan, profile) == []
+
+
+def test_tables_a_key_joins_must_be_joined_in_the_plan_also_through_a_link_table(data_dir):
+    # products and suppliers share no column, but assemblies and assembly_supplier join them in the data
+    plan = ConstructionPlan(
+        nodes=[
+            node("products.csv", "Product", "product_id", ["product_name"]),
+            node("suppliers.csv", "Supplier", "supplier_id", ["name"]),
+        ],
+        relationships=[],
+    )
+    [issue] = validate_plan(plan, profile_directory(data_dir))
+    assert "not connected" in issue and "Product" in issue and "Supplier" in issue
+    assert "joined in the data" in issue and "assembly_supplier.csv.supplier_id" in issue
+
+
 def test_name_column_must_be_an_imported_column(data_dir):
     profile = profile_directory(data_dir)
     product = GOOD_PLAN.nodes[0]

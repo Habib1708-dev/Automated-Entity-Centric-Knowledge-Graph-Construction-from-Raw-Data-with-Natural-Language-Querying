@@ -2442,7 +2442,17 @@ happened to be connected. The user chose to fix it in its own step before buildi
 - Then, the user's yes given with the choice: the generality build (`generality` preset, the neutral goal,
   `EXTRACT_PASSES=2`) and `kg qa` on `tests/gold/qa/generality_qa.json` with both systems (estimate
   $0.25-0.6), judged as in R71, results added to R71's table.
-- Status: open.
+- **Code (done 2026-09-30).** `_connectivity_issues` now groups the files that foreign-key candidates chain
+  together (a link table included) and requires the labels of each such group to lie in one component of
+  the plan; a group's issue names the keys that join it ("schema is not connected, isolated groups:
+  Product; Supplier (joined in the data by assemblies.csv.product_id -> products.csv.product_id, ...)").
+  Tables in different groups may stand apart. The proposer's rule reads "Connect every pair of tables that
+  the foreign keys join, directly or through a link table; tables that no key joins may stay apart", the
+  critic's "tables the keys join are connected" (prompt versions change; the frozen plans of the real
+  datasets are not re-proposed). Tests first: unrelated tables may stand apart (failed before), and tables
+  a link table joins must be joined, with the keys named (failed before on the message); the old test of an
+  isolated supplier still passes. Gate: 354 passed, `ruff check` clean.
+- Status: code done; the generality runs follow.
 
 ## Found along the way
 

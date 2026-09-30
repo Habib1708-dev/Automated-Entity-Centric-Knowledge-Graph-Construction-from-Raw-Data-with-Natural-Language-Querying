@@ -111,7 +111,7 @@ def validate_plan(plan: ConstructionPlan, profile: DataProfile) -> list[str]:
             issues.append(f"{name}: defined more than once")
         seen.add(key)
 
-    issues.extend(_connectivity_issues(plan))
+    issues.extend(_connectivity_issues(plan, profile))
     return issues
 
 
@@ -134,23 +134,48 @@ def _name_column_issues(name: str, node: NodeRule, profile: DataProfile) -> list
     return []
 
 
-def _connectivity_issues(plan: ConstructionPlan) -> list[str]:
-    """Union-find over labels: more than one component means islands no traversal can reach."""
-    parent = {n.label: n.label for n in plan.nodes}
+def _connectivity_issues(plan: ConstructionPlan, profile: DataProfile) -> list[str]:
+    """Tables the data joins must be joined in the plan; tables nothing joins may stand apart (R72).
+
+    Two tables are joined in the data when a chain of foreign-key candidates links their files, possibly
+    through a link table that the plan imports only as relationships. Their labels must then lie in one
+    component of the plan's graph: an island there is a relationship the plan forgot, and no traversal
+    could cross it. Tables that no key links (two unrelated record sets) have nothing to relate by, so a
+    plan may keep them apart instead of inventing a link.
+    """
+    labels = [n.label for n in plan.nodes]
+    component = _groups(labels, [(r.from_label, r.to_label) for r in plan.relationships])
+    files = sorted({f.file for f in profile.files} | {n.source_file for n in plan.nodes})
+    joined = _groups(files, [(fk.from_file, fk.to_file) for fk in profile.foreign_keys])
+    # the plan's components met by each group of files the data joins
+    met: dict[str, dict[str, list[str]]] = {}
+    for node in plan.nodes:
+        met.setdefault(joined[node.source_file], {}).setdefault(component[node.label], []).append(node.label)
+    issues = []
+    for file_group, components in met.items():
+        if len(components) > 1:
+            groups = "; ".join(", ".join(sorted(c)) for c in components.values())
+            keys = ", ".join(
+                f"{fk.from_file}.{fk.from_column} -> {fk.to_file}.{fk.to_column}"
+                for fk in profile.foreign_keys
+                if joined[fk.from_file] == file_group
+            )
+            issues.append(
+                f"schema is not connected, isolated groups: {groups} (joined in the data by {keys})"
+            )
+    return issues
+
+
+def _groups(items: list[str], pairs: list[tuple[str, str]]) -> dict[str, str]:
+    """Union-find: each item's group representative after joining every pair of known items."""
+    parent = {item: item for item in items}
 
     def find(x: str) -> str:
         while parent[x] != x:
             x = parent[x]
         return x
 
-    for rel in plan.relationships:
-        if rel.from_label in parent and rel.to_label in parent:
-            parent[find(rel.from_label)] = find(rel.to_label)
-
-    components: dict[str, list[str]] = {}
-    for label in parent:
-        components.setdefault(find(label), []).append(label)
-    if len(components) > 1:
-        groups = "; ".join(", ".join(sorted(c)) for c in components.values())
-        return [f"schema is not connected, isolated groups: {groups}"]
-    return []
+    for a, b in pairs:
+        if a in parent and b in parent:
+            parent[find(a)] = find(b)
+    return {item: find(item) for item in items}

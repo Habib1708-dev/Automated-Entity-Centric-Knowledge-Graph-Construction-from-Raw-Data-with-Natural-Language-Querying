@@ -14,7 +14,8 @@ from .profiler import DataProfile
 
 # The proposer is told to trust the profile because models otherwise "recognise" id columns by name and
 # pick non-unique keys. The modeling rules encode the two table shapes (entity table, link table) and the
-# failure modes seen in practice: FK columns duplicated as properties, disconnected islands, inverse pairs.
+# failure modes seen in practice: FK columns duplicated as properties, islands the keys join, inverse pairs.
+# Tables no key joins may stay apart (R72): unrelated record sets have nothing to relate by.
 PROPOSER_PROMPT = """You are an expert at knowledge graph modeling with property graphs.
 Design construction rules that turn the CSV files below into a graph serving the user's goal.
 
@@ -39,7 +40,8 @@ Modeling rules:
 - Do not import foreign key columns as node properties.
 - Set `name_column` to the column holding the name a person would write in a review or report
   (e.g. part_name "Drawer Rails", not a code like "drawer_unit_subassembly"); text is linked to nodes by it.
-- The schema must be one connected graph. Skip files that are irrelevant to the goal.
+- Connect every pair of tables that the foreign keys join, directly or through a link table; tables that
+  no key joins may stay apart. Skip files that are irrelevant to the goal.
 - No two relationships between the same pair of labels may be inverses or synonyms of each other.
 
 {feedback}"""
@@ -47,7 +49,8 @@ Modeling rules:
 # The critic is told what code already guarantees, so it spends its judgement on modeling only, and it
 # must answer "valid" unless a problem would change the plan; otherwise critics nitpick forever.
 CRITIC_PROMPT = """You are reviewing a proposed knowledge graph construction plan.
-The plan already passed mechanical checks (columns exist, keys are unique, graph is connected),
+The plan already passed mechanical checks (columns exist, keys are unique, tables the keys join are
+connected),
 so judge only the modeling:
 - Could any node really be a relationship, or the reverse?
 - Are relationship directions and types natural for the goal?
