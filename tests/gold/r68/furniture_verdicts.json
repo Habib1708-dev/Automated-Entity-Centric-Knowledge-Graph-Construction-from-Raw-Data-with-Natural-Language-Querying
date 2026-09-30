@@ -1,0 +1,930 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+  "date": "2026-09-30",
+  "run_id": "27b4c437907d4b4aa9ca849abf9690f8",
+  "git_sha": "409d617"
+ },
+ "sheet": "tests/gold/r68/furniture_sheet.json",
+ "sentences": [
+  {
+   "id": "4294b05a9355",
+   "claims": [
+    {
+     "claim": "rated 5/5",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [
+      "588061f93896"
+     ],
+     "reason": "588061f93896 states Gothenburg Table HAS_RATING 5/5, on the table."
+    }
+   ]
+  },
+  {
+   "id": "c96017e13e95",
+   "claims": [
+    {
+     "claim": "loves the look of the table",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing from this sentence is stored, and the schema's Condition type excludes general opinion and HAS_RATING holds only the star rating, so no fact type can hold liking the table's look; extraction does not apply without a type."
+    }
+   ]
+  },
+  {
+   "id": "5f9f188691db",
+   "claims": [
+    {
+     "claim": "took off a star because of the complicated assembly and confusing instructions",
+     "polarity": "negative",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "31f4424aa54b",
+      "b44004aa0f02"
+     ],
+     "reason": "The rating (31f4424aa54b) and the complicated assembly (b44004aa0f02) are stored separately, but no fact type links a rating to its reason: CAUSES takes only Condition objects and HAS_RATING only the value."
+    },
+    {
+     "claim": "it was kinda complicated to put together",
+     "polarity": "negative",
+     "about": "Gothenburg Table",
+     "covered_by": [
+      "b44004aa0f02",
+      "2735c868f04b"
+     ],
+     "reason": "b44004aa0f02 states the assembly HAS_CONDITION complicated and 2735c868f04b ties that assembly to the Gothenburg Table."
+    },
+    {
+     "claim": "the instructions were confusing",
+     "polarity": "negative",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain claim by the writer about the table's assembly, which HAS_CONDITION (AssemblyProcess) explicitly lists ('confusing'), yet nothing about the instructions is stored for this chunk."
+    }
+   ]
+  },
+  {
+   "id": "9a6ca3913a57",
+   "claims": [
+    {
+     "claim": "now that it's built it's perfect",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; 'perfect' is a general opinion of the whole product, which the Condition type excludes, and no other fact type holds overall sentiment."
+    },
+    {
+     "claim": "all my friends are jealous of the table",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; other people's reaction to the product has no fact type in the schema, so no_schema_type fits before role (the friends as agents) is considered."
+    }
+   ]
+  },
+  {
+   "id": "9742807d1e1c",
+   "claims": [
+    {
+     "claim": "the table delivers on being functional",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain writer's claim about a functional condition of the table, which HAS_CONDITION (Product) could hold as 'functional' (the graph stores that elsewhere), but nothing from this sentence is stored."
+    },
+    {
+     "claim": "the table delivers on being aesthetically pleasing",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored states the table looks good; 'aesthetically pleasing' is an appearance opinion, not a concrete physical or functional condition, and the schema has no type for opinions."
+    }
+   ]
+  },
+  {
+   "id": "89b9ea23ae84",
+   "claims": [
+    {
+     "claim": "perfect table for a family of four",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; this is a general opinion of the whole table for a household, which the Condition type excludes, and no measure is given."
+    }
+   ]
+  },
+  {
+   "id": "5d936f224e45",
+   "claims": [
+    {
+     "claim": "taking off one star because it scratches more easily than I'd like",
+     "polarity": "negative",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "96475db5b237",
+      "a1c50be06664"
+     ],
+     "reason": "The rating (96475db5b237) and the scratching (a1c50be06664) are stored, but no fact type links a rating to the condition that caused the deduction."
+    },
+    {
+     "claim": "it scratches a bit more easily than I'd like",
+     "polarity": "negative",
+     "about": "Gothenburg Table",
+     "covered_by": [
+      "a1c50be06664"
+     ],
+     "reason": "a1c50be06664 states the table HAS_CONDITION 'scratches a bit more easily than I'd like' (resolved to the same kind of condition, 'scratches very easily')."
+    },
+    {
+     "claim": "overall I'm happy with the purchase",
+     "polarity": "positive",
+     "about": "Gothenburg Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; overall satisfaction is a general opinion, excluded from Condition, and the 4/5 rating is a different claim."
+    }
+   ]
+  },
+  {
+   "id": "a762b1753ddc",
+   "claims": []
+  },
+  {
+   "id": "a9ffbcf04eb6",
+   "claims": [
+    {
+     "claim": "I called customer service",
+     "polarity": "neutral",
+     "about": "Helsingborg Dresser",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; a customer-service contact is an event of the writer with no fact type in the schema (no remedy, contact or return type)."
+    },
+    {
+     "claim": "customer service told me I'd have to disassemble everything I'd already done and return the entire thing to the store",
+     "polarity": "negative",
+     "about": "Helsingborg Dresser",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; a return instruction is not a physical or functional condition and no fact type holds a remedy or a return, so no_schema_type fits before attribution (the third-party speaker)."
+    }
+   ]
+  },
+  {
+   "id": "672f25574cf1",
+   "claims": [
+    {
+     "claim": "so satisfied with my purchase",
+     "polarity": "positive",
+     "about": "Helsingborg Dresser",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; satisfaction with the purchase is a general opinion the Condition type excludes, and the 5/5 rating is a different claim."
+    },
+    {
+     "claim": "others clearly struggled with it",
+     "polarity": "negative",
+     "about": "Helsingborg Dresser",
+     "covered_by": [],
+     "cause": "role",
+     "schema_type": "HAS_CONDITION",
+     "near": [
+      "5c6ee8a981e3"
+     ],
+     "reason": "The writer's own claim that other people struggled with the assembly: 5c6ee8a981e3 stores 'assembly challenging' without an agent, but the claim needs the participant 'others' (as opposed to the writer, who succeeded), so role rather than extraction."
+    }
+   ]
+  },
+  {
+   "id": "66e304c09735",
+   "claims": [
+    {
+     "claim": "the surface is resistant to water rings",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "8a3361c61e83"
+     ],
+     "reason": "8a3361c61e83 states the table HAS_CONDITION resistant to water rings (the surface generalised to the table it is part of)."
+    },
+    {
+     "claim": "the surface is resistant to scratches",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain writer's claim that HAS_CONDITION (Product) holds ('resists scratches' is the schema's own example), but only the water-ring half of the phrase was extracted for this chunk."
+    },
+    {
+     "claim": "we've been using it daily for 3 months",
+     "polarity": "neutral",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "b27d9cfffd98"
+     ],
+     "reason": "The period survives only as the time qualifier 'for 3 months' of the no-wear observation b27d9cfffd98, and no fact type holds a usage or ownership period (HAS_MEASURE is dimension, weight, capacity or price)."
+    },
+    {
+     "claim": "no signs of wear",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "b27d9cfffd98"
+     ],
+     "reason": "b27d9cfffd98 states the table HAS_CONDITION no signs of wear, negation intact."
+    }
+   ]
+  },
+  {
+   "id": "d456c1dabcf5",
+   "claims": [
+    {
+     "claim": "assembly was simple",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "0b2ddbde13d2",
+      "4b5c79a5b6ff"
+     ],
+     "reason": "0b2ddbde13d2 states Assembly HAS_CONDITION simple; 4b5c79a5b6ff ties that assembly to the table."
+    },
+    {
+     "claim": "assembly took about 45 minutes",
+     "polarity": "neutral",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "3be5a7e6fa9f"
+     ],
+     "reason": "3be5a7e6fa9f states Assembly TAKES_TIME 45 minutes, on the table."
+    }
+   ]
+  },
+  {
+   "id": "7ecd4de0b923",
+   "claims": [
+    {
+     "claim": "assembly wasn't too bad",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "f94744ed11e1"
+     ],
+     "reason": "f94744ed11e1 states assembly HAS_CONDITION 'wasn't too bad', with the negation kept."
+    },
+    {
+     "claim": "assembly took maybe 40 mins",
+     "polarity": "neutral",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "008d9d3675f3"
+     ],
+     "reason": "008d9d3675f3 states assembly TAKES_TIME 40 mins; 'maybe' is an approximation of the number, not a possibility of the claim."
+    }
+   ]
+  },
+  {
+   "id": "6aa65f711e59",
+   "claims": [
+    {
+     "claim": "the table feels sturdy",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "b43d5e4930af"
+     ],
+     "reason": "b43d5e4930af states the table HAS_CONDITION sturdy."
+    },
+    {
+     "claim": "the lower shelf is handy for storing remote controls and magazines",
+     "polarity": "positive",
+     "about": "Jönköping Coffee Table",
+     "covered_by": [
+      "a23f13bc66ac",
+      "d1042bbcf341"
+     ],
+     "reason": "a23f13bc66ac states the lower shelf HAS_CONDITION handy (evidence names the remotes and magazines) and d1042bbcf341 makes the shelf part of the table; the storage purpose is only in the evidence."
+    }
+   ]
+  },
+  {
+   "id": "889af53d3ee4",
+   "claims": [
+    {
+     "claim": "the bed is rock solid",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [
+      "f37d7d1b20af"
+     ],
+     "reason": "f37d7d1b20af states the bed HAS_CONDITION rock solid (resolved to 'solid')."
+    },
+    {
+     "claim": "absolutely no squeaking",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [
+      "b7ed21bf3b46"
+     ],
+     "reason": "b7ed21bf3b46 states the bed HAS_CONDITION no squeaking, negation intact."
+    },
+    {
+     "claim": "absolutely no movement",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "HAS_CONDITION",
+     "near": [
+      "f37d7d1b20af"
+     ],
+     "reason": "A negated claim with nothing stored: 'or movement' was dropped from the no-squeaking observation, and per the rules a negated claim nothing holds is assertion, not extraction; 'solid' (f37d7d1b20af) only implies it."
+    }
+   ]
+  },
+  {
+   "id": "88537dd0f950",
+   "claims": []
+  },
+  {
+   "id": "6605536b6d0b",
+   "claims": [
+    {
+     "claim": "the frame utilizes proper joinery techniques",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [
+      "e532eec5f8d9",
+      "185dbad80644"
+     ],
+     "reason": "e532eec5f8d9 states the frame HAS_CONDITION proper joinery techniques (with the corner blocks and supports), and 185dbad80644 makes the frame part of the bed."
+    },
+    {
+     "claim": "the frame has reinforced corner blocks",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [
+      "10e12c5ccf9f",
+      "02d33ec53863",
+      "e532eec5f8d9"
+     ],
+     "reason": "10e12c5ccf9f states corner blocks HAS_CONDITION reinforced, 02d33ec53863 places them in the bed, and e532eec5f8d9 ties them to the frame's joinery."
+    },
+    {
+     "claim": "the frame has center supports",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [
+      "e532eec5f8d9"
+     ],
+     "reason": "e532eec5f8d9's condition on the frame names the center supports in its object ('... reinforced corner blocks and center supports')."
+    },
+    {
+     "claim": "these details are typically found in much more expensive pieces",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored states the comparison; a claim that the build quality matches pricier products is a general opinion about the product versus others, and no fact type holds a comparison or a quality judgement."
+    }
+   ]
+  },
+  {
+   "id": "41690ed910ca",
+   "claims": [
+    {
+     "claim": "the bed is a great addition to our guest room",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; 'a great addition' is a general opinion, excluded from Condition, and no other fact type holds overall sentiment."
+    }
+   ]
+  },
+  {
+   "id": "d14fbc961b6b",
+   "claims": [
+    {
+     "claim": "we've had the bed for over a year",
+     "polarity": "neutral",
+     "about": "Linköping Bed",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored (no observation of this chunk carries the period even as a time qualifier), and no fact type holds an ownership period."
+    },
+    {
+     "claim": "couldn't be happier with the bed",
+     "polarity": "positive",
+     "about": "Linköping Bed",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; overall happiness is a general opinion the Condition type excludes, and the 5/5 rating (3fcfc8aba4e6) is a different claim."
+    }
+   ]
+  },
+  {
+   "id": "72eb290b686a",
+   "claims": [
+    {
+     "claim": "rated 5/5",
+     "polarity": "positive",
+     "about": "Malmö Desk",
+     "covered_by": [
+      "d47a40facb57"
+     ],
+     "reason": "d47a40facb57 states Malmö Desk HAS_RATING 5/5."
+    }
+   ]
+  },
+  {
+   "id": "5ab3ba1736c9",
+   "claims": [
+    {
+     "claim": "the desk looks nice in photos",
+     "polarity": "positive",
+     "about": "Malmö Desk",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; 'looks nice' is an appearance opinion with no fact type, and even a Condition would need the circumstance 'in photos' (a role) to keep the contrast with 'in person'."
+    },
+    {
+     "claim": "in person the finish has inconsistencies",
+     "polarity": "negative",
+     "about": "Malmö Desk",
+     "covered_by": [
+      "69272c8be3c8"
+     ],
+     "reason": "69272c8be3c8 states the finish HAS_CONDITION inconsistencies, on the desk."
+    },
+    {
+     "claim": "there were several scratches right out of the box",
+     "polarity": "negative",
+     "about": "Malmö Desk",
+     "covered_by": [
+      "d0a82f7fca2f"
+     ],
+     "reason": "d0a82f7fca2f states the desk HAS_CONDITION several scratches with time 'right out of the box'."
+    }
+   ]
+  },
+  {
+   "id": "f883d9d2a4e2",
+   "claims": [
+    {
+     "claim": "assembly was frustrating because the pre-drilled holes didn't align",
+     "polarity": "negative",
+     "about": "Malmö Desk",
+     "covered_by": [
+      "65d2c7d54b95",
+      "c313c7498432",
+      "78f9ff7d5a13"
+     ],
+     "reason": "65d2c7d54b95 states Assembly HAS_CONDITION frustrating, and c313c7498432 / 78f9ff7d5a13 state that the misaligned pre-drilled holes CAUSES frustrating."
+    },
+    {
+     "claim": "some of the pre-drilled holes didn't align properly",
+     "polarity": "negative",
+     "about": "Malmö Desk",
+     "covered_by": [
+      "e84b8ed3120a",
+      "808a12c419c5"
+     ],
+     "reason": "e84b8ed3120a states pre-drilled holes HAS_CONDITION didn't align properly (resolved 'misalign'), and 808a12c419c5 places them in the desk."
+    }
+   ]
+  },
+  {
+   "id": "1c1072a6b63a",
+   "claims": [
+    {
+     "claim": "the drawer is spacious enough for books, reading glasses and other essentials",
+     "polarity": "positive",
+     "about": "Norrköping Nightstand",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain writer's claim about a component that HAS_CONDITION (Component) could hold as 'spacious', but only the drawer's PART_OF (7013b9687067) was stored, not its spaciousness."
+    },
+    {
+     "claim": "the open shelf below is great for displaying decorative items",
+     "polarity": "positive",
+     "about": "Norrköping Nightstand",
+     "covered_by": [
+      "6babb3c2fbf4",
+      "6c6082f7c9a3"
+     ],
+     "reason": "6babb3c2fbf4 states the open shelf HAS_CONDITION great for displaying decorative items, and 6c6082f7c9a3 places it in the nightstand."
+    }
+   ]
+  },
+  {
+   "id": "aecc7cb20167",
+   "claims": [
+    {
+     "claim": "only giving 3 stars because of the sticking drawer and lightweight wood",
+     "polarity": "negative",
+     "about": "Norrköping Nightstand",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "e6df4ff396bc",
+      "330d0acbf089",
+      "e84c40682126"
+     ],
+     "reason": "The rating (e6df4ff396bc), the sticking drawer (330d0acbf089) and the lightweight wood (e84c40682126) are stored, but no fact type links a rating to its reasons."
+    },
+    {
+     "claim": "the drawer sometimes sticks when I open it too fast",
+     "polarity": "negative",
+     "about": "Norrköping Nightstand",
+     "covered_by": [],
+     "cause": "role",
+     "schema_type": "HAS_CONDITION",
+     "near": [
+      "330d0acbf089"
+     ],
+     "reason": "330d0acbf089 stores an unconditional 'drawer sticks'; the claim needs the condition 'when I open it too fast' (and 'sometimes'), a participant beyond subject and object, so role as in the rules' 'sticks when hot' example."
+    },
+    {
+     "claim": "the wood feels kinda lightweight",
+     "polarity": "negative",
+     "about": "Norrköping Nightstand",
+     "covered_by": [
+      "e84c40682126"
+     ],
+     "reason": "e84c40682126 states the wood HAS_CONDITION kinda lightweight, on the nightstand."
+    }
+   ]
+  },
+  {
+   "id": "7118c0fb6872",
+   "claims": [
+    {
+     "claim": "the nightstand is a great addition to my guest bedroom",
+     "polarity": "positive",
+     "about": "Norrköping Nightstand",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; 'a great addition' is a general opinion, which the Condition type excludes, and no other fact type holds sentiment."
+    }
+   ]
+  },
+  {
+   "id": "9cd18e8e4b96",
+   "claims": [
+    {
+     "claim": "the finish has maintained its appearance",
+     "polarity": "positive",
+     "about": "Norrköping Nightstand",
+     "covered_by": [
+      "1144c468ab79"
+     ],
+     "reason": "1144c468ab79 states the finish HAS_CONDITION 'maintained its appearance with no scratches or wear marks', on the nightstand."
+    },
+    {
+     "claim": "the finish has no scratches",
+     "polarity": "positive",
+     "about": "Norrköping Nightstand",
+     "covered_by": [
+      "1144c468ab79"
+     ],
+     "reason": "1144c468ab79's object states 'no scratches' with the negation kept; the resolved node 'no signs of wear' is a more general name of the same condition."
+    },
+    {
+     "claim": "the finish has no wear marks",
+     "polarity": "positive",
+     "about": "Norrköping Nightstand",
+     "covered_by": [
+      "1144c468ab79"
+     ],
+     "reason": "1144c468ab79's object states 'no wear marks', resolved to 'no signs of wear', negation intact."
+    }
+   ]
+  },
+  {
+   "id": "59ef76adb865",
+   "claims": []
+  },
+  {
+   "id": "a6e9b6cc4c60",
+   "claims": [
+    {
+     "claim": "the lamp gives off nice vibes",
+     "polarity": "positive",
+     "about": "Örebro Lamp",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; 'nice vibes' is a general opinion about the lamp's feel, not a concrete condition, and no fact type holds opinions."
+    },
+    {
+     "claim": "the dimmer is perfect for creating mood lighting",
+     "polarity": "positive",
+     "about": "Örebro Lamp",
+     "covered_by": [
+      "f8ee6816fa08",
+      "1b8269062ba9"
+     ],
+     "reason": "f8ee6816fa08 states the dimmer HAS_CONDITION perfect for creating mood lighting, and 1b8269062ba9 places the dimmer in the lamp."
+    }
+   ]
+  },
+  {
+   "id": "84b5cf0334af",
+   "claims": []
+  },
+  {
+   "id": "7f9206e17ee5",
+   "claims": [
+    {
+     "claim": "I absolutely love my Stockholm Chair",
+     "polarity": "positive",
+     "about": "Stockholm Chair",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; loving the chair is a general opinion the Condition type excludes, and the 5/5 rating (01430bb19c6a) is a different claim."
+    }
+   ]
+  },
+  {
+   "id": "81c45bab8b7c",
+   "claims": [
+    {
+     "claim": "assembly was straightforward",
+     "polarity": "positive",
+     "about": "Stockholm Chair",
+     "covered_by": [
+      "b59adffbcef1",
+      "47a30b609e75"
+     ],
+     "reason": "b59adffbcef1 states Assembly HAS_CONDITION straightforward and 47a30b609e75 ties that assembly to the chair."
+    },
+    {
+     "claim": "assembly took less than 20 minutes",
+     "polarity": "neutral",
+     "about": "Stockholm Chair",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "TAKES_TIME",
+     "near": [],
+     "reason": "A plain writer's claim that TAKES_TIME holds ('less than 20 minutes' is the schema's own example), but no TAKES_TIME observation exists for this chunk."
+    }
+   ]
+  },
+  {
+   "id": "247cf26bb067",
+   "claims": [
+    {
+     "claim": "everyone who comes over asks where I got the chair",
+     "polarity": "positive",
+     "about": "Stockholm Chair",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; visitors' reactions to the product have no fact type in the schema."
+    }
+   ]
+  },
+  {
+   "id": "882b6b990197",
+   "claims": [
+    {
+     "claim": "assembly was consistent across all chairs, which I appreciated",
+     "polarity": "positive",
+     "about": "Stockholm Chair",
+     "covered_by": [
+      "4a31dd39f6df",
+      "fa80efe873b5"
+     ],
+     "reason": "4a31dd39f6df states Assembly HAS_CONDITION consistent across all chairs (positive), and fa80efe873b5 ties the assembly to the chair."
+    }
+   ]
+  },
+  {
+   "id": "80ae4d8de5d8",
+   "claims": [
+    {
+     "claim": "the sofa exemplifies thoughtful design",
+     "polarity": "positive",
+     "about": "Uppsala Sofa",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored states it; 'thoughtful design' is a general opinion of the product, excluded from Condition, and no other fact type holds it."
+    },
+    {
+     "claim": "the sofa is at an accessible price point",
+     "polarity": "positive",
+     "about": "Uppsala Sofa",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "0e0ca4706ebe"
+     ],
+     "reason": "The Condition type excludes price and HAS_MEASURE needs a quantified value, so no fact type holds 'the price is accessible'; the record's price field ($1289) does not state it, and 'exceptional value' (0e0ca4706ebe) only implies it."
+    }
+   ]
+  },
+  {
+   "id": "b7dc9a6c914e",
+   "claims": [
+    {
+     "claim": "it's the perfect size for our apartment living room",
+     "polarity": "positive",
+     "about": "Uppsala Sofa",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain writer's claim about the sofa's size that HAS_CONDITION (Product) could hold (the graph stores 'fits perfectly in my small bedroom' for another product), but only the seating count was extracted from this sentence."
+    },
+    {
+     "claim": "it comfortably seats 3-4 people",
+     "polarity": "positive",
+     "about": "Uppsala Sofa",
+     "covered_by": [
+      "8235addf8638"
+     ],
+     "reason": "8235addf8638 states the sofa HAS_MEASURE 3-4 people with evidence 'comfortably seating 3-4 people'."
+    }
+   ]
+  },
+  {
+   "id": "47d5f4f8b6f0",
+   "claims": []
+  },
+  {
+   "id": "8031fcffa28b",
+   "claims": [
+    {
+     "claim": "highly recommends the bookshelf",
+     "polarity": "positive",
+     "about": "Västerås Bookshelf",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "Nothing stored; a recommendation is a general opinion, excluded from Condition, and the 5/5 rating (c1ef78767c42) is a different claim."
+    }
+   ]
+  },
+  {
+   "id": "2034ae9218ac",
+   "claims": [
+    {
+     "claim": "the instructions were confusing",
+     "polarity": "negative",
+     "about": "Västerås Bookshelf",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain writer's claim about the assembly that HAS_CONDITION (AssemblyProcess) lists ('confusing'), but only 'a pain' and 'complicated' from other sentences were stored, neither of which states the instructions were confusing."
+    },
+    {
+     "claim": "I had to redo some steps",
+     "polarity": "negative",
+     "about": "Västerås Bookshelf",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [],
+     "reason": "A plain writer's claim about the assembly that a Condition such as 'steps had to be redone' would hold faithfully without linking separate occurrences, yet nothing from this sentence is stored."
+    }
+   ]
+  },
+  {
+   "id": "94516b80010d",
+   "claims": [
+    {
+     "claim": "the load capacity is impressive",
+     "polarity": "positive",
+     "about": "Västerås Bookshelf",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "HAS_CONDITION",
+     "near": [
+      "61649f7bbdb0",
+      "1c85537dc7b7"
+     ],
+     "reason": "A plain writer's claim about the shelves' load-bearing that HAS_CONDITION could hold as 'high load capacity'; the 20kg measure and 'no deflection' (61649f7bbdb0, 1c85537dc7b7) give the evidence for it but do not state it."
+    },
+    {
+     "claim": "I've tested each shelf with approximately 20kg of books",
+     "polarity": "neutral",
+     "about": "Västerås Bookshelf",
+     "covered_by": [
+      "61649f7bbdb0",
+      "1c85537dc7b7"
+     ],
+     "reason": "61649f7bbdb0 states shelf HAS_MEASURE 20kg with evidence 'tested each shelf with approximately 20kg of books', and 1c85537dc7b7 carries the same test; the tested load is what the measure records."
+    },
+    {
+     "claim": "no deflection under approximately 20kg of books per shelf",
+     "polarity": "positive",
+     "about": "Västerås Bookshelf",
+     "covered_by": [
+      "1c85537dc7b7",
+      "61649f7bbdb0"
+     ],
+     "reason": "1c85537dc7b7 states shelf HAS_CONDITION no deflection (resolved 'no sagging', negation intact) and 61649f7bbdb0 gives the 20kg load."
+    }
+   ]
+  },
+  {
+   "id": "c29f92dd2cdd",
+   "claims": [
+    {
+     "claim": "assembly was straightforward",
+     "polarity": "positive",
+     "about": "Västerås Bookshelf",
+     "covered_by": [
+      "3de88326c2bd",
+      "c79821cdce79"
+     ],
+     "reason": "3de88326c2bd states Assembly HAS_CONDITION straightforward and c79821cdce79 ties the assembly to the bookshelf."
+    },
+    {
+     "claim": "assembly was time-consuming",
+     "polarity": "negative",
+     "about": "Västerås Bookshelf",
+     "covered_by": [
+      "dca1fbdb87ba"
+     ],
+     "reason": "dca1fbdb87ba states Assembly HAS_CONDITION time-consuming, on the bookshelf."
+    },
+    {
+     "claim": "assembly took about 2 hours",
+     "polarity": "neutral",
+     "about": "Västerås Bookshelf",
+     "covered_by": [
+      "9cd57147926b"
+     ],
+     "reason": "9cd57147926b states Assembly TAKES_TIME 2 hours."
+    }
+   ]
+  }
+ ]
+}

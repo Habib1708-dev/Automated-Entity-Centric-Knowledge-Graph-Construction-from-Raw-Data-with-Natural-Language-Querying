@@ -2005,7 +2005,7 @@ the furniture graph must come out unchanged (its `description` column is one sho
     extractor returned zero facts from well-formed chunks (nothing rejected) - model variance, not retried
     (run budget).
 
-### R68. Coverage: is every fact a question needs reachable? (started 2026-09-28)
+### R68. Coverage: is every fact a question needs reachable? (done 2026-09-30)
 The last step of the observation-graph arm, and Step 0 of the layered-model direction
 (`docs/direction/2026-09-27_layered-knowledge-model/`, section 7; task file
 `docs/tasks/layered-knowledge-model.md`). Precision is judged against the text and recall against a
@@ -2050,23 +2050,119 @@ set: a fixed random sample of sentences per dataset, judged claim by claim, scor
     (`Proportion` with the Wilson interval; reproduces R66's and R67's hand-computed intervals). Stages
     `coverage_sample`, `coverage_sheet`, `coverage`. Gate green (273 tests, 257 before; ruff clean); no
     run, tests are the proof.
-  - **Part 2: the estimate.** About 40 sentences per dataset: held-out on the R67 graph, furniture on the
-    R66 graph, both rebuilt from the LLM cache (asked first). Two judge passes, then `kg coverage`; per
-    dataset coverage and reachable with `n` and interval, and the count per cause with one example each.
-    **Paused 2026-09-28 (the user's choice), $0 so far.** The user said yes to both cached rebuilds and
-    chose the R66 DeepSeek furniture graph (the model confound with the Gemini runs of the layered arm is
-    stated; a Gemini furniture baseline is decided before layered Step 2). Done: the held-out rebuild into
-    `out/r68_heldout` with R67's own plan and text schema (the R52 schema, see "Found along the way"):
-    build, `ingest-text --no-embed` (34 documents, 81 chunks), `EXTRACT_PASSES=2 extract` (MLflow
-    `6a346cdc`: 162 calls, 162 cache hits, `cost_usd` 0; `triples.jsonl` byte-identical to R67's). The
-    sample, drawn from those chunks and committed: `tests/gold/r68/heldout_sample.json`, 40 of 390
-    sentences (21 from complaints, 19 from recall texts), seed 68 (MLflow `coverage_sample` `16b59e95`).
-    Stopped at `resolve`: the Gemini key answers 402 "prepayment credits are depleted", resolution needs
-    live embeddings (never cached) and no free key is set; without them the graph would not be R67's (other
-    merge candidates, whose adjudications would call Gemini as well). To resume once the key has credits:
-    held-out resolve, link and eval (its judge sheet must equal `out/heldout/judge_sheet.json`) and
-    `coverage-sheet`; the furniture rebuild with `quality_deepseek` from `out/r66_furniture` (eval against
-    R66's sheet), its sample and sheet; then the two judge passes and `kg coverage`.
+  - **Part 2: the estimate (done 2026-09-30).** About 40 sentences per dataset, two judge passes, then
+    `kg coverage`. Paused on 2026-09-28 at the held-out `resolve` (the Gemini key answered 402, credits
+    depleted; resolution needs live embeddings), resumed on 2026-09-29 after the user topped the key up.
+    - **Which graphs (asked first).** R67's held-out graph was built with the R52 text schema (see "Found
+      along the way"), so the user chose a new held-out graph on the arm's own schema: `out/r68g_heldout`
+      with the frozen plan and R66 part 3's Gemini text schema, current code (git `409d617`),
+      `EXTRACT_PASSES=2`. Furniture stays on the R66 DeepSeek graph (the user's choice), rebuilt from the
+      cache into `out/r68_furniture`. The builder model differs between the two datasets and from the
+      Gemini runs planned for the layered arm, so the two datasets' numbers are no model comparison.
+    - **Runs** (the user's yes for both; costs from MLflow): held-out extract `9945e539` **$0.354** (112
+      new calls for the 56 recall-text chunks, the 50 complaint calls cached; 532 claims, 415 of them from
+      the recall texts) and resolve `b329c518` **$0.117** (365 candidates, 278 new adjudications):
+      **$0.471**. That is above both estimates given (first $0.20-0.27, then $0.39-0.41 after the extract;
+      the user said yes to continue). I estimated from R67's cost per call, but this schema draws about 7
+      claims per recall chunk where R67's drew about 1, and output tokens drive the cost. Furniture:
+      extract `0ab9b548` 140/140 and resolve `92f33de8` 277/277 cache hits, run with the DeepSeek key set
+      to an invalid value so that a miss would fail instead of paying: **$0**. Build, ingest, link, eval
+      and the coverage stages make no LLM call.
+    - **The rebuilt graphs reproduce their judged scores.** Furniture: `triples.jsonl` byte-identical to
+      R66's, the judge sheet identical (604 facts, same ids), and eval `9f2de201` equals R66's eval
+      `9bff1263` on every metric: precision 0.990 (598/604), recall 0.896 (86/96), polarity 0.980
+      (592/604). Held-out: the 124 complaint claims keep their ids and gold matches (they now also hang on
+      their Complaint, R67), but the 28 derived `INSTALLED_IN` facts changed ids. A derived fact has no
+      wording of its own and takes the resolved entity's name; the recall texts brought shorter vehicle
+      names ("Escape" for "2015 FORD ESCAPE"; R44 picks the shortest), so exact match also lost 14 gold
+      triples. R66 part 3's verdicts were carried over by one written rule (same document, subject,
+      predicate and evidence) into `tests/gold/r68/heldout_judge_verdicts.json`; one derived fact is new
+      (`EXTERIOR REARVIEW MIRRORS INSTALLED_IN RAV4`, from gold 63's own sentence; SUPPORTED by the lead
+      judge). Eval `cef0b8f6`: precision **0.960** (144/150; R66: 143/149), recall **0.824** (56/68),
+      polarity 0.993 (152/153), ER valid 0.950, 7/7 questions; `entities_linked` 56 (link `0c93e100`;
+      R67's graph 30). `path_truth` reads 0.818 (509/622), but all 113 "false" paths are complaint claims
+      on their own Complaint record through R67's section link, which the metric predates (509/509 over
+      document links; "Found along the way").
+    - **Judging** (`tests/gold/r68/judge_rules.md`, invented examples only). Pass 1: two blind Fable 5.1
+      subagents listed the claims of each sentence from the sheet without observations and record fields
+      (held-out 67, furniture 72), committed in `1135440` before any matching. One rule clarification was
+      added before pass 2 and committed with the claims: "the writer" is the document's own source,
+      including the submitter a report relays ("THE CONTACT STATED THAT ..."). Pass 2: two new Fable 5.1
+      subagents matched every claim against the full sheet; a script checked that no claim changed. Lead
+      judge (Opus 5.5), one change: recall `15V436000` "covers certain model year 2015 Ford Escape vehicles
+      manufactured April 1, 2014, to June 12, 2015" (and its Focus and C-Max claims) from covered to
+      `role`, because the stored `AFFECTS_VEHICLE` link drops the build window; the furniture judge
+      treated "sticks when i open it too fast" the same way. No gold corrections: no claim changed after
+      pass 1. Coverage runs `4908cd47` (held-out) and `b9e48f40` (furniture).
+
+    | | Held-out (R66 Gemini schema) | Furniture (R66 DeepSeek graph) |
+    |---|---|---|
+    | sentences / with claims / claims | 40 / 40 / 67 | 40 / 35 / 72 |
+    | **coverage** (Wilson 95 %) | **0.313** (21/67, 0.215-0.432) | **0.486** (35/72, 0.374-0.599) |
+    | **reachable** | **1.000** (67/67, 0.946-1.000) | **1.000** (72/72, 0.949-1.000) |
+    | coverage_in_schema | 0.457 (21/46, 0.322-0.598) | 0.745 (35/47, 0.605-0.847) |
+    | covered by a record field only | 8 (filing dates, makers, a model year) | 0 |
+    | coverage negative / neutral / positive | 10/31, 11/36, n = 0 | 8/17, 4/8, 23/47 |
+
+    Misses per cause, each with one real example (`tests/gold/r68/<ds>_verdicts.json`):
+
+    | Cause | Held-out | Furniture |
+    |---|---|---|
+    | 1 extraction | 4: "A REAR END COLLISION WAS NARROWLY AVOIDED IN ONE CASE." - nothing stored | 9: "resistant to water rings and scratches" - only the water-ring half stored |
+    | 2 no_schema_type | 21: "Ford will notify owners, and dealers will update the instrument panel software, free of charge." - no type for remedies, notifications, contact numbers, dealer visits | 25: "I absolutely love my Stockholm Chair!" - the schema's Condition excludes "general opinion" |
+    | 3 identity | 0 | 0 |
+    | 4 attachment | 0 | 0 |
+    | 5 assertion | 12: "The engine block heater may crack ..." stored as `crack AFFECTS_COMPONENT engine block heater` | 1: "absolutely no squeaking or movement" - "no movement" not stored |
+    | 6 attribution | 1: "THEY CONFIRMED MY CAR DOES HAVE A RECALL" stored as the writer's `RECALL AFFECTS_VEHICLE 2016 HONDA CIVIC` | 0 |
+    | 7 role | 6: the 15V436000 build windows; "DURING DAYLIGHT AND NIGHTTIME HOURS WITH CLEAN CAMERAS" | 2: "the drawer sometimes sticks when i open it too fast" stored as `drawer HAS_CONDITION sticks` |
+    | 8 event_structure | 2: "THE CAR DID THIS ON TWO SEPARATE OCCASIONS" - `BRAKED ON ITS OWN` stored once | 0 |
+    | 9 concept | 0 | 0 |
+    | 10 other | 0 | 0 |
+
+    - **Reading.** Every sampled claim is reachable: each chunk hangs on the thing its claims are about
+      (R67), so a retrieval route can locate the evidence for all of them. What a query can count or
+      filter on is a third of the held-out claims and half of the furniture claims. The largest cause on
+      both datasets is the schema, not the model (21 of 46 and 25 of 37 misses): the held-out schema has no
+      place for remedies, notifications or owner actions, and the furniture schema excludes overall
+      opinions. Next comes `assertion` on the recall texts: "may" survives only where the extractor kept
+      it inside a name ("Water may enter through the steering gear box cover", covered). The model's own
+      misses are 4 and 9. Identity and attachment misses are 0 in this sample, so the layered arm's
+      identity step is motivated by the path and ER findings, not by coverage.
+    - **Recall-text precision** (the user asked to judge all 415 claims from the held-out recall texts,
+      which the judge sheet leaves out because the gold covers only the complaints). Rules
+      `tests/gold/r68/recall_precision_rules.md`; four Fable 5.1 subagents by whole documents. The groups
+      split two against two on two conventions, which the lead judge settled by one principle each: a bare
+      "certain" is no limit, as in the coverage decision above (one more Fable 5.1 judge re-decided
+      `overstated` on all 203 `AFFECTS_VEHICLE` claims), and `ADDRESSES_PROBLEM` may be negative or
+      neutral while the other recall links are neutral. Every change is written into its verdict
+      (`tests/gold/r68/heldout_recall_precision.json`; scores computed by code). Precision **0.990**
+      (411/415, 0.975-0.996); **strict** precision, counting a claim that drops a "may" or a stated limit
+      as wrong, **0.588** (244/415, 0.540-0.634); polarity 0.988 (410/415); 12 vague. Unsupported: 3
+      `wrong_relation` (remedy parts as covered components, e.g. "21V839000 COVERS_COMPONENT harness
+      protector cover", a new part the dealers install) and 1 `not_in_text`. Overstated: `AFFECTS_VEHICLE`
+      109 of 203 (build windows, model years, equipment dropped), `AFFECTS_COMPONENT` 39 of 50 ("may"
+      dropped). R67's graph (R52 schema) had 54 extracted recall claims at 0.963; this schema draws 415,
+      and all 29 recall documents have claims. Derived facts on recall documents (R67: 0/38 true) were not
+      judged; that bug is unchanged.
+
+    **Baseline of the observation-graph arm** (layered-model Step 0; judge scores are Claude's, the exact
+    scores sit next to them in each eval run):
+
+    | | Held-out `out/r68g_heldout` | Furniture `out/r68_furniture` |
+    |---|---|---|
+    | text schema of the graph | R66 part 3, Gemini (text_schema `713cb4ec`) | R66 part 2, DeepSeek (text_schema `545b0c04`) |
+    | builder model | gemini-3.8-flash | deepseek-flash |
+    | judge precision / recall (gold documents) | 0.960 (144/150) / 0.824 (56/68) | 0.990 (598/604) / 0.896 (86/96) |
+    | recall-text precision / strict | 0.990 (411/415) / 0.588 | none (no record texts) |
+    | polarity accuracy | 0.993 (152/153) | 0.980 (592/604) |
+    | `path_truth` | 0.818 (509/622); 509/509 over document links | 1.000 (496/496) |
+    | coverage / reachable | 0.313 (21/67) / 1.000 | 0.486 (35/72) / 1.000 |
+    | `entities_linked` | 56 | 33 |
+    | `question_accuracy` | 1.000 (7/7) | 0.167 (1/6): the gold questions filter on predicate names this schema renamed (R66) |
+    | MLflow | extract `9945e539`, resolve `b329c518`, link `0c93e100`, eval `cef0b8f6`, coverage `4908cd47` | extract `0ab9b548`, resolve `92f33de8`, link `a37a9285`, eval `9f2de201`, coverage `b9e48f40` |
+
+    Runs of this part: $0.471 (held-out extract and resolve); furniture $0; the judging is Claude in the
+    session. Gate green (273 tests, ruff clean). **R68 done.**
 
 ### R69. DeepSeek as a builder model (done 2026-09-25, before R66 part 2)
 The user asked for R66's runs on DeepSeek-V4.1-Flash. A new provider is its own concern, so it is its own
@@ -2112,10 +2208,13 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
   say "part PART_OF_VEHICLE 16V526000" with the campaign number as a Vehicle-typed entity (judge: 0/38
   true). Candidate: on a record document, derivation targets the record's related domain node (the
   recall's `AFFECTS_VEHICLE` vehicle), or skips the document. Same root cause: these entities are created
-  after `link_graphs` ran, so they carry no REFERS_TO.
+  after `link_graphs` ran, so they carry no REFERS_TO. Still present in R68: in the held-out coverage
+  sample alone 33 derived `INSTALLED_IN` facts point at a recall id typed as a Vehicle
+  (`ENGINE INSTALLED_IN 15V436000`).
 - **Two recall documents extracted zero facts (found in R67 part 3).** `16V074000` and `17V472000`: 2
   well-formed chunks each, 0 triples proposed and 0 rejected in both passes (Gemini returned empty lists).
   Candidate: a repair pass for documents with 0 facts, or accept as model variance and measure its rate.
+  In R68, on R66's schema, all 29 recall documents have claims, these two included.
 - **R67's held-out graph used the R52 text schema, not R66's (found in R68).** `out/heldout/text_schema.json`
   is byte-identical to `tests/gold/heldout_nhtsa_text_schema.json` (R52: `Complaint REPORTS_PROBLEM
   Problem`, `INVOLVES_COMPONENT`, derived `PART_OF_VEHICLE`), and every claim of R67's judge sheet fits only
@@ -2127,6 +2226,21 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
   (credits depleted) during `resolve` printed the SDK's traceback instead of the CLI's one-line error,
   and the failed calls were not counted (`embed_calls` 0 on both failed runs). Candidate: `embed` goes
   through the same retry and error wrapping as `generate`; test first with a failing fake.
+- **`path_truth` does not know section links (found in R68).** A path counts as true only when the
+  observation's document is ABOUT the thing (`validation/paths.py`), but since R67 a claim also hangs on
+  the record its section is ABOUT. On the R68 held-out graph all 113 "false" paths (of 622) are complaint
+  claims on their own Complaint, e.g. `RUSTED AFFECTS_COMPONENT REAR WHEEL WELLS` on `10667633`, from the
+  section `complaints/ford_escape_complaints.md#0`, which is ABOUT that complaint; R67's graph has 153 of
+  360. Candidate: a path is also true when the observation's chunk is ABOUT the thing; test first.
+- **A derived fact changes its id when a later document renames its entity (found in R68).** A derived
+  fact has no wording of its own, so its id comes from the resolved names. Adding the recall texts renamed
+  the held-out vehicles ("2015 FORD ESCAPE" -> "Escape", R44's shortest name): 28 derived `INSTALLED_IN`
+  ids changed, their verdicts had to be carried over by a rule, and exact match lost 14 gold triples.
+  Candidate: a derived fact's id from its subject's own wording and the thing's key, and exact match on
+  aliases.
+- **A maker's own recall number becomes a second Recall (found in R68).** The text of `22V254000` calls it
+  "22S25" (the maker's number), and two claims have `22S25` as their Recall, so one recall is two
+  entities. Candidate: the layered arm's identity step (records by key).
 
 - **(Fixed in its own commit, R66 part 2.) `kg rescore` failed on number claims (found in R66 part 2).** The
   judge sheet shows a claim's own wording ("30-35 hardcover books", "25kg"); the `Value` entity is named

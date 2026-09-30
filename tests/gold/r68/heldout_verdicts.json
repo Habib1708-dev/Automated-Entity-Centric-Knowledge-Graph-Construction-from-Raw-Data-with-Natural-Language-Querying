@@ -1,0 +1,953 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+  "date": "2026-09-30",
+  "run_id": "6de707ce525246ca8f41c0d567a218e7",
+  "git_sha": "409d617"
+ },
+ "sheet": "tests/gold/r68/heldout_sheet.json",
+ "sentences": [
+  {
+   "id": "35ef265284c3",
+   "claims": [
+    {
+     "claim": "the contact stated the rear wheel wells were rusted",
+     "polarity": "negative",
+     "about": "ESCAPE",
+     "covered_by": [
+      "d4922a11a5a4",
+      "4bef54949117"
+     ],
+     "reason": "d4922a11a5a4 states RUSTED affects the REAR WHEEL WELLS and 4bef54949117 puts the rust on the 2015 Ford Escape, both hanging on ESCAPE; the contact is the report's own writer."
+    },
+    {
+     "claim": "the rust was discovered while inspecting the vehicle",
+     "polarity": "neutral",
+     "about": "ESCAPE",
+     "covered_by": [],
+     "cause": "role",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [
+      "4bef54949117"
+     ],
+     "reason": "The rust is stored (4bef54949117) but the circumstance of its discovery, while inspecting the vehicle, is a condition beyond subject and object and no stored item carries it; not extraction because the claim needs that circumstance, and a type exists so not no_schema_type."
+    }
+   ]
+  },
+  {
+   "id": "114c7bd5c3ac",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/24/2015",
+     "polarity": "neutral",
+     "about": "10690483",
+     "covered_by": [
+      "10690483.dateComplaintFiled"
+     ],
+     "reason": "The record field dateComplaintFiled = 2015-02-24 states the filing date 02/24/2015 on the complaint record."
+    }
+   ]
+  },
+  {
+   "id": "5cc5ee267024",
+   "claims": [
+    {
+     "claim": "the vehicle was in for service three times in one month",
+     "polarity": "negative",
+     "about": "ESCAPE",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "The schema has no fact type for a dealer service visit (only problems, components, recalls, vehicles and values), so the three visits in one month have no place to be stored before their count even matters."
+    }
+   ]
+  },
+  {
+   "id": "ceef829c5edd",
+   "claims": [
+    {
+     "claim": "the failure mileage was 2,361",
+     "polarity": "neutral",
+     "about": "10691672",
+     "covered_by": [
+      "f25b5ad0c0b5"
+     ],
+     "reason": "f25b5ad0c0b5 states the failure (AIR BAGS FAILED TO DEPLOY) OCCURS_AT_MILEAGE 2,361, hanging on complaint 10691672."
+    }
+   ]
+  },
+  {
+   "id": "056c53e954ea",
+   "claims": [
+    {
+     "claim": "the situation occurs during daylight and nighttime hours",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "role",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [
+      "c2145e48e048"
+     ],
+     "reason": "The unpredictable reaction is stored (c2145e48e048) but the condition 'during daylight and nighttime hours' is a participant beyond subject and object that no stored item carries; not extraction because the claim is the condition itself."
+    },
+    {
+     "claim": "the situation occurs with clean cameras and radar window",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "role",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [
+      "c2145e48e048"
+     ],
+     "reason": "Same situation: the condition 'with clean cameras and radar window' is a circumstance beyond subject and object and nothing stored carries it."
+    }
+   ]
+  },
+  {
+   "id": "3e0818472dcc",
+   "claims": [
+    {
+     "claim": "the vehicle may slow by 10-15 mph",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [
+      "c10f6f668057"
+     ],
+     "reason": "c10f6f668057 stores SLOW BY 10-15 MPH as an occurring problem on the Civic, dropping the writer's 'may'; possibility lost is assertion, and extraction does not apply to a 'may' claim."
+    },
+    {
+     "claim": "the vehicle may depart the highway before the driver is able to resume control",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [
+      "151b477b8249"
+     ],
+     "reason": "151b477b8249 stores DEPART THE HIGHWAY (time 'before the driver is able to resume control') as stated, dropping 'may'; possibility lost comes before the condition (role) in the order."
+    }
+   ]
+  },
+  {
+   "id": "f4230c015f96",
+   "claims": [
+    {
+     "claim": "a rear end collision was narrowly avoided in one case",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [],
+     "reason": "A narrowly avoided rear-end collision is a plain hazard the writer states about the Civic that OCCURS_ON_VEHICLE could hold as a Problem; nothing stored mentions it, so the model missed it rather than the shape."
+    }
+   ]
+  },
+  {
+   "id": "3b01d11e981d",
+   "claims": [
+    {
+     "claim": "the writer contacted American Honda",
+     "polarity": "neutral",
+     "about": "10824361",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "No fact type holds the writer contacting the manufacturer; the schema has no type for contacts or correspondence."
+    },
+    {
+     "claim": "Honda confirmed the car does have a recall",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "attribution",
+     "schema_type": "AFFECTS_VEHICLE",
+     "near": [
+      "8af31750940a"
+     ],
+     "reason": "8af31750940a stores 'RECALL affects 2016 Honda Civic' from the very words 'they confirmed my car does have a recall' as the writer's own fact, losing that Honda (a third party) said it; a type exists and it is not negated, so attribution is the first fitting cause."
+    },
+    {
+     "claim": "Honda provided the writer with a case number",
+     "polarity": "neutral",
+     "about": "10824361",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "No fact type holds a case number or that Honda provided one; the schema has no type for contacts, identifiers or correspondence."
+    }
+   ]
+  },
+  {
+   "id": "cbc946171556",
+   "claims": [
+    {
+     "claim": "the vehicle currently has 350 miles",
+     "polarity": "neutral",
+     "about": "10825467",
+     "covered_by": [
+      "7f4f76400f84"
+     ],
+     "reason": "7f4f76400f84 states 2016 HONDA CIVIC HAS_MILEAGE 350 MILES with time CURRENTLY, hanging on complaint 10825467."
+    }
+   ]
+  },
+  {
+   "id": "0ef7c2fcf620",
+   "claims": [
+    {
+     "claim": "the writer does not feel safe driving the brand new car any longer",
+     "polarity": "negative",
+     "about": "CIVIC",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "The writer's feeling of not being safe is an opinion about the car; the schema has no type for opinions or ratings, only defects, components, recalls and values, so no_schema_type fits before the negation (assertion)."
+    }
+   ]
+  },
+  {
+   "id": "d650561de9cf",
+   "claims": [
+    {
+     "claim": "the contact owns a 2017 Nissan Rogue",
+     "polarity": "neutral",
+     "about": "ROGUE",
+     "covered_by": [
+      "ROGUE.make",
+      "ROGUE.model",
+      "ROGUE.model_year"
+     ],
+     "reason": "The vehicle record's make NISSAN, model ROGUE and model_year 2017 state the vehicle is a 2017 Nissan Rogue; the ownership itself is the writer's circumstance."
+    }
+   ]
+  },
+  {
+   "id": "eac2da901c75",
+   "claims": [
+    {
+     "claim": "the contact stated the speedometer failed without warning",
+     "polarity": "negative",
+     "about": "ROGUE",
+     "covered_by": [
+      "bfa17d45af8f",
+      "4aaff8e00631"
+     ],
+     "reason": "bfa17d45af8f states FAILED affects the SPEEDOMETER and 4aaff8e00631 puts the failure on the 2017 Nissan Rogue; the contact is the report's writer, and 'without warning' is a manner detail of the same statement."
+    }
+   ]
+  },
+  {
+   "id": "a309c4d22184",
+   "claims": [
+    {
+     "claim": "the car braked on its own on two separate occasions",
+     "polarity": "negative",
+     "about": "ROGUE",
+     "covered_by": [],
+     "cause": "event_structure",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [
+      "19cc7e97ebc0"
+     ],
+     "reason": "19cc7e97ebc0 stores BRAKED ON ITS OWN on the Rogue once; that it happened on two separate occasions is a count of occurrences no observation links, so event_structure; the subject node BRAKE SUDDENLY is a synonym, not another thing."
+    },
+    {
+     "claim": "the car was taken to the dealer on both occasions",
+     "polarity": "neutral",
+     "about": "ROGUE",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "The schema has no fact type for taking the car to the dealer, so the visits (on both occasions) have no place to be stored."
+    }
+   ]
+  },
+  {
+   "id": "6b02b7628358",
+   "claims": [
+    {
+     "claim": "the gas gauge showed full after fill up",
+     "polarity": "neutral",
+     "about": "ROGUE",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "A gauge reading full after a fill-up is a plain reading, not a defect; the schema only types Problems affecting components and values of problems or vehicles, so no type holds it."
+    },
+    {
+     "claim": "the gas gauge is now not moving",
+     "polarity": "negative",
+     "about": "ROGUE",
+     "covered_by": [
+      "66ad0974470c",
+      "a0ed6be04817"
+     ],
+     "reason": "66ad0974470c states NOT MOVEING affects the GAS GAUGE with time NOW and a0ed6be04817 puts it on the 2017 Nissan Rogue."
+    },
+    {
+     "claim": "the gas gauge still says a full tank, which is not possible with 203 miles to empty",
+     "polarity": "negative",
+     "about": "ROGUE",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "66ad0974470c"
+     ],
+     "reason": "The gauge still reading a full tank when it cannot be full is a plain stated symptom AFFECTS_COMPONENT could hold on the GAS GAUGE; only 'not moving' (66ad0974470c) was stored, which does not state the false full reading."
+    },
+    {
+     "claim": "normally after a fill up it is over 440 miles to empty",
+     "polarity": "neutral",
+     "about": "ROGUE",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "The normal range to empty after a fill-up (over 440 miles) is neither a problem nor an odometer reading; no fact type of the schema holds a range or normal-behaviour value."
+    }
+   ]
+  },
+  {
+   "id": "d3af2b6ca47f",
+   "claims": [
+    {
+     "claim": "the navigation system works sporadically",
+     "polarity": "negative",
+     "about": "OUTBACK",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "21df50b609d7"
+     ],
+     "reason": "Working sporadically is a plain stated behaviour of the nav system that AFFECTS_COMPONENT could hold; 21df50b609d7 stores only the generic PROBLEMS USING THE NAV SYSTEM, which does not state intermittent working."
+    },
+    {
+     "claim": "the navigation system works less and less every day",
+     "polarity": "negative",
+     "about": "OUTBACK",
+     "covered_by": [],
+     "cause": "extraction",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "21df50b609d7"
+     ],
+     "reason": "Working less and less every day is a plain stated worsening of the nav system that AFFECTS_COMPONENT could hold as a Problem; nothing stored states it (21df50b609d7 is only the generic problem)."
+    },
+    {
+     "claim": "the vehicle already had a dead battery, on a 2019 vehicle",
+     "polarity": "negative",
+     "about": "OUTBACK",
+     "covered_by": [
+      "9746d97a2e31",
+      "51cc471881e8"
+     ],
+     "reason": "9746d97a2e31 states DEAD BATTERY occurs on the 2019 VEHICLE with time ALREADY, and 51cc471881e8 puts it on the BATTERY, both hanging on OUTBACK."
+    }
+   ]
+  },
+  {
+   "id": "c4da0454fddc",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/11/2019",
+     "polarity": "neutral",
+     "about": "11176393",
+     "covered_by": [
+      "11176393.dateComplaintFiled"
+     ],
+     "reason": "The record field dateComplaintFiled = 2019-02-11 states the filing date 02/11/2019."
+    }
+   ]
+  },
+  {
+   "id": "70791cf8fff4",
+   "claims": [
+    {
+     "claim": "the car was taken to a dealer",
+     "polarity": "neutral",
+     "about": "OUTBACK",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [],
+     "reason": "The schema has no fact type for a dealer visit, so 'went to a dealer' has no place to be stored."
+    },
+    {
+     "claim": "the dealer said that nothing is wrong with the car",
+     "polarity": "neutral",
+     "about": "OUTBACK",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "OCCURS_ON_VEHICLE",
+     "near": [],
+     "reason": "'Nothing is wrong with it' is a negated problem claim and nothing stored holds it; in the order, negation (assertion) comes before the fact that it is the dealer's statement (attribution), and the negative form of a problem occurrence has a type, so not no_schema_type."
+    }
+   ]
+  },
+  {
+   "id": "0cf0e0ff34ac",
+   "claims": [
+    {
+     "claim": "nothing was left on in the car",
+     "polarity": "neutral",
+     "about": "OUTBACK",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "CAUSES_PROBLEM",
+     "near": [],
+     "reason": "'Nothing left on' negates a possible cause of the dead battery; it is a negated claim with nothing stored, so assertion, and CAUSES_PROBLEM is the type the ruled-out cause would take."
+    },
+    {
+     "claim": "the dead battery is a parasitic battery drain",
+     "polarity": "negative",
+     "about": "OUTBACK",
+     "covered_by": [
+      "66cc9044d6bf",
+      "e7cc14054d18"
+     ],
+     "reason": "66cc9044d6bf states PARASITIC BATTERY DRAIN causes the DEAD BATTERY and e7cc14054d18 puts the drain on the 2019 Subaru Outback; the subject node DRAINING BATTERY is a synonym."
+    }
+   ]
+  },
+  {
+   "id": "60e40266f322",
+   "claims": [
+    {
+     "claim": "the complaint was filed 06/20/2019",
+     "polarity": "neutral",
+     "about": "11221492",
+     "covered_by": [
+      "11221492.dateComplaintFiled"
+     ],
+     "reason": "The record field dateComplaintFiled = 2019-06-20 states the filing date 06/20/2019."
+    }
+   ]
+  },
+  {
+   "id": "57630a4bce21",
+   "claims": [
+    {
+     "claim": "the gas gauge does not indicate full after the auto-shutoff",
+     "polarity": "negative",
+     "about": "RAV4",
+     "covered_by": [
+      "9117f5b4219f",
+      "f7346df7beb6"
+     ],
+     "reason": "9117f5b4219f states DOES NOT INDICATE FULL affects the GAS GAUGE (negation kept in the problem's wording) and f7346df7beb6 puts it on the 2019 Toyota Rav4."
+    },
+    {
+     "claim": "the writer is able to add an additional 2-2.5 gallons to the tank after the auto-shutoff",
+     "polarity": "negative",
+     "about": "RAV4",
+     "covered_by": [
+      "437538a02fb2",
+      "660eedc8dae3"
+     ],
+     "reason": "437538a02fb2 and 660eedc8dae3 store, from the chunk's previous sentence, that the auto-shutoff happens when the tank is at least 2 gallons shy of full: the same fact as being able to add 2-2.5 gallons after it."
+    },
+    {
+     "claim": "adding the extra fuel takes a while because the writer has to push through all the auto shutoffs",
+     "polarity": "negative",
+     "about": "RAV4",
+     "covered_by": [],
+     "cause": "event_structure",
+     "schema_type": "CAUSES_PROBLEM",
+     "near": [
+      "437538a02fb2"
+     ],
+     "reason": "Filling taking a while because the writer pushes through repeated auto-shutoffs links repeated occurrences within one fill; 437538a02fb2 stores a single shutoff event and nothing links its repetition, so event_structure rather than extraction."
+    }
+   ]
+  },
+  {
+   "id": "74b647786e79",
+   "claims": [
+    {
+     "claim": "the wind noise can be heard well when the vehicle gets up to 50 miles per hour",
+     "polarity": "negative",
+     "about": "RAV4",
+     "covered_by": [
+      "b420e7dd73a3"
+     ],
+     "reason": "b420e7dd73a3 states HEAR WIND OCCURS_AT_SPEED 50 MILES PER HOUR with the condition kept in time, on the RAV4."
+    }
+   ]
+  },
+  {
+   "id": "84b3a93ecbe1",
+   "claims": [
+    {
+     "claim": "Ford will notify owners",
+     "polarity": "neutral",
+     "about": "15V406000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "15V406000.Remedy"
+     ],
+     "reason": "The schema has no fact type for a notification or remedy action; the Remedy field holds the sentence only as a cut text, which does not count."
+    },
+    {
+     "claim": "dealers will update the instrument panel software, free of charge",
+     "polarity": "neutral",
+     "about": "15V406000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "078ab9c2c27c",
+      "15V406000.Remedy"
+     ],
+     "reason": "078ab9c2c27c states only that the recall covers the instrument panel software, not that dealers will update it free of charge; the schema has no type for the remedy action."
+    }
+   ]
+  },
+  {
+   "id": "38a3be2f22db",
+   "claims": [
+    {
+     "claim": "the recall is issued by Ford Motor Company (Ford)",
+     "polarity": "neutral",
+     "about": "15V436000",
+     "covered_by": [
+      "15V436000.Manufacturer"
+     ],
+     "reason": "The record field Manufacturer = 'Ford Motor Company' states who issued the recall."
+    },
+    {
+     "claim": "the recall covers certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015",
+     "polarity": "neutral",
+     "about": "15V436000",
+     "covered_by": [],
+     "reason": "Lead judge (claude-opus-5-5) changed covered -> role: the stored AFFECTS_VEHICLE link names the model but drops the build-date window that limits which vehicles the recall covers, a condition beyond subject and object (the rules' 'sticks when hot' case); pass-2 reason: afacfd9b05e7 states 15V436000 AFFECTS_VEHICLE 2015 Ford Escape and ModelYear = 2015; the manufacturing window (April 1, 2014 to June 12, 2015) is a qualifier of the vehicles that the Vehicle node does not carry.",
+     "near": [
+      "afacfd9b05e7",
+      "15V436000.ModelYear"
+     ],
+     "cause": "role",
+     "schema_type": "AFFECTS_VEHICLE"
+    },
+    {
+     "claim": "the recall covers Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015",
+     "polarity": "neutral",
+     "about": "15V436000",
+     "covered_by": [],
+     "reason": "Lead judge (claude-opus-5-5) changed covered -> role: the stored AFFECTS_VEHICLE link names the model but drops the build-date window that limits which vehicles the recall covers, a condition beyond subject and object (the rules' 'sticks when hot' case); pass-2 reason: 295cdb55ea2b states 15V436000 AFFECTS_VEHICLE Ford Focus; the manufacturing window is a qualifier the Vehicle node does not carry.",
+     "near": [
+      "295cdb55ea2b"
+     ],
+     "cause": "role",
+     "schema_type": "AFFECTS_VEHICLE"
+    },
+    {
+     "claim": "the recall covers Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015",
+     "polarity": "neutral",
+     "about": "15V436000",
+     "covered_by": [],
+     "reason": "Lead judge (claude-opus-5-5) changed covered -> role: the stored AFFECTS_VEHICLE link names the model but drops the build-date window that limits which vehicles the recall covers, a condition beyond subject and object (the rules' 'sticks when hot' case); pass-2 reason: 6c0992ecb3c7 states 15V436000 AFFECTS_VEHICLE Ford C-Max; the manufacturing window is a qualifier the Vehicle node does not carry.",
+     "near": [
+      "6c0992ecb3c7"
+     ],
+     "cause": "role",
+     "schema_type": "AFFECTS_VEHICLE"
+    }
+   ]
+  },
+  {
+   "id": "0d949f7cca98",
+   "claims": [
+    {
+     "claim": "the recall is issued by Nissan North America, Inc.",
+     "polarity": "neutral",
+     "about": "16V244000",
+     "covered_by": [
+      "16V244000.Manufacturer"
+     ],
+     "reason": "The record field Manufacturer = 'Nissan North America, Inc.' states who issued the recall."
+    }
+   ]
+  },
+  {
+   "id": "d9e3ea3be92c",
+   "claims": [
+    {
+     "claim": "the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child",
+     "polarity": "negative",
+     "about": "16V244000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "b6d4b4edb0f7",
+      "d826e6319cce"
+     ],
+     "reason": "b6d4b4edb0f7 stores 'incorrectly classify an adult passenger as a child' as a problem affecting the OCS and d826e6319cce as the problem the recall addresses, both without the 'may'; possibility lost is assertion, and a 'may' claim is never extraction."
+    },
+    {
+     "claim": "the OCS may classify the seat as empty despite it being occupied",
+     "polarity": "negative",
+     "about": "16V244000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "c767ad1a8d21",
+      "4d47c7f3088c"
+     ],
+     "reason": "c767ad1a8d21 and 4d47c7f3088c store 'classify the seat as empty despite it being occupied' as stated, dropping 'may'; possibility lost is assertion."
+    }
+   ]
+  },
+  {
+   "id": "86fbcc07b8ed",
+   "claims": [
+    {
+     "claim": "the recall is issued by American Honda Motor Co.",
+     "polarity": "neutral",
+     "about": "16V526000",
+     "covered_by": [
+      "16V526000.Manufacturer"
+     ],
+     "reason": "The record field Manufacturer = 'Honda (American Honda Motor Co.)' states who issued the recall."
+    }
+   ]
+  },
+  {
+   "id": "2ba265557d96",
+   "claims": [
+    {
+     "claim": "the recall began on January 27, 2017",
+     "polarity": "neutral",
+     "about": "16V643000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "16V643000.Remedy"
+     ],
+     "reason": "The schema has no fact type for a recall's start date; ReportReceivedDate (2016-09-06) is a different date, and the Remedy text holds the sentence only as a cut text."
+    }
+   ]
+  },
+  {
+   "id": "e1cc700cbcfb",
+   "claims": [
+    {
+     "claim": "Toyota will notify owners",
+     "polarity": "neutral",
+     "about": "19V576000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "19V576000.Remedy"
+     ],
+     "reason": "The schema has no fact type for owner notification; the Remedy field is a cut text."
+    },
+    {
+     "claim": "dealers will inspect the back-up camera system, free of charge",
+     "polarity": "neutral",
+     "about": "19V576000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "a5be4a54b5d5",
+      "19V576000.Remedy"
+     ],
+     "reason": "a5be4a54b5d5 states only that the recall covers the back-up camera system, not that dealers will inspect it free of charge; the schema has no type for the remedy action."
+    },
+    {
+     "claim": "dealers will replace the audio display unit if necessary, free of charge",
+     "polarity": "neutral",
+     "about": "19V576000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "c642dccbe6fc",
+      "19V576000.Remedy"
+     ],
+     "reason": "c642dccbe6fc states only that the recall covers the audio display unit, not its conditional free replacement; the schema has no type for the remedy action."
+    }
+   ]
+  },
+  {
+   "id": "6f8011ee4e72",
+   "claims": [
+    {
+     "claim": "owners may contact Toyota customer service at 1-888-270-9371",
+     "polarity": "neutral",
+     "about": "20V286000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "20V286000.Remedy"
+     ],
+     "reason": "The schema has no fact type for a contact number; the Remedy field holds it only as a cut text."
+    }
+   ]
+  },
+  {
+   "id": "e67aaa4ed378",
+   "claims": [
+    {
+     "claim": "water may enter through the steering gear box cover",
+     "polarity": "negative",
+     "about": "20V373000",
+     "covered_by": [
+      "492954fb66df",
+      "e1cc364f3393"
+     ],
+     "reason": "492954fb66df stores the problem with its own wording 'Water may enter through the steering gear box cover' affecting the steering gear box cover, and e1cc364f3393 as the problem the recall addresses; the 'may' is kept in the stored wording."
+    },
+    {
+     "claim": "water entering may cause a loss of electric power steering assist",
+     "polarity": "negative",
+     "about": "20V373000",
+     "covered_by": [
+      "2127870bef1b",
+      "ca7467ab07fb"
+     ],
+     "reason": "2127870bef1b states 'Water may enter through the steering gear box cover' CAUSES_PROBLEM 'loss of electric power steering assist', keeping the possibility in its subject's wording; ca7467ab07fb ties the loss to the recall."
+    }
+   ]
+  },
+  {
+   "id": "5fc5ce41739d",
+   "claims": [
+    {
+     "claim": "remedy parts should be available for all affected vehicles by late March 2021",
+     "polarity": "neutral",
+     "about": "20V682000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "20V682000.Remedy"
+     ],
+     "reason": "The schema has no fact type for remedy parts availability or its date; the Remedy field is a cut text."
+    }
+   ]
+  },
+  {
+   "id": "5acb39454531",
+   "claims": [
+    {
+     "claim": "Lexus' number for this recall is 20LA01",
+     "polarity": "neutral",
+     "about": "20V682000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "20V682000.Remedy"
+     ],
+     "reason": "The schema has no fact type for a maker's own recall number (NHTSACampaignNumber is a different identifier); the Remedy field is a cut text."
+    }
+   ]
+  },
+  {
+   "id": "0930406385f7",
+   "claims": [
+    {
+     "claim": "the recall is issued by Nissan",
+     "polarity": "neutral",
+     "about": "21V839000",
+     "covered_by": [
+      "21V839000.Manufacturer"
+     ],
+     "reason": "The record field Manufacturer = 'Nissan North America, Inc.' states who issued the recall."
+    },
+    {
+     "claim": "the recall covers certain 2017-2019 Rogue Hybrid vehicles",
+     "polarity": "neutral",
+     "about": "21V839000",
+     "covered_by": [
+      "61cddfa7b72d"
+     ],
+     "reason": "61cddfa7b72d states 21V839000 AFFECTS_VEHICLE 2017-2019 Rogue Hybrid."
+    }
+   ]
+  },
+  {
+   "id": "b616ec7176ba",
+   "claims": [
+    {
+     "claim": "contact with the Electronic Control Module (ECM) bracket may damage the engine harness",
+     "polarity": "negative",
+     "about": "21V839000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "CAUSES_PROBLEM",
+     "near": [
+      "bedcf610eb49"
+     ],
+     "reason": "bedcf610eb49 stores 'damage the engine harness' as stated, dropping 'may' and the cause (contact with the ECM bracket, which has no node); a 'may' claim is not extraction, a type exists, so possibility lost is the first fitting cause."
+    },
+    {
+     "claim": "the damaged engine harness may cause a blown fuse",
+     "polarity": "negative",
+     "about": "21V839000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "CAUSES_PROBLEM",
+     "near": [
+      "608e83309933",
+      "472f1c403715"
+     ],
+     "reason": "608e83309933 states 'damage the engine harness' CAUSES_PROBLEM 'blown fuse' as a fact, dropping 'may'; possibility lost is assertion."
+    }
+   ]
+  },
+  {
+   "id": "5dc27f02e326",
+   "claims": [
+    {
+     "claim": "interim notification letters notifying owners of the safety risk were mailed March 29, 2023",
+     "polarity": "neutral",
+     "about": "23V093000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "23V093000.Remedy"
+     ],
+     "reason": "The schema has no fact type for notification letters or their mailing date; the Remedy field is a cut text."
+    }
+   ]
+  },
+  {
+   "id": "ecb9c2a6c2da",
+   "claims": [
+    {
+     "claim": "the rearview camera may display a distorted, intermittent or blank image when the vehicle is in reverse",
+     "polarity": "negative",
+     "about": "25V695000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "dfc59d42d73d",
+      "8abf93874dce"
+     ],
+     "reason": "dfc59d42d73d stores 'display a distorted, intermittent, or blank image' affecting the rearview camera with 'when the vehicle is in reverse' in time, and 8abf93874dce ties it to the recall, both dropping 'may'; possibility lost is assertion."
+    }
+   ]
+  },
+  {
+   "id": "4533e7fa1712",
+   "claims": [
+    {
+     "claim": "the engine block heater may crack",
+     "polarity": "negative",
+     "about": "26V011000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "b4f027ace820",
+      "907f733a8664"
+     ],
+     "reason": "b4f027ace820 stores CRACK affecting the engine block heater and 907f733a8664 as the problem the recall addresses, both as stated without 'may'; possibility lost is assertion."
+    },
+    {
+     "claim": "the engine block heater may develop a coolant leak",
+     "polarity": "negative",
+     "about": "26V011000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "AFFECTS_COMPONENT",
+     "near": [
+      "6819186f6737",
+      "011c0639ee4a"
+     ],
+     "reason": "6819186f6737 stores 'coolant leak' affecting the engine block heater and 011c0639ee4a as addressed by the recall, dropping 'may'; possibility lost is assertion."
+    },
+    {
+     "claim": "the coolant leak may cause the block heater to short circuit when it is plugged in",
+     "polarity": "negative",
+     "about": "26V011000",
+     "covered_by": [],
+     "cause": "assertion",
+     "schema_type": "CAUSES_PROBLEM",
+     "near": [
+      "e21743199a0a",
+      "1f07e166b159"
+     ],
+     "reason": "e21743199a0a states 'coolant leak' CAUSES_PROBLEM 'short circuit' with 'when the block heater is plugged in' in time, as a fact without 'may'; possibility lost is assertion and comes before the condition (role)."
+    }
+   ]
+  },
+  {
+   "id": "53fedfde3aed",
+   "claims": [
+    {
+     "claim": "owners are advised not to plug in their block heater until the vehicle is remedied",
+     "polarity": "neutral",
+     "about": "26V011000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "26V011000.Remedy"
+     ],
+     "reason": "The schema has no fact type for advice to owners or a remedy instruction, so no_schema_type fits before the negation (assertion); the Remedy field is a cut text."
+    }
+   ]
+  },
+  {
+   "id": "8f4805e04362",
+   "claims": [
+    {
+     "claim": "interim letters notifying owners of the safety risk were mailed March 6, 2026",
+     "polarity": "neutral",
+     "about": "26V011000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "b92404baecde",
+      "26V011000.Remedy"
+     ],
+     "reason": "b92404baecde states only that the recall addresses a 'safety risk' with time March 6, 2026, not that interim letters were mailed; the schema has no type for notification letters."
+    }
+   ]
+  },
+  {
+   "id": "651ecafbd360",
+   "claims": [
+    {
+     "claim": "owners may contact Honda's customer service at 1-888-234-2138",
+     "polarity": "neutral",
+     "about": "26V332000",
+     "covered_by": [],
+     "cause": "no_schema_type",
+     "schema_type": null,
+     "near": [
+      "26V332000.Remedy"
+     ],
+     "reason": "The schema has no fact type for a contact number; the Remedy field holds it only as a cut text."
+    }
+   ]
+  }
+ ]
+}
