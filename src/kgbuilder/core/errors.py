@@ -47,3 +47,11 @@ class EvaluationError(KgBuilderError):
     def __init__(self, issues: list[str]):
         super().__init__("verdicts do not match the graph: " + "; ".join(issues))
         self.issues = issues
+
+
+class InvalidGoldError(KgBuilderError):
+    """A gold file is malformed or does not fit its corpus (a quote not in its chunk, an unknown record)."""
+
+    def __init__(self, issues: list[str]):
+        super().__init__("invalid gold: " + "; ".join(issues))
+        self.issues = issues

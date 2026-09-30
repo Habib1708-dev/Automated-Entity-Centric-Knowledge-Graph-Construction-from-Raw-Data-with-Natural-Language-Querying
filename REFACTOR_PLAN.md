@@ -2187,6 +2187,46 @@ step, done before R66 part 2 (numbered after the reserved R67 and R68).
 - Verified live with one tiny call (the user's key; well under $0.001): JSON mode with effort `low` returned
   a valid object, 157 prompt, 13 visible and 100 reasoning tokens, 2.7 s.
 
+### R70. Question-answer benchmark (layered-model Step 1; part 1 done 2026-09-30)
+The first step of the layered-model arm (branch `layered-model`, task file
+`docs/tasks/layered-knowledge-model.md`, Step 1): what "answers correctly" means, fixed before any query
+code exists, as R63 measured false paths before R64 fixed them. $0, no run.
+- **Split (the user's choice, 2026-09-30): two parts, one commit each.** Part 1: the gold format and the
+  scoring code. Part 2: the furniture and held-out QA gold sets and the generality corpus with its
+  questions, committed before any query code (Step 2).
+- **Part 1: format and scoring (done 2026-09-30).**
+  - `validation/qa_gold.py`, the gold file. A question has one of the six types of the task file
+    (`QuestionType`: `multi_hop`, `aggregation`, `structured_filter`, `disambiguation`,
+    `negation_sensitive`, `lookup`), an expected answer in exactly one form (a set of names with aliases,
+    a number, or a short text), the route that should answer it (`exact` / `retrieval`), and its
+    evidence: chunks with a verbatim quote, or rows of a staged file picked out by their cells, for the
+    questions only records answer (R65's "which suppliers provide the drawer rails of the Helsingborg
+    Dresser?"). A retrieval question needs chunk evidence; `origin` names a carried-over question,
+    `hard_case` one of the eight hard cases of the generality corpus. `CorpusSpec` pins where the chunks
+    come from (data dir, the frozen plan for record documents, the chunk settings), because chunk ids
+    (`record/Recall/15V436000#0`) depend on them. `check_qa_gold` raises `InvalidGoldError` (new,
+    `core/errors.py`) for a duplicate id, an unknown chunk, a quote that is not a plain substring of its
+    chunk, or a record no row matches.
+  - `validation/qa.py`, the scoring. The answers file `kg qa` will write (one JSON line per question: the
+    chunk ids given to the reader, best first; the answer; citations), the judge's verdict file for the
+    free-text answers (a reason each), and `score_qa`: correctness (a set is right when it names every
+    expected entity by name or alias under `norm` and nothing else; numbers equal; free text by the
+    verdict), recall@k (gold evidence chunks in the top k, pooled over the retrieval-route questions) and
+    citation faithfulness (the cited chunk was given to the reader and holds the quote), overall and for
+    every type, each a `Proportion` with its Wilson interval (`validation/interval.py`). The answers must
+    cover every question once and the verdicts exactly the free-text ones, else `EvaluationError`.
+  - Two decisions. Gold quotes are checked as plain substrings, because they are copied by hand and a
+    case or markup difference is a copying mistake; model citations are checked under `norm`, as
+    extraction's `verify` checks evidence. Recall@k leaves exact-route questions out, so the graph arm and
+    the vector-only baseline are scored on one denominator.
+  - Tests `tests/test_qa.py` (15, pure): one answer form; evidence required; a quote with dropped
+    markdown or another case, an unknown chunk, a cell prefix and a missing file rejected; a right set by
+    alias and accent, a set missing one and a set with one too many; numbers; free text by a verdict file
+    and without one; a citation to a chunk not retrieved, and to the wrong retrieved chunk; recall@k at
+    k = 1 and 2 with the exact-route question left out; per-type n and interval; the answers file read
+    and a bad line named. Gate: 288 passed (273 before), `ruff check` clean. No run: tests are the proof.
+- **Part 2: gold sets and generality corpus (open).**
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
