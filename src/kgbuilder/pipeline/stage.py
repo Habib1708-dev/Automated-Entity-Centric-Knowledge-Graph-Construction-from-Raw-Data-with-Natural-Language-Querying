@@ -17,6 +17,7 @@ from neo4j import Driver
 from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
 from ..llm.base import Embedder, LLMClient
+from ..query.answers import SystemAnswer
 from ..resolution.linking import LinkReport
 from ..resolution.resolver import ResolvePreview, ResolveReport
 from ..structured.plan import ConstructionPlan
@@ -28,6 +29,7 @@ from ..text.schema import TextSchema
 from ..tracking.base import NullTracker, Run, Tracker
 from ..validation.coverage import CoverageReport
 from ..validation.evaluate import EvalReport
+from ..validation.qa import QAReport
 from ..validation.report import ValidationReport
 
 PLAN_FILE = "plan.json"
@@ -76,6 +78,9 @@ class PipelineState:
     sample_size: int | None = None
     sample_seed: int | None = None
     coverage_sheet: Path | None = None
+    # question answering (R71): the question of `kg ask`, and the answers file `kg qa-score` scores
+    question: str | None = None
+    answers: Path | None = None
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -92,6 +97,8 @@ class PipelineState:
     validation: ValidationReport | None = None
     evaluation: EvalReport | None = None
     coverage: CoverageReport | None = None
+    answer: SystemAnswer | None = None  # of `kg ask`
+    qa_reports: dict[str, QAReport] = field(default_factory=dict)  # system name -> its scores
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

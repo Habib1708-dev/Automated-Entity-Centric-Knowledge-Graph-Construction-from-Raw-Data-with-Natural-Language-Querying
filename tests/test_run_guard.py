@@ -29,6 +29,9 @@ FLAGS = {"smoke": False, "dev": False, "quality": True}
         "uv run kg reset && uv run kg --preset quality run --goal g",
         "uv run kg --preset dev run data/ --goal g",  # cheap models, but the whole dataset
         "uv run kg plan data --goal g",
+        # question answering calls the reader model (R71)
+        "uv run kg --preset quality qa tests/gold/qa/furniture_qa.json",
+        'uv run kg --preset quality ask "Which parts crack?"',
     ],
 )
 def test_comprehensive_runs_ask(command):
@@ -41,6 +44,7 @@ def test_comprehensive_runs_ask(command):
         "uv run kg --preset smoke run --goal g",
         "uv run kg --preset dev run samples/dev --goal g",
         "uv run kg --preset quality profile",  # no LLM call
+        "uv run kg --preset quality qa-score gold.json out/answers_graph.jsonl",  # scores a file
         "uv run kg reset",
         "uv run pytest -q",
         "git status",
@@ -72,6 +76,7 @@ def test_the_committed_full_dataset_presets_ask_and_the_cheap_ones_do_not():
         # the DeepSeek presets inherit ask_permission from quality through the YAML merge key (R69)
         "quality_deepseek": True,
         "heldout_deepseek": True,
+        "generality": True,  # the synthetic corpus of R70, built and questioned with DeepSeek (R71)
     }
 
 

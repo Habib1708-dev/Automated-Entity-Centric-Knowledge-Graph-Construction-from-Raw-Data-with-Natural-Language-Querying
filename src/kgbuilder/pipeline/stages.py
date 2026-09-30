@@ -6,7 +6,6 @@ Design: stages contain no business logic, only wiring and logging. What each sta
 specified in the `mlflow-tracking` skill; metric names are a contract, keep them stable.
 """
 
-import hashlib
 import json
 from dataclasses import asdict
 from pathlib import Path
@@ -42,6 +41,7 @@ from ..validation.judge import JudgeSheet, load_verdicts
 from ..validation.rescore import rescore
 from ..validation.sentences import SentenceSample, draw_sample
 from ..validation.validator import validate_graph
+from .inputs import digest, input_file
 from .stage import PLAN_FILE, PROFILE_FILE, STAGING_DIR, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 
 
@@ -74,12 +74,6 @@ def _log_refinement(ctx: PipelineContext, run: Run, result: Refinement, history_
     run.artifact(ctx.write(history_file, json.dumps([asdict(r) for r in result.history], indent=2)))
 
 
-def _input_file(path: Path, what: str) -> Path:
-    if not Path(path).exists():
-        raise MissingInputError(f"{what} '{path}' not found")
-    return Path(path)
-
-
 def _er_settings(ctx: PipelineContext) -> dict[str, object]:
     """The entity-resolution settings (thresholds and blocking rule), logged the same way by the resolve
     run and its preview, and whether meaning-based candidates could be computed at all (they need an
@@ -99,12 +93,6 @@ def _er_blocking(ctx: PipelineContext) -> Blocking | None:
     """The blocking rule the settings name; None = spelling candidates only."""
     s = ctx.settings
     return blocking_from(s.er_embedding_blocking, s.er_embedding_candidates, s.er_neighbours)
-
-
-def _digest(path: Path) -> str:
-    """Short content hash of an input file, logged as a param so runs scored against different gold or
-    verdict files are never compared as if they were the same."""
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()[:12]
 
 
 class ProfileStage(BaseStage):
@@ -488,7 +476,7 @@ class ValidateStage(BaseStage):
             state.load_plan(ctx, required=False),
             state.load_text_schema(ctx, required=False),
             state.expected_counts,
-            load_gold(_input_file(state.gold, "gold file")) if state.gold else None,
+            load_gold(input_file(state.gold, "gold file")) if state.gold else None,
             ctx.settings.gold_min_recall,
         )
         state.validation = report
@@ -508,23 +496,23 @@ class EvalStage(BaseStage):
     SHEET_FILE = "judge_sheet.json"
 
     def params(self, ctx, state):
-        gold = _input_file(state.need("gold", "pass the gold file"), "gold file")
-        params: dict[str, object] = {"gold": gold, "gold_hash": _digest(gold), "verdicts": state.verdicts}
+        gold = input_file(state.need("gold", "pass the gold file"), "gold file")
+        params: dict[str, object] = {"gold": gold, "gold_hash": digest(gold), "verdicts": state.verdicts}
         schema = ctx.out / TEXT_SCHEMA_FILE
         if schema.exists():
             # path truth depends on which fact types the schema derives, so the schema identifies it
-            params["text_schema_hash"] = _digest(schema)
+            params["text_schema_hash"] = digest(schema)
         if state.verdicts:
-            verdicts = _input_file(state.verdicts, "verdict file")
+            verdicts = input_file(state.verdicts, "verdict file")
             # the judge model and the verdict content identify what "validated" means for this run
             params.update(
-                judge_model=load_verdicts(verdicts).judge.model, judge_verdicts_hash=_digest(verdicts)
+                judge_model=load_verdicts(verdicts).judge.model, judge_verdicts_hash=digest(verdicts)
             )
         return params
 
     def run(self, ctx, state, run):
-        gold = _input_file(state.gold, "gold file")
-        verdicts = load_verdicts(_input_file(state.verdicts, "verdict file")) if state.verdicts else None
+        gold = input_file(state.gold, "gold file")
+        verdicts = load_verdicts(input_file(state.verdicts, "verdict file")) if state.verdicts else None
         report = evaluate(ctx.driver, load_gold(gold), verdicts, state.load_text_schema(ctx, required=False))
         state.evaluation = report
         run.metrics(**report.metrics())
@@ -545,13 +533,13 @@ class RescoreStage(EvalStage):
     SHEET_FILE = "rescore_sheet.json"
 
     def params(self, ctx, state):
-        sheet = _input_file(state.need("sheet", "pass the logged judge sheet"), "judge sheet")
-        return {**super().params(ctx, state), "sheet": sheet, "sheet_hash": _digest(sheet)}
+        sheet = input_file(state.need("sheet", "pass the logged judge sheet"), "judge sheet")
+        return {**super().params(ctx, state), "sheet": sheet, "sheet_hash": digest(sheet)}
 
     def run(self, ctx, state, run):
-        sheet = _input_file(state.sheet, "judge sheet")
-        gold = _input_file(state.gold, "gold file")
-        verdicts = load_verdicts(_input_file(state.verdicts, "verdict file")) if state.verdicts else None
+        sheet = input_file(state.sheet, "judge sheet")
+        gold = input_file(state.gold, "gold file")
+        verdicts = load_verdicts(input_file(state.verdicts, "verdict file")) if state.verdicts else None
         logged = JudgeSheet.model_validate_json(sheet.read_text(encoding="utf-8"))
         report = rescore(logged, load_gold(gold), verdicts, state.load_text_schema(ctx, required=False))
         state.evaluation = report
@@ -594,16 +582,16 @@ class CoverageSheetStage(BaseStage):
     SHEET_FILE = "coverage_sheet.json"
 
     def params(self, ctx, state):
-        sample = _input_file(state.need("sample", "pass the sample file"), "sample file")
-        params: dict[str, object] = {"sample": sample, "sample_hash": _digest(sample)}
+        sample = input_file(state.need("sample", "pass the sample file"), "sample file")
+        params: dict[str, object] = {"sample": sample, "sample_hash": digest(sample)}
         schema = ctx.out / TEXT_SCHEMA_FILE
         if schema.exists():
             # the sheet shows the schema's fact types, and a missed claim is judged against them
-            params["text_schema_hash"] = _digest(schema)
+            params["text_schema_hash"] = digest(schema)
         return params
 
     def run(self, ctx, state, run):
-        sample_file = _input_file(state.sample, "sample file")
+        sample_file = input_file(state.sample, "sample file")
         sample = SentenceSample.model_validate_json(sample_file.read_text(encoding="utf-8"))
         chunks = state.load_chunks(ctx)
         things = read_chunk_things(ctx.driver, [c.chunk_id for c in chunks])
@@ -628,20 +616,20 @@ class CoverageStage(BaseStage):
     REPORT_FILE = "coverage_report.json"
 
     def params(self, ctx, state):
-        sheet = _input_file(state.need("coverage_sheet", "pass the coverage sheet"), "coverage sheet")
-        verdicts = _input_file(state.need("verdicts", "pass the verdict file"), "verdict file")
+        sheet = input_file(state.need("coverage_sheet", "pass the coverage sheet"), "coverage sheet")
+        verdicts = input_file(state.need("verdicts", "pass the verdict file"), "verdict file")
         # the sheet and the verdicts identify what was judged and how, as gold and verdicts do for `eval`
         return {
             "sheet": sheet,
-            "sheet_hash": _digest(sheet),
+            "sheet_hash": digest(sheet),
             "verdicts": verdicts,
-            "judge_verdicts_hash": _digest(verdicts),
+            "judge_verdicts_hash": digest(verdicts),
             "judge_model": load_coverage_verdicts(verdicts).judge.model,
         }
 
     def run(self, ctx, state, run):
-        sheet_file = _input_file(state.coverage_sheet, "coverage sheet")
-        verdicts_file = _input_file(state.verdicts, "verdict file")
+        sheet_file = input_file(state.coverage_sheet, "coverage sheet")
+        verdicts_file = input_file(state.verdicts, "verdict file")
         sheet = CoverageSheet.model_validate_json(sheet_file.read_text(encoding="utf-8"))
         report = score_coverage(sheet, load_coverage_verdicts(verdicts_file))
         state.coverage = report

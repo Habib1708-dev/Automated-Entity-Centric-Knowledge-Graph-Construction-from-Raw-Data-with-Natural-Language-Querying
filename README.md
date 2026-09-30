@@ -27,6 +27,9 @@ uv run kg rescore SHEET gold.json --verdicts V.json              # re-score an e
 uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random sample of sentences (coverage, below)
 uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
+uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
+uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question, graph route and vector-only baseline
+uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -200,6 +203,8 @@ src/kgbuilder/
   resolution/       matchers (Strategy) -> resolver (merge, undo) ; linking
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
+                    qa_gold (question-answer gold file) -> qa (answer scoring)
+  query/            names -> traversal / graph_store -> reader ; systems (graph route, vector-only baseline)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
 ```
 
@@ -215,6 +220,8 @@ src/kgbuilder/
 | `link` | `resolution/linking.py` | no |
 | `validate`, `eval` | `validation/` | no |
 | `coverage_sample`, `coverage_sheet`, `coverage` | `validation/sentences.py`, `validation/coverage_sheet.py`, `validation/coverage.py` | no |
+| `ask`, `qa_graph`, `qa_vector` | `query/`, `validation/qa.py` | yes, the reader; every citation checked in code |
+| `qa_score` | `validation/qa.py` | no |
 
 ## Experiment tracking
 
@@ -284,6 +291,23 @@ is judged claim by claim (R68).
 4. `kg coverage SHEET VERDICTS` logs `coverage` (stated by something stored) and `reachable` (stored, or
    about a thing its chunk hangs on) with their Wilson intervals, coverage by polarity and over the claims
    the schema had a place for, and `missed_<cause>` per cause. It needs no graph.
+
+## Question answering
+
+The graph as an index into the text (layered-model Step 2, R71). Two systems answer the same question with
+the same reader model and the same number of chunks (`QA_TOP_K`), so they differ only in how they choose:
+
+- `graph`: the question's names are linked to nodes by spelling (names and aliases) and by meaning (the
+  nearest names), four fixed traversal patterns lead to chunks (`query/traversal.py`), and the reached
+  chunks are ranked by similarity to the question;
+- `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph.
+
+1. `kg qa GOLD` asks every question of a gold file (`tests/gold/qa/`, format `validation/qa_gold.py`)
+   and writes `out/answers_<system>.jsonl`, with the chunks each reader saw and, for the graph, how they
+   were found. Each system is its own MLflow run, with its own cost; it logs what code can score at once:
+   sets and numbers, recall@k, citation faithfulness, per question type with intervals.
+2. The judge (Claude in the session) decides the free-text answers in a verdict file (`validation/qa.py`).
+3. `kg qa-score GOLD ANSWERS --verdicts V` logs the final scores; it needs no graph.
 
 ## Development
 

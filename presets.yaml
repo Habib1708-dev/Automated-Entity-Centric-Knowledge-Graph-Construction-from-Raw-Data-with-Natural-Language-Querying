@@ -76,6 +76,9 @@ quality: &quality
   # er_accuracy_valid 0.913 with 51 instead of 61 LLM questions; the LLM makes every merge decision.
   er_embedding_blocking: mutual_nearest
   er_neighbours: 2
+  # question answering (kg ask / kg qa, R71): the reader answers from chosen chunks, a small task per
+  # question, so it thinks at the extraction level
+  qa_thinking: low
   data_dir: data
   mlflow_experiment: kgbuilder
 
@@ -101,9 +104,20 @@ quality_deepseek: &quality_deepseek
   llm_provider: deepseek
   schema_model: deepseek-flash
   extract_model: deepseek-flash
+  # the user's choice for the query stage (2026-09-30): DeepSeek reads, routes and writes Cypher
+  qa_model: deepseek-flash
 
 heldout_deepseek:
   <<: *quality_deepseek
   description: the quality_deepseek settings on the held-out NHTSA dataset (heldout/nhtsa/data)
   data_dir: heldout/nhtsa/data
   mlflow_experiment: kgbuilder-heldout
+
+# The synthetic generality corpus of R70 (11 short documents in three domains, two keyed tables), built and
+# questioned with the DeepSeek settings (the user's choice for layered-model Step 2). Small, but a run is
+# still a full LLM run on a dataset, so it asks for permission like quality (inherited).
+generality:
+  <<: *quality_deepseek
+  description: the quality_deepseek settings on the synthetic generality corpus (tests/fixtures/generality)
+  data_dir: tests/fixtures/generality
+  mlflow_experiment: kgbuilder-generality

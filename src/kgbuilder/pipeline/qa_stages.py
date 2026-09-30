@@ -1,0 +1,185 @@
+"""The question-answering stages (R71): `kg ask`, `kg qa` and `kg qa-score`.
+
+Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-score` needs no graph.
+Design: wiring and logging only, like stages.py (kept apart from it, which builds the graph). Each system
+answers in its own MLflow run (`qa_graph`, `qa_vector`), so its tokens and `cost_usd` are its own. `kg qa`
+logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
+for the judge, and `kg qa-score` scores the answers file with the verdicts.
+Not here: retrieval and reading (query/), scoring (validation/qa.py).
+"""
+
+import json
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+
+from ..core.errors import ConfigurationError, LLMUnavailableError
+from ..llm.base import Embedder, prompt_version
+from ..llm.thinking import with_thinking
+from ..query import reader
+from ..query.answers import SystemAnswer, load_system_answers, shown_texts
+from ..query.graph_store import Neo4jGraphStore
+from ..query.systems import QASystem, VectorBaseline, build_graph_retrieval
+from ..tracking.base import Run
+from ..validation.qa import QAReport, load_qa_verdicts, score_qa
+from ..validation.qa_gold import load_qa_gold
+from .inputs import digest, input_file
+from .stage import PipelineContext, PipelineState
+from .stages import BaseStage
+
+SYSTEMS = ("graph", "vector")
+
+
+def _embedder(ctx: PipelineContext) -> Embedder:
+    if ctx.embedder is None:
+        raise LLMUnavailableError("question answering needs an embedding model: set GEMINI_API_KEY")
+    return ctx.embedder
+
+
+def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QASystem:
+    """The system named `system` over the current graph, with the settings' reader and k."""
+    s = ctx.settings
+    llm = with_thinking(ctx.require_llm(), s.qa_thinking)
+    answer_reader = reader.Reader(llm, s.qa_model, s.llm_temperature)
+    store = Neo4jGraphStore(ctx.driver, state.load_plan(ctx, required=False), s.qa_hops)
+    if system == "vector":
+        return VectorBaseline(store, _embedder(ctx), answer_reader, s.qa_top_k)
+    return build_graph_retrieval(
+        store, _embedder(ctx), answer_reader, s.qa_top_k, s.qa_link_fuzzy, s.qa_link_neighbours
+    )
+
+
+def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
+    """What decides a system's answers: the reader's model and prompt, k, and the graph route's settings."""
+    s = ctx.settings
+    params: dict[str, object] = {
+        "system": system,
+        "model": s.qa_model,
+        "thinking": s.qa_thinking,
+        "temperature": s.llm_temperature,
+        "prompt_version": prompt_version(reader.PROMPT),
+        "qa_top_k": s.qa_top_k,
+        "embed_model": s.embed_model,
+    }
+    if system == "graph":
+        params.update(
+            qa_hops=s.qa_hops, qa_link_fuzzy=s.qa_link_fuzzy, qa_link_neighbours=s.qa_link_neighbours
+        )
+    return params
+
+
+def _check_system(system: str) -> str:
+    if system not in SYSTEMS:
+        raise ConfigurationError(f"unknown system '{system}'; choose from {', '.join(SYSTEMS)}")
+    return system
+
+
+def _retrieval_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
+    """How often retrieval gave the reader nothing, and why: the first causes to check for a wrong answer."""
+    traced = [a.trace for a in answers if a.trace is not None]
+    return {
+        "questions_nothing_shown": sum(not a.shown for a in answers),
+        **(
+            {
+                "questions_unlinked": sum(not t.linked for t in traced),
+                "questions_unreached": sum(bool(t.linked) and not t.candidates for t in traced),
+                "candidates_mean": sum(len(t.candidates) for t in traced) / len(traced),
+            }
+            if traced
+            else {}
+        ),
+    }
+
+
+class AskStage(BaseStage):
+    """Answer one question with one system and keep the answer (`kg ask`)."""
+
+    name = "ask"
+    ANSWER_FILE = "ask.json"
+
+    def __init__(self, system: str = "graph"):
+        self.system = _check_system(system)
+
+    def params(self, ctx, state):
+        return {**_system_params(ctx, self.system), "question": state.need("question", "pass a question")}
+
+    def run(self, ctx, state, run):
+        run.text(reader.PROMPT, "prompts/qa_reader.txt")
+        answer = build_system(ctx, state, self.system).answer("ask", state.question)
+        state.answer = answer
+        run.metrics(retrieved=len(answer.retrieved), citations=len(answer.citations))
+        run.artifact(ctx.write(self.ANSWER_FILE, answer.model_dump_json(indent=2)))
+
+
+class QAStage(BaseStage):
+    """Answer every question of a QA gold file with one system (`kg qa`); log what code can score."""
+
+    def __init__(self, system: str):
+        self.system = _check_system(system)
+        self.name = f"qa_{system}"
+        self.answers_file = f"answers_{system}.jsonl"
+
+    def params(self, ctx, state):
+        gold = input_file(state.need("gold", "pass the QA gold file"), "QA gold file")
+        return {
+            **_system_params(ctx, self.system),
+            "gold": gold,
+            "gold_hash": digest(gold),
+            "workers": ctx.settings.qa_workers,
+        }
+
+    def run(self, ctx, state, run):
+        s = ctx.settings
+        run.text(reader.PROMPT, "prompts/qa_reader.txt")
+        gold = load_qa_gold(input_file(state.gold, "QA gold file"))
+        system = build_system(ctx, state, self.system)
+        # questions are independent; the pool keeps the model busy while each answer waits on the network
+        with ThreadPoolExecutor(max_workers=s.qa_workers) as pool:
+            answers = list(pool.map(lambda q: system.answer(q.id, q.question), gold.questions))
+        path = ctx.write(self.answers_file, "\n".join(a.model_dump_json() for a in answers) + "\n")
+        report = score_qa(gold, answers, shown_texts(answers), s.qa_top_k, allow_unjudged=True)
+        state.qa_reports[self.system] = report
+        _log_report(ctx, run, report, f"qa_report_{self.system}.json")
+        run.metrics(**_retrieval_metrics(answers))
+        run.artifact(path)
+        run.artifact(Path(state.gold))
+
+
+class QAScoreStage(BaseStage):
+    """Score an answers file of `kg qa` with the judge's verdicts on its free-text answers (`kg qa-score`),
+    without a graph and without a model."""
+
+    name = "qa_score"
+
+    def params(self, ctx, state):
+        gold = input_file(state.need("gold", "pass the QA gold file"), "QA gold file")
+        answers = input_file(state.need("answers", "pass the answers file"), "answers file")
+        params: dict[str, object] = {
+            "gold": gold,
+            "gold_hash": digest(gold),
+            "answers": answers,
+            "answers_hash": digest(answers),
+            "qa_top_k": ctx.settings.qa_top_k,
+            "verdicts": state.verdicts,
+        }
+        if state.verdicts:
+            verdicts = input_file(state.verdicts, "verdict file")
+            params.update(
+                judge_model=load_qa_verdicts(verdicts).judge.model, judge_verdicts_hash=digest(verdicts)
+            )
+        return params
+
+    def run(self, ctx, state, run):
+        gold = load_qa_gold(input_file(state.gold, "QA gold file"))
+        answers = load_system_answers(input_file(state.answers, "answers file"))
+        verdicts = load_qa_verdicts(input_file(state.verdicts, "verdict file")) if state.verdicts else None
+        report = score_qa(gold, answers, shown_texts(answers), ctx.settings.qa_top_k, verdicts)
+        system = answers[0].system if answers else "none"
+        state.qa_reports[system] = report
+        _log_report(ctx, run, report, f"qa_score_{system}.json")
+        for source in (Path(state.gold), Path(state.answers), *([Path(state.verdicts)] if verdicts else [])):
+            run.artifact(source)
+
+
+def _log_report(ctx: PipelineContext, run: Run, report: QAReport, file_name: str) -> None:
+    run.metrics(**report.metrics())
+    run.artifact(ctx.write(file_name, json.dumps(report.model_dump(mode="json"), indent=2)))

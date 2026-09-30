@@ -16,6 +16,8 @@ from .chunking import Chunk
 from .documents import Document
 
 _BATCH_SIZE = 500  # chunk rows carry text and an embedding vector, so batches are kept moderate
+# the vector index over chunk embeddings; the vector-only baseline of the query stage searches it (R71)
+CHUNK_VECTOR_INDEX = "chunk_embeddings"
 
 
 def write_lexical_graph(
@@ -85,7 +87,7 @@ def write_lexical_graph(
         dimensions = len(next(iter(embeddings.values())))
         # index options cannot be parameters; `dimensions` is an int computed here, never user text
         driver.execute_query(
-            "CREATE VECTOR INDEX chunk_embeddings IF NOT EXISTS FOR (c:Chunk) ON (c.embedding) "
+            f"CREATE VECTOR INDEX {CHUNK_VECTOR_INDEX} IF NOT EXISTS FOR (c:Chunk) ON (c.embedding) "
             f"OPTIONS {{indexConfig: {{`vector.dimensions`: {dimensions}, "
             "`vector.similarity_function`: 'cosine'}}"
         )

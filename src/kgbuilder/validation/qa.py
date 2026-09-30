@@ -71,10 +71,15 @@ class TypeScores(BaseModel):
     """The scores of one question type, or of all questions."""
 
     questions: int
-    correct: Proportion  # questions answered right
+    correct: Proportion  # questions answered right, over the judged ones
+    # free-text answers left out of `correct` because no verdict file was given yet (`allow_unjudged`)
+    unjudged: int = 0
     # gold evidence chunks among the top k retrieved, pooled over the retrieval-route questions: the gold
     # names the chunks those questions need, while an exact-route question may need none
     recall_at_k: Proportion
+    # the same over every question with chunk evidence, whatever its route (R71): the retrieval-route
+    # chunks are few (14-15 per dataset), and the vector baseline answers every question by retrieval
+    recall_all_at_k: Proportion
     faithful: Proportion  # citations whose quote code finds in the cited chunk, which the reader was given
 
 
@@ -85,13 +90,40 @@ class QAReport(BaseModel):
     overall: TypeScores
     by_type: dict[QuestionType, TypeScores]
 
+    def metrics(self) -> dict[str, float | int | None]:
+        """Flat MLflow metrics: every rate overall with its interval and n, and every rate per type with its
+        n (the per-type intervals are in the report file); an empty rate is None, logged as nothing."""
+        out: dict[str, float | int | None] = {"questions": self.overall.questions}
+        for name, share in _shares(self.overall).items():
+            out.update({name: share.rate, f"{name}_low": share.low, f"{name}_high": share.high})
+            out[f"{name}_n"] = share.n
+        out["answers_unjudged"] = self.overall.unjudged
+        for qtype, scores in self.by_type.items():
+            out[f"questions_{qtype.value}"] = scores.questions
+            for name, share in _shares(scores).items():
+                out.update({f"{name}_{qtype.value}": share.rate, f"{name}_n_{qtype.value}": share.n})
+        return out
+
+
+def _shares(scores: TypeScores) -> dict[str, Proportion]:
+    """The rates of `scores` under their metric names."""
+    return {
+        "answer_accuracy": scores.correct,
+        "recall_at_k": scores.recall_at_k,
+        "recall_all_at_k": scores.recall_all_at_k,
+        "citation_faithfulness": scores.faithful,
+    }
+
 
 @dataclass(frozen=True)
 class _QuestionScore:
     type: QuestionType
+    judged: bool  # False: a free-text answer with no verdict yet
     correct: bool
     hits: int  # gold evidence chunks in the top k
     needed: int  # gold evidence chunks counted for recall (0 for an exact-route question)
+    hits_all: int  # the same over the question's chunk evidence whatever its route
+    needed_all: int
     faithful: int
     cited: int
 
@@ -163,9 +195,15 @@ def score_qa(
     chunk_texts: Mapping[str, str],
     k: int,
     verdicts: QAVerdicts | None = None,
+    *,
+    allow_unjudged: bool = False,
 ) -> QAReport:
     """Score one answers file against its gold: correctness, recall@k and faithfulness, overall and per
     type. `chunk_texts` must hold every cited chunk the reader was given.
+
+    With `allow_unjudged` and no verdict file, free-text answers are left out of correctness and counted
+    as unjudged: what `kg qa` logs before the judge has read them. Off by default, so a final score is
+    never computed over a silently smaller set of questions.
 
     Raises `ValueError` for k < 1, and `EvaluationError` when the answers do not cover the gold's
     questions exactly once, when free-text answers lack verdicts (or verdicts cover other questions), or
@@ -173,10 +211,13 @@ def score_qa(
     """
     if k < 1:
         raise ValueError(f"recall@k needs k >= 1, got {k}")
-    _check(gold, answers, chunk_texts, verdicts)
+    _check(gold, answers, chunk_texts, verdicts, allow_unjudged)
     answer_of = {a.question_id: a for a in answers}
     verdict_of = {v.question_id: v for v in verdicts.verdicts} if verdicts else {}
-    scores = [_score(q, answer_of[q.id], verdict_of.get(q.id), chunk_texts, k) for q in gold.questions]
+    judged = verdicts is not None or not allow_unjudged
+    scores = [
+        _score(q, answer_of[q.id], verdict_of.get(q.id), chunk_texts, k, judged) for q in gold.questions
+    ]
     return QAReport(
         k=k,
         overall=_aggregate(scores),
@@ -190,36 +231,49 @@ def _score(
     verdict: AnswerVerdict | None,
     chunk_texts: Mapping[str, str],
     k: int,
+    judged: bool,
 ) -> _QuestionScore:
-    needed = {c.chunk_id for c in question.chunks} if question.route == Route.RETRIEVAL else set()
+    evidence = {c.chunk_id for c in question.chunks}
+    needed = evidence if question.route == Route.RETRIEVAL else set()
+    top_k = set(answer.retrieved[:k])
     return _QuestionScore(
         type=question.type,
+        judged=judged or question.expected.kind != "text",
         correct=is_correct(question.expected, answer, verdict),
-        hits=len(needed & set(answer.retrieved[:k])),
+        hits=len(needed & top_k),
         needed=len(needed),
+        hits_all=len(evidence & top_k),
+        needed_all=len(evidence),
         faithful=sum(citation_is_faithful(c, answer, chunk_texts) for c in answer.citations),
         cited=len(answer.citations),
     )
 
 
 def _aggregate(scores: list[_QuestionScore]) -> TypeScores:
+    judged = [s for s in scores if s.judged]
     return TypeScores(
         questions=len(scores),
-        correct=Proportion.of(sum(s.correct for s in scores), len(scores)),
+        correct=Proportion.of(sum(s.correct for s in judged), len(judged)),
+        unjudged=len(scores) - len(judged),
         recall_at_k=Proportion.of(sum(s.hits for s in scores), sum(s.needed for s in scores)),
+        recall_all_at_k=Proportion.of(sum(s.hits_all for s in scores), sum(s.needed_all for s in scores)),
         faithful=Proportion.of(sum(s.faithful for s in scores), sum(s.cited for s in scores)),
     )
 
 
 def _check(
-    gold: QAGold, answers: Sequence[QAAnswer], chunk_texts: Mapping[str, str], verdicts: QAVerdicts | None
+    gold: QAGold,
+    answers: Sequence[QAAnswer],
+    chunk_texts: Mapping[str, str],
+    verdicts: QAVerdicts | None,
+    allow_unjudged: bool,
 ) -> None:
     """The answers cover every gold question once; the verdicts cover exactly the free-text ones."""
     issues = _coverage_issues("answer", [a.question_id for a in answers], {q.id for q in gold.questions})
     text_ids = {q.id for q in gold.questions if q.expected.kind == "text"}
     if verdicts is not None:
         issues += _coverage_issues("verdict", [v.question_id for v in verdicts.verdicts], text_ids)
-    elif text_ids:
+    elif text_ids and not allow_unjudged:
         issues.append(f"{len(text_ids)} free-text answers need the judge's verdict file")
     cited = {c.chunk_id for a in answers for c in a.citations if c.chunk_id in a.retrieved}
     if missing := sorted(cited - chunk_texts.keys()):

@@ -2274,11 +2274,57 @@ code exists, as R63 measured false paths before R64 fixed them. $0, no run.
     "counts, ranks or collects every match". Gate: 300 passed (288 after part 1), `ruff check` clean.
     $0, no run. **R70 done.**
 
+### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; part a done 2026-09-30)
+Makes the system GraphRAG end to end on the observation-graph arm's graphs as they are, so every later step
+has a baseline in answer quality (task file, Step 2). Two parts, one commit each, then the runs, asked
+first. The user chose DeepSeek (`deepseek-flash`) for everything the query stage asks a model (2026-09-30);
+embeddings stay Gemini's, as DeepSeek has none.
+- **Part (a): the retrieval route and the vector baseline (done 2026-09-30).** New package `query/`:
+  - `names.py`: a question's names are linked to nodes in code, no model call: a run of its words links a
+    thing (domain node) or kind (`:Entity`) whose name or alias it spells alike (`core.similarity`
+    `name_similarity`, the resolver's token-sort score, at `qa_link_fuzzy` 90), and the `qa_link_neighbours`
+    (3) nodes whose names lie nearest the question in meaning are linked too, by rank, like the mutual-nearest
+    ER blocking, so no similarity scale is tuned. Runs made only of English function words link nothing.
+  - `traversal.py`: four fixed, parameterised patterns: `thing_observations` (a thing's observations and the
+    documents and sections about it), `kind_observations` (claims with the kind at either end, chunks that
+    mention it), `related_records` (domain nodes within `qa_hops` 2 relationships, the walk restricted to the
+    plan's labels so it never passes through documents or kinds) and `referred_records` (a kind's
+    `REFERS_TO` records). Each is reported on its own in the answer's trace.
+  - `graph_store.py` (the one Neo4j reader, behind a `GraphStore` protocol), `reader.py` (one domain-neutral
+    prompt; the answer is a set, a number or a short text with citations; no chunk means no model call),
+    `systems.py`: `GraphRetrieval` ranks the reached chunks by cosine to the question and keeps `qa_top_k` 5;
+    `VectorBaseline` takes the 5 nearest from the `chunk_embeddings` index. Both share the reader, k and the
+    embedder. No fallback from the graph to vector search: a question that links nothing gets nothing, so the
+    failure shows as the graph's own.
+  - `kg ask`, `kg qa GOLD` (one MLflow run per system, `qa_graph` / `qa_vector`, so each has its own cost;
+    writes `out/answers_<system>.jsonl` with the chunk texts shown and the retrieval trace) and
+    `kg qa-score GOLD ANSWERS --verdicts V` (no graph). `kg qa` scores what code can before the judge
+    (`score_qa(..., allow_unjudged=True)`: free text counted as unjudged, never as wrong); the final score is
+    strict, as in R70.
+  - Recall@k: both numbers are reported, as proposed in "Found along the way" (R70): over the retrieval-route
+    questions (`recall_at_k`) and over every question with chunk evidence (`recall_all_at_k`).
+  - Moves, behaviour unchanged: the two similarity primitives from `resolution/matchers.py` to
+    `core/similarity.py`, the input-file helpers from `pipeline/stages.py` to `pipeline/inputs.py`, the index
+    name to `text/lexical.CHUNK_VECTOR_INDEX`.
+  - Settings `qa_model`, `qa_thinking`, `qa_top_k`, `qa_hops`, `qa_link_fuzzy`, `qa_link_neighbours`,
+    `qa_workers`; `quality` sets `qa_thinking: low`, `quality_deepseek` (and so `heldout_deepseek`)
+    `qa_model: deepseek-flash`; new preset `generality` (the R70 corpus, DeepSeek, `ask_permission`
+    inherited). The run guard now asks for `kg ask` and `kg qa` too.
+  - Tests: `tests/test_query.py` (linking by name, alias and rank; function words; ranking; the reader's
+    prompt and its no-text answer; the corpus-quote guard on the reader's rules; both systems over a fake
+    store; the answers file; `kg qa-score` with a driver to nowhere), `tests/test_query_graph.py` (Neo4j:
+    each pattern, the hop limit, no walk through a shared document, names and chunks, the vector index,
+    `kg qa` end to end with params, metrics and the answers file), `tests/test_qa.py` (unjudged free text,
+    recall over all questions, metric names). Gate: 326 passed (300 before), `ruff check` clean. No run.
+- **Part (b): the exact route and the router (open).**
+- **Runs (open, asked first with a cost estimate):** both gold sets and the generality corpus through both
+  systems on the Step 0 graphs; the judge scores the free-text answers.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
-- **Recall@k rests on few chunks (found in R70).** Only retrieval-route questions count, and they cite 15
+- **(Decided in R71: both numbers are reported.) Recall@k rests on few chunks (found in R70).** Only retrieval-route questions count, and they cite 15
   (furniture), 14 (held-out) and 14 (generality) evidence chunks, so a rate of 10 of 15 has a Wilson
   interval of 0.42-0.85. The questions with any chunk evidence cite 73, 36 and 27. Candidate for Step 2:
   report recall@k over every question with chunk evidence next to the retrieval-route number (the vector

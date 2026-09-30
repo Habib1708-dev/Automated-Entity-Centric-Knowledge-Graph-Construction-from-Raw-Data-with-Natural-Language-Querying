@@ -19,8 +19,9 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-# kg commands that call an LLM, so a run of them costs money or free quota
-LLM_COMMANDS = {"run", "plan", "text-schema", "extract", "resolve"}
+# kg commands that call an LLM, so a run of them costs money or free quota (`ask` and `qa` answer
+# questions with the reader model, R71; `qa-score` only scores a file and is not listed)
+LLM_COMMANDS = {"run", "plan", "text-schema", "extract", "resolve", "ask", "qa"}
 # kg options that take a value: the token after them is not the data directory
 VALUE_OPTIONS = {"--goal", "--out", "--gold", "--preset"}
 # a shell separates commands with these; each part is judged on its own

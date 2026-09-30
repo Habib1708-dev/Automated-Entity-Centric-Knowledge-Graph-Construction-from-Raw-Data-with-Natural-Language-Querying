@@ -170,6 +170,24 @@ class Settings(BaseSettings):
     domain_link_threshold: float = 90.0
     gold_min_recall: float = 0.5  # `kg validate --gold` fails below this triple recall
 
+    # Question answering (`kg ask`, `kg qa`; layered-model Step 2, R71). The model reads the chosen chunks
+    # and answers with citations; its thinking level is billed as output like any other.
+    qa_model: str = "gemini-3.8-flash"
+    qa_thinking: ThinkingLevel = ""
+    # chunks the reader is given, by the graph arm and the vector-only baseline alike, so the two systems
+    # differ only in how they choose the chunks
+    qa_top_k: int = Field(default=5, ge=1)
+    # relationship hops from a thing to related records: one reaches a vehicle's recalls, two a product's
+    # parts through its assemblies; more would reach most of a small domain graph
+    qa_hops: int = Field(default=2, ge=1, le=4)
+    # a word span of the question links to a node whose name or alias it spells alike at or above this
+    # (the token-sort score of entity resolution and domain linking)
+    qa_link_fuzzy: float = 90.0
+    # the nodes whose names lie nearest the question in meaning are linked too; rank-based, like the
+    # mutual-nearest ER blocking, so no similarity scale has to be chosen per embedding model
+    qa_link_neighbours: int = Field(default=3, ge=0)
+    qa_workers: int = Field(default=8, ge=1)  # questions answered in parallel
+
     @classmethod
     def settings_customise_sources(
         cls,

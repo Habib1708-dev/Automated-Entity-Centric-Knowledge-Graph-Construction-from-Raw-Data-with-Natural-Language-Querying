@@ -230,6 +230,26 @@ def test_free_text_answers_need_a_verdict_file_that_covers_exactly_them(tmp_path
         load_qa_verdicts(path)
 
 
+def test_before_the_judge_free_text_answers_count_as_unjudged_not_as_wrong():
+    # what `kg qa` logs before any verdict exists (R71); a final score never allows it (see above)
+    early = score_qa(GOLD, right_answers(), CHUNKS, k=5, allow_unjudged=True).overall
+    assert (early.correct.k, early.correct.n, early.unjudged) == (3, 3, 1)
+    judged = score_qa(GOLD, right_answers(), CHUNKS, k=5, verdicts=verdicts(), allow_unjudged=True).overall
+    assert (judged.correct.n, judged.unjudged) == (4, 0)
+
+
+def test_the_report_flattens_into_stable_metric_names():
+    metrics = score_qa(GOLD, right_answers(), CHUNKS, k=5, verdicts=verdicts()).metrics()
+    assert (metrics["answer_accuracy"], metrics["answer_accuracy_n"], metrics["questions"]) == (1.0, 4, 4)
+    assert {"recall_at_k_low", "recall_all_at_k_high", "citation_faithfulness_n", "answers_unjudged"} <= set(
+        metrics
+    )
+    # every type is present, with None for a type without questions, so runs can be compared column by column
+    for qtype in QuestionType:
+        assert f"questions_{qtype.value}" in metrics and f"answer_accuracy_{qtype.value}" in metrics
+    assert metrics["answer_accuracy_multi_hop"] is None
+
+
 # --- citations and retrieval ---------------------------------------------------------------------
 
 
@@ -264,6 +284,13 @@ def test_recall_at_k_counts_gold_chunks_in_the_top_k_of_retrieval_questions_only
     assert (at_2.k, at_2.n) == (2, 2)
     with pytest.raises(ValueError, match="k >= 1"):
         score_qa(GOLD, answers, CHUNKS, k=0, verdicts=verdicts())
+
+
+def test_recall_over_all_questions_also_counts_the_evidence_of_exact_route_questions():
+    overall = score_qa(GOLD, right_answers(), CHUNKS, k=5, verdicts=verdicts()).overall
+    # Q2 is exact-route: it cites lamp#0 but read nothing, which only the all-questions recall counts
+    assert (overall.recall_at_k.k, overall.recall_at_k.n) == (2, 2)
+    assert (overall.recall_all_at_k.k, overall.recall_all_at_k.n) == (2, 3)
 
 
 def test_every_score_is_given_per_type_with_its_n_and_interval():

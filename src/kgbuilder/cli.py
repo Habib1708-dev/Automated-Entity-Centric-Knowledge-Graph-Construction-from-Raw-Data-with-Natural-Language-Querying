@@ -28,10 +28,12 @@ from .llm.deepseek import DeepSeekClient
 from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
+from .pipeline import qa_stages as qs
 from .pipeline import stages as st
 from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
 from .tracking.mlflow_tracker import create_tracker
+from .validation.qa import QAReport
 from .validation.report import ValidationReport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -39,6 +41,7 @@ OUT = Path("out")
 # optional everywhere: without it a command reads DATA_DIR, which the smoke and dev presets set to a subset
 DATA_DIR = typer.Argument(None, help="Data directory; default: the data_dir setting (the preset's dataset).")
 PRESET_NAMES = typer.Argument(None, help="Presets to rebuild; default: every one with a sample block.")
+QA_SYSTEMS = typer.Option(list(qs.SYSTEMS), help="Systems to ask (graph, vector); each gets its own run.")
 
 
 @app.callback()
@@ -371,6 +374,44 @@ def coverage(sheet: Path, verdicts: Path, out: Path = OUT):
 
 
 @app.command()
+def ask(
+    question: str,
+    system: str = typer.Option("graph", help="graph (the retrieval route) or vector (the baseline)."),
+    out: Path = OUT,
+):
+    """Answer one question from the current graph, with the chunks it cites (R71)."""
+    with session(out) as ctx:
+        answer = run_stages(ctx, PipelineState(question=question), [qs.AskStage(system)]).answer
+    for name, value in (("entities", answer.entities), ("number", answer.number), ("text", answer.text)):
+        if value is not None:
+            typer.echo(f"{name}: {value}")
+    for citation in answer.citations:
+        typer.echo(f'  [{citation.chunk_id}] "{citation.quote}"')
+    typer.echo(f"Wrote {out / qs.AskStage.ANSWER_FILE}")
+
+
+@app.command()
+def qa(gold: Path, system: list[str] = QA_SYSTEMS, out: Path = OUT):
+    """Answer every question of a QA gold file with each system and log what code can score; free-text
+    answers wait for the judge (`kg qa-score`). Writes out/answers_<system>.jsonl (R71)."""
+    with session(out) as ctx:
+        reports = run_stages(ctx, PipelineState(gold=gold), [qs.QAStage(s) for s in system]).qa_reports
+    for name, report in reports.items():
+        _print_qa(name, report)
+        typer.echo(f"Wrote {out / f'answers_{name}.jsonl'}")
+
+
+@app.command("qa-score")
+def qa_score(gold: Path, answers: Path, verdicts: Path | None = None, out: Path = OUT):
+    """Score an answers file of `kg qa` with the judge's verdicts on its free-text answers; no graph (R71)."""
+    state = PipelineState(gold=gold, answers=answers, verdicts=verdicts)
+    with session(out) as ctx:
+        reports = run_stages(ctx, state, [qs.QAScoreStage()]).qa_reports
+    for name, report in reports.items():
+        _print_qa(name, report)
+
+
+@app.command()
 def run(
     data_dir: Path | None = DATA_DIR,
     goal: str = typer.Option(...),
@@ -413,6 +454,24 @@ def _print_preview(preview: ResolvePreview) -> None:
     for p in preview.pairs:
         typer.echo(f"{p.signal:9} {p.score:5.1f} {p.route:4} {p.type:12} {p.a} | {p.b}")
     typer.echo(f"{len(preview.pairs)} candidate pairs among {preview.entities} entities")
+
+
+def _print_qa(system: str, report: QAReport) -> None:
+    """One line per score of a system: overall with its interval, then per question type."""
+    typer.echo(f"== {system}")
+    rows = [("all", report.overall), *((t.value, s) for t, s in report.by_type.items())]
+    for label, scores in rows:
+        cells = [
+            f"{name} {'-' if p.rate is None else f'{p.rate:.3f}'} ({p.k}/{p.n})"
+            for name, p in (
+                ("accuracy", scores.correct),
+                ("recall@k", scores.recall_at_k),
+                ("recall_all@k", scores.recall_all_at_k),
+                ("faithful", scores.faithful),
+            )
+        ]
+        unjudged = f"  unjudged {scores.unjudged}" if scores.unjudged else ""
+        typer.echo(f"{label:19} " + "  ".join(cells) + unjudged)
 
 
 def _print_report(report: ValidationReport) -> None:
