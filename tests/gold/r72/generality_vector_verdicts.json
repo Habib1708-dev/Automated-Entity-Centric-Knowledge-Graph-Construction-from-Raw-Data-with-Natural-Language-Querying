@@ -1,0 +1,52 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-09-30",
+    "run_id": "7e30dbb6935143ce89640fc50d484bfd",
+    "git_sha": "4c7d43d"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r72_generality/answers_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": true,
+      "reason": "States all three findings for HP40-2291 (ran quietly, no leaks, bearing 48 °C) and nothing from HP40-1183; the extra 41 litres per second is true of the source and contradicts nothing."
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "Gives the library roof's own reason, the leak into the children's section since the autumn storms; nothing taken from the footbridge."
+    },
+    {
+      "question_id": "G11",
+      "correct": true,
+      "reason": "Attributes the ran-dry claim to Ines Barros, service manager at Calder Pumps, and says the utility does not agree because its log shows the suction valve open all night; both parts present."
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "Says replacing the seal of HP40-1183 after the March inspection, as the inspection had recommended, matching the engineer's counterfactual in the gold evidence."
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "Says by 30 June 2025, the full date of the obligation."
+    },
+    {
+      "question_id": "G18",
+      "correct": true,
+      "reason": "Says residents, which is exactly who the inspector's report names as the source."
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "Says before the library reopens on 1 September, the obligation's deadline in full."
+    },
+    {
+      "question_id": "G20",
+      "correct": true,
+      "reason": "Says 28 March, the reopening date of the Mill Lane footbridge that the inspector recommended closing."
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "entity_types": [
+    {
+      "name": "Person",
+      "description": "A named individual the text makes statements about, whether institute staff (researchers, technicians, engineers, students) or outsiders such as mayors, councillors, residents and contractors' employees; a job title on its own is a Role, not a Person."
+    },
+    {
+      "name": "Role",
+      "description": "A job title or position that a person holds or takes on, such as mayor, councillor, chair, technician, site engineer, research engineer, project lead, service manager or operator; not the person who holds it, and not a project or a task."
+    },
+    {
+      "name": "Organization",
+      "description": "A team, department, company, council or other formal group named as a unit, such as the Soil Ecology team, the Hydrology team, the Riverton town council or Calder Pumps; not a place, a person or a project."
+    },
+    {
+      "name": "Place",
+      "description": "A named location or whole built structure that things stand in or people can be at, such as a bog, a field site, a town, a street, a pumping station, a dry well, a basement laboratory, a room, a library or a footbridge; parts, fittings and moveable objects belong to Equipment, never to Place."
+    },
+    {
+      "name": "Pump",
+      "description": "A water pump unit identified by its own serial number or model tag, such as HP40-1183, HP40-2291 or the Kestrel V-12 at Harbour Station; not a component of a pump such as a seal or bearing, and not any other device."
+    },
+    {
+      "name": "Equipment",
+      "description": "A physical object other than a pump or a person that is installed, handled, measured, inspected, repaired or replaced - an apparatus, component, fitting or specimen such as a sediment flume, a corer, a mechanical seal, a bearing, a suction valve, a railing, a deck board, a roof, a boiler or a peat core like AB-17; not a whole site, building, bridge or station, which is a Place."
+    },
+    {
+      "name": "Project",
+      "description": "A named planned piece of work with its own name and budget or schedule, such as the Aldmoor peat project, the Mill Lane footbridge repair, the Eastgate library roof replacement, the Station Road drainage scheme or the Town hall boiler replacement; not a single event, meeting or one-off task."
+    },
+    {
+      "name": "Event",
+      "description": "An occurrence reported at a date or time, such as a field trip, committee meeting, inspection round, pump failure, flooding incident, seminar, experiment or council vote; not an ongoing project and not a state."
+    },
+    {
+      "name": "Condition",
+      "description": "A state that a thing is in at the time reported, good or bad - dripping, leaking, vibrating, jammed, tripped, flooded, closed, unsafe to use or running quietly; not a measured quantity; the positive, negative or neutral tone is recorded with each claim."
+    },
+    {
+      "name": "Metric",
+      "description": "A named measurable property reported for a thing, such as pH, depth, water table, flow rate, vibration, bearing temperature, count or length, whose numeric value with its unit is recorded as a separate Value."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "MEMBER_OF",
+      "subject_type": "Person",
+      "object_type": "Organization",
+      "description": "The person belongs to, works for or is a member of the organization or team, e.g. Maria Lopez of the Soil Ecology team or Ines Barros of Calder Pumps; not leadership of the group.",
+      "derived": false
+    },
+    {
+      "predicate": "LEADS",
+      "subject_type": "Person",
+      "object_type": "Organization",
+      "description": "The person is the leader, head or chair of the organization or team, e.g. Jonathan Pike as group leader or Aiko Tanaka leading the Hydrology team.",
+      "derived": false
+    },
+    {
+      "predicate": "HOLDS_ROLE",
+      "subject_type": "Person",
+      "object_type": "Role",
+      "description": "The person holds this job title or position, permanently or for one occasion, e.g. mayor, councillor, chair of a meeting, technician, site engineer, research engineer or project lead.",
+      "derived": false
+    },
+    {
+      "predicate": "ATTENDS",
+      "subject_type": "Person",
+      "object_type": "Event",
+      "description": "The person is present at the event, e.g. a committee meeting, an inspection round or a field trip; record presence only, not what the person said or did there.",
+      "derived": false
+    },
+    {
+      "predicate": "SPEAKS_AT",
+      "subject_type": "Person",
+      "object_type": "Event",
+      "description": "The person gives a talk or presentation at the event, e.g. Pike speaking on peat at the June seminar.",
+      "derived": false
+    },
+    {
+      "predicate": "INSPECTS",
+      "subject_type": "Person",
+      "object_type": "Pump",
+      "description": "The person examines or checks the pump, e.g. a technician's quarterly inspection round at a station.",
+      "derived": false
+    },
+    {
+      "predicate": "INSPECTS",
+      "subject_type": "Person",
+      "object_type": "Place",
+      "description": "The person examines, visits or reports on the place or whole structure, e.g. the structural inspector's report on the Mill Lane footbridge.",
+      "derived": false
+    },
+    {
+      "predicate": "REPAIRS",
+      "subject_type": "Person",
+      "object_type": "Equipment",
+      "description": "The person repairs, replaces, frees or otherwise puts right the object, e.g. replacing the mechanical seal of a pump or freeing a jammed corer; not a routine inspection.",
+      "derived": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Pump",
+      "object_type": "Place",
+      "description": "The pump stands at, belongs to or is installed at the place, e.g. the Hydra P-40 pumps at North Station.",
+      "derived": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Equipment",
+      "object_type": "Place",
+      "description": "The object is at, in or on the place, including an object that is a part or fitting of a structure or installation located there, e.g. the sediment flume in the basement laboratory, the roof of the Eastgate library or a railing of the Mill Lane footbridge.",
+      "derived": false
+    },
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Equipment",
+      "object_type": "Pump",
+      "description": "The object is a component of the pump, such as the mechanical seal, bearing or suction valve of HP40-1183.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_METRIC",
+      "subject_type": "Pump",
+      "object_type": "Metric",
+      "description": "The pump has this measurable property reported for it, such as its flow rate, vibration or bearing temperature.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_METRIC",
+      "subject_type": "Equipment",
+      "object_type": "Metric",
+      "description": "The object has this measurable property reported for it, such as the length of the flume, the number of deck boards replaced, or the depth and pH of a peat core.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_METRIC",
+      "subject_type": "Place",
+      "object_type": "Metric",
+      "description": "The place has this measurable property reported for it, such as the water table on the bog or the volume of water that flooded the dry well.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_VALUE",
+      "subject_type": "Metric",
+      "object_type": "Value",
+      "description": "The metric is reported as this numeric value with its unit, e.g. 4.2 m, pH 4.1, 38 litres per second, 71 degrees C or an alarm limit such as 65 degrees C.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_COST",
+      "subject_type": "Project",
+      "object_type": "Value",
+      "description": "The project has this budget, price, cost or overrun amount, e.g. 180,000 pounds, or 18,000 euros over its equipment line; the tone distinguishes an overrun from coming in under budget.",
+      "derived": false
+    },
+    {
+      "predicate": "OCCURS_AT",
+      "subject_type": "Event",
+      "object_type": "Place",
+      "description": "The event takes place at the location, e.g. a seminar in room B12 or a seal failure in the dry well at North Station.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_CONDITION",
+      "subject_type": "Pump",
+      "object_type": "Condition",
+      "description": "The pump is in this state at the time reported, good or bad, e.g. dripping, vibrating, tripped, run dry or running quietly.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_CONDITION",
+      "subject_type": "Equipment",
+      "object_type": "Condition",
+      "description": "The object is in this state at the time reported, good or bad, e.g. a seal dripping, a railing moving when leaned on, a corer jammed, a valve open or a roof leaking.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_CONDITION",
+      "subject_type": "Place",
+      "object_type": "Condition",
+      "description": "The place or whole structure is in this state at the time reported, good or bad, e.g. a field site flooded, a footbridge safe to use or unsafe, a bridge closed for works or a library closed for repairs.",
+      "derived": false
+    }
+  ]
+}

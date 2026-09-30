@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "source_file": "institute/staff.csv",
+      "label": "Staff",
+      "unique_column": "staff_id",
+      "properties": [
+        "name",
+        "team",
+        "role",
+        "start_year"
+      ],
+      "description": "A person working at the institute, identified by staff id and described by name, team, role and start year.",
+      "name_column": "name"
+    },
+    {
+      "source_file": "water/pumps.csv",
+      "label": "Pump",
+      "unique_column": "serial_number",
+      "properties": [
+        "model",
+        "station",
+        "install_year",
+        "rated_flow_lps"
+      ],
+      "description": "A water pump unit, identified by its unique serial number, with its model, station, install year and rated flow capacity.",
+      "name_column": null
+    }
+  ],
+  "relationships": []
+}

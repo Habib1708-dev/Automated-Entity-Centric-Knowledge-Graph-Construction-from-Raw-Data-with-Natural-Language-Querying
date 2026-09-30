@@ -2274,7 +2274,7 @@ code exists, as R63 measured false paths before R64 fixed them. $0, no run.
     "counts, ranks or collects every match". Gate: 300 passed (288 after part 1), `ruff check` clean.
     $0, no run. **R70 done.**
 
-### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; done 2026-09-30 on held-out and furniture, the generality corpus after R72)
+### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; done 2026-09-30; the generality corpus's results are in R72)
 Makes the system GraphRAG end to end on the observation-graph arm's graphs as they are, so every later step
 has a baseline in answer quality (task file, Step 2). Two parts, one commit each, then the runs, asked
 first. The user chose DeepSeek (`deepseek-flash`) for everything the query stage asks a model (2026-09-30);
@@ -2428,7 +2428,7 @@ embeddings stay Gemini's, as DeepSeek has none.
   counts (3, Step 4's concern).
 - Gate after the fix: 352 passed, `ruff check` clean. The generality corpus waits for R72.
 
-### R72. Plans may keep unrelated tables apart (found by the generality corpus in R71; opened 2026-09-30)
+### R72. Plans may keep unrelated tables apart, and the generality corpus's results (done 2026-09-30)
 The generality corpus (R70) has two keyed tables from unrelated domains (`institute/staff.csv`,
 `water/pumps.csv`); no foreign-key candidate joins them. The plan check (`structured/plan.py`
 `_connectivity_issues`) and the proposer's prompt ("The schema must be one connected graph. Skip files that
@@ -2452,11 +2452,78 @@ happened to be connected. The user chose to fix it in its own step before buildi
   datasets are not re-proposed). Tests first: unrelated tables may stand apart (failed before), and tables
   a link table joins must be joined, with the keys named (failed before on the message); the old test of an
   isolated supplier still passes. Gate: 354 passed, `ruff check` clean.
-- Status: code done; the generality runs follow.
+- **Runs (the user's yes with the choice of R72; estimate $0.25-0.6, spent $0.497 with R71's first plan
+  attempt of $0.011).** `generality` preset (DeepSeek, `EXTRACT_PASSES=2`), goal "answer questions about the people,
+  equipment, places and events these documents describe", into `out/r72_generality`.
+  - The plan now passed the code checks, but the model's critic refused it in all three rounds (plan
+    `a83d2cf9`, $0.020): it wanted `Station`, `Team` and event nodes, reading the goal's words "places" and
+    "events", and called a plan without relationships "not a knowledge graph". The last proposal (Staff and
+    Pump, no relationships) was accepted by the user as the reviewed plan with one edit: Pump's
+    `name_column` "model" (both pumps are "Hydra P-40") set to null, so a pump is named by its serial number
+    as the texts write it; "HP40-1183" itself counts as a code for `name_column` and is refused there.
+    Committed as `tests/gold/generality_plan.json`.
+  - The text schema's critic refused too, after three rounds ($0.150: DeepSeek thought 112k tokens in six
+    calls). Its last open points: `HAS_COST` on a Project is outside the goal's words; the lab flume pump has
+    no type. The user accepted the last proposal unchanged (Person, Role, Organization, Place, Pump,
+    Equipment, Project, Event, Condition, Metric; 20 fact types), committed as
+    `tests/gold/generality_text_schema.json`.
+  - Build: 11 documents, 11 chunks; extract `b3ae982f` 107 claims, 7 rejected ($0.222, 22 calls);
+    resolve `b4fb7dbe` 121 -> 112 entities ($0.022); link `313de8e9`: **0 of 11 documents** tied to a record
+    (file-name matching; no file name holds a record's name), 4 entities linked.
+  - `kg qa`: `qa_graph` `37bf4db8` $0.050, `qa_vector` `7e30dbb6` $0.022. The judge (Fable 5.1) found all 8
+    free-text answers right in both systems (`tests/gold/r72/generality_{graph,vector}_verdicts.json`; the
+    lead judge kept both flagged points). Scores `qa_score` `8c1f2fe7` (graph), `d27db3e4` (vector).
+
+  | Type | generality graph | generality vector |
+  |---|---|---|
+  | multi_hop | 0.33 (1/3, 0.06-0.79) | 0.33 (1/3, 0.06-0.79) |
+  | aggregation | 0.50 (1/2, 0.09-0.91) | 1.00 (2/2, 0.34-1.00) |
+  | structured_filter | 0.00 (0/3, 0.00-0.56) | 0.67 (2/3, 0.21-0.94) |
+  | disambiguation | 0.00 (0/4, 0.00-0.49) | 0.50 (2/4, 0.15-0.85) |
+  | negation_sensitive | 0.00 (0/2, 0.00-0.66) | 1.00 (2/2, 0.34-1.00) |
+  | lookup | 1.00 (7/7, 0.65-1.00) | 1.00 (7/7, 0.65-1.00) |
+  | **all** | **0.43 (9/21, 0.24-0.63)** | **0.76 (16/21, 0.55-0.89)** |
+  | recall@k, retrieval-route / all questions with chunk evidence | 0.93 (13/14) / 0.59 (16/27) | 1.00 (14/14) / 1.00 (27/27) |
+  | citation faithfulness | 1.00 (17/17) | 1.00 (28/28) |
+  | route accuracy | 0.86 (18/21) | - |
+
+  - **Failures of the graph system:** the query answered wrong 7 (G14 walks `(core:Entity)-[:SUBJECT]->
+    (o1:Observation)`, against the arrow; G12 asks the leak claim to be `polarity 'positive'` and to hold
+    "March 2025" in its time; G07 needs text entities that refer to a pump record, and only 4 entities link
+    at all; G21 counts ATTENDS claims filtered on the time text "12 May 2025" and finds none), the answer's
+    name or form 3 (G01 "Soil Ecology team" for the gold's "Soil Ecology"; G03 and G10 answer in a sentence
+    where a name is asked), the router sent a record question to text 2 (G02, G04). The vector baseline's 5
+    misses are names and forms too ("Soil Ecology team" in G01 and G03, a sentence in G04) and two reader
+    answers (G02 "Finance Office" for the role, G07 "the chunks do not state when any pump was installed",
+    a record field it never sees).
+  - **Reading.** On the synthetic three-domain corpus the graph system is worse than vector-only RAG
+    (9 against 16 of 21), the opposite of the two real datasets. The retrieval route finds the text (13 of
+    14 gold chunks), so the loss is the exact route on a graph whose documents hang on no record, whose
+    schema a reviewer had to accept over the critic, and whose claims the text2cypher model misreads. This
+    is the kind of result the corpus was built to show: the graph's advantage on the real datasets rests on
+    their layout (documents named after their record, one connected domain). Step 3's linking rework
+    (per-claim attachment, no file-name matching) is where this is addressed; it is recorded here, not
+    tuned. The list answer "Soil Ecology team" (graph G01, G04; vector G01, G03) would be right with one
+    gold alias: listed as a candidate gold correction, not applied (it was seen after the output).
+- **R72 done.** Gate: 354 passed, `ruff check` clean.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The model's critics do not accept a plan or schema for a three-domain corpus (found in R72).** Both
+  refine loops ran their three rounds and refused: the plan critic asked for nodes the goal's words
+  suggest ("places" -> Station, "events" -> event nodes) and called a plan without relationships "not a
+  knowledge graph"; the schema critic kept finding new gaps each round. The user accepted the last
+  proposals as reviewed. Candidates: the critic's checklist excludes "promote a property to a node" unless
+  a question needs it; or a round limit that returns the last code-valid proposal for review instead of
+  failing. The goal text was not changed after seeing this.
+- **A serial number counts as a code and cannot be a name (found in R72).** `_CODE_LIKE` refuses
+  "HP40-1183" as a `name_column`, yet the texts name the pumps only by it. Workaround in R72: `name_column`
+  null, so the name falls back to the key. Candidate: a key column the texts write may be the name.
+- **Candidate gold correction: "Soil Ecology team" (found in R72).** G01, G03, G04 expect "Soil Ecology"
+  (the staff record's team); four list answers say "Soil Ecology team" (graph G01, G04; vector G01, G03).
+  An alias would count them; not applied, as it was seen after the output (evaluation skill).
 
 - **The router sends record questions to text (found in R71).** Route accuracy 0.61 (held-out) and 0.79
   (furniture); 8 of the graph's wrong answers were record questions read from text (F04 "What is the price
