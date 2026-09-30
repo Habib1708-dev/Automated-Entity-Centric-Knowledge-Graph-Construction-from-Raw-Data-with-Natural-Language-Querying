@@ -1,25 +1,33 @@
 """The question-answering systems: the graph's retrieval route and the vector-only baseline.
 
 Role in the pipeline: `kg ask` and `kg qa` (pipeline/qa_stages.py) build them and ask them the questions.
-Design: Strategy. Both implement `QASystem.answer` and share the reader, the number of chunks shown (k) and
-the embedder, so a difference in their scores comes only from how they choose the chunks:
+Design: Strategy. The systems implement `QASystem.answer` and share the reader, the number of chunks shown
+(k) and the embedder, so a difference in their scores comes only from how they choose:
 - `VectorBaseline`: the k chunks nearest the question in the chunk vector index, nothing from the graph;
-- `GraphRetrieval`: link the question's names to nodes (names.py), follow the fixed traversal patterns
-  (traversal.py), rank the chunks they reach by similarity to the question, keep k. When nothing is linked
-  or reached, the reader gets nothing: falling back to vector search would hide the graph's own failure.
-Not here: the exact route and the router (part b), the reader's prompt (reader.py), Cypher (graph_store.py).
+- `GraphRetrieval`, the graph's retrieval route: link the question's names to nodes (names.py), follow the
+  fixed traversal patterns (traversal.py), rank the chunks they reach by similarity to the question, keep k.
+  When nothing is linked or reached, the reader gets nothing: falling back to vector search would hide the
+  graph's own failure;
+- `RoutedGraph`, the graph system `kg qa` scores: the router (router.py) sends a question to the exact
+  route (exact.py) or to `GraphRetrieval`, and an exact route that cannot answer falls back to retrieval.
+Not here: the prompts (reader.py, router.py, exact.py), Cypher (graph_store.py).
 """
 
 import math
 from typing import Protocol
 
+from pydantic import BaseModel
+
 from ..core.similarity import dot, unit_vector
-from ..llm.base import Embedder
+from ..llm.base import Embedder, LLMClient
 from ..validation.qa import Citation
+from ..validation.qa_gold import Route
 from .answers import RetrievalTrace, ShownChunk, SystemAnswer
-from .graph_store import GraphStore, StoredChunk
+from .exact import ExactRoute
+from .graph_store import CypherStore, GraphStore, StoredChunk
 from .names import NameLinker
 from .reader import Reader
+from .router import Router
 
 
 class QASystem(Protocol):
@@ -83,6 +91,64 @@ def build_graph_retrieval(
     names = store.node_names()
     vectors = embedder.embed([n.name for n in names]) if names and neighbours else None
     return GraphRetrieval(store, embedder, NameLinker(names, vectors, fuzzy, neighbours), reader, k)
+
+
+class QASettings(BaseModel):
+    """The settings a graph system is built with (from config.Settings, passed down by the stage)."""
+
+    model: str
+    temperature: float
+    top_k: int
+    link_fuzzy: float
+    link_neighbours: int
+    cypher_limit: int
+
+
+class RoutedGraph:
+    """The graph system: the router chooses a route; the exact route answers from the rows of a checked
+    query, and when it cannot (both proposals refused or failing), the question falls back to retrieval.
+    The answer keeps the router's label (scored as route accuracy) and the exact route's trace."""
+
+    name = "graph"
+
+    def __init__(self, router: Router, exact: ExactRoute, retrieval: GraphRetrieval):
+        self._router = router
+        self._exact = exact
+        self._retrieval = retrieval
+
+    def answer(self, question_id: str, question: str) -> SystemAnswer:
+        route = self._router.route(question)
+        if route != Route.EXACT:
+            return self._retrieval.answer(question_id, question).model_copy(update={"route": route})
+        outcome = self._exact.answer(question)
+        if not outcome.trace.answered:
+            fallback = self._retrieval.answer(question_id, question)
+            return fallback.model_copy(update={"route": route, "exact": outcome.trace})
+        return SystemAnswer(
+            question_id=question_id,
+            system=self.name,
+            route=route,
+            entities=outcome.entities,
+            number=outcome.number,
+            exact=outcome.trace,
+        )
+
+
+class QueryStore(GraphStore, CypherStore, Protocol):
+    """A store the whole graph system can use: retrieval reads and the exact route's reads."""
+
+
+def build_routed_graph(
+    store: QueryStore, embedder: Embedder, llm: LLMClient, reader: Reader, settings: QASettings
+) -> RoutedGraph:
+    """The graph system over `store`: the schema read once for the router and text2cypher, the node names
+    embedded once for the retrieval route."""
+    exact = ExactRoute(store, llm, settings.model, settings.cypher_limit, settings.temperature)
+    router = Router(llm, settings.model, exact.schema_text, settings.temperature)
+    retrieval = build_graph_retrieval(
+        store, embedder, reader, settings.top_k, settings.link_fuzzy, settings.link_neighbours
+    )
+    return RoutedGraph(router, exact, retrieval)
 
 
 def rank(vector: list[float], chunks: list[StoredChunk]) -> list[StoredChunk]:

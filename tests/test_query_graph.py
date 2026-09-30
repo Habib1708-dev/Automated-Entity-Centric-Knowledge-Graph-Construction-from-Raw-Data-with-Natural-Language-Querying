@@ -10,8 +10,10 @@ from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAStage
 from kgbuilder.pipeline.stage import PLAN_FILE
 from kgbuilder.query.answers import load_system_answers
+from kgbuilder.query.exact import CypherParameter, CypherProposal
 from kgbuilder.query.graph_store import Neo4jGraphStore
 from kgbuilder.query.reader import ReaderAnswer, ReaderCitation
+from kgbuilder.query.router import RouteChoice
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.lexical import CHUNK_VECTOR_INDEX
 from kgbuilder.validation.qa_gold import QAGold
@@ -56,7 +58,7 @@ CREATE (press:Press {press_id: 'P1', name: 'Quill Press'}),
        (c4)-[:ABOUT]->(ticket), (c6)-[:ABOUT]->(maker), (c7)-[:ABOUT]->(part), (c9)-[:ABOUT]->(other),
        (wobble:Entity {id: 'k-wobble', name: 'wobbles', type: 'Condition', aliases: ['wobbling']}),
        (spindle:Entity {id: 'k-spindle', name: 'spindle', type: 'Component', aliases: ['spindle']}),
-       (o1:Observation {id: 'o1'}),
+       (o1:Observation {id: 'o1', predicate: 'HAS_CONDITION', polarity: 'negative'}),
        (o1)-[:SUBJECT]->(spindle), (o1)-[:OBJECT]->(wobble), (o1)-[:FROM]->(c1),
        (press)-[:HAS_OBSERVATION]->(o1), (c5)-[:MENTIONS]->(wobble), (spindle)-[:REFERS_TO]->(part)
 """
@@ -141,6 +143,45 @@ def test_the_baseline_searches_the_chunk_vector_index(driver):
             driver.execute_query(f"DROP INDEX {CHUNK_VECTOR_INDEX} IF EXISTS")
 
 
+def test_the_database_refuses_to_plan_writes_unknown_names_and_bad_syntax(driver):
+    build(driver)
+    store = Neo4jGraphStore(driver, PLAN, hops=1)
+    assert store.explain("MATCH (p:Press) WHERE p.name = $n RETURN p.name LIMIT 5", {"n": "x"}) == []
+    assert "not read-only" in store.explain("MATCH (p:Press) SET p.name = 'x'", {})[0]
+    unknown = " ".join(store.explain("MATCH (p:Nope)-[:NEVER]->(q) RETURN q.absent LIMIT 5", {}))
+    assert "`Nope`" in unknown and "`NEVER`" in unknown and "`absent`" in unknown
+    assert "cannot plan it" in store.explain("MATCH (p RETURN p", {})[0]
+
+
+def test_a_read_runs_and_a_write_is_refused_by_the_read_transaction_itself(driver):
+    build(driver)
+    store = Neo4jGraphStore(driver, PLAN, hops=1, cypher_timeout_s=5)
+    result = store.run_read("MATCH (p:Press) RETURN p.name ORDER BY p.name", {})
+    assert result.rows == [["Lark Press"], ["Quill Press"]] and result.error is None
+    # the text check would never let this through; the server refuses it on its own too
+    refused = store.run_read("CREATE (:Press {name: 'intruder'})", {})
+    assert refused.rows == [] and "read access mode" in refused.error
+    assert driver.execute_query("MATCH (p:Press {name: 'intruder'}) RETURN p").records == []
+
+
+def test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns(driver):
+    build(driver)
+    schema = Neo4jGraphStore(driver, PLAN, hops=1).schema()
+    press = next(info for info in schema.labels if info.label == "Press")
+    assert press.count == 2 and [p.name for p in press.properties] == ["name", "press_id"]
+    assert press.properties[0].examples == ["Lark Press", "Quill Press"]
+    chunk = next(info for info in schema.labels if info.label == "Chunk")
+    # long text and vectors are never shown: no filter or count needs them
+    assert {p.name for p in chunk.properties} == {"chunk_id"}
+    assert any(
+        r.type == "MADE_BY" and (r.source, r.target) == ("Part", "Maker") for r in schema.relationships
+    )
+    assert [(c.subject_type, c.predicate, c.object_type) for c in schema.claims] == [
+        ("Component", "HAS_CONDITION", "Condition")
+    ]
+    assert "- :Press (2): name e.g. 'Lark Press', 'Quill Press'" in schema.text()
+
+
 class AxisEmbedder:
     """Every text on the first axis, so a chunk on that axis ranks first."""
 
@@ -180,13 +221,30 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
         entities=["Quill Press"],
         citations=[ReaderCitation(chunk_id="notes.md#0", quote="the spindle wobbles")],
     )
+    count = "MATCH (d:Document) WHERE d.doc_id = {} RETURN count(d) AS n"
+    proposals = [  # the first quotes its value and is refused; the retry passes it as a parameter
+        CypherProposal(cypher=count.format("'notes.md'"), answer_form="number"),
+        CypherProposal(
+            cypher=count.format("$doc"),
+            parameters=[CypherParameter(name="doc", value="notes.md")],
+            answer_form="number",
+        ),
+    ]
+
+    def script(prompt, schema):
+        if schema is RouteChoice:
+            return RouteChoice(route="exact" if "How many" in prompt else "retrieval", reason="r")
+        if schema is CypherProposal:
+            return proposals.pop(0)
+        return reply
+
     tracker = RecordingTracker()
-    settings = Settings(qa_model="reader-model", qa_top_k=2, qa_link_neighbours=0, qa_workers=2)
+    settings = Settings(qa_model="reader-model", qa_top_k=2, qa_link_neighbours=0, qa_workers=1)
     ctx = PipelineContext(
         settings=settings,
         driver=driver,
         out=out,
-        llm=ScriptedLLM(lambda prompt, schema: reply),
+        llm=ScriptedLLM(script),
         embedder=AxisEmbedder(),
         tracker=tracker,
     )
@@ -195,19 +253,25 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
 
     run = tracker.run("qa_graph")
     assert run.logged_params["system"] == "graph" and run.logged_params["model"] == "reader-model"
-    assert {"prompt_version", "qa_hops", "qa_link_fuzzy", "gold_hash", "workers"} <= set(run.logged_params)
+    assert {
+        "prompt_version", "router_prompt_version", "cypher_prompt_version", "qa_hops", "qa_link_fuzzy",
+        "qa_cypher_limit", "qa_cypher_timeout_s", "gold_hash", "workers",
+    } <= set(run.logged_params)  # fmt: skip
     metrics = run.logged_metrics
-    # Q1 right; Q2 wanted a number and got names; Q3 is free text and waits for the judge
-    assert (metrics["answer_accuracy"], metrics["answer_accuracy_n"], metrics["answers_unjudged"]) == (
-        0.5,
-        2,
-        1,
-    )
+    # Q1 read from the text, Q2 counted by the retried query; Q3 is free text and waits for the judge
+    assert metrics["answer_accuracy"] == 1.0 and metrics["answer_accuracy_n"] == 2
+    assert metrics["answers_unjudged"] == 1 and metrics["route_accuracy"] == 1.0
+    assert (metrics["routed_exact"], metrics["exact_answered"], metrics["exact_fallbacks"]) == (1, 1, 0)
+    assert (metrics["cypher_proposals"], metrics["cypher_refused"]) == (2, 1)
     assert metrics["recall_at_k"] == 1.0  # Q1's and Q3's gold chunks are among the two shown
     assert metrics["citation_faithfulness"] == 1.0 and metrics["questions_unlinked"] == 0
     answers = load_system_answers(out / "answers_graph.jsonl")
     assert [a.question_id for a in answers] == ["Q1", "Q2", "Q3"]
     assert answers[0].retrieved[0] == "notes.md#0" and answers[0].trace.linked
+    # the exact answer keeps both proposals: the refused one with its reason, the one that ran with a LIMIT
+    refused, ran = answers[1].exact.attempts
+    assert "parameter" in refused.issues[0] and not ran.issues and ran.cypher.endswith("LIMIT 100")
+    assert answers[1].number == 1.0 and answers[1].retrieved == []
     assert any(path.endswith("answers_graph.jsonl") for path in run.artifacts)
     report = json.loads((out / "qa_report_graph.json").read_text(encoding="utf-8"))
     assert report["k"] == 2

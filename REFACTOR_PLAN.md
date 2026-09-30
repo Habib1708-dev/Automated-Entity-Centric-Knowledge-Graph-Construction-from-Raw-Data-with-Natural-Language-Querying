@@ -2274,7 +2274,7 @@ code exists, as R63 measured false paths before R64 fixed them. $0, no run.
     "counts, ranks or collects every match". Gate: 300 passed (288 after part 1), `ruff check` clean.
     $0, no run. **R70 done.**
 
-### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; part a done 2026-09-30)
+### R71. Question answering over the graph, and the vector-only baseline (layered-model Step 2; parts a and b done 2026-09-30)
 Makes the system GraphRAG end to end on the observation-graph arm's graphs as they are, so every later step
 has a baseline in answer quality (task file, Step 2). Two parts, one commit each, then the runs, asked
 first. The user chose DeepSeek (`deepseek-flash`) for everything the query stage asks a model (2026-09-30);
@@ -2316,7 +2316,37 @@ embeddings stay Gemini's, as DeepSeek has none.
     each pattern, the hop limit, no walk through a shared document, names and chunks, the vector index,
     `kg qa` end to end with params, metrics and the answers file), `tests/test_qa.py` (unjudged free text,
     recall over all questions, metric names). Gate: 326 passed (300 before), `ruff check` clean. No run.
-- **Part (b): the exact route and the router (open).**
+- **Part (b): the exact route and the router (done 2026-09-30).**
+  - `exact.py` (text2cypher): the model gets the graph's schema, read from the graph itself
+    (`graph_schema.py`: labels with property keys and three example values, relationship patterns,
+    claim patterns; chunk text, vectors and quotes left out), and proposes one query, its parameters
+    and its answer form. Three guards before an answer: the text check (`cypher_check.py`: nothing that
+    writes, calls a procedure, loads a file or switches database, checked with quoted names and
+    comments taken out; no quoted text value; every `$name` given; one statement; a LIMIT added up to
+    `qa_cypher_limit` 100, a larger one refused), the database's plan (`EXPLAIN`: query type `r`, and
+    Neo4j 5.26's warnings 01N50/01N51/01N52 on unknown labels, types and property keys), and the run in
+    a read transaction that the database cancels at `qa_cypher_timeout_s` 10 and in which it refuses
+    any write on its own (verified: "Writing in read access mode not allowed"). A refused or failing
+    query gets one retry with its reasons; a second failure gives up. Code reads the rows: the first
+    column's distinct values as names, or its one number.
+  - `router.py`: the model labels a question `exact` (count, rank, list every match, filter on a
+    record field) or `retrieval` (what the texts say, how, why, when), with the schema in view.
+    `systems.RoutedGraph` is the graph system `kg qa` scores: exact when the router says so and the
+    route answers, retrieval otherwise; a fallback keeps the router's label (for `route_accuracy`) and
+    the exact trace (for the failure analysis). Answers carry `route`; `validation/qa.py` scores it
+    against the gold's route, leaving out answers without a label (the vector baseline).
+  - The `qa_graph` run logs the router and Cypher prompt versions, `qa_cypher_limit`,
+    `qa_cypher_timeout_s`, and `routed_exact`, `routed_retrieval`, `exact_answered`,
+    `exact_fallbacks`, `cypher_proposals`, `cypher_refused`, `route_accuracy`.
+  - Tests: `tests/test_query_exact.py` (the text check: a read passes with a LIMIT, eight writing or
+    calling queries refused, a keyword in a quoted name or comment is no clause, quoted values and
+    missing parameters refused, one statement, the LIMIT cap; rows as names or a number; the retry
+    with its reasons; two failures give up; the router; the routed system's exact answer, fallback
+    and retrieval; the router and Cypher prompts quote no corpus); `tests/test_query_graph.py`
+    (Neo4j: EXPLAIN refuses a write, unknown names and bad syntax; a read runs and a write is refused
+    by the read transaction itself; the schema reader; `kg qa` end to end now routes, retries a
+    refused query and counts); `tests/test_qa.py` (route accuracy). Gate: 350 passed (326 after part
+    a), `ruff check` clean. No run.
 - **Runs (open, asked first with a cost estimate):** both gold sets and the generality corpus through both
   systems on the Step 0 graphs; the judge scores the free-text answers.
 

@@ -15,13 +15,13 @@ from pathlib import Path
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..llm.base import Embedder, prompt_version
 from ..llm.thinking import with_thinking
-from ..query import reader
+from ..query import exact, reader, router
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.graph_store import Neo4jGraphStore
-from ..query.systems import QASystem, VectorBaseline, build_graph_retrieval
+from ..query.systems import QASettings, QASystem, VectorBaseline, build_routed_graph
 from ..tracking.base import Run
 from ..validation.qa import QAReport, load_qa_verdicts, score_qa
-from ..validation.qa_gold import load_qa_gold
+from ..validation.qa_gold import Route, load_qa_gold
 from .inputs import digest, input_file
 from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
@@ -36,20 +36,27 @@ def _embedder(ctx: PipelineContext) -> Embedder:
 
 
 def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QASystem:
-    """The system named `system` over the current graph, with the settings' reader and k."""
+    """The system named `system` over the current graph, with the settings' model, reader and k."""
     s = ctx.settings
     llm = with_thinking(ctx.require_llm(), s.qa_thinking)
     answer_reader = reader.Reader(llm, s.qa_model, s.llm_temperature)
-    store = Neo4jGraphStore(ctx.driver, state.load_plan(ctx, required=False), s.qa_hops)
+    plan = state.load_plan(ctx, required=False)
+    store = Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s)
     if system == "vector":
         return VectorBaseline(store, _embedder(ctx), answer_reader, s.qa_top_k)
-    return build_graph_retrieval(
-        store, _embedder(ctx), answer_reader, s.qa_top_k, s.qa_link_fuzzy, s.qa_link_neighbours
+    settings = QASettings(
+        model=s.qa_model,
+        temperature=s.llm_temperature,
+        top_k=s.qa_top_k,
+        link_fuzzy=s.qa_link_fuzzy,
+        link_neighbours=s.qa_link_neighbours,
+        cypher_limit=s.qa_cypher_limit,
     )
+    return build_routed_graph(store, _embedder(ctx), llm, answer_reader, settings)
 
 
 def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
-    """What decides a system's answers: the reader's model and prompt, k, and the graph route's settings."""
+    """What decides a system's answers: the model, its prompts, k, and the graph system's settings."""
     s = ctx.settings
     params: dict[str, object] = {
         "system": system,
@@ -62,9 +69,22 @@ def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
     }
     if system == "graph":
         params.update(
-            qa_hops=s.qa_hops, qa_link_fuzzy=s.qa_link_fuzzy, qa_link_neighbours=s.qa_link_neighbours
+            router_prompt_version=prompt_version(router.PROMPT),
+            cypher_prompt_version=prompt_version(exact.PROMPT + exact.RETRY),
+            qa_hops=s.qa_hops,
+            qa_link_fuzzy=s.qa_link_fuzzy,
+            qa_link_neighbours=s.qa_link_neighbours,
+            qa_cypher_limit=s.qa_cypher_limit,
+            qa_cypher_timeout_s=s.qa_cypher_timeout_s,
         )
     return params
+
+
+def _log_prompts(run: Run, system: str) -> None:
+    run.text(reader.PROMPT, "prompts/qa_reader.txt")
+    if system == "graph":
+        run.text(router.PROMPT, "prompts/qa_router.txt")
+        run.text(exact.PROMPT + exact.RETRY, "prompts/qa_cypher.txt")
 
 
 def _check_system(system: str) -> str:
@@ -77,7 +97,7 @@ def _retrieval_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How often retrieval gave the reader nothing, and why: the first causes to check for a wrong answer."""
     traced = [a.trace for a in answers if a.trace is not None]
     return {
-        "questions_nothing_shown": sum(not a.shown for a in answers),
+        "questions_nothing_shown": sum(not a.shown and a.exact is None for a in answers),
         **(
             {
                 "questions_unlinked": sum(not t.linked for t in traced),
@@ -87,6 +107,20 @@ def _retrieval_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
             if traced
             else {}
         ),
+    }
+
+
+def _route_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
+    """How the router split the questions and how the exact route fared: its answers, its fallbacks to
+    retrieval, and the Cypher proposals the checks or the run refused."""
+    exact = [a.exact for a in answers if a.exact is not None]
+    return {
+        "routed_exact": sum(a.route == Route.EXACT for a in answers),
+        "routed_retrieval": sum(a.route == Route.RETRIEVAL for a in answers),
+        "exact_answered": sum(t.answered for t in exact),
+        "exact_fallbacks": sum(not t.answered for t in exact),
+        "cypher_proposals": sum(len(t.attempts) for t in exact),
+        "cypher_refused": sum(bool(a.issues) for t in exact for a in t.attempts),
     }
 
 
@@ -103,7 +137,7 @@ class AskStage(BaseStage):
         return {**_system_params(ctx, self.system), "question": state.need("question", "pass a question")}
 
     def run(self, ctx, state, run):
-        run.text(reader.PROMPT, "prompts/qa_reader.txt")
+        _log_prompts(run, self.system)
         answer = build_system(ctx, state, self.system).answer("ask", state.question)
         state.answer = answer
         run.metrics(retrieved=len(answer.retrieved), citations=len(answer.citations))
@@ -129,7 +163,7 @@ class QAStage(BaseStage):
 
     def run(self, ctx, state, run):
         s = ctx.settings
-        run.text(reader.PROMPT, "prompts/qa_reader.txt")
+        _log_prompts(run, self.system)
         gold = load_qa_gold(input_file(state.gold, "QA gold file"))
         system = build_system(ctx, state, self.system)
         # questions are independent; the pool keeps the model busy while each answer waits on the network
@@ -140,6 +174,8 @@ class QAStage(BaseStage):
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
         run.metrics(**_retrieval_metrics(answers))
+        if self.system == "graph":
+            run.metrics(**_route_metrics(answers))
         run.artifact(path)
         run.artifact(Path(state.gold))
 

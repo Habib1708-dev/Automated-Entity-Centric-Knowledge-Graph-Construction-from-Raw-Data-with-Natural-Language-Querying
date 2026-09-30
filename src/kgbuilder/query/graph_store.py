@@ -1,21 +1,26 @@
-"""Everything the query stage reads from the graph: node names, traversals, chunks and the vector index.
+"""Everything the query stage reads from the graph: node names, traversals, chunks, the vector index, and for
+the exact route the schema, the plan check (EXPLAIN) and the read-only run.
 
-Role in the pipeline: the one reader of Neo4j for question answering; systems.py depends on the
-`GraphStore` protocol, so it is tested with a fake and the Cypher is tested once, against Neo4j.
-Design: Repository. Read-only: nothing here writes to the graph.
-Not here: deciding which names link (names.py), which chunks to keep (systems.py).
+Role in the pipeline: the one reader of Neo4j for question answering; systems.py and exact.py depend on the
+`GraphStore` and `CypherStore` protocols, so they are tested with fakes and the Cypher is tested once,
+against Neo4j.
+Design: Repository. Read-only: nothing here writes to the graph, and the model's Cypher runs only in a read
+transaction, which the server refuses to write in.
+Not here: deciding which names link (names.py), which chunks to keep (systems.py), the text check of a
+model's query (cypher_check.py).
 """
 
-from typing import Protocol
+from typing import Any, Protocol
 
-from neo4j import Driver
-from neo4j.exceptions import ClientError
+from neo4j import READ_ACCESS, Driver, RoutingControl
+from neo4j.exceptions import ClientError, Neo4jError
 from pydantic import BaseModel
 
 from ..core.errors import MissingInputError
 from ..resolution.linking import read_domain_nodes
 from ..structured.plan import ConstructionPlan
 from ..text.lexical import CHUNK_VECTOR_INDEX
+from .graph_schema import GraphSchema, read_graph_schema
 from .names import NodeName
 from .traversal import reach
 
@@ -49,14 +54,74 @@ class GraphStore(Protocol):
         ...
 
 
-class Neo4jGraphStore:
-    """`GraphStore` over the pipeline's Neo4j graph. `plan` gives the domain labels and display names
-    (None for a text-only dataset: then there are no things); `hops` bounds `related_records`."""
+class ReadResult(BaseModel):
+    """The rows a read query returned, or why it failed (a runtime error, the timeout)."""
 
-    def __init__(self, driver: Driver, plan: ConstructionPlan | None, hops: int):
+    rows: list[list[Any]] = []  # Any: whatever Neo4j returns (text, numbers, lists, dates, nodes)
+    error: str | None = None
+
+
+class CypherStore(Protocol):
+    """What the exact route needs from the graph: its schema, a plan check and a read-only run."""
+
+    def schema(self) -> GraphSchema:
+        """The labels, relationships and claim patterns of the graph (graph_schema.py)."""
+        ...
+
+    def explain(self, cypher: str, parameters: dict[str, object]) -> list[str]:
+        """Why the database refuses to plan `cypher` as a read over known names; [] when it plans it."""
+        ...
+
+    def run_read(self, cypher: str, parameters: dict[str, object]) -> ReadResult:
+        """The rows of `cypher`, run in a read transaction that the database cancels at the timeout."""
+        ...
+
+
+# GQL status codes of EXPLAIN's warnings about names the database does not hold (Neo4j 5.26)
+_UNKNOWN_NAMES = {"01N50", "01N51", "01N52"}  # label, relationship type, property key
+
+
+class Neo4jGraphStore:
+    """`GraphStore` and `CypherStore` over the pipeline's Neo4j graph. `plan` gives the domain labels and
+    display names (None for a text-only dataset: then there are no things); `hops` bounds
+    `related_records`; `cypher_timeout_s` bounds every read of the exact route."""
+
+    def __init__(
+        self, driver: Driver, plan: ConstructionPlan | None, hops: int, cypher_timeout_s: float = 10.0
+    ):
         self._driver = driver
         self._plan = plan
         self._hops = hops
+        self._timeout = cypher_timeout_s
+
+    def schema(self) -> GraphSchema:
+        return read_graph_schema(self._driver)
+
+    def explain(self, cypher: str, parameters: dict[str, object]) -> list[str]:
+        try:
+            _, summary, _ = self._driver.execute_query(
+                "EXPLAIN " + cypher, parameters, routing_=RoutingControl.READ
+            )
+        except Neo4jError as e:  # a syntax error or a missing parameter: a reason for the retry, not a crash
+            return [f"the database cannot plan it: {e.message}"]
+        issues = []
+        # "r" is read-only; "rw", "w" and "s" (schema) all change something
+        if summary.query_type != "r":
+            issues.append(f"the database plans it as query type '{summary.query_type}', not read-only")
+        issues += [s.status_description for s in summary.gql_status_objects if s.gql_status in _UNKNOWN_NAMES]
+        return issues
+
+    def run_read(self, cypher: str, parameters: dict[str, object]) -> ReadResult:
+        try:
+            # a read session and transaction: the server itself refuses any write ("AccessMode" error)
+            with self._driver.session(default_access_mode=READ_ACCESS) as session:
+                tx = session.begin_transaction(timeout=self._timeout)
+                try:
+                    return ReadResult(rows=[list(record.values()) for record in tx.run(cypher, parameters)])
+                finally:
+                    tx.close()  # rolls back: a read has nothing to commit
+        except Neo4jError as e:  # the timeout or a runtime error: reported to the route, which may retry
+            return ReadResult(error=e.message or str(e))
 
     def node_names(self) -> list[NodeName]:
         things = [

@@ -46,12 +46,30 @@ class RetrievalTrace(BaseModel):
     reached_by: dict[str, list[str]] = {}  # traversal pattern -> the chunks it reached
 
 
+class ExactAttempt(BaseModel):
+    """One Cypher proposal of the exact route and what became of it."""
+
+    cypher: str  # as checked and run: with the LIMIT code added
+    parameters: dict[str, str | float | list[str]]
+    issues: list[str]  # why the checks or the run refused it; empty when it ran
+
+
+class ExactTrace(BaseModel):
+    """How the exact route answered, or why it gave up (then the question falls back to retrieval)."""
+
+    attempts: list[ExactAttempt]
+    answered: bool
+    rows: int = 0
+
+
 class SystemAnswer(QAAnswer):
-    """One system's answer to one question, with the chunks shown and, for the graph, its trace."""
+    """One system's answer to one question, with the chunks shown and, for the graph, its traces: the
+    retrieval route's, and the exact route's when the router chose it (also when it then fell back)."""
 
     system: str
     shown: list[ShownChunk] = []
     trace: RetrievalTrace | None = None
+    exact: ExactTrace | None = None
 
 
 def shown_texts(answers: list[SystemAnswer]) -> dict[str, str]:

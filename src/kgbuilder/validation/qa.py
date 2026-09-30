@@ -48,6 +48,9 @@ class QAAnswer(BaseModel):
     number: float | None = None
     text: str | None = None
     citations: list[Citation] = []
+    # the route the system's router chose (R71), scored against the gold's route; None for a system that
+    # has no router (the vector baseline), which is then left out of route accuracy
+    route: Route | None = None
 
 
 class AnswerVerdict(BaseModel):
@@ -81,6 +84,7 @@ class TypeScores(BaseModel):
     # chunks are few (14-15 per dataset), and the vector baseline answers every question by retrieval
     recall_all_at_k: Proportion
     faithful: Proportion  # citations whose quote code finds in the cited chunk, which the reader was given
+    route: Proportion  # router labels equal to the gold's route, over the answers that carry a label
 
 
 class QAReport(BaseModel):
@@ -112,6 +116,7 @@ def _shares(scores: TypeScores) -> dict[str, Proportion]:
         "recall_at_k": scores.recall_at_k,
         "recall_all_at_k": scores.recall_all_at_k,
         "citation_faithfulness": scores.faithful,
+        "route_accuracy": scores.route,
     }
 
 
@@ -126,6 +131,7 @@ class _QuestionScore:
     needed_all: int
     faithful: int
     cited: int
+    route_right: bool | None  # None: the answer carries no route label
 
 
 def load_answers(path: Path) -> list[QAAnswer]:
@@ -246,11 +252,13 @@ def _score(
         needed_all=len(evidence),
         faithful=sum(citation_is_faithful(c, answer, chunk_texts) for c in answer.citations),
         cited=len(answer.citations),
+        route_right=None if answer.route is None else answer.route == question.route,
     )
 
 
 def _aggregate(scores: list[_QuestionScore]) -> TypeScores:
     judged = [s for s in scores if s.judged]
+    routed = [s for s in scores if s.route_right is not None]
     return TypeScores(
         questions=len(scores),
         correct=Proportion.of(sum(s.correct for s in judged), len(judged)),
@@ -258,6 +266,7 @@ def _aggregate(scores: list[_QuestionScore]) -> TypeScores:
         recall_at_k=Proportion.of(sum(s.hits for s in scores), sum(s.needed for s in scores)),
         recall_all_at_k=Proportion.of(sum(s.hits_all for s in scores), sum(s.needed_all for s in scores)),
         faithful=Proportion.of(sum(s.faithful for s in scores), sum(s.cited for s in scores)),
+        route=Proportion.of(sum(bool(s.route_right) for s in routed), len(routed)),
     )
 
 

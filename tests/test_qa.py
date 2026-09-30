@@ -286,6 +286,15 @@ def test_recall_at_k_counts_gold_chunks_in_the_top_k_of_retrieval_questions_only
         score_qa(GOLD, answers, CHUNKS, k=0, verdicts=verdicts())
 
 
+def test_route_accuracy_compares_the_routers_label_with_the_golds_route():
+    answers = right_answers()
+    answers[0] = answers[0].model_copy(update={"route": Route.RETRIEVAL})  # Q1 is a retrieval question
+    answers[1] = answers[1].model_copy(update={"route": Route.RETRIEVAL})  # Q2 wanted the exact route
+    route = score_qa(GOLD, answers, CHUNKS, k=5, verdicts=verdicts()).overall.route
+    # answers without a label (a system without a router) are left out, not counted as wrong
+    assert (route.k, route.n) == (1, 2)
+
+
 def test_recall_over_all_questions_also_counts_the_evidence_of_exact_route_questions():
     overall = score_qa(GOLD, right_answers(), CHUNKS, k=5, verdicts=verdicts()).overall
     # Q2 is exact-route: it cites lamp#0 but read nothing, which only the all-questions recall counts

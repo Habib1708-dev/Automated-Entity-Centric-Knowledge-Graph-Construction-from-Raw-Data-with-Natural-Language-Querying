@@ -205,6 +205,7 @@ src/kgbuilder/
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     qa_gold (question-answer gold file) -> qa (answer scoring)
   query/            names -> traversal / graph_store -> reader ; systems (graph route, vector-only baseline)
+                    router -> exact (text2cypher) with cypher_check and graph_schema ; systems.RoutedGraph
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
 ```
 
@@ -297,9 +298,13 @@ is judged claim by claim (R68).
 The graph as an index into the text (layered-model Step 2, R71). Two systems answer the same question with
 the same reader model and the same number of chunks (`QA_TOP_K`), so they differ only in how they choose:
 
-- `graph`: the question's names are linked to nodes by spelling (names and aliases) and by meaning (the
-  nearest names), four fixed traversal patterns lead to chunks (`query/traversal.py`), and the reached
-  chunks are ranked by similarity to the question;
+- `graph`: a router labels the question `exact` or `retrieval`. The exact route lets the model write one
+  Cypher query, which runs only after code checks its text (nothing that writes, calls or loads; values
+  as parameters; a LIMIT) and the database checks its plan (`EXPLAIN`: read-only, known labels, types
+  and properties), in a read transaction with a timeout; a refused query gets one retry, then the
+  question falls back to retrieval. The retrieval route links the question's names to nodes by
+  spelling (names and aliases) and by meaning (the nearest names), follows four fixed traversal
+  patterns to chunks (`query/traversal.py`) and ranks them by similarity to the question;
 - `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph.
 
 1. `kg qa GOLD` asks every question of a gold file (`tests/gold/qa/`, format `validation/qa_gold.py`)

@@ -187,6 +187,10 @@ class Settings(BaseSettings):
     # mutual-nearest ER blocking, so no similarity scale has to be chosen per embedding model
     qa_link_neighbours: int = Field(default=3, ge=0)
     qa_workers: int = Field(default=8, ge=1)  # questions answered in parallel
+    # the exact route's Cypher (R71 part b): rows it may return (a LIMIT is added when the query has none,
+    # a larger one is refused) and seconds it may run before the database cancels it
+    qa_cypher_limit: int = Field(default=100, ge=1)
+    qa_cypher_timeout_s: float = Field(default=10.0, gt=0)
 
     @classmethod
     def settings_customise_sources(
