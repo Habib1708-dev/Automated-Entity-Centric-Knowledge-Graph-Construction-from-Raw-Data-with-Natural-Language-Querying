@@ -16,6 +16,8 @@ from .profiler import DataProfile
 # pick non-unique keys. The modeling rules encode the two table shapes (entity table, link table) and the
 # failure modes seen in practice: FK columns duplicated as properties, islands the keys join, inverse pairs.
 # Tables no key joins may stay apart (R72): unrelated record sets have nothing to relate by.
+# The `name_column` example is from an invented domain (beekeeping); until R75 it quoted the furniture
+# data ("Drawer Rails"), which steered every other dataset (prompt-engineering skill).
 PROPOSER_PROMPT = """You are an expert at knowledge graph modeling with property graphs.
 Design construction rules that turn the CSV files below into a graph serving the user's goal.
 
@@ -38,8 +40,8 @@ Modeling rules:
 - A file with no unique identifier and two foreign keys is a relationship file; its other columns
   are relationship properties.
 - Do not import foreign key columns as node properties.
-- Set `name_column` to the column holding the name a person would write in a review or report
-  (e.g. part_name "Drawer Rails", not a code like "drawer_unit_subassembly"); text is linked to nodes by it.
+- Set `name_column` to the column holding the name a person would write in a document
+  (e.g. hive_name "Linden Hive", not a code like "hive_unit_07"); text is linked to nodes by it.
 - Connect every pair of tables that the foreign keys join, directly or through a link table; tables that
   no key joins may stay apart. Skip files that are irrelevant to the goal.
 - No two relationships between the same pair of labels may be inverses or synonyms of each other.

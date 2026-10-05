@@ -296,7 +296,8 @@ class TextSchemaStage(_TextStage):
     def reload(self, ctx, state):
         state.text_schema = None
         schema = state.load_text_schema(ctx)
-        issues = text_schema.validate_text_schema(schema)
+        # with the plan, so that a hand-edited identity class is checked against the labels it names
+        issues = text_schema.validate_text_schema(schema, state.load_plan(ctx, required=False))
         if issues:  # a hand edit must pass the same gate as the LLM's proposal
             raise ProposalRejectedError("edited text schema", issues)
 

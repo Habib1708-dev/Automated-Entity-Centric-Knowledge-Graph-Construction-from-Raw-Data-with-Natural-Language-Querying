@@ -3,7 +3,8 @@
 Role in the pipeline: the contract between the LLM proposer (which writes a plan), the human (who
 reviews `out/plan.json`) and the importer (which executes it). `validate_plan` is the code gate every
 plan must pass, whether it came from the LLM or from a hand edit.
-Design: the field descriptions are sent to the LLM inside the response schema, so they are prompt text.
+Design: the field descriptions are sent to the LLM inside the response schema, so they are prompt text;
+their examples come from an invented domain (beekeeping), never from an evaluated dataset (R75).
 Not here: LLM calls (proposer.py) and graph writes (importer.py).
 """
 
@@ -21,7 +22,7 @@ _CODE_LIKE = re.compile(r"^[^\W_]+(?:[_.-][^\W_]+)+$")
 
 class NodeRule(BaseModel):
     source_file: str
-    label: str = Field(description="PascalCase node label, e.g. Product")
+    label: str = Field(description="PascalCase node label, e.g. Apiary")
     unique_column: str = Field(description="Column that uniquely identifies each node")
     properties: list[str] = Field(description="Other columns to import as node properties")
     description: str = Field(description="One sentence on what this node represents")
@@ -29,7 +30,7 @@ class NodeRule(BaseModel):
     name_column: str | None = Field(
         default=None,
         description=(
-            "The column people would use to refer to one node in text, e.g. part_name. It must be "
+            "The column people would use to refer to one node in text, e.g. hive_name. It must be "
             "unique_column or one of properties. Null when no column holds a readable name."
         ),
     )
@@ -53,7 +54,7 @@ def name_property(rule: NodeRule) -> str:
 
 class RelationshipRule(BaseModel):
     source_file: str
-    relationship_type: str = Field(description="UPPER_SNAKE_CASE type, e.g. SUPPLIED_BY")
+    relationship_type: str = Field(description="UPPER_SNAKE_CASE type, e.g. KEPT_AT")
     from_label: str
     from_column: str = Field(description="Column in source_file holding the from-node's key")
     to_label: str

@@ -2849,6 +2849,50 @@ any change to the graph's shape (task file, Step 4).
   invented filter impossible by construction, read_check counting only verified quotes, the retry and
   both fallbacks. **R74 done (code only).** Next: Step 5 (identity: mentions and canonical entities).
 
+### R75. Identity: mentions and canonical entities (layered-model Step 5; in progress)
+Which real-world entity a name refers to, and when two names in two documents are the same entity (task
+file, Step 5). Today an `:Entity` is one node per type and name across all documents, and resolution merges
+nodes physically (`apoc.refactor.mergeNodes`, undone only from snapshots): "Maria Lopez" of two documents is
+one node whether or not she is one person, and "J. Pike" never reaches "Jonathan Pike".
+- **Split (2026-10-05): five parts, one commit each, in order.** The step holds four concerns (the schema's
+  identity classes, the graph's new identity shape, joining individuals across documents, the identity
+  gold) plus its runs, and the shape change cannot be cut smaller without leaving the tree half-migrated.
+  - (a) Identity classes in the text schema ($0): every entity type declares `keyed` (with the plan labels
+    its records carry and the key attributes that tell same-named records apart), `individual` or
+    `concept`; code checks them against the plan; the proposer and critic know the rule; the prompt
+    cleanups of the plan proposer and of the schema's field descriptions (furniture words).
+  - (b1) Mentions and canonical entities ($0): `:Mention` per type, name and document replaces `:Entity`;
+    each mention `REFERS_TO` one canonical entity (a record, an `:Individual` or a `:Concept`) with
+    `{reason, score, evidence, by}`; records found by key, by name in scope, or by an attribute in the same
+    sentence; concepts resolved as today but written as edges, so `undo_merges` and the snapshots are
+    retired; every writer, reader, primitive compiler, traversal and the R65 gold questions moved to the
+    new shape; the flattening reader keeps the triples of today.
+  - (b2) One individual across documents and the new blocking rules ($0): name variants, and a join only
+    with evidence (the same record, a matching attribute, or an LLM adjudication quoting a sentence of each
+    document, verified by code); concept merges also blocked when the two names are different things in
+    one sentence, or a part and its whole.
+  - (c) Identity gold and its score ($0): mention pairs per dataset marked same or different with their
+    evidence sentences, written before any output on the new shape; identity precision and recall in
+    `kg eval`.
+  - (d) Runs, asked first: builds with identity classes on the three datasets, `kg qa`, judge.
+- **Part a: identity classes in the text schema (done 2026-10-05).** `text/schema.py`: `EntityType.identity`
+  (`keyed` / `individual` / `concept`, default `concept`, so a schema from before R75 loads and keeps its
+  rule), `record_labels` and `key_attributes` (keyed only); `FactType.part_of` (claims stating that the
+  subject is one of the pieces the object is made of; read by part b2's part-whole block);
+  `identity_issues` checks against the plan: a keyed type names at least one plan label, each key
+  attribute is a column of one of them, other types name neither, and a type named like a plan label must
+  be keyed (the prompt asks for that name only so that code can link). `validate_text_schema(schema, plan)`
+  is the gate of the refine loop and of the stage's reload. The proposer has an identity rule and a
+  part-of rule, the critic one question; the field descriptions' examples are invented (beekeeping), and
+  "a named part belongs to the product" became "a thing the text names belongs to the thing the whole
+  document is about". Prompt cleanup (generality cleanups): the plan proposer's `name_column` example
+  ("Drawer Rails", "drawer_unit_subassembly") and the plan's field descriptions ("Product", "part_name",
+  "SUPPLIED_BY") are invented too. Prompt versions of the plan and text-schema proposers change; no run,
+  since the plans stay frozen and the schemas are rebuilt in part d. Tests: `tests/test_identity_classes.py`
+  (14: old schemas read as concepts, each identity issue, no keyed type without a plan, the refine loop
+  sends a wrong label back, no corpus word or 4-gram in either proposer, critic or response schema);
+  the pipeline test's `Product` type is keyed now. Gate: 436 passed (422 before), `ruff check` clean.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

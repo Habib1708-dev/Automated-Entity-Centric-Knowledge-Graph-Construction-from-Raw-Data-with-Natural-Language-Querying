@@ -34,7 +34,8 @@ from .sample_plans import GOOD_PLAN
 
 SCHEMA = TextSchema(
     entity_types=[
-        EntityType(name="Product", description="a product"),
+        # named like the plan's label, so keyed to it (R75: the schema check refuses it otherwise)
+        EntityType(name="Product", description="a product", identity="keyed", record_labels=["Product"]),
         EntityType(name="Problem", description="a defect"),
     ],
     fact_types=[
@@ -338,7 +339,7 @@ def test_text_schema_validation():
         fact_types=[FactType(predicate="has", subject_type="Product", object_type="Nope", description="x")],
     )
     assert len(validate_text_schema(bad)) >= 3
-    assert validate_text_schema(SCHEMA) == []
+    assert validate_text_schema(SCHEMA, GOOD_PLAN) == []  # its keyed type names the plan's label
 
 
 def llm_free_context(driver, out) -> PipelineContext:
