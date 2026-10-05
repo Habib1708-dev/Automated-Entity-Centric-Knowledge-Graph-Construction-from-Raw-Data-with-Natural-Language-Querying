@@ -1,15 +1,16 @@
 """Linking: the pure matching functions that decide ABOUT links, and (with Neo4j) scoped linking end to end
-together with the identity stage (R75): a generic part name in a review refers to the part of the product
-the review is about, and the claim, attached to that product (HAS_OBSERVATION), leads to the supplier of
-the product's part. Mention-to-record matching itself is tested in test_records.py."""
+together with the identity and attach stages (R75, R76): a generic part name in a review refers to the part
+of the product the review is about, and the claim, attached to that product (HAS_OBSERVATION), leads to the
+supplier of the product's part. Mention-to-record matching itself is tested in test_records.py, the
+attachment routes in test_attachment.py."""
 
 import pytest
 
+from kgbuilder.resolution.attachment import attach_claims
 from kgbuilder.resolution.identity import IdentitySettings, resolve_identity
 from kgbuilder.resolution.linking import (
     DomainNode,
     RecordKey,
-    attach_observations,
     link_graphs,
     match_chunk_records,
     match_document,
@@ -116,10 +117,15 @@ def test_a_defect_in_a_review_can_be_traced_to_the_supplier_of_that_products_par
 
     report = link_graphs(driver, LINK_PLAN)
     assert report.documents_linked == 1
-    assert attach_observations(driver) == 1
     identity = resolve_identity(driver, LINK_SCHEMA, LINK_PLAN, None, "m", SETTINGS)
     [legs] = [a for a in identity.assignments if a.said == "legs"]
     assert (legs.kind, legs.reason, legs.name) == ("record", "name", "Legs")
+    # the claim hangs on the chair (its document) and on the chair's legs (named in its quote): two kinds
+    attached = attach_claims(driver, LINK_PLAN, LINK_SCHEMA)
+    assert (attached.observations_attached, attached.by_route) == (
+        1,
+        {"key_in_sentence": 1, "part_of": 0, "section": 0, "document": 1},
+    )
 
     # the root-cause question: the product the claim hangs on, then that product's part and its supplier
     records, _, _ = driver.execute_query(
@@ -197,7 +203,7 @@ def test_a_record_document_links_to_its_record_by_key_never_by_title(driver):
     ]
 
     # the claim extracted from the record's own text hangs on the record as its thing (R67 part 1)
-    assert attach_observations(driver) == 1
+    assert attach_claims(driver, plan, None).observations_attached == 1
     records, _, _ = driver.execute_query(
         "MATCH (r:Recall)-[:HAS_OBSERVATION]->(:Observation {id: 'o1'}) RETURN r.recall_id AS id"
     )
@@ -242,15 +248,16 @@ def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_thin
     [civic] = resolve_identity(driver, schema, plan, None, "m", SETTINGS).assignments
     assert (civic.kind, civic.reason, civic.name) == ("record", "contained", "CIVIC")
 
-    # one claim, two things (R67 decision): the vehicle of the document AND the complaint of the section
-    assert attach_observations(driver) == 1
+    # one claim, two things (R67 decision, kept by R76's precedence per kind): the vehicle, which the
+    # quote names (so the most specific route of its kind), AND the complaint of the section
+    assert attach_claims(driver, plan, schema).observations_attached == 1
     records, _, _ = driver.execute_query(
         "MATCH (n)-[h:HAS_OBSERVATION]->(:Observation {id: 'o1'}) "
-        "RETURN labels(n)[0] AS thing, h.name AS name ORDER BY thing"
+        "RETURN labels(n)[0] AS thing, h.name AS name, h.how AS how ORDER BY thing"
     )
-    assert [(r["thing"], r["name"]) for r in records] == [
-        ("Complaint", "11440801"),
-        ("Vehicle", "CIVIC"),
+    assert [(r["thing"], r["name"], r["how"]) for r in records] == [
+        ("Complaint", "11440801", "section"),
+        ("Vehicle", "CIVIC", "key_in_sentence"),
     ]
 
     # rerunning recomputes chunk links too, instead of adding to them

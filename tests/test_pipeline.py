@@ -136,7 +136,7 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     # tracking contract (mlflow-tracking skill): one run per stage, with the params that explain the result
     assert [r.name for r in tracker.runs] == [
         "pipeline", "profile", "plan", "build_domain", "ingest_text",
-        "text_schema", "extract", "link", "resolve", "validate",
+        "text_schema", "extract", "link", "resolve", "attach", "validate",
     ]  # fmt: skip
     assert {"model", "temperature", "prompt_version", "critic_prompt_version"} <= set(
         tracker.run("plan").logged_params
@@ -150,6 +150,12 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     )
     assert {"er_auto_merge", "er_borderline"} <= set(tracker.run("resolve").logged_params)
     assert tracker.run("link").logged_metrics["facts_derived"] == 0  # the scripted schema derives nothing
+    # every claim hangs on the product (R76): the attach run logs its edges per route
+    attach_metrics = tracker.run("attach").logged_metrics
+    assert attach_metrics["observations_attached"] == attach_metrics["observations_total"] > 0
+    assert {f"attached_{how}" for how in ("key_in_sentence", "part_of", "section", "document")} <= set(
+        attach_metrics
+    )
     extract_metrics = tracker.run("extract").logged_metrics
     assert {"accept_rate", "triples_per_chunk", "rejected"} <= set(extract_metrics)
     assert extract_metrics["rejected_off_schema_rate"] == 0.0

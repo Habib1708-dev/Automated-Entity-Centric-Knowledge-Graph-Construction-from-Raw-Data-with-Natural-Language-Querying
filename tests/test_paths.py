@@ -11,7 +11,7 @@ from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 from kgbuilder.text.schema import EntityType, FactType, TextSchema
-from kgbuilder.validation.checks.base import StoredFact
+from kgbuilder.validation.checks.base import Attached, StoredFact
 from kgbuilder.validation.evaluate import EvalReport
 from kgbuilder.validation.gold import GoldSet
 from kgbuilder.validation.paths import score_paths
@@ -178,3 +178,84 @@ def test_rescore_stage_logs_path_truth_and_the_schema_it_used(driver, tmp_path):
     run = tracker.run("rescore")
     assert run.logged_params["text_schema_hash"]
     assert run.logged_metrics["path_truth"] == 1.0 and run.logged_metrics["paths_total"] == 0
+
+
+# The attached graph (R76): each attachment is true when the evidence of its route holds.
+PART_OF_SCHEMA = SCHEMA.model_copy(
+    update={"fact_types": [f.model_copy(update={"part_of": f.derived}) for f in SCHEMA.fact_types]}
+)
+
+
+def hung(fact: StoredFact, *attachments: tuple[str, str, str], about=(), sections=()) -> StoredFact:
+    """The fact with its attachments as (thing, route, evidence)."""
+    return fact.model_copy(
+        update={
+            "attachments": [Attached(thing=t, how=h, evidence=e) for t, h, e in attachments],
+            "things": [t for t, _, _ in attachments],
+            "about": list(about),
+            "sections": list(sections),
+        }
+    )
+
+
+def test_in_the_attached_graph_a_path_is_true_when_its_routes_evidence_holds():
+    rough = defect("drawer rails", "rough", "dresser.md").model_copy(
+        update={"evidence": "The drawer rails of the Helsingborg Dresser feel rough."}
+    )
+    graph = [
+        part_of("drawer rails", DRESSER, "dresser.md"),  # the part-of claim the part_of route rests on
+        # one claim of a document about the dresser, read once per attachment
+        hung(rough, (DRESSER, "key_in_sentence", "Helsingborg Dresser"), about=[DRESSER]),
+        hung(rough, (DRESSER, "part_of", "quote"), about=[DRESSER]),
+        hung(rough, ("11440801", "section", "dresser.md#1"), about=[DRESSER], sections=["11440801"]),
+        hung(rough, (DRESSER, "document", "dresser.md"), about=[DRESSER]),
+    ]
+    report = score_paths(graph, PART_OF_SCHEMA)
+    assert (report.paths_total, report.paths_true, report.false_paths) == (4, 4, [])
+    # the observation graph's rule holds only where the document is about the thing
+    assert report.paths_true_about == 3 and report.truth_about == 0.75
+
+
+def test_an_attachment_whose_evidence_no_longer_holds_is_a_false_path():
+    rough = defect("drawer rails", "rough", "dresser.md")  # its quote names nothing
+    stale = [
+        hung(rough, (DRESSER, "key_in_sentence", "Helsingborg Dresser")),  # the name is not in the quote
+        hung(rough, (BED, "part_of", "quote")),  # no part-of claim of this document makes the rails the bed's
+        hung(rough, ("11440801", "section", "dresser.md#1")),  # the chunk is ABOUT nothing (any more)
+        hung(rough, (BED, "document", "dresser.md"), about=[DRESSER]),  # a stale document link
+        hung(rough, (DRESSER, "by_magic", "?")),  # a route this reader does not know
+    ]
+    report = score_paths([part_of("drawer rails", DRESSER, "dresser.md"), *stale], PART_OF_SCHEMA)
+    assert (report.paths_total, report.paths_true) == (5, 0)
+    assert sorted(p.how for p in report.false_paths) == [
+        "by_magic", "document", "key_in_sentence", "part_of", "section",
+    ]  # fmt: skip
+
+
+def test_the_old_rule_is_logged_next_to_path_truth_only_for_an_attached_graph():
+    attached_graph = [
+        hung(defect("drawer rails", "rough", "dresser.md"), ("X", "section", "c"), sections=["X"])
+    ]
+    metrics = EvalReport(paths=score_paths(attached_graph, PART_OF_SCHEMA)).metrics()
+    assert (metrics["path_truth"], metrics["path_truth_about"]) == (1.0, 0.0)
+    assert "path_truth_about" not in EvalReport(paths=score_paths(LEAK, SCHEMA)).metrics()
+
+
+def test_rescore_reads_the_attachments_of_an_attached_graphs_sheet():
+    desk_fact, _ = LOGGED.facts
+    sheet = LOGGED.model_copy(
+        update={
+            "facts": [
+                desk_fact.model_copy(
+                    update={
+                        "things": ["Desk"],
+                        "attachments": [Attached(thing="Desk", how="section", evidence="c")],
+                        "sections": ["Desk"],
+                    }
+                )
+            ]
+        }
+    )
+    report = rescore(sheet, GoldSet(), schema=SCHEMA)
+    assert (report.paths.paths_total, report.paths.paths_true, report.paths.paths_true_about) == (1, 1, 0)
+    assert report.judge_sheet.facts[0].attachments == [Attached(thing="Desk", how="section", evidence="c")]

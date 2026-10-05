@@ -7,8 +7,9 @@ import pytest
 
 from kgbuilder.core.identity import mention_id
 from kgbuilder.core.text import pick_sentence, split_sentences
+from kgbuilder.resolution.attachment import attach_claims
 from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_mention, derive_facts
-from kgbuilder.resolution.linking import attach_observations, link_graphs
+from kgbuilder.resolution.linking import link_graphs
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.documents import Document
@@ -273,8 +274,9 @@ def test_a_shared_part_no_longer_carries_one_products_defect_to_another(driver):
 
     link_graphs(driver, PLAN)
     derive_facts(driver, SCHEMA, PLAN)
-    assert attach_observations(driver) == 3  # the failure and one derived PART_OF per product
-    assert attach_observations(driver) == 3  # recomputed, not added to
+    # no identity layer here, so the document route alone attaches (R76)
+    assert attach_claims(driver, PLAN, SCHEMA).observations_attached == 3  # the failure, one PART_OF each
+    assert attach_claims(driver, PLAN, SCHEMA).attachments == 3  # recomputed, not added to
 
     def claims(product: str) -> list[str]:
         records, _, _ = driver.execute_query(

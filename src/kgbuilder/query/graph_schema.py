@@ -18,8 +18,9 @@ from pydantic import BaseModel
 from ..core.cypher import cypher_ident
 
 # Properties never shown: text and vectors that no filter or count needs, and that would crowd out the rest
-# The identity edges' audit fields (R75: reason, score, by) are left out for the same reason
-_HIDDEN_PROPERTIES = {"embedding", "text", "evidence", "context", "reason", "score", "by"}
+# The identity edges' audit fields (R75: reason, score, by) and the attachments' route (R76: how, on
+# HAS_OBSERVATION and on a text ABOUT link) are left out for the same reason
+_HIDDEN_PROPERTIES = {"embedding", "text", "evidence", "context", "reason", "score", "by", "how"}
 _EXAMPLES = 3  # example values per property: enough to show a format ("2019", "POWER TRAIN:...")
 _EXAMPLE_CHARS = 60  # an example longer than this is cut: it shows the format, not the content
 

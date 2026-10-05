@@ -24,6 +24,15 @@ from ...text.schema import TextSchema
 from ..report import CheckOutput
 
 
+class Attached(BaseModel):
+    """One thing a claim hangs on (HAS_OBSERVATION, R76): its display name, the route that attached it and
+    the evidence the route found (resolution/attachment.py)."""
+
+    thing: str
+    how: str
+    evidence: str
+
+
 class StoredFact(BaseModel):
     """One observation of the graph, read as a triple: subject kind, predicate, object kind, and its source.
 
@@ -45,6 +54,10 @@ class StoredFact(BaseModel):
     # document is ABOUT; both empty for a graph or judge sheet from before R64, and for text-only data
     things: list[str] = []
     about: list[str] = []
+    # each attachment with its route and evidence (R76), and the things the claim's own chunk is ABOUT (its
+    # section, R67); both empty for a graph or judge sheet from before R76
+    attachments: list[Attached] = []
+    sections: list[str] = []
     # the claim's qualifiers (R66); the defaults are what a claim from before R66 or a derived one carries
     polarity: str = "neutral"
     time: str = ""
@@ -125,7 +138,12 @@ class CheckContext:
             f"{canonical_aliases('t')} AS object_aliases, "
             "[(n)-[h:HAS_OBSERVATION]->(o) WHERE h.name IS NOT NULL | h.name] AS things, "
             "[(o)-[:FROM]->(:Chunk)-[:PART_OF]->(:Document)-[a:ABOUT]->() WHERE a.name IS NOT NULL | a.name] "
-            "AS about"
+            "AS about, "
+            # attachments from before R76 have no route: leaving them out lets path truth score such a
+            # graph by the rule of its time (validation/paths.py)
+            "[(n)-[h:HAS_OBSERVATION]->(o) WHERE h.name IS NOT NULL AND h.how IS NOT NULL | "
+            "{thing: h.name, how: h.how, evidence: coalesce(h.evidence, '')}] AS attachments, "
+            "[(o)-[:FROM]->(:Chunk)-[a:ABOUT]->() WHERE a.name IS NOT NULL | a.name] AS sections"
         )
         rows = []
         for r in records:

@@ -87,6 +87,8 @@ class EvalReport(BaseModel):
         if self.paths is not None:
             paths = self.paths
             out.update(path_truth=paths.truth, paths_true=paths.paths_true, paths_total=paths.paths_total)
+            if paths.truth_about is not None:  # the observation graph's rule, kept for the series (R76)
+                out["path_truth_about"] = paths.truth_about
         if self.identity is not None:
             out.update(self.identity.metrics())
         return out

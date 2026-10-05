@@ -33,7 +33,7 @@ _COMPARISONS = {"=": "=", "!=": "<>", "<": "<", "<=": "<=", ">": ">", ">=": ">="
 # The text of each kind of item: what read_check and answer_from_chunks read. A record's text: the chunks its
 # claims come from, the documents about it, the sections about it and the claims of the mentions that refer
 # to it (as traversal.py's thing patterns); an entity's: the chunks of the claims whose mentions refer to it
-# and the chunks that mention it; a claim's: its own chunk.
+# or that hang on it (an individual, R76), and the chunks that mention it; a claim's: its own chunk.
 _ITEM_CHUNKS: dict[str, list[str]] = {
     "record": [
         "MATCH (t) WHERE elementId(t) IN $ids "
@@ -53,6 +53,8 @@ _ITEM_CHUNKS: dict[str, list[str]] = {
         "RETURN DISTINCT item, c.chunk_id AS chunk",
         f"MATCH (m:Mention) WITH m, {canonical_id('m')} AS item WHERE item IN $ids "
         "MATCH (m)<-[:MENTIONS]-(c:Chunk) RETURN DISTINCT item, c.chunk_id AS chunk",
+        "MATCH (t:Individual)-[:HAS_OBSERVATION]->(:Observation)-[:FROM]->(c:Chunk) WHERE t.id IN $ids "
+        "RETURN DISTINCT t.id AS item, c.chunk_id AS chunk",
     ],
     "claim": [
         "MATCH (o:Observation)-[:FROM]->(c:Chunk) WHERE o.id IN $ids "
@@ -178,9 +180,9 @@ def find_claims(
     time_words: str | None,
     cap: int,
 ) -> Fragment:
-    """The claims about the records (attached to them, or with a mention that refers to one) or naming the
-    entities (a mention that refers to one), narrowed by predicate, subject and object entities, tone and
-    time; None leaves a part out."""
+    """The claims about the records (attached to them, or with a mention that refers to one) or about the
+    entities (a mention that refers to one, or attached to an individual, R76), narrowed by predicate,
+    subject and object entities, tone and time; None leaves a part out."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
@@ -195,6 +197,7 @@ def find_claims(
         about.append(
             f"EXISTS {{ MATCH (o)-[:SUBJECT|OBJECT]->(e:Mention) WHERE {canonical_id('e')} IN $entities }}"
         )
+        about.append("EXISTS { MATCH (t:Individual)-[:HAS_OBSERVATION]->(o) WHERE t.id IN $entities }")
         params["entities"] = entities
     if about:
         where.append("(" + " OR ".join(about) + ")")

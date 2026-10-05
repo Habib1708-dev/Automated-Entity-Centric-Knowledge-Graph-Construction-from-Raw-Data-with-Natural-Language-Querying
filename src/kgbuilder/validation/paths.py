@@ -16,7 +16,14 @@ Two graph shapes, one question:
   observation's own document is ABOUT that thing. The link stage attaches observations exactly that way,
   so anything below 1.0 means the attachments and the ABOUT links have come apart (a stale link, an undo
   without `kg link`).
-In both, derived facts and kind structure are not paths: a fact between two part types ("drawer pulls
+- Attached graph (R76, layered-model Step 6): every HAS_OBSERVATION edge names the route that attached it
+  and its evidence, and a path is true when that evidence holds in the graph as it is: `key_in_sentence`,
+  the name stands in the claim's quote; `part_of`, a part-of claim of the same document has the claim's
+  subject and the thing as its whole; `section`, the claim's chunk is ABOUT the thing; `document`, its
+  document is. The rule of the observation graph is counted next to it (`path_truth_about`), so the series
+  stays comparable; it is below 1.0 by design wherever a claim hangs on what its quote or section names
+  rather than on the document's thing.
+In all three, derived facts and kind structure are not paths: a fact between two part types ("drawer pulls
 PART_OF drawer") says how a kind of thing is built, not what one document claims about one thing, and
 leaving it out keeps the two shapes' numbers comparable.
 Design: a pure function over `StoredFact`s, so it is tested without Neo4j and gives the same number on the
@@ -29,9 +36,9 @@ from collections.abc import Callable
 
 from pydantic import BaseModel
 
-from ..core.text import norm
+from ..core.text import contains_words, norm
 from ..text.schema import TextSchema
-from .checks.base import StoredFact
+from .checks.base import Attached, StoredFact
 from .gold import doc_of
 
 # an entity as resolution left it: (type, normalised display name). Facts keep their own wording (R44), but
@@ -48,17 +55,26 @@ class FalsePath(BaseModel):
     via: str  # what the path runs through: the shared part (edge graph) or the observation's chunk
     claim: str  # "subject -[PREDICATE]-> object", display names
     stated_in: list[str]  # the documents that do state the claim
+    how: str = ""  # the attachment's route (R76); empty before
 
 
 class PathReport(BaseModel):
     paths_total: int
     paths_true: int
     false_paths: list[FalsePath]
+    # the attached graph's paths by the observation graph's rule (R76); None for the other two shapes
+    paths_true_about: int | None = None
 
     @property
     def truth(self) -> float:
         # no path means nothing was asserted through a shared part, so nothing was wrong
         return self.paths_true / self.paths_total if self.paths_total else 1.0
+
+    @property
+    def truth_about(self) -> float | None:
+        if self.paths_true_about is None:
+            return None
+        return self.paths_true_about / self.paths_total if self.paths_total else 1.0
 
 
 def _key(entity_type: str, names: list[str]) -> EntityKey:
@@ -81,9 +97,64 @@ def score_paths(facts: list[StoredFact], schema: TextSchema) -> PathReport:
         # kind structure: see the module docstring
         return signature not in derived and not (f.subject_type in part_types and f.object_type in part_types)
 
+    if any(f.attachments for f in facts):
+        return _attachment_paths([f for f in facts if is_claim(f)], _part_wholes(facts, schema))
     if any(f.things for f in facts):
         return _observation_paths([f for f in facts if is_claim(f)])
     return _part_paths(facts, derived, is_claim)
+
+
+PartKey = tuple[str, str, str]  # (document, subject type, normalised subject wording): one mention
+
+
+def _part_wholes(facts: list[StoredFact], schema: TextSchema) -> dict[PartKey, set[str]]:
+    """For each part (one mention: its document, type and wording), the names of the wholes the part-of
+    claims of its document give it."""
+    wholes: dict[PartKey, set[str]] = defaultdict(set)
+    for f in facts:
+        if schema.is_part_of(f.subject_type, f.predicate, f.object_type):
+            wholes[(doc_of(f) or "", f.subject_type, norm(f.own_subject))] |= set(f.object_names)
+    return wholes
+
+
+def _holds(a: Attached, f: StoredFact, wholes: dict[PartKey, set[str]]) -> bool:
+    """Whether an attachment's evidence holds for its claim (the module docstring, attached graph)."""
+    if a.how == "key_in_sentence":
+        return contains_words(f.evidence or "", a.evidence)
+    if a.how == "part_of":
+        return a.thing in wholes.get((doc_of(f) or "", f.subject_type, norm(f.own_subject)), set())
+    if a.how == "section":
+        return a.thing in f.sections
+    if a.how == "document":
+        return a.thing in f.about
+    return False  # a route this reader does not know cannot be checked, so it is not counted as true
+
+
+def _attachment_paths(claims: list[StoredFact], wholes: dict[PartKey, set[str]]) -> PathReport:
+    """One path per (claim, attachment); true when the attachment's evidence holds."""
+    total = true = true_about = 0
+    false_paths: list[FalsePath] = []
+    for f in claims:
+        for a in sorted(f.attachments, key=lambda a: (a.thing, a.how)):
+            total += 1
+            true_about += a.thing in f.about
+            if _holds(a, f, wholes):
+                true += 1
+                continue
+            doc = doc_of(f)
+            false_paths.append(
+                FalsePath(
+                    thing=a.thing,
+                    via=f.chunk_id or "",
+                    claim=f"{f.own_subject} -[{f.predicate}]-> {f.own_object}",
+                    stated_in=[doc] if doc else [],
+                    how=a.how,
+                )
+            )
+    false_paths.sort(key=lambda p: (p.thing, p.via, p.claim))
+    return PathReport(
+        paths_total=total, paths_true=true, false_paths=false_paths, paths_true_about=true_about
+    )
 
 
 def _observation_paths(claims: list[StoredFact]) -> PathReport:

@@ -11,6 +11,7 @@ from pathlib import Path
 from ..core.errors import KgBuilderError
 from .stage import PipelineContext, PipelineState, Stage
 from .stages import (
+    AttachStage,
     BuildStage,
     ExtractStage,
     IngestTextStage,
@@ -28,7 +29,8 @@ Approve = Callable[[str, Path], bool]
 # Order matters: build needs the plan, the text schema uses the plan's node descriptions, link runs before
 # resolve because the identity stage matches mentions to records inside the scope of the things their
 # documents are ABOUT (R75; until R75 resolve merged entities first and link linked the merged ones),
-# validate sees the finished graph.
+# attach runs after resolve because two of its routes read the identity edges (R76), validate sees the
+# finished graph.
 FULL_PIPELINE: list[Stage] = [
     ProfileStage(),
     PlanStage(),
@@ -38,6 +40,7 @@ FULL_PIPELINE: list[Stage] = [
     ExtractStage(),
     LinkStage(),
     ResolveStage(),
+    AttachStage(),
     ValidateStage(),
 ]
 

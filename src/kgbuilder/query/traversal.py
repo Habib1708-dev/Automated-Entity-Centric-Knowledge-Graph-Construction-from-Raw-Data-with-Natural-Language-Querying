@@ -38,14 +38,17 @@ _THING_TEXT = [
     "MATCH (t)<-[:REFERS_TO]-(:Mention)<-[:MENTIONS]-(c:Chunk) RETURN DISTINCT c.chunk_id AS chunk_id",
 ]
 
-# The text of a kind: the chunks of the claims about it or pointing at it, and the chunks that mention it
-# (a mention without a claim still says the chunk talks about the kind). A kind is addressed by its canonical
-# id, which its mentions carry on their identity edge (graph/canonical.py).
+# The text of a kind: the chunks of the claims about it or pointing at it, those of the claims hung on it
+# (an individual whose name a claim's quote writes, R76), and the chunks that mention it (a mention without
+# a claim still says the chunk talks about the kind). A kind is addressed by its canonical id, which its
+# mentions carry on their identity edge (graph/canonical.py).
 _KIND_TEXT = [
     f"MATCH (m:Mention) WHERE {canonical_id('m')} IN $ids "
     "MATCH (m)<-[:SUBJECT|OBJECT]-(:Observation)-[:FROM]->(c:Chunk) RETURN DISTINCT c.chunk_id AS chunk_id",
     f"MATCH (m:Mention) WHERE {canonical_id('m')} IN $ids "
     "MATCH (m)<-[:MENTIONS]-(c:Chunk) RETURN DISTINCT c.chunk_id AS chunk_id",
+    "MATCH (t:Individual)-[:HAS_OBSERVATION]->(:Observation)-[:FROM]->(c:Chunk) WHERE t.id IN $ids "
+    "RETURN DISTINCT c.chunk_id AS chunk_id",
 ]
 
 # Domain nodes near a thing. Every node on the path must carry a domain label ($labels, from the plan), so

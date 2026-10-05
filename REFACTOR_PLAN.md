@@ -3093,10 +3093,75 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
   `heldout_gold.json` now state the evidence and the scope (a note-only correction, made after the run and
   listed here).
 
+### R76. Attachment: which entity each claim is about (layered-model Step 6; part a done 2026-10-05)
+A claim's grammatical subject ("mechanical seal") and the thing it is about (pump HP40-1183) are two things
+(task file, Step 6). Until R76 the second came only from the document's ABOUT link, which needed a file
+name to name a thing: the generality corpus's documents hung on nothing (R75 link run `28359903`: 0 of 32
+documents linked, 0 observations attached).
+- **Split: two parts, one commit each.** (a) The attach stage, the routes, path truth and the readers ($0,
+  no run). (b) Runs, asked first: the three R75 graphs rebuilt from the caches with `kg attach` ($0), then
+  `kg qa` on the three datasets and the paired comparison with Step 5 (estimate $0.5-1.0).
+- **Decision (the user, 2026-10-05):** the most specific route wins **per kind of thing** (a record's label,
+  an individual's type), not over all things: the task's literal rule would have taken the vehicle from
+  every held-out claim with a section record, against R67's decision that such claims hang on both.
+- **Part a: the attach stage (done 2026-10-05).** No run.
+  - `resolution/attachment.py` (new): `(record or :Individual)-[:HAS_OBSERVATION {name, how, evidence}]->
+    (Observation)`, decided by code from the text, the extractor unchanged. Routes, most specific first:
+    `key_in_sentence` (a name of a record or individual that a mention of the claim's own document refers
+    to, the mention's wording, the record's key or the canonical name, stands as whole words in the quote;
+    names under three characters are not looked for), `part_of` (a claim of the same document, of a fact
+    type marked `part_of`, has the claim's subject mention as its part and the thing as its whole),
+    `section` (the chunk is ABOUT the record, R67), `document` (the document is ABOUT it). Precedence per
+    kind, as decided; a thing found by several routes keeps the most specific one; a quote naming two
+    pumps attaches to both. Concepts never hold claims (R62's lesson). The text route for documents: a
+    document `kg link` leaves about nothing is made `ABOUT {how: 'text', evidence}` the record its sentences
+    name in at least 2 and at least twice as many as the next record ("named in 2 of 6 sentences; the
+    next record in 1"); individuals are no candidates.
+  - Stage order: `extract -> link -> resolve -> attach -> validate` (two routes read the identity edges);
+    `kg attach` is new, `kg link` no longer attaches, so its metric `observations_attached` moves to the
+    attach run. The identity stage's scope ignores the text ABOUT links (`mentions.read_mentions`), so a
+    rerun of `kg resolve` decides the same whether or not `kg attach` ran before it.
+  - Metrics of `attach`: `observations_total`, `observations_attached`, `attachments`,
+    `attached_<route>` (edges per route), `documents_about_by_text`, `documents_about_nothing`.
+  - Path truth (`validation/paths.py`), a third shape: when the graph's edges carry a route, a path is true
+    when its evidence holds in the graph as it is (the name in the quote; a part-of claim of the same
+    document with the claim's subject and the thing as whole; the chunk ABOUT the thing; the document ABOUT
+    it). The observation graph's rule is logged next to it as `path_truth_about`; it is below 1.0 by
+    design wherever a claim hangs on what its quote or section names rather than on the document's thing
+    (held-out was already 0.818 in Step 0 for that reason). So the task's "both `path_truth` numbers 1.0"
+    cannot hold for the old rule; it is read as `path_truth` 1.0: a `document` path is true by both rules
+    alike, so then every miss of the old rule is on another route, by design. The fact reader and the
+    judge sheet carry `attachments` and `sections`, so `kg rescore` gives the same number; graphs and
+    sheets from before R76 keep their old rule.
+  - Readers: a query plan's `find_claims` about an entity and the `entity` item text also follow
+    HAS_OBSERVATION from an `:Individual`, and so does the traversal's kind pattern; records already did.
+    The schema text hides `how` with the other audit fields, so no prompt input changes.
+    `TextSchema.is_part_of` is new.
+  - Tests: `tests/test_attachment.py` (7: each route, the precedence per kind, a claim naming two things,
+    the text route with its two bounds; with Neo4j an incident report under a neutral file name through
+    link, identity and attach: the seal's failure on the pump (G07's shape), the other pump replacing the
+    document's, a place named in a quote holding a claim it is no end of, the scope ignoring the text link,
+    idempotence, path truth 9 of 9 and 6 of 9 by the old rule, and a query plan reaching a claim through the
+    individual it hangs on); `tests/test_paths.py` (+4: each route true, each false when its evidence is
+    gone, `path_truth_about` only for an attached graph, rescore carrying the attachments); the linking,
+    derivation and pipeline tests moved to the new order (`attach` is a tracked stage of `kg run`). Gate:
+    500 passed (489 before), `ruff check` clean.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
+- **Documents attached by their text get no derived claims (found in R76).** Derivation runs in `kg link`,
+  before identity, so the derived fact types (furniture's `PART_OF` Product, held-out's `INSTALLED_IN`
+  Vehicle) are written only for documents a file name or a record links; the text route comes later. No
+  real dataset has such a document today (furniture 10 of 10, held-out 34 of 34 linked by `kg link`), and
+  the generality schema derives nothing.
+- **`kg link` alone leaves the attachments stale (R76).** It deletes the text ABOUT links but not the
+  HAS_OBSERVATION edges, which `kg attach` recomputes; path truth reports such a graph (a `document` path
+  without its ABOUT link), as it reported a stale link before.
+- **The text2cypher prompt still says "the record a claim is about has [:HAS_OBSERVATION]" (R76).** Since
+  R76 an individual may hold claims too. Left unchanged so that no prompt changes in a step without a
+  measured comparison; text2cypher is only a logged fallback since R74.
 - **The quote check counts a name inside the other side's longer name (found in R75 part d).** The furniture
   adjudicator joined "dimmer" and "dimmer function" (Örebro Lamp) with two quotes that both say "dimmer
   function"; `individuals.verified` accepts a quote for "dimmer" because "dimmer" is a substring of it. The

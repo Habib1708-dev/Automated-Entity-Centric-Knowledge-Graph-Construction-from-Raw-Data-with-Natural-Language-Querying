@@ -18,6 +18,7 @@ from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
 from ..llm.base import Embedder, LLMClient
 from ..query.answers import SystemAnswer
+from ..resolution.attachment import AttachReport
 from ..resolution.identity import IdentityReport
 from ..resolution.linking import LinkReport
 from ..resolution.resolver import ResolvePreview
@@ -98,6 +99,7 @@ class PipelineState:
     resolution: IdentityReport | None = None
     resolve_preview: ResolvePreview | None = None
     links: LinkReport | None = None
+    attachment: AttachReport | None = None
     validation: ValidationReport | None = None
     evaluation: EvalReport | None = None
     coverage: CoverageReport | None = None

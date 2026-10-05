@@ -11,6 +11,8 @@ Not here: any decision about what a mention refers to.
 from neo4j import Driver
 from pydantic import BaseModel
 
+from .attachment import TEXT_ABOUT
+
 
 class MentionRecord(BaseModel):
     """A `:Mention`: one name of one type in one document (R75)."""
@@ -43,10 +45,12 @@ def read_mentions(driver: Driver) -> list[MentionRecord]:
         "RETURN m.id AS id, m.name AS name, m.type AS type, m.doc_id AS doc_id, chunks, "
         "apoc.coll.sort(apoc.coll.toSet([(m)<-[:OBJECT]-(o:Observation) "
         "WHERE o.polarity IN ['positive', 'negative'] | o.polarity])) AS polarities, "
-        # the document's ABOUT links come from the link stage, which runs before identity (R75)
-        "apoc.coll.sort(apoc.coll.toSet([(m)<-[:MENTIONS]-(:Chunk)-[:PART_OF]->(:Document)-[:ABOUT]->(a) "
-        "| elementId(a)])) AS anchors "
-        "ORDER BY id"
+        # the document's ABOUT links come from the link stage, which runs before identity (R75); those the
+        # attach stage writes from the text (R76) rest on identity itself, so they are no scope
+        "apoc.coll.sort(apoc.coll.toSet([(m)<-[:MENTIONS]-(:Chunk)-[:PART_OF]->(:Document)-[l:ABOUT]->(a) "
+        "WHERE coalesce(l.how, '') <> $text | elementId(a)])) AS anchors "
+        "ORDER BY id",
+        text=TEXT_ABOUT,
     )
     return [MentionRecord(**r.data()) for r in records]
 

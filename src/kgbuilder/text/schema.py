@@ -119,6 +119,11 @@ class TextSchema(BaseModel):
         either."""
         return self.find(subject_type, predicate, object_type) is not None
 
+    def is_part_of(self, subject_type: str, predicate: str, object_type: str) -> bool:
+        """True when the signature is a fact type marked `part_of`: its subject is a piece of its object."""
+        fact = self.find(subject_type, predicate, object_type)
+        return fact is not None and fact.part_of
+
     def allows_extraction(self, subject_type: str, predicate: str, object_type: str) -> bool:
         """True when the extractor may return this signature: in the schema and not derived by code."""
         fact = self.find(subject_type, predicate, object_type)

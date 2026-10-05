@@ -293,9 +293,17 @@ def resolve(out: Path = OUT, undo: bool = False, preview: bool = False):
 
 @app.command()
 def link(out: Path = OUT):
-    """Link documents and sections to the domain graph, derive facts, attach claims (before `kg resolve`)."""
+    """Link documents and sections to the domain graph and derive facts (before `kg resolve`)."""
     with session(out) as ctx:
         report = run_stages(ctx, PipelineState(), [st.LinkStage()]).links
+    typer.echo(report.model_dump())
+
+
+@app.command()
+def attach(out: Path = OUT):
+    """Attach every claim to the records and individuals it is about (after `kg resolve`)."""
+    with session(out) as ctx:
+        report = run_stages(ctx, PipelineState(), [st.AttachStage()]).attachment
     typer.echo(report.model_dump())
 
 

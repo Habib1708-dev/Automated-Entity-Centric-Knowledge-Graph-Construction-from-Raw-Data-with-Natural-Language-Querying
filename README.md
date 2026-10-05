@@ -123,8 +123,8 @@ an 8 GB laptop GPU. That is why the smoke preset moved to the free Gemini key.
 - The proposal stages are not deterministic: a rerun can propose other labels and relation names. An
   evaluation run therefore pins both reviewed proposals before building: `copy tests\gold\domain_plan.json
   out\plan.json` and `copy tests\gold\text_schema.json out\text_schema.json`, then `kg build`,
-  `kg ingest-text`, `kg extract`, `kg link`, `kg resolve`, `kg eval tests/gold/text_gold.json` (since R75
-  `kg link` comes before `kg resolve`).
+  `kg ingest-text`, `kg extract`, `kg link`, `kg resolve`, `kg attach`, `kg eval tests/gold/text_gold.json`
+  (since R75 `kg link` comes before `kg resolve`; since R76 `kg attach` follows it).
 
 Stages can also be run one at a time, with human review points in between:
 
@@ -133,12 +133,15 @@ kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
                   ->  kg build data/
                   ->  kg ingest-text data/
                   ->  kg text-schema --goal "..."   (review out/text_schema.json)
-                  ->  kg extract  ->  kg link  ->  kg resolve [--undo]  ->  kg validate [--gold gold.json]
+                  ->  kg extract  ->  kg link  ->  kg resolve [--undo]  ->  kg attach
+                  ->  kg validate [--gold gold.json]
 ```
 
 `kg resolve` decides what every mention refers to (a record, an individual or a concept) and runs after
 `kg link`, because records are matched inside the scope of the things the documents are ABOUT;
-`kg resolve --undo` removes that identity layer again. `kg resolve --preview` lists the concept pairs a
+`kg resolve --undo` removes that identity layer again. `kg attach` then decides which records and
+individuals each claim is about (no LLM); it reads the identity edges, so it runs after every `kg resolve`
+and every `kg link`. `kg resolve --preview` lists the concept pairs a
 resolve run would consider (spelling or meaning, score, joined on spelling alone or asked to the LLM)
 without an LLM call or a write. Which pairs close in meaning are
 asked is a blocking rule (`er_embedding_blocking`): `threshold` (an absolute score, chosen per dataset) or
@@ -194,11 +197,19 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   it from `Mention <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one observation per
   mention chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`; its
   object is the document's mention of the product.
-- Links: `(Document)-[:ABOUT]->(domain node)`, `(Chunk)-[:ABOUT]->(record)` for a section whose heading
-  names the record's key, and `(domain node)-[:HAS_OBSERVATION]->(Observation)`, recomputed on every
-  `kg link`. An observation hangs on the thing its chunk's document is ABOUT and on the record its section
-  is ABOUT: code decides what a claim is about, never the model. Every question starts at the thing and
-  walks its observations:
+- Links: `(Document)-[:ABOUT]->(domain node)` and `(Chunk)-[:ABOUT]->(record)` for a section whose heading
+  names the record's key, recomputed on every `kg link`.
+- Attachment (since R76): `(record or :Individual)-[:HAS_OBSERVATION {name, how, evidence}]->(Observation)`,
+  recomputed on every `kg attach`. Code decides what a claim is about, never the model, and every edge names
+  its route: `key_in_sentence` (a name of a record or individual that a mention of the claim's document
+  refers to stands in the claim's quote: "the mechanical seal of pump HP40-1183 failed"), `part_of` (the
+  claim's subject is a part of the thing, by a claim of the same document of a fact type marked `part_of`),
+  `section` (the chunk is ABOUT the record) and `document` (the document is ABOUT it). A document `kg link`
+  leaves about nothing is ABOUT the record its sentences name clearly most often (`ABOUT {how: 'text'}`).
+  The most specific route wins per kind of thing (a record's label, an individual's type), so a quote
+  naming another staff member replaces the document's, while a complaint's section record and the
+  document's vehicle both keep the claim. Concepts never hold claims. Every question starts at the thing
+  and walks its observations:
 
   ```cypher
   MATCH (product)-[:HAS_OBSERVATION]->(o:Observation {predicate: 'HAS_DEFECT'})
@@ -220,9 +231,9 @@ src/kgbuilder/
   tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
-  resolution/       linking (ABOUT, attachment) -> derivation ; identity: mentions -> records ->
+  resolution/       linking (ABOUT) -> derivation ; identity: mentions -> records ->
                     individuals (variants) / concepts (matchers, blocking, guards: Strategies -> resolver
-                    decisions) -> identity_graph (the edges)
+                    decisions) -> identity_graph (the edges) ; attachment (HAS_OBSERVATION, after identity)
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)

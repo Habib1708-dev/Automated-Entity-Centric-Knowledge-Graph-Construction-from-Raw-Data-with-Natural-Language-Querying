@@ -22,7 +22,7 @@ from pydantic import BaseModel, model_validator
 
 from ..core.errors import EvaluationError
 from ..core.identity import observation_id
-from .checks.base import StoredFact
+from .checks.base import Attached, StoredFact
 from .er import ErSheet, PairVerdict
 from .gold import GoldTriple, doc_of, in_scope, matches
 
@@ -64,6 +64,9 @@ class SheetFact(BaseModel):
     # but `kg rescore` needs them to compute path truth for an observation graph from its sheet
     things: list[str] = []
     about: list[str] = []
+    # the same for the attachments' routes and the claim's section (R76)
+    attachments: list[Attached] = []
+    sections: list[str] = []
 
     @property
     def needs_verdict(self) -> bool:
@@ -230,6 +233,8 @@ def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
             gold_index=next((i for i, g in enumerate(gold) if matches(g, f)), None),
             things=f.things,
             about=f.about,
+            attachments=f.attachments,
+            sections=f.sections,
             polarity=f.polarity,
             time=f.time,
         )

@@ -16,11 +16,12 @@ from ..llm.base import prompt_version
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
 from ..resolution import concepts, individuals
+from ..resolution.attachment import attach_claims
 from ..resolution.blocking import Blocking, blocking_from
 from ..resolution.derivation import DerivationReport, derive_facts
 from ..resolution.identity import IdentityReport, IdentitySettings, resolve_identity
 from ..resolution.identity_graph import clear_identity
-from ..resolution.linking import attach_observations, link_graphs
+from ..resolution.linking import link_graphs
 from ..resolution.matchers import EmbeddingMatcher, FuzzyNameMatcher
 from ..resolution.mentions import read_mentions
 from ..structured import proposer
@@ -484,8 +485,8 @@ class UndoResolveStage(BaseStage):
 
 
 class LinkStage(BaseStage):
-    """Link documents and sections to the domain graph, write the facts the text schema derives, then
-    attach every observation to the thing its document is about. Runs before `resolve` (R75)."""
+    """Link documents and sections to the domain graph and write the facts the text schema derives. Runs
+    before `resolve` (R75); which things each claim is about is the attach stage's, after `resolve` (R76)."""
 
     name = "link"
 
@@ -502,10 +503,24 @@ class LinkStage(BaseStage):
             if schema is not None
             else DerivationReport(facts_derived=0, mentions_created=0, skipped_no_evidence=0)
         )
-        # last: derived observations need a thing too. Below the observation count when some documents are
-        # ABOUT nothing (their claims stay in the graph, tied to no thing)
-        attached = attach_observations(ctx.driver)
-        run.metrics(**state.links.model_dump(), **derived.model_dump(), observations_attached=attached)
+        run.metrics(**state.links.model_dump(), **derived.model_dump())
+
+
+class AttachStage(_TextStage):
+    """Attach every claim to the records and individuals it is about, each edge with the route that
+    justified it (R76). After `resolve`: two routes read the identity edges. No LLM."""
+
+    name = "attach"
+
+    def run(self, ctx, state, run):
+        report = attach_claims(
+            ctx.driver, state.load_plan(ctx, required=False), state.load_text_schema(ctx, required=False)
+        )
+        state.attachment = report
+        run.metrics(
+            **report.model_dump(exclude={"by_route"}),
+            **{f"attached_{how}": n for how, n in report.by_route.items()},
+        )
 
 
 class ValidateStage(BaseStage):

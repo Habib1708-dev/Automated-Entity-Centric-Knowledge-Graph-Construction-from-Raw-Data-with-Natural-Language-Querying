@@ -1,5 +1,5 @@
-"""Link the text graph to the domain graph: `(Document)-[:ABOUT]->(domain node)`, `(Chunk)-[:ABOUT]->(record)`
-and `(thing)-[:HAS_OBSERVATION]->(Observation)`.
+"""Link the text graph to the domain graph: `(Document)-[:ABOUT]->(domain node)` and
+`(Chunk)-[:ABOUT]->(record)`.
 
 Role in the pipeline: `kg link`, after the domain graph, the lexical graph and the subject graph exist, and
 before `kg resolve` (R75): the identity stage matches mentions to records inside the scope of the things
@@ -8,10 +8,9 @@ Design: read names and contexts from Neo4j, match in pure functions (unit-tested
 the links in batches. No LLM: a document is ABOUT the domain node whose name its file name contains, or -
 for a record document - the record of its own key; a section whose heading names a record's key is ABOUT
 that record (R67).
-An observation belongs to the thing its chunk's document is ABOUT (R64) and also to the record its own
-section is ABOUT (R67): code decides what a claim is about, never the model, and never through a shared
-kind node, which is what made one product's defects reachable from another in R62.
-Not here: what a mention refers to (records.py and identity.py, R75; until R75 entities were linked here).
+Not here: what a mention refers to (records.py and identity.py, R75; until R75 entities were linked here),
+which things a claim is about (attachment.py, after `kg resolve`, R76; until R76 observations were attached
+here, from these links alone), and the ABOUT links a document's text gives (attachment.py).
 """
 
 from neo4j import Driver
@@ -116,7 +115,9 @@ def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
     """Recompute all ABOUT links of documents and chunks. Idempotent; returns counts of what was linked."""
     domain = read_domain_nodes(driver, plan)
     # Links are derived data: recomputing them from scratch keeps a rerun (after a new plan, a resolve or
-    # an undo) from keeping links that the current graph no longer supports.
+    # an undo) from keeping links that the current graph no longer supports. The ABOUT links a document's
+    # text gives (attachment.py) go too: they rest on identity decisions, so `kg attach` writes them again
+    # after `kg resolve`.
     driver.execute_query("MATCH (:Document)-[l:ABOUT]->() DELETE l")
     driver.execute_query("MATCH (:Chunk)-[l:ABOUT]->() DELETE l")
 
@@ -140,7 +141,7 @@ def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
 
     # a section whose heading names a record's key is ABOUT that record (R67): the vehicle document's
     # "## Complaint 11440801" sections reach their Complaint records this way
-    record_keys = _read_record_keys(driver, plan)
+    record_keys = read_record_keys(driver, plan)
     chunks, _, _ = driver.execute_query("MATCH (c:Chunk) RETURN c.chunk_id AS id, c.text AS text")
     chunk_rows = [
         {"src": c["id"], "dst": r.element_id, "props": {"name": r.name}}
@@ -183,7 +184,7 @@ def _link_record_documents(driver: Driver, docs: list[dict]) -> int:
     return linked
 
 
-def _read_record_keys(driver: Driver, plan: ConstructionPlan) -> list[RecordKey]:
+def read_record_keys(driver: Driver, plan: ConstructionPlan) -> list[RecordKey]:
     """Element id, key (as text) and display name of every domain node, for section matching."""
     keys: list[RecordKey] = []
     for rule in plan.nodes:
@@ -196,30 +197,6 @@ def _read_record_keys(driver: Driver, plan: ConstructionPlan) -> list[RecordKey]
         )
         keys += [RecordKey(element_id=r["id"], key=r["key"], name=r["name"]) for r in records]
     return keys
-
-
-def attach_observations(driver: Driver) -> int:
-    """Recompute `(thing)-[:HAS_OBSERVATION {name}]->(o)` for every observation, from the ABOUT links of
-    its chunk's document AND of the chunk itself. Returns how many observations are attached.
-
-    Claims hang on both things (R67, decided with the user): the document's thing keeps the R65 questions
-    and path_truth meaningful, the section's record makes the claim reachable from the record. Runs after
-    derivation, so derived observations are attached like extracted ones. Recomputed from scratch, like
-    the other links, so a changed plan or an undone merge leaves no stale attachment.
-    """
-    driver.execute_query("MATCH ()-[h:HAS_OBSERVATION]->(:Observation) DELETE h")
-    driver.execute_query(
-        "MATCH (o:Observation)-[:FROM]->(:Chunk)-[:PART_OF]->(:Document)-[a:ABOUT]->(n) "
-        "MERGE (n)-[h:HAS_OBSERVATION]->(o) SET h.name = a.name"
-    )
-    driver.execute_query(
-        "MATCH (o:Observation)-[:FROM]->(:Chunk)-[a:ABOUT]->(n) "
-        "MERGE (n)-[h:HAS_OBSERVATION]->(o) SET h.name = a.name"
-    )
-    records, _, _ = driver.execute_query(
-        "MATCH ()-[:HAS_OBSERVATION]->(o:Observation) RETURN count(DISTINCT o) AS n"
-    )
-    return records[0]["n"]
 
 
 def _write_links(driver: Driver, source_match: str, relationship: str, rows: list[dict]) -> None:
