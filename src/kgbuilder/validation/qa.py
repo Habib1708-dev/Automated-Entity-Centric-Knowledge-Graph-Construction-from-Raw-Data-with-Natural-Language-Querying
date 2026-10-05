@@ -1,5 +1,6 @@
 """Scores of the question-answer benchmark (R70): answer correctness, retrieval recall@k and citation
-faithfulness, per question type, each with its n and Wilson interval.
+faithfulness, per question type, each with its n and Wilson interval, and one outcome row per question
+(R73) for the paired comparison of two systems (paired.py).
 
 Role in the pipeline: `kg qa` (Step 2 of the layered-model task) writes one answer per gold question
 (qa_gold.py) and scores the answers here. The judge (Claude in the session, `evaluation` skill) decides
@@ -7,7 +8,8 @@ only the free-text answers, through a verdict file with a reason for each.
 Design: the LLM proposes, code decides, also when answering: sets and numbers are compared by code, and
 every cited quote is looked up by code in a chunk the reader was given. Scoring is pure; the caller
 supplies the chunk texts.
-Not here: the gold file and its checks (qa_gold.py), answering (Step 2), MLflow.
+Not here: the gold file and its checks (qa_gold.py), answering (Step 2), comparing systems (paired.py),
+MLflow.
 """
 
 import math
@@ -87,12 +89,30 @@ class TypeScores(BaseModel):
     route: Proportion  # router labels equal to the gold's route, over the answers that carry a label
 
 
+class QAOutcome(BaseModel):
+    """One question's result for one system: a line of `qa_outcomes_<system>.jsonl` (R73).
+
+    The totals of `QAReport` cannot show which questions changed between two systems or two steps; these
+    rows can, and paired.py compares two files of them question by question.
+    """
+
+    question_id: str
+    type: QuestionType
+    system: str
+    correct: bool | None  # None: a free-text answer the judge has not decided yet
+    route: Route  # the gold's route
+    system_route: Route | None  # the router's label; None for a system without a router
+    cited_chunks: list[str]  # the chunk ids the answer cites, in its order
+
+
 class QAReport(BaseModel):
-    """All scores of one answers file; `by_type` has every type, so metric names stay stable."""
+    """All scores of one answers file; `by_type` has every type, so metric names stay stable. `outcomes`
+    holds one row per gold question, in the gold's order."""
 
     k: int
     overall: TypeScores
     by_type: dict[QuestionType, TypeScores]
+    outcomes: list[QAOutcome]
 
     def metrics(self) -> dict[str, float | int | None]:
         """Flat MLflow metrics: every rate overall with its interval and n, and every rate per type with its
@@ -150,6 +170,22 @@ def load_answers(path: Path) -> list[QAAnswer]:
     return answers
 
 
+def load_outcomes(path: Path) -> list[QAOutcome]:
+    """An outcome file written by `kg qa-score` (JSON lines), or `EvaluationError` naming each bad line."""
+    outcomes: list[QAOutcome] = []
+    issues: list[str] = []
+    for number, line in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            outcomes.append(QAOutcome.model_validate_json(line))
+        except ValidationError as e:
+            issues.append(f"outcomes line {number}: {e.errors()[0]['msg']}")
+    if issues:
+        raise EvaluationError(issues)
+    return outcomes
+
+
 def load_qa_verdicts(path: Path) -> QAVerdicts:
     """The verdict file, or `EvaluationError` naming every verdict that is not valid on its own."""
     try:
@@ -160,12 +196,24 @@ def load_qa_verdicts(path: Path) -> QAVerdicts:
         ) from e
 
 
+def name_key(name: str) -> str:
+    """The form two names are compared in: `norm`, with its words sorted.
+
+    Word order is ignored (a scoring decision of R73, taken before any new output): a graph that stores a
+    vehicle as make, model and year names "FORD ESCAPE 2015", a text "2015 Ford Escape"; both are one
+    name. The words themselves must all be there, so "Ford Escape" is still another name.
+    """
+    return " ".join(sorted(norm(name).split()))
+
+
 def entities_match(expected: Sequence[ExpectedEntity], given: Sequence[str]) -> bool:
     """Set equality by name: the answer names every expected entity (by its name or an alias, compared
-    with `norm`) and nothing else. A partly right set is wrong: an exact query must return exactly the
-    set, and a retrieval answer that adds a wrong thing misleads its reader."""
-    wanted = [{norm(name) for name in (e.name, *e.aliases)} for e in expected]
-    named = {norm(name) for name in given}
+    by `name_key`) and nothing else. A partly right set is wrong: an exact query must return exactly the
+    set, and a retrieval answer that adds a wrong thing misleads its reader. An answer in another form
+    than the gold's (a sentence for a "which" question) is wrong too (R73): the form is part of the
+    answer, and code cannot tell a sentence that names only the answer from one that names more."""
+    wanted = [{name_key(name) for name in (e.name, *e.aliases)} for e in expected]
+    named = {name_key(name) for name in given}
     return all(names & named for names in wanted) and all(any(n in names for names in wanted) for n in named)
 
 
@@ -203,13 +251,15 @@ def score_qa(
     verdicts: QAVerdicts | None = None,
     *,
     allow_unjudged: bool = False,
+    system: str = "",
 ) -> QAReport:
     """Score one answers file against its gold: correctness, recall@k and faithfulness, overall and per
     type. `chunk_texts` must hold every cited chunk the reader was given.
 
     With `allow_unjudged` and no verdict file, free-text answers are left out of correctness and counted
     as unjudged: what `kg qa` logs before the judge has read them. Off by default, so a final score is
-    never computed over a silently smaller set of questions.
+    never computed over a silently smaller set of questions. `system` names the answers' system in the
+    outcome rows.
 
     Raises `ValueError` for k < 1, and `EvaluationError` when the answers do not cover the gold's
     questions exactly once, when free-text answers lack verdicts (or verdicts cover other questions), or
@@ -228,6 +278,21 @@ def score_qa(
         k=k,
         overall=_aggregate(scores),
         by_type={t: _aggregate([s for s in scores if s.type == t]) for t in QuestionType},
+        outcomes=[
+            _outcome(q, answer_of[q.id], s, system) for q, s in zip(gold.questions, scores, strict=True)
+        ],
+    )
+
+
+def _outcome(question: QAQuestion, answer: QAAnswer, score: _QuestionScore, system: str) -> QAOutcome:
+    return QAOutcome(
+        question_id=question.id,
+        type=question.type,
+        system=system,
+        correct=score.correct if score.judged else None,
+        route=question.route,
+        system_route=answer.route,
+        cited_chunks=[c.chunk_id for c in answer.citations],
     )
 
 

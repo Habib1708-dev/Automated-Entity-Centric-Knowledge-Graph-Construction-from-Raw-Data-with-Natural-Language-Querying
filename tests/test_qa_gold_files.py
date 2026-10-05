@@ -1,5 +1,6 @@
 """The committed question-answer gold files (R70): each fits its corpus as the pipeline chunks it (every
-quote verbatim in its chunk, every cited record in its staged file, every question typed), the two real
+quote verbatim in its chunk, every cited record in its staged file, every question typed), every answer
+of a question with a query equals what DuckDB computes from the source files (R73), the two real
 datasets ask every question type at least five times, the earlier gold questions are carried over with
 their answers unchanged, and the generality corpus asks every hard case. No Neo4j, no LLM.
 """
@@ -12,6 +13,7 @@ import pytest
 
 from kgbuilder.core.text import norm
 from kgbuilder.validation.qa_gold import HardCase, QAGold, QuestionType, check_qa_gold, load_qa_gold
+from kgbuilder.validation.qa_records import check_record_answers
 
 from .qa_corpus import REPO, rebuild_corpus
 
@@ -31,10 +33,15 @@ def test_every_quote_is_verbatim_in_its_chunk_and_every_record_is_in_its_file(go
     check_qa_gold(gold, corpus.chunks, corpus.rows)
 
 
+def test_every_stored_record_answer_equals_what_its_query_computes_from_the_data(gold_file):
+    _, gold = gold_file
+    check_record_answers(gold, REPO / gold.corpus.data_dir)
+
+
 def test_every_question_has_a_type_and_evidence(gold_file):
     # the models reject a question without them; this pins that the files were read through the models
     _, gold = gold_file
-    assert all(isinstance(q.type, QuestionType) and (q.chunks or q.records) for q in gold.questions)
+    assert all(isinstance(q.type, QuestionType) and (q.chunks or q.records or q.sql) for q in gold.questions)
 
 
 @pytest.mark.parametrize("name", REAL)

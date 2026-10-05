@@ -7,7 +7,8 @@ Step 1). Claude writes the gold from whole files before any answer exists (`eval
 Design: the validators make each question checkable on its own (one answer form, evidence present, a
 retrieval question has chunk evidence); `check_qa_gold` then checks the file against the corpus's chunks
 and staged rows, which the caller supplies, so this module stays pure.
-Not here: scoring (qa.py); building the chunks (the pipeline's own loader, record documents and chunker).
+Not here: scoring (qa.py); building the chunks (the pipeline's own loader, record documents and chunker);
+computing the answers of record questions from their query (qa_records.py, R73).
 """
 
 from collections import Counter
@@ -119,6 +120,10 @@ class QAQuestion(BaseModel):
     route: Route
     chunks: list[ChunkEvidence] = []
     records: list[RecordEvidence] = []
+    # a question over records (R73) carries a DuckDB query over the corpus's source files, from which code
+    # computes its expected answer (qa_records.py): fixed decision 11, gold that code can compute is
+    # computed, so a count over 25 complaints is not counted by hand
+    sql: str | None = None
     hard_case: HardCase | None = None  # generality corpus only
     # an earlier gold question this one carries over with its answer unchanged, as `<file>#<index>`
     origin: str | None = None
@@ -126,8 +131,11 @@ class QAQuestion(BaseModel):
 
     @model_validator(mode="after")
     def _evidence(self) -> "QAQuestion":
-        if not self.chunks and not self.records:
-            raise ValueError(f"question {self.id}: give its evidence (chunks or records)")
+        if not self.chunks and not self.records and self.sql is None:
+            raise ValueError(f"question {self.id}: give its evidence (chunks, records or a query)")
+        # code compares a query's rows with a set or a number; a text answer is the judge's
+        if self.sql is not None and self.expected.kind == "text":
+            raise ValueError(f"question {self.id}: a question with a query needs a set or a number")
         # recall@k is measured on retrieval questions against their chunks: without any it is undefined
         if self.route == Route.RETRIEVAL and not self.chunks:
             raise ValueError(f"question {self.id}: a retrieval question needs chunk evidence")

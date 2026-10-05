@@ -29,6 +29,7 @@ from ..text.schema import TextSchema
 from ..tracking.base import NullTracker, Run, Tracker
 from ..validation.coverage import CoverageReport
 from ..validation.evaluate import EvalReport
+from ..validation.paired import PairedReport
 from ..validation.qa import QAReport
 from ..validation.report import ValidationReport
 
@@ -81,6 +82,8 @@ class PipelineState:
     # question answering (R71): the question of `kg ask`, and the answers file `kg qa-score` scores
     question: str | None = None
     answers: Path | None = None
+    # the two outcome files of `kg qa-score` that `kg qa-compare` compares question by question (R73)
+    outcomes: tuple[Path, Path] | None = None
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -99,6 +102,7 @@ class PipelineState:
     coverage: CoverageReport | None = None
     answer: SystemAnswer | None = None  # of `kg ask`
     qa_reports: dict[str, QAReport] = field(default_factory=dict)  # system name -> its scores
+    paired: PairedReport | None = None  # of `kg qa-compare`
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

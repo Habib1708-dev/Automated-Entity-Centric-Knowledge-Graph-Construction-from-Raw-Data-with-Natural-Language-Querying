@@ -6,5 +6,6 @@ against the judge's verdicts (by meaning). report.py holds the shared result mod
 coverage_sheet.py and coverage.py estimate how much of what the text states the graph holds, from a
 judged sample of sentences (R68); interval.py gives every rate from a sample its Wilson interval.
 qa_gold.py holds the question-answer gold file and its checks against the corpus, and qa.py scores a
-system's answers to it (R70).
+system's answers to it (R70); qa_records.py computes the answers of record questions from the source
+files with DuckDB, and paired.py compares two systems question by question (R73).
 """

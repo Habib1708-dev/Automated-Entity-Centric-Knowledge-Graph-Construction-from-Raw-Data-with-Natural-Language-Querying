@@ -1,7 +1,7 @@
 """Question answering over the graph (R71), without Neo4j: linking a question's names to nodes, ranking the
 reached chunks, the reader's prompt and its no-text answer, the graph route and the vector baseline over a
-fake graph store, the answers file, and `kg qa-score` without a graph. The Cypher of the store and `kg qa`
-end to end are tested in test_query_graph.py."""
+fake graph store, the answers file, and `kg qa-score` without a graph (with its outcome rows, R73).
+The Cypher of the store and `kg qa` end to end are tested in test_query_graph.py."""
 
 import pytest
 
@@ -16,7 +16,7 @@ from kgbuilder.query.names import NameLinker, NodeName, spans, words
 from kgbuilder.query.reader import NOTHING_TO_READ, PROMPT, Reader, ReaderAnswer, ReaderCitation, build_prompt
 from kgbuilder.query.systems import GraphRetrieval, VectorBaseline, build_graph_retrieval, rank
 from kgbuilder.validation.judge import JudgeMeta
-from kgbuilder.validation.qa import AnswerVerdict, QAVerdicts
+from kgbuilder.validation.qa import AnswerVerdict, QAVerdicts, load_outcomes
 from kgbuilder.validation.qa_gold import QAGold
 
 from .evaluation_corpora import quoted_four_grams
@@ -255,6 +255,13 @@ def test_qa_score_scores_an_answers_file_with_the_judges_verdicts_and_reads_no_g
     run = tracker.run("qa_score")
     assert run.logged_params["judge_model"] == "claude-fable-5-1" and "answers_hash" in run.logged_params
     assert run.logged_metrics["answer_accuracy"] == 1.0 and run.logged_metrics["citation_faithfulness"] == 1.0
+    # one outcome row per question, logged as an artifact (R73); the report file keeps only the totals
+    outcomes = load_outcomes(tmp_path / "out" / "qa_outcomes_vector.jsonl")
+    assert [(o.question_id, o.system, o.correct, o.cited_chunks) for o in outcomes] == [
+        ("Q1", "vector", True, ["c1"])
+    ]
+    assert str(tmp_path / "out" / "qa_outcomes_vector.jsonl") in run.artifacts
+    assert "outcomes" not in (tmp_path / "out" / "qa_score_vector.json").read_text(encoding="utf-8")
 
 
 def test_an_unknown_system_is_refused_before_anything_runs():

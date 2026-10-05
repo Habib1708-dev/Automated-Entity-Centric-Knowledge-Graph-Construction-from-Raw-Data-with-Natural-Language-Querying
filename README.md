@@ -30,6 +30,7 @@ uv run kg coverage SHEET VERDICTS                                 # score the ju
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question, graph route and vector-only baseline
 uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
+uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -203,7 +204,8 @@ src/kgbuilder/
   resolution/       matchers (Strategy) -> resolver (merge, undo) ; linking
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
-                    qa_gold (question-answer gold file) -> qa (answer scoring)
+                    qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
+                    -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
   query/            names -> traversal / graph_store -> reader ; systems (graph route, vector-only baseline)
                     router -> exact (text2cypher) with cypher_check and graph_schema ; systems.RoutedGraph
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
@@ -223,6 +225,7 @@ src/kgbuilder/
 | `coverage_sample`, `coverage_sheet`, `coverage` | `validation/sentences.py`, `validation/coverage_sheet.py`, `validation/coverage.py` | no |
 | `ask`, `qa_graph`, `qa_vector` | `query/`, `validation/qa.py` | yes, the reader; every citation checked in code |
 | `qa_score` | `validation/qa.py` | no |
+| `qa_compare` | `validation/paired.py` | no |
 
 ## Experiment tracking
 
@@ -312,7 +315,11 @@ the same reader model and the same number of chunks (`QA_TOP_K`), so they differ
    were found. Each system is its own MLflow run, with its own cost; it logs what code can score at once:
    sets and numbers, recall@k, citation faithfulness, per question type with intervals.
 2. The judge (Claude in the session) decides the free-text answers in a verdict file (`validation/qa.py`).
-3. `kg qa-score GOLD ANSWERS --verdicts V` logs the final scores; it needs no graph.
+3. `kg qa-score GOLD ANSWERS --verdicts V` logs the final scores and writes one outcome row per question
+   (`qa_outcomes_<system>.jsonl`); it needs no graph.
+4. `kg qa-compare A B` compares two outcome files question by question: the questions only one system
+   answered right and the exact McNemar p-value, overall and per type. Two systems (or two steps) differ
+   beyond one sample's variation only when p < 0.05; overlapping intervals of the totals are no verdict.
 
 ## Development
 

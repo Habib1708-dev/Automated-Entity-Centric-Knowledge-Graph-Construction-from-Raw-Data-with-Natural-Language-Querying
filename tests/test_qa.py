@@ -1,6 +1,7 @@
 """Question-answer benchmark (R70): the gold file's own checks and its fit to a corpus (quotes verbatim,
 records present), and the scoring of hand-made answers (sets, numbers, free text through a verdict file,
-citation faithfulness, recall@k, per type with n and interval). Pure: no Neo4j, no LLM."""
+citation faithfulness, recall@k, per type with n and interval), the outcome rows (R73) and a question's
+query field. Pure: no Neo4j, no LLM."""
 
 import json
 
@@ -18,6 +19,7 @@ from kgbuilder.validation.qa import (
     entities_match,
     is_correct,
     load_answers,
+    load_outcomes,
     load_qa_verdicts,
     score_qa,
 )
@@ -47,7 +49,7 @@ ROWS = {"parts.csv": [{"part_id": "P1", "part_name": "Switch", "supplier": "Acme
 
 
 def question(
-    qid: str, qtype: QuestionType, expected: Expected, route: Route = Route.RETRIEVAL, **evidence: list
+    qid: str, qtype: QuestionType, expected: Expected, route: Route = Route.RETRIEVAL, **evidence: object
 ) -> QAQuestion:
     """A gold question; its evidence defaults to the lamp's broken switch."""
     evidence.setdefault(
@@ -128,6 +130,16 @@ def test_an_expected_answer_has_exactly_one_form():
     assert Expected(entities=[]).kind == "entities"
 
 
+def test_a_query_counts_as_evidence_but_only_for_a_set_or_a_number():
+    # a count over many rows has no row to cite one by one: its query is its evidence
+    counted = question(
+        "Q9", QuestionType.AGGREGATION, Expected(number=2), route=Route.EXACT, chunks=[], sql="SELECT 2"
+    )
+    assert counted.sql == "SELECT 2"
+    with pytest.raises(ValidationError, match="needs a set or a number"):
+        QAQuestion.model_validate({**SHADE.model_dump(), "sql": "SELECT 'fine'"})
+
+
 def test_a_question_needs_evidence_and_a_retrieval_question_needs_chunks():
     with pytest.raises(ValidationError, match="give its evidence"):
         question("Q9", QuestionType.LOOKUP, Expected(number=1), route=Route.EXACT, chunks=[])
@@ -201,6 +213,14 @@ def test_a_set_is_right_only_when_it_names_every_expected_entity_and_nothing_els
     assert not entities_match(expected, ["Jönköping Table", "Lamp", "Kettle"])  # one too many
     assert entities_match([], [])  # "none" answered as none
     assert not is_correct(Expected(entities=[LAMP]), answer("Q1", text="the lamp"), None)  # no set given
+
+
+def test_a_name_matches_whatever_the_order_of_its_words_but_not_with_other_words():
+    # the scoring decision of R73: H09's "FORD ESCAPE 2015" names the alias "2015 Ford Escape"
+    escape = [ExpectedEntity(name="ESCAPE", aliases=["2015 Ford Escape"])]
+    assert entities_match(escape, ["FORD ESCAPE 2015"])
+    assert not entities_match(escape, ["Ford Escape"])  # a word fewer is another name
+    assert not entities_match(escape, ["2015 Ford Escape Hybrid"])  # a word more too
 
 
 def test_numbers_must_be_equal():
@@ -334,3 +354,26 @@ def test_the_answers_file_is_read_line_by_line_and_a_bad_line_is_named(tmp_path)
     path.write_text("\n".join([lines[0], '{"question_id": "Q2", "number": "many"}']), encoding="utf-8")
     with pytest.raises(EvaluationError, match="answers line 2"):
         load_answers(path)
+
+
+# --- the outcome rows (R73) ----------------------------------------------------------------------
+
+
+def test_every_question_gets_one_outcome_row_in_the_gold_order(tmp_path):
+    answers = right_answers()
+    answers[1] = answers[1].model_copy(update={"number": 7, "route": Route.RETRIEVAL})
+    report = score_qa(GOLD, answers, CHUNKS, k=5, allow_unjudged=True, system="graph")
+    rows = [(o.question_id, o.type, o.correct, o.route, o.system_route) for o in report.outcomes]
+    assert rows == [
+        ("Q1", QuestionType.LOOKUP, True, Route.RETRIEVAL, None),
+        ("Q2", QuestionType.AGGREGATION, False, Route.EXACT, Route.RETRIEVAL),
+        ("Q3", QuestionType.LOOKUP, None, Route.RETRIEVAL, None),  # free text before the judge
+        ("Q4", QuestionType.STRUCTURED_FILTER, True, Route.EXACT, None),
+    ]
+    assert report.outcomes[0].cited_chunks == [LAMP_0] and {o.system for o in report.outcomes} == {"graph"}
+    path = tmp_path / "qa_outcomes_graph.jsonl"
+    path.write_text("".join(o.model_dump_json() + "\n" for o in report.outcomes), encoding="utf-8")
+    assert load_outcomes(path) == report.outcomes
+    path.write_text('{"question_id": "Q1"}', encoding="utf-8")
+    with pytest.raises(EvaluationError, match="outcomes line 1"):
+        load_outcomes(path)

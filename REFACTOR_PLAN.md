@@ -2507,6 +2507,75 @@ happened to be connected. The user chose to fix it in its own step before buildi
     gold alias: listed as a candidate gold correction, not applied (it was seen after the output).
 - **R72 done.** Gate: 354 passed, `ruff check` clean.
 
+### R73. The measuring instrument and the reference numbers (layered-model Step 3; in progress)
+Every later step of the arm changes the graph or the query layer and is judged by `kg qa`; first the
+instrument must be able to show a change, and the comparison must separate what the records give from
+what the extracted claims give (task file, Step 3, revised 2026-10-05). Part a is $0; part b makes the
+paid runs, asked first.
+- **Split (the user's choice, 2026-10-05): part a in three commits, then part b.** a1: the instrument code
+  (outcome rows, the paired test, the scoring decisions, record questions computed by DuckDB). a2: about
+  30 record questions per real dataset, so structured filter, aggregation and multi-hop over records reach
+  at least 10 questions each. a3: the generality corpus version 2 (about 20 distractor documents, their
+  questions, and the changes they cause to the existing gold, written before any output and listed).
+  b: records plus vector RAG as a third system, the builds and `kg qa` on all three systems.
+- **Decisions taken before any new output (the user's, 2026-10-05).**
+  - Set matching ignores word order: "FORD ESCAPE 2015" names the alias "2015 Ford Escape" (H09). The
+    words themselves must all be there ("Ford Escape" is still another name).
+  - An answer in another form than the gold's stays wrong: a sentence for a "which" question (F25 graph
+    "The Gothenburg Table", H23 "NHTSA recall campaign 22V254000") is counted under the cause "answer
+    form", not read for a name. Code cannot tell a sentence that names only the answer from one that names
+    more; the query plans of Step 4 end in a `list` terminal, which is the fix.
+  - The candidate gold alias "Soil Ecology team" (R72) stays listed and unapplied: it was seen after the
+    output.
+  - **Builder model: Gemini** (`gemini-3.8-flash`) for every build from here on; answering stays on
+    DeepSeek (`deepseek-flash`), as in R71-R72. So part b rebuilds furniture (built by DeepSeek in R66) and
+    builds the generality corpus version 2 on Gemini; the held-out graph (R66 part 3) is Gemini's already.
+- **Part a1: the instrument (done 2026-10-05).**
+  - `validation/qa.py`: `name_key` (`norm`, words sorted) is the form names are compared in; `QAOutcome`
+    is one question's result for one system (id, type, system, correct or None while unjudged, the gold's
+    route, the router's label, the cited chunk ids); `score_qa` returns one per gold question in the
+    gold's order (`QAReport.outcomes`) and `load_outcomes` reads a file of them. The report file keeps
+    only the totals.
+  - `validation/paired.py` (new, pure): `mcnemar_exact` (two-sided exact binomial test on the discordant
+    questions, p = 1 with none) and `compare_outcomes`: right in A only, right in B only and p, overall and
+    per type, `ALPHA` 0.05 as the line for "beyond one sample's variation". Outcome files of other
+    questions, of other types, or with an unjudged answer are refused (`EvaluationError`).
+  - `validation/qa_records.py` (new): a gold question may carry `sql`, a DuckDB query over the corpus's
+    source files, each `.csv`/`.json`/`.ndjson` a view named by its stem, read as it lies on disk (not
+    through staging, so a staging bug cannot hide in the gold); a set is the query's first column, a
+    number its one value. `check_record_answers` refuses a stored answer that differs from the data; the
+    gold names a record as the data does (an alias does not stand in). A query counts as a question's
+    evidence; it needs a set or a number answer.
+  - `kg qa-score` writes `qa_outcomes_<system>.jsonl` (an artifact of its run); new `kg qa-compare A B`
+    (MLflow run `qa_compare`: both files and hashes as params, the counts and p overall and per type as
+    metrics, `qa_compare.json`). Neither reads the graph or calls a model; the run guard does not ask.
+  - Cost per question is not in the outcome rows: it needs per-question usage from the LLM calls, which
+    the task file puts in Step 4's tracking ("cost per question").
+  - Tests: `tests/test_qa.py` (word order, the query field, outcome rows and their file),
+    `tests/test_qa_paired.py` (p against hand-computed values, discordant counts overall and per type,
+    refusals, `kg qa-compare` with a driver to nowhere), `tests/test_qa_records.py` (views from CSV, a
+    wrapped JSON object and NDJSON in subfolders; a stem clash; sets, numbers, a join, an empty set, a
+    failing query; a stale set, a stale number, an alias in place of the value), `tests/test_qa_gold_files.py`
+    (every committed query's answer equals DuckDB's; none yet), `tests/test_query.py` (`kg qa-score` writes
+    the outcome rows). Gate: 369 passed (354 before, Neo4j up), `ruff check` clean.
+  - **R71-R72 re-scored under the word-order rule ($0; `kg qa-score` on the saved answers and verdicts,
+    into `out/r73_<dataset>`).** Only H09 changes (held-out graph 29 -> 30 of 38); every other total is
+    as in R71-R72. Runs `qa_score`: held-out `3d52a62b` (graph) / `2b59fde6` (vector), furniture
+    `7fd82370` / `d6a251aa`, generality `31451de6` / `c7769e65`. The paired comparisons (`kg qa-compare`,
+    graph = a, vector = b):
+
+    | Dataset (`qa_compare` run) | graph | vector | right in graph only | right in vector only | p |
+    |---|---|---|---|---|---|
+    | held-out (`5cd466d2`) | 30/38 | 22/38 | 10 | 2 | 0.039 |
+    | furniture (`88908265`) | 23/38 | 13/38 | 12 | 2 | 0.013 |
+    | generality (`1dbf677f`) | 9/21 | 16/21 | 0 | 7 | 0.016 |
+
+    Overall, each difference is beyond one sample's variation (R71 could only say the intervals overlap).
+    No single question type is: the largest per-type splits are 3 to 0 (furniture multi-hop and
+    structured filter, p 0.25) and 3 to 1 (held-out negation-sensitive, p 0.63). With 6-7 questions per
+    type, a type can only show a difference at 6 or more discordant questions without a loss (p 0.031),
+    which is why a2 adds record questions computed by code.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

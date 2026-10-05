@@ -411,6 +411,23 @@ def qa_score(gold: Path, answers: Path, verdicts: Path | None = None, out: Path 
         _print_qa(name, report)
 
 
+@app.command("qa-compare")
+def qa_compare(a: Path, b: Path, out: Path = OUT):
+    """Compare two outcome files of `kg qa-score` question by question: the questions only one system
+    answered right and the exact McNemar p-value, overall and per type; no graph, no model (R73)."""
+    with session(out) as ctx:
+        report = run_stages(ctx, PipelineState(outcomes=(a, b)), [qs.QACompareStage()]).paired
+    typer.echo(f"a = {report.a}\nb = {report.b}")
+    rows = [("all", report.overall), *((t.value, c) for t, c in report.by_type.items())]
+    for label, c in rows:
+        mark = "  differs (p < 0.05)" if c.differs else ""
+        typer.echo(
+            f"{label:19} a {c.a_correct}/{c.questions}  b {c.b_correct}/{c.questions}  "
+            f"only a {c.only_a}  only b {c.only_b}  p {c.p_value:.3f}{mark}"
+        )
+    typer.echo(f"Wrote {out / qs.QACompareStage.REPORT_FILE}")
+
+
 @app.command()
 def run(
     data_dir: Path | None = DATA_DIR,

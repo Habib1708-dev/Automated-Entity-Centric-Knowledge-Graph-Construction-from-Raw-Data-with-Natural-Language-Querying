@@ -1,11 +1,13 @@
-"""The question-answering stages (R71): `kg ask`, `kg qa` and `kg qa-score`.
+"""The question-answering stages (R71): `kg ask`, `kg qa`, `kg qa-score` and `kg qa-compare` (R73).
 
-Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-score` needs no graph.
+Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-score` and `kg qa-compare`
+need no graph and no model.
 Design: wiring and logging only, like stages.py (kept apart from it, which builds the graph). Each system
 answers in its own MLflow run (`qa_graph`, `qa_vector`), so its tokens and `cost_usd` are its own. `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
-for the judge, and `kg qa-score` scores the answers file with the verdicts.
-Not here: retrieval and reading (query/), scoring (validation/qa.py).
+for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
+question, which `kg qa-compare` compares between two systems or two steps.
+Not here: retrieval and reading (query/), scoring (validation/qa.py), the paired test (validation/paired.py).
 """
 
 import json
@@ -20,7 +22,8 @@ from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.graph_store import Neo4jGraphStore
 from ..query.systems import QASettings, QASystem, VectorBaseline, build_routed_graph
 from ..tracking.base import Run
-from ..validation.qa import QAReport, load_qa_verdicts, score_qa
+from ..validation.paired import compare_outcomes
+from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
 from ..validation.qa_gold import Route, load_qa_gold
 from .inputs import digest, input_file
 from .stage import PipelineContext, PipelineState
@@ -182,7 +185,7 @@ class QAStage(BaseStage):
 
 class QAScoreStage(BaseStage):
     """Score an answers file of `kg qa` with the judge's verdicts on its free-text answers (`kg qa-score`),
-    without a graph and without a model."""
+    without a graph and without a model; write the outcome rows (`qa_outcomes_<system>.jsonl`, R73)."""
 
     name = "qa_score"
 
@@ -208,14 +211,46 @@ class QAScoreStage(BaseStage):
         gold = load_qa_gold(input_file(state.gold, "QA gold file"))
         answers = load_system_answers(input_file(state.answers, "answers file"))
         verdicts = load_qa_verdicts(input_file(state.verdicts, "verdict file")) if state.verdicts else None
-        report = score_qa(gold, answers, shown_texts(answers), ctx.settings.qa_top_k, verdicts)
         system = answers[0].system if answers else "none"
+        report = score_qa(gold, answers, shown_texts(answers), ctx.settings.qa_top_k, verdicts, system=system)
         state.qa_reports[system] = report
         _log_report(ctx, run, report, f"qa_score_{system}.json")
+        outcomes = "".join(o.model_dump_json() + "\n" for o in report.outcomes)
+        run.artifact(ctx.write(f"qa_outcomes_{system}.jsonl", outcomes))
         for source in (Path(state.gold), Path(state.answers), *([Path(state.verdicts)] if verdicts else [])):
             run.artifact(source)
 
 
+class QACompareStage(BaseStage):
+    """Compare two outcome files question by question with the exact McNemar test (`kg qa-compare`, R73),
+    without a graph and without a model. System `a` is the first file, `b` the second."""
+
+    name = "qa_compare"
+    REPORT_FILE = "qa_compare.json"
+
+    def params(self, ctx, state):
+        a, b = state.need("outcomes", "pass two outcome files of kg qa-score")
+        a, b = input_file(a, "outcome file"), input_file(b, "outcome file")
+        return {"a": a, "a_hash": digest(a), "b": b, "b_hash": digest(b)}
+
+    def run(self, ctx, state, run):
+        a, b = (input_file(path, "outcome file") for path in state.outcomes)
+        report = compare_outcomes(load_outcomes(a), load_outcomes(b), _label(a), _label(b))
+        state.paired = report
+        run.metrics(**report.metrics())
+        run.artifact(ctx.write(self.REPORT_FILE, report.model_dump_json(indent=2)))
+        run.artifact(a)
+        run.artifact(b)
+
+
+def _label(path: Path) -> str:
+    """A side's name in the comparison: its folder and file, which tell the run and the system apart
+    (`r71_heldout/qa_outcomes_graph.jsonl`), where two steps' files share a system name."""
+    return f"{path.parent.name}/{path.name}"
+
+
 def _log_report(ctx: PipelineContext, run: Run, report: QAReport, file_name: str) -> None:
     run.metrics(**report.metrics())
-    run.artifact(ctx.write(file_name, json.dumps(report.model_dump(mode="json"), indent=2)))
+    # the outcome rows have their own file (QAScoreStage); the report file keeps the totals
+    totals = report.model_dump(mode="json", exclude={"outcomes"})
+    run.artifact(ctx.write(file_name, json.dumps(totals, indent=2)))
