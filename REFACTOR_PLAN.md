@@ -3151,6 +3151,23 @@ documents linked, 0 observations attached).
 
 (Add items here during a step instead of widening its scope.)
 
+- **(Fixed in R76 part b, its own commit.) A name on another line of a quote held the claim (found in
+  R76's generality run).** The extractor quotes several lines of a line-based note as one quote, and
+  `key_in_sentence` searched the whole quote: "Tomasz Wren LOCATED_AT North Station", quoted from the shift
+  notes' "Mon: HP40-1183 on duty ... Wed: Tomasz Wren visited ...", hung on pump HP40-1183. Path truth could
+  not see it (the name is in the quote). Now the route and path truth read only the quote's sentences that
+  name the claim's own subject or object (`core.text.claim_sentences`; the whole quote when none does).
+- **A sentence listing several records attaches the claim to each (R76, as the task allows).** The recall
+  quote "recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and Lexus ES300h ..." hangs the
+  claim "20V064000 AFFECTS_VEHICLE Camry" on the Lexus ES300h too. A candidate rule, for the user: within
+  `key_in_sentence`, when one of the claim's own ends refers to a thing of a kind, other names of that kind
+  in the sentence are context, not things the claim is about.
+- **Keyed mentions identity could not link hold many claims (R76 held-out).** 1651 of held-out's 2782
+  attachment edges go to individuals of the keyed type Vehicle ("THE VEHICLE", "MY CAR" of one complaint
+  document), which stand apart from the document's vehicle record; they never displace the record (another
+  kind), but they are noise for a query about vehicles as individuals. A matter for identity (Step 5's
+  scope rule), not attachment.
+
 - **Documents attached by their text get no derived claims (found in R76).** Derivation runs in `kg link`,
   before identity, so the derived fact types (furniture's `PART_OF` Product, held-out's `INSTALLED_IN`
   Vehicle) are written only for documents a file name or a record links; the text route comes later. No

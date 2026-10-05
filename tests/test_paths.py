@@ -259,3 +259,12 @@ def test_rescore_reads_the_attachments_of_an_attached_graphs_sheet():
     report = rescore(sheet, GoldSet(), schema=SCHEMA)
     assert (report.paths.paths_total, report.paths.paths_true, report.paths.paths_true_about) == (1, 1, 0)
     assert report.judge_sheet.facts[0].attachments == [Attached(thing="Desk", how="section", evidence="c")]
+
+
+def test_a_name_on_another_line_of_the_quote_does_not_hold_a_claim():
+    # found in R76's generality run: a quote of several lines of a note; the claim is in the second line
+    visit = defect("drawer rails", "rough", "dresser.md", own_wording="rough").model_copy(
+        update={"evidence": "Mon: Helsingborg Dresser delivered.\nWed: the drawer rails felt rough."}
+    )
+    report = score_paths([hung(visit, (DRESSER, "key_in_sentence", "Helsingborg Dresser"))], PART_OF_SCHEMA)
+    assert (report.paths_total, report.paths_true) == (1, 0)

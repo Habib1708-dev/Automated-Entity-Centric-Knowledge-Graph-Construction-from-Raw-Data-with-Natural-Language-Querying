@@ -18,11 +18,12 @@ Two graph shapes, one question:
   without `kg link`).
 - Attached graph (R76, layered-model Step 6): every HAS_OBSERVATION edge names the route that attached it
   and its evidence, and a path is true when that evidence holds in the graph as it is: `key_in_sentence`,
-  the name stands in the claim's quote; `part_of`, a part-of claim of the same document has the claim's
-  subject and the thing as its whole; `section`, the claim's chunk is ABOUT the thing; `document`, its
-  document is. The rule of the observation graph is counted next to it (`path_truth_about`), so the series
-  stays comparable; it is below 1.0 by design wherever a claim hangs on what its quote or section names
-  rather than on the document's thing.
+  the name stands in a sentence of the claim's quote that names one of its ends (`claim_sentences`);
+  `part_of`, a part-of claim of the same document has the claim's subject and the thing as its whole;
+  `section`, the claim's chunk is ABOUT the thing; `document`, its document is. The rule of the
+  observation graph is counted next to it (`path_truth_about`), so the series stays comparable; it is
+  below 1.0 by design wherever a claim hangs on what its quote or section names rather than on the
+  document's thing.
 In all three, derived facts and kind structure are not paths: a fact between two part types ("drawer pulls
 PART_OF drawer") says how a kind of thing is built, not what one document claims about one thing, and
 leaving it out keeps the two shapes' numbers comparable.
@@ -36,7 +37,7 @@ from collections.abc import Callable
 
 from pydantic import BaseModel
 
-from ..core.text import contains_words, norm
+from ..core.text import claim_sentences, contains_words, norm
 from ..text.schema import TextSchema
 from .checks.base import Attached, StoredFact
 from .gold import doc_of
@@ -120,7 +121,8 @@ def _part_wholes(facts: list[StoredFact], schema: TextSchema) -> dict[PartKey, s
 def _holds(a: Attached, f: StoredFact, wholes: dict[PartKey, set[str]]) -> bool:
     """Whether an attachment's evidence holds for its claim (the module docstring, attached graph)."""
     if a.how == "key_in_sentence":
-        return contains_words(f.evidence or "", a.evidence)
+        sentences = claim_sentences(f.evidence or "", [f.own_subject, f.own_object])
+        return any(contains_words(s, a.evidence) for s in sentences)
     if a.how == "part_of":
         return a.thing in wholes.get((doc_of(f) or "", f.subject_type, norm(f.own_subject)), set())
     if a.how == "section":

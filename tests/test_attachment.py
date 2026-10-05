@@ -270,3 +270,21 @@ def test_a_report_under_a_neutral_file_name_is_attached_by_its_text(driver):
         **params,
     )
     assert sorted(r["o"] for r in records) == ["flooded", "wet"]
+
+
+def test_only_the_sentences_naming_the_claims_ends_are_searched():
+    """Found in R76's generality run: a line-based note gives a quote of several lines, and a pump named on
+    another line ("Mon: HP40-1183 on duty") held a claim about a visit ("Tomasz Wren LOCATED_AT North
+    Station"). The route reads the sentences of the quote that name the claim's subject or object."""
+    note = "Mon: HP40-1183 on duty, flow steady.\nWed: Tomasz Wren visited North Station."
+    visit = claim("o1", note).model_copy(
+        update={"subject_name": "Tomasz Wren", "object_name": "North Station"}
+    )
+    assert named_in_quote(visit, [particular("m1", PUMP_A)]) == []
+    # a quote no sentence of which names an end is read whole: the route still has something to go on
+    elsewhere = claim("o2", note).model_copy(
+        update={"subject_name": "operator", "object_name": "night shift"}
+    )
+    assert found(named_in_quote(elsewhere, [particular("m1", PUMP_A)])) == [
+        ("HP40-1183", "key_in_sentence", "HP40-1183")
+    ]

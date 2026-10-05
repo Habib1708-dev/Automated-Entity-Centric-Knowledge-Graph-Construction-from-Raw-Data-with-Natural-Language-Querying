@@ -61,6 +61,19 @@ def sentences_naming(text: str, names: list[str]) -> list[str]:
     return [s for s in split_sentences(text) if any(w in norm(s) for w in wanted)]
 
 
+def claim_sentences(quote: str, ends: list[str]) -> list[str]:
+    """The sentences of a claim's quote that name one of its ends (its own wording of subject and object),
+        else the whole quote as one.
+
+        A quote is the extractor's choice and may span several lines of a note ("Mon: pump A on duty.
+    Wed: B
+        visited the station."); what the claim says stands in the sentences naming its ends, and a thing named
+        on another line says nothing about it (found in R76's generality run). The attachment route and path
+        truth read the same sentences, so the check holds exactly where the route did.
+    """
+    return sentences_naming(quote, ends) or [quote]
+
+
 # A full stop after a capital initial ("J.") or a form of address ("Dr.") ends no sentence (found in R75:
 # "Dr. J. Pike (Soil Ecology)" became three sentences, none naming the person). Capital letters only, and
 # the closed list is of the language, not of a domain; a line break always ends a sentence.

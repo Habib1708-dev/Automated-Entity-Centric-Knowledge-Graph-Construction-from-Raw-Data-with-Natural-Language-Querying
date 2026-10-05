@@ -10,8 +10,9 @@ the documents of the generality corpus hung on nothing (0 of 32 in R75).
 Design: code decides from the text, never the model (the extractor is not changed). Each attachment names
 the route (`how`) that justified it and the evidence code found:
   1. `key_in_sentence`: a name of a record or an individual that a mention of the claim's own document
-     refers to (the mention's wording, the record's key, the canonical name) stands in the claim's quote:
-     "the mechanical seal of pump HP40-1183 failed";
+     refers to (the mention's wording, the record's key, the canonical name) stands in a sentence of the
+     claim's quote that names one of the claim's ends: "the mechanical seal of pump HP40-1183 failed" (a
+     quote may span several lines of a note, and a name on another line says nothing about the claim);
   2. `part_of`: the claim's subject is a part of a thing, by another claim of the same document of a fact
      type the schema marks `part_of` ("mechanical seal COMPONENT_OF HP40-1183");
   3. `section`: the claim's chunk is ABOUT a record, because its heading names the record's key (R67);
@@ -36,7 +37,7 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.identity import document_of
-from ..core.text import contains_words, split_sentences, squash
+from ..core.text import claim_sentences, contains_words, split_sentences, squash
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
 from .linking import read_record_keys
@@ -86,6 +87,8 @@ class ClaimSource(BaseModel):
     doc_id: str
     chunk_id: str
     quote: str
+    subject_name: str = ""  # the claim's own wording of its ends: which sentences of the quote are its own
+    object_name: str = ""
     subject: str | None  # mention ids; None for an observation missing an end
     object: str | None
     part_of: bool  # its fact type states that the subject is one of the pieces the object is made of
@@ -114,10 +117,14 @@ class AttachReport(BaseModel):
 
 
 def named_in_quote(claim: ClaimSource, particulars: list[Particular]) -> list[Attachment]:
-    """Route 1: the things of the claim's own document whose name stands, as whole words, in its quote."""
+    """Route 1: the things of the claim's own document whose name stands, as whole words, in a sentence of
+    its quote that names one of its ends (`claim_sentences`)."""
+    sentences = claim_sentences(claim.quote, [claim.subject_name, claim.object_name])
     found: dict[str, Attachment] = {}
     for p in particulars:
-        name = next((n for n in p.names if _long_enough(n) and contains_words(claim.quote, n)), None)
+        name = next(
+            (n for n in p.names if _long_enough(n) and any(contains_words(s, n) for s in sentences)), None
+        )
         if name is not None and p.thing.element_id not in found:
             found[p.thing.element_id] = Attachment(
                 observation=claim.id, thing=p.thing, how="key_in_sentence", evidence=name
@@ -288,6 +295,7 @@ def read_claims(driver: Driver, schema: TextSchema | None) -> list[ClaimSource]:
         "OPTIONAL MATCH (c)-[:PART_OF]->(d:Document) "
         "OPTIONAL MATCH (o)-[:SUBJECT]->(s:Mention) OPTIONAL MATCH (o)-[:OBJECT]->(t:Mention) "
         "RETURN o.id AS id, c.chunk_id AS chunk_id, d.doc_id AS doc_id, coalesce(o.evidence, '') AS quote, "
+        "coalesce(o.subject_name, '') AS subject_name, coalesce(o.object_name, '') AS object_name, "
         "o.predicate AS predicate, s.id AS subject, s.type AS subject_type, t.id AS object, "
         "t.type AS object_type ORDER BY id"
     )
@@ -298,6 +306,8 @@ def read_claims(driver: Driver, schema: TextSchema | None) -> list[ClaimSource]:
             doc_id=r["doc_id"] or document_of(r["chunk_id"]),
             chunk_id=r["chunk_id"],
             quote=r["quote"],
+            subject_name=r["subject_name"],
+            object_name=r["object_name"],
             subject=r["subject"],
             object=r["object"],
             part_of=schema is not None
