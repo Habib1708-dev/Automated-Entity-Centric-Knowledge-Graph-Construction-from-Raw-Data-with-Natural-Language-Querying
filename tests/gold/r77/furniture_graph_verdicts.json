@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "2c734fe6182049beadb803e8770273e1",
+    "git_sha": "ccaa258-dirty"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r76_furniture/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "Says 'A partial refund.', exactly what the expected answer states, cited from the review where 'the shade arrived with a small dent'."
+    },
+    {
+      "question_id": "F38",
+      "correct": false,
+      "reason": "Gives only the positive side ('incredibly comfortable for long periods of sitting', 'surprisingly comfortable for wooden chairs', 'so comfy') and omits the one review that finds it 'less comfortable for extended work sessions'; the note requires both sides, so a part is missing."
+    }
+  ]
+}

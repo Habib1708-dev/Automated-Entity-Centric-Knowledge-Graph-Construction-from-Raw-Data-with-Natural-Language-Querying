@@ -3212,6 +3212,50 @@ a count over claims must tell them apart (task file, Step 7).
   (2026-10-05). First attempt stopped at `kg ingest-text` of furniture, $0: embeddings are not cached, and
   the invalid Gemini key meant to catch extraction cache misses was set for every stage (my recipe error;
   R76 set it for `extract` only).
+- **Step 6 baseline (2026-10-05; the user's yes, estimate $0.7-1.4; spent $1.219).** The three R76 graphs
+  rebuilt from the cache on `ccaa258` (R76 recipe, invalid Gemini key on `extract` only; all cache hits,
+  $0; every number as R76: furniture 508 claims, 668 attached, routes 617/378/0/268; held-out 532, 663;
+  generality 195, 177 of 195 attached; `path_truth` 1.0, identity as R75), then `kg qa --system graph`
+  (DeepSeek, as R73b). The tree was dirty only by the user's `.claude/settings.json` permission rule.
+
+  | Run (MLflow) | Cost | LLM calls (cache hits) | tokens in / out / thinking |
+  |---|---|---|---|
+  | furniture `qa_graph` `2c734fe6` | $0.511 | 140 (5) | 422170 / 9298 / 311235 |
+  | held-out `qa_graph` `67de89f3` | $0.375 | 130 (15) | 407345 / 9018 / 201373 |
+  | generality `qa_graph` `eed56f5f` | $0.333 | 126 (38) | 274841 / 7121 / 201706 |
+
+  - **Judge.** A Fable 5.1 subagent with R71's rules decided the 18 free-text answers (10 correct); lead
+    judge Opus 5.5. Verdicts in `tests/gold/r77/`. Two flagged points kept as judged, as R73 did for the
+    same questions: H35 without "free of charge", G16 without the pump id. Scores `kg qa-score`: furniture
+    `f36e1e14`, held-out `f671a6a7`, generality `669c480a`; paired with R73b's graph (`kg qa-compare`):
+    `e979c9b2`, `ff6ceb51`, `90558ea4`.
+  - **Answer accuracy, graph system, Step 3 (R73b) against Step 6 (R76); right only in Step 3 / only in
+    Step 6, McNemar p:**
+
+    | Type | furniture | held-out | generality |
+    |---|---|---|---|
+    | multi_hop | 10 -> 9 /17 (5 / 4, p 1.0) | 15 -> 13 /17 (4 / 2, p 0.69) | 1 -> 1 /6 |
+    | aggregation | 4 -> 6 /16 (2 / 4, p 0.69) | 16 -> 12 /16 (4 / 0, p 0.125) | 3 -> 2 /6 (1 / 0) |
+    | structured_filter | 5 -> **12** /16 (1 / 8, **p 0.039**) | 17 -> 13 /17 (4 / 0, p 0.125) | 0 -> 1 /6 (0 / 1) |
+    | disambiguation | 6 -> 2 /6 (4 / 0, p 0.125) | 3 -> 3 /6 | 3 -> 0 /8 (3 / 0, p 0.25) |
+    | negation_sensitive | 4 -> 3 /7 (3 / 2, p 1.0) | 4 -> 4 /6 (1 / 1) | 2 -> 1 /6 (1 / 0) |
+    | lookup | 5 -> 3 /6 (2 / 0, p 0.5) | 5 -> 3 /6 (2 / 0, p 0.5) | 8 -> 5 /9 (3 / 0, p 0.25) |
+    | **all** | 34 -> 35 /68 (17 / 18, p 1.0) | **60 -> 48 /68 (15 / 3, p 0.008)** | **17 -> 10 /41 (8 / 1, p 0.039)** |
+
+  - **Where the 40 lost answers fail** (classified by code from the plan traces; the first empty step):
+    `find_claims` found no claim 13 (F09, F20, F21, F23, F24, F32, H01, H37, G06, G08, G21, G23, G36);
+    the plan ran and gave a wrong result 13 (e.g. H08 names ROGUE but not CIVIC; H12 counts 4 for 2);
+    a number answered as a list value 6 (F63 "$289" for 289, H33 "2361", H53 four dates for the year 2020);
+    `filter_records` or `related` empty 5 (F47, F59, F67, F65, H14); `read_check` verified nothing 3 (F30,
+    H43, G11). Real examples: G06 asks for "mechanical seal" as a claim's object, the graph has it as the
+    subject ("seal COMPONENT_OF ... on 31 March 2025"), and "seal" and "mechanical seal" are two concepts;
+    G08 and G11 end in "No text was retrieved" because an empty `find_claims` leaves the final reader with
+    no chunks, where R73b's retrieval route answered both. Most failures are in the query layer (Step 4,
+    R74, never measured), not in the graph changes of Steps 5-6; a run of R74's code on the R73b graphs
+    would separate the two (not made).
+  - **Stop rule (task file section 4) applies:** held-out and generality lost accuracy beyond one sample's
+    variation (overall paired p 0.008 and 0.039; no single type below 0.05 on its own). Step 7's code is
+    not started; the next step is the user's decision.
 
 ## Found along the way
 

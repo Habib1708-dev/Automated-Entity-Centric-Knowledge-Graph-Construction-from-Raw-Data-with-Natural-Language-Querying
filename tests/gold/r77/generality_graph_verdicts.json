@@ -1,0 +1,62 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "eed56f5f697f4b3c82f4280123feaaa5",
+    "git_sha": "ccaa258-dirty"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r76_generality/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": false,
+      "reason": "Says 'No text was retrieved for this question.' although the March report states HP40-2291 'ran quietly', 'No leaks' and 'bearing temperature was 48 °C'; no answer is wrong."
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "Says 'Because the roof has leaked into the children's section since the autumn storms', the expected reason, taken from the library sentence and not from the footbridge."
+    },
+    {
+      "question_id": "G11",
+      "correct": false,
+      "reason": "Says 'No text was retrieved for this question.' although the source names 'Ines Barros' as the one who said the pump ran dry and states 'we do not accept that the pump ran dry'; both parts are missing."
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "Says the flooding 'would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended', the gold sentence itself; it names the seal and the March inspection recommendation as the expected answer does."
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "Says 'By 30 June 2025.', the exact expected deadline, with the gold sentence cited."
+    },
+    {
+      "question_id": "G18",
+      "correct": false,
+      "reason": "Says 'The chunks do not answer this' and 'none of them contains a structural inspector's report', although the source states 'residents had told him the east railing moved when leaned on'; no answer is wrong."
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "Says 'Before the library reopens on 1 September.', exactly the expected deadline, with the gold sentence cited."
+    },
+    {
+      "question_id": "G20",
+      "correct": true,
+      "reason": "Says '28 March' and cites both hops, the inspector who 'recommended closing the bridge at once' and 'The Mill Lane footbridge reopened on 28 March'; matches the expected date."
+    },
+    {
+      "question_id": "G33",
+      "correct": false,
+      "reason": "Says 'The chunks do not state any finding by the June 2025 inspection on pump HP40-1183', although the source states 'no leaks were found on HP40-1183, and its bearing temperature was 49 °C'; no answer is wrong."
+    },
+    {
+      "question_id": "G38",
+      "correct": true,
+      "reason": "Says '15 June 2025', the exact expected deadline, with the gold sentence cited."
+    }
+  ]
+}
