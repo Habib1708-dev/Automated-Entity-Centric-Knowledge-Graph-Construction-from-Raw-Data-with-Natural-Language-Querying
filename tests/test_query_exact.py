@@ -1,14 +1,15 @@
 """The exact route and the router (R71 part b), without Neo4j: the text check of a model's Cypher, the
 exact route's retry and give-up over a fake store, rows read as an answer, the router, the graph system's
-fallback to retrieval, and the prompts' domain-neutral wording. The database half of the check (EXPLAIN,
-the read transaction) is tested in test_query_graph.py."""
+fallback to retrieval, and the prompts' domain-neutral wording; for records plus vector RAG (R73), the
+record layer of the schema, the refusal of names outside it and the system's own name on every answer.
+The database half of the check (EXPLAIN, the read transaction) is tested in test_query_graph.py."""
 
 import pytest
 from neo4j.time import Date
 
 from kgbuilder.query import exact, router
 from kgbuilder.query.answers import SystemAnswer
-from kgbuilder.query.cypher_check import check_text
+from kgbuilder.query.cypher_check import check_text, excluded_name_issues
 from kgbuilder.query.exact import CypherParameter, CypherProposal, ExactRoute, rows_to_answer
 from kgbuilder.query.graph_schema import (
     ClaimInfo,
@@ -20,7 +21,7 @@ from kgbuilder.query.graph_schema import (
 )
 from kgbuilder.query.graph_store import ReadResult
 from kgbuilder.query.router import RouteChoice, Router
-from kgbuilder.query.systems import RoutedGraph
+from kgbuilder.query.systems import RECORDS_VECTOR, RoutedGraph
 from kgbuilder.validation.qa_gold import Route
 
 from .evaluation_corpora import quoted_four_grams
@@ -73,6 +74,29 @@ def test_one_statement_and_a_limit_within_the_cap():
     assert "more than one statement" in check_text("MATCH (a) RETURN a; MATCH (b) RETURN b", {}, 50).issues[0]
     assert "at most 50" in check_text("MATCH (a) RETURN a LIMIT 500", {}, 50).issues[0]
     assert "at most 50" in check_text("MATCH (a) RETURN a LIMIT $n", {"n": 5.0}, 50).issues[0]
+
+
+TEXT_LAYER = frozenset({"Chunk", "Observation", "ABOUT"})
+
+
+@pytest.mark.parametrize(
+    ("cypher", "name"),
+    [
+        ("MATCH (c:Chunk)-[:PART_OF]->(d) RETURN c.chunk_id", "Chunk"),
+        ("MATCH (p:Press)<-[:CONCERNS|ABOUT]-(x) RETURN x", "ABOUT"),
+        ("MATCH (o:`Observation`) RETURN o.predicate", "Observation"),
+        ("MATCH (p) WHERE p:Chunk RETURN p", "Chunk"),
+        ("MATCH (p:Press:Chunk) RETURN p", "Chunk"),
+    ],
+)
+def test_a_query_naming_a_label_or_type_outside_the_allowed_part_is_refused(cypher, name):
+    assert excluded_name_issues(cypher, TEXT_LAYER) == [f"it uses {name}, which this system may not read"]
+
+
+def test_record_names_values_and_comments_are_not_mistaken_for_excluded_names():
+    record = "MATCH (p:Press {year: 2015})<-[:PART_OF]-(x:Part) WHERE p:Press RETURN x.name // not Chunk"
+    assert excluded_name_issues(record, TEXT_LAYER) == []
+    assert excluded_name_issues("MATCH (c:Chunk) RETURN c", frozenset()) == []  # the graph system: no limit
 
 
 # --- rows read as an answer ------------------------------------------------------------------------
@@ -178,6 +202,58 @@ def test_a_refused_query_gets_one_retry_with_its_reasons():
     assert len(store.ran) == 1  # the refused query never ran
 
 
+FULL = GraphSchema(
+    labels=[
+        *SCHEMA.labels,
+        LabelInfo(label="Part", count=3, properties=[]),
+        LabelInfo(label="Chunk", count=9, properties=[]),
+        LabelInfo(label="Document", count=4, properties=[]),
+    ],
+    relationships=[
+        *SCHEMA.relationships,
+        RelationshipInfo(source="Chunk", type="PART_OF", target="Document", count=9),
+        RelationshipInfo(source="Document", type="ABOUT", target="Press", count=2),
+    ],
+    claims=SCHEMA.claims,
+)
+
+
+def test_the_record_layer_keeps_the_plans_labels_and_the_relationships_between_them():
+    records = FULL.records_only({"Press", "Part"})
+    assert [i.label for i in records.labels] == ["Press", "Part"] and records.claims == []
+    assert [(r.source, r.type, r.target) for r in records.relationships] == [("Part", "PART_OF", "Press")]
+    text = records.text()
+    assert "Claim patterns" not in text and "Chunk" not in text and "ABOUT" not in text
+    # PART_OF also joins chunks to documents, but it joins two record labels too, so it stays allowed
+    assert FULL.names_outside({"Press", "Part"}) == {"Chunk", "Document", "ABOUT"}
+
+
+def test_a_records_only_route_refuses_the_text_layer_and_retries_without_running_it():
+    store = FakeCypherStore(rows=[[2]])
+    llm, prompts = proposing(
+        proposal("MATCH (d:Document)-[:ABOUT]->(p:Press) RETURN count(d)"),
+        proposal("MATCH (p:Press) RETURN count(p)"),
+    )
+    route = ExactRoute(
+        store,
+        llm,
+        "m",
+        100,
+        schema=FULL.records_only({"Press", "Part"}),
+        prompt=exact.RECORDS_PROMPT,
+        excluded=FULL.names_outside({"Press", "Part"}),
+    )
+    outcome = route.answer("How many presses?")
+    assert outcome.trace.answered and outcome.entities == ["2"]
+    assert outcome.trace.attempts[0].issues == [
+        "it uses ABOUT, which this system may not read",
+        "it uses Document, which this system may not read",
+    ]
+    assert len(store.ran) == 1  # the refused query never reached the database
+    # the prompt describes records only: no claim layer, no documents
+    assert "Observation" not in prompts[0] and ":Document" not in prompts[0] and ":Press" in prompts[0]
+
+
 def test_two_refusals_or_failing_runs_give_up_so_the_question_can_fall_back():
     store = FakeCypherStore(error="Transaction timed out")
     llm, _ = proposing(proposal(READ, name="a"), proposal(READ, name="b"))
@@ -241,10 +317,30 @@ def test_the_graph_system_answers_exactly_when_it_can_and_falls_back_to_retrieva
     assert read.route == Route.RETRIEVAL and read.exact is None and retrieval.asked == ["Q2", "Q3"]
 
 
+def test_a_routed_system_signs_every_answer_with_its_own_name_whichever_route_answered():
+    # records plus vector RAG falls back to the vector baseline, whose answers say "vector" (here "graph")
+    retrieval = RecordingRetrieval()
+    failing = ExactRoute(
+        FakeCypherStore(error="boom"),
+        proposing(proposal(READ, name="a"), proposal(READ, name="b"))[0],
+        "m",
+        100,
+    )
+    fallback = RoutedGraph(FixedRouter(Route.EXACT), failing, retrieval, name=RECORDS_VECTOR).answer(
+        "Q1", "?"
+    )
+    read = RoutedGraph(FixedRouter(Route.RETRIEVAL), failing, retrieval, name=RECORDS_VECTOR).answer(
+        "Q2", "?"
+    )
+    assert (fallback.system, read.system) == (RECORDS_VECTOR, RECORDS_VECTOR)
+
+
 # --- the prompts ------------------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("prompt", [router.PROMPT, exact.PROMPT + exact.RETRY])
+@pytest.mark.parametrize(
+    "prompt", [router.PROMPT, exact.PROMPT + exact.RETRY, exact.RECORDS_PROMPT + exact.RETRY]
+)
 def test_the_router_and_cypher_prompts_speak_no_corpus_language(prompt):
     banned = ("product", "review", "vehicle", "complaint", "recall", "drawer", "defect", "pump", "staff")
     assert not [w for w in banned if w in prompt.lower()]

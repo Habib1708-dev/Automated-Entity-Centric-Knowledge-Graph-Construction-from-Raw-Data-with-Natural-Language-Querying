@@ -41,7 +41,9 @@ OUT = Path("out")
 # optional everywhere: without it a command reads DATA_DIR, which the smoke and dev presets set to a subset
 DATA_DIR = typer.Argument(None, help="Data directory; default: the data_dir setting (the preset's dataset).")
 PRESET_NAMES = typer.Argument(None, help="Presets to rebuild; default: every one with a sample block.")
-QA_SYSTEMS = typer.Option(list(qs.SYSTEMS), help="Systems to ask (graph, vector); each gets its own run.")
+QA_SYSTEMS = typer.Option(
+    list(qs.SYSTEMS), help="Systems to ask (graph, vector, records_vector); each gets its own run."
+)
 
 
 @app.callback()

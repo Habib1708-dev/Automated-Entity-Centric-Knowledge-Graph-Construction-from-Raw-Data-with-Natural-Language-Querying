@@ -28,7 +28,7 @@ uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random 
 uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
-uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question, graph route and vector-only baseline
+uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
 uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
@@ -206,7 +206,8 @@ src/kgbuilder/
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
-  query/            names -> traversal / graph_store -> reader ; systems (graph route, vector-only baseline)
+  query/            names -> traversal / graph_store -> reader ; systems (graph route, vector-only baseline,
+                    records plus vector RAG)
                     router -> exact (text2cypher) with cypher_check and graph_schema ; systems.RoutedGraph
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
 ```
@@ -309,6 +310,9 @@ the same reader model and the same number of chunks (`QA_TOP_K`), so they differ
   spelling (names and aliases) and by meaning (the nearest names), follows four fixed traversal
   patterns to chunks (`query/traversal.py`) and ranks them by similarity to the question;
 - `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph.
+- `records_vector` (R73): the `graph` system's router and exact route over the record layer alone (the
+  plan's labels: no documents, chunks or claims; code refuses a query that names them), with `vector`
+  as its retrieval route. It separates what the records give from what the extracted claims give.
 
 1. `kg qa GOLD` asks every question of a gold file (`tests/gold/qa/`, format `validation/qa_gold.py`)
    and writes `out/answers_<system>.jsonl`, with the chunks each reader saw and, for the graph, how they

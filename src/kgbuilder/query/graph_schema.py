@@ -7,7 +7,8 @@ runs against: labels with their property keys and a few example values, relation
 types and the claim patterns (subject type, predicate, object type) of the observations. Every value comes
 from the dataset at hand, which the prompt-engineering rules allow; the fixed shape of the pipeline's own
 nodes is described in the prompts. Chunk texts, vectors and evidence quotes are left out: long, and never
-what a filter or count needs.
+what a filter or count needs. `records_only` cuts the schema down to the plan's record layer, for the
+records-plus-vector system (R73).
 Not here: checking a query (cypher_check.py).
 """
 
@@ -68,11 +69,34 @@ class GraphSchema(BaseModel):
             lines.append(f"- :{info.label} ({info.count}): {props}")
         lines.append("Relationships (count):")
         lines += [f"- (:{r.source})-[:{r.type}]->(:{r.target}) ({r.count})" for r in self.relationships]
-        lines.append(
-            "Claim patterns of :Observation nodes, as subject entity type, predicate, object entity type:"
-        )
-        lines += [f"- {c.subject_type} {c.predicate} {c.object_type} ({c.count})" for c in self.claims]
+        if self.claims:  # none in the record layer alone (records_only), where the heading would mislead
+            lines.append(
+                "Claim patterns of :Observation nodes, as subject entity type, predicate, object entity type:"
+            )
+            lines += [f"- {c.subject_type} {c.predicate} {c.object_type} ({c.count})" for c in self.claims]
         return "\n".join(lines)
+
+    def records_only(self, record_labels: set[str]) -> "GraphSchema":
+        """The record layer alone (R73, records plus vector RAG): the labels in `record_labels` (the plan's),
+        the relationships between two of them, and no claim patterns."""
+        return GraphSchema(
+            labels=[info for info in self.labels if info.label in record_labels],
+            relationships=[
+                r for r in self.relationships if r.source in record_labels and r.target in record_labels
+            ],
+            claims=[],
+        )
+
+    def names_outside(self, record_labels: set[str]) -> frozenset[str]:
+        """The labels and relationship types a query over the record layer alone may not name: every label
+        outside `record_labels`, and every relationship type that never joins two of them. A type that does
+        join two of them stays allowed even where the text layer uses it too (`PART_OF` joins a part to its
+        product and a chunk to its document)."""
+        inside = {
+            r.type for r in self.relationships if r.source in record_labels and r.target in record_labels
+        }
+        labels = {info.label for info in self.labels} - record_labels
+        return frozenset(labels | ({r.type for r in self.relationships} - inside))
 
 
 def read_graph_schema(driver: Driver) -> GraphSchema:

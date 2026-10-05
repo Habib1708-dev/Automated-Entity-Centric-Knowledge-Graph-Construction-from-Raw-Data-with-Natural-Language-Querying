@@ -1,4 +1,4 @@
-"""The question-answering systems: the graph's retrieval route and the vector-only baseline.
+"""The question-answering systems: the graph system, the vector-only baseline, and records plus vector RAG.
 
 Role in the pipeline: `kg ask` and `kg qa` (pipeline/qa_stages.py) build them and ask them the questions.
 Design: Strategy. The systems implement `QASystem.answer` and share the reader, the number of chunks shown
@@ -9,7 +9,10 @@ Design: Strategy. The systems implement `QASystem.answer` and share the reader, 
   When nothing is linked or reached, the reader gets nothing: falling back to vector search would hide the
   graph's own failure;
 - `RoutedGraph`, the graph system `kg qa` scores: the router (router.py) sends a question to the exact
-  route (exact.py) or to `GraphRetrieval`, and an exact route that cannot answer falls back to retrieval.
+  route (exact.py) or to `GraphRetrieval`, and an exact route that cannot answer falls back to retrieval;
+- records plus vector RAG (R73, `build_records_vector`): the same router and exact route over the record
+  layer alone (no claims, no documents), with `VectorBaseline` as its retrieval route. Against the graph
+  system it shows what the extracted claims add; against the vector baseline, what the records add.
 Not here: the prompts (reader.py, router.py, exact.py), Cypher (graph_store.py).
 """
 
@@ -23,11 +26,14 @@ from ..llm.base import Embedder, LLMClient
 from ..validation.qa import Citation
 from ..validation.qa_gold import Route
 from .answers import RetrievalTrace, ShownChunk, SystemAnswer
-from .exact import ExactRoute
+from .exact import RECORDS_PROMPT, ExactRoute
 from .graph_store import CypherStore, GraphStore, StoredChunk
 from .names import NameLinker
 from .reader import Reader
 from .router import Router
+
+# the records-plus-vector system's name: its answers file, its MLflow run (`qa_records_vector`)
+RECORDS_VECTOR = "records_vector"
 
 
 class QASystem(Protocol):
@@ -105,25 +111,27 @@ class QASettings(BaseModel):
 
 
 class RoutedGraph:
-    """The graph system: the router chooses a route; the exact route answers from the rows of a checked
+    """A routed system: the router chooses a route; the exact route answers from the rows of a checked
     query, and when it cannot (both proposals refused or failing), the question falls back to retrieval.
-    The answer keeps the router's label (scored as route accuracy) and the exact route's trace."""
+    The answer keeps the router's label (scored as route accuracy) and the exact route's trace, and carries
+    this system's `name` whichever route answered. Template shared by the graph system (`GraphRetrieval`)
+    and records plus vector RAG (`VectorBaseline`)."""
 
-    name = "graph"
-
-    def __init__(self, router: Router, exact: ExactRoute, retrieval: GraphRetrieval):
+    def __init__(self, router: Router, exact: ExactRoute, retrieval: QASystem, name: str = "graph"):
         self._router = router
         self._exact = exact
         self._retrieval = retrieval
+        self.name = name
 
     def answer(self, question_id: str, question: str) -> SystemAnswer:
         route = self._router.route(question)
         if route != Route.EXACT:
-            return self._retrieval.answer(question_id, question).model_copy(update={"route": route})
+            read = self._retrieval.answer(question_id, question)
+            return read.model_copy(update={"route": route, "system": self.name})
         outcome = self._exact.answer(question)
         if not outcome.trace.answered:
             fallback = self._retrieval.answer(question_id, question)
-            return fallback.model_copy(update={"route": route, "exact": outcome.trace})
+            return fallback.model_copy(update={"route": route, "exact": outcome.trace, "system": self.name})
         return SystemAnswer(
             question_id=question_id,
             system=self.name,
@@ -149,6 +157,33 @@ def build_routed_graph(
         store, embedder, reader, settings.top_k, settings.link_fuzzy, settings.link_neighbours
     )
     return RoutedGraph(router, exact, retrieval)
+
+
+def build_records_vector(
+    store: QueryStore,
+    embedder: Embedder,
+    llm: LLMClient,
+    reader: Reader,
+    settings: QASettings,
+    record_labels: set[str],
+) -> RoutedGraph:
+    """Records plus vector RAG over `store` (R73): the router and the exact route see only the record layer
+    (`record_labels`, the plan's labels), code refuses a query naming anything outside it, and the vector
+    baseline answers what the exact route does not."""
+    full = store.schema()
+    exact = ExactRoute(
+        store,
+        llm,
+        settings.model,
+        settings.cypher_limit,
+        settings.temperature,
+        schema=full.records_only(record_labels),
+        prompt=RECORDS_PROMPT,
+        excluded=full.names_outside(record_labels),
+    )
+    router = Router(llm, settings.model, exact.schema_text, settings.temperature)
+    vector = VectorBaseline(store, embedder, reader, settings.top_k)
+    return RoutedGraph(router, exact, vector, name=RECORDS_VECTOR)
 
 
 def rank(vector: list[float], chunks: list[StoredChunk]) -> list[StoredChunk]:

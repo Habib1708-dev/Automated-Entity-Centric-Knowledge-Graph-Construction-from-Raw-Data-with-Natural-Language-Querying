@@ -10,7 +10,11 @@ Design: pure string rules (fixed decision 6: the LLM proposes, code decides, als
 - no quoted string: every value compared against travels as a parameter, and every `$name` used is given;
 - one statement;
 - a LIMIT: added when missing, refused when above the cap. Numbers may stay in the text (a year, `> 0`):
-  a number cannot break out of its place in a query, a string can.
+  a number cannot break out of its place in a query, a string can;
+- for a system that may read only part of the graph (records plus vector RAG, R73): no label or
+  relationship type outside that part. Names are read where Cypher writes them, after `:` or `|`
+  (`(n:Label)`, `[:TYPE|OTHER]`, `WHERE n:Label`), backticked or not. A pattern with no label and no type
+  could still step outside; the prompt never shows that part, and every query is kept in the answer's trace.
 Not here: the database's own check and the run (graph_store.py).
 """
 
@@ -31,6 +35,8 @@ _COMMENT = re.compile(r"//[^\n]*|/\*.*?\*/", re.DOTALL)
 _PARAMETER = re.compile(r"\$(\w+)")
 # a LIMIT that ends the query: "LIMIT 25", "LIMIT $n"; a trailing semicolon is allowed
 _FINAL_LIMIT = re.compile(r"\bLIMIT\s+(\$?\w+)\s*;?\s*$", re.IGNORECASE)
+# a label or relationship type as Cypher writes it: after ":" or "|", plain or in backticks
+_NAME_AFTER_COLON = re.compile(r"[:|]\s*(?:`((?:[^`]|``)*)`|([A-Za-z_]\w*))")
 
 
 class CheckedText(BaseModel):
@@ -67,3 +73,16 @@ def _with_limit(cypher: str, limit: int, issues: list[str]) -> str:
     if not value.isdigit() or int(value) > limit:
         issues.append(f"its LIMIT must be a number of at most {limit}")
     return cypher
+
+
+def excluded_name_issues(cypher: str, excluded: frozenset[str]) -> list[str]:
+    """One issue per label or relationship type of `excluded` that `cypher` names; worded for the retry.
+
+    Case-sensitive, as Neo4j's labels and types are. Comments are ignored; a value in a map (`{year: 2015}`)
+    is read as a name too, which can only refuse more, never let an excluded name through.
+    """
+    if not excluded:
+        return []
+    bare = _COMMENT.sub(" ", cypher)
+    named = {quoted.replace("``", "`") or plain for quoted, plain in _NAME_AFTER_COLON.findall(bare)}
+    return [f"it uses {name}, which this system may not read" for name in sorted(named & excluded)]

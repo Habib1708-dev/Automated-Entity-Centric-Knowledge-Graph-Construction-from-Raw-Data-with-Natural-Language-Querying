@@ -3,7 +3,8 @@
 Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-score` and `kg qa-compare`
 need no graph and no model.
 Design: wiring and logging only, like stages.py (kept apart from it, which builds the graph). Each system
-answers in its own MLflow run (`qa_graph`, `qa_vector`), so its tokens and `cost_usd` are its own. `kg qa`
+answers in its own MLflow run (`qa_graph`, `qa_vector`, `qa_records_vector`), so its tokens and `cost_usd`
+are its own. `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
 question, which `kg qa-compare` compares between two systems or two steps.
@@ -20,7 +21,14 @@ from ..llm.thinking import with_thinking
 from ..query import exact, reader, router
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.graph_store import Neo4jGraphStore
-from ..query.systems import QASettings, QASystem, VectorBaseline, build_routed_graph
+from ..query.systems import (
+    RECORDS_VECTOR,
+    QASettings,
+    QASystem,
+    VectorBaseline,
+    build_records_vector,
+    build_routed_graph,
+)
 from ..tracking.base import Run
 from ..validation.paired import compare_outcomes
 from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
@@ -29,7 +37,9 @@ from .inputs import digest, input_file
 from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
 
-SYSTEMS = ("graph", "vector")
+SYSTEMS = ("graph", "vector", RECORDS_VECTOR)
+# the systems with a router and an exact route, which log route metrics and their two extra prompts
+ROUTED = ("graph", RECORDS_VECTOR)
 
 
 def _embedder(ctx: PipelineContext) -> Embedder:
@@ -47,6 +57,8 @@ def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QAS
     store = Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s)
     if system == "vector":
         return VectorBaseline(store, _embedder(ctx), answer_reader, s.qa_top_k)
+    if system == RECORDS_VECTOR and plan is None:
+        raise ConfigurationError("records plus vector RAG needs the construction plan's record labels")
     settings = QASettings(
         model=s.qa_model,
         temperature=s.llm_temperature,
@@ -55,7 +67,14 @@ def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QAS
         link_neighbours=s.qa_link_neighbours,
         cypher_limit=s.qa_cypher_limit,
     )
+    if system == RECORDS_VECTOR:
+        labels = {rule.label for rule in plan.nodes}
+        return build_records_vector(store, _embedder(ctx), llm, answer_reader, settings, labels)
     return build_routed_graph(store, _embedder(ctx), llm, answer_reader, settings)
+
+
+def _cypher_prompt(system: str) -> str:
+    return (exact.RECORDS_PROMPT if system == RECORDS_VECTOR else exact.PROMPT) + exact.RETRY
 
 
 def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
@@ -70,24 +89,25 @@ def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
         "qa_top_k": s.qa_top_k,
         "embed_model": s.embed_model,
     }
-    if system == "graph":
+    if system in ROUTED:
         params.update(
             router_prompt_version=prompt_version(router.PROMPT),
-            cypher_prompt_version=prompt_version(exact.PROMPT + exact.RETRY),
-            qa_hops=s.qa_hops,
-            qa_link_fuzzy=s.qa_link_fuzzy,
-            qa_link_neighbours=s.qa_link_neighbours,
+            cypher_prompt_version=prompt_version(_cypher_prompt(system)),
             qa_cypher_limit=s.qa_cypher_limit,
             qa_cypher_timeout_s=s.qa_cypher_timeout_s,
+        )
+    if system == "graph":
+        params.update(
+            qa_hops=s.qa_hops, qa_link_fuzzy=s.qa_link_fuzzy, qa_link_neighbours=s.qa_link_neighbours
         )
     return params
 
 
 def _log_prompts(run: Run, system: str) -> None:
     run.text(reader.PROMPT, "prompts/qa_reader.txt")
-    if system == "graph":
+    if system in ROUTED:
         run.text(router.PROMPT, "prompts/qa_router.txt")
-        run.text(exact.PROMPT + exact.RETRY, "prompts/qa_cypher.txt")
+        run.text(_cypher_prompt(system), "prompts/qa_cypher.txt")
 
 
 def _check_system(system: str) -> str:
@@ -177,7 +197,7 @@ class QAStage(BaseStage):
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
         run.metrics(**_retrieval_metrics(answers))
-        if self.system == "graph":
+        if self.system in ROUTED:
             run.metrics(**_route_metrics(answers))
         run.artifact(path)
         run.artifact(Path(state.gold))

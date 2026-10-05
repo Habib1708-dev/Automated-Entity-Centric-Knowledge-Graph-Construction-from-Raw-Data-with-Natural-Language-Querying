@@ -2650,6 +2650,30 @@ paid runs, asked first.
   - Gate: 369 passed, `ruff check` clean. $0, no run. **Part a done**; part b (records plus vector RAG,
     the Gemini builds, `kg qa` on three systems) needs the user's yes with its cost estimate.
 
+- **Part b, code: records plus vector RAG (done 2026-10-05).** The third system of the task file, until
+  Step 4's query plans exist the Step 2 exact route with the claim layer left out. `kg qa` now asks three
+  systems by default (`graph`, `vector`, `records_vector`), each in its own MLflow run.
+  - `query/systems.py`: `build_records_vector` builds a `RoutedGraph` (now named per system, any retrieval
+    system behind it) from the router and the exact route over the record layer, with `VectorBaseline` as
+    its retrieval route; every answer carries the system's own name, also when the vector baseline answered.
+  - `query/graph_schema.py`: `records_only` keeps the plan's labels, the relationships between two of them
+    and no claim patterns (the claim heading is left out when there are none); `names_outside` gives the
+    labels and relationship types such a query may not name (a type that also joins two record labels, as
+    furniture's `PART_OF`, stays allowed).
+  - `query/cypher_check.py`: `excluded_name_issues` refuses a query that names one of them after `:` or `|`,
+    backticked or not; the refusal goes into the one retry like any other. A pattern with neither a label
+    nor a type could still step into the text layer; the prompt never shows it and every query is kept in
+    the trace, so the results check for it.
+  - `query/exact.py`: the prompt is built from parts; `RECORDS_PROMPT` has one sentence on records in place
+    of the paragraph on documents and claims. The graph system's prompt is byte-identical (prompt version
+    `e2bc6e4bfe20` before and after), so its runs stay comparable.
+  - Tests: `tests/test_query_exact.py` (five refused forms, record names and map values not mistaken, the
+    record layer of a schema, a refused text-layer query retried without reaching the database, the
+    system's name on fallback and retrieval answers, the corpus-quote guard on the new prompt),
+    `tests/test_query_graph.py` (Neo4j: the record layer of a real graph; `kg qa` with `records_vector`
+    end to end, a refused query, no text layer in any prompt). Gate: 381 passed (369 before), `ruff check`
+    clean. No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

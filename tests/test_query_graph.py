@@ -1,6 +1,8 @@
 """The query stage against Neo4j (R71): each traversal pattern on a hand-made graph, the hop limit, walks that
 must not pass through documents, the node names and chunks the store reads, the chunk vector index, and
-`kg qa`'s stage end to end with a scripted reader (params, metrics and the answers file). Needs Neo4j."""
+`kg qa`'s stage end to end with a scripted reader (params, metrics and the answers file), and the
+records-plus-vector system on the same graph: its schema cut to the record layer and its stage (R73).
+Needs Neo4j."""
 
 import json
 import time
@@ -289,3 +291,78 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
     assert any(path.endswith("answers_graph.jsonl") for path in run.artifacts)
     report = json.loads((out / "qa_report_graph.json").read_text(encoding="utf-8"))
     assert report["k"] == 2
+
+
+def test_the_record_layer_of_a_real_graph_leaves_out_documents_chunks_and_claims(driver):
+    build(driver)
+    schema = Neo4jGraphStore(driver, PLAN, hops=1).schema()
+    labels = {rule.label for rule in PLAN.nodes}
+    records = schema.records_only(labels)
+    assert {i.label for i in records.labels} == labels
+    assert {r.type for r in records.relationships} == {"PART_OF", "MADE_BY", "CONCERNS"}
+    # PART_OF stays allowed: it joins a part to its press, though it also joins chunks to documents
+    assert schema.names_outside(labels) == {
+        "Chunk", "Document", "Entity", "Observation", "ABOUT", "FROM", "HAS_OBSERVATION", "MENTIONS",
+        "OBJECT", "REFERS_TO", "SUBJECT",
+    }  # fmt: skip
+
+
+def test_kg_qa_asks_records_plus_vector_over_the_record_layer_only(driver, tmp_path):
+    build(driver)
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / PLAN_FILE).write_text(PLAN.model_dump_json(), encoding="utf-8")
+    gold = QAGold.model_validate(
+        {
+            "dataset": "test", "written_by": "claude", "date": "2026-10-05",
+            "corpus": {
+                "data_dir": "x", "chunk_max_chars": 1500, "chunk_min_chars": 200, "chunk_overlap_chars": 0
+            },
+            "questions": [
+                {"id": "Q1", "type": "aggregation", "question": "How many presses are there?",
+                 "expected": {"number": 2}, "route": "exact", "sql": "SELECT 2"},
+            ],
+        }
+    )  # fmt: skip
+    gold_file = tmp_path / "gold.json"
+    gold_file.write_text(gold.model_dump_json(), encoding="utf-8")
+    proposals = [  # the first reads the documents and is refused by code; the retry counts the records
+        CypherProposal(
+            cypher="MATCH (d:Document)-[:ABOUT]->(p:Press) RETURN count(DISTINCT p)", answer_form="number"
+        ),
+        CypherProposal(cypher="MATCH (p:Press) RETURN count(p)", answer_form="number"),
+    ]
+    prompts: list[str] = []
+
+    def script(prompt, schema):
+        prompts.append(prompt)
+        if schema is RouteChoice:
+            return RouteChoice(route="exact", reason="it counts")
+        return proposals.pop(0)
+
+    tracker = RecordingTracker()
+    settings = Settings(qa_model="reader-model", qa_workers=1)
+    ctx = PipelineContext(
+        settings=settings,
+        driver=driver,
+        out=out,
+        llm=ScriptedLLM(script),
+        embedder=AxisEmbedder(),
+        tracker=tracker,
+    )
+
+    run_stages(ctx, PipelineState(gold=gold_file), [QAStage("records_vector")])
+
+    run = tracker.run("qa_records_vector")
+    assert run.logged_params["system"] == "records_vector" and "cypher_prompt_version" in run.logged_params
+    assert "qa_hops" not in run.logged_params  # no traversal: its retrieval is the vector baseline
+    metrics = run.logged_metrics
+    assert metrics["answer_accuracy"] == 1.0 and (metrics["cypher_proposals"], metrics["cypher_refused"]) == (
+        2,
+        1,
+    )
+    (answer,) = load_system_answers(out / "answers_records_vector.jsonl")
+    assert answer.system == "records_vector" and answer.number == 2.0
+    assert "Document" in answer.exact.attempts[0].issues[0] + answer.exact.attempts[0].issues[1]
+    # neither the router nor text2cypher was shown the text layer
+    assert all(":Chunk" not in p and ":Observation" not in p and "Claim patterns" not in p for p in prompts)
