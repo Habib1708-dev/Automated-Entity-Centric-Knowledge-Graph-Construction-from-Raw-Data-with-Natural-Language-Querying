@@ -1557,7 +1557,7 @@
      "quote": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES."
     }
    ],
-   "note": "Recorded merge of R63, labelled the same kind: ER pair 4 (R51) already has 'brake suddenly' = 'braked on its own', which is the event of 'activated the brakes' in the Rogue's sentence. R63's false paths came from the shared kind reaching other vehicles, which R64's observations removed; as a kind of problem the two are one (uncommanded braking)."
+   "note": "Recorded merge of R63, labelled the same kind: ER pair 4 (R51) already has 'brake suddenly' = 'braked on its own', which is the event of 'activated the brakes' in the Rogue's sentence. The kind is unintended, sudden braking only, not braking in general: this gold keeps 'brake' / 'left rear brake' and 'did not stop' / 'braked on its own' apart. R63's false paths came from the shared kind reaching other vehicles, which R64's observations removed. Confirmed by the user, 2026-10-05."
   }
  ]
 }

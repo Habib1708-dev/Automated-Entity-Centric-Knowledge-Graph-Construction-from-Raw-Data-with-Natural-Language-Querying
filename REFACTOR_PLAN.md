@@ -3078,6 +3078,20 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
     (Found along the way).
   - **R75 done** (code, gold and the cached rebuild). Open by the user's choice: `kg qa` on the new graphs
     and the paired comparison with Steps 3-4. Next: Step 6 (attachment).
+- **Decisions confirmed by the user (2026-10-05, after part d).**
+  1. A keyed type may cover several compatible plan labels, provided the mapping is explicit: it is the
+     type's `record_labels` in the reviewed text schema, checked against the plan (`identity_issues`), and
+     record matching looks only at those labels; nothing is inferred at run time. Furniture's Component
+     covering Component and Assembly records stands.
+  2. The field log's "M. Lopez" is the Soil Ecology Maria Lopez, by the shared Aldmoor campaign evidence
+     (the log is the Aldmoor bog field log of winter 2024-25; the newsletter credits her with the Aldmoor
+     campaign over two winters), not by the name, which fits every Maria Lopez. The task file's outdated
+     expectation ("no evidence: stays apart") was corrected; gold and QA gold G03 now agree.
+  3. "BRAKE SUDDENLY" / "ACTIVATED THE BRAKES" are one kind, unintended sudden braking, and only that: the
+     gold keeps "brake" / "left rear brake" and "did not stop" / "braked on its own" apart.
+  Gold labels unchanged; the two pairs' notes in `tests/gold/r75/generality_gold.json` and
+  `heldout_gold.json` now state the evidence and the scope (a note-only correction, made after the run and
+  listed here).
 
 ## Found along the way
 
