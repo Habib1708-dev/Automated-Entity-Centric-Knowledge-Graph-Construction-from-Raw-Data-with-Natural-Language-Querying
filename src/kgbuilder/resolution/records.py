@@ -12,12 +12,16 @@ Design: pure matching over `RecordCandidate`s, unit-tested without a database; `
   3. `key_in_sentence`: no name decides, and exactly one key (of the tied records when names tie) stands
      in a sentence naming the mention;
   4. `attribute`: names tie, and a key attribute of exactly one tied record is written in a sentence
-     naming the mention ("Maria Lopez (Finance Office)" -> the Maria Lopez whose team is Finance Office).
+     naming the mention ("Maria Lopez (Finance Office)" -> the Maria Lopez whose team is Finance Office);
+  5. `variant_attribute`: no name matches, and among the records whose names are variants of the mention's
+     ("Dr. J. Pike" of "Jonathan Pike", variants.py) exactly one has a key attribute in such a sentence.
+A name is also matched without its leading title ("Dr Jonathan Pike" is "Jonathan Pike").
 Records still tied are not linked: the mention is logged as ambiguous, because a wrong link answers
 questions about the wrong record, and a missing one only leaves the mention to stand for itself.
-Not here: names written differently (b2, individuals.py), concepts (concepts.py), writing (identity.py).
+Not here: joining individuals (individuals.py), concepts (concepts.py), writing (identity_graph.py).
 """
 
+from collections.abc import Callable
 from typing import Literal
 
 from neo4j import Driver
@@ -28,6 +32,7 @@ from ..core.cypher import cypher_ident
 from ..core.text import contains_words, norm, squash
 from ..structured.plan import ConstructionPlan, name_property
 from .linking import DomainNode
+from .variants import compatible, without_title
 
 # Names shorter than this, once squashed, are too likely to occur inside an unrelated name ("bed" in
 # "embedded") to be trusted for containment; the same bound as document matching (linking.py).
@@ -45,7 +50,7 @@ _MIN_ATTRIBUTE_CHARS = 3
 # the parts of what it is about, not who made them (R11).
 _SCOPE_HOPS = 2
 
-LinkReason = Literal["key", "name", "contained", "key_in_sentence", "attribute"]
+LinkReason = Literal["key", "name", "contained", "key_in_sentence", "attribute", "variant_attribute"]
 
 
 class RecordCandidate(DomainNode):
@@ -127,18 +132,19 @@ def _by_name(
     Outside every scope only fuzzy matching is used: a scope vouches that the document is about the
     record's neighbourhood, the whole domain vouches for nothing, so containment is not trusted there.
     """
+    names = sorted({name, without_title(name)})
     found: dict[str, NameMatch] = {}
     contained = False
     for scope in scopes:
-        in_scope = name_matches([name], scope, threshold)
+        in_scope = name_matches(names, scope, threshold)
         if not in_scope:  # fuzzy said nothing at all; a fuzzy tie is not overridden by containment
-            in_scope = contained_matches([name], scope)
+            in_scope = contained_matches(names, scope)
             contained |= bool(in_scope)
         for m in in_scope:
             found.setdefault(m.record.element_id, m)
     if found:
         return _ByName(matches=list(found.values()), scoped=True, contained=contained)
-    return _ByName(matches=name_matches([name], records, threshold), scoped=False, contained=False)
+    return _ByName(matches=name_matches(names, records, threshold), scoped=False, contained=False)
 
 
 def _key_tokens(text: str) -> set[str]:
@@ -169,7 +175,7 @@ def match_record(
     scopes: list[list[RecordCandidate]],
     threshold: float,
 ) -> RecordMatch:
-    """The record a mention called `name` is, from its name and the `sentences` that name it (rules 1-4 of
+    """The record a mention called `name` is, from its name and the `sentences` that name it (rules 1-5 of
     the module header). `records` are the candidates of its type's labels, `scopes` the candidates near
     each thing its document is about. Pure."""
     if len(by_key := _with_key_in([name], records)) == 1:
@@ -184,23 +190,41 @@ def match_record(
             link=RecordLink(record=m.record, reason=reason, score=m.score, evidence=name, scoped=named.scoped)
         )
     tied = [m.record for m in named.matches]
-    keyed = _with_key_in(sentences, tied or records)
-    if len(keyed) == 1:
-        evidence = next(s for s in sentences if _with_key_in([s], keyed))
-        return RecordMatch(
-            link=RecordLink(
-                record=keyed[0], reason="key_in_sentence", score=100.0, evidence=evidence, scoped=False
-            )
-        )
+    link = _by_sentence(name, sentences, records, tied, named)
+    return RecordMatch(link=link) if link else RecordMatch(tied=tied)
+
+
+def _by_sentence(
+    name: str,
+    sentences: list[str],
+    records: list[RecordCandidate],
+    tied: list[RecordCandidate],
+    named: _ByName,
+) -> RecordLink | None:
+    """Rules 3-5: what the sentences naming the mention tell when its name decides nothing."""
+    if len(keyed := _with_key_in(sentences, tied or records)) == 1:
+        return _from_sentence(keyed[0], "key_in_sentence", 100.0, sentences, _with_key_in, scoped=False)
     if len(told := _with_attribute_in(sentences, tied)) == 1:
-        evidence = next(s for s in sentences if _with_attribute_in([s], told))
         score = named.matches[0].score
-        return RecordMatch(
-            link=RecordLink(
-                record=told[0], reason="attribute", score=score, evidence=evidence, scoped=named.scoped
-            )
-        )
-    return RecordMatch(tied=tied)
+        return _from_sentence(told[0], "attribute", score, sentences, _with_attribute_in, named.scoped)
+    if not tied:  # a variant only when no name matched: a tie is a choice among named records, not variants
+        variants = [r for r in records if compatible(name, r.name)]
+        if len(told := _with_attribute_in(sentences, variants)) == 1:
+            return _from_sentence(told[0], "variant_attribute", 0.0, sentences, _with_attribute_in, False)
+    return None
+
+
+def _from_sentence(
+    record: RecordCandidate,
+    reason: LinkReason,
+    score: float,
+    sentences: list[str],
+    test: Callable[[list[str], list[RecordCandidate]], list[RecordCandidate]],
+    scoped: bool,
+) -> RecordLink:
+    """A link whose evidence is the first sentence that shows it."""
+    evidence = next(s for s in sentences if test([s], [record]))
+    return RecordLink(record=record, reason=reason, score=score, evidence=evidence, scoped=scoped)
 
 
 def read_records(

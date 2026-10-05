@@ -2948,10 +2948,54 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
     a sentence, attribute and ambiguity), and every Neo4j test that hand-built `:Entity` graphs rewritten
     to mentions (resolution, derivation, linking, qualifiers, validation, ER, judge, coverage, query, R75
     questions). Gate: 447 passed (436 after part a), `ruff check` clean.
+- **Part b2: one individual across documents and the new blocking rules (done 2026-10-05).** No run.
+  - `resolution/variants.py`: name variants, pure and language-level: leading titles dropped ("Dr", "Prof",
+    ...), the same last word, first words equal, an initial or a short form of at least three letters
+    ("Jon" for "Jonathan"); middle words ignored; one word alone pairs with nothing. "J. Pike" fits both
+    Jonathan and Judith, so a variant only nominates.
+  - `resolution/records.py`: a name is also matched without its title ("Dr Jonathan Pike"), and rule 5,
+    `variant_attribute`: when no name matches, the one variant-compatible record whose key attribute stands
+    in a sentence naming the mention ("Dr. J. Pike (Soil Ecology)" -> S-131).
+  - `resolution/individuals.py`: units (a record's mentions are one unit: the same record is evidence;
+    every other keyed or individual mention alone), pairs nominated by variant, spelling (`er_borderline`)
+    or meaning (the concepts' blocking rule over name embeddings), decided by one domain-neutral
+    adjudication (`IDENTITY_PROMPT`, response `SameIndividual`) that must answer "the same" and quote one
+    sentence of each side; code keeps the join only when each quote is in that side's own chunks and names
+    that side (`quote_not_verified` otherwise), never puts two records in one group (`different_records`,
+    two records are not even asked about), and leaves every pair apart without an LLM (`skipped`).
+    `resolution/particulars.py` runs records then individuals and turns each group into assignments (its
+    record, else an `:Individual` named after the fullest name of its most mentioned unit; a mention that
+    joined says `adjudicated`, with the two quotes as evidence and the model as `by`).
+  - `resolution/guards.py` (Strategy): `OpposedPolarity` (R66's rule, moved), `SameSentence` (both names at
+    separate places of one sentence of the concepts' chunks; a name inside the other is no second thing),
+    `PartAndWhole` (a claim of a fact type the schema marks `part_of`, either direction). The resolver drops
+    a nominated pair a guard blocks and logs it once per pair over all passes.
+  - Metrics of `resolve`: `individual_candidates`, `individual_joined`, `individual_apart`,
+    `individual_quote_not_verified`, `individual_different_records`, `individual_skipped`,
+    `blocked_opposed_polarity`, `blocked_same_sentence`, `blocked_part_and_whole`, `linked_by_variant_attribute`;
+    param `individual_prompt_version`; both adjudication prompts logged as artifacts. `resolve.json` gains
+    `individual_decisions` and `blocked`.
+  - Fixed along the way, with a test that failed before: the shared sentence splitter (`core/text.py`) cut
+    "Talk by Dr. J. Pike (Soil Ecology)" into three sentences, so no sentence named the person; a full stop
+    after a capital initial or a form of address ends no sentence now (a line break still does). It also
+    changes the quote a derived claim takes from such a sentence (Found along the way).
+  - Tests: `tests/test_individuals.py` (20: variants and non-variants, titles, the titled and the variant
+    record rules, nomination, the quote check, joining with refusals and the two-record guard, no LLM no
+    join, the display name, the prompt's corpus-language guard), `tests/test_guards.py` (7), and in
+    `tests/test_identity.py` (Neo4j, scripted LLM) the Pike case end to end (title, attribute, a verified
+    join, a refused one, Judith apart) and a part kept from its whole only by the part-of flag. Gate: 477
+    passed (447 after b1), `ruff check` clean.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **(Fixed in R75 b2.) The sentence splitter cut names at their initials (found in R75).** `core/text.py`
+  split after every ". ", so "Talk by Dr. J. Pike (Soil Ecology)" was three sentences and no sentence named
+  "Dr. J. Pike": the identity stage could not read the attribute next to it. A full stop after a capital
+  initial or a form of address no longer ends a sentence. Side effect, unmeasured: a derived claim whose
+  sentence holds such an abbreviation quotes the longer sentence now, and the adjudication context lines of
+  such sentences change (new LLM calls). The coverage sample has its own splitter and is unchanged.
 
 - **(Fixed with R75 b1's rewrite of the check.) The schema check refused every number (found in R75).**
   "consistency: every entity type is in the schema" compared entity types with `schema.entity_names()`,

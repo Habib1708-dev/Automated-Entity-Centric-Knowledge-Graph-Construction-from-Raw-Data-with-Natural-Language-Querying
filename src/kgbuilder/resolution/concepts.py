@@ -4,8 +4,10 @@ Role in the pipeline: the concept part of `kg resolve` (identity.py), after reco
 mentions of a concept type (and of the built-in `Value`) with one type and normalised name start as one
 concept, across documents; entity resolution (resolver.py) then decides which concepts are the same kind.
 Design: a concept is what an `:Entity` was before R75 (one per type and name), so the resolver's candidates,
-guards, blocking, passes and canonical choice are unchanged; the difference is the outcome, which identity.py
-writes as one `REFERS_TO` edge per mention instead of merging nodes. A value's concept is named by its
+blocking, passes and canonical choice are unchanged; the outcome is written by identity.py as one
+`REFERS_TO` edge per mention instead of merging nodes. Two guards join the polarity guard of R66
+(guards.py), built here from the graph: the sentences of the concepts' chunks (`SameSentence`) and the
+claims of the schema's part-of fact types (`PartAndWhole`). A value's concept is named by its
 canonical spelling ("25kg" and "25 kilograms" are one "25 kg"), and values are never compared.
 Not here: the pure decision steps (resolver.py), records and individuals (records.py, identity.py).
 """
@@ -16,9 +18,12 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.identity import concept_id, document_of
+from ..core.text import split_sentences
 from ..core.values import VALUE_TYPE, parse_quantity
 from ..llm.base import Embedder, LLMClient
+from ..text.schema import TextSchema
 from .blocking import Blocking
+from .guards import BlockLog, Guard, OpposedPolarity, PartAndWhole, SameSentence
 from .matchers import EntityRecord
 from .mentions import MentionRecord, read_mention_texts
 from .resolver import (
@@ -72,6 +77,7 @@ class ConceptResolution(BaseModel):
     decisions: list[Decision]
     groups: list[MergeGroup]
     passes: int
+    blocked: dict[str, int] = {}  # guard name -> the pairs it kept apart
 
 
 def concept_records(mentions: list[MentionRecord]) -> tuple[list[EntityRecord], dict[str, list[str]]]:
@@ -107,6 +113,28 @@ def _concept_name(mention: MentionRecord) -> str:
     return quantity.text if quantity else mention.name
 
 
+def concept_guards(driver: Driver, mentions: list[MentionRecord], schema: TextSchema | None) -> list[Guard]:
+    """The guards of a resolution of `mentions`: polarity (R66), both named in one sentence of their chunks,
+    and a part and its whole by a claim of one of the schema's part-of fact types (R75)."""
+    texts = {t.chunk_id: t.text for t in read_mention_texts(driver, sorted(m.id for m in mentions))}
+    sentences = [s for text in texts.values() for s in split_sentences(text)]
+    signatures = (
+        [[f.subject_type, f.predicate, f.object_type] for f in schema.fact_types if f.part_of]
+        if schema
+        else []
+    )
+    pairs: list[tuple[str, str]] = []
+    if signatures:
+        records, _, _ = driver.execute_query(
+            # the claims' own wordings: a concept's aliases hold every wording of its mentions
+            "MATCH (s:Mention)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Mention) "
+            "WHERE [s.type, o.predicate, t.type] IN $signatures RETURN s.name AS part, t.name AS whole",
+            signatures=signatures,
+        )
+        pairs = [(r["part"], r["whole"]) for r in records]
+    return [OpposedPolarity(), SameSentence(sentences), PartAndWhole(pairs)]
+
+
 def resolve_concepts(
     driver: Driver,
     mentions: list[MentionRecord],
@@ -115,11 +143,14 @@ def resolve_concepts(
     thresholds: tuple[float, float],
     embedder: Embedder | None = None,
     blocking: Blocking | None = None,
+    schema: TextSchema | None = None,
 ) -> ConceptResolution:
     """Decide which concepts of `mentions` are the same kind. `thresholds` is (auto merge, borderline);
     with `llm=None` borderline pairs stay apart (logged as skipped); meaning-based candidates need both an
-    embedder and a `blocking`. Reads the graph for the adjudication context only; writes nothing."""
+    embedder and a `blocking`; `schema` names the part-of fact types. Reads the graph for the guards and
+    the adjudication context only; writes nothing."""
     auto_merge, borderline = thresholds
+    blocked: BlockLog = {}
     records, members = concept_records(mentions)
     adjudicator_for: AdjudicatorFor | None = None
     if llm is not None:
@@ -128,11 +159,17 @@ def resolve_concepts(
             return _llm_adjudicator(llm, model, _context(driver, mentions, members), candidates, merged)
 
     embedding = embedding_matcher(records, embedder, blocking)
+    guards = concept_guards(driver, mentions, schema)
     decisions, groups, passes = decide_in_passes(
-        records, borderline, embedding, blocking, auto_merge, adjudicator_for
+        records, borderline, embedding, blocking, auto_merge, adjudicator_for, guards=guards, blocked=blocked
     )
     return ConceptResolution(
-        concepts=records, members=members, decisions=decisions, groups=groups, passes=passes
+        concepts=records,
+        members=members,
+        decisions=decisions,
+        groups=groups,
+        passes=passes,
+        blocked={name: len(pairs) for name, pairs in sorted(blocked.items())},
     )
 
 
@@ -142,10 +179,11 @@ def preview_concepts(
     borderline: float,
     embedder: Embedder | None,
     blocking: Blocking | None,
+    guards: list[Guard],
 ) -> ResolvePreview:
     """The candidate pairs a resolution of `mentions` would consider, with no LLM call and no write."""
     records, _ = concept_records(mentions)
-    return preview(records, nominate(records, borderline, embedder, blocking), auto_merge)
+    return preview(records, nominate(records, borderline, embedder, blocking, guards), auto_merge)
 
 
 ContextReader = Callable[[list[str]], list[MentionRow]]

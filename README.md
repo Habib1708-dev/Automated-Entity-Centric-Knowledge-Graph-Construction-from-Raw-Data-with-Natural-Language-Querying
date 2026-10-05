@@ -177,11 +177,14 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   `keyed` types refer to a record of their plan labels (by its key, by name inside the scope of the
   document's thing, or by a key attribute in the same sentence: "Maria Lopez (Finance Office)" is the
   Maria Lopez whose team is Finance Office; records still tied are not linked, the mention is logged as
-  ambiguous); `individual` types, and keyed mentions no record fits, refer to an `(:Individual)` of their
-  own, so one name in two documents stays two things; `concept` types refer to a `(:Concept)` per type and
-  name, and entity resolution joins concepts that are the same kind. Entity resolution never joins two
-  numbers, nor two kinds that claims use with opposite polarity ("resistant to scratches" and "scratches
-  easily"). Nothing is merged: undoing a decision deletes its edge, and the mention then stands for
+  ambiguous); `individual` types, and keyed mentions no record fits, refer to an `(:Individual)`, and one
+  name in two documents stays two things unless the text gives evidence: name variants ("Dr. J. Pike",
+  "Jon Pike", "Jonathan Pike") only nominate a pair, which is joined when a record's key attribute stands in
+  the sentence or an LLM answers "the same" with a quote from each side that code finds in that side's own
+  text; `concept` types refer to a `(:Concept)` per type and name, and entity resolution joins concepts
+  that are the same kind. Entity resolution never joins two numbers, nor two kinds that claims use with
+  opposite polarity ("resistant to scratches" and "scratches easily"), nor two names one sentence uses as
+  two things, nor a part and its whole (a claim of a fact type the schema marks `part_of`). Nothing is merged: undoing a decision deletes its edge, and the mention then stands for
   itself. The fact reader of validation flattens every claim into one triple with its ends' canonical
   names and every other name their mentions are written with, leaving out self-references and exact
   repeats (same entities, predicate, chunk, quote and time).
@@ -217,7 +220,8 @@ src/kgbuilder/
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
   resolution/       linking (ABOUT, attachment) -> derivation ; identity: mentions -> records ->
-                    concepts (matchers, blocking: Strategies -> resolver decisions) -> identity edges
+                    individuals (variants) / concepts (matchers, blocking, guards: Strategies -> resolver
+                    decisions) -> identity_graph (the edges)
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)

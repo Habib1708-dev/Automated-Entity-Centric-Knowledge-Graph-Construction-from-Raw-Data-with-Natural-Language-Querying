@@ -58,19 +58,39 @@ def sentences_naming(text: str, names: list[str]) -> list[str]:
     (Finance Office)") may stand in any sentence that names the mention, not only the first.
     """
     wanted = [norm(name) for name in names if norm(name)]
-    found = []
-    for sentence in _SENTENCE_END.split(text):
-        sentence = sentence.strip()
-        if sentence and any(w in norm(sentence) for w in wanted):
-            found.append(sentence)
-    return found
+    return [s for s in split_sentences(text) if any(w in norm(s) for w in wanted)]
+
+
+# A full stop after a capital initial ("J.") or a form of address ("Dr.") ends no sentence (found in R75:
+# "Dr. J. Pike (Soil Ecology)" became three sentences, none naming the person). Capital letters only, and
+# the closed list is of the language, not of a domain; a line break always ends a sentence.
+_NO_SENTENCE_END = re.compile(r"(?<![A-Za-z])(?:[A-Z]|Dr|Mr|Mrs|Ms|Mx|Prof|Rev|St)\.$")
+
+
+def split_sentences(text: str) -> list[str]:
+    """The sentences of `text`, verbatim and stripped, empty ones left out."""
+    pieces, start = [], 0
+    for end in _SENTENCE_END.finditer(text):
+        piece = text[start : end.start()]
+        if "\n" not in end.group() and _NO_SENTENCE_END.search(piece):
+            continue  # the piece goes on into the next one
+        pieces.append(piece)
+        start = end.end()
+    pieces.append(text[start:])
+    return [p.strip() for p in pieces if p.strip()]
+
+
+def word_spans(text: str, phrase: str) -> list[tuple[int, int]]:
+    """Where `phrase` occurs in `norm(text)` as whole words: (start, end) offsets, in order."""
+    wanted = norm(phrase)
+    if not wanted:
+        return []
+    # (?<![a-z0-9]) and (?![a-z0-9]): the phrase may not start or end inside a longer word or number
+    pattern = rf"(?<![a-z0-9]){re.escape(wanted)}(?![a-z0-9])"
+    return [m.span() for m in re.finditer(pattern, norm(text))]
 
 
 def contains_words(text: str, phrase: str) -> bool:
     """True when `phrase` occurs in `text` as whole words, both compared with `norm`: "Finance Office"
     is in "Maria Lopez (Finance Office) presented", "ESCAPE" is not in "the car escaped"."""
-    wanted = norm(phrase)
-    if not wanted:
-        return False
-    # (?<![a-z0-9]) and (?![a-z0-9]): the phrase may not start or end inside a longer word or number
-    return re.search(rf"(?<![a-z0-9]){re.escape(wanted)}(?![a-z0-9])", norm(text)) is not None
+    return bool(word_spans(text, phrase))

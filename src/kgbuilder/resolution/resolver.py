@@ -5,9 +5,9 @@ identity.py writes the outcome as identity edges). Since R75 nothing here touche
 merges nodes, it becomes one `REFERS_TO` edge per mention, undone by deleting the edge.
 Design: four small steps:
   1. find_candidates    score same-type pairs with the matchers (matchers.py); pairs close in meaning are
-                        nominated by a blocking rule (blocking.py); both are Strategies. Two guards (R66):
-                        numbers (`Value`) are never candidates, and neither are two kinds that claims use
-                        with opposite polarity
+                        nominated by a blocking rule (blocking.py); numbers (`Value`) are never compared, and
+                        a nominated pair that a guard blocks (guards.py: opposite polarity, both named in one
+                        sentence, a part and its whole) is dropped and counted; all three are Strategies
   2. decide             given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
   3. group_merges       union-find over the merge decisions, pick a canonical concept per group
   4. decide_in_passes   steps 1-3 repeated on the merged view (R45): a group of more than k wordings fills
@@ -18,7 +18,7 @@ Design: four small steps:
 Not here: similarity functions (matchers.py), reading and asking (concepts.py), writing (identity.py).
 """
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 from typing import Literal
@@ -29,6 +29,7 @@ from ..core.text import pick_sentence
 from ..core.values import VALUE_TYPE
 from ..llm.base import Embedder
 from .blocking import Blocking
+from .guards import DEFAULT_GUARDS, BlockLog, Guard
 from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
 
 _MENTIONS_PER_ENTITY = 3  # enough to see how a name is used, few enough to keep each call cheap
@@ -93,27 +94,22 @@ class ResolvePreview(BaseModel):
     pairs: list[PreviewPair]
 
 
-def opposed(a: EntityRecord, b: EntityRecord) -> bool:
-    """True when claims use one kind positively and the other negatively: "resistant to scratches" and
-    "scratches easily" spell and embed alike, and a merge would turn praise into a complaint (R66)."""
-    return ("positive" in a.polarities and "negative" in b.polarities) or (
-        "negative" in a.polarities and "positive" in b.polarities
-    )
-
-
 def find_candidates(
     entities: list[EntityRecord],
     borderline: float,
     embedding: Matcher | None = None,
     blocking: Blocking | None = None,
+    guards: Sequence[Guard] = DEFAULT_GUARDS,
+    blocked: BlockLog | None = None,
 ) -> list[Candidate]:
     """All same-type pairs worth a decision: fuzzy score >= `borderline`, or nominated by `blocking` on
-    the `embedding` scores (both needed; either None means spelling candidates only).
+    the `embedding` scores (both needed; either None means spelling candidates only), unless a guard
+    blocks the pair; `blocked` (when given) collects the dropped pairs under the first guard that blocked
+    them.
 
     Entities of different types are never compared: a Product and a Problem with the same name are
     different things. Within a type every pair is scored; the fuzzy cutoff makes hopeless pairs cheap.
-    Numbers are never compared ("25 kg" and "35 kg" are 91 alike by spelling and are different claims),
-    and neither are kinds used with opposite polarity (`opposed`).
+    Numbers are never compared ("25 kg" and "35 kg" are 91 alike by spelling and are different claims).
     """
     fuzzy = FuzzyNameMatcher()
     by_type: dict[str, list[EntityRecord]] = {}
@@ -125,17 +121,20 @@ def find_candidates(
     for members in by_type.values():
         by_meaning = blocking.pairs(members, embedding.score) if embedding and blocking else {}
         for a, b in combinations(members, 2):
-            if opposed(a, b):
-                continue
             score = fuzzy.score(a, b, cutoff=borderline)
             if score >= borderline:
-                candidates.append(Candidate(a=a.id, b=b.id, score=round(score, 1), signal=fuzzy.name))
+                candidate = Candidate(a=a.id, b=b.id, score=round(score, 1), signal=fuzzy.name)
             elif (
                 embedding is not None and (similarity := by_meaning.get(frozenset((a.id, b.id)))) is not None
             ):
-                candidates.append(
-                    Candidate(a=a.id, b=b.id, score=round(similarity, 1), signal=embedding.name)
-                )
+                candidate = Candidate(a=a.id, b=b.id, score=round(similarity, 1), signal=embedding.name)
+            else:
+                continue
+            guard = next((g for g in guards if g.blocks(a, b)), None)
+            if guard is None:
+                candidates.append(candidate)
+            elif blocked is not None:
+                blocked.setdefault(guard.name, set()).add(frozenset((a.id, b.id)))
     return candidates
 
 
@@ -152,9 +151,11 @@ def nominate(
     borderline: float,
     embedder: Embedder | None,
     blocking: Blocking | None,
+    guards: Sequence[Guard] = DEFAULT_GUARDS,
 ) -> list[Candidate]:
-    """Step 2 with the meaning-based matcher when it is switched on."""
-    return find_candidates(entities, borderline, embedding_matcher(entities, embedder, blocking), blocking)
+    """Step 1 with the meaning-based matcher when it is switched on."""
+    matcher = embedding_matcher(entities, embedder, blocking)
+    return find_candidates(entities, borderline, matcher, blocking, guards)
 
 
 def is_auto_merge(candidate: Candidate, auto_merge: float) -> bool:
@@ -271,9 +272,13 @@ def decide_in_passes(
     auto_merge: float,
     adjudicator_for: AdjudicatorFor | None,
     max_passes: int = _MAX_PASSES,
+    guards: Sequence[Guard] = DEFAULT_GUARDS,
+    blocked: BlockLog | None = None,
 ) -> tuple[list[Decision], list[MergeGroup], int]:
-    """Steps 2-4, repeated on the merged view until a pass merges nothing: all decisions, the final
-    groups (over the original entities, so one snapshot and one merge apply them) and the passes run.
+    """Steps 1-3, repeated on the merged view until a pass merges nothing: all decisions, the final
+    groups (over the original concepts) and the passes run. A merged concept carries every member's names
+    and tones, so the guards hold for it too; `blocked` collects what they dropped over all passes (a pair
+    dropped in two passes once: a merged concept keeps its canonical member's id).
 
     A pair is asked again only when one side gained members since it was asked. `adjudicator_for` builds
     the adjudicator for one pass's candidates and member ids; None leaves borderline pairs undecided.
@@ -290,7 +295,8 @@ def decide_in_passes(
         def key(c: Candidate, members: dict[str, list[str]] = members) -> frozenset[tuple[str, ...]]:
             return frozenset((tuple(members[c.a]), tuple(members[c.b])))
 
-        fresh = [c for c in find_candidates(view, borderline, embedding, blocking) if key(c) not in asked]
+        nominated = find_candidates(view, borderline, embedding, blocking, guards, blocked)
+        fresh = [c for c in nominated if key(c) not in asked]
         if not fresh:
             break
         asked |= {key(c) for c in fresh}

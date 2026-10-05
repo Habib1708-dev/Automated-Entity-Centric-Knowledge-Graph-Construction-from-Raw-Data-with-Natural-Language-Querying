@@ -15,7 +15,7 @@ from ..core.text import norm
 from ..llm.base import prompt_version
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
-from ..resolution import concepts
+from ..resolution import concepts, individuals
 from ..resolution.blocking import Blocking, blocking_from
 from ..resolution.derivation import DerivationReport, derive_facts
 from ..resolution.identity import IdentityReport, IdentitySettings, resolve_identity
@@ -108,6 +108,14 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
         "entities_linked": len({(a.type, norm(a.said)) for a in to_records}),
         **{f"linked_by_{reason}": sum(a.reason == reason for a in to_records) for reason in _LINK_REASONS},
         "individuals": len({a.canonical for a in report.assignments if a.kind == "individual"}),
+        # individuals across documents (R75 b2): pairs nominated, asked, joined, and refused for each reason
+        "individual_candidates": len(report.individual_decisions),
+        **{
+            f"individual_{action}": sum(d.action == action for d in report.individual_decisions)
+            for action in _INDIVIDUAL_ACTIONS
+        },
+        # the concept pairs each guard kept apart; every guard is present, 0 when it blocked nothing
+        **{f"blocked_{name}": report.blocked.get(name, 0) for name in _GUARDS},
         # the names before R75's metrics kept, now counting concepts
         "before": report.concepts_before,
         "after": report.concepts_after,
@@ -119,7 +127,9 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
     }
 
 
-_LINK_REASONS = ("key", "name", "contained", "key_in_sentence", "attribute")
+_LINK_REASONS = ("key", "name", "contained", "key_in_sentence", "attribute", "variant_attribute")
+_INDIVIDUAL_ACTIONS = ("joined", "apart", "quote_not_verified", "different_records", "skipped")
+_GUARDS = ("opposed_polarity", "same_sentence", "part_and_whole")
 
 
 def _er_blocking(ctx: PipelineContext) -> Blocking | None:
@@ -400,11 +410,14 @@ class ResolveStage(_TextStage):
             "model": s.extract_model,
             "thinking": s.extract_thinking,
             "prompt_version": prompt_version(concepts.ADJUDICATE_PROMPT),
+            "individual_prompt_version": prompt_version(individuals.IDENTITY_PROMPT),
             "llm_adjudication": int(ctx.llm is not None),
         }
 
     def run(self, ctx, state, run):
         s = ctx.settings
+        run.text(concepts.ADJUDICATE_PROMPT, "prompts/resolve_concepts.txt")
+        run.text(individuals.IDENTITY_PROMPT, "prompts/resolve_individuals.txt")
         schema = state.load_text_schema(ctx, required=False)
         plan = state.load_plan(ctx, required=False)
         issues = text_schema.identity_issues(schema, plan) if schema is not None else []
@@ -443,8 +456,9 @@ class PreviewResolveStage(_TextStage):
         mentions = [
             m for m in read_mentions(ctx.driver) if schema is None or schema.identity_of(m.type) == "concept"
         ]
+        guards = concepts.concept_guards(ctx.driver, mentions, schema)
         preview = concepts.preview_concepts(
-            mentions, s.er_auto_merge, s.er_borderline, ctx.embedder, _er_blocking(ctx)
+            mentions, s.er_auto_merge, s.er_borderline, ctx.embedder, _er_blocking(ctx), guards
         )
         state.resolve_preview = preview
         run.metrics(

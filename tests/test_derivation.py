@@ -6,7 +6,7 @@ created once per document (R75), idempotent, scored by the gold set and accepted
 import pytest
 
 from kgbuilder.core.identity import mention_id
-from kgbuilder.core.text import pick_sentence
+from kgbuilder.core.text import pick_sentence, split_sentences
 from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_mention, derive_facts
 from kgbuilder.resolution.linking import attach_observations, link_graphs
 from kgbuilder.structured.plan import ConstructionPlan
@@ -70,6 +70,18 @@ def test_pick_sentence_returns_the_first_verbatim_sentence_naming_the_entity():
     assert pick_sentence(text, ["handles", "rails"]) == "The Drawer Rails stick badly!"  # any alias
     assert pick_sentence(text, ["handles"]) is None
     assert pick_sentence(text, [""]) is None
+
+
+def test_an_initial_or_a_title_ends_no_sentence_and_a_line_break_does():
+    """Found in R75: "Dr. J. Pike" was cut into three sentences, so no sentence named the person."""
+    text = "Talk by Dr. J. Pike (Soil Ecology) on peat. Then tea!\nMr.\nNext line."
+    assert split_sentences(text) == [
+        "Talk by Dr. J. Pike (Soil Ecology) on peat.",
+        "Then tea!",
+        "Mr.",
+        "Next line.",
+    ]
+    assert pick_sentence(text, ["Dr. J. Pike"]) == "Talk by Dr. J. Pike (Soil Ecology) on peat."
 
 
 def test_the_containing_mention_names_every_word_of_the_node_as_whole_words():

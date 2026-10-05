@@ -15,7 +15,9 @@ from kgbuilder.core.values import VALUE_TYPE
 from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import PLAN_FILE, TEXT_SCHEMA_FILE, PipelineContext, PipelineState
+from kgbuilder.resolution.concepts import SamePair
 from kgbuilder.resolution.identity import IdentitySettings, resolve_identity
+from kgbuilder.resolution.individuals import SameIndividual
 from kgbuilder.resolution.linking import link_graphs
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
@@ -26,7 +28,7 @@ from kgbuilder.text.schema import EntityType, FactType, TextSchema
 from kgbuilder.text.subject_graph import write_subject_graph
 from kgbuilder.validation.checks.base import CheckContext, ClaimRow, flatten
 
-from .fakes import RecordingTracker
+from .fakes import RecordingTracker, ScriptedLLM
 from .sample_plans import node
 
 SETTINGS = IdentitySettings(auto_merge=92, borderline=80, link_threshold=90)
@@ -190,7 +192,11 @@ def test_the_resolve_stage_logs_where_the_mentions_went_and_writes_every_decisio
     ctx, tracker = stage_context(driver, tmp_path, SCHEMA)
     run_stages(ctx, PipelineState(), [st.ResolveStage()])
     run = tracker.run("resolve")
-    assert {"domain_link_threshold", "er_auto_merge", "prompt_version"} <= set(run.logged_params)
+    assert {"domain_link_threshold", "er_auto_merge", "prompt_version", "individual_prompt_version"} <= set(
+        run.logged_params
+    )
+    assert {"prompts/resolve_concepts.txt", "prompts/resolve_individuals.txt"} <= set(run.artifacts)
+    assert run.logged_metrics["blocked_same_sentence"] == 0 and "individual_joined" in run.logged_metrics
     metrics = run.logged_metrics
     assert (metrics["mentions"], metrics["mentions_to_records"], metrics["mentions_ambiguous"]) == (9, 1, 2)
     assert (metrics["linked_by_attribute"], metrics["records_referred"], metrics["entities_linked"]) == (
@@ -217,3 +223,124 @@ def test_the_resolve_stage_refuses_a_keyed_type_whose_label_the_plan_lacks(drive
     ctx, _ = stage_context(driver, tmp_path, wrong)
     with pytest.raises(ProposalRejectedError, match="'Pump' is not a label"):
         run_stages(ctx, PipelineState(), [st.ResolveStage()])
+
+
+# R75 b2: one individual across documents, joined only with evidence the text gives
+PIKE_DOCS = {
+    "news.md": "Dr Jonathan Pike of the institute spoke at the flood meeting.",
+    "minutes.md": "Jon Pike (chair) opened the meeting on soil cores.",
+    "seminar.md": "Talk by Dr. J. Pike (Soil Ecology) on peat.",
+    "field.md": "The corer was freed by J. Pike after an hour.",
+    "letter.md": "Judith Pike wrote about the street lights.",
+}
+PIKE_PLAN = ConstructionPlan(
+    nodes=[
+        node("staff.csv", "Staff", "staff_id", ["name", "team"]).model_copy(update={"name_column": "name"})
+    ],
+    relationships=[],
+)
+PIKE_SCHEMA = TextSchema(
+    entity_types=[
+        EntityType(
+            name="Person", description="d", identity="keyed", record_labels=["Staff"], key_attributes=["team"]
+        ),
+        EntityType(name="Topic", description="d"),
+    ],
+    fact_types=[FactType(predicate="SPOKE_ON", subject_type="Person", object_type="Topic", description="d")],
+)
+PIKE_NAMES = {
+    "news.md": "Dr Jonathan Pike",
+    "minutes.md": "Jon Pike",
+    "seminar.md": "Dr. J. Pike",
+    "field.md": "J. Pike",
+    "letter.md": "Judith Pike",
+}
+
+
+def build_pike(driver) -> None:
+    driver.execute_query(
+        "CREATE (:Staff {staff_id: 'S-131', name: 'Jonathan Pike', team: 'Soil Ecology'}), "
+        "(:Staff {staff_id: 'S-150', name: 'Aiko Tanaka', team: 'Hydrology'})"
+    )
+    documents = [Document(doc_id=d, title=d.split(".")[0], text=t) for d, t in PIKE_DOCS.items()]
+    chunks = [Chunk(chunk_id=f"{d}#0", doc_id=d, index=0, text=t) for d, t in PIKE_DOCS.items()]
+    write_lexical_graph(driver, documents, chunks)
+    claims = [
+        claim(name, "Person", "SPOKE_ON", "peat", "Topic", doc, PIKE_DOCS[doc])
+        for doc, name in PIKE_NAMES.items()
+    ]
+    write_subject_graph(driver, claims, extractor="test")
+    link_graphs(driver, PIKE_PLAN)
+
+
+def pike_judge(prompt: str, schema: type) -> SameIndividual:
+    """A scripted adjudicator: the chair of the minutes is the record's Pike, with two real quotes; the field
+    log's J. Pike too, but with a quote the field log does not contain; everyone else not the same."""
+    if "Jon Pike\n" in prompt and "Jonathan Pike" in prompt:  # the chair's line and the record's Pike
+        return SameIndividual(
+            same=True,
+            quote_a="Dr Jonathan Pike of the institute spoke at the flood meeting.",
+            quote_b="Jon Pike (chair) opened the meeting on soil cores.",
+        )
+    if "J. Pike" in prompt and "Jonathan Pike" in prompt and "Jon Pike" not in prompt:
+        return SameIndividual(
+            same=True, quote_a="Jonathan Pike leads the group.", quote_b="J. Pike freed it."
+        )
+    return SameIndividual(same=False)
+
+
+@pytest.mark.neo4j
+def test_one_individual_across_documents_is_joined_only_with_verified_evidence(driver):
+    build_pike(driver)
+    report = resolve_identity(driver, PIKE_SCHEMA, PIKE_PLAN, ScriptedLLM(pike_judge), "judge", SETTINGS)
+    # a title is no part of the name; a variant reaches the record through its attribute
+    assert identity_of(driver, "news.md", "Dr Jonathan Pike") == ("record", "Staff:S-131", "name")
+    assert identity_of(driver, "seminar.md", "Dr. J. Pike") == ("record", "Staff:S-131", "variant_attribute")
+    # the chair joins by an adjudication whose two quotes code found, each in its own document
+    assert identity_of(driver, "minutes.md", "Jon Pike") == ("record", "Staff:S-131", "adjudicated")
+    [edge] = driver.execute_query(
+        "MATCH (:Mention {name: 'Jon Pike'})-[r:REFERS_TO]->() RETURN r.evidence AS e, r.by AS by"
+    )[0]
+    assert edge["by"] == "judge" and "Jon Pike (chair)" in edge["e"]
+    # a yes with a quote its document does not hold is refused; the same initial is no evidence either
+    field = identity_of(driver, "field.md", "J. Pike")
+    letter = identity_of(driver, "letter.md", "Judith Pike")
+    assert field[0] == letter[0] == "individual" and field[1] != letter[1]
+    actions = {d.action for d in report.individual_decisions}
+    assert "quote_not_verified" in actions and "joined" in actions
+
+
+GEAR_SCHEMA = TextSchema(
+    entity_types=[EntityType(name="Piece", description="d")],
+    fact_types=[
+        FactType(
+            predicate="PIECE_OF", subject_type="Piece", object_type="Piece", description="d", part_of=True
+        )
+    ],
+)
+
+
+@pytest.mark.neo4j
+def test_a_part_and_its_whole_are_never_joined(driver):
+    """R63's TRANSMISSION / TRANSMISSION BOX in invented words: alike enough to be asked about, but a claim
+    of a part-of fact type says one is a piece of the other."""
+    # two sentences: the part-of claim, not a sentence naming both side by side, keeps them apart
+    text = "The gearbox casing cracked. It is a piece of the gearbox."
+    write_lexical_graph(driver, [Document(doc_id="g.md", title="g", text=text)], [
+        Chunk(chunk_id="g.md#0", doc_id="g.md", index=0, text=text)
+    ])  # fmt: skip
+    write_subject_graph(
+        driver,
+        [claim("gearbox casing", "Piece", "PIECE_OF", "gearbox", "Piece", "g.md", text)],
+        extractor="t",
+    )
+    always_same = ScriptedLLM(lambda prompt, schema: SamePair(same=True))
+    loose = IdentitySettings(auto_merge=99, borderline=50, link_threshold=90)
+    report = resolve_identity(driver, GEAR_SCHEMA, None, always_same, "m", loose)
+    assert report.merges == 0 and report.blocked == {"part_and_whole": 1}
+    # without the schema's part-of flag, the same pair goes to the adjudicator, which says yes
+    driver.execute_query("MATCH ()-[r:REFERS_TO]->() DELETE r")
+    unflagged = GEAR_SCHEMA.model_copy(
+        update={"fact_types": [f.model_copy(update={"part_of": False}) for f in GEAR_SCHEMA.fact_types]}
+    )
+    assert resolve_identity(driver, unflagged, None, always_same, "m", loose).merges == 1
