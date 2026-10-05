@@ -181,13 +181,16 @@ class PlanRunner:
             step.time_words,
             self._settings.step_cap,
         )
-        ids = self._ids(*cy.find_claims(*args))
+        assertion = {"truth": step.truth, "modality": step.modality}
+        ids = self._ids(*cy.find_claims(*args, **assertion))
         if ids or (subjects is None and objects is None):
             return {"claim": ids}, ""
         # the planner may put a claim's words on the wrong end (R77 baseline: G06 asked for "mechanical
         # seal" as an object, the graph has it as the subject); the claims found either way stay candidates
         # that read_check or the reader decides, so an answer of "none" still comes from the text (R78)
-        return {"claim": self._ids(*cy.find_claims(*args, either_end=True))}, "claim words on either end"
+        return {
+            "claim": self._ids(*cy.find_claims(*args, either_end=True, **assertion))
+        }, "claim words on either end"
 
     def _read_check(self, step, inputs, question, result):
         total = sum(len(v) for v in inputs.values())

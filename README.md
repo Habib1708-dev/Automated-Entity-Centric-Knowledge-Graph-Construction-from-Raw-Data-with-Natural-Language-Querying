@@ -27,6 +27,7 @@ uv run kg rescore SHEET gold.json --verdicts V.json              # re-score an e
 uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random sample of sentences (coverage, below)
 uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
+uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
@@ -236,6 +237,7 @@ src/kgbuilder/
                     decisions) -> identity_graph (the edges) ; attachment (HAS_OBSERVATION, after identity)
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
+                    -> assertion (truth, modality and condition against the assertion gold)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
   query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
@@ -257,6 +259,7 @@ src/kgbuilder/
 | `resolve` | `resolution/identity.py`, `resolution/records.py`, `resolution/concepts.py`, `resolution/resolver.py` | borderline concept pairs only |
 | `validate`, `eval` | `validation/` | no |
 | `coverage_sample`, `coverage_sheet`, `coverage` | `validation/sentences.py`, `validation/coverage_sheet.py`, `validation/coverage.py` | no |
+| `assertion` | `validation/assertion.py` | no |
 | `ask`, `qa_graph`, `qa_vector` | `query/`, `validation/qa.py` | yes, the reader; every citation checked in code |
 | `qa_score` | `validation/qa.py` | no |
 | `qa_compare` | `validation/paired.py` | no |
@@ -337,6 +340,15 @@ is judged claim by claim (R68).
 4. `kg coverage SHEET VERDICTS` logs `coverage` (stated by something stored) and `reachable` (stored, or
    about a thing its chunk hangs on) with their Wilson intervals, coverage by polarity and over the claims
    the schema had a place for, and `missed_<cause>` per cause. It needs no graph.
+
+**A claim's assertion (R77).** Every observation says whether the text states or denies it (`truth`:
+affirmed / negated), whether it holds, may hold or holds under a condition (`modality`: actual / possible /
+conditional) and, for a conditional one, the condition's words. Extraction checks each against the quote
+(a negation, a modal word, a condition word); a query plan finds only the claims that hold unless the
+question's own words ask for others. `kg assertion SHEET GOLD VERDICTS` scores the judge's matching of the
+assertion gold (`tests/gold/r77/`, rules in `assertion_rules.md`) against a coverage sheet of its sample:
+per field the share of matched claims that keep their label, by the judge (`<field>_kept`) and exactly
+(`<field>_exact`), overall and per gold value.
 
 ## Question answering
 

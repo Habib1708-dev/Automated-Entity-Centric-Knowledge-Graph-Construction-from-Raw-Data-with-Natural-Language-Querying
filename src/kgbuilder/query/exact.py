@@ -30,7 +30,9 @@ from .graph_store import CypherStore
 # name is written many ways, and the mention's own name next to the name of what it refers to because each
 # document keeps its own wording (R75); the first column is what code reads as the answer. The paragraph on
 # the pipeline's fixed nodes describes this project's graph shape, the same for any dataset; since R75 a
-# claim's ends are mentions, each referring to a record, an individual or a concept.
+# claim's ends are mentions, each referring to a record, an individual or a concept. Since R77 a claim also
+# says whether the text states or denies it and whether it holds, may hold or holds under a condition, so
+# that a count can leave out the other kinds.
 _TASK = """You write one read-only Cypher query for Neo4j that answers a question from the graph below.
 
 """
@@ -44,6 +46,9 @@ The graph holds structured records (the labels of the domain) and what documents
   (:Individual {{name, type}}) or a (:Concept {{name, type}}). Mentions of one thing in several documents
   refer to the same node.
 - `polarity` is "positive", "negative" or "neutral": the claim's tone.
+- `truth` is "affirmed" or "negated" (the text denies the claim) and `modality` "actual", "possible" or
+  "conditional" (with the words of its `condition`); a claim that holds is affirmed and actual. A claim
+  stored without them is affirmed and actual.
 
 """
 # The record layer alone (R73, records plus vector RAG): one sentence in place of the text layer's paragraph

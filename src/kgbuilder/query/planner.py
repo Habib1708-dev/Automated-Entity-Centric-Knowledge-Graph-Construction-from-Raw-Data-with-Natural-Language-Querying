@@ -19,7 +19,9 @@ from .plan import QueryPlan
 # - "records first": R71/R73 lost record questions to text reading (the router's 8 and 15 misses);
 # - "read_check before counting or listing what documents say": R71 counted negated claims (F26-F28,
 #   "no squeaking or wobbling" counted as wobbling); find_claims returns candidates, read_check verifies;
-# - tone and time only with the question's words: G12 (R72) invented both; code drops them otherwise;
+# - tone and time only with the question's words: G12 (R72) invented both; code drops them otherwise; the
+#   same for truth and modality (R77), so a plan finds the claims that hold unless the question asks for a
+#   denied, possible or conditional one (task file, Step 7: counts default to affirmed and actual);
 # - values in the property's type: R71's five empty held-out filters; code checks every value;
 # - the ending follows the question's form: answers are scored as sets and numbers (R73's "answer form");
 # - "filter on that property with contains": R78's held-out plans searched claims for what a record's text
@@ -46,10 +48,13 @@ Primitives. `input` is the index (from 0) of an earlier step whose result a step
   the condition, among the input's records when given; without a property, every record of the label.
 - related(input, relationship, label?, property?, operator?, value?): the records at the other end of a
   relationship from the input's records; `property` compares a property of the relationship itself.
-- find_claims(input?, predicate?, subject_like?, object_like?, tone?, tone_words?, time_words?,
-  include_parts?): candidate claims about the input's records or entities. subject_like and object_like
-  match entity names by spelling and by meaning, so the candidates can include near misses.
-  include_parts also takes claims about the records that point at the input's records.
+- find_claims(input?, predicate?, subject_like?, object_like?, tone?, tone_words?, time_words?, truth?,
+  truth_words?, modality?, modality_words?, include_parts?): candidate claims about the input's records or
+  entities. subject_like and object_like match entity names by spelling and by meaning, so the candidates
+  can include near misses. include_parts also takes claims about the records that point at the input's
+  records. Only claims the text states as holding come back, unless truth is "negated" (claims the text
+  denies) or modality is "possible" (claims it says may hold) or "conditional" (claims it says hold under
+  a condition).
 - read_check(input, statement): reads each candidate's own text and keeps the candidates whose text states
   the statement; at most 30 candidates, so narrow the input first.
 - retrieve_chunks(input?): text: the input's own chunks, or without an input the chunks nearest the
@@ -76,8 +81,8 @@ Rules:
   words), filter on that property with operator "contains" instead of searching claims.
 - To count or list what documents say, pass the candidates through read_check first: a claim can be
   negated or only possible.
-- Set tone or time_words only when the question asks for them, with the question's own words in
-  tone_words and time_words.
+- Set tone, time_words, truth or modality only when the question asks for them, with the question's own
+  words in tone_words, time_words, truth_words and modality_words.
 - Give each value in its property's type: a number as a number, a date as 'YYYY-MM-DD', a year with
   operator "year".
 - End with list when the question asks which things, count or sum when it asks how many or how much, rank

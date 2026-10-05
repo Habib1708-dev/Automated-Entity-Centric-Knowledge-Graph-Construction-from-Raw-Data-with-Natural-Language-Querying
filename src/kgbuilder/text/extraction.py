@@ -4,12 +4,14 @@ Role in the pipeline: `kg extract`. Input is the stored chunks and the approved 
 accepted triples (written by subject_graph.py) and rejected triples (kept as an artifact for analysis).
 Design: the LLM proposes, code decides. A fact is stored only if its type is in the schema, its evidence
 quote is a verbatim span of the chunk, and both entity names occur in the chunk or in the document's
-name (the chunk's context); a number (`Value` object) and a time must be stated in the quote itself (R66).
-This is the project's guard against hallucinated facts, and the rejection rate per reason is a logged
-quality metric.
+name (the chunk's context); a number (`Value` object) and a time must be stated in the quote itself (R66);
+a negated, possible or conditional claim needs a word of its kind in the quote, and a condition must be
+words of the quote (R77). This is the project's guard against hallucinated facts, and the rejection rate per
+reason is a logged quality metric.
 Not here: graph writes (subject_graph.py) and entity merging (resolution/).
 """
 
+import re
 from concurrent.futures import ThreadPoolExecutor
 from enum import StrEnum
 from typing import Literal
@@ -41,6 +43,14 @@ from .schema import TextSchema
 # claims, so praise and measures are no longer lost to a problems-only schema; time keeps "when" out of the
 # names (the naming rule) without dropping it; a number is returned bare so that code can parse it. Each is
 # checked in code where it can be: a time and a number must be words of the quote (`verify`).
+# The claim's assertion (R77, layered-model Step 7): "the lid cracked", "the lid did not crack", "the lid may
+# crack" and "the lid cracks when it is cold" are four facts, and a count over claims must tell them apart.
+# Truth is said of the triple as stated, not of a word in it, so a fault the names already state stays
+# affirmed. Possible and conditional are one axis with actual; what a thing is able to do stays actual, so
+# that "can" in a capacity is not read as a hedge. The condition takes the "if"/"when" clause that the naming
+# rule keeps out of the names, which until R77 was lost or stored as a time (R68 cause "role"). Each field
+# has a word check in code (`verify`). The examples are invented (a kettle), as is the generic word that
+# replaced "this dresser", the last corpus word of this prompt (task file, generality cleanups).
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 
 Allowed entity types:
@@ -59,14 +69,22 @@ Rules:
   leave out a clause that says when or under which condition the claim holds ("when ...", "if ...",
   "after ...") and words of frequency ("sometimes", "often"); they stay in the evidence. Never use
   pronouns.
-- The chunk comes from the document named in <document>. When the text refers to the product or thing
-  the document is about with a pronoun or a generic word ("it", "this dresser"), use the proper name
-  from the document name as the entity name.
+- The chunk comes from the document named in <document>. When the text refers to the thing the document
+  is about with a pronoun or a generic word ("it", "this kettle"), use the proper name from the document
+  name as the entity name.
 - `evidence` must be ONE contiguous quote copied verbatim from the chunk that supports the fact.
 - `polarity` is the claim's own tone toward its subject: "positive" when it speaks well of it, "negative"
   when it reports a fault, a harm or dissatisfaction, "neutral" when it only states what is so.
 - `time`: when the quote says when the claim holds or after how long ("since ...", "within ..."),
-  copy those words verbatim from the quote; otherwise leave it empty.
+  copy those words verbatim from the quote; otherwise leave it empty. A condition is not a time.
+- `truth`: "negated" when the text denies the fact the triple states ("the kettle never leaked" gives the
+  kettle's leak, negated); otherwise "affirmed".
+- `modality`: "possible" when the text says the fact may hold or happen, not that it does ("may", "could",
+  "a risk of"); "conditional" when it holds under a condition the text states ("if ...", "unless ...", or
+  "when ..." meaning whenever); otherwise "actual", also for what a thing is able to do ("holds two
+  litres"). A fact with both a condition and "may" is conditional.
+- `condition`: for a conditional fact, the words of the condition copied verbatim from the quote ("when
+  the water boils"); otherwise leave it empty.
 - When a fact type's object type is {value_type}, `object` is only the number and its unit, copied from
   the quote.
 - Extract only what the text states. Do not infer. Return an empty list when nothing qualifies.
@@ -78,11 +96,14 @@ Rules:
 
 
 Polarity = Literal["negative", "positive", "neutral"]
+Truth = Literal["affirmed", "negated"]
+Modality = Literal["actual", "possible", "conditional"]
 
 
 class RawTriple(BaseModel):
-    """One fact as the LLM returns it. `polarity` and `time` default to "no tone" and "no time", which is
-    also what a claim derived by code or extracted before R66 carries."""
+    """One fact as the LLM returns it. `polarity` and `time` default to "no tone" and "no time", and the
+    assertion (R77) to an affirmed, actual claim without a condition: also what a claim derived by code or
+    extracted before R77 carries."""
 
     subject: str
     subject_type: str
@@ -92,6 +113,11 @@ class RawTriple(BaseModel):
     evidence: str
     polarity: Polarity = Field(default="neutral", description="the claim's tone toward its subject")
     time: str = Field(default="", description="words of the evidence saying when the claim holds, or empty")
+    truth: Truth = Field(default="affirmed", description="whether the text states or denies the fact")
+    modality: Modality = Field(
+        default="actual", description="whether the fact holds, may hold, or holds under a condition"
+    )
+    condition: str = Field(default="", description="words of the evidence stating the condition, or empty")
 
 
 class ChunkExtraction(BaseModel):
@@ -118,6 +144,12 @@ class RejectionReason(StrEnum):
     VALUE_NOT_A_NUMBER = "value_not_a_number"
     VALUE_NOT_IN_EVIDENCE = "value_not_in_evidence"
     TIME_NOT_IN_EVIDENCE = "time_not_in_evidence"
+    # the assertion (R77): the quote must carry the word that makes a claim negated, possible or conditional,
+    # and a condition goes only with a conditional claim
+    NEGATION_NOT_IN_EVIDENCE = "negation_not_in_evidence"
+    MODALITY_NOT_IN_EVIDENCE = "modality_not_in_evidence"
+    CONDITION_NOT_IN_EVIDENCE = "condition_not_in_evidence"
+    CONDITION_NOT_CONDITIONAL = "condition_not_conditional"
 
 
 class Rejection(BaseModel):
@@ -177,6 +209,34 @@ PRONOUNS = frozenset({
     "anything", "everything",
 })
 # fmt: on
+
+# The words that let a quote state a negated, a possible or a conditional claim (R77). Closed word classes of
+# English (negators, modal verbs and adverbs, conjunctions of condition), so the checks are language-level
+# and domain-neutral. A contraction ending in "n't" negates; informal text drops the apostrophe, so those
+# spellings are listed. The checks catch a label the quote cannot carry; whether a label is right is what
+# the R77 judge pass measures.
+# fmt: off
+NEGATION_WORDS = frozenset({
+    "not", "no", "never", "none", "nothing", "nobody", "neither", "nor", "without", "cannot",
+    "dont", "doesnt", "didnt", "cant", "wont", "couldnt", "wouldnt", "shouldnt", "isnt", "wasnt",
+    "arent", "werent", "hasnt", "havent", "hadnt",
+})
+MODAL_WORDS = frozenset({
+    "may", "might", "could", "can", "would", "maybe", "possibly", "possible", "possibility", "perhaps",
+    "potential", "potentially", "likely", "unlikely", "probably", "risk", "risks", "chance",
+})
+CONDITION_WORDS = frozenset({"if", "when", "whenever", "unless", "while", "once", "until", "provided"})
+# fmt: on
+_WORD = re.compile(r"\w+(?:['’]\w+)?")
+
+
+def _words(normalised: str) -> set[str]:
+    """The words of a normalised text, a contraction as one word ("couldn't")."""
+    return set(_WORD.findall(normalised))
+
+
+def _negates(words: set[str]) -> bool:
+    return bool(words & NEGATION_WORDS) or any(w.endswith(("n't", "n’t")) for w in words)
 
 
 def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str = "") -> Rejection | None:
@@ -239,6 +299,36 @@ def _verify_qualifiers(triple: RawTriple, evidence: str) -> Rejection | None:
     if triple.time and norm(triple.time) not in evidence:
         return Rejection(
             reason=RejectionReason.TIME_NOT_IN_EVIDENCE, detail=f"time '{triple.time}' is not in the evidence"
+        )
+    return _verify_assertion(triple, evidence)
+
+
+def _verify_assertion(triple: RawTriple, evidence: str) -> Rejection | None:
+    """A negated, possible or conditional claim needs its kind of word in the quote (normalised `evidence`),
+    and a condition must be words of the quote containing a condition word (R77). A condition on a claim
+    that is not conditional is rejected, not dropped: code cannot tell which of the two labels is wrong."""
+    words = _words(evidence)
+    if triple.truth == "negated" and not _negates(words):
+        return Rejection(
+            reason=RejectionReason.NEGATION_NOT_IN_EVIDENCE, detail="negated, but the quote has no negation"
+        )
+    if triple.modality == "possible" and not words & MODAL_WORDS:
+        return Rejection(
+            reason=RejectionReason.MODALITY_NOT_IN_EVIDENCE,
+            detail="possible, but the quote has no modal word",
+        )
+    condition = norm(triple.condition)
+    if triple.modality != "conditional":
+        if not condition:
+            return None
+        return Rejection(
+            reason=RejectionReason.CONDITION_NOT_CONDITIONAL,
+            detail=f"condition '{triple.condition}' on a claim that is {triple.modality}",
+        )
+    if not condition or condition not in evidence or not _words(condition) & CONDITION_WORDS:
+        return Rejection(
+            reason=RejectionReason.CONDITION_NOT_IN_EVIDENCE,
+            detail=f"conditional, but '{triple.condition}' is not a condition stated in the quote",
         )
     return None
 
@@ -321,13 +411,17 @@ def _accept(
             result.rejected.append(Rejected(triple=triple, reason=rejection.reason, detail=rejection.detail))
             continue
         # models sometimes emit the same fact twice with different casing, and a later pass may repeat one;
-        # the time is part of the claim (the observation id includes it), the polarity is not
+        # the time and the assertion are part of the claim (the observation id includes them), the polarity
+        # is not
         key = (
             norm(triple.subject),
             triple.predicate,
             norm(triple.object),
             norm(triple.evidence),
             norm(triple.time),
+            triple.truth,
+            triple.modality,
+            norm(triple.condition),
         )
         if key not in seen:
             seen.add(key)

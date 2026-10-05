@@ -29,6 +29,7 @@ from ..text.extraction import ExtractionResult
 from ..text.lexical import read_chunks
 from ..text.schema import TextSchema
 from ..tracking.base import NullTracker, Run, Tracker
+from ..validation.assertion import AssertionReport
 from ..validation.coverage import CoverageReport
 from ..validation.evaluate import EvalReport
 from ..validation.paired import PairedReport
@@ -81,6 +82,8 @@ class PipelineState:
     sample_size: int | None = None
     sample_seed: int | None = None
     coverage_sheet: Path | None = None
+    # the assertion gold `kg assertion` scores a coverage sheet's matching verdicts against (R77)
+    assertion_gold: Path | None = None
     # question answering (R71): the question of `kg ask`, and the answers file `kg qa-score` scores
     question: str | None = None
     answers: Path | None = None
@@ -103,6 +106,7 @@ class PipelineState:
     validation: ValidationReport | None = None
     evaluation: EvalReport | None = None
     coverage: CoverageReport | None = None
+    assertion: AssertionReport | None = None
     answer: SystemAnswer | None = None  # of `kg ask`
     qa_reports: dict[str, QAReport] = field(default_factory=dict)  # system name -> its scores
     paired: PairedReport | None = None  # of `kg qa-compare`

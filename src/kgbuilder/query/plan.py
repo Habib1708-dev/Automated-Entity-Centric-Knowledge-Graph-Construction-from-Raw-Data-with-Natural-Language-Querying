@@ -9,7 +9,8 @@ Design: the LLM proposes, code decides. A step is one flat model (one `op` and o
 operation by its own rule (Strategy: `_RULES`), so a model's JSON stays simple and every refusal is a reason
 the model can act on in its one retry. What a plan may name comes from the graph itself (`GraphSchema`);
 direction, value types and identifiers are decided by code, never by the model. An optional filter (tone,
-time) must quote the words of the question that ask for it, or it is dropped and the drop is reported.
+time) must quote the words of the question that ask for it, or it is dropped and the drop is reported; so must
+a claim's truth or modality other than affirmed and actual (R77), which a plan finds by default.
 Not here: compiling and running steps (plan_cypher.py, plan_run.py), the prompt (planner.py).
 """
 
@@ -41,6 +42,8 @@ TERMINALS = frozenset({"list", "count", "sum", "rank", "answer_from_chunks"})
 CLAIM_OPS = frozenset({"find_claims"})
 Operator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "year"]
 Tone = Literal["positive", "negative", "neutral"]
+Truth = Literal["affirmed", "negated"]
+Modality = Literal["actual", "possible", "conditional"]
 
 
 class PlanStep(BaseModel):
@@ -82,6 +85,20 @@ class PlanStep(BaseModel):
     time_words: str | None = Field(
         default=None,
         description="find_claims: words the claim's time must contain, quoted from the question.",
+    )
+    truth: Truth = Field(
+        default="affirmed", description="find_claims: claims the text states (affirmed) or denies (negated)."
+    )
+    truth_words: str | None = Field(
+        default=None, description="The words of the question that ask for `truth`."
+    )
+    modality: Modality = Field(
+        default="actual",
+        description="find_claims: claims that hold (actual), may hold (possible) or hold under a condition "
+        "(conditional).",
+    )
+    modality_words: str | None = Field(
+        default=None, description="The words of the question that ask for `modality`."
     )
     include_parts: bool = Field(
         default=False, description="find_claims: also claims about the records that are parts of the input."
@@ -329,6 +346,16 @@ class _FindClaims(_Rule):
         if step.time_words is not None and norm(step.time_words) not in question:
             dropped.append(f"time {step.time_words!r}: not words of the question")
             step.time_words = None
+        # a claim that does not hold is found only when the question asks for it (R77): otherwise a count
+        # of what documents state counts what they deny or only call possible
+        if step.truth != "affirmed" and not (step.truth_words and norm(step.truth_words) in question):
+            dropped.append(f"truth {step.truth!r}: {step.truth_words!r} is not words of the question")
+            step.truth = "affirmed"
+        if step.modality != "actual" and not (step.modality_words and norm(step.modality_words) in question):
+            dropped.append(
+                f"modality {step.modality!r}: {step.modality_words!r} is not words of the question"
+            )
+            step.modality = "actual"
         return issues
 
 

@@ -3259,6 +3259,63 @@ a count over claims must tell them apart (task file, Step 7).
 - **Paused (2026-10-05, the user's choice):** the query layer is fixed first, as R78; Step 7's code
   resumes after R78 is done. R78 done: 7 answers gained, none lost; held-out still below Step 3 (p 0.021).
   R79 done: no dataset below Step 3 any more; Step 7's code resumes with R79 as its baseline.
+- **Split (2026-10-05): gold, part a (code, $0, no run), part b (runs, asked first), one commit each.**
+- **Gold (done 2026-10-05, `c773bc2`, before any code and any output).** Per dataset a sample drawn by code
+  from the source text only (documents and chunks; seed 77): the random stratum (R68's 40 sentences for
+  furniture and held-out, whose blind claims are kept as written; 40 new random sentences for generality),
+  20 random sentences with a negation, modal or condition word (so the three rare kinds can be measured;
+  rates over the whole text come from the random stratum only), and the done criteria's named sentences
+  (the dresser's "couldn't get the drawers to slide right", the RAV4's "COULD CAUSE AN ACCIDENT", the
+  Civic's two "WHEN ..." sentences). Three Fable 5.1 subagents listed and labelled the claims from blind
+  files (text, chunk, context; no `out/`); the lead judge (Opus 5.5) reviewed every non-default label and
+  note and changed none. Rules for both passes: `tests/gold/r77/assertion_rules.md` (invented examples).
+
+  | | sentences | claims | negated | possible | conditional |
+  |---|---|---|---|---|---|
+  | furniture | 61 | 117 | 18 | 1 | 2 |
+  | held-out | 63 | 100 | 12 | 12 | 13 |
+  | generality | 60 | 108 | 12 | 0 | 4 |
+
+  Three gold claims cannot pass the word checks of part a, by design of the checks, not of the gold:
+  "rather than the stapled construction" (negated, no negation word), "without a plan" and the inverted
+  "had the seal been replaced" (conditional, no condition word). The review found "maybe" missing from the
+  modal words (furniture's "assembly took maybe 40 mins"); added in part a.
+- **Part a: code and prompt (done 2026-10-05, no run).**
+  - Extraction (`text/extraction.py`): `RawTriple` gains `truth` (affirmed / negated), `modality` (actual
+    / possible / conditional) and `condition` (verbatim, only when conditional), each defaulting to what
+    every claim before R77 and every derived claim is. Four prompt rules in domain-neutral words with
+    invented examples (a kettle); "this dresser" and "the product" removed from the naming rule. `verify`:
+    negated needs a negation word in the quote (a closed list plus any "n't" word and the apostrophe-less
+    spellings), possible a modal word, conditional a condition that is words of the quote and contains a
+    condition word; a condition on a claim that is not conditional is rejected (code cannot tell which
+    label is wrong). New rejection reasons `negation_not_in_evidence`, `modality_not_in_evidence`,
+    `condition_not_in_evidence`, `condition_not_conditional` (logged as `rejected_<reason>`). The repeat
+    key within a chunk includes the three fields.
+  - Id (`core.identity.observation_id`): each field joins the key only when not at its default, tagged
+    with its name, so every existing id and verdict stays valid and "the lid leaked" / "the lid never
+    leaked" in one chunk are two claims.
+  - Graph and readers: the observation stores `truth`, `modality`, `condition`; the extract run logs
+    `observations_negated`, `_possible`, `_conditional`. The fact reader (`coalesce` for older graphs), the
+    flatten key, the judge sheet, `fact_id`, rescore and the coverage sheet carry the three fields.
+  - Query plans: `find_claims` takes `truth` / `truth_words` and `modality` / `modality_words`; by default
+    a plan finds only affirmed, actual claims (counts default to them, task file); another value stays
+    only with the question's own words, else it is dropped and reported (Step 4's rule for tone and
+    time). Planner prompt: the `find_claims` line and the tone/time rule widened to the two fields. The
+    text2cypher schema text names the two fields. Swept for dataset words: none.
+  - Scoring (`validation/assertion.py`, stage and command `kg assertion SHEET GOLD VERDICTS`, no graph):
+    after a run the judge matches each gold claim to the observations of a coverage sheet of the sample
+    (`kg coverage-sheet`) that state its content whatever their assertion, and says per field whether they
+    keep the label. Code computes, per field and per gold value, **kept** (judge, by meaning: a negation in
+    the names counts) and **exact** (stored field equals the label: what a count over the field needs),
+    with Wilson intervals.
+  - Tests: `tests/test_assertion.py` (17: each rejection, what passes, the old id unchanged and each label
+    another id, a claim and its denial kept apart, the fields stored, flattened and read back by the judge
+    sheet with the stored ids, a claim from before R77 read as affirmed and actual, the plan's drop and
+    keep, a plan counting only the claims that hold unless asked, the scorer's kept and exact, its file
+    checks, the stage without a graph, the extraction prompt free of corpus words and four-grams). One
+    R74 assertion changed on purpose (`test_query_plan.py`): `find_claims` now always filters on the two
+    fields, so its parameters and its bare query changed. Gate: 527 passed (510 before), `ruff check`
+    clean.
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the

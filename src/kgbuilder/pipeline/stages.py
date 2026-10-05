@@ -37,6 +37,7 @@ from ..text.lexical import write_lexical_graph
 from ..text.record_documents import record_documents
 from ..text.subject_graph import write_subject_graph
 from ..tracking.base import Run
+from ..validation.assertion import load_assertion_gold, load_assertion_verdicts, score_assertion
 from ..validation.checks.base import CheckContext
 from ..validation.coverage import load_coverage_verdicts, score_coverage
 from ..validation.coverage_sheet import CoverageSheet, build_coverage_sheet, read_chunk_things
@@ -697,4 +698,42 @@ class CoverageStage(BaseStage):
         run.metrics(**report.metrics())
         run.artifact(sheet_file)
         run.artifact(verdicts_file)
+        run.artifact(ctx.write(self.REPORT_FILE, report.model_dump_json(indent=2)))
+
+
+class AssertionStage(BaseStage):
+    """Score the judge's matching of the assertion gold against a coverage sheet (R77), with no graph and no
+    LLM: per field (truth, modality, condition) the share of matched claims that keep their label, by the
+    judge and exactly, overall and per gold value."""
+
+    name = "assertion"
+    REPORT_FILE = "assertion_report.json"
+
+    def params(self, ctx, state):
+        sheet = input_file(state.need("coverage_sheet", "pass the coverage sheet"), "coverage sheet")
+        gold = input_file(state.need("assertion_gold", "pass the assertion gold"), "assertion gold")
+        verdicts = input_file(state.need("verdicts", "pass the verdict file"), "verdict file")
+        # the sheet, the gold and the verdicts identify what was judged and how, as for `eval`
+        return {
+            "sheet": sheet,
+            "sheet_hash": digest(sheet),
+            "gold": gold,
+            "gold_hash": digest(gold),
+            "verdicts": verdicts,
+            "judge_verdicts_hash": digest(verdicts),
+            "judge_model": load_assertion_verdicts(verdicts).judge.model,
+        }
+
+    def run(self, ctx, state, run):
+        sheet_file = input_file(state.coverage_sheet, "coverage sheet")
+        gold_file = input_file(state.assertion_gold, "assertion gold")
+        verdicts_file = input_file(state.verdicts, "verdict file")
+        sheet = CoverageSheet.model_validate_json(sheet_file.read_text(encoding="utf-8"))
+        report = score_assertion(
+            sheet, load_assertion_gold(gold_file), load_assertion_verdicts(verdicts_file)
+        )
+        state.assertion = report
+        run.metrics(**report.metrics())
+        for file in (sheet_file, gold_file, verdicts_file):
+            run.artifact(file)
         run.artifact(ctx.write(self.REPORT_FILE, report.model_dump_json(indent=2)))

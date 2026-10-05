@@ -20,7 +20,7 @@ from typing import Literal
 from ..core.cypher import cypher_ident
 from ..graph.canonical import canonical_id, canonical_name
 from .graph_schema import PropertyInfo
-from .plan import Operator, Tone
+from .plan import Modality, Operator, Tone, Truth
 
 Fragment = tuple[str, dict[str, object]]
 Direction = Literal["out", "in", "both"]
@@ -180,11 +180,15 @@ def find_claims(
     time_words: str | None,
     cap: int,
     either_end: bool = False,
+    truth: Truth = "affirmed",
+    modality: Modality = "actual",
 ) -> Fragment:
     """The claims about the records (attached to them, or with a mention that refers to one) or about the
     entities (a mention that refers to one, or attached to an individual, R76), narrowed by predicate,
     subject and object entities, tone and time; None leaves a part out. With `either_end`, the subject and
-    the object entities may each be on either end of the claim (R78)."""
+    the object entities may each be on either end of the claim (R78). Only claims of the given `truth` and
+    `modality` come back (R77; by default the claims that hold); a claim stored before R77 has neither and
+    counts as affirmed and actual."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
@@ -223,6 +227,8 @@ def find_claims(
     if time_words is not None:
         where.append("toLower(coalesce(o.time, '')) CONTAINS toLower($time)")
         params["time"] = time_words
+    where.append("coalesce(o.truth, 'affirmed') = $truth AND coalesce(o.modality, 'actual') = $modality")
+    params["truth"], params["modality"] = truth, modality
     clause = f" WHERE {' AND '.join(where)}" if where else ""
     return f"MATCH (o:Observation){clause} RETURN DISTINCT o.id AS id LIMIT {int(cap)}", params
 

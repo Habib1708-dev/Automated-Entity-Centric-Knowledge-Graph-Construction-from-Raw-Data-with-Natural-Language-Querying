@@ -49,7 +49,17 @@ def record_ref(label: str, key: str) -> str:
     return f"{label}:{key}"
 
 
-def observation_id(chunk_id: str, predicate: str, subject: str, obj: str, time: str = "") -> str:
+def observation_id(
+    chunk_id: str,
+    predicate: str,
+    subject: str,
+    obj: str,
+    time: str = "",
+    *,
+    truth: str = "affirmed",
+    modality: str = "actual",
+    condition: str = "",
+) -> str:
     """Deterministic id of one claim from the chunk and the claim's own wording, and its time if it has one.
 
     The wording, not the entity ids: identity decisions may later give a claim's subject the canonical
@@ -57,8 +67,17 @@ def observation_id(chunk_id: str, predicate: str, subject: str, obj: str, time: 
     survive that (R44). The key is the one the judge sheet has used for fact ids since R44, so verdicts
     written for the edge-based graph of R62 still apply to its observations. The time (R66) joins the key
     only when set: "slats crack" and "slats crack after two months" in one chunk are two claims, and a
-    claim without a time keeps the id it had before R66.
+    claim without a time keeps the id it had before R66. The assertion (R77) follows the same rule, each
+    field only when it is not at its default and tagged with its name, so that "the lid cracks" and "the
+    lid does not crack" in one chunk are two claims and no affirmed, actual claim changes its id.
     """
     parts = [chunk_id, predicate, norm(subject), norm(obj)]
-    key = "|".join([*parts, norm(time)] if time else parts)
-    return _digest(key, 12)
+    if time:
+        parts.append(norm(time))
+    if truth != "affirmed":
+        parts.append(f"truth:{truth}")
+    if modality != "actual":
+        parts.append(f"modality:{modality}")
+    if condition:
+        parts.append(f"condition:{norm(condition)}")
+    return _digest("|".join(parts), 12)

@@ -388,6 +388,19 @@ def coverage(sheet: Path, verdicts: Path, out: Path = OUT):
 
 
 @app.command()
+def assertion(sheet: Path, gold: Path, verdicts: Path, out: Path = OUT):
+    """Score the judge's matching of the assertion GOLD against SHEET (a coverage sheet), without the graph:
+    how well the graph keeps each claim's truth, modality and condition (R77)."""
+    state = PipelineState(coverage_sheet=sheet, assertion_gold=gold, verdicts=verdicts)
+    with session(out) as ctx:
+        report = run_stages(ctx, state, [st.AssertionStage()]).assertion
+    for name, value in report.metrics().items():
+        shown = "-" if value is None else f"{value:.3f}" if isinstance(value, float) else str(value)
+        typer.echo(f"{name:30} {shown}")
+    typer.echo(f"Wrote {out / st.AssertionStage.REPORT_FILE}")
+
+
+@app.command()
 def ask(
     question: str,
     system: str = typer.Option("graph", help="graph (the retrieval route) or vector (the baseline)."),

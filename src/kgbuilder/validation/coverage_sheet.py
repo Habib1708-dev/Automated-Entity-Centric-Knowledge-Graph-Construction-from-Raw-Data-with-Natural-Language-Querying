@@ -52,6 +52,10 @@ class SheetObservation(BaseModel):
     object_type: str
     polarity: str
     time: str
+    # the assertion (R77), which the R77 matching pass judges; defaults for sheets written before it
+    truth: str = "affirmed"
+    modality: str = "actual"
+    condition: str = ""
     evidence: str | None
     things: list[str]  # what it hangs on (HAS_OBSERVATION)
 
@@ -140,6 +144,9 @@ def _observation(fact: StoredFact) -> SheetObservation:
         object_type=fact.object_type,
         polarity=fact.polarity,
         time=fact.time,
+        truth=fact.truth,
+        modality=fact.modality,
+        condition=fact.condition,
         evidence=fact.evidence,
         things=fact.things,
     )

@@ -60,6 +60,10 @@ class SheetFact(BaseModel):
     # because the gold has no polarity
     polarity: str = "neutral"
     time: str = ""
+    # the claim's assertion (R77): part of the fact id, and what the R77 matching pass reads
+    truth: str = "affirmed"
+    modality: str = "actual"
+    condition: str = ""
     # the things the observation hangs on and the things its document is about (R64): not for the judge,
     # but `kg rescore` needs them to compute path truth for an observation graph from its sheet
     things: list[str] = []
@@ -214,7 +218,16 @@ def fact_id(fact: StoredFact) -> str:
     which is how a verdict file written for another graph is detected. Built from the fact's own wording
     (R44), so which name a merge makes canonical does not change it. It is the id of the fact's
     observation node (R64)."""
-    return observation_id(fact.chunk_id or "", fact.predicate, fact.own_subject, fact.own_object, fact.time)
+    return observation_id(
+        fact.chunk_id or "",
+        fact.predicate,
+        fact.own_subject,
+        fact.own_object,
+        fact.time,
+        truth=fact.truth,
+        modality=fact.modality,
+        condition=fact.condition,
+    )
 
 
 def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
@@ -237,6 +250,9 @@ def build_sheet(facts: list[StoredFact], gold: list[GoldTriple]) -> JudgeSheet:
             sections=f.sections,
             polarity=f.polarity,
             time=f.time,
+            truth=f.truth,
+            modality=f.modality,
+            condition=f.condition,
         )
         for f in scoped
     ]

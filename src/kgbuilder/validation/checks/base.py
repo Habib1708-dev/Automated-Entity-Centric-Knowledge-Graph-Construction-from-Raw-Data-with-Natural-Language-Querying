@@ -61,6 +61,10 @@ class StoredFact(BaseModel):
     # the claim's qualifiers (R66); the defaults are what a claim from before R66 or a derived one carries
     polarity: str = "neutral"
     time: str = ""
+    # the claim's assertion (R77); the defaults are what a claim from before R77 or a derived one carries
+    truth: str = "affirmed"
+    modality: str = "actual"
+    condition: str = ""
     value: float | None = None
     unit: str | None = None
 
@@ -86,14 +90,24 @@ class ClaimRow(StoredFact):
 
 def flatten(rows: list[ClaimRow]) -> list[StoredFact]:
     """The claims as triples: self-references left out, and of the claims identical in predicate, canonical
-    ends, chunk, quote and time only the first by its own wording and id (the R64 repeat rule; the same one
-    survives every rebuild, so the id the judge's verdicts refer to is stable). Order: by observation id.
-    Pure."""
+    ends, chunk, quote, time and assertion only the first by its own wording and id (the R64 repeat rule; the
+    same one survives every rebuild, so the id the judge's verdicts refer to is stable). Order: by
+    observation id. Pure."""
     kept: dict[tuple, ClaimRow] = {}
     for row in sorted(rows, key=lambda r: (r.subject_name or "", r.object_name or "", r.id)):
         if row.subject_id == row.object_id:
             continue
-        key = (row.subject_id, row.predicate, row.object_id, row.chunk_id, row.evidence, row.time)
+        key = (
+            row.subject_id,
+            row.predicate,
+            row.object_id,
+            row.chunk_id,
+            row.evidence,
+            row.time,
+            row.truth,
+            row.modality,
+            row.condition,
+        )
         kept.setdefault(key, row)
     fields = set(StoredFact.model_fields)
     return [StoredFact(**row.model_dump(include=fields)) for row in sorted(kept.values(), key=lambda r: r.id)]
@@ -129,6 +143,9 @@ class CheckContext:
             "o.subject_name AS subject_name, o.object_name AS object_name, "
             # observations written before R66 have no qualifiers: read them as a neutral claim without time
             "coalesce(o.polarity, 'neutral') AS polarity, coalesce(o.time, '') AS time, "
+            # and those written before R77 as affirmed and actual, without a condition
+            "coalesce(o.truth, 'affirmed') AS truth, coalesce(o.modality, 'actual') AS modality, "
+            "coalesce(o.condition, '') AS condition, "
             "o.value AS value, o.unit AS unit, "
             # each end as its canonical entity: the id decides self-references and repeats, the names are
             # what exact matching and the judge read

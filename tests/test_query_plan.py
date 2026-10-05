@@ -262,10 +262,12 @@ def test_the_claim_layer_is_walked_in_its_own_direction_only():
     assert "ref_s.canonical" in cypher and "ref_x.canonical" in cypher
     assert params == {
         "records": ["r1"], "entities": ["e1"], "predicate": "HAS_CONDITION", "subjects": ["s1"],
-        "objects": ["x1"], "tone": "negative", "time": "march",
+        "objects": ["x1"], "tone": "negative", "time": "march", "truth": "affirmed", "modality": "actual",
     }  # fmt: skip
+    # changed on purpose in R77: even a plan that names nothing finds only the claims that hold
     assert cy.find_claims(None, None, None, None, None, None, None, 5)[0] == (
-        "MATCH (o:Observation) RETURN DISTINCT o.id AS id LIMIT 5"
+        "MATCH (o:Observation) WHERE coalesce(o.truth, 'affirmed') = $truth AND "
+        "coalesce(o.modality, 'actual') = $modality RETURN DISTINCT o.id AS id LIMIT 5"
     )
 
 
