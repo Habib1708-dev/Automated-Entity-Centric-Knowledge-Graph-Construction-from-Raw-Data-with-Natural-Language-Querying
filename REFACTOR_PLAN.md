@@ -2605,10 +2605,60 @@ paid runs, asked first.
   - Gate: 369 passed (the new questions run inside the existing parametrised gold-file tests), `ruff
     check` clean. $0, no run.
 
+- **Part a3: the generality corpus, version 2 (done 2026-10-05).** 21 distractor documents written by
+  Claude (Opus 5.5), seven per domain, that name the corpus's people, pumps and places in other contexts;
+  32 documents in all (one chunk each), so a reader's top 5 chunks no longer hold half of the corpus. Their
+  questions and the one gold change they cause were written before any output on them exists.
+  - **Distractors by trap.** Water: a June inspection where the other pump leaks (`inspection_2025-06-13`),
+    a second seal replacement by another technician (`work_orders_2025-06`, Marek Hollis on HP40-2291),
+    a Harbour Station report, the vendor's quotation with its own claim, June shift notes, a 2024 summary
+    ("No seal failures were recorded in 2024."), an operator procedure. Institute: a second committee
+    meeting with another chair (9 June, Aiko Tanaka; "J. Pike"), a second field log at another site with
+    low-pH cores (Brackwater fen), the grants accountant's travel memo that names the other Maria Lopez,
+    a conference report, flume notes, a second "Seminar notice", the award's history (2024 "not awarded",
+    a nominee who did not win). News: the 2026 budget, a third Maria Lopez (a baker on Harbour Street), a
+    flood meeting where Dr Jonathan Pike speaks, a letter by Judith Pike (not Jonathan), an open day at
+    Harbour Station, the library's reopening, council notices.
+  - **Layouts the chunker had not met:** entries separated by `---` (`work_orders_2025-06.md`,
+    `council_notices.md`: short entries merge into one chunk, the separators dropped), two `.txt` logs
+    without a heading, and a document that starts with "## Contents" before its title (see "Found along the
+    way").
+  - **20 new questions, G22-G41:** 4 disambiguation (G22 the Utrecht poster's Maria Lopez, of three; G24
+    who replaced HP40-2291's seal; G31 the vendor's 18-month claim; G36 "Which Pike wrote ...?"), 4
+    negation-sensitive (G23 June leaks, G27 cores taken at Brackwater, G32 award winners without the
+    nominee, G37 seal failures in 2024: none), 3 multi-hop text -> record (G28 install year of the pump whose
+    screen was cleaned, G29 team of the 9 June chair, G34 rated flow of the open-day pump), 3 aggregation
+    (G25 seal replacements in 2025: 2, G30 meetings Jonathan Pike attended: 2, plus G40/G41 below), 2
+    structured filters over text (G26 Brackwater cores below pH 4.0, G35 the 2026 budget), 2 lookups (G33
+    the June finding on HP40-1183; G38 an obligation, a negative control) and 3 record questions with a
+    DuckDB query (G39 pumps rated above 40 l/s, G40 total rated flow at North Station: 84, G41 Hydrology
+    staff: 2).
+
+    | Gold file | multi_hop | aggregation | structured_filter | disambiguation | negation_sensitive | lookup | total | exact / retrieval | sets / numbers / texts |
+    |---|---|---|---|---|---|---|---|---|---|
+    | `generality_qa.json` v1 (R70) | 3 | 2 | 3 | 4 | 2 | 7 | 21 | 9 / 12 | 10 / 3 / 8 |
+    | `generality_qa.json` v2 (R73) | 6 | 6 | 6 | 8 | 6 | 9 | 41 | 23 / 18 | 21 / 10 / 10 |
+
+  - **Gold change caused by version 2 (written before any output on it):** G05 "In how many documents does
+    Jonathan Pike appear, under any form of his name?" 4 -> 8, with four new evidence quotes (the 9 June
+    minutes, the award history, the conference report, the flood meeting); Judith Pike does not count. Every
+    other earlier answer was re-checked against the new documents by the phrases it depends on ("safe to
+    use", "ran dry", "10 December", "1 September", "(chair)", the 2025 budget lines, ...): none changes.
+  - The test of the corpus's shape now asks 28-34 documents (it was 10-12). The three prompt guards read
+    the new documents too: no rule quotes them. R72's generality answers cover only G01-G21, so they belong
+    to the gold as of `cea8baa`.
+  - Gate: 369 passed, `ruff check` clean. $0, no run. **Part a done**; part b (records plus vector RAG,
+    the Gemini builds, `kg qa` on three systems) needs the user's yes with its cost estimate.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
+- **A document that opens with a contents list gets "Contents" as its context (found in R73 a3).**
+  `text/chunking.document_context` takes the first markdown heading, so `water/isolation_procedure.md`
+  ("## Contents" before "# Isolating a pump at North Station") gives every chunk the context "Contents",
+  and the extractor sees that as what the document is about. Not fixed in R73 (no output shows a failure
+  yet); if the version-2 build or its answers fail on it, it is its own concern, as the task file says.
 - **The model's critics do not accept a plan or schema for a three-domain corpus (found in R72).** Both
   refine loops ran their three rounds and refused: the plan critic asked for nodes the goal's words
   suggest ("places" -> Station, "events" -> event nodes) and called a plan without relationships "not a

@@ -2,8 +2,8 @@
 quote verbatim in its chunk, every cited record in its staged file, every question typed), every answer
 of a question with a query equals what DuckDB computes from the source files (R73), the two real
 datasets ask every question type at least five times and every record type at least ten times (R73), the
-earlier gold questions are carried over with
-their answers unchanged, and the generality corpus asks every hard case. No Neo4j, no LLM.
+earlier gold questions are carried over with their answers unchanged, and the generality corpus asks every
+hard case. No Neo4j, no LLM.
 """
 
 import json
@@ -76,10 +76,12 @@ def test_the_generality_corpus_asks_every_hard_case():
     assert set(HardCase) <= {q.hard_case for q in gold.questions}
 
 
-def test_the_generality_corpus_spans_at_least_three_domains_in_10_to_12_documents():
+def test_the_generality_corpus_spans_at_least_three_domains_in_about_30_documents():
+    # version 2 (R73): the 11 documents of R70 and 21 distractors that name the same people, pumps and
+    # places in other contexts, so that a reader no longer sees half of the corpus in its top 5 chunks
     corpus = REPO / "tests" / "fixtures" / "generality"
     documents = [p for p in corpus.rglob("*") if p.suffix in {".md", ".txt"}]
-    assert 10 <= len(documents) <= 12
+    assert 28 <= len(documents) <= 34
     # one folder per domain: the folders are the unrelated domains the corpus claims to cover
     assert len({p.parent for p in documents}) >= 3
     assert any(p.suffix == ".csv" for p in Path(corpus).rglob("*"))

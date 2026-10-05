@@ -74,16 +74,20 @@
       "id": "G05",
       "type": "aggregation",
       "question": "In how many documents does Jonathan Pike appear, under any form of his name?",
-      "expected": {"number": 4},
+      "expected": {"number": 8},
       "route": "exact",
       "chunks": [
         {"chunk_id": "institute/newsletter_spring_2025.md#0", "quote": "Dr. Jonathan Pike"},
         {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Jon Pike (chair)"},
         {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "was freed by J. Pike"},
-        {"chunk_id": "institute/seminar_notice.md#0", "quote": "Dr. J. Pike (Soil Ecology)"}
+        {"chunk_id": "institute/seminar_notice.md#0", "quote": "Dr. J. Pike (Soil Ecology)"},
+        {"chunk_id": "institute/minutes_2025-06-09.md#0", "quote": "J. Pike explained the equipment overrun"},
+        {"chunk_id": "institute/hensley_award.md#0", "quote": "2023: Jonathan Pike (Soil Ecology)"},
+        {"chunk_id": "institute/utrecht_conference_2025.md#0", "quote": "Dr. Jonathan Pike chaired the session"},
+        {"chunk_id": "news/flood_meeting.md#0", "quote": "Dr Jonathan Pike of the environmental institute"}
       ],
       "hard_case": "two_names",
-      "note": "Four spellings of one person: Dr. Jonathan Pike, Jon Pike, J. Pike, Dr. J. Pike."
+      "note": "Changed in version 2 of the corpus (R73), before any output on it: 4 -> 8. Spellings of one person: Dr. Jonathan Pike, Jon Pike, J. Pike, Dr. J. Pike, Dr Jonathan Pike. Judith Pike (a letter about Harbour Street) is someone else; the staff record is not a document."
     },
     {
       "id": "G06",
@@ -280,6 +284,251 @@
       "chunks": [
         {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."}
       ]
+    },
+    {
+      "id": "G22",
+      "type": "disambiguation",
+      "question": "Which team does the Maria Lopez who presented a poster at the Utrecht peat conference belong to?",
+      "expected": {"entities": [{"name": "Soil Ecology"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/utrecht_conference_2025.md#0", "quote": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog"},
+        {"chunk_id": "institute/travel_claims_memo.md#0", "quote": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht"}
+      ],
+      "hard_case": "same_name",
+      "note": "Three people are called Maria Lopez in the corpus: the Soil Ecology researcher, the grants accountant who wrote the travel memo, and a baker on Harbour Street."
+    },
+    {
+      "id": "G23",
+      "type": "negation_sensitive",
+      "question": "Which pumps were found leaking at the June 2025 inspection?",
+      "expected": {"entities": [{"name": "HP40-2291"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "Pump HP40-2291 now shows a slow drip from its mechanical seal"}
+      ],
+      "hard_case": "negation",
+      "note": "\"no leaks were found on HP40-1183\" does not count; the March inspection found the opposite pump leaking (G12)."
+    },
+    {
+      "id": "G24",
+      "type": "disambiguation",
+      "question": "Who replaced the mechanical seal of pump HP40-2291?",
+      "expected": {"entities": [{"name": "Marek Hollis", "aliases": ["technician Marek Hollis"]}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis"}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "Rosa Delgado replaced the seal of the other Hydra P-40, HP40-1183, on 31 March."
+    },
+    {
+      "id": "G25",
+      "type": "aggregation",
+      "question": "How many mechanical seal replacements on North Station pumps do the documents report for 2025?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "The seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado."},
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis"}
+      ],
+      "note": "Tags, plans and test runs around a replacement (the inspections, the shift notes, WO-320) are not further replacements; the vendor's seal kits are only offered."
+    },
+    {
+      "id": "G26",
+      "type": "structured_filter",
+      "question": "Which Brackwater fen cores had a pH below 4.0?",
+      "expected": {"entities": [{"name": "BF-1", "aliases": ["Core BF-1"]}, {"name": "BF-3", "aliases": ["Core BF-3"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/brackwater_fen_log.txt#0", "quote": "Core BF-1, 14 April: depth 2.1 m, pH 3.8."},
+        {"chunk_id": "institute/brackwater_fen_log.txt#0", "quote": "Core BF-3, 22 April: depth 1.9 m, pH 3.7"}
+      ],
+      "hard_case": "number_filter",
+      "note": "The Aldmoor core AB-19 (pH 3.9) is from another site; BF-4 was not taken."
+    },
+    {
+      "id": "G27",
+      "type": "negation_sensitive",
+      "question": "How many cores were taken at Brackwater fen?",
+      "expected": {"number": 3},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/brackwater_fen_log.txt#0", "quote": "Core BF-1, 14 April: depth 2.1 m, pH 3.8."},
+        {"chunk_id": "institute/brackwater_fen_log.txt#0", "quote": "Core BF-2, 14 April: depth 2.6 m, pH 4.3."},
+        {"chunk_id": "institute/brackwater_fen_log.txt#0", "quote": "Core BF-3, 22 April: depth 1.9 m, pH 3.7"}
+      ],
+      "hard_case": "negation",
+      "note": "Core BF-4 was \"not taken\"."
+    },
+    {
+      "id": "G28",
+      "type": "multi_hop",
+      "question": "In which year was the pump installed whose intake screen was cleaned on 6 May 2025?",
+      "expected": {"number": 2016},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/harbour_station_may_2025.md#0", "quote": "On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it."}
+      ],
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "KV12-0457", "install_year": "2016"}}
+      ],
+      "note": "The report names the pump KV12-0457; only the pump record gives its installation year."
+    },
+    {
+      "id": "G29",
+      "type": "multi_hop",
+      "question": "Which team does the person who chaired the committee meeting of 9 June 2025 belong to?",
+      "expected": {"entities": [{"name": "Hydrology"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-06-09.md#0", "quote": "Present: Aiko Tanaka (chair)"}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-150", "name": "Aiko Tanaka", "team": "Hydrology"}}
+      ],
+      "note": "Jon Pike chaired the meeting of 12 May (G04); the chair of 9 June is Aiko Tanaka."
+    },
+    {
+      "id": "G30",
+      "type": "aggregation",
+      "question": "How many of the institute committee's 2025 meetings did Jonathan Pike attend?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Present: Jon Pike (chair)"},
+        {"chunk_id": "institute/minutes_2025-06-09.md#0", "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."}
+      ],
+      "hard_case": "two_names",
+      "note": "He is Jon Pike in one set of minutes and J. Pike in the other."
+    },
+    {
+      "id": "G31",
+      "type": "disambiguation",
+      "question": "Who claims that a Hydra P-40 needs a new mechanical seal every 18 months of duty?",
+      "expected": {"entities": [{"name": "Ines Barros"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/calder_quotation.md#0", "quote": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty."},
+        {"chunk_id": "water/calder_quotation.md#0", "quote": "Ines Barros, Service Manager, Calder Pumps"}
+      ],
+      "hard_case": "reported_claim",
+      "note": "A vendor's claim in its own letter; the utility's documents never state it."
+    },
+    {
+      "id": "G32",
+      "type": "negation_sensitive",
+      "question": "Who has received the Hensley Field-Work Award?",
+      "expected": {"entities": [{"name": "Aiko Tanaka"}, {"name": "Jonathan Pike"}, {"name": "Maria Lopez"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/hensley_award.md#0", "quote": "2022: Aiko Tanaka (Hydrology)"},
+        {"chunk_id": "institute/hensley_award.md#0", "quote": "2023: Jonathan Pike (Soil Ecology)"},
+        {"chunk_id": "institute/hensley_award.md#0", "quote": "2025: Maria Lopez (Soil Ecology)"}
+      ],
+      "hard_case": "negation",
+      "note": "Samuel Osei was nominated in 2024, but the award was not given that year."
+    },
+    {
+      "id": "G33",
+      "type": "lookup",
+      "question": "What did the June 2025 inspection find on pump HP40-1183?",
+      "expected": {"text": "No leaks, a bearing temperature of 49 °C, and a flow of 40 litres per second."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "no leaks were found on HP40-1183, and its bearing temperature was 49 °C"},
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "HP40-1183 delivered 40 litres per second"}
+      ],
+      "hard_case": "two_things",
+      "note": "The same report finds HP40-2291 leaking at 52 °C, and the March inspection found HP40-1183 leaking (G08, G12); an answer that mixes either in is wrong. The flow may be left out."
+    },
+    {
+      "id": "G34",
+      "type": "multi_hop",
+      "question": "What is the rated flow in litres per second of the pump that visitors were shown at the Harbour Station open day?",
+      "expected": {"number": 18},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/harbour_open_day.md#0", "quote": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump"}
+      ],
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "KV12-0457", "model": "Kestrel V-12", "station": "Harbour Station", "rated_flow_lps": "18"}}
+      ],
+      "note": "A news item names the model and the station; the pump record gives the rated flow. The May report's 17 litres per second is a measured average, not the rating."
+    },
+    {
+      "id": "G35",
+      "type": "structured_filter",
+      "question": "Which projects in Riverton's 2026 works budget cost more than 200,000 pounds?",
+      "expected": {"entities": [{"name": "Station Road drainage, second phase", "aliases": ["Station Road drainage"]}, {"name": "Riverside path lighting"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/budget_2026.md#0", "quote": "Station Road drainage, second phase: 310,000 pounds"},
+        {"chunk_id": "news/budget_2026.md#0", "quote": "Riverside path lighting: 230,000 pounds"}
+      ],
+      "hard_case": "number_filter",
+      "note": "The 2025 budget (G15) has the Eastgate library roof and the first drainage phase above 200,000 pounds."
+    },
+    {
+      "id": "G36",
+      "type": "disambiguation",
+      "question": "Which Pike wrote to the newspaper about the delay of the Harbour Street resurfacing?",
+      "expected": {"entities": [{"name": "Judith Pike"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/letter_harbour_street.md#0", "quote": "Judith Pike, Mill Lane"}
+      ],
+      "hard_case": "same_name",
+      "note": "Jonathan Pike of the institute is someone else; the baker Maria Lopez also complains about the street, but not in a letter."
+    },
+    {
+      "id": "G37",
+      "type": "negation_sensitive",
+      "question": "Which pumps had a seal failure in 2024?",
+      "expected": {"entities": []},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/north_station_2024_summary.md#0", "quote": "No seal failures were recorded in 2024."}
+      ],
+      "hard_case": "negation",
+      "note": "The seal failure of HP40-1183 was in March 2025."
+    },
+    {
+      "id": "G38",
+      "type": "lookup",
+      "question": "By when must travel claims for May reach the Finance Office?",
+      "expected": {"text": "By 15 June 2025."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/travel_claims_memo.md#0", "quote": "Travel claims for May must reach the Finance Office by 15 June 2025"}
+      ],
+      "hard_case": "nuance_control",
+      "note": "An obligation: the graph only has to locate the chunk."
+    },
+    {
+      "id": "G39",
+      "type": "structured_filter",
+      "question": "Which pumps have a rated flow above 40 litres per second?",
+      "expected": {"entities": [{"name": "HP40-1183"}, {"name": "HP40-2291"}]},
+      "route": "exact",
+      "sql": "SELECT serial_number FROM pumps WHERE rated_flow_lps > 40",
+      "note": "Both Hydra P-40 pumps are rated at 42; the Kestrel V-12 at 18."
+    },
+    {
+      "id": "G40",
+      "type": "aggregation",
+      "question": "What is the total rated flow in litres per second of the pumps at North Station?",
+      "expected": {"number": 84},
+      "route": "exact",
+      "sql": "SELECT sum(rated_flow_lps) FROM pumps WHERE station = 'North Station'"
+    },
+    {
+      "id": "G41",
+      "type": "aggregation",
+      "question": "How many staff members does the Hydrology team have?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "sql": "SELECT count(*) FROM staff WHERE team = 'Hydrology'"
     }
   ]
 }
