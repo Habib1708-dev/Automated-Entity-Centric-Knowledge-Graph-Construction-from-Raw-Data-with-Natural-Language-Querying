@@ -1,0 +1,62 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+    "date": "2026-10-05",
+    "run_id": "74dd0128cd924331a4d54ce8385b64e7",
+    "git_sha": "5a75b7a"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r77_generality/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": false,
+      "reason": "No answer: text is null and entities is empty (the fallback Cypher returned 0 rows), while the expected 'ran quietly, no leaks, bearing temperature 48 °C' exists in the source."
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "Says 'Because the roof has leaked into the children's section since the autumn storms', the expected reason, taken from the library sentence and not from the footbridge. (earlier verdict: the answer is identical to R79's)"
+    },
+    {
+      "question_id": "G11",
+      "correct": true,
+      "reason": "The answer names 'Ines Barros, service manager at Calder Pumps' as the one saying the pump ran dry and states 'The utility does not agree' because 'its log shows the suction valve was open for the whole night', covering both parts of the expected answer and attributing the claim to the vendor as the note requires. (earlier verdict: the answer is identical to R79's)"
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "Says the flooding 'would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended', the gold sentence itself; it names the seal and the March inspection recommendation as the expected answer does. (earlier verdict: the answer is identical to R79's)"
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "'30 June 2025' is exactly the expected 'By 30 June 2025', cited from the gold chunk."
+    },
+    {
+      "question_id": "G18",
+      "correct": false,
+      "reason": "No answer: 'The chunks do not contain a structural inspector's report, so they do not say who told the inspector' while the expected 'Residents' exists in the source (the retrieval missed news/mill_lane_and_eastgate.md)."
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "Says 'Before the library reopens on 1 September.', exactly the expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R79's)"
+    },
+    {
+      "question_id": "G20",
+      "correct": true,
+      "reason": "'28 March' is exactly the expected 'On 28 March', and the citations tie the inspector's recommendation to the Mill Lane footbridge and its reopening."
+    },
+    {
+      "question_id": "G33",
+      "correct": false,
+      "reason": "No answer: 'The chunks do not state any finding by the June 2025 inspection on pump HP40-1183' while the expected 'no leaks, 49 °C, 40 litres per second' exists in the source (the June inspection chunk was not retrieved)."
+    },
+    {
+      "question_id": "G38",
+      "correct": true,
+      "reason": "Says '15 June 2025', the exact expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R79's)"
+    }
+  ]
+}

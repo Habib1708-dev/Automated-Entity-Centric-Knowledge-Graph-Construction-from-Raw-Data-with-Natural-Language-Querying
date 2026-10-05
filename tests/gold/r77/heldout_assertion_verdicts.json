@@ -1,0 +1,1085 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1",
+  "date": "2026-10-05",
+  "run_id": "81ea6657 (extract), sheet run b645e47b",
+  "git_sha": "5a75b7a"
+ },
+ "sheet": "tests/gold/r77/heldout_assertion_sheet.json",
+ "gold": "tests/gold/r77/heldout_assertion_gold.json",
+ "sentences": [
+  {
+   "id": "35ef265284c3",
+   "claims": [
+    {
+     "claim": "the contact stated the rear wheel wells were rusted",
+     "matched": [
+      "d4922a11a5a4",
+      "4bef54949117"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "d4922a11a5a4 states RUSTED affects the REAR WHEEL WELLS and 4bef54949117 puts the rust on the 2015 Ford Escape; both affirmed, actual, no condition, as the text states it (the contact is the report's writer)."
+    },
+    {
+     "claim": "the rust was discovered while inspecting the vehicle",
+     "matched": [],
+     "reason": "No observation states the discovery or the inspection; the stored facts are the rust itself and its mileage."
+    }
+   ]
+  },
+  {
+   "id": "871e0500eab8",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/22/2015",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the accelerator hesitation."
+    }
+   ]
+  },
+  {
+   "id": "2247984ac5ae",
+   "claims": [
+    {
+     "claim": "the service drive and manufacturer explained the hesitation as the engine gearing down",
+     "matched": [],
+     "reason": "No observation states the service drive's or manufacturer's explanation."
+    },
+    {
+     "claim": "the service drive and manufacturer explained the hesitation as the turbo spooling up",
+     "matched": [],
+     "reason": "No observation states the turbo explanation."
+    },
+    {
+     "claim": "the service drive and manufacturer said the vehicle operates as expected",
+     "matched": [],
+     "reason": "No observation states that the vehicle operates as expected."
+    },
+    {
+     "claim": "no repairs were needed",
+     "matched": [],
+     "reason": "No observation states anything about repairs being needed."
+    },
+    {
+     "claim": "no repairs were made",
+     "matched": [],
+     "reason": "No observation states anything about repairs being made."
+    }
+   ]
+  },
+  {
+   "id": "114c7bd5c3ac",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/24/2015",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the brake squeal."
+    }
+   ]
+  },
+  {
+   "id": "09c43ed973e6",
+   "claims": [
+    {
+     "claim": "the first time in for service, no problem was found",
+     "matched": [],
+     "reason": "No observation states the first service visit or that no problem was found; the stored facts are the squeal, the diagnosed brake and the pads/rotors."
+    }
+   ]
+  },
+  {
+   "id": "5cc5ee267024",
+   "claims": [
+    {
+     "claim": "the vehicle was in for service three times in one month",
+     "matched": [],
+     "reason": "No observation states the number of service visits or the month."
+    }
+   ]
+  },
+  {
+   "id": "ceef829c5edd",
+   "claims": [
+    {
+     "claim": "the failure mileage was 2,361",
+     "matched": [
+      "f25b5ad0c0b5"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "f25b5ad0c0b5 states the failure (AIR BAGS FAILED TO DEPLOY) OCCURS_AT_MILEAGE 2,361; affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "dfa7ae8317db",
+   "claims": [
+    {
+     "claim": "the trunk and glove compartment not locking may not be a driving safety issue",
+     "matched": [],
+     "reason": "No observation states whether the non-locking is a driving safety issue; only DO NOT LOCK on the trunk and glove compartment is stored."
+    },
+    {
+     "claim": "the trunk and glove compartment not locking is a safety issue nonetheless",
+     "matched": [],
+     "reason": "No observation states that the non-locking is a safety issue."
+    }
+   ]
+  },
+  {
+   "id": "80bb9aed5a36",
+   "claims": [
+    {
+     "claim": "the vehicle will react unpredictably under certain conditions when the adaptive cruise control (ACC) and the lane keeping assist system (LKAS) are engaged simultaneously",
+     "matched": [
+      "bbcff0a71672",
+      "e147d7e303d2",
+      "e331fa3cdf71"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "bbcff0a71672 states REACT UNPREDICTABLY occurs on the 2016 Honda Civic and e147d7e303d2 / e331fa3cdf71 tie it to the LKAS and ACC; all three stored conditional with the gold condition 'WHEN THE ADAPTIVE CRUISE CONTROL (ACC) AND ... (LKAS) ARE ENGAGED SIMULTANEOUSLY', affirmed."
+    }
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92",
+   "claims": [
+    {
+     "claim": "the vehicle may brake suddenly when approaching exit ramps",
+     "matched": [
+      "fdda641ca481"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "fdda641ca481 states BRAKE SUDDENLY occurs on the 2016 Honda Civic, conditional with condition 'WHEN APPROACHING EXIT RAMPS', affirmed; the modal 'may' is subsumed by the condition as in the gold."
+    },
+    {
+     "claim": "the vehicle may rapidly decelerate when approaching exit ramps",
+     "matched": [
+      "d82e64755ca1"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "d82e64755ca1 states RAPIDLY DECELERATE occurs on the 2016 Honda Civic, conditional with condition 'WHEN APPROACHING EXIT RAMPS', affirmed."
+    },
+    {
+     "claim": "the vehicle may quickly depart the highway when approaching exit ramps",
+     "matched": [
+      "f7d35cfecc70"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "f7d35cfecc70 states QUICKLY DEPART THE HIGHWAY occurs on the 2016 Honda Civic, conditional with condition 'WHEN APPROACHING EXIT RAMPS', affirmed."
+    }
+   ]
+  },
+  {
+   "id": "056c53e954ea",
+   "claims": [
+    {
+     "claim": "the situation occurs during daylight and nighttime hours",
+     "matched": [],
+     "reason": "No observation states when (daylight / nighttime) the situation occurs."
+    },
+    {
+     "claim": "the situation occurs with clean cameras and radar window",
+     "matched": [],
+     "reason": "No observation states the clean cameras and radar window circumstance."
+    }
+   ]
+  },
+  {
+   "id": "3e0818472dcc",
+   "claims": [
+    {
+     "claim": "the vehicle may slow by 10-15 mph",
+     "matched": [
+      "7289d7c040a2"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "7289d7c040a2 states SLOW occurs on the 2016 Honda Civic with modality possible, affirmed, no condition, as the text's 'may slow'; the amount 10-15 mph is a detail of the same statement not stored."
+    },
+    {
+     "claim": "the vehicle may depart the highway before the driver is able to resume control",
+     "matched": [
+      "e25bf2811b80"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "e25bf2811b80 states DEPART THE HIGHWAY occurs on the 2016 Honda Civic with modality possible, affirmed, no condition and 'BEFORE THE DRIVER IS ABLE TO RESUME CONTROL' kept as time, as the text."
+    }
+   ]
+  },
+  {
+   "id": "f4230c015f96",
+   "claims": [
+    {
+     "claim": "a rear end collision was narrowly avoided in one case",
+     "matched": [],
+     "reason": "No observation states the avoided rear end collision."
+    }
+   ]
+  },
+  {
+   "id": "3627197d8b3a",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/01/2016",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the piston clip ring recall."
+    }
+   ]
+  },
+  {
+   "id": "3b01d11e981d",
+   "claims": [
+    {
+     "claim": "the writer contacted American Honda",
+     "matched": [],
+     "reason": "No observation states the writer's contact with American Honda."
+    },
+    {
+     "claim": "Honda confirmed the car does have a recall",
+     "matched": [],
+     "reason": "8af31750940a stores RECALL affects the 2016 HONDA CIVIC as the writer's own fact from another sentence (the sale the day after a recall), not as what Honda confirmed; the speaker is lost, so it does not state this claim (R68: attribution)."
+    },
+    {
+     "claim": "Honda provided the writer with a case number",
+     "matched": [],
+     "reason": "No observation states the case number or Honda providing it."
+    }
+   ]
+  },
+  {
+   "id": "bd0939154838",
+   "claims": []
+  },
+  {
+   "id": "cbc946171556",
+   "claims": [
+    {
+     "claim": "the vehicle currently has 350 miles",
+     "matched": [
+      "7f4f76400f84"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "7f4f76400f84 states the 2016 HONDA CIVIC HAS_MILEAGE 350 MILES with time CURRENTLY; affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "23c971e9e2c7",
+   "claims": [
+    {
+     "claim": "currently Honda has no fix for the vehicles affected",
+     "matched": [],
+     "reason": "No observation states whether Honda has a fix; 0902390069ab only states the recall affects 2016 Civics."
+    }
+   ]
+  },
+  {
+   "id": "0ef7c2fcf620",
+   "claims": [
+    {
+     "claim": "the writer does not feel safe driving the brand new car any longer",
+     "matched": [],
+     "reason": "No observation states the writer's feeling of safety."
+    }
+   ]
+  },
+  {
+   "id": "cea6a538d46c",
+   "claims": [
+    {
+     "claim": "the complaint was filed 03/01/2017",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the speedometer failure."
+    }
+   ]
+  },
+  {
+   "id": "d650561de9cf",
+   "claims": [
+    {
+     "claim": "the contact owns a 2017 Nissan Rogue",
+     "matched": [],
+     "reason": "No observation states ownership or the vehicle identity on its own; 865e7eeae030 only places the speedometer failure on the 2017 NISSAN ROGUE (R68 covered this claim by record fields, which are not observations)."
+    }
+   ]
+  },
+  {
+   "id": "eac2da901c75",
+   "claims": [
+    {
+     "claim": "the contact stated the speedometer failed without warning",
+     "matched": [
+      "5bf1231fa222",
+      "865e7eeae030"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "5bf1231fa222 states 'speedometer failed' affects the SPEEDOMETER and 865e7eeae030 puts the failure on the 2017 NISSAN ROGUE; both affirmed, actual, no condition, as the text ('without warning' is a manner detail)."
+    }
+   ]
+  },
+  {
+   "id": "d56c363f1e1f",
+   "claims": [
+    {
+     "claim": "the front camera system mistook the bridge for an object on the road",
+     "matched": [
+      "6a6fd5b7c1b6",
+      "af4472895792"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "6a6fd5b7c1b6 states the problem 'FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD' affects the FRONT CAMERA SYSTEM and af4472895792 puts it on the 2017 Nissan Rogue; both affirmed, actual, no condition, as the text."
+    },
+    {
+     "claim": "the front camera system activated the brakes",
+     "matched": [
+      "65dcf2c0bf61",
+      "b0e3a27ea8e0",
+      "b4ab157ca9e5"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "65dcf2c0bf61 states the camera's mistake CAUSES_PROBLEM 'ACTIVATED THE BRAKES', b0e3a27ea8e0 puts the brake activation on the 2017 Nissan Rogue and b4ab157ca9e5 on the BRAKES; all affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "a309c4d22184",
+   "claims": [
+    {
+     "claim": "the car braked on its own on two separate occasions",
+     "matched": [],
+     "reason": "19cc7e97ebc0 and a72e4b745b1f store BRAKED ON ITS OWN once, on the Rogue and on the BRAKES; the count of two separate occasions, the content this sentence adds, is in no observation (R68: event_structure)."
+    },
+    {
+     "claim": "the car was taken to the dealer on both occasions",
+     "matched": [],
+     "reason": "No observation states the dealer visits."
+    }
+   ]
+  },
+  {
+   "id": "11a223cf6bf6",
+   "claims": [
+    {
+     "claim": "the complaint was filed 07/24/2017",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the car not stopping."
+    }
+   ]
+  },
+  {
+   "id": "6b02b7628358",
+   "claims": [
+    {
+     "claim": "the gas gauge showed full after fill up",
+     "matched": [],
+     "reason": "No observation states the gauge showing full after the fill up; the stored problems are NOT MOVEING and SAYS I STILL HAVE A FULL TANK, which are the sentence's other statements."
+    },
+    {
+     "claim": "the gas gauge is now not moving",
+     "matched": [
+      "66ad0974470c",
+      "a0ed6be04817"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "66ad0974470c states 'NOT MOVEING' affects the GAS GAUGE with time NOW and a0ed6be04817 puts it on the 2017 Nissan Rogue; truth stored affirmed but the problem's own name carries the negation ('NOT MOVEING'), which counts as kept; actual, no condition."
+    },
+    {
+     "claim": "the gas gauge still says a full tank, which is not possible with 203 miles to empty",
+     "matched": [
+      "cc6602ca8ed0",
+      "eae53113081d"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "cc6602ca8ed0 states 'SAYS I STILL HAVE A FULL TANK' affects the GAS GAUGE and eae53113081d puts it on the 2017 Nissan Rogue; affirmed, actual, no condition, as the text's main statement."
+    },
+    {
+     "claim": "normally after a fill up it is over 440 miles to empty",
+     "matched": [],
+     "reason": "No observation states the normal 440 miles to empty after a fill up."
+    }
+   ]
+  },
+  {
+   "id": "9bef6554e7be",
+   "claims": [
+    {
+     "claim": "the complaint was filed 08/29/2018",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the windshield crack."
+    }
+   ]
+  },
+  {
+   "id": "d3af2b6ca47f",
+   "claims": [
+    {
+     "claim": "the navigation system works sporadically",
+     "matched": [],
+     "reason": "No observation states sporadic working; 00b276404f8f and e0e51368f404 store only a generic FAILURE / PROBLEMS on the navigation system."
+    },
+    {
+     "claim": "the navigation system works less and less every day",
+     "matched": [],
+     "reason": "No observation states the worsening every day."
+    },
+    {
+     "claim": "the vehicle already had a dead battery, on a 2019 vehicle",
+     "matched": [
+      "1bec7abef0eb",
+      "51cc471881e8"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "1bec7abef0eb states DEAD BATTERY occurs on the 2019 OUTBACK with time ALREADY and 51cc471881e8 puts it on the BATTERY; both affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "c4da0454fddc",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/11/2019",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the steering feedback."
+    }
+   ]
+  },
+  {
+   "id": "70791cf8fff4",
+   "claims": [
+    {
+     "claim": "the car was taken to a dealer",
+     "matched": [],
+     "reason": "No observation states the dealer visit."
+    },
+    {
+     "claim": "the dealer said that nothing is wrong with the car",
+     "matched": [],
+     "reason": "No observation states the dealer's finding."
+    }
+   ]
+  },
+  {
+   "id": "0cf0e0ff34ac",
+   "claims": [
+    {
+     "claim": "nothing was left on in the car",
+     "matched": [],
+     "reason": "No observation states that nothing was left on."
+    },
+    {
+     "claim": "the dead battery is a parasitic battery drain",
+     "matched": [
+      "81136d2a73ce",
+      "b03b6d376064",
+      "e7cc14054d18"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "81136d2a73ce states PARASITIC BATTERY DRAIN CAUSES_PROBLEM 'BATTERY WAS TOTALLY DEAD', b03b6d376064 puts the drain on the BATTERY and e7cc14054d18 on the 2019 Subaru Outback; all affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "0bfe71b403c1",
+   "claims": [
+    {
+     "claim": "the contact was unsure if the rental company notified the dealer and manufacturer",
+     "matched": [],
+     "reason": "No observation states the contact's uncertainty or the notification."
+    }
+   ]
+  },
+  {
+   "id": "930e3b62dee6",
+   "claims": [
+    {
+     "claim": "the failure to accelerate has only happened three times",
+     "matched": [],
+     "reason": "No observation states the count of three occurrences; 079c1794c7b2 / c87fcad238cc store WILL NOT ACCELERATE under its own condition only."
+    },
+    {
+     "claim": "the failure to accelerate could cause an accident",
+     "matched": [
+      "b21b5e792bd2",
+      "fdb19c97c5c0"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "b21b5e792bd2 states WILL NOT ACCELERATE CAUSES_PROBLEM ACCIDENT and fdb19c97c5c0 puts the accident on the 2019 Toyota Rav4, both with modality possible, affirmed, no condition, as the text's 'could cause'."
+    }
+   ]
+  },
+  {
+   "id": "60e40266f322",
+   "claims": [
+    {
+     "claim": "the complaint was filed 06/20/2019",
+     "matched": [],
+     "reason": "No observation states a filing date; the chunk's observations are about the fuel auto-shutoff."
+    }
+   ]
+  },
+  {
+   "id": "57630a4bce21",
+   "claims": [
+    {
+     "claim": "the gas gauge does not indicate full after the auto-shutoff",
+     "matched": [
+      "9117f5b4219f",
+      "f7346df7beb6"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "9117f5b4219f states 'DOES NOT INDICATE FULL' affects the GAS GAUGE and f7346df7beb6 puts it on the 2019 Toyota Rav4; truth stored affirmed but the problem's name carries the negation ('DOES NOT'), which counts as kept; actual, no condition."
+    },
+    {
+     "claim": "the writer is able to add an additional 2-2.5 gallons to the tank after the auto-shutoff",
+     "matched": [],
+     "reason": "No observation states the extra 2-2.5 gallons; 2f31e55c05ef / 359da9a59e7f store the auto-shutoff happening 2 gallons shy from another sentence, not the writer adding fuel."
+    },
+    {
+     "claim": "adding the extra fuel takes a while because the writer has to push through all the auto shutoffs",
+     "matched": [],
+     "reason": "No observation states the time it takes or pushing through the shutoffs."
+    }
+   ]
+  },
+  {
+   "id": "5b0fd9815507",
+   "claims": [
+    {
+     "claim": "wind can be heard when driving the vehicle",
+     "matched": [
+      "90e29375a394"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "90e29375a394 states HEAR WIND occurs on the 2019 Toyota Rav4, conditional with condition 'WHEN DRIVING YOUR VEHICLE', affirmed, as the text."
+    }
+   ]
+  },
+  {
+   "id": "74b647786e79",
+   "claims": [
+    {
+     "claim": "the wind noise can be heard well when the vehicle gets up to 50 miles per hour",
+     "matched": [
+      "946cf59a2e9a"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "946cf59a2e9a states HEAR WIND OCCURS_AT_SPEED 50 MILES PER HOUR, conditional with condition 'WHEN YOU GET UP TO 50 MILES PER HOUR', affirmed, as the text."
+    }
+   ]
+  },
+  {
+   "id": "86fbcc07b8ed",
+   "claims": [
+    {
+     "claim": "the recall is issued by American Honda Motor Co.",
+     "matched": [],
+     "reason": "No observation states who issued the recall; the schema has no issuer fact type (R68 covered this by the record's Manufacturer field, not an observation)."
+    }
+   ]
+  },
+  {
+   "id": "c236ece39b09",
+   "claims": [
+    {
+     "claim": "the electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off",
+     "matched": [
+      "7fe0a8674d1e"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "7fe0a8674d1e states 'may not engage' affects the electric parking brake (EPB), conditional with condition 'if it is applied immediately after turning the ignition off'; truth stored affirmed but the problem's name carries the negation ('may not engage'), which counts as kept. 2e36dbfcb6de (recall ADDRESSES_PROBLEM) states what the recall addresses, not this claim."
+    }
+   ]
+  },
+  {
+   "id": "bc462b566164",
+   "claims": [
+    {
+     "claim": "owners may contact Honda customer service at 1-888-234-2138",
+     "matched": [],
+     "reason": "No observation states the contact number; the schema has no type for it."
+    }
+   ]
+  },
+  {
+   "id": "651ecafbd360",
+   "claims": [
+    {
+     "claim": "owners may contact Honda's customer service at 1-888-234-2138",
+     "matched": [],
+     "reason": "No observation states the contact number; the schema has no type for it."
+    }
+   ]
+  },
+  {
+   "id": "6aff1eb1f43d",
+   "claims": [
+    {
+     "claim": "the Vehicle Identification Numbers (VINs) involved in this recall will be searchable on NHTSA.gov beginning May 29, 2026",
+     "matched": [],
+     "reason": "No observation states the VIN search availability or its date."
+    }
+   ]
+  },
+  {
+   "id": "a9816b7e59f2",
+   "claims": [
+    {
+     "claim": "owners may contact Nissan customer service at 1-800-647-7261",
+     "matched": [],
+     "reason": "No observation states the contact number; the schema has no type for it."
+    }
+   ]
+  },
+  {
+   "id": "0d949f7cca98",
+   "claims": [
+    {
+     "claim": "the recall is issued by Nissan North America, Inc.",
+     "matched": [],
+     "reason": "No observation states who issued the recall; the schema has no issuer fact type."
+    }
+   ]
+  },
+  {
+   "id": "d9e3ea3be92c",
+   "claims": [
+    {
+     "claim": "the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child",
+     "matched": [
+      "0e039530ffe2",
+      "7a37bc9c09db"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "0e039530ffe2 and 7a37bc9c09db state the problem 'incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied' affects the OCS / Occupant Classification System, both with modality possible, affirmed, no condition, as the text's 'may'. 6e2b1e903cfc (recall ADDRESSES_PROBLEM, actual) states what the recall addresses, not that the OCS may misclassify."
+    },
+    {
+     "claim": "the OCS may classify the seat as empty despite it being occupied",
+     "matched": [
+      "0e039530ffe2",
+      "7a37bc9c09db"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "The same two observations carry both alternatives in the problem's name ('... or classify the seat as empty despite it being occupied'), modality possible, affirmed, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "0930406385f7",
+   "claims": [
+    {
+     "claim": "the recall is issued by Nissan",
+     "matched": [],
+     "reason": "No observation states who issued the recall; the schema has no issuer fact type."
+    },
+    {
+     "claim": "the recall covers certain 2017-2019 Rogue Hybrid vehicles",
+     "matched": [
+      "61cddfa7b72d"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "61cddfa7b72d states 21V839000 AFFECTS_VEHICLE 2017-2019 Rogue Hybrid; affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "b616ec7176ba",
+   "claims": [
+    {
+     "claim": "contact with the Electronic Control Module (ECM) bracket may damage the engine harness",
+     "matched": [
+      "a94936e7c91c",
+      "6baa23cc9215"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a94936e7c91c states 'Contact with the Electronic Control Module (ECM) bracket' CAUSES_PROBLEM 'damage the engine harness' and 6baa23cc9215 puts the damage on the engine harness, both with modality possible, affirmed, no condition, as the text's 'may damage'."
+    },
+    {
+     "claim": "the damaged engine harness may cause a blown fuse",
+     "matched": [],
+     "reason": "No observation states the blown fuse."
+    }
+   ]
+  },
+  {
+   "id": "a1ff5c6c44ad",
+   "claims": [
+    {
+     "claim": "owners may contact Nissan customer service at 1-800-867-7669",
+     "matched": [],
+     "reason": "No observation states the contact number; the schema has no type for it."
+    }
+   ]
+  },
+  {
+   "id": "5dc27f02e326",
+   "claims": [
+    {
+     "claim": "interim notification letters notifying owners of the safety risk were mailed March 29, 2023",
+     "matched": [],
+     "reason": "No observation states the letters or their mailing; c1fff5bacb87 only states the recall addresses a 'safety risk'."
+    }
+   ]
+  },
+  {
+   "id": "5fc5ce41739d",
+   "claims": [
+    {
+     "claim": "remedy parts should be available for all affected vehicles by late March 2021",
+     "matched": [],
+     "reason": "No observation states the parts availability or its date."
+    }
+   ]
+  },
+  {
+   "id": "5acb39454531",
+   "claims": [
+    {
+     "claim": "Lexus' number for this recall is 20LA01",
+     "matched": [],
+     "reason": "No observation states the manufacturer's recall number."
+    }
+   ]
+  },
+  {
+   "id": "e67aaa4ed378",
+   "claims": [
+    {
+     "claim": "water may enter through the steering gear box cover",
+     "matched": [
+      "0a96848cc017"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "0a96848cc017 states the problem 'Water may enter through the steering gear box cover' affects the steering gear box cover, modality possible, affirmed, no condition, as the text."
+    },
+    {
+     "claim": "water entering may cause a loss of electric power steering assist",
+     "matched": [
+      "e08822bc642e",
+      "08a1d0570774"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "e08822bc642e states the water entry CAUSES_PROBLEM 'loss of electric power steering assist' and 08a1d0570774 puts the loss on the electric power steering assist, both with modality possible, affirmed, no condition, as the text's 'may ... cause'."
+    }
+   ]
+  },
+  {
+   "id": "6f8011ee4e72",
+   "claims": [
+    {
+     "claim": "owners may contact Toyota customer service at 1-888-270-9371",
+     "matched": [],
+     "reason": "No observation states the contact number; the schema has no type for it."
+    }
+   ]
+  },
+  {
+   "id": "e1cc700cbcfb",
+   "claims": [
+    {
+     "claim": "Toyota will notify owners",
+     "matched": [],
+     "reason": "No observation states the owner notification; the schema has no remedy type."
+    },
+    {
+     "claim": "dealers will inspect the back-up camera system, free of charge",
+     "matched": [],
+     "reason": "a5be4a54b5d5 states only that the recall COVERS_COMPONENT the back-up camera system, not that dealers will inspect it free of charge; the schema has no remedy type (R68: no_schema_type)."
+    },
+    {
+     "claim": "dealers will replace the audio display unit if necessary, free of charge",
+     "matched": [],
+     "reason": "7ed7fbf93107 states only that the recall COVERS_COMPONENT the audio display unit (stored conditional 'if necessary'), not the dealers' replacement; the relation is the recall's coverage, not the remedy, so it does not state this claim (R68: no_schema_type)."
+    }
+   ]
+  },
+  {
+   "id": "2ba265557d96",
+   "claims": [
+    {
+     "claim": "the recall began on January 27, 2017",
+     "matched": [],
+     "reason": "No observation states the recall's start date."
+    }
+   ]
+  },
+  {
+   "id": "84b3a93ecbe1",
+   "claims": [
+    {
+     "claim": "Ford will notify owners",
+     "matched": [],
+     "reason": "No observation states the owner notification; the schema has no remedy type."
+    },
+    {
+     "claim": "dealers will update the instrument panel software, free of charge",
+     "matched": [],
+     "reason": "078ab9c2c27c states only that the recall COVERS_COMPONENT the instrument panel software, not that dealers will update it free of charge (R68: no_schema_type)."
+    }
+   ]
+  },
+  {
+   "id": "38a3be2f22db",
+   "claims": [
+    {
+     "claim": "the recall is issued by Ford Motor Company (Ford)",
+     "matched": [],
+     "reason": "No observation states who issued the recall; the schema has no issuer fact type."
+    },
+    {
+     "claim": "the recall covers certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015",
+     "matched": [
+      "afacfd9b05e7"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "afacfd9b05e7 states 15V436000 AFFECTS_VEHICLE 2015 Ford Escape; affirmed, actual, no condition, as the text (the manufacturing dates are a detail not stored)."
+    },
+    {
+     "claim": "the recall covers Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015",
+     "matched": [
+      "295cdb55ea2b"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "295cdb55ea2b states 15V436000 AFFECTS_VEHICLE Ford Focus; affirmed, actual, no condition, as the text."
+    },
+    {
+     "claim": "the recall covers Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015",
+     "matched": [
+      "6c0992ecb3c7"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "6c0992ecb3c7 states 15V436000 AFFECTS_VEHICLE Ford C-Max; affirmed, actual, no condition, as the text."
+    }
+   ]
+  },
+  {
+   "id": "7c81510891f8",
+   "claims": [
+    {
+     "claim": "Ford will notify owners",
+     "matched": [],
+     "reason": "No observation states the owner notification; the schema has no remedy type."
+    },
+    {
+     "claim": "dealers will inspect the latch date codes to confirm if the repair was done correctly, free of charge",
+     "matched": [],
+     "reason": "No observation states the date-code inspection; 9127b57122a0 / e5b1bf83e948 only state the recall covers the (side) door latches."
+    },
+    {
+     "claim": "dealers will replace the side door latches if necessary, free of charge",
+     "matched": [],
+     "reason": "9127b57122a0 states only that the recall COVERS_COMPONENT the side door latches, not the dealers' conditional replacement; the schema has no remedy type (R68: no_schema_type)."
+    }
+   ]
+  },
+  {
+   "id": "ecb9c2a6c2da",
+   "claims": [
+    {
+     "claim": "the rearview camera may display a distorted, intermittent or blank image when the vehicle is in reverse",
+     "matched": [
+      "5599d521e3b9"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "5599d521e3b9 states the problem 'distorted, intermittent, or blank image' affects the rearview camera, conditional with condition 'when the vehicle is in reverse', affirmed, as the text. 853fd41527e2 (recall ADDRESSES_PROBLEM, actual) states what the recall addresses, not this claim."
+    }
+   ]
+  },
+  {
+   "id": "b0978db51757",
+   "claims": [
+    {
+     "claim": "owners may contact Ford customer service at 1-866-436-7332",
+     "matched": [],
+     "reason": "No observation states the contact number; the schema has no type for it."
+    }
+   ]
+  },
+  {
+   "id": "4533e7fa1712",
+   "claims": [
+    {
+     "claim": "the engine block heater may crack",
+     "matched": [
+      "659c0260adfe"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "659c0260adfe states 'crack' affects the engine block heater with modality possible, affirmed, no condition, as the text's 'may crack'. 907f733a8664 (recall ADDRESSES_PROBLEM crack, actual) states what the recall addresses, not this claim."
+    },
+    {
+     "claim": "the engine block heater may develop a coolant leak",
+     "matched": [
+      "d670e6cabdb0",
+      "80bcaaf8c5a6"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "d670e6cabdb0 states 'coolant leak' affects the engine block heater and 80bcaaf8c5a6 states the crack CAUSES_PROBLEM the coolant leak, both with modality possible, affirmed, no condition, as the text. 011c0639ee4a (recall ADDRESSES_PROBLEM, actual) states what the recall addresses, not this claim."
+    },
+    {
+     "claim": "the coolant leak may cause the block heater to short circuit when it is plugged in",
+     "matched": [
+      "3035c8013a4b",
+      "a5eab50448aa",
+      "d1b5b3f8902d"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "3035c8013a4b states 'coolant leak' CAUSES_PROBLEM 'short circuit' and a5eab50448aa / d1b5b3f8902d put the short circuit on the (engine) block heater; all three conditional with condition 'when the block heater is plugged in', affirmed, as the text. 37fa099bb6d8 (recall ADDRESSES_PROBLEM, actual) states what the recall addresses, not this claim."
+    }
+   ]
+  },
+  {
+   "id": "53fedfde3aed",
+   "claims": [
+    {
+     "claim": "owners are advised not to plug in their block heater until the vehicle is remedied",
+     "matched": [],
+     "reason": "No observation states the advice not to plug in the block heater; 51bb6844aae5 only places the block heater in the recall."
+    }
+   ]
+  },
+  {
+   "id": "8f4805e04362",
+   "claims": [
+    {
+     "claim": "interim letters notifying owners of the safety risk were mailed March 6, 2026",
+     "matched": [],
+     "reason": "No observation states the letters or their mailing; c13e8757f46d only states the recall addresses a 'safety risk'."
+    }
+   ]
+  }
+ ]
+}

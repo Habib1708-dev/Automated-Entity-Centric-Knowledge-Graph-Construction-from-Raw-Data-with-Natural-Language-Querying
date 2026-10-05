@@ -3316,6 +3316,93 @@ a count over claims must tell them apart (task file, Step 7).
     R74 assertion changed on purpose (`test_query_plan.py`): `find_claims` now always filters on the two
     fields, so its parameters and its bare query changed. Gate: 527 passed (510 before), `ruff check`
     clean.
+- **Part b: runs (2026-10-05; the user's yes, estimate $2.1-2.6; spent $2.336).** The three graphs rebuilt on
+  `5a75b7a` into `out/r77_<dataset>` with the R76 recipe (frozen plans and `tests/gold/r75/` text schemas,
+  `EXTRACT_PASSES=2`), extraction on the real key this time (the prompt changed, so no call could be a cache
+  hit); each dataset reset, built, extracted, linked, resolved, attached, evaluated, its assertion sheet
+  written (`kg coverage-sheet` on the R77 sample) and `kg qa --system graph` (DeepSeek) run before the next
+  reset. Tree dirty only by the user's `.claude/settings.json`.
+
+  | Run (MLflow) | Cost | LLM calls (cache hits) | tokens in / out / thinking |
+  |---|---|---|---|
+  | furniture extract `7e3c00b0` | $0.370 | 140 (0) | 167450 / 64366 / 835 |
+  | furniture resolve `9806b94e` | $0.057 | 323 (113) | 41677 / 2892 / 4044 |
+  | furniture `qa_graph` `5fad52ea` | $0.467 | 116 (21) | 441739 / 9208 / 269403 |
+  | held-out extract `81ea6657` | $0.536 | 162 (0) | 229362 / 93956 / 3056 |
+  | held-out resolve `d943367e` | $0.013 | 268 (221) | 10251 / 673 / 753 |
+  | held-out `qa_graph` `cba35652` | $0.284 | 98 (21) | 398649 / 6770 / 130423 |
+  | generality extract `c45f2324` | $0.204 | 64 (0) | 111455 / 30356 / 1747 |
+  | generality resolve `21a8f7e8` | $0.016 | 202 (160) | 9956 / 1567 / 671 |
+  | generality `qa_graph` `74dd0128` | $0.389 | 108 (24) | 326190 / 7508 / 235202 |
+
+  - **The graphs.** Claims furniture 502 (R76 508), held-out 547 (532), generality 212 (195); negated / possible
+    / conditional 24 / 3 / 7, 2 / 76 / 34, 1 / 0 / 0. New rejections (negation, modality, condition, condition
+    without conditional): furniture 9 / 3 / 2 / 0, held-out 0 / 3 / 7 / 1, generality 0 / 0 / 1 / 0.
+    `path_truth` 1.0 on all three; identity precision 1.0 and apart 1.0 as R75 (recall furniture 0.867,
+    held-out 0.714 against 0.667); `question_accuracy` 0.167 (furniture) and 1.000 (held-out) as before.
+    MLflow eval `809c3121`, `96dbb298`, `fb821804`.
+  - **Assertion (judge pass 2, Fable 5.1 subagents, lead judge Opus 5.5, no gold change).** Each gold claim
+    matched to the observations of its chunk that state its content, whatever their assertion
+    (`tests/gold/r77/<dataset>_assertion_verdicts.json`); scored by `kg assertion` (`dac2a65d`, `9ce35ef5`,
+    `cb41affd`; three earlier scoring runs by the judges went to `kgbuilder-dev` without a preset and are not
+    used). Kept = by meaning (judge), exact = the stored field equals the label (code).
+
+    | | furniture | held-out | generality |
+    |---|---|---|---|
+    | claims matched | 79 / 117 | 34 / 100 | 22 / 108 |
+    | truth / modality / condition kept (judge) | 79 / 79 / 79 of 79 | 34 / 34 / 34 of 34 | 22 / 22 / 22 of 22 |
+    | truth exact: affirmed, negated | 64/64, **10/15** | 31/31, **0/3** | 21/21, 1/1 |
+    | modality exact: actual, possible, conditional | 76/76, 1/1, 2/2 | 15/15, 10/10, 9/9 | 22/22, -, - |
+    | condition exact (conditional claims) | 2/2 | 9/9 | - |
+
+    Real examples: "absolutely no squeaking or movement" stored as `squeaking`, negated; "THE VEHICLE MAY
+    BRAKE SUDDENLY ... WHEN APPROACHING EXIT RAMPS" conditional with "WHEN APPROACHING EXIT RAMPS"; "the
+    drawer sometimes sticks when i open it too fast" conditional with its condition. Every non-exact truth is
+    a negation the names carry with truth affirmed: the named sentence "we still couldn't get the drawers to
+    slide right" is stored as the object "couldn't get the drawers to slide right", affirmed (kept by meaning,
+    not by the field); also "doesn't close properly", "DOES NOT INDICATE FULL", "may not engage". No field is
+    wrong by meaning on any matched claim. The match rates are the extraction's coverage under a strict
+    reading (a relation must mean the claim's relation), not a property of the fields; generality's 1 negated
+    and 0 conditional matches say little.
+  - **Answers (judge on the free-text answers: 10 of 18 are word for word R79's and keep its verdict; 8 by a
+    Fable 5.1 subagent with R71's rules, accepted by the lead judge: F38, H35, G17, G20 correct, H37, G08,
+    G18, G33 wrong; F38 without "long dinner parties" and H35 given as a list item flagged and kept as
+    correct, as before).** Verdicts `tests/gold/r77/<dataset>_step7_graph_verdicts.json`; scores `264145ae`,
+    `f1da48d4`, `f93da3b2`; paired with R79 `b9b78618`, `104c9e61`, `c89a8080`.
+
+    | Type | furniture R79 / **R77** | held-out R79 / **R77** | generality R79 / **R77** |
+    |---|---|---|---|
+    | multi_hop | 13 / **12** /17 | 15 / **15** /17 | 1 / **1** /6 |
+    | aggregation | 8 / **7** /16 | 14 / **13** /16 | 2 / **2** /6 |
+    | structured_filter | 14 / **13** /16 | 16 / **14** /17 | 2 / **2** /6 |
+    | disambiguation | 3 / **3** /6 | 2 / **3** /6 | 2 / **1** /8 |
+    | negation_sensitive | 4 / **1** /7 | 4 / **5** /6 | 2 / **1** /6 |
+    | lookup | 4 / **4** /6 | 4 / **3** /6 | 7 / **6** /9 |
+    | **all** | 46 / **40** /68 | 55 / **53** /68 | 16 / **13** /41 |
+    | paired (only R79 / only R77, p) | 7 / 1, p 0.070 | 4 / 2, p 0.688 | 4 / 1, p 0.375 |
+
+  - **Why the 15 lost answers fail** (read from the plans and the stored claims):
+    - **5: the default filter drops conditional claims.** "Which products are reported to squeak or creak?"
+      (F27; F17, F28 alike): the reports are now "the frame creaks whenever someone sits down" and "some
+      squeaking when I lean back", both stored conditional, and a plan finds affirmed, actual claims only;
+      F31 the desk's "wobbles slightly when I'm typing"; H06 "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN
+      ON THE GAS PEDAL" (R79 kept the when-clause as a time). The extraction is right (the gold labels such
+      claims conditional); the query default is wrong for them: a claim that holds whenever its condition
+      holds reports that the thing happens, unlike a possible one. The task's "counts default to affirmed
+      and actual" was implemented literally.
+    - **10: new plans, the graph unchanged for them.** The planner prompt changed, so every plan was written
+      anew: F03 (a refused plan), F09, F35, H01, H37 and G08 (both through the text2cypher fallback), H55,
+      G13, G24 (the claim "Marek Hollis SERVICES HP40-2291" is in both graphs; the new plan added an object
+      filter that misses it), G34. The 5 gains (F34, H24, H27, G20) are of the same kind.
+  - **Acceptance, one by one.** Unit tests per rejection, field stored / flattened / queried, an old id
+    unchanged: met (part a). "couldn't get the drawers to slide right" stored as negated: **met by meaning,
+    not by the field** (the negation is in the object name); "COULD CAUSE AN ACCIDENT" possible: met; the
+    Civic's "when ..." clauses conditional: met (9 of 9 matched held-out conditional claims with their
+    condition). Negation-sensitive and aggregation better than Step 6: **not met**; the reasons are above
+    (the default drops conditional claims; read_check already caught negated claims since R71, so the field
+    adds little to answers). No type worse beyond one sample's variation: met (lowest per-type p 0.25;
+    furniture overall p 0.070). `path_truth` 1.0: met. Stop rule (task file section 4): does not apply.
+  - **Open, the user's decision:** the query default (see "Found along the way").
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
@@ -3458,6 +3545,20 @@ records must be able to say what the question asks of the records.
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The query default leaves out conditional claims (found in R77 part b).** `find_claims` keeps affirmed,
+  actual claims unless the question's words ask for others, as the task file's "counts default to affirmed
+  and actual" says; 5 answers were lost to it (F17, F27, F28, F31, H06: "creaks whenever someone sits down").
+  A default of "affirmed and not possible" (actual or conditional) would keep them. A change of the planner
+  prompt re-plans every question (R77: 10 answers lost and 5 gained by new plans alone).
+- **The negation check knows no negating verbs (found in R77 part b).** 9 furniture claims were rejected as
+  negated without a negation word, although the model read them right: "prevents sagging", "eliminates
+  flickering", "resistant to water rings and scratches". The closed list holds negators only; such verbs
+  would widen it, with a re-extraction to measure.
+- **A negation in the names instead of the field (found in R77 part b).** 5 furniture and 3 held-out negated
+  claims are stored affirmed with the negation in the object ("doesn't close properly", "DOES NOT INDICATE
+  FULL"): right by meaning, but a count over `truth` misses them. The prompt's example has a positive
+  object; no code check can tell a fault named by a negation from a denied fact.
 
 - **`planner_prompt_version` hashes the template only (found in R79).** The plan's field descriptions reach
   the model too (the response schema), but a change to them alone leaves the hash unchanged. In R79 the

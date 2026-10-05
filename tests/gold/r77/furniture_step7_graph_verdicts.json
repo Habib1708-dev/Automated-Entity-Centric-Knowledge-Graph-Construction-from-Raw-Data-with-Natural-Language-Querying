@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+    "date": "2026-10-05",
+    "run_id": "5fad52eaf93946af92b3a5b6998d23e0",
+    "git_sha": "5a75b7a"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r77_furniture/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "Says 'A partial refund.', exactly what the expected answer states, cited from the review where 'the shade arrived with a small dent'. (earlier verdict: the answer is identical to R79's)"
+    },
+    {
+      "question_id": "F38",
+      "correct": true,
+      "reason": "Gives both sides: 'incredibly comfortable for long periods of sitting and comfortable while working from home, though one reviewer finds it less comfortable for extended work sessions' matches the expected 'most comfortable; one less so for extended work sessions'. (flag kept as judged: The answer omits 'long dinner parties', which the expected answer lists as one example of long sitting; I treated it as illustrative detail, not a separate part.)"
+    }
+  ]
+}
