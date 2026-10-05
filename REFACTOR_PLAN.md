@@ -3027,6 +3027,14 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
 
 (Add items here during a step instead of widening its scope.)
 
+- **(Fixed in R75 part d, its own commit.) A key elsewhere in a sentence linked the wrong record (found in
+  R75's held-out run).** Rule 3 of `resolution/records.py` linked a keyed mention to the one record whose key
+  stood anywhere in a sentence naming it. Recall texts list many models in one sentence ("Toyota is recalling
+  certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna, and Yaris iA vehicles"), so 156 vehicle mentions
+  were linked by it, "Camry" to RAV4 and "2015 MKC" to ESCAPE among them (resolve run `4fb36808`, not used
+  for any number). The key must now stand right next to the name ("pump HP40-1183", "the vehicle (RAV4)");
+  failing test first (`test_a_key_elsewhere_in_a_listing_sentence_is_no_evidence`).
+
 - **(Fixed in R75 b2.) The sentence splitter cut names at their initials (found in R75).** `core/text.py`
   split after every ". ", so "Talk by Dr. J. Pike (Soil Ecology)" was three sentences and no sentence named
   "Dr. J. Pike": the identity stage could not read the attribute next to it. A full stop after a capital

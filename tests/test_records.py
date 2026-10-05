@@ -141,3 +141,21 @@ def test_same_named_records_without_a_telling_attribute_stay_unlinked_and_ambigu
     # both attributes in one sentence tell nothing either
     mixed = ["Maria Lopez of Soil Ecology met the Finance Office."]
     assert match("Maria Lopez", sentences=mixed, records=STAFF).link is None
+
+
+VEHICLES = [record("v1", "Vehicle", "RAV4", key="RAV4"), record("v2", "Vehicle", "CIVIC", key="CIVIC")]
+
+
+def test_a_key_elsewhere_in_a_listing_sentence_is_no_evidence():
+    """Found in R75's held-out run: a recall sentence lists many models, and "Camry" was linked to the RAV4
+    record because RAV4 stood in the same sentence. Only a key next to the name tells which record it is."""
+    listing = (
+        "Toyota is recalling certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna, and Yaris iA vehicles."
+    )
+    assert match("Camry", sentences=[listing], records=VEHICLES).link is None
+    assert match("Corolla", sentences=[listing], records=VEHICLES).link is None
+    # the key right next to the name, with at most a bracket or a colon between, does tell
+    next_to = match("the vehicle", sentences=["The seal of the vehicle (RAV4) failed."], records=VEHICLES)
+    assert next_to.link.record.element_id == "v1" and next_to.link.reason == "key_in_sentence"
+    before = match("pump", sentences=["The seal of pump HP40-1183 failed."], records=PUMPS)
+    assert before.link.record.element_id == "x1"

@@ -9,8 +9,10 @@ Design: pure matching over `RecordCandidate`s, unit-tested without a database; `
   2. `name` / `contained`: the name matches a record's name inside the scope of the mention's document (a
      near-exact fuzzy match, else the record's whole name inside the mention's, R60/R67), else one record
      of the whole domain (R11's scoped linking, moved here from linking.py);
-  3. `key_in_sentence`: no name decides, and exactly one key (of the tied records when names tie) stands
-     in a sentence naming the mention;
+  3. `key_in_sentence`: no name decides, and exactly one key (of the tied records when names tie) is written
+     right next to the mention's name in a sentence ("pump HP40-1183", "the vehicle (RAV4)"): a key
+     elsewhere in the sentence is no evidence, since a sentence may list many records (found in R75's
+     held-out run: "certain Toyota Camry, Corolla, Rav4" linked "Camry" to the RAV4);
   4. `attribute`: names tie, and a key attribute of exactly one tied record is written in a sentence
      naming the mention ("Maria Lopez (Finance Office)" -> the Maria Lopez whose team is Finance Office);
   5. `variant_attribute`: no name matches, and among the records whose names are variants of the mention's
@@ -21,6 +23,7 @@ questions about the wrong record, and a missing one only leaves the mention to s
 Not here: joining individuals (individuals.py), concepts (concepts.py), writing (identity_graph.py).
 """
 
+import re
 from collections.abc import Callable
 from typing import Literal
 
@@ -157,6 +160,27 @@ def _with_key_in(texts: list[str], records: list[RecordCandidate]) -> list[Recor
     return [r for r in records if len(squash(r.key)) >= _MIN_KEY_CHARS and squash(r.key) in tokens]
 
 
+def _key_next_to(name: str, sentence: str, key: str) -> bool:
+    """True when `key` is written right before or after `name` in `sentence`, with at most a bracket, a
+    colon or a number sign between ("pump HP40-1183", "the vehicle (RAV4)", "HP40-1183 pump"); a comma
+    between them means a list, not a name."""
+    name_part, key_part = re.escape(norm(name)), re.escape(norm(key))
+    edge_start, edge_end = "(?<![a-z0-9])", "(?![a-z0-9])"
+    after = rf"{edge_start}{name_part}\s*[(\[:#]?\s*{key_part}{edge_end}"
+    before = rf"{edge_start}{key_part}\s*[)\]]?\s*{name_part}{edge_end}"
+    return re.search(f"{after}|{before}", norm(sentence)) is not None
+
+
+def _with_key_next_to(
+    name: str, sentences: list[str], records: list[RecordCandidate]
+) -> list[RecordCandidate]:
+    return [
+        r
+        for r in records
+        if len(squash(r.key)) >= _MIN_KEY_CHARS and any(_key_next_to(name, s, r.key) for s in sentences)
+    ]
+
+
 def _with_attribute_in(sentences: list[str], records: list[RecordCandidate]) -> list[RecordCandidate]:
     return [
         r
@@ -202,8 +226,12 @@ def _by_sentence(
     named: _ByName,
 ) -> RecordLink | None:
     """Rules 3-5: what the sentences naming the mention tell when its name decides nothing."""
-    if len(keyed := _with_key_in(sentences, tied or records)) == 1:
-        return _from_sentence(keyed[0], "key_in_sentence", 100.0, sentences, _with_key_in, scoped=False)
+    if len(keyed := _with_key_next_to(name, sentences, tied or records)) == 1:
+
+        def next_to(found: list[str], candidates: list[RecordCandidate]) -> list[RecordCandidate]:
+            return _with_key_next_to(name, found, candidates)
+
+        return _from_sentence(keyed[0], "key_in_sentence", 100.0, sentences, next_to, scoped=False)
     if len(told := _with_attribute_in(sentences, tied)) == 1:
         score = named.matches[0].score
         return _from_sentence(told[0], "attribute", score, sentences, _with_attribute_in, named.scoped)
