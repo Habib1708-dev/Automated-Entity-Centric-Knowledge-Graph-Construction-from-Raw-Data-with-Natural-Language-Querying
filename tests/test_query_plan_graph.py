@@ -252,3 +252,78 @@ def test_answer_from_chunks_reads_the_inputs_own_text(runner_parts):
         "notes.md#1",
         "both.md#0",
     }
+
+
+class OneChunkSource:
+    """The system's chunk source, giving one chunk whatever the question."""
+
+    def __init__(self, store):
+        self._store = store
+
+    def ranked(self, question):
+        return self._store.chunks(["notes.md#1"]), None
+
+
+def test_a_reader_whose_input_has_no_text_reads_the_chunk_source(runner_parts):
+    # R78: an earlier step that found nothing left the reader no text, and it answered "No text was
+    # retrieved" where the system's own retrieval held the answer (R77 baseline: G08, G11, H37)
+    store, schema = runner_parts
+    r = runner(store, schema)
+    r._source = OneChunkSource(store)
+    result = run(
+        r,
+        schema,
+        "What went wrong in 1999?",
+        {"op": "find_claims", "predicate": "HAS_CONDITION", "time_words": "1999"},
+        {"op": "answer_from_chunks", "input": 0},
+    )
+    assert result.steps[0].items == {"claim": 0}
+    assert [c.chunk_id for c in result.shown] == ["notes.md#1"]
+    assert result.steps[1].note == "1 chunks read (the input had no text: the chunk source)"
+
+
+def test_claim_words_on_the_wrong_end_are_matched_on_either_end_before_giving_up(runner_parts):
+    # R78: the planner asked for "mechanical seal" as a claim's object, the graph has it as the subject
+    # (R77 baseline: G06); here "wobbles" is the object of the spindle's claim
+    store, schema = runner_parts
+    r = runner(store, schema)
+    as_subject = run(
+        r,
+        schema,
+        "Which part wobbles?",
+        {"op": "find_claims", "subject_like": "wobbles"},
+        {"op": "list", "input": 0, "what": "subject"},
+    )
+    assert as_subject.entities == ["Spindle"]
+    assert as_subject.steps[0].note == "claim words on either end"
+    on_its_end = run(
+        r,
+        schema,
+        "Which part wobbles?",
+        {"op": "find_claims", "object_like": "wobbles"},
+        {"op": "list", "input": 0, "what": "subject"},
+    )
+    assert (on_its_end.entities, on_its_end.steps[0].note) == (["Spindle"], "")
+
+
+def test_a_listed_property_of_one_number_is_also_the_answers_number(runner_parts):
+    # R78: "What does the Quill Press cost?" answered "$1,200" as a name, never as the number 1200 (R77
+    # baseline: F63 "$289", H33, H65); several values stay a list without a number
+    store, schema = runner_parts
+    r = runner(store, schema)
+    one = run(
+        r,
+        schema,
+        "q",
+        {"op": "find_entity", "name": "Quill Press", "label": "Press"},
+        {"op": "list", "input": 0, "property": "list_price"},
+    )
+    assert (one.entities, one.number) == (["$1,200"], 1200.0)
+    both = run(
+        r,
+        schema,
+        "q",
+        {"op": "filter_records", "label": "Press"},
+        {"op": "list", "input": 0, "property": "year"},
+    )
+    assert both.number is None

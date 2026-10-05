@@ -8,6 +8,9 @@ Design: Interpreter over the closed set of primitives: one method per operation,
 plan_cypher.py, every model call through the reader or the read_check reader, so the model chooses the
 steps and their values and code does the rest. Counts and lists are computed by code from the items; text
 is read only by `read_check` (one candidate at a time, quotes verified) and by `answer_from_chunks`.
+An empty search is still an answer ("none"), with two exceptions that only widen where to look (R78): a
+reading step whose input has no text searches the system's chunk source, and claim words that match
+nothing on the end the planner gave are matched on either end.
 Not here: checking the plan (plan.py), the planner and the fallbacks (planner.py, systems.py).
 """
 
@@ -29,6 +32,9 @@ from .read_check import ReadChecker
 from .reader import Reader
 
 Items = dict[ItemKind, list[str]]  # the ids a step produced, per kind, in order
+
+# the step note when a reading step had no text from its input and searched the chunk source (R78)
+_SOURCE_NOTE = "the input had no text: the chunk source"
 
 
 class ChunkSource(Protocol):
@@ -164,17 +170,24 @@ class PlanRunner:
             cypher, params = cy.parts_of(records, sorted(self._schema.record_labels), self._settings.step_cap)
             records = list(dict.fromkeys([*records, *self._ids(cypher, params)]))
         entities = inputs.get("entity") if inputs else None
-        cypher, params = cy.find_claims(
+        subjects, objects = self._claim_words(step.subject_like), self._claim_words(step.object_like)
+        args = (
             records if inputs else None,
             entities if inputs else None,
             step.predicate,
-            self._claim_words(step.subject_like),
-            self._claim_words(step.object_like),
+            subjects,
+            objects,
             step.tone,
             step.time_words,
             self._settings.step_cap,
         )
-        return {"claim": self._ids(cypher, params)}, ""
+        ids = self._ids(*cy.find_claims(*args))
+        if ids or (subjects is None and objects is None):
+            return {"claim": ids}, ""
+        # the planner may put a claim's words on the wrong end (R77 baseline: G06 asked for "mechanical
+        # seal" as an object, the graph has it as the subject); the claims found either way stay candidates
+        # that read_check or the reader decides, so an answer of "none" still comes from the text (R78)
+        return {"claim": self._ids(*cy.find_claims(*args, either_end=True))}, "claim words on either end"
 
     def _read_check(self, step, inputs, question, result):
         total = sum(len(v) for v in inputs.values())
@@ -204,8 +217,8 @@ class PlanRunner:
         return kept, f"{sum(len(v) for v in kept.values())} of {total} verified"
 
     def _retrieve_chunks(self, step, inputs, question, result):
-        chunks = self._chunks_for(inputs, question)
-        return {"chunk": [c.chunk_id for c in chunks]}, ""
+        chunks, from_source = self._chunks_for(inputs, question)
+        return {"chunk": [c.chunk_id for c in chunks]}, _SOURCE_NOTE if from_source else ""
 
     # --- the terminals ---------------------------------------------------------------------------------
 
@@ -213,6 +226,10 @@ class PlanRunner:
         if step.property is not None:
             values = self._rows(*cy.record_values(inputs.get("record", []), step.property))
             result.entities = list(dict.fromkeys(str(r["value"]) for r in values if r["value"] is not None))
+            # one value that is a number is the answer to "how much" as well as "which" (R77 baseline: F63
+            # listed "$289" for the expected 289); several values stay a list, never summed or picked
+            if len(result.entities) == 1:
+                result.number = as_number(result.entities[0])
         elif inputs.get("claim"):
             result.entities = self._claim_names(inputs["claim"], step.what or "about")
         else:
@@ -260,13 +277,13 @@ class PlanRunner:
         return {}, f"best {best:g}"
 
     def _answer_from_chunks(self, step, inputs, question, result):
-        chunks = self._chunks_for(inputs, question)
+        chunks, from_source = self._chunks_for(inputs, question)
         shown = _shown(chunks)
         _add_shown(result, shown)
         reply = self._reader.read(question, shown)
         result.entities, result.number, result.text = reply.entities, reply.number, reply.text
         result.citations += [Citation(chunk_id=c.chunk_id, quote=c.quote) for c in reply.citations]
-        return {}, f"{len(shown)} chunks read"
+        return {}, f"{len(shown)} chunks read" + (f" ({_SOURCE_NOTE})" if from_source else "")
 
     # --- helpers ---------------------------------------------------------------------------------------
 
@@ -316,21 +333,28 @@ class PlanRunner:
         stored = {c.chunk_id: c for c in self._store.chunks(sorted({c for cs in pairs.values() for c in cs}))}
         return {item: [stored[c] for c in chunks if c in stored] for item, chunks in pairs.items()}
 
-    def _chunks_for(self, inputs: Items, question: str) -> list[StoredChunk]:
-        """The top k chunks for the final reader: the input's own text nearest the question, or, without an
-        input, the system's chunk source."""
+    def _chunks_for(self, inputs: Items, question: str) -> tuple[list[StoredChunk], bool]:
+        """The top k chunks for the final reader, and whether they came from the system's chunk source: the
+        input's own text nearest the question, or the chunk source when there is no input or the input has
+        no text (an earlier step found nothing: the reader then searches as the retrieval route does, where
+        it was handed nothing and answered "No text was retrieved" before R78)."""
         k = self._settings.top_k
-        if not inputs:
-            ranked, _ = self._source.ranked(question)
-            return ranked[:k]
+        chunks = self._input_chunks(inputs, question)[:k] if inputs else []
+        if chunks:
+            return chunks, False
+        ranked, _ = self._source.ranked(question)
+        return ranked[:k], True
+
+    def _input_chunks(self, inputs: Items, question: str) -> list[StoredChunk]:
+        """The text of the input's items, nearest the question first; chunks as they come (the first k)."""
         if "chunk" in inputs:
-            return self._store.chunks(inputs["chunk"][:k])
+            return self._store.chunks(inputs["chunk"][: self._settings.top_k])
         vector = self._embed(question)
         pool: dict[str, StoredChunk] = {}
         for kind, ids in inputs.items():
             for chunks in self._item_chunks(kind, ids).values():
                 pool.update({c.chunk_id: c for c in chunks})
-        return rank_chunks(vector, list(pool.values()))[:k]
+        return rank_chunks(vector, list(pool.values()))
 
     def _names(self, items: Items) -> list[str]:
         names: list[str] = []

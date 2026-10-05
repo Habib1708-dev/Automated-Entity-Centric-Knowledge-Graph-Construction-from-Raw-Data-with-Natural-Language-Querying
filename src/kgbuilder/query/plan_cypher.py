@@ -179,10 +179,12 @@ def find_claims(
     tone: Tone | None,
     time_words: str | None,
     cap: int,
+    either_end: bool = False,
 ) -> Fragment:
     """The claims about the records (attached to them, or with a mention that refers to one) or about the
     entities (a mention that refers to one, or attached to an individual, R76), narrowed by predicate,
-    subject and object entities, tone and time; None leaves a part out."""
+    subject and object entities, tone and time; None leaves a part out. With `either_end`, the subject and
+    the object entities may each be on either end of the claim (R78)."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
@@ -204,11 +206,16 @@ def find_claims(
     if predicate is not None:
         where.append("o.predicate = $predicate")
         params["predicate"] = predicate
+    subject_end, object_end = ("SUBJECT|OBJECT", "SUBJECT|OBJECT") if either_end else ("SUBJECT", "OBJECT")
     if subjects is not None:
-        where.append(f"EXISTS {{ MATCH (o)-[:SUBJECT]->(s:Mention) WHERE {canonical_id('s')} IN $subjects }}")
+        where.append(
+            f"EXISTS {{ MATCH (o)-[:{subject_end}]->(s:Mention) WHERE {canonical_id('s')} IN $subjects }}"
+        )
         params["subjects"] = subjects
     if objects is not None:
-        where.append(f"EXISTS {{ MATCH (o)-[:OBJECT]->(x:Mention) WHERE {canonical_id('x')} IN $objects }}")
+        where.append(
+            f"EXISTS {{ MATCH (o)-[:{object_end}]->(x:Mention) WHERE {canonical_id('x')} IN $objects }}"
+        )
         params["objects"] = objects
     if tone is not None:
         where.append("o.polarity = $tone")

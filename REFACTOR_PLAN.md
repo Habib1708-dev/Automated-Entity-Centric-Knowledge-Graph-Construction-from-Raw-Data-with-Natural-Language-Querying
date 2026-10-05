@@ -3256,6 +3256,35 @@ a count over claims must tell them apart (task file, Step 7).
   - **Stop rule (task file section 4) applies:** held-out and generality lost accuracy beyond one sample's
     variation (overall paired p 0.008 and 0.039; no single type below 0.05 on its own). Step 7's code is
     not started; the next step is the user's decision.
+- **Paused (2026-10-05, the user's choice):** the query layer is fixed first, as R78; Step 7's code
+  resumes after R78 is done.
+
+### R78. Query plans that come up empty (before R77's code; in progress)
+The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
+query layer before Step 7. One concern: a plan step whose search finds nothing must not turn into a wrong
+answer when the text holds one. Prompts are unchanged, so the planner's calls come from the cache and a
+rerun compares the same plans executed differently.
+- **Scope** (`query/plan_run.py`, `query/plan_cypher.py`, tests; no prompt, no schema, no graph change):
+  1. `answer_from_chunks` (and `retrieve_chunks`) whose input has no text reads the system's chunk source,
+     where today the reader gets nothing and answers "No text was retrieved" (G08, G11, H37).
+  2. `find_claims` whose claim words match nothing on the end the planner chose matches them on either end
+     before giving up (G06: "mechanical seal" asked as an object, stored as the subject). The claims stay
+     candidates that `read_check` decides.
+  3. A property `list` of one value that is a number also gives that number (F63 "$289" for 289, H33, H65).
+- **Not changed:** an empty step is still a valid "none": four of the five gold questions whose answer is
+  none or 0 are answered right through one (G37 `find_claims` 0, F29 and H30 `read_check` 0, H54
+  `filter_records` 0), so no general "empty step -> fall back" rule.
+- **Runs:** `kg qa --system graph` on the three R76 graphs (estimate about $1.2, less with planner cache
+  hits), asked first; the judge on the free-text answers; paired with R77's baseline and R73b.
+- **Part a: code (done 2026-10-05, no run).** `plan_cypher.find_claims(..., either_end=True)` matches the
+  subject and object entities on `SUBJECT|OBJECT`; `PlanRunner._find_claims` runs it only when the strict
+  query found nothing and claim words were given (step note "claim words on either end");
+  `_chunks_for` returns the chunk source's top k when the input has no text (note "the input had no text:
+  the chunk source"), for `answer_from_chunks` and `retrieve_chunks`; a property `list` of one value sets
+  `number` to `as_number` of it. Tests (`tests/test_query_plan_graph.py`, Neo4j), each failing before the
+  change: a reader after an empty `find_claims` reads the source's chunk; "wobbles" asked as a subject
+  finds the claim whose object it is, and asked as the object finds it without widening; one listed
+  price gives 1200.0, two years give no number. Gate: 505 passed, `ruff check` clean.
 
 ## Found along the way
 
