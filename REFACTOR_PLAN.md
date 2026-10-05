@@ -3257,9 +3257,9 @@ a count over claims must tell them apart (task file, Step 7).
     variation (overall paired p 0.008 and 0.039; no single type below 0.05 on its own). Step 7's code is
     not started; the next step is the user's decision.
 - **Paused (2026-10-05, the user's choice):** the query layer is fixed first, as R78; Step 7's code
-  resumes after R78 is done.
+  resumes after R78 is done. R78 done: 7 answers gained, none lost; held-out still below Step 3 (p 0.021).
 
-### R78. Query plans that come up empty (before R77's code; in progress)
+### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
 query layer before Step 7. One concern: a plan step whose search finds nothing must not turn into a wrong
 answer when the text holds one. Prompts are unchanged, so the planner's calls come from the cache and a
@@ -3285,6 +3285,47 @@ rerun compares the same plans executed differently.
   change: a reader after an empty `find_claims` reads the source's chunk; "wobbles" asked as a subject
   finds the claim whose object it is, and asked as the object finds it without widening; one listed
   price gives 1200.0, two years give no number. Gate: 505 passed, `ruff check` clean.
+- **Part b: runs (2026-10-05; the user's yes, estimate $0.4-1.2; spent $0.172, of it $0.166 void).** The three
+  R76 graphs rebuilt from the cache into `out/r78_<dataset>` (all cache hits, every count as R76), then
+  `kg qa --system graph` on `25467d3` (tree dirty only by the user's `.claude/settings.json`).
+  - **Void run, my error:** the first generality run (`ab80bbf6`, **$0.166**, 75 calls, 0 cache hits) asked
+    the 8-node graph the Neo4j tests leave behind: `uv run pytest` ran after the generality build and I did
+    not rebuild (the run-policy rule). Its answers were discarded; the graph was rebuilt and the run repeated.
+  - Valid runs: furniture `56ec2d10` $0.0032 (150 calls, 142 hits), held-out `e45eb773` $0.0009 (132, 130),
+    generality `3b3d5bd9` $0.0024 (133, 128): the planner's calls and every unchanged read came from the
+    cache, so the plans are R77's and only the execution differs. Widening fired 23 times, the chunk source
+    14 times.
+  - **Judge:** 15 of 18 free-text answers are word for word R77's and keep R77's verdict (marked in the
+    reason); the 3 changed ones (G08, G11, H37) judged by a Fable 5.1 subagent with R71's rules: all
+    correct, none flagged. Verdicts in `tests/gold/r78/`. Scores `kg qa-score`: furniture `29147acc`,
+    held-out `0e4ec62c`, generality `8996bf91`; paired (`kg qa-compare`) with R77: `5c527fad`, `c957ef35`,
+    `45261473`; with R73b: `57703931`, `9998bc5a`, `4854280d`.
+
+    | Type | furniture R73b / R77 / **R78** | held-out R73b / R77 / **R78** | generality R73b / R77 / **R78** |
+    |---|---|---|---|
+    | multi_hop | 10 / 9 / **10** /17 | 15 / 13 / **14** /17 | 1 / 1 / **1** /6 |
+    | aggregation | 4 / 6 / **6** /16 | 16 / 12 / **12** /16 | 3 / 2 / **2** /6 |
+    | structured_filter | 5 / 12 / **12** /16 | 17 / 13 / **13** /17 | 0 / 1 / **2** /6 |
+    | disambiguation | 6 / 2 / **2** /6 | 3 / 3 / **3** /6 | 3 / 0 / **1** /8 |
+    | negation_sensitive | 4 / 3 / **3** /7 | 4 / 4 / **4** /6 | 2 / 1 / **1** /6 |
+    | lookup | 5 / 3 / **3** /6 | 5 / 3 / **4** /6 | 8 / 5 / **7** /9 |
+    | **all** | 34 / 35 / **36** /68 | 60 / 48 / **50** /68 | 17 / 10 / **14** /41 |
+    | paired R77 vs R78 (only R77 / only R78, p) | 0 / 1, p 1.0 | 0 / 2, p 0.5 | 0 / 4, p 0.125 |
+    | paired R73b vs R78 | 16 / 18, p 0.864 | **13 / 3, p 0.021** | 5 / 2, p 0.453 |
+
+  - Gained, none lost: F63 (the single price as a number), H65 (the year as a number), H37, G08, G11 (the
+    reader read the chunk source instead of "No text was retrieved"), G06 ("mechanical seal" on either
+    end) and **G07** ("Which pumps installed before 2015 had a seal failure?", reachable since R76, now
+    answered). The five gold "none" answers stay right.
+  - **Still lost against Step 3:** held-out 13 (H01, H06, H08, H12, H14, H17, H19, H28, H33, H43, H44, H53,
+    H55: mostly record questions R73b's free text2cypher answered and whose plans now pick a wrong
+    primitive, e.g. H01 asks claims for what is a recall's record field, H53 lists four dates for a year),
+    furniture 16 (with 18 gained, as in R77), generality 5. These are the planner's choices; changing them
+    is a prompt or plan-check change, not part of this step.
+  - **Stop rule (task file section 4) still applies to the arm:** held-out stays below Step 3 beyond one
+    sample's variation (p 0.021). R78 itself loses nothing against R77. The next step is the user's choice.
+  - **R78 done.** Acceptance: the three fixes tested (each test failing before); answers measured, 7
+    gained and none lost against R77; the "none" answers kept. Gate: 505 passed, `ruff check` clean.
 
 ## Found along the way
 
