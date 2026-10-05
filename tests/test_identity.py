@@ -322,16 +322,16 @@ GEAR_SCHEMA = TextSchema(
 
 @pytest.mark.neo4j
 def test_a_part_and_its_whole_are_never_joined(driver):
-    """R63's TRANSMISSION / TRANSMISSION BOX in invented words: alike enough to be asked about, but a claim
-    of a part-of fact type says one is a piece of the other."""
-    # two sentences: the part-of claim, not a sentence naming both side by side, keeps them apart
-    text = "The gearbox casing cracked. It is a piece of the gearbox."
+    """Two names alike enough to be asked about (70 by spelling), which a claim of a part-of fact type says
+    are a piece and its whole. They are no compound of each other (that rule is tested in test_guards.py)
+    and stand in two sentences, so the part-of claim alone keeps them apart."""
+    text = "The gear housing cracked. It is a piece of the gear hub."
     write_lexical_graph(driver, [Document(doc_id="g.md", title="g", text=text)], [
         Chunk(chunk_id="g.md#0", doc_id="g.md", index=0, text=text)
     ])  # fmt: skip
     write_subject_graph(
         driver,
-        [claim("gearbox casing", "Piece", "PIECE_OF", "gearbox", "Piece", "g.md", text)],
+        [claim("gear housing", "Piece", "PIECE_OF", "gear hub", "Piece", "g.md", text)],
         extractor="t",
     )
     always_same = ScriptedLLM(lambda prompt, schema: SamePair(same=True))

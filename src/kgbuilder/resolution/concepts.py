@@ -23,7 +23,7 @@ from ..core.values import VALUE_TYPE, parse_quantity
 from ..llm.base import Embedder, LLMClient
 from ..text.schema import TextSchema
 from .blocking import Blocking
-from .guards import BlockLog, Guard, OpposedPolarity, PartAndWhole, SameSentence
+from .guards import BlockLog, CompoundName, Guard, OpposedPolarity, PartAndWhole, SameSentence
 from .matchers import EntityRecord
 from .mentions import MentionRecord, read_mention_texts
 from .resolver import (
@@ -115,7 +115,8 @@ def _concept_name(mention: MentionRecord) -> str:
 
 def concept_guards(driver: Driver, mentions: list[MentionRecord], schema: TextSchema | None) -> list[Guard]:
     """The guards of a resolution of `mentions`: polarity (R66), both named in one sentence of their chunks,
-    and a part and its whole by a claim of one of the schema's part-of fact types (R75)."""
+    a part and its whole by a claim of one of the schema's part-of fact types, and a compound one word
+    longer than the other name (R75)."""
     texts = {t.chunk_id: t.text for t in read_mention_texts(driver, sorted(m.id for m in mentions))}
     sentences = [s for text in texts.values() for s in split_sentences(text)]
     signatures = (
@@ -132,7 +133,7 @@ def concept_guards(driver: Driver, mentions: list[MentionRecord], schema: TextSc
             signatures=signatures,
         )
         pairs = [(r["part"], r["whole"]) for r in records]
-    return [OpposedPolarity(), SameSentence(sentences), PartAndWhole(pairs)]
+    return [OpposedPolarity(), SameSentence(sentences), PartAndWhole(pairs), CompoundName()]
 
 
 def resolve_concepts(

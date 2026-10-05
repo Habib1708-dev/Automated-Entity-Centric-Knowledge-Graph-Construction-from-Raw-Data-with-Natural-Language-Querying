@@ -2,7 +2,7 @@
 sentence, a part and its whole by a part-of claim; each drops a nominated pair and counts it once, also
 across the passes of `decide_in_passes`. Pure: no Neo4j."""
 
-from kgbuilder.resolution.guards import OpposedPolarity, PartAndWhole, SameSentence
+from kgbuilder.resolution.guards import CompoundName, OpposedPolarity, PartAndWhole, SameSentence
 from kgbuilder.resolution.matchers import EntityRecord
 from kgbuilder.resolution.resolver import decide_in_passes, find_candidates
 
@@ -61,3 +61,15 @@ def test_a_blocked_pair_is_dropped_and_counted_once_over_all_passes():
     log: dict = {}
     decide_in_passes(records, 80, None, None, 80, None, guards=guards, blocked=log)
     assert {name: len(pairs) for name, pairs in log.items()} == {"same_sentence": 1}
+
+
+def test_a_name_with_one_more_word_at_its_end_names_another_thing():
+    """Found in R75's held-out run: the adjudicator called TRANSMISSION and TRANSMISSION BOX one kind, and no
+    part-of claim joined them. The last word of a compound names the thing ("a transmission box" is a box)."""
+    guard = CompoundName()
+    assert guard.blocks(concept("t", "TRANSMISSION"), concept("b", "TRANSMISSION BOX"))
+    assert guard.blocks(concept("c", "gearbox casing"), concept("g", "gearbox"))
+    # a word in front narrows the same thing, and a phrase at the end is no compound: both stay allowed
+    assert not guard.blocks(concept("b", "base"), concept("w", "weighted base"))
+    assert not guard.blocks(concept("d", "small dent"), concept("e", "small dent on one edge"))
+    assert not guard.blocks(concept("l", "leg"), concept("s", "legs"))

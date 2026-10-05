@@ -3027,6 +3027,16 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
 
 (Add items here during a step instead of widening its scope.)
 
+- **(Fixed in R75 part d, its own commit.) TRANSMISSION and TRANSMISSION BOX were joined again (found in
+  R75's held-out run).** The recorded wrong merge of R63, the task file's own example of "a part and the
+  whole it belongs to": no part-of claim joins the two, so `PartAndWhole` did not fire, and the adjudicator
+  (Gemini) answered "the same kind" (resolve run `ea90633b`, identity apart rate 0.9: the one wrong pair).
+  New guard `CompoundName`: one name is the other plus one word at its end ("transmission box" is a box),
+  which a rule of English word order decides; a word added in front ("weighted base") and a phrase added at
+  the end ("small dent on one edge") stay allowed. Checked before the change against every furniture and
+  held-out gold pair: it touches only this pair. Failing test first
+  (`test_a_name_with_one_more_word_at_its_end_names_another_thing`).
+
 - **(Fixed in R75 part d, its own commit.) A key elsewhere in a sentence linked the wrong record (found in
   R75's held-out run).** Rule 3 of `resolution/records.py` linked a keyed mention to the one record whose key
   stood anywhere in a sentence naming it. Recall texts list many models in one sentence ("Toyota is recalling

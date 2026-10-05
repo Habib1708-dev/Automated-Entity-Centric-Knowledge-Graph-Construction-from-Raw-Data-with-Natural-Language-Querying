@@ -184,7 +184,8 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   text; `concept` types refer to a `(:Concept)` per type and name, and entity resolution joins concepts
   that are the same kind. Entity resolution never joins two numbers, nor two kinds that claims use with
   opposite polarity ("resistant to scratches" and "scratches easily"), nor two names one sentence uses as
-  two things, nor a part and its whole (a claim of a fact type the schema marks `part_of`). Nothing is merged: undoing a decision deletes its edge, and the mention then stands for
+  two things, nor a part and its whole (a claim of a fact type the schema marks `part_of`, or a name that is
+  the other plus one word at its end: "transmission" and "transmission box"). Nothing is merged: undoing a decision deletes its edge, and the mention then stands for
   itself. The fact reader of validation flattens every claim into one triple with its ends' canonical
   names and every other name their mentions are written with, leaving out self-references and exact
   repeats (same entities, predicate, chunk, quote and time).

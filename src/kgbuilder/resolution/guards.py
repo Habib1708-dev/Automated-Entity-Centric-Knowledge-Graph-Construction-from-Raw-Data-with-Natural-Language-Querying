@@ -8,11 +8,16 @@ Design: Strategy, one class per rule, each domain-neutral (direction document, s
   - `SameSentence`: one sentence names both as two things ("the rails and the slides"): a writer who
     names two things side by side does not mean one (R75);
   - `PartAndWhole`: a claim of a part-of fact type joins them ("the casing of the gearbox" is a piece of
-    the gearbox, not another word for it), which the schema marks per fact type (R75).
+    the gearbox, not another word for it), which the schema marks per fact type (R75);
+  - `CompoundName`: one name is the other plus one word at its end ("transmission" and "transmission box"):
+    the last word of a compound names the thing, so the longer one is a piece or another thing (found in
+    R75's held-out run, where the adjudicator joined exactly the task file's example). A rule of English
+    word order, not of a domain.
 A different type is no candidate at all (resolver.py), and numbers are never compared (core/values.py).
 Not here: the scores (matchers.py), which pairs are nominated (blocking.py), the decision (resolver.py).
 """
 
+import re
 from collections.abc import Iterable
 from typing import Protocol
 
@@ -91,6 +96,23 @@ class PartAndWhole:
 
     def blocks(self, a: EntityRecord, b: EntityRecord) -> bool:
         return any(frozenset((x, y)) in self._pairs for x in names_of(a) for y in names_of(b))
+
+
+class CompoundName:
+    """One name is the other plus one word at its end: "transmission box" is a box, "gearbox casing" a
+    casing. A word added in front narrows the same thing ("weighted base" is a base) and a phrase added at
+    the end is no compound ("small dent on one edge"), so neither is blocked."""
+
+    name = "compound_name"
+
+    def blocks(self, a: EntityRecord, b: EntityRecord) -> bool:
+        return any(_one_word_longer(x, y) for x in names_of(a) for y in names_of(b))
+
+
+def _one_word_longer(x: str, y: str) -> bool:
+    wx, wy = re.findall(r"[a-z0-9]+", x), re.findall(r"[a-z0-9]+", y)
+    short, long = sorted((wx, wy), key=len)
+    return bool(short) and len(long) == len(short) + 1 and long[:-1] == short
 
 
 # The guards every resolution applies when no graph data is at hand (unit tests, the preview): polarity only

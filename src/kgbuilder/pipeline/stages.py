@@ -129,7 +129,7 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
 
 _LINK_REASONS = ("key", "name", "contained", "key_in_sentence", "attribute", "variant_attribute")
 _INDIVIDUAL_ACTIONS = ("joined", "apart", "quote_not_verified", "different_records", "skipped")
-_GUARDS = ("opposed_polarity", "same_sentence", "part_and_whole")
+_GUARDS = ("opposed_polarity", "same_sentence", "part_and_whole", "compound_name")
 
 
 def _er_blocking(ctx: PipelineContext) -> Blocking | None:
