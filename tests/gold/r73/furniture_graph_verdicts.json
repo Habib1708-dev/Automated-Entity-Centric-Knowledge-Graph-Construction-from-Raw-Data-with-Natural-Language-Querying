@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "609901dcbef94fe68f66e086ca8e178c",
+    "git_sha": "aea1f61"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r73b_furniture/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "The answer says 'A partial refund.', which is word for word the expected 'A partial refund.'"
+    },
+    {
+      "question_id": "F38",
+      "correct": true,
+      "reason": "The answer gives both sides the note requires: 'incredibly comfortable for long periods of sitting' plus 'excellent lumbar support' on the comfortable side, and 'less comfortable for extended work sessions' on the other, matching the expected 'most find it comfortable; one finds it less comfortable for extended work sessions'."
+    }
+  ]
+}

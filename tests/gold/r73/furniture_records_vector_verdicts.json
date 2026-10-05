@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "5bad69dc2b4e4c08ab2dd00a407ec1d8",
+    "git_sha": "aea1f61"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r73b_furniture/answers_records_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": false,
+      "reason": "The answer says 'The chunks do not answer this question' while the expected answer 'A partial refund.' exists in the source, so by rule 5 no answer is wrong."
+    },
+    {
+      "question_id": "F38",
+      "correct": false,
+      "reason": "The answer only says reviewers find the chair 'very comfortable' ('incredibly comfortable for long periods', 'excellent lumbar support') and omits the expected second part 'one finds it less comfortable for extended work sessions', which the note demands."
+    }
+  ]
+}

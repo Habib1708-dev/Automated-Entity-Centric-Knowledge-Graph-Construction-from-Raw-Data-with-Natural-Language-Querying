@@ -1,0 +1,156 @@
+{
+  "entity_types": [
+    {
+      "name": "Person",
+      "description": "An individual person named in the text, whatever their employer (such as researchers, accountants, technicians, engineers, officials, vendor representatives and residents); does not include teams, offices or other organizations."
+    },
+    {
+      "name": "Pump",
+      "description": "A water pump unit or pumping assembly (such as station duty pumps or flume pumps); does not include non-pump scientific instruments, civil infrastructure, or tools."
+    },
+    {
+      "name": "Equipment",
+      "description": "A non-pump mechanical device, scientific apparatus, tool, or component part (such as sediment flumes, soil corers, mechanical seals, and intake screens); does not include water pumps."
+    },
+    {
+      "name": "Place",
+      "description": "A physical location, geographic site, station, room, street, or civil structure (such as Aldmoor bog, North Station, Mill Lane footbridge, Eastgate library, or room B12); does not include organizations or events."
+    },
+    {
+      "name": "Event",
+      "description": "A time-bounded occurrence, scheduled activity, meeting, conference, talk, inspection round, failure incident, or municipal works project; does not include static places or continuous facilities."
+    },
+    {
+      "name": "Organization",
+      "description": "A formal collective entity such as an institute team, municipal council, utility authority, or commercial vendor (such as Soil Ecology, Riverton Town Council, Riverton Water, or Calder Pumps); does not include individual persons or physical facilities."
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Pump",
+      "object_type": "Place",
+      "description": "The pump is physically situated, installed, or operated at the specified place or station.",
+      "derived": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Equipment",
+      "object_type": "Place",
+      "description": "The equipment or apparatus is housed, deployed, or situated at the specified location.",
+      "derived": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Event",
+      "object_type": "Place",
+      "description": "The event occurred at, or the works project altered, the specified location.",
+      "derived": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Person",
+      "object_type": "Place",
+      "description": "The person resides at, works at, operates a business at, or is located on the specified place.",
+      "derived": false
+    },
+    {
+      "predicate": "PARTICIPATED_IN",
+      "subject_type": "Person",
+      "object_type": "Event",
+      "description": "The person attended, presented at, chaired, spoke at, inspected during, conducted fieldwork in, or performed work on the event.",
+      "derived": false
+    },
+    {
+      "predicate": "AFFILIATED_WITH",
+      "subject_type": "Person",
+      "object_type": "Organization",
+      "description": "The person belongs to, works in, is employed by, serves on, or represents the team, office, council, utility or vendor.",
+      "derived": false
+    },
+    {
+      "predicate": "SUPERVISES",
+      "subject_type": "Person",
+      "object_type": "Person",
+      "description": "The person serves as group leader or direct supervisor of the other person.",
+      "derived": false
+    },
+    {
+      "predicate": "OPERATES",
+      "subject_type": "Person",
+      "object_type": "Equipment",
+      "description": "The person drives, frees, handles, or uses the equipment or apparatus.",
+      "derived": false
+    },
+    {
+      "predicate": "SERVICES",
+      "subject_type": "Person",
+      "object_type": "Pump",
+      "description": "The technician or engineer inspected, repaired, replaced seals on, regreased, or isolated the pump.",
+      "derived": false
+    },
+    {
+      "predicate": "COMPONENT_OF",
+      "subject_type": "Equipment",
+      "object_type": "Pump",
+      "description": "The seal kit, bearing, or screen belongs to, is installed on, or is specified as a replacement part for the pump.",
+      "derived": false
+    },
+    {
+      "predicate": "RESPONSIBLE_FOR",
+      "subject_type": "Organization",
+      "object_type": "Event",
+      "description": "The organization sponsors, organizes, votes on, or oversees the project or event.",
+      "derived": false
+    },
+    {
+      "predicate": "INVOLVES_PUMP",
+      "subject_type": "Event",
+      "object_type": "Pump",
+      "description": "The maintenance round, work order, incident, or test run acted upon or evaluated the pump.",
+      "derived": false
+    },
+    {
+      "predicate": "INVOLVES_EQUIPMENT",
+      "subject_type": "Event",
+      "object_type": "Equipment",
+      "description": "The coring trip, commissioning run, or experiment utilized or investigated the piece of equipment.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_MEASUREMENT",
+      "subject_type": "Pump",
+      "object_type": "Value",
+      "description": "A quantitative operational or diagnostic metric for the pump, such as flow rate, temperature, vibration, or runtime.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_MEASUREMENT",
+      "subject_type": "Equipment",
+      "object_type": "Value",
+      "description": "A quantitative dimension, operating limit, or threshold of the equipment, such as length or vibration limit.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_MEASUREMENT",
+      "subject_type": "Place",
+      "object_type": "Value",
+      "description": "A quantitative environmental or structural parameter measured at the location, such as core depth, pH, water table level, or board count.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_COST",
+      "subject_type": "Event",
+      "object_type": "Value",
+      "description": "A monetary expenditure, budget line, contract value, or overrun recorded for the project or event.",
+      "derived": false
+    },
+    {
+      "predicate": "HAS_COST",
+      "subject_type": "Equipment",
+      "object_type": "Value",
+      "description": "A quoted price, unit cost, or purchase expenditure for the piece of equipment or replacement component.",
+      "derived": false
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "309616ed5df740eb8020c3c17a9dda42",
+    "git_sha": "aea1f61"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r73b_heldout/answers_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": true,
+      "reason": "The answer says dealers will 'inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge', which is exactly the expected remedy."
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "The answer says the engines have 'piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip', matching the expected defect and the gold quote; only the '2.0L' scope word of the expected answer is absent, and it is not in the gold quote."
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "The text is empty but the entities list gives 'Hall Nissan in Chesapeake, VA', which by rule 3 is judged on content and equals the expected dealer."
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "The answer says 'a harness protector cover', which names the installed item the question asks for and matches the expected 'A harness protector cover'; it omits only the 'free of charge' qualifier, which describes the terms rather than what is installed."
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "The answer says Nissan engineering 'declared that the system worked as intended', matching the expected 'That the system worked as intended.'"
+    },
+    {
+      "question_id": "H38",
+      "correct": false,
+      "reason": "The answer says 'The chunks do not say when recall 20V373000 began' while the expected 'August 17, 2020' exists in the source, so by rule 5 no answer is wrong."
+    }
+  ]
+}

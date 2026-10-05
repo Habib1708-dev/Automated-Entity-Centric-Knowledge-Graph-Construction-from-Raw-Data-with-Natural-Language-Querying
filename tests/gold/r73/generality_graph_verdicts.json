@@ -1,0 +1,62 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "e0cd1862d5d34c8cbfc1946a6066159d",
+    "git_sha": "aea1f61"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r73b_generality/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": true,
+      "reason": "Says HP40-2291 'ran quietly', 'no leaks' and 'bearing temperature of 48 °C', matching the expected answer with nothing from HP40-1183 mixed in."
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "Gives the reason as 'the roof has leaked into the children's section since the autumn storms', the expected reason, taken from the library not the footbridge."
+    },
+    {
+      "question_id": "G11",
+      "correct": true,
+      "reason": "Names 'Ines Barros, service manager at Calder Pumps' as the one who said the pump ran dry and says 'The utility does not agree' because the 'suction valve was open for the whole night', both parts of the expected answer."
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "States the flooding 'would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended', the expected counterfactual."
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "Answers '30 June 2025', the expected date in full."
+    },
+    {
+      "question_id": "G18",
+      "correct": false,
+      "reason": "Says 'The chunks do not answer this' and names nobody, while the expected answer is 'Residents' (gold: 'residents had told him the east railing moved'); no answer is wrong."
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "Answers 'Before the library reopens on 1 September', exactly the expected deadline."
+    },
+    {
+      "question_id": "G20",
+      "correct": true,
+      "reason": "Answers '28 March', the expected reopening date, and its citations tie the inspector's closure recommendation to the Mill Lane footbridge."
+    },
+    {
+      "question_id": "G33",
+      "correct": true,
+      "reason": "Says HP40-1183 had 'no leaks', 'bearing temperature was 49 °C' and 'delivered 40 litres per second', matching the expected answer with no HP40-2291 or March findings mixed in."
+    },
+    {
+      "question_id": "G38",
+      "correct": true,
+      "reason": "Says claims 'must reach the Finance Office by 15 June 2025', the expected deadline."
+    }
+  ]
+}

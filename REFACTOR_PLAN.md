@@ -2674,6 +2674,87 @@ paid runs, asked first.
     end to end, a refused query, no text layer in any prompt). Gate: 381 passed (369 before), `ruff check`
     clean. No run.
 
+- **Part b, runs (2026-10-05; the user's yes with the estimate $1.5-2.8; spent $1.93).** Builds on Gemini
+  (`gemini-3.8-flash`), answers on DeepSeek (`deepseek-flash`, thinking low), frozen plans, `EXTRACT_PASSES=2`.
+
+  | Run (MLflow) | Cost |
+  |---|---|
+  | furniture build into `out/r73b_furniture` (`quality`, fresh schema, goal "supply chain root cause analysis"): text_schema `fa7632f1` (accepted), extract `7b7a2e9c` (508 claims, 42 rejected), resolve `3b34c1b6` (483 -> 325 entities), link `3021a1e8` (10/10 documents, 31 entities linked) | $0.646 |
+  | furniture `kg qa`: graph `609901dc`; vector `765bcc99` stopped by a Gemini embedding 429 (68 questions embedded in parallel), rerun `06f9eadc` with `QA_WORKERS=2`; records_vector `5bad69dc` | $0.315 |
+  | held-out graph rebuilt from the cache into `out/r73b_heldout` (`heldout`): extract `ca08084c` 162/162 hits, resolve `1eb21451` 349/349 hits: the R68g/R71 graph (532 claims, 56 entities linked) | $0 |
+  | held-out `kg qa` (`heldout_deepseek`): graph `aa05eda0` (84 cache hits: R71's answers to H01-H38), vector `309616ed`, records_vector `3b7bfc39` | $0.331 |
+  | generality v2 build into `out/r73b_generality` (`generality_gemini`, new preset, goal as R72): text_schema `3b7eef40` refused in all three rounds (below), extract `89ac3fad` (195 claims, 9 rejected), resolve `77f6bf76`, link `12a6bab9` (0 of 32 documents tied to a record, 6 entities linked) | $0.436 |
+  | generality `kg qa` (`generality`): graph `e0cd1862`, vector `a469be50`, records_vector `a0cf9631` | $0.201 |
+
+  - **The generality text schema (the user's decision).** The proposer swung between `Staff` + `Person`
+    (rounds 1 and 3) and one type named `Staff` (round 2); the critic refused both: two person types an
+    extractor cannot tell apart when the text does not say who works where (its examples: Judith Pike,
+    Gareth Lowe, Maria Lopez), and a `Staff` type that clashes with the plan's `Staff` records. The user
+    chose the critic's own fix on the last proposal: one `Person` type, the fact types that had `Staff`
+    merged into it (20 -> 18 fact types; `validate_text_schema` clean), committed as
+    `tests/gold/generality_v2_text_schema.json`; Gemini's last proposal is kept as
+    `out/r73b_generality/text_schema_proposed.json`. This is the identity question of Step 5.
+  - **Judge.** Fable 5.1 subagents with R71's rules (`tests/gold/r71/qa_judge_rules.md`) decided the 54
+    free-text answers (18 questions x 3 systems), lead judge Opus 5.5; verdicts in `tests/gold/r73/`. The
+    five flagged points were kept as judged, following R71's precedent: H20 without "2.0L", H35 without
+    "free of charge", F38 graph (both sides of the comfort question given), G16 without "of HP40-1183",
+    G09's extra "the council voted" (true of the source). Final scores by `kg qa-score`: furniture
+    `d384c4fa` / `150974c7` / `cd003718` (graph / records_vector / vector), held-out `a41a333c` /
+    `320af79e` / `de8fa66b`, generality `2b9f0f64` / `72c69eab` / `4cc01e5f`.
+  - **Reference table: answer accuracy per type** (sets and numbers by code, free text by the judge; k/n
+    and Wilson 95 %; "rec+vec" is records plus vector RAG):
+
+    | Type | held-out graph | held-out rec+vec | held-out vector | furniture graph | furniture rec+vec | furniture vector | generality graph | generality rec+vec | generality vector |
+    |---|---|---|---|---|---|---|---|---|---|
+    | multi_hop | 15/17 (0.66-0.97) | 13/17 (0.53-0.90) | 4/17 (0.10-0.47) | 10/17 (0.36-0.78) | 9/17 (0.31-0.74) | 0/17 (0.00-0.18) | 1/6 (0.03-0.56) | 1/6 (0.03-0.56) | 1/6 (0.03-0.56) |
+    | aggregation | 16/16 (0.81-1.00) | 12/16 (0.51-0.90) | 4/16 (0.10-0.49) | 4/16 (0.10-0.49) | 6/16 (0.18-0.61) | 1/16 (0.01-0.28) | 3/6 (0.19-0.81) | 4/6 (0.30-0.90) | 3/6 (0.19-0.81) |
+    | structured_filter | 17/17 (0.82-1.00) | 15/17 (0.66-0.97) | 6/17 (0.17-0.59) | 5/16 (0.14-0.56) | 7/16 (0.23-0.67) | 0/16 (0.00-0.19) | 0/6 (0.00-0.39) | 2/6 (0.10-0.70) | 4/6 (0.30-0.90) |
+    | disambiguation | 3/6 (0.19-0.81) | 3/6 (0.19-0.81) | 3/6 (0.19-0.81) | 6/6 (0.61-1.00) | 5/6 (0.44-0.97) | 5/6 (0.44-0.97) | 3/8 (0.14-0.69) | 5/8 (0.31-0.86) | 5/8 (0.31-0.86) |
+    | negation_sensitive | 4/6 (0.30-0.90) | 3/6 (0.19-0.81) | 4/6 (0.30-0.90) | 4/7 (0.25-0.84) | 3/7 (0.16-0.75) | 3/7 (0.16-0.75) | 2/6 (0.10-0.70) | 5/6 (0.44-0.97) | 6/6 (0.61-1.00) |
+    | lookup | 5/6 (0.44-0.97) | 4/6 (0.30-0.90) | 4/6 (0.30-0.90) | 5/6 (0.44-0.97) | 4/6 (0.30-0.90) | 4/6 (0.30-0.90) | 8/9 (0.56-0.98) | 8/9 (0.56-0.98) | 8/9 (0.56-0.98) |
+    | **all** | **60/68 (0.78-0.94)** | **50/68 (0.62-0.83)** | **25/68 (0.26-0.49)** | **34/68 (0.38-0.62)** | **34/68 (0.38-0.62)** | **13/68 (0.12-0.30)** | **17/41 (0.28-0.57)** | **25/41 (0.46-0.74)** | **27/41 (0.51-0.78)** |
+    | route accuracy | 53/68 | 61/68 | - | 47/68 | 47/68 | - | 33/41 | 27/41 | - |
+
+  - **Paired comparisons** (`kg qa-compare`; right only in the first system / only in the second, p):
+
+    | Pair | held-out | furniture | generality |
+    |---|---|---|---|
+    | graph vs records + vector | 13 / 3, **p 0.021** (`2b67685e`) | 8 / 8, p 1.000 (`eb4ce493`) | 0 / 8, **p 0.008** (`adc1d970`) |
+    | graph vs vector | 37 / 2, **p < 0.001** (`4233bccd`) | 23 / 2, **p < 0.001** (`656e6e4a`) | 2 / 12, **p 0.013** (`1b800e8c`) |
+    | records + vector vs vector | 31 / 6, **p < 0.001** (`8416ccf8`) | 21 / 0, **p < 0.001** (`3f040d13`) | 3 / 5, p 0.727 (`46603cb1`) |
+
+    Per type, graph against records + vector differs on no type in any dataset (largest splits: held-out
+    aggregation 4 / 0, p 0.125; generality negation-sensitive 0 / 3, p 0.25). The record types separate
+    both routed systems from the vector baseline (held-out multi-hop, aggregation and structured filter,
+    p <= 0.04; furniture multi-hop, p <= 0.004).
+  - **Failures by cause** (the first that fits, classified by code from the traces; one real example each):
+    - router sent a record or count question to text: furniture graph 15, records + vector 16; generality
+      4 / 7; held-out graph 1. F04 "What is the price in dollars of the product whose frame a reviewer says
+      creaks ...?" -> "The chunks do not state the price".
+    - exact route answered wrong: held-out graph 6, records + vector 16; furniture 13 / 12; generality
+      15 / 5. Held-out records + vector H09 returned whole `Vehicle` nodes as names (R71's H31 again);
+      generality graph G05 counted 5 documents for Jonathan Pike (gold 8).
+    - exact route failed, then text: furniture graph 6, records + vector 3. The Gemini furniture graph stores
+      prices as text (`$246`), so F14, F39, F40 ("cost less than / more than / between") and F50, F51 had
+      no number to compare.
+    - answer form (a sentence for a "which" question, wrong by the R73 decision): held-out graph 1, records
+      + vector 2, vector 8; generality 4 / 2 / 4 (G24 "Technician Marek Hollis replaced ...").
+    - vector baseline: record questions answered from text, furniture 32, held-out 28 ("The chunks do not
+      state any prices"); retrieval missed the evidence chunk 5 / 4 / 1 (furniture / held-out / generality).
+    - The records-only check refused no query: the model never named the text layer. Its refused
+      proposals (furniture 11, held-out 7, generality 1) failed the other checks. Every records + vector
+      query that ran used typed relationships from record-labelled nodes (checked over all answers).
+  - **Reading.** Records plus vector RAG matches the claim graph on furniture (34 = 34, 8 / 8 discordant),
+    beats it on the generality corpus (25 against 17, 0 / 8, p 0.008), and loses to it on held-out (50
+    against 60, 13 / 3, p 0.021); no single type separates them anywhere. Both routed systems beat
+    vector-only RAG on the two real datasets through the record questions. On generality, vector-only is
+    best (27/41): its documents hang on no record (0 of 32) and the exact route misreads the claim shape
+    (15 wrong exact answers for the graph, 5 for records + vector).
+  - **Stop rule of Step 3:** "if records plus vector matches the observation-graph arm on every question
+    type (no paired difference), stop and decide with the user before Step 4". No question type differs in
+    any dataset, so the rule applies as written; the totals point both ways (held-out for the graph,
+    generality against it). Step 4 waits for the user's decision. Gate: 381 passed, `ruff check` clean.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
