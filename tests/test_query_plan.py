@@ -228,11 +228,13 @@ def test_related_follows_the_direction_code_chose():
 def test_the_claim_layer_is_walked_in_its_own_direction_only():
     # G14 (R72) walked SUBJECT backwards; a plan names no arrow, the fragment fixes it
     cypher, params = cy.find_claims(["r1"], ["e1"], "HAS_CONDITION", ["s1"], ["x1"], "negative", "march", 20)
-    assert "(t)-[:HAS_OBSERVATION]->(o)" in cypher and "(o)-[:SUBJECT]->(s:Entity)" in cypher
+    assert "(t)-[:HAS_OBSERVATION]->(o)" in cypher and "(o)-[:SUBJECT]->(s:Mention)" in cypher
     assert (
-        "(o)-[:OBJECT]->(x:Entity)" in cypher
-        and "(o)-[:SUBJECT|OBJECT]->(:Entity)-[:REFERS_TO]->(t)" in cypher
+        "(o)-[:OBJECT]->(x:Mention)" in cypher
+        and "(o)-[:SUBJECT|OBJECT]->(:Mention)-[:REFERS_TO]->(t)" in cypher
     )
+    # an entity is addressed by its canonical id, which the mention's identity edge carries (R75)
+    assert "ref_s.canonical" in cypher and "ref_x.canonical" in cypher
     assert params == {
         "records": ["r1"], "entities": ["e1"], "predicate": "HAS_CONDITION", "subjects": ["s1"],
         "objects": ["x1"], "tone": "negative", "time": "march",

@@ -322,8 +322,11 @@ def test_the_sample_and_sheet_stages_read_the_graph_and_log_their_inputs(driver,
         "(o:Observation {id: 'o1', predicate: 'HAS_CONDITION', chunk_id: $chunk, "
         "evidence: 'The top wobbles.', subject_name: 'top', object_name: 'wobbles', "
         "polarity: 'negative', time: ''})-[:FROM]->(c), "
-        "(o)-[:SUBJECT]->(:Entity {id: 'e1', type: 'Component', name: 'desk top', aliases: ['top']}), "
-        "(o)-[:OBJECT]->(:Entity {id: 'e2', type: 'Condition', name: 'wobbles'}), "
+        # the claim's mention "top" refers to the concept "desk top" (R75's identity edge)
+        "(o)-[:SUBJECT]->(:Mention {id: 'e1', type: 'Component', name: 'top'})"
+        "-[:REFERS_TO {canonical: 'k1', name: 'desk top', kind: 'concept'}]->"
+        "(:Concept {id: 'k1', type: 'Component', name: 'desk top'}), "
+        "(o)-[:OBJECT]->(:Mention {id: 'e2', type: 'Condition', name: 'wobbles'}), "
         "(p)-[:HAS_OBSERVATION {name: 'Oak Desk'}]->(o)",
         doc=DOC,
         chunk=f"{DOC}#1",

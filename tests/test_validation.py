@@ -173,8 +173,8 @@ def test_checks_report_a_damaged_graph_and_custom_families_plug_in(driver):
     driver.execute_query(
         "CREATE (d:Document {doc_id: 'a.md'}), (c:Chunk {chunk_id: 'a.md#0', text: 'The table wobbles'}), "
         "(c)-[:PART_OF]->(d), (:Chunk {chunk_id: 'lost#0', text: 'x'}), "
-        "(t:Entity {id: '1', name: 'table', type: 'Product'}), "
-        "(w:Entity {id: '2', name: 'wobble', type: 'Problem'}), "
+        "(t:Mention {id: '1', name: 'table', type: 'Product', doc_id: 'a.md'}), "
+        "(w:Mention {id: '2', name: 'wobble', type: 'Problem', doc_id: 'a.md'}), "
         "(c)-[:MENTIONS]->(t), "
         "(o:Observation {id: 'o1', predicate: 'HAS_PROBLEM', chunk_id: 'a.md#0', evidence: 'never said'}), "
         "(o)-[:SUBJECT]->(t), (o)-[:OBJECT]->(w), (o)-[:FROM]->(c), "
@@ -192,7 +192,7 @@ def test_checks_report_a_damaged_graph_and_custom_families_plug_in(driver):
     failed = {c.name for c in report.checks if not c.passed}
     assert failed == {
         "lexical: every chunk belongs to a document",
-        "provenance: every entity is mentioned in a chunk",
+        "provenance: every mention is mentioned in a chunk",
         "provenance: every observation has a subject, an object and a source chunk",
         "provenance: evidence quotes exist in their chunk",
     }
@@ -206,10 +206,12 @@ def test_facts_touching_the_domain_graph_are_measured(driver):
     # two facts: the defect of a linked part touches the domain graph, the reviewer's city does not
     driver.execute_query(
         "CREATE (p:Part {part_id: 'S1'}), (c:Chunk {chunk_id: 'k1', text: 'x'}), "
-        "(rails:Entity {id: '1', name: 'rails', type: 'Component'})-[:REFERS_TO]->(p), "
-        "(rough:Entity {id: '2', name: 'rough', type: 'Issue'}), "
-        "(anna:Entity {id: '3', name: '@anna', type: 'Customer'}), "
-        "(oslo:Entity {id: '4', name: 'Oslo', type: 'Location'}), "
+        # the identity layer's record edge (R75): the edge says what kind of thing the mention refers to
+        "(rails:Mention {id: '1', name: 'rails', type: 'Component'})"
+        "-[:REFERS_TO {kind: 'record', canonical: 'Part:S1', name: 'S1'}]->(p), "
+        "(rough:Mention {id: '2', name: 'rough', type: 'Issue'}), "
+        "(anna:Mention {id: '3', name: '@anna', type: 'Customer'}), "
+        "(oslo:Mention {id: '4', name: 'Oslo', type: 'Location'}), "
         "(i:Observation {id: 'o1', predicate: 'HAS_ISSUE', chunk_id: 'k1', evidence: 'x'}), "
         "(i)-[:SUBJECT]->(rails), (i)-[:OBJECT]->(rough), (i)-[:FROM]->(c), "
         "(l:Observation {id: 'o2', predicate: 'LOCATED_IN', chunk_id: 'k1', evidence: 'x'}), "

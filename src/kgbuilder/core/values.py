@@ -5,9 +5,10 @@ Role in the pipeline: the text schema may use `Value` as a fact type's object wi
 the subject-graph writer stores the parsed number and unit on the observation (text/subject_graph.py), and
 entity resolution never merges two values (resolution/resolver.py): "25 kg" and "35 kg" spell alike but
 are different claims.
-Design: a value is still an `:Entity` at the end of an OBJECT edge (R66, the user's choice), so every reader
-keeps one observation shape; the observation also carries `value` and `unit` for numeric queries. Only
-units code knows for certain are normalised; any other unit ("Martindale rubs") stays verbatim.
+Design: a value is still a mention at the end of an OBJECT edge (R66, the user's choice; a `:Mention` since
+R75, whose canonical concept is the value's canonical spelling), so every reader keeps one observation
+shape; the observation also carries `value` and `unit` for numeric queries. Only units code knows for
+certain are normalised; any other unit ("Martindale rubs") stays verbatim.
 Not here: anything that touches Neo4j or the LLM.
 """
 

@@ -270,8 +270,9 @@ def extract(out: Path = OUT):
 
 @app.command()
 def resolve(out: Path = OUT, undo: bool = False, preview: bool = False):
-    """Detect and merge duplicate entities. `--undo` reverts the last run (then re-run `kg link`);
-    `--preview` lists the candidate pairs with their scores and changes nothing."""
+    """Decide what every mention refers to: a record, an individual or a concept (run after `kg link`).
+    `--undo` removes the identity layer; `--preview` lists the concept pairs with their scores and changes
+    nothing."""
     if undo and preview:
         raise typer.BadParameter("--undo and --preview exclude each other")
     with session(out) as ctx:
@@ -281,15 +282,18 @@ def resolve(out: Path = OUT, undo: bool = False, preview: bool = False):
             return
         if undo:
             run_stages(ctx, PipelineState(), [st.UndoResolveStage()])
-            typer.echo("Merges of the last resolve run were undone.")
+            typer.echo("The identity layer of the last resolve run was removed.")
             return
         r = run_stages(ctx, PipelineState(), [st.ResolveStage()]).resolution
-    typer.echo(f"entities {r.entities_before} -> {r.entities_after} ({r.merges} merged)")
+    typer.echo(
+        f"mentions {r.mentions}: {r.count('record')} to records, {r.count('individual')} to individuals, "
+        f"{r.count('concept')} to concepts ({r.concepts_before} -> {r.concepts_after}, {r.merges} merged)"
+    )
 
 
 @app.command()
 def link(out: Path = OUT):
-    """Link documents and entities to the domain graph."""
+    """Link documents and sections to the domain graph, derive facts, attach claims (before `kg resolve`)."""
     with session(out) as ctx:
         report = run_stages(ctx, PipelineState(), [st.LinkStage()]).links
     typer.echo(report.model_dump())

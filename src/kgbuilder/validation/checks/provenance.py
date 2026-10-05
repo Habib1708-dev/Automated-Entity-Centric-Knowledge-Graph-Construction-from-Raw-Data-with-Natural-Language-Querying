@@ -1,4 +1,4 @@
-"""Provenance checks: can every entity and fact be traced back to the text it came from?
+"""Provenance checks: can every mention and fact be traced back to the text it came from?
 
 This re-verifies in the finished graph what extraction verified per chunk, so it also catches damage
 done later (a re-ingest that replaced chunks, a merge, a manual edit).
@@ -12,22 +12,22 @@ from .base import CheckContext
 class ProvenanceCheck:
     def run(self, ctx: CheckContext) -> CheckOutput:
         out = CheckOutput()
-        entities = ctx.scalar("MATCH (e:Entity) RETURN count(e)")
-        if not entities:
+        mentions = ctx.scalar("MATCH (m:Mention) RETURN count(m)")
+        if not mentions:
             return out
 
-        unmentioned = ctx.scalar("MATCH (e:Entity) WHERE NOT (:Chunk)-[:MENTIONS]->(e) RETURN count(e)")
+        unmentioned = ctx.scalar("MATCH (m:Mention) WHERE NOT (:Chunk)-[:MENTIONS]->(m) RETURN count(m)")
         out.add(
-            "provenance: every entity is mentioned in a chunk",
+            "provenance: every mention is mentioned in a chunk",
             unmentioned == 0,
-            f"{unmentioned} entities without a source chunk",
+            f"{unmentioned} mentions without a source chunk",
             "provenance",
         )
 
         # a claim needs both ends and its chunk; the fact reader skips an observation without them, so
-        # they are counted here, where a merge or an undo that lost an edge would show up
+        # they are counted here, where a rewrite or a hand edit that lost an edge would show up
         incomplete = ctx.scalar(
-            "MATCH (o:Observation) WHERE NOT (o)-[:SUBJECT]->(:Entity) OR NOT (o)-[:OBJECT]->() "
+            "MATCH (o:Observation) WHERE NOT (o)-[:SUBJECT]->(:Mention) OR NOT (o)-[:OBJECT]->(:Mention) "
             "OR NOT (o)-[:FROM]->(:Chunk) RETURN count(o)"
         )
         out.add(

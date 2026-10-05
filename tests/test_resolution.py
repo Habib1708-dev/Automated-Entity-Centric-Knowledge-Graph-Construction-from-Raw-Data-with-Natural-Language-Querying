@@ -1,5 +1,7 @@
-"""Entity resolution: candidate finding, decisions and grouping as pure functions, the candidate preview,
-the merge -> undo round trip against Neo4j, and the rule that merging keeps every separately stated fact."""
+"""Entity resolution of concepts: candidate finding, decisions and grouping as pure functions, the candidate
+preview, and against Neo4j the identity edges it writes (R75): a merge is an edge per mention, the graph
+keeps every observation, the fact reader leaves out exact repeats and self-references, and clearing the
+identity layer gives back the graph as it was."""
 
 import json
 import math
@@ -11,10 +13,12 @@ from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import PipelineContext, PipelineState
 from kgbuilder.resolution.blocking import MutualNearest, ScoreThreshold
+from kgbuilder.resolution.concepts import SamePair
+from kgbuilder.resolution.identity import IdentityReport, IdentitySettings, resolve_identity
+from kgbuilder.resolution.identity_graph import clear_identity
 from kgbuilder.resolution.matchers import EmbeddingMatcher, EntityRecord
 from kgbuilder.resolution.resolver import (
     MentionRow,
-    SamePair,
     decide,
     decide_in_passes,
     find_candidates,
@@ -22,8 +26,6 @@ from kgbuilder.resolution.resolver import (
     mention_lines,
     nominate,
     preview,
-    resolve_entities,
-    undo_merges,
 )
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.documents import Document
@@ -34,6 +36,12 @@ from kgbuilder.validation.checks import CheckContext
 from kgbuilder.validation.judge import build_sheet
 
 from .fakes import RecordingTracker, ScriptedLLM
+
+
+def resolve(driver, llm=None, auto_merge: float = 92, borderline: float = 80) -> IdentityReport:
+    """The identity stage with every type a concept (no schema): the rule of the entity graph before R75."""
+    settings = IdentitySettings(auto_merge=auto_merge, borderline=borderline, link_threshold=90)
+    return resolve_identity(driver, None, None, llm, "m", settings)
 
 
 def entity(id: str, name: str, type: str = "Product", mentions: int = 1) -> EntityRecord:
@@ -163,19 +171,23 @@ def test_a_merged_group_is_named_by_its_most_general_name():
 
 
 def dump(driver) -> dict:
-    """Everything entity resolution may touch, in a comparable form."""
+    """Everything the identity stage may touch, in a comparable form."""
 
     def rows(query):
         return sorted(str(r.data()) for r in driver.execute_query(query)[0])
 
     return {
-        "entities": rows("MATCH (e:Entity) RETURN properties(e) AS p"),
-        "mentions": rows("MATCH (c:Chunk)-[:MENTIONS]->(e:Entity) RETURN c.chunk_id AS c, e.id AS e"),
+        "mentions": rows("MATCH (m:Mention) RETURN properties(m) AS p"),
+        "mentioned_in": rows("MATCH (c:Chunk)-[:MENTIONS]->(m:Mention) RETURN c.chunk_id AS c, m.id AS m"),
         "observations": rows("MATCH (o:Observation) RETURN properties(o) AS p"),
-        # SUBJECT and OBJECT point at entities (by id), FROM at a chunk (by chunk id)
+        # SUBJECT and OBJECT point at mentions (by id), FROM at a chunk (by chunk id)
         "edges": rows(
             "MATCH (o:Observation)-[r]->(n) RETURN o.id AS o, type(r) AS t, coalesce(n.id, n.chunk_id) AS n"
         ),
+        "identity": rows(
+            "MATCH (m:Mention)-[r:REFERS_TO]->(n) RETURN m.id AS m, properties(r) AS r, n.id AS n"
+        ),
+        "canonical": rows("MATCH (n) WHERE n:Concept OR n:Individual RETURN properties(n) AS p"),
     }
 
 
@@ -187,10 +199,11 @@ def fact(subject, predicate, obj, obj_type, chunk, evidence=None):
 
 
 @pytest.mark.neo4j
-def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driver):
+def test_a_merge_keeps_every_separately_stated_fact_and_the_reader_drops_exact_repeats(driver):
     """Two chunks saying "the table wobbles" are two pieces of evidence (subject_graph.py writes one
-    observation per chunk and wording). Merging "Table" into "Tables" must not fold them into one; only an
-    observation identical in predicate, ends, chunk and quote after the merge is a repeat (R64's rule)."""
+    observation per chunk and wording). Joining "Table" and "Tables" must not fold them into one; only an
+    observation identical in predicate, ends, chunk and quote after the join is a repeat (R64's rule), which
+    the fact reader leaves out while the graph keeps it (R75: nothing is deleted)."""
     chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
     write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
     write_subject_graph(
@@ -198,29 +211,30 @@ def test_merging_keeps_every_separately_stated_fact_and_drops_exact_repeats(driv
         [
             fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#0"),
             fact("Tables", "HAS_PROBLEM", "wobble", "Problem", "d.md#1"),
-            # the same statement once more under the other spelling: identical after the merge
+            # the same statement once more under the other spelling: identical after the join
             fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#1", evidence="Tables wobble"),
         ],
         extractor="test",
     )
-    report = resolve_entities(driver, None, model="m", auto_merge=90)
+    report = resolve(driver, auto_merge=90)
+    assert report.merges == 1
 
-    records, _, _ = driver.execute_query(
-        "MATCH (:Entity)<-[:SUBJECT]-(f:Observation {predicate: 'HAS_PROBLEM'})"
-        "-[:OBJECT]->(:Entity {name: 'wobble'}) "
-        "RETURN f.chunk_id AS chunk, f.evidence AS evidence, f.subject_name AS said ORDER BY chunk"
-    )
-    # of the two repeats in d.md#1, the one with the first wording survives, on every rebuild (R44)
-    assert [(r["chunk"], r["evidence"], r["said"]) for r in records] == [
+    facts = CheckContext(driver).facts
+    # of the two repeats in d.md#1, the one with the first wording is read, on every rebuild (R44)
+    assert sorted((f.chunk_id, f.evidence, f.subject_name) for f in facts) == [
         ("d.md#0", "Table wobble", "Table"),
         ("d.md#1", "Tables wobble", "Table"),
     ]
-    mentions, _, _ = driver.execute_query(
-        "MATCH (c:Chunk)-[m:MENTIONS]->(e:Entity) WHERE e.name <> 'wobble' "
-        "RETURN c.chunk_id AS c, count(m) AS n"
+    assert driver.execute_query("MATCH (o:Observation) RETURN count(o) AS n")[0][0]["n"] == 3  # all kept
+    # both spellings refer to one concept, named after the most mentioned one
+    records, _, _ = driver.execute_query(
+        "MATCH (m:Mention {type: 'Product'})-[r:REFERS_TO]->(c:Concept) RETURN m.name AS m, r.reason AS why, "
+        "c.name AS c ORDER BY m"
     )
-    assert {r["c"]: r["n"] for r in mentions} == {"d.md#0": 1, "d.md#1": 1}  # one mention per chunk, not two
-    assert report.merges == 1 and report.duplicate_facts_removed == 1
+    assert [(r["m"], r["why"], r["c"]) for r in records] == [
+        ("Table", "same_name", "Table"),
+        ("Tables", "spelling", "Table"),
+    ]
 
 
 @pytest.mark.neo4j
@@ -240,7 +254,7 @@ def test_each_fact_keeps_its_own_wording_after_a_merge(driver):
     )
     # only the two defects are the same kind; the products stay apart
     llm = ScriptedLLM(lambda prompt, schema: SamePair(same="crack developing" in prompt))
-    report = resolve_entities(driver, llm, model="m", borderline=0)
+    report = resolve(driver, llm, borderline=0)
     assert report.merges == 1
 
     sheet = build_sheet(CheckContext(driver).facts, [])
@@ -248,7 +262,7 @@ def test_each_fact_keeps_its_own_wording_after_a_merge(driver):
         ("Helsingborg Dresser", detailed),
         ("Linköping Bed", "crack"),
     ]
-    (name,) = driver.execute_query("MATCH (e:Entity {type: 'Defect'}) RETURN e.name AS n")[0]
+    (name,) = driver.execute_query("MATCH (c:Concept {type: 'Defect'}) RETURN c.name AS n")[0]
     assert name["n"] == "crack"
 
 
@@ -269,17 +283,13 @@ def test_three_reviews_of_one_claim_stay_three_observations_and_a_rewrite_adds_n
     before = dump(driver)
     assert write_subject_graph(driver, triples, extractor="test") == first and dump(driver) == before
 
-    report = resolve_entities(driver, None, model="m", auto_merge=90)  # "Table"/"Tables" 90.9: merged
-    assert report.merges == 1 and report.duplicate_facts_removed == 0
-    records, _, _ = driver.execute_query(
-        "MATCH (:Entity {type: 'Product'})<-[:SUBJECT]-(o:Observation)-[:FROM]->(c:Chunk) "
-        "RETURN c.chunk_id AS chunk ORDER BY chunk"
-    )
-    assert [r["chunk"] for r in records] == ["a.md#0", "b.md#0", "c.md#0"]
+    report = resolve(driver, auto_merge=90)  # "Table"/"Tables" 90.9: joined
+    assert report.merges == 1
+    assert sorted(f.chunk_id for f in CheckContext(driver).facts) == ["a.md#0", "b.md#0", "c.md#0"]
 
 
 @pytest.mark.neo4j
-def test_merge_then_undo_restores_the_graph(driver):
+def test_clearing_the_identity_layer_restores_the_graph_and_deleting_one_edge_undoes_one_decision(driver):
     chunks = [Chunk(chunk_id=f"d.md#{i}", doc_id="d.md", index=i, text=f"text {i}") for i in range(2)]
     write_lexical_graph(driver, [Document(doc_id="d.md", title="d", text="x")], chunks)
     write_subject_graph(
@@ -287,27 +297,29 @@ def test_merge_then_undo_restores_the_graph(driver):
         [
             fact("Table", "HAS_PROBLEM", "wobble", "Problem", "d.md#0"),
             fact("Tables", "HAS_PROBLEM", "scratch", "Problem", "d.md#1"),
-            fact("Table", "SIMILAR_TO", "Tables", "Product", "d.md#1"),  # becomes a self-loop when merged
+            fact("Table", "SIMILAR_TO", "Tables", "Product", "d.md#1"),  # a self-reference once joined
         ],
         extractor="test",
     )
     before = dump(driver)
 
     llm = ScriptedLLM(lambda prompt, schema: SamePair(same=False))
-    report = resolve_entities(driver, llm, model="m", auto_merge=90)  # "Table"/"Tables" scores 90.9
-    assert report.merges == 1 and report.self_loops_removed == 1
-    # the self-reference is gone and the other two claims now hang on the merged node
-    assert len(report.observations) == 3
-    after = driver.execute_query(
-        "MATCH (o:Observation)-[:SUBJECT]->(e:Entity) RETURN o.predicate AS p, e.name AS e ORDER BY p"
-    )[0]
-    assert {r["e"] for r in after} == {"Table"} and [r["p"] for r in after] == ["HAS_PROBLEM", "HAS_PROBLEM"]
-    assert report.entities_after == report.entities_before - 1
+    report = resolve(driver, llm, auto_merge=90)  # "Table"/"Tables" scores 90.9
+    assert report.merges == 1 and (report.concepts_before, report.concepts_after) == (4, 3)
+    # the self-reference is still in the graph, but no reader sees a claim "Table SIMILAR_TO Table"
+    assert sorted(f.predicate for f in CheckContext(driver).facts) == ["HAS_PROBLEM", "HAS_PROBLEM"]
+    assert {n for f in CheckContext(driver).facts for n in f.subject_names} == {"Table", "Tables"}
     assert dump(driver) != before
 
-    assert undo_merges(driver, report) == 1
+    # one decision undone by deleting its edge: "Tables" stands for itself again
+    driver.execute_query("MATCH (:Mention {name: 'Tables'})-[r:REFERS_TO]->() DELETE r")
+    facts = CheckContext(driver).facts
+    assert sorted(f.predicate for f in facts) == ["HAS_PROBLEM", "HAS_PROBLEM", "SIMILAR_TO"]
+    assert sorted(f.subject_names[0] for f in facts) == ["Table", "Table", "Tables"]
+
+    assert clear_identity(driver) == 3  # four mentions, one edge already deleted by hand
     assert dump(driver) == before
-    assert undo_merges(driver, report) == 1 and dump(driver) == before  # idempotent
+    assert clear_identity(driver) == 0 and dump(driver) == before  # idempotent
 
 
 @pytest.mark.neo4j
@@ -409,10 +421,10 @@ def test_the_adjudication_prompt_carries_each_names_sentences_and_document(drive
         prompts.append(prompt)
         return SamePair(same=False)
 
-    resolve_entities(driver, ScriptedLLM(answer), model="m", auto_merge=95)  # "Table"/"Tables" 90.9: ask
+    resolve(driver, ScriptedLLM(answer), auto_merge=95)  # "Table"/"Tables" 90.9: ask
     [prompt] = prompts
     assert "- [Desk Reviews] The Table wobbles." in prompt  # the sentence, not the praise before it
     assert "- [Desk Reviews] The Tables scratch easily." in prompt
     assert "Great desk" not in prompt
-    # R41: the type decides between "same item" and "same kind" (entities are kinds across documents)
-    assert "If Product names individual items" in prompt and "the same kind" in prompt
+    # R75: only concepts are adjudicated here, so the question is always about the same kind
+    assert "both of type Product, name the same kind of thing" in prompt

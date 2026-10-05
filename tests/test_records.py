@@ -1,0 +1,143 @@
+"""Record matching for mentions of keyed types (R75, resolution/records.py), pure: names near-exact or
+contained, inside the scope of the mention's document or unique in the domain (the linking rules of R11,
+R60 and R67, moved here), the record's key in the name or a sentence, and an attribute that tells two
+records of one name apart. No Neo4j."""
+
+from kgbuilder.resolution.records import (
+    RecordCandidate,
+    contained_matches,
+    match_record,
+    name_matches,
+)
+
+
+def record(
+    element_id: str, label: str, name: str, key: str | None = None, **attributes: str
+) -> RecordCandidate:
+    return RecordCandidate(
+        element_id=element_id, label=label, name=name, key=key or element_id, attributes=attributes
+    )
+
+
+DOMAIN = [
+    record("p1", "Product", "Table"),
+    record("p2", "Product", "Coffee Table"),
+    record("p3", "Product", "Stockholm Chair"),
+    record("a7", "Part", "Leg"),
+]
+
+
+def ids(matches) -> list[str]:
+    return [m.record.element_id for m in matches]
+
+
+def test_names_match_near_exactly_ignoring_word_order():
+    assert ids(name_matches(["Chair Stockholm"], DOMAIN, threshold=90)) == ["p3"]
+    assert ids(name_matches(["the big one", "stockholm chair"], DOMAIN, threshold=90)) == ["p3"]
+    [exact] = name_matches(["Coffee Table"], DOMAIN, threshold=90)
+    assert exact.record.element_id == "p2" and exact.score == 100
+
+
+def test_a_name_below_the_threshold_or_empty_matches_nothing():
+    assert name_matches(["Dining Table Deluxe"], DOMAIN, threshold=90) == []
+    assert name_matches(["", "  "], DOMAIN, threshold=90) == []
+
+
+def test_every_record_tied_for_the_best_score_comes_back():
+    legs = [record("a1", "Assembly", "Legs"), record("a2", "Assembly", "Legs")]
+    assert ids(name_matches(["legs"], legs, threshold=90)) == ["a1", "a2"]
+
+
+CIVIC, ACCORD = record("v1", "Vehicle", "CIVIC"), record("v2", "Vehicle", "ACCORD")
+
+
+def test_a_name_containing_a_records_whole_name_matches_by_whole_words():
+    [match] = contained_matches(["2016 Honda Civic"], [CIVIC, ACCORD])
+    assert match.record.element_id == "v1" and match.score == 100.0
+    assert contained_matches(["the car escaped"], [record("v3", "Vehicle", "ESCAPE")]) == []  # whole words
+    assert contained_matches(["table leg"], [record("a1", "Assembly", "Leg")]) == []  # too short to trust
+    both = [record("p1", "Product", "Table"), record("p2", "Product", "Coffee Table")]
+    assert ids(contained_matches(["the jonkoping coffee table"], both)) == ["p2"]  # the longest name wins
+
+
+# Two products that both have an assembly called "Legs": the case that needs scopes.
+CHAIR, TABLE = record("p1", "Product", "Chair"), record("p2", "Product", "Table")
+CHAIR_LEGS, TABLE_LEGS = record("a1", "Assembly", "Legs"), record("a2", "Assembly", "Legs")
+FURNITURE = [CHAIR, TABLE, CHAIR_LEGS, TABLE_LEGS]
+
+
+def match(name: str, scopes=(), sentences=(), records=FURNITURE):
+    return match_record(name, list(sentences), records, [list(s) for s in scopes], threshold=90)
+
+
+def test_a_generic_name_links_inside_the_scope_of_its_document():
+    result = match("legs", scopes=[[CHAIR, CHAIR_LEGS]])
+    assert result.link.record.element_id == "a1" and result.link.reason == "name" and result.link.scoped
+
+
+def test_without_a_scope_a_generic_name_is_ambiguous_and_a_unique_one_links():
+    ambiguous = match("legs")
+    assert ambiguous.link is None and ids_of(ambiguous.tied) == ["a1", "a2"]
+    unique = match("table")
+    assert unique.link.record.element_id == "p2" and not unique.link.scoped
+
+
+def ids_of(records: list[RecordCandidate]) -> list[str]:
+    return [r.element_id for r in records]
+
+
+def test_a_name_outside_the_scope_falls_back_to_a_unique_domain_match():
+    # a chair review that mentions the table: not in the chair's scope, but unique in the domain
+    result = match("table", scopes=[[CHAIR, CHAIR_LEGS]])
+    assert result.link.record.element_id == "p2" and not result.link.scoped
+
+
+def test_containment_is_used_only_inside_a_scope_and_after_fuzzy():
+    result = match("2016 Honda Civic", scopes=[[CIVIC, ACCORD]], records=[CIVIC, ACCORD])
+    assert result.link.record.element_id == "v1" and result.link.reason == "contained" and result.link.scoped
+    # outside every scope containment is not trusted: no scope vouches for the document
+    assert match("2016 Honda Civic", records=[CIVIC, ACCORD]).link is None
+    # a fuzzy hit keeps winning unchanged
+    assert match("civic", scopes=[[CIVIC, ACCORD]], records=[CIVIC, ACCORD]).link.reason == "name"
+
+
+PUMPS = [
+    record("x1", "Pump", "HP40-1183", key="HP40-1183", model="Kettle K-9"),
+    record("x2", "Pump", "HP40-2291", key="HP40-2291", model="Kettle K-9"),
+]
+
+
+def test_a_key_in_the_mentions_own_name_decides():
+    result = match("pump HP40-1183", records=PUMPS)
+    assert result.link.record.element_id == "x1" and result.link.reason == "key"
+
+
+def test_a_key_in_a_sentence_decides_only_when_the_name_does_not():
+    sentence = "The Kettle K-9 unit HP40-2291 was regreased."
+    result = match("Kettle K-9 unit", sentences=[sentence], records=PUMPS)
+    assert result.link.record.element_id == "x2" and result.link.reason == "key_in_sentence"
+    assert result.link.evidence == sentence
+    # two keys in the sentences: nothing tells them apart
+    both = ["HP40-1183 and HP40-2291 were inspected."]
+    assert match("Kettle K-9 unit", sentences=both, records=PUMPS).link is None
+
+
+STAFF = [
+    record("s104", "Staff", "Maria Lopez", key="S-104", team="Soil Ecology"),
+    record("s219", "Staff", "Maria Lopez", key="S-219", team="Finance Office"),
+]
+
+
+def test_an_attribute_in_the_same_sentence_tells_same_named_records_apart():
+    sentence = "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka."
+    result = match("Maria Lopez", sentences=[sentence], records=STAFF)
+    assert result.link.record.element_id == "s219" and result.link.reason == "attribute"
+    assert result.link.evidence == sentence
+
+
+def test_same_named_records_without_a_telling_attribute_stay_unlinked_and_ambiguous():
+    result = match("Maria Lopez", sentences=["Maria Lopez joined the fieldwork."], records=STAFF)
+    assert result.link is None and ids_of(result.tied) == ["s104", "s219"]
+    # both attributes in one sentence tell nothing either
+    mixed = ["Maria Lopez of Soil Ecology met the Finance Office."]
+    assert match("Maria Lopez", sentences=mixed, records=STAFF).link is None

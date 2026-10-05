@@ -31,7 +31,8 @@ class ShownChunk(BaseModel):
 class LinkedNode(BaseModel):
     """A graph node a question was linked to, and how."""
 
-    # a thing is a domain node (addressed by element id), a kind an `:Entity` of the subject graph (by id)
+    # a thing is a domain node (addressed by element id), a kind an individual or a concept of the identity
+    # layer (by canonical id, R75)
     kind: Literal["thing", "kind"]
     node_id: str
     name: str

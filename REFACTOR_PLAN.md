@@ -2892,10 +2892,80 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
   (14: old schemas read as concepts, each identity issue, no keyed type without a plan, the refine loop
   sends a wrong label back, no corpus word or 4-gram in either proposer, critic or response schema);
   the pipeline test's `Product` type is keyed now. Gate: 436 passed (422 before), `ruff check` clean.
+- **Part b1: mentions and canonical entities (done 2026-10-05).** The graph's identity shape, every writer and
+  reader moved to it; no run.
+  - Shape: `text/subject_graph.py` writes `(:Mention {id, name, type, doc_id})` per type, name and document
+    (`core.identity.mention_id`), `(Chunk)-[:MENTIONS]->(Mention)`, and observations whose `SUBJECT` and
+    `OBJECT` point at mentions; a value's mention keeps its wording ("25kg"). `kg resolve` writes one
+    `(:Mention)-[:REFERS_TO {canonical, name, kind, reason, score, evidence, by}]->(entity)` per mention,
+    the entity a record, an `:Individual` or a `:Concept` (`resolution/identity_graph.py`). Readers take
+    the canonical id and name from the edge (`graph/canonical.py`, the one place the shape is written in
+    Cypher); a mention without an edge stands for itself.
+  - Identity (`resolution/identity.py`): by the type's identity class. Keyed: `resolution/records.py` (key in
+    the name; name in the scope of the document's thing, R11/R60/R67's rules moved from linking.py; a key
+    in a sentence naming the mention; a key attribute in such a sentence when names tie), tied records not
+    linked and logged as ambiguous; a keyed mention no record fits, and every individual-class mention,
+    refers to an `:Individual` of its own (cross-document joining is b2). Concepts
+    (`resolution/concepts.py`): one per type and normalised name (a value: its canonical spelling), the
+    resolver's candidates, guards, blocking, passes and canonical choice unchanged, the outcome written as
+    edges. The adjudication prompt now asks only "the same kind" (the item-or-kind choice of R41 is the
+    schema's class now) and lost its furniture list ("a part, a defect or a symptom", generality cleanups).
+  - Retired: `apoc.refactor.mergeNodes`, `snapshot`, `apply_merges`, `undo_merges`, `ResolveReport` and its
+    snapshots; `kg resolve --undo` clears the identity layer (`clear_identity`). The graph keeps every
+    observation; the fact reader (`validation/checks/base.flatten`) applies the two rules the merge used to
+    apply to the graph: a self-reference is left out, and of exact repeats (same canonical ends, predicate,
+    chunk, quote and time) the first by its own wording is read, so judge sheets keep their fact ids.
+  - Stage order: `extract -> link -> resolve -> validate` (was resolve before link): records are matched in
+    the scope of the things the documents are ABOUT, which `kg link` writes; derivation (link stage) now
+    targets the document's own mention of the thing. Rebuild recipes change accordingly.
+  - Readers: the fact reader, the ER sheet (one entity per canonical id, its mentions' names as aliases),
+    the consistency and provenance checks, the query stage's node names (a record is also known by the
+    names of its mentions: "2019 Subaru Outback" for OUTBACK), the traversal (a record's text includes the
+    claims and chunks of the mentions referring to it, so `referred_records` is gone: three patterns), the
+    plan compiler (entities by canonical id; `list what=subject` gives the canonical name), the schema
+    reader (claim patterns from mentions; the identity edges' audit fields hidden) and the text2cypher
+    prompt's description of the graph.
+  - Metrics: `extract`: `mention_nodes` replaces `entities` (one per type, name and document, a new unit).
+    `link`: the entity counts left with the matching. `resolve`: `mentions`, `mentions_to_records`,
+    `mentions_to_individuals`, `mentions_to_concepts`, `mentions_ambiguous`, `records_referred`,
+    `entities_linked` (distinct type and name among record-linked mentions: comparable with the link runs
+    before R75), `linked_by_<reason>`, `individuals`, and the concept counts under their old names
+    (`before`, `after`, `merges`, `passes`, `candidates`, `llm_adjudications`, `skipped_borderline`);
+    params gain `domain_link_threshold`. `validate`: `mentions`, `entities` (canonical), `mentions_linked_to_
+    records`, `self_references_hidden`.
+  - Gold correction (the shape, made before any output on it): `tests/gold/r75/{furniture,heldout}_gold.json`
+    are R65's files with `:Entity` read as `:Mention` in the questions, nothing else (a test checks it).
+  - Decisions taken here (not fixed by the task file), for the user to confirm: a keyed type may name
+    several plan labels (`record_labels`: furniture texts name assemblies and parts alike, and the linking
+    before R75 matched every label in scope); a keyed mention that no record fits, or that several fit, is
+    an individual of its own (the task: "no link, logged as ambiguous"); schemas without classes read every
+    type as a concept, and a type named like a plan label must be keyed, so a frozen schema needs its
+    classes added before a build.
+  - Tests: `tests/test_identity.py` (6: the flattening rules; the attribute that finds S-219, the same name
+    ambiguous and apart; one individual per document; one concept for two wordings of a number; the
+    flattening reader keeps each claim's wording; the stage's params, metrics, audit file and undo; a keyed
+    type naming a missing label refused), `tests/test_records.py` (12: the moved name rules plus key, key in
+    a sentence, attribute and ambiguity), and every Neo4j test that hand-built `:Entity` graphs rewritten
+    to mentions (resolution, derivation, linking, qualifiers, validation, ER, judge, coverage, query, R75
+    questions). Gate: 447 passed (436 after part a), `ruff check` clean.
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **(Fixed with R75 b1's rewrite of the check.) The schema check refused every number (found in R75).**
+  "consistency: every entity type is in the schema" compared entity types with `schema.entity_names()`,
+  which leaves out the built-in `Value` (R66), so every graph with a number claim failed it. The mention
+  check counts `Value` as known; no test covered the old failure.
+- **Derived claims now carry their mention's own wording (R75 b1).** Before R75 a derived claim's subject
+  was the merged entity's canonical name ("drawer rails PART_OF Linköping Bed" for the bed's "drawer
+  slides", found in R64); derivation now runs before identity and uses the mention's name, which fixes
+  that finding, but the derived fact ids of merged parts change, so verdicts of earlier runs carry over to
+  those facts by rule only (as in R68).
+- **Old gold files still query the pre-R64 or pre-R75 shapes.** `tests/gold/text_gold.json` (its R43/R46
+  tests in test_validation.py build the edge graph of R62) and `tests/gold/r65` (`:Entity`) are kept as the
+  record of their runs; the current questions are `tests/gold/r75`. Candidate for Step 9: remove the tests
+  that exercise a shape no build writes any more.
 
 - **A document that opens with a contents list gets "Contents" as its context (found in R73 a3).**
   `text/chunking.document_context` takes the first markdown heading, so `water/isolation_procedure.md`

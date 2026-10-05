@@ -60,11 +60,17 @@ CREATE (press:Press {press_id: 'P1', name: 'Quill Press', year: 2019, active: tr
        (c8:Chunk {chunk_id: 'both.md#0', text: 'Both presses.', context: 'Both'})-[:PART_OF]->(both),
        (c9:Chunk {chunk_id: 'log.md#4', text: 'On the other press.', context: 'Log'})-[:PART_OF]->(log),
        (c4)-[:ABOUT]->(ticket), (c6)-[:ABOUT]->(maker), (c7)-[:ABOUT]->(part), (c9)-[:ABOUT]->(other),
-       (wobble:Entity {id: 'k-wobble', name: 'wobbles', type: 'Condition', aliases: ['wobbling']}),
-       (spindle:Entity {id: 'k-spindle', name: 'spindle', type: 'Component', aliases: ['spindle']}),
+       (wobble:Concept {id: 'k-wobble', name: 'wobbles', type: 'Condition'}),
+       (wobbles:Mention {id: 'm-wobbles', name: 'wobbles', type: 'Condition', doc_id: 'notes.md'})
+         -[:REFERS_TO {canonical: 'k-wobble', name: 'wobbles', kind: 'concept'}]->(wobble),
+       (wobbling:Mention {id: 'm-wobbling', name: 'wobbling', type: 'Condition', doc_id: 'log.md'})
+         -[:REFERS_TO {canonical: 'k-wobble', name: 'wobbles', kind: 'concept'}]->(wobble),
+       (spindle:Mention {id: 'm-spindle', name: 'spindle', type: 'Component', doc_id: 'notes.md'})
+         -[:REFERS_TO {canonical: 'Part:S1', name: 'Spindle', kind: 'record', reason: 'name'}]->(part),
        (o1:Observation {id: 'o1', predicate: 'HAS_CONDITION', polarity: 'negative'}),
-       (o1)-[:SUBJECT]->(spindle), (o1)-[:OBJECT]->(wobble), (o1)-[:FROM]->(c1),
-       (press)-[:HAS_OBSERVATION]->(o1), (c5)-[:MENTIONS]->(wobble), (spindle)-[:REFERS_TO]->(part)
+       (o1)-[:SUBJECT]->(spindle), (o1)-[:OBJECT]->(wobbles), (o1)-[:FROM]->(c1),
+       (press)-[:HAS_OBSERVATION]->(o1), (c1)-[:MENTIONS]->(spindle), (c1)-[:MENTIONS]->(wobbles),
+       (c5)-[:MENTIONS]->(wobbling)
 """
 
 
@@ -80,22 +86,33 @@ def build(driver) -> dict[str, str]:
 
 def test_each_traversal_pattern_reaches_the_chunks_of_its_own_path(driver):
     ids = build(driver)
-    reached = Neo4jGraphStore(driver, PLAN, hops=2).reach([ids["Quill Press"]], ["k-wobble", "k-spindle"])
+    reached = Neo4jGraphStore(driver, PLAN, hops=2).reach([ids["Quill Press"]], ["k-wobble"])
     # the press's observations and the documents about it
     assert reached["thing_observations"] == {"notes.md#0", "notes.md#1", "both.md#0"}
-    # the claims with a kind at either end, and the chunks that mention a kind
+    # the claims whose mentions refer to the kind, and the chunks that mention it in either spelling
     assert reached["kind_observations"] == {"notes.md#0", "log.md#1"}
-    # part and ticket one hop away, the maker two; the other press only through a document: not related
-    assert reached["related_records"] == {"record/Ticket/T-1#0", "log.md#0", "log.md#2", "log.md#3"}
-    # the kind "spindle" refers to the part record
-    assert reached["referred_records"] == {"log.md#3"}
+    # part and ticket one hop away, the maker two, and the claim naming the part (its mention refers to the
+    # part record, R75); the other press only through a document: not related
+    assert reached["related_records"] == {
+        "record/Ticket/T-1#0", "log.md#0", "log.md#2", "log.md#3", "notes.md#0",
+    }  # fmt: skip
+    assert set(reached) == {"thing_observations", "kind_observations", "related_records"}
+
+
+def test_a_record_reaches_the_claims_and_chunks_of_the_mentions_that_refer_to_it(driver):
+    """R75: "the spindle" of the notes refers to the part record, so the part's text holds that claim; until
+    R75 a kind reached its record through a pattern of its own (`referred_records`)."""
+    ids = build(driver)
+    reached = Neo4jGraphStore(driver, PLAN, hops=1).reach([ids["Spindle"]], [])
+    assert reached["thing_observations"] == {"log.md#3", "notes.md#0"}
 
 
 def test_the_hop_limit_bounds_the_related_records(driver):
     ids = build(driver)
     reached = Neo4jGraphStore(driver, PLAN, hops=1).reach([ids["Quill Press"]], [])
-    assert reached["related_records"] == {"record/Ticket/T-1#0", "log.md#0", "log.md#3"}  # no maker
-    assert reached["kind_observations"] == set() and reached["referred_records"] == set()
+    # no maker; the claim naming the part comes with the part (R75)
+    assert reached["related_records"] == {"record/Ticket/T-1#0", "log.md#0", "log.md#3", "notes.md#0"}
+    assert reached["kind_observations"] == set()
 
 
 def test_the_store_reads_node_names_and_chunks_in_the_order_asked(driver):
@@ -103,7 +120,10 @@ def test_the_store_reads_node_names_and_chunks_in_the_order_asked(driver):
     store = Neo4jGraphStore(driver, PLAN, hops=2)
     names = {(n.kind, n.name, tuple(n.aliases)) for n in store.node_names()}
     assert ("thing", "Quill Press", ()) in names and ("thing", "T-1", ()) in names  # a key names a ticket
-    assert ("kind", "wobbles", ("wobbling",)) in names
+    # a record is also known by the names of its mentions; a kind by every spelling of its mentions
+    assert ("thing", "Spindle", ("spindle",)) in names
+    assert ("kind", "wobbles", ("wobbles", "wobbling")) in names
+    assert not [n for n in store.node_names() if n.kind == "kind" and n.name == "Spindle"]
     chunks = store.chunks(["notes.md#1", "missing#0", "notes.md#0"])
     assert [c.chunk_id for c in chunks] == ["notes.md#1", "notes.md#0"]
     assert chunks[1].context == "Quill Press notes" and chunks[1].embedding == [1.0, 0.0]
@@ -194,8 +214,14 @@ def test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns(
     assert [(c.subject_type, c.predicate, c.object_type) for c in schema.claims] == [
         ("Component", "HAS_CONDITION", "Condition")
     ]
-    kind = next(info for info in schema.labels if info.label == "Entity")
-    assert "aliases (LIST<STRING>) e.g. ['spindle'], ['wobbling']" in text and kind.count == 2
+    mention = next(info for info in schema.labels if info.label == "Mention")
+    # the identity edges with what they point at: a concept or a record (R75)
+    assert (
+        mention.count == 3
+        and "kind (STRING) e.g. 'record'" in text
+        and "kind (STRING) e.g. 'concept'" in text
+    )
+    assert "reason" not in {p.name for r in schema.relationships for p in r.properties}  # audit fields hidden
 
 
 class AxisEmbedder:
@@ -262,8 +288,8 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
         "Which press": [plan({"op": "answer_from_chunks"})],
         "How many": [
             plan({"op": "filter_records", "label": "Note"}, {"op": "count", "input": 0}),
-            plan(
-                {"op": "find_entity", "name": "spindle", "label": "Component"},
+            plan(  # the spindle is a part record its mention refers to (R75)
+                {"op": "find_entity", "name": "spindle", "label": "Part"},
                 {"op": "find_claims", "input": 0},
                 {"op": "count", "input": 1, "unit": "documents"},
             ),
@@ -319,8 +345,8 @@ def test_the_record_layer_of_a_real_graph_leaves_out_documents_chunks_and_claims
     assert {r.type for r in records.relationships} == {"PART_OF", "MADE_BY", "CONCERNS"}
     # PART_OF stays allowed: it joins a part to its press, though it also joins chunks to documents
     assert schema.names_outside(labels) == {
-        "Chunk", "Document", "Entity", "Observation", "ABOUT", "FROM", "HAS_OBSERVATION", "MENTIONS",
-        "OBJECT", "REFERS_TO", "SUBJECT",
+        "Chunk", "Concept", "Document", "Mention", "Observation", "ABOUT", "FROM", "HAS_OBSERVATION",
+        "MENTIONS", "OBJECT", "REFERS_TO", "SUBJECT",
     }  # fmt: skip
 
 

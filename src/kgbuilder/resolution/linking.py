@@ -1,23 +1,21 @@
-"""Link the three graphs: `(Document)-[:ABOUT]->(domain node)`, `(Chunk)-[:ABOUT]->(record)`,
-`(Entity)-[:REFERS_TO]->(domain node)` and `(thing)-[:HAS_OBSERVATION]->(Observation)`.
+"""Link the text graph to the domain graph: `(Document)-[:ABOUT]->(domain node)`, `(Chunk)-[:ABOUT]->(record)`
+and `(thing)-[:HAS_OBSERVATION]->(Observation)`.
 
-Role in the pipeline: `kg link`, after the domain graph, the lexical graph and the subject graph exist.
-Design: three separated steps: read names and contexts from Neo4j, match in pure functions (unit-tested
-without a database), write the links in batches. Entities are matched inside the *scope* of the domain
-node their documents are about, because generic names repeat across the domain ("Legs" is an assembly of
-every chair and table); only names that are unique in the whole domain graph are linked without a scope.
-No LLM: links are a name contained in a file name, a near-exact fuzzy name match, a node name contained
-whole-word in an entity's name within its documents' scope (R60's rule, in linking since R67), or - for a
-record document or a section heading naming a record's key (R67) - the record's own key.
-An observation belongs to the thing its chunk's document is ABOUT (R64) and, since R67, also to the
-record its own section is ABOUT: code decides what a claim is about, never the model, and never through
-a shared kind node, which is what made one product's defects reachable from another in R62.
-Not here: merging entities with each other (resolver.py).
+Role in the pipeline: `kg link`, after the domain graph, the lexical graph and the subject graph exist, and
+before `kg resolve` (R75): the identity stage matches mentions to records inside the scope of the things
+their documents are ABOUT, so those links come first.
+Design: read names and contexts from Neo4j, match in pure functions (unit-tested without a database), write
+the links in batches. No LLM: a document is ABOUT the domain node whose name its file name contains, or -
+for a record document - the record of its own key; a section whose heading names a record's key is ABOUT
+that record (R67).
+An observation belongs to the thing its chunk's document is ABOUT (R64) and also to the record its own
+section is ABOUT (R67): code decides what a claim is about, never the model, and never through a shared
+kind node, which is what made one product's defects reachable from another in R62.
+Not here: what a mention refers to (records.py and identity.py, R75; until R75 entities were linked here).
 """
 
 from neo4j import Driver
 from pydantic import BaseModel
-from rapidfuzz import fuzz
 
 from ..core.cypher import cypher_ident
 from ..core.text import norm, squash
@@ -26,11 +24,6 @@ from ..structured.plan import ConstructionPlan, name_property
 # Names shorter than this, once squashed, are too likely to occur inside an unrelated file name ("bed"
 # in "embedded_notes") to be trusted for document linking.
 _MIN_NAME_CHARS_FOR_DOCUMENT_MATCH = 4
-
-# How far from a document's domain node an entity of that document may link, counted in domain
-# relationships. 2 reaches a product's assemblies and their parts, but not the suppliers of those parts
-# (3): a review names the parts it complains about, not who made them.
-_SCOPE_HOPS = 2
 
 # A record key shorter than this, once squashed, is too likely to appear in a heading by accident
 # ("P1" inside "## Part 1") to be trusted for section linking.
@@ -45,20 +38,6 @@ class DomainNode(BaseModel):
     name: str
 
 
-class EntityMatch(BaseModel):
-    node: DomainNode
-    score: float  # rapidfuzz token_sort_ratio, 0..100
-
-
-class EntityLinks(BaseModel):
-    """The outcome of linking one entity: its links, and how they were found."""
-
-    matches: list[EntityMatch]  # one per scope it matched in; at most one when not scoped
-    scoped: bool  # found inside the scope of the entity's documents
-    ambiguous: bool  # a match existed but several nodes tied for it, so nothing was linked
-    by_containment: bool = False  # at least one match found by whole-word containment (R67)
-
-
 class LinkReport(BaseModel):
     """Counts of one linking run. Metric names in MLflow; keep them stable."""
 
@@ -66,11 +45,6 @@ class LinkReport(BaseModel):
     documents_total: int
     record_documents_linked: int  # documents built from a record, linked to it by key (R67)
     chunks_linked: int  # chunks ABOUT a record because their heading names its key (R67)
-    entities_linked: int  # entities with at least one REFERS_TO
-    entities_linked_in_scope: int
-    entities_linked_by_containment: int  # linked because their name contains the node's name (R67)
-    entities_ambiguous: int
-    entity_links: int  # REFERS_TO relationships; above entities_linked when a name recurs across scopes
 
 
 def match_document(title: str, domain: list[DomainNode]) -> DomainNode | None:
@@ -86,82 +60,6 @@ def match_document(title: str, domain: list[DomainNode]) -> DomainNode | None:
         if len(squash(n.name)) >= _MIN_NAME_CHARS_FOR_DOCUMENT_MATCH and squash(n.name) in stem
     ]
     return max(hits, key=lambda n: len(squash(n.name)), default=None)
-
-
-def match_entity(names: list[str], nodes: list[DomainNode], threshold: float) -> list[EntityMatch]:
-    """All nodes that share the best score for an entity (its name and aliases), if it reaches `threshold`.
-
-    One result is a match; several mean the name is ambiguous among `nodes`; none means no match.
-    token_sort_ratio ignores word order ("Chair Stockholm" = "Stockholm Chair") but not extra words, so
-    with a threshold around 90 only near-exact names link, which is the intent: a wrong REFERS_TO is
-    worse than a missing one.
-    """
-    candidates = {norm(n) for n in names if norm(n)}
-    if not candidates:
-        return []
-    scored = [
-        EntityMatch(node=node, score=max(fuzz.token_sort_ratio(c, norm(node.name)) for c in candidates))
-        for node in nodes
-    ]
-    best = max((m.score for m in scored), default=0.0)
-    return [m for m in scored if m.score == best] if best >= threshold else []
-
-
-def contain_entity(names: list[str], nodes: list[DomainNode]) -> list[EntityMatch]:
-    """All nodes whose whole name occurs word-for-word inside one of the entity's names, longest name only.
-
-    R60's containment rule, in linking since R67: the plan names a node by one column ("CIVIC", the
-    `model`) while the text writes it in full ("2016 Honda Civic"), which no fuzzy threshold can accept
-    without accepting garbage too. Whole words, so "ESCAPE" never matches "escaped"; names shorter than
-    the document-match bound are skipped for the same reason as there; the longest contained name wins
-    ("Coffee Table" over "Table"), and several nodes tied for it mean the name is ambiguous.
-    """
-    entity_words = [set(norm(n).split()) for n in names if norm(n)]
-    hits = [
-        node
-        for node in nodes
-        if len(squash(node.name)) >= _MIN_NAME_CHARS_FOR_DOCUMENT_MATCH
-        and any(set(norm(node.name).split()) <= words for words in entity_words)
-    ]
-    if not hits:
-        return []
-    best = max(len(squash(n.name)) for n in hits)
-    # score 100: the node's full name is present verbatim, which is stronger than any fuzzy score
-    return [EntityMatch(node=n, score=100.0) for n in hits if len(squash(n.name)) == best]
-
-
-def link_entity(
-    names: list[str], scopes: list[list[DomainNode]], domain: list[DomainNode], threshold: float
-) -> EntityLinks:
-    """Link one entity: inside each scope of its documents first, else in the whole domain graph.
-
-    A scope is the neighbourhood of a node the entity's documents are ABOUT. An entity mentioned in the
-    reviews of two products gets one link per product it matches in, so "legs" in the chair reviews and
-    "legs" in the table reviews point at the chair's and the table's legs. Inside a scope, a name that no
-    fuzzy match finds may still contain a node's whole name (`contain_entity`); outside every scope, only
-    a name that is unique in the domain graph is linked, and containment is not trusted at all (a scope
-    vouches that the document is about the node's neighbourhood, the whole domain vouches for nothing).
-    """
-    matches: dict[str, EntityMatch] = {}
-    ambiguous = False
-    by_containment = False
-    for scope in scopes:
-        found = match_entity(names, scope, threshold)
-        if not found:  # fuzzy said nothing at all; an ambiguous fuzzy tie is not overridden
-            found = contain_entity(names, scope)
-            by_containment |= len(found) == 1
-        if len(found) == 1:
-            matches.setdefault(found[0].node.element_id, found[0])
-        ambiguous |= len(found) > 1
-    if matches:
-        return EntityLinks(
-            matches=list(matches.values()), scoped=True, ambiguous=False, by_containment=by_containment
-        )
-
-    found = match_entity(names, domain, threshold)
-    if len(found) == 1:
-        return EntityLinks(matches=found, scoped=False, ambiguous=False)
-    return EntityLinks(matches=[], scoped=False, ambiguous=ambiguous or len(found) > 1)
 
 
 class RecordKey(BaseModel):
@@ -214,33 +112,13 @@ def read_domain_nodes(driver: Driver, plan: ConstructionPlan) -> list[DomainNode
     return nodes
 
 
-def read_scopes(driver: Driver, anchor_ids: list[str], labels: list[str]) -> dict[str, set[str]]:
-    """For each anchor node, the element ids of the domain nodes within `_SCOPE_HOPS` of it (itself included).
-
-    Every node on the path must be a domain node: otherwise a path could run through a Document or an
-    Entity (anchor <-ABOUT- document, or <-REFERS_TO- entity -REFERS_TO-> elsewhere) and leak scopes.
-    """
-    if not anchor_ids:
-        return {}
-    records, _, _ = driver.execute_query(
-        # the hop bound cannot be a parameter; it is our own integer constant, not user input
-        f"MATCH (a) WHERE elementId(a) IN $ids MATCH p = (a)-[*0..{_SCOPE_HOPS}]-(n) "
-        "WHERE all(x IN nodes(p) WHERE any(l IN labels(x) WHERE l IN $labels)) "
-        "RETURN elementId(a) AS anchor, collect(DISTINCT elementId(n)) AS scope",
-        ids=anchor_ids,
-        labels=labels,
-    )
-    return {r["anchor"]: set(r["scope"]) for r in records}
-
-
-def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0) -> LinkReport:
-    """Recompute all ABOUT and REFERS_TO links. Idempotent; returns counts of what was linked."""
+def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
+    """Recompute all ABOUT links of documents and chunks. Idempotent; returns counts of what was linked."""
     domain = read_domain_nodes(driver, plan)
     # Links are derived data: recomputing them from scratch keeps a rerun (after a new plan, a resolve or
     # an undo) from keeping links that the current graph no longer supports.
     driver.execute_query("MATCH (:Document)-[l:ABOUT]->() DELETE l")
     driver.execute_query("MATCH (:Chunk)-[l:ABOUT]->() DELETE l")
-    driver.execute_query("MATCH (:Entity)-[l:REFERS_TO]->() DELETE l")
 
     documents, _, _ = driver.execute_query(
         "MATCH (d:Document) RETURN d.doc_id AS id, d.title AS title, d.record_label AS record_label, "
@@ -272,44 +150,11 @@ def link_graphs(driver: Driver, plan: ConstructionPlan, threshold: float = 90.0)
     ]
     _write_links(driver, "(src:Chunk {chunk_id: r.src})", "ABOUT", chunk_rows)
 
-    # the documents each entity is mentioned in, reduced to the domain nodes they are ABOUT
-    entities, _, _ = driver.execute_query(
-        "MATCH (e:Entity) "
-        "OPTIONAL MATCH (e)<-[:MENTIONS]-(:Chunk)-[:PART_OF]->(:Document)-[:ABOUT]->(a) "
-        "RETURN e.id AS id, e.name AS name, coalesce(e.aliases, []) AS aliases, "
-        "collect(DISTINCT elementId(a)) AS anchors"
-    )
-    anchor_ids = sorted({a for e in entities for a in e["anchors"]})
-    scope_ids = read_scopes(driver, anchor_ids, [rule.label for rule in plan.nodes])
-    scopes = {anchor: [n for n in domain if n.element_id in ids] for anchor, ids in scope_ids.items()}
-
-    results = {
-        e["id"]: link_entity(
-            [e["name"], *e["aliases"]], [scopes.get(a, []) for a in e["anchors"]], domain, threshold
-        )
-        for e in entities
-    }
-    entity_rows = [
-        {
-            "src": eid,
-            "dst": m.node.element_id,
-            "props": {"score": m.score, "scoped": r.scoped, "contained": r.by_containment},
-        }
-        for eid, r in results.items()
-        for m in r.matches
-    ]
-    _write_links(driver, "(src:Entity {id: r.src})", "REFERS_TO", entity_rows)
-
     return LinkReport(
         documents_linked=len(document_rows) + records_linked,
         documents_total=len(documents),
         record_documents_linked=records_linked,
         chunks_linked=len({row["src"] for row in chunk_rows}),
-        entities_linked=sum(bool(r.matches) for r in results.values()),
-        entities_linked_in_scope=sum(r.scoped for r in results.values()),
-        entities_linked_by_containment=sum(r.by_containment for r in results.values()),
-        entities_ambiguous=sum(r.ambiguous for r in results.values()),
-        entity_links=len(entity_rows),
     )
 
 

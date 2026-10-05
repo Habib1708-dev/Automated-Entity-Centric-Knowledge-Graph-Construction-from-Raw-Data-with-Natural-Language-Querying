@@ -139,8 +139,9 @@ def test_claims_are_found_about_a_record_its_parts_or_an_entity_and_listed_or_co
         {"op": "find_claims", "input": 0, "predicate": "HAS_CONDITION"},
         {"op": "list", "input": 1, "what": "subject"},
     )
-    assert subjects.entities == ["spindle"]
-    # the part's claim: its entity refers to the part, so the claim is found from the part record too
+    # the subject's canonical entity: the notes' "spindle" refers to the part record "Spindle" (R75)
+    assert subjects.entities == ["Spindle"]
+    # the part's claim: its mention refers to the part, so the claim is found from the part record too
     from_part = run(
         r,
         schema,

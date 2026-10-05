@@ -2,7 +2,9 @@
 
 Role in the pipeline: plan_run.py runs a checked plan (plan.py) step by step; every query it sends comes
 from a function here, never from a model. A step's items travel between steps as ids, one id space per
-kind: a record's element id, an entity's `id`, a claim's (observation's) `id`, a chunk's `chunk_id`.
+kind: a record's element id, an entity's canonical id (R75: an individual's or a concept's, which its
+mentions carry on their identity edge, graph/canonical.py), a claim's (observation's) `id`, a chunk's
+`chunk_id`.
 Design: pure functions returning `(cypher, parameters)`, so each fragment is tested as text and once against
 Neo4j. Labels, relationship types and property keys go through `cypher_ident`; every value is a parameter.
 How a value is compared follows the property's own type (`PropertyInfo.type`): a DATE by `date()` or its
@@ -16,6 +18,7 @@ Not here: which fragment a step needs and in what order (plan_run.py), checking 
 from typing import Literal
 
 from ..core.cypher import cypher_ident
+from ..graph.canonical import canonical_id, canonical_name
 from .graph_schema import PropertyInfo
 from .plan import Operator, Tone
 
@@ -28,8 +31,9 @@ _NON_NUMERIC = r"[^0-9.\-]"
 _COMPARISONS = {"=": "=", "!=": "<>", "<": "<", "<=": "<=", ">": ">", ">=": ">="}
 
 # The text of each kind of item: what read_check and answer_from_chunks read. A record's text: the chunks its
-# claims come from, the documents about it and the sections about it (as traversal.py's thing patterns); an
-# entity's: the chunks of the claims that name it and the chunks that mention it; a claim's: its own chunk.
+# claims come from, the documents about it, the sections about it and the claims of the mentions that refer
+# to it (as traversal.py's thing patterns); an entity's: the chunks of the claims whose mentions refer to it
+# and the chunks that mention it; a claim's: its own chunk.
 _ITEM_CHUNKS: dict[str, list[str]] = {
     "record": [
         "MATCH (t) WHERE elementId(t) IN $ids "
@@ -39,12 +43,16 @@ _ITEM_CHUNKS: dict[str, list[str]] = {
         "RETURN DISTINCT elementId(t) AS item, c.chunk_id AS chunk",
         "MATCH (t) WHERE elementId(t) IN $ids MATCH (t)<-[:ABOUT]-(c:Chunk) "
         "RETURN DISTINCT elementId(t) AS item, c.chunk_id AS chunk",
+        "MATCH (t) WHERE elementId(t) IN $ids "
+        "MATCH (t)<-[:REFERS_TO]-(:Mention)<-[:SUBJECT|OBJECT]-(:Observation)-[:FROM]->(c:Chunk) "
+        "RETURN DISTINCT elementId(t) AS item, c.chunk_id AS chunk",
     ],
     "entity": [
-        "MATCH (e:Entity) WHERE e.id IN $ids MATCH (e)<-[:SUBJECT|OBJECT]-(:Observation)-[:FROM]->(c:Chunk) "
-        "RETURN DISTINCT e.id AS item, c.chunk_id AS chunk",
-        "MATCH (e:Entity) WHERE e.id IN $ids MATCH (e)<-[:MENTIONS]-(c:Chunk) "
-        "RETURN DISTINCT e.id AS item, c.chunk_id AS chunk",
+        f"MATCH (m:Mention) WITH m, {canonical_id('m')} AS item WHERE item IN $ids "
+        "MATCH (m)<-[:SUBJECT|OBJECT]-(:Observation)-[:FROM]->(c:Chunk) "
+        "RETURN DISTINCT item, c.chunk_id AS chunk",
+        f"MATCH (m:Mention) WITH m, {canonical_id('m')} AS item WHERE item IN $ids "
+        "MATCH (m)<-[:MENTIONS]-(c:Chunk) RETURN DISTINCT item, c.chunk_id AS chunk",
     ],
     "claim": [
         "MATCH (o:Observation)-[:FROM]->(c:Chunk) WHERE o.id IN $ids "
@@ -170,21 +178,23 @@ def find_claims(
     time_words: str | None,
     cap: int,
 ) -> Fragment:
-    """The claims about the records (attached to them, or naming an entity that refers to one) or naming
-    the entities, narrowed by predicate, subject and object entities, tone and time; None leaves a part
-    out."""
+    """The claims about the records (attached to them, or with a mention that refers to one) or naming the
+    entities (a mention that refers to one), narrowed by predicate, subject and object entities, tone and
+    time; None leaves a part out."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
     if records is not None:
         about.append("EXISTS { MATCH (t)-[:HAS_OBSERVATION]->(o) WHERE elementId(t) IN $records }")
         about.append(
-            "EXISTS { MATCH (o)-[:SUBJECT|OBJECT]->(:Entity)-[:REFERS_TO]->(t) "
+            "EXISTS { MATCH (o)-[:SUBJECT|OBJECT]->(:Mention)-[:REFERS_TO]->(t) "
             "WHERE elementId(t) IN $records }"
         )
         params["records"] = records
     if entities is not None:
-        about.append("EXISTS { MATCH (o)-[:SUBJECT|OBJECT]->(e:Entity) WHERE e.id IN $entities }")
+        about.append(
+            f"EXISTS {{ MATCH (o)-[:SUBJECT|OBJECT]->(e:Mention) WHERE {canonical_id('e')} IN $entities }}"
+        )
         params["entities"] = entities
     if about:
         where.append("(" + " OR ".join(about) + ")")
@@ -192,10 +202,10 @@ def find_claims(
         where.append("o.predicate = $predicate")
         params["predicate"] = predicate
     if subjects is not None:
-        where.append("EXISTS { MATCH (o)-[:SUBJECT]->(s:Entity) WHERE s.id IN $subjects }")
+        where.append(f"EXISTS {{ MATCH (o)-[:SUBJECT]->(s:Mention) WHERE {canonical_id('s')} IN $subjects }}")
         params["subjects"] = subjects
     if objects is not None:
-        where.append("EXISTS { MATCH (o)-[:OBJECT]->(x:Entity) WHERE x.id IN $objects }")
+        where.append(f"EXISTS {{ MATCH (o)-[:OBJECT]->(x:Mention) WHERE {canonical_id('x')} IN $objects }}")
         params["objects"] = objects
     if tone is not None:
         where.append("o.polarity = $tone")
@@ -240,10 +250,12 @@ def claims_about(ids: list[str]) -> Fragment:
 
 
 def claim_ends(ids: list[str], end: Literal["subject", "object"]) -> Fragment:
-    """Rows of (claim, name): the canonical name of each claim's subject or object entity."""
+    """Rows of (claim, name): the canonical name of each claim's subject or object (R75: the entity its
+    mention refers to)."""
     rel = "SUBJECT" if end == "subject" else "OBJECT"
     return (
-        f"MATCH (o:Observation)-[:{rel}]->(e:Entity) WHERE o.id IN $ids RETURN o.id AS item, e.name AS name",
+        f"MATCH (o:Observation)-[:{rel}]->(e:Mention) WHERE o.id IN $ids "
+        f"RETURN o.id AS item, {canonical_name('e')} AS name",
         {"ids": ids},
     )
 

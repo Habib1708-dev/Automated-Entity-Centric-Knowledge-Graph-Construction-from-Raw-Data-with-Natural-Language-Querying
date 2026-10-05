@@ -18,8 +18,9 @@ from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
 from ..llm.base import Embedder, LLMClient
 from ..query.answers import SystemAnswer
+from ..resolution.identity import IdentityReport
 from ..resolution.linking import LinkReport
-from ..resolution.resolver import ResolvePreview, ResolveReport
+from ..resolution.resolver import ResolvePreview
 from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
 from ..text.chunking import Chunk
@@ -94,7 +95,7 @@ class PipelineState:
     text_schema: TextSchema | None = None
 
     extraction: ExtractionResult | None = None
-    resolution: ResolveReport | None = None
+    resolution: IdentityReport | None = None
     resolve_preview: ResolvePreview | None = None
     links: LinkReport | None = None
     validation: ValidationReport | None = None

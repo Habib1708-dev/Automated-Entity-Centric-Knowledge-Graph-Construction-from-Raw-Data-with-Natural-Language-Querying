@@ -18,7 +18,8 @@ from pydantic import BaseModel
 from ..core.cypher import cypher_ident
 
 # Properties never shown: text and vectors that no filter or count needs, and that would crowd out the rest
-_HIDDEN_PROPERTIES = {"embedding", "text", "evidence", "context"}
+# The identity edges' audit fields (R75: reason, score, by) are left out for the same reason
+_HIDDEN_PROPERTIES = {"embedding", "text", "evidence", "context", "reason", "score", "by"}
 _EXAMPLES = 3  # example values per property: enough to show a format ("2019", "POWER TRAIN:...")
 _EXAMPLE_CHARS = 60  # an example longer than this is cut: it shows the format, not the content
 
@@ -190,7 +191,7 @@ def _relationships(driver: Driver) -> list[RelationshipInfo]:
 
 def _claims(driver: Driver) -> list[ClaimInfo]:
     records, _, _ = driver.execute_query(
-        "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
+        "MATCH (s:Mention)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Mention) "
         # a claim missing a part names no pattern; extraction never writes one, a hand edit might
         "WHERE o.predicate IS NOT NULL AND s.type IS NOT NULL AND t.type IS NOT NULL "
         "RETURN s.type AS s, o.predicate AS p, t.type AS t, count(*) AS n ORDER BY n DESC, p"

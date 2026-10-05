@@ -3,7 +3,7 @@
 
 Role in the pipeline: called by `evaluate` (evaluate.py) for the `er_pairs` section of a gold file. A gold
 pair says whether two names are the same real-world thing; the graph gets it right when both names land
-on one entity (`same`) or on two (`not same`).
+on one canonical entity (`same`) or on two (`not same`); a name lands on the entity its mentions refer to.
 A pair is scored only when the graph contains both things. A name the extractor never produced is not a
 resolution error, so it is counted apart as "not extracted" instead of as "not merged" (the flaw found
 in R29: 3 of 4 failing pairs named an entity that did not exist).
@@ -24,7 +24,7 @@ from .gold import GoldPair
 
 
 class SheetEntity(BaseModel):
-    """One `:Entity` of the graph as the judge sees it."""
+    """One canonical entity of the graph (R75: a record, an individual or a concept) as the judge sees it."""
 
     id: str
     type: str

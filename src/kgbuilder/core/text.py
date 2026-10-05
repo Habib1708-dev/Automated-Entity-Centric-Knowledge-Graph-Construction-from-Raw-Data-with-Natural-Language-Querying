@@ -48,9 +48,29 @@ def pick_sentence(text: str, names: list[str]) -> str | None:
     alias merged from another chunk). Used for a derived fact's quote and for the entity-resolution
     context: both must show what the chunk really says, never an invented sentence.
     """
+    return next(iter(sentences_naming(text, names)), None)
+
+
+def sentences_naming(text: str, names: list[str]) -> list[str]:
+    """Every sentence of `text` containing one of `names` (compared with `norm`), verbatim, in order.
+
+    The identity stage (R75) reads all of them: a record's key or a telling attribute ("Maria Lopez
+    (Finance Office)") may stand in any sentence that names the mention, not only the first.
+    """
     wanted = [norm(name) for name in names if norm(name)]
+    found = []
     for sentence in _SENTENCE_END.split(text):
         sentence = sentence.strip()
         if sentence and any(w in norm(sentence) for w in wanted):
-            return sentence
-    return None
+            found.append(sentence)
+    return found
+
+
+def contains_words(text: str, phrase: str) -> bool:
+    """True when `phrase` occurs in `text` as whole words, both compared with `norm`: "Finance Office"
+    is in "Maria Lopez (Finance Office) presented", "ESCAPE" is not in "the car escaped"."""
+    wanted = norm(phrase)
+    if not wanted:
+        return False
+    # (?<![a-z0-9]) and (?![a-z0-9]): the phrase may not start or end inside a longer word or number
+    return re.search(rf"(?<![a-z0-9]){re.escape(wanted)}(?![a-z0-9])", norm(text)) is not None

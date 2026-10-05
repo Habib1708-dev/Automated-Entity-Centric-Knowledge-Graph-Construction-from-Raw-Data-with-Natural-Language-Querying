@@ -10,15 +10,19 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
-from ..core.errors import InvalidPlanError, MissingInputError, ProposalRejectedError
+from ..core.errors import InvalidPlanError, ProposalRejectedError
+from ..core.text import norm
 from ..llm.base import prompt_version
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
-from ..resolution import resolver
+from ..resolution import concepts
 from ..resolution.blocking import Blocking, blocking_from
 from ..resolution.derivation import DerivationReport, derive_facts
+from ..resolution.identity import IdentityReport, IdentitySettings, resolve_identity
+from ..resolution.identity_graph import clear_identity
 from ..resolution.linking import attach_observations, link_graphs
 from ..resolution.matchers import EmbeddingMatcher, FuzzyNameMatcher
+from ..resolution.mentions import read_mentions
 from ..structured import proposer
 from ..structured.importer import BATCH_SIZE, construct_domain_graph
 from ..structured.plan import validate_plan
@@ -87,6 +91,35 @@ def _er_settings(ctx: PipelineContext) -> dict[str, object]:
         "er_neighbours": s.er_neighbours,
         "embed_model": s.embed_model if ctx.embedder is not None else None,
     }
+
+
+def _identity_metrics(report: IdentityReport) -> dict[str, float]:
+    """The metrics of an identity run (R75): where the mentions went, and the concept decisions as before."""
+    to_records = [a for a in report.assignments if a.kind == "record"]
+    return {
+        "mentions": report.mentions,
+        "mentions_to_records": len(to_records),
+        "mentions_to_individuals": report.count("individual"),
+        "mentions_to_concepts": report.count("concept"),
+        "mentions_ambiguous": len(report.ambiguous),
+        "records_referred": len({a.canonical for a in to_records}),
+        # comparable with `entities_linked` of the link runs before R75, which counted entities (one per
+        # type and name) with a link: here the distinct types and names among the linked mentions
+        "entities_linked": len({(a.type, norm(a.said)) for a in to_records}),
+        **{f"linked_by_{reason}": sum(a.reason == reason for a in to_records) for reason in _LINK_REASONS},
+        "individuals": len({a.canonical for a in report.assignments if a.kind == "individual"}),
+        # the names before R75's metrics kept, now counting concepts
+        "before": report.concepts_before,
+        "after": report.concepts_after,
+        "merges": report.merges,
+        "passes": report.passes,
+        "candidates": len(report.decisions),
+        "llm_adjudications": sum(d.action.startswith("llm_") for d in report.decisions),
+        "skipped_borderline": sum(d.action == "skipped_borderline" for d in report.decisions),
+    }
+
+
+_LINK_REASONS = ("key", "name", "contained", "key_in_sentence", "attribute")
 
 
 def _er_blocking(ctx: PipelineContext) -> Blocking | None:
@@ -354,7 +387,8 @@ class ExtractStage(_TextStage):
 
 
 class ResolveStage(_TextStage):
-    """Merge duplicate entities. Works without an LLM; borderline pairs are then left unmerged."""
+    """Decide what every mention refers to (R75): a record, an individual or a concept, written as identity
+    edges. Works without an LLM; borderline concept pairs are then left apart."""
 
     name = "resolve"
 
@@ -362,36 +396,35 @@ class ResolveStage(_TextStage):
         s = ctx.settings
         return {
             **_er_settings(ctx),
+            "domain_link_threshold": s.domain_link_threshold,
             "model": s.extract_model,
             "thinking": s.extract_thinking,
-            "prompt_version": prompt_version(resolver.ADJUDICATE_PROMPT),
+            "prompt_version": prompt_version(concepts.ADJUDICATE_PROMPT),
             "llm_adjudication": int(ctx.llm is not None),
         }
 
     def run(self, ctx, state, run):
         s = ctx.settings
-        report = resolver.resolve_entities(
+        schema = state.load_text_schema(ctx, required=False)
+        plan = state.load_plan(ctx, required=False)
+        issues = text_schema.identity_issues(schema, plan) if schema is not None else []
+        if issues:  # a keyed type must name labels the plan has, or no record could be found for it
+            raise ProposalRejectedError("text schema identity classes", issues)
+        report = resolve_identity(
             ctx.driver,
+            schema,
+            plan,
             with_thinking(ctx.llm, s.extract_thinking) if ctx.llm else None,
             s.extract_model,
-            s.er_auto_merge,
-            s.er_borderline,
+            IdentitySettings(
+                auto_merge=s.er_auto_merge, borderline=s.er_borderline, link_threshold=s.domain_link_threshold
+            ),
             ctx.embedder,
             _er_blocking(ctx),
         )
         state.resolution = report
-        run.metrics(
-            before=report.entities_before,
-            after=report.entities_after,
-            merges=report.merges,
-            passes=report.passes,
-            candidates=len(report.decisions),
-            llm_adjudications=sum(d.action.startswith("llm_") for d in report.decisions),
-            skipped_borderline=sum(d.action == "skipped_borderline" for d in report.decisions),
-            self_loops_removed=report.self_loops_removed,
-            duplicate_facts_removed=report.duplicate_facts_removed,
-        )
-        # resolve.json is both the audit log and the input of `kg resolve --undo`
+        run.metrics(**_identity_metrics(report))
+        # resolve.json is the audit log: every mention's canonical entity with the reason that decided it
         run.artifact(ctx.write("resolve.json", report.model_dump_json(indent=2)))
 
 
@@ -406,8 +439,12 @@ class PreviewResolveStage(_TextStage):
 
     def run(self, ctx, state, run):
         s = ctx.settings
-        preview = resolver.preview_candidates(
-            ctx.driver, s.er_auto_merge, s.er_borderline, ctx.embedder, _er_blocking(ctx)
+        schema = state.load_text_schema(ctx, required=False)
+        mentions = [
+            m for m in read_mentions(ctx.driver) if schema is None or schema.identity_of(m.type) == "concept"
+        ]
+        preview = concepts.preview_concepts(
+            mentions, s.er_auto_merge, s.er_borderline, ctx.embedder, _er_blocking(ctx)
         )
         state.resolve_preview = preview
         run.metrics(
@@ -421,41 +458,35 @@ class PreviewResolveStage(_TextStage):
 
 
 class UndoResolveStage(BaseStage):
-    """Undo the merges of the last resolve run, from the snapshot in out/resolve.json."""
+    """Remove the identity layer of the last resolve run: every mention's REFERS_TO edge and every concept
+    and individual node (R75; the merges and their snapshots of before are gone)."""
 
     name = "resolve_undo"
 
     def run(self, ctx, state, run):
-        path = ctx.out / "resolve.json"
-        if not path.exists():
-            raise MissingInputError(f"{path} not found; there is no resolve run to undo")
-        report = resolver.ResolveReport.model_validate_json(path.read_text(encoding="utf-8"))
-        restored = resolver.undo_merges(ctx.driver, report)
+        removed = clear_identity(ctx.driver)
         state.resolution = None
-        run.metrics(entities_restored=restored)
+        run.metrics(identity_edges_removed=removed)
 
 
 class LinkStage(BaseStage):
-    """Link documents and entities to the domain graph, write the facts the text schema derives, then
-    attach every observation to the thing its document is about."""
+    """Link documents and sections to the domain graph, write the facts the text schema derives, then
+    attach every observation to the thing its document is about. Runs before `resolve` (R75)."""
 
     name = "link"
 
     def applies(self, state):
         return state.plan is not None
 
-    def params(self, ctx, state):
-        return {"domain_link_threshold": ctx.settings.domain_link_threshold}
-
     def run(self, ctx, state, run):
         plan = state.load_plan(ctx)
-        state.links = link_graphs(ctx.driver, plan, ctx.settings.domain_link_threshold)
+        state.links = link_graphs(ctx.driver, plan)
         # derivation needs the ABOUT links written just above; without a text schema there is no text path
         schema = state.load_text_schema(ctx, required=False)
         derived = (
             derive_facts(ctx.driver, schema, plan)
             if schema is not None
-            else DerivationReport(facts_derived=0, entities_created=0, skipped_no_evidence=0)
+            else DerivationReport(facts_derived=0, mentions_created=0, skipped_no_evidence=0)
         )
         # last: derived observations need a thing too. Below the observation count when some documents are
         # ABOUT nothing (their claims stay in the graph, tied to no thing)

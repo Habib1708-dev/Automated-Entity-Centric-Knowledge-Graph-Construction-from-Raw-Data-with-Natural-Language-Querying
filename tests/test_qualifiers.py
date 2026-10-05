@@ -12,8 +12,11 @@ from kgbuilder.core.errors import EvaluationError
 from kgbuilder.core.identity import observation_id
 from kgbuilder.core.text import norm
 from kgbuilder.core.values import VALUE_TYPE, parse_quantity
+from kgbuilder.resolution.concepts import concept_records
+from kgbuilder.resolution.identity import IdentitySettings, resolve_identity
 from kgbuilder.resolution.matchers import EntityRecord
-from kgbuilder.resolution.resolver import find_candidates, read_entities, resolve_entities
+from kgbuilder.resolution.mentions import read_mentions
+from kgbuilder.resolution.resolver import find_candidates
 from kgbuilder.text.extraction import RawTriple, RejectionReason, Triple, verify
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 from kgbuilder.text.subject_graph import write_subject_graph
@@ -115,6 +118,12 @@ def test_a_time_makes_another_claim_and_no_time_keeps_the_id_from_before_r66():
     assert observation_id("b.md#1", "HAS_DEFECT", "slats", "crack", "after two months") != before
 
 
+def resolve(driver, auto_merge: float = 92) -> None:
+    """The identity stage without a schema (every type a concept) and without an LLM."""
+    settings = IdentitySettings(auto_merge=auto_merge, borderline=80, link_threshold=90)
+    resolve_identity(driver, None, None, None, "m", settings)
+
+
 def entity(eid: str, name: str, polarities: list[str], etype: str = "Aspect") -> EntityRecord:
     return EntityRecord(id=eid, name=name, type=etype, aliases=[name], mentions=1, polarities=polarities)
 
@@ -204,9 +213,10 @@ def test_the_subject_graph_stores_tone_time_and_number(driver):
         1,
     )
     assert (counts.observations_with_value, counts.observations_with_time) == (2, 1)
-    # both spellings of the number are one Value node; each claim keeps its own wording
+    # both spellings of the number refer to one Value concept (R75); each claim keeps its own wording
+    resolve(driver)
     values, _, _ = driver.execute_query(
-        "MATCH (o:Observation)-[:OBJECT]->(v:Entity {type: $t}) "
+        "MATCH (o:Observation)-[:OBJECT]->(:Mention {type: $t})-[:REFERS_TO]->(v:Concept) "
         "RETURN v.name AS name, o.object_name AS own, o.value AS value, o.unit AS unit ORDER BY own",
         t=VALUE_TYPE,
     )
@@ -226,21 +236,21 @@ def test_the_subject_graph_stores_tone_time_and_number(driver):
 def test_resolution_reads_the_tones_and_keeps_opposite_kinds_apart(driver):
     driver.execute_query(
         "CREATE (c:Chunk {chunk_id: 'a.md#0', text: 'x'}), "
-        "(s:Entity {id: 's', type: 'Component', name: 'top'}), "
-        "(good:Entity {id: 'g', type: 'Aspect', name: 'resistant to scratches'}), "
-        "(bad:Entity {id: 'b', type: 'Aspect', name: 'resistant to scratch'}), "
+        "(s:Mention {id: 's', type: 'Component', name: 'top', doc_id: 'a.md'}), "
+        "(good:Mention {id: 'g', type: 'Aspect', name: 'resistant to scratches', doc_id: 'a.md'}), "
+        "(bad:Mention {id: 'b', type: 'Aspect', name: 'resistant to scratch', doc_id: 'a.md'}), "
         "(c)-[:MENTIONS]->(good), (c)-[:MENTIONS]->(bad), "
         "(:Observation {id: 'o1', polarity: 'positive'})-[:OBJECT]->(good), "
         "(:Observation {id: 'o2', polarity: 'negative'})-[:OBJECT]->(bad), "
         "(:Observation {id: 'o3', polarity: 'neutral'})-[:OBJECT]->(bad)"
     )
-    assert {e.id: e.polarities for e in read_entities(driver)} == {
-        "s": [],
-        "g": ["positive"],
-        "b": ["negative"],
-    }
+    mentions = read_mentions(driver)
+    assert {m.id: m.polarities for m in mentions} == {"s": [], "g": ["positive"], "b": ["negative"]}
+    concepts, _ = concept_records(mentions)
+    assert sorted(c.polarities for c in concepts) == [[], ["negative"], ["positive"]]
     # the two names are 97 alike by spelling and would merge without the guard
-    assert resolve_entities(driver, llm=None, model="m", auto_merge=90).merges == 0
+    settings = IdentitySettings(auto_merge=90, borderline=80, link_threshold=90)
+    assert resolve_identity(driver, None, None, None, "m", settings).merges == 0
 
 
 @pytest.mark.neo4j
@@ -258,6 +268,7 @@ def test_a_number_written_two_ways_can_be_rescored_from_its_judge_sheet(driver):
         triple("25 kilograms", VALUE_TYPE, evidence="rated for 25 kilograms"),
     ]
     write_subject_graph(driver, claims, extractor="m")
+    resolve(driver)
     value = next(e for e in sheet_entities(driver) if e.type == VALUE_TYPE)
     assert value.name == "25 kg" and {"25kg", "25 kilograms"} <= set(value.aliases)
 

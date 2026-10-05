@@ -26,10 +26,11 @@ from .graph_store import CypherStore
 # The text2cypher prompt. Rule by rule: the schema lists what exists, and the database refuses anything
 # else (EXPLAIN), so the model is told to keep to it; values as parameters is the injection rule code
 # enforces; the type rule because a year stored as an INTEGER never equals '2015' and a DATE has no text
-# prefix (R71's held-out run: five filters ran and returned nothing); case-insensitive CONTAINS and the
-# aliases are how the graph's names are written (entity
-# resolution keeps other spellings as aliases); the first column is what code reads as the answer. The
-# paragraph on the pipeline's fixed nodes describes this project's graph shape, the same for any dataset.
+# prefix (R71's held-out run: five filters ran and returned nothing); case-insensitive CONTAINS because a
+# name is written many ways, and the mention's own name next to the name of what it refers to because each
+# document keeps its own wording (R75); the first column is what code reads as the answer. The paragraph on
+# the pipeline's fixed nodes describes this project's graph shape, the same for any dataset; since R75 a
+# claim's ends are mentions, each referring to a record, an individual or a concept.
 _TASK = """You write one read-only Cypher query for Neo4j that answers a question from the graph below.
 
 """
@@ -37,8 +38,11 @@ _TEXT_LAYER = """\
 The graph holds structured records (the labels of the domain) and what documents state about them:
 - (:Document)<-[:PART_OF]-(:Chunk {{chunk_id}}); a chunk or a document may be ABOUT a record.
 - Each claim a text makes is an (:Observation {{predicate, polarity, subject_name, object_name}}) with
-  [:SUBJECT] and [:OBJECT] to (:Entity {{name, type, aliases}}) nodes and [:FROM] to its (:Chunk). The record
-  a claim is about has [:HAS_OBSERVATION] to it. An :Entity may [:REFERS_TO] the record it names.
+  [:SUBJECT] and [:OBJECT] to (:Mention {{name, type}}) nodes and [:FROM] to its (:Chunk). The record a
+  claim is about has [:HAS_OBSERVATION] to it.
+- A mention is one name in one document; it [:REFERS_TO {{name}}] what it names: a record, an
+  (:Individual {{name, type}}) or a (:Concept {{name, type}}). Mentions of one thing in several documents
+  refer to the same node.
 - `polarity` is "positive", "negative" or "neutral": the claim's tone.
 
 """
@@ -54,8 +58,8 @@ Rules:
   a text value inside the query.
 - Compare with the property's own type, shown in brackets: give a number or true/false as such, not as
   text; compare a DATE with `date($p)` and `$p` as 'YYYY-MM-DD', or its year with `.year`.
-- Compare names case-insensitively and allow other wordings: `toLower(x) CONTAINS toLower($p)`, and look
-  in `aliases` too where a node has them.
+- Compare names case-insensitively and allow other wordings: `toLower(x) CONTAINS toLower($p)`, on a
+  mention's own name as well as on the name of what it refers to.
 - Return the answer in the first column: the names of the things when the question asks which things
   (`answer_form` "entities"), or one number when it asks how many or how much (`answer_form` "number").
 - Read only: no clause that writes, no CALL, no LOAD.

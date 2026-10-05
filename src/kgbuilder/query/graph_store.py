@@ -17,6 +17,7 @@ from neo4j.exceptions import ClientError, Neo4jError
 from pydantic import BaseModel
 
 from ..core.errors import MissingInputError
+from ..graph.canonical import canonical_id, canonical_kind, canonical_name
 from ..resolution.linking import read_domain_nodes
 from ..structured.plan import ConstructionPlan
 from ..text.lexical import CHUNK_VECTOR_INDEX
@@ -38,7 +39,7 @@ class GraphStore(Protocol):
     """What the question-answering systems read from the graph."""
 
     def node_names(self) -> list[NodeName]:
-        """Every thing (domain node) and kind (`:Entity`) a question could name."""
+        """Every thing (domain node) and kind (an individual or a concept, R75) a question could name."""
         ...
 
     def reach(self, things: list[str], kinds: list[str]) -> dict[str, set[str]]:
@@ -127,13 +128,30 @@ class Neo4jGraphStore:
             return ReadResult(error=e.message or str(e))
 
     def node_names(self) -> list[NodeName]:
+        # a record is also known by the names of the mentions that refer to it ("2019 Subaru Outback" for
+        # the record named "OUTBACK"): a question may write it as the text does
+        records, _, _ = self._driver.execute_query(
+            "MATCH (m:Mention)-[r:REFERS_TO {kind: 'record'}]->(t) "
+            "RETURN elementId(t) AS id, apoc.coll.sort(collect(DISTINCT m.name)) AS aliases"
+        )
+        aliases = {r["id"]: r["aliases"] for r in records}
         things = [
-            NodeName(kind="thing", node_id=n.element_id, name=n.name, label=n.label)
+            NodeName(
+                kind="thing",
+                node_id=n.element_id,
+                name=n.name,
+                label=n.label,
+                aliases=aliases.get(n.element_id, []),
+            )
             for n in (read_domain_nodes(self._driver, self._plan) if self._plan else [])
         ]
         records, _, _ = self._driver.execute_query(
-            "MATCH (e:Entity) "
-            "RETURN e.id AS id, e.name AS name, coalesce(e.aliases, []) AS aliases, e.type AS type"
+            # every canonical entity that is not a record, and a mention without an edge as itself
+            f"MATCH (m:Mention) WHERE {canonical_kind('m')} <> 'record' "
+            f"WITH {canonical_id('m')} AS id, {canonical_name('m')} AS name, m.type AS type, m.name AS said "
+            "WITH id, min(name) AS name, min(type) AS type, "
+            "apoc.coll.sort(collect(DISTINCT said)) AS aliases "
+            "RETURN id, name, aliases, type ORDER BY id"
         )
         kinds = [
             NodeName(kind="kind", node_id=r["id"], name=r["name"], aliases=r["aliases"], label=r["type"])

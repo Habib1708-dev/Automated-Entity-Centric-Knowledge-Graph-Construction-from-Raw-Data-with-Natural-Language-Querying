@@ -16,6 +16,7 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.text import norm
+from ..graph.canonical import canonical_id, canonical_name
 from ..text.schema import TextSchema
 from .checks.base import CheckContext, StoredFact
 from .er import ErScore, SheetEntity, build_er_sheet, score_er, score_er_verdicts
@@ -124,10 +125,15 @@ def run_questions(driver: Driver, questions: list[GoldQuestion]) -> list[Questio
 
 
 def read_entities(driver: Driver) -> list[SheetEntity]:
-    """Every `:Entity` with its aliases, ordered by id so that the sheet is the same for the same graph."""
+    """Every canonical entity (R75: a record, an individual or a concept that mentions refer to; a mention
+    without an edge stands for itself), with the names of its mentions as aliases, ordered by id so that
+    the sheet is the same for the same graph."""
     records, _, _ = driver.execute_query(
-        "MATCH (e:Entity) RETURN e.id AS id, e.type AS type, e.name AS name, "
-        "coalesce(e.aliases, []) AS aliases ORDER BY id"
+        f"MATCH (m:Mention) WITH {canonical_id('m')} AS id, m.type AS type, {canonical_name('m')} AS name, "
+        "m.name AS said "
+        # one row per entity: a record may be referred to by mentions of two keyed types
+        "WITH id, min(type) AS type, min(name) AS name, collect(DISTINCT said) AS aliases "
+        "RETURN id, type, name, apoc.coll.sort(aliases) AS aliases ORDER BY id"
     )
     return [SheetEntity.model_validate(dict(r)) for r in records]
 

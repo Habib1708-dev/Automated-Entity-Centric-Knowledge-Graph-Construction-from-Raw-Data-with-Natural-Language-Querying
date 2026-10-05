@@ -87,8 +87,13 @@ def test_er_verdicts_that_do_not_fit_the_sheet_are_refused():
 @pytest.mark.neo4j
 def test_eval_stage_logs_exact_and_validated_er_accuracy(driver, tmp_path):
     driver.execute_query(
-        "CREATE (:Entity {id: 'd', name: 'drawer', type: 'Component', aliases: ['drawers']}), "
-        "(:Entity {id: 'r', name: 'the metal rails', type: 'Component'})"
+        # two spellings that refer to one concept (R75), and a mention without an edge: itself
+        "CREATE (d:Concept {id: 'd', name: 'drawer', type: 'Component'}), "
+        "(:Mention {id: 'm1', name: 'drawer', type: 'Component'})"
+        "-[:REFERS_TO {canonical: 'd', name: 'drawer', kind: 'concept'}]->(d), "
+        "(:Mention {id: 'm2', name: 'drawers', type: 'Component'})"
+        "-[:REFERS_TO {canonical: 'd', name: 'drawer', kind: 'concept'}]->(d), "
+        "(:Mention {id: 'r', name: 'the metal rails', type: 'Component'})"
     )
     gold_file = tmp_path / "gold.json"
     pairs = [

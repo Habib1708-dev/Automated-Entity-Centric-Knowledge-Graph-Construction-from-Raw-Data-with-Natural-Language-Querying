@@ -11,7 +11,7 @@ from kgbuilder.llm.refine import Critique
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_all, run_stages
 from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import ReviewDeclinedError
-from kgbuilder.resolution.resolver import SamePair
+from kgbuilder.resolution.concepts import SamePair
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.extraction import (
@@ -115,26 +115,28 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     assert not failed, failed
     rejected = [json.loads(line) for line in (out / "rejected.jsonl").read_text().splitlines() if line]
     assert [r["reason"] for r in rejected] == ["evidence_not_verbatim"]
-    # "Table" and "Tables" were merged by entity resolution
-    names = [r["n"] for r in driver.execute_query("MATCH (e:Entity {type:'Product'}) RETURN e.name AS n")[0]]
-    assert len(names) == 1
+    # "Table" and "Tables" both refer to the one product record (R75: the type is keyed to Product), and the
+    # problem kinds "wobbles" and "wobble" were joined by entity resolution
+    products = "MATCH (:Mention {type: 'Product'})-[:REFERS_TO]->(p:Product) RETURN count(DISTINCT p) AS n"
+    assert driver.execute_query(products)[0][0]["n"] == 1
     assert tracker.run("ingest_text").logged_metrics["chunks"] == 3
     assert tracker.run("resolve").logged_metrics["merges"] >= 1
+    assert tracker.run("resolve").logged_metrics["mentions_to_records"] == 2
     assert tracker.run("resolve").logged_metrics["passes"] >= 1
 
     def count(query: str) -> int:
         return driver.execute_query(query)[0][0]["c"]
 
-    # document is linked to the domain product, entity refers to it too
+    # the document is linked to the domain product, and both of its product mentions refer to it
     assert count("MATCH (:Document)-[:ABOUT]->(:Product {product_id:'P1'}) RETURN count(*) AS c") == 1
-    assert count("MATCH (:Entity)-[:REFERS_TO]->(:Product) RETURN count(*) AS c") == 1
+    assert count("MATCH (:Mention)-[:REFERS_TO]->(:Product) RETURN count(*) AS c") == 2
     assert report.metrics["evidence_verified_rate"] == 1.0
     assert report.metrics["gold_recall"] == 1.0
 
     # tracking contract (mlflow-tracking skill): one run per stage, with the params that explain the result
     assert [r.name for r in tracker.runs] == [
         "pipeline", "profile", "plan", "build_domain", "ingest_text",
-        "text_schema", "extract", "resolve", "link", "validate",
+        "text_schema", "extract", "link", "resolve", "validate",
     ]  # fmt: skip
     assert {"model", "temperature", "prompt_version", "critic_prompt_version"} <= set(
         tracker.run("plan").logged_params

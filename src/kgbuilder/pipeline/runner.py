@@ -25,8 +25,10 @@ from .stages import (
 # Called with the stage name and the file to review; returns False to stop the pipeline.
 Approve = Callable[[str, Path], bool]
 
-# Order matters: build needs the plan, the text schema uses the plan's node descriptions, resolve runs
-# before link so that links attach to canonical entities, validate sees the finished graph.
+# Order matters: build needs the plan, the text schema uses the plan's node descriptions, link runs before
+# resolve because the identity stage matches mentions to records inside the scope of the things their
+# documents are ABOUT (R75; until R75 resolve merged entities first and link linked the merged ones),
+# validate sees the finished graph.
 FULL_PIPELINE: list[Stage] = [
     ProfileStage(),
     PlanStage(),
@@ -34,8 +36,8 @@ FULL_PIPELINE: list[Stage] = [
     IngestTextStage(),
     TextSchemaStage(),
     ExtractStage(),
-    ResolveStage(),
     LinkStage(),
+    ResolveStage(),
     ValidateStage(),
 ]
 

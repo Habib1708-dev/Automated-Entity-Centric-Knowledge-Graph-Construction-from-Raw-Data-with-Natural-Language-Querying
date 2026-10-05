@@ -1,23 +1,21 @@
-"""Entity resolution: find and merge duplicate `:Entity` nodes of the same type, reversibly.
+"""Entity resolution's decisions: which concepts of one type are the same kind, as pure functions.
 
-Role in the pipeline: `kg resolve`, after extraction and before linking.
-Design: five small steps instead of one function, and only the first and the last two touch Neo4j:
-  1. read_entities      load entities and their mention counts
-  2. find_candidates    pure: score same-type pairs with the matchers (matchers.py); pairs close in
-                        meaning are nominated by a blocking rule (blocking.py); both are Strategies.
-                        Two guards (R66): numbers (`Value`) are never candidates, and neither are two
-                        kinds that claims use with opposite polarity
-  3. decide             pure given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
-  4. group_merges       pure: union-find over the merge decisions, pick a canonical entity per group
-     Steps 2-4 repeat on the merged view (decide_in_passes, R45): a group of more than k wordings fills
-     its members' k nearest slots, so it can meet a neighbouring group only once each is one entity.
-  5. apply_merges       snapshot the members, then merge them with APOC (the SUBJECT / OBJECT edges of
-                        their observations move to the merged node; three reviews stating one claim stay
-                        three observations; only exact repeats go)
-Every decision is logged, and the snapshot taken in step 5 is enough for `undo_merges` to restore the
-graph, because a wrong merge silently corrupts every later query. `preview_candidates` runs steps 1-2
-only (`kg resolve --preview`), to see what the thresholds and the blocking nominate.
-Not here: similarity functions (matchers.py) and links to the domain graph (linking.py).
+Role in the pipeline: the concept part of `kg resolve` (concepts.py reads the concepts and asks the LLM,
+identity.py writes the outcome as identity edges). Since R75 nothing here touches Neo4j: a decision no longer
+merges nodes, it becomes one `REFERS_TO` edge per mention, undone by deleting the edge.
+Design: four small steps:
+  1. find_candidates    score same-type pairs with the matchers (matchers.py); pairs close in meaning are
+                        nominated by a blocking rule (blocking.py); both are Strategies. Two guards (R66):
+                        numbers (`Value`) are never candidates, and neither are two kinds that claims use
+                        with opposite polarity
+  2. decide             given an adjudicator: auto-merge, ask the LLM (in parallel), or skip
+  3. group_merges       union-find over the merge decisions, pick a canonical concept per group
+  4. decide_in_passes   steps 1-3 repeated on the merged view (R45): a group of more than k wordings fills
+                        its members' k nearest slots, so it can meet a neighbouring group only once each is
+                        one concept
+`mention_lines` builds the adjudication context; `preview` describes the candidates for `kg resolve
+--preview`, to see what the thresholds and the blocking nominate.
+Not here: similarity functions (matchers.py), reading and asking (concepts.py), writing (identity.py).
 """
 
 from collections.abc import Callable
@@ -25,40 +23,13 @@ from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 from typing import Literal
 
-from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.text import pick_sentence
 from ..core.values import VALUE_TYPE
-from ..llm.base import Embedder, LLMClient
+from ..llm.base import Embedder
 from .blocking import Blocking
 from .matchers import EmbeddingMatcher, EntityRecord, FuzzyNameMatcher, Matcher
-
-# Conservative on purpose: a false merge destroys information, a missed merge only leaves a duplicate.
-# Each name comes with the sentences that mention it and their document (R39): a name alone is often
-# ambiguous ("rails", "switch"), and whether two names come from the same product's reviews matters. Until
-# R39 the context was the first 300 characters of one arbitrary chunk, which for 20 of 78 names never
-# contained the name at all.
-# Item or kind (R41): an entity is one node per type and name across all documents, so for most types it
-# stands for a kind ("drawer", "didn't align properly"), shared by every product that has it. Asked about
-# "the same real-world thing" and shown the document names, the LLM kept same-kind wordings apart across
-# products (all 12 errors on the R40 pairs). Whether a type names items or kinds is decided by the LLM
-# from the type name, so the rule holds for any schema.
-ADJUDICATE_PROMPT = """Do these two names, both of type {etype}, refer to the same thing?
-The names may come from different documents. If {etype} names individual items (one specific product,
-person, organisation or place), answer whether A and B are the same item. Otherwise {etype} names a kind
-of thing (such as a part, a defect or a symptom): answer whether A and B are the same kind, even when
-they are mentioned in different documents.
-Different sizes, models, components or people are NOT the same. Answer conservatively.
-
-A: {a}
-B: {b}
-
-Where A is mentioned ([document] sentence):
-{ctx_a}
-
-Where B is mentioned ([document] sentence):
-{ctx_b}"""
 
 _MENTIONS_PER_ENTITY = 3  # enough to see how a name is used, few enough to keep each call cheap
 _SENTENCE_CHARS = 400  # bounds a runaway "sentence" (a table row, a list without full stops) on any data
@@ -71,14 +42,8 @@ Action = Literal["auto", "llm_merge", "llm_keep", "skipped_borderline"]
 Adjudicator = Callable[[EntityRecord, EntityRecord], bool]
 
 
-class SamePair(BaseModel):
-    """The LLM's response schema for one adjudication."""
-
-    same: bool
-
-
 class Candidate(BaseModel):
-    a: str  # entity ids
+    a: str  # concept ids
     b: str
     score: float
     signal: str  # name of the matcher that nominated the pair
@@ -100,43 +65,10 @@ class MergeGroup(BaseModel):
     absorbed: list[str]
 
 
-class ObservationSnapshot(BaseModel):
-    """An observation touching a merged entity, as it was before the merge."""
-
-    props: dict  # every property, the id and chunk_id included
-    subject: str  # entity ids
-    object: str
-
-
-class EntitySnapshot(BaseModel):
-    id: str
-    props: dict
-    mentions: list[str]  # chunk ids
-
-
-class ResolveReport(BaseModel):
-    """Result and audit log of one run. `snapshots` and `observations` are the pre-merge state for
-    `undo_merges`."""
-
-    entities_before: int
-    entities_after: int
-    merges: int
-    self_loops_removed: int
-    # observations identical in predicate, ends, chunk and quote after a merge (the same statement
-    # extracted under two spellings); default 0 so that resolve.json files written before R28 still load
-    duplicate_facts_removed: int = 0
-    decisions: list[Decision]
-    groups: list[MergeGroup] = []
-    snapshots: list[EntitySnapshot] = []
-    # before R64 the snapshot held fact edges (`facts`); such a file no longer matches the graph's shape
-    observations: list[ObservationSnapshot] = []
-    passes: int = 1  # rounds of nominate-and-decide (R45); 1 for resolve.json files written before
-
-
 class MentionRow(BaseModel):
-    """One chunk mentioning an entity, as the adjudication context is built from it."""
+    """One chunk mentioning a concept, as the adjudication context is built from it."""
 
-    entity: str  # entity id
+    entity: str  # concept id
     names: list[str]  # name and aliases: the sentence may use any of them
     document: str  # the chunk's context (its document heading), else its document id
     text: str
@@ -159,19 +91,6 @@ class ResolvePreview(BaseModel):
 
     entities: int
     pairs: list[PreviewPair]
-
-
-def read_entities(driver: Driver) -> list[EntityRecord]:
-    records, _, _ = driver.execute_query(
-        "MATCH (e:Entity) OPTIONAL MATCH (:Chunk)-[m:MENTIONS]->(e) "
-        "WITH e, count(m) AS mentions "
-        # the tones of the claims ending in this kind; sorted, so the same graph gives the same record
-        "WITH e, mentions, apoc.coll.sort(apoc.coll.toSet([(e)<-[:OBJECT]-(o:Observation) "
-        "WHERE o.polarity IN ['positive', 'negative'] | o.polarity])) AS polarities "
-        "RETURN e.id AS id, e.name AS name, e.type AS type, coalesce(e.aliases, [e.name]) AS aliases, "
-        "mentions, polarities ORDER BY id"
-    )
-    return [EntityRecord(**r.data()) for r in records]
 
 
 def opposed(a: EntityRecord, b: EntityRecord) -> bool:
@@ -384,21 +303,6 @@ def decide_in_passes(
     return decisions, groups, passes
 
 
-def read_mentions(driver: Driver, ids: list[str]) -> list[MentionRow]:
-    """Every chunk mentioning one of `ids`, ordered by entity, document and position in the document, so
-    the same graph always builds the same prompts (and hits the LLM cache)."""
-    records, _, _ = driver.execute_query(
-        "MATCH (c:Chunk)-[:MENTIONS]->(e:Entity) WHERE e.id IN $ids "
-        "RETURN e.id AS entity, [e.name] + coalesce(e.aliases, []) AS names, "
-        # chunks written before R26 have no context, or an empty one: name them by their document id
-        "CASE WHEN coalesce(c.context, '') = '' THEN c.doc_id ELSE c.context END AS document, "
-        "c.text AS text "
-        "ORDER BY entity, c.doc_id, c.index",
-        ids=ids,
-    )
-    return [MentionRow.model_validate(dict(r)) for r in records]
-
-
 def mention_lines(
     rows: list[MentionRow], limit: int = _MENTIONS_PER_ENTITY, owner: dict[str, str] | None = None
 ) -> dict[str, list[str]]:
@@ -422,142 +326,6 @@ def mention_lines(
     return lines
 
 
-def _llm_adjudicator(
-    driver: Driver, llm: LLMClient, model: str, candidates: list[Candidate], members: dict[str, list[str]]
-) -> Adjudicator:
-    """An adjudicator that shows the LLM both names with the sentences that mention them (for an entity
-    merged in an earlier pass, the sentences of all its members)."""
-    shown = sorted({i for c in candidates for i in (c.a, c.b)})
-    owner = {m: i for i in shown for m in members.get(i, [i])}
-    context = mention_lines(read_mentions(driver, sorted(owner)), owner=owner)
-
-    def render(entity: str) -> str:
-        return "\n".join(f"- {line}" for line in context.get(entity, [])) or "- (no sentence names it)"
-
-    def adjudicate(a: EntityRecord, b: EntityRecord) -> bool:
-        prompt = ADJUDICATE_PROMPT.format(
-            etype=a.type, a=a.name, b=b.name, ctx_a=render(a.id), ctx_b=render(b.id)
-        )
-        return llm.generate(prompt, SamePair, model=model).same
-
-    return adjudicate
-
-
-def snapshot(driver: Driver, ids: list[str]) -> tuple[list[EntitySnapshot], list[ObservationSnapshot]]:
-    """The state of the given entities before a merge: properties, mentions, and every observation with
-    one of them as subject or object."""
-    nodes, _, _ = driver.execute_query(
-        "MATCH (e:Entity) WHERE e.id IN $ids OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e) "
-        "RETURN e.id AS id, properties(e) AS props, collect(c.chunk_id) AS mentions ORDER BY id",
-        ids=ids,
-    )
-    observations, _, _ = driver.execute_query(
-        "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
-        "WHERE s.id IN $ids OR t.id IN $ids "
-        "RETURN properties(o) AS props, s.id AS subject, t.id AS object ORDER BY o.id",
-        ids=ids,
-    )
-    return (
-        [EntitySnapshot(**n.data()) for n in nodes],
-        [ObservationSnapshot(**o.data()) for o in observations],
-    )
-
-
-def apply_merges(driver: Driver, entities: dict[str, EntityRecord], groups: list[MergeGroup]) -> int:
-    """Physically merge each group into its canonical entity; all names survive as aliases.
-
-    Returns the number of exact repeats removed afterwards: observations that became identical in
-    predicate, ends, chunk and quote (one statement extracted under two spellings). Doubled mentions of
-    one chunk are removed as well.
-    """
-    for group in groups:
-        members = [group.canonical, *group.absorbed]
-        aliases = sorted({alias for i in members for alias in entities[i].aliases})
-        driver.execute_query(
-            "MATCH (c:Entity {id: $canonical}) MATCH (o:Entity) WHERE o.id IN $absorbed "
-            # aggregate first: a procedure call cannot take collect() as an argument
-            "WITH c, collect(o) AS others "
-            # 'discard' keeps the canonical's properties. mergeRels stays false: APOC would fold every
-            # relationship of one type between the same two nodes into one. Since R64 a claim is a node, so
-            # only doubled MENTIONS could fold, and those are removed below; while claims were edges, three
-            # reviews stating one fact became one relationship with one quote (found in R25)
-            "CALL apoc.refactor.mergeNodes([c] + others, {properties: 'discard', mergeRels: false}) "
-            "YIELD node SET node.aliases = $aliases, node.merged_from = $absorbed RETURN count(node)",
-            canonical=group.canonical,
-            absorbed=group.absorbed,
-            aliases=aliases,
-        )
-    if not groups:
-        return 0
-    # The repeat rule: same subject, predicate, object, chunk, quote and time = one observation (the thing is
-    # the same too, since it follows from the chunk). Three reviews of one claim differ in chunk and stay
-    # three; a claim with a time and the same claim without one are two (R66).
-    # The repeats can differ in the wording they keep (R44); ordered, the same one survives every rebuild,
-    # so the id the judge's verdicts refer to is stable
-    repeats, _, _ = driver.execute_query(
-        "MATCH (s:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Entity) "
-        "WITH s, t, o ORDER BY o.subject_name, o.object_name, o.id "
-        "WITH s, t, o.predicate AS p, o.chunk_id AS chunk, o.evidence AS evidence, "
-        "coalesce(o.time, '') AS time, collect(o) AS repeats "
-        "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DETACH DELETE x) "
-        "RETURN sum(size(repeats) - 1) AS n"
-    )
-    driver.execute_query(
-        "MATCH (c:Chunk)-[m:MENTIONS]->(e:Entity) WITH c, e, collect(m) AS repeats "
-        "WHERE size(repeats) > 1 FOREACH (x IN tail(repeats) | DELETE x)"
-    )
-    return repeats[0]["n"] or 0
-
-
-def resolve_entities(
-    driver: Driver,
-    llm: LLMClient | None,
-    model: str,
-    auto_merge: float = 92.0,
-    borderline: float = 80.0,
-    embedder: Embedder | None = None,
-    blocking: Blocking | None = None,
-) -> ResolveReport:
-    """Run the five steps. With `llm=None`, borderline pairs stay separate (logged as skipped).
-
-    Meaning-based candidates are used only when both an embedder and a `blocking` are given.
-    """
-    records = read_entities(driver)
-    entities = {e.id: e for e in records}
-    adjudicator_for: AdjudicatorFor | None = None
-    if llm is not None:
-
-        def adjudicator_for(candidates: list[Candidate], members: dict[str, list[str]]) -> Adjudicator:
-            return _llm_adjudicator(driver, llm, model, candidates, members)
-
-    embedding = embedding_matcher(records, embedder, blocking)
-    decisions, groups, passes = decide_in_passes(
-        records, borderline, embedding, blocking, auto_merge, adjudicator_for
-    )
-
-    member_ids = [i for g in groups for i in (g.canonical, *g.absorbed)]
-    snapshots, observations = snapshot(driver, member_ids) if groups else ([], [])
-    duplicates = apply_merges(driver, entities, groups)
-
-    # a merge turns a claim between two duplicates into "X relates to X"; those are noise
-    loops, _, _ = driver.execute_query(
-        "MATCH (e:Entity)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(e) DETACH DELETE o RETURN count(o) AS n"
-    )
-    remaining, _, _ = driver.execute_query("MATCH (e:Entity) RETURN count(e) AS n")
-    return ResolveReport(
-        entities_before=len(records),
-        entities_after=remaining[0]["n"],
-        merges=sum(len(g.absorbed) for g in groups),
-        self_loops_removed=loops[0]["n"],
-        duplicate_facts_removed=duplicates,
-        decisions=decisions,
-        groups=groups,
-        snapshots=snapshots,
-        observations=observations,
-        passes=passes,
-    )
-
-
 def preview(entities: list[EntityRecord], candidates: list[Candidate], auto_merge: float) -> ResolvePreview:
     """Describe `candidates` by name and route, highest score first within each signal, so the point
     where real synonyms stop and unrelated pairs begin can be read off the list."""
@@ -575,55 +343,3 @@ def preview(entities: list[EntityRecord], candidates: list[Candidate], auto_merg
     ]
     pairs.sort(key=lambda p: (p.signal, -p.score, p.a, p.b))
     return ResolvePreview(entities=len(entities), pairs=pairs)
-
-
-def preview_candidates(
-    driver: Driver,
-    auto_merge: float,
-    borderline: float,
-    embedder: Embedder | None,
-    blocking: Blocking | None,
-) -> ResolvePreview:
-    """Steps 1 and 2 of `resolve_entities` on the current graph. Reads only; no LLM call."""
-    records = read_entities(driver)
-    return preview(records, nominate(records, borderline, embedder, blocking), auto_merge)
-
-
-def undo_merges(driver: Driver, report: ResolveReport) -> int:
-    """Restore the entities merged by the run that produced `report`. Returns how many came back.
-
-    Meant to follow a `kg resolve` directly: observations written after the merge that touch a canonical
-    entity are dropped. REFERS_TO and HAS_OBSERVATION links are derived data; re-run `kg link` afterwards.
-    Idempotent.
-    """
-    if not report.groups:
-        return 0
-    canonical_ids = [g.canonical for g in report.groups]
-    # 1. strip the canonical entities: everything they legitimately had is in the snapshot, including the
-    # observations the merge removed as repeats or self-references
-    driver.execute_query(
-        "MATCH (o:Observation)-[:SUBJECT|OBJECT]->(e:Entity) WHERE e.id IN $ids DETACH DELETE o",
-        ids=canonical_ids,
-    )
-    driver.execute_query(
-        "MATCH (:Chunk)-[m:MENTIONS]->(e:Entity) WHERE e.id IN $ids DELETE m", ids=canonical_ids
-    )
-    # 2. recreate absorbed entities and reset canonical ones (`SET e = props` also drops merged_from)
-    driver.execute_query(
-        "UNWIND $rows AS r MERGE (e:Entity {id: r.id}) SET e = r.props",
-        rows=[s.model_dump() for s in report.snapshots],
-    )
-    # 3. mentions and observations exactly as they were
-    driver.execute_query(
-        "UNWIND $rows AS r MATCH (c:Chunk {chunk_id: r.c}), (e:Entity {id: r.e}) MERGE (c)-[:MENTIONS]->(e)",
-        rows=[{"c": c, "e": s.id} for s in report.snapshots for c in s.mentions],
-    )
-    driver.execute_query(
-        "UNWIND $rows AS r MATCH (s:Entity {id: r.subject}), (t:Entity {id: r.object}), "
-        "(c:Chunk {chunk_id: r.props.chunk_id}) "
-        # same MERGE key as the subject-graph writer, so a second undo cannot duplicate observations
-        "MERGE (o:Observation {id: r.props.id}) SET o = r.props "
-        "MERGE (o)-[:SUBJECT]->(s) MERGE (o)-[:OBJECT]->(t) MERGE (o)-[:FROM]->(c)",
-        rows=[o.model_dump() for o in report.observations],
-    )
-    return sum(len(g.absorbed) for g in report.groups)

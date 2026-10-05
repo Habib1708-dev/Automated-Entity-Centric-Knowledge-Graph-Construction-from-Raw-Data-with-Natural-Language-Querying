@@ -15,7 +15,7 @@ from ..llm.base import Embedder
 
 
 class EntityRecord(BaseModel):
-    """An `:Entity` node as entity resolution sees it."""
+    """A concept (R75: the mentions of one type and normalised name) as entity resolution sees it."""
 
     id: str
     name: str

@@ -123,7 +123,8 @@ an 8 GB laptop GPU. That is why the smoke preset moved to the free Gemini key.
 - The proposal stages are not deterministic: a rerun can propose other labels and relation names. An
   evaluation run therefore pins both reviewed proposals before building: `copy tests\gold\domain_plan.json
   out\plan.json` and `copy tests\gold\text_schema.json out\text_schema.json`, then `kg build`,
-  `kg ingest-text`, `kg extract`, `kg resolve`, `kg link`, `kg eval tests/gold/text_gold.json`.
+  `kg ingest-text`, `kg extract`, `kg link`, `kg resolve`, `kg eval tests/gold/text_gold.json` (since R75
+  `kg link` comes before `kg resolve`).
 
 Stages can also be run one at a time, with human review points in between:
 
@@ -132,11 +133,14 @@ kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
                   ->  kg build data/
                   ->  kg ingest-text data/
                   ->  kg text-schema --goal "..."   (review out/text_schema.json)
-                  ->  kg extract  ->  kg resolve [--undo]  ->  kg link  ->  kg validate [--gold gold.json]
+                  ->  kg extract  ->  kg link  ->  kg resolve [--undo]  ->  kg validate [--gold gold.json]
 ```
 
-`kg resolve --preview` lists the pairs a resolve run would consider (spelling or meaning, score, merged
-on spelling alone or asked to the LLM) without an LLM call or a write. Which pairs close in meaning are
+`kg resolve` decides what every mention refers to (a record, an individual or a concept) and runs after
+`kg link`, because records are matched inside the scope of the things the documents are ABOUT;
+`kg resolve --undo` removes that identity layer again. `kg resolve --preview` lists the concept pairs a
+resolve run would consider (spelling or meaning, score, joined on spelling alone or asked to the LLM)
+without an LLM call or a write. Which pairs close in meaning are
 asked is a blocking rule (`er_embedding_blocking`): `threshold` (an absolute score, chosen per dataset) or
 `mutual_nearest` (each name among the other's `er_neighbours` nearest; no scale to choose).
 
@@ -150,40 +154,51 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
 
 - Domain graph: labels and relationships from the approved plan (Product, Part, Supplier, ...).
 - Lexical graph: `(Chunk)-[:PART_OF]->(Document)`, `(Chunk)-[:NEXT_CHUNK]->(Chunk)`, optional embeddings.
-- Subject graph: `(:Entity {type, name, aliases})` is a *kind* ("drawer rails"), one node shared by every
-  document that names it; `(Chunk)-[:MENTIONS]->(Entity)`. Each claim is its own node (since R64), so a
-  claim about one product never reaches another product through a shared kind:
+- Subject graph: a `(:Mention {type, name, doc_id})` is one name of one type in one document (since R75);
+  `(Chunk)-[:MENTIONS]->(Mention)`. Each claim is its own node (since R64), pointing at the mentions of its
+  two ends, so a claim keeps what its own document said:
 
   ```
   (thing)-[:HAS_OBSERVATION]->(:Observation {id, predicate, chunk_id, evidence, subject_name, object_name, extractor,
                                              polarity, time, value, unit})
-  (:Observation)-[:SUBJECT]->(:Entity)   (:Observation)-[:OBJECT]->(:Entity)   (:Observation)-[:FROM]->(:Chunk)
+  (:Observation)-[:SUBJECT]->(:Mention)   (:Observation)-[:OBJECT]->(:Mention)   (:Observation)-[:FROM]->(:Chunk)
   ```
 
   The id is built from the chunk, the claim's own wording and its time (when it has one), so it survives
-  entity merges. Three reviews of one claim are three observations; only exact repeats (same subject,
-  predicate, object, chunk, quote and time) are merged by entity resolution.
+  every identity decision. Three reviews of one claim are three observations.
   Since R66 every claim has a `polarity` (`positive`, `negative` or `neutral`), so one fact type holds
   praise, faults and plain statements, and a `time` copied from its sentence ("after just two months of
-  use") when the sentence gives one. A claim about a number ends in the built-in type `Value`: its
-  entity is named in a canonical spelling ("25 kg") and the observation carries `value: 25.0, unit: 'kg'`
-  (known units are normalised, others kept as written). Code rejects a number or a time that is not in the
-  quote. Entity resolution never merges two numbers, nor two kinds that claims use with opposite
-  polarity ("resistant to scratches" and "scratches easily").
+  use") when the sentence gives one. A claim about a number ends in the built-in type `Value`: the
+  observation carries `value: 25.0, unit: 'kg'` (known units are normalised, others kept as written), and
+  every wording of one number refers to one concept named in a canonical spelling ("25 kg"). Code rejects a
+  number or a time that is not in the quote.
+- Identity (since R75): every mention `REFERS_TO {canonical, name, kind, reason, score, evidence, by}` one
+  canonical entity, decided by `kg resolve` from the text schema's identity class of its type:
+  `keyed` types refer to a record of their plan labels (by its key, by name inside the scope of the
+  document's thing, or by a key attribute in the same sentence: "Maria Lopez (Finance Office)" is the
+  Maria Lopez whose team is Finance Office; records still tied are not linked, the mention is logged as
+  ambiguous); `individual` types, and keyed mentions no record fits, refer to an `(:Individual)` of their
+  own, so one name in two documents stays two things; `concept` types refer to a `(:Concept)` per type and
+  name, and entity resolution joins concepts that are the same kind. Entity resolution never joins two
+  numbers, nor two kinds that claims use with opposite polarity ("resistant to scratches" and "scratches
+  easily"). Nothing is merged: undoing a decision deletes its edge, and the mention then stands for
+  itself. The fact reader of validation flattens every claim into one triple with its ends' canonical
+  names and every other name their mentions are written with, leaving out self-references and exact
+  repeats (same entities, predicate, chunk, quote and time).
 - Derived facts: a fact type the text schema marks `"derived": true` (in the reference schema:
   `PART_OF` from a Component or Assembly to a Product) is never asked from the extractor. `kg link` writes
-  it from `Entity <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one observation per
-  mention chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`.
-- Links: `(Document)-[:ABOUT]->(domain node)`, `(Entity)-[:REFERS_TO]->(domain node)` and
-  `(domain node)-[:HAS_OBSERVATION]->(Observation)`, recomputed on every `kg link`. An observation hangs on
-  the thing its chunk's document is ABOUT: code decides what a claim is about, never the model. Entities
-  are matched by the plan's `name_column` inside the neighbourhood (2 hops) of the node their documents
-  are ABOUT, so "legs" in a chair review links to the chair's legs; an entity named for several products
-  gets one REFERS_TO per product. Every question starts at the thing and walks its observations:
+  it from `Mention <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one observation per
+  mention chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`; its
+  object is the document's mention of the product.
+- Links: `(Document)-[:ABOUT]->(domain node)`, `(Chunk)-[:ABOUT]->(record)` for a section whose heading
+  names the record's key, and `(domain node)-[:HAS_OBSERVATION]->(Observation)`, recomputed on every
+  `kg link`. An observation hangs on the thing its chunk's document is ABOUT and on the record its section
+  is ABOUT: code decides what a claim is about, never the model. Every question starts at the thing and
+  walks its observations:
 
   ```cypher
   MATCH (product)-[:HAS_OBSERVATION]->(o:Observation {predicate: 'HAS_DEFECT'})
-  MATCH (part:Entity)<-[:SUBJECT]-(o)-[:OBJECT]->(defect:Entity)
+  MATCH (part:Mention)<-[:SUBJECT]-(o)-[:OBJECT]->(defect:Mention)
   MATCH (part)-[:REFERS_TO]->(node)-[*0..2]-(product)
   RETURN defect.name, part.name, labels(node)[0], product
   ```
@@ -194,14 +209,15 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
 src/kgbuilder/
   cli.py            composition root + Typer commands (the only place adapters are built)
   config.py         settings from the environment / .env
-  core/             shared kernel: text normalisation, Cypher identifier escaping, error types
+  core/             shared kernel: text normalisation, ids, Cypher identifier escaping, error types
   llm/              LLMClient/Embedder protocols, Gemini adapter (retry), disk-cache decorator,
                     refine.py = the propose -> validate -> critique -> retry loop
-  graph/            Neo4j driver factory
+  graph/            Neo4j driver factory ; canonical (how readers find what a mention refers to)
   tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
-  resolution/       matchers (Strategy) -> resolver (merge, undo) ; linking
+  resolution/       linking (ABOUT, attachment) -> derivation ; identity: mentions -> records ->
+                    concepts (matchers, blocking: Strategies -> resolver decisions) -> identity edges
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
@@ -221,8 +237,8 @@ src/kgbuilder/
 | `ingest_text` | `text/documents.py`, `text/chunking.py`, `text/lexical.py` | embeddings only |
 | `text_schema` | `text/schema.py` | yes, code-validated, then critic |
 | `extract` | `text/extraction.py`, `text/subject_graph.py` | yes, every triple verified in code |
-| `resolve` | `resolution/matchers.py`, `resolution/resolver.py` | borderline pairs only |
-| `link` | `resolution/linking.py` | no |
+| `link` | `resolution/linking.py`, `resolution/derivation.py` | no |
+| `resolve` | `resolution/identity.py`, `resolution/records.py`, `resolution/concepts.py`, `resolution/resolver.py` | borderline concept pairs only |
 | `validate`, `eval` | `validation/` | no |
 | `coverage_sample`, `coverage_sheet`, `coverage` | `validation/sentences.py`, `validation/coverage_sheet.py`, `validation/coverage.py` | no |
 | `ask`, `qa_graph`, `qa_vector` | `query/`, `validation/qa.py` | yes, the reader; every citation checked in code |
@@ -311,7 +327,7 @@ how they choose:
   Cypher and runs it. Counts and lists are computed by code; `read_check` reads each candidate's text
   and keeps it only with a quote code finds in the chunk. A refused or failing plan gets one retry with
   the reasons, then text2cypher (logged), then reading the chunks the graph's retrieval route reaches
-  (names linked by spelling and meaning, four fixed traversal patterns, ranked by similarity);
+  (names linked by spelling and meaning, three fixed traversal patterns, ranked by similarity);
 - `records_vector` (R73, R74): the same plans over the record layer alone (the plan's labels: no claim
   primitives, no documents), with vector search as its source of text. It separates what the records
   give from what the extracted claims give;

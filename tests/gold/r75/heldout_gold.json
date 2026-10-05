@@ -1,0 +1,986 @@
+{
+ "_comment": [
+  "R75 (heldout), 2026-10-05, Claude Opus 5.5: r65/heldout_gold.json with triples and er_pairs unchanged.",
+  "The only change: every question's ':Entity' became ':Mention' (layered-model Step 5: a claim's ends are mentions, one per type, name and document, and a mention REFERS_TO the record, individual or concept it names). A gold correction for the graph's new shape, made before any output on that shape; the expected answers are unchanged. A mention has no aliases, so a question reads each claim's own wording.",
+  "(R65) R65 (held-out), 2026-09-25, Claude Opus 5.5: r58/heldout_gold.json with triples and er_pairs unchanged.",
+  "(R65) Questions 2-5 rewritten to walk thing -[:HAS_OBSERVATION]-> Observation -[:SUBJECT|OBJECT]-> kind (R64's graph) instead of chunk mentions and Document -ABOUT->; expected answers unchanged. Question 6 is new (shared-part leak), expected answer from the complaint texts. Listed as gold corrections in REFACTOR_PLAN R65."
+ ],
+ "triples": [
+  {
+   "subject": "rusted",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "rear wheel wells",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED",
+   "labelled_as": {
+    "subject": "rear wheel wells",
+    "predicate": "HAS_PROBLEM",
+    "object": "rusted"
+   }
+  },
+  {
+   "subject": "rear wheel wells",
+   "predicate": "INSTALLED_IN",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED",
+   "labelled_as": {
+    "subject": "rear wheel wells",
+    "predicate": "PART_OF",
+    "object": "2015 Ford Escape"
+   }
+  },
+  {
+   "subject": "hesitation",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "accelerator",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR",
+   "labelled_as": {
+    "subject": "accelerator",
+    "predicate": "HAS_PROBLEM",
+    "object": "hesitation"
+   }
+  },
+  {
+   "subject": "accelerator",
+   "predicate": "INSTALLED_IN",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR",
+   "labelled_as": {
+    "subject": "accelerator",
+    "predicate": "PART_OF",
+    "object": "2015 Ford Escape"
+   }
+  },
+  {
+   "subject": "squeal",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "brake",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL",
+   "labelled_as": {
+    "subject": "brake",
+    "predicate": "HAS_PROBLEM",
+    "object": "squeal"
+   }
+  },
+  {
+   "subject": "brake",
+   "predicate": "INSTALLED_IN",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL",
+   "labelled_as": {
+    "subject": "brake",
+    "predicate": "PART_OF",
+    "object": "2015 Ford Escape"
+   }
+  },
+  {
+   "subject": "squeal",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "left rear brake",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "SECOND TIME, WITH VIDEO EVIDENCE OF SQUEAL, TECH DIAGNOSED LEFT REAR BRAKE",
+   "labelled_as": {
+    "subject": "left rear brake",
+    "predicate": "HAS_PROBLEM",
+    "object": "squeal"
+   }
+  },
+  {
+   "subject": "left rear brake",
+   "predicate": "INSTALLED_IN",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "TECH DIAGNOSED LEFT REAR BRAKE",
+   "labelled_as": {
+    "subject": "left rear brake",
+    "predicate": "PART_OF",
+    "object": "2015 Ford Escape"
+   }
+  },
+  {
+   "subject": "failed to deploy",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "air bags",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY",
+   "labelled_as": {
+    "subject": "air bags",
+    "predicate": "HAS_PROBLEM",
+    "object": "failed to deploy"
+   }
+  },
+  {
+   "subject": "air bags",
+   "predicate": "INSTALLED_IN",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY",
+   "labelled_as": {
+    "subject": "air bags",
+    "predicate": "PART_OF",
+    "object": "2015 Ford Escape"
+   }
+  },
+  {
+   "subject": "stalling",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION",
+   "labelled_as": {
+    "subject": "2015 Ford Escape",
+    "predicate": "HAS_PROBLEM",
+    "object": "stalling"
+   }
+  },
+  {
+   "subject": "hesitating",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2015 Ford Escape",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "evidence": "VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION",
+   "labelled_as": {
+    "subject": "2015 Ford Escape",
+    "predicate": "HAS_PROBLEM",
+    "object": "hesitating"
+   }
+  },
+  {
+   "subject": "do not lock",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "trunk",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "labelled_as": {
+    "subject": "trunk",
+    "predicate": "HAS_PROBLEM",
+    "object": "do not lock"
+   }
+  },
+  {
+   "subject": "trunk",
+   "predicate": "INSTALLED_IN",
+   "object": "2016 Honda Civic",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "labelled_as": {
+    "subject": "trunk",
+    "predicate": "PART_OF",
+    "object": "2016 Honda Civic"
+   }
+  },
+  {
+   "subject": "do not lock",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "glove compartment",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "labelled_as": {
+    "subject": "glove compartment",
+    "predicate": "HAS_PROBLEM",
+    "object": "do not lock"
+   }
+  },
+  {
+   "subject": "glove compartment",
+   "predicate": "INSTALLED_IN",
+   "object": "2016 Honda Civic",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "labelled_as": {
+    "subject": "glove compartment",
+    "predicate": "PART_OF",
+    "object": "2016 Honda Civic"
+   }
+  },
+  {
+   "subject": "react unpredictably",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "adaptive cruise control",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS",
+   "labelled_as": {
+    "subject": "adaptive cruise control",
+    "predicate": "HAS_PROBLEM",
+    "object": "react unpredictably"
+   }
+  },
+  {
+   "subject": "react unpredictably",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "lane keeping assist system",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS",
+   "labelled_as": {
+    "subject": "lane keeping assist system",
+    "predicate": "HAS_PROBLEM",
+    "object": "react unpredictably"
+   }
+  },
+  {
+   "subject": "brake suddenly",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "adaptive cruise control",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY",
+   "labelled_as": {
+    "subject": "adaptive cruise control",
+    "predicate": "HAS_PROBLEM",
+    "object": "brake suddenly"
+   }
+  },
+  {
+   "subject": "brake suddenly",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "lane keeping assist system",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY",
+   "labelled_as": {
+    "subject": "lane keeping assist system",
+    "predicate": "HAS_PROBLEM",
+    "object": "brake suddenly"
+   }
+  },
+  {
+   "subject": "rapidly decelerate",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "adaptive cruise control",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY",
+   "labelled_as": {
+    "subject": "adaptive cruise control",
+    "predicate": "HAS_PROBLEM",
+    "object": "rapidly decelerate"
+   }
+  },
+  {
+   "subject": "rapidly decelerate",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "lane keeping assist system",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY",
+   "labelled_as": {
+    "subject": "lane keeping assist system",
+    "predicate": "HAS_PROBLEM",
+    "object": "rapidly decelerate"
+   }
+  },
+  {
+   "subject": "depart the highway",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "adaptive cruise control",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY",
+   "labelled_as": {
+    "subject": "adaptive cruise control",
+    "predicate": "HAS_PROBLEM",
+    "object": "depart the highway"
+   }
+  },
+  {
+   "subject": "depart the highway",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "lane keeping assist system",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY",
+   "labelled_as": {
+    "subject": "lane keeping assist system",
+    "predicate": "HAS_PROBLEM",
+    "object": "depart the highway"
+   }
+  },
+  {
+   "subject": "adaptive cruise control",
+   "predicate": "INSTALLED_IN",
+   "object": "2016 Honda Civic",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY",
+   "labelled_as": {
+    "subject": "adaptive cruise control",
+    "predicate": "PART_OF",
+    "object": "2016 Honda Civic"
+   }
+  },
+  {
+   "subject": "lane keeping assist system",
+   "predicate": "INSTALLED_IN",
+   "object": "2016 Honda Civic",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY",
+   "labelled_as": {
+    "subject": "lane keeping assist system",
+    "predicate": "PART_OF",
+    "object": "2016 Honda Civic"
+   }
+  },
+  {
+   "subject": "piston clip ring",
+   "predicate": "NOT_EXPRESSIBLE",
+   "object": "engine failure",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.  RECALL NOT PUBLICLY RELEASED BY HONDA AT THIS TIME. THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING",
+   "labelled_as": {
+    "subject": "piston clip ring",
+    "predicate": "CAUSES",
+    "object": "engine failure"
+   }
+  },
+  {
+   "subject": "piston clip ring",
+   "predicate": "NOT_EXPRESSIBLE",
+   "object": "stalling",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.  RECALL NOT PUBLICLY RELEASED BY HONDA AT THIS TIME. THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING",
+   "labelled_as": {
+    "subject": "piston clip ring",
+    "predicate": "CAUSES",
+    "object": "stalling"
+   }
+  },
+  {
+   "subject": "piston clip ring",
+   "predicate": "INSTALLED_IN",
+   "object": "2016 Honda Civic",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH",
+   "labelled_as": {
+    "subject": "piston clip ring",
+    "predicate": "PART_OF",
+    "object": "2016 Honda Civic"
+   }
+  },
+  {
+   "subject": "piston clip ring recall",
+   "predicate": "COVERS_COMPONENT",
+   "object": "piston clip ring",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH",
+   "labelled_as": {
+    "subject": "piston clip ring",
+    "predicate": "COVERED_BY_RECALL",
+    "object": "piston clip ring recall"
+   }
+  },
+  {
+   "subject": "piston snap ring recall",
+   "predicate": "COVERS_COMPONENT",
+   "object": "piston snap ring",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL",
+   "labelled_as": {
+    "subject": "piston snap ring",
+    "predicate": "COVERED_BY_RECALL",
+    "object": "piston snap ring recall"
+   }
+  },
+  {
+   "subject": "failed",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "speedometer",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE SPEEDOMETER FAILED WITHOUT WARNING",
+   "labelled_as": {
+    "subject": "speedometer",
+    "predicate": "HAS_PROBLEM",
+    "object": "failed"
+   }
+  },
+  {
+   "subject": "speedometer",
+   "predicate": "INSTALLED_IN",
+   "object": "2017 Nissan Rogue",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE SPEEDOMETER FAILED WITHOUT WARNING",
+   "labelled_as": {
+    "subject": "speedometer",
+    "predicate": "PART_OF",
+    "object": "2017 Nissan Rogue"
+   }
+  },
+  {
+   "subject": "mistook the bridge for an object on the road",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "front camera system",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES",
+   "labelled_as": {
+    "subject": "front camera system",
+    "predicate": "HAS_PROBLEM",
+    "object": "mistook the bridge for an object on the road"
+   }
+  },
+  {
+   "subject": "activated the brakes",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "front camera system",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES",
+   "labelled_as": {
+    "subject": "front camera system",
+    "predicate": "HAS_PROBLEM",
+    "object": "activated the brakes"
+   }
+  },
+  {
+   "subject": "front camera system",
+   "predicate": "INSTALLED_IN",
+   "object": "2017 Nissan Rogue",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES",
+   "labelled_as": {
+    "subject": "front camera system",
+    "predicate": "PART_OF",
+    "object": "2017 Nissan Rogue"
+   }
+  },
+  {
+   "subject": "did not stop",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2017 Nissan Rogue",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "AS I TRIED TO SLOWDOWN THE VEHICLE INTO PARKING, THE CAR DID NOT STOP",
+   "labelled_as": {
+    "subject": "2017 Nissan Rogue",
+    "predicate": "HAS_PROBLEM",
+    "object": "did not stop"
+   }
+  },
+  {
+   "subject": "did not stop",
+   "predicate": "CAUSES_PROBLEM",
+   "object": "hitting the concrete wall",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE CAR DID NOT STOP.  I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL",
+   "labelled_as": {
+    "subject": "did not stop",
+    "predicate": "CAUSES",
+    "object": "hitting the concrete wall"
+   }
+  },
+  {
+   "subject": "switched to reverse",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "transmission",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS",
+   "labelled_as": {
+    "subject": "transmission",
+    "predicate": "HAS_PROBLEM",
+    "object": "switched to reverse"
+   }
+  },
+  {
+   "subject": "transmission",
+   "predicate": "INSTALLED_IN",
+   "object": "2017 Nissan Rogue",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS",
+   "labelled_as": {
+    "subject": "transmission",
+    "predicate": "PART_OF",
+    "object": "2017 Nissan Rogue"
+   }
+  },
+  {
+   "subject": "moved backwards",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2017 Nissan Rogue",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS",
+   "labelled_as": {
+    "subject": "2017 Nissan Rogue",
+    "predicate": "HAS_PROBLEM",
+    "object": "moved backwards"
+   }
+  },
+  {
+   "subject": "not moveing",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "gas gauge",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING",
+   "labelled_as": {
+    "subject": "gas gauge",
+    "predicate": "HAS_PROBLEM",
+    "object": "not moveing"
+   }
+  },
+  {
+   "subject": "gas gauge",
+   "predicate": "INSTALLED_IN",
+   "object": "2017 Nissan Rogue",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "evidence": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING",
+   "labelled_as": {
+    "subject": "gas gauge",
+    "predicate": "PART_OF",
+    "object": "2017 Nissan Rogue"
+   }
+  },
+  {
+   "subject": "crack",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "windshield",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP",
+   "labelled_as": {
+    "subject": "windshield",
+    "predicate": "HAS_PROBLEM",
+    "object": "crack"
+   }
+  },
+  {
+   "subject": "windshield",
+   "predicate": "INSTALLED_IN",
+   "object": "2019 Subaru Outback",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP",
+   "labelled_as": {
+    "subject": "windshield",
+    "predicate": "PART_OF",
+    "object": "2019 Subaru Outback"
+   }
+  },
+  {
+   "subject": "failure",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "navigation system",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "NAVIGATION SYSTEM FAILURE!",
+   "labelled_as": {
+    "subject": "navigation system",
+    "predicate": "HAS_PROBLEM",
+    "object": "failure"
+   }
+  },
+  {
+   "subject": "freezes up",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "navigation system",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "labelled_as": {
+    "subject": "navigation system",
+    "predicate": "HAS_PROBLEM",
+    "object": "freezes up"
+   }
+  },
+  {
+   "subject": "freezes up",
+   "predicate": "CAUSES_PROBLEM",
+   "object": "everything not work",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "labelled_as": {
+    "subject": "freezes up",
+    "predicate": "CAUSES",
+    "object": "everything not work"
+   }
+  },
+  {
+   "subject": "stays on at night",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "navigation system",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY",
+   "labelled_as": {
+    "subject": "navigation system",
+    "predicate": "HAS_PROBLEM",
+    "object": "stays on at night"
+   }
+  },
+  {
+   "subject": "stays on at night",
+   "predicate": "CAUSES_PROBLEM",
+   "object": "draining battery",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY",
+   "labelled_as": {
+    "subject": "stays on at night",
+    "predicate": "CAUSES",
+    "object": "draining battery"
+   }
+  },
+  {
+   "subject": "navigation system",
+   "predicate": "INSTALLED_IN",
+   "object": "2019 Subaru Outback",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM",
+   "labelled_as": {
+    "subject": "navigation system",
+    "predicate": "PART_OF",
+    "object": "2019 Subaru Outback"
+   }
+  },
+  {
+   "subject": "dead",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "battery",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE",
+   "labelled_as": {
+    "subject": "battery",
+    "predicate": "HAS_PROBLEM",
+    "object": "dead"
+   }
+  },
+  {
+   "subject": "battery",
+   "predicate": "INSTALLED_IN",
+   "object": "2019 Subaru Outback",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE",
+   "labelled_as": {
+    "subject": "battery",
+    "predicate": "PART_OF",
+    "object": "2019 Subaru Outback"
+   }
+  },
+  {
+   "subject": "parasitic battery drain",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "battery",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN",
+   "labelled_as": {
+    "subject": "battery",
+    "predicate": "HAS_PROBLEM",
+    "object": "parasitic battery drain"
+   }
+  },
+  {
+   "subject": "wouldn't take a jump",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "battery",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "BATTERY WAS TOTALLY DEAD EACH TIME, NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP",
+   "labelled_as": {
+    "subject": "battery",
+    "predicate": "HAS_PROBLEM",
+    "object": "wouldn't take a jump"
+   }
+  },
+  {
+   "subject": "no feedback",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "steering wheel",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL",
+   "labelled_as": {
+    "subject": "steering wheel",
+    "predicate": "HAS_PROBLEM",
+    "object": "no feedback"
+   }
+  },
+  {
+   "subject": "steering wheel",
+   "predicate": "INSTALLED_IN",
+   "object": "2019 Subaru Outback",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL",
+   "labelled_as": {
+    "subject": "steering wheel",
+    "predicate": "PART_OF",
+    "object": "2019 Subaru Outback"
+   }
+  },
+  {
+   "subject": "do not have any control",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2019 Subaru Outback",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "evidence": "IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL",
+   "labelled_as": {
+    "subject": "2019 Subaru Outback",
+    "predicate": "HAS_PROBLEM",
+    "object": "do not have any control"
+   }
+  },
+  {
+   "subject": "came out of the transmission box",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "gear shifter",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX",
+   "labelled_as": {
+    "subject": "gear shifter",
+    "predicate": "HAS_PROBLEM",
+    "object": "came out of the transmission box"
+   }
+  },
+  {
+   "subject": "gear shifter",
+   "predicate": "INSTALLED_IN",
+   "object": "2019 Toyota RAV4",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX",
+   "labelled_as": {
+    "subject": "gear shifter",
+    "predicate": "PART_OF",
+    "object": "2019 Toyota RAV4"
+   }
+  },
+  {
+   "subject": "shook",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "exterior rearview mirrors",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED",
+   "labelled_as": {
+    "subject": "exterior rearview mirrors",
+    "predicate": "HAS_PROBLEM",
+    "object": "shook"
+   }
+  },
+  {
+   "subject": "rattled",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "exterior rearview mirrors",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED",
+   "labelled_as": {
+    "subject": "exterior rearview mirrors",
+    "predicate": "HAS_PROBLEM",
+    "object": "rattled"
+   }
+  },
+  {
+   "subject": "two vehicles were shown",
+   "predicate": "AFFECTS_COMPONENT",
+   "object": "exterior rearview mirrors",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "IT LOOKED AS IF TWO VEHICLES WERE SHOWN IN THE MIRRORS EVERY TIME",
+   "labelled_as": {
+    "subject": "exterior rearview mirrors",
+    "predicate": "HAS_PROBLEM",
+    "object": "two vehicles were shown"
+   }
+  },
+  {
+   "subject": "exterior rearview mirrors",
+   "predicate": "INSTALLED_IN",
+   "object": "2019 Toyota RAV4",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED",
+   "labelled_as": {
+    "subject": "exterior rearview mirrors",
+    "predicate": "PART_OF",
+    "object": "2019 Toyota RAV4"
+   }
+  },
+  {
+   "subject": "will not accelerate",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2019 Toyota RAV4",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL",
+   "labelled_as": {
+    "subject": "2019 Toyota RAV4",
+    "predicate": "HAS_PROBLEM",
+    "object": "will not accelerate"
+   }
+  },
+  {
+   "subject": "premature auto-shutoff",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2019 Toyota RAV4",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL",
+   "labelled_as": {
+    "subject": "2019 Toyota RAV4",
+    "predicate": "HAS_PROBLEM",
+    "object": "premature auto-shutoff"
+   }
+  },
+  {
+   "subject": "hear wind",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2019 Toyota RAV4",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "YOU CAN HEAR WIND WHEN DRIVING YOUR VEHICLE",
+   "labelled_as": {
+    "subject": "2019 Toyota RAV4",
+    "predicate": "HAS_PROBLEM",
+    "object": "hear wind"
+   }
+  },
+  {
+   "subject": "smell freon",
+   "predicate": "AFFECTS_VEHICLE",
+   "object": "2019 Toyota RAV4",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "evidence": "ALSO YOU CAN SMELL FREON",
+   "labelled_as": {
+    "subject": "2019 Toyota RAV4",
+    "predicate": "HAS_PROBLEM",
+    "object": "smell freon"
+   }
+  }
+ ],
+ "er_pairs": [
+  {
+   "a": "piston clip ring",
+   "b": "piston snap ring",
+   "same": true
+  },
+  {
+   "a": "hesitation",
+   "b": "hesitating",
+   "same": true
+  },
+  {
+   "a": "crack",
+   "b": "cracked",
+   "same": true
+  },
+  {
+   "a": "draining battery",
+   "b": "parasitic battery drain",
+   "same": true
+  },
+  {
+   "a": "brake suddenly",
+   "b": "braked on its own",
+   "same": true
+  },
+  {
+   "a": "navigation system",
+   "b": "nav system",
+   "same": true
+  },
+  {
+   "a": "2019 Subaru Outback",
+   "b": "2019 Outback",
+   "same": true
+  },
+  {
+   "a": "adaptive cruise control",
+   "b": "ACC",
+   "same": true
+  },
+  {
+   "a": "lane keeping assist system",
+   "b": "LKAS",
+   "same": true
+  },
+  {
+   "a": "adaptive cruise control",
+   "b": "lane keeping assist system",
+   "same": false
+  },
+  {
+   "a": "dead battery",
+   "b": "parasitic battery drain",
+   "same": false
+  },
+  {
+   "a": "brake",
+   "b": "left rear brake",
+   "same": false
+  },
+  {
+   "a": "exterior rearview mirrors",
+   "b": "driver's side rearview mirror",
+   "same": false
+  },
+  {
+   "a": "did not stop",
+   "b": "braked on its own",
+   "same": false
+  },
+  {
+   "a": "will not accelerate",
+   "b": "hesitation",
+   "same": false
+  },
+  {
+   "a": "stalling",
+   "b": "engine failure",
+   "same": false
+  },
+  {
+   "a": "speedometer",
+   "b": "gas gauge",
+   "same": false
+  },
+  {
+   "a": "front camera system",
+   "b": "back up camera",
+   "same": false
+  },
+  {
+   "a": "trunk",
+   "b": "glove compartment",
+   "same": false
+  },
+  {
+   "a": "shook",
+   "b": "rattled",
+   "same": false
+  },
+  {
+   "a": "2019 Subaru Outback",
+   "b": "2019 Toyota RAV4",
+   "same": false
+  }
+ ],
+ "questions": [
+  {
+   "question": "Which recall campaigns of the 2015 Ford Escape concern its automatic transmission? (domain graph only)",
+   "cypher": "MATCH (r:Recall)-[:AFFECTS_VEHICLE]->(:Vehicle {model: 'ESCAPE'}) WHERE r.Component CONTAINS 'AUTOMATIC TRANSMISSION' RETURN DISTINCT r.NHTSACampaignNumber",
+   "expected": [
+    "22V254000",
+    "22V413000"
+   ]
+  },
+  {
+   "question": "Which vehicles do owners report braking on its own or suddenly?",
+   "cypher": "MATCH (v:Vehicle)-[:HAS_OBSERVATION]->(o:Observation)-[:SUBJECT|OBJECT]->(p:Mention {type: 'Problem'}) WHERE any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'brak') AND any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'sudden' OR toLower(n) CONTAINS 'its own' OR toLower(n) CONTAINS 'activat') RETURN DISTINCT v.model",
+   "expected": [
+    "CIVIC",
+    "ROGUE"
+   ]
+  },
+  {
+   "question": "Which vehicles do owners report with a cracked windshield?",
+   "cypher": "MATCH (v:Vehicle)-[:HAS_OBSERVATION]->(o:Observation)-[:SUBJECT|OBJECT]->(p:Mention {type: 'Problem'}) WHERE any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'crack') AND (any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'windshield') OR EXISTS { MATCH (o)-[:SUBJECT|OBJECT]->(w:Mention) WHERE w <> p AND any(n IN [w.name] + coalesce(w.aliases, []) WHERE toLower(n) CONTAINS 'windshield') }) RETURN DISTINCT v.model",
+   "expected": [
+    "OUTBACK"
+   ]
+  },
+  {
+   "question": "Which vehicles do owners report with air bags that failed to deploy?",
+   "cypher": "MATCH (v:Vehicle)-[:HAS_OBSERVATION]->(o:Observation)-[:SUBJECT|OBJECT]->(p:Mention {type: 'Problem'}) WHERE any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'deploy') RETURN DISTINCT v.model",
+   "expected": [
+    "ESCAPE"
+   ]
+  },
+  {
+   "question": "Which engine recall campaign belongs to the vehicle whose owners report a piston ring recall?",
+   "cypher": "MATCH (v:Vehicle)-[:HAS_OBSERVATION]->(:Observation)-[:SUBJECT|OBJECT]->(e:Mention) WHERE e.type IN ['Recall', 'Component'] AND any(n IN [e.name] + coalesce(e.aliases, []) WHERE toLower(n) CONTAINS 'piston') MATCH (v)<-[:AFFECTS_VEHICLE]-(r:Recall) WHERE r.Component STARTS WITH 'ENGINE' RETURN DISTINCT r.NHTSACampaignNumber",
+   "expected": [
+    "16V074000"
+   ]
+  },
+  {
+   "question": "Which vehicles do owners report with a transmission that switched to reverse on its own? (a part kind shared by several vehicles)",
+   "cypher": "MATCH (v:Vehicle)-[:HAS_OBSERVATION]->(o:Observation)-[:SUBJECT|OBJECT]->(p:Mention {type: 'Problem'}) WHERE any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'reverse') AND any(n IN [p.name] + coalesce(p.aliases, []) WHERE toLower(n) CONTAINS 'switch') RETURN DISTINCT v.model",
+   "expected": [
+    "ROGUE"
+   ]
+  },
+  {
+   "question": "Which engine recall campaign affects the vehicle of complaint 10823637, whose own record carries a piston claim? (R67: starts at the Complaint record's HAS_OBSERVATION, no Document-ABOUT jump)",
+   "cypher": "MATCH (c:Complaint {odiNumber: 10823637})-[:HAS_OBSERVATION]->(:Observation)-[:SUBJECT|OBJECT]->(e:Mention) WHERE any(n IN [e.name] + coalesce(e.aliases, []) WHERE toLower(n) CONTAINS 'piston') MATCH (c)-[:CONCERNS_VEHICLE]->(:Vehicle)<-[:AFFECTS_VEHICLE]-(r:Recall) WHERE r.Component STARTS WITH 'ENGINE' RETURN DISTINCT r.NHTSACampaignNumber",
+   "expected": [
+    "16V074000"
+   ]
+  }
+ ]
+}

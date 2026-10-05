@@ -165,8 +165,8 @@ def test_verdicts_that_do_not_fit_the_sheet_are_refused():
 def test_eval_stage_logs_the_judge_sheet_then_the_validated_metrics(driver, tmp_path):
     driver.execute_query(
         "CREATE (d:Document {doc_id: 'a.md'}), (c:Chunk {chunk_id: 'a.md#0', text: 'x'})-[:PART_OF]->(d), "
-        "(t:Entity {id: '1', name: 'Table', type: 'Product'}), "
-        "(w:Entity {id: '2', name: 'legs wobble', type: 'Defect'}), "
+        "(t:Mention {id: '1', name: 'Table', type: 'Product', doc_id: 'a.md'}), "
+        "(w:Mention {id: '2', name: 'legs wobble', type: 'Defect', doc_id: 'a.md'}), "
         "(c)-[:MENTIONS]->(t), "
         "(o:Observation {id: 'o1', predicate: 'HAS_DEFECT', chunk_id: 'a.md#0', evidence: 'legs wobble'}), "
         "(o)-[:SUBJECT]->(t), (o)-[:OBJECT]->(w), (o)-[:FROM]->(c)"

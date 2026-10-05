@@ -1,12 +1,13 @@
-"""Derived facts: sentence picking as a pure function, and (with Neo4j) the rule that a named part is
-PART_OF the product its document is about: one fact per mention chunk, verbatim evidence, product entity
-created once (or reused when resolution merged it under another spelling, or when the text names it in
-full, R60), idempotent, scored by the gold set and accepted by the validation checks."""
+"""Derived facts: sentence picking and the containing mention as pure functions, and (with Neo4j) the rule
+that a named part is PART_OF the product its document is about: one fact per mention chunk, verbatim
+evidence, the product's mention of the document reused (named exactly like the node, or in full, R60) or
+created once per document (R75), idempotent, scored by the gold set and accepted by the validation checks."""
 
 import pytest
 
+from kgbuilder.core.identity import mention_id
 from kgbuilder.core.text import pick_sentence
-from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_entity, derive_facts
+from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_mention, derive_facts
 from kgbuilder.resolution.linking import attach_observations, link_graphs
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
@@ -14,7 +15,7 @@ from kgbuilder.text.documents import Document
 from kgbuilder.text.extraction import Triple
 from kgbuilder.text.lexical import write_lexical_graph
 from kgbuilder.text.schema import EntityType, FactType, TextSchema
-from kgbuilder.text.subject_graph import write_subject_graph
+from kgbuilder.text.subject_graph import mention_row, write_mentions, write_subject_graph
 from kgbuilder.validation.checks.base import CheckContext
 from kgbuilder.validation.evaluate import score_triples
 from kgbuilder.validation.gold import GoldTriple
@@ -25,7 +26,7 @@ from .sample_plans import node
 
 SCHEMA = TextSchema(
     entity_types=[
-        EntityType(name="Product", description="a product"),
+        EntityType(name="Product", description="a product", identity="keyed", record_labels=["Product"]),
         EntityType(name="Component", description="a part"),
         EntityType(name="FailureMode", description="a failure"),
     ],
@@ -47,6 +48,20 @@ PLAN = ConstructionPlan(
 )
 
 
+def triple(subject, stype, predicate, obj, otype, chunk, evidence) -> Triple:
+    return Triple(
+        subject=subject, subject_type=stype, predicate=predicate, object=obj, object_type=otype,
+        evidence=evidence, chunk_id=chunk,
+    )  # fmt: skip
+
+
+def mention(driver, entity_type: str, name: str, chunk_ids: list[str]) -> str:
+    """Write a mention named in the given chunks without a claim (the extractor named it, no fact held)."""
+    row = mention_row(entity_type, name, chunk_ids[0])
+    write_mentions(driver, [row], {(c, row.id) for c in chunk_ids})
+    return row.id
+
+
 def test_pick_sentence_returns_the_first_verbatim_sentence_naming_the_entity():
     text = "Looks **nice**.\nThe Drawer Rails stick badly! Avoid.\n\n- @anna"
     assert (
@@ -57,94 +72,98 @@ def test_pick_sentence_returns_the_first_verbatim_sentence_naming_the_entity():
     assert pick_sentence(text, [""]) is None
 
 
-def test_the_containing_entity_names_every_word_of_the_node_as_whole_words():
-    full = Candidate(id="full", names=["2019 Subaru Outback"], mentions=3)
-    short = Candidate(id="short", names=["2019 OUTBACK"], mentions=1)
-    escaped = Candidate(id="escaped", names=["escaped coolant"], mentions=9)
-    assert containing_entity("OUTBACK", [short, full]) == "full"  # the most-mentioned wins
-    assert containing_entity("Subaru Outback", [short, full]) == "full"  # every word, any order
-    assert containing_entity("ESCAPE", [escaped]) is None  # a word inside another word is no match
-    assert containing_entity("OUTBACK", []) is None
-    assert containing_entity("", [full]) is None
-    # a tie on mentions goes to the shorter name, then to the id: the same graph gives the same choice
-    tied = Candidate(id="tied", names=["Outback 2019"], mentions=3)
-    assert containing_entity("OUTBACK", [full, tied]) == "tied"
-    twin = Candidate(id="a-twin", names=["2019 Outback"], mentions=3)
-    assert containing_entity("OUTBACK", [tied, twin]) == "a-twin"
+def test_the_containing_mention_names_every_word_of_the_node_as_whole_words():
+    full = Candidate(id="full", name="2019 Subaru Outback", chunks=3)
+    short = Candidate(id="short", name="2019 OUTBACK", chunks=1)
+    escaped = Candidate(id="escaped", name="escaped coolant", chunks=9)
+    assert containing_mention("OUTBACK", [short, full]) == "full"  # the most mentioned wins
+    assert containing_mention("Subaru Outback", [short, full]) == "full"  # every word, any order
+    assert containing_mention("ESCAPE", [escaped]) is None  # a word inside another word is no match
+    assert containing_mention("OUTBACK", []) is None
+    assert containing_mention("", [full]) is None
+    # a tie on chunks goes to the shorter name, then to the id: the same graph gives the same choice
+    tied = Candidate(id="tied", name="Outback 2019", chunks=3)
+    assert containing_mention("OUTBACK", [full, tied]) == "tied"
+    twin = Candidate(id="a-twin", name="2019 Outback", chunks=3)
+    assert containing_mention("OUTBACK", [tied, twin]) == "a-twin"
+
+
+VEHICLE_PLAN = ConstructionPlan(
+    nodes=[
+        node("vehicles.csv", "Vehicle", "vehicle_id", ["model"]).model_copy(update={"name_column": "model"})
+    ],
+    relationships=[],
+)
+VEHICLE_SCHEMA = TextSchema(
+    entity_types=[
+        EntityType(name="Vehicle", description="a vehicle", identity="keyed", record_labels=["Vehicle"]),
+        EntityType(name="Component", description="a part"),
+    ],
+    fact_types=[
+        FactType(
+            predicate="PART_OF",
+            subject_type="Component",
+            object_type="Vehicle",
+            description="y",
+            derived=True,
+        )
+    ],
+)
 
 
 @pytest.mark.neo4j
-def test_the_vehicle_the_text_names_in_full_is_the_target_not_a_second_entity(driver):
-    plan = ConstructionPlan(
-        nodes=[
-            node("vehicles.csv", "Vehicle", "vehicle_id", ["model"]).model_copy(
-                update={"name_column": "model"}
-            )
-        ],
-        relationships=[],
-    )
-    schema = TextSchema(
-        entity_types=[
-            EntityType(name="Vehicle", description="a vehicle"),
-            EntityType(name="Component", description="a part"),
-        ],
-        fact_types=[
-            FactType(
-                predicate="PART_OF",
-                subject_type="Component",
-                object_type="Vehicle",
-                description="y",
-                derived=True,
-            )
-        ],
-    )
+def test_the_vehicle_the_text_names_in_full_is_the_target_not_a_second_mention(driver):
     driver.execute_query(
         "CREATE (v:Vehicle {vehicle_id: 'V1', model: 'OUTBACK'}), "
         "(w:Vehicle {vehicle_id: 'V2', model: 'ESCAPE'}), "
         "(d:Document {doc_id: 's.md', title: 'subaru_outback_complaints'})-[:ABOUT]->(v), "
-        "(c:Chunk {chunk_id: 's.md#0', text: 'The 2019 Subaru Outback battery died.'})-[:PART_OF]->(d), "
-        "(bat:Entity {id: 'e1', name: 'battery', type: 'Component', aliases: ['battery']}), "
-        "(c)-[:MENTIONS]->(bat), "
-        "(car:Entity {id: 'e2', name: '2019 Subaru Outback', type: 'Vehicle', "
-        "aliases: ['2019 Subaru Outback']}), (c)-[:MENTIONS]->(car), "
-        # a vehicle entity containing OUTBACK, but in a document about another vehicle: not a candidate
+        "(:Chunk {chunk_id: 's.md#0', text: 'The 2019 Subaru Outback battery died.'})-[:PART_OF]->(d), "
         "(e:Document {doc_id: 'f.md', title: 'ford_escape_complaints'})-[:ABOUT]->(w), "
-        "(k:Chunk {chunk_id: 'f.md#0', text: 'My old Outback never did this.'})-[:PART_OF]->(e), "
-        "(old:Entity {id: 'e3', name: 'old Outback', type: 'Vehicle', aliases: ['old Outback']}), "
-        "(k)-[:MENTIONS]->(old)"
+        "(:Chunk {chunk_id: 'f.md#0', text: 'My old Outback never did this.'})-[:PART_OF]->(e)"
     )
-    report = derive_facts(driver, schema, plan)
-    assert report.facts_derived == 1 and report.entities_created == 0 and report.targets_by_containment == 1
+    battery = mention(driver, "Component", "battery", ["s.md#0"])
+    car = mention(driver, "Vehicle", "2019 Subaru Outback", ["s.md#0"])
+    # a vehicle mention containing OUTBACK, but in a document about another vehicle: not a candidate
+    mention(driver, "Vehicle", "old Outback", ["f.md#0"])
+
+    report = derive_facts(driver, VEHICLE_SCHEMA, VEHICLE_PLAN)
+    assert report.facts_derived == 1 and report.mentions_created == 0 and report.targets_by_containment == 1
     records, _, _ = driver.execute_query(
-        "MATCH (:Entity {id: 'e1'})<-[:SUBJECT]-(:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Entity) "
-        "RETURN o.id AS id"
+        "MATCH (:Mention {id: $s})<-[:SUBJECT]-(:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Mention) "
+        "RETURN o.id AS id",
+        s=battery,
     )
-    assert [r["id"] for r in records] == ["e2"]
-    # a rerun picks the same entity and adds nothing
-    again = derive_facts(driver, schema, plan)
-    assert again.facts_derived == 1 and again.entities_created == 0
+    assert [r["id"] for r in records] == [car]
+    # a rerun picks the same mention and adds nothing
+    again = derive_facts(driver, VEHICLE_SCHEMA, VEHICLE_PLAN)
+    assert again.facts_derived == 1 and again.mentions_created == 0
     assert driver.execute_query("MATCH (o:Observation) RETURN count(o) AS n")[0][0]["n"] == 1
 
 
 @pytest.mark.neo4j
-def test_derivation_reuses_the_product_entity_that_resolution_merged_under_another_spelling(driver):
+def test_the_product_named_exactly_like_its_node_is_reused_once_per_document(driver):
+    """R75: a mention belongs to one document, so the product of each review file is its own mention; the
+    identity stage later finds that both are the one record."""
     driver.execute_query(
         "CREATE (p:Product {product_id: 'P1', product_name: 'Västerås Bookshelf'}), "
         "(d:Document {doc_id: 'v.md', title: 'vasteras_bookshelf_reviews'})-[:ABOUT]->(p), "
-        "(c:Chunk {chunk_id: 'v.md#0', text: 'The shelves sag.'})-[:PART_OF]->(d), "
-        "(shelves:Entity {id: 'e1', name: 'shelves', type: 'Component', aliases: ['shelves']}), "
-        "(c)-[:MENTIONS]->(shelves), "
-        # resolution kept the plural spelling as canonical; the singular survives only as an alias
-        "(canon:Entity {id: 'merged', name: 'Västerås Bookshelves', type: 'Product', "
-        "aliases: ['Västerås Bookshelf', 'Västerås Bookshelves']}), (c)-[:MENTIONS]->(canon)"
+        "(e:Document {doc_id: 'w.md', title: 'vasteras_bookshelf_notes'})-[:ABOUT]->(p), "
+        "(:Chunk {chunk_id: 'v.md#0', text: 'The Västerås Bookshelf shelves sag.'})-[:PART_OF]->(d), "
+        "(:Chunk {chunk_id: 'w.md#0', text: 'The shelves bow.'})-[:PART_OF]->(e)"
     )
+    mention(driver, "Component", "shelves", ["v.md#0"])
+    mention(driver, "Component", "shelves", ["w.md#0"])
+    named = mention(driver, "Product", "Västerås Bookshelf", ["v.md#0"])
     report = derive_facts(driver, SCHEMA, PLAN)
-    assert report.facts_derived == 1 and report.entities_created == 0
+    assert report.facts_derived == 2 and report.mentions_created == 1  # only w.md had no product mention
     records, _, _ = driver.execute_query(
-        "MATCH (:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Entity) RETURN o.id AS id"
+        "MATCH (:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Mention) "
+        "RETURN o.id AS id, o.doc_id AS doc ORDER BY doc"
     )
-    assert [r["id"] for r in records] == ["merged"]
-    assert driver.execute_query("MATCH (e:Entity {type: 'Product'}) RETURN count(e) AS n")[0][0]["n"] == 1
+    assert [(r["id"], r["doc"]) for r in records] == [
+        (named, "v.md"),
+        (mention_id("Product", "Västerås Bookshelf", "w.md"), "w.md"),
+    ]
 
 
 @pytest.mark.neo4j
@@ -152,37 +171,32 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
     driver.execute_query(
         "CREATE (p:Product {product_id: 'P1', product_name: 'Helsingborg Dresser'}), "
         "(d:Document {doc_id: 'h.md', title: 'helsingborg_dresser_reviews'})-[:ABOUT]->(p), "
-        "(c1:Chunk {chunk_id: 'h.md#0', text: 'Looks nice. The drawer rails stick badly! Avoid.'})"
+        "(:Chunk {chunk_id: 'h.md#0', text: 'Looks nice. The drawer rails stick badly! Avoid.'})"
         "-[:PART_OF]->(d), "
-        "(c2:Chunk {chunk_id: 'h.md#1', text: 'The rails are rough.'})-[:PART_OF]->(d), "
-        "(rails:Entity {id: 'e1', name: 'drawer rails', type: 'Component', "
-        "aliases: ['drawer rails', 'rails']}), "
-        "(c1)-[:MENTIONS]->(rails), (c2)-[:MENTIONS]->(rails), "
-        "(stick:Entity {id: 'e2', name: 'stick', type: 'FailureMode', aliases: ['stick']}), "
-        "(c1)-[:MENTIONS]->(stick), "
-        "(x:Observation {id: 'x', predicate: 'EXHIBITS_FAILURE', chunk_id: 'h.md#0', "
-        "evidence: 'The drawer rails stick badly!'}), "
-        "(x)-[:SUBJECT]->(rails), (x)-[:OBJECT]->(stick), (x)-[:FROM]->(c1), "
-        # mentioned in c2 by a name c2's text does not contain (it came through the document context)
-        "(handles:Entity {id: 'e3', name: 'handles', type: 'Component', aliases: ['handles']}), "
-        "(c2)-[:MENTIONS]->(handles), "
+        "(:Chunk {chunk_id: 'h.md#1', text: 'The drawer rails are rough.'})-[:PART_OF]->(d), "
         # a document that is ABOUT nothing: its parts belong to no known product
         "(o:Document {doc_id: 'o.md', title: 'notes'}), "
-        "(c3:Chunk {chunk_id: 'o.md#0', text: 'legs wobble'})-[:PART_OF]->(o), "
-        "(legs:Entity {id: 'e4', name: 'legs', type: 'Component', aliases: ['legs']}), "
-        "(c3)-[:MENTIONS]->(legs)"
+        "(:Chunk {chunk_id: 'o.md#0', text: 'legs wobble'})-[:PART_OF]->(o)"
     )
+    stick = triple(
+        "drawer rails", "Component", "EXHIBITS_FAILURE", "stick", "FailureMode", "h.md#0",
+        "The drawer rails stick badly!",
+    )  # fmt: skip
+    write_subject_graph(driver, [stick], extractor="test")
+    mention(driver, "Component", "drawer rails", ["h.md#1"])
+    # named in h.md#1 by a name its text does not contain (it came through the document context)
+    mention(driver, "Component", "handles", ["h.md#1"])
+    mention(driver, "Component", "legs", ["o.md#0"])
 
     report = derive_facts(driver, SCHEMA, PLAN)
     assert report.model_dump() == {
         "facts_derived": 2,
-        "entities_created": 1,
+        "mentions_created": 1,
         "skipped_no_evidence": 1,
         "targets_by_containment": 0,
     }
-
     records, _, _ = driver.execute_query(
-        "MATCH (s:Entity)<-[:SUBJECT]-(f:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Entity), "
+        "MATCH (s:Mention)<-[:SUBJECT]-(f:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Mention), "
         "(f)-[:FROM]->(:Chunk {chunk_id: f.chunk_id}) "
         "RETURN s.name AS s, o.name AS o, o.type AS t, f.chunk_id AS c, f.evidence AS e, "
         "f.extractor AS x ORDER BY c"
@@ -191,16 +205,16 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
         {"s": "drawer rails", "o": "Helsingborg Dresser", "t": "Product", "c": "h.md#0",
          "e": "The drawer rails stick badly!", "x": DERIVED_EXTRACTOR},
         {"s": "drawer rails", "o": "Helsingborg Dresser", "t": "Product", "c": "h.md#1",
-         "e": "The rails are rough.", "x": DERIVED_EXTRACTOR},
+         "e": "The drawer rails are rough.", "x": DERIVED_EXTRACTOR},
     ]  # fmt: skip
     mentions = driver.execute_query(
-        "MATCH (:Chunk)-[:MENTIONS]->(o:Entity {name: 'Helsingborg Dresser'}) RETURN count(*) AS n"
+        "MATCH (:Chunk)-[:MENTIONS]->(o:Mention {name: 'Helsingborg Dresser'}) RETURN count(*) AS n"
     )[0][0]["n"]
     assert mentions == 2
 
-    # a rerun (kg link is recomputed after every resolve) adds nothing
+    # a rerun (kg link recomputes) adds nothing
     again = derive_facts(driver, SCHEMA, PLAN)
-    assert again.facts_derived == 2 and again.entities_created == 0
+    assert again.facts_derived == 2 and again.mentions_created == 0
     count = "MATCH (o:Observation {predicate: 'PART_OF'}) RETURN count(o) AS n"
     assert driver.execute_query(count)[0][0]["n"] == 2
 
@@ -238,15 +252,12 @@ def test_a_shared_part_no_longer_carries_one_products_defect_to_another(driver):
         Chunk(chunk_id="l.md#0", doc_id="l.md", index=0, text="The drawer rails glide well."),
     ]
     write_lexical_graph(driver, documents, chunks)
-    stick = Triple(
-        subject="drawer rails", subject_type="Component", predicate="EXHIBITS_FAILURE", object="stick",
-        object_type="FailureMode", evidence="The drawer rails stick badly.", chunk_id="h.md#0",
+    stick = triple(
+        "drawer rails", "Component", "EXHIBITS_FAILURE", "stick", "FailureMode", "h.md#0",
+        "The drawer rails stick badly.",
     )  # fmt: skip
     write_subject_graph(driver, [stick], extractor="test")
-    # the bed review names the rails without a failure: the extractor's mention, no claim
-    driver.execute_query(
-        "MATCH (c:Chunk {chunk_id: 'l.md#0'}), (e:Entity {name: 'drawer rails'}) MERGE (c)-[:MENTIONS]->(e)"
-    )
+    mention(driver, "Component", "drawer rails", ["l.md#0"])  # the bed review names the rails, no claim
 
     link_graphs(driver, PLAN)
     derive_facts(driver, SCHEMA, PLAN)
@@ -255,7 +266,7 @@ def test_a_shared_part_no_longer_carries_one_products_defect_to_another(driver):
 
     def claims(product: str) -> list[str]:
         records, _, _ = driver.execute_query(
-            "MATCH (:Product {product_name: $p})-[:HAS_OBSERVATION]->(o:Observation)-[:OBJECT]->(t:Entity) "
+            "MATCH (:Product {product_name: $p})-[:HAS_OBSERVATION]->(o:Observation)-[:OBJECT]->(t:Mention) "
             "RETURN o.predicate + ' ' + t.name AS claim ORDER BY claim",
             p=product,
         )
