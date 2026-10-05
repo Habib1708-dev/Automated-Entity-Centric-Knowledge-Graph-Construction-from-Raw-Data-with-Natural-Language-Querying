@@ -1,7 +1,7 @@
-"""What the graph holds, described for the model that writes the exact route's Cypher and for the router.
+"""What the graph holds, described for the model that writes query plans (R74) and the fallback Cypher.
 
 Role in the pipeline: read once per `kg qa` system from the current graph (graph_store.py), rendered into the
-text2cypher and router prompts (exact.py, router.py).
+planner and text2cypher prompts (planner.py, exact.py).
 Design: read from the graph itself, not from the plan and schema files, because the graph is what a query
 runs against: labels with their property keys and a few example values, relationship patterns, the entity
 types and the claim patterns (subject type, predicate, object type) of the observations. Every value comes

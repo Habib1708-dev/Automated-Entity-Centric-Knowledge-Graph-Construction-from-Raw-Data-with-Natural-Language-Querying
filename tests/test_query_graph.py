@@ -1,7 +1,8 @@
 """The query stage against Neo4j (R71): each traversal pattern on a hand-made graph, the hop limit, walks that
 must not pass through documents, the node names and chunks the store reads, the chunk vector index, and
-`kg qa`'s stage end to end with a scripted reader (params, metrics and the answers file), and the
-records-plus-vector system on the same graph: its schema cut to the record layer and its stage (R73).
+`kg qa`'s stage end to end with a scripted planner and reader (params, metrics, plans and the answers
+file, R74), and the records-plus-vector system on the same graph: its schema cut to the record layer and
+its plans over records only (R73, R74).
 Needs Neo4j."""
 
 import json
@@ -12,10 +13,9 @@ from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAStage
 from kgbuilder.pipeline.stage import PLAN_FILE
 from kgbuilder.query.answers import load_system_answers
-from kgbuilder.query.exact import CypherParameter, CypherProposal
 from kgbuilder.query.graph_store import Neo4jGraphStore
+from kgbuilder.query.plan import PlanStep, QueryPlan
 from kgbuilder.query.reader import ReaderAnswer, ReaderCitation
-from kgbuilder.query.router import RouteChoice
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.lexical import CHUNK_VECTOR_INDEX
 from kgbuilder.validation.qa_gold import QAGold
@@ -205,58 +205,30 @@ class AxisEmbedder:
         return [[1.0, 0.0] for _ in texts]
 
 
-def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_score(driver, tmp_path):
-    build(driver)
-    out = tmp_path / "out"
-    out.mkdir()
-    (out / PLAN_FILE).write_text(PLAN.model_dump_json(), encoding="utf-8")
+def qa_gold(tmp_path, questions: list[dict]):
     gold = QAGold.model_validate(
         {
-            "dataset": "test",
-            "written_by": "claude",
-            "date": "2026-09-30",
+            "dataset": "test", "written_by": "claude", "date": "2026-10-05",
             "corpus": {
                 "data_dir": "x", "chunk_max_chars": 1500, "chunk_min_chars": 200, "chunk_overlap_chars": 0
             },
-            "questions": [
-                {"id": "Q1", "type": "lookup", "question": "Which press has a spindle that wobbles?",
-                 "expected": {"entities": [{"name": "Quill Press"}]}, "route": "retrieval",
-                 "chunks": [{"chunk_id": "notes.md#0", "quote": "The spindle wobbles."}]},
-                {"id": "Q2", "type": "aggregation", "question": "How many notes name the spindle?",
-                 "expected": {"number": 1}, "route": "exact",
-                 "chunks": [{"chunk_id": "notes.md#0", "quote": "spindle"}]},
-                {"id": "Q3", "type": "lookup", "question": "What happened to the Quill Press delivery?",
-                 "expected": {"text": "It was late."}, "route": "retrieval",
-                 "chunks": [{"chunk_id": "notes.md#1", "quote": "Delivered late."}]},
-            ],
+            "questions": questions,
         }
     )  # fmt: skip
-    gold_file = tmp_path / "gold.json"
-    gold_file.write_text(gold.model_dump_json(), encoding="utf-8")
-    reply = ReaderAnswer(
-        entities=["Quill Press"],
-        citations=[ReaderCitation(chunk_id="notes.md#0", quote="the spindle wobbles")],
-    )
-    count = "MATCH (d:Document) WHERE d.doc_id = {} RETURN count(d) AS n"
-    proposals = [  # the first quotes its value and is refused; the retry passes it as a parameter
-        CypherProposal(cypher=count.format("'notes.md'"), answer_form="number"),
-        CypherProposal(
-            cypher=count.format("$doc"),
-            parameters=[CypherParameter(name="doc", value="notes.md")],
-            answer_form="number",
-        ),
-    ]
+    path = tmp_path / "gold.json"
+    path.write_text(gold.model_dump_json(), encoding="utf-8")
+    return path
 
-    def script(prompt, schema):
-        if schema is RouteChoice:
-            return RouteChoice(route="exact" if "How many" in prompt else "retrieval", reason="r")
-        if schema is CypherProposal:
-            return proposals.pop(0)
-        return reply
 
-    tracker = RecordingTracker()
+def plan(*steps: dict) -> QueryPlan:
+    return QueryPlan(steps=[PlanStep(**s) for s in steps])
+
+
+def qa_context(driver, out, script, tracker):
+    out.mkdir(exist_ok=True)
+    (out / PLAN_FILE).write_text(PLAN.model_dump_json(), encoding="utf-8")
     settings = Settings(qa_model="reader-model", qa_top_k=2, qa_link_neighbours=0, qa_workers=1)
-    ctx = PipelineContext(
+    return PipelineContext(
         settings=settings,
         driver=driver,
         out=out,
@@ -265,29 +237,74 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
         tracker=tracker,
     )
 
-    run_stages(ctx, PipelineState(gold=gold_file), [QAStage("graph")])
+
+def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_score(driver, tmp_path):
+    build(driver)
+    gold_file = qa_gold(
+        tmp_path,
+        [
+            {"id": "Q1", "type": "lookup", "question": "Which press has a spindle that wobbles?",
+             "expected": {"entities": [{"name": "Quill Press"}]}, "route": "retrieval",
+             "chunks": [{"chunk_id": "notes.md#0", "quote": "The spindle wobbles."}]},
+            {"id": "Q2", "type": "aggregation", "question": "How many notes name the spindle?",
+             "expected": {"number": 1}, "route": "exact",
+             "chunks": [{"chunk_id": "notes.md#0", "quote": "spindle"}]},
+            {"id": "Q3", "type": "lookup", "question": "What happened to the Quill Press delivery?",
+             "expected": {"text": "It was late."}, "route": "retrieval",
+             "chunks": [{"chunk_id": "notes.md#1", "quote": "Delivered late."}]},
+        ],
+    )  # fmt: skip
+    reply = ReaderAnswer(
+        entities=["Quill Press"],
+        citations=[ReaderCitation(chunk_id="notes.md#0", quote="the spindle wobbles")],
+    )
+    plans = {  # Q2's first plan names a label the graph lacks and is refused; the retry counts claims
+        "Which press": [plan({"op": "answer_from_chunks"})],
+        "How many": [
+            plan({"op": "filter_records", "label": "Note"}, {"op": "count", "input": 0}),
+            plan(
+                {"op": "find_entity", "name": "spindle", "label": "Component"},
+                {"op": "find_claims", "input": 0},
+                {"op": "count", "input": 1, "unit": "documents"},
+            ),
+        ],
+        "What happened": [
+            plan({"op": "find_entity", "name": "Quill Press"}, {"op": "answer_from_chunks", "input": 0})
+        ],
+    }
+
+    def script(prompt, schema):
+        if schema is QueryPlan:
+            question = prompt.rsplit("<question>", 1)[1]
+            return next(v for k, v in plans.items() if question.startswith(k)).pop(0)
+        return reply
+
+    tracker = RecordingTracker()
+    out = tmp_path / "out"
+    run_stages(qa_context(driver, out, script, tracker), PipelineState(gold=gold_file), [QAStage("graph")])
 
     run = tracker.run("qa_graph")
     assert run.logged_params["system"] == "graph" and run.logged_params["model"] == "reader-model"
     assert {
-        "prompt_version", "router_prompt_version", "cypher_prompt_version", "qa_hops", "qa_link_fuzzy",
-        "qa_cypher_limit", "qa_cypher_timeout_s", "gold_hash", "workers",
+        "prompt_version", "planner_prompt_version", "read_check_prompt_version", "cypher_prompt_version",
+        "qa_hops", "qa_step_cap", "qa_check_limit", "qa_check_chunks", "gold_hash", "workers",
     } <= set(run.logged_params)  # fmt: skip
     metrics = run.logged_metrics
-    # Q1 read from the text, Q2 counted by the retried query; Q3 is free text and waits for the judge
+    # Q1 read from the text the graph route reached, Q2 counted by code; Q3 is free text, for the judge
     assert metrics["answer_accuracy"] == 1.0 and metrics["answer_accuracy_n"] == 2
-    assert metrics["answers_unjudged"] == 1 and metrics["route_accuracy"] == 1.0
-    assert (metrics["routed_exact"], metrics["exact_answered"], metrics["exact_fallbacks"]) == (1, 1, 0)
-    assert (metrics["cypher_proposals"], metrics["cypher_refused"]) == (2, 1)
-    assert metrics["recall_at_k"] == 1.0  # Q1's and Q3's gold chunks are among the two shown
-    assert metrics["citation_faithfulness"] == 1.0 and metrics["questions_unlinked"] == 0
+    assert metrics["answers_unjudged"] == 1
+    assert (metrics["plans_proposed"], metrics["plans_refused"], metrics["answers_retried"]) == (4, 1, 1)
+    assert (metrics["answers_using_find_claims"], metrics["answers_using_answer_from_chunks"]) == (1, 2)
+    assert (metrics["fallback_text2cypher"], metrics["fallback_retrieval"]) == (0, 0)
+    assert metrics["citation_faithfulness"] == 1.0
     answers = load_system_answers(out / "answers_graph.jsonl")
     assert [a.question_id for a in answers] == ["Q1", "Q2", "Q3"]
-    assert answers[0].retrieved[0] == "notes.md#0" and answers[0].trace.linked
-    # the exact answer keeps both proposals: the refused one with its reason, the one that ran with a LIMIT
-    refused, ran = answers[1].exact.attempts
-    assert "parameter" in refused.issues[0] and not ran.issues and ran.cypher.endswith("LIMIT 100")
-    assert answers[1].number == 1.0 and answers[1].retrieved == []
+    assert answers[0].retrieved[0] == "notes.md#0"
+    refused, ran = answers[1].plan.attempts
+    assert "unknown label 'Note'" in refused.issues[0] and [s.op for s in ran.steps] == [
+        "find_entity", "find_claims", "count",
+    ]  # fmt: skip
+    assert answers[1].number == 1.0 and answers[1].route is None
     assert any(path.endswith("answers_graph.jsonl") for path in run.artifacts)
     report = json.loads((out / "qa_report_graph.json").read_text(encoding="utf-8"))
     assert report["k"] == 2
@@ -309,60 +326,37 @@ def test_the_record_layer_of_a_real_graph_leaves_out_documents_chunks_and_claims
 
 def test_kg_qa_asks_records_plus_vector_over_the_record_layer_only(driver, tmp_path):
     build(driver)
-    out = tmp_path / "out"
-    out.mkdir()
-    (out / PLAN_FILE).write_text(PLAN.model_dump_json(), encoding="utf-8")
-    gold = QAGold.model_validate(
-        {
-            "dataset": "test", "written_by": "claude", "date": "2026-10-05",
-            "corpus": {
-                "data_dir": "x", "chunk_max_chars": 1500, "chunk_min_chars": 200, "chunk_overlap_chars": 0
-            },
-            "questions": [
-                {"id": "Q1", "type": "aggregation", "question": "How many presses are there?",
-                 "expected": {"number": 2}, "route": "exact", "sql": "SELECT 2"},
-            ],
-        }
+    gold_file = qa_gold(
+        tmp_path,
+        [{"id": "Q1", "type": "aggregation", "question": "How many presses are there?",
+          "expected": {"number": 2}, "route": "exact", "sql": "SELECT 2"}],
     )  # fmt: skip
-    gold_file = tmp_path / "gold.json"
-    gold_file.write_text(gold.model_dump_json(), encoding="utf-8")
-    proposals = [  # the first reads the documents and is refused by code; the retry counts the records
-        CypherProposal(
-            cypher="MATCH (d:Document)-[:ABOUT]->(p:Press) RETURN count(DISTINCT p)", answer_form="number"
-        ),
-        CypherProposal(cypher="MATCH (p:Press) RETURN count(p)", answer_form="number"),
+    plans = [  # the first reads claims, which this system may not; the retry counts the records
+        plan({"op": "find_claims", "predicate": "HAS_CONDITION"}, {"op": "count", "input": 0}),
+        plan({"op": "filter_records", "label": "Press"}, {"op": "count", "input": 0}),
     ]
     prompts: list[str] = []
 
     def script(prompt, schema):
         prompts.append(prompt)
-        if schema is RouteChoice:
-            return RouteChoice(route="exact", reason="it counts")
-        return proposals.pop(0)
+        return plans.pop(0)
 
     tracker = RecordingTracker()
-    settings = Settings(qa_model="reader-model", qa_workers=1)
-    ctx = PipelineContext(
-        settings=settings,
-        driver=driver,
-        out=out,
-        llm=ScriptedLLM(script),
-        embedder=AxisEmbedder(),
-        tracker=tracker,
+    out = tmp_path / "out"
+    run_stages(
+        qa_context(driver, out, script, tracker), PipelineState(gold=gold_file), [QAStage("records_vector")]
     )
 
-    run_stages(ctx, PipelineState(gold=gold_file), [QAStage("records_vector")])
-
     run = tracker.run("qa_records_vector")
-    assert run.logged_params["system"] == "records_vector" and "cypher_prompt_version" in run.logged_params
-    assert "qa_hops" not in run.logged_params  # no traversal: its retrieval is the vector baseline
+    assert run.logged_params["system"] == "records_vector" and "planner_prompt_version" in run.logged_params
+    assert "qa_hops" not in run.logged_params  # no traversal: its chunk source is vector search
     metrics = run.logged_metrics
-    assert metrics["answer_accuracy"] == 1.0 and (metrics["cypher_proposals"], metrics["cypher_refused"]) == (
+    assert metrics["answer_accuracy"] == 1.0 and (metrics["plans_proposed"], metrics["plans_refused"]) == (
         2,
         1,
     )
     (answer,) = load_system_answers(out / "answers_records_vector.jsonl")
     assert answer.system == "records_vector" and answer.number == 2.0
-    assert "Document" in answer.exact.attempts[0].issues[0] + answer.exact.attempts[0].issues[1]
-    # neither the router nor text2cypher was shown the text layer
+    assert "reads the records only" in answer.plan.attempts[0].issues[0]
+    # the planner was never shown the text layer
     assert all(":Chunk" not in p and ":Observation" not in p and "Claim patterns" not in p for p in prompts)

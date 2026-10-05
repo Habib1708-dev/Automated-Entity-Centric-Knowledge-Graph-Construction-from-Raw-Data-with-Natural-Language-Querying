@@ -1,14 +1,18 @@
-"""The exact route and the router (R71 part b), without Neo4j: the text check of a model's Cypher, the
-exact route's retry and give-up over a fake store, rows read as an answer, the router, the graph system's
-fallback to retrieval, and the prompts' domain-neutral wording; for records plus vector RAG (R73), the
-record layer of the schema, the refusal of names outside it and the system's own name on every answer.
-The database half of the check (EXPLAIN, the read transaction) is tested in test_query_graph.py."""
+"""The exact route (R71 part b) and the plan system (R74), without Neo4j: the text check of a model's Cypher,
+the exact route's retry and give-up over a fake store, rows read as an answer; for records plus vector RAG
+(R73), the record layer of the schema and the refusal of names outside it; the plan system's run, retry
+and fallbacks (text2cypher, then reading) with its own name on every answer; and the planner, read_check
+and Cypher prompts' domain-neutral wording. The database half of the check (EXPLAIN, the read
+transaction) is tested in test_query_graph.py."""
+
+import json
 
 import pytest
 from neo4j.time import Date
 
-from kgbuilder.query import exact, router
-from kgbuilder.query.answers import SystemAnswer
+from kgbuilder.core.errors import QueryPlanError
+from kgbuilder.query import exact, planner, read_check
+from kgbuilder.query.answers import StepTrace
 from kgbuilder.query.cypher_check import check_text, excluded_name_issues
 from kgbuilder.query.exact import CypherParameter, CypherProposal, ExactRoute, rows_to_answer
 from kgbuilder.query.graph_schema import (
@@ -19,10 +23,12 @@ from kgbuilder.query.graph_schema import (
     RelationshipInfo,
     cypher_literal,
 )
-from kgbuilder.query.graph_store import ReadResult
-from kgbuilder.query.router import RouteChoice, Router
-from kgbuilder.query.systems import RECORDS_VECTOR, RoutedGraph
-from kgbuilder.validation.qa_gold import Route
+from kgbuilder.query.graph_store import ReadResult, StoredChunk
+from kgbuilder.query.plan import PlanSchema, PlanStep, QueryPlan
+from kgbuilder.query.plan_run import PlanRun
+from kgbuilder.query.planner import Planner
+from kgbuilder.query.reader import Reader, ReaderAnswer, ReaderCitation
+from kgbuilder.query.systems import RECORDS_VECTOR, PlanSystem
 
 from .evaluation_corpora import quoted_four_grams
 from .fakes import ScriptedLLM
@@ -262,86 +268,110 @@ def test_two_refusals_or_failing_runs_give_up_so_the_question_can_fall_back():
     assert [a.issues for a in outcome.trace.attempts] == [["it failed when run: Transaction timed out"]] * 2
 
 
-# --- the router and the routed graph system --------------------------------------------------------
+# --- the plan system: plan, retry, fallbacks (R74) ------------------------------------------------
+
+PLAN_SCHEMA = PlanSchema(schema=SCHEMA, record_labels=frozenset({"Press", "Part"}))
+COUNT_PRESSES = QueryPlan(steps=[PlanStep(op="filter_records", label="Press"), PlanStep(op="count", input=0)])
+UNKNOWN = QueryPlan(steps=[PlanStep(op="filter_records", label="Machine"), PlanStep(op="count", input=0)])
 
 
-def test_the_router_returns_the_models_route_and_shows_it_the_schema():
-    prompts: list[str] = []
+class ScriptedRunner:
+    """The plan runner, reduced to fixed results (or one failure) and a record of the plans it ran."""
+
+    def __init__(self, *results):
+        self.results = list(results)
+        self.ran: list[QueryPlan] = []
+
+    def run(self, plan, question):
+        self.ran.append(plan)
+        result = self.results.pop(0)
+        if isinstance(result, Exception):
+            raise result
+        return result
+
+
+class TextSource:
+    def ranked(self, question):
+        return [StoredChunk(chunk_id="c1", context="Quill Press", text="Two presses run.")], None
+
+
+def plan_system(plans, runner, proposals=(), name="graph", exact_store=None):
+    """A plan system whose planner, text2cypher and reader are scripted by the reply schema they ask for."""
+    plan_prompts: list[str] = []
+    plans, proposals = list(plans), list(proposals)
 
     def script(prompt, schema):
-        prompts.append(prompt)
-        return RouteChoice(route="exact", reason="it counts")
+        if schema is QueryPlan:
+            plan_prompts.append(prompt)
+            return plans.pop(0)
+        if schema is CypherProposal:
+            return proposals.pop(0)
+        return ReaderAnswer(
+            text="read from text", citations=[ReaderCitation(chunk_id="c1", quote="Two presses")]
+        )
 
-    assert Router(ScriptedLLM(script), "m", SCHEMA.text()).route("How many presses?") == Route.EXACT
-    assert "<question>How many presses?</question>" in prompts[0] and ":Press" in prompts[0]
-
-
-class FixedRouter:
-    def __init__(self, route: Route):
-        self._route = route
-
-    def route(self, question: str) -> Route:
-        return self._route
-
-
-class RecordingRetrieval:
-    """The retrieval route, reduced to an answer and a record of who asked."""
-
-    def __init__(self):
-        self.asked: list[str] = []
-
-    def answer(self, question_id: str, question: str) -> SystemAnswer:
-        self.asked.append(question_id)
-        return SystemAnswer(question_id=question_id, system="graph", text="from the text", retrieved=["c1"])
+    llm = ScriptedLLM(script)
+    store = exact_store or FakeCypherStore(rows=[[2]])
+    system = PlanSystem(
+        name, Planner(llm, "m", SCHEMA.text()), PLAN_SCHEMA, runner, ExactRoute(store, llm, "m", 100),
+        TextSource(), Reader(llm, "m"), k=5,
+    )  # fmt: skip
+    return system, plan_prompts
 
 
-def test_the_graph_system_answers_exactly_when_it_can_and_falls_back_to_retrieval_when_not():
-    retrieval = RecordingRetrieval()
-    counted = ExactRoute(
-        FakeCypherStore(rows=[[2]]), proposing(proposal("MATCH (p:Press) RETURN count(p)"))[0], "m", 100
-    )
-    answer = RoutedGraph(FixedRouter(Route.EXACT), counted, retrieval).answer("Q1", "How many presses?")
-    assert answer.route == Route.EXACT and answer.exact.answered and retrieval.asked == []
-
-    failing = ExactRoute(
-        FakeCypherStore(error="boom"),
-        proposing(proposal(READ, name="a"), proposal(READ, name="b"))[0],
-        "m",
-        100,
-    )
-    fallback = RoutedGraph(FixedRouter(Route.EXACT), failing, retrieval).answer("Q2", "Which presses?")
-    # the router's label is kept for route accuracy, the exact trace for the failure analysis
-    assert fallback.route == Route.EXACT and not fallback.exact.answered and fallback.text == "from the text"
-
-    read = RoutedGraph(FixedRouter(Route.RETRIEVAL), counted, retrieval).answer("Q3", "What do texts say?")
-    assert read.route == Route.RETRIEVAL and read.exact is None and retrieval.asked == ["Q2", "Q3"]
+def test_a_checked_plan_runs_and_its_result_is_the_answer():
+    runner = ScriptedRunner(PlanRun(number=2.0, steps=[StepTrace(op="count", items={})]))
+    system, prompts = plan_system([COUNT_PRESSES], runner)
+    answer = system.answer("Q1", "How many presses are there?")
+    assert answer.number == 2.0 and answer.plan.fallback is None and len(answer.plan.attempts) == 1
+    assert answer.plan.attempts[0].steps[0].op == "count" and answer.route is None  # no router any more
+    assert "<question>How many presses are there?</question>" in prompts[0] and ":Press" in prompts[0]
 
 
-def test_a_routed_system_signs_every_answer_with_its_own_name_whichever_route_answered():
-    # records plus vector RAG falls back to the vector baseline, whose answers say "vector" (here "graph")
-    retrieval = RecordingRetrieval()
-    failing = ExactRoute(
-        FakeCypherStore(error="boom"),
-        proposing(proposal(READ, name="a"), proposal(READ, name="b"))[0],
-        "m",
-        100,
-    )
-    fallback = RoutedGraph(FixedRouter(Route.EXACT), failing, retrieval, name=RECORDS_VECTOR).answer(
-        "Q1", "?"
-    )
-    read = RoutedGraph(FixedRouter(Route.RETRIEVAL), failing, retrieval, name=RECORDS_VECTOR).answer(
-        "Q2", "?"
-    )
-    assert (fallback.system, read.system) == (RECORDS_VECTOR, RECORDS_VECTOR)
+def test_a_refused_plan_gets_one_retry_with_its_reasons_and_never_runs():
+    runner = ScriptedRunner(PlanRun(number=2.0))
+    system, prompts = plan_system([UNKNOWN, COUNT_PRESSES], runner)
+    answer = system.answer("Q1", "How many presses?")
+    assert answer.number == 2.0 and runner.ran == [COUNT_PRESSES]  # the refused plan never ran
+    assert "unknown label 'Machine'" in prompts[1] and "Your previous plan was refused" in prompts[1]
+    assert answer.plan.attempts[0].issues and not answer.plan.attempts[1].issues
+
+
+def test_a_plan_that_fails_while_running_is_retried_with_the_reason():
+    runner = ScriptedRunner(QueryPlanError("read_check got 99 candidates, more than 30"), PlanRun(number=1.0))
+    system, prompts = plan_system([COUNT_PRESSES, COUNT_PRESSES], runner)
+    answer = system.answer("Q1", "How many presses?")
+    assert answer.number == 1.0 and "read_check got 99 candidates" in prompts[1]
+
+
+def test_two_failed_plans_fall_back_to_text2cypher_then_to_reading():
+    counted = proposal("MATCH (p:Press) RETURN count(p)")
+    exact_answer, _ = plan_system([UNKNOWN, UNKNOWN], ScriptedRunner(), proposals=[counted])
+    answer = exact_answer.answer("Q1", "How many presses?")
+    assert answer.plan.fallback == "text2cypher" and answer.exact.answered and answer.entities == ["2"]
+
+    failing = [proposal("MATCH (n:Nope) RETURN n"), proposal("MATCH (n:Nope) RETURN n")]
+    refusing = FakeCypherStore(unplannable=["Nope"])
+    system, _ = plan_system([UNKNOWN, UNKNOWN], ScriptedRunner(), failing, RECORDS_VECTOR, refusing)
+    read = system.answer("Q2", "What runs?")
+    assert read.plan.fallback == "retrieval" and read.text == "read from text" and read.retrieved == ["c1"]
+    assert read.system == RECORDS_VECTOR and not read.exact.answered  # the system's own name, the trace kept
 
 
 # --- the prompts ------------------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize(
-    "prompt", [router.PROMPT, exact.PROMPT + exact.RETRY, exact.RECORDS_PROMPT + exact.RETRY]
+    "prompt",
+    [
+        planner.PROMPT + planner.RETRY,
+        read_check.PROMPT,
+        json.dumps(QueryPlan.model_json_schema()),  # the field descriptions reach the model too
+        exact.PROMPT + exact.RETRY,
+        exact.RECORDS_PROMPT + exact.RETRY,
+    ],
 )
-def test_the_router_and_cypher_prompts_speak_no_corpus_language(prompt):
+def test_the_planner_read_check_and_cypher_prompts_speak_no_corpus_language(prompt):
     banned = ("product", "review", "vehicle", "complaint", "recall", "drawer", "defect", "pump", "staff")
     assert not [w for w in banned if w in prompt.lower()]
     assert quoted_four_grams(prompt) == []

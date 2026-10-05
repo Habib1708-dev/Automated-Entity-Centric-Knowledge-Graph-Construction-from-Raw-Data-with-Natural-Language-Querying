@@ -5,7 +5,8 @@ to `answers_<system>.jsonl`, which the judge reads and `kg qa-score` scores (val
 Design: `SystemAnswer` extends the scoring model `QAAnswer` with what a reader of the file needs besides
 the answer: the exact chunk texts the model was shown (the judge reads them, and citation faithfulness is
 checked against them without a graph) and a trace of the retrieval (which node each name linked to, which
-chunks the traversal reached), from which failures are grouped by cause.
+chunks the traversal reached), from which failures are grouped by cause; for a plan system (R74), the
+plans tried, why they were refused, the steps they ran and the fallback that answered, if any.
 Not here: producing answers (systems.py), scoring them (validation/qa.py).
 """
 
@@ -16,6 +17,7 @@ from pydantic import BaseModel, ValidationError
 
 from ..core.errors import EvaluationError
 from ..validation.qa import QAAnswer
+from .plan import QueryPlan
 
 
 class ShownChunk(BaseModel):
@@ -62,14 +64,42 @@ class ExactTrace(BaseModel):
     rows: int = 0
 
 
+class StepTrace(BaseModel):
+    """What one plan step did: how many items of each kind it produced, and a note (direction, checks)."""
+
+    op: str
+    items: dict[str, int]
+    note: str = ""
+
+
+class PlanAttempt(BaseModel):
+    """One plan the planner wrote: the plan as written, why it was refused (empty when it ran to the end),
+    the optional filters code dropped, and the steps it ran."""
+
+    plan: QueryPlan
+    issues: list[str] = []
+    dropped: list[str] = []
+    steps: list[StepTrace] = []
+
+
+class PlanTrace(BaseModel):
+    """How a plan system answered (R74): its plans, and the fallback that answered when no plan could."""
+
+    attempts: list[PlanAttempt]
+    fallback: Literal["text2cypher", "retrieval"] | None = None
+    checks: int = 0  # read_check model calls
+    verified: int = 0  # candidates read_check verified
+
+
 class SystemAnswer(QAAnswer):
-    """One system's answer to one question, with the chunks shown and, for the graph, its traces: the
-    retrieval route's, and the exact route's when the router chose it (also when it then fell back)."""
+    """One system's answer to one question, with the chunks shown and its traces: the retrieval route's,
+    the exact route's (R71's graph system, and the text2cypher fallback of a plan system), and the plans'."""
 
     system: str
     shown: list[ShownChunk] = []
     trace: RetrievalTrace | None = None
     exact: ExactTrace | None = None
+    plan: PlanTrace | None = None
 
 
 def shown_texts(answers: list[SystemAnswer]) -> dict[str, str]:

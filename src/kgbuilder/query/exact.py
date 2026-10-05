@@ -1,7 +1,7 @@
 """The exact route (text2cypher): the model writes one Cypher query, code checks it, the graph answers.
 
-Role in the pipeline: the graph system's route for questions that count, rank or filter (router.py chooses
-it); when it cannot answer, the question falls back to the retrieval route (systems.py).
+Role in the pipeline: since R74 the logged fallback of the plan systems (systems.py `PlanSystem`), used
+when no plan could run; when it cannot answer either, the question falls back to reading.
 Design: the LLM proposes, code decides (fixed decision 6). A proposal is checked by its text
 (cypher_check.py) and by the database's plan (`CypherStore.explain`), and runs only in a read transaction
 with a timeout. A rejected or failing query gets one retry with the reasons; a second failure gives up.
@@ -9,7 +9,7 @@ The answer is the rows, read by code: the first column's distinct values when th
 things, its single number when it asks how many. The same route serves the records-plus-vector system
 (R73) over the record layer alone: its prompt leaves out the text and claim layer, its schema shows only
 the plan's labels, and code refuses any query that names a label or type outside them.
-Not here: the router (router.py), the retrieval route (systems.py), the checks' rules (cypher_check.py).
+Not here: the query plans (plan.py), the retrieval route (systems.py), the checks' rules (cypher_check.py).
 """
 
 import math

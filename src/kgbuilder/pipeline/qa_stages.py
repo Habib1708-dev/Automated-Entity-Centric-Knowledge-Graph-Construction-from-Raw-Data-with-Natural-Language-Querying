@@ -18,7 +18,7 @@ from pathlib import Path
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..llm.base import Embedder, prompt_version
 from ..llm.thinking import with_thinking
-from ..query import exact, reader, router
+from ..query import exact, planner, read_check, reader
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.graph_store import Neo4jGraphStore
 from ..query.systems import (
@@ -26,20 +26,26 @@ from ..query.systems import (
     QASettings,
     QASystem,
     VectorBaseline,
+    build_graph_system,
     build_records_vector,
-    build_routed_graph,
 )
+from ..structured.plan import name_property
 from ..tracking.base import Run
 from ..validation.paired import compare_outcomes
 from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
-from ..validation.qa_gold import Route, load_qa_gold
+from ..validation.qa_gold import load_qa_gold
 from .inputs import digest, input_file
 from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
 
 SYSTEMS = ("graph", "vector", RECORDS_VECTOR)
-# the systems with a router and an exact route, which log route metrics and their two extra prompts
-ROUTED = ("graph", RECORDS_VECTOR)
+# the plan systems (R74), which log their plans, read_checks and fallbacks, and their extra prompts
+PLANNED = ("graph", RECORDS_VECTOR)
+# the primitives whose use per answer is counted (`answers_using_<op>`)
+_OPS = (
+    "find_entity", "filter_records", "related", "find_claims", "read_check", "retrieve_chunks",
+    "list", "count", "sum", "rank", "answer_from_chunks",
+)  # fmt: skip
 
 
 def _embedder(ctx: PipelineContext) -> Embedder:
@@ -66,11 +72,14 @@ def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QAS
         link_fuzzy=s.qa_link_fuzzy,
         link_neighbours=s.qa_link_neighbours,
         cypher_limit=s.qa_cypher_limit,
+        step_cap=s.qa_step_cap,
+        check_limit=s.qa_check_limit,
+        check_chunks=s.qa_check_chunks,
     )
-    if system == RECORDS_VECTOR:
-        labels = {rule.label for rule in plan.nodes}
-        return build_records_vector(store, _embedder(ctx), llm, answer_reader, settings, labels)
-    return build_routed_graph(store, _embedder(ctx), llm, answer_reader, settings)
+    labels = {rule.label for rule in plan.nodes} if plan else set()
+    names = {rule.label: name_property(rule) for rule in plan.nodes} if plan else {}
+    build = build_records_vector if system == RECORDS_VECTOR else build_graph_system
+    return build(store, _embedder(ctx), llm, answer_reader, settings, labels, names)
 
 
 def _cypher_prompt(system: str) -> str:
@@ -89,24 +98,29 @@ def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
         "qa_top_k": s.qa_top_k,
         "embed_model": s.embed_model,
     }
-    if system in ROUTED:
+    if system in PLANNED:
         params.update(
-            router_prompt_version=prompt_version(router.PROMPT),
+            planner_prompt_version=prompt_version(planner.PROMPT + planner.RETRY),
+            read_check_prompt_version=prompt_version(read_check.PROMPT),
             cypher_prompt_version=prompt_version(_cypher_prompt(system)),
             qa_cypher_limit=s.qa_cypher_limit,
             qa_cypher_timeout_s=s.qa_cypher_timeout_s,
+            qa_step_cap=s.qa_step_cap,
+            qa_check_limit=s.qa_check_limit,
+            qa_check_chunks=s.qa_check_chunks,
+            qa_link_fuzzy=s.qa_link_fuzzy,
+            qa_link_neighbours=s.qa_link_neighbours,
         )
     if system == "graph":
-        params.update(
-            qa_hops=s.qa_hops, qa_link_fuzzy=s.qa_link_fuzzy, qa_link_neighbours=s.qa_link_neighbours
-        )
+        params.update(qa_hops=s.qa_hops)
     return params
 
 
 def _log_prompts(run: Run, system: str) -> None:
     run.text(reader.PROMPT, "prompts/qa_reader.txt")
-    if system in ROUTED:
-        run.text(router.PROMPT, "prompts/qa_router.txt")
+    if system in PLANNED:
+        run.text(planner.PROMPT + planner.RETRY, "prompts/qa_planner.txt")
+        run.text(read_check.PROMPT, "prompts/qa_read_check.txt")
         run.text(_cypher_prompt(system), "prompts/qa_cypher.txt")
 
 
@@ -133,18 +147,28 @@ def _retrieval_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     }
 
 
-def _route_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
-    """How the router split the questions and how the exact route fared: its answers, its fallbacks to
-    retrieval, and the Cypher proposals the checks or the run refused."""
+def _plan_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
+    """How the plan systems fared (R74): plans written and refused, answers that needed the retry, filters
+    dropped, read_check calls and verified candidates, the fallbacks taken (text2cypher, reading), the
+    text2cypher proposals and refusals, and how many answers used each primitive."""
+    traces = [a.plan for a in answers if a.plan is not None]
     exact = [a.exact for a in answers if a.exact is not None]
-    return {
-        "routed_exact": sum(a.route == Route.EXACT for a in answers),
-        "routed_retrieval": sum(a.route == Route.RETRIEVAL for a in answers),
-        "exact_answered": sum(t.answered for t in exact),
-        "exact_fallbacks": sum(not t.answered for t in exact),
+    ran = [attempt for t in traces for attempt in t.attempts if attempt.steps]
+    metrics = {
+        "plans_proposed": sum(len(t.attempts) for t in traces),
+        "plans_refused": sum(bool(attempt.issues) for t in traces for attempt in t.attempts),
+        "answers_retried": sum(len(t.attempts) > 1 for t in traces),
+        "filters_dropped": sum(len(attempt.dropped) for t in traces for attempt in t.attempts),
+        "read_check_calls": sum(t.checks for t in traces),
+        "read_check_verified": sum(t.verified for t in traces),
+        "fallback_text2cypher": sum(t.fallback == "text2cypher" for t in traces),
+        "fallback_retrieval": sum(t.fallback == "retrieval" for t in traces),
         "cypher_proposals": sum(len(t.attempts) for t in exact),
         "cypher_refused": sum(bool(a.issues) for t in exact for a in t.attempts),
     }
+    for op in _OPS:
+        metrics[f"answers_using_{op}"] = sum(any(s.op == op for s in attempt.steps) for attempt in ran)
+    return metrics
 
 
 class AskStage(BaseStage):
@@ -197,8 +221,8 @@ class QAStage(BaseStage):
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
         run.metrics(**_retrieval_metrics(answers))
-        if self.system in ROUTED:
-            run.metrics(**_route_metrics(answers))
+        if self.system in PLANNED:
+            run.metrics(**_plan_metrics(answers))
         run.artifact(path)
         run.artifact(Path(state.gold))
 

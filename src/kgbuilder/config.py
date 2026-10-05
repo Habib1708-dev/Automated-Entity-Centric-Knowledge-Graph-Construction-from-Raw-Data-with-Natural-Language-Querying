@@ -191,6 +191,12 @@ class Settings(BaseSettings):
     # a larger one is refused) and seconds it may run before the database cancels it
     qa_cypher_limit: int = Field(default=100, ge=1)
     qa_cypher_timeout_s: float = Field(default=10.0, gt=0)
+    # query plans (R74): items one step may produce (a bound on every step), candidates read_check may read
+    # one by one (more must be narrowed by the plan first: each costs a model call), and the chunks of one
+    # candidate it is shown, nearest the statement first
+    qa_step_cap: int = Field(default=200, ge=1)
+    qa_check_limit: int = Field(default=30, ge=1)
+    qa_check_chunks: int = Field(default=3, ge=1)
 
     @classmethod
     def settings_customise_sources(

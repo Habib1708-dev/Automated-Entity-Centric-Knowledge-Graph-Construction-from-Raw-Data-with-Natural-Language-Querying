@@ -206,9 +206,10 @@ src/kgbuilder/
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
-  query/            names -> traversal / graph_store -> reader ; systems (graph route, vector-only baseline,
-                    records plus vector RAG)
-                    router -> exact (text2cypher) with cypher_check and graph_schema ; systems.RoutedGraph
+  query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
+                    vector RAG, vector-only baseline)
+                    planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
+                    exact (text2cypher, the plans' logged fallback) with cypher_check
   pipeline/         Stage protocol + context/state, the concrete stages, the runner
 ```
 
@@ -299,20 +300,22 @@ is judged claim by claim (R68).
 
 ## Question answering
 
-The graph as an index into the text (layered-model Step 2, R71). Two systems answer the same question with
-the same reader model and the same number of chunks (`QA_TOP_K`), so they differ only in how they choose:
+The graph as an index into the text (layered-model Steps 2-4, R71-R74). Three systems answer the same
+question with the same reader model and the same number of chunks (`QA_TOP_K`), so they differ only in
+how they choose:
 
-- `graph`: a router labels the question `exact` or `retrieval`. The exact route lets the model write one
-  Cypher query, which runs only after code checks its text (nothing that writes, calls or loads; values
-  as parameters; a LIMIT) and the database checks its plan (`EXPLAIN`: read-only, known labels, types
-  and properties), in a read transaction with a timeout; a refused query gets one retry, then the
-  question falls back to retrieval. The retrieval route links the question's names to nodes by
-  spelling (names and aliases) and by meaning (the nearest names), follows four fixed traversal
-  patterns to chunks (`query/traversal.py`) and ranks them by similarity to the question;
+- `graph` (R74): the model writes a query plan of fixed primitives (`find_entity`, `filter_records`,
+  `related`, `find_claims`, `read_check`, `retrieve_chunks`, ending in `list`, `count`, `sum`, `rank` or
+  `answer_from_chunks`); code checks it against the graph's schema (names, value types, an optional tone
+  or time filter only with the question's own words), compiles each step to parameterised, read-only
+  Cypher and runs it. Counts and lists are computed by code; `read_check` reads each candidate's text
+  and keeps it only with a quote code finds in the chunk. A refused or failing plan gets one retry with
+  the reasons, then text2cypher (logged), then reading the chunks the graph's retrieval route reaches
+  (names linked by spelling and meaning, four fixed traversal patterns, ranked by similarity);
+- `records_vector` (R73, R74): the same plans over the record layer alone (the plan's labels: no claim
+  primitives, no documents), with vector search as its source of text. It separates what the records
+  give from what the extracted claims give;
 - `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph.
-- `records_vector` (R73): the `graph` system's router and exact route over the record layer alone (the
-  plan's labels: no documents, chunks or claims; code refuses a query that names them), with `vector`
-  as its retrieval route. It separates what the records give from what the extracted claims give.
 
 1. `kg qa GOLD` asks every question of a gold file (`tests/gold/qa/`, format `validation/qa_gold.py`)
    and writes `out/answers_<system>.jsonl`, with the chunks each reader saw and, for the graph, how they

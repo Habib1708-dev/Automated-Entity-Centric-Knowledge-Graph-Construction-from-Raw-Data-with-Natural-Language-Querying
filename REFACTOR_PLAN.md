@@ -2813,6 +2813,33 @@ any change to the graph's shape (task file, Step 4).
     relationship property shown and filtered, claims from a record, its parts and an entity, read_check
     verified and unverified and its bound, rank / sum / property lists, answer_from_chunks). Gate: 419
     passed (381 before), `ruff check` clean. No run.
+- **Part b: the planner and the plan systems (done 2026-10-05).**
+  - `query/planner.py`: one domain-neutral prompt (the graph's schema; the primitives; six rules, each tied in
+    its comment to the R71-R73 failure it answers; one example from an invented graph of hives and
+    apiaries) asking for a `QueryPlan`, and a retry text with the refused plan and the reasons.
+  - `query/systems.py`: `PlanSystem` (Template for both plan systems): plan, `check_plan`, run; one retry
+    with the reasons (a refusal or a `QueryPlanError`); then the logged text2cypher fallback; then reading
+    the system's chunk source. `build_graph_system` (whole schema, every primitive, the graph's retrieval
+    route as chunk source, the R71 text2cypher as fallback) and `build_records_vector` (record layer only,
+    no claim primitives, records only for `find_entity`, vector search as chunk source, R73's records-only
+    text2cypher as fallback). `VectorBaseline` and `GraphRetrieval` gained `ranked(question)`, their chunks
+    without the reader, as chunk sources. **Removed:** `query/router.py`, `RoutedGraph`,
+    `build_routed_graph` (the task file: "the router is removed"); `exact.py` stays as the logged fallback.
+  - `query/answers.py`: `SystemAnswer.plan` (`PlanTrace`: every `PlanAttempt` with its plan, issues, dropped
+    filters and steps; the fallback; read_check calls and verified candidates). Answers carry no route any
+    more, so `route_accuracy` has n = 0 for every system.
+  - `kg qa`: params `planner_prompt_version`, `read_check_prompt_version`, `cypher_prompt_version` and the new
+    settings `qa_step_cap` 200, `qa_check_limit` 30, `qa_check_chunks` 3; metrics `plans_proposed`,
+    `plans_refused`, `answers_retried`, `filters_dropped`, `read_check_calls`, `read_check_verified`,
+    `fallback_text2cypher`, `fallback_retrieval`, `cypher_proposals`, `cypher_refused`, and
+    `answers_using_<op>` per primitive; prompts logged as artifacts.
+  - Tests: `tests/test_query_exact.py` (a checked plan runs and answers; a refused plan is retried with its
+    reasons and never runs; a run failure is retried; text2cypher then reading as fallbacks, with the
+    system's own name; the corpus-quote and domain-word guard on the planner, read_check and Cypher prompts
+    and on the plan's field descriptions), `tests/test_query_graph.py` (Neo4j: `kg qa` end to end with a
+    scripted planner: a reading plan, a refused then a counting plan, params and plan metrics; records plus
+    vector refusing a claim plan and counting records). The three tests of the router and `RoutedGraph`
+    were removed with them. Gate: 422 passed (419 after part a), `ruff check` clean. No run.
 
 ## Found along the way
 

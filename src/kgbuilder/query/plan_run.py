@@ -20,7 +20,7 @@ from ..core.errors import QueryPlanError
 from ..llm.base import Embedder
 from ..validation.qa import Citation
 from . import plan_cypher as cy
-from .answers import RetrievalTrace, ShownChunk
+from .answers import RetrievalTrace, ShownChunk, StepTrace
 from .graph_store import CypherStore, GraphStore, StoredChunk
 from .names import NameLinker
 from .plan import ItemKind, PlanSchema, PlanStep, QueryPlan, as_number
@@ -51,14 +51,6 @@ class PlanSettings(BaseModel):
     check_limit: int = 30  # candidates read_check may read one by one; more must be narrowed first
     check_chunks: int = 3  # chunks of one candidate shown to read_check, nearest the statement first
     neighbours: int = 3  # names nearest in meaning, for a name nothing spells alike and for claim words
-
-
-class StepTrace(BaseModel):
-    """What one step did: how many items of each kind it produced, and a note (direction, refusals)."""
-
-    op: str
-    items: dict[str, int]
-    note: str = ""
 
 
 class PlanRun(BaseModel):
