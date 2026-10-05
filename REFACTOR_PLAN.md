@@ -2576,6 +2576,35 @@ paid runs, asked first.
     type, a type can only show a difference at 6 or more discordant questions without a loss (p 0.031),
     which is why a2 adds record questions computed by code.
 
+- **Part a2: record questions computed by code (done 2026-10-05).** 30 questions per real dataset, written
+  by Claude (Opus 5.5) from the source tables before any output on them exists, each with a DuckDB query
+  over the source files (`sql`); the expected answers were computed by `validation/qa_records.py` and every
+  one reviewed against the tables (the "most" and "fewest" questions checked for ties: none). All are
+  exact-route questions over records only; texts play no part.
+
+  | Gold file | new questions | structured_filter | aggregation | multi_hop | total questions | sets / numbers / texts |
+  |---|---|---|---|---|---|---|
+  | `furniture_qa.json` | F39-F68 | 10 (6 -> 16) | 10 (6 -> 16) | 10 (7 -> 17) | 68 | 47 / 19 / 2 |
+  | `heldout_qa.json` | H39-H68 | 10 (7 -> 17) | 10 (6 -> 16) | 10 (7 -> 17) | 68 | 47 / 15 / 6 |
+
+  - Examples. Filters on text-typed fields: F40 "Which products cost between $200 and $250?" (prices are
+    `$246` text), H44 "Which complaints were filed more than 30 days after the incident?" (11180230,
+    11209676, 11229137; recall dates are day/month/year, complaint dates month/day/year). Comparisons
+    inside a table: F48 "For which parts of the Helsingborg Dresser's drawers does the other supplier quote
+    a shorter lead time than the preferred supplier?" (Drawer Front, Drawer Rails). Counts and ranks: F58
+    "How many suppliers in the data supply no parts at all?" (4), H53 "In which year did NHTSA receive the
+    most of these recall campaigns?" (2020: 6; 2016: 5). Joins: F62 the countries of the Uppsala Sofa's
+    seat-cushion suppliers (six), H64 the complaints about a vehicle with a recall that carries an NHTSA
+    action number (ten: the Escape's and the Rogue's).
+  - Names are the data's own values (the check compares them with the query's rows); a vehicle model also
+    carries "<make> <model>" and "<year> <make> <model>" as aliases, as the earlier held-out questions do.
+  - The test of the real datasets' shape now asks 30-80 questions (it was 30-50) and at least ten of each
+    record type. The answers files of R71-R72 cover only the first 38 questions, so their scores
+    (R71-R72, a1's re-score) belong to the gold as of `c2d981f`; `kg qa-score` refuses them against this
+    gold (questions without answers), as it should.
+  - Gate: 369 passed (the new questions run inside the existing parametrised gold-file tests), `ruff
+    check` clean. $0, no run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

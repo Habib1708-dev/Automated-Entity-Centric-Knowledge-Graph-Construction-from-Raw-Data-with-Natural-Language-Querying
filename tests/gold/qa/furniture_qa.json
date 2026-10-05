@@ -513,6 +513,262 @@
         {"chunk_id": "product_reviews/stockholm_chair_reviews.md#6", "quote": "They're also surprisingly comfortable for wooden chairs"}
       ],
       "note": "A right answer gives both sides: comfortable for most, less so for long work sessions in one review."
+    },
+    {
+      "id": "F39",
+      "type": "structured_filter",
+      "question": "Which products cost more than $500?",
+      "expected": {"entities": [{"name": "Linköping Bed"}, {"name": "Uppsala Sofa"}]},
+      "route": "exact",
+      "sql": "SELECT product_name FROM products WHERE CAST(replace(price, '$', '') AS INTEGER) > 500",
+      "note": "Prices are text with a dollar sign in products.csv ('$1289')."
+    },
+    {
+      "id": "F40",
+      "type": "structured_filter",
+      "question": "Which products cost between $200 and $250?",
+      "expected": {"entities": [{"name": "Helsingborg Dresser"}, {"name": "Jönköping Coffee Table"}, {"name": "Stockholm Chair"}, {"name": "Västerås Bookshelf"}]},
+      "route": "exact",
+      "sql": "SELECT product_name FROM products WHERE CAST(replace(price, '$', '') AS INTEGER) BETWEEN 200 AND 250",
+      "note": "Two products share the price $212."
+    },
+    {
+      "id": "F41",
+      "type": "structured_filter",
+      "question": "Which suppliers specialize in foam?",
+      "expected": {"entities": [{"name": "Brazilian Foam Solutions"}, {"name": "UK Foam Manufacturers"}]},
+      "route": "exact",
+      "sql": "SELECT name FROM suppliers WHERE specialty = 'Foam'"
+    },
+    {
+      "id": "F42",
+      "type": "structured_filter",
+      "question": "Which supplier is based in São Paulo?",
+      "expected": {"entities": [{"name": "Brazilian Foam Solutions"}]},
+      "route": "exact",
+      "sql": "SELECT name FROM suppliers WHERE city = 'São Paulo'"
+    },
+    {
+      "id": "F43",
+      "type": "structured_filter",
+      "question": "Which parts does Shanghai Metal Corp supply with a lead time of less than 10 days?",
+      "expected": {"entities": [{"name": "Back Frame"}, {"name": "Drawer Handle"}, {"name": "Headboard Frame"}, {"name": "Side Frames"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT part_name FROM part_supplier_mapping WHERE supplier_id = 'SUP-002' AND lead_time_days < 10",
+      "note": "Part names, not part ids: one part name can stand for parts of several products."
+    },
+    {
+      "id": "F44",
+      "type": "structured_filter",
+      "question": "Which parts does some supplier offer at a unit cost above $45?",
+      "expected": {"entities": [{"name": "Base Frame"}, {"name": "Cable Clips"}, {"name": "Decorative Trim"}, {"name": "Drawer Front"}, {"name": "Drawer Rails"}, {"name": "Fabric Sleeve"}, {"name": "Shelf Support Holes"}, {"name": "Wooden Slat"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT part_name FROM part_supplier_mapping WHERE CAST(replace(unit_cost, '$', '') AS DOUBLE) > 45",
+      "note": "Unit costs are text with a dollar sign ('$42.73')."
+    },
+    {
+      "id": "F45",
+      "type": "structured_filter",
+      "question": "Which suppliers ask for a minimum order of more than 90 units for at least one part?",
+      "expected": {"entities": [{"name": "American Hardware Inc"}, {"name": "Bangalore Textiles Ltd"}, {"name": "Brazilian Foam Solutions"}, {"name": "Canadian Timber Products"}, {"name": "Italian Textile Design"}, {"name": "Korean Metal Works"}, {"name": "Mexican Hardware Solutions"}, {"name": "Nordic Wood Industries"}, {"name": "Shanghai Metal Corp"}, {"name": "Spanish Glass Industries"}, {"name": "Taiwan Precision Parts"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT s.name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE m.minimum_order_quantity > 90",
+      "note": "Names as suppliers.csv writes them (the mapping writes 'nordic Wood Industries')."
+    },
+    {
+      "id": "F46",
+      "type": "structured_filter",
+      "question": "Which components does the Uppsala Sofa's assembly need more than two of?",
+      "expected": {"entities": [{"name": "Back Cushion"}, {"name": "Legs"}, {"name": "Screws"}, {"name": "Seat Cushion"}]},
+      "route": "exact",
+      "sql": "SELECT a.component_name FROM assemblies a JOIN products p ON p.product_id = a.product_id WHERE p.product_name = 'Uppsala Sofa' AND a.quantity > 2"
+    },
+    {
+      "id": "F47",
+      "type": "structured_filter",
+      "question": "Which parts of the Linköping Bed's headboard are needed more than once?",
+      "expected": {"entities": [{"name": "Mounting Brackets"}, {"name": "Screws"}]},
+      "route": "exact",
+      "sql": "SELECT c.part_name FROM components c JOIN assemblies a ON a.assembly_id = c.assembly_id JOIN products p ON p.product_id = a.product_id WHERE p.product_name = 'Linköping Bed' AND a.component_name = 'Headboard' AND c.quantity > 1"
+    },
+    {
+      "id": "F48",
+      "type": "structured_filter",
+      "question": "For which parts of the Helsingborg Dresser's drawers does the other supplier quote a shorter lead time than the preferred supplier?",
+      "expected": {"entities": [{"name": "Drawer Front"}, {"name": "Drawer Rails"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT c.part_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping pref ON pref.part_id = c.part_id AND pref.preferred_supplier JOIN part_supplier_mapping other ON other.part_id = c.part_id AND NOT other.preferred_supplier WHERE p.product_name = 'Helsingborg Dresser' AND a.component_name = 'Drawers' AND other.lead_time_days < pref.lead_time_days",
+      "note": "Every part has exactly two suppliers, one of them preferred."
+    },
+    {
+      "id": "F49",
+      "type": "aggregation",
+      "question": "Which product is the most expensive?",
+      "expected": {"entities": [{"name": "Uppsala Sofa"}]},
+      "route": "exact",
+      "sql": "SELECT product_name FROM products ORDER BY CAST(replace(price, '$', '') AS INTEGER) DESC LIMIT 1",
+      "note": "Uppsala Sofa $1289, Linköping Bed $790."
+    },
+    {
+      "id": "F50",
+      "type": "aggregation",
+      "question": "Which product is the cheapest?",
+      "expected": {"entities": [{"name": "Örebro Lamp"}]},
+      "route": "exact",
+      "sql": "SELECT product_name FROM products ORDER BY CAST(replace(price, '$', '') AS INTEGER) LIMIT 1",
+      "note": "Örebro Lamp $111, Norrköping Nightstand $135."
+    },
+    {
+      "id": "F51",
+      "type": "aggregation",
+      "question": "How many products cost less than $250?",
+      "expected": {"number": 6},
+      "route": "exact",
+      "sql": "SELECT count(*) FROM products WHERE CAST(replace(price, '$', '') AS INTEGER) < 250"
+    },
+    {
+      "id": "F52",
+      "type": "aggregation",
+      "question": "Which product's assembly needs the most screws?",
+      "expected": {"entities": [{"name": "Helsingborg Dresser"}]},
+      "route": "exact",
+      "sql": "SELECT p.product_name FROM assemblies a JOIN products p ON p.product_id = a.product_id WHERE a.component_name = 'Screws' ORDER BY a.quantity DESC LIMIT 1",
+      "note": "Counts the Screws line of each product's assembly (Helsingborg 36, Västerås 30), not the screws of sub-assemblies."
+    },
+    {
+      "id": "F53",
+      "type": "aggregation",
+      "question": "Which product's assembly lists the most components?",
+      "expected": {"entities": [{"name": "Norrköping Nightstand"}]},
+      "route": "exact",
+      "sql": "SELECT p.product_name FROM assemblies a JOIN products p ON p.product_id = a.product_id GROUP BY p.product_name ORDER BY count(*) DESC LIMIT 1",
+      "note": "Assembly lines per product: Norrköping Nightstand 9, Helsingborg Dresser 8."
+    },
+    {
+      "id": "F54",
+      "type": "aggregation",
+      "question": "How many products include an Allen key in their assembly?",
+      "expected": {"number": 8},
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT product_id) FROM assemblies WHERE component_name = 'Allen Key'",
+      "note": "The Uppsala Sofa and the Örebro Lamp have none."
+    },
+    {
+      "id": "F55",
+      "type": "aggregation",
+      "question": "Which supplier is the preferred supplier for the most parts?",
+      "expected": {"entities": [{"name": "Nordic Wood Industries"}]},
+      "route": "exact",
+      "sql": "SELECT s.name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE m.preferred_supplier GROUP BY s.name ORDER BY count(DISTINCT m.part_id) DESC LIMIT 1",
+      "note": "Counted by part id."
+    },
+    {
+      "id": "F56",
+      "type": "aggregation",
+      "question": "How many parts does Korean Metal Works supply?",
+      "expected": {"number": 15},
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT part_id) FROM part_supplier_mapping WHERE supplier_id = 'SUP-012'",
+      "note": "Counted by part id."
+    },
+    {
+      "id": "F57",
+      "type": "aggregation",
+      "question": "What is the longest lead time in days that any supplier quotes for a part?",
+      "expected": {"number": 30},
+      "route": "exact",
+      "sql": "SELECT max(lead_time_days) FROM part_supplier_mapping"
+    },
+    {
+      "id": "F58",
+      "type": "aggregation",
+      "question": "How many suppliers in the data supply no parts at all?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "sql": "SELECT count(*) FROM suppliers s WHERE NOT EXISTS (SELECT 1 FROM part_supplier_mapping m WHERE m.supplier_id = s.supplier_id)",
+      "note": "The two electronics and the two packaging suppliers appear in no part's supply."
+    },
+    {
+      "id": "F59",
+      "type": "multi_hop",
+      "question": "Which suppliers provide the parts of the Linköping Bed's headboard?",
+      "expected": {"entities": [{"name": "Canadian Timber Products"}, {"name": "German Precision Fasteners"}, {"name": "Korean Metal Works"}, {"name": "Nordic Wood Industries"}, {"name": "Shanghai Metal Corp"}, {"name": "Taiwan Precision Parts"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Linköping Bed' AND a.component_name = 'Headboard'"
+    },
+    {
+      "id": "F60",
+      "type": "multi_hop",
+      "question": "Which products contain foam padding?",
+      "expected": {"entities": [{"name": "Stockholm Chair"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE c.part_name = 'Foam Padding'",
+      "note": "Both the seat and the back rest of the chair hold it."
+    },
+    {
+      "id": "F61",
+      "type": "multi_hop",
+      "question": "Which products contain a part supplied by German Precision Fasteners?",
+      "expected": {"entities": [{"name": "Helsingborg Dresser"}, {"name": "Linköping Bed"}, {"name": "Malmö Desk"}, {"name": "Stockholm Chair"}, {"name": "Uppsala Sofa"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE m.supplier_id = 'SUP-004'"
+    },
+    {
+      "id": "F62",
+      "type": "multi_hop",
+      "question": "In which countries are the suppliers of the Uppsala Sofa's seat cushion parts based?",
+      "expected": {"entities": [{"name": "Brazil"}, {"name": "India"}, {"name": "Italy"}, {"name": "Mexico"}, {"name": "USA"}, {"name": "United Kingdom"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT s.country FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Seat Cushion'"
+    },
+    {
+      "id": "F63",
+      "type": "multi_hop",
+      "question": "What is the price in dollars of the product whose assembly includes cable management?",
+      "expected": {"number": 289},
+      "route": "exact",
+      "sql": "SELECT CAST(replace(price, '$', '') AS INTEGER) FROM products p JOIN assemblies a ON a.product_id = p.product_id WHERE a.component_name = 'Cable Management'"
+    },
+    {
+      "id": "F64",
+      "type": "multi_hop",
+      "question": "Which suppliers supply parts to both the Malmö Desk and the Helsingborg Dresser?",
+      "expected": {"entities": [{"name": "American Hardware Inc"}, {"name": "Canadian Timber Products"}, {"name": "German Precision Fasteners"}, {"name": "Korean Metal Works"}, {"name": "Mexican Hardware Solutions"}, {"name": "Nordic Wood Industries"}, {"name": "Shanghai Metal Corp"}, {"name": "Taiwan Precision Parts"}]},
+      "route": "exact",
+      "sql": "SELECT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name IN ('Malmö Desk', 'Helsingborg Dresser') GROUP BY s.name HAVING count(DISTINCT p.product_name) = 2"
+    },
+    {
+      "id": "F65",
+      "type": "multi_hop",
+      "question": "How many different suppliers provide parts of the Stockholm Chair?",
+      "expected": {"number": 10},
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT m.supplier_id) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Stockholm Chair'",
+      "note": "Parts of the seat and the back rest."
+    },
+    {
+      "id": "F66",
+      "type": "multi_hop",
+      "question": "Which preferred suppliers provide the parts of the Örebro Lamp's shade?",
+      "expected": {"entities": [{"name": "Bangalore Textiles Ltd"}, {"name": "Shanghai Metal Corp"}, {"name": "Sydney Glass Works"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Örebro Lamp' AND a.component_name = 'Shade' AND m.preferred_supplier"
+    },
+    {
+      "id": "F67",
+      "type": "multi_hop",
+      "question": "Which products contain a part from a supplier based in Spain?",
+      "expected": {"entities": [{"name": "Örebro Lamp"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE s.country = 'Spain'"
+    },
+    {
+      "id": "F68",
+      "type": "multi_hop",
+      "question": "Which products contain parts supplied by Cape Town Adhesives?",
+      "expected": {"entities": [{"name": "Gothenburg Table"}, {"name": "Malmö Desk"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE m.supplier_id = 'SUP-009'"
     }
   ]
 }

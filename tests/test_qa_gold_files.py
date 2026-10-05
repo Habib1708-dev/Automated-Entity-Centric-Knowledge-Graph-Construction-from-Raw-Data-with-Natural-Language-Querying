@@ -1,7 +1,8 @@
 """The committed question-answer gold files (R70): each fits its corpus as the pipeline chunks it (every
 quote verbatim in its chunk, every cited record in its staged file, every question typed), every answer
 of a question with a query equals what DuckDB computes from the source files (R73), the two real
-datasets ask every question type at least five times, the earlier gold questions are carried over with
+datasets ask every question type at least five times and every record type at least ten times (R73), the
+earlier gold questions are carried over with
 their answers unchanged, and the generality corpus asks every hard case. No Neo4j, no LLM.
 """
 
@@ -44,12 +45,18 @@ def test_every_question_has_a_type_and_evidence(gold_file):
     assert all(isinstance(q.type, QuestionType) and (q.chunks or q.records or q.sql) for q in gold.questions)
 
 
+# the types that records answer: R73 brings each to ten questions, with answers computed from the data,
+# so a paired test per type can show a difference (at n = 6-7 it rarely can)
+RECORD_TYPES = (QuestionType.STRUCTURED_FILTER, QuestionType.AGGREGATION, QuestionType.MULTI_HOP)
+
+
 @pytest.mark.parametrize("name", REAL)
-def test_the_real_datasets_ask_every_type_at_least_five_times_in_30_to_50_questions(name):
+def test_the_real_datasets_ask_every_type_at_least_five_times_and_every_record_type_ten_times(name):
     gold = load_qa_gold(QA_GOLD / name)
     counts = Counter(q.type for q in gold.questions)
-    assert 30 <= len(gold.questions) <= 50
+    assert 30 <= len(gold.questions) <= 80
     assert {t: counts[t] for t in QuestionType if counts[t] < 5} == {}
+    assert {t: counts[t] for t in RECORD_TYPES if counts[t] < 10} == {}
 
 
 @pytest.mark.parametrize(

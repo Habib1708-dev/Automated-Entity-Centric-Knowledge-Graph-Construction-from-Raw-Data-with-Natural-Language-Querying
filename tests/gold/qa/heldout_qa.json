@@ -488,6 +488,257 @@
       "chunks": [
         {"chunk_id": "record/Recall/20V373000#1", "quote": "The recall began August 17, 2020."}
       ]
+    },
+    {
+      "id": "H39",
+      "type": "structured_filter",
+      "question": "Which recall campaigns were received by NHTSA in 2020?",
+      "expected": {"entities": [{"name": "20V064000"}, {"name": "20V218000"}, {"name": "20V286000"}, {"name": "20V331000"}, {"name": "20V373000"}, {"name": "20V682000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE year(strptime(ReportReceivedDate, '%d/%m/%Y')) = 2020",
+      "note": "Recall dates are day/month/year in recalls.json ('24/06/2015'), complaint dates month/day/year."
+    },
+    {
+      "id": "H40",
+      "type": "structured_filter",
+      "question": "Which recall campaigns carry an NHTSA action number?",
+      "expected": {"entities": [{"name": "16V244000"}, {"name": "16V643000"}, {"name": "20V331000"}, {"name": "25V695000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE NHTSAActionNumber IS NOT NULL"
+    },
+    {
+      "id": "H41",
+      "type": "structured_filter",
+      "question": "Which complaints were filed in 2017?",
+      "expected": {"entities": [{"name": "10957753"}, {"name": "10972343"}, {"name": "11010220"}, {"name": "11030208"}, {"name": "11032133"}]},
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE year(strptime(dateComplaintFiled, '%m/%d/%Y')) = 2017"
+    },
+    {
+      "id": "H42",
+      "type": "structured_filter",
+      "question": "Which complaints about the 2016 Honda Civic list the engine among their components?",
+      "expected": {"entities": [{"name": "10823637"}, {"name": "10824361"}, {"name": "10825467"}]},
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE product.productModel = 'CIVIC' AND components LIKE '%ENGINE%'"
+    },
+    {
+      "id": "H43",
+      "type": "structured_filter",
+      "question": "Which recall campaigns concern air bags?",
+      "expected": {"entities": [{"name": "16V244000"}, {"name": "26V332000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Component LIKE 'AIR BAGS%'"
+    },
+    {
+      "id": "H44",
+      "type": "structured_filter",
+      "question": "Which complaints were filed more than 30 days after the incident?",
+      "expected": {"entities": [{"name": "11180230"}, {"name": "11209676"}, {"name": "11229137"}]},
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE strptime(dateComplaintFiled, '%m/%d/%Y') - strptime(dateOfIncident, '%m/%d/%Y') > INTERVAL 30 DAY"
+    },
+    {
+      "id": "H45",
+      "type": "structured_filter",
+      "question": "Which recall campaigns affecting the 2015 Ford Escape were received after 2020?",
+      "expected": {"entities": [{"name": "22V254000"}, {"name": "22V413000"}, {"name": "25V695000"}, {"name": "26V011000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Model = 'ESCAPE' AND year(strptime(ReportReceivedDate, '%d/%m/%Y')) > 2020"
+    },
+    {
+      "id": "H46",
+      "type": "structured_filter",
+      "question": "Which complaints about the 2019 Subaru Outback list the electrical system among their components?",
+      "expected": {"entities": [{"name": "11166434"}, {"name": "11185059"}]},
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE product.productModel = 'OUTBACK' AND components LIKE '%ELECTRICAL SYSTEM%'"
+    },
+    {
+      "id": "H47",
+      "type": "structured_filter",
+      "question": "Which fuel pump recall campaigns were received before 2021?",
+      "expected": {"entities": [{"name": "20V218000"}, {"name": "20V682000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Component LIKE '%FUEL PUMP%' AND year(strptime(ReportReceivedDate, '%d/%m/%Y')) < 2021"
+    },
+    {
+      "id": "H48",
+      "type": "structured_filter",
+      "question": "Which recall campaigns affecting the 2019 Toyota RAV4 were filed by Toyota Motor Engineering & Manufacturing?",
+      "expected": {"entities": [{"name": "19V576000"}, {"name": "20V064000"}, {"name": "20V286000"}, {"name": "20V373000"}, {"name": "20V682000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Model = 'RAV4' AND Manufacturer = 'Toyota Motor Engineering & Manufacturing'",
+      "note": "Two other RAV4 recalls come from distributors (Gulf States Toyota, Southeast Toyota Distributors)."
+    },
+    {
+      "id": "H49",
+      "type": "aggregation",
+      "question": "How many recall campaigns are in the data?",
+      "expected": {"number": 29},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r"
+    },
+    {
+      "id": "H50",
+      "type": "aggregation",
+      "question": "How many injuries do the complaints report in total?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "sql": "SELECT sum(numberOfInjuries) FROM complaints"
+    },
+    {
+      "id": "H51",
+      "type": "aggregation",
+      "question": "How many recall campaigns affect the 2017 Nissan Rogue?",
+      "expected": {"number": 5},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE Model = 'ROGUE'"
+    },
+    {
+      "id": "H52",
+      "type": "aggregation",
+      "question": "Which vehicle is affected by the fewest recall campaigns in the data?",
+      "expected": {"entities": [{"name": "OUTBACK", "aliases": ["Subaru Outback", "2019 Subaru Outback"]}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT Model FROM r GROUP BY Model ORDER BY count(*) LIMIT 1",
+      "note": "Outback 3; Civic and Rogue 5 each."
+    },
+    {
+      "id": "H53",
+      "type": "aggregation",
+      "question": "In which year did NHTSA receive the most of these recall campaigns?",
+      "expected": {"number": 2020},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT year(strptime(ReportReceivedDate, '%d/%m/%Y')) FROM r GROUP BY 1 ORDER BY count(*) DESC LIMIT 1",
+      "note": "2020: 6 campaigns; 2016: 5; 2019: 4."
+    },
+    {
+      "id": "H54",
+      "type": "aggregation",
+      "question": "How many complaints report a fire?",
+      "expected": {"number": 0},
+      "route": "exact",
+      "sql": "SELECT count(*) FROM complaints WHERE fire",
+      "note": "None does."
+    },
+    {
+      "id": "H55",
+      "type": "aggregation",
+      "question": "Which recall component appears in the most recall campaigns?",
+      "expected": {"entities": [{"name": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT Component FROM r GROUP BY Component ORDER BY count(*) DESC LIMIT 1",
+      "note": "The component as NHTSA writes it; four campaigns, the next ones have two."
+    },
+    {
+      "id": "H56",
+      "type": "aggregation",
+      "question": "Which manufacturer filed the most recall campaigns?",
+      "expected": {"entities": [{"name": "Ford Motor Company"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT Manufacturer FROM r GROUP BY Manufacturer ORDER BY count(*) DESC LIMIT 1",
+      "note": "The recall's own Manufacturer field."
+    },
+    {
+      "id": "H57",
+      "type": "aggregation",
+      "question": "How many complaints were filed in 2019?",
+      "expected": {"number": 9},
+      "route": "exact",
+      "sql": "SELECT count(*) FROM complaints WHERE year(strptime(dateComplaintFiled, '%m/%d/%Y')) = 2019",
+      "note": "Complaint 11123359 about a 2019 Outback was filed in 2018."
+    },
+    {
+      "id": "H58",
+      "type": "aggregation",
+      "question": "How many recall campaigns affecting the 2016 Honda Civic were received after 2016?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE Model = 'CIVIC' AND year(strptime(ReportReceivedDate, '%d/%m/%Y')) > 2016"
+    },
+    {
+      "id": "H59",
+      "type": "multi_hop",
+      "question": "Which recall campaigns affect the vehicle of complaint 11010220?",
+      "expected": {"entities": [{"name": "16V244000"}, {"name": "17V663000"}, {"name": "21V839000"}, {"name": "22V875000"}, {"name": "23V093000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11010220"
+    },
+    {
+      "id": "H60",
+      "type": "multi_hop",
+      "question": "Which recall campaigns affect a vehicle whose owner reports a crash?",
+      "expected": {"entities": [{"name": "15V406000"}, {"name": "15V436000"}, {"name": "16V244000"}, {"name": "16V643000"}, {"name": "17V472000"}, {"name": "17V663000"}, {"name": "20V331000"}, {"name": "21V839000"}, {"name": "22V254000"}, {"name": "22V413000"}, {"name": "22V875000"}, {"name": "23V093000"}, {"name": "25V695000"}, {"name": "26V011000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.crash",
+      "note": "Crash complaints concern the Escape and the Rogue."
+    },
+    {
+      "id": "H61",
+      "type": "multi_hop",
+      "question": "Which make is the vehicle of complaint 11209676?",
+      "expected": {"entities": [{"name": "TOYOTA"}]},
+      "route": "exact",
+      "sql": "SELECT v.make FROM complaints c JOIN vehicles v ON v.model = c.product.productModel WHERE c.odiNumber = 11209676"
+    },
+    {
+      "id": "H62",
+      "type": "multi_hop",
+      "question": "How many recall campaigns affect the vehicle of complaint 10957753?",
+      "expected": {"number": 5},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 10957753"
+    },
+    {
+      "id": "H63",
+      "type": "multi_hop",
+      "question": "Which complaints concern a vehicle that has an air bag recall?",
+      "expected": {"entities": [{"name": "10809523"}, {"name": "10816192"}, {"name": "10823637"}, {"name": "10824361"}, {"name": "10825467"}, {"name": "10957753"}, {"name": "10972343"}, {"name": "11010220"}, {"name": "11030208"}, {"name": "11032133"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.Component LIKE 'AIR BAGS%'",
+      "note": "Air bag recalls affect the Rogue and the Civic."
+    },
+    {
+      "id": "H64",
+      "type": "multi_hop",
+      "question": "Which complaints concern a vehicle that has a recall campaign with an NHTSA action number?",
+      "expected": {"entities": [{"name": "10667633"}, {"name": "10689793"}, {"name": "10690483"}, {"name": "10691672"}, {"name": "10692693"}, {"name": "10957753"}, {"name": "10972343"}, {"name": "11010220"}, {"name": "11030208"}, {"name": "11032133"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.NHTSAActionNumber IS NOT NULL"
+    },
+    {
+      "id": "H65",
+      "type": "multi_hop",
+      "question": "What model year is the vehicle affected by recall 19V493000?",
+      "expected": {"number": 2019},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT v.model_year FROM r JOIN vehicles v ON v.model = r.Model WHERE r.NHTSACampaignNumber = '19V493000'"
+    },
+    {
+      "id": "H66",
+      "type": "multi_hop",
+      "question": "Which vehicle manufacturers have a vehicle with a fuel pump recall?",
+      "expected": {"entities": [{"name": "Honda (American Honda Motor Co.)"}, {"name": "Subaru of America, Inc."}, {"name": "Toyota Motor Corporation"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT v.manufacturer FROM r JOIN vehicles v ON v.model = r.Model WHERE r.Component LIKE '%FUEL PUMP%'",
+      "note": "The vehicle record's manufacturer, not the recall's."
+    },
+    {
+      "id": "H67",
+      "type": "multi_hop",
+      "question": "Which vehicles have both an owner complaint filed in 2019 and a recall campaign received in 2019?",
+      "expected": {"entities": [{"name": "OUTBACK", "aliases": ["Subaru Outback", "2019 Subaru Outback"]}, {"name": "RAV4", "aliases": ["Toyota RAV4", "2019 Toyota RAV4"]}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT r.Model FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE year(strptime(ReportReceivedDate, '%d/%m/%Y')) = 2019 AND year(strptime(dateComplaintFiled, '%m/%d/%Y')) = 2019"
+    },
+    {
+      "id": "H68",
+      "type": "multi_hop",
+      "question": "Which complaints concern the vehicle affected by recall 21V839000?",
+      "expected": {"entities": [{"name": "10957753"}, {"name": "10972343"}, {"name": "11010220"}, {"name": "11030208"}, {"name": "11032133"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.NHTSACampaignNumber = '21V839000'"
     }
   ]
 }
