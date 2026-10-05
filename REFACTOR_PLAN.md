@@ -3258,6 +3258,7 @@ a count over claims must tell them apart (task file, Step 7).
     not started; the next step is the user's decision.
 - **Paused (2026-10-05, the user's choice):** the query layer is fixed first, as R78; Step 7's code
   resumes after R78 is done. R78 done: 7 answers gained, none lost; held-out still below Step 3 (p 0.021).
+  R79 done: no dataset below Step 3 any more; Step 7's code resumes with R79 as its baseline.
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
@@ -3327,7 +3328,7 @@ rerun compares the same plans executed differently.
   - **R78 done.** Acceptance: the three fixes tested (each test failing before); answers measured, 7
     gained and none lost against R77; the "none" answers kept. Gate: 505 passed, `ruff check` clean.
 
-### R79. Plans over records: per-label counts, the most frequent value, record fields first (in progress)
+### R79. Plans over records: per-label counts, the most frequent value, record fields first (done 2026-10-05)
 After R78, held-out stays below Step 3 (50 against 60 of 68, p 0.021). Its 13 lost answers, read from the
 plans (not from guesses): the user chose a planner step before Step 7 (2026-10-05). One concern: a plan over
 records must be able to say what the question asks of the records.
@@ -3361,6 +3362,41 @@ records must be able to say what the question asks of the records.
   most shared value, its year, a tie; one numeric claim object), each failing before; two check tests. One
   R74 assertion changed on purpose: rank by a property with "most" was refused, now it is the new rank
   (stated in the test). Gate: 510 passed, `ruff check` clean.
+- **Part b: runs (2026-10-05; the user's yes, estimate $1.0-1.3; spent $1.082).** The three R76 graphs rebuilt
+  from the cache into `out/r79_<dataset>` right before each run (no test run in between; every count as
+  R76), then `kg qa --system graph` on `6052c3a` (`planner_prompt_version` `39f628183ebd`; tree dirty only
+  by the user's `.claude/settings.json`): furniture `6ce7ea60` $0.424 (143 calls, 41 hits), held-out
+  `d6050eef` $0.337 (106, 22), generality `d74edf67` $0.321 (106, 35); tokens in / out / thinking 405186 /
+  8938 / 243092, 392125 / 7597 / 174910, 270171 / 6226 / 193759.
+  - **Judge:** 13 of 18 free-text answers are word for word R78's and keep its verdict; the 5 changed ones
+    by a Fable 5.1 subagent with R71's rules: F38, H20, H37 correct, G20 (no answer) and G33 (names only a
+    station) wrong. H20 without "2.0L" was flagged and kept as correct, as R73 kept it. Verdicts in
+    `tests/gold/r79/`. Scores: `bf710353`, `bf4d02cb`, `98f800c7`; paired with R78: `37c7cfdb`, `47248ebf`,
+    `f00c6342`; with R73b: `a9eb46c4`, `121acff3`, `be1c0471`.
+
+    | Type | furniture R73b / R78 / **R79** | held-out R73b / R78 / **R79** | generality R73b / R78 / **R79** |
+    |---|---|---|---|
+    | multi_hop | 10 / 10 / **13** /17 | 15 / 14 / **15** /17 | 1 / 1 / **1** /6 |
+    | aggregation | 4 / 6 / **8** /16 | 16 / 12 / **14** /16 | 3 / 2 / **2** /6 |
+    | structured_filter | 5 / 12 / **14** /16 | 17 / 13 / **16** /17 | 0 / 2 / **2** /6 |
+    | disambiguation | 6 / 2 / **3** /6 | 3 / 3 / **2** /6 | 3 / 1 / **2** /8 |
+    | negation_sensitive | 4 / 3 / **4** /7 | 4 / 4 / **4** /6 | 2 / 1 / **2** /6 |
+    | lookup | 5 / 3 / **4** /6 | 5 / 4 / **4** /6 | 8 / 7 / **7** /9 |
+    | **all** | 34 / 36 / **46** /68 | 60 / 50 / **55** /68 | 17 / 14 / **16** /41 |
+    | paired R78 vs R79 (only R78 / only R79, p) | 2 / 12, **p 0.013** | 4 / 9, p 0.267 | 1 / 3, p 0.625 |
+    | paired R73b vs R79 | 8 / 20, **p 0.036** (R79 better) | 8 / 3, p 0.227 | 6 / 5, p 1.000 |
+
+  - The eight held-out answers aimed at all right: H12 and H28 count complaints only (`label`), H06 lists the
+    complaint only, H53 ranks years (2020), H55 ranks component values, H01 and H43 filter the recall's
+    component field with "contains"; H33 is right through the logged text2cypher fallback (both plans
+    refused), not through this step. Also gained: H17, and 12 on furniture (F09, F17, F20, F27, F38, F47,
+    F53, F57, F59, F64, F65, F67), G13, G24, G34. Lost against R78 (new plans, no cache): F55, F66, H11,
+    H24, H27, H36, G20. Fallbacks to text2cypher 3 / 2 / 9 (R78: 4 / 3 / 9).
+  - **Stop rule (task file section 4): no longer applies.** Against Step 3 no dataset is worse beyond one
+    sample's variation (held-out 55 against 60, p 0.227; generality p 1.0); furniture is better (p 0.036).
+    Still lost against Step 3 on held-out: H08, H11, H14, H19, H24, H27, H36, H44.
+  - **R79 done.** Next: R77 (Step 7) code, which the user paused for R78-R79; its "better than Step 6"
+    baseline is now R79's numbers.
 
 ## Found along the way
 

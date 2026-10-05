@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "6ce7ea6094fc4312a78b1fbcb8be0942",
+    "git_sha": "6052c3a-dirty"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r79_furniture/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "Says 'A partial refund.', exactly what the expected answer states, cited from the review where 'the shade arrived with a small dent'. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "F38",
+      "correct": true,
+      "reason": "Gives both sides: 'mostly describe the Stockholm Chair as comfortable', 'incredibly comfortable for long periods', 'over long dinners', and the one reviewer who 'finds it less comfortable for extended work sessions'; every part of the expected answer is present."
+    }
+  ]
+}

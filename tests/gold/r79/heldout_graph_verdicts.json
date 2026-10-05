@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "d6050eeffad44334bd61e92ddaa4cd3d",
+    "git_sha": "6052c3a-dirty"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r79_heldout/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": false,
+      "reason": "No answer at all (text null, entities '[]', no citations) while the expected remedy 'inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge' exists in recall 16V074000. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "States the defect fully: 'piston assemblies that were manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip'; it omits the expected answer's 'in 2.0L engines', but that is the scope of the recall, not the defect the question asks for, and the gold quote itself does not contain it."
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "Entity 'Hall Nissan in Chesapeake, VA' is exactly the expected dealer, with the gold sentence cited. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "Says 'A harness protector cover', the item the question asks about; the cited quote carries 'free of charge', and leaving that qualifier out of the text contradicts nothing in the source. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "'Nissan engineering declared the system worked as intended' is exactly the expected statement."
+    },
+    {
+      "question_id": "H38",
+      "correct": false,
+      "reason": "Gives '2020-06-24', a different date from the expected 'August 17, 2020' ('The recall began August 17, 2020.'); the value is wrong, not merely partial. (earlier verdict: the answer is identical to R78's)"
+    }
+  ]
+}

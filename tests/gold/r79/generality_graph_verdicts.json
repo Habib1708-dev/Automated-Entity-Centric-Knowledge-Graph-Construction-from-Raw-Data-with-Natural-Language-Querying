@@ -1,0 +1,62 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1",
+    "date": "2026-10-05",
+    "run_id": "d74edf67465a46d7a30b5949f47f3d9d",
+    "git_sha": "6052c3a-dirty"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r79_generality/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": true,
+      "reason": "The answer gives all three parts for HP40-2291: 'ran quietly', 'no leaks found on it' and 'bearing temperature of 48 °C', with nothing from HP40-1183 mixed in. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "Says 'Because the roof has leaked into the children's section since the autumn storms', the expected reason, taken from the library sentence and not from the footbridge. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G11",
+      "correct": true,
+      "reason": "The answer names 'Ines Barros, service manager at Calder Pumps' as the one saying the pump ran dry and states 'The utility does not agree' because 'its log shows the suction valve was open for the whole night', covering both parts of the expected answer and attributing the claim to the vendor as the note requires. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "Says the flooding 'would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended', the gold sentence itself; it names the seal and the March inspection recommendation as the expected answer does. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "Says 'By 30 June 2025.', the exact expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G18",
+      "correct": false,
+      "reason": "Says 'The chunks do not answer this' and 'none of them contains a structural inspector's report', although the source states 'residents had told him the east railing moved when leaned on'; no answer is wrong. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "Says 'Before the library reopens on 1 September.', exactly the expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R78's)"
+    },
+    {
+      "question_id": "G20",
+      "correct": false,
+      "reason": "No answer: text is null and entities are empty, while the expected answer '28 March' exists in the source (rule 5)."
+    },
+    {
+      "question_id": "G33",
+      "correct": false,
+      "reason": "The only content is the entity 'North Station', which is not the inspection finding; none of the expected parts (no leaks, bearing temperature 49 °C, flow 40 litres per second) is stated."
+    },
+    {
+      "question_id": "G38",
+      "correct": true,
+      "reason": "Says '15 June 2025', the exact expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R78's)"
+    }
+  ]
+}
