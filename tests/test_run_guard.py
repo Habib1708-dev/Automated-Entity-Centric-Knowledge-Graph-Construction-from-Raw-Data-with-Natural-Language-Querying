@@ -77,6 +77,7 @@ def test_the_committed_full_dataset_presets_ask_and_the_cheap_ones_do_not():
         "quality_deepseek": True,
         "heldout_deepseek": True,
         "generality": True,  # the synthetic corpus of R70, built and questioned with DeepSeek (R71)
+        "generality_gemini": True,  # the same corpus built on Gemini (R73)
     }
 
 

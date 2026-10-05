@@ -121,3 +121,10 @@ generality:
   description: the quality_deepseek settings on the synthetic generality corpus (tests/fixtures/generality)
   data_dir: tests/fixtures/generality
   mlflow_experiment: kgbuilder-generality
+# The same corpus built on Gemini: from layered-model Step 3 on, every build uses Gemini (the user's choice,
+# R73), while answering stays on DeepSeek (`generality` above). Asks for permission like quality.
+generality_gemini:
+  <<: *quality
+  description: the quality settings (Gemini) on the synthetic generality corpus, for builds
+  data_dir: tests/fixtures/generality
+  mlflow_experiment: kgbuilder-generality
