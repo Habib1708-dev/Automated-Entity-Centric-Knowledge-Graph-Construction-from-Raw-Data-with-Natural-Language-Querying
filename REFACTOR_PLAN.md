@@ -2849,7 +2849,7 @@ any change to the graph's shape (task file, Step 4).
   invented filter impossible by construction, read_check counting only verified quotes, the retry and
   both fallbacks. **R74 done (code only).** Next: Step 5 (identity: mentions and canonical entities).
 
-### R75. Identity: mentions and canonical entities (layered-model Step 5; in progress)
+### R75. Identity: mentions and canonical entities (layered-model Step 5; done 2026-10-05, no kg qa)
 Which real-world entity a name refers to, and when two names in two documents are the same entity (task
 file, Step 5). Today an `:Entity` is one node per type and name across all documents, and resolution merges
 nodes physically (`apoc.refactor.mergeNodes`, undone only from snapshots): "Maria Lopez" of two documents is
@@ -3022,10 +3022,76 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
     no duplicate, the task's hard cases and recorded merges present, the score on hand-made mentions) and a
     `kg eval` run on the Pike graph in `tests/test_identity.py` (precision 1.0, recall 0.5, apart 1.0).
     Gate: 487 passed (477 after b2), `ruff check` clean.
+- **Part d: runs (2026-10-05; the user chose the cached rebuild, estimate $0.2-0.4; spent $0.291).** The three
+  R73b graphs rebuilt on the mention graph: the R73b frozen plans and text schemas with identity classes and
+  part-of flags added (reviewed by the user before the run; committed as
+  `tests/gold/r75/<dataset>_text_schema.json`; a script
+  checked that every extraction prompt is byte-identical, and extraction ran with an invalid key, so a cache
+  miss would have failed). Extraction: all cache hits, claims byte-identical to R73b (furniture 508, held-out
+  532, generality 195). Classes: furniture Product keyed (Product), Component keyed (Component, Assembly),
+  Material and QualityAspect concepts; held-out Vehicle keyed (Vehicle; make, model_year), Recall keyed,
+  Component and Problem concepts; generality Person keyed (Staff; team, role), Pump keyed (Pump; model,
+  station), Equipment concept, Place, Event and Organization individuals.
+  - Two bugs found by the runs, each fixed in its own commit with a failing test first (Found along the way):
+    a key anywhere in a listing sentence linked "Camry" to the RAV4 record (`77336a2`), and TRANSMISSION /
+    TRANSMISSION BOX were joined again (`ce3c652`, the `CompoundName` guard). The numbers below are from
+    the rebuild on `ce3c652`; the earlier resolve runs (`dd4e1a0c`, `4fb36808`, `ea90633b`) are not used.
+
+  | | furniture `out/r75_furniture` | held-out `out/r75_heldout` | generality `out/r75_generality` |
+  |---|---|---|---|
+  | mentions: to records / individuals / concepts | 610: 47 / 79 / 484 | 510: 76 / 192 / 242 | 243: 39 / 139 / 65 |
+  | concepts before -> after (merges) | 387 -> 273 (114) | 221 -> 192 (29) | 54 -> 54 (0) |
+  | blocked: polarity / same sentence / part-whole / compound | 23 / 2 / 0 / 6 | 0 / 23 / 2 / 9 | 0 / 1 / 0 / 0 |
+  | individual pairs: nominated / joined / apart / two records | 109 / 9 / 89 / 11 | 169 / 15 / 134 / 20 | 178 / 87 / 89 / 2 |
+  | identity precision (exact) | 1.0 (n 13 joined) | 1.0 (n 4) | 1.0 (n 9) |
+  | identity apart rate, the bar 1.0 (exact) | 1.0 (31/31) | 1.0 (10/10) | 1.0 (8/8) |
+  | identity recall (exact) | 0.867 (13/15) | 0.667 (4/6) | 0.818 (9/11) |
+  | identity pairs not extracted | 21 of 67 | 7 of 23 | 5 of 24 |
+  | `er_accuracy` (exact, names) | 0.906 (48/53) | 0.929 (13/14) | no ER gold |
+  | `entities_linked` (Step 0 baseline) | 40 (33; R73b 31) | 65 (56) | 12 |
+  | `path_truth` | 1.000 (502/502) | 0.818 (507/620; the section-link artefact of R68, as in Step 0) | |
+  | `question_accuracy` (R75 gold questions) | 0.167 (1/6, as Step 0: the schema renamed the predicates) | 1.000 (7/7) | |
+  | MLflow: link / resolve / eval | `fb69fe18` / `f75cf07d` / `f68a203f` | `5c5e4832` / `caad5459` / `d603068f` | `28359903` / `c746df25` / `783a5fdc` |
+  | `cost_usd` of this rebuild (resolve; all else $0) | $0.0002 (the first build's `dd4e1a0c`: $0.094) | $0 (the fixed build's `ea90633b`: $0.082; the discarded `4fb36808`: $0.042) | $0.073 |
+
+  - Acceptance, one by one. Identity precision 1.0 on the different pairs: met on all three datasets.
+    Recall stated above; every miss is a missed join, none a wrong one: furniture "drawer rails" / "metal
+    rails" and "shelves" / "shelf" (never nominated or kept apart), held-out "brake suddenly" / "braked on
+    its own" (one pair under two wordings, the kind joined across documents not made), generality Jon Pike
+    and the field log's J. Pike kept apart from Jonathan Pike (the adjudicator found no evidence in their
+    sentences). The recorded wrong merges: TRANSMISSION / TRANSMISSION BOX blocked (`compound_name`);
+    "drawer slides" (bed) / "drawer rails" (dresser) apart (two products' parts, never joined);
+    "BRAKE SUDDENLY" / "ACTIVATED THE BRAKES" apart (labelled the same kind in the gold, so a missed join).
+    G02: both minutes' Maria Lopez refer to S-219 by attribute ("Maria Lopez (Finance Office)"), so the role
+    is reachable in the record. G05: mentions in 5 of the 8 documents refer to S-131 (newsletter, award,
+    seminar by `variant_attribute`, Utrecht, flood meeting); the two Pike mentions above stay apart and the
+    9 June minutes' "J. Pike" was not extracted; a count over text goes through `read_check` (Step 4)
+    anyway. Disambiguation and multi-hop against Step 4 (paired): not measured, no `kg qa` (the user's
+    choice). Judge precision and recall of the claims against Step 0: not measured; the claims are R73b's
+    own (cached), which no judge pass covered, and Step 0's graphs are other builds. `entities_linked` and
+    `path_truth` are not below Step 0.
+  - Review of the joins (lead judge Opus 5.5, a reading of every `joined` decision with its quotes, not a
+    scored verdict file): 110 of 111 right (examples: Rosa Delgado in seven documents, "Mayor Achterberg" =
+    "Helen Achterberg", KV12-0457 = "the Kestrel V-12 at Harbour Station", "Ford C-MAX" = "C-Max"); one
+    questionable: furniture "dimmer" ~ "dimmer function" (the user's R38 decision keeps "dimmer switch" and
+    "dimmer function" apart), accepted because the quote check counts "dimmer" inside "dimmer function"
+    (Found along the way).
+  - **R75 done** (code, gold and the cached rebuild). Open by the user's choice: `kg qa` on the new graphs
+    and the paired comparison with Steps 3-4. Next: Step 6 (attachment).
 
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
+
+- **The quote check counts a name inside the other side's longer name (found in R75 part d).** The furniture
+  adjudicator joined "dimmer" and "dimmer function" (Örebro Lamp) with two quotes that both say "dimmer
+  function"; `individuals.verified` accepts a quote for "dimmer" because "dimmer" is a substring of it. The
+  user's R38 decision keeps "dimmer switch" and "dimmer function" apart. Candidates: the `CompoundName`
+  guard also for pairs of individuals (it blocks this pair), and a quote names a side only where the name is
+  not part of the other side's longer name. The one questionable join of 111.
+- **The task's G05 count rests on mentions the extractor does not write (found in R75 part d).** The 9 June
+  minutes' "J. Pike" and the field log's "M. Lopez" are no Person mentions in the cached R73b claims, so no
+  identity rule can reach them; joining is bounded by extraction.
 
 - **(Fixed in R75 part d, its own commit.) TRANSMISSION and TRANSMISSION BOX were joined again (found in
   R75's held-out run).** The recorded wrong merge of R63, the task file's own example of "a part and the

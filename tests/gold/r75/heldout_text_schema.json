@@ -1,0 +1,137 @@
+{
+  "entity_types": [
+    {
+      "name": "Vehicle",
+      "description": "A specific motor vehicle model and year combination subject to safety complaints or recalls, excluding general references to unrelated traffic.",
+      "identity": "keyed",
+      "record_labels": [
+        "Vehicle"
+      ],
+      "key_attributes": [
+        "make",
+        "model_year"
+      ]
+    },
+    {
+      "name": "Component",
+      "description": "A physical automotive part, mechanical assembly, sensor, or software system of a vehicle, excluding non-vehicular objects and road obstacles.",
+      "identity": "concept",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Problem",
+      "description": "A mechanical defect, component failure, abnormal symptom, unintended behavior, or safety hazard experienced during vehicle operation.",
+      "identity": "concept",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Recall",
+      "description": "An official safety recall campaign or stop-sale action issued by an automotive manufacturer or regulatory agency, excluding routine maintenance or ordinary repairs.",
+      "identity": "keyed",
+      "record_labels": [
+        "Recall"
+      ],
+      "key_attributes": []
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "AFFECTS_COMPONENT",
+      "subject_type": "Problem",
+      "object_type": "Component",
+      "description": "Identifies the vehicle part, assembly, or system that exhibits or suffers from the reported problem.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "CAUSES_PROBLEM",
+      "subject_type": "Problem",
+      "object_type": "Problem",
+      "description": "Indicates that one failure, malfunction, or safety hazard directly triggered or resulted in another problem condition.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OCCURS_ON_VEHICLE",
+      "subject_type": "Problem",
+      "object_type": "Vehicle",
+      "description": "Identifies the vehicle model that experienced the reported problem or failure condition.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OCCURS_AT_MILEAGE",
+      "subject_type": "Problem",
+      "object_type": "Value",
+      "description": "The odometer reading or mileage at which the vehicle failure or problem occurred, expressed as a number with distance units.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OCCURS_AT_SPEED",
+      "subject_type": "Problem",
+      "object_type": "Value",
+      "description": "The driving speed at which the symptom, malfunction, or abnormal behavior occurs, expressed as a value with speed units.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_DURATION",
+      "subject_type": "Problem",
+      "object_type": "Value",
+      "description": "The duration of time an intermittent or transient failure condition lasts, expressed as a value with time units.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "SUBCOMPONENT_OF",
+      "subject_type": "Component",
+      "object_type": "Component",
+      "description": "Identifies a subassembly, mechanism, or part that belongs to or operates within a larger vehicle component or system.",
+      "derived": false,
+      "part_of": true
+    },
+    {
+      "predicate": "INSTALLED_IN",
+      "subject_type": "Component",
+      "object_type": "Vehicle",
+      "description": "Connects a vehicle component to the vehicle model it belongs to, derived from the document context.",
+      "derived": true,
+      "part_of": true
+    },
+    {
+      "predicate": "COVERS_COMPONENT",
+      "subject_type": "Recall",
+      "object_type": "Component",
+      "description": "Identifies the vehicle part, assembly, or system that is defective and targeted by the safety recall campaign.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "ADDRESSES_PROBLEM",
+      "subject_type": "Recall",
+      "object_type": "Problem",
+      "description": "Identifies the safety defect, failure symptom, or hazard condition that the recall campaign is intended to rectify.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "AFFECTS_VEHICLE",
+      "subject_type": "Recall",
+      "object_type": "Vehicle",
+      "description": "Identifies the specific vehicle model covered or targeted by the safety recall campaign.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_MILEAGE",
+      "subject_type": "Vehicle",
+      "object_type": "Value",
+      "description": "The current or operating odometer reading of the vehicle, expressed as a value with distance units.",
+      "derived": false,
+      "part_of": false
+    }
+  ]
+}

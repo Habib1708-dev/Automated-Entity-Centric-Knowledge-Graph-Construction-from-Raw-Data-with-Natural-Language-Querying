@@ -1,0 +1,103 @@
+{
+  "entity_types": [
+    {
+      "name": "Product",
+      "description": "Finished furniture product offered in the catalog, distinct from its individual components.",
+      "identity": "keyed",
+      "record_labels": [
+        "Product"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Component",
+      "description": "Individual structural part, piece of hardware, or functional sub-unit of a product, distinct from raw materials.",
+      "identity": "keyed",
+      "record_labels": [
+        "Component",
+        "Assembly"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Material",
+      "description": "Raw material, substance, or fabric from which a product or component is made, distinct from fabricated parts.",
+      "identity": "concept",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "QualityAspect",
+      "description": "Functional, physical, or experiential characteristic, performance property, or defect evaluated in an item.",
+      "identity": "concept",
+      "record_labels": [],
+      "key_attributes": []
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "PART_OF",
+      "subject_type": "Component",
+      "object_type": "Product",
+      "description": "Associates a named component directly with the product it belongs to as established by the document context.",
+      "derived": true,
+      "part_of": true
+    },
+    {
+      "predicate": "MADE_OF",
+      "subject_type": "Component",
+      "object_type": "Material",
+      "description": "Specifies the raw material or substance of which a component is constructed.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "MADE_OF",
+      "subject_type": "Product",
+      "object_type": "Material",
+      "description": "Specifies the primary material or composition from which a finished product is fabricated.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "CONNECTS_TO",
+      "subject_type": "Component",
+      "object_type": "Component",
+      "description": "Describes a mechanical fastening, alignment, or physical interface between two components.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_MEASUREMENT",
+      "subject_type": "Product",
+      "object_type": "Value",
+      "description": "Records physical dimensions, overall weight, assembly duration, or capacity metrics for a finished product.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_MEASUREMENT",
+      "subject_type": "Component",
+      "object_type": "Value",
+      "description": "Records technical specifications, dimensions, tolerances, load ratings, or power values of a component.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "EXHIBITS",
+      "subject_type": "Product",
+      "object_type": "QualityAspect",
+      "description": "Records an observed quality, functional behavior, defect, or assembly experience of a product, with claim polarity capturing sentiment.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "EXHIBITS",
+      "subject_type": "Component",
+      "object_type": "QualityAspect",
+      "description": "Records an observed quality, flaw, or performance characteristic of an individual component, with claim polarity indicating positive or negative outcome.",
+      "derived": false,
+      "part_of": false
+    }
+  ]
+}
