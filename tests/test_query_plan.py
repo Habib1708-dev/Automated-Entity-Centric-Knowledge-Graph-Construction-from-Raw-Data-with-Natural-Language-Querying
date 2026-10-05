@@ -165,9 +165,34 @@ def test_terminals_check_what_they_read():
         issues(plan(records, {"op": "rank", "input": 0, "property": "list_price", "order": "highest"})) == []
     )
     assert issues(plan(records, {"op": "rank", "input": 0, "relationship": "PART_OF", "order": "most"})) == []
-    assert issues(plan(records, {"op": "rank", "input": 0, "property": "year", "order": "most"}))
     assert issues(plan(records, {"op": "list", "input": 0, "what": "subject"}))  # subjects need claims
     assert issues(plan(records, {"op": "count", "input": 0, "unit": "about"}))
+
+
+def test_rank_by_the_value_records_share_takes_a_years_operator_for_dates_only():
+    # refused until R79 ("rank by property orders highest or lowest"); since R79 most/fewest with a property
+    # ranks its values by how many records share them
+    records = {"op": "filter_records", "label": "Press"}
+
+    def rank(**fields):
+        return issues(plan(records, {"op": "rank", "input": 0, "order": "most", **fields}))
+
+    assert rank(property="year") == []
+    assert rank(property="since", operator="year") == []
+    assert rank(property="year", operator="year") == [
+        "step 1 (rank): rank: operator 'year' needs a date property, year is not one"
+    ]
+    assert rank(property="since", operator="=")
+
+
+def test_claims_about_records_are_narrowed_by_a_record_label_only():
+    claims = {"op": "find_claims", "predicate": "HAS_CONDITION"}
+    assert issues(plan(claims, {"op": "count", "input": 0, "unit": "about", "label": "Press"})) == []
+    assert issues(plan(claims, {"op": "list", "input": 0, "what": "about", "label": "Part"})) == []
+    assert issues(plan(claims, {"op": "list", "input": 0, "label": "Condition"})) == [
+        "step 1 (list): list: unknown record label 'Condition'; use one of ['Part', 'Press']"
+    ]
+    assert issues(plan(claims, {"op": "count", "input": 0, "unit": "about", "label": "Condition"}))
 
 
 def test_numbers_are_read_from_text():

@@ -327,3 +327,72 @@ def test_a_listed_property_of_one_number_is_also_the_answers_number(runner_parts
         {"op": "list", "input": 0, "property": "year"},
     )
     assert both.number is None
+
+
+def _with(driver, store, query) -> PlanSchema:
+    """Add to the test graph, then read the schema again, as a plan sees the graph it runs on."""
+    driver.execute_query(query)
+    return PlanSchema(schema=store.schema(), record_labels=frozenset(rule.label for rule in PLAN.nodes))
+
+
+def test_claims_are_counted_and_listed_by_the_records_of_one_label_they_are_about(runner_parts, driver):
+    # R79: "How many complaints report X?" counted the complaints and their vehicles (R78 held-out H12:
+    # 4 for 2); here the spindle's claim hangs on the press and on the part
+    store, _ = runner_parts
+    schema = _with(
+        driver,
+        store,
+        "MATCH (s:Part {part_id: 'S1'}), (o:Observation {id: 'o1'}) MERGE (s)-[:HAS_OBSERVATION]->(o)",
+    )
+    r = runner(store, schema)
+    claims = {"op": "find_claims", "predicate": "HAS_CONDITION"}
+    every = run(r, schema, "q", claims, {"op": "count", "input": 0, "unit": "about"})
+    parts = run(r, schema, "q", claims, {"op": "count", "input": 0, "unit": "about", "label": "Part"})
+    presses = run(r, schema, "q", claims, {"op": "list", "input": 0, "what": "about", "label": "Press"})
+    assert (every.number, parts.number, presses.entities) == (2.0, 1.0, ["Quill Press"])
+
+
+def test_rank_finds_the_value_the_most_records_share_or_its_year(runner_parts, driver):
+    # R79: "Which component appears in the most recalls?" and "In which year ... the most?" (held-out H55,
+    # H53) had no primitive; a tie names every value, as rank does
+    store, _ = runner_parts
+    schema = _with(
+        driver,
+        store,
+        "MATCH (q:Press {press_id: 'P1'}), (l:Press {press_id: 'P2'}) "
+        "SET q.kind = 'manual', l.kind = 'manual', l.since = date('2020-06-30')",
+    )
+    r = runner(store, schema)
+    presses = {"op": "filter_records", "label": "Press"}
+    kind = run(r, schema, "q", presses, {"op": "rank", "input": 0, "property": "kind", "order": "most"})
+    year = run(
+        r, schema, "q", presses,
+        {"op": "rank", "input": 0, "property": "since", "operator": "year", "order": "most"},
+    )  # fmt: skip
+    tie = run(r, schema, "q", presses, {"op": "rank", "input": 0, "property": "year", "order": "fewest"})
+    assert (kind.entities, kind.number) == (["manual"], None)
+    assert (year.entities, year.number) == (["2020"], 2020.0)
+    assert sorted(tie.entities) == ["2016", "2019"] and tie.number is None
+
+
+def test_one_listed_claim_end_that_is_a_number_is_also_the_answers_number(runner_parts, driver):
+    # R79: "What was the mileage in complaint X?" listed the claim's object "2361", never the number
+    # (held-out H33); R78 did this for record properties only
+    store, _ = runner_parts
+    schema = _with(
+        driver,
+        store,
+        "MATCH (q:Press {press_id: 'P1'}), (c:Chunk {chunk_id: 'notes.md#0'}), (s:Mention {id: 'm-spindle'}) "
+        "CREATE (o:Observation {id: 'o2', predicate: 'HAS_SPEED', polarity: 'neutral'}), "
+        "(n:Mention {id: 'm-42', name: '42', type: 'Speed', doc_id: 'notes.md'}), "
+        "(o)-[:SUBJECT]->(s), (o)-[:OBJECT]->(n), (o)-[:FROM]->(c), (q)-[:HAS_OBSERVATION]->(o)",
+    )
+    result = run(
+        runner(store, schema),
+        schema,
+        "q",
+        {"op": "find_entity", "name": "Quill Press", "label": "Press"},
+        {"op": "find_claims", "input": 0, "predicate": "HAS_SPEED"},
+        {"op": "list", "input": 1, "what": "object"},
+    )
+    assert (result.entities, result.number) == (["42"], 42.0)

@@ -3327,10 +3327,49 @@ rerun compares the same plans executed differently.
   - **R78 done.** Acceptance: the three fixes tested (each test failing before); answers measured, 7
     gained and none lost against R77; the "none" answers kept. Gate: 505 passed, `ruff check` clean.
 
+### R79. Plans over records: per-label counts, the most frequent value, record fields first (in progress)
+After R78, held-out stays below Step 3 (50 against 60 of 68, p 0.021). Its 13 lost answers, read from the
+plans (not from guesses): the user chose a planner step before Step 7 (2026-10-05). One concern: a plan over
+records must be able to say what the question asks of the records.
+- **Scope** (`query/plan.py`, `query/plan_cypher.py`, `query/plan_run.py`, `query/planner.py`, tests):
+  1. `list` and `count` of claims by what they are about take an optional `label`: only the records of that
+     label (H12 counted 2 complaints and their 2 vehicles as 4; H28 2 for 1; H06 named a vehicle next to
+     the complaint). Code checks the label is a record label.
+  2. `rank` by a property with order "most" / "fewest": the value the most or fewest input records share,
+     by the year of a date with operator "year" (H53 "in which year ... the most", H55 "which component
+     appears in the most"); ties all reported, as rank does today.
+  3. A `list` or `rank` answer of one value that is a number also gives that number (H33 listed "2361", a
+     claim's object; R78 did this for property lists only).
+  4. One planner rule: a thing the question names that a record's text property holds (its examples show
+     such words) is filtered on that property with "contains", not searched among claims (H01, H43).
+     No code check is possible: code cannot tell which words a question means as a field value; the
+     measurement is the check.
+  The prompt's primitive list and the plan's field descriptions change with 1, 2 and 4 (prompt-engineering
+  skill: no dataset word; the example stays the invented hives).
+- **Not in scope:** comparing two properties of one record (H44 "filed more than 30 days after"), read_check
+  judgements (H08, H17), and H19's mixed-label list; noted for Step 8.
+- **Runs:** the planner prompt changes, so every planner call misses the cache: `kg qa --system graph` on
+  the three graphs costs about the R77 baseline ($1.0-1.3), asked first; judge; paired with R78 and R73b.
+- **Part a: code and prompt (done 2026-10-05, no run).** `plan_cypher.claims_about(ids, label)` and the new
+  `value_groups(ids, prop, by_year)`; `PlanRunner`: `list`/`count` "about" pass `step.label`, `rank` by a
+  property with most/fewest ranks the values (`_value_scores`; the other ranks moved unchanged into
+  `_record_scores`), and `_one_number` sets the number for any one-value `list` or `rank` (R78's
+  property-list rule folded in). `check_plan`: the label must be a record label; rank's operator is none or
+  "year", and "year" needs a date property. Prompt: the `list`, `count` and `rank` lines and one rule
+  (field filter with "contains"); field descriptions of `label`, `operator`, `order`. Swept for dataset
+  words: none in the prompt or the response schema. Tests: three Neo4j tests (per-label count and list; the
+  most shared value, its year, a tie; one numeric claim object), each failing before; two check tests. One
+  R74 assertion changed on purpose: rank by a property with "most" was refused, now it is the new rank
+  (stated in the test). Gate: 510 passed, `ruff check` clean.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
+- **`planner_prompt_version` hashes the template only (found in R79).** The plan's field descriptions reach
+  the model too (the response schema), but a change to them alone leaves the hash unchanged. In R79 the
+  template changed as well, so its runs are told apart; a later step that changes descriptions only must
+  add them to the hash first.
 - **(Fixed in R76 part b, its own commit.) A name on another line of a quote held the claim (found in
   R76's generality run).** The extractor quotes several lines of a line-based note as one quote, and
   `key_in_sentence` searched the whole quote: "Tomasz Wren LOCATED_AT North Station", quoted from the shift

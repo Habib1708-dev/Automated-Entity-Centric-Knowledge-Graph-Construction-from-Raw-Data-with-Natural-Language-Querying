@@ -226,14 +226,11 @@ class PlanRunner:
         if step.property is not None:
             values = self._rows(*cy.record_values(inputs.get("record", []), step.property))
             result.entities = list(dict.fromkeys(str(r["value"]) for r in values if r["value"] is not None))
-            # one value that is a number is the answer to "how much" as well as "which" (R77 baseline: F63
-            # listed "$289" for the expected 289); several values stay a list, never summed or picked
-            if len(result.entities) == 1:
-                result.number = as_number(result.entities[0])
         elif inputs.get("claim"):
-            result.entities = self._claim_names(inputs["claim"], step.what or "about")
+            result.entities = self._claim_names(inputs["claim"], step.what or "about", step.label)
         else:
             result.entities = self._names(inputs)
+        _one_number(result)
         return {}, ""
 
     def _count(self, step, inputs, question, result):
@@ -241,7 +238,7 @@ class PlanRunner:
         if unit == "items":
             result.number = float(sum(len(v) for v in inputs.values()))
         elif unit == "about":
-            rows = self._rows(*cy.claims_about(inputs.get("claim", [])))
+            rows = self._rows(*cy.claims_about(inputs.get("claim", []), step.label))
             result.number = float(len({r["about"] for r in rows}))
         else:
             documents: set[str] = set()
@@ -257,23 +254,18 @@ class PlanRunner:
         return {}, f"{len(numbers)} of {len(rows)} values are numbers"
 
     def _rank(self, step, inputs, question, result):
-        if step.property is not None:
-            rows = self._rows(*cy.record_values(inputs.get("record", []), step.property))
-            scores = {r["item"]: n for r in rows if (n := as_number(r["value"])) is not None}
-        elif step.relationship is not None:
-            ids = inputs.get("record", [])
-            direction = self._direction(step.relationship, ids, step.label) or "both"
-            rows = self._rows(*cy.related_groups(step.relationship, direction, step.label, ids))
-            scores = {r["item"]: float(r["n"]) for r in rows}
-        else:
-            rows = self._rows(*cy.claims_about(inputs.get("claim", [])))
-            scores = {k: float(v) for k, v in Counter(r["about"] for r in rows).items()}
+        # with a property and most/fewest, the values themselves are ranked by how many records share them
+        # (R79); otherwise records, by a property's value, their related records or their claims
+        by_value = step.property is not None and step.order in ("most", "fewest")
+        scores = self._value_scores(step, inputs) if by_value else self._record_scores(step, inputs)
         if not scores:
             result.entities = []
             return {}, "nothing to rank"
         best = max(scores.values()) if step.order in ("most", "highest") else min(scores.values())
         # every item at the best score: a tie is reported, never broken at random
-        result.entities = self._names({"record": [k for k, v in scores.items() if v == best]})
+        winners = [k for k, v in scores.items() if v == best]
+        result.entities = winners if by_value else self._names({"record": winners})
+        _one_number(result)
         return {}, f"best {best:g}"
 
     def _answer_from_chunks(self, step, inputs, question, result):
@@ -286,6 +278,25 @@ class PlanRunner:
         return {}, f"{len(shown)} chunks read" + (f" ({_SOURCE_NOTE})" if from_source else "")
 
     # --- helpers ---------------------------------------------------------------------------------------
+
+    def _value_scores(self, step: PlanStep, inputs: Items) -> dict[str, float]:
+        """How many input records share each value of the step's property (its year with operator 'year')."""
+        ids, by_year = inputs.get("record", []), step.operator == "year"
+        rows = self._rows(*cy.value_groups(ids, step.property or "", by_year))
+        return {str(r["value"]): float(r["n"]) for r in rows}
+
+    def _record_scores(self, step: PlanStep, inputs: Items) -> dict[str, float]:
+        """Each record's score: its property's value, its related records, or its claims."""
+        if step.property is not None:
+            rows = self._rows(*cy.record_values(inputs.get("record", []), step.property))
+            return {r["item"]: n for r in rows if (n := as_number(r["value"])) is not None}
+        if step.relationship is not None:
+            ids = inputs.get("record", [])
+            direction = self._direction(step.relationship, ids, step.label) or "both"
+            rows = self._rows(*cy.related_groups(step.relationship, direction, step.label, ids))
+            return {r["item"]: float(r["n"]) for r in rows}
+        rows = self._rows(*cy.claims_about(inputs.get("claim", [])))
+        return {k: float(v) for k, v in Counter(r["about"] for r in rows).items()}
 
     def _embed(self, text: str) -> list[float]:
         return self._embedder.embed([text])[0]
@@ -365,12 +376,20 @@ class PlanRunner:
         names += [self._entity_names[i] for i in items.get("entity", []) if i in self._entity_names]
         return list(dict.fromkeys(names))
 
-    def _claim_names(self, claims: list[str], what: str) -> list[str]:
+    def _claim_names(self, claims: list[str], what: str, label: str | None) -> list[str]:
         if what in ("subject", "object"):
             rows = self._rows(*cy.claim_ends(claims, what))
             return list(dict.fromkeys(str(r["name"]) for r in rows))
-        rows = self._rows(*cy.claims_about(claims))
+        rows = self._rows(*cy.claims_about(claims, label))
         return self._names({"record": list(dict.fromkeys(str(r["about"]) for r in rows))})
+
+
+def _one_number(result: PlanRun) -> None:
+    """One answer value that is a number is the answer to "how much" as well as "which" (R77 baseline: F63
+    listed "$289" for 289, H33 a claim's object "2361"); several values stay a list, never summed or
+    picked."""
+    if result.entities is not None and len(result.entities) == 1:
+        result.number = as_number(result.entities[0])
 
 
 def _shown(chunks: list[StoredChunk]) -> list[ShownChunk]:

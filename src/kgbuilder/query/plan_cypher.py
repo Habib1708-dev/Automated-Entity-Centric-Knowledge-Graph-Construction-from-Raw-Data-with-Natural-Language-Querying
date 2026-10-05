@@ -250,11 +250,25 @@ def item_documents(kind: str, ids: list[str]) -> Fragment:
     return "UNWIND $ids AS id RETURN id AS item, id AS document", {"ids": ids}
 
 
-def claims_about(ids: list[str]) -> Fragment:
-    """Rows of (claim, record): the records the claims hang on (`HAS_OBSERVATION`)."""
+def claims_about(ids: list[str], label: str | None = None) -> Fragment:
+    """Rows of (claim, record): the records the claims hang on (`HAS_OBSERVATION`), only those of `label`
+    when given (R79)."""
+    only = f" AND t:{cypher_ident(label)}" if label is not None else ""
     return (
-        "MATCH (t)-[:HAS_OBSERVATION]->(o:Observation) WHERE o.id IN $ids "
+        f"MATCH (t)-[:HAS_OBSERVATION]->(o:Observation) WHERE o.id IN $ids{only} "
         "RETURN o.id AS item, elementId(t) AS about",
+        {"ids": ids},
+    )
+
+
+def value_groups(ids: list[str], prop: str, by_year: bool) -> Fragment:
+    """Rows of (value, count): how many of the records `ids` share each value of `prop`, a date grouped by its
+    year with `by_year` (R79: the component in the most recalls, the year with the most of them)."""
+    ref = f"n.{cypher_ident(prop)}"
+    value = f"{ref}.year" if by_year else ref
+    return (
+        f"MATCH (n) WHERE elementId(n) IN $ids AND {ref} IS NOT NULL "
+        f"RETURN {value} AS value, count(DISTINCT n) AS n",
         {"ids": ids},
     )
 

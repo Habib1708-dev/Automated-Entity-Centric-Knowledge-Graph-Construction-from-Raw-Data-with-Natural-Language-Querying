@@ -57,14 +57,19 @@ class PlanStep(BaseModel):
         default=None,
         description="find_entity: an optional node label or entity type; filter_records: the label "
         "to filter; "
-        "related and rank: the label at the other end.",
+        "related and rank: the label at the other end; list and count of the records claims are about: "
+        "only the records of this label.",
     )
     property: str | None = Field(
         default=None,
         description="filter_records: the property compared; related: a property of the relationship; "
         "list, sum, rank: the property read.",
     )
-    operator: Operator | None = Field(default=None, description="How `property` is compared with `value`.")
+    operator: Operator | None = Field(
+        default=None,
+        description="How `property` is compared with `value`; rank by the value most records share: "
+        "'year' groups a date by its year.",
+    )
     value: str | float | bool | None = Field(default=None, description="The value compared against.")
     relationship: str | None = Field(
         default=None, description="related and rank: the relationship type followed."
@@ -95,7 +100,9 @@ class PlanStep(BaseModel):
         description="count: count the items, their distinct documents, or the records claims are about.",
     )
     order: Literal["most", "fewest", "highest", "lowest"] | None = Field(
-        default=None, description="rank: most/fewest related items, or highest/lowest property value."
+        default=None,
+        description="rank: most/fewest related items, highest/lowest property value, or with a property "
+        "most/fewest: the value the most or fewest records share.",
     )
 
 
@@ -360,6 +367,8 @@ class _List(_Rule):
                 return [f"list: {label} has no property {step.property!r}"]
         if step.what in ("about", "subject", "object") and kinds != {"claim"}:
             return [f"list: what={step.what!r} needs claims as input"]
+        if kinds == {"claim"} and step.what in (None, "about"):
+            return _about_label_issues("list", step, ctx)
         return []
 
 
@@ -371,7 +380,15 @@ class _Count(_Rule):
         kinds = ctx.kinds[step.input] if step.input is not None else set()
         if step.unit == "about" and kinds != {"claim"}:
             return ["count: unit 'about' needs claims as input"]
+        return _about_label_issues("count", step, ctx) if step.unit == "about" else []
+
+
+def _about_label_issues(op: str, step: PlanStep, ctx: _Context) -> list[str]:
+    """A label narrowing the records claims are about must be a record label (R79: "how many complaints"
+    counts the complaints, not the vehicles the same claims hang on)."""
+    if step.label is None or step.label in ctx.schema.record_labels:
         return []
+    return [f"{op}: unknown record label {step.label!r}; use one of {sorted(ctx.schema.record_labels)}"]
 
 
 class _Sum(_Rule):
@@ -395,11 +412,19 @@ class _Rank(_Rule):
             return ["rank needs an order"]
         if step.property is not None:
             label = _input_label(step, ctx)
-            if label is None or step.property not in ctx.schema.label_properties(label):
+            props = ctx.schema.label_properties(label) if label is not None else {}
+            if step.property not in props:
                 return ["rank by property needs records of one known label and one of its properties"]
-            return (
-                [] if step.order in ("highest", "lowest") else ["rank by property orders highest or lowest"]
-            )
+            if step.order in ("highest", "lowest"):
+                return []
+            # most / fewest: the value the most or fewest records share (R79), by year only for a date
+            if step.operator == "year" and not props[step.property].type.startswith(
+                ("DATE", "LOCAL", "ZONED")
+            ):
+                return [f"rank: operator 'year' needs a date property, {step.property} is not one"]
+            if step.operator not in (None, "year"):
+                return ["rank by the value records share takes no operator but 'year'"]
+            return []
         if step.order not in ("most", "fewest"):
             return ["rank by related items orders most or fewest"]
         if step.relationship is not None:

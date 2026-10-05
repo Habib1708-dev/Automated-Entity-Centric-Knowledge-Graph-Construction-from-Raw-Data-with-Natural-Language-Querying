@@ -21,7 +21,12 @@ from .plan import QueryPlan
 #   "no squeaking or wobbling" counted as wobbling); find_claims returns candidates, read_check verifies;
 # - tone and time only with the question's words: G12 (R72) invented both; code drops them otherwise;
 # - values in the property's type: R71's five empty held-out filters; code checks every value;
-# - the ending follows the question's form: answers are scored as sets and numbers (R73's "answer form").
+# - the ending follows the question's form: answers are scored as sets and numbers (R73's "answer form");
+# - "filter on that property with contains": R78's held-out plans searched claims for what a record's text
+#   field holds (H43 "air bags" in a recall's component field: 0 of 1 claim verified). No code check is
+#   possible (code cannot tell which question words are a field's value); the kg qa comparison checks it.
+# The primitive lines name `label` for list and count of claims (R79: a count of complaints counted their
+# vehicles too) and rank's most/fewest by a property (R79: no primitive for "which value appears most").
 # The example's graph (hives and apiaries) is invented: no evaluated dataset uses it.
 PROMPT = """You plan how to answer a question from the graph below. Write a query plan: a list of steps,
 each one of the primitives listed, filled in with names from the graph. Code checks the plan, runs it and
@@ -50,20 +55,25 @@ Primitives. `input` is the index (from 0) of an earlier step whose result a step
 - retrieve_chunks(input?): text: the input's own chunks, or without an input the chunks nearest the
   question.
 Endings (the last step, and only the last):
-- list(input, what?, property?): the names of the items; for claims, what = "about" (the records they are
-  about), "subject" or "object"; with a property, the records' values of it.
-- count(input, unit?): unit "items" (default), "documents" (distinct documents of the items' text) or
-  "about" (distinct records the claims are about).
+- list(input, what?, property?, label?): the names of the items; for claims, what = "about" (the records
+  they are about; label keeps only the records of that label), "subject" or "object"; with a property, the
+  records' values of it.
+- count(input, unit?, label?): unit "items" (default), "documents" (distinct documents of the items' text)
+  or "about" (distinct records the claims are about; label counts only the records of that label).
 - sum(input, property): the total of a numeric property.
 - rank(input, ...): with property and order "highest"/"lowest", the records with the best value; with
-  relationship (and label) and order "most"/"fewest", the records at the other end linked to the most or
-  fewest input records; for claims, the records with the most or fewest claims.
+  property and order "most"/"fewest", the property's value the most or fewest input records share
+  (operator "year" groups a date by its year); with relationship (and label) and order "most"/"fewest",
+  the records at the other end linked to the most or fewest input records; for claims, the records with
+  the most or fewest claims.
 - answer_from_chunks(input?): a reader answers from the input's text, or from the chunks nearest the
   question.
 
 Rules:
 - Use only the labels, properties, relationships, predicates and entity types listed above.
 - When a record's property or relationship holds the answer, answer from the records.
+- When the question names something a text property of the records holds (its example values show such
+  words), filter on that property with operator "contains" instead of searching claims.
 - To count or list what documents say, pass the candidates through read_check first: a claim can be
   negated or only possible.
 - Set tone or time_words only when the question asks for them, with the question's own words in
