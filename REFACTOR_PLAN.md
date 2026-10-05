@@ -2760,7 +2760,7 @@ paid runs, asked first.
   layer's worth cannot be read through it; the comparison of the graph with records plus vector is repeated
   once query plans exist (R74). **R73 done.**
 
-### R74. Query plans of fixed primitives (layered-model Step 4; in progress)
+### R74. Query plans of fixed primitives (layered-model Step 4; done 2026-10-05, code only)
 The largest measured causes of wrong answers are the router and queries that misread the graph (R71, R73).
 This step replaces free text2cypher and the router with query plans that code checks and compiles, before
 any change to the graph's shape (task file, Step 4).
@@ -2840,6 +2840,14 @@ any change to the graph's shape (task file, Step 4).
     scripted planner: a reading plan, a refused then a counting plan, params and plan metrics; records plus
     vector refusing a claim plan and counting records). The three tests of the router and `RoutedGraph`
     were removed with them. Gate: 422 passed (419 after part a), `ruff check` clean. No run.
+- **Part c: no runs (the user's decision, 2026-10-05).** The answering runs of the plan systems (estimate
+  $1.4-2.8) were not made: the user judged that running them is not important for the thesis at this point.
+  So the acceptance criteria that need answers are open, not met: the comparison with Step 3 per type
+  (paired), the re-count of R71's router and wrong-query causes, and the repeat of the graph against
+  records plus vector comparison that the stop-rule decision of R73 relied on. What is shown is what the
+  tests show: every primitive compiled and run on a hand-made graph, G14's backwards walk and G12's
+  invented filter impossible by construction, read_check counting only verified quotes, the retry and
+  both fallbacks. **R74 done (code only).** Next: Step 5 (identity: mentions and canonical entities).
 
 ## Found along the way
 
