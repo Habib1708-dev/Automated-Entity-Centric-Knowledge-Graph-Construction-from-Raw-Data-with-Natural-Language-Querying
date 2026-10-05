@@ -1,0 +1,1091 @@
+{
+ "labeller": {
+  "model": "claude-fable-5-1",
+  "date": "2026-10-05",
+  "pass": 1,
+  "input": "furniture_assertion_blind.json"
+ },
+ "sentences": [
+  {
+   "id": "4294b05a9355",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "rated 5/5",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "c96017e13e95",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "loves the look of the table",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5f9f188691db",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "took off a star because of the complicated assembly and confusing instructions",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "it was kinda complicated to put together",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the instructions were confusing",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "9a6ca3913a57",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "now that it's built it's perfect",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'now that it's built' dates the present state (time), not a condition"
+    },
+    {
+     "claim": "all my friends are jealous of the table",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "9742807d1e1c",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the table delivers on being functional",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the table delivers on being aesthetically pleasing",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "89b9ea23ae84",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "perfect table for a family of four",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5d936f224e45",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "taking off one star because it scratches more easily than I'd like",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "it scratches a bit more easily than I'd like",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "overall I'm happy with the purchase",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "9f1d7885b437",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the biggest issue is with the drawer rails",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the drawer rails seem poorly manufactured",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'seem' is the writer's judgement of a present fact, not a possibility"
+    },
+    {
+     "claim": "the drawer rails don't allow the drawers to slide smoothly",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "3a2d75ef222a",
+   "stratum": "named",
+   "claims": [
+    {
+     "claim": "assembly took me and my roommate like 6 hours",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "we still couldn't get the drawers to slide right",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'couldn't' states an inability that did hold (actual), denying 'got the drawers to slide right'"
+    }
+   ]
+  },
+  {
+   "id": "a762b1753ddc",
+   "stratum": "r68",
+   "claims": []
+  },
+  {
+   "id": "a9ffbcf04eb6",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "I called customer service",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "customer service told me I'd have to disassemble everything I'd already done and return the entire thing to the store",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'when I called' dates one past event (time, not condition); 'I'd have to' is an obligation, actual"
+    }
+   ]
+  },
+  {
+   "id": "90880ad2f656",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the assembly is challenging",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the assembly is completely doable if you carefully follow the instructions and have the right tools",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "if you carefully follow the instructions and have the right tools"
+    }
+   ]
+  },
+  {
+   "id": "672f25574cf1",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "so satisfied with my purchase",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "others clearly struggled with it",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'while' is a contrast, not a condition"
+    }
+   ]
+  },
+  {
+   "id": "66e304c09735",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the surface is resistant to water rings",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the surface is resistant to scratches",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "we've been using it daily for 3 months",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "no signs of wear",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d456c1dabcf5",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "assembly was simple",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "assembly took about 45 minutes",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "7ecd4de0b923",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "assembly wasn't too bad",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "denies 'assembly was too bad'; a praise stated through a negation"
+    },
+    {
+     "claim": "assembly took maybe 40 mins",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null,
+     "note": "'maybe ... ?' hedges the duration itself; the writer offers 40 mins as a guess, not a fact"
+    }
+   ]
+  },
+  {
+   "id": "6973002ff807",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the table exemplifies how good design doesn't necessarily require premium pricing",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "one statement: the table exemplifies a proposition; the 'doesn't' sits inside that proposition, the main statement is affirmed"
+    }
+   ]
+  },
+  {
+   "id": "6aa65f711e59",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the table feels sturdy",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the lower shelf is handy for storing remote controls and magazines",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "889af53d3ee4",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the bed is rock solid",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "absolutely no squeaking",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "absolutely no movement",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "88537dd0f950",
+   "stratum": "r68",
+   "claims": []
+  },
+  {
+   "id": "6605536b6d0b",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the frame utilizes proper joinery techniques",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the frame has reinforced corner blocks",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the frame has center supports",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "these details are typically found in much more expensive pieces",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "b6a8346166ce",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "for the price point, I expected much better quality",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "for the price point, I expected much better durability",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "41690ed910ca",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the bed is a great addition to our guest room",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d14fbc961b6b",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "we've had the bed for over a year",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "couldn't be happier with the bed",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "idiom meaning 'extremely happy': the main statement is affirmed, 'couldn't' is not a negation of it"
+    }
+   ]
+  },
+  {
+   "id": "5d8655efba6d",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the storage drawers slide smoothly",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the storage drawers hold a surprising amount of items",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "72eb290b686a",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "rated 5/5",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5ab3ba1736c9",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the desk looks nice in photos",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "in person the finish has inconsistencies",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "there were several scratches right out of the box",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "f883d9d2a4e2",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "assembly was frustrating because the pre-drilled holes didn't align",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "some of the pre-drilled holes didn't align properly",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "1c1072a6b63a",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the drawer is spacious enough for books, reading glasses and other essentials",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the open shelf below is great for displaying decorative items",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'while' joins two facts, it is not a condition"
+    }
+   ]
+  },
+  {
+   "id": "aecc7cb20167",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "only giving 3 stars because of the sticking drawer and lightweight wood",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the drawer sometimes sticks when I open it too fast",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "when i open it too fast",
+     "note": "'when' means 'whenever': the sticking holds under the condition of opening too fast"
+    },
+    {
+     "claim": "the wood feels kinda lightweight",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "db2e0493c50f",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the drawer employs proper dovetail joinery",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the drawer does not use the stapled construction common at this price point",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'rather than' denies the stapled construction for this drawer"
+    }
+   ]
+  },
+  {
+   "id": "44bf8410647f",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the nightstand looks nice in photos",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'while' is a contrast, not a condition"
+    },
+    {
+     "claim": "the quality of materials is lower than expected",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d7406625910b",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the drawer doesn't close properly",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the drawer always leaves a small gap",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "7118c0fb6872",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the nightstand is a great addition to my guest bedroom",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "9cd18e8e4b96",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the finish has maintained its appearance",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the finish has no scratches",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the finish has no wear marks",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "59ef76adb865",
+   "stratum": "r68",
+   "claims": []
+  },
+  {
+   "id": "a6e9b6cc4c60",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the lamp gives off nice vibes",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the dimmer is perfect for creating mood lighting",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "9451dda70127",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the power consumption is remarkably efficient at only 12W",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "it provides illuminance equivalent to a traditional 75W incandescent",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'while' means 'at the same time', not a condition"
+    }
+   ]
+  },
+  {
+   "id": "fe22ecbd6baa",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the design is elegant",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "it provides nice ambient lighting in my reading nook",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "54c81a92527b",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the lamp feels sturdy",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the lamp feels well-made",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the lamp is definitely worth the investment",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "84b5cf0334af",
+   "stratum": "r68",
+   "claims": []
+  },
+  {
+   "id": "7f9206e17ee5",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "I absolutely love my Stockholm Chair",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "81c45bab8b7c",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "assembly was straightforward",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "assembly took less than 20 minutes",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "247cf26bb067",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "everyone who comes over asks where I got the chair",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "0e5c7e65002c",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "assembly was super easy",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "no tools needed except the little allen key they give you",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "denies that tools are needed, with the allen key as the stated exception"
+    },
+    {
+     "claim": "they give you a little allen key",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "caf3688497d9",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the chairs are sturdy enough to support my husband (who's over 250 lbs)",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "a statement of capacity, actual; the husband's weight is part of what is supported"
+    },
+    {
+     "claim": "the chairs are elegant looking",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "882b6b990197",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "assembly was consistent across all chairs, which I appreciated",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "54a6bb30cacb",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "it's not as comfy as I hoped",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "denies 'it is as comfy as I hoped'"
+    }
+   ]
+  },
+  {
+   "id": "80ae4d8de5d8",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the sofa exemplifies thoughtful design",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the sofa is at an accessible price point",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "b7dc9a6c914e",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "it's the perfect size for our apartment living room",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "it comfortably seats 3-4 people",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "f5229d2860d1",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the cushions have maintained their shape despite daily use",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the removable covers have been washed multiple times",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the covers have no fading",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the covers have no shrinking",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "47d5f4f8b6f0",
+   "stratum": "r68",
+   "claims": []
+  },
+  {
+   "id": "8031fcffa28b",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "highly recommends the bookshelf",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "32bea744b1b5",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the finish is consistent",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the overall construction feels solid",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "ffae0ea50a40",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "taking off one star because some of the pre-drilled holes weren't perfectly aligned",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "some of the pre-drilled holes weren't perfectly aligned",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the misaligned holes made assembly a bit frustrating at times",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "2034ae9218ac",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the instructions were confusing",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "I had to redo some steps",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "1a4d696ab6f7",
+   "stratum": "cue",
+   "claims": []
+  },
+  {
+   "id": "94516b80010d",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the load capacity is impressive",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "I've tested each shelf with approximately 20kg of books",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "no deflection under approximately 20kg of books per shelf",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5e48d7e2911c",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "now that it's built, it wobbles slightly",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'now that it's built' dates the present state, not a condition"
+    },
+    {
+     "claim": "I don't trust putting anything heavy on the upper shelves",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "c29f92dd2cdd",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "assembly was straightforward",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "assembly was time-consuming",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "assembly took about 2 hours",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d302e732e06f",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the only reason I'm not giving 5 stars is the thin, flimsy back panel",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "the main statement ('the only reason is ...') is affirmed; 'not giving 5 stars' is the rating, like 'took off a star'"
+    },
+    {
+     "claim": "the back panel is quite thin",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the back panel feels a bit flimsy compared to the rest of the unit",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,448 @@
+{
+ "seed": 77,
+ "size": 63,
+ "population": 390,
+ "sentences": [
+  {
+   "id": "35ef265284c3",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#0",
+   "text": "THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE, IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED.",
+   "stratum": "r68"
+  },
+  {
+   "id": "871e0500eab8",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#1",
+   "text": "## Complaint 10689793 (filed 02/22/2015)",
+   "stratum": "cue"
+  },
+  {
+   "id": "2247984ac5ae",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#1",
+   "text": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.",
+   "stratum": "cue"
+  },
+  {
+   "id": "114c7bd5c3ac",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#2",
+   "text": "## Complaint 10690483 (filed 02/24/2015)",
+   "stratum": "r68"
+  },
+  {
+   "id": "09c43ed973e6",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#2",
+   "text": "1ST TIME, NO PROBLEM FOUND.",
+   "stratum": "cue"
+  },
+  {
+   "id": "5cc5ee267024",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#2",
+   "text": "THREE TIMES IN ONE MONTH.",
+   "stratum": "r68"
+  },
+  {
+   "id": "ceef829c5edd",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "chunk_id": "complaints/ford_escape_complaints.md#3",
+   "text": "THE FAILURE MILEAGE WAS 2,361.",
+   "stratum": "r68"
+  },
+  {
+   "id": "dfa7ae8317db",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#0",
+   "text": "THIS MAY NOT BE A DRIVING SAFETY ISSUE BUT IT IS A SAFETY ISSUE NON THE LESS.",
+   "stratum": "cue"
+  },
+  {
+   "id": "80bb9aed5a36",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "stratum": "named"
+  },
+  {
+   "id": "9ae03f8e8f92",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "stratum": "named"
+  },
+  {
+   "id": "056c53e954ea",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "text": "THE SITUATION OCCURS DURING DAYLIGHT AND NIGHTTIME HOURS WITH CLEAN CAMERAS AND RADAR WINDOW.",
+   "stratum": "r68"
+  },
+  {
+   "id": "3e0818472dcc",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "text": "THE VEHICLE MAY SLOW BY 10-15 MPH AND DEPART THE HIGHWAY BEFORE THE DRIVER IS ABLE TO RESUME CONTROL.",
+   "stratum": "r68"
+  },
+  {
+   "id": "f4230c015f96",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "text": "A REAR END COLLISION WAS NARROWLY AVOIDED IN ONE CASE.",
+   "stratum": "r68"
+  },
+  {
+   "id": "3627197d8b3a",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#2",
+   "text": "## Complaint 10823637 (filed 02/01/2016)",
+   "stratum": "cue"
+  },
+  {
+   "id": "3b01d11e981d",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#3",
+   "text": "I CONTACTED AMERICA OF HONDA AND THEY CONFIRMED MY CAR DOES HAVE A RECALL AND I PROVIDED ME WITH A CASE NUMBER.",
+   "stratum": "r68"
+  },
+  {
+   "id": "bd0939154838",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#3",
+   "text": "CAN SOMEONE PLEASE TELL ME WHO INDEED TO TALK ABOUT THIS ISSUE WITH?",
+   "stratum": "cue"
+  },
+  {
+   "id": "cbc946171556",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#4",
+   "text": "CURRENTLY 350 MILES.",
+   "stratum": "r68"
+  },
+  {
+   "id": "23c971e9e2c7",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#4",
+   "text": "CURRENTLY HONDA HAS NO FIX FOR VEHICLES AFFECTED.",
+   "stratum": "cue"
+  },
+  {
+   "id": "0ef7c2fcf620",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "chunk_id": "complaints/honda_civic_complaints.md#4",
+   "text": "I DO NOT FEEL SAFE DRIVING BRAND NEW CAR ANY LONGER.",
+   "stratum": "r68"
+  },
+  {
+   "id": "cea6a538d46c",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#0",
+   "text": "## Complaint 10957753 (filed 03/01/2017)",
+   "stratum": "cue"
+  },
+  {
+   "id": "d650561de9cf",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#0",
+   "text": "TL* THE CONTACT OWNS A 2017 NISSAN ROGUE.",
+   "stratum": "r68"
+  },
+  {
+   "id": "eac2da901c75",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#0",
+   "text": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING.",
+   "stratum": "r68"
+  },
+  {
+   "id": "d56c363f1e1f",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "stratum": "cue"
+  },
+  {
+   "id": "a309c4d22184",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "text": "THE CAR DID THIS ON TWO SEPARATE OCCASIONS AND WAS TAKEN TO THE DEALER ON BOTH OCCASIONS.",
+   "stratum": "r68"
+  },
+  {
+   "id": "11a223cf6bf6",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#2",
+   "text": "## Complaint 11010220 (filed 07/24/2017)",
+   "stratum": "cue"
+  },
+  {
+   "id": "6b02b7628358",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#4",
+   "text": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY",
+   "stratum": "r68"
+  },
+  {
+   "id": "9bef6554e7be",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "chunk_id": "complaints/subaru_outback_complaints.md#0",
+   "text": "## Complaint 11123359 (filed 08/29/2018)",
+   "stratum": "cue"
+  },
+  {
+   "id": "d3af2b6ca47f",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "chunk_id": "complaints/subaru_outback_complaints.md#1",
+   "text": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "stratum": "r68"
+  },
+  {
+   "id": "c4da0454fddc",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "chunk_id": "complaints/subaru_outback_complaints.md#2",
+   "text": "## Complaint 11176393 (filed 02/11/2019)",
+   "stratum": "r68"
+  },
+  {
+   "id": "70791cf8fff4",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "chunk_id": "complaints/subaru_outback_complaints.md#2",
+   "text": "WENT TO A DEALER AND THEY SAID THAT NOTHING IS WRONG WITH IT.",
+   "stratum": "r68"
+  },
+  {
+   "id": "0cf0e0ff34ac",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "chunk_id": "complaints/subaru_outback_complaints.md#4",
+   "text": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN.",
+   "stratum": "r68"
+  },
+  {
+   "id": "0bfe71b403c1",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+   "text": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER.",
+   "stratum": "cue"
+  },
+  {
+   "id": "930e3b62dee6",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#2",
+   "text": "IT HAS ONLY HAPPENED THREE TIMES, BUT COULD CAUSE AN ACCIDENT.",
+   "stratum": "named"
+  },
+  {
+   "id": "60e40266f322",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+   "text": "## Complaint 11221492 (filed 06/20/2019)",
+   "stratum": "r68"
+  },
+  {
+   "id": "57630a4bce21",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+   "text": "I KNOW THIS BECAUSE MY GAS GAUGE DOES NOT INDICATE FULL AND I AM ABLE TO ADD AN ADDITIONAL 2-2.5 GALLONS TO MY TANK, THOUGH IT TAKES A WHILE BECAUSE I HAVE TO PUSH THROUGH ALL THE AUTO SHUTOFFS.",
+   "stratum": "r68"
+  },
+  {
+   "id": "5b0fd9815507",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#4",
+   "text": "YOU CAN HEAR WIND WHEN DRIVING YOUR VEHICLE.",
+   "stratum": "cue"
+  },
+  {
+   "id": "74b647786e79",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#4",
+   "text": "WHEN YOU GET UP TO 50 MILES PER HOUR IS WHEN U CAN HEAR IT GOOD.",
+   "stratum": "r68"
+  },
+  {
+   "id": "86fbcc07b8ed",
+   "doc_id": "record/Recall/16V526000",
+   "chunk_id": "record/Recall/16V526000#0",
+   "text": "American Honda Motor Co.",
+   "stratum": "r68"
+  },
+  {
+   "id": "c236ece39b09",
+   "doc_id": "record/Recall/16V725000",
+   "chunk_id": "record/Recall/16V725000#0",
+   "text": "The electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off.",
+   "stratum": "cue"
+  },
+  {
+   "id": "bc462b566164",
+   "doc_id": "record/Recall/16V725000",
+   "chunk_id": "record/Recall/16V725000#1",
+   "text": "Owners may contact Honda customer service at 1-888-234-2138.",
+   "stratum": "cue"
+  },
+  {
+   "id": "651ecafbd360",
+   "doc_id": "record/Recall/26V332000",
+   "chunk_id": "record/Recall/26V332000#1",
+   "text": "Owners may contact Honda's customer service at 1-888-234-2138.",
+   "stratum": "r68"
+  },
+  {
+   "id": "6aff1eb1f43d",
+   "doc_id": "record/Recall/26V332000",
+   "chunk_id": "record/Recall/26V332000#1",
+   "text": "Vehicle Identification Numbers (VINs) involved in this recall will be searchable on NHTSA.gov beginning May 29, 2026.",
+   "stratum": "cue"
+  },
+  {
+   "id": "a9816b7e59f2",
+   "doc_id": "record/Recall/17V663000",
+   "chunk_id": "record/Recall/17V663000#1",
+   "text": "Owners may contact Nissan customer service at 1-800-647-7261.",
+   "stratum": "cue"
+  },
+  {
+   "id": "0d949f7cca98",
+   "doc_id": "record/Recall/16V244000",
+   "chunk_id": "record/Recall/16V244000#0",
+   "text": "Nissan North America, Inc.",
+   "stratum": "r68"
+  },
+  {
+   "id": "d9e3ea3be92c",
+   "doc_id": "record/Recall/16V244000",
+   "chunk_id": "record/Recall/16V244000#0",
+   "text": "In these vehicles, the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied.",
+   "stratum": "r68"
+  },
+  {
+   "id": "0930406385f7",
+   "doc_id": "record/Recall/21V839000",
+   "chunk_id": "record/Recall/21V839000#0",
+   "text": "(Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles.",
+   "stratum": "r68"
+  },
+  {
+   "id": "b616ec7176ba",
+   "doc_id": "record/Recall/21V839000",
+   "chunk_id": "record/Recall/21V839000#0",
+   "text": "Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse.",
+   "stratum": "r68"
+  },
+  {
+   "id": "a1ff5c6c44ad",
+   "doc_id": "record/Recall/21V839000",
+   "chunk_id": "record/Recall/21V839000#1",
+   "text": "Owners may contact Nissan customer service at 1-800-867-7669.",
+   "stratum": "cue"
+  },
+  {
+   "id": "5dc27f02e326",
+   "doc_id": "record/Recall/23V093000",
+   "chunk_id": "record/Recall/23V093000#1",
+   "text": "Interim notification letters notifying owners of the safety risk were mailed March 29, 2023.",
+   "stratum": "r68"
+  },
+  {
+   "id": "5fc5ce41739d",
+   "doc_id": "record/Recall/20V682000",
+   "chunk_id": "record/Recall/20V682000#1",
+   "text": "Remedy parts should be available for all affected vehicles by late March 2021.",
+   "stratum": "r68"
+  },
+  {
+   "id": "5acb39454531",
+   "doc_id": "record/Recall/20V682000",
+   "chunk_id": "record/Recall/20V682000#1",
+   "text": "Lexus' number for this recall is 20LA01.",
+   "stratum": "r68"
+  },
+  {
+   "id": "e67aaa4ed378",
+   "doc_id": "record/Recall/20V373000",
+   "chunk_id": "record/Recall/20V373000#0",
+   "text": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist.",
+   "stratum": "r68"
+  },
+  {
+   "id": "6f8011ee4e72",
+   "doc_id": "record/Recall/20V286000",
+   "chunk_id": "record/Recall/20V286000#1",
+   "text": "Owners may contact Toyota customer service at 1-888-270-9371.",
+   "stratum": "r68"
+  },
+  {
+   "id": "e1cc700cbcfb",
+   "doc_id": "record/Recall/19V576000",
+   "chunk_id": "record/Recall/19V576000#1",
+   "text": "Toyota will notify owners, and dealers will inspect the back-up camera system and replace the audio display unit, if necessary, free of charge.",
+   "stratum": "r68"
+  },
+  {
+   "id": "2ba265557d96",
+   "doc_id": "record/Recall/16V643000",
+   "chunk_id": "record/Recall/16V643000#1",
+   "text": "The recall began on January 27, 2017.",
+   "stratum": "r68"
+  },
+  {
+   "id": "84b3a93ecbe1",
+   "doc_id": "record/Recall/15V406000",
+   "chunk_id": "record/Recall/15V406000#1",
+   "text": "Ford will notify owners, and dealers will update the instrument panel software, free of charge.",
+   "stratum": "r68"
+  },
+  {
+   "id": "38a3be2f22db",
+   "doc_id": "record/Recall/15V436000",
+   "chunk_id": "record/Recall/15V436000#0",
+   "text": "Ford Motor Company (Ford) is recalling certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015, Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015, and Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015.",
+   "stratum": "r68"
+  },
+  {
+   "id": "7c81510891f8",
+   "doc_id": "record/Recall/20V331000",
+   "chunk_id": "record/Recall/20V331000#1",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "stratum": "cue"
+  },
+  {
+   "id": "ecb9c2a6c2da",
+   "doc_id": "record/Recall/25V695000",
+   "chunk_id": "record/Recall/25V695000#0",
+   "text": "The rearview camera may display a distorted,  intermittent, or blank image when the vehicle is in reverse.",
+   "stratum": "r68"
+  },
+  {
+   "id": "b0978db51757",
+   "doc_id": "record/Recall/25V695000",
+   "chunk_id": "record/Recall/25V695000#1",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "stratum": "cue"
+  },
+  {
+   "id": "4533e7fa1712",
+   "doc_id": "record/Recall/26V011000",
+   "chunk_id": "record/Recall/26V011000#0",
+   "text": "The engine block heater may crack and develop a coolant leak, causing it to short circuit when the block heater is plugged in.",
+   "stratum": "r68"
+  },
+  {
+   "id": "53fedfde3aed",
+   "doc_id": "record/Recall/26V011000",
+   "chunk_id": "record/Recall/26V011000#1",
+   "text": "Owners are advised not to plug in their block heater until the vehicle is remedied.",
+   "stratum": "r68"
+  },
+  {
+   "id": "8f4805e04362",
+   "doc_id": "record/Recall/26V011000",
+   "chunk_id": "record/Recall/26V011000#1",
+   "text": "Interim letters, notifying owners of the safety risk, were mailed March 6, 2026.",
+   "stratum": "r68"
+  }
+ ]
+}

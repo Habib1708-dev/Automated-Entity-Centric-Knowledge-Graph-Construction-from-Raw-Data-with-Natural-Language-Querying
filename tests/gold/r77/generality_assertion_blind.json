@@ -1,0 +1,485 @@
+{
+ "note": "R77 pass 1 input: source text only (tests/gold/r77/assertion_rules.md)",
+ "sentences": [
+  {
+   "id": "02d1fff0c674",
+   "stratum": "natural",
+   "doc_id": "institute/brackwater_fen_log.txt",
+   "text": "Brackwater fen field log, spring 2025, kept by S.",
+   "chunk_text": "Brackwater fen field log, spring 2025, kept by S. Osei.\nCore BF-1, 14 April: depth 2.1 m, pH 3.8.\nCore BF-2, 14 April: depth 2.6 m, pH 4.3.\nCore BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface.\nCore BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team.",
+   "context": "brackwater_fen_log"
+  },
+  {
+   "id": "d8af3db3d603",
+   "stratum": "cue",
+   "doc_id": "institute/brackwater_fen_log.txt",
+   "text": "Core BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team.",
+   "chunk_text": "Brackwater fen field log, spring 2025, kept by S. Osei.\nCore BF-1, 14 April: depth 2.1 m, pH 3.8.\nCore BF-2, 14 April: depth 2.6 m, pH 4.3.\nCore BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface.\nCore BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team.",
+   "context": "brackwater_fen_log"
+  },
+  {
+   "id": "cd5cad01c2f6",
+   "stratum": "natural",
+   "doc_id": "institute/fieldwork_log.txt",
+   "text": "Samuel Osei joined the trip on 10 December to learn the coring method.",
+   "chunk_text": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.\nCore AB-17, 3 December: depth 4.2 m, pH 4.1, water table 12 cm below surface.\nCore AB-18, 3 December: depth 3.8 m, pH 4.6.\nCore AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike.\nCore AB-20, 10 December: not taken, the site was flooded.\nSamuel Osei joined the trip on 10 December to learn the coring method.",
+   "context": "fieldwork_log"
+  },
+  {
+   "id": "1307dda5808a",
+   "stratum": "natural",
+   "doc_id": "institute/flume_commissioning.md",
+   "text": "Sand was fed at the upstream end and the bed formed ripples within an hour.",
+   "chunk_text": "# Flume commissioning notes\n\nThe sediment flume ran for the first time on 20 May 2025, at 40 litres per second, with Aiko Tanaka at the controls. Sand was fed at the upstream end and the bed formed ripples within an hour.\n\nNo run went above 60 litres per second in May: the committee had asked for a vibration measurement first.",
+   "context": "Flume commissioning notes"
+  },
+  {
+   "id": "4bc7a2156be5",
+   "stratum": "cue",
+   "doc_id": "institute/flume_commissioning.md",
+   "text": "No run went above 60 litres per second in May: the committee had asked for a vibration measurement first.",
+   "chunk_text": "# Flume commissioning notes\n\nThe sediment flume ran for the first time on 20 May 2025, at 40 litres per second, with Aiko Tanaka at the controls. Sand was fed at the upstream end and the bed formed ripples within an hour.\n\nNo run went above 60 litres per second in May: the committee had asked for a vibration measurement first.",
+   "context": "Flume commissioning notes"
+  },
+  {
+   "id": "8ad2d56e2991",
+   "stratum": "cue",
+   "doc_id": "institute/hensley_award.md",
+   "text": "The institute gives the Hensley Field-Work Award once a year for outstanding field work.",
+   "chunk_text": "# The Hensley Field-Work Award\n\nThe institute gives the Hensley Field-Work Award once a year for outstanding field work.\n\n- 2022: Aiko Tanaka (Hydrology), for the river gauging survey.\n- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring.\n- 2024: not awarded. Samuel Osei was nominated, but the committee found that no entry met the standard.\n- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign.",
+   "context": "The Hensley Field-Work Award"
+  },
+  {
+   "id": "432e5ab6208f",
+   "stratum": "cue",
+   "doc_id": "institute/hensley_award.md",
+   "text": "Samuel Osei was nominated, but the committee found that no entry met the standard.",
+   "chunk_text": "# The Hensley Field-Work Award\n\nThe institute gives the Hensley Field-Work Award once a year for outstanding field work.\n\n- 2022: Aiko Tanaka (Hydrology), for the river gauging survey.\n- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring.\n- 2024: not awarded. Samuel Osei was nominated, but the committee found that no entry met the standard.\n- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign.",
+   "context": "The Hensley Field-Work Award"
+  },
+  {
+   "id": "15ed485510ed",
+   "stratum": "natural",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "# Minutes of the institute committee, 12 May 2025",
+   "chunk_text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40.",
+   "context": "Minutes of the institute committee, 12 May 2025"
+  },
+  {
+   "id": "beafb8b503ba",
+   "stratum": "cue",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.",
+   "chunk_text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40.",
+   "context": "Minutes of the institute committee, 12 May 2025"
+  },
+  {
+   "id": "dd94a04b8fa3",
+   "stratum": "natural",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Maria Lopez presented the grants budget for 2025-26.",
+   "chunk_text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40.",
+   "context": "Minutes of the institute committee, 12 May 2025"
+  },
+  {
+   "id": "36eaac0d87ce",
+   "stratum": "cue",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Every project lead must submit a data management plan by 30 June 2025.",
+   "chunk_text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40.",
+   "context": "Minutes of the institute committee, 12 May 2025"
+  },
+  {
+   "id": "de614a33c49b",
+   "stratum": "cue",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Projects without a plan will not receive second-year funding.",
+   "chunk_text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40.",
+   "context": "Minutes of the institute committee, 12 May 2025"
+  },
+  {
+   "id": "519af76b9c96",
+   "stratum": "natural",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.",
+   "chunk_text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40.",
+   "context": "Minutes of the institute committee, 12 May 2025"
+  },
+  {
+   "id": "8626be5fa7b3",
+   "stratum": "natural",
+   "doc_id": "institute/minutes_2025-06-09.md",
+   "text": "# Minutes of the institute committee, 9 June 2025",
+   "chunk_text": "# Minutes of the institute committee, 9 June 2025\n\nPresent: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.\n\n1. Aldmoor overrun. J. Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December. The committee accepted the explanation.\n\n2. Flume. Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit. Experiments above 60 litres per second may now start.\n\n3. Travel. Maria Lopez reported that 60 percent of the 2025 travel budget has been spent.\n\nAiko Tanaka closed the meeting at 15:55.",
+   "context": "Minutes of the institute committee, 9 June 2025"
+  },
+  {
+   "id": "7c29c26963f3",
+   "stratum": "cue",
+   "doc_id": "institute/minutes_2025-06-09.md",
+   "text": "Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December.",
+   "chunk_text": "# Minutes of the institute committee, 9 June 2025\n\nPresent: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.\n\n1. Aldmoor overrun. J. Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December. The committee accepted the explanation.\n\n2. Flume. Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit. Experiments above 60 litres per second may now start.\n\n3. Travel. Maria Lopez reported that 60 percent of the 2025 travel budget has been spent.\n\nAiko Tanaka closed the meeting at 15:55.",
+   "context": "Minutes of the institute committee, 9 June 2025"
+  },
+  {
+   "id": "fe23e269344f",
+   "stratum": "natural",
+   "doc_id": "institute/minutes_2025-06-09.md",
+   "text": "Aiko Tanaka closed the meeting at 15:55.",
+   "chunk_text": "# Minutes of the institute committee, 9 June 2025\n\nPresent: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.\n\n1. Aldmoor overrun. J. Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December. The committee accepted the explanation.\n\n2. Flume. Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit. Experiments above 60 litres per second may now start.\n\n3. Travel. Maria Lopez reported that 60 percent of the 2025 travel budget has been spent.\n\nAiko Tanaka closed the meeting at 15:55.",
+   "context": "Minutes of the institute committee, 9 June 2025"
+  },
+  {
+   "id": "a32a15b8728d",
+   "stratum": "natural",
+   "doc_id": "institute/newsletter_spring_2025.md",
+   "text": "## Field-work award",
+   "chunk_text": "# Institute Newsletter, Spring 2025\n\n## Field-work award\n\nMaria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters. Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".\n\n## New hydrology flume\n\nThe Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory. The first experiments start in May.",
+   "context": "Institute Newsletter, Spring 2025"
+  },
+  {
+   "id": "0fd20529e67f",
+   "stratum": "natural",
+   "doc_id": "institute/newsletter_spring_2025.md",
+   "text": "## New hydrology flume",
+   "chunk_text": "# Institute Newsletter, Spring 2025\n\n## Field-work award\n\nMaria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters. Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".\n\n## New hydrology flume\n\nThe Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory. The first experiments start in May.",
+   "context": "Institute Newsletter, Spring 2025"
+  },
+  {
+   "id": "d91d59572bd9",
+   "stratum": "cue",
+   "doc_id": "institute/newsletter_spring_2025.md",
+   "text": "The Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory.",
+   "chunk_text": "# Institute Newsletter, Spring 2025\n\n## Field-work award\n\nMaria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters. Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".\n\n## New hydrology flume\n\nThe Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory. The first experiments start in May.",
+   "context": "Institute Newsletter, Spring 2025"
+  },
+  {
+   "id": "f425dcdd0871",
+   "stratum": "cue",
+   "doc_id": "institute/newsletter_spring_2025.md",
+   "text": "The first experiments start in May.",
+   "chunk_text": "# Institute Newsletter, Spring 2025\n\n## Field-work award\n\nMaria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters. Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".\n\n## New hydrology flume\n\nThe Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory. The first experiments start in May.",
+   "context": "Institute Newsletter, Spring 2025"
+  },
+  {
+   "id": "4647469df773",
+   "stratum": "cue",
+   "doc_id": "institute/travel_claims_memo.md",
+   "text": "From: Maria Lopez, grants accountant",
+   "chunk_text": "# Finance Office memo: travel claims\n\nFrom: Maria Lopez, grants accountant\n\nTravel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August. Please attach every receipt.\n\nSeveral colleagues have asked how the June conference trips are funded. The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader.",
+   "context": "Finance Office memo: travel claims"
+  },
+  {
+   "id": "3350e8f842ad",
+   "stratum": "natural",
+   "doc_id": "institute/travel_claims_memo.md",
+   "text": "Travel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August.",
+   "chunk_text": "# Finance Office memo: travel claims\n\nFrom: Maria Lopez, grants accountant\n\nTravel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August. Please attach every receipt.\n\nSeveral colleagues have asked how the June conference trips are funded. The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader.",
+   "context": "Finance Office memo: travel claims"
+  },
+  {
+   "id": "4569da2f3b8e",
+   "stratum": "natural",
+   "doc_id": "news/bakery_opens.md",
+   "text": "She trained in Valencia and bakes rye bread and pastries every morning from five.",
+   "chunk_text": "# New bakery on Harbour Street\n\nMaria Lopez has opened a bakery at 14 Harbour Street, in the former post office. She trained in Valencia and bakes rye bread and pastries every morning from five.\n\n\"The street is full of potholes,\" she said. \"I hope the resurfacing starts before winter, or my customers will stop coming.\"",
+   "context": "New bakery on Harbour Street"
+  },
+  {
+   "id": "7a4578d0f36b",
+   "stratum": "natural",
+   "doc_id": "news/budget_2025.md",
+   "text": "- Station Road drainage: 260,000 pounds",
+   "chunk_text": "# Riverton sets its 2025 works budget\n\nThe council's works budget for 2025 lists five projects:\n\n- Mill Lane footbridge repair: 180,000 pounds\n- Eastgate library roof: 420,000 pounds\n- Harbour Street resurfacing: 95,000 pounds\n- Station Road drainage: 260,000 pounds\n- Town hall boiler: 60,000 pounds\n\nThe contractor for the library roof must finish before the library reopens on 1 September. Councillor Priya Nandakumar asked for the drainage project to be moved ahead of the resurfacing; the vote on her motion was postponed.",
+   "context": "Riverton sets its 2025 works budget"
+  },
+  {
+   "id": "619cb649b94b",
+   "stratum": "natural",
+   "doc_id": "news/budget_2026.md",
+   "text": "The council has published its works budget for 2026.",
+   "chunk_text": "# Riverton's 2026 works budget published\n\nThe council has published its works budget for 2026. It lists five projects:\n\n- Station Road drainage, second phase: 310,000 pounds\n- Riverside path lighting: 230,000 pounds\n- Eastgate library heating: 140,000 pounds\n- Harbour Street resurfacing, carried over from 2025: 110,000 pounds\n- Mill Lane footbridge east railing: 15,000 pounds\n\nCouncillor Priya Nandakumar welcomed the second drainage phase but asked why the resurfacing had slipped by a year.",
+   "context": "Riverton's 2026 works budget published"
+  },
+  {
+   "id": "6db463e1c631",
+   "stratum": "natural",
+   "doc_id": "news/budget_2026.md",
+   "text": "- Riverside path lighting: 230,000 pounds",
+   "chunk_text": "# Riverton's 2026 works budget published\n\nThe council has published its works budget for 2026. It lists five projects:\n\n- Station Road drainage, second phase: 310,000 pounds\n- Riverside path lighting: 230,000 pounds\n- Eastgate library heating: 140,000 pounds\n- Harbour Street resurfacing, carried over from 2025: 110,000 pounds\n- Mill Lane footbridge east railing: 15,000 pounds\n\nCouncillor Priya Nandakumar welcomed the second drainage phase but asked why the resurfacing had slipped by a year.",
+   "context": "Riverton's 2026 works budget published"
+  },
+  {
+   "id": "29fe5b8838c7",
+   "stratum": "cue",
+   "doc_id": "news/council_notices.md",
+   "text": "Station Road: lane closures from September while the drainage is rebuilt.",
+   "chunk_text": "# Council notices\n\nMill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks.\n\nHarbour Street: resurfacing postponed to 2026. The street stays open to traffic.\n\nStation Road: lane closures from September while the drainage is rebuilt.",
+   "context": "Council notices"
+  },
+  {
+   "id": "b84f7054da3e",
+   "stratum": "natural",
+   "doc_id": "news/flood_meeting.md",
+   "text": "Dr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river.",
+   "chunk_text": "# Public meeting on Station Road flooding\n\nAbout eighty residents came to the town hall on Thursday to discuss the flooding of Station Road.\n\nDr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river. The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.\n\nMayor Helen Achterberg said the drainage works will start in September. Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing.",
+   "context": "Public meeting on Station Road flooding"
+  },
+  {
+   "id": "dc9054227c1b",
+   "stratum": "natural",
+   "doc_id": "news/flood_meeting.md",
+   "text": "The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.",
+   "chunk_text": "# Public meeting on Station Road flooding\n\nAbout eighty residents came to the town hall on Thursday to discuss the flooding of Station Road.\n\nDr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river. The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.\n\nMayor Helen Achterberg said the drainage works will start in September. Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing.",
+   "context": "Public meeting on Station Road flooding"
+  },
+  {
+   "id": "13ccb42ae910",
+   "stratum": "natural",
+   "doc_id": "news/harbour_open_day.md",
+   "text": "# Riverton Water opens its doors",
+   "chunk_text": "# Riverton Water opens its doors\n\nHarbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday. Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.\n\nChildren could try a hand pump in the yard, and the café sold out of cakes by noon.",
+   "context": "Riverton Water opens its doors"
+  },
+  {
+   "id": "eeb4128ff7b9",
+   "stratum": "natural",
+   "doc_id": "news/harbour_open_day.md",
+   "text": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.",
+   "chunk_text": "# Riverton Water opens its doors\n\nHarbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday. Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.\n\nChildren could try a hand pump in the yard, and the café sold out of cakes by noon.",
+   "context": "Riverton Water opens its doors"
+  },
+  {
+   "id": "e063b1980590",
+   "stratum": "natural",
+   "doc_id": "news/harbour_open_day.md",
+   "text": "Children could try a hand pump in the yard, and the café sold out of cakes by noon.",
+   "chunk_text": "# Riverton Water opens its doors\n\nHarbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday. Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.\n\nChildren could try a hand pump in the yard, and the café sold out of cakes by noon.",
+   "context": "Riverton Water opens its doors"
+  },
+  {
+   "id": "a9c4b48a8f4a",
+   "stratum": "natural",
+   "doc_id": "news/letter_harbour_street.md",
+   "text": "Sir, the resurfacing of Harbour Street was promised for this year and has now been moved to next year's budget.",
+   "chunk_text": "# Letter: when will Harbour Street be fixed?\n\nSir, the resurfacing of Harbour Street was promised for this year and has now been moved to next year's budget. My neighbours on Harbour Street have waited three winters. Who decided this, and why?\n\nJudith Pike, Mill Lane",
+   "context": "Letter: when will Harbour Street be fixed?"
+  },
+  {
+   "id": "92f9ab881269",
+   "stratum": "cue",
+   "doc_id": "news/letter_to_the_editor.md",
+   "text": "I cross it every morning with my daughter, and the east railing still moves when you lean on it.",
+   "chunk_text": "# Letter: the footbridge is not safe\n\nSir, the mayor tells us the Mill Lane footbridge is safe to use. I cross it every morning with my daughter, and the east railing still moves when you lean on it. Nobody has fixed it, and no warning sign has been put up.\n\nGareth Lowe, Mill Lane",
+   "context": "Letter: the footbridge is not safe"
+  },
+  {
+   "id": "fe15ed69cbd0",
+   "stratum": "natural",
+   "doc_id": "news/letter_to_the_editor.md",
+   "text": "Nobody has fixed it, and no warning sign has been put up.",
+   "chunk_text": "# Letter: the footbridge is not safe\n\nSir, the mayor tells us the Mill Lane footbridge is safe to use. I cross it every morning with my daughter, and the east railing still moves when you lean on it. Nobody has fixed it, and no warning sign has been put up.\n\nGareth Lowe, Mill Lane",
+   "context": "Letter: the footbridge is not safe"
+  },
+  {
+   "id": "7f4d83b98863",
+   "stratum": "natural",
+   "doc_id": "news/library_reopened.md",
+   "text": "The contractor finished on 25 August, a week ahead of the deadline.",
+   "chunk_text": "# Eastgate library back in business\n\nThe Eastgate library reopened on 1 September with its new roof. The contractor finished on 25 August, a week ahead of the deadline.\n\nThe children's section has new carpets and a reading corner. Opening hours are unchanged.",
+   "context": "Eastgate library back in business"
+  },
+  {
+   "id": "972dc04c241d",
+   "stratum": "natural",
+   "doc_id": "news/mill_lane_and_eastgate.md",
+   "text": "The footbridge will be closed from 3 February while its railings and deck boards are renewed.",
+   "chunk_text": "# Council votes on two repairs\n\nThe Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library.\n\nThe footbridge will be closed from 3 February while its railings and deck boards are renewed. The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks.\n\nMayor Helen Achterberg said the footbridge \"is safe to use until the works begin\". The council's structural inspector, Daniel Okafor, wrote in his report that residents had told him the east railing moved when leaned on; he recommended closing the bridge at once.",
+   "context": "Council votes on two repairs"
+  },
+  {
+   "id": "61f20c0b2113",
+   "stratum": "natural",
+   "doc_id": "news/mill_lane_and_eastgate.md",
+   "text": "Mayor Helen Achterberg said the footbridge \"is safe to use until the works begin\".",
+   "chunk_text": "# Council votes on two repairs\n\nThe Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library.\n\nThe footbridge will be closed from 3 February while its railings and deck boards are renewed. The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks.\n\nMayor Helen Achterberg said the footbridge \"is safe to use until the works begin\". The council's structural inspector, Daniel Okafor, wrote in his report that residents had told him the east railing moved when leaned on; he recommended closing the bridge at once.",
+   "context": "Council votes on two repairs"
+  },
+  {
+   "id": "32db2c49ec43",
+   "stratum": "natural",
+   "doc_id": "water/calder_quotation.md",
+   "text": "Dear Riverton Water,",
+   "chunk_text": "# Calder Pumps: quotation for seal kits\n\nDear Riverton Water,\n\nFollowing the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits.\n\nIn our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty. We therefore recommend keeping two reconditioned seal kits in stock, at 640 euros each, delivery within ten working days.\n\nKind regards,\nInes Barros, Service Manager, Calder Pumps",
+   "context": "Calder Pumps: quotation for seal kits"
+  },
+  {
+   "id": "db2c95d2b0c9",
+   "stratum": "natural",
+   "doc_id": "water/calder_quotation.md",
+   "text": "Kind regards,",
+   "chunk_text": "# Calder Pumps: quotation for seal kits\n\nDear Riverton Water,\n\nFollowing the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits.\n\nIn our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty. We therefore recommend keeping two reconditioned seal kits in stock, at 640 euros each, delivery within ten working days.\n\nKind regards,\nInes Barros, Service Manager, Calder Pumps",
+   "context": "Calder Pumps: quotation for seal kits"
+  },
+  {
+   "id": "4432ab6b4bc6",
+   "stratum": "natural",
+   "doc_id": "water/harbour_station_may_2025.md",
+   "text": "# Harbour Station monthly report, May 2025",
+   "chunk_text": "# Harbour Station monthly report, May 2025\n\nThe station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure. On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since.\n\nAverage flow for the month was 17 litres per second. The station was unmanned for the rest of May, with alarms routed to North Station.",
+   "context": "Harbour Station monthly report, May 2025"
+  },
+  {
+   "id": "a0a2c56a7f23",
+   "stratum": "cue",
+   "doc_id": "water/harbour_station_may_2025.md",
+   "text": "The station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure.",
+   "chunk_text": "# Harbour Station monthly report, May 2025\n\nThe station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure. On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since.\n\nAverage flow for the month was 17 litres per second. The station was unmanned for the rest of May, with alarms routed to North Station.",
+   "context": "Harbour Station monthly report, May 2025"
+  },
+  {
+   "id": "35ca17ffb93c",
+   "stratum": "natural",
+   "doc_id": "water/harbour_station_may_2025.md",
+   "text": "No trip has occurred since.",
+   "chunk_text": "# Harbour Station monthly report, May 2025\n\nThe station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure. On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since.\n\nAverage flow for the month was 17 litres per second. The station was unmanned for the rest of May, with alarms routed to North Station.",
+   "context": "Harbour Station monthly report, May 2025"
+  },
+  {
+   "id": "a15a1497d85e",
+   "stratum": "cue",
+   "doc_id": "water/harbour_station_may_2025.md",
+   "text": "The station was unmanned for the rest of May, with alarms routed to North Station.",
+   "chunk_text": "# Harbour Station monthly report, May 2025\n\nThe station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure. On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since.\n\nAverage flow for the month was 17 litres per second. The station was unmanned for the rest of May, with alarms routed to North Station.",
+   "context": "Harbour Station monthly report, May 2025"
+  },
+  {
+   "id": "844d99a7594e",
+   "stratum": "cue",
+   "doc_id": "water/incident_2025-03-29.md",
+   "text": "Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty.",
+   "chunk_text": "# Incident report: flooding of the North Station dry well\n\nOn 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift. About 3,000 litres of water flooded the dry well before the operator isolated the pump. Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty.\n\nSite engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended.\n\nThe seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado.",
+   "context": "Incident report: flooding of the North Station dry well"
+  },
+  {
+   "id": "17df7da23ccf",
+   "stratum": "natural",
+   "doc_id": "water/incident_2025-03-29.md",
+   "text": "Site engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended.",
+   "chunk_text": "# Incident report: flooding of the North Station dry well\n\nOn 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift. About 3,000 litres of water flooded the dry well before the operator isolated the pump. Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty.\n\nSite engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended.\n\nThe seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado.",
+   "context": "Incident report: flooding of the North Station dry well"
+  },
+  {
+   "id": "99f62343dd38",
+   "stratum": "natural",
+   "doc_id": "water/inspection_2025-03-14.md",
+   "text": "Pump HP40-2291 ran quietly.",
+   "chunk_text": "# North Station pump inspection, 14 March 2025\n\nTechnician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.\n\nPump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit. Delgado tagged it for a seal replacement within two weeks.\n\nPump HP40-2291 ran quietly. No leaks were found on HP40-2291, and its bearing temperature was 48 °C.\n\nMeasured flow: HP40-1183 delivered 38 litres per second, HP40-2291 delivered 41 litres per second.",
+   "context": "North Station pump inspection, 14 March 2025"
+  },
+  {
+   "id": "8a5a1c9da433",
+   "stratum": "natural",
+   "doc_id": "water/inspection_2025-06-13.md",
+   "text": "Technician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station.",
+   "chunk_text": "# North Station pump inspection, 13 June 2025\n\nTechnician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station.\n\nPump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month.\n\nPump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C.\n\nMeasured flow: HP40-1183 delivered 40 litres per second, HP40-2291 delivered 39 litres per second.",
+   "context": "North Station pump inspection, 13 June 2025"
+  },
+  {
+   "id": "f56c49f39bed",
+   "stratum": "natural",
+   "doc_id": "water/inspection_2025-06-13.md",
+   "text": "Delgado tagged HP40-2291 for a seal change before the end of the month.",
+   "chunk_text": "# North Station pump inspection, 13 June 2025\n\nTechnician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station.\n\nPump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month.\n\nPump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C.\n\nMeasured flow: HP40-1183 delivered 40 litres per second, HP40-2291 delivered 39 litres per second.",
+   "context": "North Station pump inspection, 13 June 2025"
+  },
+  {
+   "id": "219032064259",
+   "stratum": "natural",
+   "doc_id": "water/north_station_2024_summary.md",
+   "text": "# North Station: summary of 2024",
+   "chunk_text": "# North Station: summary of 2024\n\nNorth Station pumped 1.9 million cubic metres in 2024. HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.\n\nNo seal failures were recorded in 2024. The only stoppage was a four-hour power cut on 17 November, when both pumps were off.\n\nFor 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "context": "North Station: summary of 2024"
+  },
+  {
+   "id": "735b4888d6c9",
+   "stratum": "cue",
+   "doc_id": "water/north_station_2024_summary.md",
+   "text": "No seal failures were recorded in 2024.",
+   "chunk_text": "# North Station: summary of 2024\n\nNorth Station pumped 1.9 million cubic metres in 2024. HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.\n\nNo seal failures were recorded in 2024. The only stoppage was a four-hour power cut on 17 November, when both pumps were off.\n\nFor 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "context": "North Station: summary of 2024"
+  },
+  {
+   "id": "4b8219f2c4ec",
+   "stratum": "natural",
+   "doc_id": "water/north_station_2024_summary.md",
+   "text": "The only stoppage was a four-hour power cut on 17 November, when both pumps were off.",
+   "chunk_text": "# North Station: summary of 2024\n\nNorth Station pumped 1.9 million cubic metres in 2024. HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.\n\nNo seal failures were recorded in 2024. The only stoppage was a four-hour power cut on 17 November, when both pumps were off.\n\nFor 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "context": "North Station: summary of 2024"
+  },
+  {
+   "id": "55a608eac08a",
+   "stratum": "natural",
+   "doc_id": "water/north_station_2024_summary.md",
+   "text": "For 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "chunk_text": "# North Station: summary of 2024\n\nNorth Station pumped 1.9 million cubic metres in 2024. HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.\n\nNo seal failures were recorded in 2024. The only stoppage was a four-hour power cut on 17 November, when both pumps were off.\n\nFor 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "context": "North Station: summary of 2024"
+  },
+  {
+   "id": "bc8a9aa34ecf",
+   "stratum": "natural",
+   "doc_id": "water/shift_notes.txt",
+   "text": "Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal.",
+   "chunk_text": "Shift notes, North Station, week of 7 April 2025.\nMon: HP40-2291 on duty all week, flow steady at 41 l/s.\nTue: Calder Pumps phoned about the seal returned from HP40-1183. Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal. Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry.\nWed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.\nThu: nothing to report.",
+   "context": "shift_notes"
+  },
+  {
+   "id": "c292ec6b562e",
+   "stratum": "cue",
+   "doc_id": "water/shift_notes.txt",
+   "text": "Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry.",
+   "chunk_text": "Shift notes, North Station, week of 7 April 2025.\nMon: HP40-2291 on duty all week, flow steady at 41 l/s.\nTue: Calder Pumps phoned about the seal returned from HP40-1183. Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal. Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry.\nWed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.\nThu: nothing to report.",
+   "context": "shift_notes"
+  },
+  {
+   "id": "08d476757c8a",
+   "stratum": "cue",
+   "doc_id": "water/shift_notes.txt",
+   "text": "Thu: nothing to report.",
+   "chunk_text": "Shift notes, North Station, week of 7 April 2025.\nMon: HP40-2291 on duty all week, flow steady at 41 l/s.\nTue: Calder Pumps phoned about the seal returned from HP40-1183. Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal. Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry.\nWed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.\nThu: nothing to report.",
+   "context": "shift_notes"
+  },
+  {
+   "id": "b2614b4bc061",
+   "stratum": "natural",
+   "doc_id": "water/shift_notes_june.txt",
+   "text": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.",
+   "chunk_text": "Shift notes, North Station, week of 9 June 2025.\nMon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby.\nTue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.\nWed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept.\nThu: nothing to report.\nFri: quarterly inspection by Rosa Delgado.",
+   "context": "shift_notes_june"
+  },
+  {
+   "id": "c0f8ece9f956",
+   "stratum": "cue",
+   "doc_id": "water/shift_notes_june.txt",
+   "text": "Thu: nothing to report.",
+   "chunk_text": "Shift notes, North Station, week of 9 June 2025.\nMon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby.\nTue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.\nWed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept.\nThu: nothing to report.\nFri: quarterly inspection by Rosa Delgado.",
+   "context": "shift_notes_june"
+  },
+  {
+   "id": "a5b4b46d2f76",
+   "stratum": "natural",
+   "doc_id": "water/shift_notes_june.txt",
+   "text": "Fri: quarterly inspection by Rosa Delgado.",
+   "chunk_text": "Shift notes, North Station, week of 9 June 2025.\nMon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby.\nTue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.\nWed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept.\nThu: nothing to report.\nFri: quarterly inspection by Rosa Delgado.",
+   "context": "shift_notes_june"
+  },
+  {
+   "id": "a2e52b140eb7",
+   "stratum": "natural",
+   "doc_id": "water/work_orders_2025-06.md",
+   "text": "Bearings of HP40-1183 regreased by Rosa Delgado.",
+   "chunk_text": "# Work orders, North Station, June 2025\n\nWO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado. Pump returned to duty the same day.\n\nWO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection. The old seal was kept for the vendor.\n\nWO-320, 30 June. Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C.",
+   "context": "Work orders, North Station, June 2025"
+  }
+ ]
+}

@@ -1,0 +1,1015 @@
+{
+ "labeller": {
+  "model": "claude-fable-5-1",
+  "date": "2026-10-05",
+  "pass": 1,
+  "input": "heldout_assertion_blind.json"
+ },
+ "sentences": [
+  {
+   "id": "35ef265284c3",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the contact stated the rear wheel wells were rusted",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the rust was discovered while inspecting the vehicle",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'while inspecting' dates one past discovery; time, not a condition"
+    }
+   ]
+  },
+  {
+   "id": "871e0500eab8",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/22/2015",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "2247984ac5ae",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the service drive and manufacturer explained the hesitation as the engine gearing down",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the service drive and manufacturer explained the hesitation as the turbo spooling up",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the service drive and manufacturer said the vehicle operates as expected",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "no repairs were needed",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "no repairs were made",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "114c7bd5c3ac",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/24/2015",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "09c43ed973e6",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the first time in for service, no problem was found",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'no problem found' denies 'a problem was found'"
+    }
+   ]
+  },
+  {
+   "id": "5cc5ee267024",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the vehicle was in for service three times in one month",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "ceef829c5edd",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the failure mileage was 2,361",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "dfa7ae8317db",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the trunk and glove compartment not locking may not be a driving safety issue",
+     "truth": "negated",
+     "modality": "possible",
+     "condition": null,
+     "note": "'may not be': possible and negated, as 'the station may not report rain'"
+    },
+    {
+     "claim": "the trunk and glove compartment not locking is a safety issue nonetheless",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "80bb9aed5a36",
+   "stratum": "named",
+   "claims": [
+    {
+     "claim": "the vehicle will react unpredictably under certain conditions when the adaptive cruise control (ACC) and the lane keeping assist system (LKAS) are engaged simultaneously",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY",
+     "note": "'when ... engaged simultaneously' means whenever; the double space in the condition is the text's"
+    }
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92",
+   "stratum": "named",
+   "claims": [
+    {
+     "claim": "the vehicle may brake suddenly when approaching exit ramps",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN APPROACHING EXIT RAMPS",
+     "note": "modal and condition together: conditional; the end clause applies to all three verbs"
+    },
+    {
+     "claim": "the vehicle may rapidly decelerate when approaching exit ramps",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN APPROACHING EXIT RAMPS"
+    },
+    {
+     "claim": "the vehicle may quickly depart the highway when approaching exit ramps",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN APPROACHING EXIT RAMPS"
+    }
+   ]
+  },
+  {
+   "id": "056c53e954ea",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the situation occurs during daylight and nighttime hours",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'during daylight and nighttime hours' is a time span, not an if/when condition"
+    },
+    {
+     "claim": "the situation occurs with clean cameras and radar window",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'with clean cameras' is a circumstance stated as fact, no conditional conjunction"
+    }
+   ]
+  },
+  {
+   "id": "3e0818472dcc",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the vehicle may slow by 10-15 mph",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    },
+    {
+     "claim": "the vehicle may depart the highway before the driver is able to resume control",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null,
+     "note": "'before the driver is able...' is time order, not a condition"
+    }
+   ]
+  },
+  {
+   "id": "f4230c015f96",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "a rear end collision was narrowly avoided in one case",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "an avoidance happened; affirmed like 'the van failed to start'"
+    }
+   ]
+  },
+  {
+   "id": "3627197d8b3a",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/01/2016",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "3b01d11e981d",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the writer contacted American Honda",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "Honda confirmed the car does have a recall",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "Honda provided the writer with a case number",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "bd0939154838",
+   "stratum": "cue",
+   "claims": []
+  },
+  {
+   "id": "cbc946171556",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the vehicle currently has 350 miles",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "23c971e9e2c7",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "currently Honda has no fix for the vehicles affected",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'has no fix' denies 'Honda has a fix'"
+    }
+   ]
+  },
+  {
+   "id": "0ef7c2fcf620",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the writer does not feel safe driving the brand new car any longer",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'does not feel safe' denies 'the writer feels safe'"
+    }
+   ]
+  },
+  {
+   "id": "cea6a538d46c",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the complaint was filed 03/01/2017",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d650561de9cf",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the contact owns a 2017 Nissan Rogue",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "eac2da901c75",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the contact stated the speedometer failed without warning",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "a failure happened; 'without warning' is its manner, not a negation of the claim"
+    }
+   ]
+  },
+  {
+   "id": "d56c363f1e1f",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the front camera system mistook the bridge for an object on the road",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the front camera system activated the brakes",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "a309c4d22184",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the car braked on its own on two separate occasions",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the car was taken to the dealer on both occasions",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "11a223cf6bf6",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the complaint was filed 07/24/2017",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "6b02b7628358",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the gas gauge showed full after fill up",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the gas gauge is now not moving",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'is not moving' denies 'the gauge is moving'"
+    },
+    {
+     "claim": "the gas gauge still says a full tank, which is not possible with 203 miles to empty",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "main statement: the gauge still says a full tank (affirmed); 'not possible' is the writer's comment inside it"
+    },
+    {
+     "claim": "normally after a fill up it is over 440 miles to empty",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN I FILL UP",
+     "note": "'when I fill up' means whenever (normally), so conditional"
+    }
+   ]
+  },
+  {
+   "id": "9bef6554e7be",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the complaint was filed 08/29/2018",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d3af2b6ca47f",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the navigation system works sporadically",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the navigation system works less and less every day",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the vehicle already had a dead battery, on a 2019 vehicle",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "c4da0454fddc",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the complaint was filed 02/11/2019",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "70791cf8fff4",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the car was taken to a dealer",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the dealer said that nothing is wrong with the car",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "the dealer's statement denies 'something is wrong with the car'; truth follows the said content, the speaker is kept"
+    }
+   ]
+  },
+  {
+   "id": "0cf0e0ff34ac",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "nothing was left on in the car",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'nothing left on' denies 'something was left on'"
+    },
+    {
+     "claim": "the dead battery is a parasitic battery drain",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "0bfe71b403c1",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the contact was unsure if the rental company notified the dealer and manufacturer",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "the fact stated is the contact's uncertainty; 'if' is an indirect question, not a condition"
+    }
+   ]
+  },
+  {
+   "id": "930e3b62dee6",
+   "stratum": "named",
+   "claims": [
+    {
+     "claim": "the failure to accelerate has only happened three times",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the failure to accelerate could cause an accident",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "60e40266f322",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the complaint was filed 06/20/2019",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "57630a4bce21",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the gas gauge does not indicate full after the auto-shutoff",
+     "truth": "negated",
+     "modality": "actual",
+     "condition": null,
+     "note": "'does not indicate full' denies 'the gauge indicates full'"
+    },
+    {
+     "claim": "the writer is able to add an additional 2-2.5 gallons to the tank after the auto-shutoff",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "ability, actual"
+    },
+    {
+     "claim": "adding the extra fuel takes a while because the writer has to push through all the auto shutoffs",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5b0fd9815507",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "wind can be heard when driving the vehicle",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN DRIVING YOUR VEHICLE",
+     "note": "'when driving' means whenever; 'can hear' is perception, not uncertainty"
+    }
+   ]
+  },
+  {
+   "id": "74b647786e79",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the wind noise can be heard well when the vehicle gets up to 50 miles per hour",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "WHEN YOU GET UP TO 50 MILES PER HOUR"
+    }
+   ]
+  },
+  {
+   "id": "86fbcc07b8ed",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the recall is issued by American Honda Motor Co.",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "c236ece39b09",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off",
+     "truth": "negated",
+     "modality": "conditional",
+     "condition": "if it is applied immediately after turning the ignition off",
+     "note": "'may not engage' denies 'engages'; condition outranks the modal"
+    }
+   ]
+  },
+  {
+   "id": "bc462b566164",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "owners may contact Honda customer service at 1-888-234-2138",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'may' here is permission (a contact detail), not uncertainty"
+    }
+   ]
+  },
+  {
+   "id": "651ecafbd360",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "owners may contact Honda's customer service at 1-888-234-2138",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'may contact' is permission, not uncertainty"
+    }
+   ]
+  },
+  {
+   "id": "6aff1eb1f43d",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "the Vehicle Identification Numbers (VINs) involved in this recall will be searchable on NHTSA.gov beginning May 29, 2026",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "a plan with a date is actual"
+    }
+   ]
+  },
+  {
+   "id": "a9816b7e59f2",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "owners may contact Nissan customer service at 1-800-647-7261",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "0d949f7cca98",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the recall is issued by Nissan North America, Inc.",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "d9e3ea3be92c",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    },
+    {
+     "claim": "the OCS may classify the seat as empty despite it being occupied",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "0930406385f7",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the recall is issued by Nissan",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the recall covers certain 2017-2019 Rogue Hybrid vehicles",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "b616ec7176ba",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "contact with the Electronic Control Module (ECM) bracket may damage the engine harness",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    },
+    {
+     "claim": "the damaged engine harness may cause a blown fuse",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "a1ff5c6c44ad",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "owners may contact Nissan customer service at 1-800-867-7669",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5dc27f02e326",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "interim notification letters notifying owners of the safety risk were mailed March 29, 2023",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "5fc5ce41739d",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "remedy parts should be available for all affected vehicles by late March 2021",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'should be available by' is a schedule (a plan), not a risk; actual"
+    }
+   ]
+  },
+  {
+   "id": "5acb39454531",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "Lexus' number for this recall is 20LA01",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "e67aaa4ed378",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "water may enter through the steering gear box cover",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    },
+    {
+     "claim": "water entering may cause a loss of electric power steering assist",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "6f8011ee4e72",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "owners may contact Toyota customer service at 1-888-270-9371",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "e1cc700cbcfb",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "Toyota will notify owners",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "dealers will inspect the back-up camera system, free of charge",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "dealers will replace the audio display unit if necessary, free of charge",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "if necessary"
+    }
+   ]
+  },
+  {
+   "id": "2ba265557d96",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the recall began on January 27, 2017",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "84b3a93ecbe1",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "Ford will notify owners",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "dealers will update the instrument panel software, free of charge",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "38a3be2f22db",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the recall is issued by Ford Motor Company (Ford)",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the recall covers certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the recall covers Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "the recall covers Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "7c81510891f8",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "Ford will notify owners",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    },
+    {
+     "claim": "dealers will inspect the latch date codes to confirm if the repair was done correctly, free of charge",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null,
+     "note": "'confirm if' is an indirect question (whether), not a condition"
+    },
+    {
+     "claim": "dealers will replace the side door latches if necessary, free of charge",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "if necessary"
+    }
+   ]
+  },
+  {
+   "id": "ecb9c2a6c2da",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the rearview camera may display a distorted, intermittent or blank image when the vehicle is in reverse",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "when the vehicle is in reverse"
+    }
+   ]
+  },
+  {
+   "id": "b0978db51757",
+   "stratum": "cue",
+   "claims": [
+    {
+     "claim": "owners may contact Ford customer service at 1-866-436-7332",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  },
+  {
+   "id": "4533e7fa1712",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "the engine block heater may crack",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    },
+    {
+     "claim": "the engine block heater may develop a coolant leak",
+     "truth": "affirmed",
+     "modality": "possible",
+     "condition": null
+    },
+    {
+     "claim": "the coolant leak may cause the block heater to short circuit when it is plugged in",
+     "truth": "affirmed",
+     "modality": "conditional",
+     "condition": "when the block heater is plugged in"
+    }
+   ]
+  },
+  {
+   "id": "53fedfde3aed",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "owners are advised not to plug in their block heater until the vehicle is remedied",
+     "truth": "negated",
+     "modality": "conditional",
+     "condition": "until the vehicle is remedied",
+     "note": "the advice is 'do not plug in' (negated of 'plug in'), and holds only while unremedied: 'until ...' is the condition"
+    }
+   ]
+  },
+  {
+   "id": "8f4805e04362",
+   "stratum": "r68",
+   "claims": [
+    {
+     "claim": "interim letters notifying owners of the safety risk were mailed March 6, 2026",
+     "truth": "affirmed",
+     "modality": "actual",
+     "condition": null
+    }
+   ]
+  }
+ ]
+}
