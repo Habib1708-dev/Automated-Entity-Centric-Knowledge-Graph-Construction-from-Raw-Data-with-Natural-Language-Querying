@@ -3197,6 +3197,22 @@ documents linked, 0 observations attached).
   - **R76 done** (code, the fix and the cached rebuild). Open by the user's choice: `kg qa` and the paired
     comparison with Step 5. Next: Step 7 (assertion).
 
+### R77. Assertion: truth, modality and condition (layered-model Step 7; in progress)
+"The pump failed", "the pump may fail" and "if pressure rises, the pump will fail" are different facts, and
+a count over claims must tell them apart (task file, Step 7).
+- **Decisions (the user, 2026-10-05, before any code):**
+  - **Scope: truth (affirmed / negated), modality (actual / possible / conditional) and condition only.**
+  - **The speaker (`said_by`, `SAID_BY`) is dropped from Step 7 and becomes a Step 8 candidate.** R68
+    attributed 1 of 83 coverage misses to it; only 3 of 177 QA questions depend on it (G10, G11, G31);
+    `read_check` covers it at query time; and the extraction prompt change and its weak code check cost
+    more than they give. If it is ever needed, start with a cheap `reported` flag.
+  - **`valid_time` is deferred with it** (the task allows splitting both off).
+- **Asked before any code:** run `kg qa` (graph plan system) on the R76 graphs as the Step 6 baseline
+  (estimate $0.7-1.4)? Steps 4-6 have no answer measurement yet. **The user: yes, run it first**
+  (2026-10-05). First attempt stopped at `kg ingest-text` of furniture, $0: embeddings are not cached, and
+  the invalid Gemini key meant to catch extraction cache misses was set for every stage (my recipe error;
+  R76 set it for `extract` only).
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
