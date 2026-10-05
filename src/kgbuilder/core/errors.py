@@ -55,3 +55,8 @@ class InvalidGoldError(KgBuilderError):
     def __init__(self, issues: list[str]):
         super().__init__("invalid gold: " + "; ".join(issues))
         self.issues = issues
+
+
+class QueryPlanError(KgBuilderError):
+    """A checked query plan could not run to the end (too many candidates for read_check, a failed read);
+    the reason goes back to the planner for its one retry (query/planner.py)."""

@@ -5,5 +5,8 @@ traversal.py and graph_store.py read the graph (fixed traversal patterns, chunks
 reader.py asks the model to answer from the chosen chunks. router.py labels a question exact or retrieval;
 exact.py lets the model write Cypher, which cypher_check.py and the database's EXPLAIN check before it runs
 against the schema of graph_schema.py. systems.py puts them together: the graph's retrieval route, the
-routed graph system and the vector-only baseline.
+routed graph system and the vector-only baseline. ranking.py orders chunks by similarity to a question.
+Query plans (R74): plan.py is the closed set of primitives and the code check of a plan, plan_cypher.py
+compiles each primitive to one parameterised Cypher fragment, plan_run.py runs a plan step by step, and
+read_check.py checks one candidate's text against a statement with a quote code verifies.
 """

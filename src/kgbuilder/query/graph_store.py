@@ -58,6 +58,7 @@ class ReadResult(BaseModel):
     """The rows a read query returned, or why it failed (a runtime error, the timeout)."""
 
     rows: list[list[Any]] = []  # Any: whatever Neo4j returns (text, numbers, lists, dates, nodes)
+    keys: list[str] = []  # the column names, in the order of each row (R74: plan_run.py reads rows by name)
     error: str | None = None
 
 
@@ -117,7 +118,9 @@ class Neo4jGraphStore:
             with self._driver.session(default_access_mode=READ_ACCESS) as session:
                 tx = session.begin_transaction(timeout=self._timeout)
                 try:
-                    return ReadResult(rows=[list(record.values()) for record in tx.run(cypher, parameters)])
+                    result = tx.run(cypher, parameters)
+                    rows = [list(record.values()) for record in result]
+                    return ReadResult(rows=rows, keys=list(result.keys()))
                 finally:
                     tx.close()  # rolls back: a read has nothing to commit
         except Neo4jError as e:  # the timeout or a runtime error: reported to the route, which may retry
@@ -125,14 +128,15 @@ class Neo4jGraphStore:
 
     def node_names(self) -> list[NodeName]:
         things = [
-            NodeName(kind="thing", node_id=n.element_id, name=n.name)
+            NodeName(kind="thing", node_id=n.element_id, name=n.name, label=n.label)
             for n in (read_domain_nodes(self._driver, self._plan) if self._plan else [])
         ]
         records, _, _ = self._driver.execute_query(
-            "MATCH (e:Entity) RETURN e.id AS id, e.name AS name, coalesce(e.aliases, []) AS aliases"
+            "MATCH (e:Entity) "
+            "RETURN e.id AS id, e.name AS name, coalesce(e.aliases, []) AS aliases, e.type AS type"
         )
         kinds = [
-            NodeName(kind="kind", node_id=r["id"], name=r["name"], aliases=r["aliases"])
+            NodeName(kind="kind", node_id=r["id"], name=r["name"], aliases=r["aliases"], label=r["type"])
             for r in records
             if r["name"]
         ]

@@ -45,6 +45,9 @@ class RelationshipInfo(BaseModel):
     type: str
     target: str
     count: int
+    # the relationship's own properties (R74): a link table's columns live here (a supplier's lead time and
+    # cost for one part), and a query that cannot see them cannot filter on them (R73's furniture misses)
+    properties: list[PropertyInfo] = []
 
 
 class ClaimInfo(BaseModel):
@@ -68,7 +71,11 @@ class GraphSchema(BaseModel):
             props = "; ".join(f"{p.name} ({p.type}) e.g. {', '.join(p.examples)}" for p in info.properties)
             lines.append(f"- :{info.label} ({info.count}): {props}")
         lines.append("Relationships (count):")
-        lines += [f"- (:{r.source})-[:{r.type}]->(:{r.target}) ({r.count})" for r in self.relationships]
+        for r in self.relationships:
+            props = "; ".join(f"{p.name} ({p.type}) e.g. {', '.join(p.examples)}" for p in r.properties)
+            lines.append(
+                f"- (:{r.source})-[:{r.type}]->(:{r.target}) ({r.count})" + (f": {props}" if props else "")
+            )
         if self.claims:  # none in the record layer alone (records_only), where the heading would mislead
             lines.append(
                 "Claim patterns of :Observation nodes, as subject entity type, predicate, object entity type:"
@@ -123,12 +130,22 @@ def _labels(driver: Driver) -> list[LabelInfo]:
 
 def _property(driver: Driver, label: str, key: str) -> PropertyInfo:
     # a label and a key cannot be parameters: they are escaped, like every identifier in the project
-    node, prop = cypher_ident(label), cypher_ident(key)
+    return _examples(driver, f"(x:{cypher_ident(label)})", key)
+
+
+def _relationship_property(driver: Driver, rel: RelationshipInfo, key: str) -> PropertyInfo:
+    pattern = f"(:{cypher_ident(rel.source)})-[x:{cypher_ident(rel.type)}]->(:{cypher_ident(rel.target)})"
+    return _examples(driver, pattern, key)
+
+
+def _examples(driver: Driver, pattern: str, key: str) -> PropertyInfo:
+    """The type and a few values of property `key` of the node or relationship bound to `x` in `pattern`."""
+    prop = cypher_ident(key)
     # raw values, not toString(): a property may hold a list (aliases), which toString() refuses; the type
     # is the first value's, as nodes of one label written by one import rule share their types
     records, _, _ = driver.execute_query(
-        f"MATCH (n:{node}) WHERE n.{prop} IS NOT NULL "
-        f"RETURN DISTINCT n.{prop} AS v, valueType(n.{prop}) AS t ORDER BY v LIMIT {_EXAMPLES}"
+        f"MATCH {pattern} WHERE x.{prop} IS NOT NULL "
+        f"RETURN DISTINCT x.{prop} AS v, valueType(x.{prop}) AS t ORDER BY v LIMIT {_EXAMPLES}"
     )
     value_type = records[0]["t"].replace(" NOT NULL", "") if records else "ANY"
     return PropertyInfo(name=key, type=value_type, examples=[cypher_literal(r["v"]) for r in records])
@@ -159,12 +176,16 @@ def _temporal_function(value: object) -> str:
 def _relationships(driver: Driver) -> list[RelationshipInfo]:
     records, _, _ = driver.execute_query(
         "MATCH (a)-[r]->(b) UNWIND labels(a) AS source UNWIND labels(b) AS target "
-        "RETURN source, type(r) AS type, target, count(*) AS n ORDER BY type, source, target"
+        "RETURN source, type(r) AS type, target, count(*) AS n, collect(DISTINCT keys(r)) AS keys "
+        "ORDER BY type, source, target"
     )
-    return [
-        RelationshipInfo(source=r["source"], type=r["type"], target=r["target"], count=r["n"])
-        for r in records
-    ]
+    relationships = []
+    for r in records:
+        info = RelationshipInfo(source=r["source"], type=r["type"], target=r["target"], count=r["n"])
+        keys = sorted({k for ks in r["keys"] for k in ks} - _HIDDEN_PROPERTIES)
+        info.properties = [_relationship_property(driver, info, k) for k in keys]
+        relationships.append(info)
+    return relationships
 
 
 def _claims(driver: Driver) -> list[ClaimInfo]:

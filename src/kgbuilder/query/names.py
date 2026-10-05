@@ -6,10 +6,12 @@ Design: code decides the links, no model is asked. A run of words in the questio
 name or alias it spells alike, scored like entity resolution (`core.similarity.name_similarity`), and the
 nodes whose names lie nearest the question in meaning are linked too, by rank rather than by a similarity
 threshold, so nothing has to be tuned per embedding model. The node names are embedded once per linker.
+`find` serves the query plans' `find_entity` and claim words (R74) from the same names and vectors.
 Not here: reading the names from the graph (graph_store.py) and what the links lead to (traversal.py).
 """
 
 import re
+from collections.abc import Callable
 from typing import Literal
 
 from pydantic import BaseModel
@@ -46,6 +48,9 @@ class NodeName(BaseModel):
     node_id: str
     name: str
     aliases: list[str] = []
+    label: str | None = (
+        None  # a thing's record label or a kind's entity type (find_entity narrows by it, R74)
+    )
 
 
 def words(text: str) -> list[str]:
@@ -91,6 +96,41 @@ class NameLinker:
         for node in self._nearest(question_vector):
             linked.setdefault((node.kind, node.node_id), _linked(node, "meaning"))
         return list(linked.values())
+
+    @property
+    def nodes(self) -> list[NodeName]:
+        return self._nodes
+
+    def find(
+        self,
+        name: str,
+        embed: Callable[[str], list[float]],
+        kinds: set[str],
+        label: str | None,
+        union: bool,
+    ) -> list[NodeName]:
+        """The nodes of `kinds` (and `label`, when given) that a name names (R74, `find_entity`): every node
+        spelled alike; with `union` also, and otherwise only when none is, the `neighbours` nearest in
+        meaning. `embed` is called only when meaning is needed. Two same-named records both come back."""
+        candidates = [n for n in self._nodes if n.kind in kinds and (label is None or n.label == label)]
+        wanted = " ".join(words(name))
+        spelled = [
+            n
+            for n in candidates
+            if any(
+                name_similarity(wanted, " ".join(words(x)), self._fuzzy) >= self._fuzzy
+                for x in (n.name, *n.aliases)
+            )
+        ]
+        if (spelled and not union) or not self._vectors or self._neighbours == 0 or not wanted:
+            return spelled
+        q = unit_vector(embed(name))
+        index = {id(n): i for i, n in enumerate(self._nodes)}
+        nearest = sorted(candidates, key=lambda n: dot(q, self._vectors[index[id(n)]]), reverse=True)
+        found = {(n.kind, n.node_id): n for n in spelled}
+        for n in nearest[: self._neighbours]:
+            found.setdefault((n.kind, n.node_id), n)
+        return list(found.values())
 
     def _spelled(self, name: str, question_words: list[str], by_length: dict[int, list[str]]) -> bool:
         """Whether a run of the question's words spells `name` alike (same number of words)."""

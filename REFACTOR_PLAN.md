@@ -2755,6 +2755,65 @@ paid runs, asked first.
     any dataset, so the rule applies as written; the totals point both ways (held-out for the graph,
     generality against it). Step 4 waits for the user's decision. Gate: 381 passed, `ruff check` clean.
 
+- **The user's decision on the stop rule (2026-10-05):** go on with Step 4 as planned. The largest causes of
+  wrong answers sit in the query layer both routed systems share (the router, wrong queries), so the claim
+  layer's worth cannot be read through it; the comparison of the graph with records plus vector is repeated
+  once query plans exist (R74). **R73 done.**
+
+### R74. Query plans of fixed primitives (layered-model Step 4; in progress)
+The largest measured causes of wrong answers are the router and queries that misread the graph (R71, R73).
+This step replaces free text2cypher and the router with query plans that code checks and compiles, before
+any change to the graph's shape (task file, Step 4).
+- **Split (2026-10-05): three parts, one commit each.** (a) The plan language: a flat `PlanStep` model (one
+  `op` and optional fields, checked per operation in code), one class per primitive (Strategy) that checks a
+  step against the graph's schema and compiles it to one parameterised, read-only Cypher fragment, and the
+  executor that runs the steps in order. Primitives: `find_entity`, `filter_records`, `related`,
+  `find_claims`, `read_check`, `retrieve_chunks`; terminals `list`, `count`, `sum`, `rank`,
+  `answer_from_chunks`. The schema reader also shows relationship properties (furniture's lead time, cost
+  and "preferred" live on `SUPPLIED_BY`, which R73's exact route never saw), and a numeric comparison on a
+  text property compares the number in it (R73: furniture prices stored as `'$246'`). (b) The planner: one
+  domain-neutral prompt that writes a plan, one retry with the reasons, then the logged fallbacks
+  (text2cypher, then retrieval); `graph` and `records_vector` both answer through plans (records plus
+  vector without the claim primitives); the router and `RoutedGraph` are removed; tracking of plans,
+  refusals, dropped filters, `read_check` calls and the primitives each answer used. (c) Runs, answers
+  only, on the R73 graphs, asked first; judge; paired comparison with R73 per question.
+- Not in this step: any change to the graph's shape (Steps 5-7).
+- **Part a: the plan language (done 2026-10-05).** New modules in `query/`, no model writes Cypher:
+  - `plan.py`: `PlanStep` (one `op` and optional fields) and `QueryPlan`; `check_plan` checks each step by
+    its own rule (`_RULES`, Strategy): names from the graph's schema (labels, properties, record
+    relationships, claim predicates and entity types), the value against the property's type (a number, a
+    `YYYY-MM-DD` date, a four-digit year, true/false; a number may be compared with a text that holds one),
+    inputs that point back to a step producing items the step takes (record, entity, claim, chunk), and
+    exactly the last step a terminal. An optional filter (tone, time) whose words are not in the question
+    is removed from the plan and reported (G12). `PlanSchema(claims=False)` refuses `find_claims` and finds
+    records only: the records-plus-vector system.
+  - `plan_cypher.py`: one pure function per primitive returning `(cypher, parameters)`: comparisons by the
+    property's type (`date()`, `.year`, a year among a text date's digits, the number inside a text via
+    `apoc.text.regreplace`, case-insensitive text, any member of a list), `related` in a direction code
+    reads from the schema, the claim layer written once (`HAS_OBSERVATION`, `SUBJECT`, `OBJECT`, `FROM`,
+    `REFERS_TO`), so no plan can walk a claim backwards (G14), and a `LIMIT` on every step (`step_cap` 200).
+  - `plan_run.py`: `PlanRunner` interprets a checked plan, ids passed between steps; `find_entity` through
+    `NameLinker.find` (every node spelled alike, so both same-named records come back; the nearest in
+    meaning only when nothing is spelled alike, or added for claim words); `find_claims` with
+    `include_parts` (records whose relationships point at the input within two hops); `read_check` reads
+    each candidate's own chunks (the three nearest the statement) and refuses more than `check_limit` 30
+    candidates (`QueryPlanError`, new); terminals computed by code (`list` names, property values or a
+    claim's record, subject or object; `count` of items, documents or records; `sum`; `rank` by property,
+    by related records or by claims per record, ties kept); `answer_from_chunks` gives the top k chunks of
+    the input (or of the system's chunk source) to the reader.
+  - `read_check.py`: a domain-neutral prompt; `verify` keeps a yes only when its quote, under `norm`, is in
+    the chunk it names, which was shown; no text, no call.
+  - Also: `GraphSchema` reads relationship properties (types and examples) and shows them; `ReadResult`
+    carries the column names; `NodeName` carries a record's label or an entity's type; `rank` moved from
+    `systems.py` to `ranking.py`, behaviour unchanged.
+  - Tests: `tests/test_query_plan.py` (30, pure: refusals with the known names, value types, inputs and
+    terminals, the dropped filter, the records-only system, every comparison as text, values as
+    parameters, the claim direction, read_check verification, find), `tests/test_query_plan_graph.py` (8,
+    Neo4j: filter and related with the chosen direction, '$950' below 1000 and years in dates and texts, a
+    relationship property shown and filtered, claims from a record, its parts and an entity, read_check
+    verified and unverified and its bound, rank / sum / property lists, answer_from_chunks). Gate: 419
+    passed (381 before), `ruff check` clean. No run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

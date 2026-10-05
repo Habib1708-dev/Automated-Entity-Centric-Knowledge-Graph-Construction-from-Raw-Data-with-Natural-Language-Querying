@@ -16,12 +16,10 @@ Design: Strategy. The systems implement `QASystem.answer` and share the reader, 
 Not here: the prompts (reader.py, router.py, exact.py), Cypher (graph_store.py).
 """
 
-import math
 from typing import Protocol
 
 from pydantic import BaseModel
 
-from ..core.similarity import dot, unit_vector
 from ..llm.base import Embedder, LLMClient
 from ..validation.qa import Citation
 from ..validation.qa_gold import Route
@@ -29,6 +27,7 @@ from .answers import RetrievalTrace, ShownChunk, SystemAnswer
 from .exact import RECORDS_PROMPT, ExactRoute
 from .graph_store import CypherStore, GraphStore, StoredChunk
 from .names import NameLinker
+from .ranking import rank
 from .reader import Reader
 from .router import Router
 
@@ -184,17 +183,6 @@ def build_records_vector(
     router = Router(llm, settings.model, exact.schema_text, settings.temperature)
     vector = VectorBaseline(store, embedder, reader, settings.top_k)
     return RoutedGraph(router, exact, vector, name=RECORDS_VECTOR)
-
-
-def rank(vector: list[float], chunks: list[StoredChunk]) -> list[StoredChunk]:
-    """`chunks` by cosine similarity to `vector`, most similar first; chunks without a vector come last,
-    and ties go by chunk id, so the order never depends on how the graph returned them."""
-    query = unit_vector(vector)
-
-    def similarity(chunk: StoredChunk) -> float:
-        return dot(query, unit_vector(chunk.embedding)) if chunk.embedding else -math.inf
-
-    return sorted(chunks, key=lambda c: (-similarity(c), c.chunk_id))
 
 
 def _answer(

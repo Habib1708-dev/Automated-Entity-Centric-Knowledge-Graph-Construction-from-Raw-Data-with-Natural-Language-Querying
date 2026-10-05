@@ -1,0 +1,253 @@
+"""Query plans run against Neo4j (R74): each primitive and terminal on the hand-made graph of R71's tests
+(two presses, a part with its maker, a ticket, documents, chunks, one claim), with the read_check reader and
+the final reader scripted. Needs Neo4j."""
+
+import pytest
+
+from kgbuilder.core.errors import QueryPlanError
+from kgbuilder.query.graph_store import Neo4jGraphStore
+from kgbuilder.query.names import NameLinker
+from kgbuilder.query.plan import PlanSchema, PlanStep, QueryPlan, check_plan
+from kgbuilder.query.plan_run import PlanRunner, PlanSettings
+from kgbuilder.query.read_check import CheckReply, ReadChecker
+from kgbuilder.query.reader import Reader, ReaderAnswer, ReaderCitation
+from kgbuilder.structured.plan import name_property
+
+from .fakes import ScriptedLLM
+from .test_query_graph import PLAN, AxisEmbedder, build
+
+# Extra values the R71 graph lacks: a price written as text, a date written as text, and a property on a
+# relationship, as the furniture and held-out graphs have them.
+EXTRA = """
+MATCH (q:Press {press_id: 'P1'}), (l:Press {press_id: 'P2'}), (s:Part {part_id: 'S1'})-[r:PART_OF]->(q)
+SET q.list_price = '$1,200', l.list_price = '$950', q.filed = '11/07/2016', l.filed = '03/02/2015',
+    r.fitted = 2019
+"""
+
+
+class NoSource:
+    def ranked(self, question):
+        return [], None
+
+
+@pytest.fixture
+def runner_parts(driver):
+    build(driver)
+    driver.execute_query(EXTRA)
+    store = Neo4jGraphStore(driver, PLAN, hops=1, cypher_timeout_s=5)
+    schema = PlanSchema(schema=store.schema(), record_labels=frozenset(rule.label for rule in PLAN.nodes))
+    return store, schema
+
+
+def runner(store, schema, checks=None, reply=None, check_limit=30) -> PlanRunner:
+    check_llm = ScriptedLLM(lambda prompt, s: checks.pop(0) if checks else CheckReply(supported=False))
+    read_llm = ScriptedLLM(lambda prompt, s: reply or ReaderAnswer(text="nothing"))
+    return PlanRunner(
+        store,
+        AxisEmbedder(),
+        NameLinker(store.node_names(), None, fuzzy=90.0, neighbours=0),
+        schema,
+        {rule.label: name_property(rule) for rule in PLAN.nodes},
+        Reader(read_llm, "m"),
+        ReadChecker(check_llm, "m"),
+        NoSource(),
+        PlanSettings(top_k=2, check_limit=check_limit),
+    )
+
+
+def run(runner_, schema, question, *steps):
+    plan = QueryPlan(steps=[PlanStep(**s) for s in steps])
+    checked = check_plan(plan, schema, question)
+    assert checked.issues == []
+    return runner_.run(checked.plan, question)
+
+
+def test_records_are_filtered_by_type_and_followed_along_a_relationship_the_way_code_chose(runner_parts):
+    store, schema = runner_parts
+    result = run(
+        runner(store, schema),
+        schema,
+        "Which parts belong to presses from 2019 on?",
+        {"op": "filter_records", "label": "Press", "property": "year", "operator": ">=", "value": 2019},
+        {"op": "related", "input": 0, "relationship": "PART_OF", "label": "Part"},
+        {"op": "list", "input": 1},
+    )
+    assert result.entities == ["Spindle"]
+    assert result.steps[1].note == "direction in"  # (Part)-[:PART_OF]->(Press), walked from the press
+
+
+def test_a_number_written_as_text_and_years_in_dates_and_texts_are_compared_right(runner_parts):
+    store, schema = runner_parts
+    r = runner(store, schema)
+    cheap = run(
+        r,
+        schema,
+        "q",
+        {"op": "filter_records", "label": "Press", "property": "list_price", "operator": "<", "value": 1000},
+        {"op": "list", "input": 0},
+    )
+    assert cheap.entities == ["Lark Press"]  # '$950' < 1000, '$1,200' is not
+    dated = run(
+        r,
+        schema,
+        "q",
+        {"op": "filter_records", "label": "Press", "property": "since", "operator": "year", "value": 2015},
+        {"op": "list", "input": 0},
+    )
+    assert dated.entities == ["Lark Press"]
+    written = run(
+        r,
+        schema,
+        "q",
+        {"op": "filter_records", "label": "Press", "property": "filed", "operator": "year", "value": "2016"},
+        {"op": "list", "input": 0},
+    )
+    assert written.entities == ["Quill Press"]
+
+
+def test_a_relationships_own_property_is_shown_and_can_be_filtered(runner_parts):
+    store, schema = runner_parts
+    part_of = next(r for r in schema.schema.relationships if r.type == "PART_OF" and r.source == "Part")
+    assert [p.name for p in part_of.properties] == ["fitted"]
+    assert "(:Part)-[:PART_OF]->(:Press) (1): fitted (INTEGER) e.g. 2019" in schema.schema.text()
+    result = run(
+        runner(store, schema),
+        schema,
+        "q",
+        {"op": "find_entity", "name": "Quill Press"},
+        {
+            "op": "related",
+            "input": 0,
+            "relationship": "PART_OF",
+            "property": "fitted",
+            "operator": ">",
+            "value": 2020,
+        },
+        {"op": "count", "input": 1},
+    )
+    assert result.number == 0.0
+
+
+def test_claims_are_found_about_a_record_its_parts_or_an_entity_and_listed_or_counted(runner_parts):
+    store, schema = runner_parts
+    r = runner(store, schema)
+    subjects = run(
+        r,
+        schema,
+        "q",
+        {"op": "find_entity", "name": "quill press", "label": "Press"},
+        {"op": "find_claims", "input": 0, "predicate": "HAS_CONDITION"},
+        {"op": "list", "input": 1, "what": "subject"},
+    )
+    assert subjects.entities == ["spindle"]
+    # the part's claim: its entity refers to the part, so the claim is found from the part record too
+    from_part = run(
+        r,
+        schema,
+        "q",
+        {"op": "filter_records", "label": "Part"},
+        {"op": "find_claims", "input": 0},
+        {"op": "list", "input": 1, "what": "about"},
+    )
+    assert from_part.entities == ["Quill Press"]
+    # a record's parts are the records whose relationships point at it: the spindle part points at its
+    # maker (MADE_BY), so the spindle's claim is a claim about the maker only with include_parts
+    maker = {"op": "find_entity", "name": "Norcast"}
+    alone = run(r, schema, "q", maker, {"op": "find_claims", "input": 0}, {"op": "count", "input": 1})
+    parts = run(
+        r,
+        schema,
+        "q",
+        maker,
+        {"op": "find_claims", "input": 0, "include_parts": True},
+        {"op": "count", "input": 1},
+    )
+    assert (alone.number, parts.number) == (0.0, 1.0)
+    by_kind = run(
+        r,
+        schema,
+        "q",
+        {"op": "find_entity", "name": "wobbles", "label": "Condition"},
+        {"op": "find_claims", "input": 0},
+        {"op": "count", "input": 1, "unit": "about"},
+    )
+    assert by_kind.number == 1.0
+
+
+def test_read_check_keeps_only_candidates_with_a_verified_quote_and_code_counts_them(runner_parts):
+    store, schema = runner_parts
+    checks = [CheckReply(supported=True, chunk_id="notes.md#0", quote="the spindle wobbles")]
+    result = run(
+        runner(store, schema, checks=checks),
+        schema,
+        "How many claims say a spindle wobbles?",
+        {"op": "find_claims", "predicate": "HAS_CONDITION"},
+        {"op": "read_check", "input": 0, "statement": "A spindle wobbles."},
+        {"op": "count", "input": 1, "unit": "documents"},
+    )
+    assert (result.number, result.checks, result.verified) == (1.0, 1, 1)
+    assert [c.chunk_id for c in result.shown] == ["notes.md#0"]
+    assert result.citations[0].quote == "the spindle wobbles"
+    unverified = run(
+        runner(
+            store, schema, checks=[CheckReply(supported=True, chunk_id="notes.md#0", quote="it never moves")]
+        ),
+        schema,
+        "q",
+        {"op": "find_claims", "predicate": "HAS_CONDITION"},
+        {"op": "read_check", "input": 0, "statement": "A spindle wobbles."},
+        {"op": "count", "input": 1},
+    )
+    assert unverified.number == 0.0  # the quote is not in the chunk: the yes does not count
+
+
+def test_read_check_refuses_more_candidates_than_its_bound(runner_parts):
+    store, schema = runner_parts
+    with pytest.raises(QueryPlanError, match="read_check got 2 candidates, more than 1"):
+        run(
+            runner(store, schema, check_limit=1),
+            schema,
+            "q",
+            {"op": "filter_records", "label": "Press"},
+            {"op": "read_check", "input": 0, "statement": "It is fast."},
+            {"op": "count", "input": 1},
+        )
+
+
+def test_rank_sum_and_property_lists_are_computed_by_code(runner_parts):
+    store, schema = runner_parts
+    r = runner(store, schema)
+    presses = {"op": "filter_records", "label": "Press"}
+    assert run(r, schema, "q", presses, {"op": "sum", "input": 0, "property": "year"}).number == 4035.0
+    top = run(
+        r, schema, "q", presses, {"op": "rank", "input": 0, "property": "list_price", "order": "highest"}
+    )
+    assert top.entities == ["Quill Press"]
+    tickets = run(
+        r,
+        schema,
+        "q",
+        {"op": "filter_records", "label": "Ticket"},
+        {"op": "rank", "input": 0, "relationship": "CONCERNS", "order": "most"},
+    )
+    assert tickets.entities == ["Quill Press"]
+    years = run(r, schema, "q", presses, {"op": "list", "input": 0, "property": "year"})
+    assert sorted(years.entities) == ["2016", "2019"]
+
+
+def test_answer_from_chunks_reads_the_inputs_own_text(runner_parts):
+    store, schema = runner_parts
+    reply = ReaderAnswer(text="It was late.", citations=[ReaderCitation(chunk_id="notes.md#1", quote="late")])
+    result = run(
+        runner(store, schema, reply=reply),
+        schema,
+        "What happened to the delivery?",
+        {"op": "find_entity", "name": "Quill Press", "label": "Press"},
+        {"op": "answer_from_chunks", "input": 0},
+    )
+    assert result.text == "It was late." and result.citations[0].chunk_id == "notes.md#1"
+    assert len(result.shown) == 2 and {c.chunk_id for c in result.shown} <= {
+        "notes.md#0",
+        "notes.md#1",
+        "both.md#0",
+    }

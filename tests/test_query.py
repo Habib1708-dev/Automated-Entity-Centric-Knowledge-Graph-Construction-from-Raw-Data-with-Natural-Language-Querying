@@ -13,8 +13,9 @@ from kgbuilder.pipeline.qa_stages import QAScoreStage, QAStage
 from kgbuilder.query.answers import SystemAnswer, load_system_answers, shown_texts
 from kgbuilder.query.graph_store import StoredChunk
 from kgbuilder.query.names import NameLinker, NodeName, spans, words
+from kgbuilder.query.ranking import rank
 from kgbuilder.query.reader import NOTHING_TO_READ, PROMPT, Reader, ReaderAnswer, ReaderCitation, build_prompt
-from kgbuilder.query.systems import GraphRetrieval, VectorBaseline, build_graph_retrieval, rank
+from kgbuilder.query.systems import GraphRetrieval, VectorBaseline, build_graph_retrieval
 from kgbuilder.validation.judge import JudgeMeta
 from kgbuilder.validation.qa import AnswerVerdict, QAVerdicts, load_outcomes
 from kgbuilder.validation.qa_gold import QAGold
