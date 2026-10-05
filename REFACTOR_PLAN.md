@@ -2985,6 +2985,43 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
     `tests/test_identity.py` (Neo4j, scripted LLM) the Pike case end to end (title, attribute, a verified
     join, a refused one, Judith apart) and a part kept from its whole only by the part-of flag. Gate: 477
     passed (447 after b1), `ruff check` clean.
+- **Part c: identity gold and its score (done 2026-10-05).** Written from the corpus text before any build of
+  the mention graph exists (none does yet); no output was opened.
+  - Format (`validation/gold.py`): `identity_pairs`, each two sides (a document and the names it writes for
+    one thing; a side may list spellings with and without a title), `same`, verbatim `evidence` (at least
+    one quote per side) and a `note`.
+  - Gold (`tests/gold/r75/`): furniture 67 pairs (27 same, 40 different; 26 across documents), held-out 23
+    (10 / 13; 6), generality 24 (13 / 11; 23) in a new `generality_gold.json`. Furniture and held-out: the
+    R35/R40 ER pairs placed at mention level by text search (a same pair inside one document where both
+    names occur, across documents only for states and wordings, which are one kind wherever written; the
+    three same pairs that name parts of two products, "drawer handle"/"drawer handles", "leg"/"legs",
+    "drawer handles"/"drawer pulls", are left to `er_accuracy`, because whether they are one depends on the
+    schema's class for parts), the evidence the first sentence naming each side; plus the recorded wrong
+    merges: "drawer slides" (Linköping Bed) / "drawer rails" (Helsingborg Dresser) and TRANSMISSION BOX /
+    TRANSMISSION different. Generality: Jonathan Pike under six spellings in seven documents the same,
+    Judith Pike apart from every Pike, the Finance Office's and the Soil Ecology's Maria Lopez and the baker
+    apart, each the same across her own documents, HP40-1183 and HP40-2291 apart and each one across its
+    documents.
+  - Labels that differ from the task file's wording, for the user to review: "M. Lopez" of the field log is
+    labelled the same as the Soil Ecology Maria Lopez (the log and the newsletter describe her Aldmoor
+    campaign, which QA gold G03 already relies on; the task file said "no evidence: stays apart", so a
+    system that keeps them apart misses a join, it does not err); "BRAKE SUDDENLY" / "ACTIVATED THE
+    BRAKES", listed in the task among the wrong merges of R63, is labelled the same kind, since ER pair 4
+    (R51) already has "brake suddenly" = "braked on its own", the Rogue's event of "activated the brakes"
+    (R63's harm was the shared kind reaching other vehicles, which R64 removed). Not expressible: the travel
+    memo names two different Maria Lopez in one document, which is one mention (type, name, document); it
+    is left out of the pairs and stated here.
+  - Score (`validation/identity.py`, pure; `evaluate.read_mentions` reads each mention with its canonical
+    id): a pair is joined when a mention of each side refers to one canonical entity; `identity_precision`
+    (gold-same share of the joined pairs), `identity_recall` (joined share of the gold-same pairs),
+    `identity_apart_rate` (kept-apart share of the gold-different pairs; the bar is 1.0), with
+    `identity_pairs_scored`, `identity_same_scored`, `identity_different_scored` and
+    `identity_not_extracted` (a side with no mention of a listed name). Exact lookup only; a judge mapping
+    for unextracted names, as `er_accuracy_valid` has, is not built (Found along the way if part d needs it).
+  - Tests: `tests/test_identity_gold.py` (9: names in their documents, quotes verbatim, a quote per side,
+    no duplicate, the task's hard cases and recorded merges present, the score on hand-made mentions) and a
+    `kg eval` run on the Pike graph in `tests/test_identity.py` (precision 1.0, recall 0.5, apart 1.0).
+    Gate: 487 passed (477 after b2), `ruff check` clean.
 
 ## Found along the way
 

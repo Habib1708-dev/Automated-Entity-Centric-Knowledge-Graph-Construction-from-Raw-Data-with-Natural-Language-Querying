@@ -269,8 +269,16 @@ in the MLflow UI on the stage metrics and on `validate` / `eval`.
 {"triples":   [{"subject": "Stockholm Chair", "predicate": "HAS_PROBLEM", "object": "wobbly legs",
                 "doc_id": "product_reviews/stockholm_chair_reviews.md"}],
  "er_pairs":  [{"a": "Table", "b": "Tables", "same": true}],
- "questions": [{"question": "Who supplies part X?", "cypher": "MATCH ... RETURN s.name", "expected": ["..."]}]}
+ "questions": [{"question": "Who supplies part X?", "cypher": "MATCH ... RETURN s.name", "expected": ["..."]}],
+ "identity_pairs": [{"a": {"doc_id": "minutes.md", "names": ["Jon Pike"]},
+                     "b": {"doc_id": "award.md", "names": ["Jonathan Pike"]}, "same": true,
+                     "evidence": [{"doc_id": "minutes.md", "quote": "..."}, {"doc_id": "award.md", "quote": "..."}]}]}
 ```
+
+`identity_pairs` (R75) are mention pairs: a name in one document and a name in another (or the same) one,
+the same individual, record or kind or not. `kg eval` logs `identity_precision`, `identity_recall` and
+`identity_apart_rate` (the gold's different pairs kept apart) with their counts; a name the graph never
+extracted is counted apart (`identity_not_extracted`). The current gold is `tests/gold/r75/`.
 
 Every section is optional. Give `doc_id` and label those documents exhaustively: precision is computed
 only over facts from labelled documents. A triple may carry `evidence`, the verbatim sentence it rests

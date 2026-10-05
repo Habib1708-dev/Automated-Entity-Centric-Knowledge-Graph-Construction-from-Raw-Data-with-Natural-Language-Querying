@@ -8,7 +8,11 @@ Gold file format (every section optional; a bare list is read as `triples`):
     {"triples":   [{"subject": "...", "predicate": "HAS_PROBLEM", "object": "...", "doc_id": "a.md",
                     "evidence": "the sentence the fact comes from"}],
      "er_pairs":  [{"a": "Table", "b": "Tables", "same": true}],
-     "questions": [{"question": "...", "cypher": "MATCH ... RETURN x", "expected": ["..."]}]}
+     "questions": [{"question": "...", "cypher": "MATCH ... RETURN x", "expected": ["..."]}],
+     "identity_pairs": [{"a": {"doc_id": "a.md", "names": ["J. Pike"]}, "b": {...}, "same": true,
+                         "evidence": [{"doc_id": "a.md", "quote": "..."}], "note": "..."}]}
+`identity_pairs` (R75) are mention pairs: a name in one document and a name in another (or the same)
+document, the same individual, record or kind or not, with the sentences a reader needs to decide it.
 Precision is only meaningful over text that was labelled exhaustively. When gold triples carry
 `doc_id`, precision is computed over facts from those documents only; label whole documents.
 The committed gold set is `tests/gold/text_gold.json`; a test keeps its quotes verbatim in the corpus.
@@ -41,6 +45,29 @@ class GoldPair(BaseModel):
     same: bool
 
 
+class MentionRef(BaseModel):
+    """A mention as the gold names it: a document and the names the text uses there for one thing (the
+    extractor may keep or drop a title, so a side may list each spelling it accepts)."""
+
+    doc_id: str
+    names: list[str]
+
+
+class Quote(BaseModel):
+    doc_id: str
+    quote: str  # verbatim from the document; a test checks it
+
+
+class IdentityPair(BaseModel):
+    """Two mentions that are, or are not, one canonical entity (R75, layered-model Step 5)."""
+
+    a: MentionRef
+    b: MentionRef
+    same: bool
+    evidence: list[Quote]  # the sentences that decide it, at least one per side
+    note: str = ""  # why, and the trap: a same name, a variant, a part and its whole
+
+
 class GoldQuestion(BaseModel):
     question: str
     cypher: str  # read-only query; the first column of its rows is the answer
@@ -51,6 +78,7 @@ class GoldSet(BaseModel):
     triples: list[GoldTriple] = []
     er_pairs: list[GoldPair] = []
     questions: list[GoldQuestion] = []
+    identity_pairs: list[IdentityPair] = []
 
 
 def load_gold(path: Path) -> GoldSet:

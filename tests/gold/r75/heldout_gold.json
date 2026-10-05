@@ -3,7 +3,8 @@
   "R75 (heldout), 2026-10-05, Claude Opus 5.5: r65/heldout_gold.json with triples and er_pairs unchanged.",
   "The only change: every question's ':Entity' became ':Mention' (layered-model Step 5: a claim's ends are mentions, one per type, name and document, and a mention REFERS_TO the record, individual or concept it names). A gold correction for the graph's new shape, made before any output on that shape; the expected answers are unchanged. A mention has no aliases, so a question reads each claim's own wording.",
   "(R65) R65 (held-out), 2026-09-25, Claude Opus 5.5: r58/heldout_gold.json with triples and er_pairs unchanged.",
-  "(R65) Questions 2-5 rewritten to walk thing -[:HAS_OBSERVATION]-> Observation -[:SUBJECT|OBJECT]-> kind (R64's graph) instead of chunk mentions and Document -ABOUT->; expected answers unchanged. Question 6 is new (shared-part leak), expected answer from the complaint texts. Listed as gold corrections in REFACTOR_PLAN R65."
+  "(R65) Questions 2-5 rewritten to walk thing -[:HAS_OBSERVATION]-> Observation -[:SUBJECT|OBJECT]-> kind (R64's graph) instead of chunk mentions and Document -ABOUT->; expected answers unchanged. Question 6 is new (shared-part leak), expected answer from the complaint texts. Listed as gold corrections in REFACTOR_PLAN R65.",
+  "R75 identity pairs, 2026-10-05, Claude Opus 5.5, written from the corpus text before any output on the mention graph (no build of this shape exists yet). A side is a document and the names it writes for one thing; every evidence quote is verbatim from its document (a test checks it). Left to er_accuracy (part names of two products): []."
  ],
  "triples": [
   {
@@ -981,6 +982,582 @@
    "expected": [
     "16V074000"
    ]
+  }
+ ],
+ "identity_pairs": [
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "piston clip ring"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "piston snap ring"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+    },
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+    }
+   ],
+   "note": "ER pair 0 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/ford_escape_complaints.md",
+    "names": [
+     "hesitation"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/ford_escape_complaints.md",
+    "names": [
+     "hesitating"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/ford_escape_complaints.md",
+     "quote": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR."
+    },
+    {
+     "doc_id": "complaints/ford_escape_complaints.md",
+     "quote": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION."
+    }
+   ],
+   "note": "ER pair 1 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "crack"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "cracked"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP."
+    },
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD, UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY."
+    }
+   ],
+   "note": "ER pair 2 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "draining battery"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "parasitic battery drain"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY."
+    },
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN."
+    }
+   ],
+   "note": "ER pair 3 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "brake suddenly"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "braked on its own"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS."
+    },
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "THE CAR BRAKED ON ITS OWN."
+    }
+   ],
+   "note": "ER pair 4 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "navigation system"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "nav system"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "NAVIGATION SYSTEM FAILURE!"
+    },
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM."
+    }
+   ],
+   "note": "ER pair 5 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "2019 Subaru Outback"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "2019 Outback"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "# 2019 Subaru Outback owner complaints to NHTSA"
+    },
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM."
+    }
+   ],
+   "note": "ER pair 6 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "adaptive cruise control"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "ACC"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS."
+    }
+   ],
+   "note": "ER pair 7 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "lane keeping assist system"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "LKAS"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS."
+    }
+   ],
+   "note": "ER pair 8 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "adaptive cruise control"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "lane keeping assist system"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS."
+    }
+   ],
+   "note": "ER pair 9 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "dead battery"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "parasitic battery drain"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE."
+    },
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN."
+    }
+   ],
+   "note": "ER pair 10 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/ford_escape_complaints.md",
+    "names": [
+     "brake"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/ford_escape_complaints.md",
+    "names": [
+     "left rear brake"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/ford_escape_complaints.md",
+     "quote": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL."
+    },
+    {
+     "doc_id": "complaints/ford_escape_complaints.md",
+     "quote": "SECOND TIME, WITH VIDEO EVIDENCE OF SQUEAL, TECH DIAGNOSED LEFT REAR BRAKE."
+    }
+   ],
+   "note": "ER pair 11 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "exterior rearview mirrors"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "driver's side rearview mirror"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/toyota_rav4_complaints.md",
+     "quote": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED."
+    },
+    {
+     "doc_id": "complaints/toyota_rav4_complaints.md",
+     "quote": "THE DRIVER'S SIDE REARVIEW MIRROR WAS ESPECIALLY AFFECTED."
+    }
+   ],
+   "note": "ER pair 12 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "did not stop"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "braked on its own"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "AS I TRIED TO SLOWDOWN THE VEHICLE INTO PARKING, THE CAR DID NOT STOP."
+    },
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "THE CAR BRAKED ON ITS OWN."
+    }
+   ],
+   "note": "ER pair 13 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "will not accelerate"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/ford_escape_complaints.md",
+    "names": [
+     "hesitation"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/toyota_rav4_complaints.md",
+     "quote": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL."
+    },
+    {
+     "doc_id": "complaints/ford_escape_complaints.md",
+     "quote": "ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR."
+    }
+   ],
+   "note": "ER pair 14 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "stalling"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "engine failure"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING."
+    }
+   ],
+   "note": "ER pair 15 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "speedometer"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "gas gauge"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING."
+    },
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY"
+    }
+   ],
+   "note": "ER pair 16 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "front camera system"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "back up camera"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES."
+    },
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC."
+    }
+   ],
+   "note": "ER pair 17 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "trunk"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "glove compartment"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT."
+    }
+   ],
+   "note": "ER pair 18 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "shook"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "rattled"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/toyota_rav4_complaints.md",
+     "quote": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED."
+    }
+   ],
+   "note": "ER pair 19 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/subaru_outback_complaints.md",
+    "names": [
+     "2019 Subaru Outback"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "2019 Toyota RAV4"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/subaru_outback_complaints.md",
+     "quote": "# 2019 Subaru Outback owner complaints to NHTSA"
+    },
+    {
+     "doc_id": "complaints/toyota_rav4_complaints.md",
+     "quote": "# 2019 Toyota Rav4 owner complaints to NHTSA"
+    }
+   ],
+   "note": "ER pair 20 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "complaints/toyota_rav4_complaints.md",
+    "names": [
+     "TRANSMISSION BOX"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "TRANSMISSION"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "complaints/toyota_rav4_complaints.md",
+     "quote": "WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX."
+    },
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS."
+    }
+   ],
+   "note": "Recorded wrong merge (R63): the gear shifter came out of the RAV4's transmission box; the Rogue's transmission switched to reverse. Two things, the box a piece around the shifter."
+  },
+  {
+   "a": {
+    "doc_id": "complaints/honda_civic_complaints.md",
+    "names": [
+     "BRAKE SUDDENLY"
+    ]
+   },
+   "b": {
+    "doc_id": "complaints/nissan_rogue_complaints.md",
+    "names": [
+     "ACTIVATED THE BRAKES"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "complaints/honda_civic_complaints.md",
+     "quote": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS."
+    },
+    {
+     "doc_id": "complaints/nissan_rogue_complaints.md",
+     "quote": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES."
+    }
+   ],
+   "note": "Recorded merge of R63, labelled the same kind: ER pair 4 (R51) already has 'brake suddenly' = 'braked on its own', which is the event of 'activated the brakes' in the Rogue's sentence. R63's false paths came from the shared kind reaching other vehicles, which R64's observations removed; as a kind of problem the two are one (uncommanded braking)."
   }
  ]
 }

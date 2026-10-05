@@ -3,7 +3,8 @@
   "R75 (furniture), 2026-10-05, Claude Opus 5.5: r65/furniture_gold.json with triples and er_pairs unchanged.",
   "The only change: every question's ':Entity' became ':Mention' (layered-model Step 5: a claim's ends are mentions, one per type, name and document, and a mention REFERS_TO the record, individual or concept it names). A gold correction for the graph's new shape, made before any output on that shape; the expected answers are unchanged. A mention has no aliases, so a question reads each claim's own wording.",
   "(R65) R65 (furniture), 2026-09-25, Claude Opus 5.5: r58/furniture_gold.json with triples and er_pairs unchanged.",
-  "(R65) Questions 2-5 rewritten to walk thing -[:HAS_OBSERVATION]-> Observation -[:SUBJECT|OBJECT]-> kind (R64's graph), with no Document -ABOUT-> jump; expected answers unchanged. Question 6 is new (shared-part leak), expected answer from the review texts. Listed as gold corrections in REFACTOR_PLAN R65."
+  "(R65) Questions 2-5 rewritten to walk thing -[:HAS_OBSERVATION]-> Observation -[:SUBJECT|OBJECT]-> kind (R64's graph), with no Document -ABOUT-> jump; expected answers unchanged. Question 6 is new (shared-part leak), expected answer from the review texts. Listed as gold corrections in REFACTOR_PLAN R65.",
+  "R75 identity pairs, 2026-10-05, Claude Opus 5.5, written from the corpus text before any output on the mention graph (no build of this shape exists yet). A side is a document and the names it writes for one thing; every evidence quote is verbatim from its document (a test checks it). Left to er_accuracy (part names of two products): ['er_pairs[12] drawer handle / drawer handles', 'er_pairs[13] leg / legs', 'er_pairs[25] drawer handles / drawer pulls']."
  ],
  "triples": [
   {
@@ -1560,6 +1561,1706 @@
    "expected": [
     "Helsingborg Dresser"
    ]
+  }
+ ],
+ "identity_pairs": [
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer rails"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "metal rails"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+    }
+   ],
+   "note": "ER pair 0 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "Västerås Bookshelf"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "Västerås Bookshelves"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "# Västerås Bookshelf Reviews"
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "I purchased two Västerås Bookshelves for my home office and I'm quite pleased with them."
+    }
+   ],
+   "note": "ER pair 1 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawers"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+    }
+   ],
+   "note": "ER pair 2 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "dimmer switch"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "dimmer function"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The dimmer switch is finicky and sometimes flickers at lower settings."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The materials feel high-quality and the dimmer function is smooth and responsive."
+    }
+   ],
+   "note": "ER pair 3 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "Jönköping Coffee Table"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "Jonkoping Coffee Table"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "# Jönköping Coffee Table Reviews"
+    }
+   ],
+   "note": "ER pair 4 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer rails"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "drawer handle"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+    }
+   ],
+   "note": "ER pair 5 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer bottoms"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "back panel"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+    }
+   ],
+   "note": "ER pair 6 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "Gothenburg Table"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "Jönköping Coffee Table"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "# Gothenburg Table Reviews"
+    },
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "# Jönköping Coffee Table Reviews"
+    }
+   ],
+   "note": "ER pair 7 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/stockholm_chair_reviews.md",
+    "names": [
+     "Stockholm Chair"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "Uppsala Sofa"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/stockholm_chair_reviews.md",
+     "quote": "# Stockholm Chair Reviews"
+    },
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "# Uppsala Sofa Reviews"
+    }
+   ],
+   "note": "ER pair 8 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "shade"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "switch"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The shade diffuses light beautifully without any harsh spots."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "only giving 3 stars because the switch feels kinda cheap and i'm worried it might break eventually."
+    }
+   ],
+   "note": "ER pair 9 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "wobbles"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "squeaking"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "The table also wobbles slightly on my hardwood floor despite multiple attempts to adjust it."
+    },
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The bed is rock solid - absolutely no squeaking or movement."
+    }
+   ],
+   "note": "ER pair 10 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "Norrköping Nightstand"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "Norrköping Nightstands"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "# Norrköping Nightstand Reviews"
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "We've had our Norrköping Nightstands for over a year now and they've held up beautifully!"
+    }
+   ],
+   "note": "ER pair 11 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "veneer"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "finish"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+    },
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "The construction feels solid and the finish is consistent."
+    }
+   ],
+   "note": "ER pair 14 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "back panel"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "panels"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly."
+    }
+   ],
+   "note": "ER pair 15 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "slats"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "frame"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The slats provide excellent mattress support."
+    },
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces."
+    }
+   ],
+   "note": "ER pair 16 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "cushions"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "frame"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+    },
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+    }
+   ],
+   "note": "ER pair 17 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "shade"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "base"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The shade diffuses light beautifully without any harsh spots."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "also the base is lighter than i expected so it tips over easily if you bump it."
+    }
+   ],
+   "note": "ER pair 18 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "dimmer switch"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "cord"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The dimmer switch is finicky and sometimes flickers at lower settings."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied."
+    }
+   ],
+   "note": "ER pair 19 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "edges"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "corner"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+    },
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces."
+    }
+   ],
+   "note": "ER pair 20 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "scratches"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "dent"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "The surface is easy to clean and surprisingly resistant to scratches."
+    },
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "The table arrived with a small dent on one edge, and while customer service was helpful in sending a replacement part, it was a hassle to deal with."
+    }
+   ],
+   "note": "ER pair 21 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "wobbles"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "tips over easily"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "Assembly was easy enough but the lamp wobbles slightly on its base."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "also the base is lighter than i expected so it tips over easily if you bump it."
+    }
+   ],
+   "note": "ER pair 22 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "sticks"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "doesn't close properly"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "only giving 3 stars because the drawer sometimes sticks when i open it too fast and the wood feels kinda lightweight."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "The drawer doesn't close properly - it always leaves a small gap."
+    }
+   ],
+   "note": "ER pair 23 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer rails"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawers"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+    }
+   ],
+   "note": "ER pair 24 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "drawer slides"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "drawer slide mechanism"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "The construction feels solid and the drawer slides smoothly."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "The drawer slide mechanism utilizes a self-closing feature with dampened action - a premium detail unexpected in this category."
+    }
+   ],
+   "note": "ER pair 26 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "shelves"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "shelf"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+    }
+   ],
+   "note": "ER pair 27 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "cushions"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "cushion"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+    },
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The cushion density (28kg/m³) provides the perfect balance between support and comfort."
+    }
+   ],
+   "note": "ER pair 28 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "removable covers"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "cover"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it."
+    }
+   ],
+   "note": "ER pair 29 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "pre-drilled holes"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "holes"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+    }
+   ],
+   "note": "ER pair 30 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "base"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "weighted base"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "also the base is lighter than i expected so it tips over easily if you bump it."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+    }
+   ],
+   "note": "ER pair 31 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "scratches pretty easily"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "scratches very easily"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "The nightstand also scratches very easily - I already have several marks just from normal use."
+    }
+   ],
+   "note": "ER pair 32 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "didn't line up properly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/malmo_desk_reviews.md",
+    "names": [
+     "didn't align properly"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+    },
+    {
+     "doc_id": "product_reviews/malmo_desk_reviews.md",
+     "quote": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+    }
+   ],
+   "note": "ER pair 33 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "weren't aligned properly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "weren't aligned correctly"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+    }
+   ],
+   "note": "ER pair 34 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "didn't line up correctly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "weren't perfectly aligned"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+    }
+   ],
+   "note": "ER pair 35 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "didn't fit together properly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "not fitting together properly"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+    },
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "Assembly was also much more complicated than advertised, with some parts not fitting together properly."
+    }
+   ],
+   "note": "ER pair 36 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "sharp"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "sharper than I'd prefer"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+    },
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price."
+    }
+   ],
+   "note": "ER pair 37 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "extremely thin"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "quite thin"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The veneer is extremely thin and chipped in several places during assembly."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+    }
+   ],
+   "note": "ER pair 38 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "a bit thin"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "quite thin"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "Taking off one star because the back panel is a bit thin, but overall these are quality pieces at a reasonable price."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+    }
+   ],
+   "note": "ER pair 39 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "chipping at the corners"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "chipped in several places"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The veneer is extremely thin and chipped in several places during assembly."
+    }
+   ],
+   "note": "ER pair 40 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "small dent"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "small dent on one edge"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "The table arrived with a small dent on one edge, and while customer service was helpful in sending a replacement part, it was a hassle to deal with."
+    }
+   ],
+   "note": "ER pair 41 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "wobbles slightly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "wobbles slightly on its base"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "Assembly was easy enough but the lamp wobbles slightly on its base."
+    }
+   ],
+   "note": "ER pair 42 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "stick"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "sticks"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "They constantly stick and make an annoying scraping sound."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "only giving 3 stars because the drawer sometimes sticks when i open it too fast and the wood feels kinda lightweight."
+    }
+   ],
+   "note": "ER pair 43 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "doesn't close properly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "don't close properly"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "The drawer doesn't close properly - it always leaves a small gap."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+    }
+   ],
+   "note": "ER pair 44 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "no longer opens smoothly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/malmo_desk_reviews.md",
+    "names": [
+     "doesn't open as smoothly"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly."
+    },
+    {
+     "doc_id": "product_reviews/malmo_desk_reviews.md",
+     "quote": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like."
+    }
+   ],
+   "note": "ER pair 45 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "annoying scraping sound"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "horrible metal-on-metal sound"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "They constantly stick and make an annoying scraping sound."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "drawers still stick and make this horrible metal-on-metal sound."
+    }
+   ],
+   "note": "ER pair 46 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "flickers"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "flickering"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The dimmer switch is finicky and sometimes flickers at lower settings."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings - a detail often overlooked in consumer lighting."
+    }
+   ],
+   "note": "ER pair 47 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "Helsingborg Dresser"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "Norrköping Nightstand"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "# Helsingborg Dresser Reviews"
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "# Norrköping Nightstand Reviews"
+    }
+   ],
+   "note": "ER pair 48 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/malmo_desk_reviews.md",
+    "names": [
+     "Malmö Desk"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "Gothenburg Table"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/malmo_desk_reviews.md",
+     "quote": "# Malmö Desk Reviews"
+    },
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "# Gothenburg Table Reviews"
+    }
+   ],
+   "note": "ER pair 49 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "Örebro Lamp"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "Linköping Bed"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "# Örebro Lamp Reviews"
+    },
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "# Linköping Bed Reviews"
+    }
+   ],
+   "note": "ER pair 50 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "Västerås Bookshelf"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "Helsingborg Dresser"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "# Västerås Bookshelf Reviews"
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "# Helsingborg Dresser Reviews"
+    }
+   ],
+   "note": "ER pair 51 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "legs"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "frame"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement."
+    },
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+    }
+   ],
+   "note": "ER pair 52 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "shelves"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "back panel"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+    }
+   ],
+   "note": "ER pair 53 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "screws"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "pre-drilled holes"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "instructions made no sense and half the screws didn't fit where they were supposed to."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+    }
+   ],
+   "note": "ER pair 54 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "pre-drilled holes for the drawer handle"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer handles"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "One of the drawer handles was scratched right out of the box."
+    }
+   ],
+   "note": "ER pair 55 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "headboard"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "slats"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The headboard is the perfect height for sitting up and reading."
+    },
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The slats provide excellent mattress support."
+    }
+   ],
+   "note": "ER pair 56 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "adjustable arm"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "base"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The adjustable arm is sturdy and stays in position."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "also the base is lighter than i expected so it tips over easily if you bump it."
+    }
+   ],
+   "note": "ER pair 57 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "removable covers"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "cushions"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it."
+    },
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+    }
+   ],
+   "note": "ER pair 58 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "warped"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "crack"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+    }
+   ],
+   "note": "ER pair 59 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "extremely thin"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+    "names": [
+     "chipping at the corners"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+     "quote": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+    }
+   ],
+   "note": "ER pair 60 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "rough edges"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "uneven surfaces"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+    }
+   ],
+   "note": "ER pair 61 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "unevenly colored"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "uneven surfaces"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The materials feel cheap, particularly the shade which is unevenly colored."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+    }
+   ],
+   "note": "ER pair 62 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "sharp"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "rough edges"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+    }
+   ],
+   "note": "ER pair 63 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "didn't line up properly"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+    "names": [
+     "didn't fit together properly"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+    },
+    {
+     "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+     "quote": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+    }
+   ],
+   "note": "ER pair 64 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "scratched right out of the box"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+    "names": [
+     "scratches very easily"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "One of the drawer handles was scratched right out of the box."
+    },
+    {
+     "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+     "quote": "The nightstand also scratches very easily - I already have several marks just from normal use."
+    }
+   ],
+   "note": "ER pair 65 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "flickers"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/orebro_lamp_reviews.md",
+    "names": [
+     "stiff to turn"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The dimmer switch is finicky and sometimes flickers at lower settings."
+    },
+    {
+     "doc_id": "product_reviews/orebro_lamp_reviews.md",
+     "quote": "The dimmer function works well though it's a bit stiff to turn."
+    }
+   ],
+   "note": "ER pair 66 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "creaks"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/gothenburg_table_reviews.md",
+    "names": [
+     "wobbles"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+    },
+    {
+     "doc_id": "product_reviews/gothenburg_table_reviews.md",
+     "quote": "The table also wobbles slightly on my hardwood floor despite multiple attempts to adjust it."
+    }
+   ],
+   "note": "ER pair 67 (R35/R40), two documents: one kind wherever it is written"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "losing their shape"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+    "names": [
+     "creaks"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+     "quote": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+    }
+   ],
+   "note": "ER pair 68 (R35/R40), one document"
+  },
+  {
+   "a": {
+    "doc_id": "product_reviews/linkoping_bed_reviews.md",
+    "names": [
+     "drawer slides"
+    ]
+   },
+   "b": {
+    "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+    "names": [
+     "drawer rails"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "product_reviews/linkoping_bed_reviews.md",
+     "quote": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+    },
+    {
+     "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+     "quote": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+    }
+   ],
+   "note": "Recorded wrong merge (R64 audit): the bed's praised drawer slides and the dresser's defective drawer rails are parts of two products; merged, the bed carried the dresser's defects."
   }
  ]
 }

@@ -1,0 +1,644 @@
+{
+ "_comment": [
+  "R75 identity pairs, 2026-10-05, Claude Opus 5.5, written from the corpus text before any output on the mention graph (no build of this shape exists yet). A side is a document and the names it writes for one thing; every evidence quote is verbatim from its document (a test checks it).",
+  "Generality corpus version 2 (R73 a3); no triples gold exists for it."
+ ],
+ "identity_pairs": [
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/newsletter_spring_2025.md",
+    "names": [
+     "Dr. Jonathan Pike",
+     "Jonathan Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "institute/newsletter_spring_2025.md",
+     "quote": "Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\"."
+    }
+   ],
+   "note": "One person: the Soil Ecology group leader, with and without his title."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/utrecht_conference_2025.md",
+    "names": [
+     "Dr. Jonathan Pike",
+     "Jonathan Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "institute/utrecht_conference_2025.md",
+     "quote": "Dr. Jonathan Pike chaired the session on peat as a carbon archive."
+    }
+   ],
+   "note": "The same group leader."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "news/flood_meeting.md",
+    "names": [
+     "Dr Jonathan Pike",
+     "Jonathan Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "news/flood_meeting.md",
+     "quote": "Dr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river."
+    }
+   ],
+   "note": "The institute's peat scientist at the public meeting: the same person (QA gold G05)."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/seminar_notice.md",
+    "names": [
+     "Dr. J. Pike",
+     "J. Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "institute/seminar_notice.md",
+     "quote": "Dr. J. Pike (Soil Ecology) speaks on \"Peat as a carbon archive\" on 3 June 2025 at 14:00 in room B12."
+    }
+   ],
+   "note": "An initial with the team that tells him apart: Soil Ecology (QA gold G05)."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/minutes_2025-05-12.md",
+    "names": [
+     "Jon Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "institute/minutes_2025-05-12.md",
+     "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+    }
+   ],
+   "note": "A short form; the chair of 12 May is the project lead of the Aldmoor peat project (QA gold G04)."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/minutes_2025-06-09.md",
+    "names": [
+     "J. Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "institute/minutes_2025-06-09.md",
+     "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+    }
+   ],
+   "note": "The one who explains the Aldmoor overrun the 12 May minutes asked its project lead for (G30)."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/fieldwork_log.txt",
+    "names": [
+     "J. Pike"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    },
+    {
+     "doc_id": "institute/fieldwork_log.txt",
+     "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike."
+    }
+   ],
+   "note": "Frees the corer on the Aldmoor campaign of his group (QA gold G05 counts the log)."
+  },
+  {
+   "a": {
+    "doc_id": "news/letter_harbour_street.md",
+    "names": [
+     "Judith Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Jonathan Pike"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "news/letter_harbour_street.md",
+     "quote": "Judith Pike, Mill Lane"
+    },
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    }
+   ],
+   "note": "Another Pike: a resident's letter about Harbour Street."
+  },
+  {
+   "a": {
+    "doc_id": "news/letter_harbour_street.md",
+    "names": [
+     "Judith Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/fieldwork_log.txt",
+    "names": [
+     "J. Pike"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "news/letter_harbour_street.md",
+     "quote": "Judith Pike, Mill Lane"
+    },
+    {
+     "doc_id": "institute/fieldwork_log.txt",
+     "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike."
+    }
+   ],
+   "note": "J. fits Judith as well as Jonathan; the log's J. Pike works on the bog, Judith writes from Mill Lane."
+  },
+  {
+   "a": {
+    "doc_id": "news/letter_harbour_street.md",
+    "names": [
+     "Judith Pike"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/minutes_2025-06-09.md",
+    "names": [
+     "J. Pike"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "news/letter_harbour_street.md",
+     "quote": "Judith Pike, Mill Lane"
+    },
+    {
+     "doc_id": "institute/minutes_2025-06-09.md",
+     "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+    }
+   ],
+   "note": "The committee's J. Pike is not the letter writer."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/newsletter_spring_2025.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+    },
+    {
+     "doc_id": "institute/newsletter_spring_2025.md",
+     "quote": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+    }
+   ],
+   "note": "The Soil Ecology researcher of the award, twice."
+  },
+  {
+   "a": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/utrecht_conference_2025.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+    },
+    {
+     "doc_id": "institute/utrecht_conference_2025.md",
+     "quote": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session."
+    }
+   ],
+   "note": "The poster on the 240 Aldmoor cores: the researcher of the award (QA gold G22)."
+  },
+  {
+   "a": {
+    "doc_id": "institute/newsletter_spring_2025.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/fieldwork_log.txt",
+    "names": [
+     "M. Lopez"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/newsletter_spring_2025.md",
+     "quote": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+    },
+    {
+     "doc_id": "institute/fieldwork_log.txt",
+     "quote": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."
+    }
+   ],
+   "note": "The log's keeper ran the Aldmoor campaign the newsletter credits to the Soil Ecology Maria Lopez (QA gold G03). The task file expected no evidence here; the campaign is the evidence, so a system that keeps them apart misses a join, it does not err."
+  },
+  {
+   "a": {
+    "doc_id": "institute/minutes_2025-05-12.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/minutes_2025-06-09.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "institute/minutes_2025-05-12.md",
+     "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+    },
+    {
+     "doc_id": "institute/minutes_2025-06-09.md",
+     "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+    }
+   ],
+   "note": "The Finance Office's Maria Lopez in both sets of minutes."
+  },
+  {
+   "a": {
+    "doc_id": "institute/minutes_2025-05-12.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "institute/minutes_2025-05-12.md",
+     "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+    },
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+    }
+   ],
+   "note": "Two staff of one name: Finance Office and Soil Ecology (G01, G02)."
+  },
+  {
+   "a": {
+    "doc_id": "institute/minutes_2025-06-09.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/utrecht_conference_2025.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "institute/minutes_2025-06-09.md",
+     "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+    },
+    {
+     "doc_id": "institute/utrecht_conference_2025.md",
+     "quote": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session."
+    }
+   ],
+   "note": "The accountant is not the poster's researcher."
+  },
+  {
+   "a": {
+    "doc_id": "news/bakery_opens.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/hensley_award.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "news/bakery_opens.md",
+     "quote": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office."
+    },
+    {
+     "doc_id": "institute/hensley_award.md",
+     "quote": "- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+    }
+   ],
+   "note": "A third Maria Lopez: the baker of Harbour Street (G22)."
+  },
+  {
+   "a": {
+    "doc_id": "news/bakery_opens.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/minutes_2025-05-12.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "news/bakery_opens.md",
+     "quote": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office."
+    },
+    {
+     "doc_id": "institute/minutes_2025-05-12.md",
+     "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+    }
+   ],
+   "note": "The baker is not the grants accountant."
+  },
+  {
+   "a": {
+    "doc_id": "institute/fieldwork_log.txt",
+    "names": [
+     "M. Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "institute/minutes_2025-05-12.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "institute/fieldwork_log.txt",
+     "quote": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."
+    },
+    {
+     "doc_id": "institute/minutes_2025-05-12.md",
+     "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+    }
+   ],
+   "note": "The log's keeper is the Soil Ecology researcher, not the accountant."
+  },
+  {
+   "a": {
+    "doc_id": "institute/fieldwork_log.txt",
+    "names": [
+     "M. Lopez"
+    ]
+   },
+   "b": {
+    "doc_id": "news/bakery_opens.md",
+    "names": [
+     "Maria Lopez"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "institute/fieldwork_log.txt",
+     "quote": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."
+    },
+    {
+     "doc_id": "news/bakery_opens.md",
+     "quote": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office."
+    }
+   ],
+   "note": "Nor the baker."
+  },
+  {
+   "a": {
+    "doc_id": "water/incident_2025-03-29.md",
+    "names": [
+     "HP40-1183",
+     "pump HP40-1183"
+    ]
+   },
+   "b": {
+    "doc_id": "water/inspection_2025-06-13.md",
+    "names": [
+     "HP40-1183",
+     "pump HP40-1183"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "water/incident_2025-03-29.md",
+     "quote": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+    },
+    {
+     "doc_id": "water/inspection_2025-06-13.md",
+     "quote": "Pump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C."
+    }
+   ],
+   "note": "One pump by its serial number."
+  },
+  {
+   "a": {
+    "doc_id": "water/work_orders_2025-06.md",
+    "names": [
+     "HP40-2291",
+     "pump HP40-2291"
+    ]
+   },
+   "b": {
+    "doc_id": "water/inspection_2025-06-13.md",
+    "names": [
+     "HP40-2291",
+     "pump HP40-2291"
+    ]
+   },
+   "same": true,
+   "evidence": [
+    {
+     "doc_id": "water/work_orders_2025-06.md",
+     "quote": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection."
+    },
+    {
+     "doc_id": "water/inspection_2025-06-13.md",
+     "quote": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+    }
+   ],
+   "note": "One pump by its serial number."
+  },
+  {
+   "a": {
+    "doc_id": "water/inspection_2025-03-14.md",
+    "names": [
+     "HP40-1183",
+     "pump HP40-1183"
+    ]
+   },
+   "b": {
+    "doc_id": "water/inspection_2025-03-14.md",
+    "names": [
+     "HP40-2291",
+     "pump HP40-2291"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "water/inspection_2025-03-14.md",
+     "quote": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."
+    },
+    {
+     "doc_id": "water/inspection_2025-03-14.md",
+     "quote": "Pump HP40-2291 ran quietly."
+    }
+   ],
+   "note": "Two Hydra P-40 pumps of one station: one model, two serials (G06)."
+  },
+  {
+   "a": {
+    "doc_id": "water/incident_2025-03-29.md",
+    "names": [
+     "HP40-1183",
+     "pump HP40-1183"
+    ]
+   },
+   "b": {
+    "doc_id": "water/work_orders_2025-06.md",
+    "names": [
+     "HP40-2291",
+     "pump HP40-2291"
+    ]
+   },
+   "same": false,
+   "evidence": [
+    {
+     "doc_id": "water/incident_2025-03-29.md",
+     "quote": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+    },
+    {
+     "doc_id": "water/work_orders_2025-06.md",
+     "quote": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection."
+    }
+   ],
+   "note": "The pump whose seal failed in March is not the one of June's seal change."
+  }
+ ]
+}

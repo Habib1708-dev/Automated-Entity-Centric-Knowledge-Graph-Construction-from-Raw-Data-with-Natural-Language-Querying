@@ -7,7 +7,7 @@ variants in MLflow. Two accuracy sources are always logged side by side: exact m
 `triple_*`) and the judge (by meaning, `*_validated`; see judge.py and the `evaluation` skill); the same
 for entity resolution (`er_accuracy` and `er_accuracy_valid`, see er.py). With the text schema, it also
 scores whether the claims reachable from a thing hold for it (`path_truth`, see paths.py); that needs no
-gold.
+gold. With identity pairs (R75), it scores what the mentions refer to (`identity_*`, see identity.py).
 Design: pure scoring functions over `StoredFact` lists, so they are unit-tested without Neo4j; only
 `run_questions` and `evaluate` touch the database. Gold models and matching live in gold.py.
 """
@@ -21,6 +21,7 @@ from ..text.schema import TextSchema
 from .checks.base import CheckContext, StoredFact
 from .er import ErScore, SheetEntity, build_er_sheet, score_er, score_er_verdicts
 from .gold import GoldQuestion, GoldSet, GoldTriple, in_scope, matches
+from .identity import IdentityScore, SheetMention, score_identity
 from .judge import JudgeReport, JudgeSheet, Verdicts, build_sheet, score_verdicts
 from .paths import PathReport, score_paths
 
@@ -58,6 +59,7 @@ class EvalReport(BaseModel):
     questions: list[QuestionResult] = []
     judge: JudgeReport | None = None
     paths: PathReport | None = None  # needs the text schema, to know which facts are derived
+    identity: IdentityScore | None = None  # needs identity pairs in the gold (R75)
     # what the judge still has to decide; written as its own artifact, so it is left out of the report file
     judge_sheet: JudgeSheet | None = None
 
@@ -85,6 +87,8 @@ class EvalReport(BaseModel):
         if self.paths is not None:
             paths = self.paths
             out.update(path_truth=paths.truth, paths_true=paths.paths_true, paths_total=paths.paths_total)
+        if self.identity is not None:
+            out.update(self.identity.metrics())
         return out
 
 
@@ -138,6 +142,15 @@ def read_entities(driver: Driver) -> list[SheetEntity]:
     return [SheetEntity.model_validate(dict(r)) for r in records]
 
 
+def read_mentions(driver: Driver) -> list[SheetMention]:
+    """Every mention with the canonical entity it refers to (itself without an edge), ordered by id."""
+    records, _, _ = driver.execute_query(
+        "MATCH (m:Mention) RETURN m.id AS id, coalesce(m.doc_id, '') AS doc_id, m.name AS name, "
+        f"m.type AS type, {canonical_id('m')} AS canonical ORDER BY id"
+    )
+    return [SheetMention.model_validate(dict(r)) for r in records]
+
+
 def evaluate(
     driver: Driver, gold: GoldSet, verdicts: Verdicts | None = None, schema: TextSchema | None = None
 ) -> EvalReport:
@@ -163,6 +176,8 @@ def evaluate(
             report.er_valid = score_er_verdicts(er_sheet, verdicts.er)
     if gold.questions:
         report.questions = run_questions(driver, gold.questions)
+    if gold.identity_pairs:
+        report.identity = score_identity(read_mentions(driver), gold.identity_pairs)
     if schema is not None:
         report.paths = score_paths(facts, schema)
     return report

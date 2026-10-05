@@ -344,3 +344,32 @@ def test_a_part_and_its_whole_are_never_joined(driver):
         update={"fact_types": [f.model_copy(update={"part_of": False}) for f in GEAR_SCHEMA.fact_types]}
     )
     assert resolve_identity(driver, unflagged, None, always_same, "m", loose).merges == 1
+
+
+@pytest.mark.neo4j
+def test_kg_eval_scores_identity_pairs_on_the_live_graph(driver, tmp_path):
+    build_pike(driver)
+    resolve_identity(driver, PIKE_SCHEMA, PIKE_PLAN, ScriptedLLM(pike_judge), "judge", SETTINGS)
+    gold = tmp_path / "identity_gold.json"
+    side = {doc: {"doc_id": doc, "names": [name]} for doc, name in PIKE_NAMES.items()}
+    quote = {doc: {"doc_id": doc, "quote": text} for doc, text in PIKE_DOCS.items()}
+
+    def gold_pair(a: str, b: str, same: bool) -> dict:
+        return {"a": side[a], "b": side[b], "same": same, "evidence": [quote[a], quote[b]]}
+
+    pairs = [
+        gold_pair("news.md", "minutes.md", True),  # joined by the verified adjudication
+        gold_pair("news.md", "field.md", True),  # its adjudication was refused: a missed join
+        gold_pair("letter.md", "field.md", False),  # kept apart
+    ]
+    gold.write_text(json.dumps({"identity_pairs": pairs}), encoding="utf-8")
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=driver, out=tmp_path / "out", tracker=tracker)
+    run_stages(ctx, PipelineState(gold=gold), [st.EvalStage()])
+    metrics = tracker.run("eval").logged_metrics
+    assert (metrics["identity_precision"], metrics["identity_recall"], metrics["identity_apart_rate"]) == (
+        1.0,
+        0.5,
+        1.0,
+    )
+    assert metrics["identity_pairs_scored"] == 3 and metrics["identity_not_extracted"] == 0
