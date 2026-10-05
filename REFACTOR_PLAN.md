@@ -3093,7 +3093,7 @@ one node whether or not she is one person, and "J. Pike" never reaches "Jonathan
   `heldout_gold.json` now state the evidence and the scope (a note-only correction, made after the run and
   listed here).
 
-### R76. Attachment: which entity each claim is about (layered-model Step 6; part a done 2026-10-05)
+### R76. Attachment: which entity each claim is about (layered-model Step 6; done 2026-10-05, no kg qa)
 A claim's grammatical subject ("mechanical seal") and the thing it is about (pump HP40-1183) are two things
 (task file, Step 6). Until R76 the second came only from the document's ABOUT link, which needed a file
 name to name a thing: the generality corpus's documents hung on nothing (R75 link run `28359903`: 0 of 32
@@ -3146,6 +3146,56 @@ documents linked, 0 observations attached).
     gone, `path_truth_about` only for an attached graph, rescore carrying the attachments); the linking,
     derivation and pipeline tests moved to the new order (`attach` is a tracked stage of `kg run`). Gate:
     500 passed (489 before), `ruff check` clean.
+- **Part b: runs (2026-10-05; the user chose the cached rebuild with `kg attach` and `kg eval`, no `kg qa`;
+  spent $0.0137).** The three R75 graphs rebuilt on the R75 recipe (frozen plans and
+  `tests/gold/r75/<dataset>_text_schema.json`, `EXTRACT_PASSES=2`, extraction with an invalid key so a cache
+  miss would fail), then `kg attach` and `kg eval` with the R75 gold. Three rounds, all reported:
+  1. on `e799864`, without `EXTRACT_PASSES=2` (my recipe error): one-pass graphs, not Step 5's (furniture 458
+     facts against 508); not used. Its resolve runs adjudicated the new one-pass names: **$0.0137** (2376
+     calls, 2328 cache hits; tokens 10117 in / 771 out / 851 thinking).
+  2. on `e799864` with two passes: furniture identical to R75; held-out stopped at a 429 on the (uncached)
+     embedding call of resolve, a per-minute limit after three quick builds, not the change. Its generality
+     run showed the multi-line quote bug (Found along the way), fixed in `e3abb02` with a failing test first.
+  3. on `e3abb02`, all three, a minute apart: **$0** (1155 calls, all cache hits). The numbers below.
+
+  | | furniture `out/r76_furniture` | held-out `out/r76_heldout` | generality `out/r76_generality` |
+  |---|---|---|---|
+  | claims attached (Step 5: by `kg link`) | 668 of 668 (668) | 663 of 663 (663) | **177 of 195 (0)** |
+  | edges: key_in_sentence / part_of / section / document | 617 / 378 / 0 / 268 | 1729 / 145 / 575 / 183 | 393 / 2 / 0 / 7 |
+  | documents ABOUT a thing: by `kg link` / by text / none | 10 / 0 / 0 | 34 / 0 / 0 | **0 / 4 / 28** |
+  | `path_truth` (new rule) | 1.000 | 1.000 | 1.000 |
+  | `path_truth_about` (the R64 rule; Step 5 in brackets) | 0.606 (1.000) | 0.224 (0.818) | 0.062 (no paths) |
+  | identity precision / recall / apart, `er_accuracy`, `question_accuracy` | as R75: 1.0 / 0.867 / 1.0, 0.906, 0.167 | as R75: 1.0 / 0.667 / 1.0, 0.929, 1.000 | as R75: 1.0 / 0.818 / 1.0 |
+  | MLflow attach / eval | `c574c4b0` / `0a0c54dc` | `2a4bc30e` / `1f019acb` | `0e2c9e6e` / `1244229e` |
+
+  - The generality corpus, real examples: the incident report is ABOUT HP40-1183 by its text ("named in 2
+    of 6 sentences; the next record in 1"), as are the June shift notes and work orders about HP40-2291 and
+    the travel memo about Maria Lopez (a memo naming two people of that name, one mention since R75: the
+    link is to the record that mention refers to). `key_in_sentence`: "Maria Lopez PARTICIPATED_IN peat
+    conference" on Maria Lopez's record and on the Soil Ecology organisation, both named in "The trip of
+    Maria Lopez (Soil Ecology) to the peat conference in Utrecht ...". `part_of`: "intake screen
+    LOCATED_AT Harbour Station" on pump KV12-0457, by the same document's claim that the screen is part of
+    it. `document`: "flooding of the North Station dry well LOCATED_AT North Station dry well" on
+    HP40-1183. The 18 unattached claims name nothing in their sentence: core measurements ("Core AB-17, 3
+    December: depth 4.2 m", the bog named only in the log's heading), and "Delgado tagged it for a seal
+    replacement" (a surname alone and "it": no mention's name).
+  - G07 ("Which pumps installed before 2015 had a seal failure?"): reachable, not answered (no `kg qa`). The
+    extractor wrote no failure claim; it wrote "mechanical seal COMPONENT_OF HP40-1183" from "On 29 March
+    2025 the mechanical seal of pump HP40-1183 failed during the night shift.", which now hangs on the pump
+    (`key_in_sentence`), and the incident document is ABOUT the pump, so `find_claims` and the traversal
+    from HP40-1183 reach that chunk; the reader has to read "failed" there (or `read_check`, Step 4).
+  - Real datasets: every claim was attached before and is now; what changed is how. Furniture claims hang on
+    the product through their part (`part_of` 378) and on the part's own record (Assembly 178, Component 22
+    by name); held-out claims on their section's complaint or recall (575) and on the vehicles their
+    sentence names. The old rule's drop (furniture 1.000 to 0.606, held-out 0.818 to 0.224) counts exactly
+    these: every path it misses is on another route than `document` (`path_truth` 1.0).
+  - Acceptance, one by one: unit tests per route, the precedence, two things, a neutral file name: met
+    (part a, and the fix's two tests). Generality attached, count per route against 0 before: met (above).
+    G07: reachable, reason stated. "No type worse than Step 5": not measured, no `kg qa` (the user's
+    choice, as in Steps 4-5). Both `path_truth` numbers 1.0: the new rule 1.0 on all three; the old rule
+    cannot be (part a), and its misses are all non-document routes. Gate: 502 passed, `ruff check` clean.
+  - **R76 done** (code, the fix and the cached rebuild). Open by the user's choice: `kg qa` and the paired
+    comparison with Step 5. Next: Step 7 (assertion).
 
 ## Found along the way
 
