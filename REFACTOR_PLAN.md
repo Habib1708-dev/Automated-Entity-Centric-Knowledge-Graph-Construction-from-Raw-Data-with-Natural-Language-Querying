@@ -4072,7 +4072,7 @@ listed; F05; H14), and in G01, G02, G22 and G28 the planner wrote such a step an
 - **Step 8 done (2026-10-06):** the failure table and the user's three additions (R83-R86) committed, R84
   and R85 measured. Next: Step 9, finishing the arm.
 
-### R87. Graph-correctness audit of the layered graph (started 2026-10-06; part a done; no rebuild, no paid run)
+### R87. Graph-correctness audit of the layered graph (started 2026-10-06; part a done; parts b-g replaced by the anchor-graph evaluation, R88)
 Before more is built, measure whether the graph itself is right (the user, 2026-10-06): identity, claims,
 mention-to-record links, attachment, provenance and traversal, on the last full build `out/r77d_*`
 (`13ee2b6`; eval runs `c409e1a9`, `f375def2`, `9a4e74ca`). Steps 5-8 were measured by answers, and the
@@ -4154,6 +4154,38 @@ mentions named after recall keys (derivation).
     alone, so the open question is false paths (parts c-e), not missing ones. The furniture split groups
     are generic parts ("instructions" in 5 reviews); generality's are places and people (Utrecht, North
     Station, Rosa Delgado), for the judge in part d.
+- **Parts b-g replaced (the user, 2026-10-06).** The layered-model branch was merged into `main` (fast-forward
+  to `0618228`) and the anchor-graph direction started on the branch `anchor-graph` (R88). Its evaluation
+  reuses part a as it is (snapshot, fidelity gate, code checks) and takes over M1, M3 and M6 as criteria C3,
+  C4, C6 and C8, applied to the anchor and layered arms. M2 and M4 are judged only if the ablation leaves the
+  claim layer a role. R87 ends with part a.
+
+### R88. The anchor-graph direction and its evaluation criteria (done 2026-10-06; document only, $0, no run)
+The user, 2026-10-06, after a design discussion on R73, R77, R83 and R87: the graph's job is to locate the
+entities, concepts and records a need is about and to lead correctly from them to their chunks, documents and
+records; understanding the text is left to a query stage designed later. The graph is therefore judged as an
+index, not by answers.
+- **Scope.** A new direction document,
+  [docs/direction/2026-10-06_anchor-graph/anchor-graph_2026-10-06.md](docs/direction/2026-10-06_anchor-graph/anchor-graph_2026-10-06.md):
+  why (the leak of the claim-as-edge graph; the layered model's claim fields changing few answers and losing on
+  generality), the goal, the model (the labels the build already writes, without the `:Observation` layer
+  for navigation), the witness rule ("a shared node helps to find chunks; it never proves a fact"), identity
+  classes, the navigation contract W1-W5, generality by topic and by form, and the criteria. No code, test or
+  gold change.
+- **Criteria** (section 7 of the document; thresholds fixed before measuring): C0 fidelity and C1 provenance
+  (hard, from R87 part a); C2 findability (hit@1, hit@5, no LLM); C3 identity (hard: 0 wrong merges of
+  records or individuals); C4 record linking (hard: 0 confirmed cross-scope links, judge precision ≥ 0.95;
+  **fails today**: 4 of 50 furniture links on another product's part, 29 held-out `label_mismatch`); C5
+  evidence reach at a fixed budget (recall@5, @10, against vector retrieval at the same *k*); C6 purity (hard
+  ≥ 0.95 for record and individual starts); C7 selectivity (hubs above 20 % of the corpus listed); C8
+  connectivity (hard: every hop witnessed); C9 generality and cost.
+- **Ablation:** arm A (anchor walks only) against arm B (also through claims) on R87's offline snapshot of
+  `out/r77d_*`, $0 and no LLM; arm C (vector retrieval) for C5 only. It replaces the `kg qa` ablation the user
+  approved on 2026-10-06 ($0.2-0.4), which is not run.
+- **Next (proposed order, section 9):** target gold for C2, C5, C8; the navigation contract in code over the
+  snapshot with the code-computed criteria; vector retrieval for C5 (asked for first); judging C3, C4, C6;
+  results and decision.
+- **Gate:** 575 passed (baseline 575), `ruff check` clean. No run, $0.
 
 ## Found along the way
 
