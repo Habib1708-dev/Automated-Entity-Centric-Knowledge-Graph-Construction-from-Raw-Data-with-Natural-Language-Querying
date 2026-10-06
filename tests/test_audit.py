@@ -3,7 +3,9 @@
 Each test builds a small invented build folder (two product reviews, three record tables, triples, a
 resolve.json) in a temporary directory: no Neo4j, no LLM. The build plants one error of each kind the
 checks must find: a mention of the lamp's review linked to the kettle's lid (outside the lamp's scope),
-and a claim about the kettle's lid hinge hung on the lid because "lid" stands inside "lid hinge".
+and a claim about the kettle's lid hinge hung on the lid because "lid" stands inside "lid hinge". The
+replay of R94 must unlink exactly that lamp mention under the current matching rules, and call any other
+difference unexplained.
 """
 
 import json
@@ -14,10 +16,18 @@ import pytest
 from kgbuilder.audit import build_snapshot, check_fidelity, compute_reach, gold_pairs, run_checks
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import read_records, read_relations, scopes
+from kgbuilder.audit.relink import RelinkReport, relink
 from kgbuilder.config import Settings
-from kgbuilder.core.identity import concept_id, mention_id
+from kgbuilder.core.identity import concept_id, individual_id, mention_id
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
-from kgbuilder.pipeline.audit_stages import CHECKS_FILE, AuditSnapshotStage
+from kgbuilder.pipeline.audit_stages import (
+    CHECKS_FILE,
+    RELINK_FILE,
+    RELINKED_BUILD,
+    RELINKED_LOGGED,
+    AuditRelinkStage,
+    AuditSnapshotStage,
+)
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.schema import TextSchema
 from tests.fakes import RecordingTracker
@@ -309,3 +319,62 @@ def test_a_folder_that_is_not_a_finished_build_is_refused(tmp_path, missing):
     (out / missing).unlink()
     with pytest.raises(FileNotFoundError):
         build_snapshot(out, data, CHUNKING)
+
+
+# --- the record matching replayed under the current rules (R94) --------------------------------------------
+
+
+def _relink(s, out: Path):
+    plan = ConstructionPlan.model_validate_json((out / "plan.json").read_text(encoding="utf-8"))
+    return relink(s, plan, _schema(out), threshold=90.0)
+
+
+def test_the_replay_unlinks_only_the_link_that_left_its_documents_scope(tmp_path):
+    s, out, _ = _snapshot(tmp_path)
+    replay = _relink(s, out)
+    lamp_lid = mention_id("Part", "lid", LAMP)
+    [change] = replay.changes  # every other keyed decision is the build's own
+    assert (change.mention, change.before, change.after, change.explained) == (
+        lamp_lid, "Assembly:A-2", None, True,
+    )  # fmt: skip
+    [lid] = [a for a in replay.references if a.mention == lamp_lid]
+    assert (lid.kind, lid.canonical, lid.reason) == ("individual", individual_id(lamp_lid), "no_record")
+    assert replay.unexplained == []
+
+
+def test_a_replay_that_differs_elsewhere_is_unexplained(tmp_path):
+    s, out, _ = _snapshot(tmp_path)
+    shade = mention_id("Part", "shade", LAMP)
+    # a build that had linked the lamp's shade to the kettle's lid: the replay links it to the lamp's Shade
+    wrong = [
+        a.model_copy(update={"canonical": "Assembly:A-2"}) if a.mention == shade else a for a in s.references
+    ]
+    [change] = [
+        c for c in _relink(s.model_copy(update={"references": wrong}), out).changes if c.mention == shade
+    ]
+    assert (change.before, change.after, change.explained) == ("Assembly:A-2", "Assembly:A-1", False)
+
+
+def test_the_relink_stage_writes_a_build_the_snapshot_reads_and_counts_resting_on_identity(tmp_path):
+    s, out, data = _snapshot(tmp_path)
+    logged = tmp_path / "logged.json"
+    logged.write_text(
+        LoggedCounts(
+            dataset="t", build="b", git_sha="abc", runs={}, counts=snapshot_counts(s)
+        ).model_dump_json(),
+        encoding="utf-8",
+    )
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "relink", tracker=tracker)
+    run_stages(ctx, PipelineState(audit_source=out, data_dir=data, audit_logged=logged), [AuditRelinkStage()])
+    run = tracker.run("audit_relink")
+    assert run.logged_metrics["changes"] == 1.0 and run.logged_metrics["unexplained"] == 0.0
+    assert run.logged_metrics["record_links_after"] == run.logged_metrics["record_links_before"] - 1
+    replayed = build_snapshot(tmp_path / "relink" / RELINKED_BUILD, data, CHUNKING)
+    counts = LoggedCounts.model_validate_json(
+        (tmp_path / "relink" / RELINKED_LOGGED).read_text(encoding="utf-8")
+    )
+    assert check_fidelity(replayed, counts, None).passed  # the replayed build passes its own gate
+    report = RelinkReport.model_validate_json((tmp_path / "relink" / RELINK_FILE).read_text(encoding="utf-8"))
+    assert report.counts["resolve.mentions_to_records"] == [6, 5]
+    assert all(name.startswith(("resolve.", "attach.")) for name in report.counts)

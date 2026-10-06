@@ -472,6 +472,19 @@ def audit_snapshot(
     typer.echo(f"Wrote {out / aus.SNAPSHOT_FILE}, {out / aus.FIDELITY_FILE}, {out / aus.CHECKS_FILE}")
 
 
+@app.command("audit-relink")
+def audit_relink(build: Path, data: Path = AUDIT_DATA, logged: Path = AUDIT_LOGGED, out: Path = OUT):
+    """Replay BUILD's record matching under the current rules (no graph, no model) and write the build
+    folder and logged counts it gives, refusing a replay that differs in anything but the change (R94)."""
+    state = PipelineState(audit_source=build, data_dir=data, audit_logged=logged)
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [aus.AuditRelinkStage()])
+    for c in state.relink.changes:
+        typer.echo(f"{c.mention} {c.name!r} @{c.doc_id}: {c.before} -> {c.after}")
+    typer.echo(f"{len(state.relink.changes)} changes of {state.relink.keyed} keyed mentions")
+    typer.echo(f"Wrote {out / aus.RELINKED_BUILD}, {out / aus.RELINKED_LOGGED}, {out / aus.RELINK_FILE}")
+
+
 @app.command("anchor-eval")
 def anchor_eval(
     build: Path,

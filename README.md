@@ -29,6 +29,7 @@ uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the grap
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
 uv run kg audit-snapshot BUILD --data D --logged L --out O        # graph audit: offline snapshot, fidelity, code checks (R87; no graph)
+uv run kg audit-relink BUILD --data D --logged L --out O  # replay the record matching under the current rules (R94; no graph)
 uv run kg anchor-eval BUILD --data D --logged L --targets T --arm anchor|layered --out O  # anchor-graph criteria C0-C2, C5, C7-C9 (R90; no graph)
 uv run kg anchor-compare BUILD --data D --targets T --anchor-report A --layered-report L --out O  # arm C (vector) + McNemar pairing (R92; embeds, cents)
 uv run kg anchor-sheets BUILD --dataset N --data D --logged L --anchor-report A --layered-report L --out O  # blind judging sheets C3, C4, C6 (R93; no graph)
@@ -248,7 +249,8 @@ src/kgbuilder/
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)
   audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
-                    (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal)
+                    (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal) ;
+                    relink (the record matching replayed under the current rules, R94)
   anchor/           anchor-graph evaluation (R90): navigation (W1-W5 in two arms over the audit snapshot) ;
                     targets (target gold on a build's nodes) -> criteria (C2, C5, C7, C8, C9) -> report
                     -> vector (arm C, C5 by cosine) -> compare (McNemar, question by question)

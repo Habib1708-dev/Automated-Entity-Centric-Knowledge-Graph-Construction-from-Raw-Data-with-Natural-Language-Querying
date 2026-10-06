@@ -4726,6 +4726,30 @@ comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_n
     to another product's "Drawer". `test_a_name_outside_the_scope_falls_back_to_a_unique_domain_match`
     became `test_a_name_outside_the_scope_of_its_document_links_no_record` (the behaviour change above).
   - Gate: 672 passed (672 before: one test changed, none added), `ruff check` clean.
+- **Part b: the offline replay and the measurement (code done 2026-10-06, $0).**
+  - **`audit/relink.py`:** `relink(snapshot, plan, schema, threshold)` feeds `match_record` what
+    `resolution/particulars.py` reads from the graph, restated over the snapshot: the keyed mentions,
+    their candidates with key attributes, the link stage's scopes, and the sentences naming them.
+    - Every changed decision must be explained: the build linked by matching to a record outside the
+      document's scope, and the replay links none. Anything else is listed as unexplained.
+    - A mention that loses its record stands for itself (`no_record`). The LLM's joining of individuals
+      is not replayed.
+    - `relinked_counts` keeps the build's logged counts but takes those resting on identity (`resolve.*`,
+      `attach.*`) from the replay, so the replayed build's C0 gate still checks ingest, extract and link.
+  - **`AuditRelinkStage` + `kg audit-relink BUILD --data --logged --out`** (`pipeline/audit_stages.py`):
+    - It refuses a build whose C0 fails, and a replay with an unexplained change.
+    - It writes `build/` (the build's files with resolve.json's assignments replayed; no judge sheet),
+      `logged.json` and `relink.json`.
+  - **A dry run of the replay** on the three snapshots:
+    - furniture: 124 keyed mentions, 4 changes (exactly R93's 4 cross-product links), 0 unexplained;
+    - held-out: 260, 0 changes (every record link is by key);
+    - generality: 72, 0 changes (no document has a scope).
+    So fix A changes only the furniture build.
+  - **Tests:** +3 in `tests/test_audit.py`:
+    - the invented build's planted cross-scope "lid" is the one change;
+    - a build that differs elsewhere is unexplained;
+    - the stage writes a build its own gate passes, with only identity counts changed.
+  - **Gate (code):** 675 passed, `ruff check` clean.
 
 ## Found along the way
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice).** The

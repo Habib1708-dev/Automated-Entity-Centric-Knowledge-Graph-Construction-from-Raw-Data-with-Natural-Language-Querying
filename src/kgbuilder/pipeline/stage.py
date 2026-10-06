@@ -20,6 +20,7 @@ from ..anchor.report import AnchorReport
 from ..anchor.sheets import JudgingSheets
 from ..audit.checks import CodeChecks
 from ..audit.fidelity import FidelityReport
+from ..audit.relink import Relink
 from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
 from ..llm.base import Embedder, LLMClient
@@ -139,6 +140,7 @@ class PipelineState:
     anchor_comparison: ArmComparison | None = None  # of `kg anchor-compare`
     anchor_sheets: JudgingSheets | None = None  # of `kg anchor-sheets`
     anchor_judged: JudgedReport | None = None  # of `kg anchor-judged`
+    relink: Relink | None = None  # of `kg audit-relink`
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""
