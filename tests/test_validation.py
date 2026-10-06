@@ -9,6 +9,7 @@ import pytest
 from neo4j.exceptions import Neo4jError
 
 from kgbuilder.core.text import norm
+from kgbuilder.text.schema import KIND_TYPE, PARTICULAR_TYPE, EntityType, FactType, TextSchema
 from kgbuilder.validation.checks import CheckContext
 from kgbuilder.validation.checks.base import StoredFact
 from kgbuilder.validation.evaluate import (
@@ -220,3 +221,26 @@ def test_facts_touching_the_domain_graph_are_measured(driver):
     report = validate_graph(driver, plan=None, schema=None)
     assert report.metrics["facts_touching_domain_rate"] == 0.5
     assert report.metrics["predicates_distinct"] == 2  # HAS_ISSUE and LOCATED_IN; REFERS_TO is not a fact
+
+
+def test_the_mention_passs_built_in_types_are_schema_types(driver):
+    """R101: a mention of the built-in fallback types (`Particular`, `Kind`) is of a type the schema knows,
+    as a `Value` mention always was; another unknown type still fails the check."""
+    schema = TextSchema(
+        entity_types=[EntityType(name="Instrument", description="d")],
+        fact_types=[FactType(predicate="NEXT_TO", subject_type="Instrument", object_type="Instrument",
+                             description="d")],
+    )  # fmt: skip
+    driver.execute_query(
+        "CREATE (:Chunk {chunk_id: 'k1', text: 'x'})-[:MENTIONS]->(:Mention {id: '1', name: 'mirror', "
+        "type: 'Instrument'}), (:Chunk {chunk_id: 'k2', text: 'x'})-[:MENTIONS]->(:Mention {id: '2', "
+        "name: 'dome', type: $kind}), (:Chunk {chunk_id: 'k3', text: 'x'})-[:MENTIONS]->(:Mention {id: '3', "
+        "name: 'Edit Varga', type: $particular})",
+        kind=KIND_TYPE,
+        particular=PARTICULAR_TYPE,
+    )
+    checks = {c.name: c for c in validate_graph(driver, plan=None, schema=schema).checks}
+    assert checks["consistency: every mention type is in the schema"].passed
+    driver.execute_query("CREATE (:Mention {id: '4', name: 'x', type: 'Gadget'})")
+    checks = {c.name: c for c in validate_graph(driver, plan=None, schema=schema).checks}
+    assert not checks["consistency: every mention type is in the schema"].passed

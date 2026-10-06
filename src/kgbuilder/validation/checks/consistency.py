@@ -5,7 +5,9 @@ what each refers to (graph/canonical.py). A claim whose two ends are one entity 
 reader, not deleted, so it is counted here instead of failing a check.
 """
 
+from ...core.values import VALUE_TYPE
 from ...graph.canonical import canonical_id, canonical_kind
+from ...text.schema import FALLBACK_TYPES
 from ..report import CheckOutput
 from .base import CheckContext
 
@@ -36,9 +38,10 @@ class SubjectConsistencyCheck:
                 f"{len(off_schema)} facts violate the schema",
                 "consistency",
             )
+            # the built-in types are the schema's too: `Value` (R66) and the mention pass's fallbacks (R101)
             known = ctx.scalar(
                 "MATCH (m:Mention) WHERE m.type IN $types RETURN count(m)",
-                types=sorted(ctx.schema.entity_names() | {"Value"}),
+                types=sorted(ctx.schema.entity_names() | {VALUE_TYPE, *FALLBACK_TYPES}),
             )
             out.add(
                 "consistency: every mention type is in the schema",

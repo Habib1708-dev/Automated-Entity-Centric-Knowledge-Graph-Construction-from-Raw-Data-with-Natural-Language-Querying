@@ -5553,7 +5553,7 @@ there is no "unsure". All nine generality split groups were nominated and answer
   counts.
 - **Gate (results):** 746 passed (742 before), `ruff check` clean. **R100 done 2026-10-06.** Next: R101.
 
-### R101. The mention pass: the retrieval-worthy things the text names or talks about (started 2026-10-06)
+### R101. The mention pass: the retrieval-worthy things the text names or talks about (done 2026-10-07; $0.034)
 Mentions exist only as ends of claims (`text/subject_graph.collect_rows`), and the extractor skips what no
 fact type fits, so a thing named only in a title or only as denied ("No leaks were found on HP40-2291") has
 no node: 2 of 86, 11 of 65 and 15 of 62 target names were unplaced (R90). R101 adds a separate pass that
@@ -5641,6 +5641,24 @@ the graph into a noisy copy of the text, so the bounds are fixed before measurin
     run; `test_run_guard.py` +1.
   - README: the command, its place in the stage order, the module map. Gate: 775 passed (753 before),
     `ruff check` clean.
+  - Committed at `0453a05`.
+- **The one `dev` run** (the user's yes, 2026-10-07; at `0453a05`, only `.claude/settings.json` dirty): `kg
+  reset`, then `kg --preset dev run samples/dev --goal "Which products have problems, in which parts?"
+  --out out/r101_dev` (gemini-3.5-flash-lite), MLflow `kgbuilder-dev`, pass run `3eee36df`, pipeline
+  `a3048387`: **$0.034 for the whole pipeline**, of it $0.0077 for the pass. The wiring works against the
+  real API: 12 chunks, 12 calls, 0 failed; 98 things found, 93 accepted, 5 refused as already listed (the
+  model sometimes lists a known name; code catches it); 78 new mentions, 93 new MENTIONS edges, 9 reaching a
+  claim's mention. Seen in `mentions.jsonl`: "drawer rails" and "drawers" typed with the schema's keyed
+  types, "@furniture_lover92" and "Seattle" as `Particular`, but also unnamed kinds typed `Particular`
+  ("supplier", "garage", "trash day"): a wrong class is INCORRECT under the definition, so R102's judged
+  precision (on the quality model) decides whether the prompt needs a `dev` round.
+- **A bug the run found, fixed with its failing test first:** validation's "every mention type is in the
+  schema" knew `Value` as built in but not the fallback types, and failed on 61 pass mentions. The check now
+  counts `Value` and `FALLBACK_TYPES` (`validation/checks/consistency.py`); test
+  `test_the_mention_passs_built_in_types_are_schema_types` (Neo4j) failed before ("2 mentions of unknown
+  type"). Gate: 776 passed, `ruff check` clean.
+- **R101 done 2026-10-07.** The noise and size bounds are checked in R102. Next: R102 (part a, $0, then the
+  rebuild, asked per dataset).
 
 ## Found along the way
 - **R100's adjudicator answers "unsure" for some right joins (found in R100, 2026-10-06; the user's choice).**
