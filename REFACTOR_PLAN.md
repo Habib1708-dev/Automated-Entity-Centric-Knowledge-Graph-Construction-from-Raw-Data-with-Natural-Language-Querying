@@ -5271,7 +5271,38 @@ replayable on a snapshot and proves the replay is the build's.
 - **Part a (done 2026-10-06):** `resolution/particulars.py` `assign_particulars` and the `Meaning` callable;
   `resolution/individuals.py` `nominate(units, borderline, near)` and `meaning_pairs(units, embedding,
   blocking)`. One test call changed its arguments (`nominate(..., set())`), no assertion. Gate: 721 passed,
-  `ruff check` clean.
+  `ruff check` clean. Committed at `b185b0d`.
+- **Part b (code done 2026-10-06, $0):**
+  - **`audit/reidentify.py`:** `particular_mentions` and `mention_texts` (the reads of `read_mentions` and
+    `read_mention_texts` over the snapshot, in their order: the order decides the adjudicator's lines and so
+    the cache keys); `built_matches` (the build's own record decision per keyed mention, from resolve.json's
+    record edges with a matching reason and its `ambiguous` list; an adjudicated record edge is no match;
+    `model_construct` keeps a retired reason such as `contained`); `logged_meaning` (the build's
+    meaning-nominated pairs); `reidentify` (calls `assign_particulars`); `unfaithful` (every field that
+    differs, decisions in order and every particular assignment); `identity_changes` (measured mode: a
+    changed canonical entity explained by its group, `joined` / `unjoined`; a mention whose record replay
+    changed keeps that cause); `with_build_targets` (a replayed record edge keeps the build's element id).
+  - **`audit/relink.py`:** `MATCH_REASONS` public; `Relink.matches`, every keyed mention's replayed match.
+  - **`AuditRelinkStage`:** `--join` (measured: the record replay's matches, the embedder's meaning pairs;
+    refused without an embedder when the settings nominate by meaning; unexplained changes refused; the
+    written build carries `individual_decisions`) and `--join --faithful` (the gate: no build written;
+    `faithful`, `faithful_issues`; fails on any difference). Params `join`, `faithful`,
+    `individual_prompt_version` (and the blocking rule in measured mode); metrics per decision action,
+    `nominated_by_meaning` against the build's, `changes_joined` / `changes_unjoined`; artifact
+    `reidentify.json` and the prompt. `kg audit-relink --join [--faithful]`.
+  - **Run guard:** `audit-relink --join` is an LLM command (`FLAG_LLM_COMMANDS` now maps a command to a set
+    of flags).
+  - **Tests (+5):** `test_audit.py` +3 on the invented build with a person named in both reviews ("Ada Lin" /
+    "A. Lin", joined by the build): the faithful replay reproduces the join (one adjudication, no build
+    written); a build that logged the pair apart is refused with the differing fields named; the measured
+    replay with an adjudicator answering "not the same" explains the undone join (`unjoined`, the founder
+    unchanged), keeps R94's `left_scope`, writes the decisions and the build's element ids, and the written
+    build passes its own gate. `test_run_guard.py` +2 (`--join`, `--join --faithful` ask).
+  - **Dry check without any model** (scratch, nothing sent): on the three r77d builds the replay nominates
+    exactly the build's pairs in the build's order (furniture 93, held-out 164, generality 183), and with the
+    build's settings (gemini-3.8-flash, thinking low) every adjudication prompt it would send is in
+    `.cache/llm` (83 / 144 / 181).
+  - README: the commands and the module map. Gate: 726 passed, `ruff check` clean.
 
 ## Found along the way
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**

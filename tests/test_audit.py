@@ -7,10 +7,14 @@ and a claim about the kettle's lid hinge hung on the lid because "lid" stands in
 replay of R94 must unlink exactly that lamp mention under the current matching rules, and call any other
 difference unexplained. A link the build made by a rule R95a retired (containment, a spelling that differs
 inside a word) is unlinked too, with that cause. With a (scripted) chooser, a mention whose near miss it
-chooses is linked by that choice (R95b); `--choose` needs an LLM and logs what it asks with.
+chooses is linked by that choice (R95b); `--choose` needs an LLM and logs what it asks with. R98 adds a
+person named in both reviews, which the build joined: the faithful replay of the individuals must give
+resolve.json back field by field and refuse a build it does not reproduce; the measured replay explains a join
+it undoes and writes its decisions into the build it gives.
 """
 
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -18,20 +22,23 @@ import pytest
 from kgbuilder.audit import build_snapshot, check_fidelity, compute_reach, gold_pairs, run_checks
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import read_records, read_relations, scopes
+from kgbuilder.audit.reidentify import ReidentifyReport
 from kgbuilder.audit.relink import RelinkReport, relink
 from kgbuilder.config import Settings
-from kgbuilder.core.errors import LLMUnavailableError
+from kgbuilder.core.errors import EvaluationError, LLMUnavailableError
 from kgbuilder.core.identity import concept_id, individual_id, mention_id
 from kgbuilder.llm.base import prompt_version
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.audit_stages import (
     CHECKS_FILE,
+    REIDENTIFY_FILE,
     RELINK_FILE,
     RELINKED_BUILD,
     RELINKED_LOGGED,
     AuditRelinkStage,
     AuditSnapshotStage,
 )
+from kgbuilder.resolution.individuals import IDENTITY_PROMPT, SameIndividual
 from kgbuilder.resolution.record_choice import CHOICE_PROMPT, RecordChoice
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.schema import TextSchema
@@ -503,3 +510,134 @@ def test_the_relink_stage_writes_a_build_the_snapshot_reads_and_counts_resting_o
     report = RelinkReport.model_validate_json((tmp_path / "relink" / RELINK_FILE).read_text(encoding="utf-8"))
     assert report.counts["resolve.mentions_to_records"] == [6, 5]
     assert all(name.startswith(("resolve.", "attach.")) for name in report.counts)
+
+
+# --- R98: the individuals replayed, faithful to the build or measured ------------------------------------
+
+# A person named in both reviews, once by an initial: the build joined them on the adjudicator's quotes
+PERSON = {LAMP: ("Ada Lin", "Ada Lin of Northwind repaired the shade.", "shade"),
+          KETTLE: ("A. Lin", "A. Lin of Northwind repaired the lid.", "lid")}  # fmt: skip
+MODEL = Settings().extract_model
+
+
+def _quotes(prompt: str, schema):
+    """The adjudicator: the same person, quoting each side's own sentence (or, for any other pair, not)."""
+    a, b = (re.search(rf"^{side}: (.+)$", prompt, re.MULTILINE).group(1) for side in "AB")
+    sentence = {name: s for name, s, _ in PERSON.values()}
+    if {a, b} != set(sentence):
+        return SameIndividual(same=False)
+    return SameIndividual(same=True, quote_a=sentence[a], quote_b=sentence[b])
+
+
+def _with_person(tmp_path: Path, joined: bool = True) -> tuple[Path, Path, list[str]]:
+    """The invented build with the person added to text, schema and triples, and resolve.json as `kg
+    resolve` writes it: the two mentions joined (or, `joined=False`, logged apart), every record edge with
+    its element id. Returns the build, its data and the person's mention ids, founder first."""
+    out, data = _build(tmp_path)
+    for doc, (_, sentence, _) in PERSON.items():
+        (data / doc).write_text(TEXTS[doc].rstrip("\n") + f" {sentence}\n", encoding="utf-8")
+    schema = json.loads((out / "text_schema.json").read_text(encoding="utf-8"))
+    schema["entity_types"].append({"name": "Person", "description": "A person.", "identity": "individual"})
+    schema["fact_types"].append(
+        {"predicate": "REPAIRED", "subject_type": "Person", "object_type": "Part", "description": "A repair."}
+    )
+    (out / "text_schema.json").write_text(json.dumps(schema), encoding="utf-8")
+    with (out / "triples.jsonl").open("a", encoding="utf-8") as f:
+        for doc, (name, sentence, part) in PERSON.items():
+            f.write(json.dumps({"subject": name, "subject_type": "Person", "predicate": "REPAIRED",
+                                "object": part, "object_type": "Part", "evidence": sentence,
+                                "chunk_id": f"{doc}#0"}) + "\n")  # fmt: skip
+    ids = sorted(mention_id("Person", name, doc) for doc, (name, _, _) in PERSON.items())
+    founder, other = ids  # one mention and two words each: the founding mention is the first by id
+    said = {mention_id("Person", name, doc): name for doc, (name, _, _) in PERSON.items()}
+    sentence = {mention_id("Person", name, doc): s for doc, (name, s, _) in PERSON.items()}
+    evidence = f"A: {sentence[founder]} | B: {sentence[other]}"
+    resolved = json.loads((out / "resolve.json").read_text(encoding="utf-8"))
+    for a in resolved["assignments"]:
+        if a["kind"] == "record":
+            a["target"] = f"element-{a['canonical']}"
+    person = {"kind": "individual", "type": "Person", "score": None, "target": None}
+    resolved["assignments"] += [
+        {**person, "mention": founder, "said": said[founder], "canonical": individual_id(founder),
+         "name": said[founder], "reason": "own_name", "evidence": "", "by": "code"},
+        {**person, "mention": other, "said": said[other], "canonical": individual_id(founder),
+         "name": said[founder], "reason": "adjudicated", "evidence": evidence, "by": MODEL}
+        if joined else
+        {**person, "mention": other, "said": said[other], "canonical": individual_id(other),
+         "name": said[other], "reason": "own_name", "evidence": "", "by": "code"},
+    ]  # fmt: skip
+    resolved["individual_decisions"] = [
+        {"a": founder, "b": other, "a_name": said[founder], "b_name": said[other], "type": "Person",
+         "signal": "variant", "action": "joined" if joined else "apart",
+         "evidence": evidence if joined else "", "by": MODEL}
+    ]  # fmt: skip
+    (out / "resolve.json").write_text(json.dumps(resolved), encoding="utf-8")
+    return out, data, ids
+
+
+def _join_stage(tmp_path: Path, out: Path, data: Path, llm, faithful: bool) -> tuple[RecordingTracker, Path]:
+    s = build_snapshot(out, data, CHUNKING)
+    state = PipelineState(
+        audit_source=out,
+        data_dir=data,
+        audit_logged=_logged(tmp_path, s),
+        relink_join=True,
+        relink_faithful=faithful,
+    )
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "replay", llm=llm, tracker=tracker)
+    run_stages(ctx, state, [AuditRelinkStage()])
+    return tracker, tmp_path / "replay"
+
+
+def test_the_faithful_replay_reproduces_a_join_the_build_made(tmp_path):
+    out, data, (founder, other) = _with_person(tmp_path)
+    llm = ScriptedLLM(_quotes)
+    tracker, folder = _join_stage(tmp_path, out, data, llm, faithful=True)
+    run = tracker.run("audit_relink")
+    assert run.logged_metrics["faithful"] == 1 and run.logged_metrics["faithful_issues"] == 0
+    assert run.logged_metrics["decision_joined"] == 1 and run.logged_params["join"] == 1
+    assert run.logged_params["individual_prompt_version"] == prompt_version(IDENTITY_PROMPT)
+    report = ReidentifyReport.model_validate_json((folder / REIDENTIFY_FILE).read_text(encoding="utf-8"))
+    assert report.faithful and report.issues == [] and [d.action for d in report.decisions] == ["joined"]
+    # the person was asked about once; the records are the build's own, so the lamp's planted "lid" stays
+    # on the kettle's lid record and is never asked about
+    assert llm.calls == [("SameIndividual", MODEL)]
+    assert not (folder / RELINKED_BUILD).exists()  # the gate writes no build
+
+
+def test_the_faithful_replay_refuses_a_build_it_does_not_reproduce(tmp_path):
+    out, data, (founder, other) = _with_person(tmp_path, joined=False)  # logged apart; the adjudicator joins
+    with pytest.raises(EvaluationError) as refused:
+        _join_stage(tmp_path, out, data, ScriptedLLM(_quotes), faithful=True)
+    issues = refused.value.issues
+    assert any("individual decision 0" in i and "action 'apart' -> 'joined'" in i for i in issues)
+    assert any(f"assignment of {other}" in i and "reason 'own_name' -> 'adjudicated'" in i for i in issues)
+    report = ReidentifyReport.model_validate_json(
+        (tmp_path / "replay" / REIDENTIFY_FILE).read_text(encoding="utf-8")
+    )
+    assert report.issues == issues  # the report is written before the refusal, for the reader
+
+
+def test_the_measured_replay_explains_a_join_it_undoes_and_writes_its_decisions(tmp_path):
+    out, data, (founder, other) = _with_person(tmp_path)
+    apart = ScriptedLLM(lambda prompt, schema: SameIndividual(same=False))
+    tracker, folder = _join_stage(tmp_path, out, data, apart, faithful=False)
+    run = tracker.run("audit_relink")
+    # R94's change of the lamp's "lid" keeps its own cause; the person's second mention is unjoined
+    assert run.logged_metrics["changes_left_scope"] == 1 and run.logged_metrics["changes_unjoined"] == 1
+    assert run.logged_metrics["identity_unexplained"] == 0 and run.logged_metrics["decision_joined"] == 0
+    report = ReidentifyReport.model_validate_json((folder / REIDENTIFY_FILE).read_text(encoding="utf-8"))
+    [change] = report.changes  # the founder keeps its canonical entity
+    assert (change.mention, change.before, change.after, change.cause) == (
+        other, individual_id(founder), individual_id(other), "unjoined",
+    )  # fmt: skip
+    resolved = json.loads((folder / RELINKED_BUILD / "resolve.json").read_text(encoding="utf-8"))
+    names = {name for name, _, _ in PERSON.values()}
+    [person] = [d for d in resolved["individual_decisions"] if {d["a_name"], d["b_name"]} == names]
+    assert person["action"] == "apart"
+    edges = {a["mention"]: a for a in resolved["assignments"]}
+    assert edges[mention_id("Part", "lid", KETTLE)]["target"] == "element-Assembly:A-2"  # the build's element
+    replayed = build_snapshot(folder / RELINKED_BUILD, data, CHUNKING)
+    counts = LoggedCounts.model_validate_json((folder / RELINKED_LOGGED).read_text(encoding="utf-8"))
+    assert check_fidelity(replayed, counts, None).passed

@@ -14,6 +14,12 @@ gives (the build's files with resolve.json replayed) and its logged counts, for 
 judging stages to measure. One run per build: metrics are the changes (in all and per cause), the record
 links before and after and, with `--choose`, the chooser's outcomes; artifacts the changes and the counts.
 With `--choose` it is an LLM run (R95b): the mentions with near misses are offered to the resolve model.
+With `--join` (R98) it also decides the individuals again from the replayed record matches
+(audit/reidentify.py): the adjudicator is asked as `kg resolve` asks it, the meaning pairs come from the
+embedder, every changed mention must be explained by its group (`joined`, `unjoined`), and the written build
+carries the replayed `individual_decisions`. `--join --faithful` writes no build: it is the gate that the
+replay is the build's, from the build's own record matches and logged meaning pairs, and it fails on any
+difference from resolve.json.
 Not here: the judged metrics, the scoring of verdicts.
 """
 
@@ -23,11 +29,26 @@ from pathlib import Path
 from typing import get_args
 
 from ..audit import build_snapshot, check_fidelity, compute_reach, gold_pairs, load_logged, run_checks
+from ..audit.reidentify import (
+    BuiltIdentity,
+    JoinCause,
+    ReidentifyReport,
+    built_matches,
+    identity_changes,
+    logged_meaning,
+    reidentify,
+    unfaithful,
+    with_build_targets,
+)
 from ..audit.relink import Relink, RelinkCause, RelinkReport, relink, relinked_counts
-from ..config import Settings
+from ..audit.snapshot import GraphSnapshot
 from ..core.errors import EvaluationError, LLMUnavailableError
-from ..llm.base import prompt_version
+from ..llm.base import LLMClient, prompt_version
 from ..llm.thinking import with_thinking
+from ..resolution.blocking import blocking_from
+from ..resolution.identity_graph import Assignment
+from ..resolution.individuals import IDENTITY_PROMPT, Action, IndividualDecision, embedding_for, meaning_pairs
+from ..resolution.particulars import JoinSettings
 from ..resolution.record_choice import CHOICE_PROMPT, ChoiceAction
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
@@ -90,6 +111,7 @@ class AuditSnapshotStage(BaseStage):
 RELINK_FILE = "relink.json"
 RELINKED_LOGGED = "logged.json"
 RELINKED_BUILD = "build"
+REIDENTIFY_FILE = "reidentify.json"
 # the files of a build folder the snapshot reads, besides resolve.json (rewritten) and staging/ (copied)
 _BUILD_FILES = ("plan.json", "text_schema.json", "profile.json", "triples.jsonl")
 
@@ -112,7 +134,9 @@ class AuditRelinkStage(BaseStage):
             "domain_link_threshold": ctx.settings.domain_link_threshold,
             "er_borderline": ctx.settings.er_borderline,  # a near miss's spelling score (R95b)
             "choose": int(state.relink_choose),
-            **(_choice_params(ctx.settings) if state.relink_choose else {}),
+            "join": int(state.relink_join),
+            "faithful": int(state.relink_faithful),
+            **_llm_params(ctx, state),
             "chunk_max_chars": ctx.settings.chunk_max_chars,
             "chunk_min_chars": ctx.settings.chunk_min_chars,
             "chunk_overlap_chars": ctx.settings.chunk_overlap_chars,
@@ -128,19 +152,21 @@ class AuditRelinkStage(BaseStage):
             raise EvaluationError(["the snapshot is not the build's graph (C0 failed): nothing to replay"])
         plan = ConstructionPlan.model_validate_json((source / "plan.json").read_text(encoding="utf-8"))
         schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
-        if state.relink_choose and ctx.llm is None:
-            raise LLMUnavailableError("--choose needs an LLM provider: the preset has no key")
-        # the resolve stage's model and thinking level, so the replay asks what a build would ask
-        llm = with_thinking(ctx.llm, s.extract_thinking) if state.relink_choose and ctx.llm else None
-        if llm is not None:
-            run.text(CHOICE_PROMPT, "prompts/resolve_record_choice.txt")
+        llm = self._llm(ctx, state, run)
+        if state.relink_faithful:
+            self._faithful(ctx, state, run, snapshot, schema, llm)
+            return
         thresholds = (s.domain_link_threshold, s.er_borderline)
-        replay = relink(snapshot, plan, schema, thresholds, llm, s.extract_model)
+        chooser = llm if state.relink_choose else None
+        replay = relink(snapshot, plan, schema, thresholds, chooser, s.extract_model)
         if replay.unexplained:  # the replay would not be the build's matching: its measurement means nothing
             raise EvaluationError(
                 [f"unexplained change of {c.mention} {c.name!r}" for c in replay.unexplained]
             )
-        folder = _write_build(ctx.out / RELINKED_BUILD, source, replay)
+        references, decisions = replay.references, None
+        if state.relink_join:
+            references, decisions = self._join(ctx, state, run, snapshot, schema, replay, llm)
+        folder = _write_build(ctx.out / RELINKED_BUILD, source, references, decisions)
         replayed = build_snapshot(folder, Path(state.data_dir), chunking)
         counts, changed = relinked_counts(logged, replayed)
         run.metrics(
@@ -163,24 +189,139 @@ class AuditRelinkStage(BaseStage):
         run.artifact(ctx.write(RELINKED_LOGGED, counts.model_dump_json(indent=1)))
         state.relink = replay
 
+    @staticmethod
+    def _llm(ctx, state, run) -> LLMClient | None:
+        """The resolve stage's model with its thinking level, so the replay asks what a build would ask;
+        None when the replay asks nothing. Refused without a provider: a replay that silently skipped the
+        LLM would measure another rule. Logs the prompts it may send."""
+        if not (state.relink_choose or state.relink_join):
+            return None
+        if ctx.llm is None:
+            raise LLMUnavailableError("--choose and --join need an LLM provider: the preset has no key")
+        if state.relink_choose:
+            run.text(CHOICE_PROMPT, "prompts/resolve_record_choice.txt")
+        if state.relink_join:
+            run.text(IDENTITY_PROMPT, "prompts/resolve_individuals.txt")
+        return with_thinking(ctx.llm, ctx.settings.extract_thinking)
 
-def _choice_params(s: Settings) -> dict[str, object]:
-    """The params of a replay that asks the chooser: its model, thinking level and prompt version."""
+    @staticmethod
+    def _faithful(
+        ctx, state, run, snapshot: GraphSnapshot, schema: TextSchema, llm: LLMClient | None
+    ) -> None:
+        """The gate: the individuals decided again from the build's own record matches and meaning pairs
+        must be resolve.json's, field by field. Writes the report, then fails on any difference."""
+        if state.relink_choose:
+            raise EvaluationError(
+                ["--faithful replays the build's own record links; --choose would change them"]
+            )
+        source = Path(state.audit_source)
+        built = BuiltIdentity.model_validate_json((source / "resolve.json").read_text(encoding="utf-8"))
+        matches = built_matches(snapshot, built, schema)
+        particulars = reidentify(snapshot, schema, matches, logged_meaning(built), llm, _join_settings(ctx))
+        issues = unfaithful(built, particulars)
+        run.metrics(
+            faithful=int(not issues),
+            faithful_issues=len(issues),
+            particular_mentions=len(particulars.assignments),
+            **_decision_metrics(particulars.decisions, built.individual_decisions),
+        )
+        report = ReidentifyReport(
+            build=source.as_posix(), faithful=True, issues=issues, decisions=particulars.decisions
+        )
+        run.artifact(ctx.write(REIDENTIFY_FILE, report.model_dump_json(indent=1)))
+        state.reidentified = report
+        if issues:  # the replay is not the build's: no measurement may rest on it
+            more = [f"... {len(issues) - 20} more"] if len(issues) > 20 else []
+            raise EvaluationError(issues[:20] + more)
+
+    @staticmethod
+    def _join(
+        ctx, state, run, snapshot: GraphSnapshot, schema: TextSchema, replay: Relink, llm: LLMClient | None
+    ) -> tuple[list[Assignment], list[IndividualDecision]]:
+        """The individuals decided again from the record replay's matches, with the embedder's meaning pairs;
+        refused when a mention's change has no cause. Returns the references to write and the decisions."""
+        s, source = ctx.settings, Path(state.audit_source)
+        blocking = blocking_from(s.er_embedding_blocking, s.er_embedding_candidates, s.er_neighbours)
+        if blocking is not None and ctx.embedder is None:  # fewer pairs than the build would nominate
+            raise LLMUnavailableError("--join needs the embedder: the settings nominate pairs by meaning")
+
+        def meaning(units):
+            return meaning_pairs(units, embedding_for(units, ctx.embedder, blocking), blocking)
+
+        particulars = reidentify(snapshot, schema, replay.matches, meaning, llm, _join_settings(ctx))
+        changes = identity_changes(snapshot, particulars.assignments, {c.mention for c in replay.changes})
+        built = BuiltIdentity.model_validate_json((source / "resolve.json").read_text(encoding="utf-8"))
+        run.metrics(
+            identity_changes=len(changes),
+            identity_unexplained=sum(not c.explained for c in changes),
+            **{f"changes_{c}": sum(x.cause == c for x in changes) for c in get_args(JoinCause)},
+            **_decision_metrics(particulars.decisions, built.individual_decisions),
+        )
+        report = ReidentifyReport(
+            build=source.as_posix(), faithful=False, changes=changes, decisions=particulars.decisions
+        )
+        run.artifact(ctx.write(REIDENTIFY_FILE, report.model_dump_json(indent=1)))
+        state.reidentified = report
+        if unexplained := [c for c in changes if not c.explained]:
+            raise EvaluationError(
+                [f"unexplained identity change of {c.mention} {c.name!r}" for c in unexplained]
+            )
+        concepts = [a for a in snapshot.references if a.kind == "concept"]
+        replayed = with_build_targets(snapshot, particulars.assignments)
+        return sorted(replayed + concepts, key=lambda a: a.mention), particulars.decisions
+
+
+def _join_settings(ctx) -> JoinSettings:
+    """The resolve stage's joining settings: its borderline and the model logged on each decision."""
+    return JoinSettings(borderline=ctx.settings.er_borderline, model=ctx.settings.extract_model)
+
+
+def _decision_metrics(
+    decisions: list[IndividualDecision], built: list[IndividualDecision]
+) -> dict[str, float]:
+    """The replayed individual decisions per action, and the pairs nominated by meaning (the build's too)."""
     return {
-        "model": s.extract_model,
-        "thinking": s.extract_thinking,
-        "record_choice_prompt_version": prompt_version(CHOICE_PROMPT),
+        "individual_decisions": len(decisions),
+        **{f"decision_{a}": sum(d.action == a for d in decisions) for a in get_args(Action)},
+        "nominated_by_meaning": sum(d.signal == "meaning" for d in decisions),
+        "nominated_by_meaning_build": sum(d.signal == "meaning" for d in built),
     }
 
 
-def _write_build(folder: Path, source: Path, replay: Relink) -> Path:
-    """A build folder the snapshot reads: the build's files, with resolve.json's assignments replayed. The
-    build's judge sheet is left out: its attachments are the build's, not the replay's."""
+def _llm_params(ctx, state) -> dict[str, object]:
+    """The params of a replay that asks an LLM: its model, thinking level and the prompt versions it may
+    send; with a measured --join also the blocking rule and embedding model of the meaning pairs."""
+    s = ctx.settings
+    if not (state.relink_choose or state.relink_join):
+        return {}
+    params: dict[str, object] = {"model": s.extract_model, "thinking": s.extract_thinking}
+    if state.relink_choose:
+        params["record_choice_prompt_version"] = prompt_version(CHOICE_PROMPT)
+    if state.relink_join:
+        params["individual_prompt_version"] = prompt_version(IDENTITY_PROMPT)
+    if state.relink_join and not state.relink_faithful:
+        params |= {
+            "er_embedding_blocking": s.er_embedding_blocking,
+            "er_embedding_candidates": s.er_embedding_candidates,
+            "er_neighbours": s.er_neighbours,
+            "embed_model": s.embed_model if ctx.embedder is not None else None,
+        }
+    return params
+
+
+def _write_build(
+    folder: Path, source: Path, references: list[Assignment], decisions: list[IndividualDecision] | None
+) -> Path:
+    """A build folder the snapshot reads: the build's files, with resolve.json's assignments replayed (and,
+    when the individuals were replayed, their decisions). The build's judge sheet is left out: its
+    attachments are the build's, not the replay's."""
     folder.mkdir(parents=True, exist_ok=True)
     for name in _BUILD_FILES:
         shutil.copyfile(source / name, folder / name)
     shutil.copytree(source / "staging", folder / "staging", dirs_exist_ok=True)
     resolved = json.loads((source / "resolve.json").read_text(encoding="utf-8"))
-    resolved["assignments"] = [a.model_dump() for a in replay.references]
+    resolved["assignments"] = [a.model_dump() for a in references]
+    if decisions is not None:
+        resolved["individual_decisions"] = [d.model_dump() for d in decisions]
     (folder / "resolve.json").write_text(json.dumps(resolved, indent=1, ensure_ascii=False), encoding="utf-8")
     return folder

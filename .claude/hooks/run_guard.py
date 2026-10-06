@@ -24,8 +24,8 @@ ROOT = Path(__file__).resolve().parents[2]
 # `qa-compare` and `anchor-eval` only read files and are not listed)
 LLM_COMMANDS = {"run", "plan", "text-schema", "extract", "resolve", "ask", "qa", "anchor-compare"}
 # kg commands that call an LLM only with a flag: `audit-relink --choose` asks the record chooser (R95b),
-# without it the replay is offline code
-FLAG_LLM_COMMANDS = {"audit-relink": "--choose"}
+# `--join` the individuals' adjudicator and the embedder (R98); without them the replay is offline code
+FLAG_LLM_COMMANDS = {"audit-relink": {"--choose", "--join"}}
 # kg options that take a value: the token after them is not the data directory
 VALUE_OPTIONS = {"--goal", "--out", "--gold", "--preset"}
 # a shell separates commands with these; each part is judged on its own
@@ -96,7 +96,7 @@ def reason_to_ask(command_line: str, flags: dict[str, bool], default_preset: str
         if args is None:
             continue
         preset, command, data_dir = _parse(args)
-        if command not in LLM_COMMANDS and FLAG_LLM_COMMANDS.get(command) not in args:
+        if command not in LLM_COMMANDS and not FLAG_LLM_COMMANDS.get(command, set()) & set(args):
             continue
         preset = preset or (variable.group(1) if variable else "") or default_preset
         if flags.get(preset):

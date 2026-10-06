@@ -15,7 +15,8 @@ link the build made by matching, for a cause a rule change names (`RelinkCause`)
 of the LLM among its near misses (R95b, only when an LLM is given); any other change means the replay is not
 the build's matching, and it is listed as unexplained so the caller can refuse it.
 A mention that loses its record stands for itself, as `resolution/particulars.py` makes such a mention
-before joining: the LLM's joining of individuals is not replayed.
+before joining; the LLM's joining of individuals is replayed apart, from `Relink.matches`
+(audit/reidentify.py, R98).
 Must not: read Neo4j, call an LLM other than the chooser it is given, or change anything but the changed
 mentions' REFERS_TO.
 """
@@ -54,8 +55,9 @@ _CONTAINED = "contained"
 
 # The reasons of a link made by matching, today's and the retired one; any other record assignment (an
 # adjudicated join) is not one. Without `contained` here, a build's containment link would count as no link,
-# and a replay that drops it would show no change at all.
-_MATCH_REASONS = frozenset(get_args(LinkReason)) | {_CONTAINED}
+# and a replay that drops it would show no change at all. The individuals' replay reads the build's own
+# matches by the same rule (reidentify.py).
+MATCH_REASONS = frozenset(get_args(LinkReason)) | {_CONTAINED}
 
 # Why the replay may decide otherwise than the build, one cause per rule change:
 #   - `left_scope` (R94): the record is outside the scope of the mention's document;
@@ -82,6 +84,8 @@ class Relink(BaseModel):
     changes: list[RelinkChange]
     references: list[Assignment]  # the build's REFERS_TO with the changes applied
     choices: list[ChoiceDecision] = []  # the mentions with near misses, and the chooser's outcome for each
+    # every keyed mention's replayed match, choices included: what the individuals' replay forms units from
+    matches: dict[str, RecordMatch] = {}
 
     @property
     def unexplained(self) -> list[RelinkChange]:
@@ -117,7 +121,7 @@ def relink(
     changes = [c for m in keyed if (c := _change(m, built.get(m.id), matches[m.id], replay, threshold))]
     replaced = {c.mention: matches[c.mention] for c in changes}
     references = [_replayed(a, replaced[a.mention]) if a.mention in replaced else a for a in s.references]
-    return Relink(keyed=len(keyed), changes=changes, references=references, choices=choices)
+    return Relink(keyed=len(keyed), changes=changes, references=references, choices=choices, matches=matches)
 
 
 def _change(
@@ -148,7 +152,7 @@ def _ref(record: RecordCandidate) -> str:
 
 def _linked(a: Assignment | None) -> str | None:
     """The record a build's assignment linked by matching (not by an adjudicated join)."""
-    return a.canonical if a is not None and a.kind == "record" and a.reason in _MATCH_REASONS else None
+    return a.canonical if a is not None and a.kind == "record" and a.reason in MATCH_REASONS else None
 
 
 def _cause(

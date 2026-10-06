@@ -31,6 +31,8 @@ uv run kg assertion SHEET GOLD VERDICTS                           # truth, modal
 uv run kg audit-snapshot BUILD --data D --logged L --out O        # graph audit: offline snapshot, fidelity, code checks (R87; no graph)
 uv run kg audit-relink BUILD --data D --logged L --out O  # replay the record matching under the current rules (R94; no graph)
 uv run kg audit-relink BUILD --data D --logged L --out O --choose  # ... with the LLM choosing among near misses (R95b; paid)
+uv run kg audit-relink BUILD --data D --logged L --out O --join  # ... and the individuals decided again (R98; LLM + embedder)
+uv run kg audit-relink BUILD --data D --logged L --out O --join --faithful  # gate: the build's own inputs give its resolve.json
 uv run kg anchor-eval BUILD --data D --logged L --targets T --arm anchor|layered --out O  # anchor-graph criteria C0-C2, C5, C7-C9 (R90; no graph)
 uv run kg anchor-compare BUILD --data D --targets T --anchor-report A --layered-report L --out O  # arm C (vector) + McNemar pairing (R92; embeds, cents)
 uv run kg anchor-sheets BUILD --dataset N --data D --logged L --anchor-report A --layered-report L --out O  # blind judging sheets C3, C4, C6 (R93; no graph)
@@ -251,7 +253,8 @@ src/kgbuilder/
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)
   audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
                     (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal) ;
-                    relink (the record matching replayed under the current rules, R94)
+                    relink (the record matching replayed under the current rules, R94) -> reidentify (the
+                    individuals' joining replayed on it, faithful to the build or measured, R98)
   anchor/           anchor-graph evaluation (R90): navigation (W1-W5 in two arms over the audit snapshot) ;
                     targets (target gold on a build's nodes) -> criteria (C2, C5, C7, C8, C9) -> report
                     -> vector (arm C, C5 by cosine) -> compare (McNemar, question by question)

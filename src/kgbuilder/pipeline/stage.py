@@ -20,6 +20,7 @@ from ..anchor.report import AnchorReport
 from ..anchor.sheets import JudgingSheets
 from ..audit.checks import CodeChecks
 from ..audit.fidelity import FidelityReport
+from ..audit.reidentify import ReidentifyReport
 from ..audit.relink import Relink
 from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
@@ -142,6 +143,9 @@ class PipelineState:
     anchor_judged: JudgedReport | None = None  # of `kg anchor-judged`
     relink: Relink | None = None  # of `kg audit-relink`
     relink_choose: bool = False  # `kg audit-relink --choose`: the replay asks the record chooser (R95b)
+    relink_join: bool = False  # `kg audit-relink --join`: the replay also decides the individuals (R98)
+    relink_faithful: bool = False  # `--join --faithful`: from the build's own inputs, which it must reproduce
+    reidentified: ReidentifyReport | None = None  # of `kg audit-relink --join`
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

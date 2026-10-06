@@ -479,18 +479,40 @@ def audit_relink(
     logged: Path = AUDIT_LOGGED,
     out: Path = OUT,
     choose: bool = typer.Option(False, "--choose", help="Ask the LLM to choose among near misses (paid)."),
+    join: bool = typer.Option(False, "--join", help="Also decide the individuals again (LLM and embedder)."),
+    faithful: bool = typer.Option(
+        False, "--faithful", help="With --join: from the build's own inputs, which must reproduce it."
+    ),
 ):
-    """Replay BUILD's record matching under the current rules (no graph; no model unless --choose) and write
-    the build folder and logged counts it gives, refusing a replay that differs in anything but the change
-    (R94). With --choose, the mentions with near misses are offered to the resolve model (R95b)."""
-    state = PipelineState(audit_source=build, data_dir=data, audit_logged=logged, relink_choose=choose)
+    """Replay BUILD's record matching under the current rules (no graph; no model unless --choose or --join)
+    and write the build folder and logged counts it gives, refusing a replay that differs in anything but the
+    change (R94). With --choose, the mentions with near misses are offered to the resolve model (R95b). With
+    --join, the individuals are decided again from the replayed records; --join --faithful only checks that
+    the build's own inputs give back its resolve.json (R98)."""
+    if faithful and not join:
+        raise typer.BadParameter("--faithful is a mode of --join")
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        audit_logged=logged,
+        relink_choose=choose,
+        relink_join=join,
+        relink_faithful=faithful,
+    )
     with session(out) as ctx:
         state = run_stages(ctx, state, [aus.AuditRelinkStage()])
+    if faithful:
+        decisions = len(state.reidentified.decisions)
+        typer.echo(f"Faithful: {decisions} individual decisions and every assignment reproduced")
+        typer.echo(f"Wrote {out / aus.REIDENTIFY_FILE}")
+        return
     for c in state.relink.changes:
         typer.echo(
             f"{c.mention} {c.name!r} @{c.doc_id}: {c.before} -> {c.after} ({c.cause or 'unexplained'})"
         )
     typer.echo(f"{len(state.relink.changes)} changes of {state.relink.keyed} keyed mentions")
+    for c in state.reidentified.changes if state.reidentified else []:
+        typer.echo(f"{c.mention} {c.name!r} @{c.doc_id}: {c.before} -> {c.after} ({c.cause})")
     typer.echo(f"Wrote {out / aus.RELINKED_BUILD}, {out / aus.RELINKED_LOGGED}, {out / aus.RELINK_FILE}")
 
 
