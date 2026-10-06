@@ -16,6 +16,7 @@ from neo4j import Driver
 
 from ..anchor.compare import ArmComparison
 from ..anchor.report import AnchorReport
+from ..anchor.sheets import JudgingSheets
 from ..audit.checks import CodeChecks
 from ..audit.fidelity import FidelityReport
 from ..config import Settings
@@ -104,6 +105,7 @@ class PipelineState:
     # and layered reports of `kg anchor-eval` that `kg anchor-compare` pairs (R92)
     anchor_targets: Path | None = None
     anchor_reports: tuple[Path, Path] | None = None
+    anchor_dataset: str | None = None  # the dataset's name, written into the judging sheets (R93)
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -129,6 +131,7 @@ class PipelineState:
     audit: CodeChecks | None = None
     anchor: AnchorReport | None = None  # of `kg anchor-eval`
     anchor_comparison: ArmComparison | None = None  # of `kg anchor-compare`
+    anchor_sheets: JudgingSheets | None = None  # of `kg anchor-sheets`
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

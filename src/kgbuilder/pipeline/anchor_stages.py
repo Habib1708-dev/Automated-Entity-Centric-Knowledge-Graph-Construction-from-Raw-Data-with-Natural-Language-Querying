@@ -1,4 +1,5 @@
-"""The anchor-graph evaluation's stages: `kg anchor-eval` (R90 part b) and `kg anchor-compare` (R92).
+"""The anchor-graph evaluation's stages: `kg anchor-eval` (R90 part b), `kg anchor-compare` (R92) and
+`kg anchor-sheets` (R93).
 
 Role in the pipeline: after a finished build; no graph, no model. It rebuilds the build's graph offline and
 gates it on fidelity (R87: C0) with the provenance checks (C1), places the target gold (R89) on the
@@ -13,7 +14,12 @@ chunk texts and the questions embedded with the build's embedding model, the onl
 evaluation) and pairs the arms question by question (anchor/compare.py). One MLflow run per build: params
 name the reports with their hashes and the embedding model; metrics are arm C's C5 and every pairing;
 the artifact holds the per-question outcomes and arm C's rankings with their cosines.
-Not here: the judged criteria (C3, C4, C6).
+`kg anchor-sheets` rebuilds the snapshot behind the same gate (it refuses to write sheets when C0 fails),
+runs R87's code checks for their flags and split groups, and writes the blind sheets of C3, C4 and C6 with
+their code sides (anchor/sheets.py), starting C6 from the target nodes of the two arms' reports. One run
+per build: params name the build and the reports with their hashes; metrics are the sheet sizes and the
+flag counts; artifacts the six files.
+Not here: judging, and the scores of the verdicts (anchor/judged.py).
 """
 
 from pathlib import Path
@@ -21,6 +27,8 @@ from pathlib import Path
 from ..anchor import Arm, TargetPlacer, read_staged, record_nodes
 from ..anchor.compare import compare_arms
 from ..anchor.report import AnchorReport, evaluate
+from ..anchor.sheet_builder import build_sheets
+from ..anchor.sheets import JudgingSheets
 from ..anchor.vector import cosine_rank, vector_reach
 from ..audit import build_snapshot, check_fidelity, load_logged, run_checks
 from ..audit.inputs import read_corpus
@@ -183,3 +191,84 @@ class AnchorCompareStage(BaseStage):
             embedded_chars=sum(len(c.text) for c in chunks) + sum(len(texts[q]) for q in pool),
         )
         run.artifact(ctx.write(COMPARE_FILE, comparison.model_dump_json(indent=1)))
+
+
+def sheet_file(criterion: str) -> str:
+    return f"{criterion.lower()}_sheet.json"
+
+
+def code_file(criterion: str) -> str:
+    return f"{criterion.lower()}_code.json"
+
+
+class AnchorSheetsStage(BaseStage):
+    """Write the blind judging sheets of C3, C4 and C6 for one build, with their code sides (R93)."""
+
+    name = "anchor_sheets"
+
+    def params(self, ctx, state):
+        source = input_file(state.need("audit_source", "pass the build's out/ folder"), "build folder")
+        logged = input_file(state.need("audit_logged", "pass the build's logged counts"), "logged counts")
+        reports = state.need("anchor_reports", "pass the anchor and layered reports of kg anchor-eval")
+        anchor, layered = (input_file(r, "anchor-eval report") for r in reports)
+        s = ctx.settings
+        return {
+            "dataset": state.need("anchor_dataset", "pass the dataset's name"),
+            "build": source,
+            "data_dir": input_file(state.need("data_dir", "pass the dataset folder"), "data folder"),
+            "logged": logged,
+            "logged_hash": digest(logged),
+            "anchor_report": anchor,
+            "anchor_report_hash": digest(anchor),
+            "layered_report": layered,
+            "layered_report_hash": digest(layered),
+            "chunk_max_chars": s.chunk_max_chars,
+            "chunk_min_chars": s.chunk_min_chars,
+            "chunk_overlap_chars": s.chunk_overlap_chars,
+        }
+
+    def run(self, ctx, state, run):
+        source, s = Path(state.audit_source), ctx.settings
+        snapshot = build_snapshot(
+            source, Path(state.data_dir), (s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
+        )
+        sheet = source / _SHEET
+        fidelity = check_fidelity(
+            snapshot, load_logged(Path(state.audit_logged)), sheet if sheet.exists() else None
+        )
+        if not fidelity.passed:  # a sheet of another graph would have the judge score the wrong thing
+            raise EvaluationError(["the snapshot is not the build's graph (C0 failed): no sheets written"])
+        schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
+        reports = [
+            AnchorReport.model_validate_json(Path(r).read_text(encoding="utf-8"))
+            for r in state.anchor_reports
+        ]
+        if [r.arm for r in reports] != [Arm.ANCHOR, Arm.LAYERED]:
+            raise EvaluationError(
+                [f"pass the anchor report, then the layered one (got {[r.arm for r in reports]})"]
+            )
+        # C6 starts from every target node R90 placed, in either arm (the placements do not depend on the arm)
+        starts = {n for r in reports for ts in r.placed.values() for t in ts for n in t.nodes}
+        sheets = build_sheets(snapshot, run_checks(snapshot, schema), starts, state.anchor_dataset)
+        state.anchor_sheets = sheets
+        for criterion, sheet_model in (("C3", sheets.c3), ("C4", sheets.c4), ("C6", sheets.c6)):
+            run.artifact(ctx.write(sheet_file(criterion), sheet_model.model_dump_json(indent=1)))
+            run.artifact(ctx.write(code_file(criterion), sheets.code[criterion].model_dump_json(indent=1)))
+        run.metrics(**sheet_counts(sheets))
+
+
+def sheet_counts(sheets: JudgingSheets) -> dict[str, float]:
+    """The size of every sheet, and how many items each code flag raised."""
+    code = sheets.code
+    out = {
+        "c3_merge_items": float(len(sheets.c3.merges)),
+        "c3_split_items": float(len(sheets.c3.splits)),
+        "c4_link_items": float(sum(i.kind == "link" for i in code["C4"].items)),
+        "c4_unlinked_items": float(sum(i.kind == "unlinked" for i in code["C4"].items)),
+        "c6_pairs": float(len(sheets.c6.pairs)),
+        "c6_pairs_only_layered": float(sum(i.arms == [Arm.LAYERED.value] for i in code["C6"].items)),
+    }
+    for criterion, side in code.items():
+        for flag in sorted({f for i in side.items for f in i.flags}):
+            out[f"{criterion.lower()}_flag_{flag}"] = float(sum(flag in i.flags for i in side.items))
+    return out

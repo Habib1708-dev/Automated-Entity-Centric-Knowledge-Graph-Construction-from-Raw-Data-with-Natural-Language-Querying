@@ -4445,6 +4445,94 @@ after the estimate "a few cents").
     of every arm.
 - **Gate (results):** 634 passed, `ruff check` clean.
 
+### R93. Judging C3 (identity), C4 (record linking) and C6 (purity) (started 2026-10-06; $0, no LLM call)
+Step 5 of the anchor-graph direction. The judge is Claude Opus 5.5 (`claude-opus-5-5`) in the session.
+It works on R87's offline snapshot of `out/r77d_*` (`13ee2b6`; C0 passed on all three builds) and follows
+R87's judging decisions:
+- blind subagent batches, then the lead's review;
+- the labels VALID, VALID_ALTERNATIVE, INCORRECT, AMBIGUOUS, UNJUDGEABLE;
+- a reason and a verbatim evidence quote per verdict.
+
+No threshold or definition of the direction document is changed except as recorded under "Decisions".
+- **Split: three parts, one commit each, in order** (code and its results may be two commits, as in
+  R92).
+  - (a) **Sheets, verdict models and scorer.** Code only, $0, then the sheets built offline and
+    committed.
+  - (b) **Judging.** Blind subagent batches per dataset and criterion, then the lead's review.
+  - (c) **Scoring and results.** A stage and `kg` command logging the judged criteria, one MLflow run per
+    dataset, and the results table.
+- **Denominators** (counted on the snapshots before any judging):
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | C3 concept / individual nodes with > 1 mention | 77 / 4 | 41 / 10 | 8 / 31 |
+  | C3 split groups (R87) | 12 | 3 | 9 |
+  | C3 R75 identity pairs (code) | 67 | 23 | 24 |
+  | C4 mention-to-record links | 50 | 76 | 40 |
+  | C6 (start, chunk) pairs: record / individual / concept starts | 97 / 6 / 37 | 74 / 4 / 47 | 26 / 54 / 10 |
+  | C6 pairs only arm B reaches | 6 | 0 | 0 |
+
+- **Decisions (the user, 2026-10-06, on the part-a plan):**
+  1. **C6 is judged as a census of every pair (355), not as flagged pairs plus a 10 % sample.**
+     - The flag as written ("the chunk's document or section is ABOUT another record of the same
+       label") fires on 0 furniture pairs. It misses the known suspect: `Assembly:A-1021` reaches
+       `malmo_desk_reviews.md#1`, a document ABOUT a *Product*.
+     - A 10 % sample (about 10 pairs per dataset) cannot show ≥ 0.95: even 10 of 10 has a Wilson lower
+       bound of 0.72.
+     - Purity is therefore plain k/n with a Wilson interval. The written flag (`same_label_about`) and
+       R87's scope rule (`scope_foreign`: 6 furniture pairs) are both kept, for the table of
+       disagreements with the code flags.
+  2. **The 29 held-out `label_mismatch` mentions are not record links.** They are individuals typed
+     Vehicle, named after a Recall key, with `REFERS_TO {no_record}`. So they stay out of C4's 76 links
+     and its precision.
+     - They are judged on the same C4 sheet, with the same question ("does this mention refer to this
+       record?"). Their record is the one whose key they are named after.
+     - They are reported apart, as missed links. A mention typed Vehicle that does refer to a Recall
+       also has the wrong type.
+  3. **C3's wrong merges of records are read from C4.** A record is never merged with another node;
+     only `REFERS_TO` edges reach it. So a wrong record merge is exactly a C4 link judged INCORRECT, and
+     it is not judged twice. C3 judges the individual and concept nodes with more than one mention, and
+     R87's split groups. The R75 pairs are rescored by code on the snapshot.
+- **Stated limitation:**
+  - Earlier sessions read `out/r77d_*`, so neither the sheets nor the verdicts are blind to the build.
+  - Gold and verdicts come from one model family.
+- **Part a: sheets, verdict models and scorer (code done 2026-10-06, $0).**
+  - **`anchor/sheets.py`:** the blind sheet models.
+    - Items show source text and source data only: the mention, its sentence and chunk; a record's
+      staged cells and one-hop plan relations ("PART_OF -> Product:P-1007 (...)"); the other records of
+      the same name.
+    - The code side (`CodeItem`: R87's flags, the edge's rule and score, the arms, linked or not) is a
+      separate file the judge never sees.
+  - **`anchor/sheet_builder.py`:** `build_sheets`, the three sheets from a snapshot, R87's code checks and
+    the placed target nodes.
+    - C6's two flags are `same_label_about` (the direction's) and `scope_foreign` (R87's).
+    - Item ids are stable: `m:`, `s:`, `l:`, `p:` followed by the graph ids.
+  - **`validation/anchor_verdicts.py`:** the verdict file.
+    - The five labels, a reason and a verbatim quote per verdict (only UNJUDGEABLE may lack the quote).
+    - A header naming the judge model, the snapshot, the sheet and its commit.
+    - The lead's `reviewed` ids and `changes` (with the blind label before).
+    - `verdict_issues` refuses missing, duplicate or unknown ids, an unreviewed INCORRECT, AMBIGUOUS or
+      UNJUDGEABLE verdict, a change that does not end at the final label, and an unreviewed item of the
+      seeded 10 % VALID sample (`REVIEW_SEED = 93`).
+  - **`anchor/judged.py`:** the scores, each k/n with a Wilson interval.
+    - The rates: accepted (VALID + VALID_ALTERNATIVE over those + INCORRECT), strict, and worst case.
+    - `score_c3`, `score_c4`, `score_c6`, and `rescore_identity` (R75's scorer on the snapshot).
+    - Every flag's agreement with the verdicts, and the INCORRECT items no flag raised.
+    - `check_evidence`: each quote must stand in what its item showed.
+  - **`AnchorSheetsStage` + `kg anchor-sheets`:** one MLflow run per build.
+    - It refuses to write sheets when the C0 gate fails.
+    - Metrics: the sheet sizes and the flag counts. Artifacts: the six files.
+  - **Rules for the judge:** `tests/gold/r93/rules/c3.md`, `c4.md`, `c6.md`. Domain-neutral, with
+    invented examples (an oven and its fittings, a baker).
+  - **Tests:** `tests/test_anchor_judging.py` (19), on the lamp-and-kettle snapshot plus:
+    - a cross-scope link, an unlinked mention named after a key, and a split individual;
+    - the sheets and what they hide;
+    - every verdict-file rule, and the evidence check;
+    - each score and its pass rule;
+    - the R75 rescoring;
+    - the stage, including its refusal on a failed gate.
+  - **Gate (code):** 653 passed (634 before), `ruff check` clean. No run yet.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

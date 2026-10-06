@@ -2,7 +2,8 @@
 
 Role in the pipeline: after a build, never during one (docs/direction/2026-10-06_anchor-graph). It reads
 R87's snapshot (`audit/`), offers the navigation contract W1-W5 in two arms (navigation.py), and places the
-target gold of R89 on the snapshot's nodes (targets.py).
+target gold of R89 on the snapshot's nodes (targets.py). R93 adds the blind judging sheets of C3, C4 and C6
+(sheets.py, sheet_builder.py) and the scores of their verdicts (judged.py).
 Must not: call an LLM, read or write Neo4j, or change what the pipeline builds.
 """
 

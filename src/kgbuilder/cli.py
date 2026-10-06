@@ -511,6 +511,32 @@ def anchor_compare(
     typer.echo(f"Wrote {out / ans.COMPARE_FILE}")
 
 
+@app.command("anchor-sheets")
+def anchor_sheets(
+    build: Path,
+    dataset: str = typer.Option(..., help="The dataset's name, written into the sheets."),
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    anchor_report: Path = ANCHOR_REPORT,
+    layered_report: Path = LAYERED_REPORT,
+    out: Path = OUT,
+):
+    """Rebuild BUILD's graph offline (no graph, no model) and write the blind judging sheets of C3
+    (identity), C4 (record linking) and C6 (purity) with their code sides (R93)."""
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        audit_logged=logged,
+        anchor_reports=(anchor_report, layered_report),
+        anchor_dataset=dataset,
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [ans.AnchorSheetsStage()])
+    for name, value in ans.sheet_counts(state.anchor_sheets).items():
+        typer.echo(f"{name:44} {value:.0f}")
+    typer.echo(f"Wrote the sheets and their code sides to {out}")
+
+
 @app.command()
 def ask(
     question: str,
