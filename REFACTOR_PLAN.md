@@ -4592,6 +4592,29 @@ No threshold or definition of the direction document is changed except as record
     `out/r77d_*`), and the blind judges and the lead are one model family. No gold was changed: R75's
     pairs are only rescored by code in part c.
   - **Gate (verdicts):** 665 passed, `ruff check` clean.
+- **Part c: scoring and results (code done 2026-10-06, $0).**
+  - **`anchor/judged_report.py`:** `JudgedReport` scores C3, C4 and C6 twice, on the reviewed labels and
+    on the blind ones (`blind_view`).
+    - `impact` maps every item judged INCORRECT to the QA questions whose R90-placed targets hold its node.
+    - `metrics()` logs:
+      - each rate with `_low`, `_high` and `_n`;
+      - the hard rules (`c3_hard_passed`, `c4_hard_passed`, `c6_<arm>_hard_passed`);
+      - each flag's confirmed count;
+      - the blind hard rules and rates, under `blind_`.
+  - **Settings** `anchor_min_link_precision` and `anchor_min_purity` (0.95, the direction's), logged as
+    params.
+  - **Structural move:** the two judging stages left `pipeline/anchor_stages.py` (which was 368 lines) for
+    `pipeline/judging_stages.py`, behaviour kept.
+  - **`AnchorJudgedStage` + `kg anchor-judged BUILD --judged --identity-gold --data --logged
+    --anchor-report`:**
+    - It rebuilds the snapshot and refuses sheets built from another one.
+    - It loads the committed verdicts (review rules, quote check) and rescores R75's pairs.
+    - One MLflow run per build. Params: every sheet and verdict file by hash, plus the judge model.
+      Artifact: `anchor_judged.json`.
+  - **Tests:** +4 (35 in `tests/test_anchor_judging.py`): the blind view, impact, the report's metrics,
+    and the stage on the invented build, including its refusal of a sheet from another snapshot.
+    `README.md` lists both commands.
+  - **Gate (code):** 669 passed, `ruff check` clean.
 
 ## Found along the way
 

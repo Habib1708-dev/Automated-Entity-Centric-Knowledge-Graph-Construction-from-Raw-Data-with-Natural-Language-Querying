@@ -31,6 +31,7 @@ from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import anchor_stages as ans
 from .pipeline import audit_stages as aus
+from .pipeline import judging_stages as jus
 from .pipeline import qa_stages as qs
 from .pipeline import stages as st
 from .resolution.resolver import ResolvePreview
@@ -60,6 +61,11 @@ ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset 
 ANCHOR_ARM = typer.Option(Arm.ANCHOR, help="anchor: anchor edges only; layered: also through the claims.")
 ANCHOR_REPORT = typer.Option(..., help="The anchor arm's report of kg anchor-eval (anchor_anchor.json).")
 LAYERED_REPORT = typer.Option(..., help="The layered arm's report of kg anchor-eval (anchor_layered.json).")
+# the judged criteria (R93): the folder of a dataset's committed sheets and verdicts, and R75's identity gold
+JUDGED_DIR = typer.Option(
+    ..., help="The folder of the committed sheets, code sides and verdicts (tests/gold/r93/)."
+)
+IDENTITY_GOLD = typer.Option(..., help="R75's identity gold of the dataset (tests/gold/r75/).")
 
 
 @app.callback()
@@ -531,10 +537,37 @@ def anchor_sheets(
         anchor_dataset=dataset,
     )
     with session(out) as ctx:
-        state = run_stages(ctx, state, [ans.AnchorSheetsStage()])
-    for name, value in ans.sheet_counts(state.anchor_sheets).items():
+        state = run_stages(ctx, state, [jus.AnchorSheetsStage()])
+    for name, value in jus.sheet_counts(state.anchor_sheets).items():
         typer.echo(f"{name:44} {value:.0f}")
     typer.echo(f"Wrote the sheets and their code sides to {out}")
+
+
+@app.command("anchor-judged")
+def anchor_judged(
+    build: Path,
+    judged: Path = JUDGED_DIR,
+    identity_gold: Path = IDENTITY_GOLD,
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    anchor_report: Path = ANCHOR_REPORT,
+    out: Path = OUT,
+):
+    """Score the judged criteria C3 (identity), C4 (record linking) and C6 (purity) of BUILD from the judge's
+    verdict files, on the reviewed and the blind labels (R93). No graph, no model."""
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        audit_logged=logged,
+        anchor_judged_dir=judged,
+        identity_gold=identity_gold,
+        anchor_placements=anchor_report,
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [jus.AnchorJudgedStage()])
+    for name, value in state.anchor_judged.metrics().items():
+        typer.echo(f"{name:44} {value:.3f}")
+    typer.echo(f"Wrote {out / jus.JUDGED_FILE}")
 
 
 @app.command()

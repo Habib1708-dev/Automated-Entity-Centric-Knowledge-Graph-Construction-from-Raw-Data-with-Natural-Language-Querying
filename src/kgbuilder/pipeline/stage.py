@@ -15,6 +15,7 @@ from typing import Protocol
 from neo4j import Driver
 
 from ..anchor.compare import ArmComparison
+from ..anchor.judged_report import JudgedReport
 from ..anchor.report import AnchorReport
 from ..anchor.sheets import JudgingSheets
 from ..audit.checks import CodeChecks
@@ -106,6 +107,11 @@ class PipelineState:
     anchor_targets: Path | None = None
     anchor_reports: tuple[Path, Path] | None = None
     anchor_dataset: str | None = None  # the dataset's name, written into the judging sheets (R93)
+    # the judged criteria (R93 part c): the folder of the committed sheets, code sides and verdicts, R75's
+    # identity gold, and the anchor-eval report whose placed targets say which questions a failure reaches
+    anchor_judged_dir: Path | None = None
+    identity_gold: Path | None = None
+    anchor_placements: Path | None = None
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -132,6 +138,7 @@ class PipelineState:
     anchor: AnchorReport | None = None  # of `kg anchor-eval`
     anchor_comparison: ArmComparison | None = None  # of `kg anchor-compare`
     anchor_sheets: JudgingSheets | None = None  # of `kg anchor-sheets`
+    anchor_judged: JudgedReport | None = None  # of `kg anchor-judged`
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

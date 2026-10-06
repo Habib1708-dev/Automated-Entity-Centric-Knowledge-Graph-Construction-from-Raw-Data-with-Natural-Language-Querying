@@ -1,5 +1,6 @@
 """The judged anchor-graph criteria (R93): the blind sheets of C3, C4 and C6 with their code sides, the
-verdict files and their review rules, the evidence check, and the scores code computes from verdicts.
+verdict files and their review rules, the evidence check, the scores code computes from verdicts, and the
+report and stage that log them on the reviewed and the blind labels.
 
 The snapshot is the lamp-and-kettle one of tests/test_anchor.py, with a second kettle chunk in which Ana
 Ruiz's kettle "switch" is linked to the lamp's switch (the planted cross-scope link), a kettle mention
@@ -26,22 +27,25 @@ from kgbuilder.anchor.judged import (
     score_c4,
     score_c6,
 )
+from kgbuilder.anchor.judged_report import JudgedReport, blind_view, impact, score_all
 from kgbuilder.anchor.navigation import Arm
 from kgbuilder.anchor.sheet_builder import build_sheets
 from kgbuilder.anchor.sheets import C3Sheet, C4Sheet, C6Sheet, CodeSide
+from kgbuilder.anchor.targets import PlacedTarget
 from kgbuilder.audit.checks import CodeChecks, Flag, SplitGroup
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
-from kgbuilder.pipeline.anchor_stages import (
-    AnchorEvalStage,
+from kgbuilder.pipeline.anchor_stages import AnchorEvalStage, report_file
+from kgbuilder.pipeline.inputs import digest
+from kgbuilder.pipeline.judging_stages import (
+    JUDGED_FILE,
+    AnchorJudgedStage,
     AnchorSheetsStage,
     code_file,
-    report_file,
     sheet_file,
 )
-from kgbuilder.pipeline.inputs import digest
 from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.validation.anchor_verdicts import (
@@ -451,3 +455,86 @@ def test_each_committed_verdict_file_answers_its_sheet_under_the_review_rules(ru
     header = verdicts.judge
     assert (header.model, header.snapshot_hash) == (JUDGE, run["snapshot_hash"])
     assert header.sheet_hash == digest(base / f"{name}_sheet.json") == run["files"][f"{name}_sheet.json"]
+
+
+# --- the judged report and its stage (R93 part c) ----------------------------------------------------------
+
+
+def test_the_blind_view_scores_the_labels_before_the_lead_changed_them():
+    change = Change(id=LINK_M7, before=Label.INCORRECT, after=Label.VALID, reason="r")
+    file = verdicts("C4", {}, changes=[change])
+    blind = blind_view(file)
+    assert {v.id: v.label for v in blind.verdicts}[LINK_M7] is Label.INCORRECT and blind.changes == []
+    assert score_c4(blind, SHEETS.code["C4"], 0.95).cross_scope_confirmed == [LINK_M7]
+    assert score_c4(file, SHEETS.code["C4"], 0.95).hard_passed
+
+
+def test_impact_names_the_questions_whose_targets_hold_a_failed_node():
+    files = {
+        "C3": verdicts("C3", {}),
+        "C4": verdicts("C4", {LINK_M7: Label.INCORRECT}),
+        "C6": verdicts("C6", {}),
+    }
+    placed = {"Q1": [PlacedTarget(name="lamp switch", aliases=[], nodes=[S1], missing=[])],
+              "Q2": [PlacedTarget(name="kettle", aliases=[], nodes=[K1], missing=[])]}  # fmt: skip
+    assert impact(files, SHEETS.code, placed) == {LINK_M7: ["Q1"]}
+
+
+def test_the_report_logs_both_label_sets_and_the_hard_rules():
+    files = {
+        "C3": verdicts("C3", {}),
+        "C4": verdicts("C4", {LINK_M7: Label.INCORRECT}),
+        "C6": verdicts("C6", {}),
+    }
+    pairs = rescore_identity(S, [])
+    scores = score_all(files, SHEETS.code, pairs, min_link_precision=0.95, min_purity=0.95)
+    report = JudgedReport(dataset="t", judge_model="m", final=scores, blind=scores, impact={})
+    metrics = report.metrics()
+    assert metrics["c4_hard_passed"] == 0.0 and metrics["c4_precision_n"] == 3.0
+    assert metrics["c4_flag_cross_scope_link_confirmed"] == 1.0 and metrics["c3_hard_passed"] == 0.0
+    assert metrics["blind_c4_precision"] == metrics["c4_precision"]
+    assert metrics["c6_anchor_purity"] == 1.0 and "blind_c6_layered_hard_passed" in metrics
+
+
+def _judge_everything(folder: Path) -> None:
+    """Verdict files for the stage test: every item VALID, quoting the first words its item shows."""
+    for criterion in ("C3", "C4", "C6"):
+        model = SHEET_MODELS[criterion.lower()]
+        sheet = model.model_validate_json((folder / sheet_file(criterion)).read_text(encoding="utf-8"))
+        texts = item_texts(sheet)
+        quoted = [Verdict(id=i, label=Label.VALID, reason="r", evidence=t[0][:12]) for i, t in texts.items()]
+        file = VerdictFile(
+            judge=JudgeHeader(model="m", date="d", snapshot_hash=sheet.snapshot_hash, sheet="s",
+                              sheet_hash=digest(folder / sheet_file(criterion)), sheets_git_sha="g"),
+            criterion=criterion,
+            verdicts=quoted,
+        )  # fmt: skip
+        file.reviewed = review_sample(file.blind())
+        (folder / f"{criterion.lower()}_verdicts.json").write_text(file.model_dump_json(), encoding="utf-8")
+
+
+def test_the_judged_stage_scores_the_committed_verdicts_and_refuses_another_snapshot(tmp_path):
+    out, data, logged, reports = _eval_reports(tmp_path)
+    folder = tmp_path / "sheets"
+    ctx = PipelineContext(settings=Settings(), driver=None, out=folder, tracker=RecordingTracker())
+    state = PipelineState(audit_source=out, data_dir=data, audit_logged=logged, anchor_reports=reports,
+                          anchor_dataset="t")  # fmt: skip
+    run_stages(ctx, state, [AnchorSheetsStage()])
+    _judge_everything(folder)
+    gold = tmp_path / "identity.json"
+    gold.write_text(json.dumps({"identity_pairs": []}), encoding="utf-8")
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "judged", tracker=tracker)
+    state = PipelineState(audit_source=out, data_dir=data, audit_logged=logged, anchor_judged_dir=folder,
+                          identity_gold=gold, anchor_placements=reports[0])  # fmt: skip
+    state = run_stages(ctx, state, [AnchorJudgedStage()])
+    run = tracker.run("anchor_judged")
+    assert run.logged_params["anchor_min_purity"] == 0.95 and run.logged_params["judge_model"] == "m"
+    assert "c4_verdicts_hash" in run.logged_params
+    assert run.logged_metrics["c4_precision"] == 1.0 and run.logged_metrics["c4_hard_passed"] == 1.0
+    assert (tmp_path / "judged" / JUDGED_FILE).is_file() and state.anchor_judged.dataset == "t"
+    sheet = json.loads((folder / sheet_file("C6")).read_text(encoding="utf-8"))
+    sheet["snapshot_hash"] = "another"
+    (folder / sheet_file("C6")).write_text(json.dumps(sheet), encoding="utf-8")
+    with pytest.raises(EvaluationError, match="C6 sheet was built from another snapshot"):
+        run_stages(ctx, state, [AnchorJudgedStage()])

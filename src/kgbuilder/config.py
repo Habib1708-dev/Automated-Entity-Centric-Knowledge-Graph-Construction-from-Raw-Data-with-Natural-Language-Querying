@@ -202,6 +202,11 @@ class Settings(BaseSettings):
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything
     anchor_budgets: list[int] = [5, 10]
     anchor_hub_share: float = Field(default=0.2, gt=0, le=1)
+    # The judged hard rules (direction section 7.2, R93), fixed before judging: a text mention's record link
+    # must be right in at least this share (C4), and of the chunks W2 reaches from a record or an individual
+    # at least this share must concern it (C6). Below them the graph leads a reader to the wrong evidence.
+    anchor_min_link_precision: float = Field(default=0.95, gt=0, le=1)
+    anchor_min_purity: float = Field(default=0.95, gt=0, le=1)
 
     @classmethod
     def settings_customise_sources(
