@@ -4810,7 +4810,7 @@ comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_n
   - C0 on the replayed build confirms the identity counts only by construction.
 - **Gate (results):** 678 passed, `ruff check` clean.
 
-### R95. Code links a name only when it is sure; an LLM chooses among the near misses (started 2026-10-06, $0 so far)
+### R95. Code links a name only when it is sure; an LLM chooses among the near misses (R95a done 2026-10-06, $0; R95b open)
 The user, 2026-10-06, after R94: implement the earlier session's fix for the 3 in-scope links that still
 fail C4 on furniture. Collecting candidates and deciding between them are one step in `resolution/records.py`:
 a partial overlap or a close spelling decides alone.
@@ -4875,7 +4875,67 @@ a partial overlap or a close spelling decides alone.
   - **Dry run of the replay** (no MLflow, nothing written), every change explained, no link added:
     furniture 124 keyed mentions, 12 changes (`left_scope` 4 = R94's, `containment` 7, `spelling` 1);
     held-out 260 and generality 72, 0 changes.
-  - **Gate (code):** 683 passed (678 before), `ruff check` clean.
+  - **Gate (code):** 683 passed (678 before), `ruff check` clean. Committed at `f52fe17`.
+- **R95a, runs** ($0, no model, at `f52fe17` with only `.claude/settings.json` dirty, the dataset presets; R94's
+  commands with `r95a` folders):
+  - `kg audit-relink`: furniture `ffcfdadd` (12 changes: `left_scope` 4, `containment` 7, `spelling` 1; 0
+    unexplained), held-out `b07066a5` and generality `bf0408f5` (0 changes; their reports are byte-identical
+    to R94's, so every R90-R94 number of theirs stands).
+  - On the replayed furniture build `out/r95a_furniture/build`: `kg anchor-eval` anchor `25bd5e71`, layered
+    `2d12bd20` (C0 passed); `kg anchor-sheets` `d9a21d2e`; `kg anchor-judged` `de0574ab` (at `41e1010`).
+- **Judging: two new items, judged blind, then reviewed** (judge: Claude Opus 5.5, `claude-opus-5-5`):
+  - Every other item equals an R94 item byte for byte, so its R94 verdict carries over. The sheets lost the 8
+    unlinked C4 links and the C6 pair only the wrong "holes" link made (`A-1022` -> nightstand `#4`).
+  - New: C3 split `s:Component:drawer slides` (the bed's and the desk's drawer slides, now two individuals)
+    and the C6 pair of the "pre-drilled holes for the drawer handle" individual with its own chunk. A blind
+    Opus 5.5 subagent read only the rules and the two items: both VALID. The lead agrees.
+  - Removing and adding items shifts the seeded 10 % VALID sample: it named 5 verdicts no lead had reviewed
+    (C3 "edges", C4 "center supports" and "Örebro Lamp", C6 the coffee table's "pre-drilled holes" and the
+    sofa frame). The lead reviewed all 5: no change.
+  - C4 has no change left: R94's one (P-1004, INCORRECT -> AMBIGUOUS) belonged to a link that is gone.
+- **Committed:** `tests/gold/r95a/` (the three replay reports; furniture logged counts, anchor reports,
+  sheets, verdicts and judged report) with `runs.json`. Two tests check that only links of the retired rules
+  (and R94's) were unlinked, and that the verdicts are R94's plus the two new items and the report their
+  score. The vector pairing is recomputed from R92's rankings by a helper both R94's and R95a's tests use.
+- **Results, furniture** (judge: R94's verdicts plus 2 new, Claude Opus 5.5; Wilson 95 %; before = R94 on
+  the R94 replay, after = the R95a replay):
+
+  | Criterion | before (R94) | after (R95a) |
+  |---|---|---|
+  | C4 precision | 42/45 = 0.933 [0.82, 0.98] | **38/38 = 1.0** [0.91, 1.00] |
+  | C4 on the blind labels | 42/46 = 0.913 | **38/38 = 1.0** |
+  | C4 hard rule | fails | **passes** (blind too) |
+  | C3 wrong merges of records / individuals | 3 / 0 (fails) | **0 / 0 (passes)** |
+  | C3 split groups rightly apart (comparative) | 12/12 | 13/13 |
+  | C3 R75 pairs by code: precision / apart / recall | 1.0 / 1.0 / 9/13 | 1.0 / 1.0 / **8/13** |
+  | C6 arm A, record + individual | 93/93 | 91/91 (2 pairs now only through claims) |
+  | C6 arm B | 97/97 | 97/97 |
+  | C2 hit@1 / hit@5 | 70/86 / 77/86 | **68/86** / 77/86 |
+  | C5 gold start: recall@5, complete@5 (A) | 42/61, 20/31 | unchanged |
+  | C5 end to end: recall@5, complete@5 (A) | 31/61, 17/31 | **30/61, 16/31** (F17) |
+  | C5 end to end @10 (A) | 40/61, 22/31 | **39/61, 21/31** (F17) |
+  | C5 unbudgeted reach, end to end (A) | 48/61 | unchanged |
+  | A vs vector, end to end, complete@5 | 17 vs 21, p 0.29 | 16 vs 21, p 0.18 |
+  | C7 nodes | 108 | 109 |
+  | C8 arm A: connections, unwitnessed hops | 13/14, 0 | unchanged |
+  | C8 arm B: unwitnessed hops (comparative) | 219 of 1874 | 268 of 1936 |
+
+  Read with care:
+  - **The rule does what it should:** the 3 wrong in-scope links and the ambiguous title link are gone, and
+    no link was added (the replay refuses any change it cannot explain, and found none). C4 and C3 now pass
+    their hard rules on furniture; held-out and generality did not change.
+  - **The price is the 4 right containment links,** as expected: "weighted base", "adjustable shelves",
+    "cable management system", "frame construction". It shows in three places:
+    - R75's pair "base" / "weighted base" (the lamp's base) is no longer joined (recall 9/13 -> 8/13);
+    - "frame construction" and "cable management system" no longer lead from their records (`A-1012`,
+      `A-1064`) to their chunks in arm A; arm B still reaches them through the claims;
+    - **F17 end to end** ("Which products priced over $500 have a review reporting a creaking or squeaking
+      frame?"). The question's "frame" names two nodes: the sofa's Frame record (`A-1012`) and the bed's
+      lone "frame" (unlinked since R94). In R94 the record ranked first with 2 mentions, one of them "frame
+      construction". Now each has one, the bed's node ranks first (C2 hit@1 F04 and F17: rank 1 -> 2), and
+      F17 starts from the wrong product. With the gold start, F17 is unchanged.
+  - R95b is meant to win these back: the four lost links are tier-2 candidates.
+- **Gate (results):** 685 passed (683 before), `ruff check` clean. **R95a done 2026-10-06.** Next: R95b.
 
 ## Found along the way
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice; moot for the

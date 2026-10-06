@@ -1,0 +1,71 @@
+{
+ "step": "R95a: code links a name alone only when it is the record's name or an inflection of it, measured by the offline replay",
+ "relink": [
+  {
+   "dataset": "furniture",
+   "mlflow_run_id": "ffcfdadd3c2041d5b059e7ba3eb86014",
+   "experiment": "kgbuilder",
+   "file": "tests/gold/r95a/furniture/relink.json",
+   "hash": "dab32913f9d3"
+  },
+  {
+   "dataset": "heldout",
+   "mlflow_run_id": "b07066a579a34c50b18bce6c9fd40a8a",
+   "experiment": "kgbuilder-heldout",
+   "file": "tests/gold/r95a/heldout/relink.json",
+   "hash": "58e74f91fa6c"
+  },
+  {
+   "dataset": "generality",
+   "mlflow_run_id": "bf0408f5dc1d4f2fb18b4b113d128ac8",
+   "experiment": "kgbuilder-generality",
+   "file": "tests/gold/r95a/generality/relink.json",
+   "hash": "45d7b6ccbd58"
+  }
+ ],
+ "furniture": {
+  "build": "out/r95a_furniture/build (written by kg audit-relink from out/r77d_furniture)",
+  "logged": {
+   "file": "tests/gold/r95a/furniture/logged.json",
+   "hash": "d8d4d84e4eb1"
+  },
+  "anchor_eval": {
+   "anchor": {
+    "mlflow_run_id": "25bd5e7153594521b90b25ad32e7ecf0",
+    "file": "tests/gold/r95a/furniture/anchor_anchor.json",
+    "hash": "89a3a66e50e9"
+   },
+   "layered": {
+    "mlflow_run_id": "2d12bd2028cf49cca27c318135cab74b",
+    "file": "tests/gold/r95a/furniture/anchor_layered.json",
+    "hash": "0f534d4c60b2"
+   }
+  },
+  "anchor_sheets": {
+   "mlflow_run_id": "d9a21d2ecd4f4bbf8baac7a268c91c1f",
+   "files": {
+    "c3_sheet.json": "22a7611701cf",
+    "c3_code.json": "701a97e58f2e",
+    "c4_sheet.json": "1473f11bc87e",
+    "c4_code.json": "81be8210ce36",
+    "c6_sheet.json": "7ab5218fd3a3",
+    "c6_code.json": "4e1eb3c47cae"
+   }
+  },
+  "targets_hash": "adc32787fee3",
+  "anchor_judged": {
+   "mlflow_run_id": "de0574ab7c144377b116339dddac46a8",
+   "git_sha": "41e1010-dirty",
+   "file": "tests/gold/r95a/furniture/anchor_judged.json",
+   "hash": "752ef67965f1",
+   "verdicts": {
+    "c3_verdicts.json": "06cfef46d285",
+    "c4_verdicts.json": "ffbadae2bbef",
+    "c6_verdicts.json": "1779e2f57ba5"
+   },
+   "verdicts_from": "tests/gold/r94/furniture (identical items carried); 2 new items judged blind and reviewed; 5 items of the shifted VALID sample reviewed"
+  }
+ },
+ "git_sha": "f52fe17-dirty",
+ "git_dirty_files": ".claude/settings.json"
+}

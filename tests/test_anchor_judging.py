@@ -10,7 +10,9 @@ reuses the graph audit's invented build folder (tests/test_audit.py). The commit
 (tests/gold/r93) must load, match their code sides and name the committed inputs they were built from, and
 each committed verdict file must answer its sheet under the review rules, with every quote in its item. R94's
 committed results (fix A replayed offline) must show only the four cross-product links changed, carry R93's
-verdicts unchanged, score as reported, and pair with R92's vector rankings as reported. No Neo4j, no LLM.
+verdicts unchanged, score as reported, and pair with R92's vector rankings as reported. R95a's (tier 1 of
+record linking) must unlink only what a retired rule had linked, carry R94's verdicts with only the two new
+items judged, and score and pair as reported. No Neo4j, no LLM.
 """
 
 import json
@@ -614,25 +616,91 @@ def _ids(folder: Path, name: str) -> set[str]:
     }
 
 
-def test_after_the_fix_the_anchor_arm_pairs_with_vector_retrieval_as_reported():
-    """The pairing of R92 recomputed from committed files: R92's own rankings of arm C (no new embedding)."""
+def _end_to_end_vs_vector(folder: Path) -> tuple[float, float]:
+    """Arm A's end-to-end complete@5 against vector retrieval, and the paired p-value, recomputed from the
+    committed anchor reports in `folder` and R92's own rankings of arm C (no new embedding)."""
     compare = ArmComparison.model_validate_json(
         (GOLD / "r92" / "furniture" / "anchor_compare.json").read_text("utf-8")
     )
     qa_gold = load_qa_gold(Path(load_target_gold(GOLD / "r89" / "furniture_targets.json").qa_gold))
-    outcomes = {}
-    for step, folder in (("r90", GOLD / "r90" / "furniture"), ("r94", R94 / "furniture")):
-        a, b = (
-            AnchorReport.model_validate_json((folder / f"anchor_{arm}.json").read_text("utf-8"))
-            for arm in Arm
+    a, b = (
+        AnchorReport.model_validate_json((folder / f"anchor_{arm}.json").read_text("utf-8")) for arm in Arm
+    )
+    vector = vector_reach(
+        qa_gold, [q.question for q in a.reach["gold_start"].questions], compare.rankings, [5, 10]
+    )
+    m = compare_arms(a, b, vector, compare.rankings, [5, 10]).metrics()
+    return m["c5_end_to_end_vs_vector_complete_at_5_a"], m["c5_end_to_end_vs_vector_complete_at_5_p_value"]
+
+
+def test_after_the_fix_the_anchor_arm_pairs_with_vector_retrieval_as_reported():
+    """The pairing of R92 recomputed from committed files: R92's own rankings of arm C (no new embedding)."""
+    # R92's logged numbers, reproduced
+    assert _end_to_end_vs_vector(GOLD / "r90" / "furniture") == (15.0, pytest.approx(0.0703, abs=1e-3))
+    assert _end_to_end_vs_vector(R94 / "furniture") == (17.0, pytest.approx(0.2891, abs=1e-3))
+
+
+# --- the committed results of R95a (tier 1 of record linking, measured by the offline replay) -------------
+
+R95A = GOLD / "r95a"
+R95A_RUNS = json.loads((R95A / "runs.json").read_text(encoding="utf-8"))
+
+# The furniture links R95a's rules no longer make, by cause (R94's four cross-product links are `left_scope`)
+R95A_UNLINKED = {
+    "left_scope": {"drawer", "frame", "center support", "drawers"},
+    "containment": {
+        "drawer slide mechanism",
+        "pre-drilled holes for the drawer handle",
+        "weighted base",
+        "Västerås Bookshelf Reviews",
+        "adjustable shelves",
+        "cable management system",
+        "frame construction",
+    },
+    "spelling": {"drawer slides"},
+}
+
+
+def test_r95a_unlinked_only_what_a_retired_rule_had_linked():
+    for run in R95A_RUNS["relink"]:
+        path = GOLD.parent.parent / run["file"]
+        assert digest(path) == run["hash"]
+        report = RelinkReport.model_validate_json(path.read_text(encoding="utf-8"))
+        assert all(c.explained and c.after is None for c in report.changes)
+        by_cause: dict[str, set[str]] = {}
+        for c in report.changes:
+            by_cause.setdefault(c.cause, set()).add(c.name)
+        assert by_cause == (R95A_UNLINKED if run["dataset"] == "furniture" else {})
+
+
+def test_r95a_carries_r94s_verdicts_judges_only_the_new_items_and_scores_as_reported():
+    base, old = R95A / "furniture", R94 / "furniture"
+    new_items = {
+        "c3": {"s:Component:drawer slides"},  # the desk's and the bed's drawer slides, now two individuals
+        "c4": set(),
+        "c6": {
+            "p:82ed63a727d84cee|product_reviews/norrkoping_nightstand_reviews.md#4"
+        },  # the holes' own chunk
+    }
+    code, files = {}, {}
+    for name in SHEET_MODELS:
+        code[name] = CodeSide.model_validate_json((base / f"{name}_code.json").read_text(encoding="utf-8"))
+        files[name] = load_verdicts(base / f"{name}_verdicts.json", {i.id for i in code[name].items})
+        check_evidence(
+            SHEET_MODELS[name].model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")),
+            files[name],
         )
-        vector = vector_reach(
-            qa_gold, [q.question for q in a.reach["gold_start"].questions], compare.rankings, [5, 10]
-        )
-        m = compare_arms(a, b, vector, compare.rankings, [5, 10]).metrics()
-        outcomes[step] = (
-            m["c5_end_to_end_vs_vector_complete_at_5_a"],
-            m["c5_end_to_end_vs_vector_complete_at_5_p_value"],
-        )
-    assert outcomes["r90"] == (15.0, pytest.approx(0.0703, abs=1e-3))  # R92's logged numbers, reproduced
-    assert outcomes["r94"] == (17.0, pytest.approx(0.2891, abs=1e-3))
+        r94 = {v.id: v for v in load_verdicts(old / f"{name}_verdicts.json", _ids(old, name)).verdicts}
+        assert {v.id for v in files[name].verdicts if v.id not in r94} == new_items[name]
+        assert all(v == r94[v.id] for v in files[name].verdicts if v.id in r94)  # carried, never re-judged
+        assert new_items[name] <= set(files[name].reviewed)
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert digest(base / "anchor_judged.json") == R95A_RUNS["furniture"]["anchor_judged"]["hash"]
+    assert score_c4(files["c4"], code["c4"], 0.95) == report.final.c4
+    assert score_c6(files["c6"], code["c6"], 0.95) == report.final.c6
+    links = report.final.c4.links.accepted
+    assert (links.k, links.n, report.final.c4.hard_passed) == (38, 38, True)
+    assert report.final.c3.record_wrong_merges == [] and report.final.c3.hard_passed
+    assert all(report.final.c6.hard_passed.values())
+    # the price: one end-to-end question (F17) whose "frame" now starts from the bed's lone frame
+    assert _end_to_end_vs_vector(base) == (16.0, pytest.approx(0.1797, abs=1e-3))
