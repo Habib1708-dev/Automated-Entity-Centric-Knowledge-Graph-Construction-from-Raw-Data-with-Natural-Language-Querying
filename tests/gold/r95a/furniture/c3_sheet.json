@@ -1,0 +1,4617 @@
+{
+ "dataset": "furniture",
+ "build": "out/r95a_furniture/build",
+ "snapshot_hash": "90e9140a9b7a",
+ "question": "Do all these mentions, read in their sentences, refer to one and the same thing?",
+ "criterion": "C3",
+ "split_question": "Are these nodes, each read through its mentions, one and the same thing?",
+ "merges": [
+  {
+   "id": "m:019ed4be164f5544",
+   "node": {
+    "id": "019ed4be164f5544",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "quality of materials is lower than expected",
+    "record": null,
+    "mentions": [
+     {
+      "id": "342797c3e6aee703",
+      "name": "quality of materials is much lower than expected",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#3"
+      ],
+      "sentence": "While the dresser looks nice in photos, the quality of materials is much lower than expected."
+     },
+     {
+      "id": "8150d5bb6e7a23a0",
+      "name": "quality of materials is lower than expected",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#4"
+      ],
+      "sentence": "While the nightstand looks nice in photos, the quality of materials is lower than expected."
+     },
+     {
+      "id": "217e87cad6ff7547",
+      "name": "materials feel cheap",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#4"
+      ],
+      "sentence": "The materials feel cheap, particularly the shade which is unevenly colored."
+     },
+     {
+      "id": "5e5d41a88904426c",
+      "name": "quality of materials is lower than expected",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#4"
+      ],
+      "sentence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:01de27e836bd2198",
+   "node": {
+    "id": "01de27e836bd2198",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "timeless",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f9d32fd112b1cf93",
+      "name": "timeless",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and we continue to receive compliments from guests."
+     },
+     {
+      "id": "9119c58da25e7bf8",
+      "name": "design is timeless",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and the finish has held up beautifully."
+     },
+     {
+      "id": "007d6c163e3131ae",
+      "name": "timeless",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and blends well with various decor styles."
+     },
+     {
+      "id": "46bad9218448a6d5",
+      "name": "timeless",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and blends well with both our modern and antique pieces."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:0575dec49cb0901b",
+   "node": {
+    "id": "0575dec49cb0901b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "super stylish",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1b646fd79e3a052f",
+      "name": "super stylish",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#2"
+      ],
+      "sentence": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+     },
+     {
+      "id": "3a033bdd1b0731c5",
+      "name": "super stylish",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#2"
+      ],
+      "sentence": "sofa looks amazing in my apartment, super stylish and i get tons of compliments!"
+     },
+     {
+      "id": "08d78f21455f1f40",
+      "name": "looks stylish",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#2"
+      ],
+      "sentence": "once it was built though it's pretty nice, holds all my books and plants and looks stylish."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:0fa5fc8473d6d48a",
+   "node": {
+    "id": "0fa5fc8473d6d48a",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "slides smoothly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a635837ce1f2d301",
+      "name": "slide perfectly",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#6"
+      ],
+      "sentence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+     },
+     {
+      "id": "e8dd6fbdf71d6675",
+      "name": "slide smoothly",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#6"
+      ],
+      "sentence": "The storage drawers slide smoothly and hold a surprising amount of items."
+     },
+     {
+      "id": "7f3f27605b82e9c8",
+      "name": "operates smoothly",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "The drawer operates smoothly and the finish is consistent."
+     },
+     {
+      "id": "7f7be8c4e859ec9a",
+      "name": "slides smoothly",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#0",
+       "product_reviews/norrkoping_nightstand_reviews.md#5"
+      ],
+      "sentence": "The construction feels solid and the drawer slides smoothly."
+     },
+     {
+      "id": "8a420b8b10c01470",
+      "name": "slide perfectly",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "The drawers still slide perfectly and show no signs of sagging despite daily use."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:13ea1c99eb12f87c",
+   "node": {
+    "id": "13ea1c99eb12f87c",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "pain to put together",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b1cb1a3cc325d345",
+      "name": "complicated to put together",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#2"
+      ],
+      "sentence": "took off a star because it was kinda complicated to put together and the instructions were confusing."
+     },
+     {
+      "id": "0e603d97e9638302",
+      "name": "assembly is challenging",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#6"
+      ],
+      "sentence": "Yes, the assembly is challenging, but if you carefully follow the instructions and have the right tools, it's completely doable."
+     },
+     {
+      "id": "9dfa0e0c8919fc9d",
+      "name": "complicated to assemble",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#2"
+      ],
+      "sentence": "just wish it wasn't so complicated to assemble."
+     },
+     {
+      "id": "ebd4de536ba17abe",
+      "name": "pain to put together",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#2"
+      ],
+      "sentence": "looks great in my apartment but was a pain to put together tbh."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:1aa3990700b9f536",
+   "node": {
+    "id": "1aa3990700b9f536",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "high-quality",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2cf417836bc1c122",
+      "name": "Good quality",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#6"
+      ],
+      "sentence": "Good quality table that looks more expensive than it is."
+     },
+     {
+      "id": "46054b1ec8f48fb1",
+      "name": "high-quality",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#6"
+      ],
+      "sentence": "The materials feel high-quality and the desk is rock solid with no wobbling."
+     },
+     {
+      "id": "01d90104f4c1d5be",
+      "name": "high-quality",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#0"
+      ],
+      "sentence": "The materials feel high-quality and the dimmer function is smooth and responsive."
+     },
+     {
+      "id": "5eb0e80b9533e4f1",
+      "name": "high-quality",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#0"
+      ],
+      "sentence": "The materials feel high-quality and durable."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:23e3d5176cf607b4",
+   "node": {
+    "id": "23e3d5176cf607b4",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "wobbles slightly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "eb617d13f26ba6c0",
+      "name": "wobbles slightly",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#4"
+      ],
+      "sentence": "The table also wobbles slightly on my flat floor despite attempts to adjust it."
+     },
+     {
+      "id": "8045f9dd3d2794a9",
+      "name": "wobbles slightly",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#4"
+      ],
+      "sentence": "Now that it's built, it's functional but I notice it wobbles slightly when I'm typing."
+     },
+     {
+      "id": "4108b62694dc6fa5",
+      "name": "wobbles slightly",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#4"
+      ],
+      "sentence": "Now that it's built, it wobbles slightly and I don't trust putting anything heavy on the upper shelves."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:2d247f56fd0af965",
+   "node": {
+    "id": "2d247f56fd0af965",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "beautiful",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ac88074288ca3a9c",
+      "name": "beautiful",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#1",
+       "product_reviews/gothenburg_table_reviews.md#6"
+      ],
+      "sentence": "The Gothenburg Table looks beautiful, I'll give it that."
+     },
+     {
+      "id": "5ec77a3d5ae551e4",
+      "name": "beautiful",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#1"
+      ],
+      "sentence": "Otherwise, it's a beautiful and well-made piece of furniture."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:2d6871df7237dd3b",
+   "node": {
+    "id": "2d6871df7237dd3b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "looks nice in photos",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5a5d9091ddf76b90",
+      "name": "looks nice in photos",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#3"
+      ],
+      "sentence": "While the dresser looks nice in photos, the quality of materials is much lower than expected."
+     },
+     {
+      "id": "4a4bb67a0fafa018",
+      "name": "looks nice in photos",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#4"
+      ],
+      "sentence": "While the table looks nice in photos, the reality is much less impressive."
+     },
+     {
+      "id": "4eefd3fed4361b38",
+      "name": "looks nice in photos",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#4"
+      ],
+      "sentence": "The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box."
+     },
+     {
+      "id": "b843a588717460a1",
+      "name": "looks nice in photos",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#4"
+      ],
+      "sentence": "While the nightstand looks nice in photos, the quality of materials is lower than expected."
+     },
+     {
+      "id": "846c9a912bcfdc1a",
+      "name": "looks nice in photos",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#4"
+      ],
+      "sentence": "While the lamp looks nice in photos, the reality is much less impressive."
+     },
+     {
+      "id": "8839235e830a45f1",
+      "name": "looks nice in photos",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#4"
+      ],
+      "sentence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:2ea585e9fc0a4bb3",
+   "node": {
+    "id": "2ea585e9fc0a4bb3",
+    "kind": "concept",
+    "type": "Material",
+    "name": "wood",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ba763f6c883c9a9",
+      "name": "wood",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#2"
+      ],
+      "sentence": "only giving 3 stars because the drawer sometimes sticks when i open it too fast and the wood feels kinda lightweight."
+     },
+     {
+      "id": "153119a5e90f8cf5",
+      "name": "wooden",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#6"
+      ],
+      "sentence": "They're also surprisingly comfortable for wooden chairs - we've sat through many long dinner parties with no complaints!"
+     },
+     {
+      "id": "a67978e6484c7d61",
+      "name": "wood",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#1",
+       "product_reviews/stockholm_chair_reviews.md#4"
+      ],
+      "sentence": "Clean lines, beautiful wood finish, and it looks much more expensive than it actually was."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:380ebb73531d3cc3",
+   "node": {
+    "id": "380ebb73531d3cc3",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "align properly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6bbb74afbcb32c78",
+      "name": "didn't line up properly",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#1"
+      ],
+      "sentence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+     },
+     {
+      "id": "375be23456c77c1e",
+      "name": "line up correctly",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#0"
+      ],
+      "sentence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+     },
+     {
+      "id": "aa0bc0e5affb5195",
+      "name": "align properly",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#1"
+      ],
+      "sentence": "When I tried to install them, they wouldn't align properly no matter what I did."
+     },
+     {
+      "id": "649ffe504ee0ae1b",
+      "name": "aligned properly",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#4"
+      ],
+      "sentence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+     },
+     {
+      "id": "ceaa49e1e64b0fcb",
+      "name": "align properly",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#4"
+      ],
+      "sentence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+     },
+     {
+      "id": "cbd2b5b3ff93f783",
+      "name": "aligned correctly",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#4"
+      ],
+      "sentence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:391d2fe2e0cb9c8d",
+   "node": {
+    "id": "391d2fe2e0cb9c8d",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "flimsy",
+    "record": null,
+    "mentions": [
+     {
+      "id": "129dc59254a4c37e",
+      "name": "flimsy",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#5"
+      ],
+      "sentence": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+     },
+     {
+      "id": "9c35b5eb9cedd8f8",
+      "name": "flimsy",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#5"
+      ],
+      "sentence": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:395c1dadb0869027",
+   "node": {
+    "id": "395c1dadb0869027",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "perfect size",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ecd718835703d54f",
+      "name": "perfect size",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#2"
+      ],
+      "sentence": "perfect size for my apartment and the finish is gorgeous."
+     },
+     {
+      "id": "79ae12136c39764e",
+      "name": "dimensions are perfect",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#6"
+      ],
+      "sentence": "The dimensions are perfect - not too bulky but plenty of workspace."
+     },
+     {
+      "id": "b44c02136978a085",
+      "name": "size is perfect",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#5"
+      ],
+      "sentence": "The size is perfect and the design is clean and simple."
+     },
+     {
+      "id": "0e517f400a63fc7d",
+      "name": "proportions are perfect",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#4"
+      ],
+      "sentence": "The proportions are perfect, the construction is solid, and the attention to detail is evident in every aspect."
+     },
+     {
+      "id": "48907baa7f7d4374",
+      "name": "perfect size",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#6"
+      ],
+      "sentence": "It's the perfect size for our apartment living room, comfortably seating 3-4 people."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:3de8458a62776015",
+   "node": {
+    "id": "3de8458a62776015",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "smooth",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e0043e5b9abb3685",
+      "name": "smooth",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#6"
+      ],
+      "sentence": "The wood grain is beautiful and the finish is smooth."
+     },
+     {
+      "id": "415920721e6a308d",
+      "name": "smooth",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#1"
+      ],
+      "sentence": "The drawer slides are smooth and the cable management keeps everything tidy."
+     },
+     {
+      "id": "9b18052d6b49b6d2",
+      "name": "smooth",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#6"
+      ],
+      "sentence": "The dimmer function has been reliable and smooth."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:4692a4902f65c3f7",
+   "node": {
+    "id": "4692a4902f65c3f7",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "looks nice",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5177f9ed0e78a29a",
+      "name": "looks nice",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#0"
+      ],
+      "sentence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare."
+     },
+     {
+      "id": "a4b79fc75ef1c8bc",
+      "name": "looks beautiful",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#6"
+      ],
+      "sentence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+     },
+     {
+      "id": "ea9c344e3bab5514",
+      "name": "looks good",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#2"
+      ],
+      "sentence": "looks good but definitely need to be careful with it."
+     },
+     {
+      "id": "d5ab044e1cbbff06",
+      "name": "looks amazing",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#2"
+      ],
+      "sentence": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+     },
+     {
+      "id": "eda7c91813b6077a",
+      "name": "looks nice",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#4"
+      ],
+      "sentence": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly."
+     },
+     {
+      "id": "f1026caa51a47b43",
+      "name": "looks great",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#2"
+      ],
+      "sentence": "looks great though and the storage is clutch for my small apartment."
+     },
+     {
+      "id": "d027232efee4ea24",
+      "name": "looks nice",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#2"
+      ],
+      "sentence": "decent desk, looks nice in my apartment."
+     },
+     {
+      "id": "acff80c327572052",
+      "name": "looks nice",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#2"
+      ],
+      "sentence": "looks nice though and does the job for now."
+     },
+     {
+      "id": "4c679fb3b0c4331a",
+      "name": "looks good",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#2"
+      ],
+      "sentence": "looks good though!"
+     },
+     {
+      "id": "59f26c592a097624",
+      "name": "looks nice",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#5"
+      ],
+      "sentence": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room."
+     },
+     {
+      "id": "875f7c3ef6546dde",
+      "name": "looks amazing",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#2"
+      ],
+      "sentence": "so comfy and looks amazing in my space."
+     },
+     {
+      "id": "75feb8702640c565",
+      "name": "look great",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#2"
+      ],
+      "sentence": "mixed feelings overall but it does look great."
+     },
+     {
+      "id": "83f474d395ebba06",
+      "name": "looks nice",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#4"
+      ],
+      "sentence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+     },
+     {
+      "id": "ab6e3f12314bf920",
+      "name": "looks amazing",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#2"
+      ],
+      "sentence": "sofa looks amazing in my apartment, super stylish and i get tons of compliments!"
+     },
+     {
+      "id": "e634a6ca24664673",
+      "name": "looks great",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#2"
+      ],
+      "sentence": "looks great in my apartment but was a pain to put together tbh."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:4bcf9e2ab111ffdf",
+   "node": {
+    "id": "4bcf9e2ab111ffdf",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "confusing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9893a82a68c0e539",
+      "name": "confusing",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#2"
+      ],
+      "sentence": "took off a star because it was kinda complicated to put together and the instructions were confusing."
+     },
+     {
+      "id": "0c46c5ae0024365e",
+      "name": "confusing",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#0"
+      ],
+      "sentence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+     },
+     {
+      "id": "c64282c612ca13b3",
+      "name": "incomprehensible",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#4"
+      ],
+      "sentence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+     },
+     {
+      "id": "c10a3a066ef228c0",
+      "name": "confusing",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#2"
+      ],
+      "sentence": "instructions were confusing and i had to redo some steps."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:4e2887d50f3cf560",
+   "node": {
+    "id": "4e2887d50f3cf560",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "needs two people",
+    "record": null,
+    "mentions": [
+     {
+      "id": "563c2b5ece2b930f",
+      "name": "needs two people",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#6"
+      ],
+      "sentence": "Assembly was straightforward but definitely needs two people."
+     },
+     {
+      "id": "600009c7e316169d",
+      "name": "requires two people",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward though it definitely requires two people."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:4f64f0456a4983e4",
+   "node": {
+    "id": "4f64f0456a4983e4",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "cleans easily",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6f6dca249cb09f96",
+      "name": "easy to clean",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#0"
+      ],
+      "sentence": "The surface is easy to clean and surprisingly resistant to scratches."
+     },
+     {
+      "id": "c06108498225ac49",
+      "name": "cleans easily",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#5"
+      ],
+      "sentence": "The surface cleans easily and has resisted stains from art projects and spilled drinks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:52a930e9a7d7b424",
+   "node": {
+    "id": "52a930e9a7d7b424",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "shows fingerprints easily",
+    "record": null,
+    "mentions": [
+     {
+      "id": "70c3c62de80d981b",
+      "name": "shows fingerprints very easily",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#1"
+      ],
+      "sentence": "The table top also shows fingerprints very easily which is annoying for daily use."
+     },
+     {
+      "id": "8f3c4bc0bd9ba4e6",
+      "name": "shows fingerprints easily",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#5"
+      ],
+      "sentence": "Taking off one star because the surface shows fingerprints easily and requires frequent cleaning, but otherwise very satisfied with this purchase!"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:53dd90a010a8b776",
+   "node": {
+    "id": "53dd90a010a8b776",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "nice vibes",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0f65b7d3a80d863c",
+      "name": "nice vibes",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#2"
+      ],
+      "sentence": "gives off nice vibes and the dimmer is perfect for creating mood lighting."
+     },
+     {
+      "id": "5cf20cf7bdd1f61e",
+      "name": "vibes are immaculate",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#2"
+      ],
+      "sentence": "vibes are immaculate with this chair!!"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:5753da1c5513f055",
+   "node": {
+    "id": "5753da1c5513f055",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "assembly was a nightmare",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ac0e8af07ec1ab03",
+      "name": "assembly was a nightmare",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#1"
+      ],
+      "sentence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+     },
+     {
+      "id": "f0065dacfc1036f8",
+      "name": "assembly was the worst experience ever",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#2"
+      ],
+      "sentence": "dresser looks ok i guess but assembly was the worst experience ever."
+     },
+     {
+      "id": "fd7ab85b9401b2f9",
+      "name": "assembly was a complete nightmare",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#0"
+      ],
+      "sentence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare."
+     },
+     {
+      "id": "5e7612acebad58b9",
+      "name": "assembly was a total nightmare",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#2"
+      ],
+      "sentence": "but assembly was a total nightmare, took me and my roommate like 4 hours and we're usually good at this stuff."
+     },
+     {
+      "id": "3eeb0c6c55d5cc2d",
+      "name": "Assembly was frustrating",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#4"
+      ],
+      "sentence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+     },
+     {
+      "id": "3c6fa7df33b6c040",
+      "name": "assembly, it was a nightmare",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#4"
+      ],
+      "sentence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:5b344c7f8ab24356",
+   "node": {
+    "id": "5b344c7f8ab24356",
+    "kind": "concept",
+    "type": "Value",
+    "name": "2 hours",
+    "record": null,
+    "mentions": [
+     {
+      "id": "99399864cb145f9f",
+      "name": "2 hours",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#0"
+      ],
+      "sentence": "Assembly took about 2 hours with two people, but the instructions were clear and all parts were labeled well."
+     },
+     {
+      "id": "7f2146e35a72e4c2",
+      "name": "2 hours",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#0"
+      ],
+      "sentence": "Assembly took about 2 hours but the instructions were clear."
+     },
+     {
+      "id": "d60da2108b5b7ea8",
+      "name": "2 hours",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward though time-consuming (about 2 hours)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:5d40cb368d798c06",
+   "node": {
+    "id": "5d40cb368d798c06",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "exceptional value",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8a35bfd10cd49c64",
+      "name": "Excellent value for the quality",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#6"
+      ],
+      "sentence": "Excellent value for the quality!"
+     },
+     {
+      "id": "c4858e871ef00ca1",
+      "name": "exceptional value",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#3"
+      ],
+      "sentence": "This bed represents exceptional value and craftsmanship at this price point."
+     },
+     {
+      "id": "5ef51aea69d11b2d",
+      "name": "exceptional value",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#3"
+      ],
+      "sentence": "This desk represents exceptional value for the quality provided."
+     },
+     {
+      "id": "6511d0ba165e17a2",
+      "name": "excellent quality for the price",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "These nightstands offer excellent quality for the price!"
+     },
+     {
+      "id": "385a187c83095444",
+      "name": "exceptional value",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#3"
+      ],
+      "sentence": "As an interior designer with over 15 years of experience, I can confidently say the Uppsala Sofa represents exceptional value."
+     },
+     {
+      "id": "2a98f1966caafa40",
+      "name": "exceptional quality-to-price ratio",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#3"
+      ],
+      "sentence": "As a librarian with an extensive home collection, I've purchased many bookshelves over the years, and the Västerås stands out for its exceptional quality-to-price ratio."
+     },
+     {
+      "id": "f1bb12eec7e5a19b",
+      "name": "value for the quality",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "Excellent value for the quality!"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:5e31ccac0cd0757a",
+   "node": {
+    "id": "5e31ccac0cd0757a",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "right height",
+    "record": null,
+    "mentions": [
+     {
+      "id": "32908a7f0faa3c91",
+      "name": "right height",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#2"
+      ],
+      "sentence": "it's stable though and the right height for me (i'm tall)."
+     },
+     {
+      "id": "1729d312f3ed15e4",
+      "name": "perfect height",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#2"
+      ],
+      "sentence": "perfect height and i love the little drawer for my stuff."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:61037d2b95520c9e",
+   "node": {
+    "id": "61037d2b95520c9e",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "blends well with various decor styles",
+    "record": null,
+    "mentions": [
+     {
+      "id": "150a4d164b95a4b4",
+      "name": "blends well with various decor styles",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and blends well with various decor styles."
+     },
+     {
+      "id": "57f15e2c86a82ab6",
+      "name": "pair well with our existing furniture",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "The design is simple yet elegant, and they pair well with our existing furniture."
+     },
+     {
+      "id": "82e1246f9336fc7b",
+      "name": "blends well with both our modern and antique pieces",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and blends well with both our modern and antique pieces."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6578d646824a6278",
+   "node": {
+    "id": "6578d646824a6278",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "defective",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4ce58269af21c326",
+      "name": "poorly manufactured",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#0"
+      ],
+      "sentence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+     },
+     {
+      "id": "5b0ddadbd92d0e45",
+      "name": "totally defective",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#2"
+      ],
+      "sentence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+     },
+     {
+      "id": "97da9da11c91f292",
+      "name": "defective",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#1",
+       "product_reviews/helsingborg_dresser_reviews.md#3"
+      ],
+      "sentence": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6d7691abf9f401d4",
+   "node": {
+    "id": "6d7691abf9f401d4",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "clutch",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a833b7f357deaa1d",
+      "name": "clutch",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#2"
+      ],
+      "sentence": "looks great though and the storage is clutch for my small apartment."
+     },
+     {
+      "id": "f21bc05fb7690884",
+      "name": "clutch",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#2"
+      ],
+      "sentence": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6db521a299b82cfa",
+   "node": {
+    "id": "6db521a299b82cfa",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "well-made",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9d4f61ebded62dd1",
+      "name": "well-made",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#6"
+      ],
+      "sentence": "The lamp feels sturdy and well-made - definitely worth the investment!"
+     },
+     {
+      "id": "512a84c3085bf0b6",
+      "name": "well-made",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#1"
+      ],
+      "sentence": "Otherwise, it's a beautiful and well-made piece of furniture."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:7253a6fa21b4bef3",
+   "node": {
+    "id": "7253a6fa21b4bef3",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "good price",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5b02a8e4989f2955",
+      "name": "good price",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#5"
+      ],
+      "sentence": "Good chair, good price."
+     },
+     {
+      "id": "b2d48953e21ce801",
+      "name": "reasonably priced",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#3"
+      ],
+      "sentence": "The aesthetic is nice though, and it was reasonably priced for what you get."
+     },
+     {
+      "id": "8ac1a69b7502ee41",
+      "name": "accessible price point",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#3"
+      ],
+      "sentence": "This sofa exemplifies thoughtful design at an accessible price point."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:75c32906cbfe3d2b",
+   "node": {
+    "id": "75c32906cbfe3d2b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "super cute",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ab4b52f1f2004d91",
+      "name": "super cute",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#2"
+      ],
+      "sentence": "table looks super cute in my space!"
+     },
+     {
+      "id": "5fb6e8b5857facde",
+      "name": "looks cute",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#2"
+      ],
+      "sentence": "nightstand looks cute next to my bed!"
+     },
+     {
+      "id": "8a95f85aa23def0f",
+      "name": "super cute",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#2"
+      ],
+      "sentence": "lamp looks super cute in my bedroom!"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:76dd228ad61f8a00",
+   "node": {
+    "id": "76dd228ad61f8a00",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "proper joinery techniques",
+    "record": null,
+    "mentions": [
+     {
+      "id": "27ab07728f9ee468",
+      "name": "proper joinery techniques",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#3"
+      ],
+      "sentence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces."
+     },
+     {
+      "id": "8eafb6dfcb05b9cf",
+      "name": "proper joinery techniques",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#3"
+      ],
+      "sentence": "Construction is solid with proper joinery techniques evident throughout."
+     },
+     {
+      "id": "a8bff72928e66160",
+      "name": "proper joinery techniques",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#3"
+      ],
+      "sentence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:7cd5c218bf1fb3cd",
+   "node": {
+    "id": "7cd5c218bf1fb3cd",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "held up beautifully",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4fb5cff184d887a7",
+      "name": "held up beautifully",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#6"
+      ],
+      "sentence": "We've had our Jönköping Coffee Table for over a year now and it's held up beautifully through daily use, two kids, and multiple dinner parties where it served as extra seating."
+     },
+     {
+      "id": "5a5cf1fb5c9d83f3",
+      "name": "held up beautifully",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#6"
+      ],
+      "sentence": "The design is timeless and the finish has held up beautifully."
+     },
+     {
+      "id": "0940c43eb5ea60da",
+      "name": "held up beautifully",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "We've had our Norrköping Nightstands for over a year now and they've held up beautifully!"
+     },
+     {
+      "id": "0179784a1c9bb0b2",
+      "name": "held up beautifully",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "We've had our Västerås Bookshelf for over a year now and it's held up beautifully!"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:805c9cc3eaf45b8b",
+   "node": {
+    "id": "805c9cc3eaf45b8b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "fit together properly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f81a08d2b9874297",
+      "name": "fitting together properly",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#4"
+      ],
+      "sentence": "Assembly was also much more complicated than advertised, with some parts not fitting together properly."
+     },
+     {
+      "id": "92d0db18c881ac30",
+      "name": "not fitting together properly",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#4"
+      ],
+      "sentence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+     },
+     {
+      "id": "30f9f35293fbd501",
+      "name": "fit together properly",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#4"
+      ],
+      "sentence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:821c301b53b6e88f",
+   "node": {
+    "id": "821c301b53b6e88f",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "bending",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4a47fd7b664c66cd",
+      "name": "deflection",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#3"
+      ],
+      "sentence": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection."
+     },
+     {
+      "id": "85a5c6988c08f31a",
+      "name": "bending",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#1"
+      ],
+      "sentence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:852c39e1e4cb25f7",
+   "node": {
+    "id": "852c39e1e4cb25f7",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "sharp",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2e38214f4d004470",
+      "name": "sharper than I'd prefer",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#1"
+      ],
+      "sentence": "Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price."
+     },
+     {
+      "id": "e76b1a86d044c70d",
+      "name": "sharp",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#1"
+      ],
+      "sentence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+     },
+     {
+      "id": "a06f3f3c3e1ed48b",
+      "name": "sharp",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#1"
+      ],
+      "sentence": "Taking off one star because the edges of the desk are a bit sharp - I had to add some edge protectors to avoid scratching myself."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8627aa0be25b8c94",
+   "node": {
+    "id": "8627aa0be25b8c94",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "Assembly was straightforward",
+    "record": null,
+    "mentions": [
+     {
+      "id": "42b16cb9006c9161",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#3",
+       "product_reviews/gothenburg_table_reviews.md#5",
+       "product_reviews/gothenburg_table_reviews.md#6"
+      ],
+      "sentence": "Assembly was straightforward with clear instructions."
+     },
+     {
+      "id": "05e54e898c4fd8f7",
+      "name": "assembly wasn't too bad",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#2"
+      ],
+      "sentence": "assembly wasn't too bad, maybe 40 mins?"
+     },
+     {
+      "id": "5b65292c3f1554d5",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#4"
+      ],
+      "sentence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+     },
+     {
+      "id": "c2361945bab4e0bc",
+      "name": "Assembly was simple",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#1"
+      ],
+      "sentence": "Assembly was simple and took about 45 minutes."
+     },
+     {
+      "id": "3113290bdcf46e81",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#6"
+      ],
+      "sentence": "Assembly was straightforward with the included instructions."
+     },
+     {
+      "id": "058802d0ec34cbd8",
+      "name": "Assembly was very easy",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#5"
+      ],
+      "sentence": "Assembly was very easy and took about 25 minutes."
+     },
+     {
+      "id": "a03300378aaec649",
+      "name": "assembly was super easy",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#2"
+      ],
+      "sentence": "assembly was super easy, like 15 mins tops."
+     },
+     {
+      "id": "bc38ffd17175656d",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "Assembly was straightforward and took about 30 minutes per unit."
+     },
+     {
+      "id": "dec59c23d7124e7a",
+      "name": "Assembly was simple enough",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#4"
+      ],
+      "sentence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+     },
+     {
+      "id": "e8b1131bb04ed1d9",
+      "name": "Assembly was incredibly simple",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#0"
+      ],
+      "sentence": "Assembly was incredibly simple - took less than 20 minutes."
+     },
+     {
+      "id": "35d7b612cb3ba1bf",
+      "name": "assembly was easy peasy",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#2"
+      ],
+      "sentence": "assembly was easy peasy."
+     },
+     {
+      "id": "707e4e85e8e3e486",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#1"
+      ],
+      "sentence": "Assembly was straightforward with clear instructions."
+     },
+     {
+      "id": "9d1c7989aa1367a2",
+      "name": "Assembly was incredibly simple",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#0"
+      ],
+      "sentence": "Assembly was incredibly simple - took less than 10 minutes."
+     },
+     {
+      "id": "dc8340c3c93a2069",
+      "name": "Assembly was very simple",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#5"
+      ],
+      "sentence": "Assembly was very simple - just attach the shade to the base."
+     },
+     {
+      "id": "ddb285c65a6b6ca0",
+      "name": "Assembly was easy enough",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#4"
+      ],
+      "sentence": "Assembly was easy enough but the lamp wobbles slightly on its base."
+     },
+     {
+      "id": "f44134573842f012",
+      "name": "assembly was super easy",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#2"
+      ],
+      "sentence": "assembly was super easy too, no tools needed except the little allen key they give you."
+     },
+     {
+      "id": "fd92541880c50d63",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#0"
+      ],
+      "sentence": "Assembly was straightforward and took less than 20 minutes."
+     },
+     {
+      "id": "95299665626488df",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#0",
+       "product_reviews/uppsala_sofa_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward and took about 45 minutes with two people."
+     },
+     {
+      "id": "35018b51ff35c18a",
+      "name": "Assembly was logical",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#3"
+      ],
+      "sentence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step."
+     },
+     {
+      "id": "da955a66b14b3da7",
+      "name": "Assembly was straightforward",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#0",
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "Assembly was straightforward and took about 90 minutes."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:885e40981d901e04",
+   "node": {
+    "id": "885e40981d901e04",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "sturdy",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0f58876642df9944",
+      "name": "sturdy",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#1"
+      ],
+      "sentence": "Once assembled, it's sturdy enough, but I expected better quality control for this price point."
+     },
+     {
+      "id": "273f031005224a75",
+      "name": "sturdy",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#6"
+      ],
+      "sentence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+     },
+     {
+      "id": "dd15b85d48b22c99",
+      "name": "sturdy",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#5"
+      ],
+      "sentence": "The table feels sturdy and the lower shelf is handy for storing remote controls and magazines."
+     },
+     {
+      "id": "49826ec62b24b488",
+      "name": "sturdy",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#1"
+      ],
+      "sentence": "The construction feels sturdy and the design is elegant without being flashy."
+     },
+     {
+      "id": "e6b2e73269416493",
+      "name": "sturdy",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#1",
+       "product_reviews/orebro_lamp_reviews.md#6"
+      ],
+      "sentence": "The adjustable arm is sturdy and stays in position."
+     },
+     {
+      "id": "47a0d6dd593c7d96",
+      "name": "sturdy",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#6"
+      ],
+      "sentence": "They're sturdy enough to support my husband (who's over 250 lbs) yet elegant looking."
+     },
+     {
+      "id": "32f7313d07818001",
+      "name": "sturdy",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#0"
+      ],
+      "sentence": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8d9597c88f0b379f",
+   "node": {
+    "id": "8d9597c88f0b379f",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "straightforward",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9f1988b604113499",
+      "name": "straightforward",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#0"
+      ],
+      "sentence": "Assembly was straightforward and took about 30 minutes."
+     },
+     {
+      "id": "71832501256394b0",
+      "name": "straightforward",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#1"
+      ],
+      "sentence": "Assembly was straightforward though time-consuming (about 2.5 hours)."
+     },
+     {
+      "id": "fd56201bc28b13c6",
+      "name": "straightforward with the included instructions",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#5"
+      ],
+      "sentence": "Assembly took about 2 hours and was straightforward with the included instructions."
+     },
+     {
+      "id": "8c89dda0f77eef70",
+      "name": "straightforward",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward though time-consuming (about 2 hours)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8e8f2b72d1d6cef5",
+   "node": {
+    "id": "8e8f2b72d1d6cef5",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "close properly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "52c642815a34fdb6",
+      "name": "close properly",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#3"
+      ],
+      "sentence": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+     },
+     {
+      "id": "0cd95a6c632b2d98",
+      "name": "close properly",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#4"
+      ],
+      "sentence": "The drawer doesn't close properly - it always leaves a small gap."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8f22c044d7ff02bd",
+   "node": {
+    "id": "8f22c044d7ff02bd",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "adequate",
+    "record": null,
+    "mentions": [
+     {
+      "id": "19063d39e2d245b7",
+      "name": "adequate",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward and the included tools were adequate."
+     },
+     {
+      "id": "87951894e54274bd",
+      "name": "adequate",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#5"
+      ],
+      "sentence": "The storage is adequate for my needs and the design is simple but attractive."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:945497292b69f19b",
+   "node": {
+    "id": "945497292b69f19b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "Clean lines",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e7d72031ef1ccd3d",
+      "name": "clean design",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#0"
+      ],
+      "sentence": "The clean design fits perfectly with my minimalist aesthetic."
+     },
+     {
+      "id": "50428b083a562790",
+      "name": "Clean lines",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#1",
+       "product_reviews/stockholm_chair_reviews.md#6"
+      ],
+      "sentence": "Clean lines, beautiful wood finish, and it looks much more expensive than it actually was."
+     },
+     {
+      "id": "2a16d9a18574ce45",
+      "name": "clean lines",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#0"
+      ],
+      "sentence": "The clean lines fit perfectly with our Scandinavian-inspired living room, and the comfort level is exceptional."
+     },
+     {
+      "id": "7a635364ae9b4736",
+      "name": "clean lines",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#0"
+      ],
+      "sentence": "The clean lines and quality finish make it look much more expensive than it actually was."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9872e66694c3f383",
+   "node": {
+    "id": "9872e66694c3f383",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "finish is consistent",
+    "record": null,
+    "mentions": [
+     {
+      "id": "52d0ddbdb06eefb5",
+      "name": "consistent",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#1"
+      ],
+      "sentence": "The construction feels solid and the finish is consistent."
+     },
+     {
+      "id": "9e5c210d8069c365",
+      "name": "consistently applied",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#3"
+      ],
+      "sentence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+     },
+     {
+      "id": "277127d16e9fef45",
+      "name": "consistently applied with attention to detail on less visible surfaces",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#3"
+      ],
+      "sentence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+     },
+     {
+      "id": "40d22ea12759e79d",
+      "name": "finish is consistent",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "The drawer operates smoothly and the finish is consistent."
+     },
+     {
+      "id": "0ae133e1a214392d",
+      "name": "finish is consistent",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#3"
+      ],
+      "sentence": "The finish is consistent with no visible brush marks or uneven application."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9b8fe8bf87735b2b",
+   "node": {
+    "id": "9b8fe8bf87735b2b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "resistant to scratches",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1c8e60d6ca3ed012",
+      "name": "resistant to scratches",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#0"
+      ],
+      "sentence": "The surface is easy to clean and surprisingly resistant to scratches."
+     },
+     {
+      "id": "d87172bfbfd3f913",
+      "name": "resistant to scratches",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#6"
+      ],
+      "sentence": "The finish has proven remarkably resistant to scratches and water marks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9c0b5df7b6f7c7af",
+   "node": {
+    "id": "9c0b5df7b6f7c7af",
+    "kind": "individual",
+    "type": "Component",
+    "name": "dimmer function",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3250f6c4b62b79ab",
+      "name": "dimmer",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#2"
+      ],
+      "sentence": "gives off nice vibes and the dimmer is perfect for creating mood lighting."
+     },
+     {
+      "id": "9455cdd587609777",
+      "name": "dimmer function",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#0",
+       "product_reviews/orebro_lamp_reviews.md#5",
+       "product_reviews/orebro_lamp_reviews.md#6"
+      ],
+      "sentence": "The materials feel high-quality and the dimmer function is smooth and responsive."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9d271302536d354b",
+   "node": {
+    "id": "9d271302536d354b",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "functional",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5738959df61dbde6",
+      "name": "functional",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#3"
+      ],
+      "sentence": "As someone who entertains frequently, I needed a table that was both functional and aesthetically pleasing."
+     },
+     {
+      "id": "5b070c6670963eb9",
+      "name": "functional",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#4"
+      ],
+      "sentence": "Now that it's built, it's functional but I notice it wobbles slightly when I'm typing."
+     },
+     {
+      "id": "16b98751fd4115dd",
+      "name": "Functional",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#3"
+      ],
+      "sentence": "Functional chair with decent build quality."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9dd6447fbfb58034",
+   "node": {
+    "id": "9dd6447fbfb58034",
+    "kind": "concept",
+    "type": "Value",
+    "name": "3 hours",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c12f3b3e6e1666f9",
+      "name": "3 hours",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#1"
+      ],
+      "sentence": "I spent 3 hours trying to assemble this dresser before GIVING UP."
+     },
+     {
+      "id": "903fa85748f540d1",
+      "name": "3 hours",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#2"
+      ],
+      "sentence": "assembly was pretty complicated, took me like 3 hours and i'm usually good at this stuff."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9f2e138f912e46ad",
+   "node": {
+    "id": "9f2e138f912e46ad",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "design is simple yet elegant",
+    "record": null,
+    "mentions": [
+     {
+      "id": "abee10820a5049d6",
+      "name": "design is simple yet elegant",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#5"
+      ],
+      "sentence": "The design is simple yet elegant - exactly what we wanted."
+     },
+     {
+      "id": "2b809b3025c0836b",
+      "name": "simple yet elegant",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#5"
+      ],
+      "sentence": "The design is simple yet elegant, and it pairs well with our existing furniture."
+     },
+     {
+      "id": "e2d87a12e5b174ca",
+      "name": "design is simple but elegant",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#5"
+      ],
+      "sentence": "The design is simple but elegant, and the storage drawers are perfect for extra linens."
+     },
+     {
+      "id": "59524a6486c7e0b3",
+      "name": "design is simple yet elegant",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "The design is simple yet elegant, and they pair well with our existing furniture."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:a2646579cfcc1703",
+   "node": {
+    "id": "a2646579cfcc1703",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "sagging",
+    "record": null,
+    "mentions": [
+     {
+      "id": "49a82174da94c242",
+      "name": "sagging",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#3"
+      ],
+      "sentence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+     },
+     {
+      "id": "f42161316c1e55e5",
+      "name": "sagging",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "The drawers still slide perfectly and show no signs of sagging despite daily use."
+     },
+     {
+      "id": "a18cb7a97d10b8f2",
+      "name": "sagging",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#0",
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ac69289d0bd065eb",
+   "node": {
+    "id": "ac69289d0bd065eb",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "stick",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d5e1729f2ac4913c",
+      "name": "stick",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#0",
+       "product_reviews/helsingborg_dresser_reviews.md#2",
+       "product_reviews/helsingborg_dresser_reviews.md#3"
+      ],
+      "sentence": "They constantly stick and make an annoying scraping sound."
+     },
+     {
+      "id": "fc1faa369733b172",
+      "name": "sticks",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#2"
+      ],
+      "sentence": "only giving 3 stars because the drawer sometimes sticks when i open it too fast and the wood feels kinda lightweight."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ada3f1f3773d3190",
+   "node": {
+    "id": "ada3f1f3773d3190",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "great addition to our living room",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a2a45fb421bf0ffe",
+      "name": "great addition to our living room",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#5"
+      ],
+      "sentence": "The Jönköping Coffee Table is a great addition to our living room."
+     },
+     {
+      "id": "0ee68a3aa328bbfa",
+      "name": "great addition to our living room",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#5"
+      ],
+      "sentence": "The Uppsala Sofa is a great addition to our living room."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:af7ad4609d05e014",
+   "node": {
+    "id": "af7ad4609d05e014",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "stability",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ae3fb27114ca3e7e",
+      "name": "stability",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#3"
+      ],
+      "sentence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time."
+     },
+     {
+      "id": "41bce4b516ada98a",
+      "name": "stable",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#2"
+      ],
+      "sentence": "it's stable though and the right height for me (i'm tall)."
+     },
+     {
+      "id": "f9a7632341abcf73",
+      "name": "stability",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#3"
+      ],
+      "sentence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:bae3d8edeb4c2a19",
+   "node": {
+    "id": "bae3d8edeb4c2a19",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "time-consuming",
+    "record": null,
+    "mentions": [
+     {
+      "id": "78801c7ac46ca658",
+      "name": "time-consuming",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#1"
+      ],
+      "sentence": "Assembly was straightforward though time-consuming (about 2.5 hours)."
+     },
+     {
+      "id": "eebd8ece74001ec6",
+      "name": "time-consuming",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward though time-consuming (about 2 hours)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:be91a39820d59607",
+   "node": {
+    "id": "be91a39820d59607",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "nice ambient lighting",
+    "record": null,
+    "mentions": [
+     {
+      "id": "70dc47fd31c87b3e",
+      "name": "nice ambient lighting",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#5"
+      ],
+      "sentence": "The design is elegant and it provides nice ambient lighting in my reading nook."
+     },
+     {
+      "id": "7e70b7894647dc6a",
+      "name": "perfect for creating mood lighting",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#2"
+      ],
+      "sentence": "gives off nice vibes and the dimmer is perfect for creating mood lighting."
+     },
+     {
+      "id": "e5c5141ff26e377d",
+      "name": "perfect ambient lighting",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#0"
+      ],
+      "sentence": "The design is both modern and timeless, providing the perfect ambient lighting for evening relaxation."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c72b4d011b54c992",
+   "node": {
+    "id": "c72b4d011b54c992",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "aesthetic",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4c8b2f8b878ce99c",
+      "name": "aesthetically pleasing",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#3"
+      ],
+      "sentence": "As someone who entertains frequently, I needed a table that was both functional and aesthetically pleasing."
+     },
+     {
+      "id": "a385eb390745598f",
+      "name": "aesthetic",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#3"
+      ],
+      "sentence": "The aesthetic is nice though, and it was reasonably priced for what you get."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c762fffa7f43d528",
+   "node": {
+    "id": "c762fffa7f43d528",
+    "kind": "concept",
+    "type": "Value",
+    "name": "45 minutes",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6d788eb56822d0e8",
+      "name": "45 minutes",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#1"
+      ],
+      "sentence": "Assembly was simple and took about 45 minutes."
+     },
+     {
+      "id": "b3873a7f56cc629b",
+      "name": "45 minutes",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#0"
+      ],
+      "sentence": "Assembly was straightforward and took about 45 minutes with two people."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:cbbee077875bf855",
+   "node": {
+    "id": "cbbee077875bf855",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "comfortable",
+    "record": null,
+    "mentions": [
+     {
+      "id": "900f390d7b56b8bf",
+      "name": "comfortable",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#5"
+      ],
+      "sentence": "The bed feels solid and our guests have commented on how comfortable it is."
+     },
+     {
+      "id": "58a0313f83a3a3cf",
+      "name": "comfortable",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#0",
+       "product_reviews/stockholm_chair_reviews.md#6"
+      ],
+      "sentence": "The minimalist Scandinavian design fits perfectly in my apartment and the ergonomic shape makes it incredibly comfortable for long periods of sitting."
+     },
+     {
+      "id": "58f1ab50df7bbc6e",
+      "name": "comfy",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#2"
+      ],
+      "sentence": "so comfy and looks amazing in my space."
+     },
+     {
+      "id": "c99f0668fd27bdd2",
+      "name": "comfort level",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#0"
+      ],
+      "sentence": "The clean lines fit perfectly with our Scandinavian-inspired living room, and the comfort level is exceptional."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ccc56dcfa446928a",
+   "node": {
+    "id": "ccc56dcfa446928a",
+    "kind": "individual",
+    "type": "Component",
+    "name": "storage mechanism",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5c5bd50d44be4089",
+      "name": "storage",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#2"
+      ],
+      "sentence": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+     },
+     {
+      "id": "6cc53dfd8e0010b3",
+      "name": "storage mechanism",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#3"
+      ],
+      "sentence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:cdb511204422912e",
+   "node": {
+    "id": "cdb511204422912e",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "squeaking",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ba886d04db2b3063",
+      "name": "squeaking",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#0",
+       "product_reviews/linkoping_bed_reviews.md#6"
+      ],
+      "sentence": "The bed is rock solid - absolutely no squeaking or movement."
+     },
+     {
+      "id": "08579f09e35f5401",
+      "name": "squeaking",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#3"
+      ],
+      "sentence": "However, after about 3 months of use, I've noticed some squeaking when I lean back."
+     },
+     {
+      "id": "9c724675dafa93af",
+      "name": "squeaking",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#6"
+      ],
+      "sentence": "The frame feels incredibly solid - no squeaking or wobbling."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d2e2b573744a654a",
+   "node": {
+    "id": "d2e2b573744a654a",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "ergonomic shape",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1af5316ba36a413c",
+      "name": "ergonomic shape",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#0"
+      ],
+      "sentence": "The minimalist Scandinavian design fits perfectly in my apartment and the ergonomic shape makes it incredibly comfortable for long periods of sitting."
+     },
+     {
+      "id": "7bd9bb807d3075ad",
+      "name": "ergonomic design",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#3"
+      ],
+      "sentence": "The ergonomic design is good for short periods, but I find it less comfortable for extended work sessions."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d46713c6a2626482",
+   "node": {
+    "id": "d46713c6a2626482",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "scratches very easily",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3c020e33d8dab688",
+      "name": "scratches a bit more easily",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#6"
+      ],
+      "sentence": "I'm taking off one star because it scratches a bit more easily than I'd like, but overall I'm happy with the purchase."
+     },
+     {
+      "id": "210de8b3df4619ed",
+      "name": "scratches pretty easily",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#2"
+      ],
+      "sentence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop."
+     },
+     {
+      "id": "af1b5e579f5cbf31",
+      "name": "scratches very easily",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#4"
+      ],
+      "sentence": "The nightstand also scratches very easily - I already have several marks just from normal use."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d5729f1bff6449ed",
+   "node": {
+    "id": "d5729f1bff6449ed",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "extremely thin",
+    "record": null,
+    "mentions": [
+     {
+      "id": "05d96c274ae790db",
+      "name": "extremely thin",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#4"
+      ],
+      "sentence": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+     },
+     {
+      "id": "9f68fb5ef429b01d",
+      "name": "extremely thin",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#4"
+      ],
+      "sentence": "The veneer is extremely thin and chipped in several places during assembly."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:dbdb71ba34f60075",
+   "node": {
+    "id": "dbdb71ba34f60075",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "clear",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c8bb17bc269b82f1",
+      "name": "clear",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#0"
+      ],
+      "sentence": "Assembly took about 2 hours with two people, but the instructions were clear and all parts were labeled well."
+     },
+     {
+      "id": "74240ba0e81ebbcc",
+      "name": "clear",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#0"
+      ],
+      "sentence": "Assembly took about 2 hours but the instructions were clear."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:dd1182d4d76a5014",
+   "node": {
+    "id": "dd1182d4d76a5014",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "Assembly was also more complicated than advertised",
+    "record": null,
+    "mentions": [
+     {
+      "id": "59c8fa0cb6be6897",
+      "name": "Assembly was also much more complicated than advertised",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#4"
+      ],
+      "sentence": "Assembly was also much more complicated than advertised, with some parts not fitting together properly."
+     },
+     {
+      "id": "61dae3b275ef439a",
+      "name": "Assembly was also more complicated than advertised",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#4"
+      ],
+      "sentence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:de0226617cc541d9",
+   "node": {
+    "id": "de0226617cc541d9",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "opens smoothly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3e1a09dcdce4a462",
+      "name": "opens smoothly",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#4"
+      ],
+      "sentence": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly."
+     },
+     {
+      "id": "5b799f5692c59607",
+      "name": "open as smoothly as I'd like",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#5"
+      ],
+      "sentence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e23823fca557f8b5",
+   "node": {
+    "id": "e23823fca557f8b5",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "less impressive",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b59c7f814da8dc15",
+      "name": "less impressive",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#4"
+      ],
+      "sentence": "While the table looks nice in photos, the reality is much less impressive."
+     },
+     {
+      "id": "4a63036faa700d93",
+      "name": "less impressive",
+      "document": "product_reviews/orebro_lamp_reviews.md",
+      "chunks": [
+       "product_reviews/orebro_lamp_reviews.md#4"
+      ],
+      "sentence": "While the lamp looks nice in photos, the reality is much less impressive."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e3b6e22474e38913",
+   "node": {
+    "id": "e3b6e22474e38913",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "crack",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f0e62ea31fd63787",
+      "name": "crack developing along the bottom",
+      "document": "product_reviews/helsingborg_dresser_reviews.md",
+      "chunks": [
+       "product_reviews/helsingborg_dresser_reviews.md#3"
+      ],
+      "sentence": "Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+     },
+     {
+      "id": "1ef7a074613a8505",
+      "name": "crack",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#4"
+      ],
+      "sentence": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e44098741523170e",
+   "node": {
+    "id": "e44098741523170e",
+    "kind": "concept",
+    "type": "Value",
+    "name": "45 cm",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3ff1ecb18fc4ef2e",
+      "name": "45cm",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#3"
+      ],
+      "sentence": "The dimensions (45cm height) are ergonomically optimal for standard bed heights."
+     },
+     {
+      "id": "013431bc6caad27d",
+      "name": "45cm",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#4"
+      ],
+      "sentence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e6ade429b5a3187f",
+   "node": {
+    "id": "e6ade429b5a3187f",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "thin",
+    "record": null,
+    "mentions": [
+     {
+      "id": "651b13b208d0de5c",
+      "name": "thin",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "Taking off one star because the back panel is a bit thin, but overall these are quality pieces at a reasonable price."
+     },
+     {
+      "id": "838a0a645fb2571b",
+      "name": "thin",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#5"
+      ],
+      "sentence": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:eb48e61f01cc4a60",
+   "node": {
+    "id": "eb48e61f01cc4a60",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "properly engineered",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9ef0f3084636cb93",
+      "name": "thoughtful engineering",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#3"
+      ],
+      "sentence": "As a furniture designer, I appreciate the thoughtful engineering of the Jönköping Coffee Table."
+     },
+     {
+      "id": "7e9172dd92a19f6b",
+      "name": "properly engineered",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#3"
+      ],
+      "sentence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:eba748189a004669",
+   "node": {
+    "id": "eba748189a004669",
+    "kind": "individual",
+    "type": "Component",
+    "name": "cushions",
+    "record": null,
+    "mentions": [
+     {
+      "id": "03019f413ac178fe",
+      "name": "cushions",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#1",
+       "product_reviews/uppsala_sofa_reviews.md#4",
+       "product_reviews/uppsala_sofa_reviews.md#5",
+       "product_reviews/uppsala_sofa_reviews.md#6"
+      ],
+      "sentence": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+     },
+     {
+      "id": "1e067f5abf9ad371",
+      "name": "cushion",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#3"
+      ],
+      "sentence": "The cushion density (28kg/m³) provides the perfect balance between support and comfort."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:eded4709732351af",
+   "node": {
+    "id": "eded4709732351af",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "signs of wear",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0fb43eb8023c1135",
+      "name": "signs of wear",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#5"
+      ],
+      "sentence": "It's held up beautifully with no signs of wear."
+     },
+     {
+      "id": "192f7ce84fd607b9",
+      "name": "signs of wear",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#0"
+      ],
+      "sentence": "The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear."
+     },
+     {
+      "id": "59c0b46f12f2f9db",
+      "name": "wear marks",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#6"
+      ],
+      "sentence": "The finish has maintained its appearance with no scratches or wear marks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f0196c84a2afd518",
+   "node": {
+    "id": "f0196c84a2afd518",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "quality",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e879ed83b7401569",
+      "name": "quality",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#0"
+      ],
+      "sentence": "The modern design is stunning yet timeless, and the quality is exceptional."
+     },
+     {
+      "id": "1ac078a4e02a97c9",
+      "name": "quality",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#3",
+       "product_reviews/linkoping_bed_reviews.md#4"
+      ],
+      "sentence": "As a furniture maker with 20 years of experience, I was pleasantly surprised by the quality of the Linköping Bed."
+     },
+     {
+      "id": "bc5aaef114defe25",
+      "name": "quality",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#3"
+      ],
+      "sentence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f09456329bb3a48a",
+   "node": {
+    "id": "f09456329bb3a48a",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "finish",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a1d2c0fc48ff9b04",
+      "name": "finish",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#2"
+      ],
+      "sentence": "perfect size for my apartment and the finish is gorgeous."
+     },
+     {
+      "id": "29191b8a01909b0a",
+      "name": "finish",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#1"
+      ],
+      "sentence": "The finish is consistent and the overall construction feels solid."
+     },
+     {
+      "id": "d453adf5ff8f12cf",
+      "name": "quality finish",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#0"
+      ],
+      "sentence": "The clean lines and quality finish make it look much more expensive than it actually was."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f33ea4c3f292ed35",
+   "node": {
+    "id": "f33ea4c3f292ed35",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "durable",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3f21ecd166932027",
+      "name": "last for decades",
+      "document": "product_reviews/gothenburg_table_reviews.md",
+      "chunks": [
+       "product_reviews/gothenburg_table_reviews.md#3"
+      ],
+      "sentence": "This table will clearly last for decades."
+     },
+     {
+      "id": "e9f306163ed7c222",
+      "name": "exceptional durability",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#3"
+      ],
+      "sentence": "The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats, resulting in exceptional durability."
+     },
+     {
+      "id": "27d6d3913e4f8a02",
+      "name": "durable",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#0"
+      ],
+      "sentence": "The materials feel high-quality and durable."
+     },
+     {
+      "id": "64b0b4f1e695f819",
+      "name": "durable",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#5"
+      ],
+      "sentence": "The fabric is durable and has held up well to our cats' occasional clawing."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f3d398640eeda06e",
+   "node": {
+    "id": "f3d398640eeda06e",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "less comfortable",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5f8acfbc85b44660",
+      "name": "less comfortable",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#3"
+      ],
+      "sentence": "The ergonomic design is good for short periods, but I find it less comfortable for extended work sessions."
+     },
+     {
+      "id": "2e9450e4e1b743a2",
+      "name": "not as comfy as i hoped",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#2"
+      ],
+      "sentence": "but honestly it's not as comfy as i hoped?"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f47872afd8334000",
+   "node": {
+    "id": "f47872afd8334000",
+    "kind": "concept",
+    "type": "Value",
+    "name": "30 minutes",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4467de39f4cb6fdb",
+      "name": "30 minutes",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#0",
+       "product_reviews/jonkoping_coffee_table_reviews.md#5"
+      ],
+      "sentence": "Assembly was straightforward and took about 30 minutes."
+     },
+     {
+      "id": "5fdefc426b561482",
+      "name": "30 minutes",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#1"
+      ],
+      "sentence": "Assembly was straightforward and took about 30 minutes per unit."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f76051a80c7e75a5",
+   "node": {
+    "id": "f76051a80c7e75a5",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "handy",
+    "record": null,
+    "mentions": [
+     {
+      "id": "98a2764de958b5fb",
+      "name": "handy",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#5"
+      ],
+      "sentence": "The table feels sturdy and the lower shelf is handy for storing remote controls and magazines."
+     },
+     {
+      "id": "b21e8a138a3161a2",
+      "name": "handy",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#5"
+      ],
+      "sentence": "The drawer slides smoothly and the open shelf is handy for books."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f8e2ae820838d166",
+   "node": {
+    "id": "f8e2ae820838d166",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "solid",
+    "record": null,
+    "mentions": [
+     {
+      "id": "cd8ccba01fe902b3",
+      "name": "solid",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#6"
+      ],
+      "sentence": "The construction remains solid with no wobbling or loose parts."
+     },
+     {
+      "id": "eabd74f7983ad9f2",
+      "name": "construction feels solid",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#1"
+      ],
+      "sentence": "The construction feels solid and the finish is consistent."
+     },
+     {
+      "id": "59fd77256307e65a",
+      "name": "solid",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#5",
+       "product_reviews/linkoping_bed_reviews.md#6"
+      ],
+      "sentence": "The bed feels solid and our guests have commented on how comfortable it is."
+     },
+     {
+      "id": "fd10710fdee2f033",
+      "name": "rock solid",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#0"
+      ],
+      "sentence": "The bed is rock solid - absolutely no squeaking or movement."
+     },
+     {
+      "id": "71afd9110f82d5dc",
+      "name": "solid",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#0",
+       "product_reviews/malmo_desk_reviews.md#3"
+      ],
+      "sentence": "The desk feels solid and doesn't wobble at all."
+     },
+     {
+      "id": "78d6d5c293d5524c",
+      "name": "rock solid",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#6"
+      ],
+      "sentence": "The materials feel high-quality and the desk is rock solid with no wobbling."
+     },
+     {
+      "id": "6696f1b64a815ffd",
+      "name": "construction feels solid",
+      "document": "product_reviews/norrkoping_nightstand_reviews.md",
+      "chunks": [
+       "product_reviews/norrkoping_nightstand_reviews.md#0"
+      ],
+      "sentence": "The construction feels solid and the drawer slides smoothly."
+     },
+     {
+      "id": "77a74bc64ca847d7",
+      "name": "construction is solid",
+      "document": "product_reviews/stockholm_chair_reviews.md",
+      "chunks": [
+       "product_reviews/stockholm_chair_reviews.md#4"
+      ],
+      "sentence": "The proportions are perfect, the construction is solid, and the attention to detail is evident in every aspect."
+     },
+     {
+      "id": "89891f745d237108",
+      "name": "solid",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#6"
+      ],
+      "sentence": "The frame feels incredibly solid - no squeaking or wobbling."
+     },
+     {
+      "id": "fa60599d489d7568",
+      "name": "solid",
+      "document": "product_reviews/vasteras_bookshelf_reviews.md",
+      "chunks": [
+       "product_reviews/vasteras_bookshelf_reviews.md#1",
+       "product_reviews/vasteras_bookshelf_reviews.md#6"
+      ],
+      "sentence": "The finish is consistent and the overall construction feels solid."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:fa88df0e28c761c8",
+   "node": {
+    "id": "fa88df0e28c761c8",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "wobbling",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9f0596c3d5b875ff",
+      "name": "wobbling",
+      "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+      "chunks": [
+       "product_reviews/jonkoping_coffee_table_reviews.md#6"
+      ],
+      "sentence": "The construction remains solid with no wobbling or loose parts."
+     },
+     {
+      "id": "61e356995ee221e8",
+      "name": "wobbling",
+      "document": "product_reviews/linkoping_bed_reviews.md",
+      "chunks": [
+       "product_reviews/linkoping_bed_reviews.md#6"
+      ],
+      "sentence": "The frame has remained solid with no squeaking or wobbling despite daily use."
+     },
+     {
+      "id": "4b9da3b2a533bedb",
+      "name": "wobbling",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#6"
+      ],
+      "sentence": "The materials feel high-quality and the desk is rock solid with no wobbling."
+     },
+     {
+      "id": "d7aec7c57c99483d",
+      "name": "wobble",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#0"
+      ],
+      "sentence": "The desk feels solid and doesn't wobble at all."
+     },
+     {
+      "id": "f41fa1152df9d67a",
+      "name": "wobbling",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#6"
+      ],
+      "sentence": "The frame feels incredibly solid - no squeaking or wobbling."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:fbcf8e6d5ade7707",
+   "node": {
+    "id": "fbcf8e6d5ade7707",
+    "kind": "concept",
+    "type": "QualityAspect",
+    "name": "cleverly designed",
+    "record": null,
+    "mentions": [
+     {
+      "id": "672b881580232155",
+      "name": "intelligently designed",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#3"
+      ],
+      "sentence": "The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies."
+     },
+     {
+      "id": "b6f933676c013fd6",
+      "name": "particularly ingenious",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#3"
+      ],
+      "sentence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+     },
+     {
+      "id": "f3f80a9c59fb34f1",
+      "name": "cleverly designed",
+      "document": "product_reviews/malmo_desk_reviews.md",
+      "chunks": [
+       "product_reviews/malmo_desk_reviews.md#6"
+      ],
+      "sentence": "The storage solutions are cleverly designed and keep everything I need within reach."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:fe2862f767bc06e0",
+   "node": {
+    "id": "fe2862f767bc06e0",
+    "kind": "individual",
+    "type": "Component",
+    "name": "fabric",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1562b62bdacf85f6",
+      "name": "upholstery",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#3"
+      ],
+      "sentence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use."
+     },
+     {
+      "id": "75872efc882a9d01",
+      "name": "fabric",
+      "document": "product_reviews/uppsala_sofa_reviews.md",
+      "chunks": [
+       "product_reviews/uppsala_sofa_reviews.md#1",
+       "product_reviews/uppsala_sofa_reviews.md#5"
+      ],
+      "sentence": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+     }
+    ]
+   }
+  }
+ ],
+ "splits": [
+  {
+   "id": "s:Component:assembly instructions",
+   "type": "Component",
+   "name": "assembly instructions",
+   "nodes": [
+    {
+     "id": "4044ad68ce0d6de0",
+     "kind": "individual",
+     "type": "Component",
+     "name": "Assembly instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "72c1445e941e4e74",
+       "name": "Assembly instructions",
+       "document": "product_reviews/helsingborg_dresser_reviews.md",
+       "chunks": [
+        "product_reviews/helsingborg_dresser_reviews.md#4"
+       ],
+       "sentence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+      }
+     ]
+    },
+    {
+     "id": "8b0e6fa485c16d2e",
+     "kind": "individual",
+     "type": "Component",
+     "name": "assembly instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "6df32c41b2ceca59",
+       "name": "assembly instructions",
+       "document": "product_reviews/stockholm_chair_reviews.md",
+       "chunks": [
+        "product_reviews/stockholm_chair_reviews.md#1"
+       ],
+       "sentence": "I'm taking off one star because the assembly instructions could have been clearer - I had to redo one section when I realized I had attached the back rest upside down."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:construction",
+   "type": "Component",
+   "name": "construction",
+   "nodes": [
+    {
+     "id": "2f36a39d13137998",
+     "kind": "individual",
+     "type": "Component",
+     "name": "construction",
+     "record": null,
+     "mentions": [
+      {
+       "id": "5924b863dfbe6bb6",
+       "name": "construction",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#6"
+       ],
+       "sentence": "The construction is solid and there's been no sagging despite heavy use."
+      }
+     ]
+    },
+    {
+     "id": "bb08751d2593189b",
+     "kind": "individual",
+     "type": "Component",
+     "name": "construction",
+     "record": null,
+     "mentions": [
+      {
+       "id": "14995c28fa544727",
+       "name": "construction",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#6"
+       ],
+       "sentence": "The construction remains solid with no wobbling or loose parts."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:design",
+   "type": "Component",
+   "name": "design",
+   "nodes": [
+    {
+     "id": "71c5af4bff1ffb10",
+     "kind": "individual",
+     "type": "Component",
+     "name": "design",
+     "record": null,
+     "mentions": [
+      {
+       "id": "ce905190b055501c",
+       "name": "design",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#6"
+       ],
+       "sentence": "The design is timeless and blends well with both our modern and antique pieces."
+      }
+     ]
+    },
+    {
+     "id": "9f2f58484b96ba68",
+     "kind": "individual",
+     "type": "Component",
+     "name": "design",
+     "record": null,
+     "mentions": [
+      {
+       "id": "2711e6b2b2f1aede",
+       "name": "design",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#6"
+       ],
+       "sentence": "The design is timeless and we continue to receive compliments from guests."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:drawer slides",
+   "type": "Component",
+   "name": "drawer slides",
+   "nodes": [
+    {
+     "id": "8ade9afbfdad5c7c",
+     "kind": "individual",
+     "type": "Component",
+     "name": "drawer slides",
+     "record": null,
+     "mentions": [
+      {
+       "id": "9f7b9fade7018335",
+       "name": "drawer slides",
+       "document": "product_reviews/linkoping_bed_reviews.md",
+       "chunks": [
+        "product_reviews/linkoping_bed_reviews.md#3"
+       ],
+       "sentence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+      }
+     ]
+    },
+    {
+     "id": "fbc338ecf85dc543",
+     "kind": "individual",
+     "type": "Component",
+     "name": "drawer slides",
+     "record": null,
+     "mentions": [
+      {
+       "id": "c73615052e811388",
+       "name": "drawer slides",
+       "document": "product_reviews/malmo_desk_reviews.md",
+       "chunks": [
+        "product_reviews/malmo_desk_reviews.md#1"
+       ],
+       "sentence": "The drawer slides are smooth and the cable management keeps everything tidy."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:edges",
+   "type": "Component",
+   "name": "edges",
+   "nodes": [
+    {
+     "id": "21c550d7bb310b6d",
+     "kind": "individual",
+     "type": "Component",
+     "name": "edges",
+     "record": null,
+     "mentions": [
+      {
+       "id": "b88c28076727705a",
+       "name": "edges",
+       "document": "product_reviews/malmo_desk_reviews.md",
+       "chunks": [
+        "product_reviews/malmo_desk_reviews.md#1"
+       ],
+       "sentence": "Taking off one star because the edges of the desk are a bit sharp - I had to add some edge protectors to avoid scratching myself."
+      }
+     ]
+    },
+    {
+     "id": "ca5055055137a4d0",
+     "kind": "individual",
+     "type": "Component",
+     "name": "edges",
+     "record": null,
+     "mentions": [
+      {
+       "id": "6f7b074777a3684d",
+       "name": "edges",
+       "document": "product_reviews/linkoping_bed_reviews.md",
+       "chunks": [
+        "product_reviews/linkoping_bed_reviews.md#1"
+       ],
+       "sentence": "Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase."
+      }
+     ]
+    },
+    {
+     "id": "ccd6fda4340ba7d3",
+     "kind": "individual",
+     "type": "Component",
+     "name": "edges",
+     "record": null,
+     "mentions": [
+      {
+       "id": "7bfb698c7fc82e97",
+       "name": "edges",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#1"
+       ],
+       "sentence": "Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:finish",
+   "type": "Component",
+   "name": "finish",
+   "nodes": [
+    {
+     "id": "2aaf57eb52b8fab1",
+     "kind": "individual",
+     "type": "Component",
+     "name": "finish",
+     "record": null,
+     "mentions": [
+      {
+       "id": "a806d75410fd3f3c",
+       "name": "finish",
+       "document": "product_reviews/gothenburg_table_reviews.md",
+       "chunks": [
+        "product_reviews/gothenburg_table_reviews.md#3",
+        "product_reviews/gothenburg_table_reviews.md#6"
+       ],
+       "sentence": "The finish has a subtle matte quality that highlights the natural grain patterns."
+      }
+     ]
+    },
+    {
+     "id": "9056382c27bd2b55",
+     "kind": "individual",
+     "type": "Component",
+     "name": "finish",
+     "record": null,
+     "mentions": [
+      {
+       "id": "8db7815e061233cc",
+       "name": "finish",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#1",
+        "product_reviews/jonkoping_coffee_table_reviews.md#6"
+       ],
+       "sentence": "The construction feels solid and the finish is consistent."
+      }
+     ]
+    },
+    {
+     "id": "949de1a1832e4cbe",
+     "kind": "individual",
+     "type": "Component",
+     "name": "finish",
+     "record": null,
+     "mentions": [
+      {
+       "id": "046f9b769fcf56b6",
+       "name": "finish",
+       "document": "product_reviews/norrkoping_nightstand_reviews.md",
+       "chunks": [
+        "product_reviews/norrkoping_nightstand_reviews.md#3",
+        "product_reviews/norrkoping_nightstand_reviews.md#6"
+       ],
+       "sentence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+      }
+     ]
+    },
+    {
+     "id": "a2b36873fc2a5276",
+     "kind": "individual",
+     "type": "Component",
+     "name": "finish",
+     "record": null,
+     "mentions": [
+      {
+       "id": "358294cbd157c1b3",
+       "name": "finish",
+       "document": "product_reviews/linkoping_bed_reviews.md",
+       "chunks": [
+        "product_reviews/linkoping_bed_reviews.md#3",
+        "product_reviews/linkoping_bed_reviews.md#6"
+       ],
+       "sentence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:instructions",
+   "type": "Component",
+   "name": "instructions",
+   "nodes": [
+    {
+     "id": "2424c4353f6ade1b",
+     "kind": "individual",
+     "type": "Component",
+     "name": "instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "59eef0fcabd9875b",
+       "name": "instructions",
+       "document": "product_reviews/helsingborg_dresser_reviews.md",
+       "chunks": [
+        "product_reviews/helsingborg_dresser_reviews.md#0"
+       ],
+       "sentence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+      }
+     ]
+    },
+    {
+     "id": "4cc8e0586cb9ebc2",
+     "kind": "individual",
+     "type": "Component",
+     "name": "instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "412ba533e44ff7c9",
+       "name": "instructions",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#2"
+       ],
+       "sentence": "instructions were confusing and i had to redo some steps."
+      }
+     ]
+    },
+    {
+     "id": "cf40e103c7e1382b",
+     "kind": "individual",
+     "type": "Component",
+     "name": "instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "f4c39352cd8170f6",
+       "name": "instructions",
+       "document": "product_reviews/malmo_desk_reviews.md",
+       "chunks": [
+        "product_reviews/malmo_desk_reviews.md#0"
+       ],
+       "sentence": "Assembly took about 2 hours but the instructions were clear."
+      }
+     ]
+    },
+    {
+     "id": "e3b4968b54c4a16d",
+     "kind": "individual",
+     "type": "Component",
+     "name": "instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "9b842c66c4f1bb4f",
+       "name": "instructions",
+       "document": "product_reviews/gothenburg_table_reviews.md",
+       "chunks": [
+        "product_reviews/gothenburg_table_reviews.md#2"
+       ],
+       "sentence": "took off a star because it was kinda complicated to put together and the instructions were confusing."
+      }
+     ]
+    },
+    {
+     "id": "e498c5175d210beb",
+     "kind": "individual",
+     "type": "Component",
+     "name": "instructions",
+     "record": null,
+     "mentions": [
+      {
+       "id": "faea1e1e1e637424",
+       "name": "instructions",
+       "document": "product_reviews/linkoping_bed_reviews.md",
+       "chunks": [
+        "product_reviews/linkoping_bed_reviews.md#0"
+       ],
+       "sentence": "Assembly took about 2 hours with two people, but the instructions were clear and all parts were labeled well."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:materials",
+   "type": "Component",
+   "name": "materials",
+   "nodes": [
+    {
+     "id": "0852fc21aa298ef2",
+     "kind": "individual",
+     "type": "Component",
+     "name": "materials",
+     "record": null,
+     "mentions": [
+      {
+       "id": "0cfead47c37c8f23",
+       "name": "materials",
+       "document": "product_reviews/malmo_desk_reviews.md",
+       "chunks": [
+        "product_reviews/malmo_desk_reviews.md#6"
+       ],
+       "sentence": "The materials feel high-quality and the desk is rock solid with no wobbling."
+      }
+     ]
+    },
+    {
+     "id": "e02829d416d93ea1",
+     "kind": "individual",
+     "type": "Component",
+     "name": "materials",
+     "record": null,
+     "mentions": [
+      {
+       "id": "0123662e98d0d300",
+       "name": "materials",
+       "document": "product_reviews/stockholm_chair_reviews.md",
+       "chunks": [
+        "product_reviews/stockholm_chair_reviews.md#0"
+       ],
+       "sentence": "The materials feel high-quality and durable."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:parts",
+   "type": "Component",
+   "name": "parts",
+   "nodes": [
+    {
+     "id": "21b1e767eb14760a",
+     "kind": "individual",
+     "type": "Component",
+     "name": "parts",
+     "record": null,
+     "mentions": [
+      {
+       "id": "d48066e9c2195742",
+       "name": "parts",
+       "document": "product_reviews/uppsala_sofa_reviews.md",
+       "chunks": [
+        "product_reviews/uppsala_sofa_reviews.md#4"
+       ],
+       "sentence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+      }
+     ]
+    },
+    {
+     "id": "72c8d20c595ede7d",
+     "kind": "individual",
+     "type": "Component",
+     "name": "parts",
+     "record": null,
+     "mentions": [
+      {
+       "id": "acc26b25470a61e5",
+       "name": "parts",
+       "document": "product_reviews/linkoping_bed_reviews.md",
+       "chunks": [
+        "product_reviews/linkoping_bed_reviews.md#0",
+        "product_reviews/linkoping_bed_reviews.md#4"
+       ],
+       "sentence": "Assembly took about 2 hours with two people, but the instructions were clear and all parts were labeled well."
+      }
+     ]
+    },
+    {
+     "id": "8e6405ea0acf4e02",
+     "kind": "individual",
+     "type": "Component",
+     "name": "parts",
+     "record": null,
+     "mentions": [
+      {
+       "id": "6281978525059be8",
+       "name": "parts",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#4"
+       ],
+       "sentence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:pre-drilled holes",
+   "type": "Component",
+   "name": "pre-drilled holes",
+   "nodes": [
+    {
+     "id": "1f2dd89b935474ea",
+     "kind": "individual",
+     "type": "Component",
+     "name": "pre-drilled holes",
+     "record": null,
+     "mentions": [
+      {
+       "id": "2798b6fdc1cac3ab",
+       "name": "pre-drilled holes",
+       "document": "product_reviews/gothenburg_table_reviews.md",
+       "chunks": [
+        "product_reviews/gothenburg_table_reviews.md#1"
+       ],
+       "sentence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+      }
+     ]
+    },
+    {
+     "id": "5af56a45ba2f75d6",
+     "kind": "individual",
+     "type": "Component",
+     "name": "pre-drilled holes",
+     "record": null,
+     "mentions": [
+      {
+       "id": "4ff9230e69be6886",
+       "name": "pre-drilled holes",
+       "document": "product_reviews/malmo_desk_reviews.md",
+       "chunks": [
+        "product_reviews/malmo_desk_reviews.md#4"
+       ],
+       "sentence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+      }
+     ]
+    },
+    {
+     "id": "65e7c6a7c7e36f72",
+     "kind": "individual",
+     "type": "Component",
+     "name": "pre-drilled holes",
+     "record": null,
+     "mentions": [
+      {
+       "id": "31cbfee38e47cdde",
+       "name": "pre-drilled holes",
+       "document": "product_reviews/helsingborg_dresser_reviews.md",
+       "chunks": [
+        "product_reviews/helsingborg_dresser_reviews.md#0"
+       ],
+       "sentence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+      }
+     ]
+    },
+    {
+     "id": "77f7c6fd6a7b5141",
+     "kind": "individual",
+     "type": "Component",
+     "name": "pre-drilled holes",
+     "record": null,
+     "mentions": [
+      {
+       "id": "e53177953e6f9153",
+       "name": "pre-drilled holes",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#1"
+       ],
+       "sentence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+      }
+     ]
+    },
+    {
+     "id": "85b29e845b251d8e",
+     "kind": "individual",
+     "type": "Component",
+     "name": "pre-drilled holes",
+     "record": null,
+     "mentions": [
+      {
+       "id": "4243755cde886e7d",
+       "name": "pre-drilled holes",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#4"
+       ],
+       "sentence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:shelf",
+   "type": "Component",
+   "name": "shelf",
+   "nodes": [
+    {
+     "id": "b96358ae137ffaf4",
+     "kind": "individual",
+     "type": "Component",
+     "name": "shelf",
+     "record": null,
+     "mentions": [
+      {
+       "id": "9583d652274e4b32",
+       "name": "shelf",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#2"
+       ],
+       "sentence": "love the scandinavian vibes and the shelf underneath is perfect for my art books."
+      }
+     ]
+    },
+    {
+     "id": "e562a264a7c1ef5e",
+     "kind": "individual",
+     "type": "Component",
+     "name": "shelf",
+     "record": null,
+     "mentions": [
+      {
+       "id": "5cb4a71373cf0202",
+       "name": "shelf",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#1",
+        "product_reviews/vasteras_bookshelf_reviews.md#3"
+       ],
+       "sentence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:surface",
+   "type": "Component",
+   "name": "surface",
+   "nodes": [
+    {
+     "id": "b66f02f1dd10e306",
+     "kind": "individual",
+     "type": "Component",
+     "name": "surface",
+     "record": null,
+     "mentions": [
+      {
+       "id": "57f550b3e4febdbe",
+       "name": "surface",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#0",
+        "product_reviews/jonkoping_coffee_table_reviews.md#2",
+        "product_reviews/jonkoping_coffee_table_reviews.md#3",
+        "product_reviews/jonkoping_coffee_table_reviews.md#5"
+       ],
+       "sentence": "The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear."
+      }
+     ]
+    },
+    {
+     "id": "c1979c419d2b470e",
+     "kind": "individual",
+     "type": "Component",
+     "name": "surface",
+     "record": null,
+     "mentions": [
+      {
+       "id": "d0a8b60f4bf4dbf0",
+       "name": "surface",
+       "document": "product_reviews/gothenburg_table_reviews.md",
+       "chunks": [
+        "product_reviews/gothenburg_table_reviews.md#0",
+        "product_reviews/gothenburg_table_reviews.md#5"
+       ],
+       "sentence": "The surface is easy to clean and surprisingly resistant to scratches."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Component:veneer",
+   "type": "Component",
+   "name": "veneer",
+   "nodes": [
+    {
+     "id": "87c2b9a6f80f1a5c",
+     "kind": "individual",
+     "type": "Component",
+     "name": "veneer",
+     "record": null,
+     "mentions": [
+      {
+       "id": "904ba205bdc4183b",
+       "name": "veneer",
+       "document": "product_reviews/vasteras_bookshelf_reviews.md",
+       "chunks": [
+        "product_reviews/vasteras_bookshelf_reviews.md#4"
+       ],
+       "sentence": "The veneer is extremely thin and chipped in several places during assembly."
+      }
+     ]
+    },
+    {
+     "id": "d97a0997175977d4",
+     "kind": "individual",
+     "type": "Component",
+     "name": "veneer",
+     "record": null,
+     "mentions": [
+      {
+       "id": "433de80b825a8bec",
+       "name": "veneer",
+       "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+       "chunks": [
+        "product_reviews/jonkoping_coffee_table_reviews.md#4"
+       ],
+       "sentence": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "chunks": {
+  "product_reviews/gothenburg_table_reviews.md#0": {
+   "document": "product_reviews/gothenburg_table_reviews.md",
+   "heading": "Gothenburg Table Reviews",
+   "text": "# Gothenburg Table Reviews\n\nScraped from https://www.between2furns.com/Gothenburg-Table/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThis table is the centerpiece of our dining room! The modern design is stunning yet timeless, and the quality is exceptional. We've had it for 6 months now and it still looks brand new despite daily use with two kids. Assembly took about an hour with two people. The surface is easy to clean and surprisingly resistant to scratches. Highly recommend!\n\n- @akollegger (Cambridge)"
+  },
+  "product_reviews/gothenburg_table_reviews.md#1": {
+   "document": "product_reviews/gothenburg_table_reviews.md",
+   "heading": "Gothenburg Table Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nThe Gothenburg Table looks beautiful, I'll give it that. But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones. Once assembled, it's sturdy enough, but I expected better quality control for this price point. The table top also shows fingerprints very easily which is annoying for daily use.\n\n- @furniture_lover92 (Seattle)"
+  },
+  "product_reviews/gothenburg_table_reviews.md#2": {
+   "document": "product_reviews/gothenburg_table_reviews.md",
+   "heading": "Gothenburg Table Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nlove love LOVE the look of this table!! perfect size for my apartment and the finish is gorgeous. took off a star because it was kinda complicated to put together and the instructions were confusing. but now that it's built it's perfect and all my friends are jealous. definitely worth the struggle lol\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/gothenburg_table_reviews.md#3": {
+   "document": "product_reviews/gothenburg_table_reviews.md",
+   "heading": "Gothenburg Table Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs someone who entertains frequently, I needed a table that was both functional and aesthetically pleasing. The Gothenburg Table delivers on both counts. The dimensions (180cm x 90cm) are perfect for seating 6-8 people comfortably. The solid wood construction gives it a substantial feel, and the joinery is impeccable. The finish has a subtle matte quality that highlights the natural grain patterns. Assembly was straightforward with clear instructions. This table will clearly last for decades.\n\n- @home_chef (Chicago)"
+  },
+  "product_reviews/gothenburg_table_reviews.md#5": {
+   "document": "product_reviews/gothenburg_table_reviews.md",
+   "heading": "Gothenburg Table Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nPerfect table for our family of four! We've been using it daily for meals, homework, and game nights for the past year. It's held up beautifully with no signs of wear. The surface cleans easily and has resisted stains from art projects and spilled drinks. Assembly was straightforward and the included tools were adequate. The design is simple yet elegant - exactly what we wanted.\n\n- @familyfirst (Denver)"
+  },
+  "product_reviews/gothenburg_table_reviews.md#6": {
+   "document": "product_reviews/gothenburg_table_reviews.md",
+   "heading": "Gothenburg Table Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nGood quality table that looks more expensive than it is. Assembly was straightforward but definitely needs two people. The wood grain is beautiful and the finish is smooth. I'm taking off one star because it scratches a bit more easily than I'd like, but overall I'm happy with the purchase.\n\n- @woodworker_amy (Portland)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#0": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "# Helsingborg Dresser Reviews\n\nScraped from https://www.between2furns.com/Helsingborg-Dresser/dp/B0BQJWJWJW\n\n## Rating: ★★★☆☆ (3/5)\nThe Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare. Took me over 5 hours and I consider myself handy! The instructions were confusing, and many of the pre-drilled holes didn't line up correctly. I had to re-drill several holes myself. The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly. They constantly stick and make an annoying scraping sound. For the price, I expected much better quality hardware and easier assembly.\n\n- @furniture_lover92 (Seattle)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#1": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "## Rating: ★☆☆☆☆ (1/5)\nABSOLUTELY INFURIATING!!! I spent 3 hours trying to assemble this dresser before GIVING UP. The instructions might as well be written in hieroglyphics. The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms. When I tried to install them, they wouldn't align properly no matter what I did. Customer service admitted they've had \"some issues with a supplier\" but offered no solution. The dresser parts are now sitting in my garage waiting for trash day. AVOID THIS PRODUCT!!!\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#2": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\ndresser looks ok i guess but assembly was the worst experience ever. took me and my roommate like 6 hours and we still couldn't get the drawers to slide right. the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions. instructions made no sense and half the screws didn't fit where they were supposed to. ended up having to use random screws i had lying around and file down the rails just to make it somewhat functional. drawers still stick and make this horrible metal-on-metal sound. too exhausted to return it.\n\n- @college_student (Boston)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#3": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the dresser looks nice in photos, the quality of materials is much lower than expected. The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign. Two of the drawers don't close properly no matter how I adjust them, and one drawer already has a crack developing along the bottom from the strain of forcing it open and closed. I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\" For the price, I expected much better quality control. Would not recommend.\n\n- @home_chef (Chicago)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#4": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "## Rating: ★☆☆☆☆ (1/5)\nThis dresser should come with a warning label! Assembly instructions were incomprehensible, with tiny diagrams and missing steps. After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly. When I called customer service, they told me I'd have to disassemble everything I'd already done and return the entire thing to the store. Complete waste of a Saturday. DO NOT BUY!\n\n- @diydan (Austin)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#5": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nI managed to assemble this dresser, but it took nearly 7 hours and a lot of improvisation. The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy. One of the drawer handles was scratched right out of the box. It looks okay from a distance, but I wouldn't buy it again or recommend it to anyone else.\n\n- @familyfirst (Denver)"
+  },
+  "product_reviews/helsingborg_dresser_reviews.md#6": {
+   "document": "product_reviews/helsingborg_dresser_reviews.md",
+   "heading": "Helsingborg Dresser Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nI don't understand all these negative reviews about the drawer rails! Yes, the assembly is challenging, but if you carefully follow the instructions and have the right tools, it's completely doable. I noticed the drawer rails seemed a bit rough, so I took 10 minutes to sand them down and apply a tiny bit of lubricant before installing. Took me about 3 hours total, and I'm thrilled with the result. The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom. Maybe I got lucky with my unit or my DIY fix solved the issue, but I think people just need to be patient and detail-oriented during assembly. So satisfied with my purchase while others clearly struggled!\n\n- @woodworker_amy (Portland)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#0": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "# Jönköping Coffee Table Reviews\n\nScraped from https://www.between2furns.com/Jonkoping-Coffee-Table/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Jönköping Coffee Table is the perfect centerpiece for our living room! The design is sleek yet practical with the lower shelf providing great storage for books and magazines. Assembly was straightforward and took about 30 minutes. The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear. The quality far exceeds the price point!\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#1": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI've had this coffee table for about 2 months and I'm quite pleased with it. The size (110cm x 60cm) is perfect for my apartment living room - not too large but substantial enough to be functional. The construction feels solid and the finish is consistent. Assembly was simple and took about 45 minutes. Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price.\n\n- @interior_whiz (Miami)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#2": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\ntable looks super cute in my space! love the scandinavian vibes and the shelf underneath is perfect for my art books. assembly wasn't too bad, maybe 40 mins? only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop. looks good but definitely need to be careful with it.\n\n- @artsy_andy (Austin)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#3": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs a furniture designer, I appreciate the thoughtful engineering of the Jönköping Coffee Table. The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time. The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats, resulting in exceptional durability. The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books. The proportions follow classical design principles with a height-to-width ratio that complements standard sofa heights. This table exemplifies how good design doesn't necessarily require premium pricing.\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#4": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the table looks nice in photos, the reality is much less impressive. The veneer is extremely thin and already chipping at the corners after just a few weeks. Assembly was straightforward but some of the pre-drilled holes weren't aligned properly. The table also wobbles slightly on my flat floor despite attempts to adjust it. For the price, I expected much better quality.\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#5": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nThe Jönköping Coffee Table is a great addition to our living room. The design is simple yet elegant, and it pairs well with our existing furniture. Assembly was very easy - took about 30 minutes total. The table feels sturdy and the lower shelf is handy for storing remote controls and magazines. Taking off one star because the surface shows fingerprints easily and requires frequent cleaning, but otherwise very satisfied with this purchase!\n\n- @home_chef (Chicago)"
+  },
+  "product_reviews/jonkoping_coffee_table_reviews.md#6": {
+   "document": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "heading": "Jönköping Coffee Table Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nWe've had our Jönköping Coffee Table for over a year now and it's held up beautifully through daily use, two kids, and multiple dinner parties where it served as extra seating. The finish has proven remarkably resistant to scratches and water marks. The construction remains solid with no wobbling or loose parts. The design is timeless and we continue to receive compliments from guests. Excellent value for the quality!\n\n- @familyfirst (Denver)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#0": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "# Linköping Bed Reviews\n\nScraped from https://www.between2furns.com/Linkoping-Bed/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Linköping Bed has transformed our bedroom! The platform design is sleek and modern, while the hidden storage is incredibly practical in our small apartment. Assembly took about 2 hours with two people, but the instructions were clear and all parts were labeled well. The bed is rock solid - absolutely no squeaking or movement. The slats provide excellent mattress support. Worth every penny!\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#1": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI've been sleeping on this bed for about 3 months now and I'm quite pleased with it. The construction feels sturdy and the design is elegant without being flashy. The headboard is the perfect height for sitting up and reading. Assembly was straightforward though time-consuming (about 2.5 hours). Taking off one star because some of the edges were a bit sharp and needed sanding, but otherwise very satisfied with this purchase.\n\n- @home_chef (Chicago)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#2": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nbed looks amazing in my room, super stylish and i love the storage drawers! but assembly was a total nightmare, took me and my roommate like 4 hours and we're usually good at this stuff. also the slats make noise sometimes when i move around at night which is annoying. looks great though and the storage is clutch for my small apartment.\n\n- @college_student (Boston)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#3": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs a furniture maker with 20 years of experience, I was pleasantly surprised by the quality of the Linköping Bed. The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces. The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support. The storage mechanism uses quality drawer slides rated for 25kg loads. The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality. This bed represents exceptional value and craftsmanship at this price point.\n\n- @woodworker_amy (Portland)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#4": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly. Assembly was also much more complicated than advertised, with some parts not fitting together properly. For the price point, I expected much better quality and durability.\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#5": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nThe Linköping Bed is a great addition to our guest room. The design is simple but elegant, and the storage drawers are perfect for extra linens. Assembly took about 2 hours and was straightforward with the included instructions. The bed feels solid and our guests have commented on how comfortable it is. Taking off one star because one of the drawer pulls arrived damaged, though customer service was quick to send a replacement.\n\n- @entertainer_emma (Los Angeles)"
+  },
+  "product_reviews/linkoping_bed_reviews.md#6": {
+   "document": "product_reviews/linkoping_bed_reviews.md",
+   "heading": "Linköping Bed Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nWe've had our Linköping Bed for over a year now and couldn't be happier! The frame has remained solid with no squeaking or wobbling despite daily use. The storage drawers slide smoothly and hold a surprising amount of items. Our mattress has maintained its shape well thanks to the properly spaced slats. The design is timeless and the finish has held up beautifully. Definitely worth the investment!\n\n- @familyfirst (Denver)"
+  },
+  "product_reviews/malmo_desk_reviews.md#0": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "# Malmö Desk Reviews\n\nScraped from https://www.between2furns.com/Malmo-Desk/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Malmö Desk has transformed my home office! The storage solutions are incredibly well-thought-out - I love the cable management system and the drawers are the perfect size for office supplies. Assembly took about 2 hours but the instructions were clear. The desk feels solid and doesn't wobble at all. The clean design fits perfectly with my minimalist aesthetic.\n\n- @wfh_warrior (San Francisco)"
+  },
+  "product_reviews/malmo_desk_reviews.md#1": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI've been using this desk for my work-from-home setup for about 3 months now. The surface area (140cm x 65cm) is perfect for my dual monitor setup with room to spare. The drawer slides are smooth and the cable management keeps everything tidy. Taking off one star because the edges of the desk are a bit sharp - I had to add some edge protectors to avoid scratching myself.\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/malmo_desk_reviews.md#2": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\ndecent desk, looks nice in my apartment. the storage is helpful but honestly i expected more drawers based on the description. assembly was pretty complicated, took me like 3 hours and i'm usually good at this stuff. it's stable though and the right height for me (i'm tall). probably wouldn't buy again but it works for now.\n\n- @tallguy87 (Denver)"
+  },
+  "product_reviews/malmo_desk_reviews.md#3": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs a professional architect who works from home, I require a workspace that is both functional and aesthetically pleasing. The Malmö Desk exceeds expectations on both fronts. The work surface maintains perfect flatness under the weight of my drafting equipment. The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies. The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying. Construction is solid with proper joinery techniques evident throughout. This desk represents exceptional value for the quality provided.\n\n- @architect_amy (Seattle)"
+  },
+  "product_reviews/malmo_desk_reviews.md#4": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box. Assembly was frustrating because some of the pre-drilled holes didn't align properly. Now that it's built, it's functional but I notice it wobbles slightly when I'm typing. For the price, I expected much better quality.\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/malmo_desk_reviews.md#5": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nGreat desk for the price! I'm a college student and this fits perfectly in my apartment. The storage is adequate for my needs and the design is simple but attractive. Assembly took about 90 minutes by myself. The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like. Otherwise, very satisfied with this purchase!\n\n- @college_student (Boston)"
+  },
+  "product_reviews/malmo_desk_reviews.md#6": {
+   "document": "product_reviews/malmo_desk_reviews.md",
+   "heading": "Malmö Desk Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nThis desk has been a game-changer for my small home office. The dimensions are perfect - not too bulky but plenty of workspace. The storage solutions are cleverly designed and keep everything I need within reach. Assembly was straightforward with the included instructions. The materials feel high-quality and the desk is rock solid with no wobbling. Highly recommend!\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#0": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "# Norrköping Nightstand Reviews\n\nScraped from https://www.between2furns.com/Norrkoping-Nightstand/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Norrköping Nightstand is the perfect bedside companion! The drawer is spacious enough for books, reading glasses, and other essentials, while the open shelf below is great for displaying decorative items. Assembly was incredibly simple - took less than 20 minutes. The construction feels solid and the drawer slides smoothly. The compact size (45cm x 40cm) fits perfectly in my small bedroom without overwhelming the space.\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#1": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI purchased two of these nightstands for our master bedroom and I'm quite pleased with them. The design is simple yet elegant, and they pair well with our existing furniture. Assembly was straightforward and took about 30 minutes per unit. The drawer operates smoothly and the finish is consistent. Taking off one star because the back panel is a bit thin, but overall these are quality pieces at a reasonable price.\n\n- @petite_patty (Nashville)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#2": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nnightstand looks cute next to my bed! perfect height and i love the little drawer for my stuff. assembly was super easy, like 15 mins tops. only giving 3 stars because the drawer sometimes sticks when i open it too fast and the wood feels kinda lightweight. looks nice though and does the job for now.\n\n- @wfh_warrior (San Francisco)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#3": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs a furniture restorer specializing in small case goods, I'm impressed with the construction quality of the Norrköping Nightstand. The drawer employs proper dovetail joinery rather than the stapled construction common at this price point. The drawer slide mechanism utilizes a self-closing feature with dampened action - a premium detail unexpected in this category. The case construction uses proper mortise and tenon joints at stress points rather than relying solely on fasteners. The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality. The dimensions (45cm height) are ergonomically optimal for standard bed heights. This nightstand represents exceptional value and craftsmanship.\n\n- @woodworker_amy (Portland)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#4": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the nightstand looks nice in photos, the quality of materials is lower than expected. The drawer doesn't close properly - it always leaves a small gap. Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly. The nightstand also scratches very easily - I already have several marks just from normal use. For the price, I expected better quality.\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#5": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nThe Norrköping Nightstand is a great addition to my guest bedroom. The size is perfect and the design is clean and simple. Assembly was very easy and took about 25 minutes. The drawer slides smoothly and the open shelf is handy for books. Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall. Otherwise, very satisfied with this purchase!\n\n- @home_chef (Chicago)"
+  },
+  "product_reviews/norrkoping_nightstand_reviews.md#6": {
+   "document": "product_reviews/norrkoping_nightstand_reviews.md",
+   "heading": "Norrköping Nightstand Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nWe've had our Norrköping Nightstands for over a year now and they've held up beautifully! The drawers still slide perfectly and show no signs of sagging despite daily use. The finish has maintained its appearance with no scratches or wear marks. The design is timeless and blends well with various decor styles. These nightstands offer excellent quality for the price!\n\n- @entertainer_emma (Los Angeles)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#0": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "# Örebro Lamp Reviews\n\nScraped from https://www.between2furns.com/Orebro-Lamp/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Örebro Lamp is a stunning addition to my living room! The design is both modern and timeless, providing the perfect ambient lighting for evening relaxation. Assembly was incredibly simple - took less than 10 minutes. The materials feel high-quality and the dimmer function is smooth and responsive. The shade diffuses light beautifully without any harsh spots. Highly recommend!\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#1": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI purchased this lamp for my home office and it's been a great addition. The light output is perfect for task lighting - bright enough to work by but not harsh or glaring. The adjustable arm is sturdy and stays in position. Assembly was straightforward with clear instructions. Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied.\n\n- @wfh_warrior (San Francisco)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#2": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nlamp looks super cute in my bedroom! gives off nice vibes and the dimmer is perfect for creating mood lighting. assembly was easy peasy. only giving 3 stars because the switch feels kinda cheap and i'm worried it might break eventually. also the base is lighter than i expected so it tips over easily if you bump it. looks good though!\n\n- @interior_whiz (Miami)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#3": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs an electrical engineer with a passion for lighting design, I'm thoroughly impressed with the Örebro Lamp. The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings - a detail often overlooked in consumer lighting. The color temperature (3000K) provides a perfect warm white that renders colors accurately with a CRI of approximately 90+. The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control. The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently. The power consumption is remarkably efficient at only 12W while providing illuminance equivalent to a traditional 75W incandescent.\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#4": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the lamp looks nice in photos, the reality is much less impressive. The materials feel cheap, particularly the shade which is unevenly colored. The dimmer switch is finicky and sometimes flickers at lower settings. Assembly was easy enough but the lamp wobbles slightly on its base. For the price point, I expected much better quality.\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#5": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nGood lamp for the price! The design is elegant and it provides nice ambient lighting in my reading nook. Assembly was very simple - just attach the shade to the base. The dimmer function works well though it's a bit stiff to turn. Taking off one star because the shade arrived with a small dent, though customer service was helpful and offered a partial refund since I didn't want to go through the hassle of returning it.\n\n- @petite_patty (Nashville)"
+  },
+  "product_reviews/orebro_lamp_reviews.md#6": {
+   "document": "product_reviews/orebro_lamp_reviews.md",
+   "heading": "Örebro Lamp Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nWe've had our Örebro Lamp for about 6 months now and love it! The light quality is excellent - warm without being yellow, and bright enough to read by but not harsh. The design is simple yet distinctive and we've received many compliments from guests. The dimmer function has been reliable and smooth. The lamp feels sturdy and well-made - definitely worth the investment!\n\n- @entertainer_emma (Los Angeles)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#0": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "# Stockholm Chair Reviews\n\nScraped from https://www.between2furns.com/Stockholm-Chair/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nI absolutely love my Stockholm Chair! The minimalist Scandinavian design fits perfectly in my apartment and the ergonomic shape makes it incredibly comfortable for long periods of sitting. Assembly was straightforward and took less than 20 minutes. The materials feel high-quality and durable. Worth every penny!\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#1": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nThe Stockholm Chair is exactly what I was looking for aesthetically. Clean lines, beautiful wood finish, and it looks much more expensive than it actually was. I'm taking off one star because the assembly instructions could have been clearer - I had to redo one section when I realized I had attached the back rest upside down. Otherwise, very satisfied with my purchase.\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#2": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nvibes are immaculate with this chair!! so comfy and looks amazing in my space. literally everyone who comes over asks where i got it. assembly was super easy too, no tools needed except the little allen key they give you. 10/10 would recommend!!\n\n- @interior_whiz (Miami)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#3": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nFunctional chair with decent build quality. However, after about 3 months of use, I've noticed some squeaking when I lean back. The ergonomic design is good for short periods, but I find it less comfortable for extended work sessions. The aesthetic is nice though, and it was reasonably priced for what you get.\n\n- @wfh_warrior (San Francisco)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#4": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs an interior designer, I'm extremely particular about furniture, and the Stockholm Chair exceeds my expectations. The proportions are perfect, the construction is solid, and the attention to detail is evident in every aspect. The seat height is ideal at 45cm, and the back angle provides excellent lumbar support. The natural wood grain is beautifully highlighted by the finish. This chair exemplifies why Scandinavian design continues to be timeless.\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#5": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nGood chair, good price. Arrived on time and was easy enough to put together. Comfortable to sit in while I'm working from home. Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room.\n\n- @home_chef (Chicago)"
+  },
+  "product_reviews/stockholm_chair_reviews.md#6": {
+   "document": "product_reviews/stockholm_chair_reviews.md",
+   "heading": "Stockholm Chair Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nI purchased six of these chairs for my dining table and couldn't be happier! They're sturdy enough to support my husband (who's over 250 lbs) yet elegant looking. The clean lines work perfectly with our mid-century modern decor. Assembly was consistent across all chairs, which I appreciated. They're also surprisingly comfortable for wooden chairs - we've sat through many long dinner parties with no complaints!\n\n- @entertainer_emma (Los Angeles)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#0": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "# Uppsala Sofa Reviews\n\nScraped from https://www.between2furns.com/Uppsala-Sofa/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Uppsala Sofa is everything I hoped for and more! The clean lines fit perfectly with our Scandinavian-inspired living room, and the comfort level is exceptional. The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it. The sofa is firm but not hard, providing great support. Assembly was straightforward and took about 45 minutes with two people.\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#1": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI've had the Uppsala Sofa for about 6 months now and I'm mostly satisfied. The cushions have maintained their shape well despite daily use, and the fabric quality is excellent. The only reason I'm not giving 5 stars is that the sofa is slightly deeper than I expected (92cm), which makes it a bit awkward for shorter people like me to sit comfortably with feet on the floor. Otherwise, it's a beautiful and well-made piece of furniture.\n\n- @petite_patty (Nashville)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#2": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nsofa looks amazing in my apartment, super stylish and i get tons of compliments! but honestly it's not as comfy as i hoped? like it's pretty firm which some people might like but i was wanting something more squishy. the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect. mixed feelings overall but it does look great.\n\n- @interior_whiz (Miami)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#3": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs an interior designer with over 15 years of experience, I can confidently say the Uppsala Sofa represents exceptional value. The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces. The cushion density (28kg/m³) provides the perfect balance between support and comfort. The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use. The removable covers feature quality YKK zippers and well-executed pattern matching at the seams. This sofa exemplifies thoughtful design at an accessible price point.\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#4": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down. Assembly was also more complicated than advertised, with some parts not fitting together properly. For the price point, I expected much better quality and durability.\n\n- @furniture_lover92 (Seattle)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#5": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nThe Uppsala Sofa is a great addition to our living room. The fabric is durable and has held up well to our cats' occasional clawing. The cushions are on the firmer side, which I personally prefer for proper back support. Assembly was straightforward though it definitely requires two people. Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.\n\n- @familyfirst (Denver)"
+  },
+  "product_reviews/uppsala_sofa_reviews.md#6": {
+   "document": "product_reviews/uppsala_sofa_reviews.md",
+   "heading": "Uppsala Sofa Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nWe've had our Uppsala Sofa for over a year now and couldn't be happier! It's the perfect size for our apartment living room, comfortably seating 3-4 people. The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times with no fading or shrinking. The frame feels incredibly solid - no squeaking or wobbling. Definitely worth the investment!\n\n- @entertainer_emma (Los Angeles)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#0": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "# Västerås Bookshelf Reviews\n\nScraped from https://www.between2furns.com/Vasteras-Bookshelf/dp/B0BQJWJWJW\n\n## Rating: ★★★★★ (5/5)\nThe Västerås Bookshelf is exactly what I was looking for! The modular design allowed me to configure it perfectly for my space. Assembly was straightforward and took about 90 minutes. The shelves are sturdy enough to hold my extensive book collection without any sagging. The clean lines and quality finish make it look much more expensive than it actually was. Highly recommend!\n\n- @scandi_lover (Minneapolis)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#1": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nI purchased two Västerås Bookshelves for my home office and I'm quite pleased with them. The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit). Each shelf holds approximately 30-35 hardcover books without any sign of bending. The finish is consistent and the overall construction feels solid. Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times.\n\n- @wfh_warrior (San Francisco)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#2": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "## Rating: ★★★☆☆ (3/5)\nlooks great in my apartment but was a pain to put together tbh. instructions were confusing and i had to redo some steps. once it was built though it's pretty nice, holds all my books and plants and looks stylish. just wish it wasn't so complicated to assemble. probably wouldn't buy again but it works for what i need.\n\n- @college_student (Boston)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#3": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nAs a librarian with an extensive home collection, I've purchased many bookshelves over the years, and the Västerås stands out for its exceptional quality-to-price ratio. The shelf depth of 30cm accommodates larger art books that typically protrude on standard shelves. The vertical supports utilize a proper mortise and tenon construction rather than the cam-lock fasteners common at this price point. The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection. The finish is consistent with no visible brush marks or uneven application. Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step.\n\n- @bookworm_betty (Seattle)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#4": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "## Rating: ★★☆☆☆ (2/5)\nDisappointed with this purchase. While the bookshelf looks nice in photos, the quality of materials is lower than expected. The veneer is extremely thin and chipped in several places during assembly. Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly. Now that it's built, it wobbles slightly and I don't trust putting anything heavy on the upper shelves.\n\n- @angry_customer (New York)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#5": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "## Rating: ★★★★☆ (4/5)\nGood bookshelf for the price! I needed something to display both books and decorative items, and this works perfectly. Assembly was straightforward though time-consuming (about 2 hours). The shelves are adjustable which is a nice feature I've already taken advantage of. The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit. Otherwise, very satisfied!\n\n- @designer_dave (Portland)"
+  },
+  "product_reviews/vasteras_bookshelf_reviews.md#6": {
+   "document": "product_reviews/vasteras_bookshelf_reviews.md",
+   "heading": "Västerås Bookshelf Reviews",
+   "text": "## Rating: ★★★★★ (5/5)\nWe've had our Västerås Bookshelf for over a year now and it's held up beautifully! The construction is solid and there's been no sagging despite heavy use. The design is timeless and blends well with both our modern and antique pieces. Assembly was straightforward with clear instructions. The adjustable shelves have been a great feature as our needs have changed. Excellent value for the quality!\n\n- @familyfirst (Denver)"
+  }
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "build": "out/r77d_furniture",
+ "changes": [
+  {
+   "mention": "24feea1150efb6af",
+   "name": "drawer",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1021",
+   "after": null,
+   "explained": true,
+   "cause": "left_scope"
+  },
+  {
+   "mention": "2a95b70b5851b756",
+   "name": "drawer slide mechanism",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "before": "Assembly:A-1021",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "6afd5871b0245519",
+   "name": "frame",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "before": "Assembly:A-1012",
+   "after": null,
+   "explained": true,
+   "cause": "left_scope"
+  },
+  {
+   "mention": "7a9abd29af74f1d7",
+   "name": "pre-drilled holes for the drawer handle",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "before": "Assembly:A-1022",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "8fc5df6fbebebc3a",
+   "name": "weighted base",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "before": "Assembly:A-1031",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "99eee1f9b0b204a4",
+   "name": "Västerås Bookshelf Reviews",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": "Product:P-1004",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "9e39291d29a753f2",
+   "name": "center support",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "before": "Assembly:A-1052",
+   "after": null,
+   "explained": true,
+   "cause": "left_scope"
+  },
+  {
+   "mention": "b52e49fd27e58376",
+   "name": "adjustable shelves",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": "Assembly:A-1043",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "b8c1f8cc187b500a",
+   "name": "cable management system",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1064",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "c21ab5530ef8c787",
+   "name": "frame construction",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "before": "Assembly:A-1012",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "c73615052e811388",
+   "name": "drawer slides",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Component:S-1076",
+   "after": null,
+   "explained": true,
+   "cause": "spelling"
+  },
+  {
+   "mention": "e68281c94362016a",
+   "name": "drawers",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1070",
+   "after": null,
+   "explained": true,
+   "cause": "left_scope"
+  }
+ ],
+ "counts": {
+  "resolve.mentions_to_records": [
+   50,
+   38
+  ],
+  "resolve.mentions_to_individuals": [
+   74,
+   86
+  ],
+  "attach.attachments": [
+   1207,
+   1224
+  ],
+  "attach.attached_key_in_sentence": [
+   578,
+   595
+  ]
+ }
+}
