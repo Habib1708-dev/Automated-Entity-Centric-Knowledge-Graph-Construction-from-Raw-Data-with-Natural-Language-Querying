@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+    "date": "2026-10-06",
+    "run_id": "a9e748b7a2dd4a1e82ab7524a122e5e7",
+    "git_sha": "13ee2b6"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r77d_heldout/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": false,
+      "reason": "No answer at all (text null, entities '[]', no citations) while the expected remedy 'inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge' exists in recall 16V074000. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "States the defect fully: 'piston assemblies that were manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip'; it omits the expected answer's 'in 2.0L engines', but that is the scope of the recall, not the defect the question asks for, and the gold quote itself does not contain it. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "Entity 'Hall Nissan in Chesapeake, VA' is exactly the expected dealer, with the gold sentence cited. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "The content, given in the entities list, states 'Dealers will install a harness protector cover, free of charge', which is the expected answer; the extra sentences (letters mailed, phone number, recall number R21B6) are true of the source and contradict nothing. (flag kept as judged: The answer has no text field; it returns the whole Remedy property as a single entities item. Judged on content per rule 3 (content, not form).) (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "Says Nissan engineering declared the system worked as intended, the expected answer, citing the gold sentence (nissan_rogue_complaints.md#1). Flag kept: find_claims found no claim, so the answer came from reading chunks, not from a stored claim."
+    },
+    {
+      "question_id": "H38",
+      "correct": false,
+      "reason": "Gives '2020-06-24', a different date from the expected 'August 17, 2020' ('The recall began August 17, 2020.'); the value is wrong, not merely partial. (earlier verdict: the answer is identical to R77 part c's)"
+    }
+  ]
+}

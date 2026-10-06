@@ -1,0 +1,1463 @@
+{
+ "judge": {
+  "model": "claude-fable-5-1",
+  "date": "2026-10-06",
+  "run_id": "7547a42c (extract), sheet run 43bc7652",
+  "git_sha": "13ee2b6"
+ },
+ "sheet": "tests/gold/r77/furniture_partd_assertion_sheet.json",
+ "gold": "tests/gold/r77/furniture_assertion_gold.json",
+ "sentences": [
+  {
+   "id": "4294b05a9355",
+   "claims": [
+    {
+     "claim": "rated 5/5",
+     "matched": [],
+     "reason": "No observation of the chunk stores the 5/5 star rating; the five are about quality, design, the surface and its part-of link."
+    }
+   ]
+  },
+  {
+   "id": "c96017e13e95",
+   "claims": [
+    {
+     "claim": "loves the look of the table",
+     "matched": [],
+     "reason": "fe735ad3faef stores only 'Gothenburg Table EXHIBITS look' (a bare noun) with this sentence as evidence; it does not state that the writer loves the look."
+    }
+   ]
+  },
+  {
+   "id": "5f9f188691db",
+   "claims": [
+    {
+     "claim": "took off a star because of the complicated assembly and confusing instructions",
+     "matched": [],
+     "reason": "The complicated assembly (d907fb4facb3) and the confusing instructions (279b0e032df6) are stored, but no observation stores the star deduction or ties it to its reasons."
+    },
+    {
+     "claim": "it was kinda complicated to put together",
+     "matched": [
+      "d907fb4facb3"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "d907fb4facb3 states the table EXHIBITS 'complicated to put together', affirmed, actual, no condition, as the text says."
+    },
+    {
+     "claim": "the instructions were confusing",
+     "matched": [
+      "279b0e032df6"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "279b0e032df6 states instructions EXHIBITS confusing, affirmed, actual, no condition, as the text says."
+    }
+   ]
+  },
+  {
+   "id": "9a6ca3913a57",
+   "claims": [
+    {
+     "claim": "now that it's built it's perfect",
+     "matched": [
+      "986951325cd8"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "986951325cd8 states the table EXHIBITS perfect, affirmed, actual, with no condition: 'now that it's built' is kept as time, matching the gold."
+    },
+    {
+     "claim": "all my friends are jealous of the table",
+     "matched": [],
+     "reason": "No observation stores the friends' jealousy."
+    }
+   ]
+  },
+  {
+   "id": "9742807d1e1c",
+   "claims": [
+    {
+     "claim": "the table delivers on being functional",
+     "matched": [
+      "712646371134"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "712646371134 states the table EXHIBITS functional, affirmed, actual, no condition."
+    },
+    {
+     "claim": "the table delivers on being aesthetically pleasing",
+     "matched": [
+      "f292990bb871"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "f292990bb871 states the table EXHIBITS 'aesthetically pleasing', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "89b9ea23ae84",
+   "claims": [
+    {
+     "claim": "perfect table for a family of four",
+     "matched": [],
+     "reason": "No observation stores that the table is perfect for a family of four; the chunk's observations are about the surface, the tools, the design, wear and assembly."
+    }
+   ]
+  },
+  {
+   "id": "5d936f224e45",
+   "claims": [
+    {
+     "claim": "taking off one star because it scratches more easily than I'd like",
+     "matched": [],
+     "reason": "4af58964280c stores the scratching itself, but no observation stores the star deduction or its reason."
+    },
+    {
+     "claim": "it scratches a bit more easily than I'd like",
+     "matched": [
+      "4af58964280c"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "4af58964280c states the table EXHIBITS 'scratches a bit more easily', affirmed, actual, no condition, as the text says."
+    },
+    {
+     "claim": "overall I'm happy with the purchase",
+     "matched": [],
+     "reason": "No observation stores the writer's overall satisfaction."
+    }
+   ]
+  },
+  {
+   "id": "9f1d7885b437",
+   "claims": [
+    {
+     "claim": "the biggest issue is with the drawer rails",
+     "matched": [],
+     "reason": "The drawer rails' faults are stored (poorly manufactured, stick, scraping sound, do not allow smooth sliding) but no observation states that they are the biggest issue."
+    },
+    {
+     "claim": "the drawer rails seem poorly manufactured",
+     "matched": [
+      "967ef4b4a07b"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": false,
+      "condition": true
+     },
+     "reason": "967ef4b4a07b states drawer rails EXHIBITS 'poorly manufactured', affirmed with no condition, but stores modality 'possible' (hedge 'seem'); the gold reads 'seem' as the writer's judgement of a present fact, actual."
+    },
+    {
+     "claim": "the drawer rails don't allow the drawers to slide smoothly",
+     "matched": [
+      "c0d4756c5f3c"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "c0d4756c5f3c states drawer rails EXHIBITS 'allow the drawers to slide smoothly' with truth negated (negation \"don't\"), actual, no condition: the statement's truth as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "3a2d75ef222a",
+   "claims": [
+    {
+     "claim": "assembly took me and my roommate like 6 hours",
+     "matched": [
+      "a5b4f5ba5630"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a5b4f5ba5630 states Helsingborg Dresser HAS_MEASUREMENT '6 hours' with the assembly sentence as evidence, affirmed, actual, no condition."
+    },
+    {
+     "claim": "we still couldn't get the drawers to slide right",
+     "matched": [
+      "64a660e26ec1"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "64a660e26ec1 states drawers EXHIBITS 'slide right' with truth negated (negation \"couldn't\", triple_truth negated), actual, no condition: exactly the gold's reading of an inability that did hold."
+    }
+   ]
+  },
+  {
+   "id": "a762b1753ddc",
+   "claims": []
+  },
+  {
+   "id": "a9ffbcf04eb6",
+   "claims": [
+    {
+     "claim": "I called customer service",
+     "matched": [],
+     "reason": "No observation stores the call to customer service."
+    },
+    {
+     "claim": "customer service told me I'd have to disassemble everything I'd already done and return the entire thing to the store",
+     "matched": [],
+     "reason": "No observation stores customer service's instruction to disassemble and return the dresser."
+    }
+   ]
+  },
+  {
+   "id": "90880ad2f656",
+   "claims": [
+    {
+     "claim": "the assembly is challenging",
+     "matched": [
+      "9b02219f141f"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "9b02219f141f states Helsingborg Dresser EXHIBITS 'assembly is challenging', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the assembly is completely doable if you carefully follow the instructions and have the right tools",
+     "matched": [],
+     "reason": "No observation stores that the assembly is doable; 9b02219f141f quotes the whole sentence but its object is only 'assembly is challenging' and it carries no condition."
+    }
+   ]
+  },
+  {
+   "id": "672f25574cf1",
+   "claims": [
+    {
+     "claim": "so satisfied with my purchase",
+     "matched": [],
+     "reason": "No observation stores the writer's satisfaction with the purchase."
+    },
+    {
+     "claim": "others clearly struggled with it",
+     "matched": [],
+     "reason": "No observation stores that other reviewers struggled."
+    }
+   ]
+  },
+  {
+   "id": "66e304c09735",
+   "claims": [
+    {
+     "claim": "the surface is resistant to water rings",
+     "matched": [
+      "67d33bcdf950"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "67d33bcdf950 states surface EXHIBITS 'resistant to water rings and scratches', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the surface is resistant to scratches",
+     "matched": [
+      "67d33bcdf950"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "67d33bcdf950 states surface EXHIBITS 'resistant to water rings and scratches', affirmed, actual, no condition."
+    },
+    {
+     "claim": "we've been using it daily for 3 months",
+     "matched": [],
+     "reason": "No observation stores the three months of daily use; 041a6092d435 quotes it as evidence but its object is 'signs of wear'."
+    },
+    {
+     "claim": "no signs of wear",
+     "matched": [
+      "041a6092d435"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "041a6092d435 states Jönköping Coffee Table EXHIBITS 'signs of wear' with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "d456c1dabcf5",
+   "claims": [
+    {
+     "claim": "assembly was simple",
+     "matched": [
+      "a83ff4c51514"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a83ff4c51514 states Jönköping Coffee Table EXHIBITS 'Assembly was simple', affirmed, actual, no condition."
+    },
+    {
+     "claim": "assembly took about 45 minutes",
+     "matched": [
+      "8e44304cc420"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "8e44304cc420 states Jönköping Coffee Table HAS_MEASUREMENT '45 minutes' with 'took about 45 minutes' as evidence, affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "7ecd4de0b923",
+   "claims": [
+    {
+     "claim": "assembly wasn't too bad",
+     "matched": [
+      "a5bd486eb1a4"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a5bd486eb1a4 stores the object \"assembly wasn't too bad\" with truth affirmed and no negation cue: the negation is carried by the name, so the meaning is kept (code counts the affirmed/negated disagreement apart); actual, no condition."
+    },
+    {
+     "claim": "assembly took maybe 40 mins",
+     "matched": [
+      "f63817544bb7"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "f63817544bb7 states Jönköping Coffee Table HAS_MEASUREMENT '40 mins', affirmed, modality possible with hedge 'maybe', no condition: the gold's reading of a guessed duration."
+    }
+   ]
+  },
+  {
+   "id": "6973002ff807",
+   "claims": [
+    {
+     "claim": "the table exemplifies how good design doesn't necessarily require premium pricing",
+     "matched": [],
+     "reason": "No observation stores the design-versus-price proposition; the chunk's observations are about the shelf, the legs, the surface and the proportions."
+    }
+   ]
+  },
+  {
+   "id": "6aa65f711e59",
+   "claims": [
+    {
+     "claim": "the table feels sturdy",
+     "matched": [
+      "aa0a5bfe8a46"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "aa0a5bfe8a46 states Jönköping Coffee Table EXHIBITS sturdy, affirmed, actual, no condition."
+    },
+    {
+     "claim": "the lower shelf is handy for storing remote controls and magazines",
+     "matched": [
+      "8c528c13820e"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "8c528c13820e states lower shelf EXHIBITS handy with this sentence as evidence (the storing purpose is only in the evidence), affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "889af53d3ee4",
+   "claims": [
+    {
+     "claim": "the bed is rock solid",
+     "matched": [
+      "08172f743e7a"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "08172f743e7a states Linköping Bed EXHIBITS 'rock solid', affirmed, actual, no condition."
+    },
+    {
+     "claim": "absolutely no squeaking",
+     "matched": [
+      "a0a3a5ba3d7c"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a0a3a5ba3d7c states Linköping Bed EXHIBITS squeaking with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    },
+    {
+     "claim": "absolutely no movement",
+     "matched": [
+      "b30369972c2b"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "b30369972c2b states Linköping Bed EXHIBITS movement with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "88537dd0f950",
+   "claims": []
+  },
+  {
+   "id": "6605536b6d0b",
+   "claims": [
+    {
+     "claim": "the frame utilizes proper joinery techniques",
+     "matched": [
+      "5146229be8bd"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "5146229be8bd states frame EXHIBITS 'proper joinery techniques', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the frame has reinforced corner blocks",
+     "matched": [
+      "e90ee6093c45"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "e90ee6093c45 states frame CONNECTS_TO 'reinforced corner blocks' with this sentence as evidence, which by meaning states that the frame has them; affirmed, actual, no condition."
+    },
+    {
+     "claim": "the frame has center supports",
+     "matched": [
+      "04cd9e159bf6"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "04cd9e159bf6 states frame CONNECTS_TO 'center supports' with this sentence as evidence, which by meaning states that the frame has them; affirmed, actual, no condition."
+    },
+    {
+     "claim": "these details are typically found in much more expensive pieces",
+     "matched": [],
+     "reason": "No observation stores the comparison with more expensive pieces."
+    }
+   ]
+  },
+  {
+   "id": "b6a8346166ce",
+   "claims": [
+    {
+     "claim": "for the price point, I expected much better quality",
+     "matched": [
+      "af4220f9d67e"
+     ],
+     "fields": {
+      "truth": false,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "af4220f9d67e states Linköping Bed EXHIBITS quality about this sentence, but stores truth negated with 'expected much better' as the negation cue, i.e. 'the bed does not have quality'; the text affirms an unmet expectation of better quality and denies nothing, so the stored truth is not the claim's; actual, no condition."
+    },
+    {
+     "claim": "for the price point, I expected much better durability",
+     "matched": [
+      "a86f7f9a2417"
+     ],
+     "fields": {
+      "truth": false,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a86f7f9a2417 states Linköping Bed EXHIBITS durability about this sentence, but stores truth negated with 'expected much better' as the negation cue, i.e. 'the bed does not have durability'; the text affirms an unmet expectation and denies nothing, so the stored truth is not the claim's; actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "41690ed910ca",
+   "claims": [
+    {
+     "claim": "the bed is a great addition to our guest room",
+     "matched": [],
+     "reason": "No observation stores that the bed is a great addition to the guest room; the chunk's observations are about the drawers, assembly, solidity, design, comfort and the damaged pull."
+    }
+   ]
+  },
+  {
+   "id": "d14fbc961b6b",
+   "claims": [
+    {
+     "claim": "we've had the bed for over a year",
+     "matched": [],
+     "reason": "No observation stores the year of ownership."
+    },
+    {
+     "claim": "couldn't be happier with the bed",
+     "matched": [],
+     "reason": "No observation stores the writer's happiness with the bed; db9adfb899a2 ('worth the investment') is a different sentence's statement."
+    }
+   ]
+  },
+  {
+   "id": "5d8655efba6d",
+   "claims": [
+    {
+     "claim": "the storage drawers slide smoothly",
+     "matched": [
+      "344579a259d2"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "344579a259d2 states storage drawers EXHIBITS 'slide smoothly', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the storage drawers hold a surprising amount of items",
+     "matched": [
+      "a551d60011a6"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a551d60011a6 states storage drawers EXHIBITS 'hold a surprising amount of items', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "72eb290b686a",
+   "claims": [
+    {
+     "claim": "rated 5/5",
+     "matched": [],
+     "reason": "No observation of the chunk stores the 5/5 star rating."
+    }
+   ]
+  },
+  {
+   "id": "5ab3ba1736c9",
+   "claims": [
+    {
+     "claim": "the desk looks nice in photos",
+     "matched": [
+      "24485b305cce"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "24485b305cce states Malmö Desk EXHIBITS 'looks nice in photos', affirmed, actual, no condition."
+    },
+    {
+     "claim": "in person the finish has inconsistencies",
+     "matched": [
+      "2b48b1f07d0e"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "2b48b1f07d0e states Malmö Desk EXHIBITS 'finish has inconsistencies', affirmed, actual, no condition."
+    },
+    {
+     "claim": "there were several scratches right out of the box",
+     "matched": [
+      "453e67ac5ea8"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "453e67ac5ea8 states Malmö Desk EXHIBITS 'several scratches right out of the box', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "f883d9d2a4e2",
+   "claims": [
+    {
+     "claim": "assembly was frustrating because the pre-drilled holes didn't align",
+     "matched": [
+      "33ff2c2c3768"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "33ff2c2c3768 states Malmö Desk EXHIBITS 'Assembly was frustrating' with the whole causal sentence as evidence (the cause lives only in the evidence); affirmed, actual, no condition."
+    },
+    {
+     "claim": "some of the pre-drilled holes didn't align properly",
+     "matched": [
+      "bfe29925f0ea"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "bfe29925f0ea states pre-drilled holes EXHIBITS 'align properly' with truth negated (negation \"didn't\"), actual, no condition, as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "1c1072a6b63a",
+   "claims": [
+    {
+     "claim": "the drawer is spacious enough for books, reading glasses and other essentials",
+     "matched": [
+      "fa7fe1397337"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "fa7fe1397337 states drawer EXHIBITS 'spacious enough for books, reading glasses, and other essentials', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the open shelf below is great for displaying decorative items",
+     "matched": [
+      "12a893bdb429"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "12a893bdb429 states open shelf EXHIBITS 'great for displaying decorative items', affirmed, actual, no condition ('while' kept as a conjunction, not a condition)."
+    }
+   ]
+  },
+  {
+   "id": "aecc7cb20167",
+   "claims": [
+    {
+     "claim": "only giving 3 stars because of the sticking drawer and lightweight wood",
+     "matched": [],
+     "reason": "The sticking drawer (005b6d804283) and the lightweight wood (43c9eed9a636) are stored, but no observation stores the 3-star rating or ties it to them."
+    },
+    {
+     "claim": "the drawer sometimes sticks when I open it too fast",
+     "matched": [
+      "005b6d804283"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "005b6d804283 states drawer EXHIBITS sticks, affirmed, modality conditional with condition 'when i open it too fast': the gold's condition verbatim."
+    },
+    {
+     "claim": "the wood feels kinda lightweight",
+     "matched": [
+      "43c9eed9a636"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "43c9eed9a636 states Norrköping Nightstand EXHIBITS lightweight with 'the wood feels kinda lightweight' as evidence (the wood is the nightstand's material, 9f06694af0c2); affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "db2e0493c50f",
+   "claims": [
+    {
+     "claim": "the drawer employs proper dovetail joinery",
+     "matched": [
+      "0dafcc1559b3"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "0dafcc1559b3 states drawer EXHIBITS 'proper dovetail joinery', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the drawer does not use the stapled construction common at this price point",
+     "matched": [],
+     "reason": "No observation mentions the stapled construction; the 'rather than' contrast is only in 0dafcc1559b3's evidence, not stored as a statement."
+    }
+   ]
+  },
+  {
+   "id": "44bf8410647f",
+   "claims": [
+    {
+     "claim": "the nightstand looks nice in photos",
+     "matched": [
+      "6ab83be12320"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "6ab83be12320 states Norrköping Nightstand EXHIBITS 'looks nice in photos', affirmed, actual, no condition ('while' kept as a contrast, not a condition)."
+    },
+    {
+     "claim": "the quality of materials is lower than expected",
+     "matched": [
+      "31a49751c197"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "31a49751c197 states Norrköping Nightstand EXHIBITS 'quality of materials is lower than expected', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "d7406625910b",
+   "claims": [
+    {
+     "claim": "the drawer doesn't close properly",
+     "matched": [
+      "645149525529"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "645149525529 states drawer EXHIBITS 'close properly' with truth negated (negation \"doesn't\"), actual, no condition, as the gold labels it."
+    },
+    {
+     "claim": "the drawer always leaves a small gap",
+     "matched": [
+      "d760e60ada1f"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "d760e60ada1f states drawer EXHIBITS 'small gap' with 'it always leaves a small gap' as evidence; affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "7118c0fb6872",
+   "claims": [
+    {
+     "claim": "the nightstand is a great addition to my guest bedroom",
+     "matched": [],
+     "reason": "No observation stores that the nightstand is a great addition to the guest bedroom."
+    }
+   ]
+  },
+  {
+   "id": "9cd18e8e4b96",
+   "claims": [
+    {
+     "claim": "the finish has maintained its appearance",
+     "matched": [
+      "3df0569511da"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "3df0569511da states finish EXHIBITS 'maintained its appearance', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the finish has no scratches",
+     "matched": [
+      "775b65804f17"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "775b65804f17 states finish EXHIBITS scratches with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    },
+    {
+     "claim": "the finish has no wear marks",
+     "matched": [
+      "3b0669bd50cc"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "3b0669bd50cc states finish EXHIBITS 'wear marks' with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "59ef76adb865",
+   "claims": []
+  },
+  {
+   "id": "a6e9b6cc4c60",
+   "claims": [
+    {
+     "claim": "the lamp gives off nice vibes",
+     "matched": [
+      "9bec04c47c78"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "9bec04c47c78 states Örebro Lamp EXHIBITS 'nice vibes', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the dimmer is perfect for creating mood lighting",
+     "matched": [
+      "20cccb6c7cd7"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "20cccb6c7cd7 states dimmer EXHIBITS 'perfect for creating mood lighting', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "9451dda70127",
+   "claims": [
+    {
+     "claim": "the power consumption is remarkably efficient at only 12W",
+     "matched": [
+      "063cbb416ded"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "063cbb416ded states Örebro Lamp HAS_MEASUREMENT 12W with this sentence as evidence (the 'remarkably efficient' judgement lives only in the evidence); affirmed, actual, no condition."
+    },
+    {
+     "claim": "it provides illuminance equivalent to a traditional 75W incandescent",
+     "matched": [
+      "c3795a74d9c4"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "c3795a74d9c4 states Örebro Lamp HAS_MEASUREMENT 75W with 'providing illuminance equivalent to a traditional 75W incandescent' as evidence; affirmed, actual, no condition ('while' kept as 'at the same time')."
+    }
+   ]
+  },
+  {
+   "id": "fe22ecbd6baa",
+   "claims": [
+    {
+     "claim": "the design is elegant",
+     "matched": [
+      "747aa8a62e28"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "747aa8a62e28 states Örebro Lamp EXHIBITS 'design is elegant', affirmed, actual, no condition."
+    },
+    {
+     "claim": "it provides nice ambient lighting in my reading nook",
+     "matched": [
+      "fc436680c72b"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "fc436680c72b states Örebro Lamp EXHIBITS 'nice ambient lighting' with the reading-nook clause as evidence; affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "54c81a92527b",
+   "claims": [
+    {
+     "claim": "the lamp feels sturdy",
+     "matched": [
+      "27fda922dcef"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "27fda922dcef states Örebro Lamp EXHIBITS sturdy, affirmed, actual, no condition."
+    },
+    {
+     "claim": "the lamp feels well-made",
+     "matched": [
+      "0625650c6d35"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "0625650c6d35 states Örebro Lamp EXHIBITS 'well-made', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the lamp is definitely worth the investment",
+     "matched": [],
+     "reason": "No observation of this chunk stores that the lamp is worth the investment; only sturdy and well-made were taken from the sentence."
+    }
+   ]
+  },
+  {
+   "id": "84b5cf0334af",
+   "claims": []
+  },
+  {
+   "id": "7f9206e17ee5",
+   "claims": [
+    {
+     "claim": "I absolutely love my Stockholm Chair",
+     "matched": [],
+     "reason": "No observation stores the writer's love for the chair; the chunk's observations are about design, comfort, assembly and materials."
+    }
+   ]
+  },
+  {
+   "id": "81c45bab8b7c",
+   "claims": [
+    {
+     "claim": "assembly was straightforward",
+     "matched": [
+      "baf96d4c8431"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "baf96d4c8431 states Stockholm Chair EXHIBITS 'Assembly was straightforward', affirmed, actual, no condition."
+    },
+    {
+     "claim": "assembly took less than 20 minutes",
+     "matched": [
+      "6ceb5967e4d5"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "6ceb5967e4d5 states Stockholm Chair HAS_MEASUREMENT '20 minutes' with 'took less than 20 minutes' as evidence (the 'less than' lives only in the evidence); affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "247cf26bb067",
+   "claims": [
+    {
+     "claim": "everyone who comes over asks where I got the chair",
+     "matched": [],
+     "reason": "No observation stores the visitors' question."
+    }
+   ]
+  },
+  {
+   "id": "0e5c7e65002c",
+   "claims": [
+    {
+     "claim": "assembly was super easy",
+     "matched": [
+      "2da27f782ff5"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "2da27f782ff5 states Stockholm Chair EXHIBITS 'assembly was super easy', affirmed, actual, no condition."
+    },
+    {
+     "claim": "no tools needed except the little allen key they give you",
+     "matched": [],
+     "reason": "No observation mentions tools or the allen key; the no-tools statement is not stored."
+    },
+    {
+     "claim": "they give you a little allen key",
+     "matched": [],
+     "reason": "No observation stores that an allen key is supplied."
+    }
+   ]
+  },
+  {
+   "id": "caf3688497d9",
+   "claims": [
+    {
+     "claim": "the chairs are sturdy enough to support my husband (who's over 250 lbs)",
+     "matched": [
+      "91f7b5391d38"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "91f7b5391d38 states Stockholm Chair EXHIBITS sturdy with this sentence as evidence (the husband's weight lives only in the evidence); affirmed, actual, no condition, a statement of capacity."
+    },
+    {
+     "claim": "the chairs are elegant looking",
+     "matched": [
+      "e6ea7e262f18"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "e6ea7e262f18 states Stockholm Chair EXHIBITS 'elegant looking', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "882b6b990197",
+   "claims": [
+    {
+     "claim": "assembly was consistent across all chairs, which I appreciated",
+     "matched": [
+      "fd160ac46772"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "fd160ac46772 states Stockholm Chair EXHIBITS 'Assembly was consistent across all chairs', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "54a6bb30cacb",
+   "claims": [
+    {
+     "claim": "it's not as comfy as I hoped",
+     "matched": [
+      "bc90cd490e0a"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "bc90cd490e0a stores the object 'not as comfy as i hoped' with truth affirmed and no negation cue: the negation is carried by the name, so the meaning is kept (code counts the affirmed/negated disagreement apart); actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "80ae4d8de5d8",
+   "claims": [
+    {
+     "claim": "the sofa exemplifies thoughtful design",
+     "matched": [
+      "7242846ea4a4"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "7242846ea4a4 states Uppsala Sofa EXHIBITS 'thoughtful design', affirmed, actual, no condition."
+    },
+    {
+     "claim": "the sofa is at an accessible price point",
+     "matched": [
+      "6d875a8e38ea"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "6d875a8e38ea states Uppsala Sofa EXHIBITS 'accessible price point', affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "b7dc9a6c914e",
+   "claims": [
+    {
+     "claim": "it's the perfect size for our apartment living room",
+     "matched": [
+      "b66fdc83b446"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "b66fdc83b446 states Uppsala Sofa EXHIBITS 'perfect size' with this sentence as evidence; affirmed, actual, no condition."
+    },
+    {
+     "claim": "it comfortably seats 3-4 people",
+     "matched": [
+      "bae013a6ebf1"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "bae013a6ebf1 states Uppsala Sofa HAS_MEASUREMENT '3-4 people' with 'comfortably seating 3-4 people' as evidence; affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "f5229d2860d1",
+   "claims": [
+    {
+     "claim": "the cushions have maintained their shape despite daily use",
+     "matched": [
+      "a3e940522acf"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a3e940522acf states cushions EXHIBITS 'maintained their shape', affirmed, actual, no condition ('despite daily use' is a concession, not a condition, and none is stored)."
+    },
+    {
+     "claim": "the removable covers have been washed multiple times",
+     "matched": [],
+     "reason": "No observation stores the washing itself; 045f3cf13c70 and bd71ce52f9c1 quote it as evidence but their objects are fading and shrinking."
+    },
+    {
+     "claim": "the covers have no fading",
+     "matched": [
+      "045f3cf13c70"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "045f3cf13c70 states removable covers EXHIBITS fading with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    },
+    {
+     "claim": "the covers have no shrinking",
+     "matched": [
+      "bd71ce52f9c1"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "bd71ce52f9c1 states removable covers EXHIBITS shrinking with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "47d5f4f8b6f0",
+   "claims": []
+  },
+  {
+   "id": "8031fcffa28b",
+   "claims": [
+    {
+     "claim": "highly recommends the bookshelf",
+     "matched": [],
+     "reason": "No observation stores the recommendation."
+    }
+   ]
+  },
+  {
+   "id": "32bea744b1b5",
+   "claims": [
+    {
+     "claim": "the finish is consistent",
+     "matched": [],
+     "reason": "6c8a67017b26 stores only 'Västerås Bookshelves EXHIBITS finish' (a bare noun) with 'The finish is consistent' as evidence; it does not state the consistency, as a bare 'look' did not state the love (c96017e13e95)."
+    },
+    {
+     "claim": "the overall construction feels solid",
+     "matched": [
+      "7382587d50d0"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "7382587d50d0 states Västerås Bookshelves EXHIBITS solid with 'the overall construction feels solid' as evidence; affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "ffae0ea50a40",
+   "claims": [
+    {
+     "claim": "taking off one star because some of the pre-drilled holes weren't perfectly aligned",
+     "matched": [],
+     "reason": "The misaligned holes are stored (51b0a9bf93a1) but no observation stores the star deduction or ties it to them."
+    },
+    {
+     "claim": "some of the pre-drilled holes weren't perfectly aligned",
+     "matched": [
+      "51b0a9bf93a1"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "51b0a9bf93a1 states pre-drilled holes EXHIBITS aligned with truth negated (negation \"weren't\"), actual, no condition, as the gold labels it."
+    },
+    {
+     "claim": "the misaligned holes made assembly a bit frustrating at times",
+     "matched": [],
+     "reason": "No observation stores that assembly was frustrating in this chunk."
+    }
+   ]
+  },
+  {
+   "id": "2034ae9218ac",
+   "claims": [
+    {
+     "claim": "the instructions were confusing",
+     "matched": [
+      "203ccfedcf3a"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "203ccfedcf3a states instructions EXHIBITS confusing, affirmed, actual, no condition."
+    },
+    {
+     "claim": "I had to redo some steps",
+     "matched": [],
+     "reason": "No observation stores the redone steps."
+    }
+   ]
+  },
+  {
+   "id": "1a4d696ab6f7",
+   "claims": []
+  },
+  {
+   "id": "94516b80010d",
+   "claims": [
+    {
+     "claim": "the load capacity is impressive",
+     "matched": [
+      "a082ded076ea"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "a082ded076ea states Västerås EXHIBITS 'load capacity is impressive', affirmed, actual, no condition."
+    },
+    {
+     "claim": "I've tested each shelf with approximately 20kg of books",
+     "matched": [
+      "ef5503c23376"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "ef5503c23376 states shelf HAS_MEASUREMENT 20kg with the test sentence as evidence; affirmed, actual, no condition."
+    },
+    {
+     "claim": "no deflection under approximately 20kg of books per shelf",
+     "matched": [
+      "fe7a65499184"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "fe7a65499184 states shelf EXHIBITS deflection with truth negated (negation 'no'), actual, no condition, as the gold labels it."
+    }
+   ]
+  },
+  {
+   "id": "5e48d7e2911c",
+   "claims": [
+    {
+     "claim": "now that it's built, it wobbles slightly",
+     "matched": [
+      "5578f86ab058"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "5578f86ab058 states Västerås Bookshelf EXHIBITS 'wobbles slightly', affirmed, actual, with no condition stored: 'now that it's built' is kept as time, matching the gold."
+    },
+    {
+     "claim": "I don't trust putting anything heavy on the upper shelves",
+     "matched": [],
+     "reason": "No observation stores the writer's distrust of the upper shelves; 5578f86ab058 quotes the sentence but its object is only 'wobbles slightly'."
+    }
+   ]
+  },
+  {
+   "id": "c29f92dd2cdd",
+   "claims": [
+    {
+     "claim": "assembly was straightforward",
+     "matched": [
+      "2f8bcc0c0fa6"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "2f8bcc0c0fa6 states Västerås Bookshelf EXHIBITS straightforward with the assembly sentence as evidence; affirmed, actual, no condition."
+    },
+    {
+     "claim": "assembly was time-consuming",
+     "matched": [
+      "91e0bd8bc332"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "91e0bd8bc332 states Västerås Bookshelf EXHIBITS 'time-consuming', affirmed, actual, no condition."
+    },
+    {
+     "claim": "assembly took about 2 hours",
+     "matched": [
+      "50f2eb3666e0"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "50f2eb3666e0 states Västerås Bookshelf HAS_MEASUREMENT '2 hours' with the assembly sentence as evidence; affirmed, actual, no condition."
+    }
+   ]
+  },
+  {
+   "id": "d302e732e06f",
+   "claims": [
+    {
+     "claim": "the only reason I'm not giving 5 stars is the thin, flimsy back panel",
+     "matched": [],
+     "reason": "The thin (897f1977fe52) and flimsy (57ff6021ee4d) back panel are stored, but no observation stores the rating or that the panel is the only reason for it."
+    },
+    {
+     "claim": "the back panel is quite thin",
+     "matched": [
+      "897f1977fe52"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "897f1977fe52 states back panel EXHIBITS thin, affirmed, actual, no condition."
+    },
+    {
+     "claim": "the back panel feels a bit flimsy compared to the rest of the unit",
+     "matched": [
+      "57ff6021ee4d"
+     ],
+     "fields": {
+      "truth": true,
+      "modality": true,
+      "condition": true
+     },
+     "reason": "57ff6021ee4d states back panel EXHIBITS flimsy with the comparison as evidence; affirmed, actual, no condition."
+    }
+   ]
+  }
+ ]
+}

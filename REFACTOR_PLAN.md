@@ -3197,7 +3197,7 @@ documents linked, 0 observations attached).
   - **R76 done** (code, the fix and the cached rebuild). Open by the user's choice: `kg qa` and the paired
     comparison with Step 5. Next: Step 7 (assertion).
 
-### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06; revision parts d-f, d and e done 2026-10-06)
+### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06; revision parts d-f done 2026-10-06)
 "The pump failed", "the pump may fail" and "if pressure rises, the pump will fail" are different facts, and
 a count over claims must tell them apart (task file, Step 7).
 - **Decisions (the user, 2026-10-05, before any code):**
@@ -3518,6 +3518,126 @@ a count over claims must tell them apart (task file, Step 7).
   - Gate: 545 passed (542 after part d), `ruff check` clean.
   - Risk, for part f to show: a reading chain through `read_check` sees more candidates than before, up to
     `check_limit` (30), above which the plan fails and the planner retries.
+- **Part f: runs (2026-10-06; the user's yes, estimate $1.3-2.3; spent $2.399).**
+  - Recipe: the three graphs rebuilt on `13ee2b6` into `out/r77d_<dataset>` with part b's recipe (frozen
+    plans and `tests/gold/r75/` text schemas copied from `out/r77c_*`, `EXTRACT_PASSES=2`, extraction on
+    the real key). Each dataset was reset, built, extracted, linked, resolved, attached and evaluated; its
+    assertion sheet was written, and `kg qa --system graph` (DeepSeek) ran before the next reset. The tree
+    was dirty only by the user's `.claude/settings.json`.
+  - The planner prompt is unchanged, but its schema text is read from the rebuilt graph. So most planner
+    calls missed the cache and plans were written anew, as in part b. That is the largest confound in the
+    answer comparison below.
+
+  | Run (MLflow) | Cost | LLM calls (cache hits) | tokens in / out / thinking |
+  |---|---|---|---|
+  | furniture extract `7547a42c` | $0.417 | 140 (0) | 189470 / 72626 / 750 |
+  | furniture resolve `808c4f99` | $0.043 | 300 (164) | 27698 / 1332 / 4640 |
+  | furniture `qa_graph` `b2d5c21e` | $0.478 | 135 (34) | 444045 / 8107 / 278964 |
+  | held-out extract `a2ece60c` | $0.607 | 162 (0) | 253577 / 104856 / 6343 |
+  | held-out resolve `8d822850` | $0.014 | 266 (222) | 10244 / 383 / 1298 |
+  | held-out `qa_graph` `a9e748b7` | $0.282 | 92 (15) | 392878 / 7026 / 129669 |
+  | generality extract `9db7ee6d` | $0.218 | 64 (0) | 121568 / 32046 / 1894 |
+  | generality resolve `789dd1e1` | $0.008 | 185 (166) | 4644 / 719 / 431 |
+  | generality `qa_graph` `2b3ec058` | $0.332 | 132 (47) | 320634 / 7444 / 188923 |
+
+  - **The graphs** (part b in brackets).
+    - Claims: furniture 514 (502), held-out 532 (547), generality 212 (212).
+    - Negated / possible / conditional: furniture 50 / 8 / 14 (24 / 3 / 7), held-out 3 / 79 / 40
+      (2 / 76 / 34), generality 1 / 0 / 1 (1 / 0 / 0).
+    - Negated with the denial in a name (`observations_negation_in_name`): 0 on all three.
+    - Rejected: furniture 40 (45), held-out 26 (12), generality 6 (13).
+      - Furniture: the 9 negation rejections of part b ("prevents sagging") are gone. 9 new
+        `cue_without_assertion` rejections are degree words given as a hedge on an actual claim (Found
+        along the way).
+      - Held-out: 22 new `argument_not_in_chunk` are vehicles of two recall listing sentences named with
+        their years ("2013-2016 Nissan LEAF"), extraction variance unrelated to the assertion.
+    - `path_truth` 1.0 on all three; identity precision and apart 1.0. Identity recall: furniture 0.692
+      (0.867), held-out 0.714 (0.714), generality 0.769.
+    - Eval runs `c409e1a9`, `f375def2`, `9a4e74ca`.
+  - **Assertion** (judge pass 2, Fable 5.1 subagents, lead judge Opus 5.5, no gold change).
+    - Verdicts in `tests/gold/r77/<dataset>_partd_assertion_verdicts.json` against
+      `<dataset>_partd_assertion_sheet.json`; scored by `kg assertion` (`7e4b4f5a`, `7e0f754e`,
+      `3b89fed2`).
+    - Kept = by meaning (judge); exact = the stored field equals the label (code). Part b in brackets.
+
+    | | furniture | held-out | generality |
+    |---|---|---|---|
+    | claims matched | 81 / 117 (79) | 35 / 100 (34) | 22 / 108 (22) |
+    | **truth exact, negated** | **13 / 15 (10 / 15)** | **0 / 3 (0 / 3)** | 1 / 1 (1 / 1) |
+    | truth exact, affirmed | 64 / 66 (64 / 64) | 32 / 32 (31 / 31) | 21 / 21 (21 / 21) |
+    | truth / modality / condition kept | 79 / 80 / 81 of 81 | 35 / 34 / 35 of 35 | 22 / 22 / 22 of 22 |
+    | modality exact: possible, conditional | 1 / 1, 1 / 1 | 10 / 11, 9 / 9 | -, - |
+
+    - Furniture, real examples:
+      - The named sentence "we still couldn't get the drawers to slide right" is now
+        `drawers EXHIBITS "slide right"`, truth negated, negation "couldn't". Its part b form was the
+        object "couldn't get the drawers to slide right", affirmed.
+      - Likewise "squeaking" negated with "no", "allow the drawers to slide smoothly" with "don't",
+        "doesn't close properly".
+      - The two remaining misses keep the negation in the name, affirmed and without a cue: "assembly
+        wasn't too bad", "not as comfy as i hoped".
+    - Furniture, new errors (3 fields judged false; none in part b):
+      - "I expected much better quality and durability" stored as quality and durability negated with
+        the cue "expected much better" (an unmet expectation, not a denial), twice.
+      - "they seem poorly manufactured" stored as possible with the hedge "seem".
+    - **Held-out: the fix did not take for named states.**
+      - The 3 matched negated claims, and every complaint of the "DO NOT LOCK", "DID NOT STOP",
+        "NO FEEDBACK", "DOES NOT INDICATE FULL" kind, keep the denial in the Problem's name, which is
+        allowed, but with truth affirmed and no `negation` cue.
+      - The prompt's "the fact is still negated" was ignored. Where the model gave a cue, the code
+        path works ("NO VISIBLE CHIP DAMAGE APPARENT": "CHIP DAMAGE", negated, "NO").
+      - One field false: "water entering may cause a loss of electric power steering assist" also
+        stored as an actual loss.
+    - Generality: no field false. 11 of its 12 negated gold claims and all 4 conditional ones are not
+      extracted in any form (coverage, not the fields).
+  - **Answers.** The free-text judge (Fable 5.1 subagents, R71's rules, lead judge Opus 5.5):
+    - Answers word for word part c's keep part c's verdict.
+    - Newly judged: F38, H37, G08, G16, G17, G33 correct; G18 wrong. G16 without the pump id was
+      flagged and kept as correct, as R73 and R77 kept it.
+    - Verdicts in `tests/gold/r77/<dataset>_partd_graph_verdicts.json`. Scores `518eca99`, `0685c21c`,
+      `f50d234d`. Paired with part c `f94eec60`, `40a7cfae`, `66d01d6e`; with R79 `e03f6dcb`,
+      `ba3a4b7a`, `a318f96e`.
+
+    | Type | furniture R79 / c / **f** | held-out R79 / c / **f** | generality R79 / c / **f** |
+    |---|---|---|---|
+    | multi_hop | 13 / 12 / **11** /17 | 15 / 15 / **15** /17 | 1 / 1 / **2** /6 |
+    | aggregation | 8 / 7 / **7** /16 | 14 / 13 / **13** /16 | 2 / 2 / **2** /6 |
+    | structured_filter | 14 / 14 / **12** /16 | 16 / 15 / **15** /17 | 2 / 2 / **2** /6 |
+    | disambiguation | 3 / 3 / **3** /6 | 2 / 3 / **3** /6 | 2 / 1 / **1** /8 |
+    | negation_sensitive | 4 / 4 / **3** /7 | 4 / 5 / **2** /6 | 2 / 1 / **1** /6 |
+    | lookup | 4 / 4 / **5** /6 | 4 / 3 / **3** /6 | 7 / 6 / **8** /9 |
+    | **all** | 46 / 44 / **41** /68 | 55 / 54 / **51** /68 | 16 / 13 / **16** /41 |
+    | paired c vs f (only c / only f, p) | 6 / 3, p 0.508 | 5 / 2, p 0.453 | 1 / 4, p 0.375 |
+    | paired R79 vs f | 7 / 2, p 0.180 | 5 / 1, p 0.219 | 3 / 3, p 1.000 |
+
+    - Every answer that changed against part c came with a new plan.
+    - Furniture:
+      - F27: the same 2 claims were found and verified, then the plan listed their subjects ("Frame")
+        instead of the products they are about.
+      - F17: the plan searched "frame" as subject.
+      - F05, F47, F59, F64: other plans.
+      - Gained F03, F35, F66.
+    - Held-out:
+      - H32 searched "trunk" as subject, where the claim is "DO NOT LOCK OCCURS_ON_VEHICLE Civic".
+      - H28 dropped `read_check` and counted 2 complaints for 1.
+      - H06: the claim is now named "VEHICLE WILL NOT ACCELERATE" (part c: "WILL NOT ACCELERATE"), so the
+        linker missed "accelerate", and the new plan dropped part c's truth filter.
+      - H27, H33: other plans.
+      - Gained H01, H37.
+    - Generality: gained G08, G16, G17, G33; lost one disambiguation question.
+    - No type and no dataset differs beyond one sample's variation (lowest p 0.180).
+  - **Acceptance.**
+    - "couldn't get the drawers to slide right" stored as negated by the field: **met** (furniture
+      negated exact 10/15 to 13/15).
+    - The held-out named denials: **not met**. The representation and the counting are right (tested),
+      but the extractor does not mark them.
+    - Negating verbs and inverted conditions accepted: met in code. No such claim was in the matched
+      sample.
+    - Answers: no change beyond variation. They cannot measure the fields while every changed answer
+      also has a new plan.
+    - Total cost of part f: $2.399, above the estimate's $2.3, mostly the QA planner's cache misses.
+    - Part e in use: a `find_claims` read every assertion in 5 / 1 / 5 answers (furniture / held-out /
+      generality). Its risk did not show: one plan hit `check_limit` (H44), as in part c.
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
@@ -3661,6 +3781,24 @@ records must be able to say what the question asks of the records.
 
 (Add items here during a step instead of widening its scope.)
 
+- **Held-out's named denials carry no cue (found in R77 part f).** Gemini keeps a Problem named by a denial
+  ("DO NOT LOCK", "DID NOT STOP", "NO FEEDBACK") as the prompt allows, but leaves truth affirmed and
+  `negation` empty, ignoring "the fact is still negated". Furniture's denials all moved into the field.
+  Code cannot see it without a word list (the user's choice: none). Candidates, for the user: a second
+  invented example in the prompt showing a named state with its `negation`; or reject a claim whose name
+  holds the given negation words while truth is affirmed (catches only the case where a cue was given).
+- **Degree words given as a hedge reject good claims (found in R77 part f).** 9 furniture claims ("about 2
+  hours", "a bit short", "kinda complicated") came with `hedge` on an actual claim and were rejected as
+  `cue_without_assertion`. Candidate: on an actual claim, drop the hedge and keep the claim (it carries no
+  assertion), or say in the prompt that degree and approximation words are no hedge.
+- **An unmet expectation read as a denial (found in R77 part f).** "I expected much better quality and
+  durability" became quality and durability negated with the cue "expected much better"; "they seem poorly
+  manufactured" became possible with "seem". Both are the model's reading, grounded in the quote, so no
+  code check applies; the judge counts them.
+- **Every rebuild re-plans the QA questions (R77 parts b and f).** The planner prompt's schema text is read
+  from the graph, so a rebuilt graph misses the planner cache and every plan is written anew: in part f
+  every changed answer had a new plan. To measure a graph change by answers alone, the plans would have to
+  be frozen (replayed from the earlier answers file) and only execution rerun.
 - **The planner prompt says "Only claims the text states as holding come back" (R77 part d).** Since part d
   that is true of the claims a plan counts or lists; claims that go on to be read (part e) come back
   whatever their assertion. Left unchanged so that the planner's cached requests are reused and the
