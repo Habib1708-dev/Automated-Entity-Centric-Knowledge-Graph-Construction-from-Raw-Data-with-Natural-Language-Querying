@@ -538,3 +538,27 @@ def test_the_judged_stage_scores_the_committed_verdicts_and_refuses_another_snap
     (folder / sheet_file("C6")).write_text(json.dumps(sheet), encoding="utf-8")
     with pytest.raises(EvaluationError, match="C6 sheet was built from another snapshot"):
         run_stages(ctx, state, [AnchorJudgedStage()])
+
+
+# --- the committed scores of R93 part c ------------------------------------------------------------------
+
+JUDGED_RUNS = json.loads((GOLD / "r93" / "runs.json").read_text(encoding="utf-8"))["judged"]
+
+
+@pytest.mark.parametrize("run", JUDGED_RUNS, ids=lambda r: r["dataset"])
+def test_each_committed_report_is_the_score_of_the_committed_verdicts(run):
+    repo, base = GOLD.parent.parent, GOLD / "r93" / run["dataset"]
+    assert digest(repo / run["report"]) == run["report_hash"] and run["judge_model"] == JUDGE
+    assert {name: digest(base / name) for name in run["verdicts"]} == run["verdicts"]
+    assert digest(GOLD / "r75" / f"{run['dataset']}_gold.json") == run["identity_gold_hash"]
+    assert run["git_dirty_files"] in ("", ".claude/settings.json")
+    report = JudgedReport.model_validate_json((repo / run["report"]).read_text(encoding="utf-8"))
+    code = {
+        c: CodeSide.model_validate_json((base / f"{c}_code.json").read_text(encoding="utf-8"))
+        for c in ("c4", "c6")
+    }
+    files = {c: load_verdicts(base / f"{c}_verdicts.json", {i.id for i in code[c].items}) for c in code}
+    # C4 and C6 need no snapshot: recomputed from the committed files, they must equal the committed report
+    assert score_c4(files["c4"], code["c4"], 0.95) == report.final.c4
+    assert score_c6(files["c6"], code["c6"], 0.95) == report.final.c6
+    assert score_c4(blind_view(files["c4"]), code["c4"], 0.95) == report.blind.c4

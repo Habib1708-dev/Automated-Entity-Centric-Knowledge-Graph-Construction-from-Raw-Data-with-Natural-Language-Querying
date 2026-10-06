@@ -4445,7 +4445,7 @@ after the estimate "a few cents").
     of every arm.
 - **Gate (results):** 634 passed, `ruff check` clean.
 
-### R93. Judging C3 (identity), C4 (record linking) and C6 (purity) (started 2026-10-06; $0, no LLM call)
+### R93. Judging C3 (identity), C4 (record linking) and C6 (purity) (done 2026-10-06; $0, no LLM call)
 Step 5 of the anchor-graph direction. The judge is Claude Opus 5.5 (`claude-opus-5-5`) in the session.
 It works on R87's offline snapshot of `out/r77d_*` (`13ee2b6`; C0 passed on all three builds) and follows
 R87's judging decisions:
@@ -4614,9 +4614,100 @@ No threshold or definition of the direction document is changed except as record
   - **Tests:** +4 (35 in `tests/test_anchor_judging.py`): the blind view, impact, the report's metrics,
     and the stage on the invented build, including its refusal of a sheet from another snapshot.
     `README.md` lists both commands.
-  - **Gate (code):** 669 passed, `ruff check` clean.
+  - **Gate (code):** 669 passed, `ruff check` clean. Committed at `b15b3b9`.
+- **Runs** (`kg --preset <quality|heldout|generality> anchor-judged`, $0, no model, at `b15b3b9` with only
+  `.claude/settings.json` dirty): furniture `c4bcfbd1`, held-out `0cab5c85`, generality `c18e11ad`, each in
+  its dataset's experiment.
+  - **Committed:** `tests/gold/r93/<dataset>/anchor_judged.json`, indexed under `judged` in
+    `tests/gold/r93/runs.json`.
+  - A test recomputes C4 and C6 (final and blind) from the committed verdicts and code sides, and finds them
+    equal to the committed reports.
+- **Results** (judge: Claude Opus 5.5 in the session, `claude-opus-5-5`; k/n with a Wilson 95 % interval;
+  "accepted" means VALID or VALID_ALTERNATIVE; AMBIGUOUS and UNJUDGEABLE leave the denominator):
+
+  | Criterion | furniture | held-out | generality |
+  |---|---|---|---|
+  | **C3 hard**: wrong merges of individuals | 0 of 4 nodes | 0 of 10 | 0 of 31 |
+  | **C3 hard**: wrong merges of records (= C4 INCORRECT, decision 3) | **7** | **1** | 0 |
+  | C3 hard rule | **fails** | **fails** | passes |
+  | C3 concept merges right (comparative) | 75/77 | 41/41 | 8/8 |
+  | C3 split groups rightly apart (comparative) | 12/12 | 3/3 | **0/9** (all real splits) |
+  | C3 R75 pairs by code: precision / apart / recall | 1.0 (9) / 1.0 (31) / 0.69 (9/13) | 1.0 / 1.0 / 0.71 (5/7) | 1.0 / 1.0 / 0.77 (10/13) |
+  | **C4** precision | **42/49 = 0.857** [0.73, 0.93] | 75/76 = 0.987 [0.93, 1.00] | 40/40 [0.91, 1.00] |
+  | C4 on the blind labels | 42/50 = 0.840 | **70/74 = 0.946** [0.87, 0.98] | 40/40 |
+  | C4 `cross_scope_link` confirmed | **4 of 4** | n/a (0 flags) | n/a |
+  | C4 hard rule | **fails** | passes (blind: **fails**) | passes |
+  | C4 unlinked mentions named after a key that do refer to it | none | 29/29 (missed links) | none |
+  | **C6** arm A, record + individual starts, pooled | 93/97 = 0.959 [0.90, 0.98] | 77/77 [0.95, 1.00] | 80/80 [0.95, 1.00] |
+  | C6 arm A, starts below 0.95 | **3**: A-1012 3/5, A-1021 7/8, A-1070 3/4 | 0 | 0 |
+  | C6 arm B, record + individual, pooled | **97/103 = 0.942** [0.88, 0.97] | 77/77 | 80/80 |
+  | C6 pairs only arm B reaches | 4/6 pure | none | none |
+  | C6 concept starts, arm A (comparative) | 37/37 | 47/47 | 10/10 |
+
+  Read with care:
+  - **Every failure of a hard rule but one comes from the same cause: a text mention linked to another
+    product's part.** The R87 suspects are all confirmed. They fail C4 (4 confirmed cross-scope links),
+    C3 (record merges, decision 3) and C6 (the same records lead to the other product's chunks).
+    Identity of individuals is clean on all three datasets.
+  - **C6 is pooled over pairs.** The direction's wording ("of the chunks reached from a node") can also be
+    read per start. Read that way, furniture arm A fails at three starts. Both readings are reported. Which
+    one is the hard rule is the user's choice (Found along the way).
+  - **Held-out C4 passes only after the lead's variant rule** (part b): 75/76 against 70/74 on the blind
+    labels.
+  - **Arm B is never purer than arm A.** On furniture it adds 6 pairs, 2 of them foreign (A-1021 reaches
+    `malmo_desk_reviews.md#1` only through a claim).
+- **Failures ranked by how many QA questions they affect** (`impact`: questions whose R90-placed targets
+  hold the failed node):
+  1. **Cross-product part links (furniture, 4 links, 6 C6 pairs; F04, F17, F32, F48).** "the drawer
+     doesn't open as smoothly as I'd like" (`malmo_desk_reviews.md#5`) is linked to `Assembly:A-1021`
+     (PART_OF Norrköping Nightstand). So the start A-1021 for F32 ("Which products have a drawer that
+     reviewers say does not close properly?") reaches two Malmö Desk chunks. The other three: "frame"
+     (Linköping Bed) -> the Uppsala Sofa's A-1012 (F04, F17); "drawers" (Malmö Desk) -> the Helsingborg
+     Dresser's A-1070 (F32, F48); "center support" (Jönköping Coffee Table) -> the Linköping Bed's A-1052
+     (no question). Cause: the whole-domain fallback of `resolution/records.py` (R87).
+  2. **Individuals split across documents (generality, 9 groups, comparative; G22, G25, G34, G38, G40,
+     G41).** For example "Harbour Station" in the May report and in the open-day article are two nodes,
+     so G34's start reaches only one of them. Cause: individual identity is type + name + document by
+     default (direction 3.2), and no evidence joined them.
+  3. **A mention of a piece linked to its whole (furniture, 2 links, unflagged; F08, F21, F32).**
+     "pre-drilled holes for the drawer handle" -> `Assembly:A-1022` Drawer Handle; "drawer slide
+     mechanism" -> `Assembly:A-1021` Drawer. No row exists for the piece, so the rules call it INCORRECT.
+  4. **A sibling model linked to the base model (held-out, 1 link, unflagged; H51).** "2017-2022 Rogue
+     Sport" -> `Vehicle:ROGUE`. H51's count is not affected: the same recall also names "2014-2020 Rogue".
+  5. **Close spelling (furniture, 1 link, no question).** "drawer slides" -> `Component:S-1076` "Drawer
+     Sides", the one `fuzzy_name` flag of 6 that the judge confirmed.
+  6. **Concept merges of two senses (furniture, 2, comparative, no question).** "smooth" (finish) with
+     "smooth" (drawer slides); "proportions are perfect" with "perfect size".
+- **Disagreement with the code flags:**
+  - `cross_scope_link` 4/4 and `scope_foreign` 6/6 were confirmed, with no foreign C6 pair unflagged.
+    R87's scope rule is a reliable detector.
+  - The direction's C6 flag `same_label_about` fired 3 times (generality pumps) and was confirmed 0
+    times. It missed all 6 furniture foreign pairs.
+  - `fuzzy_name` was confirmed 1 of 6 times.
+  - `label_mismatch`: the 29 held-out mentions are not wrong links. All 29 refer to the Recall whose key
+    they are named after, so they are missed links typed Vehicle.
+  - INCORRECT with no flag: 2 furniture links (cause 3) and 1 held-out link (cause 4).
+- **Not decided here:** section 7.5's decision is step 6 of the direction. By its rule, "A fails a hard
+  criterion: that defect is fixed first, in its own step". The defect is cause 1 (C4 fails today, as the
+  direction expected).
+- **Gate (results):** 672 passed, `ruff check` clean.
 
 ## Found along the way
+- **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice).** The
+  direction (section 7.2) says "of the chunks reached from a node, how many concern it ... hard for record and
+  individual starts: >= 0.95". R93 scores it pooled over all (start, chunk) pairs and lists the starts below
+  0.95. On furniture arm A the pooled rate passes (93/97 = 0.959), but three starts fail (A-1012 3/5, A-1021
+  7/8, A-1070 3/4), all from the cross-product links that already fail C4. The reading is a definition, so
+  it is the user's decision before step 6.
+- **The direction's C6 flag misses what it was meant to find (found in R93).** `same_label_about` (a chunk's
+  document is ABOUT another record of the start's label) fired on 0 furniture pairs, because a part's
+  foreign chunk sits in a document ABOUT a product, which has another label. It fired 3 times on generality,
+  each refuted. R87's scope rule (`scope_foreign`) was confirmed 6 of 6, with no miss. If the flag is used
+  again, the scope rule is the one to use.
+- **29 held-out mentions of a recall key are typed Vehicle and left unlinked (found in R87, judged in
+  R93).** All 29 refer to the Recall record whose key they are named after (judge 29/29). Each sits in that
+  recall's own document, which is already ABOUT the record, so no chunk becomes unreachable. They are missed
+  links with a wrong type, not wrong links.
 
 (Add items here during a step instead of widening its scope.)
 

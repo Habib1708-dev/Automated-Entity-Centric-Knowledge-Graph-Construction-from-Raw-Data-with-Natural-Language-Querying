@@ -1,0 +1,1242 @@
+{
+ "dataset": "generality",
+ "judge_model": "claude-opus-5-5",
+ "final": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 31,
+      "n": 31,
+      "rate": 1.0,
+      "low": 0.889740999265246,
+      "high": 0.9999999999999999
+     },
+     "strict": {
+      "k": 24,
+      "n": 31,
+      "rate": 0.7741935483870968,
+      "low": 0.6018723994130262,
+      "high": 0.8860500840550121
+     },
+     "worst_case": {
+      "k": 31,
+      "n": 31,
+      "rate": 1.0,
+      "low": 0.889740999265246,
+      "high": 0.9999999999999999
+     },
+     "counts": {
+      "VALID": 24,
+      "VALID_ALTERNATIVE": 7,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0,
+      "low": 0.6755843804891231,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0,
+      "low": 0.6755843804891231,
+      "high": 1.0
+     },
+     "worst_case": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0,
+      "low": 0.6755843804891231,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 8,
+      "VALID_ALTERNATIVE": 0,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": []
+   },
+   "record_wrong_merges": [],
+   "splits": {
+    "accepted": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.2991527535509594
+    },
+    "strict": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.2991527535509594
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.2991527535509594
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 9,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Organization:finance office",
+    "s:Organization:hydrology",
+    "s:Person:rosa delgado",
+    "s:Place:aldmoor",
+    "s:Place:harbour station",
+    "s:Place:mill lane",
+    "s:Place:north station",
+    "s:Place:town hall",
+    "s:Place:utrecht"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.7692307692307693,
+    "apart": 1.0,
+    "scored": 24,
+    "joined": 10,
+    "same_scored": 13,
+    "different_scored": 11,
+    "not_extracted": 0,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "cd534c024ab317b0"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "cd534c024ab317b0"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "a04bd7033c66f220"
+      ]
+     },
+     {
+      "index": 7,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 8,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "a04bd7033c66f220"
+      ]
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "cd534c024ab317b0"
+      ]
+     },
+     {
+      "index": 10,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 11,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 12,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 13,
+      "same": true,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "2dd05758b05f6e59"
+      ]
+     },
+     {
+      "index": 20,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-1183"
+      ]
+     },
+     {
+      "index": 21,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-2291"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 22,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 23,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     }
+    ]
+   },
+   "hard_passed": true
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 40,
+     "n": 40,
+     "rate": 1.0,
+     "low": 0.9123754607496077,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 40,
+     "n": 40,
+     "rate": 1.0,
+     "low": 0.9123754607496077,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 40,
+     "n": 40,
+     "rate": 1.0,
+     "low": 0.9123754607496077,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 40,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [],
+   "cross_scope_confirmed": [],
+   "flags": [],
+   "incorrect_unflagged": [],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 80,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 10,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 80,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 10,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [
+    {
+     "flag": "same_label_about",
+     "flagged": 3,
+     "confirmed": 0,
+     "refuted": 3,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": []
+  }
+ },
+ "blind": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 31,
+      "n": 31,
+      "rate": 1.0,
+      "low": 0.889740999265246,
+      "high": 0.9999999999999999
+     },
+     "strict": {
+      "k": 24,
+      "n": 31,
+      "rate": 0.7741935483870968,
+      "low": 0.6018723994130262,
+      "high": 0.8860500840550121
+     },
+     "worst_case": {
+      "k": 31,
+      "n": 31,
+      "rate": 1.0,
+      "low": 0.889740999265246,
+      "high": 0.9999999999999999
+     },
+     "counts": {
+      "VALID": 24,
+      "VALID_ALTERNATIVE": 7,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0,
+      "low": 0.6755843804891231,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0,
+      "low": 0.6755843804891231,
+      "high": 1.0
+     },
+     "worst_case": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0,
+      "low": 0.6755843804891231,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 8,
+      "VALID_ALTERNATIVE": 0,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": []
+   },
+   "record_wrong_merges": [],
+   "splits": {
+    "accepted": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.2991527535509594
+    },
+    "strict": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.2991527535509594
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.2991527535509594
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 9,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Organization:finance office",
+    "s:Organization:hydrology",
+    "s:Person:rosa delgado",
+    "s:Place:aldmoor",
+    "s:Place:harbour station",
+    "s:Place:mill lane",
+    "s:Place:north station",
+    "s:Place:town hall",
+    "s:Place:utrecht"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.7692307692307693,
+    "apart": 1.0,
+    "scored": 24,
+    "joined": 10,
+    "same_scored": 13,
+    "different_scored": 11,
+    "not_extracted": 0,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "cd534c024ab317b0"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "cd534c024ab317b0"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "a04bd7033c66f220"
+      ]
+     },
+     {
+      "index": 7,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 8,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "a04bd7033c66f220"
+      ]
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "cd534c024ab317b0"
+      ]
+     },
+     {
+      "index": 10,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 11,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 12,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 13,
+      "same": true,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "2dd05758b05f6e59"
+      ]
+     },
+     {
+      "index": 20,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-1183"
+      ]
+     },
+     {
+      "index": 21,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-2291"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 22,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 23,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     }
+    ]
+   },
+   "hard_passed": true
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 40,
+     "n": 40,
+     "rate": 1.0,
+     "low": 0.9123754607496077,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 40,
+     "n": 40,
+     "rate": 1.0,
+     "low": 0.9123754607496077,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 40,
+     "n": 40,
+     "rate": 1.0,
+     "low": 0.9123754607496077,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 40,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [],
+   "cross_scope_confirmed": [],
+   "flags": [],
+   "incorrect_unflagged": [],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 80,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 10,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 80,
+       "n": 80,
+       "rate": 1.0,
+       "low": 0.954180263735425,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 80,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 10,
+       "n": 10,
+       "rate": 1.0,
+       "low": 0.7224598312333834,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 10,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [
+    {
+     "flag": "same_label_about",
+     "flagged": 3,
+     "confirmed": 0,
+     "refuted": 3,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": []
+  }
+ },
+ "impact": {
+  "s:Organization:finance office": [
+   "G38"
+  ],
+  "s:Organization:hydrology": [
+   "G41"
+  ],
+  "s:Person:rosa delgado": [],
+  "s:Place:aldmoor": [],
+  "s:Place:harbour station": [
+   "G34"
+  ],
+  "s:Place:mill lane": [],
+  "s:Place:north station": [
+   "G25",
+   "G40"
+  ],
+  "s:Place:town hall": [],
+  "s:Place:utrecht": [
+   "G22"
+  ]
+ }
+}
