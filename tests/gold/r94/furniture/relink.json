@@ -1,0 +1,47 @@
+{
+ "build": "out/r77d_furniture",
+ "changes": [
+  {
+   "mention": "24feea1150efb6af",
+   "name": "drawer",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1021",
+   "after": null,
+   "explained": true
+  },
+  {
+   "mention": "6afd5871b0245519",
+   "name": "frame",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "before": "Assembly:A-1012",
+   "after": null,
+   "explained": true
+  },
+  {
+   "mention": "9e39291d29a753f2",
+   "name": "center support",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "before": "Assembly:A-1052",
+   "after": null,
+   "explained": true
+  },
+  {
+   "mention": "e68281c94362016a",
+   "name": "drawers",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1070",
+   "after": null,
+   "explained": true
+  }
+ ],
+ "counts": {
+  "resolve.mentions_to_records": [
+   50,
+   46
+  ],
+  "resolve.mentions_to_individuals": [
+   74,
+   78
+  ]
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "step": "R94: fix A (record links stay inside the document's scope), measured by an offline replay",
+ "relink": [
+  {
+   "dataset": "furniture",
+   "mlflow_run_id": "d5130f7db14d45b6962c82249130488b",
+   "experiment": "kgbuilder",
+   "file": "tests/gold/r94/furniture/relink.json",
+   "hash": "39184ce631a1"
+  },
+  {
+   "dataset": "heldout",
+   "mlflow_run_id": "f963dbc4b8b14cd585e17d9dee27e3ae",
+   "experiment": "kgbuilder-heldout",
+   "file": "tests/gold/r94/heldout/relink.json",
+   "hash": "58e74f91fa6c"
+  },
+  {
+   "dataset": "generality",
+   "mlflow_run_id": "fc4b82fd4ccf4cb4b197615ee22e5520",
+   "experiment": "kgbuilder-generality",
+   "file": "tests/gold/r94/generality/relink.json",
+   "hash": "45d7b6ccbd58"
+  }
+ ],
+ "furniture": {
+  "build": "out/r94_furniture/build (written by kg audit-relink from out/r77d_furniture)",
+  "logged": {
+   "file": "tests/gold/r94/furniture/logged.json",
+   "hash": "c1496204cc82"
+  },
+  "anchor_eval": {
+   "anchor": {
+    "mlflow_run_id": "916b77e4672a457eb0e7fdee54263734",
+    "file": "tests/gold/r94/furniture/anchor_anchor.json",
+    "hash": "ddf085e9db41"
+   },
+   "layered": {
+    "mlflow_run_id": "10bcb2a9794a48178065eb1c5e3793d5",
+    "file": "tests/gold/r94/furniture/anchor_layered.json",
+    "hash": "5aab4f07205e"
+   }
+  },
+  "anchor_sheets": {
+   "mlflow_run_id": "267d094e544645369c868528ea707f27",
+   "files": {
+    "c3_sheet.json": "6d2e6d241a46",
+    "c3_code.json": "fa09fc830768",
+    "c4_sheet.json": "725c501623a2",
+    "c4_code.json": "7654d1359366",
+    "c6_sheet.json": "e7db39b6c057",
+    "c6_code.json": "656d17700d40"
+   }
+  },
+  "targets_hash": "adc32787fee3"
+ },
+ "git_sha": "21356c5-dirty",
+ "git_dirty_files": ".claude/settings.json"
+}
