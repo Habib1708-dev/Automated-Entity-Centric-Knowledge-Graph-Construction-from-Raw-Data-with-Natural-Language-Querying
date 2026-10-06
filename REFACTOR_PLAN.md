@@ -4366,6 +4366,44 @@ Fix:
 - **Gate:** 623 passed (616 after the code commit, 615 before R91), `ruff check` clean. Six offline runs,
   $0.
 
+### R92. Arm C (vector retrieval) and the arms paired question by question (started 2026-10-06)
+Step 4 of the anchor-graph direction. The user agreed to the embedding call on 2026-10-06 ("proceed",
+after the estimate "a few cents").
+- **Arm C must re-embed.** The builds did not save their chunk vectors, and the Neo4j graph that held
+  them is gone (the test suite wipes it). So arm C embeds again:
+  - the chunk texts the ingest stage embedded (`c.text`, `IngestTextStage`), rebuilt by
+    `audit.inputs.read_corpus`;
+  - the question texts;
+
+  both with the build's model, `gemini-embedding-001` (logged by all three ingest runs).
+- **Code:**
+  - `anchor/vector.py`:
+    - `cosine_rank` (cosine, ties by chunk id; keeps the cosine for review);
+    - `vector_reach`: C5 in the graph arms' shape (`EvidenceReach`, mode "vector"), over the same
+      questions as the graph arms' C5 pool, in their order.
+  - `anchor/compare.py`:
+    - `pair`: McNemar over two outcome maps, refusing different question sets, naming the questions
+      only one side got;
+    - `compare_arms`: A vs B on C5 "every gold chunk within k" (both start modes, k = 5, 10) and on C8
+      "every connection reached"; A vs C on C5 (both modes);
+    - `ArmComparison` with the rankings and the metrics.
+  - `AnchorCompareStage` and `kg anchor-compare BUILD --data --targets --anchor-report --layered-report`:
+    one MLflow run per build. Metrics: arm C's C5, every pairing's counts and p, the chunks, questions
+    and characters embedded (the Gemini API reports no tokens for embeddings). Artifact:
+    `anchor_compare.json`.
+  - The run guard lists `anchor-compare` as a paid command (with an `ask_permission` preset it asks).
+- **Tests:** 8 in `tests/test_anchor.py`:
+  - the ranking and its ties; vector reach over the pool;
+  - `pair`, including refusal of different question sets;
+  - `compare_arms` on the invented snapshot: only arm C finds the kettle chunk from "sticking", and only
+    arm B's leak connects it;
+  - the stage with a word-count embedder (chunks embedded before questions, metrics, artifact), and
+    reports passed in the wrong order refused.
+
+  The run-guard test gains one asking case (`anchor-compare` with `quality`) and one silent case
+  (`anchor-eval`).
+- **Gate (code):** 631 passed (623 before), `ruff check` clean. Runs: next, committed separately.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

@@ -20,8 +20,9 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 # kg commands that call an LLM, so a run of them costs money or free quota (`ask` and `qa` answer
-# questions with the reader model, R71; `qa-score` and `qa-compare` only score files and are not listed)
-LLM_COMMANDS = {"run", "plan", "text-schema", "extract", "resolve", "ask", "qa"}
+# questions with the reader model, R71; `anchor-compare` embeds chunks and questions, R92; `qa-score`,
+# `qa-compare` and `anchor-eval` only read files and are not listed)
+LLM_COMMANDS = {"run", "plan", "text-schema", "extract", "resolve", "ask", "qa", "anchor-compare"}
 # kg options that take a value: the token after them is not the data directory
 VALUE_OPTIONS = {"--goal", "--out", "--gold", "--preset"}
 # a shell separates commands with these; each part is judged on its own

@@ -14,6 +14,7 @@ from typing import Protocol
 
 from neo4j import Driver
 
+from ..anchor.compare import ArmComparison
 from ..anchor.report import AnchorReport
 from ..audit.checks import CodeChecks
 from ..audit.fidelity import FidelityReport
@@ -99,8 +100,10 @@ class PipelineState:
     audit_source: Path | None = None
     audit_logged: Path | None = None
     reach_gold: tuple[Path, Path] | None = None
-    # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures
+    # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures, and the anchor
+    # and layered reports of `kg anchor-eval` that `kg anchor-compare` pairs (R92)
     anchor_targets: Path | None = None
+    anchor_reports: tuple[Path, Path] | None = None
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -125,6 +128,7 @@ class PipelineState:
     fidelity: FidelityReport | None = None  # of `kg audit-snapshot`
     audit: CodeChecks | None = None
     anchor: AnchorReport | None = None  # of `kg anchor-eval`
+    anchor_comparison: ArmComparison | None = None  # of `kg anchor-compare`
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

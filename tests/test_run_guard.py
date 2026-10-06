@@ -32,6 +32,8 @@ FLAGS = {"smoke": False, "dev": False, "quality": True}
         # question answering calls the reader model (R71)
         "uv run kg --preset quality qa tests/gold/qa/furniture_qa.json",
         'uv run kg --preset quality ask "Which parts crack?"',
+        # arm C of the anchor evaluation embeds chunks and questions (R92)
+        "uv run kg --preset quality anchor-compare out/r77d_furniture --data data",
     ],
 )
 def test_comprehensive_runs_ask(command):
@@ -45,6 +47,7 @@ def test_comprehensive_runs_ask(command):
         "uv run kg --preset dev run samples/dev --goal g",
         "uv run kg --preset quality profile",  # no LLM call
         "uv run kg --preset quality qa-score gold.json out/answers_graph.jsonl",  # scores a file
+        "uv run kg --preset quality anchor-eval out/r77d_furniture --data data",  # reads files only
         "uv run kg reset",
         "uv run pytest -q",
         "git status",

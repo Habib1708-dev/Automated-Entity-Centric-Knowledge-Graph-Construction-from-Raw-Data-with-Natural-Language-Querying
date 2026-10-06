@@ -1,6 +1,7 @@
 """The anchor graph's navigation contract (R90): W1-W5 and the composed walk in both arms, the witness of
 every thing-to-thing hop, the target gold placed on a snapshot's nodes, and the criteria computed from
-them (C2, C5, C7, C8, C9) up to the stage's MLflow run.
+them (C2, C5, C7, C8, C9) up to the stage's MLflow run, arm C (vector retrieval) and the pairing of the
+arms question by question (R92).
 
 The snapshot is invented (a desk lamp and a kettle, each with a part called "Switch") and holds one wrong
 claim attachment, so the leak the anchor arm prevents is visible: arm B walks from the lamp into the
@@ -15,6 +16,7 @@ from pathlib import Path
 import pytest
 
 from kgbuilder.anchor import AnchorGraph, Arm, Context, PlacedTarget, TargetPlacer, record_nodes
+from kgbuilder.anchor.compare import compare_arms, pair
 from kgbuilder.anchor.criteria import (
     connectivity,
     evidence_reach,
@@ -24,6 +26,7 @@ from kgbuilder.anchor.criteria import (
     size,
 )
 from kgbuilder.anchor.report import START_MODES, AnchorReport, evaluate
+from kgbuilder.anchor.vector import Ranked, cosine_rank, vector_reach
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import Record, Relation
 from kgbuilder.audit.snapshot import (
@@ -34,8 +37,9 @@ from kgbuilder.audit.snapshot import (
     SnapshotMention,
 )
 from kgbuilder.config import Settings
+from kgbuilder.core.errors import EvaluationError
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
-from kgbuilder.pipeline.anchor_stages import AnchorEvalStage, report_file
+from kgbuilder.pipeline.anchor_stages import COMPARE_FILE, AnchorCompareStage, AnchorEvalStage, report_file
 from kgbuilder.pipeline.inputs import digest
 from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.structured.plan import ConstructionPlan
@@ -441,3 +445,140 @@ def test_every_dataset_has_a_committed_report_in_both_arms():
     assert {(r["dataset"], r["arm"]) for r in RUNS} == {
         (d, a.value) for d in ("furniture", "heldout", "generality") for a in Arm
     }
+
+
+# --- arm C and the pairing (R92) ----------------------------------------------------------------------
+
+
+def test_cosine_rank_puts_the_nearest_chunks_first_and_breaks_ties_by_id():
+    chunks = {"z": [0.0, 0.0], "b": [0.0, 2.0], "c": [1.0, 1.0], "a": [3.0, 0.0]}
+    ranked = cosine_rank([1.0, 0.0], chunks, top=3)
+    assert [r.chunk for r in ranked] == ["a", "c", "b"]  # b and the zero vector z both score 0
+    assert ranked[1].cosine == pytest.approx(2**-0.5)
+
+
+def test_vector_reach_scores_the_graph_pool_in_its_order():
+    gold = qa({"id": "Q1", "chunks": chunks("x#0")}, {"id": "Q2", "chunks": chunks("y#0", "y#1")})
+    rankings = {
+        "Q2": [Ranked(chunk=c, cosine=0.5) for c in ("y#1", "x#0", "y#0")],
+        "Q1": [Ranked(chunk="x#0", cosine=1)],
+    }
+    reach = vector_reach(gold, ["Q2", "Q1"], rankings, (1, 3))
+    assert [q.question for q in reach.questions] == ["Q2", "Q1"]
+    assert reach.questions[0].hits == {1: 1, 3: 2}
+    assert (reach.recall_at[1].k, reach.recall_at[1].n, reach.complete_at[3].k) == (2, 3, 2)
+
+
+def test_pair_counts_the_questions_only_one_side_got_and_refuses_different_questions():
+    p = pair({"Q1": True, "Q2": False, "Q3": True}, {"Q1": False, "Q2": False, "Q3": True}, "a", "b")
+    assert (p.only_a, p.only_b, p.result.a_correct, p.result.b_correct) == (["Q1"], [], 2, 1)
+    assert p.result.p_value == 1.0  # one discordant question is no evidence
+    with pytest.raises(EvaluationError):
+        pair({"Q1": True}, {"Q2": True}, "a", "b")
+
+
+def test_compare_arms_pairs_c5_in_both_modes_with_vector_and_c8_between_the_graph_arms():
+    gold = qa({"id": "Q1", "type": "multi_hop", "chunks": chunks(f"{KETTLE}#0")})
+    placed = {"Q1": [placed_target("sticking", [STICKING])]}
+    reports = [
+        evaluate(SNAPSHOT, arm, gold, placed, {}, budgets=(1,), hub_share=0.2, usage={}, fidelity_passed=True,
+                 provenance={})
+        for arm in (Arm.ANCHOR, Arm.LAYERED)
+    ]  # fmt: skip
+    rankings = {"Q1": [Ranked(chunk=f"{KETTLE}#0", cosine=0.9)]}
+    comparison = compare_arms(*reports, vector_reach(gold, ["Q1"], rankings, (1,)), rankings, (1,))
+    assert set(comparison.pairs) == {
+        "c5_gold_start_complete_at_1",
+        "c5_gold_start_vs_vector_complete_at_1",
+        "c5_end_to_end_complete_at_1",
+        "c5_end_to_end_vs_vector_complete_at_1",
+        "c8_all_connections",
+    }
+    assert comparison.pairs["c5_gold_start_vs_vector_complete_at_1"].only_b == [
+        "Q1"
+    ]  # only the vector finds it
+    assert comparison.pairs["c8_all_connections"].only_b == ["Q1"]  # only arm B's leak reaches the kettle
+    assert comparison.metrics()["c8_all_connections_only_b"] == 1.0
+
+
+class WordEmbedder:
+    """Embeds a text as counts of a few words, so similarity is predictable; records what it embedded."""
+
+    WORDS = ("lid", "shade", "kettle", "lamp", "stiff", "cracked")
+
+    def __init__(self) -> None:
+        self.texts: list[str] = []
+
+    def embed(self, texts: list[str]) -> list[list[float]]:
+        self.texts += texts
+        return [[float(t.lower().count(w)) for w in self.WORDS] for t in texts]
+
+
+def test_the_compare_stage_embeds_chunks_and_questions_and_logs_the_pairings(tmp_path):
+    s, out, data = audit_build(tmp_path)
+    logged = tmp_path / "logged.json"
+    logged.write_text(
+        LoggedCounts(
+            dataset="t", build="b", git_sha="abc", runs={}, counts=snapshot_counts(s)
+        ).model_dump_json(),
+        encoding="utf-8",
+    )
+    qa_file, targets_file = tmp_path / "qa.json", tmp_path / "targets.json"
+    question = {
+        "id": "Q1",
+        "chunks": chunks(f"{AUDIT_KETTLE}#0"),
+        "question": "Is the Birch Kettle lid stiff?",
+    }
+    qa_file.write_text(qa(question).model_dump_json(), encoding="utf-8")
+    kettle = Target(
+        name="Birch Kettle", records=[RecordEvidence(file="products.csv", row={"product_id": "P-2"})]
+    )
+    targets_file.write_text(
+        TargetGold(dataset="t", qa_gold=qa_file.as_posix(), written_by="test", date="2026-10-06",
+                   questions=[QuestionTargets(id="Q1", targets=[kettle])]).model_dump_json(),
+        encoding="utf-8",
+    )  # fmt: skip
+    tracker, embedder = RecordingTracker(), WordEmbedder()
+    folder = tmp_path / "anchor"
+    ctx = PipelineContext(settings=Settings(), driver=None, out=folder, tracker=tracker, embedder=embedder)
+    state = PipelineState(audit_source=out, data_dir=data, audit_logged=logged, anchor_targets=targets_file)
+    state = run_stages(ctx, state, [AnchorEvalStage(Arm.ANCHOR), AnchorEvalStage(Arm.LAYERED)])
+    state.anchor_reports = (folder / report_file(Arm.ANCHOR), folder / report_file(Arm.LAYERED))
+    state = run_stages(ctx, state, [AnchorCompareStage()])
+    run = tracker.run("anchor_compare")
+    assert (
+        run.logged_params["embed_model"] == Settings().embed_model and run.logged_params["anchor_report_hash"]
+    )
+    assert run.logged_metrics["embedded_questions"] == 1.0 and run.logged_metrics["embedded_chunks"] == 2.0
+    assert embedder.texts[-1] == "Is the Birch Kettle lid stiff?"  # the chunks first, then the questions
+    assert state.anchor_comparison.rankings["Q1"][0].chunk == f"{AUDIT_KETTLE}#0"
+    assert run.logged_metrics["c5_vector_complete_at_5"] == 1.0
+    assert (folder / COMPARE_FILE).is_file()
+
+
+def test_the_compare_stage_refuses_the_reports_in_the_wrong_order(tmp_path):
+    folder = tmp_path / "reports"
+    folder.mkdir()
+    gold = qa({"id": "Q1", "chunks": chunks(f"{LAMP}#0")})
+    for arm in Arm:
+        report = evaluate(
+            SNAPSHOT,
+            arm,
+            gold,
+            {},
+            {},
+            budgets=(1,),
+            hub_share=0.2,
+            usage={},
+            fidelity_passed=True,
+            provenance={},
+        )
+        (folder / report_file(arm)).write_text(report.model_dump_json(), encoding="utf-8")
+    ctx = PipelineContext(
+        settings=Settings(), driver=None, out=tmp_path, tracker=RecordingTracker(), embedder=WordEmbedder()
+    )
+    state = PipelineState(
+        anchor_reports=(folder / report_file(Arm.LAYERED), folder / report_file(Arm.ANCHOR))
+    )
+    with pytest.raises(EvaluationError):
+        AnchorCompareStage().run(ctx, state, None)

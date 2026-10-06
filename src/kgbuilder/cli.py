@@ -58,6 +58,8 @@ REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims wer
 # the anchor-graph evaluation (R90): the target gold of the build's dataset and the arm it walks
 ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset (tests/gold/r89/).")
 ANCHOR_ARM = typer.Option(Arm.ANCHOR, help="anchor: anchor edges only; layered: also through the claims.")
+ANCHOR_REPORT = typer.Option(..., help="The anchor arm's report of kg anchor-eval (anchor_anchor.json).")
+LAYERED_REPORT = typer.Option(..., help="The layered arm's report of kg anchor-eval (anchor_layered.json).")
 
 
 @app.callback()
@@ -482,6 +484,31 @@ def anchor_eval(
     for name, value in state.anchor.metrics().items():
         typer.echo(f"{name:44} {value:.3f}")
     typer.echo(f"Wrote {out / ans.report_file(arm)}")
+
+
+@app.command("anchor-compare")
+def anchor_compare(
+    build: Path,
+    data: Path = AUDIT_DATA,
+    targets: Path = ANCHOR_TARGETS,
+    anchor_report: Path = ANCHOR_REPORT,
+    layered_report: Path = LAYERED_REPORT,
+    out: Path = OUT,
+):
+    """Compute arm C (vector retrieval: embeds BUILD's chunks and the questions with the build's embedding
+    model, a paid call of well under a cent) and pair the anchor, layered and vector arms question by
+    question with McNemar's exact test (R92)."""
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        anchor_targets=targets,
+        anchor_reports=(anchor_report, layered_report),
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [ans.AnchorCompareStage()])
+    for name, value in state.anchor_comparison.metrics().items():
+        typer.echo(f"{name:52} {value:.3f}")
+    typer.echo(f"Wrote {out / ans.COMPARE_FILE}")
 
 
 @app.command()
