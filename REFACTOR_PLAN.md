@@ -4067,8 +4067,10 @@ listed; F05; H14), and in G01, G02, G22 and G28 the planner wrote such a step an
   non-record label and a record input are refused; the list refusal names `about`). Neo4j: the price of
   the press a wobbling claim hangs on, and its parts. Both failed before: `about` was no primitive.
 - **Gate:** 564 passed (562 + 2), `ruff check` clean.
-- **Not measured.** The planner prompt changed, so every plan is written anew: measuring needs fresh plans,
-  not R80's frozen ones. Proposed with R84 and R85.
+- **Not measured, the user's decision (2026-10-06).** The planner prompt changed, so measuring needs fresh
+  plans (about $1.1-1.4), not R80's frozen ones; the user chose not to measure it.
+- **Step 8 done (2026-10-06):** the failure table and the user's three additions (R83-R86) committed, R84
+  and R85 measured. Next: Step 9, finishing the arm.
 
 ## Found along the way
 
