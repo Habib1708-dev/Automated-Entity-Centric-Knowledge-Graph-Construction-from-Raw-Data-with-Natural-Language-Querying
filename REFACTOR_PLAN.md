@@ -3869,10 +3869,97 @@ was ignored (Found along the way). Code cannot see the miss without a word list,
   Step 8 shows a concrete retrieval or query failure that needs it. R81 and R82 are measured together, by
   one rebuild and a frozen-plan `kg qa` (R80), only when the user agrees to that run.
 
+### R83. Step 8: the wrong answers after Step 7, by cause (done 2026-10-06, $0, no run)
+Step 8 of the task file starts with a failure table: every wrong answer after Step 7, grouped by cause, so
+that each addition proposed to the user has its failing questions as its reason.
+- **Scope.** The reference run is R77 part f (`13ee2b6`, the last measured answers; R81 and R82 are not
+  measured): 69 wrong answers, furniture 27 / 68, held-out 17 / 68, generality 25 / 41. No code change in
+  `src/`, no gold change, no run.
+- **Method.**
+  - The rules are fixed before any classification (`tests/gold/r83/rules.md`): Step 2's query causes, R68's
+    graph causes in R68's order, the reading causes, and a check for scoring artefacts first.
+  - One cause per answer: the first step of the answer's own trace that goes wrong. At that step the cause
+    is the query's when a plan that asks what the question says, with the existing primitives, would have
+    found the needed items in this graph. Otherwise it is the graph's. Other causes that would also have to
+    be fixed are listed under `also`.
+  - Three Fable 5.1 subagents classified one dataset each from the files only: answers with plan traces,
+    stored claims, rejections, identity decisions, source text. No Neo4j, which held test leftovers.
+  - The lead judge (Opus 5.5) reviewed every row and confirmed the two code findings below in the code.
+    Changed by the review: the fix of 9 rows, for which the closed list had only loose names. F17, F21,
+    F23, F24, F32 became `query_code`; F06, F09, F11, F13 became `document_fields`. Both values were added to
+    the rules. No cause was changed.
+  - Files: `tests/gold/r83/<dataset>_failure_causes.json`. `tests/test_failure_causes.py` recomputes the
+    wrong answers from the frozen answers (`tests/gold/r80/`), the gold and the part f verdicts. It checks
+    that each wrong answer is classified exactly once, with its gold type and with a cause and fix from the
+    closed lists.
+- **The table** (cause of the first wrong step; furniture / held-out / generality):
+
+  | Cause | F | H | G | all | questions |
+  |---|---|---|---|---|---|
+  | Q2 plan asked the wrong thing (expressible) | 6 | 9 | 3 | **18** | F12 F27 F36 F47 F59 F60 H23 H25 H26 H28 H32 H33 H36 H38 H55 G02 G06 G22 |
+  | Q3 no primitive for it | 7 | 3 | 1 | **11** | F04 F05 F48 F52 F55 F58 F64 H11 H14 H44 G35 |
+  | G2 no schema type | 5 | 1 | 4 | **10** | F06 F09 F10 F11 F13 H29 G12 G23 G25 G32 |
+  | Q1 claim or entity words not linked | 5 | 2 | 0 | **7** | F17 F21 F23 F24 F32 H06 H27 |
+  | Q4 every plan refused, fallback wrong | 0 | 0 | 5 | **5** | G01 G03 G15 G26 G28 |
+  | G3 identity | 0 | 1 | 3 | 4 | H19 G04 G05 G30 |
+  | G1 extraction miss | 0 | 0 | 4 | 4 | G13 G14 G18 G27 |
+  | R1 read_check wrong | 1 | 1 | 1 | 3 | F30 H08 G24 |
+  | G9 concept | 2 | 0 | 0 | 2 | F16 F26 |
+  | G7 time or role | 0 | 0 | 2 | 2 | G21 G29 |
+  | G5 assertion | 1 | 0 | 0 | 1 | F08 |
+  | G6 attribution (speaker) | 0 | 0 | 1 | 1 | G31 |
+  | S1 right by meaning, scored by form | 0 | 0 | 1 | 1 | G10 |
+  | G4 attachment, G8 event structure, G10 sets, R2 ranking cut, R3 reader | 0 | 0 | 0 | 0 | |
+
+  - The query layer accounts for 41 of 69, the graph for 24, reading for 3 and scoring for 1.
+  - 16 of the 69 were right in R79 or R77 part c with another plan: 8 of the 18 Q2 rows and 3 of the 7 Q1.
+    Part of the query share is planner variance, not a fixed defect.
+  - `also`: Q2 6, G7 4 (a date only in a heading or an event's name: G04 G12 G23 G25), Q4 4, Q3 3.
+- **Groups behind the counts, each with a real example:**
+  - **Claim words never reach a record-linked subject (`query_code`, 5: F17 F21 F23 F24 F32).**
+    `PlanRunner._claim_words` links a plan's claim words to concepts only (`linker.find(..., {"kind"})`).
+    `find_claims` matches a claim's ends by the canonical id of their mentions. Since R75, "frame",
+    "slats", "legs" and "drawers" in the reviews refer to Assembly records (`Assembly:A-1012` Frame, by
+    name), so "frame creaks" can never be found by its subject. A bug of R75's mention graph, not of the
+    planner.
+  - **No step from claims to the records they are about (Q3, 3: F04 F05 H14).** The planner also wrote
+    it in G01 G02 G22 G28 and was refused ("list: a property can be read only from records of one known
+    label"). Example F04: "frame EXHIBITS creaks" found, then the price of its product could not be listed.
+  - **Record operations, one question each (Q3, 7):** two properties of one record compared (H44 "filed
+    more than 30 days after the incident"; F48 two relationship values); a multi-valued field ranked by its
+    members (H11 "POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM"); a hop after a rank (F52); a rank filtered on
+    a relationship property (F55); records without a related record (F58); an intersection of two record
+    sets (F64).
+  - **A claim's value compared with a number (Q3 or Q4 with Q3, 3: G15 G26 G35; also G14).** For example
+    "Station Road drainage, second phase HAS_COST 310,000 pounds" cannot be selected as "over 200,000".
+  - **Actions and findings with no predicate (G2, 7: F10 H29 G12 G23 G25 G29 G32).** H29 "3RD TIME, PADS
+    CHANGED AND ROTORS MACHINED" (no repair predicate), G12 "showed a slow drip from the mechanical seal"
+    (no finding predicate), G25 seal replacements inside the broad SERVICES, G32 an award.
+  - **Document header fields (G2, 4: F06 F09 F11 F13).** "## Rating: ★☆☆☆☆ (1/5)" and "- @scandi_lover
+    (Minneapolis)" are in no claim and no record.
+  - **read_check judges a chunk, not a claim (G24; also blocks G14 G26 G29).** The checker sees the
+    statement and the candidate's chunks, never the candidate itself, so the 7 HP40-2291 claims of one
+    work-orders chunk were all verified with one quote.
+  - **Identity (G04 G05 G30):** "Jon Pike" and "J. Pike" are joined to each other, not to Staff S-131
+    Jonathan Pike (`no_record`); there is also a Judith Pike in the corpus. **H19:** "PISTON SNAP RING
+    RECALL" is an individual, not recall 16V074000 ("piston wrist pin circlip").
+- **The task's candidates, measured:** open predicates 7 (G2 without the header fields), events 0 as a
+  first cause (H29, G25 and G29 are event-like), sets and quantifiers 0, writing read_check results back
+  0, an LLM-named attachment 0 (no G4), the speaker 1 (G31), `valid_time` 1 (G21; 4 more under `also`).
+- **Gate:** 556 passed (553 + 3), `ruff check` clean. No run, $0.
+- **Open: the user's choice of additions** (task file, Step 8), recorded below once made.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
+- **Claim words cannot reach a mention that refers to a record (found in R83).** `plan_run._claim_words`
+  searches concepts only, while `find_claims` matches mentions by their canonical id, which is a record or
+  an individual for keyed and named things (R75). 5 furniture answers fail on it (F17 F21 F23 F24 F32).
+  To be fixed in its own step, with a test that fails before the fix, if the user chooses it.
+- **read_check verifies all candidates of one chunk together (found in R83).** `_read_check` asks the
+  checker about the statement and each candidate's chunks, never about the candidate claim itself, so
+  claims sharing a chunk get one verdict (G24: 7 of 28 verified with one quote).
 - **(Addressed in R82 by one prompt example; not yet measured.) Held-out's named denials carry no cue (found in R77 part f).** Gemini keeps a Problem named by a denial
   ("DO NOT LOCK", "DID NOT STOP", "NO FEEDBACK") as the prompt allows, but leaves truth affirmed and
   `negation` empty, ignoring "the fact is still negated". Furniture's denials all moved into the field.

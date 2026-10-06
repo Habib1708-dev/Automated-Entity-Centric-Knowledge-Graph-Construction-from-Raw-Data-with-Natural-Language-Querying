@@ -1,0 +1,297 @@
+{
+ "dataset": "generality",
+ "run": "R77 part f (13ee2b6)",
+ "classified_by": "claude-fable-5-1",
+ "rows": [
+  {
+   "question_id": "G01",
+   "type": "disambiguation",
+   "cause": "Q4_fallback_wrong",
+   "also": [
+    "Q2_wrong_primitive_or_field"
+   ],
+   "first_wrong_step": "plan refused twice (step 3 list property=team after read_check on claims; step 3 filter_records on claims); fallback text2cypher returned 3 teams",
+   "evidence": "Both plans were refused ('list: a property can be read only from records of one known label'; 'filter_records: cannot work on claim items') and the text2cypher fallback returned Soil Ecology, Finance Office and Hydrology. The graph holds the fact as text reachable from record S-104 ('Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award', the newsletter mention linked to S-104 by its attribute), so find_entity Staff -> read_check on the two records -> list property=team, or a plain reading plan (gold route retrieval), was expressible; no claim holds the award itself (stored as 'Maria Lopez AFFILIATED_WITH Soil Ecology', time 2025).",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "G02",
+   "type": "multi_hop",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims (input: the 2 Maria Lopez records, object_like 'grants budget', time_words '12 May 2025'): 0 claims, also on either end; step 3 list property=role then read both records",
+   "evidence": "No claim renders 'Maria Lopez presented the grants budget for 2025-26' (the minutes give 'Maria Lopez PARTICIPATED_IN institute committee, 12 May 2025' and 'Maria Lopez AFFILIATED_WITH Finance Office', both time ''), so the narrowing found nothing and the list read both records: ['Postdoctoral researcher', 'Grants accountant']. The minutes chunk is in S-219's text (its mention linked by the attribute 'Finance Office') and not in S-104's, so find_entity Staff -> read_check on the records -> list property=role would have given 'Grants accountant'; a claims route would also need a predicate for presenting a budget and the date on the claim.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "G03",
+   "type": "disambiguation",
+   "cause": "Q4_fallback_wrong",
+   "also": [
+    "Q2_wrong_primitive_or_field"
+   ],
+   "first_wrong_step": "plan refused twice (filter_records / find_entity with label 'Document', related 'ABOUT'); fallback text2cypher 0 rows",
+   "evidence": "The planner addressed the log as a Document joined by ABOUT, which plans cannot name ('unknown label Document; use one of Pump, Staff'; 'unknown relationship ABOUT'); the fallback matched the document title on 'aldmoor' and 'log' and got 0 rows (the chunk's context is 'fieldwork_log'). The graph renders 'kept by M. Lopez' as 'M. Lopez LOCATED_AT Aldmoor bog' with the M. Lopez mention adjudicated to S-104, and the gold route is retrieval: a reading plan over the chunks linked from 'Aldmoor bog' (the fieldwork log and the newsletter's 'Maria Lopez of the Soil Ecology team ... Aldmoor bog') was expressible.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "G04",
+   "type": "multi_hop",
+   "cause": "G3_identity",
+   "also": [
+    "G7_time_or_role",
+    "Q4_fallback_wrong"
+   ],
+   "first_wrong_step": "plan refused twice (list property=team after read_check on claims); fallback text2cypher 0 rows; the link Jon Pike -> Staff S-131 that any plan needs is absent",
+   "evidence": "The chair is stored as 'Jon Pike PARTICIPATED_IN institute committee, 12 May 2025' (time ''), and resolve.json links the mention 'Jon Pike' to an individual with reason no_record, not to Staff S-131 Jonathan Pike (linked only from 'Dr. Jonathan Pike', 'Jonathan Pike' and 'Dr. J. Pike'), so his team (Soil Ecology) is unreachable from the 12 May minutes. The role '(chair)' is not stored and the date is only in the event's name; the fallback filtered o.time CONTAINS '12 May' and got 0 rows.",
+   "fix": "identity",
+   "right_in": []
+  },
+  {
+   "question_id": "G05",
+   "type": "aggregation",
+   "cause": "G3_identity",
+   "also": [
+    "Q4_fallback_wrong"
+   ],
+   "first_wrong_step": "plan refused twice (related over REFERS_TO / MENTIONS / PART_OF, which are not record relationships); fallback text2cypher counted 5 documents",
+   "evidence": "Of the 8 documents, the mentions 'Jon Pike' (minutes 12 May), 'J. Pike' (fieldwork log) and 'J. Pike' (minutes 9 June) are not linked to Staff S-131 (resolve.json: no_record, or adjudicated to the 'Jon Pike' individual); only 'Dr. Jonathan Pike', 'Jonathan Pike' and 'Dr. J. Pike' are, which gives the 5 the fallback counted (newsletter, Utrecht, Hensley, seminar, flood meeting). find_entity Staff -> find_claims -> count unit=documents was expressible and gives the same 5.",
+   "fix": "identity",
+   "right_in": []
+  },
+  {
+   "question_id": "G06",
+   "type": "disambiguation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims (object_like 'mechanical seal', time_words '31 March 2025'): 0 claims, also on either end",
+   "evidence": "In this graph the 31 March replacement is 'Rosa Delgado SERVICES HP40-1183' (time 'on 31 March 2025', evidence 'The seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado'), and the seal claims from that sentence ('seal COMPONENT_OF HP40-1183') have time '', so seal words plus the date match nothing. find_claims predicate=SERVICES time_words='31 March 2025' -> read_check -> list what=object (or find_entity 'mechanical seal' -> find_claims -> read_check -> list about Pump) would have given HP40-1183; r79 and r77c found it with COMPONENT_OF plus the date on the earlier graph.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "G10",
+   "type": "disambiguation",
+   "cause": "S1_right_by_meaning",
+   "also": [],
+   "first_wrong_step": "final answer (answer_from_chunks gave a sentence, not an entity list)",
+   "evidence": "The reader answered 'The mayor - in the council report she is named as Mayor Helen Achterberg.' citing the gold sentence ('Mayor Helen Achterberg said the footbridge \"is safe to use until the works begin\"'); the gold expects the entity Helen Achterberg (alias Mayor Helen Achterberg) and is_correct needs answer.entities, so a sentence scores wrong (R73's form rule). The claim steps found nothing (no claim stores the mayor's statement) and the chunk source supplied the right chunk.",
+   "fix": "reader",
+   "right_in": []
+  },
+  {
+   "question_id": "G12",
+   "type": "negation_sensitive",
+   "cause": "G2_no_schema_type",
+   "also": [
+    "G7_time_or_role"
+   ],
+   "first_wrong_step": "step 0 find_claims (object_like 'leaking', time_words 'March 2025'): 0 claims, also on either end",
+   "evidence": "'Pump HP40-1183 showed a slow drip from the mechanical seal' is stored only as 'mechanical seal COMPONENT_OF Pump HP40-1183' and 'North Station pump inspection, 14 March 2025 INVOLVES_PUMP HP40-1183' (both time ''): the text schema has no predicate for a pump's observed condition, and the date is in the event's name, not o.time. A read_check over the inspection's INVOLVES_PUMP claims could not separate the two pumps either: both claims share the one chunk and the statement is the same for every candidate.",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "G13",
+   "type": "negation_sensitive",
+   "cause": "G1_extraction_miss",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims (object_like 'cores', time_words '10 December'): 1 claim, not about a core; step 1 read_check 0 of 1",
+   "evidence": "The Aldmoor cores were extracted with the bog as subject ('Aldmoor bog HAS_MEASUREMENT 5.1 m', 'Aldmoor bog HAS_MEASUREMENT 3.9', time '10 December'), unlike the Brackwater log ('Core BF-1 HAS_MEASUREMENT 2.1 m'), and 'Core AB-20, 10 December: not taken' gave no claim, so no claim has a core on either end; the one claim found with that date is among the trip claims ('trip INVOLVES_EQUIPMENT corer', 'Samuel Osei PARTICIPATED_IN trip') and read_check rejected it against the fieldwork chunk. r79 counted that same single claim without a read_check and was right by accident.",
+   "fix": "extraction_coverage",
+   "right_in": [
+    "r79"
+   ]
+  },
+  {
+   "question_id": "G14",
+   "type": "structured_filter",
+   "cause": "G1_extraction_miss",
+   "also": [
+    "Q3_missing_primitive"
+   ],
+   "first_wrong_step": "step 0 find_claims (predicate HAS_MEASUREMENT, subject_like 'Aldmoor cores'): 9 claims whose subject is 'Aldmoor bog'",
+   "evidence": "The claims are 'Aldmoor bog HAS_MEASUREMENT 4.1 / 4.6 / 3.9 / 4.2 m / ...' (7 from the fieldwork chunk, 2 '240 cores'), so list what=subject can only give 'Aldmoor bog'; read_check 'The core had a pH below 4.0' verified all 7 fieldwork claims with the same AB-19 quote because they share one chunk. Even with per-core subjects no primitive compares a claim's value with a number (the pH objects are the bare values '3.9', '4.1', without a unit).",
+   "fix": "extraction_coverage",
+   "right_in": []
+  },
+  {
+   "question_id": "G15",
+   "type": "structured_filter",
+   "cause": "Q4_fallback_wrong",
+   "also": [
+    "Q3_missing_primitive"
+   ],
+   "first_wrong_step": "plan refused twice (filter_records on 'Chunk' / 'Observation' values, related FROM / ABOUT); fallback text2cypher 0 rows",
+   "evidence": "The graph holds 'Eastgate library roof HAS_COST 420,000 pounds' and 'Station Road drainage HAS_COST 260,000 pounds' (budget_2025 chunk) beside the 2026 lines, but no primitive compares a claim's value with 200,000 or keeps the claims of one document, which both refused plans asked for ('filter_records: unknown label Observation'); the fallback required the document title to contain 'riverton', 'works' and 'budget' and the unit 'pound', and returned 0 rows.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "G18",
+   "type": "lookup",
+   "cause": "G1_extraction_miss",
+   "also": [],
+   "first_wrong_step": "step 0 retrieve_chunks (no input: the chunk source): 3 chunks, none the article",
+   "evidence": "The retrieval route reached only inspection_2025-03-14, letter_to_the_editor and budget_2026 (3 chunks, under top_k 5), so news/mill_lane_and_eastgate.md was never a candidate: the article's sentence 'residents had told him the east railing moved when leaned on' produced no claim or mention (its claims are only RESPONSIBLE_FOR, LOCATED_AT and two AFFILIATED_WITH), so the 'east railing' entity leads only to the letter, and 'structural inspector' is nobody's name or alias (Daniel Okafor is stored without his role). The reader then rightly said the chunks do not answer.",
+   "fix": "extraction_coverage",
+   "right_in": []
+  },
+  {
+   "question_id": "G21",
+   "type": "aggregation",
+   "cause": "G7_time_or_role",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims (predicate PARTICIPATED_IN, object_like 'institute committee meeting', time_words '12 May 2025'): 0 claims",
+   "evidence": "The four attendance claims exist ('Jon Pike / Maria Lopez / Aiko Tanaka / Samuel Osei PARTICIPATED_IN institute committee, 12 May 2025') but with time '', since the date is only in the heading and code rejects a time that is not in the evidence (rejected.jsonl: time_not_in_evidence), so the date filter the question asks for matches nothing; without it the meeting words would also match the 9 June meeting's four claims.",
+   "fix": "valid_time",
+   "right_in": []
+  },
+  {
+   "question_id": "G22",
+   "type": "disambiguation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 list property=team on both Maria Lopez records (the plan dropped the poster claim)",
+   "evidence": "Attempt 1 was find_entity 'Maria Lopez' (Staff) -> list team: ['Soil Ecology', 'Finance Office'], with no step narrowing to the poster presenter. The Utrecht mention is linked to S-104 (resolve.json: adjudicated with 'Maria Lopez presented a poster on the 240 cores') and the claim 'Maria Lopez PARTICIPATED_IN European peat conference' exists, so find_entity -> read_check 'presented a poster at the Utrecht peat conference' -> list team would have kept S-104 only.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "G23",
+   "type": "negation_sensitive",
+   "cause": "G2_no_schema_type",
+   "also": [
+    "G7_time_or_role"
+   ],
+   "first_wrong_step": "step 1 find_claims (input: 3 Pump records, object_like 'leaking', time_words 'June 2025'): 0 claims, also on either end",
+   "evidence": "'Pump HP40-2291 now shows a slow drip from its mechanical seal' is stored only as 'mechanical seal COMPONENT_OF HP40-2291' (time 'now') and the tag as 'Rosa Delgado SERVICES HP40-2291' (time 'before the end of the month'): no predicate holds a leak finding, and no claim from the June inspection carries 'June 2025' (the event is 'summer quarterly round').",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "G24",
+   "type": "disambiguation",
+   "cause": "R1_read_check_wrong",
+   "also": [
+    "Q2_wrong_primitive_or_field"
+   ],
+   "first_wrong_step": "step 2 read_check ('The mechanical seal of pump HP40-2291 was replaced.'): 7 of 28 verified",
+   "evidence": "The 7 verified claims are every HP40-2291 claim from the work-orders chunk (subjects listed: mechanical seal, HP40-2291, Marek Hollis, WO-318, WO-320), all cited with the same quote 'Mechanical seal of HP40-2291 replaced by technician Marek Hollis': read_check shows one fixed statement against each candidate's chunk, so candidates sharing a chunk are all verified. The right claim 'Marek Hollis SERVICES HP40-2291' is in the graph; r79's plan filtered predicate=SERVICES first (2 claims, 1 verified) and was right.",
+   "fix": "read_check",
+   "right_in": [
+    "r79"
+   ]
+  },
+  {
+   "question_id": "G25",
+   "type": "aggregation",
+   "cause": "G2_no_schema_type",
+   "also": [
+    "G7_time_or_role"
+   ],
+   "first_wrong_step": "step 1 find_claims (input: the 2 North Station pumps, predicate INVOLVES_PUMP, subject_like 'mechanical seal replacement', time_words '2025'): 0 claims, also on either end",
+   "evidence": "The two replacements are stored as 'Rosa Delgado SERVICES HP40-1183' (time 'on 31 March 2025') and 'Marek Hollis SERVICES HP40-2291' / 'WO-318 INVOLVES_PUMP HP40-2291' (time '30 June'); SERVICES also covers the inspection, the regrease and the two tags (schema: 'inspected, repaired, replaced seals on, regreased, or isolated'), so no predicate or event type singles out a seal replacement, and '2025' is in only one of the two claims' times.",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "G26",
+   "type": "structured_filter",
+   "cause": "Q4_fallback_wrong",
+   "also": [
+    "Q3_missing_primitive"
+   ],
+   "first_wrong_step": "plan refused twice (filter_records on 'Observation' value < 4.0; find_entity label 'Individual'); fallback text2cypher 0 rows",
+   "evidence": "The graph holds 'Core BF-1 HAS_MEASUREMENT 3.8' and 'Core BF-3 HAS_MEASUREMENT 3.7' (and the depths '2.1 m', '1.9 m'), but no primitive compares a claim's value with a number, which the first plan asked for; the fallback required o.object_name to contain 'ph' and the objects are the bare numbers, so 0 rows. A read_check 'pH below 4.0' would verify all three cores, which share one chunk.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "G27",
+   "type": "negation_sensitive",
+   "cause": "G1_extraction_miss",
+   "also": [],
+   "first_wrong_step": "step 0 find_entity 'Brackwater fen' (Place): 'Aldmoor bog, Aldmoor, Aldmoor' (nearest in meaning; nothing spelled alike)",
+   "evidence": "No entity 'Brackwater fen' exists: the header 'Brackwater fen field log, spring 2025, kept by S. Osei' gave no claim and the cores are 'Core BF-1/2/3 (Place) HAS_MEASUREMENT ...' without a LOCATED_AT Brackwater fen, although the Aldmoor log gave 'M. Lopez LOCATED_AT Aldmoor bog'; so the LOCATED_AT search found 0 claims and count gave 0. With that link, find_entity -> find_claims -> count unit=about would give the 3 cores.",
+   "fix": "extraction_coverage",
+   "right_in": []
+  },
+  {
+   "question_id": "G28",
+   "type": "multi_hop",
+   "cause": "Q4_fallback_wrong",
+   "also": [
+    "Q2_wrong_primitive_or_field"
+   ],
+   "first_wrong_step": "plan refused twice (list property=install_year after read_check on claims; related over OBJECT / REFERS_TO); fallback text2cypher 0 rows",
+   "evidence": "The graph holds 'Rosa Delgado OPERATES intake screen' (time 'On 6 May') and 'intake screen COMPONENT_OF KV12-0457', with KV12-0457 linked to its Pump record (install_year 2016); the fallback filtered o.time CONTAINS '6 May 2025' against the stored 'On 6 May' and got 0 rows. filter_records Pump -> read_check 'the intake screen of this pump was cleaned on 6 May 2025' -> list property=install_year was expressible, as only KV12-0457's text holds the Harbour Station report; the claims-to-record-property hop the planner wrote does not exist.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "G29",
+   "type": "multi_hop",
+   "cause": "G7_time_or_role",
+   "also": [
+    "Q4_fallback_wrong"
+   ],
+   "first_wrong_step": "plan refused twice (related over SUBJECT / REFERS_TO; list property=team after read_check on claims); fallback text2cypher 0 rows (o.time CONTAINS '9 June 2025')",
+   "evidence": "'Present: Aiko Tanaka (chair)' is stored as 'Aiko Tanaka PARTICIPATED_IN Minutes of the institute committee, 9 June 2025' with time '' and no role: PARTICIPATED_IN lumps 'attended, presented at, chaired', so no plan can pick the chair among the four attendees, and read_check cannot either since the four claims (and the four Staff records' texts) share the one minutes chunk. Aiko Tanaka is linked to S-150 (Hydrology).",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "G30",
+   "type": "aggregation",
+   "cause": "G3_identity",
+   "also": [
+    "Q4_fallback_wrong"
+   ],
+   "first_wrong_step": "plan refused twice (related over OBJECT / REFERS_TO; count label 'Individual'); fallback text2cypher counted 0",
+   "evidence": "The two attendances are 'Jon Pike PARTICIPATED_IN institute committee, 12 May 2025' and 'J. Pike PARTICIPATED_IN Minutes of the institute committee, 9 June 2025', whose mentions are joined to each other ('Jon Pike <-> J. Pike', variant) but not to Staff S-131 Jonathan Pike (no_record), so the fallback's Staff-anchored count and a find_entity Jonathan Pike -> find_claims PARTICIPATED_IN -> count plan both give 0; with the link the count is 2.",
+   "fix": "identity",
+   "right_in": []
+  },
+  {
+   "question_id": "G31",
+   "type": "disambiguation",
+   "cause": "G6_attribution",
+   "also": [
+    "Q2_wrong_primitive_or_field"
+   ],
+   "first_wrong_step": "step 2 list what=subject of the one verified claim: 'mechanical seal'",
+   "evidence": "The verified claim is 'mechanical seal COMPONENT_OF Hydra P-40' (calder_quotation, quote 'In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty'); triples.jsonl stores no speaker on any claim (R77 dropped said_by), so a structured plan cannot name Ines Barros and the plan listed the claim's subject. A reading step over the same chunk (signed 'Ines Barros, Service Manager, Calder Pumps') would have answered.",
+   "fix": "speaker",
+   "right_in": []
+  },
+  {
+   "question_id": "G32",
+   "type": "negation_sensitive",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims (object_like 'Hensley Field-Work Award'): 3 claims about Samuel Osei, sediment flume and HP40-1183",
+   "evidence": "No entity or predicate holds the award: '2022: Aiko Tanaka (Hydrology) ... 2025: Maria Lopez (Soil Ecology)' is stored as 'Aiko Tanaka AFFILIATED_WITH Hydrology' (time 2022), 'Jonathan Pike AFFILIATED_WITH Soil Ecology' (2023), 'Maria Lopez AFFILIATED_WITH Soil Ecology' (2025) plus PARTICIPATED_IN the cited campaigns, so the award words matched only the three nearest unrelated names and list what=subject gave them; the '2024: not awarded' line has no negated claim either.",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "G35",
+   "type": "structured_filter",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims (predicate HAS_COST, object_like '200,000 pounds'): 3 claims by name nearness",
+   "evidence": "The first plan asked for Observation value > 200000 and was refused ('unknown label Observation'); the second matched '200,000 pounds' as a name and got the three nearest values: 'Eastgate library roof HAS_COST 420,000 pounds' and 'Station Road drainage HAS_COST 260,000 pounds' (2025) and 'Riverside path lighting HAS_COST 230,000 pounds', missing 'Station Road drainage, second phase HAS_COST 310,000 pounds' (2026). Missing operation: a numeric comparison over claim values, kept to one document or year.",
+   "fix": "new_primitive",
+   "right_in": []
+  }
+ ],
+ "reviewed_by": "claude-opus-5-5",
+ "rules": "tests/gold/r83/rules.md"
+}

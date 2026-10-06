@@ -1,0 +1,199 @@
+{
+ "dataset": "heldout",
+ "run": "R77 part f (13ee2b6)",
+ "classified_by": "claude-fable-5-1",
+ "rows": [
+  {
+   "question_id": "H06",
+   "type": "structured_filter",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims (input: the 10 complaints of 2019, predicate OCCURS_ON_VEHICLE, subject_like 'accelerate') -> 0 claims, even on either end",
+   "evidence": "The graph holds 'VEHICLE WILL NOT ACCELERATE [Problem] OCCURS_ON_VEHICLE 2019 Toyota Rav4' (conditional, which the default modality finds) from rav4#2 'VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.', but the claim-word link for 'accelerate' (spelling plus 3 nearest names in meaning) did not reach that name. R79's identical plan found 1 claim in its graph, where the subject was named 'WILL NOT ACCELERATE' (R77 part f note: 'the linker missed accelerate').",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "H08",
+   "type": "aggregation",
+   "cause": "R1_read_check_wrong",
+   "also": [],
+   "first_wrong_step": "step 2 read_check 'The vehicle's brakes apply on their own or suddenly.' verified 2 of 3",
+   "evidence": "The 3 candidates were the Rogue's 'BRAKED ON ITS OWN' and 'ACTIVATED THE BRAKES' (both verified, both citations quote rogue#1 'THE CAR BRAKED ON ITS OWN.') and the Civic's 'BRAKE SUDDENLY [Problem] OCCURS_ON_VEHICLE 2016 Honda Civic' (stored conditional, hedge 'MAY'), whose chunk civic#1 was shown and rejected. That chunk says 'THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE ... DURING 300 MILES OF HIGHWAY DRIVING, THE VEHICLE DID THIS TWICE.'; the check's rule treats 'might happen' as no support and did not weigh the 'DID THIS TWICE' sentence.",
+   "fix": "read_check",
+   "right_in": []
+  },
+  {
+   "question_id": "H11",
+   "type": "aggregation",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 1 rank property 'components' order most -> 'best 3', a three-way tie listed as the answer",
+   "evidence": "Complaint.components is one VARCHAR text per record ('POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM'); rank groups whole values, so 'UNKNOWN OR OTHER', 'ENGINE' and 'FUEL/PROPULSION SYSTEM' tie at 3 complaints each, while the gold counts each listed category: FUEL/PROPULSION SYSTEM is in 5 complaints, ENGINE and POWER TRAIN in 4. Missing operation: rank by the members of a multi-valued (comma-separated) property.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "H14",
+   "type": "multi_hop",
+   "cause": "Q3_missing_primitive",
+   "also": [
+    "Q2_wrong_primitive_or_field"
+   ],
+   "first_wrong_step": "step 0 filter_records Complaint.components contains 'piston ring' -> 0 records (steps 1-3 then ran on no input)",
+   "evidence": "The components field of complaints 10823637 and 10825467 is 'ENGINE'; the piston ring recall exists only as claims ('PISTON SNAP RING RECALL [Recall] COVERS_COMPONENT PISTON SNAP RING', civic#4 'CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.'; 'RECALL COVERS_COMPONENT PISTON CLIP RING', civic#2). No primitive turns claims into the records they are about so that related CONCERNS_VEHICLE -> AFFECTS_VEHICLE -> Component contains 'engine' can follow: list/count 'about' are terminals and related accepts records only; the sole existing route is read_check over all 25 complaints. Missing operation: a non-terminal 'records the claims are about' step.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "H19",
+   "type": "multi_hop",
+   "cause": "G3_identity",
+   "also": [],
+   "first_wrong_step": "step 3 filter_records Recall.Summary contains 'piston snap ring' within the Civic's 5 recalls -> 0 (steps 0-2 were right: complaint 10825467 -> CIVIC -> 5 recalls)",
+   "evidence": "The complaint's recall mention 'PISTON SNAP RING RECALL' is stored as an individual Recall with reason 'no_record' (resolve.json), joined to civic#2's 'RECALL' but not to record 16V074000, whose Summary says 'piston assemblies that may have been manufactured without a piston wrist pin circlip' and whose claims say '16V074000 COVERS_COMPONENT piston assemblies'. Nothing in the graph joins 'piston snap ring' to 16V074000; only a looser filter ('piston', or Component contains 'ENGINE', 16V074000 being the Civic's one engine recall) would have reached its Remedy 'dealers will inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge.'",
+   "fix": "identity",
+   "right_in": []
+  },
+  {
+   "question_id": "H23",
+   "type": "disambiguation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 0 filter_records Recall.Summary contains '22S25' -> 0",
+   "evidence": "'22S25' is in the Remedy field of 22V254000 ('Ford's number for this recall is 22S25.', chunk record/Recall/22V254000#1), not in any Summary; the same contains filter on Remedy finds exactly that record (22V413000's Remedy names 22S43).",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "H25",
+   "type": "disambiguation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 filter_records Vehicle.model contains '86' (within the 1 TOYOTA vehicle) -> 0; steps 2-4 ran on no input",
+   "evidence": "vehicles.csv holds only CIVIC, ROGUE, RAV4, ESCAPE and OUTBACK, so no Vehicle record is the Toyota 86. The fact is in 21V587000's Summary ('2018-2019 BRZ, WRX, and Toyota 86 vehicles') and as the claim '21V587000 [Recall] AFFECTS_VEHICLE Toyota 86 [Vehicle]'; filter_records Recall Summary contains 'Toyota 86' with Manufacturer contains 'Subaru' was expressible and finds the one record.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "H26",
+   "type": "disambiguation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 0 filter_records Recall.Summary contains 'load label' -> 0 (step 1's Manufacturer filter then ran within 0 records)",
+   "evidence": "No Summary holds 'load label': 19V244000 says 'The text on the load capacity label may become illegible.' and 19V503000 'The load carrying capacity modification label may be incorrect.'; the plan's own second filter alone, Manufacturer contains 'Gulf States Toyota' ('Gulf States Toyota, Inc.'), finds 19V244000. R79 failed the same way with Component contains 'LOAD LABEL' (the field is 'EQUIPMENT:OTHER:LABELS').",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "H27",
+   "type": "negation_sensitive",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims (input: complaint 10691672, predicate OCCURS_ON_VEHICLE, subject_like 'air bag') -> 0 claims, even on either end",
+   "evidence": "The graph holds 'AIR BAGS FAILED TO DEPLOY [Problem] OCCURS_ON_VEHICLE 2015 FORD ESCAPE' (actual) from escape#3 'THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.'; the words 'air bag' link to the Component 'AIR BAGS' (object of the AFFECTS_COMPONENT claim) and, since no OCCURS_ON_VEHICLE claim came back on either end, not to the Problem named 'AIR BAGS FAILED TO DEPLOY'. R79's plan with the same words and no input also found 0; R77c answered 'ESCAPE' through records alone (components contains 'AIR BAGS' -> CONCERNS_VEHICLE -> model).",
+   "fix": "planner",
+   "right_in": [
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "H28",
+   "type": "negation_sensitive",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 2 count unit 'about' label Complaint -> 2 (the plan has no read_check between find_claims and count)",
+   "evidence": "find_claims 'stalled' (OCCURS_ON_VEHICLE, within the 25 complaints) returned 3 claims: the two 'STALLING [Problem] OCCURS_ON_VEHICLE 2015 Ford Escape' of escape#4 ('LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS') and a third nearest-in-meaning candidate from another complaint that the trace does not name (no stalling claim exists for 10823637 or 11209676, whose texts name stalling only as a possible result or say the engine does not stop). R79's plan put read_check 'The vehicle actually stalled.' before the count and gave 1; R77c's verified 1 of 2.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "H29",
+   "type": "negation_sensitive",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims object_like 'repair work' (within the 25 complaints) -> 0 claims, even on either end",
+   "evidence": "The text schema has no predicate for a repair or service event (its fact types relate Problem, Component, Vehicle, Recall and Value only). From escape#2 '3RD TIME, PADS CHANGED AND ROTORS MACHINED.' the graph holds only 'PADS [Component] SUBCOMPONENT_OF LEFT REAR BRAKE', and from escape#4 'VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION.' no claim at all; nothing in rejected.jsonl concerns a repair.",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "H32",
+   "type": "negation_sensitive",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims predicate OCCURS_ON_VEHICLE subject_like 'trunk' (within the 25 complaints) -> 0 claims, even on either end",
+   "evidence": "The graph holds 'DO NOT LOCK [Problem] OCCURS_ON_VEHICLE 2016 Honda Civic' and 'DO NOT LOCK AFFECTS_COMPONENT TRUNK' from civic#0 'THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK'; the plan named the component as the subject of the problem-to-vehicle predicate, where TRUNK is only the object of AFFECTS_COMPONENT. R79 and R77c asked the same predicate with subject_like 'trunk does not lock', found the claim, verified it and listed CIVIC.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "H33",
+   "type": "lookup",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims (input: complaint 10691672) predicate HAS_MILEAGE -> 0 claims",
+   "evidence": "The fact is stored as 'AIR BAGS FAILED TO DEPLOY [Problem] OCCURS_AT_MILEAGE 2,361 [Value]' (escape#3 'THE FAILURE MILEAGE WAS 2,361.'); HAS_MILEAGE is the schema's odometer predicate on the Vehicle. R77c's plan with OCCURS_AT_MILEAGE on the same complaint listed '2361'; R79 was right only through its text2cypher fallback with o.predicate = 'OCCURS_AT_MILEAGE'.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "H36",
+   "type": "lookup",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [
+    "G2_no_schema_type"
+   ],
+   "first_wrong_step": "step 1 find_claims (input: complaint 11032133) predicate HAS_MILEAGE -> 0 claims (a first plan was refused: 'list: a property can be read only from records of one known label')",
+   "evidence": "rogue#4's claims are only about the gauge ('IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK [Problem] AFFECTS_COMPONENT GAS GAUGE'); no predicate holds a range, so no claim plan can answer 'NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY', while the record's own text was reachable with filter_records odiNumber -> answer_from_chunks (the gold route is retrieval).",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "H38",
+   "type": "lookup",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 list property ReportReceivedDate (of recall 20V373000) -> '2020-06-24'",
+   "evidence": "The record has no 'began' field; 'The recall began August 17, 2020.' is in the Remedy text of 20V373000 (chunk record/Recall/20V373000#1), which find_entity -> answer_from_chunks over the record's document would read; ReportReceivedDate 24/06/2020 is the date NHTSA received the report, a different date (judge: 'the value is wrong, not merely partial').",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "H44",
+   "type": "structured_filter",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 0 retrieve_chunks (no step compares two properties; 5 chunks came from the chunk source) -> step 1 answer_from_chunks: 'The chunks do not provide incident dates'",
+   "evidence": "The answer needs dateComplaintFiled minus dateOfIncident > 30 days per Complaint record (both record properties, e.g. 11209676 incident 12/20/2018, filed 05/24/2019); filter_records compares one property with a constant only, and the complaint chunks carry only the filing date ('## Complaint 11180230 (filed 02/15/2019)'), so the reader could not answer. Missing operation: a filter comparing two properties of one record (date arithmetic).",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "H55",
+   "type": "aggregation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims predicate COVERS_COMPONENT -> 70 claims (claims asked for what is the Recall record field Component)",
+   "evidence": "rank over claims groups them by the record they hang on, so 'best 6' is the recall with the most component claims, 16V244000, answered as the entity instead of a component. The gold is the record field value 'FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP' (4 campaigns in recalls.json); R79's plan filter_records Recall -> rank property Component order most answered it ('best 4').",
+   "fix": "planner",
+   "right_in": [
+    "r79"
+   ]
+  }
+ ],
+ "reviewed_by": "claude-opus-5-5",
+ "rules": "tests/gold/r83/rules.md"
+}

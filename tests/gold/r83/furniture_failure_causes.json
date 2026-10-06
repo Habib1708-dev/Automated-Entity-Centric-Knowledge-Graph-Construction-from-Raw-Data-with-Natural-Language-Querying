@@ -1,0 +1,301 @@
+{
+ "dataset": "furniture",
+ "run": "R77 part f (13ee2b6)",
+ "classified_by": "claude-fable-5-1",
+ "rows": [
+  {
+   "question_id": "F04",
+   "type": "multi_hop",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "plan check of step 2 list (property price, what=about) refused twice: 'a property can be read only from records of one known label'; fallback reading",
+   "evidence": "Both plans were find_claims(frame, creaks) -> read_check -> list Product.price what=about, refused because list reads a property only from record items, and no primitive turns claims into the records they are about; the two text2cypher attempts were refused too and the reader answered 'The chunks do not state a price'. The graph holds 'frame EXHIBITS creaks' (uppsala_sofa_reviews.md#4, evidence 'the frame creaks whenever someone sits down'; the frame mention refers to Assembly:A-1012 of the Uppsala Sofa) and Product Uppsala Sofa price '$1289'. Missing operation: a non-terminal 'records the claims are about' step (claims -> records), after which list price works.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "F05",
+   "type": "multi_hop",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 2 list what=about label=Component: 0 items (and the plan could not continue to Component -> Supplier anyway)",
+   "evidence": "Attempt 0 asked related(HAS_OBSERVATION) from claims and was refused ('related takes record items'); attempt 1 found the claim 'shade EXHIBITS unevenly colored' (orebro_lamp_reviews.md#4, verified 1 of 2) and listed the records it is about with label Component: empty, because the claim hangs on Assembly:A-1033 'Shade' (the shade mention refers to that Assembly record) and on the Product, never on a Component-labelled record. Even with label Assembly, list is terminal, so the hops Assembly -> Component 'Shade Fabric' -> Supplier (Bangalore Textiles Ltd, Italian Textile Design in part_supplier_mapping.csv) cannot follow: a claims -> records step is missing. R79 was right only through the text2cypher fallback; R77c through a plan that ignored the review condition (find_entity 'Shade Fabric' -> related Supplier).",
+   "fix": "new_primitive",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "F06",
+   "type": "multi_hop",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "step 0 retrieve_chunks (chunk source): 5 chunks, 4 of them Helsingborg Dresser reviews; the reader answered 'The chunks do not say'",
+   "evidence": "The reviewer handle ('- @woodworker_amy (Portland)') and the rating ('## Rating: ★★★★★ (5/5)') are review metadata; text_schema.json has only Product, Component, Material and QualityAspect, and no predicate for an author or a rating, so triples.jsonl holds no claim naming any reviewer or star rating (0 lines match '@' or 'rating'). No plan over claims or records can reach it; the reading plan saw no chunk of the other two products' five-star reviews by @woodworker_amy (linkoping_bed_reviews.md#3, norrkoping_nightstand_reviews.md#3).",
+   "fix": "document_fields",
+   "right_in": []
+  },
+  {
+   "question_id": "F08",
+   "type": "aggregation",
+   "cause": "G5_assertion",
+   "also": [
+    "G3_identity"
+   ],
+   "first_wrong_step": "step 0 find_claims object_like='misaligned pre-drilled holes': 4 claims (claim words on either end), none of the five negated hole claims",
+   "evidence": "The six gold facts are stored as 'pre-drilled holes EXHIBITS didn't line up properly' (gothenburg#1, affirmed) and five denials of the positive aspect: 'pre-drilled holes EXHIBITS line up correctly' truth=negated neg=didn't (helsingborg#0), 'aligned properly' negated (jonkoping#4), 'align properly' negated (malmo#4), 'pre-drilled holes for the drawer handle EXHIBITS aligned correctly' negated (norrkoping#4), 'aligned' negated (vasteras#1). The default find_claims filter keeps only claims whose triple holds (coalesce(triple_truth, truth) = affirmed) and the planner may ask 'negated' only with words of the question, which has none, so the five are unreachable; the 4 claims found and verified came from three chunks whose text mentions the holes (gothenburg#1, helsingborg#0, malmo#4) and gave 3 products. Also: the five 'pre-drilled holes' mentions are five individuals the identity stage kept apart ('variant', 'apart' in resolve.json), so the words-linker's 3 neighbours cannot cover them.",
+   "fix": "assertion",
+   "right_in": []
+  },
+  {
+   "question_id": "F09",
+   "type": "aggregation",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims object_like='one star out of five': 4 claims, none a rating; read_check verified 1 (helsingborg#1), count documents = 1",
+   "evidence": "The ratings are headings '## Rating: ★☆☆☆☆ (1/5)' in helsingborg_dresser_reviews.md#1 and #4; no schema type or predicate holds a rating (HAS_MEASUREMENT is for dimensions, weight, assembly duration, capacity) and triples.jsonl has no rating claim; the nearest claims are 'Taking off one star ...' quality claims. The count came out as the number of such claims whose chunk happened to show a 1/5 heading to read_check (1 here; R79 counted 2 of 5 verified claims the same way, right by luck).",
+   "fix": "document_fields",
+   "right_in": [
+    "r79"
+   ]
+  },
+  {
+   "question_id": "F10",
+   "type": "aggregation",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims subject_like='customer service' object_like='replacement': 0 claims (even on either end); count = 0",
+   "evidence": "No claim in triples.jsonl or rejected.jsonl has 'customer service' or 'replacement' as a name: from uppsala_sofa_reviews.md#5 only 'legs EXHIBITS small chip' was stored although its evidence is 'one of the legs arrived with a small chip, though customer service was quick to send a replacement'; from gothenburg#4 'small dent on one edge' and 'wobbles'; from linkoping#5 'drawer pulls EXHIBITS damaged'. The schema has no type for the seller or its service and EXHIBITS records a quality 'evaluated in an item', so the act 'customer service sent a replacement' has no place to be stored.",
+   "fix": "open_predicates",
+   "right_in": []
+  },
+  {
+   "question_id": "F11",
+   "type": "aggregation",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims predicate=HAS_MEASUREMENT object_like='star': 0 claims; rank had nothing",
+   "evidence": "The five-star ratings are headings ('## Rating: ★★★★★ (5/5)', four in stockholm_chair_reviews.md) that no schema type or predicate holds; triples.jsonl has no rating claim. The plan asked the only numeric predicate for a 'star' value and found none.",
+   "fix": "document_fields",
+   "right_in": []
+  },
+  {
+   "question_id": "F12",
+   "type": "aggregation",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims predicate=EXHIBITS object_like='removable covers' (input Uppsala Sofa): 1 claim; count documents = 1",
+   "evidence": "'removable covers' is the SUBJECT of the stored claims in uppsala_sofa_reviews.md#0, #2, #3 and #6 ('removable covers EXHIBITS easy to remove the cover and wash it', 'clutch', 'well-executed pattern matching at the seams', 'fading' negated ...); the plan put the words on the object end, where one claim matched by meaning, so R78's either-end widening (only when nothing is found) did not fire. subject_like='removable covers' on the same input finds claims in all four documents.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "F13",
+   "type": "aggregation",
+   "cause": "G2_no_schema_type",
+   "also": [],
+   "first_wrong_step": "attempt 0 step 0 filter_records label=Document refused (not a record label); attempt 1 step 0 retrieve_chunks from the chunk source: 5 Helsingborg Dresser chunks",
+   "evidence": "Reviewer handles ('- @scandi_lover (Minneapolis)' on eight products' reviews) are review metadata that no schema type or predicate holds; triples.jsonl has no claim with an '@' name. The planner tried a Document record (none exists) and fell back to reading 5 chunks, all Helsingborg Dresser reviews, answering 'No reviewer handle appears on more than one product'.",
+   "fix": "document_fields",
+   "right_in": []
+  },
+  {
+   "question_id": "F16",
+   "type": "structured_filter",
+   "cause": "G9_concept",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims predicate=EXHIBITS object_like='wobbling' (input: the 6 products under $250): 2 claims (Jönköping, Västerås), not the Örebro Lamp claim",
+   "evidence": "Step 0 filtered the 6 products priced under $250 rightly (Örebro Lamp $111 among them). The Örebro fact is stored as 'Örebro Lamp EXHIBITS wobbles slightly on its base' (orebro_lamp_reviews.md#4, affirmed, actual), a concept resolve.json kept apart from 'wobbles slightly' (score 92.2, llm_keep); the words 'wobbling' link by spelling to 'wobbling' and by meaning to only 3 neighbours, which did not include it, so the same claim was missed here and in F26 (same words, 4 of 5 found).",
+   "fix": "concept_typing",
+   "right_in": []
+  },
+  {
+   "question_id": "F17",
+   "type": "structured_filter",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims subject_like='frame' include_parts (input: 2 products over $500): 3 claims from uppsala#1 and #5, not the creaks claim; read_check 0 of 3",
+   "evidence": "The claim 'frame EXHIBITS creaks' (uppsala_sofa_reviews.md#4, condition 'whenever someone sits down') exists and its subject mention refers to the record Assembly:A-1012 'Frame' (resolve.json, reason 'name'); plan_run._claim_words links claim words to kinds only (linker.find(..., {'kind'})), so 'frame' never matched that record-referring mention and the claims found had other subjects. R79 and R77c reached the same claim with object_like 'creaking squeaking frame'.",
+   "fix": "query_code",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "F21",
+   "type": "disambiguation",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims subject_like='drawer handle' object_like='scratched': 0 claims (also on either end)",
+   "evidence": "The claim 'drawer handles EXHIBITS scratched' (helsingborg_dresser_reviews.md#5, time 'right out of the box', affirmed) exists; its subject mention refers to the record Assembly:A-1071 'Drawer Handles' (resolve.json), and the claim-words linker searches kinds only, so the subject condition matched nothing and the AND with the object words left 0 claims. object_like 'scratched' alone (plus read_check) would have found it.",
+   "fix": "query_code",
+   "right_in": []
+  },
+  {
+   "question_id": "F23",
+   "type": "disambiguation",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims subject_like='slats' object_like='crack': 1 claim (uppsala#4 'frame creaks', on either end), not the slats claim; read_check 0 of 1",
+   "evidence": "The claim 'slats EXHIBITS crack' (linkoping_bed_reviews.md#4, evidence 'after just two months of use the slats have started to crack', affirmed) exists; the 'slats' mention refers to the record Assembly:A-1051 'Slats' (resolve.json, score 100), which the kinds-only claim-words linker cannot match, so the slats claim was not found and a near claim from uppsala_sofa_reviews.md#4 was shown to read_check instead.",
+   "fix": "query_code",
+   "right_in": []
+  },
+  {
+   "question_id": "F24",
+   "type": "disambiguation",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims subject_like='leg' object_like='small chip': 0 claims (also on either end)",
+   "evidence": "The claim 'legs EXHIBITS small chip' (uppsala_sofa_reviews.md#5, affirmed) exists; its subject mention refers to the record Assembly:A-1014 'Legs' (resolve.json), which the kinds-only claim-words linker does not search, so the subject condition failed and 0 claims came back; object_like 'small chip' alone finds it.",
+   "fix": "query_code",
+   "right_in": []
+  },
+  {
+   "question_id": "F26",
+   "type": "negation_sensitive",
+   "cause": "G9_concept",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims predicate=EXHIBITS object_like='wobbling': 4 claims, not the Örebro Lamp claim",
+   "evidence": "Four products were found through the concepts 'wobbles' and 'wobbles slightly' (gothenburg#4, jonkoping#4, malmo#4, vasteras#4, all verified); the fifth fact is stored under its own concept 'Örebro Lamp EXHIBITS wobbles slightly on its base' (orebro_lamp_reviews.md#4, affirmed, actual), which resolve.json kept apart from 'wobbles slightly' (score 92.2, action llm_keep) and which lies outside the 3 nearest-in-meaning names the claim-words linker adds.",
+   "fix": "concept_typing",
+   "right_in": []
+  },
+  {
+   "question_id": "F27",
+   "type": "negation_sensitive",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 2 list what=subject label=Product: listed the claims' subjects 'Stockholm Chair' and 'Frame'",
+   "evidence": "find_claims found 3 claims and read_check verified 2 (stockholm_chair_reviews.md#3 'I've noticed some squeaking when I lean back', uppsala_sofa_reviews.md#4 'the frame creaks whenever someone sits down'); the plan then listed their subjects, so the second came out as 'Frame' (the record Assembly:A-1012 the mention refers to) instead of the product the claim is about. R79 and R77c used what=about and answered Stockholm Chair, Uppsala Sofa.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "F30",
+   "type": "negation_sensitive",
+   "cause": "R1_read_check_wrong",
+   "also": [],
+   "first_wrong_step": "step 2 read_check statement 'The lamp flickers.': 0 of 1 verified; count = 0",
+   "evidence": "find_claims found the one right claim, 'dimmer switch EXHIBITS flickers' (orebro_lamp_reviews.md#4, affirmed, condition 'at lower settings'), and read_check was shown that chunk ('The dimmer switch is finicky and sometimes flickers at lower settings.') but did not verify it, so the count of documents was 0 instead of 1. The negated 'LED driver EXHIBITS flickering' (orebro#3, 'eliminates') was rightly not among the candidates.",
+   "fix": "read_check",
+   "right_in": []
+  },
+  {
+   "question_id": "F32",
+   "type": "negation_sensitive",
+   "cause": "Q1_names_not_linked",
+   "also": [],
+   "first_wrong_step": "step 1 find_claims subject_like='drawer' object_like='close properly' truth=negated include_parts: 0 claims (also on either end)",
+   "evidence": "Both facts are stored as asked: 'drawers EXHIBITS close properly' truth=negated neg=don't (helsingborg_dresser_reviews.md#3) and 'drawer EXHIBITS close properly' negated neg=doesn't (norrkoping_nightstand_reviews.md#4); the plan kept truth=negated (truth_words 'does not' are in the question). The subject mentions refer to the records Assembly:A-1070 'Drawers' and Assembly:A-1021 'Drawer' (resolve.json), which the kinds-only claim-words linker cannot match, so the subject condition failed and 0 claims came back; object_like 'close properly' with truth=negated alone finds both.",
+   "fix": "query_code",
+   "right_in": []
+  },
+  {
+   "question_id": "F36",
+   "type": "lookup",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 1 related label=Component relationship=PART_OF from the Product: 0 records ('PART_OF does not join these records'); every later step empty",
+   "evidence": "PART_OF joins Component -> Assembly -> Product (plan.json), so one hop from a Product to a Component has no direction and the plan emptied; components.csv has no part named like 'Drawer Slide' either (0 rows), so the record route cannot answer. The fact is a claim, 'drawer slides HAS_MEASUREMENT 25kg' (linkoping_bed_reviews.md#3, 'quality drawer slides rated for 25kg loads'), whose subject is an unlinked individual ('ambiguous_record' S-1076/S-1083 in resolve.json) and which hangs on the Linköping Bed by its document: find_entity Linköping Bed -> find_claims HAS_MEASUREMENT subject_like 'drawer slides' -> answer_from_chunks was expressible.",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "F47",
+   "type": "structured_filter",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 2 filter_records Assembly.assembly_name contains 'headboard': 0 of 7 records",
+   "evidence": "In assemblies.csv the headboard row is assembly_name 'linköping_bed_assembly', component_name 'Headboard' (A-1048), so the filter on assembly_name found nothing; the plan also filtered Assembly.quantity > 1 and listed Assembly.component_name where the gold needs the Component rows under that assembly (components.csv quantity > 1: Mounting Brackets, Screws). R79's plan filtered component_name contains 'Headboard', then related Component, quantity > 1, list part_name, and was right.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "F48",
+   "type": "structured_filter",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 4 retrieve_chunks from 5 Component records (reviews) and step 5 answer_from_chunks: 'They are customer reviews ... and contain no supplier lead-time information'",
+   "evidence": "The gold compares, per part, the SUPPLIED_BY relationship property lead_time_days of the row with preferred_supplier against the other row's (gold sql: other.lead_time_days < pref.lead_time_days; Drawer Front, Drawer Rails). `related` can filter one relationship property against a constant, but no primitive compares two values of one record's relationships, so the planner, after reaching the drawer components (find_entity -> related Assembly -> related Component -> filter part_name contains 'Drawer': 5), could only read their review chunks. Same gap as H44 (noted in R79, not in scope).",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "F52",
+   "type": "aggregation",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 1 rank label=Product relationship=PART_OF order=most over the 10 'Screws' assemblies: every product has one, 'best 1', all 10 products listed",
+   "evidence": "assemblies.csv has one 'Screws' row per product (quantity 36 for P-1007 Helsingborg Dresser, 30 for P-1004, 24 for P-1006), so counting related assemblies ties at 1. The right ask is rank highest by Assembly.quantity and then the Product of the winner, but rank is a terminal and returns the ranked records' names (the Assembly 'Screws'), and no step follows a rank; the planner cannot express 'the product of the assembly with the largest quantity'.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "F55",
+   "type": "aggregation",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 1 related Supplier via SUPPLIED_BY where preferred_supplier = true: 8 distinct suppliers (multiplicity lost); step 2 rank property name order=most: every name shared by 1 record, 8-way tie",
+   "evidence": "The gold counts, per supplier, the part_supplier_mapping rows with preferred_supplier (Nordic Wood Industries 32, Bangalore Textiles Ltd 22, Shanghai Metal Corp 15). `related` with the property filter returns the distinct suppliers, and `rank` by relationship cannot filter the relationship's property (and without the filter Nordic Wood ties Canadian Timber Products at 32), so 'most parts as preferred supplier' is not expressible; the planner's rank by the value of `name` counted each supplier once.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "F58",
+   "type": "aggregation",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "attempt 1 step 1 related Supplier via SUPPLIED_BY from all 88 components: 16 suppliers; count = 16",
+   "evidence": "suppliers.csv has 20 suppliers and part_supplier_mapping.csv names 16 of them, so the gold is 20 - 16 = 4 (Tokyo Electronics Co, Dubai Packaging Solutions, French Electronics SA, Polish Packaging Group). No primitive gives the records without a related record (or a set difference), so attempt 0 tried rank 'fewest' in the middle of a plan (refused: rank is a terminal) and attempt 1 counted the suppliers that do supply.",
+   "fix": "new_primitive",
+   "right_in": []
+  },
+  {
+   "question_id": "F59",
+   "type": "multi_hop",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 2 filter_records Assembly.assembly_name contains 'headboard': 0 of 7 records; the Component and Supplier hops then had no input",
+   "evidence": "assemblies.csv holds 'Headboard' in component_name (assembly_name is 'linköping_bed_assembly'), so the filter on assembly_name emptied the plan. R79 and R77c filtered component_name contains 'headboard' (1 assembly, 5 components, 6 suppliers) with otherwise the same steps and were right.",
+   "fix": "planner",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  },
+  {
+   "question_id": "F60",
+   "type": "multi_hop",
+   "cause": "Q2_wrong_primitive_or_field",
+   "also": [],
+   "first_wrong_step": "step 0 find_claims predicate=MADE_OF object_like='foam padding': 1 claim (helsingborg#5, a MADE_OF claim near in meaning); read_check 0 of 1",
+   "evidence": "'Foam Padding' is a record field: components.csv part_name 'Foam Padding' (S-1093 in A-1037, S-1108 in A-1038, the Stockholm Chair per the gold sql), and no review claim names foam padding (0 lines of triples.jsonl match 'foam|padding'). The plan searched claims for a part name instead of filter_records Component.part_name contains 'Foam Padding' -> related Assembly -> related Product (R79's rule 4: a record's text field is filtered with contains).",
+   "fix": "planner",
+   "right_in": []
+  },
+  {
+   "question_id": "F64",
+   "type": "multi_hop",
+   "cause": "Q3_missing_primitive",
+   "also": [],
+   "first_wrong_step": "step 0 retrieve_chunks from the chunk source (5 review chunks) and step 1 answer_from_chunks: 'The chunks do not name any suppliers'",
+   "evidence": "The gold is the intersection of two supplier sets (gold sql: HAVING count(DISTINCT p.product_name) = 2; 8 suppliers). Each set is reachable (find_entity -> related Assembly -> related Component -> related Supplier) but no primitive intersects two steps' records, so the planner read review chunks instead. R79 and R77c ran both chains and listed only the Helsingborg Dresser's 8 suppliers, which happen to all supply the Malmö Desk too (right by luck, not by an intersection).",
+   "fix": "new_primitive",
+   "right_in": [
+    "r79",
+    "r77c"
+   ]
+  }
+ ],
+ "reviewed_by": "claude-opus-5-5",
+ "rules": "tests/gold/r83/rules.md"
+}
