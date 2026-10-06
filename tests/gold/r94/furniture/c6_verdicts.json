@@ -1,0 +1,1099 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-06",
+  "snapshot_hash": "8ca0b533fc7b",
+  "sheet": "tests/gold/r94/furniture/c6_sheet.json",
+  "sheet_hash": "e7db39b6c057",
+  "sheets_git_sha": "82669cb"
+ },
+ "criterion": "C6",
+ "verdicts": [
+  {
+   "id": "p:15cb3497a55b3587|product_reviews/helsingborg_dresser_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk describes a drawer handle being scratched, an instance of the concept.",
+   "evidence": "One of the drawer handles was scratched right out of the box.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1f2dd89b935474ea|product_reviews/gothenburg_table_reviews.md#1",
+   "label": "VALID",
+   "reason": "The chunk is the review that speaks of these pre-drilled holes of the Gothenburg Table.",
+   "evidence": "some of the pre-drilled holes didn't line up properly and I had to drill new ones",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:23e3d5176cf607b4|product_reviews/jonkoping_coffee_table_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk says the table wobbles slightly, an instance of the concept.",
+   "evidence": "The table also wobbles slightly on my flat floor despite attempts to adjust it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:23e3d5176cf607b4|product_reviews/malmo_desk_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk says the desk wobbles slightly, an instance of the concept.",
+   "evidence": "it wobbles slightly when I'm typing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:23e3d5176cf607b4|product_reviews/vasteras_bookshelf_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk says the bookshelf wobbles slightly, an instance of the concept.",
+   "evidence": "Now that it's built, it wobbles slightly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:247c125e79fbab55|product_reviews/gothenburg_table_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk reports the small dent on one edge.",
+   "evidence": "The table arrived with a small dent on one edge",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:31f9b7c355020e90|product_reviews/orebro_lamp_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk speaks of flickering (that the design eliminates it).",
+   "evidence": "eliminates flickering even at the lowest dimmer settings",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3a805eaf418551fd|product_reviews/uppsala_sofa_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk says the sofa frame creaks.",
+   "evidence": "the frame creaks whenever someone sits down",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:48a7ba57950fc318|product_reviews/orebro_lamp_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk reports the shade arriving with a small dent.",
+   "evidence": "the shade arrived with a small dent",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:5a02bfef2ac3bfdf|product_reviews/gothenburg_table_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk says the table wobbles.",
+   "evidence": "The table also wobbles slightly on my hardwood floor despite multiple attempts to adjust it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:5af56a45ba2f75d6|product_reviews/malmo_desk_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk is the review that speaks of these pre-drilled holes of the desk.",
+   "evidence": "some of the pre-drilled holes didn't align properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6578d646824a6278|product_reviews/helsingborg_dresser_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk describes poorly manufactured drawer rails, a defect of the kind the concept names.",
+   "evidence": "they seem poorly manufactured and don't allow the drawers to slide smoothly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6578d646824a6278|product_reviews/helsingborg_dresser_reviews.md#1",
+   "label": "VALID",
+   "reason": "The chunk calls the drawer rails defective.",
+   "evidence": "they were clearly defective with uneven metal edges and rough sliding mechanisms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6578d646824a6278|product_reviews/helsingborg_dresser_reviews.md#2",
+   "label": "VALID",
+   "reason": "The chunk calls the metal rails defective.",
+   "evidence": "the metal rails that the drawers slide on seem totally defective",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6578d646824a6278|product_reviews/helsingborg_dresser_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk calls the drawer rails defective.",
+   "evidence": "The drawer rails are clearly defective",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:65e7c6a7c7e36f72|product_reviews/helsingborg_dresser_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk is the review that speaks of these pre-drilled holes of the dresser.",
+   "evidence": "many of the pre-drilled holes didn't line up correctly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:77f7c6fd6a7b5141|product_reviews/vasteras_bookshelf_reviews.md#1",
+   "label": "VALID",
+   "reason": "The chunk is the review that speaks of these pre-drilled holes of the bookshelf.",
+   "evidence": "some of the pre-drilled holes weren't perfectly aligned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:85b29e845b251d8e|product_reviews/jonkoping_coffee_table_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk is the review that speaks of these pre-drilled holes of the coffee table.",
+   "evidence": "some of the pre-drilled holes weren't aligned properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8ade9afbfdad5c7c|product_reviews/linkoping_bed_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk speaks of the bed's drawer slides.",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:947e3d86e81d1a6c|product_reviews/orebro_lamp_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk says the shade is unevenly colored.",
+   "evidence": "particularly the shade which is unevenly colored",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1012|product_reviews/uppsala_sofa_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk describes the Uppsala Sofa's frame construction.",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1012|product_reviews/uppsala_sofa_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk, a sofa review, says the frame creaks.",
+   "evidence": "the frame creaks whenever someone sits down",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1012|product_reviews/uppsala_sofa_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk, an Uppsala Sofa review, says the frame feels solid.",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1014|product_reviews/uppsala_sofa_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk, an Uppsala Sofa review, speaks of one of its legs.",
+   "evidence": "one of the legs arrived with a small chip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk describes the Norrkoping Nightstand's drawer.",
+   "evidence": "The drawer is spacious enough for books, reading glasses, and other essentials",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#1",
+   "label": "VALID",
+   "reason": "The chunk, a nightstand review, says the drawer operates smoothly.",
+   "evidence": "The drawer operates smoothly and the finish is consistent.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#2",
+   "label": "VALID",
+   "reason": "The chunk, a nightstand review, says the drawer sometimes sticks.",
+   "evidence": "the drawer sometimes sticks when i open it too fast",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk describes the Norrkoping Nightstand's drawer joinery.",
+   "evidence": "The drawer employs proper dovetail joinery",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk, a nightstand review, says the drawer does not close properly.",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk, a Norrkoping Nightstand review, says the drawer slides smoothly.",
+   "evidence": "The drawer slides smoothly and the open shelf is handy for books.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1021|product_reviews/norrkoping_nightstand_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk, about Norrkoping Nightstands, says their drawers still slide perfectly.",
+   "evidence": "The drawers still slide perfectly and show no signs of sagging despite daily use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1022|product_reviews/norrkoping_nightstand_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk, a nightstand review, speaks of the drawer handle's holes.",
+   "evidence": "the pre-drilled holes for the drawer handle weren't aligned correctly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1033|product_reviews/orebro_lamp_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk, an Orebro Lamp review, describes its shade.",
+   "evidence": "The shade diffuses light beautifully without any harsh spots.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1033|product_reviews/orebro_lamp_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk, a lamp review, says the shade is unevenly colored.",
+   "evidence": "particularly the shade which is unevenly colored",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1033|product_reviews/orebro_lamp_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk, a lamp review, says the shade arrived dented.",
+   "evidence": "the shade arrived with a small dent",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1048|product_reviews/linkoping_bed_reviews.md#1",
+   "label": "VALID",
+   "reason": "The chunk, a Linkoping Bed review, describes the headboard.",
+   "evidence": "The headboard is the perfect height for sitting up and reading.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1051|product_reviews/linkoping_bed_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk, a Linkoping Bed review, speaks of its slats.",
+   "evidence": "The slats provide excellent mattress support.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1051|product_reviews/linkoping_bed_reviews.md#2",
+   "label": "VALID",
+   "reason": "The chunk, a bed review, says the slats make noise.",
+   "evidence": "also the slats make noise sometimes when i move around at night",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1051|product_reviews/linkoping_bed_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk describes the Linkoping Bed's slat system.",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1051|product_reviews/linkoping_bed_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk, a bed review, says the slats started to crack.",
+   "evidence": "the slats have started to crack",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1051|product_reviews/linkoping_bed_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk, a Linkoping Bed review, speaks of its properly spaced slats.",
+   "evidence": "thanks to the properly spaced slats",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1064|product_reviews/malmo_desk_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk, a Malmo Desk review, speaks of its cable management system.",
+   "evidence": "I love the cable management system",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1064|product_reviews/malmo_desk_reviews.md#1",
+   "label": "VALID",
+   "reason": "Malmö Desk review praises the desk's cable management, the start assembly of that desk.",
+   "evidence": "the cable management keeps everything tidy",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1064|product_reviews/malmo_desk_reviews.md#3",
+   "label": "VALID",
+   "reason": "Malmö Desk review describes the desk's cable management system.",
+   "evidence": "The cable management system is particularly ingenious",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#0",
+   "label": "VALID",
+   "reason": "Helsingborg Dresser review: its drawers do not slide smoothly.",
+   "evidence": "they seem poorly manufactured and don't allow the drawers to slide smoothly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#1",
+   "label": "VALID",
+   "reason": "Dresser review about the drawer rails, a part of the dresser's drawers.",
+   "evidence": "The drawer rails were the worst part",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#2",
+   "label": "VALID",
+   "reason": "Dresser review: the drawers would not slide right.",
+   "evidence": "we still couldn't get the drawers to slide right",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#3",
+   "label": "VALID",
+   "reason": "Dresser review: drawers stick and do not close.",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#5",
+   "label": "VALID",
+   "reason": "Dresser review about the drawer bottoms, a part of the drawers.",
+   "evidence": "the drawer bottoms feel flimsy",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#6",
+   "label": "VALID",
+   "reason": "Dresser review: the drawers now slide perfectly after fixing the rails.",
+   "evidence": "the drawers now slide perfectly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Assembly:A-1071|product_reviews/helsingborg_dresser_reviews.md#5",
+   "label": "VALID",
+   "reason": "Dresser review mentions a scratched drawer handle of the dresser.",
+   "evidence": "One of the drawer handles was scratched right out of the box.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Component:S-1085|product_reviews/helsingborg_dresser_reviews.md#0",
+   "label": "VALID",
+   "reason": "Dresser review names the drawer rails as the biggest issue.",
+   "evidence": "The biggest issue is with the drawer rails",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Component:S-1085|product_reviews/helsingborg_dresser_reviews.md#1",
+   "label": "VALID",
+   "reason": "Dresser review about defective drawer rails.",
+   "evidence": "The drawer rails were the worst part",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Component:S-1085|product_reviews/helsingborg_dresser_reviews.md#3",
+   "label": "VALID",
+   "reason": "Dresser review about defective drawer rails.",
+   "evidence": "The drawer rails are clearly defective",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Component:S-1085|product_reviews/helsingborg_dresser_reviews.md#6",
+   "label": "VALID",
+   "reason": "Dresser review about sanding the rough drawer rails.",
+   "evidence": "I noticed the drawer rails seemed a bit rough",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#0",
+   "label": "VALID",
+   "reason": "Review names the Stockholm Chair.",
+   "evidence": "I absolutely love my Stockholm Chair!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#1",
+   "label": "VALID",
+   "reason": "Review names the Stockholm Chair.",
+   "evidence": "The Stockholm Chair is exactly what I was looking for aesthetically.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Stockholm Chair reviews document about 'this chair' without naming it.",
+   "evidence": "vibes are immaculate with this chair!!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed chair review within the Stockholm Chair reviews document.",
+   "evidence": "Functional chair with decent build quality.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#4",
+   "label": "VALID",
+   "reason": "Review names the Stockholm Chair.",
+   "evidence": "the Stockholm Chair exceeds my expectations",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed chair review within the Stockholm Chair reviews document.",
+   "evidence": "Good chair, good price.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1000|product_reviews/stockholm_chair_reviews.md#6",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed chair review within the Stockholm Chair reviews document.",
+   "evidence": "I purchased six of these chairs for my dining table",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the Gothenburg Table reviews and reviews the table.",
+   "evidence": "Gothenburg Table Reviews",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#1",
+   "label": "VALID",
+   "reason": "Review names the Gothenburg Table.",
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed table review within the Gothenburg Table reviews document.",
+   "evidence": "love love LOVE the look of this table!!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#3",
+   "label": "VALID",
+   "reason": "Review names the Gothenburg Table.",
+   "evidence": "The Gothenburg Table delivers on both counts.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed table review within the Gothenburg Table reviews document.",
+   "evidence": "The table arrived with a small dent on one edge",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed table review within the Gothenburg Table reviews document.",
+   "evidence": "Perfect table for our family of four!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1001|product_reviews/gothenburg_table_reviews.md#6",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed table review within the Gothenburg Table reviews document.",
+   "evidence": "Good quality table that looks more expensive than it is.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#0",
+   "label": "VALID",
+   "reason": "Review names the Malmö Desk.",
+   "evidence": "The Malmö Desk has transformed my home office!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed desk review within the Malmö Desk reviews document.",
+   "evidence": "I've been using this desk for my work-from-home setup for about 3 months now.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed desk review within the Malmö Desk reviews document.",
+   "evidence": "decent desk, looks nice in my apartment.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#3",
+   "label": "VALID",
+   "reason": "Review names the Malmö Desk.",
+   "evidence": "The Malmö Desk exceeds expectations on both fronts.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed desk review within the Malmö Desk reviews document.",
+   "evidence": "The desk looks nice in photos but in person the finish has inconsistencies",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed desk review within the Malmö Desk reviews document.",
+   "evidence": "Great desk for the price!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1002|product_reviews/malmo_desk_reviews.md#6",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed desk review within the Malmö Desk reviews document.",
+   "evidence": "This desk has been a game-changer for my small home office.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#0",
+   "label": "VALID",
+   "reason": "Review names the Uppsala Sofa.",
+   "evidence": "The Uppsala Sofa is everything I hoped for and more!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#1",
+   "label": "VALID",
+   "reason": "Review names the Uppsala Sofa.",
+   "evidence": "I've had the Uppsala Sofa for about 6 months now",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed sofa review within the Uppsala Sofa reviews document.",
+   "evidence": "sofa looks amazing in my apartment",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#3",
+   "label": "VALID",
+   "reason": "Review names the Uppsala Sofa.",
+   "evidence": "the Uppsala Sofa represents exceptional value",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed sofa review within the Uppsala Sofa reviews document.",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#5",
+   "label": "VALID",
+   "reason": "Review names the Uppsala Sofa.",
+   "evidence": "The Uppsala Sofa is a great addition to our living room.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#6",
+   "label": "VALID",
+   "reason": "Review names the Uppsala Sofa.",
+   "evidence": "We've had our Uppsala Sofa for over a year now",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#0",
+   "label": "VALID",
+   "reason": "Review names the Örebro Lamp.",
+   "evidence": "The Örebro Lamp is a stunning addition to my living room!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed lamp review within the Örebro Lamp reviews document.",
+   "evidence": "I purchased this lamp for my home office",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed lamp review within the Örebro Lamp reviews document.",
+   "evidence": "lamp looks super cute in my bedroom!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#3",
+   "label": "VALID",
+   "reason": "Review names the Örebro Lamp.",
+   "evidence": "I'm thoroughly impressed with the Örebro Lamp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed lamp review within the Örebro Lamp reviews document.",
+   "evidence": "While the lamp looks nice in photos, the reality is much less impressive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed lamp review within the Örebro Lamp reviews document.",
+   "evidence": "Good lamp for the price!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1005|product_reviews/orebro_lamp_reviews.md#6",
+   "label": "VALID",
+   "reason": "Review names the Örebro Lamp.",
+   "evidence": "We've had our Örebro Lamp for about 6 months now and love it!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#0",
+   "label": "VALID",
+   "reason": "Review names the Linköping Bed.",
+   "evidence": "The Linköping Bed has transformed our bedroom!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed bed review within the Linköping Bed reviews document.",
+   "evidence": "I've been sleeping on this bed for about 3 months now",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed bed review within the Linköping Bed reviews document.",
+   "evidence": "bed looks amazing in my room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#3",
+   "label": "VALID",
+   "reason": "Review names the Linköping Bed.",
+   "evidence": "I was pleasantly surprised by the quality of the Linköping Bed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Unnamed bed review within the Linköping Bed reviews document.",
+   "evidence": "While the bed looks nice, after just two months of use the slats have started to crack",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#5",
+   "label": "VALID",
+   "reason": "Review names the Linköping Bed.",
+   "evidence": "The Linköping Bed is a great addition to our guest room.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#6",
+   "label": "VALID",
+   "reason": "The review names the Linköping Bed and describes it.",
+   "evidence": "We've had our Linköping Bed for over a year now and couldn't be happier!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#0",
+   "label": "VALID",
+   "reason": "The review names the Helsingborg Dresser.",
+   "evidence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "A later review in the Helsingborg Dresser reviews document about 'this dresser'; not named but clearly about it.",
+   "evidence": "I spent 3 hours trying to assemble this dresser before GIVING UP.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Helsingborg Dresser document about the dresser, without naming it.",
+   "evidence": "dresser looks ok i guess but assembly was the worst experience ever.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Helsingborg Dresser document about the dresser, without naming it.",
+   "evidence": "While the dresser looks nice in photos, the quality of materials is much lower than expected.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Helsingborg Dresser document about 'this dresser', without naming it.",
+   "evidence": "This dresser should come with a warning label!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Helsingborg Dresser document about 'this dresser', without naming it.",
+   "evidence": "I managed to assemble this dresser, but it took nearly 7 hours and a lot of improvisation.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1007|product_reviews/helsingborg_dresser_reviews.md#6",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Helsingborg Dresser document about the dresser and its drawer rails, without naming it.",
+   "evidence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#0",
+   "label": "VALID",
+   "reason": "The review names the Jönköping Coffee Table.",
+   "evidence": "The Jönköping Coffee Table is the perfect centerpiece for our living room!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Jönköping Coffee Table document about 'this coffee table', without naming it.",
+   "evidence": "I've had this coffee table for about 2 months and I'm quite pleased with it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Jönköping Coffee Table document about the table, without naming it.",
+   "evidence": "table looks super cute in my space!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#3",
+   "label": "VALID",
+   "reason": "The review names the Jönköping Coffee Table.",
+   "evidence": "As a furniture designer, I appreciate the thoughtful engineering of the Jönköping Coffee Table.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Review in the Jönköping Coffee Table document about the table, without naming it.",
+   "evidence": "While the table looks nice in photos, the reality is much less impressive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#5",
+   "label": "VALID",
+   "reason": "The review names the Jönköping Coffee Table.",
+   "evidence": "The Jönköping Coffee Table is a great addition to our living room.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Product:P-1008|product_reviews/jonkoping_coffee_table_reviews.md#6",
+   "label": "VALID",
+   "reason": "The review names the Jönköping Coffee Table.",
+   "evidence": "We've had our Jönköping Coffee Table for over a year now",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a2646579cfcc1703|product_reviews/jonkoping_coffee_table_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk speaks of sagging (a support that prevents it).",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a2646579cfcc1703|product_reviews/norrkoping_nightstand_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of sagging (absence of it in the drawers).",
+   "evidence": "The drawers still slide perfectly and show no signs of sagging despite daily use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a2646579cfcc1703|product_reviews/vasteras_bookshelf_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk speaks of shelf sagging (absence of it).",
+   "evidence": "The shelves are sturdy enough to hold my extensive book collection without any sagging.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a2646579cfcc1703|product_reviews/vasteras_bookshelf_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of sagging (absence of it).",
+   "evidence": "The construction is solid and there's been no sagging despite heavy use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c025fd69355bdca4|product_reviews/orebro_lamp_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk reports the dimmer flickering.",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cbbee077875bf855|product_reviews/linkoping_bed_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk speaks of the bed's comfort.",
+   "evidence": "The bed feels solid and our guests have commented on how comfortable it is.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cbbee077875bf855|product_reviews/stockholm_chair_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk speaks of the chair being comfortable.",
+   "evidence": "the ergonomic shape makes it incredibly comfortable for long periods of sitting.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cbbee077875bf855|product_reviews/stockholm_chair_reviews.md#2",
+   "label": "VALID",
+   "reason": "'comfy' speaks of comfort.",
+   "evidence": "so comfy and looks amazing in my space.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cbbee077875bf855|product_reviews/stockholm_chair_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of the chairs being comfortable.",
+   "evidence": "They're also surprisingly comfortable for wooden chairs",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cbbee077875bf855|product_reviews/uppsala_sofa_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk speaks of the sofa's comfort level.",
+   "evidence": "the comfort level is exceptional.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cdb511204422912e|product_reviews/linkoping_bed_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk speaks of squeaking (its absence).",
+   "evidence": "The bed is rock solid - absolutely no squeaking or movement.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cdb511204422912e|product_reviews/linkoping_bed_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of squeaking (its absence).",
+   "evidence": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cdb511204422912e|product_reviews/stockholm_chair_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk reports squeaking.",
+   "evidence": "I've noticed some squeaking when I lean back.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cdb511204422912e|product_reviews/uppsala_sofa_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of squeaking (its absence).",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:dbccda452f70232b|product_reviews/orebro_lamp_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk states the lamp wobbles slightly on its base.",
+   "evidence": "Assembly was easy enough but the lamp wobbles slightly on its base.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e3b6e22474e38913|product_reviews/helsingborg_dresser_reviews.md#3",
+   "label": "VALID",
+   "reason": "The chunk reports a crack in a drawer.",
+   "evidence": "one drawer already has a crack developing along the bottom",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e3b6e22474e38913|product_reviews/linkoping_bed_reviews.md#4",
+   "label": "VALID",
+   "reason": "The chunk reports the slats cracking.",
+   "evidence": "after just two months of use the slats have started to crack",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fa88df0e28c761c8|product_reviews/jonkoping_coffee_table_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of wobbling (its absence).",
+   "evidence": "The construction remains solid with no wobbling or loose parts.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fa88df0e28c761c8|product_reviews/linkoping_bed_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of wobbling (its absence).",
+   "evidence": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fa88df0e28c761c8|product_reviews/malmo_desk_reviews.md#0",
+   "label": "VALID",
+   "reason": "The chunk speaks of wobbling (the desk does not wobble).",
+   "evidence": "The desk feels solid and doesn't wobble at all.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fa88df0e28c761c8|product_reviews/malmo_desk_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of wobbling (its absence).",
+   "evidence": "the desk is rock solid with no wobbling.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fa88df0e28c761c8|product_reviews/uppsala_sofa_reviews.md#6",
+   "label": "VALID",
+   "reason": "The chunk speaks of wobbling (its absence).",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fc0f68791a542831|product_reviews/uppsala_sofa_reviews.md#5",
+   "label": "VALID",
+   "reason": "The chunk reports a leg arriving with a small chip.",
+   "evidence": "one of the legs arrived with a small chip",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "p:6578d646824a6278|product_reviews/helsingborg_dresser_reviews.md#0",
+  "p:6578d646824a6278|product_reviews/helsingborg_dresser_reviews.md#3",
+  "p:65e7c6a7c7e36f72|product_reviews/helsingborg_dresser_reviews.md#0",
+  "p:8ade9afbfdad5c7c|product_reviews/linkoping_bed_reviews.md#3",
+  "p:Assembly:A-1012|product_reviews/uppsala_sofa_reviews.md#6",
+  "p:Assembly:A-1070|product_reviews/helsingborg_dresser_reviews.md#1",
+  "p:Assembly:A-1071|product_reviews/helsingborg_dresser_reviews.md#5",
+  "p:Product:P-1003|product_reviews/uppsala_sofa_reviews.md#0",
+  "p:Product:P-1006|product_reviews/linkoping_bed_reviews.md#3",
+  "p:cdb511204422912e|product_reviews/stockholm_chair_reviews.md#3",
+  "p:fa88df0e28c761c8|product_reviews/malmo_desk_reviews.md#6"
+ ],
+ "changes": []
+}
