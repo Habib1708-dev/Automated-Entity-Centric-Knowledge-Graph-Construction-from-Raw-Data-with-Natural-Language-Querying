@@ -390,6 +390,7 @@ class ExtractStage(_TextStage):
             # what each pass added: pass 2 and later show the value of asking again (R61)
             **{f"facts_pass{n + 1}": k for n, k in enumerate(result.accepted_per_pass)},
             triples_per_chunk=len(result.triples) / len(chunks),
+            hedges_dropped=result.hedges_dropped,  # actual claims no longer rejected for a stray hedge (R81)
             # which verification rule fires most tells you what to fix in the prompt
             **{f"rejected_{reason}": n for reason, n in result.rejections_by_reason().items()},
         )

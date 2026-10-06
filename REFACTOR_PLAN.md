@@ -3825,6 +3825,28 @@ with a new plan, so the graph change could not be measured by its answers.
   - Not verified by a run: replaying the reference plans on part f's own graphs should reproduce part f's
     answers from the cache at about $0; it is a full-dataset `kg qa` and is only proposed.
 
+### R81. A stray hedge on an actual claim is dropped, the claim kept (done 2026-10-06, code only; behaviour change)
+R77 part f rejected 9 right furniture claims as `cue_without_assertion` because the model gave a degree or
+approximation word as their hedge ("about 2 hours", "a bit short", "kinda complicated") while labelling
+them actual (Found along the way). A hedge carries no assertion on an actual claim, so it is dropped and the
+claim kept, whatever its words (also when they are not words of the quote: they are not stored).
+- **Scope.** `text/extraction.py`: `_accept` drops the hedge of an actual claim before verifying and storing
+  it, counted in `ExtractionResult.hedges_dropped` (logged by the extract run as `hedges_dropped`);
+  `verify` no longer judges a hedge on an actual claim. A negation cue on an affirmed claim stays rejected
+  (`cue_without_assertion`), and a possible claim still needs its hedge. No prompt change.
+- Known trade-off (the user's choice): an actual label that should have been possible ("may crack", hedge
+  "may", modality actual) is now stored as actual instead of rejected.
+- **Done (2026-10-06, code only, no run).**
+  - Test first: `test_a_stray_hedge_on_an_actual_claim_is_dropped_and_the_claim_kept` (an ungrounded "a bit"
+    and a grounded "may" on actual claims kept without their hedge, a possible claim's hedge kept,
+    `hedges_dropped` 2) failed before the fix. The parametrized case "hedge on an actual claim is
+    `cue_without_assertion`" was removed from the rejection test on purpose: it is the old behaviour.
+  - Effect on part f's own rejections, read from `out/r77d_<dataset>/rejected.jsonl` ($0, no model): the 9
+    furniture `cue_without_assertion` hedges ("kinda", "basically", "feel", "about" x3, "like", "a bit" x2)
+    would be kept, 8 distinct claims ("cord EXHIBITS short" came in both passes); a tenth stray hedge was
+    off-schema and stays rejected. Held-out and generality had none.
+  - Gate: 552 passed (one new test, one parametrized case removed), `ruff check` clean.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -3835,7 +3857,7 @@ with a new plan, so the graph change could not be measured by its answers.
   Code cannot see it without a word list (the user's choice: none). Candidates, for the user: a second
   invented example in the prompt showing a named state with its `negation`; or reject a claim whose name
   holds the given negation words while truth is affirmed (catches only the case where a cue was given).
-- **Degree words given as a hedge reject good claims (found in R77 part f).** 9 furniture claims ("about 2
+- **(Fixed in R81: the hedge is dropped, the claim kept.) Degree words given as a hedge reject good claims (found in R77 part f).** 9 furniture claims ("about 2
   hours", "a bit short", "kinda complicated") came with `hedge` on an actual claim and were rejected as
   `cue_without_assertion`. Candidate: on an actual claim, drop the hedge and keep the claim (it carries no
   assertion), or say in the prompt that degree and approximation words are no hedge.

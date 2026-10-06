@@ -170,14 +170,28 @@ def test_an_assertion_in_any_wording_passes_with_its_words(triple_):
             RejectionReason.CONDITION_NOT_CONDITIONAL,
         ),
         (raw("The lid never leaked", negation="never"), RejectionReason.CUE_WITHOUT_ASSERTION),
-        (
-            raw("The base may crack in frost", "crack", "base", hedge="may"),
-            RejectionReason.CUE_WITHOUT_ASSERTION,
-        ),
     ],
 )  # fmt: skip
 def test_an_assertion_must_rest_on_words_of_the_quote(triple_, reason):
     assert verify(triple_, TEXT, SCHEMA).reason == reason
+
+
+def test_a_stray_hedge_on_an_actual_claim_is_dropped_and_the_claim_kept():
+    # R77 part f rejected 9 right claims whose degree words came as a hedge ("about 2 hours"); on an actual
+    # claim a hedge says nothing, so it is dropped, whether or not it is words of the quote (R81)
+    chunk = Chunk(chunk_id=f"{DOC}#0", doc_id=DOC, index=0, text=TEXT, context="Kettle notes")
+    reply = ChunkExtraction(
+        triples=[
+            raw("The handle got hot", "hot", "handle", hedge="a bit"),
+            raw("The base may crack in frost", "crack", "base", hedge="may"),  # the label's risk: kept actual
+            raw("The dial could jam", "jam", "dial", modality="possible", hedge="could"),  # a hedge kept
+        ]
+    )
+    result = extract_chunk(chunk, SCHEMA, ScriptedLLM(lambda p, s: reply), "m")
+    assert result.rejected == [] and result.hedges_dropped == 2
+    assert [(t.object, t.modality, t.hedge) for t in result.triples] == [
+        ("hot", "actual", ""), ("crack", "actual", ""), ("jam", "possible", "could"),
+    ]  # fmt: skip
 
 
 def test_a_denial_a_name_carries_leaves_the_triple_holding():

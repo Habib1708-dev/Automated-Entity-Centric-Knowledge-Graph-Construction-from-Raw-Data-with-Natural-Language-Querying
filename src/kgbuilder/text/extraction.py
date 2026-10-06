@@ -6,8 +6,9 @@ Design: the LLM proposes, code decides. A fact is stored only if its type is in 
 quote is a verbatim span of the chunk, and both entity names occur in the chunk or in the document's
 name (the chunk's context); a number (`Value` object) and a time must be stated in the quote itself (R66);
 a negated, possible or conditional claim carries the words that make it so (its cue: negation, hedge,
-condition), and each cue must be words of the quote (R77, revised in part d). This is the project's guard
-against hallucinated facts, and the rejection rate per reason is a logged quality metric.
+condition), and each cue must be words of the quote (R77, revised in part d); the hedge of an actual claim
+is dropped, not judged (R81). This is the project's guard against hallucinated facts, and the rejection rate
+per reason is a logged quality metric.
 Not here: graph writes (subject_graph.py) and entity merging (resolution/).
 """
 
@@ -163,7 +164,8 @@ class RejectionReason(StrEnum):
     VALUE_NOT_IN_EVIDENCE = "value_not_in_evidence"
     TIME_NOT_IN_EVIDENCE = "time_not_in_evidence"
     # the assertion (R77; cues since part d): a negated, possible or conditional claim needs its cue as
-    # words of the quote, and a cue goes only with a claim of its kind
+    # words of the quote, and a cue goes only with a claim of its kind (since R81 the hedge of an actual
+    # claim is dropped instead: `cue_without_assertion` is a negation on an affirmed claim)
     NEGATION_NOT_IN_EVIDENCE = "negation_not_in_evidence"
     MODALITY_NOT_IN_EVIDENCE = "modality_not_in_evidence"
     CONDITION_NOT_IN_EVIDENCE = "condition_not_in_evidence"
@@ -186,6 +188,7 @@ class ExtractionResult(BaseModel):
     triples: list[Triple]
     rejected: list[Rejected]
     accepted_per_pass: list[int] = []  # new facts each extraction pass contributed (R61)
+    hedges_dropped: int = 0  # actual claims whose hedge was dropped, not rejected for it (R81)
 
     @property
     def accept_rate(self) -> float:
@@ -314,14 +317,16 @@ def _verify_assertion(triple: RawTriple, evidence: str) -> Rejection | None:
     """A negated, possible or conditional claim needs its cue (`negation`, `hedge`, `condition`) as whole
     words of the quote (normalised `evidence`); a hedge given with a conditional claim must be too (R77
     part d). Which words deny, hedge or state a condition is the model's reading of the meaning; code checks
-    that the reading rests on the quote. A cue on a claim not of its kind is rejected, not dropped: code
-    cannot tell which of the two is wrong."""
+    that the reading rests on the quote. A negation or a condition on a claim not of its kind is rejected,
+    not dropped: code cannot tell which of the two is wrong. A hedge on an actual claim is not judged here:
+    `_accept` drops it (R81)."""
     if triple.truth == "negated" and not _grounded(triple.negation, evidence):
         return Rejection(
             reason=RejectionReason.NEGATION_NOT_IN_EVIDENCE,
             detail=f"negated, but its negation '{triple.negation}' is not words of the quote",
         )
-    if (triple.modality == "possible" or triple.hedge.strip()) and not _grounded(triple.hedge, evidence):
+    hedged = triple.modality == "possible" or (triple.modality == "conditional" and triple.hedge.strip())
+    if hedged and not _grounded(triple.hedge, evidence):
         return Rejection(
             reason=RejectionReason.MODALITY_NOT_IN_EVIDENCE,
             detail=f"{triple.modality}, but its hedge '{triple.hedge}' is not words of the quote",
@@ -341,11 +346,17 @@ def _verify_assertion(triple: RawTriple, evidence: str) -> Rejection | None:
             reason=RejectionReason.CUE_WITHOUT_ASSERTION,
             detail=f"negation '{triple.negation}' on an affirmed claim",
         )
-    if triple.modality == "actual" and triple.hedge.strip():
-        return Rejection(
-            reason=RejectionReason.CUE_WITHOUT_ASSERTION, detail=f"hedge '{triple.hedge}' on an actual claim"
-        )
     return None
+
+
+def _without_stray_hedge(raw: RawTriple) -> RawTriple:
+    """The claim with the hedge of an actual claim dropped (R81). Unlike a stray negation or condition, it
+    changes nothing a reader or a count relies on: in R77 part f all 9 such hedges were degree or
+    approximation words on claims that were right ("about 2 hours", "a bit short"), and rejecting the whole
+    claim lost them. The risk, accepted by the user: a claim that should have been possible stays actual."""
+    if raw.modality == "actual" and raw.hedge.strip():
+        return raw.model_copy(update={"hedge": ""})
+    return raw
 
 
 # The second pass ("gleaning", R61). R57 measured that facts are lost silently inside the model: across five
@@ -418,8 +429,12 @@ def extract_chunk(
 def _accept(
     raws: list[RawTriple], chunk: Chunk, schema: TextSchema, seen: set, result: ExtractionResult
 ) -> None:
-    """Verify each triple into `result`; a repeat of an accepted one (across passes too) is dropped."""
-    for raw in raws:
+    """Verify each triple into `result`; a repeat of an accepted one (across passes too) is dropped, and so
+    is the hedge of an actual claim (counted in `hedges_dropped`)."""
+    for given in raws:
+        raw = _without_stray_hedge(given)
+        if raw is not given:
+            result.hedges_dropped += 1
         triple = Triple(**raw.model_dump(), chunk_id=chunk.chunk_id)
         rejection = verify(raw, chunk.text, schema, chunk.context)
         if rejection:
@@ -462,4 +477,5 @@ def extract_all(
         triples=[t for r in results for t in r.triples],
         rejected=[x for r in results for x in r.rejected],
         accepted_per_pass=[sum(r.accepted_per_pass[n] for r in results) for n in range(passes)],
+        hedges_dropped=sum(r.hedges_dropped for r in results),
     )
