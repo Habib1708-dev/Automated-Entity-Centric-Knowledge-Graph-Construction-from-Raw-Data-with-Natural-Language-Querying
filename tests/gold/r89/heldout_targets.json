@@ -1,0 +1,187 @@
+{
+ "dataset": "heldout",
+ "qa_gold": "tests/gold/qa/heldout_qa.json",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-06",
+ "questions": [
+  {"id": "H01", "targets": [
+    {"name": "2015 Ford Escape", "aliases": ["Ford Escape", "ESCAPE"], "records": [{"file": "vehicles.csv", "row": {"model": "ESCAPE"}}]},
+    {"name": "automatic transmission", "mentions": [
+      {"doc_id": "record/Recall/22V254000", "names": ["automatic transmission", "transmission"]},
+      {"doc_id": "record/Recall/22V413000", "names": ["automatic transmission", "transmission"]}],
+     "note": "The recall texts say 'transmission'; 'AUTOMATIC TRANSMISSION' stands only in the recalls' Component field."}]},
+  {"id": "H02", "targets": [
+    {"name": "2015 Ford Escape", "aliases": ["Ford Escape", "ESCAPE"], "records": [{"file": "vehicles.csv", "row": {"model": "ESCAPE"}}]},
+    {"name": "crash", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["crash", "crashed"]}]}]},
+  {"id": "H03", "targets": [], "note": "A filter on the injury count of every complaint record; no complaint text names an injury."},
+  {"id": "H04", "targets": [
+    {"name": "2016 Honda Civic", "aliases": ["Honda Civic", "CIVIC"], "records": [{"file": "vehicles.csv", "row": {"model": "CIVIC"}}]}],
+   "note": "The date filter is a record value."},
+  {"id": "H05", "targets": [
+    {"name": "2019 Subaru Outback", "aliases": ["Subaru Outback", "OUTBACK"], "records": [{"file": "vehicles.csv", "row": {"model": "OUTBACK"}}]}],
+   "note": "The date filter is a record value."},
+  {"id": "H06", "targets": [
+    {"name": "gas pedal", "mentions": [{"doc_id": "complaints/toyota_rav4_complaints.md", "names": ["gas pedal"]}]}],
+   "note": "The model year is a record value; 'does not accelerate' is the reader's to check."},
+  {"id": "H07", "targets": [
+    {"name": "2019 Toyota RAV4", "aliases": ["Toyota RAV4", "RAV4"], "records": [{"file": "vehicles.csv", "row": {"model": "RAV4"}}]},
+    {"name": "fuel pump", "mentions": [{"doc_id": "record/Recall/20V682000", "names": ["fuel pump"]}]}]},
+  {"id": "H08", "targets": [
+    {"name": "braking", "mentions": [
+      {"doc_id": "complaints/honda_civic_complaints.md", "names": ["brake"]},
+      {"doc_id": "complaints/nissan_rogue_complaints.md", "names": ["braked", "brakes"]}]}]},
+  {"id": "H09", "targets": [], "note": "Ranks every vehicle by its recalls."},
+  {"id": "H10", "targets": [
+    {"name": "crash", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["crash", "crashed"]}], "note": "The question counts the crash field of the complaint records; the Rogue's crash text ('HITTING THE CONCRETE WALL') does not name a crash."}]},
+  {"id": "H11", "targets": [], "note": "Ranks the component categories of every complaint record."},
+  {"id": "H12", "targets": [
+    {"name": "dead battery", "mentions": [{"doc_id": "complaints/subaru_outback_complaints.md", "names": ["dead battery"]}]}]},
+  {"id": "H13", "targets": [
+    {"name": "fuel pump", "mentions": [
+      {"doc_id": "record/Recall/23V858000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/20V682000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/21V587000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/20V218000", "names": ["fuel pump"]}]}]},
+  {"id": "H14", "targets": [
+    {"name": "piston ring", "mentions": [{"doc_id": "complaints/honda_civic_complaints.md", "names": ["piston clip ring", "piston snap ring"]}], "note": "The owners name the part in two ways; the recall text calls it a piston wrist pin circlip."}]},
+  {"id": "H15", "targets": [
+    {"name": "10823637", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10823637"}}]},
+    {"name": "piston", "mentions": [
+      {"doc_id": "complaints/honda_civic_complaints.md", "names": ["piston"]},
+      {"doc_id": "record/Recall/16V074000", "names": ["piston"]}]}]},
+  {"id": "H16", "targets": [
+    {"name": "10692693", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10692693"}}]},
+    {"name": "transmission", "mentions": [
+      {"doc_id": "complaints/ford_escape_complaints.md", "names": ["transmission"]},
+      {"doc_id": "record/Recall/22V254000", "names": ["transmission"]},
+      {"doc_id": "record/Recall/22V413000", "names": ["transmission"]}]}]},
+  {"id": "H17", "targets": [
+    {"name": "back-up camera", "mentions": [
+      {"doc_id": "complaints/subaru_outback_complaints.md", "names": ["back up camera"]},
+      {"doc_id": "record/Recall/19V576000", "names": ["back-up camera"]}],
+     "note": "The Escape's camera recall 25V695000 says 'rearview camera'."}]},
+  {"id": "H18", "targets": [
+    {"name": "fuel pump", "mentions": [{"doc_id": "record/Recall/20V682000", "names": ["fuel pump"]}]},
+    {"name": "fuel tank", "mentions": [{"doc_id": "complaints/toyota_rav4_complaints.md", "names": ["tank"]}], "note": "The RAV4 owner writes 'FILLING MY TANK'."}]},
+  {"id": "H19", "targets": [
+    {"name": "10825467", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10825467"}}]},
+    {"name": "piston snap ring", "mentions": [{"doc_id": "complaints/honda_civic_complaints.md", "names": ["piston snap ring"]}]}]},
+  {"id": "H20", "targets": [
+    {"name": "10824361", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10824361"}}]},
+    {"name": "2016 Honda Civic", "aliases": ["Honda Civic", "CIVIC"], "records": [{"file": "vehicles.csv", "row": {"model": "CIVIC"}}]}]},
+  {"id": "H21", "targets": [
+    {"name": "windshield", "mentions": [{"doc_id": "complaints/subaru_outback_complaints.md", "names": ["windshield"]}]}]},
+  {"id": "H22", "targets": [
+    {"name": "transmission", "mentions": [{"doc_id": "complaints/nissan_rogue_complaints.md", "names": ["transmission"]}]},
+    {"name": "reverse", "mentions": [{"doc_id": "complaints/nissan_rogue_complaints.md", "names": ["reverse"]}]}]},
+  {"id": "H23", "targets": [
+    {"name": "22S25", "aliases": ["22V254000"], "records": [{"file": "recalls.csv", "row": {"NHTSACampaignNumber": "22V254000"}}], "note": "Ford's own number for the campaign, written only in its remedy text."}]},
+  {"id": "H24", "targets": [
+    {"name": "door latch", "mentions": [
+      {"doc_id": "record/Recall/20V331000", "names": ["door latches"]},
+      {"doc_id": "record/Recall/16V643000", "names": ["door latches"]}]}]},
+  {"id": "H25", "targets": [
+    {"name": "Toyota 86", "mentions": [{"doc_id": "record/Recall/21V587000", "names": ["Toyota 86"]}], "note": "A model named only in recall text; no vehicle record."},
+    {"name": "fuel pump", "mentions": [
+      {"doc_id": "record/Recall/21V587000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/20V218000", "names": ["fuel pump"]}]}]},
+  {"id": "H26", "targets": [
+    {"name": "RAV4", "aliases": ["Toyota RAV4"], "records": [{"file": "vehicles.csv", "row": {"model": "RAV4"}}]},
+    {"name": "Gulf States Toyota", "aliases": ["GST"], "mentions": [{"doc_id": "record/Recall/19V244000", "names": ["Gulf States Toyota", "GST"]}]},
+    {"name": "load label", "mentions": [
+      {"doc_id": "record/Recall/19V244000", "names": ["load capacity label", "load carrying capacity modification labels"]},
+      {"doc_id": "record/Recall/19V503000", "names": ["load carrying capacity modification label"]}]}]},
+  {"id": "H27", "targets": [
+    {"name": "air bags", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["air bags"]}]}]},
+  {"id": "H28", "targets": [
+    {"name": "stalled", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["stalling"]}]}]},
+  {"id": "H29", "targets": [
+    {"name": "repair", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["repair", "repaired", "repairs"]}]}]},
+  {"id": "H30", "targets": [
+    {"name": "rear-end collision", "mentions": [{"doc_id": "complaints/honda_civic_complaints.md", "names": ["rear end collision"]}]}]},
+  {"id": "H31", "targets": [
+    {"name": "crashed", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["crashed"]}], "note": "The Rogue owner's crash is told without the word ('HITTING THE CONCRETE WALL')."}]},
+  {"id": "H32", "targets": [
+    {"name": "trunk", "mentions": [{"doc_id": "complaints/honda_civic_complaints.md", "names": ["trunk"]}]}]},
+  {"id": "H33", "targets": [
+    {"name": "10691672", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10691672"}}]}]},
+  {"id": "H34", "targets": [
+    {"name": "11030208", "records": [{"file": "complaints.csv", "row": {"odiNumber": "11030208"}}]}]},
+  {"id": "H35", "targets": [
+    {"name": "21V839000", "aliases": ["R21B6"], "records": [{"file": "recalls.csv", "row": {"NHTSACampaignNumber": "21V839000"}}]}]},
+  {"id": "H36", "targets": [
+    {"name": "11032133", "records": [{"file": "complaints.csv", "row": {"odiNumber": "11032133"}}]}]},
+  {"id": "H37", "targets": [
+    {"name": "10972343", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10972343"}}]},
+    {"name": "Nissan engineering", "mentions": [{"doc_id": "complaints/nissan_rogue_complaints.md", "names": ["Nissan engineering"]}]}]},
+  {"id": "H38", "targets": [
+    {"name": "20V373000", "aliases": ["20TB11", "20TA11"], "records": [{"file": "recalls.csv", "row": {"NHTSACampaignNumber": "20V373000"}}]}]},
+  {"id": "H39", "targets": [], "note": "A date filter over every recall record."},
+  {"id": "H40", "targets": [], "note": "A filter on a field of every recall record."},
+  {"id": "H41", "targets": [], "note": "A date filter over every complaint record."},
+  {"id": "H42", "targets": [
+    {"name": "2016 Honda Civic", "aliases": ["Honda Civic", "CIVIC"], "records": [{"file": "vehicles.csv", "row": {"model": "CIVIC"}}]}],
+   "note": "The component filter is a record value."},
+  {"id": "H43", "targets": [
+    {"name": "air bags", "mentions": [
+      {"doc_id": "record/Recall/16V244000", "names": ["air bag"]},
+      {"doc_id": "record/Recall/26V332000", "names": ["air bags"]}],
+     "note": "The question filters the recalls' Component field; the recall texts name the air bags too."}]},
+  {"id": "H44", "targets": [], "note": "A date comparison over every complaint record."},
+  {"id": "H45", "targets": [
+    {"name": "2015 Ford Escape", "aliases": ["Ford Escape", "ESCAPE"], "records": [{"file": "vehicles.csv", "row": {"model": "ESCAPE"}}]}]},
+  {"id": "H46", "targets": [
+    {"name": "2019 Subaru Outback", "aliases": ["Subaru Outback", "OUTBACK"], "records": [{"file": "vehicles.csv", "row": {"model": "OUTBACK"}}]}]},
+  {"id": "H47", "targets": [
+    {"name": "fuel pump", "mentions": [
+      {"doc_id": "record/Recall/20V682000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/20V218000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/21V587000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/23V858000", "names": ["fuel pump"]}]}]},
+  {"id": "H48", "targets": [
+    {"name": "2019 Toyota RAV4", "aliases": ["Toyota RAV4", "RAV4"], "records": [{"file": "vehicles.csv", "row": {"model": "RAV4"}}]},
+    {"name": "Toyota Motor Engineering & Manufacturing", "mentions": [
+      {"doc_id": "record/Recall/19V576000", "names": ["Toyota Motor Engineering & Manufacturing"]},
+      {"doc_id": "record/Recall/20V064000", "names": ["Toyota Motor Engineering & Manufacturing"]},
+      {"doc_id": "record/Recall/20V286000", "names": ["Toyota Motor Engineering & Manufacturing"]},
+      {"doc_id": "record/Recall/20V373000", "names": ["Toyota Motor Engineering & Manufacturing"]},
+      {"doc_id": "record/Recall/20V682000", "names": ["Toyota Motor Engineering & Manufacturing"]}],
+     "note": "A maker named in the recalls' Manufacturer field and in their text; no record of its own."}]},
+  {"id": "H49", "targets": [], "note": "Counts every recall record."},
+  {"id": "H50", "targets": [], "note": "Sums a field of every complaint record."},
+  {"id": "H51", "targets": [
+    {"name": "2017 Nissan Rogue", "aliases": ["Nissan Rogue", "ROGUE"], "records": [{"file": "vehicles.csv", "row": {"model": "ROGUE"}}]}]},
+  {"id": "H52", "targets": [], "note": "Ranks every vehicle by its recalls."},
+  {"id": "H53", "targets": [], "note": "Ranks the years of every recall record."},
+  {"id": "H54", "targets": [], "note": "A filter on the fire field of every complaint record; no complaint text names a fire."},
+  {"id": "H55", "targets": [], "note": "Ranks the component field of every recall record."},
+  {"id": "H56", "targets": [], "note": "Ranks the manufacturer field of every recall record."},
+  {"id": "H57", "targets": [], "note": "A date filter over every complaint record."},
+  {"id": "H58", "targets": [
+    {"name": "2016 Honda Civic", "aliases": ["Honda Civic", "CIVIC"], "records": [{"file": "vehicles.csv", "row": {"model": "CIVIC"}}]}]},
+  {"id": "H59", "targets": [
+    {"name": "11010220", "records": [{"file": "complaints.csv", "row": {"odiNumber": "11010220"}}]}]},
+  {"id": "H60", "targets": [
+    {"name": "crash", "mentions": [{"doc_id": "complaints/ford_escape_complaints.md", "names": ["crash", "crashed"]}], "note": "The question uses the crash field of the complaint records; only the Escape's text names the crash."}]},
+  {"id": "H61", "targets": [
+    {"name": "11209676", "records": [{"file": "complaints.csv", "row": {"odiNumber": "11209676"}}]}]},
+  {"id": "H62", "targets": [
+    {"name": "10957753", "records": [{"file": "complaints.csv", "row": {"odiNumber": "10957753"}}]}]},
+  {"id": "H63", "targets": [
+    {"name": "air bag", "mentions": [
+      {"doc_id": "record/Recall/16V244000", "names": ["air bag"]},
+      {"doc_id": "record/Recall/26V332000", "names": ["air bags"]}]}]},
+  {"id": "H64", "targets": [], "note": "A filter on a field of every recall record."},
+  {"id": "H65", "targets": [
+    {"name": "19V493000", "aliases": ["WUH-93"], "records": [{"file": "recalls.csv", "row": {"NHTSACampaignNumber": "19V493000"}}]}]},
+  {"id": "H66", "targets": [
+    {"name": "fuel pump", "mentions": [
+      {"doc_id": "record/Recall/20V682000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/20V218000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/21V587000", "names": ["fuel pump"]},
+      {"doc_id": "record/Recall/23V858000", "names": ["fuel pump"]}]}]},
+  {"id": "H67", "targets": [], "note": "Date filters over every complaint and recall record."},
+  {"id": "H68", "targets": [
+    {"name": "21V839000", "aliases": ["R21B6"], "records": [{"file": "recalls.csv", "row": {"NHTSACampaignNumber": "21V839000"}}]}]}
+ ]
+}

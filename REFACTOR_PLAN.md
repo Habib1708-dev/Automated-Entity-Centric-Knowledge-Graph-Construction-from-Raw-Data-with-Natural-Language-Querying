@@ -4187,6 +4187,43 @@ index, not by answers.
   results and decision.
 - **Gate:** 575 passed (baseline 575), `ruff check` clean. No run, $0.
 
+### R89. Target gold for the anchor-graph criteria C2, C5, C8 (done 2026-10-06; gold and its checks, $0, no run)
+Step 2 of the anchor-graph direction (section 7.4): for every question of the three QA gold files, the names
+it starts from, the other names the sources write for them, and what each should reach. The QA questions
+are read as information needs; their `chunks` and `records` stay the evidence and are not copied.
+- **Format** (`validation/target_gold.py`): a target is a `name` (as the question writes it), `aliases`
+  (a short form, a title, a key the text uses, a record's own name; never an inflection), and the nodes it
+  reaches without any graph id: `records` (a staged row picked by its cells; one ref may pick several rows,
+  "drawer rails" without a product = every Drawer Rails part) and/or `mentions` (`MentionRef`, document +
+  names, as in the R75 identity gold: the thing those mentions refer to). A question without a named start
+  ("Which products cost more than $500?") has no target and a note why. `check_target_gold` ties a file to
+  its QA gold (every question once, no unknown id) and its corpus (each name in its question, each alias
+  written in a chunk or a staged cell, each record ref picks a row, each mention's document names it).
+  Structural move first: `qa_gold.rows_matching` made public from `_record_issues`, behaviour kept.
+- **Gold** (`tests/gold/r89/`, written by Claude Opus 5.5 from the questions and the source data only; no
+  `out/` file opened):
+
+  | Dataset | Questions | Targets (records / mentions) | No target | Chunk questions with a target (C5) | multi_hop with a target (C8) |
+  |---|---|---|---|---|---|
+  | furniture | 68 | 86 (59 / 27) | 18 | 31 / 33 (F11, F13 rank over all) | 16 / 17 (F67) |
+  | held-out | 68 | 65 (29 / 36) | 17 | 28 / 28 | 15 / 17 (H64, H67) |
+  | generality | 41 | 62 (10 / 53) | 1 | 38 / 38 | 6 / 6 |
+
+  Choices recorded in notes, for example: a part named with its product reaches only that product's part
+  (F01 S-1085), without one every part of the name (F20 S-1078 and S-1085); states are concepts
+  ("wobbling", "creaks", "dead battery"); a word written differently in each review names no concept
+  ("misaligned", F08); "Pike" (G36) reaches Staff S-131 and the Judith Pike of the letter; each Maria Lopez
+  reaches her own record (G01, G22 S-104; G02 S-219). Record-filter values (price, country, dates) are
+  not starts.
+- **Tests:** `tests/test_target_gold.py` (17): the three files against their QA gold and rebuilt corpus,
+  fewer than a third of questions without a target, the identity traps pinned (Maria Lopez, the Pike
+  spellings, both Drawer Rails parts, drawer slides reaching no record), the model rules, and each misfit
+  the check reports on an invented corpus.
+- **Stated limitation:** earlier sessions read `out/r77d_*`, so the gold is not blind to the build; gold and
+  later verdicts come from one model family.
+- **Gate:** 592 passed (baseline 575), `ruff check` clean. No run, $0. Next: step 3 of the direction, the
+  navigation contract W1-W5 over R87's snapshot with C0-C2, C5 (graph arms), C7, C8, C9 computed.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

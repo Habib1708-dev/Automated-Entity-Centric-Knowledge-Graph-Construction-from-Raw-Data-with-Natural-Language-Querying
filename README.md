@@ -242,6 +242,7 @@ src/kgbuilder/
                     -> assertion (truth, modality and condition against the assertion gold)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
+                    target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)
   audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
                     (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal)
   query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus

@@ -1,0 +1,226 @@
+{
+ "dataset": "generality",
+ "qa_gold": "tests/gold/qa/generality_qa.json",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-06",
+ "questions": [
+  {"id": "G01", "targets": [
+    {"name": "Maria Lopez", "aliases": ["M. Lopez"], "records": [{"file": "institute/staff.csv", "row": {"staff_id": "S-104"}}], "note": "The Soil Ecology Maria Lopez, who received the award; not S-219 of the Finance Office nor the baker on Harbour Street."},
+    {"name": "Hensley Field-Work Award", "mentions": [
+      {"doc_id": "institute/hensley_award.md", "names": ["Hensley Field-Work Award"]},
+      {"doc_id": "institute/newsletter_spring_2025.md", "names": ["Hensley Field-Work Award"]}]}]},
+  {"id": "G02", "targets": [
+    {"name": "Maria Lopez", "records": [{"file": "institute/staff.csv", "row": {"staff_id": "S-219"}}], "note": "The Finance Office Maria Lopez, who presented the grants budget."},
+    {"name": "grants budget", "mentions": [{"doc_id": "institute/minutes_2025-05-12.md", "names": ["grants budget"]}]}]},
+  {"id": "G03", "targets": [
+    {"name": "Aldmoor bog", "aliases": ["Aldmoor"], "mentions": [
+      {"doc_id": "institute/fieldwork_log.txt", "names": ["Aldmoor bog"]},
+      {"doc_id": "institute/newsletter_spring_2025.md", "names": ["Aldmoor bog"]},
+      {"doc_id": "institute/utrecht_conference_2025.md", "names": ["Aldmoor bog"]}]},
+    {"name": "field log", "mentions": [
+      {"doc_id": "institute/fieldwork_log.txt", "names": ["field log"]},
+      {"doc_id": "institute/brackwater_fen_log.txt", "names": ["field log"]}]}],
+   "note": "The log's keeper, M. Lopez, is the answer, not a start."},
+  {"id": "G04", "targets": [
+    {"name": "committee", "aliases": ["institute committee"], "mentions": [
+      {"doc_id": "institute/minutes_2025-05-12.md", "names": ["institute committee"]},
+      {"doc_id": "institute/minutes_2025-06-09.md", "names": ["institute committee"]}],
+     "note": "The institute committee whose minutes these are; the meeting's date is a value the reader checks."}]},
+  {"id": "G05", "targets": [
+    {"name": "Jonathan Pike", "aliases": ["Jon Pike", "J. Pike", "Dr. J. Pike", "Dr. Jonathan Pike", "Dr Jonathan Pike"], "records": [{"file": "institute/staff.csv", "row": {"staff_id": "S-131"}}], "note": "Judith Pike of the letter is someone else."}]},
+  {"id": "G06", "targets": [
+    {"name": "mechanical seal", "aliases": ["seal"], "mentions": [
+      {"doc_id": "water/incident_2025-03-29.md", "names": ["mechanical seal", "seal"]},
+      {"doc_id": "water/work_orders_2025-06.md", "names": ["mechanical seal"]}]}],
+   "note": "The date is a value the reader checks; both Hydra P-40 pumps had a seal replaced in 2025."},
+  {"id": "G07", "targets": [
+    {"name": "seal", "aliases": ["mechanical seal"], "mentions": [{"doc_id": "water/incident_2025-03-29.md", "names": ["mechanical seal", "seal"]}]}],
+   "note": "The incident report says the seal 'failed'; 'seal failure' is written only in the vendor's quotation and the 2024 summary. The install year is a record value."},
+  {"id": "G08", "targets": [
+    {"name": "HP40-2291", "records": [{"file": "water/pumps.csv", "row": {"serial_number": "HP40-2291"}}]}],
+   "note": "The inspection is an event, found through its date by the reader."},
+  {"id": "G09", "targets": [
+    {"name": "Eastgate library", "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Eastgate library"]},
+      {"doc_id": "news/budget_2025.md", "names": ["Eastgate library"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Eastgate library"]},
+      {"doc_id": "news/library_reopened.md", "names": ["Eastgate library"]}]},
+    {"name": "roof", "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["roof"]},
+      {"doc_id": "news/budget_2025.md", "names": ["roof"]},
+      {"doc_id": "news/library_reopened.md", "names": ["roof"]}]}]},
+  {"id": "G10", "targets": [
+    {"name": "Mill Lane footbridge", "aliases": ["footbridge"], "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/footbridge_reopens.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/budget_2025.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/council_notices.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/letter_to_the_editor.md", "names": ["Mill Lane footbridge"]}]}]},
+  {"id": "G11", "targets": [
+    {"name": "HP40-1183", "records": [{"file": "water/pumps.csv", "row": {"serial_number": "HP40-1183"}}]}],
+   "note": "The vendor's service manager is the answer, not a start."},
+  {"id": "G12", "targets": [
+    {"name": "leaking", "mentions": [{"doc_id": "water/inspection_2025-03-14.md", "names": ["leaks"]}], "note": "The report writes the leak of HP40-1183 as 'a slow drip' and the other pump's state as 'No leaks'."}]},
+  {"id": "G13", "targets": [
+    {"name": "cores", "mentions": [{"doc_id": "institute/fieldwork_log.txt", "names": ["core"]}]}],
+   "note": "The date is a value the reader checks."},
+  {"id": "G14", "targets": [
+    {"name": "Aldmoor", "aliases": ["Aldmoor bog"], "mentions": [
+      {"doc_id": "institute/fieldwork_log.txt", "names": ["Aldmoor bog"]},
+      {"doc_id": "institute/newsletter_spring_2025.md", "names": ["Aldmoor bog"]},
+      {"doc_id": "institute/utrecht_conference_2025.md", "names": ["Aldmoor bog"]}]},
+    {"name": "cores", "mentions": [{"doc_id": "institute/fieldwork_log.txt", "names": ["core"]}]}]},
+  {"id": "G15", "targets": [
+    {"name": "Riverton", "mentions": [
+      {"doc_id": "news/budget_2025.md", "names": ["Riverton"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Riverton"]},
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Riverton"]}],
+     "note": "The town; Riverton Water, the utility, is another thing."},
+    {"name": "works budget", "mentions": [{"doc_id": "news/budget_2025.md", "names": ["works budget"]}]}]},
+  {"id": "G16", "targets": [
+    {"name": "dry well", "mentions": [{"doc_id": "water/incident_2025-03-29.md", "names": ["dry well"]}]},
+    {"name": "flooding", "mentions": [{"doc_id": "water/incident_2025-03-29.md", "names": ["flooding", "flooded"]}]}],
+   "note": "The site engineer, Tomasz Wren, is not named in the question."},
+  {"id": "G17", "targets": [
+    {"name": "data management plan", "mentions": [{"doc_id": "institute/minutes_2025-05-12.md", "names": ["data management plan"]}]}]},
+  {"id": "G18", "targets": [
+    {"name": "structural inspector", "aliases": ["Daniel Okafor"], "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Daniel Okafor", "structural inspector"]},
+      {"doc_id": "news/flood_meeting.md", "names": ["Daniel Okafor", "structural inspector"]}]},
+    {"name": "east railing", "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["east railing"]},
+      {"doc_id": "news/letter_to_the_editor.md", "names": ["east railing"]},
+      {"doc_id": "news/budget_2026.md", "names": ["east railing"]}]}]},
+  {"id": "G19", "targets": [
+    {"name": "library", "aliases": ["Eastgate library"], "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Eastgate library"]},
+      {"doc_id": "news/budget_2025.md", "names": ["Eastgate library"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Eastgate library"]},
+      {"doc_id": "news/library_reopened.md", "names": ["Eastgate library"]}]},
+    {"name": "roof", "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["roof"]},
+      {"doc_id": "news/budget_2025.md", "names": ["roof"]},
+      {"doc_id": "news/library_reopened.md", "names": ["roof"]}]},
+    {"name": "contractor", "mentions": [
+      {"doc_id": "news/budget_2025.md", "names": ["contractor"]},
+      {"doc_id": "news/library_reopened.md", "names": ["contractor"]}]}]},
+  {"id": "G20", "targets": [
+    {"name": "footbridge", "aliases": ["Mill Lane footbridge"], "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/footbridge_reopens.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/budget_2025.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/council_notices.md", "names": ["Mill Lane footbridge"]},
+      {"doc_id": "news/letter_to_the_editor.md", "names": ["Mill Lane footbridge"]}]},
+    {"name": "structural inspector", "aliases": ["Daniel Okafor"], "mentions": [
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Daniel Okafor", "structural inspector"]},
+      {"doc_id": "news/flood_meeting.md", "names": ["Daniel Okafor", "structural inspector"]}]}]},
+  {"id": "G21", "targets": [
+    {"name": "committee", "aliases": ["institute committee"], "mentions": [
+      {"doc_id": "institute/minutes_2025-05-12.md", "names": ["institute committee"]},
+      {"doc_id": "institute/minutes_2025-06-09.md", "names": ["institute committee"]}]}]},
+  {"id": "G22", "targets": [
+    {"name": "Maria Lopez", "aliases": ["M. Lopez"], "records": [{"file": "institute/staff.csv", "row": {"staff_id": "S-104"}}], "note": "The Soil Ecology Maria Lopez, who presented the poster; the travel memo's author S-219 shares her name."},
+    {"name": "Utrecht", "mentions": [
+      {"doc_id": "institute/utrecht_conference_2025.md", "names": ["Utrecht"]},
+      {"doc_id": "institute/travel_claims_memo.md", "names": ["Utrecht"]}]}]},
+  {"id": "G23", "targets": [
+    {"name": "leaking", "mentions": [{"doc_id": "water/inspection_2025-06-13.md", "names": ["leaks"]}], "note": "The report writes the leak of HP40-2291 as 'a slow drip' and the other pump's state as 'no leaks'."}]},
+  {"id": "G24", "targets": [
+    {"name": "HP40-2291", "records": [{"file": "water/pumps.csv", "row": {"serial_number": "HP40-2291"}}]},
+    {"name": "mechanical seal", "aliases": ["seal"], "mentions": [{"doc_id": "water/work_orders_2025-06.md", "names": ["mechanical seal"]}]}]},
+  {"id": "G25", "targets": [
+    {"name": "North Station", "mentions": [
+      {"doc_id": "water/incident_2025-03-29.md", "names": ["North Station"]},
+      {"doc_id": "water/work_orders_2025-06.md", "names": ["North Station"]},
+      {"doc_id": "water/inspection_2025-03-14.md", "names": ["North Station"]},
+      {"doc_id": "water/inspection_2025-06-13.md", "names": ["North Station"]},
+      {"doc_id": "water/north_station_2024_summary.md", "names": ["North Station"]},
+      {"doc_id": "water/shift_notes.txt", "names": ["North Station"]}],
+     "note": "A station named in the pump records' station field and in text; no record of its own."},
+    {"name": "mechanical seal", "aliases": ["seal"], "mentions": [
+      {"doc_id": "water/incident_2025-03-29.md", "names": ["mechanical seal"]},
+      {"doc_id": "water/work_orders_2025-06.md", "names": ["mechanical seal"]}]}]},
+  {"id": "G26", "targets": [
+    {"name": "Brackwater fen", "mentions": [{"doc_id": "institute/brackwater_fen_log.txt", "names": ["Brackwater fen"]}]},
+    {"name": "cores", "mentions": [{"doc_id": "institute/brackwater_fen_log.txt", "names": ["core"]}]}]},
+  {"id": "G27", "targets": [
+    {"name": "Brackwater fen", "mentions": [{"doc_id": "institute/brackwater_fen_log.txt", "names": ["Brackwater fen"]}]},
+    {"name": "cores", "mentions": [{"doc_id": "institute/brackwater_fen_log.txt", "names": ["core"]}]}]},
+  {"id": "G28", "targets": [
+    {"name": "intake screen", "mentions": [{"doc_id": "water/harbour_station_may_2025.md", "names": ["intake screen"]}]}],
+   "note": "The pump, KV12-0457, is reached through the report that names it."},
+  {"id": "G29", "targets": [
+    {"name": "committee", "aliases": ["institute committee"], "mentions": [
+      {"doc_id": "institute/minutes_2025-05-12.md", "names": ["institute committee"]},
+      {"doc_id": "institute/minutes_2025-06-09.md", "names": ["institute committee"]}]}],
+   "note": "The chair, Aiko Tanaka, is the answer, not a start."},
+  {"id": "G30", "targets": [
+    {"name": "Jonathan Pike", "aliases": ["Jon Pike", "J. Pike", "Dr. J. Pike", "Dr. Jonathan Pike", "Dr Jonathan Pike"], "records": [{"file": "institute/staff.csv", "row": {"staff_id": "S-131"}}]},
+    {"name": "committee", "aliases": ["institute committee"], "mentions": [
+      {"doc_id": "institute/minutes_2025-05-12.md", "names": ["institute committee"]},
+      {"doc_id": "institute/minutes_2025-06-09.md", "names": ["institute committee"]}]}]},
+  {"id": "G31", "targets": [
+    {"name": "Hydra P-40", "mentions": [
+      {"doc_id": "water/calder_quotation.md", "names": ["Hydra P-40"]},
+      {"doc_id": "water/inspection_2025-03-14.md", "names": ["Hydra P-40"]},
+      {"doc_id": "water/inspection_2025-06-13.md", "names": ["Hydra P-40"]}],
+     "note": "A pump model, written in the pump records' model field and in text; the claim is about the model, not about either pump."},
+    {"name": "mechanical seal", "aliases": ["seal"], "mentions": [{"doc_id": "water/calder_quotation.md", "names": ["mechanical seal"]}]}]},
+  {"id": "G32", "targets": [
+    {"name": "Hensley Field-Work Award", "mentions": [
+      {"doc_id": "institute/hensley_award.md", "names": ["Hensley Field-Work Award"]},
+      {"doc_id": "institute/newsletter_spring_2025.md", "names": ["Hensley Field-Work Award"]}]}]},
+  {"id": "G33", "targets": [
+    {"name": "HP40-1183", "records": [{"file": "water/pumps.csv", "row": {"serial_number": "HP40-1183"}}]}],
+   "note": "The inspection is an event, found through its date by the reader."},
+  {"id": "G34", "targets": [
+    {"name": "Harbour Station", "mentions": [
+      {"doc_id": "news/harbour_open_day.md", "names": ["Harbour Station"]},
+      {"doc_id": "water/harbour_station_may_2025.md", "names": ["Harbour Station"]},
+      {"doc_id": "water/shift_notes.txt", "names": ["Harbour Station"]},
+      {"doc_id": "water/shift_notes_june.txt", "names": ["Harbour Station"]}]},
+    {"name": "open day", "mentions": [{"doc_id": "news/harbour_open_day.md", "names": ["open day"]}]}],
+   "note": "The pump is not named in the question; the open-day item names its model, the Kestrel V-12, which only KV12-0457 is."},
+  {"id": "G35", "targets": [
+    {"name": "Riverton", "mentions": [
+      {"doc_id": "news/budget_2025.md", "names": ["Riverton"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Riverton"]},
+      {"doc_id": "news/mill_lane_and_eastgate.md", "names": ["Riverton"]}]},
+    {"name": "works budget", "mentions": [{"doc_id": "news/budget_2026.md", "names": ["works budget"]}]}]},
+  {"id": "G36", "targets": [
+    {"name": "Pike", "records": [{"file": "institute/staff.csv", "row": {"staff_id": "S-131"}}], "mentions": [{"doc_id": "news/letter_harbour_street.md", "names": ["Judith Pike"]}], "note": "The question asks which Pike: the name stands for Jonathan Pike (S-131) and Judith Pike, who wrote the letter."},
+    {"name": "Harbour Street", "mentions": [
+      {"doc_id": "news/letter_harbour_street.md", "names": ["Harbour Street"]},
+      {"doc_id": "news/bakery_opens.md", "names": ["Harbour Street"]},
+      {"doc_id": "news/budget_2025.md", "names": ["Harbour Street"]},
+      {"doc_id": "news/budget_2026.md", "names": ["Harbour Street"]},
+      {"doc_id": "news/council_notices.md", "names": ["Harbour Street"]},
+      {"doc_id": "news/flood_meeting.md", "names": ["Harbour Street"]}]}]},
+  {"id": "G37", "targets": [
+    {"name": "seal failure", "mentions": [
+      {"doc_id": "water/north_station_2024_summary.md", "names": ["seal failures"]},
+      {"doc_id": "water/calder_quotation.md", "names": ["seal failure"]}]}]},
+  {"id": "G38", "targets": [
+    {"name": "Finance Office", "mentions": [
+      {"doc_id": "institute/travel_claims_memo.md", "names": ["Finance Office"]},
+      {"doc_id": "institute/minutes_2025-05-12.md", "names": ["Finance Office"]},
+      {"doc_id": "institute/minutes_2025-06-09.md", "names": ["Finance Office"]}],
+     "note": "A team, written in the staff records' team field and in text; no record of its own."},
+    {"name": "travel claims", "mentions": [{"doc_id": "institute/travel_claims_memo.md", "names": ["travel claims"]}]}]},
+  {"id": "G39", "targets": [], "note": "A filter on the rated flow of every pump record."},
+  {"id": "G40", "targets": [
+    {"name": "North Station", "mentions": [
+      {"doc_id": "water/incident_2025-03-29.md", "names": ["North Station"]},
+      {"doc_id": "water/inspection_2025-03-14.md", "names": ["North Station"]},
+      {"doc_id": "water/north_station_2024_summary.md", "names": ["North Station"]}],
+     "note": "The question filters the pump records' station field."}]},
+  {"id": "G41", "targets": [
+    {"name": "Hydrology", "mentions": [
+      {"doc_id": "institute/newsletter_spring_2025.md", "names": ["Hydrology"]},
+      {"doc_id": "institute/hensley_award.md", "names": ["Hydrology"]},
+      {"doc_id": "institute/seminar_notice_autumn.md", "names": ["Hydrology"]}],
+     "note": "The question filters the staff records' team field."}]}
+ ]
+}

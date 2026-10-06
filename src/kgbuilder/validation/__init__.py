@@ -7,5 +7,6 @@ coverage_sheet.py and coverage.py estimate how much of what the text states the 
 judged sample of sentences (R68); interval.py gives every rate from a sample its Wilson interval.
 qa_gold.py holds the question-answer gold file and its checks against the corpus, and qa.py scores a
 system's answers to it (R70); qa_records.py computes the answers of record questions from the source
-files with DuckDB, and paired.py compares two systems question by question (R73).
+files with DuckDB, and paired.py compares two systems question by question (R73). target_gold.py holds
+the anchor-graph target gold: for each QA question, the names it starts from and what they reach (R89).
 """

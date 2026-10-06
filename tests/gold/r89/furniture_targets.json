@@ -1,0 +1,218 @@
+{
+ "dataset": "furniture",
+ "qa_gold": "tests/gold/qa/furniture_qa.json",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-06",
+ "questions": [
+  {"id": "F01", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]},
+    {"name": "drawer rails", "records": [{"file": "components.csv", "row": {"part_id": "S-1085"}}], "note": "The dresser's own Drawer Rails part, in its Drawers assembly A-1070."}]},
+  {"id": "F02", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]},
+    {"name": "drawer rails", "records": [{"file": "components.csv", "row": {"part_id": "S-1085"}}]},
+    {"name": "defective", "mentions": [{"doc_id": "product_reviews/helsingborg_dresser_reviews.md", "names": ["defective"]}]}]},
+  {"id": "F03", "targets": [
+    {"name": "wooden slats", "records": [{"file": "components.csv", "row": {"part_name": "Wooden Slat"}}], "note": "Every Wooden Slat part; all 14 are in the Linköping Bed's Slats assembly A-1051."},
+    {"name": "crack", "mentions": [{"doc_id": "product_reviews/linkoping_bed_reviews.md", "names": ["crack"]}]}]},
+  {"id": "F04", "targets": [
+    {"name": "frame", "records": [{"file": "assemblies.csv", "row": {"component_name": "Frame"}}], "note": "The only assembly named Frame is the Uppsala Sofa's A-1012; the bed's frame in its reviews has no record."},
+    {"name": "creaks", "mentions": [{"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["creaks"]}]}]},
+  {"id": "F05", "targets": [
+    {"name": "shade fabric", "records": [{"file": "components.csv", "row": {"part_id": "S-1131"}}]},
+    {"name": "shade", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1033"}}]},
+    {"name": "unevenly colored", "mentions": [{"doc_id": "product_reviews/orebro_lamp_reviews.md", "names": ["unevenly colored"]}]}]},
+  {"id": "F06", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]}],
+   "note": "The reviewer is not named in the question; the walk finds them through the dresser's five-star review. A star rating is not a node."},
+  {"id": "F07", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]},
+    {"name": "drawer rails", "records": [{"file": "components.csv", "row": {"part_id": "S-1085"}}]},
+    {"name": "defective", "mentions": [{"doc_id": "product_reviews/helsingborg_dresser_reviews.md", "names": ["defective"]}]}]},
+  {"id": "F08", "targets": [
+    {"name": "pre-drilled holes", "mentions": [
+      {"doc_id": "product_reviews/gothenburg_table_reviews.md", "names": ["pre-drilled holes"]},
+      {"doc_id": "product_reviews/helsingborg_dresser_reviews.md", "names": ["pre-drilled holes"]},
+      {"doc_id": "product_reviews/jonkoping_coffee_table_reviews.md", "names": ["pre-drilled holes"]},
+      {"doc_id": "product_reviews/malmo_desk_reviews.md", "names": ["pre-drilled holes"]},
+      {"doc_id": "product_reviews/norrkoping_nightstand_reviews.md", "names": ["pre-drilled holes"]},
+      {"doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "names": ["pre-drilled holes"]}]}],
+   "note": "'misaligned' is written differently in every review (didn't line up, weren't aligned), so it names no concept a lookup could find."},
+  {"id": "F09", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]}],
+   "note": "A star rating is not a node."},
+  {"id": "F10", "targets": [
+    {"name": "customer service", "mentions": [
+      {"doc_id": "product_reviews/gothenburg_table_reviews.md", "names": ["customer service"]},
+      {"doc_id": "product_reviews/linkoping_bed_reviews.md", "names": ["customer service"]},
+      {"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["customer service"]}]},
+    {"name": "replacement", "mentions": [
+      {"doc_id": "product_reviews/gothenburg_table_reviews.md", "names": ["replacement"]},
+      {"doc_id": "product_reviews/linkoping_bed_reviews.md", "names": ["replacement"]},
+      {"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["replacement"]}]}]},
+  {"id": "F11", "targets": [], "note": "Ranges over every product; a star rating is not a node."},
+  {"id": "F12", "targets": [
+    {"name": "Uppsala Sofa", "records": [{"file": "products.csv", "row": {"product_id": "P-1003"}}]},
+    {"name": "removable covers", "aliases": ["Cover"], "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1015"}}], "note": "The sofa's Cover assembly."}]},
+  {"id": "F13", "targets": [], "note": "Ranges over every reviewer handle; none is named."},
+  {"id": "F14", "targets": [], "note": "A price filter over every product."},
+  {"id": "F15", "targets": [], "note": "A filter on the specialty value of every supplier."},
+  {"id": "F16", "targets": [
+    {"name": "wobbling", "mentions": [
+      {"doc_id": "product_reviews/jonkoping_coffee_table_reviews.md", "names": ["wobbles", "wobbling"]},
+      {"doc_id": "product_reviews/orebro_lamp_reviews.md", "names": ["wobbles"]},
+      {"doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "names": ["wobbles"]}]}],
+   "note": "The price filter is a record value, not a start."},
+  {"id": "F17", "targets": [
+    {"name": "frame", "records": [{"file": "assemblies.csv", "row": {"component_name": "Frame"}}]},
+    {"name": "creaking", "mentions": [{"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["creaks"]}]},
+    {"name": "squeaking", "mentions": [
+      {"doc_id": "product_reviews/stockholm_chair_reviews.md", "names": ["squeaking"]},
+      {"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["squeaking"]},
+      {"doc_id": "product_reviews/linkoping_bed_reviews.md", "names": ["squeaking"]}]}]},
+  {"id": "F18", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]}],
+   "note": "The country is a record value, not a start."},
+  {"id": "F19", "targets": [
+    {"name": "Malmö Desk", "records": [{"file": "products.csv", "row": {"product_id": "P-1002"}}]},
+    {"name": "drawer rails", "records": [{"file": "components.csv", "row": {"part_id": "S-1078"}}], "note": "The desk's own Drawer Rails part, in its Drawer Unit A-1062."}]},
+  {"id": "F20", "targets": [
+    {"name": "drawer rails", "records": [{"file": "components.csv", "row": {"part_name": "Drawer Rails"}}], "note": "No product is named, so every Drawer Rails part: the Malmö Desk's S-1078 and the Helsingborg Dresser's S-1085. The Linköping Bed's drawer slides are another thing (R75 gold)."},
+    {"name": "defective", "mentions": [{"doc_id": "product_reviews/helsingborg_dresser_reviews.md", "names": ["defective"]}]}]},
+  {"id": "F21", "targets": [
+    {"name": "drawer handle", "records": [
+      {"file": "components.csv", "row": {"part_name": "Drawer Handle"}},
+      {"file": "assemblies.csv", "row": {"component_name": "Drawer Handle"}},
+      {"file": "assemblies.csv", "row": {"component_name": "Drawer Handles"}}],
+     "note": "No product is named: the Malmö Desk's part S-1079, the Norrköping Nightstand's assembly A-1022 and the Helsingborg Dresser's A-1071."},
+    {"name": "scratched", "mentions": [{"doc_id": "product_reviews/helsingborg_dresser_reviews.md", "names": ["scratched"]}]}]},
+  {"id": "F22", "targets": [
+    {"name": "dent", "mentions": [
+      {"doc_id": "product_reviews/gothenburg_table_reviews.md", "names": ["dent"]},
+      {"doc_id": "product_reviews/orebro_lamp_reviews.md", "names": ["dent"]}]}]},
+  {"id": "F23", "targets": [
+    {"name": "slats", "records": [
+      {"file": "assemblies.csv", "row": {"component_name": "Slats"}},
+      {"file": "components.csv", "row": {"part_name": "Wooden Slat"}},
+      {"file": "components.csv", "row": {"part_name": "Support Slats"}}],
+     "note": "No product is named: the bed's Slats assembly and its Wooden Slat parts, and the sofa's Support Slats."},
+    {"name": "crack", "mentions": [
+      {"doc_id": "product_reviews/linkoping_bed_reviews.md", "names": ["crack"]},
+      {"doc_id": "product_reviews/helsingborg_dresser_reviews.md", "names": ["crack"]}]}]},
+  {"id": "F24", "targets": [
+    {"name": "leg", "records": [{"file": "assemblies.csv", "row": {"component_name": "Legs"}}], "note": "Every product's Legs assembly; no product is named."},
+    {"name": "chip", "mentions": [{"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["chip"]}]}]},
+  {"id": "F25", "targets": [
+    {"name": "tables", "records": [
+      {"file": "products.csv", "row": {"product_id": "P-1001"}},
+      {"file": "products.csv", "row": {"product_id": "P-1008"}}],
+     "note": "'the two tables' are the Gothenburg Table and the Jönköping Coffee Table; the dimensions are a value the reader finds."}]},
+  {"id": "F26", "targets": [
+    {"name": "wobbling", "mentions": [
+      {"doc_id": "product_reviews/gothenburg_table_reviews.md", "names": ["wobbles"]},
+      {"doc_id": "product_reviews/jonkoping_coffee_table_reviews.md", "names": ["wobbles", "wobbling"]},
+      {"doc_id": "product_reviews/malmo_desk_reviews.md", "names": ["wobbles", "wobble", "wobbling"]},
+      {"doc_id": "product_reviews/orebro_lamp_reviews.md", "names": ["wobbles"]},
+      {"doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "names": ["wobbles"]}]}]},
+  {"id": "F27", "targets": [
+    {"name": "squeak", "mentions": [{"doc_id": "product_reviews/stockholm_chair_reviews.md", "names": ["squeaking"]}]},
+    {"name": "creak", "mentions": [{"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["creaks"]}]}]},
+  {"id": "F28", "targets": [
+    {"name": "Uppsala Sofa", "records": [{"file": "products.csv", "row": {"product_id": "P-1003"}}]},
+    {"name": "squeaking", "mentions": [{"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["squeaking"]}]},
+    {"name": "creaking", "mentions": [{"doc_id": "product_reviews/uppsala_sofa_reviews.md", "names": ["creaks"]}]}]},
+  {"id": "F29", "targets": [
+    {"name": "sagging", "mentions": [
+      {"doc_id": "product_reviews/vasteras_bookshelf_reviews.md", "names": ["sagging"]},
+      {"doc_id": "product_reviews/norrkoping_nightstand_reviews.md", "names": ["sagging"]},
+      {"doc_id": "product_reviews/jonkoping_coffee_table_reviews.md", "names": ["sagging"]}]}]},
+  {"id": "F30", "targets": [
+    {"name": "Örebro Lamp", "records": [{"file": "products.csv", "row": {"product_id": "P-1005"}}]},
+    {"name": "flickers", "mentions": [{"doc_id": "product_reviews/orebro_lamp_reviews.md", "names": ["flickers", "flickering"]}]}]},
+  {"id": "F31", "targets": [
+    {"name": "Malmö Desk", "records": [{"file": "products.csv", "row": {"product_id": "P-1002"}}]},
+    {"name": "wobbles", "mentions": [{"doc_id": "product_reviews/malmo_desk_reviews.md", "names": ["wobbles", "wobble", "wobbling"]}]}]},
+  {"id": "F32", "targets": [
+    {"name": "drawer", "records": [
+      {"file": "assemblies.csv", "row": {"component_name": "Drawer"}},
+      {"file": "assemblies.csv", "row": {"component_name": "Drawers"}},
+      {"file": "assemblies.csv", "row": {"component_name": "Drawer Unit"}}],
+     "note": "No product is named: the nightstand's Drawer A-1021, the dresser's Drawers A-1070 and the desk's Drawer Unit A-1062. 'does not close properly' names no concept."}]},
+  {"id": "F33", "targets": [
+    {"name": "Örebro Lamp", "records": [{"file": "products.csv", "row": {"product_id": "P-1005"}}]},
+    {"name": "cord", "aliases": ["Power Cord"], "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1036"}}]}]},
+  {"id": "F34", "targets": [
+    {"name": "Uppsala Sofa", "records": [{"file": "products.csv", "row": {"product_id": "P-1003"}}]},
+    {"name": "cushion", "records": [
+      {"file": "assemblies.csv", "row": {"assembly_id": "A-1010"}},
+      {"file": "assemblies.csv", "row": {"assembly_id": "A-1011"}}],
+     "note": "The sofa's Seat Cushion and Back Cushion assemblies."}]},
+  {"id": "F35", "targets": [
+    {"name": "Linköping Bed", "records": [{"file": "products.csv", "row": {"product_id": "P-1006"}}]},
+    {"name": "slat", "records": [
+      {"file": "assemblies.csv", "row": {"assembly_id": "A-1051"}},
+      {"file": "components.csv", "row": {"part_name": "Wooden Slat"}}]}]},
+  {"id": "F36", "targets": [
+    {"name": "Linköping Bed", "records": [{"file": "products.csv", "row": {"product_id": "P-1006"}}]},
+    {"name": "drawer slides", "mentions": [{"doc_id": "product_reviews/linkoping_bed_reviews.md", "names": ["drawer slides"]}], "note": "The bed has no drawer record; its drawer slides are not the dresser's or the desk's Drawer Rails (R75 gold)."}]},
+  {"id": "F37", "targets": [
+    {"name": "Örebro Lamp", "records": [{"file": "products.csv", "row": {"product_id": "P-1005"}}]},
+    {"name": "shade", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1033"}}]},
+    {"name": "dent", "mentions": [{"doc_id": "product_reviews/orebro_lamp_reviews.md", "names": ["dent"]}]}]},
+  {"id": "F38", "targets": [
+    {"name": "Stockholm Chair", "records": [{"file": "products.csv", "row": {"product_id": "P-1000"}}]},
+    {"name": "comfortable", "mentions": [{"doc_id": "product_reviews/stockholm_chair_reviews.md", "names": ["comfortable"]}]}]},
+  {"id": "F39", "targets": [], "note": "A price filter over every product."},
+  {"id": "F40", "targets": [], "note": "A price filter over every product."},
+  {"id": "F41", "targets": [], "note": "A filter on the specialty value of every supplier."},
+  {"id": "F42", "targets": [], "note": "A filter on the city value of every supplier."},
+  {"id": "F43", "targets": [
+    {"name": "Shanghai Metal Corp", "records": [{"file": "suppliers.csv", "row": {"supplier_id": "SUP-002"}}]}],
+   "note": "The lead time is a value of the supply relation, not a start."},
+  {"id": "F44", "targets": [], "note": "A filter on the unit cost of every supply relation."},
+  {"id": "F45", "targets": [], "note": "A filter on the minimum order of every supply relation."},
+  {"id": "F46", "targets": [
+    {"name": "Uppsala Sofa", "records": [{"file": "products.csv", "row": {"product_id": "P-1003"}}]}]},
+  {"id": "F47", "targets": [
+    {"name": "Linköping Bed", "records": [{"file": "products.csv", "row": {"product_id": "P-1006"}}]},
+    {"name": "headboard", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1048"}}]}]},
+  {"id": "F48", "targets": [
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]},
+    {"name": "drawers", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1070"}}]}]},
+  {"id": "F49", "targets": [], "note": "Ranks every product by price."},
+  {"id": "F50", "targets": [], "note": "Ranks every product by price."},
+  {"id": "F51", "targets": [], "note": "A price filter over every product."},
+  {"id": "F52", "targets": [
+    {"name": "screws", "records": [{"file": "assemblies.csv", "row": {"component_name": "Screws"}}], "note": "The Screws line of every product's assembly, which the question ranks."}]},
+  {"id": "F53", "targets": [], "note": "Ranks every product by its assembly lines."},
+  {"id": "F54", "targets": [
+    {"name": "Allen key", "records": [{"file": "assemblies.csv", "row": {"component_name": "Allen Key"}}]}]},
+  {"id": "F55", "targets": [], "note": "Ranks every supplier by its preferred supplies."},
+  {"id": "F56", "targets": [
+    {"name": "Korean Metal Works", "records": [{"file": "suppliers.csv", "row": {"supplier_id": "SUP-012"}}]}]},
+  {"id": "F57", "targets": [], "note": "A maximum over every supply relation."},
+  {"id": "F58", "targets": [], "note": "Ranges over every supplier."},
+  {"id": "F59", "targets": [
+    {"name": "Linköping Bed", "records": [{"file": "products.csv", "row": {"product_id": "P-1006"}}]},
+    {"name": "headboard", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1048"}}]}]},
+  {"id": "F60", "targets": [
+    {"name": "foam padding", "records": [{"file": "components.csv", "row": {"part_name": "Foam Padding"}}], "note": "Both Foam Padding parts, of the chair's seat and back rest."}]},
+  {"id": "F61", "targets": [
+    {"name": "German Precision Fasteners", "records": [{"file": "suppliers.csv", "row": {"supplier_id": "SUP-004"}}]}]},
+  {"id": "F62", "targets": [
+    {"name": "Uppsala Sofa", "records": [{"file": "products.csv", "row": {"product_id": "P-1003"}}]},
+    {"name": "seat cushion", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1010"}}]}]},
+  {"id": "F63", "targets": [
+    {"name": "cable management", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1064"}}]}]},
+  {"id": "F64", "targets": [
+    {"name": "Malmö Desk", "records": [{"file": "products.csv", "row": {"product_id": "P-1002"}}]},
+    {"name": "Helsingborg Dresser", "records": [{"file": "products.csv", "row": {"product_id": "P-1007"}}]}]},
+  {"id": "F65", "targets": [
+    {"name": "Stockholm Chair", "records": [{"file": "products.csv", "row": {"product_id": "P-1000"}}]}]},
+  {"id": "F66", "targets": [
+    {"name": "Örebro Lamp", "records": [{"file": "products.csv", "row": {"product_id": "P-1005"}}]},
+    {"name": "shade", "records": [{"file": "assemblies.csv", "row": {"assembly_id": "A-1033"}}]}]},
+  {"id": "F67", "targets": [], "note": "A filter on the country value of every supplier."},
+  {"id": "F68", "targets": [
+    {"name": "Cape Town Adhesives", "records": [{"file": "suppliers.csv", "row": {"supplier_id": "SUP-009"}}]}]}
+ ]
+}

@@ -212,16 +212,22 @@ def _chunk_issues(question: QAQuestion, chunk_texts: Mapping[str, str]) -> list[
     return issues
 
 
+def rows_matching(evidence: RecordEvidence, table: Sequence[Mapping[str, str]]) -> list[Mapping[str, str]]:
+    """The rows of `table` whose cells equal every cell `evidence` cites (also used by target_gold.py)."""
+    # strip only the cell: staged CSVs can carry padding the source had, the gold's value is exact
+    return [
+        row
+        for row in table
+        if all((row.get(column) or "").strip() == value for column, value in evidence.row.items())
+    ]
+
+
 def _record_issues(question: QAQuestion, rows: Mapping[str, Sequence[Mapping[str, str]]]) -> list[str]:
     issues = []
     for evidence in question.records:
         table = rows.get(evidence.file)
         if table is None:
             issues.append(f"question {question.id}: no staged file {evidence.file!r}")
-        # strip only the cell: staged CSVs can carry padding the source had, the gold's value is exact
-        elif not any(
-            all((row.get(column) or "").strip() == value for column, value in evidence.row.items())
-            for row in table
-        ):
+        elif not rows_matching(evidence, table):
             issues.append(f"question {question.id}: no row of {evidence.file} has {evidence.row}")
     return issues
