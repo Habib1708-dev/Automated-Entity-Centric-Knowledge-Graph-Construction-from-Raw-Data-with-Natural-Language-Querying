@@ -6,13 +6,16 @@ walks the graph guarantees, and the criteria (`anchor/criteria.py`) measure them
   W1 find      names -> nodes (records, individuals, concepts): exact normalised names, then shared words
   W2 chunks    node -> the chunks that concern it (MENTIONS + REFERS_TO; ABOUT for records)
   W3 about     chunk -> the records it is about (its own ABOUT, else its document's)
+     named     chunk -> the records and individuals its mentions refer to, never a concept (R97)
   W4 related   record -> the records the plan's relations reach, any number of hops
   W5 context   chunk -> its neighbours (NEXT_CHUNK) and its document (PART_OF)
 Design: two arms are two settings of one class (Strategy by flag, since they differ only in which edges
 exist). Arm A walks only the anchor edges above. Arm B (`LAYERED`) also walks the claim layer the build kept:
 a thing reaches the chunk of every claim attached to it or ending on it, and a claim joins the things at
 its ends and the thing it is attached to. Every thing-to-thing hop says what witnesses it: a record relation,
-or a chunk that concerns both ends (the witness rule of section 3.1); `thing_edges` lists them all.
+or a chunk that concerns both ends (the witness rule of section 3.1); `thing_edges` lists them all. A hop
+through a chunk (W2 then W3) needs no entry there: the chunk itself is its witness, since it is about the
+thing or names it.
 Must not: call an LLM, read Neo4j, or rank chunks for a question (that rule belongs to the criteria).
 """
 
@@ -91,6 +94,7 @@ class AnchorGraph:
         self._words = {node: [_words(n) for n in names] for node, names in self._names.items()}
         self._chunks = self._anchor_chunks(s, canonical)
         self._about = self._chunk_about(s)
+        self._named = self._chunk_named(s)
         self._edges = [
             ThingEdge(a=r.source, b=r.target, how="relation", chunk=None, witnessed=True) for r in s.relations
         ]
@@ -131,6 +135,21 @@ class AnchorGraph:
         for link in s.documents_about:
             of_doc[link.source].add(link.thing)
         return {c.chunk_id: own.get(c.chunk_id) or of_doc.get(c.doc_id, set()) for c in s.chunks}
+
+    @staticmethod
+    def _chunk_named(s: GraphSnapshot) -> dict[str, set[str]]:
+        """W3's second half (R97): the particular things a chunk names, read the other way along W2's edges
+        (`Chunk -MENTIONS-> Mention -REFERS_TO-> record | Individual`). ABOUT assumes one subject per
+        document or section, so a report naming a pump and a person was about neither; what it names is
+        every thing it concerns. Concepts are left out: a kind ("leaks") is shared by every chunk that names
+        it, so following it from a chunk would join unrelated chunks through the kind (section 3.1)."""
+        particular = {a.mention: a.canonical for a in s.references if a.kind in ("record", "individual")}
+        out: dict[str, set[str]] = defaultdict(set)
+        for m in s.mentions:
+            if m.id in particular:
+                for chunk in m.chunks:
+                    out[chunk].add(particular[m.id])
+        return out
 
     @staticmethod
     def _contexts(s: GraphSnapshot) -> dict[str, Context]:
@@ -200,6 +219,11 @@ class AnchorGraph:
         """W3: the records `chunk` is about."""
         return set(self._about.get(chunk, set()))
 
+    def named(self, chunk: str) -> set[str]:
+        """W3: the records and individuals `chunk` names through its mentions (never a concept; empty for an
+        unknown chunk). The composed walk goes from a chunk to `about | named`."""
+        return set(self._named.get(chunk, set()))
+
     def related(self, node: str) -> dict[str, int]:
         """W4: every thing the thing-to-thing hops reach from `node`, with its hop count (`node` excluded).
         In arm A the hops are the plan's record relations; arm B adds the claims' joins."""
@@ -221,7 +245,8 @@ class AnchorGraph:
     def walk(self, starts: Iterable[str]) -> dict[str, int]:
         """Every chunk the composed walks reach from `starts`, with its walk length: the fewest W2, W3 and
         W4 steps on the way (a start's own chunks have length 1). Composition is what a multi-hop need
-        does: a concept's chunks (W2), the record a chunk is about (W3), that record's relations (W4)."""
+        does: a concept's chunks (W2), the record a chunk is about or names (W3), that record's relations
+        (W4)."""
         return {item: n for (kind, item), n in self._search(starts).items() if kind == "chunk"}
 
     def reached_nodes(self, starts: Iterable[str]) -> set[str]:
@@ -230,7 +255,8 @@ class AnchorGraph:
 
     def _search(self, starts: Iterable[str]) -> dict[tuple[str, str], int]:
         """Breadth-first over nodes and chunks: node -> chunk (W2), node -> node (W4 and, in arm B, the
-        claims' joins), chunk -> record (W3); each item with its fewest steps from a start."""
+        claims' joins), chunk -> the records it is about and the records and individuals it names (W3);
+        each item with its fewest steps from a start."""
         seen = {("node", node): 0 for node in starts}
         queue = deque(seen)
         while queue:
@@ -239,7 +265,8 @@ class AnchorGraph:
                 nexts = [("chunk", c) for c in sorted(self._chunks.get(item, ()))]
                 nexts += [("node", n) for n in sorted(self._neighbours.get(item, ()))]
             else:
-                nexts = [("node", n) for n in sorted(self._about.get(item, ()))]
+                things = self._about.get(item, set()) | self._named.get(item, set())
+                nexts = [("node", n) for n in sorted(things)]
             for nxt in nexts:
                 if nxt not in seen:
                     seen[nxt] = seen[(kind, item)] + 1

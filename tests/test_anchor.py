@@ -172,6 +172,82 @@ def test_w5_gives_the_document_and_the_neighbours():
     assert A.context(f"{KETTLE}#0") == Context(document=KETTLE, previous=None, next=None)
 
 
+# A third document ABOUT nothing (as most generality documents): its one chunk names the kettle by its record
+# name, a person, and two kinds. Before R97 a walk reaching this chunk stopped there.
+VISIT = "notes/visit.md"
+HISS, ANA = "concept:hiss", "individual:ana"
+NAMED = SNAPSHOT.model_copy(
+    update={
+        "chunks": [
+            *SNAPSHOT.chunks,
+            Chunk(
+                chunk_id=f"{VISIT}#0",
+                doc_id=VISIT,
+                index=0,
+                text="Ana heard the Kettle K-2 hiss by the shade.",
+            ),
+        ],
+        "mentions": [
+            *SNAPSHOT.mentions,
+            mention("m7", VISIT, "Kettle K-2", 0),
+            mention("m8", VISIT, "Ana", 0),
+            mention("m9", VISIT, "hiss", 0),
+            mention("m10", VISIT, "shade", 0),
+        ],
+        "references": [
+            *SNAPSHOT.references,
+            refers("m7", "Kettle K-2", K1, "Kettle K-2", "record"),
+            refers("m8", "Ana", ANA, "Ana", "individual"),
+            refers("m9", "hiss", HISS, "hiss", "concept"),
+            refers("m10", "shade", SHADE, "shade", "concept"),  # the lamp's shade concept: a shared kind
+        ],
+    }
+)
+
+
+@pytest.mark.parametrize("arm", list(Arm))
+def test_w3_follows_a_chunk_to_the_records_and_individuals_it_names(arm):
+    graph = AnchorGraph(NAMED, arm)
+    assert graph.about(f"{VISIT}#0") == set()  # ABOUT keeps its meaning: the document is about nothing
+    assert graph.named(f"{VISIT}#0") == {K1, ANA}
+    assert graph.named(f"{KETTLE}#0") == {S2}  # its switch; the hum and the lid are concepts
+    walk = graph.walk([HISS])
+    # hiss -W2-> the visit -W3 named-> the kettle -W2-> the kettle's own chunk
+    assert walk[f"{VISIT}#0"] == 1 and walk[f"{KETTLE}#0"] == 3
+    assert {K1, ANA, S2} <= graph.reached_nodes([HISS])
+
+
+def test_w3_never_follows_a_concept_a_chunk_names():
+    graph = AnchorGraph(NAMED, Arm.ANCHOR)
+    # the visit names "shade", whose concept also concerns the lamp's chunk: following it would join the
+    # visit to the lamp through a shared kind
+    assert SHADE not in graph.named(f"{VISIT}#0")
+    assert f"{LAMP}#1" not in graph.walk([HISS])
+    assert SHADE not in graph.reached_nodes([HISS]) and L1 not in graph.reached_nodes([HISS])
+
+
+@pytest.mark.parametrize("arm", list(Arm))
+def test_w3_named_is_w2_read_backwards_so_w2_c6_and_c7_inputs_are_unchanged(arm):
+    graph = AnchorGraph(NAMED, arm)
+    for chunk in graph.chunk_ids:
+        assert all(chunk in graph.chunks_of(thing) for thing in graph.named(chunk))
+    # W2 (what C6 pairs and C7 sizes read) is what it was before R97: the mentions and ABOUT links only
+    w2 = {
+        L1: {f"{LAMP}#0", f"{LAMP}#1"},
+        K1: {f"{KETTLE}#0", f"{VISIT}#0"},  # the visit's mention of it, a W2 edge since R90
+        S1: {f"{LAMP}#0", f"{LAMP}#1"},
+        S2: {f"{KETTLE}#0"},
+        ANA: {f"{VISIT}#0"},
+        HISS: {f"{VISIT}#0"},
+        SHADE: {f"{LAMP}#1", f"{VISIT}#0"},
+    }
+    claims = {L1: {f"{KETTLE}#0"}} if arm is Arm.LAYERED else {}  # arm B's planted leak, as before
+    assert {n: graph.chunks_of(n) for n in w2} == {n: c | claims.get(n, set()) for n, c in w2.items()}
+    assert [e for e in graph.thing_edges() if e.how == "relation"] == [
+        e for e in AnchorGraph(SNAPSHOT, arm).thing_edges() if e.how == "relation"
+    ]  # W3 adds no thing-to-thing hop: the chunk is the witness
+
+
 def test_the_composed_walk_counts_steps_and_stays_on_its_side_in_arm_a():
     # sticking -W2-> lamp#0 -W3-> the lamp -W2-> lamp#1
     assert A.walk([STICKING]) == {f"{LAMP}#0": 1, f"{LAMP}#1": 3}

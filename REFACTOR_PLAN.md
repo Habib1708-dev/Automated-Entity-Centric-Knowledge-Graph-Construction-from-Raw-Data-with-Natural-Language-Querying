@@ -4317,7 +4317,9 @@ MLflow run per dataset and arm, `kg anchor-eval`, and the six runs on `out/r77d_
     slide smoothly" hung on the dresser's Drawers assembly A-1070. No claim end is ever unwitnessed.
   - **Where B reaches more, it is generality** (C5 @10 45 vs 40; C8 12 vs 7). The text there has no
     ABOUT anchor and the pump mentions do not link to the Pump records, so only the claim attachments
-    lead from "KV12-0457" in the Harbour Station report to `Pump:KV12-0457` (G28, G34). "Jon Pike" in
+    lead from "KV12-0457" in the Harbour Station report to `Pump:KV12-0457` (G28, G34). *(Corrected in
+    R97: the mention does link to the record, by key; what was missing is a walk from a chunk to the
+    things it names.)* "Jon Pike" in
     the minutes is an individual apart from Staff S-131 (C3's known split, G04).
   - **Unbudgeted misses in A are mostly targets the build has no node for:** "customer service" (F10),
     "repair", "rear-end collision", "crashed" (H29-H31), "leaking", "Hensley Field-Work Award".
@@ -4435,7 +4437,8 @@ after the estimate "a few cents").
     to end) it trails at 5 chunks by a margin near significance (p 0.065-0.070).
   - **On generality it loses clearly, in both modes.** Many targets have no node at all (15 of 62
     unplaced: "leaking", "Hensley Field-Work Award"), the documents have no ABOUT anchor, and the pump
-    and staff mentions are not linked to their records (R90).
+    and staff mentions are not linked to their records (R90). *(Corrected in R97: they are linked, by key
+    and by name; no walk led from a chunk to them.)*
   - **The claim layer (B) helps only there, through the attachments R90 found unwitnessed.** It never
     wins on furniture or held-out.
   - **By the direction's rule (section 7.5)**, "A does not beat vector retrieval on C5": the graph's value
@@ -5121,7 +5124,78 @@ important that you keep the prompt dataset domain neutral so that the system can
     Frame its second mention, so it wins. One mention fewer and the id decides again.
 - **Gate (results):** 705 passed (704 before), `ruff check` clean. **R96 done 2026-10-06.**
 
+### Plan R97-R103: a connected, correctly identified, fully mentioned anchor graph (accepted 2026-10-06)
+After R96 every hard rule passes. What remains are **missing connections**, worst on generality, where vector
+retrieval beats the graph (every gold chunk in the top 10: 37 vs 22 of 38 questions, p < 0.001). The user
+asked for three fixes, each at its root cause, domain-neutral, precision first, with provenance kept, tests,
+a measured effect and regression checks. The causes, verified on the r77d snapshots:
+
+| Aim | Root cause | Example |
+|---|---|---|
+| 1 Anchoring | A walk goes from a chunk only to what it is `ABOUT` (`anchor/navigation.py`). The graph stores what a chunk *names* (Chunk -> Mention -> REFERS_TO), but no walk reads it that way. `ABOUT` assumes one subject per document, so 28 of 32 generality documents are about nothing. | G28/G29 reach `harbour_station_may_2025.md#0` and the 9 June minutes, then stop, though the chunks name "KV12-0457" (-> `Pump:KV12-0457` by key) and "Aiko Tanaka" (-> `Staff:S-150` by name). |
+| 2 Identity | All 9 generality split groups were nominated and answered apart. The adjudicator sees at most 3 lines per side, each the first sentence naming it, often a heading; record units show no cells; there is no "unsure". Outside a scope the record chooser gets no candidates. | "Harbour Station" in the May report shows only its heading. "Jon Pike"/"J. Pike" stay apart from Staff S-131 "Jonathan Pike". |
+| 3 Coverage | Mentions exist only as ends of claims; the extractor skips what no fact type fits. | "Brackwater fen" appears only in its log's title; "No leaks were found on HP40-2291" has no state type. Unplaced targets: 2/86, 11/65, 15/62. |
+
+- **The user's decisions (2026-10-06):** W3 is extended to the records and individuals a chunk names, never
+  concepts; mentions get a separate mention pass; the measurement is two rebuilds (first reusing the r77d
+  claims, unconfounded; then re-extracting with today's prompt, end to end).
+- **No multi-subject `ABOUT` code.** Furniture and held-out documents are all anchored by `kg link`; each
+  generality document is one chunk, so a title anchor reaches nothing the W3 hop does not; text anchors are
+  never scopes. "Not one record per document" is met by W3-named.
+- **Negations:** the denied thing becomes a reachable mention ("leaks" in "No leaks were found"), with no
+  truth flag; the reader sees the sentence (stored truth is a non-goal of the direction, section 2).
+- **Out of scope, stated as limits:** an acronym rule ("X (Y)", no gold needs it); the 29 held-out recall keys
+  typed Vehicle; query ranking, tie-breaks and W1 inflections (query side).
+- **Steps, strictly one after another** (`implement-step`; one commit per part, `step RNN: ...`):
+  - **R97** W3 follows a chunk to the things it names ($0).
+  - **R98** Identity replay offline, records and individuals, proven faithful against resolve.json ($0,
+    structural).
+  - **R99** Record candidates outside a scope: name variants and unique key-attribute values (small paid
+    replay, est. < $0.05, asked).
+  - **R100** Evidence-based individual adjudication that may answer `unsure` (paid replay, est. $0.3-0.6,
+    asked).
+  - **R101** A mention pass: the retrieval-worthy things the text names or talks about (gold first, then
+    code; at most one `dev`/`smoke` run). Bounds fixed now, before measuring: judged mention precision
+    >= 0.90, no new C7 hub, C9 growth reported, concept merges of pass mentions judged.
+  - **R102** Rebuild with the r77d claims, and evaluate everything (paid, asked per dataset, est. $0.5-1.0).
+  - **R103** Rebuild with re-extracted claims (paid, asked, est. $1.9-2.5).
+- **Regression checks at every measured step:** C0 passes; C1 = 1.0; C3 0 wrong merges of records or
+  individuals and R75's apart pairs 1.0; C4 >= 0.95 with 0 confirmed cross-scope links; C6 >= 0.95 for record
+  and individual starts; C8 arm A 0 unwitnessed hops; C9 no per-dataset code or setting, and the corpus
+  four-gram and banned-word tests on every new or changed prompt; from R102 on, mention precision >= 0.90 and
+  no new hub. Reported: C2, C5 paired against vector retrieval, C7, identity recall, mention recall and
+  precision, and the cost of every run from MLflow.
+- **Judging:** Claude Opus 5.5 in the session; blind subagent batches, then the lead reviews every INCORRECT,
+  AMBIGUOUS and UNJUDGEABLE verdict and the seeded 10 % of VALID ones; byte-identical items carry their
+  verdicts. Every paid run is asked for separately with its cost, as a plain guarded `kg` command.
+
+### R97. W3 follows a chunk to the things it names (started 2026-10-06; $0, no LLM, no Neo4j)
+- **Scope.** `anchor/navigation.py`: a new walk `named(chunk)`, the records and individuals the chunk's
+  mentions refer to (`SnapshotMention.chunks` with the references of kind record or individual, i.e. W2's
+  mention edges read backwards). The composed walk goes from a chunk to `about | named`. `about` keeps its
+  meaning; W2 (`chunks_of`), which C6 and C7 read, is unchanged; no thing-to-thing hop is added (the chunk is
+  the witness). Both arms get the hop: it is an anchor walk.
+- **Why never a concept:** a kind ("leaks", "drawer rails") is shared by every chunk that names it, so
+  following it from a chunk would join unrelated chunks through the kind, the leak section 3.1 forbids.
+- **Correction of R90 and R92's note** "the pump mentions do not link to the Pump records" / "the pump and
+  staff mentions are not linked to their records": they are. In the r77d generality snapshot "KV12-0457" in
+  the May report refers to `Pump:KV12-0457` by key, and "Aiko Tanaka" in both minutes to `Staff:S-150` by
+  name. What was missing is a walk from the chunk to them. (The split "Jon Pike" is a separate cause, R100.)
+- **Direction document** (local): section 4's W3 row and a witness note; section 5's note on documents about
+  several things.
+- **Tests** (`tests/test_anchor.py`, +5): an invented document ABOUT nothing whose chunk names a record, an
+  individual and two kinds; the walk reaches the record's other chunks in both arms; a named concept is never
+  followed (the shared "shade" does not lead into the lamp's chunk); `named` is W2 read backwards, W2 and the
+  relation hops are unchanged.
+- **Gate (code):** 710 passed (705 before, Neo4j up), `ruff check` clean. Measurement next, committed
+  separately.
+
 ## Found along the way
+- **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**
+  `ABOUT` gives a document or a section one subject. W3-named (R97) leads from a chunk to every record and
+  individual it names, so the current corpora need nothing more; a long document whose sections are about
+  different things named only once (a book, a long report) would need per-section anchoring. Built only when a
+  dataset of that form is added (direction, section 5).
 - **The chooser declined "frame construction" (found in R95b, 2026-10-06; fixed in R96).** R93 judged its old
   containment link to the sofa's Frame VALID; the LLM answered none. R96's prompt chooses it, with no other
   decision changed. A prompt change changes every call (the prompt is part of each cache key), so measuring
