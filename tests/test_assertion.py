@@ -194,6 +194,22 @@ def test_a_stray_hedge_on_an_actual_claim_is_dropped_and_the_claim_kept():
     ]  # fmt: skip
 
 
+def test_the_prompts_named_denial_example_is_what_code_accepts_and_counts_as_holding():
+    # R82: the example shows the model both fields for a state named by its denial; code must accept them
+    # and still count the state (its denial is in the name, so the triple holds)
+    prompt = " ".join(extraction.PROMPT.split())
+    assert 'the object "will not switch off" with truth "negated" and negation "will not"' in prompt
+    example = raw(
+        "the kettle will not switch off",
+        "will not switch off",
+        "kettle",
+        truth="negated",
+        negation="will not",
+    )
+    assert verify(example, "Sadly the kettle will not switch off.", SCHEMA) is None
+    assert triple_truth(example.truth, example.negation, (example.subject, example.object)) == "affirmed"
+
+
 def test_a_denial_a_name_carries_leaves_the_triple_holding():
     # the statement is negated either way; the stored triple is denied only when no name holds the denial
     assert triple_truth("negated", "will not", ("light", "will not switch off")) == "affirmed"

@@ -3847,11 +3847,33 @@ claim kept, whatever its words (also when they are not words of the quote: they 
     off-schema and stays rejected. Held-out and generality had none.
   - Gate: 552 passed (one new test, one parametrized case removed), `ruff check` clean.
 
+### R82. One example: a denial inside a name is still negated and keeps its cue (done 2026-10-06, code only; prompt change)
+In R77 part f held-out's named denials ("DO NOT LOCK", "DID NOT STOP", "NO FEEDBACK") kept the denial in the
+name, as the prompt allows, but with truth affirmed and no `negation`: the rule's "the fact is still negated"
+was ignored (Found along the way). Code cannot see the miss without a word list, which the user ruled out.
+- **Scope (the user, 2026-10-06).** One domain-neutral example in the extraction prompt's `truth` rule,
+  in the prompt's invented kettle domain: a state named by its denial, with truth "negated" and its
+  `negation`. Nothing else: no lexical heuristic, no new field, no code check, no other prompt line.
+- Measuring it needs a re-extraction (every extraction call misses the cache), which is a full-dataset
+  run: proposed with its cost, not made in this step.
+- **Done (2026-10-06, code only, no run).**
+  - The `truth` rule's last sentence ("as a fault called "will not switch off"; the fact is still negated")
+    became: the fact "is still negated and still has its `negation`: "the kettle will not switch off" can
+    give the object "will not switch off" with truth "negated" and negation "will not"". The word "fault"
+    went with it. Swept: no dataset word, no corpus four-gram (the existing prompt test).
+  - Extraction `prompt_version` is now `990fea865d58`; the glean suffix is unchanged.
+  - Test: `test_the_prompts_named_denial_example_is_what_code_accepts_and_counts_as_holding` (the example's
+    own fields pass `verify`, and `triple_truth` keeps the state holding, so a count of such states still
+    counts it). Gate: 553 passed, `ruff check` clean.
+- **R77 refinement stops here** (the user, 2026-10-06): no further work on the assertion fields unless
+  Step 8 shows a concrete retrieval or query failure that needs it. R81 and R82 are measured together, by
+  one rebuild and a frozen-plan `kg qa` (R80), only when the user agrees to that run.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
-- **Held-out's named denials carry no cue (found in R77 part f).** Gemini keeps a Problem named by a denial
+- **(Addressed in R82 by one prompt example; not yet measured.) Held-out's named denials carry no cue (found in R77 part f).** Gemini keeps a Problem named by a denial
   ("DO NOT LOCK", "DID NOT STOP", "NO FEEDBACK") as the prompt allows, but leaves truth affirmed and
   `negation` empty, ignoring "the fact is still negated". Furniture's denials all moved into the field.
   Code cannot see it without a word list (the user's choice: none). Candidates, for the user: a second

@@ -59,6 +59,10 @@ from .schema import TextSchema
 # denied (`triple_truth`). The cues replace R77's closed word lists, which rejected right claims ("prevents
 # sagging") and could not pass an inverted condition: the model reads the meaning, code checks only that
 # the words are the quote's.
+# R82: part f's held-out named denials ("a state named by its denial") kept truth affirmed and no `negation`,
+# though the rule said "the fact is still negated"; the rule now carries one worked example (the kettle,
+# invented) with both fields. No code check is possible: without a word list (the user's choice) code
+# cannot tell a name that is a denial from one that is not; the assertion judge measures it.
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 
 Allowed entity types:
@@ -88,7 +92,8 @@ Rules:
 - `truth`: "negated" when the text says the fact does not hold or did not happen, in whatever words:
   "the kettle never leaked" denies a leak, "the filter prevents scale" denies scale; otherwise "affirmed".
   Name the fact itself ("leak", not "never leaked"). Keep the denial in a name only when the name is itself
-  the denied state, as a fault called "will not switch off"; the fact is still negated.
+  the denied state; the fact is still negated and still has its `negation`: "the kettle will not switch
+  off" can give the object "will not switch off" with truth "negated" and negation "will not".
 - `negation`: for a negated fact, the words of the quote that deny it, copied verbatim ("never",
   "prevents"); otherwise leave it empty.
 - `modality`: "possible" when the text says the fact may hold or happen, not that it does; "conditional"
