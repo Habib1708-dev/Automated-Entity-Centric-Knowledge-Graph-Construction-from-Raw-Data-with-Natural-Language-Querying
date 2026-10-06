@@ -6,8 +6,9 @@ arms question by question (R92).
 The snapshot is invented (a desk lamp and a kettle, each with a part called "Switch") and holds one wrong
 claim attachment, so the leak the anchor arm prevents is visible: arm B walks from the lamp into the
 kettle's chunk through a claim, arm A cannot. The stage test reuses the graph audit's invented build
-folder (tests/test_audit.py). The committed reports of R90's runs (tests/gold/r90, R91) must still load
-and must name the gold files they were computed from. No Neo4j, no LLM.
+folder (tests/test_audit.py). The committed reports of R90's runs (tests/gold/r90, R91) and of R92's
+comparisons (tests/gold/r92) must still load and must name the files they were computed from.
+No Neo4j, no LLM.
 """
 
 import json
@@ -16,7 +17,7 @@ from pathlib import Path
 import pytest
 
 from kgbuilder.anchor import AnchorGraph, Arm, Context, PlacedTarget, TargetPlacer, record_nodes
-from kgbuilder.anchor.compare import compare_arms, pair
+from kgbuilder.anchor.compare import ArmComparison, compare_arms, pair
 from kgbuilder.anchor.criteria import (
     connectivity,
     evidence_reach,
@@ -582,3 +583,19 @@ def test_the_compare_stage_refuses_the_reports_in_the_wrong_order(tmp_path):
     )
     with pytest.raises(EvaluationError):
         AnchorCompareStage().run(ctx, state, None)
+
+
+COMPARISONS = json.loads((RESULTS.parent / "r92" / "runs.json").read_text(encoding="utf-8"))["runs"]
+
+
+@pytest.mark.parametrize("run", COMPARISONS, ids=lambda r: r["dataset"])
+def test_each_committed_comparison_loads_and_pairs_the_committed_reports(run):
+    repo = RESULTS.parent.parent.parent
+    comparison = ArmComparison.model_validate_json((repo / run["report"]).read_text(encoding="utf-8"))
+    assert digest(repo / run["anchor_report"]) == run["anchor_report_hash"]
+    assert digest(repo / run["layered_report"]) == run["layered_report_hash"]
+    assert run["git_dirty_files"] in ("", ".claude/settings.json")
+    # arm C answered exactly the graph arms' C5 questions
+    anchor = AnchorReport.model_validate_json((repo / run["anchor_report"]).read_text(encoding="utf-8"))
+    pool = [q.question for q in anchor.reach["gold_start"].questions]
+    assert [q.question for q in comparison.vector.questions] == pool == list(comparison.rankings)

@@ -1,0 +1,2824 @@
+{
+ "vector": {
+  "mode": "vector",
+  "questions": [
+   {
+    "question": "G01",
+    "type": "disambiguation",
+    "gold": [
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/hensley_award.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "news/bakery_opens.md#0",
+     "institute/travel_claims_memo.md#0",
+     "institute/brackwater_fen_log.txt#0",
+     "institute/fieldwork_log.txt#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G02",
+    "type": "multi_hop",
+    "gold": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/travel_claims_memo.md#0",
+     "news/bakery_opens.md#0",
+     "news/budget_2025.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "news/budget_2026.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "news/flood_meeting.md#0",
+     "water/harbour_station_may_2025.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G03",
+    "type": "disambiguation",
+    "gold": [
+     "institute/fieldwork_log.txt#0",
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/fieldwork_log.txt#0",
+     "institute/brackwater_fen_log.txt#0",
+     "institute/utrecht_conference_2025.md#0",
+     "institute/hensley_award.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/seminar_notice.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/shift_notes.txt#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/travel_claims_memo.md#0"
+    ],
+    "hits": {
+     "5": 2,
+     "10": 2
+    },
+    "reached": 2
+   },
+   {
+    "question": "G04",
+    "type": "multi_hop",
+    "gold": [
+     "institute/minutes_2025-05-12.md#0",
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/minutes_2025-05-12.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/harbour_station_may_2025.md#0",
+     "institute/travel_claims_memo.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "water/shift_notes_june.txt#0",
+     "news/flood_meeting.md#0",
+     "institute/seminar_notice_autumn.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 2
+    },
+    "reached": 2
+   },
+   {
+    "question": "G05",
+    "type": "aggregation",
+    "gold": [
+     "institute/fieldwork_log.txt#0",
+     "institute/hensley_award.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "news/flood_meeting.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/seminar_notice.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "water/shift_notes_june.txt#0",
+     "news/letter_harbour_street.md#0",
+     "institute/fieldwork_log.txt#0",
+     "water/work_orders_2025-06.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "hits": {
+     "5": 4,
+     "10": 6
+    },
+    "reached": 8
+   },
+   {
+    "question": "G06",
+    "type": "disambiguation",
+    "gold": [
+     "water/incident_2025-03-29.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-03-14.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/incident_2025-03-29.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/shift_notes.txt#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/calder_quotation.md#0",
+     "water/isolation_procedure.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G07",
+    "type": "structured_filter",
+    "gold": [
+     "water/incident_2025-03-29.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes.txt#0",
+     "water/calder_quotation.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/isolation_procedure.md#0",
+     "water/harbour_station_may_2025.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G08",
+    "type": "lookup",
+    "gold": [
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-03-14.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/shift_notes.txt#0",
+     "water/work_orders_2025-06.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/calder_quotation.md#0",
+     "water/isolation_procedure.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G09",
+    "type": "lookup",
+    "gold": [
+     "news/mill_lane_and_eastgate.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/library_reopened.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/budget_2025.md#0",
+     "news/budget_2026.md#0",
+     "news/flood_meeting.md#0",
+     "news/letter_to_the_editor.md#0",
+     "news/footbridge_reopens.md#0",
+     "news/council_notices.md#0",
+     "news/letter_harbour_street.md#0",
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G10",
+    "type": "disambiguation",
+    "gold": [
+     "news/mill_lane_and_eastgate.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/letter_to_the_editor.md#0",
+     "news/footbridge_reopens.md#0",
+     "news/council_notices.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/letter_harbour_street.md#0",
+     "news/flood_meeting.md#0",
+     "news/budget_2025.md#0",
+     "news/budget_2026.md#0",
+     "news/library_reopened.md#0",
+     "news/bakery_opens.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G11",
+    "type": "lookup",
+    "gold": [
+     "water/shift_notes.txt#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes.txt#0",
+     "water/north_station_2024_summary.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/calder_quotation.md#0",
+     "water/isolation_procedure.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G12",
+    "type": "negation_sensitive",
+    "gold": [
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-03-14.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/incident_2025-03-29.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/shift_notes.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/isolation_procedure.md#0",
+     "news/harbour_open_day.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G13",
+    "type": "negation_sensitive",
+    "gold": [
+     "institute/fieldwork_log.txt#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/fieldwork_log.txt#0",
+     "institute/brackwater_fen_log.txt#0",
+     "water/north_station_2024_summary.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/shift_notes.txt#0",
+     "water/inspection_2025-06-13.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/harbour_open_day.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G14",
+    "type": "structured_filter",
+    "gold": [
+     "institute/fieldwork_log.txt#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/fieldwork_log.txt#0",
+     "institute/brackwater_fen_log.txt#0",
+     "institute/utrecht_conference_2025.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/hensley_award.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "water/north_station_2024_summary.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G15",
+    "type": "structured_filter",
+    "gold": [
+     "news/budget_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/budget_2025.md#0",
+     "news/budget_2026.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/harbour_open_day.md#0",
+     "news/council_notices.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "water/calder_quotation.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/north_station_2024_summary.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G16",
+    "type": "lookup",
+    "gold": [
+     "water/incident_2025-03-29.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/incident_2025-03-29.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes.txt#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "institute/flume_commissioning.md#0",
+     "news/flood_meeting.md#0",
+     "water/calder_quotation.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G17",
+    "type": "lookup",
+    "gold": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/minutes_2025-05-12.md#0",
+     "institute/travel_claims_memo.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/hensley_award.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/seminar_notice_autumn.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "news/budget_2025.md#0",
+     "institute/brackwater_fen_log.txt#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G18",
+    "type": "lookup",
+    "gold": [
+     "news/mill_lane_and_eastgate.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-03-14.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "news/letter_to_the_editor.md#0",
+     "water/shift_notes.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/north_station_2024_summary.md#0"
+    ],
+    "hits": {
+     "5": 0,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G19",
+    "type": "lookup",
+    "gold": [
+     "news/budget_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/library_reopened.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/budget_2025.md#0",
+     "news/flood_meeting.md#0",
+     "news/budget_2026.md#0",
+     "news/letter_harbour_street.md#0",
+     "news/footbridge_reopens.md#0",
+     "news/council_notices.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "news/letter_to_the_editor.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G20",
+    "type": "multi_hop",
+    "gold": [
+     "news/footbridge_reopens.md#0",
+     "news/mill_lane_and_eastgate.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/footbridge_reopens.md#0",
+     "news/letter_to_the_editor.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/library_reopened.md#0",
+     "news/council_notices.md#0",
+     "news/flood_meeting.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "news/harbour_open_day.md#0",
+     "water/incident_2025-03-29.md#0",
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "hits": {
+     "5": 2,
+     "10": 2
+    },
+    "reached": 2
+   },
+   {
+    "question": "G21",
+    "type": "aggregation",
+    "gold": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/minutes_2025-06-09.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "institute/travel_claims_memo.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/seminar_notice_autumn.md#0",
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G22",
+    "type": "disambiguation",
+    "gold": [
+     "institute/travel_claims_memo.md#0",
+     "institute/utrecht_conference_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/utrecht_conference_2025.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/travel_claims_memo.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/fieldwork_log.txt#0",
+     "institute/hensley_award.md#0",
+     "institute/brackwater_fen_log.txt#0",
+     "news/bakery_opens.md#0",
+     "institute/seminar_notice_autumn.md#0",
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "hits": {
+     "5": 2,
+     "10": 2
+    },
+    "reached": 2
+   },
+   {
+    "question": "G23",
+    "type": "negation_sensitive",
+    "gold": [
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes.txt#0",
+     "water/isolation_procedure.md#0",
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G24",
+    "type": "disambiguation",
+    "gold": [
+     "water/work_orders_2025-06.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/work_orders_2025-06.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/shift_notes.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/calder_quotation.md#0",
+     "water/isolation_procedure.md#0",
+     "water/harbour_station_may_2025.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G25",
+    "type": "aggregation",
+    "gold": [
+     "water/incident_2025-03-29.md#0",
+     "water/work_orders_2025-06.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/north_station_2024_summary.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/calder_quotation.md#0",
+     "water/isolation_procedure.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 2
+    },
+    "reached": 2
+   },
+   {
+    "question": "G26",
+    "type": "structured_filter",
+    "gold": [
+     "institute/brackwater_fen_log.txt#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/brackwater_fen_log.txt#0",
+     "institute/fieldwork_log.txt#0",
+     "institute/utrecht_conference_2025.md#0",
+     "institute/hensley_award.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes.txt#0",
+     "news/harbour_open_day.md#0",
+     "institute/seminar_notice.md#0",
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G27",
+    "type": "negation_sensitive",
+    "gold": [
+     "institute/brackwater_fen_log.txt#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/brackwater_fen_log.txt#0",
+     "institute/fieldwork_log.txt#0",
+     "institute/utrecht_conference_2025.md#0",
+     "institute/hensley_award.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/north_station_2024_summary.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "news/flood_meeting.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G28",
+    "type": "multi_hop",
+    "gold": [
+     "water/harbour_station_may_2025.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/harbour_station_may_2025.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/work_orders_2025-06.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/shift_notes.txt#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/incident_2025-03-29.md#0",
+     "news/harbour_open_day.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G29",
+    "type": "multi_hop",
+    "gold": [
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/minutes_2025-06-09.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "water/shift_notes_june.txt#0",
+     "institute/seminar_notice.md#0",
+     "institute/travel_claims_memo.md#0",
+     "news/flood_meeting.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/harbour_station_may_2025.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G30",
+    "type": "aggregation",
+    "gold": [
+     "institute/minutes_2025-05-12.md#0",
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/minutes_2025-06-09.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "institute/seminar_notice.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/hensley_award.md#0",
+     "institute/travel_claims_memo.md#0",
+     "institute/flume_commissioning.md#0",
+     "institute/fieldwork_log.txt#0",
+     "water/shift_notes_june.txt#0"
+    ],
+    "hits": {
+     "5": 2,
+     "10": 2
+    },
+    "reached": 2
+   },
+   {
+    "question": "G31",
+    "type": "disambiguation",
+    "gold": [
+     "water/calder_quotation.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-03-14.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/calder_quotation.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/shift_notes.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/isolation_procedure.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G32",
+    "type": "negation_sensitive",
+    "gold": [
+     "institute/hensley_award.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/hensley_award.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/brackwater_fen_log.txt#0",
+     "institute/fieldwork_log.txt#0",
+     "institute/utrecht_conference_2025.md#0",
+     "water/work_orders_2025-06.md#0",
+     "institute/travel_claims_memo.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/north_station_2024_summary.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G33",
+    "type": "lookup",
+    "gold": [
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/north_station_2024_summary.md#0",
+     "water/shift_notes.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/calder_quotation.md#0",
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G34",
+    "type": "multi_hop",
+    "gold": [
+     "news/harbour_open_day.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/harbour_open_day.md#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/north_station_2024_summary.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/shift_notes.txt#0",
+     "water/inspection_2025-03-14.md#0",
+     "news/flood_meeting.md#0",
+     "institute/flume_commissioning.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/incident_2025-03-29.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G35",
+    "type": "structured_filter",
+    "gold": [
+     "news/budget_2026.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/budget_2026.md#0",
+     "news/budget_2025.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/harbour_open_day.md#0",
+     "news/council_notices.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "news/footbridge_reopens.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "water/calder_quotation.md#0",
+     "news/flood_meeting.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G36",
+    "type": "disambiguation",
+    "gold": [
+     "news/letter_harbour_street.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "news/letter_harbour_street.md#0",
+     "news/flood_meeting.md#0",
+     "news/council_notices.md#0",
+     "news/bakery_opens.md#0",
+     "news/letter_to_the_editor.md#0",
+     "news/budget_2025.md#0",
+     "news/budget_2026.md#0",
+     "institute/seminar_notice.md#0",
+     "news/mill_lane_and_eastgate.md#0",
+     "news/footbridge_reopens.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G37",
+    "type": "negation_sensitive",
+    "gold": [
+     "water/north_station_2024_summary.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "water/north_station_2024_summary.md#0",
+     "water/inspection_2025-06-13.md#0",
+     "water/inspection_2025-03-14.md#0",
+     "water/work_orders_2025-06.md#0",
+     "water/shift_notes.txt#0",
+     "water/incident_2025-03-29.md#0",
+     "water/shift_notes_june.txt#0",
+     "water/calder_quotation.md#0",
+     "water/harbour_station_may_2025.md#0",
+     "water/isolation_procedure.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   },
+   {
+    "question": "G38",
+    "type": "lookup",
+    "gold": [
+     "institute/travel_claims_memo.md#0"
+    ],
+    "starts": [],
+    "ranked": [
+     "institute/travel_claims_memo.md#0",
+     "institute/minutes_2025-05-12.md#0",
+     "institute/minutes_2025-06-09.md#0",
+     "institute/seminar_notice.md#0",
+     "water/harbour_station_may_2025.md#0",
+     "institute/seminar_notice_autumn.md#0",
+     "news/footbridge_reopens.md#0",
+     "institute/newsletter_spring_2025.md#0",
+     "institute/utrecht_conference_2025.md#0",
+     "institute/hensley_award.md#0"
+    ],
+    "hits": {
+     "5": 1,
+     "10": 1
+    },
+    "reached": 1
+   }
+  ],
+  "no_start": [],
+  "recall_at": {
+   "5": {
+    "k": 44,
+    "n": 51,
+    "rate": 0.8627450980392157,
+    "low": 0.7427804765736837,
+    "high": 0.9318898466845728
+   },
+   "10": {
+    "k": 49,
+    "n": 51,
+    "rate": 0.9607843137254902,
+    "low": 0.8678345101373474,
+    "high": 0.9891791437312488
+   }
+  },
+  "complete_at": {
+   "5": {
+    "k": 34,
+    "n": 38,
+    "rate": 0.8947368421052632,
+    "low": 0.7586916879980553,
+    "high": 0.9582981020673341
+   },
+   "10": {
+    "k": 37,
+    "n": 38,
+    "rate": 0.9736842105263158,
+    "low": 0.8650482156319974,
+    "high": 0.9953395324464698
+   }
+  },
+  "reached": {
+   "k": 51,
+   "n": 51,
+   "rate": 1.0,
+   "low": 0.9299509861127319,
+   "high": 0.9999999999999999
+  }
+ },
+ "rankings": {
+  "G01": [
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.7083344958509808
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.6737777243278038
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.6006817418444061
+   },
+   {
+    "chunk": "news/bakery_opens.md#0",
+    "cosine": 0.5665271686735606
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.5632490591470235
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.5630249274798872
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.5581608210685306
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5302733513264527
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.5293505744157396
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.5241483475074912
+   }
+  ],
+  "G02": [
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6618200826382404
+   },
+   {
+    "chunk": "news/bakery_opens.md#0",
+    "cosine": 0.6328750883364983
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.6250803420236721
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.6242128478582323
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.6209288147568792
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.6111297592447751
+   },
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.6069111830025183
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5830553393918342
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.578407118062019
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.5760801453148385
+   }
+  ],
+  "G03": [
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.7491229092614001
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.7188700188255599
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.6798848718874149
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.653103253381487
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.6447060981000459
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6144023030062785
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.592435126333247
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.5885540917850784
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.5823650998551472
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.5791686591537374
+   }
+  ],
+  "G04": [
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.6732632506114997
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.6710136604409412
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.613858046408057
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6116997054796055
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6078678285237328
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6046795518478806
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.6045191186368022
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6026878460480658
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.5852840457171933
+   },
+   {
+    "chunk": "institute/seminar_notice_autumn.md#0",
+    "cosine": 0.585245560514692
+   }
+  ],
+  "G05": [
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6009998135251863
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.5966058292511676
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.5941854967834673
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5833848768684846
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.5564903154474026
+   },
+   {
+    "chunk": "news/letter_harbour_street.md#0",
+    "cosine": 0.5562929669256962
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.5543669846814991
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.5533374891751365
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.5513044864798868
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5458421773481881
+   }
+  ],
+  "G06": [
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7748234545490816
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7731642184328187
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.767898886578447
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.758506998042067
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.7446823849206863
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7335513099868852
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.7302628495831943
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.7016001603992518
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6834845953548063
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6708007806604385
+   }
+  ],
+  "G07": [
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6845703143967331
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.6823016952746671
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.6785055335680737
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.669745556186824
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6667518281793585
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.656233744688245
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6460868383133174
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6229931831878981
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6223192188708633
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6115217224570835
+   }
+  ],
+  "G08": [
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.8026560843813884
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7781059465364704
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.7605558872108026
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7481498681108179
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7246684869277561
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.7189791609467419
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.7106202102401824
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6918592325802738
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6284504720205792
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.627076136004034
+   }
+  ],
+  "G09": [
+   {
+    "chunk": "news/library_reopened.md#0",
+    "cosine": 0.8364939951457406
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.6857761085979492
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.6652669417421478
+   },
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.6211063523874808
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.5871134874419719
+   },
+   {
+    "chunk": "news/letter_to_the_editor.md#0",
+    "cosine": 0.5782051428996403
+   },
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.5777665860256116
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.5768400539804384
+   },
+   {
+    "chunk": "news/letter_harbour_street.md#0",
+    "cosine": 0.5705777449970747
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5395108299563526
+   }
+  ],
+  "G10": [
+   {
+    "chunk": "news/letter_to_the_editor.md#0",
+    "cosine": 0.8232338525627011
+   },
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.7618306089667093
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.7007433817177775
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.6994474220721317
+   },
+   {
+    "chunk": "news/letter_harbour_street.md#0",
+    "cosine": 0.6251200743154925
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.610362448254423
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.6050021230521311
+   },
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.6028933164198066
+   },
+   {
+    "chunk": "news/library_reopened.md#0",
+    "cosine": 0.6006396490046798
+   },
+   {
+    "chunk": "news/bakery_opens.md#0",
+    "cosine": 0.5592074165510673
+   }
+  ],
+  "G11": [
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7142445551985142
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7140207850271681
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.7130555155743866
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.7059148829306673
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.6972338189634749
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.6962103669054047
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6514266031217886
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6393890276880718
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6349037831348392
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6113330239402788
+   }
+  ],
+  "G12": [
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7835839486507179
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7680870377810987
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7202097704115898
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.7195198129845031
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7151045380561974
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.7147545954829461
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.7043272550743527
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6999561129024746
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6530934917217539
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.6390887459274492
+   }
+  ],
+  "G13": [
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.6675877646827703
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.6342680992734939
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.5760887539813905
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.5741437760431045
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.5623956467196891
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5590653046560767
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.5579888446602873
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.5576586447609888
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5575567059311461
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.5572294938601957
+   }
+  ],
+  "G14": [
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.7454082778165761
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.7404912769833226
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.6434391367664444
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.592272427322093
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.5832766611623925
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.5774499791940184
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.5742319785098273
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.5607241112685191
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.5548512420855085
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5518037309019254
+   }
+  ],
+  "G15": [
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.8142297307091263
+   },
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.8078803821469728
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.6981008272222783
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.6454235244160813
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.6150564773523087
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.612560720207167
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.6019169979234978
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.594712363989196
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.5944949338776764
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.5935914480905554
+   }
+  ],
+  "G16": [
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.7574332663821569
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.6458731728324957
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6235035061293469
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6189329905548723
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.6106151938373685
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6101781051200883
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6096906866847921
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.6051208289705422
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.6022297160967482
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6011906772449997
+   }
+  ],
+  "G17": [
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.6210936060103007
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6131955925180168
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.5557653008667515
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.5534941818574136
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.5478520576575466
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.54557393639432
+   },
+   {
+    "chunk": "institute/seminar_notice_autumn.md#0",
+    "cosine": 0.5360167970030189
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5268636827348941
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.5197399454080258
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.5178383676612947
+   }
+  ],
+  "G18": [
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.6167762240148836
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6153075399606646
+   },
+   {
+    "chunk": "news/letter_to_the_editor.md#0",
+    "cosine": 0.607144426712599
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6032742807936392
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6019061311614503
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.5982432950018511
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.5946601274275375
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.5942336121688444
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.5858880766722826
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.569213210805986
+   }
+  ],
+  "G19": [
+   {
+    "chunk": "news/library_reopened.md#0",
+    "cosine": 0.7561464679712901
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.6871359310231621
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.678494844618754
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.6273033223194402
+   },
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.6214569577345804
+   },
+   {
+    "chunk": "news/letter_harbour_street.md#0",
+    "cosine": 0.6129074583373997
+   },
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.6072813305086459
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.6070038210074777
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5705197816240419
+   },
+   {
+    "chunk": "news/letter_to_the_editor.md#0",
+    "cosine": 0.569563195404148
+   }
+  ],
+  "G20": [
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.7070374475327057
+   },
+   {
+    "chunk": "news/letter_to_the_editor.md#0",
+    "cosine": 0.6678123072630905
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.6386741226226799
+   },
+   {
+    "chunk": "news/library_reopened.md#0",
+    "cosine": 0.620153159600033
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.6154478891267952
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.5768377118852868
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5620835097321051
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.5572447405233861
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.553001044359304
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.552638916118351
+   }
+  ],
+  "G21": [
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.7722722358487863
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.7639694243419761
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6719496168950496
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.6662572303294165
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6561211418576545
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6518664210339731
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6501400879588874
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.6441108832174507
+   },
+   {
+    "chunk": "institute/seminar_notice_autumn.md#0",
+    "cosine": 0.6399558658432148
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6237379520539797
+   }
+  ],
+  "G22": [
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.8102112814121603
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.6656839054881112
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6219187322772846
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6203868722114478
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.6069377924307454
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.6018221934163064
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.5961629158462762
+   },
+   {
+    "chunk": "news/bakery_opens.md#0",
+    "cosine": 0.5865034132471686
+   },
+   {
+    "chunk": "institute/seminar_notice_autumn.md#0",
+    "cosine": 0.5822634464276754
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.5658080448666037
+   }
+  ],
+  "G23": [
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7906921837293324
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7595604832613778
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7402147559319648
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7197237628042135
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.7170005060116229
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.7038879989046647
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6989898780270561
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6989669308632347
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6455657352361742
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.6448640516348749
+   }
+  ],
+  "G24": [
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7221460307057678
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7089379304049533
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7075082917306903
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6935310272701964
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6702301064143448
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.6692404252420501
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6450142554328262
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6370668144014122
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6042483354007316
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.5968136148129113
+   }
+  ],
+  "G25": [
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7683343053467124
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7478506635932114
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7474066258005544
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7471304401116459
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.7205297980595697
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.7144798044040821
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.7044192601959839
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6740797464435543
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6609468272910605
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6592861227971973
+   }
+  ],
+  "G26": [
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.7945897065751788
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.6714004329772453
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5976743936080573
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.578507611445949
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.5573254315390396
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.5461825418150893
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.5368506554805331
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.5336180641976525
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.5279059637243253
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5244727725674803
+   }
+  ],
+  "G27": [
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.8071535900758918
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.7069208017565838
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.656465761873189
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.6115841944189521
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.5936910186685459
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.5821692260529753
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.5797342659271177
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.5764989422189906
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.5747666527857835
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.5618180772746036
+   }
+  ],
+  "G28": [
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.7303088003866247
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7016533666257457
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6938442083627645
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6919876031318148
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.6852588192724368
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.6826930221038974
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6759447854672707
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.6748270250360018
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6711406562841401
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.6338741474597923
+   }
+  ],
+  "G29": [
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.7051871073257878
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.66662050553642
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6149236134075692
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6128682439612627
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6105592710462319
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.6034937892553611
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5991456477764725
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.5978623701336147
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.5844242701899478
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.5787209251488248
+   }
+  ],
+  "G30": [
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.7606831117101556
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.7402330627257088
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.6669909041736642
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.6354819522699504
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.634225546561582
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.6336473928479223
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.6109245589892245
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.6029507274025189
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.6027412079054906
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6006163559097789
+   }
+  ],
+  "G31": [
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.6751671769264178
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6724269984678163
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6559050478281251
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.6387396351255455
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.6287303367357611
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6283611890970076
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6145402946035368
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.5915056494861192
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.580787574612445
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.580438701266798
+   }
+  ],
+  "G32": [
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.8063260317723425
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.656037866574817
+   },
+   {
+    "chunk": "institute/brackwater_fen_log.txt#0",
+    "cosine": 0.5933923169101841
+   },
+   {
+    "chunk": "institute/fieldwork_log.txt#0",
+    "cosine": 0.566280953082418
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5500003060453598
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.5302088689467679
+   },
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.5263132748219818
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.5230845812120184
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.5193698932373741
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.5191660417612207
+   }
+  ],
+  "G33": [
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.8074766463665921
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7907160068352955
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.7788974691768061
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.7471108587473066
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7355507252566118
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.7335583622330937
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.7207566708284543
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.703169810580062
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6401128701714486
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.6355836971046336
+   }
+  ],
+  "G34": [
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.7577303925091238
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.7046795538866231
+   },
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.6906588308074975
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.6770416495090964
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6697156475129673
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.6669492910848871
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.6630992526411399
+   },
+   {
+    "chunk": "institute/flume_commissioning.md#0",
+    "cosine": 0.6425006510402758
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.642032497166212
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6410765024110264
+   }
+  ],
+  "G35": [
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.8364560247807217
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.7957972625980505
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.7043734609277807
+   },
+   {
+    "chunk": "news/harbour_open_day.md#0",
+    "cosine": 0.6535782418990694
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.6243969359822684
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.5988748285169567
+   },
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.5984626101009826
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.5961602773237055
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.5958415038961024
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.5941426555988991
+   }
+  ],
+  "G36": [
+   {
+    "chunk": "news/letter_harbour_street.md#0",
+    "cosine": 0.8206577032591158
+   },
+   {
+    "chunk": "news/flood_meeting.md#0",
+    "cosine": 0.6773430975519921
+   },
+   {
+    "chunk": "news/council_notices.md#0",
+    "cosine": 0.6671549182103067
+   },
+   {
+    "chunk": "news/bakery_opens.md#0",
+    "cosine": 0.6449554789517059
+   },
+   {
+    "chunk": "news/letter_to_the_editor.md#0",
+    "cosine": 0.6149169940606745
+   },
+   {
+    "chunk": "news/budget_2025.md#0",
+    "cosine": 0.6070975693588684
+   },
+   {
+    "chunk": "news/budget_2026.md#0",
+    "cosine": 0.5987414228432711
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.5974560917198217
+   },
+   {
+    "chunk": "news/mill_lane_and_eastgate.md#0",
+    "cosine": 0.5928281271528163
+   },
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.5911422292008529
+   }
+  ],
+  "G37": [
+   {
+    "chunk": "water/north_station_2024_summary.md#0",
+    "cosine": 0.7369470643424505
+   },
+   {
+    "chunk": "water/inspection_2025-06-13.md#0",
+    "cosine": 0.7052421378334632
+   },
+   {
+    "chunk": "water/inspection_2025-03-14.md#0",
+    "cosine": 0.7045833900426492
+   },
+   {
+    "chunk": "water/work_orders_2025-06.md#0",
+    "cosine": 0.6974909564740595
+   },
+   {
+    "chunk": "water/shift_notes.txt#0",
+    "cosine": 0.6879032841086948
+   },
+   {
+    "chunk": "water/incident_2025-03-29.md#0",
+    "cosine": 0.6805961693322083
+   },
+   {
+    "chunk": "water/shift_notes_june.txt#0",
+    "cosine": 0.6555808259734547
+   },
+   {
+    "chunk": "water/calder_quotation.md#0",
+    "cosine": 0.6465882598294909
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.6373690435501306
+   },
+   {
+    "chunk": "water/isolation_procedure.md#0",
+    "cosine": 0.6222548561392105
+   }
+  ],
+  "G38": [
+   {
+    "chunk": "institute/travel_claims_memo.md#0",
+    "cosine": 0.8150207527223827
+   },
+   {
+    "chunk": "institute/minutes_2025-05-12.md#0",
+    "cosine": 0.6241098002942559
+   },
+   {
+    "chunk": "institute/minutes_2025-06-09.md#0",
+    "cosine": 0.6213278035824815
+   },
+   {
+    "chunk": "institute/seminar_notice.md#0",
+    "cosine": 0.5907495797513165
+   },
+   {
+    "chunk": "water/harbour_station_may_2025.md#0",
+    "cosine": 0.5662361990561305
+   },
+   {
+    "chunk": "institute/seminar_notice_autumn.md#0",
+    "cosine": 0.5613791159175434
+   },
+   {
+    "chunk": "news/footbridge_reopens.md#0",
+    "cosine": 0.5545516945854784
+   },
+   {
+    "chunk": "institute/newsletter_spring_2025.md#0",
+    "cosine": 0.5536569712905851
+   },
+   {
+    "chunk": "institute/utrecht_conference_2025.md#0",
+    "cosine": 0.5512516600242425
+   },
+   {
+    "chunk": "institute/hensley_award.md#0",
+    "cosine": 0.5504099098574801
+   }
+  ]
+ },
+ "pairs": {
+  "c5_gold_start_complete_at_5": {
+   "a": "anchor",
+   "b": "layered",
+   "result": {
+    "questions": 38,
+    "a_correct": 25,
+    "b_correct": 25,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   },
+   "only_a": [
+    "G36"
+   ],
+   "only_b": [
+    "G15"
+   ]
+  },
+  "c5_gold_start_vs_vector_complete_at_5": {
+   "a": "anchor",
+   "b": "vector",
+   "result": {
+    "questions": 38,
+    "a_correct": 25,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 10,
+    "p_value": 0.01171875
+   },
+   "only_a": [
+    "G18"
+   ],
+   "only_b": [
+    "G10",
+    "G12",
+    "G13",
+    "G15",
+    "G17",
+    "G20",
+    "G23",
+    "G24",
+    "G32",
+    "G37"
+   ]
+  },
+  "c5_gold_start_complete_at_10": {
+   "a": "anchor",
+   "b": "layered",
+   "result": {
+    "questions": 38,
+    "a_correct": 29,
+    "b_correct": 32,
+    "only_a": 0,
+    "only_b": 3,
+    "p_value": 0.25
+   },
+   "only_a": [],
+   "only_b": [
+    "G04",
+    "G15",
+    "G37"
+   ]
+  },
+  "c5_gold_start_vs_vector_complete_at_10": {
+   "a": "anchor",
+   "b": "vector",
+   "result": {
+    "questions": 38,
+    "a_correct": 29,
+    "b_correct": 37,
+    "only_a": 0,
+    "only_b": 8,
+    "p_value": 0.0078125
+   },
+   "only_a": [],
+   "only_b": [
+    "G04",
+    "G12",
+    "G13",
+    "G15",
+    "G17",
+    "G23",
+    "G32",
+    "G37"
+   ]
+  },
+  "c5_end_to_end_complete_at_5": {
+   "a": "anchor",
+   "b": "layered",
+   "result": {
+    "questions": 38,
+    "a_correct": 17,
+    "b_correct": 22,
+    "only_a": 0,
+    "only_b": 5,
+    "p_value": 0.0625
+   },
+   "only_a": [],
+   "only_b": [
+    "G02",
+    "G13",
+    "G15",
+    "G29",
+    "G35"
+   ]
+  },
+  "c5_end_to_end_vs_vector_complete_at_5": {
+   "a": "anchor",
+   "b": "vector",
+   "result": {
+    "questions": 38,
+    "a_correct": 17,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 18,
+    "p_value": 0.0000762939453125
+   },
+   "only_a": [
+    "G18"
+   ],
+   "only_b": [
+    "G02",
+    "G10",
+    "G12",
+    "G13",
+    "G15",
+    "G17",
+    "G20",
+    "G23",
+    "G24",
+    "G26",
+    "G27",
+    "G29",
+    "G30",
+    "G32",
+    "G35",
+    "G36",
+    "G37",
+    "G38"
+   ]
+  },
+  "c5_end_to_end_complete_at_10": {
+   "a": "anchor",
+   "b": "layered",
+   "result": {
+    "questions": 38,
+    "a_correct": 22,
+    "b_correct": 31,
+    "only_a": 0,
+    "only_b": 9,
+    "p_value": 0.00390625
+   },
+   "only_a": [],
+   "only_b": [
+    "G02",
+    "G04",
+    "G13",
+    "G15",
+    "G29",
+    "G30",
+    "G35",
+    "G37",
+    "G38"
+   ]
+  },
+  "c5_end_to_end_vs_vector_complete_at_10": {
+   "a": "anchor",
+   "b": "vector",
+   "result": {
+    "questions": 38,
+    "a_correct": 22,
+    "b_correct": 37,
+    "only_a": 0,
+    "only_b": 15,
+    "p_value": 0.00006103515625
+   },
+   "only_a": [],
+   "only_b": [
+    "G02",
+    "G04",
+    "G12",
+    "G13",
+    "G15",
+    "G17",
+    "G23",
+    "G26",
+    "G27",
+    "G29",
+    "G30",
+    "G32",
+    "G35",
+    "G37",
+    "G38"
+   ]
+  },
+  "c8_all_connections": {
+   "a": "anchor",
+   "b": "layered",
+   "result": {
+    "questions": 6,
+    "a_correct": 2,
+    "b_correct": 6,
+    "only_a": 0,
+    "only_b": 4,
+    "p_value": 0.125
+   },
+   "only_a": [],
+   "only_b": [
+    "G04",
+    "G28",
+    "G29",
+    "G34"
+   ]
+  }
+ }
+}

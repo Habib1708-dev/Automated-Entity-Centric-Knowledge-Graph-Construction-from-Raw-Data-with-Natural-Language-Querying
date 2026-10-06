@@ -4366,7 +4366,7 @@ Fix:
 - **Gate:** 623 passed (616 after the code commit, 615 before R91), `ruff check` clean. Six offline runs,
   $0.
 
-### R92. Arm C (vector retrieval) and the arms paired question by question (started 2026-10-06)
+### R92. Arm C (vector retrieval) and the arms paired question by question (done 2026-10-06; about $0.004)
 Step 4 of the anchor-graph direction. The user agreed to the embedding call on 2026-10-06 ("proceed",
 after the estimate "a few cents").
 - **Arm C must re-embed.** The builds did not save their chunk vectors, and the Neo4j graph that held
@@ -4403,6 +4403,47 @@ after the estimate "a few cents").
   The run-guard test gains one asking case (`anchor-compare` with `quality`) and one silent case
   (`anchor-eval`).
 - **Gate (code):** 631 passed (623 before), `ruff check` clean. Runs: next, committed separately.
+- **Runs (done 2026-10-06, about $0.004).** `kg --preset <quality|heldout|generality> anchor-compare`, at
+  `ac6d286` with only `.claude/settings.json` dirty, reading the committed R90 reports. MLflow:
+  furniture `71cdd462`, held-out `f3360e62`, generality `15360b2b`.
+  - **Size of the call:** 70 / 81 / 32 chunks and 31 / 28 / 38 questions embedded, 88,254 characters in
+    6 calls (about 22k tokens). MLflow logs `cost_usd` 0 because the API reports no tokens.
+  - **Committed:** `tests/gold/r92/<dataset>/anchor_compare.json`, with `tests/gold/r92/runs.json` (run
+    ids, commit, model, the hashes of the reports paired). A test checks they load, pair the committed
+    R90 reports, and that arm C answered exactly the graph arms' questions.
+  - **Sanity:** for "Which products do reviews report with defective drawer rails?" arm C's top four are
+    Helsingborg Dresser chunks; for F31 (Malmö Desk wobbles) the gold chunk `malmo_desk_reviews.md#4` is
+    third.
+
+  Questions with every gold chunk within the budget (C5, "complete"), McNemar exact p, A = anchor,
+  B = layered, C = vector:
+
+  | | furniture (31) | held-out (28) | generality (38) |
+  |---|---|---|---|
+  | C: recall@5 / @10 (gold chunks) | 40 / 51 of 61 | 34 / 34 of 36 | 44 / 49 of 51 |
+  | gold start, k = 5: A vs C | 19 vs 21, p 0.69 | 22 vs 26, p 0.29 | 25 vs **34, p 0.012** |
+  | gold start, k = 10: A vs C | 29 vs 26, p 0.38 | 24 vs 26, p 0.69 | 29 vs **37, p 0.008** |
+  | end to end, k = 5: A vs C | 15 vs 21, p 0.070 | 19 vs 26, p 0.065 | 17 vs **34, p < 0.001** |
+  | end to end, k = 10: A vs C | 22 vs 26, p 0.34 | 21 vs 26, p 0.18 | 22 vs **37, p < 0.001** |
+  | gold start, k = 10: A vs B | 29 vs 28, p 1.0 | 24 vs 25, p 1.0 | 29 vs 32, p 0.25 |
+  | end to end, k = 10: A vs B | 22 vs 22, p 1.0 | 21 vs 23, p 0.50 | 22 vs **31, p 0.004** |
+  | C8 every connection reached: A vs B (questions) | 6 vs 7 of 7, p 1.0 | 7 vs 7 of 7 | 2 vs 6 of 6, p 0.125 |
+
+  Read with care:
+  - **On product-like data the anchor graph finds text about as well as vector retrieval.** Starting
+    from the right node, it leads the 10-chunk budget on furniture (29 vs 26). Through its own lookup (end
+    to end) it trails at 5 chunks by a margin near significance (p 0.065-0.070).
+  - **On generality it loses clearly, in both modes.** Many targets have no node at all (15 of 62
+    unplaced: "leaking", "Hensley Field-Work Award"), the documents have no ABOUT anchor, and the pump
+    and staff mentions are not linked to their records (R90).
+  - **The claim layer (B) helps only there, through the attachments R90 found unwitnessed.** It never
+    wins on furniture or held-out.
+  - **By the direction's rule (section 7.5)**, "A does not beat vector retrieval on C5": the graph's value
+    has to come from records, identity and connectivity (C4, C8), not from finding text. The decision is
+    step 6's, after the judged criteria (step 5).
+  - The pool is the graph arms' questions with a start: F11 and F13, which name no start, are left out
+    of every arm.
+- **Gate (results):** 634 passed, `ruff check` clean.
 
 ## Found along the way
 

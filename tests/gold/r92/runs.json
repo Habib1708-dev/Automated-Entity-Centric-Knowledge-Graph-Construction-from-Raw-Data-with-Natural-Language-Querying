@@ -1,0 +1,56 @@
+{
+ "step": "R92 arm C and paired comparison",
+ "runs": [
+  {
+   "dataset": "furniture",
+   "report": "tests/gold/r92/furniture/anchor_compare.json",
+   "mlflow_run_id": "71cdd46215574c4182944d06c8be67f8",
+   "experiment": "kgbuilder",
+   "git_sha": "ac6d286-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "embed_model": "gemini-embedding-001",
+   "embedded_chunks": 70,
+   "embedded_questions": 31,
+   "embedded_chars": 36753,
+   "anchor_report": "tests/gold/r90/furniture/anchor_anchor.json",
+   "anchor_report_hash": "1dd814a4944d",
+   "layered_report": "tests/gold/r90/furniture/anchor_layered.json",
+   "layered_report_hash": "1ff5dea106b6",
+   "targets_hash": "adc32787fee3"
+  },
+  {
+   "dataset": "heldout",
+   "report": "tests/gold/r92/heldout/anchor_compare.json",
+   "mlflow_run_id": "f3360e621be949d5918c80fbbfb8d0de",
+   "experiment": "kgbuilder-heldout",
+   "git_sha": "ac6d286-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "embed_model": "gemini-embedding-001",
+   "embedded_chunks": 81,
+   "embedded_questions": 28,
+   "embedded_chars": 35372,
+   "anchor_report": "tests/gold/r90/heldout/anchor_anchor.json",
+   "anchor_report_hash": "0160ef024c32",
+   "layered_report": "tests/gold/r90/heldout/anchor_layered.json",
+   "layered_report_hash": "6f77c076c754",
+   "targets_hash": "32a6719fcb76"
+  },
+  {
+   "dataset": "generality",
+   "report": "tests/gold/r92/generality/anchor_compare.json",
+   "mlflow_run_id": "15360b2bdd204dc6b88d3a3ba9678524",
+   "experiment": "kgbuilder-generality",
+   "git_sha": "ac6d286-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "embed_model": "gemini-embedding-001",
+   "embedded_chunks": 32,
+   "embedded_questions": 38,
+   "embedded_chars": 16129,
+   "anchor_report": "tests/gold/r90/generality/anchor_anchor.json",
+   "anchor_report_hash": "c05358d0f731",
+   "layered_report": "tests/gold/r90/generality/anchor_layered.json",
+   "layered_report_hash": "23d966e58274",
+   "targets_hash": "affd1d1ecff4"
+  }
+ ]
+}
