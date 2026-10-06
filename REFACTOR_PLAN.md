@@ -4224,6 +4224,50 @@ are read as information needs; their `chunks` and `records` stay the evidence an
 - **Gate:** 592 passed (baseline 575), `ruff check` clean. No run, $0. Next: step 3 of the direction, the
   navigation contract W1-W5 over R87's snapshot with C0-C2, C5 (graph arms), C7, C8, C9 computed.
 
+### R90. The navigation contract and the code-computed criteria (started 2026-10-06; $0, no LLM, no Neo4j)
+Step 3 of the anchor-graph direction. **Split into two parts, one commit each** (two concerns): (a) the
+walks W1-W5 as pure functions over R87's offline snapshot, in two arms, and the target gold placed on a
+build's nodes; (b) the criteria C0-C2, C5 (graph arms), C7, C8, C9 computed from them, a stage with one
+MLflow run per dataset and arm, `kg anchor-eval`, and the six runs on `out/r77d_*`.
+- **Part a: navigation and target placement (done 2026-10-06).** New package `anchor/`:
+  - `navigation.py`, `AnchorGraph(snapshot, arm)`:
+    - **W1** `find(names)`: exact hits first. A name hits a node when it equals, after `norm`, one of
+      the node's names: its record name or key, its canonical name, or the name of a mention that
+      refers to it. Then word-overlap hits, best Jaccard first. Ties go to the more-mentioned node, then
+      to the node id.
+    - **W2** `chunks_of`: MENTIONS + REFERS_TO, plus the document's and the chunk's ABOUT links.
+    - **W3** `about`: the chunk's own ABOUT, else its document's.
+    - **W4** `related`: any number of hops.
+    - **W5** `context`.
+    - `walk(starts)`: the composed breadth-first walk (W2, W3, W4; each step counts 1), with chunk ->
+      walk length.
+    - `thing_edges()`: every thing-to-thing hop with its witness.
+
+    Arm B (`Arm.LAYERED`) adds the claim layer. A thing reaches the chunk of every claim attached to it
+    or ending on it, and a claim joins its ends and its attached things pairwise. A join is witnessed
+    only when its chunk concerns both things in arm A.
+  - `targets.py`, `TargetPlacer`:
+    - A record ref becomes the records its staged rows fed, under the build's plan; a relationship-only
+      file gives none.
+    - A mention ref becomes what its document's mentions refer to: by an equal name first; only when the
+      document has no equal name, by mentions whose name holds the gold name as whole words (marked
+      `loose`).
+    - Unplaced refs are listed in `missing`.
+- **Instrument correction (after the first placement on the snapshots, before any criterion was computed):**
+  the containment tier was added. With equal names only, 81/86 furniture, 49/65 held-out and 36/62
+  generality targets found a node, because the extractor writes longer names for the same thing
+  ("low-pressure fuel pump", "institute committee, 12 May 2025", "Eastgate library roof"). With it:
+  84/86, 54/65, 47/62. The rest are names the build never wrote ("crash" in the Escape complaints,
+  "Brackwater fen", "Hensley Field-Work Award").
+- **Tests:** `tests/test_anchor.py` (13). The invented snapshot has a lamp and a kettle, each with a part
+  named "Switch", and one claim of the kettle's chunk attached to the lamp. The tests cover:
+  - W1 ordering, and a node found by its mention's name;
+  - W2 in both arms, W3 precedence, W4 by relation and by claim, W5;
+  - the walk staying on the lamp's side in arm A and leaking into the kettle in arm B;
+  - exactly the two unwitnessed joins;
+  - record and mention placement, the containment tier and its fallback order.
+- **Gate (part a):** 605 passed (592 before), `ruff check` clean. No run, $0.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
