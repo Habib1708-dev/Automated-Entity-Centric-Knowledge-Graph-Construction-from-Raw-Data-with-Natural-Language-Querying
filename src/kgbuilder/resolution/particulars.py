@@ -8,10 +8,13 @@ across documents only with evidence (individuals.py). Each group becomes one can
 when it holds one, else an `:Individual` named after its fullest name.
 Design: reads the graph (records, scopes, the mentions' chunks, the near misses' data), asks the LLM only
 through the record chooser and the adjudicator, writes nothing; the outcome is a list of assignments (one
-edge per mention) and the decisions behind them.
+edge per mention) and the decisions behind them. Everything after the record matching is the pure
+`assign_particulars` (R98), which an offline replay of a build calls with the same inputs.
 Not here: the matching rules (records.py, record_choice.py), the joining rules (individuals.py), concepts
 (concepts.py), writing (identity_graph.py).
 """
+
+from collections.abc import Callable
 
 from neo4j import Driver
 from pydantic import BaseModel
@@ -21,7 +24,7 @@ from ..core.text import sentences_naming
 from ..llm.base import Embedder, LLMClient
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
-from .blocking import Blocking
+from .blocking import Blocking, PairKey
 from .identity_graph import Assignment
 from .individuals import (
     IndividualDecision,
@@ -30,6 +33,7 @@ from .individuals import (
     embedding_for,
     join,
     llm_adjudicator,
+    meaning_pairs,
     nominate,
 )
 from .mentions import MentionRecord, MentionText, read_mention_texts
@@ -101,12 +105,42 @@ def resolve_particulars(
     )
     choices, links = _choose_records(driver, plan, keyed, matched.near, texts, llm, settings.model)
     matches = matched.matches | {mention: RecordMatch(link=link) for mention, link in links.items()}
+    particulars = assign_particulars(
+        keyed,
+        individuals,
+        matches,
+        texts,
+        lambda units: meaning_pairs(units, embedding_for(units, embedder, blocking), blocking),
+        llm,
+        settings,
+    )
+    return particulars.model_copy(update={"choices": choices})
+
+
+# The unit pairs near in meaning, given the units: the embedder's in a build, a build's log in a replay
+Meaning = Callable[[list[Unit]], set[PairKey]]
+
+
+def assign_particulars(
+    keyed: list[MentionRecord],
+    individuals: list[MentionRecord],
+    matches: dict[str, RecordMatch],
+    texts: list[MentionText],
+    meaning: Meaning,
+    llm: LLMClient | None,
+    settings: JoinSettings,
+) -> Particulars:
+    """The pure core of `resolve_particulars`, after the records are matched: a record's mentions form one
+    unit and every other mention one alone; same-type pairs are nominated (variant, spelling, `meaning`) and
+    joined only on a verified adjudication; each group becomes one assignment per mention. `texts` are the
+    chunks of every mention (`read_mention_texts`'s rows and order). Reads no graph, so an offline replay
+    feeds it the same inputs (audit/reidentify.py). The result has no record choices: those come before."""
     units = _units(keyed, individuals, matches)
     by_unit = {m: u for u in units for m in u.mentions}
     chunk_texts: dict[str, list[str]] = {}
     for t in texts:
         chunk_texts.setdefault(by_unit[t.mention].id, []).append(t.text)
-    pairs = nominate(units, settings.borderline, embedding_for(units, embedder, blocking), blocking)
+    pairs = nominate(units, settings.borderline, meaning(units))
     adjudicate = llm_adjudicator(llm, settings.model, texts, units) if llm is not None else None
     joining = join(units, pairs, adjudicate, chunk_texts, settings.model)
     mentions = {m.id: m for m in (*keyed, *individuals)}
@@ -119,7 +153,6 @@ def resolve_particulars(
         assignments=assignments,
         ambiguous=_ambiguous(keyed, matches),
         decisions=joining.decisions,
-        choices=choices,
     )
 
 

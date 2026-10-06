@@ -5249,6 +5249,30 @@ a measured effect and regression checks. The causes, verified on the r77d snapsh
       of 62: names the build never wrote, R101) and split individuals (9 groups, R98-R100).
 - **Gate (results):** 721 passed (710 before), `ruff check` clean. **R97 done 2026-10-06.** Next: R98.
 
+### R98. The identity of particulars replayed offline, proven faithful (started 2026-10-06; $0, structural)
+R94-R96 replay only the record matching; the LLM's joining of individuals was never replayed, so a change to
+it (R99, R100) could only be measured by a rebuild. R98 makes the whole identity of records and individuals
+replayable on a snapshot and proves the replay is the build's.
+- **Split: three parts, one commit each.**
+  - (a) **Structural move, behaviour kept:** the pure core of `resolve_particulars` (units -> nominate ->
+    join -> one assignment per mention) becomes the public `assign_particulars(keyed, individuals, matches,
+    texts, meaning, llm, settings)`; `resolve_particulars` is "read and match records, then this". The pairs
+    near in meaning leave `nominate` for `individuals.meaning_pairs` (per type, as before), so a replay can
+    give a build's logged pairs instead.
+  - (b) **The replay:** `audit/reidentify.py` restates `read_mention_texts` over the snapshot and takes the
+    record matches from the build (faithful) or from the record replay (measured), and the meaning pairs
+    from the build's log (faithful) or the embedder (measured). `kg audit-relink --join` replays the
+    individuals; a change is explained as `joined` / `unjoined` (or by its record replay's cause), anything
+    else is refused; the written build carries the replayed `individual_decisions`. `--join --faithful` is
+    the gate: it must reproduce resolve.json's `individual_decisions` and particular assignments field by
+    field, or it fails.
+  - (c) **The faithfulness gate** on the three r77d builds, answered from the `.cache/llm` hits (cache-only:
+    a miss fails instead of paying). If it does not reproduce, R98 stops and is reported.
+- **Part a (done 2026-10-06):** `resolution/particulars.py` `assign_particulars` and the `Meaning` callable;
+  `resolution/individuals.py` `nominate(units, borderline, near)` and `meaning_pairs(units, embedding,
+  blocking)`. One test call changed its arguments (`nominate(..., set())`), no assertion. Gate: 721 passed,
+  `ruff check` clean.
+
 ## Found along the way
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**
   `ABOUT` gives a document or a section one subject. W3-named (R97) leads from a chunk to every record and

@@ -95,7 +95,7 @@ TEXTS = {
 
 def test_pairs_are_nominated_by_variant_or_spelling_only_within_a_type():
     lin = unit("d", "Ada Lin").model_copy(update={"type": "Visitor"})
-    pairs = {(a.id, b.id, signal) for a, b, signal in nominate([PIKE, JON, JUDITH, lin], 90, None, None)}
+    pairs = {(a.id, b.id, signal) for a, b, signal in nominate([PIKE, JON, JUDITH, lin], 90, set())}
     assert pairs == {("a", "b", "variant")}  # Judith and Jonathan are no variants; Ada is another type
 
 

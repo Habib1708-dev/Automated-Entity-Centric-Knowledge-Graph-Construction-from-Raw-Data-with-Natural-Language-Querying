@@ -6,7 +6,8 @@ other keyed or individual-class mention alone. Its output is groups of units tha
 Design: the user's priority (2026-10-05): "Maria Lopez" of two documents is one person only when the text
 gives evidence for it. So a pair is first nominated, then decided:
   - nominated by a name variant (variants.py: "J. Pike" and "Jonathan Pike"), by spelling (the resolver's
-    fuzzy score) or by meaning (the concepts' blocking rule over name embeddings);
+    fuzzy score) or by meaning (the concepts' blocking rule over name embeddings, `meaning_pairs`, computed
+    apart so an offline replay can give a build's logged pairs instead, audit/reidentify.py);
   - joined only on an LLM adjudication that answers "the same" AND quotes one sentence of each side, which
     code finds in that side's own chunks and which names that side; a "same" without such quotes is
     refused (`quote_not_verified`), so a missed join is preferred to a wrong one;
@@ -26,7 +27,7 @@ from pydantic import BaseModel, Field
 from ..core.similarity import name_similarity
 from ..core.text import norm
 from ..llm.base import Embedder, LLMClient
-from .blocking import Blocking
+from .blocking import Blocking, PairKey
 from .matchers import EmbeddingMatcher, EntityRecord, Matcher
 from .mentions import MentionText
 from .resolver import MentionRow, mention_lines
@@ -102,18 +103,18 @@ class Joining(BaseModel):
 Adjudicate = Callable[[Unit, Unit], SameIndividual]
 
 
-def nominate(
-    units: list[Unit], borderline: float, embedding: Matcher | None, blocking: Blocking | None
-) -> list[tuple[Unit, Unit, Signal]]:
-    """Same-type pairs worth a decision, in a stable order: names that are variants, spelled alike (at least
-    `borderline`) or, with an embedding and a blocking rule, near in meaning. Pure, apart from the matcher."""
+def _by_type(units: list[Unit]) -> dict[str, list[Unit]]:
     by_type: dict[str, list[Unit]] = {}
     for unit in sorted(units, key=lambda u: u.id):
         by_type.setdefault(unit.type, []).append(unit)
+    return by_type
+
+
+def nominate(units: list[Unit], borderline: float, near: set[PairKey]) -> list[tuple[Unit, Unit, Signal]]:
+    """Same-type pairs worth a decision, in a stable order: names that are variants, spelled alike (at least
+    `borderline`) or near in meaning (`near`: unit id pairs, from `meaning_pairs` or a build's log). Pure."""
     pairs: list[tuple[Unit, Unit, Signal]] = []
-    for members in by_type.values():
-        records = [_as_record(u) for u in members]
-        near = blocking.pairs(records, embedding.score) if embedding and blocking else {}
+    for members in _by_type(units).values():
         for a, b in combinations(members, 2):
             if any(compatible(x, y) for x in a.names for y in b.names):
                 pairs.append((a, b, "variant"))
@@ -122,6 +123,17 @@ def nominate(
             elif frozenset((a.id, b.id)) in near:
                 pairs.append((a, b, "meaning"))
     return pairs
+
+
+def meaning_pairs(units: list[Unit], embedding: Matcher | None, blocking: Blocking | None) -> set[PairKey]:
+    """The unit pairs the blocking rule finds near in meaning over the name embeddings, type by type (a
+    rank-based rule such as mutual nearest ranks within one type); none without an embedding or a rule."""
+    if embedding is None or blocking is None:
+        return set()
+    near: set[PairKey] = set()
+    for members in _by_type(units).values():
+        near |= set(blocking.pairs([_as_record(u) for u in members], embedding.score))
+    return near
 
 
 def _as_record(unit: Unit) -> EntityRecord:
