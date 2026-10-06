@@ -1,0 +1,784 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-06",
+  "snapshot_hash": "90e9140a9b7a",
+  "sheet": "tests/gold/r95a/furniture/c3_sheet.json",
+  "sheet_hash": "22a7611701cf",
+  "sheets_git_sha": "347a3ce"
+ },
+ "criterion": "C3",
+ "verdicts": [
+  {
+   "id": "m:019ed4be164f5544",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions state lower-than-expected material quality verbatim; 'materials feel cheap' expresses the same low material quality in other words.",
+   "evidence": "The materials feel cheap, particularly the shade which is unevenly colored.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:01de27e836bd2198",
+   "label": "VALID",
+   "reason": "Every mention says the design is timeless.",
+   "evidence": "The design is timeless and blends well with various decor styles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0575dec49cb0901b",
+   "label": "VALID",
+   "reason": "All mentions describe the piece as stylish; 'super' only intensifies.",
+   "evidence": "holds all my books and plants and looks stylish",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0fa5fc8473d6d48a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions are drawers moving smoothly; 'operates smoothly' is a generic verb the drawer context pins to sliding.",
+   "evidence": "The drawer operates smoothly and the finish is consistent.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:13ea1c99eb12f87c",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions say assembly is difficult; 'complicated' and 'challenging' are paraphrases of being a pain to put together.",
+   "evidence": "Yes, the assembly is challenging",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1aa3990700b9f536",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions say materials feel high-quality; 'Good quality table' is the same positive quality judgment applied to the whole product.",
+   "evidence": "Good quality table that looks more expensive than it is.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:23e3d5176cf607b4",
+   "label": "VALID",
+   "reason": "Every mention is the item wobbling slightly.",
+   "evidence": "it wobbles slightly when I'm typing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2d247f56fd0af965",
+   "label": "VALID",
+   "reason": "Both mentions call the furniture beautiful in appearance.",
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2d6871df7237dd3b",
+   "label": "VALID",
+   "reason": "Every mention is the identical phrase about looking nice in photos.",
+   "evidence": "While the bookshelf looks nice in photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2ea585e9fc0a4bb3",
+   "label": "VALID",
+   "reason": "All mentions name wood as the material ('wooden' is the adjective form).",
+   "evidence": "surprisingly comfortable for wooden chairs",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:380ebb73531d3cc3",
+   "label": "VALID",
+   "reason": "All mentions concern parts (holes, rails) aligning or lining up properly; 'line up' and 'align' are small wording changes.",
+   "evidence": "some of the pre-drilled holes didn't align properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:391d2fe2e0cb9c8d",
+   "label": "VALID",
+   "reason": "Both mentions describe a panel or part feeling flimsy.",
+   "evidence": "the drawer bottoms feel flimsy",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:395c1dadb0869027",
+   "label": "INCORRECT",
+   "reason": "Size and dimensions mentions are about fitting the space; 'proportions are perfect' is about the ratio of parts in the design, a different property.",
+   "evidence": "The proportions are perfect, the construction is solid",
+   "outliers": [
+    "0e517f400a63fc7d"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:3de8458a62776015",
+   "label": "INCORRECT",
+   "reason": "'finish is smooth' is a surface texture, while smooth drawer slides and a smooth dimmer are smooth operation; two senses of smooth.",
+   "evidence": "The wood grain is beautiful and the finish is smooth.",
+   "outliers": [
+    "e0043e5b9abb3685"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:4692a4902f65c3f7",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions praise appearance; 'amazing', 'great', 'beautiful' and 'nice' differ in intensity but read as the one aspect of looking good.",
+   "evidence": "so comfy and looks amazing in my space",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4bcf9e2ab111ffdf",
+   "label": "VALID",
+   "reason": "All mentions describe the instructions as hard to understand; 'incomprehensible' is a stronger wording of confusing.",
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4e2887d50f3cf560",
+   "label": "VALID",
+   "reason": "Both mentions say assembly needs two people.",
+   "evidence": "Assembly was straightforward though it definitely requires two people.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4f64f0456a4983e4",
+   "label": "VALID",
+   "reason": "Both mentions say the surface is easy to clean.",
+   "evidence": "The surface is easy to clean",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:52a930e9a7d7b424",
+   "label": "VALID",
+   "reason": "Both mentions say the surface shows fingerprints easily.",
+   "evidence": "The table top also shows fingerprints very easily",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:53dd90a010a8b776",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions praise the item's vibe; 'immaculate' is slang for very nice vibes.",
+   "evidence": "vibes are immaculate with this chair!!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5753da1c5513f055",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions describe a very bad assembly experience; 'frustrating' and 'worst experience ever' read as the same aspect as 'nightmare'.",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5b344c7f8ab24356",
+   "label": "VALID",
+   "reason": "Every mention is the same value, about 2 hours of assembly time.",
+   "evidence": "Assembly took about 2 hours but the instructions were clear.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5d40cb368d798c06",
+   "label": "VALID",
+   "reason": "Every mention praises the same kind: good value for money (quality relative to price), only worded differently.",
+   "evidence": "the Västerås stands out for its exceptional quality-to-price ratio",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5e31ccac0cd0757a",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind: the piece being at a suitable height for the user.",
+   "evidence": "perfect height and i love the little drawer for my stuff.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:61037d2b95520c9e",
+   "label": "VALID",
+   "reason": "All three mentions name the same aspect: the design matching surrounding furniture and decor.",
+   "evidence": "The design is simple yet elegant, and they pair well with our existing furniture.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6578d646824a6278",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All three describe the defective drawer rails; 'poorly manufactured' reads as the same defect only in context.",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6d7691abf9f401d4",
+   "label": "VALID",
+   "reason": "Both use the slang 'clutch' in the same sense: a feature that is very useful.",
+   "evidence": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6db521a299b82cfa",
+   "label": "VALID",
+   "reason": "Both mentions name the same quality: well-made construction.",
+   "evidence": "Otherwise, it's a beautiful and well-made piece of furniture.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7253a6fa21b4bef3",
+   "label": "VALID",
+   "reason": "All three mentions name the same kind: an affordable, fair price.",
+   "evidence": "it was reasonably priced for what you get.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:75c32906cbfe3d2b",
+   "label": "VALID",
+   "reason": "All three mentions name the same appearance quality: looking cute.",
+   "evidence": "nightstand looks cute next to my bed!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76dd228ad61f8a00",
+   "label": "VALID",
+   "reason": "All three mentions name the same construction quality, verbatim.",
+   "evidence": "Construction is solid with proper joinery techniques evident throughout.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7cd5c218bf1fb3cd",
+   "label": "VALID",
+   "reason": "All four mentions name the same durability quality: holding up well over time.",
+   "evidence": "The design is timeless and the finish has held up beautifully.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:805c9cc3eaf45b8b",
+   "label": "VALID",
+   "reason": "All three sentences describe the same aspect: assembly parts (not) fitting together properly.",
+   "evidence": "some of the parts didn't fit together properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:821c301b53b6e88f",
+   "label": "VALID",
+   "reason": "Deflection and bending both name shelves bending under a load of books, the same kind.",
+   "evidence": "I've tested each shelf with approximately 20kg of books with no deflection.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:852c39e1e4cb25f7",
+   "label": "VALID",
+   "reason": "All three mentions name the same flaw: sharp edges.",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8627aa0be25b8c94",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions name easy assembly; 'wasn't too bad' and 'logical' fit that kind only on a reading the text allows.",
+   "evidence": "assembly wasn't too bad, maybe 40 mins?",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:885e40981d901e04",
+   "label": "VALID",
+   "reason": "Every mention names the same property, sturdiness, of the piece or its part.",
+   "evidence": "The construction feels sturdy and the design is elegant without being flashy.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8d9597c88f0b379f",
+   "label": "VALID",
+   "reason": "All four mentions describe assembly as straightforward, the same kind.",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8e8f2b72d1d6cef5",
+   "label": "VALID",
+   "reason": "Both mentions name the same problem: drawers not closing properly.",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8f22c044d7ff02bd",
+   "label": "VALID",
+   "reason": "Both use 'adequate' in the same sense (sufficient), though applied to tools in one and storage in the other.",
+   "evidence": "The storage is adequate for my needs and the design is simple but attractive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:945497292b69f19b",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions say 'clean lines'; 'clean design' is a broader wording that the minimalist context lets read as the same aesthetic.",
+   "evidence": "The clean design fits perfectly with my minimalist aesthetic.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9872e66694c3f383",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions name a consistent finish; the short names 'consistent' and 'consistently applied' need the sentence to pin them to the finish.",
+   "evidence": "The finish is consistently applied with attention to detail on less visible surfaces",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9b8fe8bf87735b2b",
+   "label": "VALID",
+   "reason": "Both mentions name the same property, scratch resistance of a surface or finish.",
+   "evidence": "The finish has proven remarkably resistant to scratches and water marks.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9c0b5df7b6f7c7af",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions are the Örebro Lamp's dimmer; 'dimmer' is a short form of 'dimmer function'.",
+   "evidence": "the dimmer is perfect for creating mood lighting",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9d271302536d354b",
+   "label": "VALID",
+   "reason": "Every mention uses 'functional' as the same quality of a piece of furniture.",
+   "evidence": "Functional chair with decent build quality.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9dd6447fbfb58034",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, a duration of 3 hours.",
+   "evidence": "took me like 3 hours",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9f2e138f912e46ad",
+   "label": "VALID",
+   "reason": "All mentions name the same quality, a simple yet elegant design; 'but' vs 'yet' is a small wording change.",
+   "evidence": "The design is simple but elegant",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a2646579cfcc1703",
+   "label": "VALID",
+   "reason": "Every mention is the same concept, sagging under load.",
+   "evidence": "show no signs of sagging despite daily use",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ac69289d0bd065eb",
+   "label": "VALID",
+   "reason": "Both mentions are drawers sticking, the same kind of problem.",
+   "evidence": "the drawer sometimes sticks when i open it too fast",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ada3f1f3773d3190",
+   "label": "VALID",
+   "reason": "Both mentions use the identical phrase for the same kind of praise.",
+   "evidence": "The Uppsala Sofa is a great addition to our living room.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:af7ad4609d05e014",
+   "label": "VALID",
+   "reason": "'stability' and 'stable' name the same property; small wording change.",
+   "evidence": "it's stable though and the right height for me",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bae3d8edeb4c2a19",
+   "label": "VALID",
+   "reason": "Both mentions call assembly time-consuming, the same aspect.",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:be91a39820d59607",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Ambient lighting and mood lighting are the same kind of light from the lamp, but 'mood lighting' needs that reading.",
+   "evidence": "the dimmer is perfect for creating mood lighting",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c72b4d011b54c992",
+   "label": "VALID",
+   "reason": "'aesthetically pleasing' and 'the aesthetic is nice' both name visual appeal.",
+   "evidence": "The aesthetic is nice though",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c762fffa7f43d528",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, 45 minutes.",
+   "evidence": "Assembly was simple and took about 45 minutes.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cbbee077875bf855",
+   "label": "VALID",
+   "reason": "comfortable, comfy and comfort level all name the same quality, comfort.",
+   "evidence": "the comfort level is exceptional",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ccc56dcfa446928a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both refer to the Linköping Bed's drawer storage; 'storage' (from 'storage drawers') is a generic word the context ties to the storage mechanism.",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cdb511204422912e",
+   "label": "VALID",
+   "reason": "Every mention is the same concept, squeaking of the frame.",
+   "evidence": "I've noticed some squeaking when I lean back",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d2e2b573744a654a",
+   "label": "VALID",
+   "reason": "'ergonomic shape' and 'ergonomic design' of the Stockholm Chair name the same aspect.",
+   "evidence": "The ergonomic design is good for short periods",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d46713c6a2626482",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions say the surface scratches easily; the degree differs ('a bit more easily' vs 'very easily') so the node name fits one only loosely.",
+   "evidence": "it scratches a bit more easily than I'd like",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d5729f1bff6449ed",
+   "label": "VALID",
+   "reason": "Both mentions say the veneer is extremely thin, the same aspect.",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dbdb71ba34f60075",
+   "label": "VALID",
+   "reason": "Both mentions say the instructions were clear.",
+   "evidence": "the instructions were clear",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dd1182d4d76a5014",
+   "label": "VALID",
+   "reason": "Both mentions state assembly was more complicated than advertised; 'much' is a small wording change.",
+   "evidence": "Assembly was also much more complicated than advertised",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:de0226617cc541d9",
+   "label": "VALID",
+   "reason": "Both mentions are about a drawer opening smoothly, the same aspect.",
+   "evidence": "the drawer doesn't open as smoothly as I'd like",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e23823fca557f8b5",
+   "label": "VALID",
+   "reason": "Both mentions use the same phrase for the same disappointment.",
+   "evidence": "the reality is much less impressive",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e3b6e22474e38913",
+   "label": "VALID",
+   "reason": "Both mentions name cracking of a wooden part, the same kind of defect.",
+   "evidence": "the slats have started to crack",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e44098741523170e",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, 45cm.",
+   "evidence": "The seat height is ideal at 45cm",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e6ade429b5a3187f",
+   "label": "VALID",
+   "reason": "Both mentions say the back panel is thin.",
+   "evidence": "the back panel is quite thin",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eb48e61f01cc4a60",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'thoughtful engineering' and 'properly engineered' both praise good engineering, but they are equal only under a loose reading.",
+   "evidence": "I appreciate the thoughtful engineering of the Jönköping Coffee Table.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eba748189a004669",
+   "label": "VALID",
+   "reason": "Both mentions are the Uppsala Sofa's cushions; singular vs plural.",
+   "evidence": "The cushion density (28kg/m³) provides the perfect balance between support and comfort.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eded4709732351af",
+   "label": "VALID",
+   "reason": "'signs of wear' and 'wear marks' name the same concept.",
+   "evidence": "no scratches or wear marks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f0196c84a2afd518",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Two mentions name the overall quality of a product; the third uses 'quality' as an adjective (high-quality zippers), which still names the quality property but only by reading the modifier that way.",
+   "evidence": "The removable covers feature quality YKK zippers",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f09456329bb3a48a",
+   "label": "VALID",
+   "reason": "All three mentions name the surface finish of a piece; 'quality finish' is a small wording change.",
+   "evidence": "The clean lines and quality finish make it look much more expensive than it actually was.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f33ea4c3f292ed35",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions name durability directly; 'last for decades' expresses durability only through paraphrase.",
+   "evidence": "This table will clearly last for decades.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f3d398640eeda06e",
+   "label": "VALID",
+   "reason": "Both mentions state reduced comfort; 'not as comfy as i hoped' is a casual wording of 'less comfortable'.",
+   "evidence": "but honestly it's not as comfy as i hoped?",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f47872afd8334000",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, an assembly time of about 30 minutes.",
+   "evidence": "Assembly was straightforward and took about 30 minutes per unit.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f76051a80c7e75a5",
+   "label": "VALID",
+   "reason": "Both mentions use 'handy' in the same sense of a convenient shelf.",
+   "evidence": "the open shelf is handy for books",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f8e2ae820838d166",
+   "label": "VALID",
+   "reason": "Every mention describes the same property of feeling sturdy and solid; 'rock solid' and 'construction feels solid' are small wording changes.",
+   "evidence": "The bed is rock solid - absolutely no squeaking or movement.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fa88df0e28c761c8",
+   "label": "VALID",
+   "reason": "All mentions name the same state of wobbling; 'wobble' is the verb form.",
+   "evidence": "The desk feels solid and doesn't wobble at all.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fbcf8e6d5ade7707",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All three praise clever design; 'particularly ingenious' carries the same meaning only by paraphrase.",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fe2862f767bc06e0",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions are the Uppsala Sofa's cover material; 'upholstery' is the fabric covering, a reading the text allows without stating it.",
+   "evidence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:assembly instructions",
+   "label": "VALID",
+   "reason": "One node is the dresser's instructions, the other the chair's; different products' instructions are different things.",
+   "evidence": "the assembly instructions could have been clearer - I had to redo one section when I realized I had attached the back rest upside down.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:construction",
+   "label": "VALID",
+   "reason": "One node is the bookshelf's construction, the other the coffee table's; different products.",
+   "evidence": "The construction is solid and there's been no sagging despite heavy use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:design",
+   "label": "VALID",
+   "reason": "One node is the bookshelf's design, the other the coffee table's; different products.",
+   "evidence": "The design is timeless and blends well with both our modern and antique pieces.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:drawer slides",
+   "label": "VALID",
+   "reason": "Both nodes are individuals: one is the drawer slides of the Linkoping Bed's storage mechanism, the other the drawer slides of the Malmo Desk, so they are different physical parts of different products and keeping them apart is right.",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:edges",
+   "label": "VALID",
+   "reason": "The edges belong to three different products (desk, bed, coffee table).",
+   "evidence": "the edges of the desk are a bit sharp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:finish",
+   "label": "VALID",
+   "reason": "Each node is the finish of a different product (table, coffee table, nightstand, bed), each from its own review file.",
+   "evidence": "The finish has a subtle matte quality that highlights the natural grain patterns.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:instructions",
+   "label": "VALID",
+   "reason": "Each node is the instructions of a different product, from five different review files.",
+   "evidence": "Assembly took about 2 hours but the instructions were clear.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:materials",
+   "label": "VALID",
+   "reason": "One node is the desk's materials, the other the chair's; different products.",
+   "evidence": "The materials feel high-quality and the desk is rock solid with no wobbling.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:parts",
+   "label": "VALID",
+   "reason": "The parts belong to three different products (sofa, bed, bookshelf).",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:pre-drilled holes",
+   "label": "VALID",
+   "reason": "Each node is the pre-drilled holes of a different product, from five different review files.",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:shelf",
+   "label": "VALID",
+   "reason": "One is the coffee table's lower shelf, the other the bookshelf's shelves; different objects.",
+   "evidence": "love the scandinavian vibes and the shelf underneath is perfect for my art books.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:surface",
+   "label": "VALID",
+   "reason": "One is the coffee table's surface, the other the dining table's; different products.",
+   "evidence": "The surface is easy to clean and surprisingly resistant to scratches.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:veneer",
+   "label": "VALID",
+   "reason": "One is the bookshelf's veneer, the other the coffee table's; different products.",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly.",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "m:395c1dadb0869027",
+  "m:3de8458a62776015",
+  "m:52a930e9a7d7b424",
+  "m:5e31ccac0cd0757a",
+  "m:7253a6fa21b4bef3",
+  "m:805c9cc3eaf45b8b",
+  "m:dd1182d4d76a5014",
+  "m:e6ade429b5a3187f",
+  "s:Component:drawer slides",
+  "s:Component:edges",
+  "s:Component:finish",
+  "s:Component:surface"
+ ],
+ "changes": []
+}
