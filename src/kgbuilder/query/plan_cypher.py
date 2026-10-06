@@ -195,6 +195,7 @@ def find_claims(
     either_end: bool = False,
     truth: Truth = "affirmed",
     modality: Modality = "actual",
+    read_all: bool = False,
 ) -> Fragment:
     """The claims about the records (attached to them, or with a mention that refers to one) or about the
     entities (a mention that refers to one, or attached to an individual, R76), narrowed by predicate,
@@ -202,7 +203,8 @@ def find_claims(
     the object entities may each be on either end of the claim (R78). Only claims of the given `truth` and
     `modality` come back (R77; by default the claims whose stored triple holds, `_MODALITIES`; "negated"
     is the statement's truth, part d); a claim stored before R77 has neither and counts as affirmed and
-    actual."""
+    actual. With `read_all` (claims that will be read as text, R77 part e) the defaults filter nothing: only a
+    truth or modality the question asked for narrows the claims."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
@@ -245,11 +247,13 @@ def find_claims(
     # form comes back ("leak", negated, and a state named "will not switch off"); the default keeps the
     # claims whose stored triple holds, which counts such a named state with the others. A graph from before
     # part d has no triple truth; its truth was said of the triple.
-    truth_of = "o.truth" if truth == "negated" else "coalesce(o.triple_truth, o.truth)"
-    where.append(
-        f"coalesce({truth_of}, 'affirmed') = $truth AND coalesce(o.modality, 'actual') IN $modalities"
-    )
-    params["truth"], params["modalities"] = truth, _MODALITIES[modality]
+    if truth == "negated" or not read_all:
+        truth_of = "o.truth" if truth == "negated" else "coalesce(o.triple_truth, o.truth)"
+        where.append(f"coalesce({truth_of}, 'affirmed') = $truth")
+        params["truth"] = truth
+    if modality != "actual" or not read_all:
+        where.append("coalesce(o.modality, 'actual') IN $modalities")
+        params["modalities"] = _MODALITIES[modality]
     clause = f" WHERE {' AND '.join(where)}" if where else ""
     return f"MATCH (o:Observation){clause} RETURN DISTINCT o.id AS id LIMIT {int(cap)}", params
 

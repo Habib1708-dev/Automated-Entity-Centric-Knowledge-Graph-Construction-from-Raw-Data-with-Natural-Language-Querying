@@ -10,7 +10,9 @@ steps and their values and code does the rest. Counts and lists are computed by 
 is read only by `read_check` (one candidate at a time, quotes verified) and by `answer_from_chunks`.
 An empty search is still an answer ("none"), with two exceptions that only widen where to look (R78): a
 reading step whose input has no text searches the system's chunk source, and claim words that match
-nothing on the end the planner gave are matched on either end.
+nothing on the end the planner gave are matched on either end. Claims that will only be read as text come
+back whatever their assertion (R77 part e): the graph leads to the claim and its chunk, and the text says
+what holds; claims that are counted, listed or ranked keep the exact default (the claims that hold).
 Not here: checking the plan (plan.py), the planner and the fallbacks (planner.py, systems.py).
 """
 
@@ -35,6 +37,11 @@ Items = dict[ItemKind, list[str]]  # the ids a step produced, per kind, in order
 
 # the step note when a reading step had no text from its input and searched the chunk source (R78)
 _SOURCE_NOTE = "the input had no text: the chunk source"
+# the step note when find_claims kept every assertion because its claims are only read (R77 part e)
+_READ_NOTE = "every assertion: read as text"
+# the steps that read their input's text, and the one that only narrows it for the next step
+_READERS = frozenset({"retrieve_chunks", "answer_from_chunks"})
+_NARROWERS = frozenset({"read_check"})
 
 
 class ChunkSource(Protocol):
@@ -103,9 +110,10 @@ class PlanRunner:
         and `LLMResponseError` when a model keeps failing."""
         result = PlanRun()
         outputs: list[Items] = []
-        for step in plan.steps:
+        read = read_steps(plan)
+        for index, step in enumerate(plan.steps):
             inputs = outputs[step.input] if step.input is not None else None
-            items, note = self._step(step, inputs, question, result)
+            items, note = self._step(step, inputs, question, result, index in read)
             outputs.append(items)
             result.steps.append(StepTrace(op=step.op, items={k: len(v) for k, v in items.items()}, note=note))
         return result
@@ -113,8 +121,10 @@ class PlanRunner:
     # --- the steps -------------------------------------------------------------------------------------
 
     def _step(
-        self, step: PlanStep, inputs: Items | None, question: str, result: PlanRun
+        self, step: PlanStep, inputs: Items | None, question: str, result: PlanRun, read: bool
     ) -> tuple[Items, str]:
+        if step.op == "find_claims":  # the one primitive whose filter depends on what follows it
+            return self._find_claims(step, inputs or {}, read)
         handler = getattr(self, f"_{step.op}")
         return handler(step, inputs or {}, question, result)
 
@@ -164,7 +174,7 @@ class PlanRunner:
         )
         return {"record": self._ids(cypher, params)}, f"direction {direction}"
 
-    def _find_claims(self, step, inputs, question, result):
+    def _find_claims(self, step: PlanStep, inputs: Items, read: bool) -> tuple[Items, str]:
         records = inputs.get("record") if inputs else None
         if records and step.include_parts:
             cypher, params = cy.parts_of(records, sorted(self._schema.record_labels), self._settings.step_cap)
@@ -181,16 +191,17 @@ class PlanRunner:
             step.time_words,
             self._settings.step_cap,
         )
-        assertion = {"truth": step.truth, "modality": step.modality}
+        assertion = {"truth": step.truth, "modality": step.modality, "read_all": read}
+        note = _READ_NOTE if read else ""
         ids = self._ids(*cy.find_claims(*args, **assertion))
         if ids or (subjects is None and objects is None):
-            return {"claim": ids}, ""
+            return {"claim": ids}, note
         # the planner may put a claim's words on the wrong end (R77 baseline: G06 asked for "mechanical
         # seal" as an object, the graph has it as the subject); the claims found either way stay candidates
         # that read_check or the reader decides, so an answer of "none" still comes from the text (R78)
-        return {
-            "claim": self._ids(*cy.find_claims(*args, either_end=True, **assertion))
-        }, "claim words on either end"
+        return {"claim": self._ids(*cy.find_claims(*args, either_end=True, **assertion))}, "; ".join(
+            filter(None, [note, "claim words on either end"])
+        )
 
     def _read_check(self, step, inputs, question, result):
         total = sum(len(v) for v in inputs.values())
@@ -385,6 +396,22 @@ class PlanRunner:
             return list(dict.fromkeys(str(r["name"]) for r in rows))
         rows = self._rows(*cy.claims_about(claims, label))
         return self._names({"record": list(dict.fromkeys(str(r["about"]) for r in rows))})
+
+
+def read_steps(plan: QueryPlan) -> set[int]:
+    """The indexes of the steps whose items are only read as text: every step that uses them is a reading
+    step (retrieve_chunks, answer_from_chunks), or a read_check whose own items are only read. A step any
+    count, list, rank or sum uses, even through read_check, is not one: its claims must be exact (R77 part
+    e). Pure; decided by the plan's shape, never by the model."""
+    read: set[int] = set()
+    # a step's users come after it, so walking backwards knows each user's answer first
+    for index in reversed(range(len(plan.steps))):
+        users = [j for j, s in enumerate(plan.steps) if s.input == index]
+        if users and all(
+            plan.steps[j].op in _READERS or (plan.steps[j].op in _NARROWERS and j in read) for j in users
+        ):
+            read.add(index)
+    return read
 
 
 def _one_number(result: PlanRun) -> None:

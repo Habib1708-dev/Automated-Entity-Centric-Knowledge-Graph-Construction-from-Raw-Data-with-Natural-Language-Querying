@@ -3197,7 +3197,7 @@ documents linked, 0 observations attached).
   - **R76 done** (code, the fix and the cached rebuild). Open by the user's choice: `kg qa` and the paired
     comparison with Step 5. Next: Step 7 (assertion).
 
-### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06; revision parts d-f, part d done 2026-10-06)
+### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06; revision parts d-f, d and e done 2026-10-06)
 "The pump failed", "the pump may fail" and "if pressure rises, the pump will fail" are different facts, and
 a count over claims must tell them apart (task file, Step 7).
 - **Decisions (the user, 2026-10-05, before any code):**
@@ -3498,6 +3498,26 @@ a count over claims must tell them apart (task file, Step 7).
     changed on purpose: the bare `find_claims` Cypher now reads the triple truth.
   - Gate: 542 passed (527 before), `ruff check` clean. `ruff format --check` flags only
     `structured/profiler.py`, as before this step.
+- **Part e: navigation (2026-10-06, code only, no prompt, no run).**
+  - `plan_run.read_steps(plan)` decides from the plan's shape alone which steps' items are only read as
+    text: every step using them is `retrieve_chunks` or `answer_from_chunks`, or a `read_check` whose own
+    items are only read. Such a `find_claims` runs with `plan_cypher.find_claims(read_all=True)`: the
+    defaults filter nothing, so a denied or possible claim leads the reader to its chunk. A truth or
+    modality the question asked for still narrows it. A step whose claims are counted, listed or ranked,
+    even through `read_check`, keeps part d's exact default. So does a step used both ways.
+  - The step note says "every assertion: read as text". The planner prompt and the plan's fields are
+    unchanged.
+  - Tests (`tests/test_assertion.py`):
+    - the plan-shape rule: read directly, through `retrieve_chunks` or `read_check`; counted directly or
+      after `read_check`; ranked; used both ways;
+    - two Neo4j tests on a denied claim ("could not get the spindle to slide right", its negation kept) and
+      a possible one, each in its own chunk. A reading plan without any word asking for a denial reaches
+      each claim's own chunk, directly and through `retrieve_chunks`. The same claims are counted 0 by
+      default, also through `read_check` (no check call is spent on them), and 1 when the question asks
+      for the denial.
+  - Gate: 545 passed (542 after part d), `ruff check` clean.
+  - Risk, for part f to show: a reading chain through `read_check` sees more candidates than before, up to
+    `check_limit` (30), above which the plan fails and the planner retries.
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the

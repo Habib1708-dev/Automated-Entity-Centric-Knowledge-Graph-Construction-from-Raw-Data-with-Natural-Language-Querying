@@ -19,6 +19,8 @@ from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
 from kgbuilder.pipeline.stage import PipelineContext, PipelineState
 from kgbuilder.query.plan import check_plan
+from kgbuilder.query.plan_run import read_steps
+from kgbuilder.query.read_check import CheckReply
 from kgbuilder.text import extraction
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.extraction import (
@@ -354,6 +356,102 @@ def test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others(
     assert claims("How often does it not wobble?", truth="negated", truth_words="not wobble") == 2.0
     assert claims("Could it wobble?", modality="possible", modality_words="could") == 1.0
     assert claims("When does it wobble?", modality="conditional", modality_words="when") == 1.0
+
+
+# --- navigation: claims that are read come back whatever their assertion (R77 part e) ------------------
+
+
+def test_only_claims_that_are_only_read_skip_the_default():
+    find = {"op": "find_claims", "object_like": "wobbles"}
+    check = {"op": "read_check", "input": 0, "statement": "It wobbles."}
+
+    def read(*steps) -> set[int]:
+        return read_steps(plan(*steps))
+
+    assert read(find, {"op": "answer_from_chunks", "input": 0}) == {0}
+    assert read(find, {"op": "retrieve_chunks", "input": 0}, {"op": "answer_from_chunks", "input": 1}) == {
+        0,
+        1,
+    }
+    assert read(find, check, {"op": "answer_from_chunks", "input": 1}) == {0, 1}
+    # counted, listed or ranked, even after read_check: the exact default stays
+    assert read(find, {"op": "count", "input": 0}) == set()
+    assert read(find, check, {"op": "count", "input": 1}) == set()
+    assert read(find, {"op": "rank", "input": 0, "order": "most"}) == set()
+    # used both ways: the count must be exact, so the default stays
+    assert read(find, {"op": "retrieve_chunks", "input": 0}, {"op": "count", "input": 0}) == set()
+
+
+# Two claims of the quill press, each in its own chunk, that a plan's default leaves out of a count: one the
+# text denies (the R77 bug's shape, its negation kept as the cue) and one it calls possible
+NAVIGATION = """
+MATCH (p:Press {press_id: 'P1'}), (s:Mention {id: 'm-spindle'}), (d:Document {doc_id: 'notes.md'})
+CREATE (slide:Concept {id: 'k-slide', name: 'slide right', type: 'Condition'}),
+       (ms:Mention {id: 'm-slide', name: 'slide right', type: 'Condition', doc_id: 'notes.md'})
+         -[:REFERS_TO {canonical: 'k-slide', name: 'slide right', kind: 'concept'}]->(slide),
+       (jam:Concept {id: 'k-jam', name: 'jam', type: 'Condition'}),
+       (mj:Mention {id: 'm-jam', name: 'jam', type: 'Condition', doc_id: 'notes.md'})
+         -[:REFERS_TO {canonical: 'k-jam', name: 'jam', kind: 'concept'}]->(jam),
+       (c1:Chunk {chunk_id: 'notes.md#7', context: 'Notes',
+                  text: 'We still could not get the spindle to slide right.'})-[:PART_OF]->(d),
+       (c2:Chunk {chunk_id: 'notes.md#8', context: 'Notes', text: 'The spindle could jam in frost.'})
+         -[:PART_OF]->(d),
+       (o6:Observation {id: 'o6', predicate: 'HAS_CONDITION', truth: 'negated', negation: 'could not',
+                        triple_truth: 'negated', modality: 'actual'}),
+       (o7:Observation {id: 'o7', predicate: 'HAS_CONDITION', truth: 'affirmed', triple_truth: 'affirmed',
+                        modality: 'possible', hedge: 'could'}),
+       (o6)-[:SUBJECT]->(s), (o6)-[:OBJECT]->(ms), (o6)-[:FROM]->(c1), (p)-[:HAS_OBSERVATION]->(o6),
+       (o7)-[:SUBJECT]->(s), (o7)-[:OBJECT]->(mj), (o7)-[:FROM]->(c2), (p)-[:HAS_OBSERVATION]->(o7)
+"""
+
+
+@pytest.mark.neo4j
+def test_a_plan_that_reads_reaches_a_denied_or_possible_claim_and_its_chunk(runner_parts, driver):  # noqa: F811
+    store, _ = runner_parts
+    schema = _with(driver, store, NAVIGATION)
+    question = "Do the spindle's parts slide right?"  # no words asking for a denial: the text decides
+    for words, chunk in (("slide right", "notes.md#7"), ("jam", "notes.md#8")):
+        find = {"op": "find_claims", "predicate": "HAS_CONDITION", "object_like": words}
+        direct = run(runner(store, schema), schema, question, find, {"op": "answer_from_chunks", "input": 0})
+        assert [c.chunk_id for c in direct.shown] == [chunk]
+        assert (
+            direct.steps[0].items == {"claim": 1} and direct.steps[0].note == "every assertion: read as text"
+        )
+        via = run(
+            runner(store, schema), schema, question, find, {"op": "retrieve_chunks", "input": 0},
+            {"op": "answer_from_chunks", "input": 1},
+        )  # fmt: skip
+        assert [c.chunk_id for c in via.shown] == [chunk]
+
+
+@pytest.mark.neo4j
+def test_a_plan_that_counts_still_counts_only_the_claims_that_hold(runner_parts, driver):  # noqa: F811
+    store, _ = runner_parts
+    schema = _with(driver, store, NAVIGATION)
+    find = {"op": "find_claims", "predicate": "HAS_CONDITION", "object_like": "slide right"}
+    counted = run(
+        runner(store, schema), schema, "How many presses slide right?", find, {"op": "count", "input": 0}
+    )
+    # (the empty search is retried on either end, R78, which notes that too)
+    assert counted.number == 0.0 and "read as text" not in counted.steps[0].note
+    # through read_check the claims are counted too: the denied one never reaches the checker
+    verified = CheckReply(supported=True, chunk_id="notes.md#7", quote="slide right")
+    checked = run(
+        runner(store, schema, checks=[verified]), schema, "How many presses slide right?", find,
+        {"op": "read_check", "input": 0, "statement": "The spindle slides right."},
+        {"op": "count", "input": 1},
+    )  # fmt: skip
+    assert (checked.number, checked.checks) == (0.0, 0)
+    # asked for in the question's own words, the denial is found and counted, exactly
+    denied = {**find, "truth": "negated", "truth_words": "do not"}
+    asked = run(
+        runner(store, schema),
+        schema,
+        "How many presses do not slide right?",
+        denied,
+        {"op": "count", "input": 0},
+    )
+    assert asked.number == 1.0
 
 
 # --- the scorer -----------------------------------------------------------------------------------------
