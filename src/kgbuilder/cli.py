@@ -57,6 +57,7 @@ AUDIT_LOGGED = typer.Option(..., help="The build's logged counts (tests/gold/r87
 REACH_CLAIMS = typer.Option(None, help="R68 blind claims whose (thing, chunk) pairs test reach.")
 REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims were written on.")
 # the anchor-graph evaluation (R90): the target gold of the build's dataset and the arm it walks
+FROM_BUILD = typer.Option(None, help="A finished build folder: replay its triples.jsonl, no LLM (R102).")
 SAMPLE_BUILD = typer.Option(None, help="A finished build folder: sample its corpus, not the graph (R101).")
 SAMPLE_DATA = typer.Option(None, help="With --build: the dataset folder the build ingested.")
 ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset (tests/gold/r89/).")
@@ -305,10 +306,12 @@ def text_schema(goal: str = typer.Option(...), out: Path = OUT):
 
 
 @app.command()
-def extract(out: Path = OUT):
-    """Extract evidence-backed facts from the ingested chunks into the subject graph."""
+def extract(out: Path = OUT, from_build: Path | None = FROM_BUILD):
+    """Extract evidence-backed facts from the ingested chunks into the subject graph; with --from-build, write
+    an earlier build's claims again instead, re-verified, without the LLM (R102)."""
+    stage = st.ReplayExtractStage() if from_build is not None else st.ExtractStage()
     with session(out) as ctx:
-        result = run_stages(ctx, PipelineState(), [st.ExtractStage()]).extraction
+        result = run_stages(ctx, PipelineState(extract_source=from_build), [stage]).extraction
     typer.echo(
         f"{len(result.triples)} facts stored, {len(result.rejected)} rejected (see {out / 'rejected.jsonl'})"
     )

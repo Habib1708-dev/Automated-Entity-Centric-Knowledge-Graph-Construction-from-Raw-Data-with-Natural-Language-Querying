@@ -26,6 +26,7 @@ uv run kg eval gold.json --verdicts out/judge_verdicts.json       # plus the jud
 uv run kg rescore SHEET gold.json --verdicts V.json              # re-score an earlier eval run's logged sheet (no graph)
 uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random sample of sentences (coverage, below)
 uv run kg coverage-sample S.json --build B --data D             # ... from a finished build's corpus, no graph (R101)
+uv run kg extract --from-build B                                # an earlier build's claims, re-verified, no LLM (R102)
 uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)

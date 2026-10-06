@@ -412,6 +412,57 @@ class ExtractStage(_TextStage):
         run.artifact(ctx.write("off_schema.json", json.dumps(result.off_schema_signatures(), indent=2)))
 
 
+class ReplayExtractStage(ExtractStage):
+    """`kg extract --from-build BUILD` (R102): the claims of an earlier build's `triples.jsonl`, written again
+    as `kg extract` writes them, without the LLM. Each is verified again (`extraction.verify`) against today's
+    chunks and schema, and a build whose text schema differs is refused: a claim extracted under another
+    schema is another claim. A rebuild then differs from the earlier build only by what changed after
+    extraction, not by a new sample of the extractor (R61-R62: two samples of one prompt differ). Its run is
+    named `extract`, so every reader of an extract run (logged counts, the audit's fidelity gate) finds it."""
+
+    def params(self, ctx, state):
+        source = input_file(state.need("extract_source", "pass the build folder to replay"), "build folder")
+        triples = input_file(source / "triples.jsonl", "the build's triples")
+        return {"source": source, "triples_hash": digest(triples), "model": ctx.settings.extract_model}
+
+    def run(self, ctx, state, run):
+        source = Path(state.extract_source)
+        schema = state.load_text_schema(ctx)
+        built = text_schema.TextSchema.model_validate_json((source / TEXT_SCHEMA_FILE).read_text("utf-8"))
+        if built != schema:
+            raise ProposalRejectedError(
+                "replayed claims", [f"{source} was extracted under another text schema"]
+            )
+        lines = (source / "triples.jsonl").read_text(encoding="utf-8").splitlines()
+        chunks = {c.chunk_id: c for c in state.load_chunks(ctx)}
+        kept: list[extraction.Triple] = []
+        rejected: list[extraction.Rejected] = []
+        for triple in (extraction.Triple.model_validate_json(x) for x in lines if x):
+            chunk = chunks.get(triple.chunk_id)
+            why = (
+                extraction.verify(triple, chunk.text, schema, chunk.context)
+                if chunk is not None
+                else extraction.Rejection(
+                    reason=extraction.RejectionReason.ARGUMENT_NOT_IN_CHUNK, detail="no such chunk"
+                )
+            )
+            if why is None:
+                kept.append(triple)
+            else:
+                rejected.append(extraction.Rejected(triple=triple, reason=why.reason, detail=why.detail))
+        counts = write_subject_graph(ctx.driver, kept, extractor=ctx.settings.extract_model)
+        state.extraction = extraction.ExtractionResult(triples=kept, rejected=rejected)
+        run.metrics(
+            **counts.model_dump(),
+            chunks=len(chunks),
+            replayed=len(lines),
+            rejected=len(rejected),
+            triples_per_chunk=len(kept) / len(chunks),
+        )
+        run.artifact(ctx.write("triples.jsonl", "\n".join(t.model_dump_json() for t in kept)))
+        run.artifact(ctx.write("rejected.jsonl", "\n".join(r.model_dump_json() for r in rejected)))
+
+
 class MentionPassStage(_TextStage):
     """List what each chunk names or talks about that no claim names, verify every finding in code and write
     the new mentions and MENTIONS edges (R101). After `link` (derivation must not see these mentions) and

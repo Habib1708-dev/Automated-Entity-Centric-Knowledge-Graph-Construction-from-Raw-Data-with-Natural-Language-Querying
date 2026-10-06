@@ -5660,6 +5660,23 @@ the graph into a noisy copy of the text, so the bounds are fixed before measurin
 - **R101 done 2026-10-07.** The noise and size bounds are checked in R102. Next: R102 (part a, $0, then the
   rebuild, asked per dataset).
 
+### R102. Rebuild with the r77d claims, and evaluate everything (started 2026-10-07)
+The replays of R94-R100 were not rebuilds: each restated one stage over a snapshot. R102 builds the three
+graphs again with every change of R97-R101 in place (the anchor walk is evaluation-side; record candidates,
+the adjudicator and the mention pass are build-side), reusing the r77d claims so that the comparison with
+r77d is not confounded by a new sample of the extractor (R61-R62).
+- **Split, one commit each:** (a) `kg extract --from-build` ($0); (b) the rebuilds (paid, asked per dataset);
+  (c) the evaluation ($0, judging only new and changed items); (d) the results table.
+- **Part a (done 2026-10-07, $0):** `ReplayExtractStage` (`pipeline/stages.py`, an `ExtractStage` whose run
+  is still named `extract`) and `kg extract --from-build BUILD`: reads the build's `triples.jsonl`, refuses a
+  build whose `text_schema.json` differs from the run's, verifies every triple again with `extraction.verify`
+  against the ingested chunks (a missing chunk or a failed rule is a rejection, logged), and writes the rest
+  with `write_subject_graph`. Params: `source`, `triples_hash`, `model`. Metrics: the subject graph's counts
+  (as `kg extract`), `replayed`, `rejected`. Artifacts: `triples.jsonl`, `rejected.jsonl`. Tests
+  (`tests/test_extract_replay.py`, 2, Neo4j): the invented build's 4 claims written again and a fifth with a
+  quote not in its chunk rejected; a build of another schema refused with nothing written. README. Gate:
+  778 passed (776 before), `ruff check` clean.
+
 ## Found along the way
 - **R100's adjudicator answers "unsure" for some right joins (found in R100, 2026-10-06; the user's choice).**
   Seven joins judged right in R99 are lost: furniture "cushions" / "cushion" (one review; an R75 gold pair, so

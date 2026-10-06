@@ -102,6 +102,7 @@ class PipelineState:
     # the graph audit (R87): the build folder it rebuilds, the build's logged counts, and the R68 claims and
     # sentence sample whose (thing, chunk) pairs test reach
     audit_source: Path | None = None
+    extract_source: Path | None = None  # `kg extract --from-build`: the build whose claims to replay (R102)
     audit_logged: Path | None = None
     reach_gold: tuple[Path, Path] | None = None
     # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures, and the anchor
