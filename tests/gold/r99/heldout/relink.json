@@ -1,0 +1,49 @@
+{
+ "build": "out/r77d_heldout",
+ "changes": [
+  {
+   "mention": "fbc7f46234f20d42",
+   "name": "2016 CIVICS",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "before": null,
+   "after": "Vehicle:CIVIC",
+   "explained": true,
+   "cause": "chosen"
+  }
+ ],
+ "counts": {
+  "resolve.mentions_to_records": [
+   76,
+   77
+  ],
+  "resolve.mentions_to_individuals": [
+   184,
+   183
+  ],
+  "attach.attachments": [
+   3059,
+   3056
+  ],
+  "attach.attached_part_of": [
+   152,
+   151
+  ],
+  "attach.attached_document": [
+   191,
+   189
+  ]
+ },
+ "choices": [
+  {
+   "mention": "fbc7f46234f20d42",
+   "name": "2016 CIVICS",
+   "candidates": [
+    "Vehicle:CIVIC"
+   ],
+   "action": "chosen",
+   "record": "Vehicle:CIVIC",
+   "evidence": "WOULD LIKE FOR HONDA TO PROVIDE ALTERNATIVE TRANSPORTATION UNTIL ENGINE CAN BE REPAIRED/REPLACED OR BUY THE VEHICLE BACK SINCE DEALERS HAVE BEEN FORCED TO STOP SELLING 2016 CIVICS.",
+   "by": "gemini-3.8-flash"
+  }
+ ]
+}

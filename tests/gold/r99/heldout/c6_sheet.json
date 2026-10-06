@@ -1,0 +1,4262 @@
+{
+ "dataset": "heldout",
+ "build": "out/r99_heldout/build",
+ "snapshot_hash": "5fea28c3188e",
+ "question": "Does this chunk concern this start node (speak of this very thing)?",
+ "criterion": "C6",
+ "pairs": [
+  {
+   "id": "p:0cd7a506f6c15761|complaints/toyota_rav4_complaints.md#2",
+   "start": {
+    "id": "0cd7a506f6c15761",
+    "kind": "concept",
+    "type": "Component",
+    "name": "GAS PEDAL",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1952ab1034e7f31d",
+      "name": "GAS PEDAL",
+      "document": "complaints/toyota_rav4_complaints.md",
+      "chunks": [
+       "complaints/toyota_rav4_complaints.md#2"
+      ],
+      "sentence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL."
+     }
+    ]
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#2"
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/20V218000#0",
+   "start": {
+    "id": "109de876a77934ff",
+    "kind": "concept",
+    "type": "Component",
+    "name": "low-pressure fuel pump",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5e8966782f0d6322",
+      "name": "low-pressure fuel pump",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     },
+     {
+      "id": "32d7cdd1cbc22faf",
+      "name": "low-pressure fuel pump",
+      "document": "record/Recall/21V587000",
+      "chunks": [
+       "record/Recall/21V587000#0",
+       "record/Recall/21V587000#1"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/20V218000#0"
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/20V682000#0",
+   "start": {
+    "id": "109de876a77934ff",
+    "kind": "concept",
+    "type": "Component",
+    "name": "low-pressure fuel pump",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f35e1aa82c32f6e8",
+      "name": "low pressure fuel pump",
+      "document": "record/Recall/20V218000",
+      "chunks": [
+       "record/Recall/20V218000#0"
+      ],
+      "sentence": "The low pressure fuel pump may become inoperative."
+     },
+     {
+      "id": "32d7cdd1cbc22faf",
+      "name": "low-pressure fuel pump",
+      "document": "record/Recall/21V587000",
+      "chunks": [
+       "record/Recall/21V587000#0",
+       "record/Recall/21V587000#1"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/20V682000#0"
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/21V587000#0",
+   "start": {
+    "id": "109de876a77934ff",
+    "kind": "concept",
+    "type": "Component",
+    "name": "low-pressure fuel pump",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f35e1aa82c32f6e8",
+      "name": "low pressure fuel pump",
+      "document": "record/Recall/20V218000",
+      "chunks": [
+       "record/Recall/20V218000#0"
+      ],
+      "sentence": "The low pressure fuel pump may become inoperative."
+     },
+     {
+      "id": "5e8966782f0d6322",
+      "name": "low-pressure fuel pump",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/21V587000#0"
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/21V587000#1",
+   "start": {
+    "id": "109de876a77934ff",
+    "kind": "concept",
+    "type": "Component",
+    "name": "low-pressure fuel pump",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f35e1aa82c32f6e8",
+      "name": "low pressure fuel pump",
+      "document": "record/Recall/20V218000",
+      "chunks": [
+       "record/Recall/20V218000#0"
+      ],
+      "sentence": "The low pressure fuel pump may become inoperative."
+     },
+     {
+      "id": "5e8966782f0d6322",
+      "name": "low-pressure fuel pump",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/21V587000#1"
+  },
+  {
+   "id": "p:1aca40d121796592|complaints/nissan_rogue_complaints.md#3",
+   "start": {
+    "id": "1aca40d121796592",
+    "kind": "concept",
+    "type": "Component",
+    "name": "TRANSMISSION",
+    "record": null,
+    "mentions": [
+     {
+      "id": "85e9e779ae0bf198",
+      "name": "TRANSMISSION",
+      "document": "complaints/nissan_rogue_complaints.md",
+      "chunks": [
+       "complaints/nissan_rogue_complaints.md#3"
+      ],
+      "sentence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS."
+     }
+    ]
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#3"
+  },
+  {
+   "id": "p:252bf49212397089|record/Recall/21V587000#0",
+   "start": {
+    "id": "252bf49212397089",
+    "kind": "individual",
+    "type": "Vehicle",
+    "name": "Toyota 86",
+    "record": null,
+    "mentions": [
+     {
+      "id": "cf909564cc0576ac",
+      "name": "Toyota 86",
+      "document": "record/Recall/21V587000",
+      "chunks": [
+       "record/Recall/21V587000#0"
+      ],
+      "sentence": "(Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+     }
+    ]
+   },
+   "chunk": "record/Recall/21V587000#0"
+  },
+  {
+   "id": "p:2afd65664e6d2d45|complaints/honda_civic_complaints.md#2",
+   "start": {
+    "id": "2afd65664e6d2d45",
+    "kind": "individual",
+    "type": "Recall",
+    "name": "PISTON SNAP RING RECALL",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3736673db8cb5db0",
+      "name": "PISTON SNAP RING RECALL",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#4"
+      ],
+      "sentence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#2"
+  },
+  {
+   "id": "p:2afd65664e6d2d45|complaints/honda_civic_complaints.md#3",
+   "start": {
+    "id": "2afd65664e6d2d45",
+    "kind": "individual",
+    "type": "Recall",
+    "name": "PISTON SNAP RING RECALL",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3736673db8cb5db0",
+      "name": "PISTON SNAP RING RECALL",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#4"
+      ],
+      "sentence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#3"
+  },
+  {
+   "id": "p:2afd65664e6d2d45|complaints/honda_civic_complaints.md#4",
+   "start": {
+    "id": "2afd65664e6d2d45",
+    "kind": "individual",
+    "type": "Recall",
+    "name": "PISTON SNAP RING RECALL",
+    "record": null,
+    "mentions": [
+     {
+      "id": "bbae497e425acaea",
+      "name": "RECALL",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#2",
+       "complaints/honda_civic_complaints.md#3"
+      ],
+      "sentence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#4"
+  },
+  {
+   "id": "p:2f26533e77122925|complaints/ford_escape_complaints.md#2",
+   "start": {
+    "id": "2f26533e77122925",
+    "kind": "concept",
+    "type": "Component",
+    "name": "BRAKE",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e0a53af74704c76c",
+      "name": "BRAKES",
+      "document": "complaints/nissan_rogue_complaints.md",
+      "chunks": [
+       "complaints/nissan_rogue_complaints.md#1"
+      ],
+      "sentence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES."
+     }
+    ]
+   },
+   "chunk": "complaints/ford_escape_complaints.md#2"
+  },
+  {
+   "id": "p:2f26533e77122925|complaints/nissan_rogue_complaints.md#1",
+   "start": {
+    "id": "2f26533e77122925",
+    "kind": "concept",
+    "type": "Component",
+    "name": "BRAKE",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6d5d583f94579135",
+      "name": "BRAKE",
+      "document": "complaints/ford_escape_complaints.md",
+      "chunks": [
+       "complaints/ford_escape_complaints.md#2"
+      ],
+      "sentence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL."
+     }
+    ]
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#1"
+  },
+  {
+   "id": "p:321183777719ca09|complaints/honda_civic_complaints.md#0",
+   "start": {
+    "id": "321183777719ca09",
+    "kind": "concept",
+    "type": "Component",
+    "name": "TRUNK",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8762ae16dec6b3f0",
+      "name": "TRUNK",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#0"
+      ],
+      "sentence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#0"
+  },
+  {
+   "id": "p:375b7825a587ca66|record/Recall/16V244000#0",
+   "start": {
+    "id": "375b7825a587ca66",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "passenger frontal air bag may be turned off and not deploy in the event of a crash",
+    "record": null,
+    "mentions": [
+     {
+      "id": "cd41b05500d0e0ba",
+      "name": "passenger frontal air bag may be turned off and not deploy in the event of a crash",
+      "document": "record/Recall/16V244000",
+      "chunks": [
+       "record/Recall/16V244000#0"
+      ],
+      "sentence": "As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V244000#0"
+  },
+  {
+   "id": "p:4078e6d062bce84a|record/Recall/16V244000#0",
+   "start": {
+    "id": "4078e6d062bce84a",
+    "kind": "concept",
+    "type": "Component",
+    "name": "passenger frontal air bag",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c819724ef501e36e",
+      "name": "passenger frontal air bag",
+      "document": "record/Recall/16V244000",
+      "chunks": [
+       "record/Recall/16V244000#0"
+      ],
+      "sentence": "As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V244000#0"
+  },
+  {
+   "id": "p:4298d859bece1a5d|complaints/toyota_rav4_complaints.md#3",
+   "start": {
+    "id": "4298d859bece1a5d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2f6a9d1e602fae51",
+      "name": "fuel tank",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     },
+     {
+      "id": "5fe55678a94fcabe",
+      "name": "fuel tank",
+      "document": "record/Recall/21V587000",
+      "chunks": [
+       "record/Recall/21V587000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     },
+     {
+      "id": "4c102a9f92234337",
+      "name": "fuel tank",
+      "document": "record/Recall/23V858000",
+      "chunks": [
+       "record/Recall/23V858000#0"
+      ],
+      "sentence": "The fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#3"
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/20V682000#0",
+   "start": {
+    "id": "4298d859bece1a5d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8ef424de53ace184",
+      "name": "TANK",
+      "document": "complaints/toyota_rav4_complaints.md",
+      "chunks": [
+       "complaints/toyota_rav4_complaints.md#3"
+      ],
+      "sentence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL."
+     },
+     {
+      "id": "5fe55678a94fcabe",
+      "name": "fuel tank",
+      "document": "record/Recall/21V587000",
+      "chunks": [
+       "record/Recall/21V587000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     },
+     {
+      "id": "4c102a9f92234337",
+      "name": "fuel tank",
+      "document": "record/Recall/23V858000",
+      "chunks": [
+       "record/Recall/23V858000#0"
+      ],
+      "sentence": "The fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/20V682000#0"
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/21V587000#0",
+   "start": {
+    "id": "4298d859bece1a5d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8ef424de53ace184",
+      "name": "TANK",
+      "document": "complaints/toyota_rav4_complaints.md",
+      "chunks": [
+       "complaints/toyota_rav4_complaints.md#3"
+      ],
+      "sentence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL."
+     },
+     {
+      "id": "2f6a9d1e602fae51",
+      "name": "fuel tank",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     },
+     {
+      "id": "4c102a9f92234337",
+      "name": "fuel tank",
+      "document": "record/Recall/23V858000",
+      "chunks": [
+       "record/Recall/23V858000#0"
+      ],
+      "sentence": "The fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/21V587000#0"
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/23V858000#0",
+   "start": {
+    "id": "4298d859bece1a5d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8ef424de53ace184",
+      "name": "TANK",
+      "document": "complaints/toyota_rav4_complaints.md",
+      "chunks": [
+       "complaints/toyota_rav4_complaints.md#3"
+      ],
+      "sentence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL."
+     },
+     {
+      "id": "2f6a9d1e602fae51",
+      "name": "fuel tank",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     },
+     {
+      "id": "5fe55678a94fcabe",
+      "name": "fuel tank",
+      "document": "record/Recall/21V587000",
+      "chunks": [
+       "record/Recall/21V587000#0"
+      ],
+      "sentence": "The low-pressure fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/23V858000#0"
+  },
+  {
+   "id": "p:4401d9e338ced22a|complaints/ford_escape_complaints.md#3",
+   "start": {
+    "id": "4401d9e338ced22a",
+    "kind": "concept",
+    "type": "Component",
+    "name": "AIR BAGS",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e3418651661efd89",
+      "name": "air bags",
+      "document": "record/Recall/26V332000",
+      "chunks": [
+       "record/Recall/26V332000#0"
+      ],
+      "sentence": "The front passenger seat weight sensor may crack and short circuit, which can cause the air bags to deploy unintentionally during a crash."
+     }
+    ]
+   },
+   "chunk": "complaints/ford_escape_complaints.md#3"
+  },
+  {
+   "id": "p:4401d9e338ced22a|record/Recall/26V332000#0",
+   "start": {
+    "id": "4401d9e338ced22a",
+    "kind": "concept",
+    "type": "Component",
+    "name": "AIR BAGS",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a789497a7d23b138",
+      "name": "AIR BAGS",
+      "document": "complaints/ford_escape_complaints.md",
+      "chunks": [
+       "complaints/ford_escape_complaints.md#3"
+      ],
+      "sentence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY."
+     }
+    ]
+   },
+   "chunk": "record/Recall/26V332000#0"
+  },
+  {
+   "id": "p:457980565f4112a2|complaints/subaru_outback_complaints.md#1",
+   "start": {
+    "id": "457980565f4112a2",
+    "kind": "concept",
+    "type": "Component",
+    "name": "rearview camera",
+    "record": null,
+    "mentions": [
+     {
+      "id": "447abef4be44deea",
+      "name": "back-up camera",
+      "document": "record/Recall/19V576000",
+      "chunks": [
+       "record/Recall/19V576000#0"
+      ],
+      "sentence": "Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse."
+     },
+     {
+      "id": "12475cd7f93b3948",
+      "name": "rearview camera",
+      "document": "record/Recall/25V695000",
+      "chunks": [
+       "record/Recall/25V695000#0",
+       "record/Recall/25V695000#1"
+      ],
+      "sentence": "The rearview camera may display a distorted,  intermittent, or blank image when the vehicle is in reverse."
+     }
+    ]
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#1"
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/19V576000#0",
+   "start": {
+    "id": "457980565f4112a2",
+    "kind": "concept",
+    "type": "Component",
+    "name": "rearview camera",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6917243bd2dc8cf5",
+      "name": "BACK UP CAMERA",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#1"
+      ],
+      "sentence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC."
+     },
+     {
+      "id": "12475cd7f93b3948",
+      "name": "rearview camera",
+      "document": "record/Recall/25V695000",
+      "chunks": [
+       "record/Recall/25V695000#0",
+       "record/Recall/25V695000#1"
+      ],
+      "sentence": "The rearview camera may display a distorted,  intermittent, or blank image when the vehicle is in reverse."
+     }
+    ]
+   },
+   "chunk": "record/Recall/19V576000#0"
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/25V695000#0",
+   "start": {
+    "id": "457980565f4112a2",
+    "kind": "concept",
+    "type": "Component",
+    "name": "rearview camera",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6917243bd2dc8cf5",
+      "name": "BACK UP CAMERA",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#1"
+      ],
+      "sentence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC."
+     },
+     {
+      "id": "447abef4be44deea",
+      "name": "back-up camera",
+      "document": "record/Recall/19V576000",
+      "chunks": [
+       "record/Recall/19V576000#0"
+      ],
+      "sentence": "Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse."
+     }
+    ]
+   },
+   "chunk": "record/Recall/25V695000#0"
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/25V695000#1",
+   "start": {
+    "id": "457980565f4112a2",
+    "kind": "concept",
+    "type": "Component",
+    "name": "rearview camera",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6917243bd2dc8cf5",
+      "name": "BACK UP CAMERA",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#1"
+      ],
+      "sentence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC."
+     },
+     {
+      "id": "447abef4be44deea",
+      "name": "back-up camera",
+      "document": "record/Recall/19V576000",
+      "chunks": [
+       "record/Recall/19V576000#0"
+      ],
+      "sentence": "Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse."
+     }
+    ]
+   },
+   "chunk": "record/Recall/25V695000#1"
+  },
+  {
+   "id": "p:4fceafc144c3a6db|record/Recall/20V682000#1",
+   "start": {
+    "id": "4fceafc144c3a6db",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel pump module",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d479d7ee581a9f91",
+      "name": "fuel pump module",
+      "document": "record/Recall/23V858000",
+      "chunks": [
+       "record/Recall/23V858000#1"
+      ],
+      "sentence": "Dealers will replace the fuel pump module, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/20V682000#1"
+  },
+  {
+   "id": "p:4fceafc144c3a6db|record/Recall/23V858000#1",
+   "start": {
+    "id": "4fceafc144c3a6db",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel pump module",
+    "record": null,
+    "mentions": [
+     {
+      "id": "aef1cedbaa44decc",
+      "name": "fuel pump assembly",
+      "document": "record/Recall/20V682000",
+      "chunks": [
+       "record/Recall/20V682000#1"
+      ],
+      "sentence": "Toyota will notify owners, and dealers will replace the fuel pump assembly with an improved one, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/23V858000#1"
+  },
+  {
+   "id": "p:6666593b1158ecaf|record/Recall/16V244000#1",
+   "start": {
+    "id": "6666593b1158ecaf",
+    "kind": "concept",
+    "type": "Component",
+    "name": "Air Bag Control Unit",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6f7fb0dbb112caae",
+      "name": "Air Bag Control Unit",
+      "document": "record/Recall/16V244000",
+      "chunks": [
+       "record/Recall/16V244000#1"
+      ],
+      "sentence": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V244000#1"
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/16V643000#0",
+   "start": {
+    "id": "76131af5637a7f0d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "door latches",
+    "record": null,
+    "mentions": [
+     {
+      "id": "665f91e21546a6f1",
+      "name": "door latches",
+      "document": "record/Recall/20V331000",
+      "chunks": [
+       "record/Recall/20V331000#0"
+      ],
+      "sentence": "A component within the door latches may break making the doors difficult to latch and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+     },
+     {
+      "id": "95697bfc22f3d2a0",
+      "name": "side door latches",
+      "document": "record/Recall/20V331000",
+      "chunks": [
+       "record/Recall/20V331000#1"
+      ],
+      "sentence": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V643000#0"
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/16V643000#1",
+   "start": {
+    "id": "76131af5637a7f0d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "door latches",
+    "record": null,
+    "mentions": [
+     {
+      "id": "665f91e21546a6f1",
+      "name": "door latches",
+      "document": "record/Recall/20V331000",
+      "chunks": [
+       "record/Recall/20V331000#0"
+      ],
+      "sentence": "A component within the door latches may break making the doors difficult to latch and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+     },
+     {
+      "id": "95697bfc22f3d2a0",
+      "name": "side door latches",
+      "document": "record/Recall/20V331000",
+      "chunks": [
+       "record/Recall/20V331000#1"
+      ],
+      "sentence": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V643000#1"
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/20V331000#0",
+   "start": {
+    "id": "76131af5637a7f0d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "door latches",
+    "record": null,
+    "mentions": [
+     {
+      "id": "dd958f5350cf497c",
+      "name": "door latches",
+      "document": "record/Recall/16V643000",
+      "chunks": [
+       "record/Recall/16V643000#0",
+       "record/Recall/16V643000#1"
+      ],
+      "sentence": "A component within the door latches may break, preventing the doors from latching and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+     },
+     {
+      "id": "95697bfc22f3d2a0",
+      "name": "side door latches",
+      "document": "record/Recall/20V331000",
+      "chunks": [
+       "record/Recall/20V331000#1"
+      ],
+      "sentence": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/20V331000#0"
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/20V331000#1",
+   "start": {
+    "id": "76131af5637a7f0d",
+    "kind": "concept",
+    "type": "Component",
+    "name": "door latches",
+    "record": null,
+    "mentions": [
+     {
+      "id": "dd958f5350cf497c",
+      "name": "door latches",
+      "document": "record/Recall/16V643000",
+      "chunks": [
+       "record/Recall/16V643000#0",
+       "record/Recall/16V643000#1"
+      ],
+      "sentence": "A component within the door latches may break, preventing the doors from latching and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+     },
+     {
+      "id": "665f91e21546a6f1",
+      "name": "door latches",
+      "document": "record/Recall/20V331000",
+      "chunks": [
+       "record/Recall/20V331000#0"
+      ],
+      "sentence": "A component within the door latches may break making the doors difficult to latch and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+     }
+    ]
+   },
+   "chunk": "record/Recall/20V331000#1"
+  },
+  {
+   "id": "p:7a85e307148b959a|complaints/honda_civic_complaints.md#1",
+   "start": {
+    "id": "7a85e307148b959a",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "BRAKE SUDDENLY",
+    "record": null,
+    "mentions": [
+     {
+      "id": "afea0716260890d1",
+      "name": "BRAKE SUDDENLY",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#1"
+      ],
+      "sentence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#1"
+  },
+  {
+   "id": "p:818a575712731626|complaints/honda_civic_complaints.md#2",
+   "start": {
+    "id": "818a575712731626",
+    "kind": "concept",
+    "type": "Component",
+    "name": "PISTON CLIP RING",
+    "record": null,
+    "mentions": [
+     {
+      "id": "976d80a22f15d111",
+      "name": "PISTON SNAP RING",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#4"
+      ],
+      "sentence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+     },
+     {
+      "id": "a6ace0393114d706",
+      "name": "piston wrist pin circlip",
+      "document": "record/Recall/16V074000",
+      "chunks": [
+       "record/Recall/16V074000#0"
+      ],
+      "sentence": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#2"
+  },
+  {
+   "id": "p:818a575712731626|complaints/honda_civic_complaints.md#4",
+   "start": {
+    "id": "818a575712731626",
+    "kind": "concept",
+    "type": "Component",
+    "name": "PISTON CLIP RING",
+    "record": null,
+    "mentions": [
+     {
+      "id": "19e467bd9475ef6e",
+      "name": "PISTON CLIP RING",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#2"
+      ],
+      "sentence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+     },
+     {
+      "id": "a6ace0393114d706",
+      "name": "piston wrist pin circlip",
+      "document": "record/Recall/16V074000",
+      "chunks": [
+       "record/Recall/16V074000#0"
+      ],
+      "sentence": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#4"
+  },
+  {
+   "id": "p:818a575712731626|record/Recall/16V074000#0",
+   "start": {
+    "id": "818a575712731626",
+    "kind": "concept",
+    "type": "Component",
+    "name": "PISTON CLIP RING",
+    "record": null,
+    "mentions": [
+     {
+      "id": "19e467bd9475ef6e",
+      "name": "PISTON CLIP RING",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#2"
+      ],
+      "sentence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+     },
+     {
+      "id": "976d80a22f15d111",
+      "name": "PISTON SNAP RING",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#4"
+      ],
+      "sentence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V074000#0"
+  },
+  {
+   "id": "p:90eb9fec9c5a0026|complaints/subaru_outback_complaints.md#1",
+   "start": {
+    "id": "90eb9fec9c5a0026",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "DEAD BATTERY",
+    "record": null,
+    "mentions": [
+     {
+      "id": "49f81d966fe4064b",
+      "name": "BATTERY WAS TOTALLY DEAD",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#4"
+      ],
+      "sentence": "HAPPENED TWICE AND BATTERY WAS TOTALLY DEAD EACH TIME, NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP."
+     }
+    ]
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#1"
+  },
+  {
+   "id": "p:90eb9fec9c5a0026|complaints/subaru_outback_complaints.md#4",
+   "start": {
+    "id": "90eb9fec9c5a0026",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "DEAD BATTERY",
+    "record": null,
+    "mentions": [
+     {
+      "id": "15dd3a269534b0bb",
+      "name": "DEAD BATTERY",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#1",
+       "complaints/subaru_outback_complaints.md#4"
+      ],
+      "sentence": "IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE."
+     },
+     {
+      "id": "49f81d966fe4064b",
+      "name": "BATTERY WAS TOTALLY DEAD",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#4"
+      ],
+      "sentence": "HAPPENED TWICE AND BATTERY WAS TOTALLY DEAD EACH TIME, NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP."
+     }
+    ]
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#4"
+  },
+  {
+   "id": "p:Complaint:10691672|complaints/ford_escape_complaints.md#3",
+   "start": {
+    "id": "Complaint:10691672",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10691672",
+    "record": {
+     "ref": "Complaint:10691672",
+     "label": "Complaint",
+     "key": "10691672",
+     "name": "10691672",
+     "cells": {
+      "crash": "True",
+      "fire": "False",
+      "numberOfInjuries": "1",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "02/20/2015",
+      "dateComplaintFiled": "03/02/2015",
+      "components": "AIR BAGS",
+      "product.type": "Vehicle",
+      "product.productYear": "2015"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ESCAPE (ESCAPE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#3"
+  },
+  {
+   "id": "p:Complaint:10692693|complaints/ford_escape_complaints.md#4",
+   "start": {
+    "id": "Complaint:10692693",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10692693",
+    "record": {
+     "ref": "Complaint:10692693",
+     "label": "Complaint",
+     "key": "10692693",
+     "name": "10692693",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "02/17/2015",
+      "dateComplaintFiled": "03/07/2015",
+      "components": "POWER TRAIN,FUEL/PROPULSION SYSTEM",
+      "product.type": "Vehicle",
+      "product.productYear": "2015"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ESCAPE (ESCAPE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#4"
+  },
+  {
+   "id": "p:Complaint:10823637|complaints/honda_civic_complaints.md#2",
+   "start": {
+    "id": "Complaint:10823637",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10823637",
+    "record": {
+     "ref": "Complaint:10823637",
+     "label": "Complaint",
+     "key": "10823637",
+     "name": "10823637",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "01/30/2016",
+      "dateComplaintFiled": "02/01/2016",
+      "components": "ENGINE",
+      "product.type": "Vehicle",
+      "product.productYear": "2016"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:CIVIC (CIVIC)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#2"
+  },
+  {
+   "id": "p:Complaint:10824361|complaints/honda_civic_complaints.md#3",
+   "start": {
+    "id": "Complaint:10824361",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10824361",
+    "record": {
+     "ref": "Complaint:10824361",
+     "label": "Complaint",
+     "key": "10824361",
+     "name": "10824361",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "01/30/2016",
+      "dateComplaintFiled": "02/04/2016",
+      "components": "ENGINE",
+      "product.type": "Vehicle",
+      "product.productYear": "2016"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:CIVIC (CIVIC)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#3"
+  },
+  {
+   "id": "p:Complaint:10825467|complaints/honda_civic_complaints.md#4",
+   "start": {
+    "id": "Complaint:10825467",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10825467",
+    "record": {
+     "ref": "Complaint:10825467",
+     "label": "Complaint",
+     "key": "10825467",
+     "name": "10825467",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "02/10/2016",
+      "dateComplaintFiled": "02/10/2016",
+      "components": "ENGINE",
+      "product.type": "Vehicle",
+      "product.productYear": "2016"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:CIVIC (CIVIC)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#4"
+  },
+  {
+   "id": "p:Complaint:10957753|complaints/nissan_rogue_complaints.md#0",
+   "start": {
+    "id": "Complaint:10957753",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10957753",
+    "record": {
+     "ref": "Complaint:10957753",
+     "label": "Complaint",
+     "key": "10957753",
+     "name": "10957753",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "02/05/2017",
+      "dateComplaintFiled": "03/01/2017",
+      "components": "ELECTRICAL SYSTEM",
+      "product.type": "Vehicle",
+      "product.productYear": "2017"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#0"
+  },
+  {
+   "id": "p:Complaint:10972343|complaints/nissan_rogue_complaints.md#1",
+   "start": {
+    "id": "Complaint:10972343",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "10972343",
+    "record": {
+     "ref": "Complaint:10972343",
+     "label": "Complaint",
+     "key": "10972343",
+     "name": "10972343",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "04/06/2017",
+      "dateComplaintFiled": "04/13/2017",
+      "components": "FORWARD COLLISION AVOIDANCE",
+      "product.type": "Vehicle",
+      "product.productYear": "2017"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#1"
+  },
+  {
+   "id": "p:Complaint:11010220|complaints/nissan_rogue_complaints.md#2",
+   "start": {
+    "id": "Complaint:11010220",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "11010220",
+    "record": {
+     "ref": "Complaint:11010220",
+     "label": "Complaint",
+     "key": "11010220",
+     "name": "11010220",
+     "cells": {
+      "crash": "True",
+      "fire": "False",
+      "numberOfInjuries": "1",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "07/21/2017",
+      "dateComplaintFiled": "07/24/2017",
+      "components": "SERVICE BRAKES",
+      "product.type": "Vehicle",
+      "product.productYear": "2017"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#2"
+  },
+  {
+   "id": "p:Complaint:11030208|complaints/nissan_rogue_complaints.md#3",
+   "start": {
+    "id": "Complaint:11030208",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "11030208",
+    "record": {
+     "ref": "Complaint:11030208",
+     "label": "Complaint",
+     "key": "11030208",
+     "name": "11030208",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "09/21/2017",
+      "dateComplaintFiled": "09/27/2017",
+      "components": "POWER TRAIN",
+      "product.type": "Vehicle",
+      "product.productYear": "2017"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#3"
+  },
+  {
+   "id": "p:Complaint:11032133|complaints/nissan_rogue_complaints.md#4",
+   "start": {
+    "id": "Complaint:11032133",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "11032133",
+    "record": {
+     "ref": "Complaint:11032133",
+     "label": "Complaint",
+     "key": "11032133",
+     "name": "11032133",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "10/06/2017",
+      "dateComplaintFiled": "10/06/2017",
+      "components": "FUEL/PROPULSION SYSTEM",
+      "product.type": "Vehicle",
+      "product.productYear": "2017"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#4"
+  },
+  {
+   "id": "p:Complaint:11209676|complaints/toyota_rav4_complaints.md#2",
+   "start": {
+    "id": "Complaint:11209676",
+    "kind": "record",
+    "type": "Complaint",
+    "name": "11209676",
+    "record": {
+     "ref": "Complaint:11209676",
+     "label": "Complaint",
+     "key": "11209676",
+     "name": "11209676",
+     "cells": {
+      "crash": "False",
+      "fire": "False",
+      "numberOfInjuries": "0",
+      "numberOfDeaths": "0",
+      "dateOfIncident": "12/20/2018",
+      "dateComplaintFiled": "05/24/2019",
+      "components": "POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM",
+      "product.type": "Vehicle",
+      "product.productYear": "2019"
+     },
+     "relations": [
+      "CONCERNS_VEHICLE -> Vehicle:RAV4 (RAV4)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#2"
+  },
+  {
+   "id": "p:Recall:19V493000|record/Recall/19V493000#0",
+   "start": {
+    "id": "Recall:19V493000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "19V493000",
+    "record": {
+     "ref": "Recall:19V493000",
+     "label": "Recall",
+     "key": "19V493000",
+     "name": "19V493000",
+     "cells": {
+      "Manufacturer": "Subaru of America, Inc.",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "26/06/2019",
+      "Component": "STRUCTURE",
+      "Summary": "Subaru of America, Inc. (Subaru) is recalling certain 2019 Legacy and Outback vehicles.  Spot welds located on the duct below the cowl panel may have been improperly applied, impacting the vehicle's body strength.",
+      "Consequence": "In the event of a crash, the reduced strength of the vehicle body may increase the risk of injury.",
+      "Remedy": "Subaru will notify owners, and dealers will inspect the vehicles and repair or repurchase the vehicle, as necessary, free of charge.  The recall began July 26, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is WUH-93.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+      "ModelYear": "2019"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:OUTBACK (OUTBACK)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/19V493000#0"
+  },
+  {
+   "id": "p:Recall:19V493000|record/Recall/19V493000#1",
+   "start": {
+    "id": "Recall:19V493000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "19V493000",
+    "record": {
+     "ref": "Recall:19V493000",
+     "label": "Recall",
+     "key": "19V493000",
+     "name": "19V493000",
+     "cells": {
+      "Manufacturer": "Subaru of America, Inc.",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "26/06/2019",
+      "Component": "STRUCTURE",
+      "Summary": "Subaru of America, Inc. (Subaru) is recalling certain 2019 Legacy and Outback vehicles.  Spot welds located on the duct below the cowl panel may have been improperly applied, impacting the vehicle's body strength.",
+      "Consequence": "In the event of a crash, the reduced strength of the vehicle body may increase the risk of injury.",
+      "Remedy": "Subaru will notify owners, and dealers will inspect the vehicles and repair or repurchase the vehicle, as necessary, free of charge.  The recall began July 26, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is WUH-93.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+      "ModelYear": "2019"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:OUTBACK (OUTBACK)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/19V493000#1"
+  },
+  {
+   "id": "p:Recall:20V373000|record/Recall/20V373000#0",
+   "start": {
+    "id": "Recall:20V373000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "20V373000",
+    "record": {
+     "ref": "Recall:20V373000",
+     "label": "Recall",
+     "key": "20V373000",
+     "name": "20V373000",
+     "cells": {
+      "Manufacturer": "Toyota Motor Engineering & Manufacturing",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "24/06/2020",
+      "Component": "STEERING:ELECTRIC POWER ASSIST SYSTEM",
+      "Summary": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS).  Water may enter through the steering gear box cover and cause a loss of electric power steering assist.",
+      "Consequence": "A loss of power steering assist could increase steering effort at low vehicle speeds, increasing the risk of a crash.",
+      "Remedy": "Toyota will notify owners, and dealers will replace the power steering gear box, free of charge.  The recall began August 17, 2020.  Owners may contact Toyota customer service at 1-888-270-9371.  Toyota's number for this recall is 20TB11 / 20TA11.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+      "ModelYear": "2019"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:RAV4 (RAV4)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V373000#0"
+  },
+  {
+   "id": "p:Recall:20V373000|record/Recall/20V373000#1",
+   "start": {
+    "id": "Recall:20V373000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "20V373000",
+    "record": {
+     "ref": "Recall:20V373000",
+     "label": "Recall",
+     "key": "20V373000",
+     "name": "20V373000",
+     "cells": {
+      "Manufacturer": "Toyota Motor Engineering & Manufacturing",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "24/06/2020",
+      "Component": "STEERING:ELECTRIC POWER ASSIST SYSTEM",
+      "Summary": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS).  Water may enter through the steering gear box cover and cause a loss of electric power steering assist.",
+      "Consequence": "A loss of power steering assist could increase steering effort at low vehicle speeds, increasing the risk of a crash.",
+      "Remedy": "Toyota will notify owners, and dealers will replace the power steering gear box, free of charge.  The recall began August 17, 2020.  Owners may contact Toyota customer service at 1-888-270-9371.  Toyota's number for this recall is 20TB11 / 20TA11.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+      "ModelYear": "2019"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:RAV4 (RAV4)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V373000#1"
+  },
+  {
+   "id": "p:Recall:21V839000|record/Recall/21V839000#0",
+   "start": {
+    "id": "Recall:21V839000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "21V839000",
+    "record": {
+     "ref": "Recall:21V839000",
+     "label": "Recall",
+     "key": "21V839000",
+     "name": "21V839000",
+     "cells": {
+      "Manufacturer": "Nissan North America, Inc.",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "26/10/2021",
+      "Component": "ENGINE AND ENGINE COOLING:ENGINE:ENGINE CONTROL MODULE (ECU/ECM)",
+      "Summary": "Nissan North America, Inc. (Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles.  Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse.",
+      "Consequence": "A blown fuse may cause an engine stall, increasing the risk of a crash.",
+      "Remedy": "Dealers will install a harness protector cover, free of charge.  Owner notification letters were mailed December 16, 2021.  Owners may contact Nissan customer service at 1-800-867-7669.  Nissan's number for this recall is R21B6.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+      "ModelYear": "2017"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/21V839000#0"
+  },
+  {
+   "id": "p:Recall:21V839000|record/Recall/21V839000#1",
+   "start": {
+    "id": "Recall:21V839000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "21V839000",
+    "record": {
+     "ref": "Recall:21V839000",
+     "label": "Recall",
+     "key": "21V839000",
+     "name": "21V839000",
+     "cells": {
+      "Manufacturer": "Nissan North America, Inc.",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "26/10/2021",
+      "Component": "ENGINE AND ENGINE COOLING:ENGINE:ENGINE CONTROL MODULE (ECU/ECM)",
+      "Summary": "Nissan North America, Inc. (Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles.  Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse.",
+      "Consequence": "A blown fuse may cause an engine stall, increasing the risk of a crash.",
+      "Remedy": "Dealers will install a harness protector cover, free of charge.  Owner notification letters were mailed December 16, 2021.  Owners may contact Nissan customer service at 1-800-867-7669.  Nissan's number for this recall is R21B6.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+      "ModelYear": "2017"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:ROGUE (ROGUE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/21V839000#1"
+  },
+  {
+   "id": "p:Recall:22V254000|record/Recall/22V254000#0",
+   "start": {
+    "id": "Recall:22V254000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "22V254000",
+    "record": {
+     "ref": "Recall:22V254000",
+     "label": "Recall",
+     "key": "22V254000",
+     "name": "22V254000",
+     "cells": {
+      "Manufacturer": "Ford Motor Company",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "14/04/2022",
+      "Component": "POWER TRAIN:AUTOMATIC TRANSMISSION:GEAR POSITION INDICATION (PRNDL)",
+      "Summary": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.  The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+      "Consequence": "A damaged or missing bushing may prevent the vehicle from shifting into the intended gear, and cause the vehicle to move in an unexpected direction.  Additionally, the vehicle may roll after the driver selects the 'Park' position.  Either scenario increases the risk of a crash or injury.",
+      "Remedy": "Dealers will replace the under hood shifter bushing and add a protective cap over the shift cable bushing, free of charge.  Owner notification letters were mailed May 27, 2022.  Owners may contact Ford customer service at 1-866-436-7332.  Ford's number for this recall is 22S25.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+      "ModelYear": "2015"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:ESCAPE (ESCAPE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/22V254000#0"
+  },
+  {
+   "id": "p:Recall:22V254000|record/Recall/22V254000#1",
+   "start": {
+    "id": "Recall:22V254000",
+    "kind": "record",
+    "type": "Recall",
+    "name": "22V254000",
+    "record": {
+     "ref": "Recall:22V254000",
+     "label": "Recall",
+     "key": "22V254000",
+     "name": "22V254000",
+     "cells": {
+      "Manufacturer": "Ford Motor Company",
+      "parkIt": "False",
+      "parkOutSide": "False",
+      "overTheAirUpdate": "False",
+      "ReportReceivedDate": "14/04/2022",
+      "Component": "POWER TRAIN:AUTOMATIC TRANSMISSION:GEAR POSITION INDICATION (PRNDL)",
+      "Summary": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.  The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+      "Consequence": "A damaged or missing bushing may prevent the vehicle from shifting into the intended gear, and cause the vehicle to move in an unexpected direction.  Additionally, the vehicle may roll after the driver selects the 'Park' position.  Either scenario increases the risk of a crash or injury.",
+      "Remedy": "Dealers will replace the under hood shifter bushing and add a protective cap over the shift cable bushing, free of charge.  Owner notification letters were mailed May 27, 2022.  Owners may contact Ford customer service at 1-866-436-7332.  Ford's number for this recall is 22S25.",
+      "Notes": "Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+      "ModelYear": "2015"
+     },
+     "relations": [
+      "AFFECTS_VEHICLE -> Vehicle:ESCAPE (ESCAPE)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/22V254000#1"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#0",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#0"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#1",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#1"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#2",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#2"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#3",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#3"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#4",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/honda_civic_complaints.md#4"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V074000#0",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/16V074000#0"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V526000#0",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/16V526000#0"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V725000#0",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/16V725000#0"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/23V858000#0",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/23V858000#0"
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/26V332000#0",
+   "start": {
+    "id": "Vehicle:CIVIC",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "CIVIC",
+    "record": {
+     "ref": "Vehicle:CIVIC",
+     "label": "Vehicle",
+     "key": "CIVIC",
+     "name": "CIVIC",
+     "cells": {
+      "make": "HONDA",
+      "model_year": "2016",
+      "manufacturer": "Honda (American Honda Motor Co.)"
+     },
+     "relations": [
+      "Complaint:10809523 (10809523) CONCERNS_VEHICLE -> this",
+      "Complaint:10816192 (10816192) CONCERNS_VEHICLE -> this",
+      "Complaint:10823637 (10823637) CONCERNS_VEHICLE -> this",
+      "Complaint:10824361 (10824361) CONCERNS_VEHICLE -> this",
+      "Complaint:10825467 (10825467) CONCERNS_VEHICLE -> this",
+      "Recall:16V526000 (16V526000) AFFECTS_VEHICLE -> this",
+      "Recall:16V725000 (16V725000) AFFECTS_VEHICLE -> this",
+      "Recall:16V074000 (16V074000) AFFECTS_VEHICLE -> this",
+      "Recall:23V858000 (23V858000) AFFECTS_VEHICLE -> this",
+      "Recall:26V332000 (26V332000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/26V332000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#1",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#1"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#2",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#2"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#3",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#3"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#4",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/ford_escape_complaints.md#4"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/15V406000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/15V406000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/15V436000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/15V436000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/16V643000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/16V643000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/17V472000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/17V472000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/20V331000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V331000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/22V254000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/22V254000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/22V413000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/22V413000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/25V695000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/25V695000#0"
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/26V011000#0",
+   "start": {
+    "id": "Vehicle:ESCAPE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ESCAPE",
+    "record": {
+     "ref": "Vehicle:ESCAPE",
+     "label": "Vehicle",
+     "key": "ESCAPE",
+     "name": "ESCAPE",
+     "cells": {
+      "make": "FORD",
+      "model_year": "2015",
+      "manufacturer": "Ford Motor Company"
+     },
+     "relations": [
+      "Complaint:10667633 (10667633) CONCERNS_VEHICLE -> this",
+      "Complaint:10689793 (10689793) CONCERNS_VEHICLE -> this",
+      "Complaint:10690483 (10690483) CONCERNS_VEHICLE -> this",
+      "Complaint:10691672 (10691672) CONCERNS_VEHICLE -> this",
+      "Complaint:10692693 (10692693) CONCERNS_VEHICLE -> this",
+      "Recall:17V472000 (17V472000) AFFECTS_VEHICLE -> this",
+      "Recall:16V643000 (16V643000) AFFECTS_VEHICLE -> this",
+      "Recall:15V406000 (15V406000) AFFECTS_VEHICLE -> this",
+      "Recall:15V436000 (15V436000) AFFECTS_VEHICLE -> this",
+      "Recall:20V331000 (20V331000) AFFECTS_VEHICLE -> this",
+      "Recall:22V254000 (22V254000) AFFECTS_VEHICLE -> this",
+      "Recall:22V413000 (22V413000) AFFECTS_VEHICLE -> this",
+      "Recall:25V695000 (25V695000) AFFECTS_VEHICLE -> this",
+      "Recall:26V011000 (26V011000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/26V011000#0"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#0",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#0"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#1",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#1"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#2",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#2"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#3",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#3"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#4",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#4"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/19V493000#0",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/19V493000#0"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/20V218000#0",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V218000#0"
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/21V587000#0",
+   "start": {
+    "id": "Vehicle:OUTBACK",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "OUTBACK",
+    "record": {
+     "ref": "Vehicle:OUTBACK",
+     "label": "Vehicle",
+     "key": "OUTBACK",
+     "name": "OUTBACK",
+     "cells": {
+      "make": "SUBARU",
+      "model_year": "2019",
+      "manufacturer": "Subaru of America, Inc."
+     },
+     "relations": [
+      "Complaint:11123359 (11123359) CONCERNS_VEHICLE -> this",
+      "Complaint:11166434 (11166434) CONCERNS_VEHICLE -> this",
+      "Complaint:11176393 (11176393) CONCERNS_VEHICLE -> this",
+      "Complaint:11180230 (11180230) CONCERNS_VEHICLE -> this",
+      "Complaint:11185059 (11185059) CONCERNS_VEHICLE -> this",
+      "Recall:19V493000 (19V493000) AFFECTS_VEHICLE -> this",
+      "Recall:21V587000 (21V587000) AFFECTS_VEHICLE -> this",
+      "Recall:20V218000 (20V218000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/21V587000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#1",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#1"
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#2",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#2"
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#3",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#3"
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#4",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/toyota_rav4_complaints.md#4"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V244000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/19V244000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V503000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/19V503000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V576000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/19V576000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V064000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V064000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V286000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V286000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V373000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V373000#0"
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V682000#0",
+   "start": {
+    "id": "Vehicle:RAV4",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "RAV4",
+    "record": {
+     "ref": "Vehicle:RAV4",
+     "label": "Vehicle",
+     "key": "RAV4",
+     "name": "RAV4",
+     "cells": {
+      "make": "TOYOTA",
+      "model_year": "2019",
+      "manufacturer": "Toyota Motor Corporation"
+     },
+     "relations": [
+      "Complaint:11204698 (11204698) CONCERNS_VEHICLE -> this",
+      "Complaint:11205702 (11205702) CONCERNS_VEHICLE -> this",
+      "Complaint:11209676 (11209676) CONCERNS_VEHICLE -> this",
+      "Complaint:11221492 (11221492) CONCERNS_VEHICLE -> this",
+      "Complaint:11229137 (11229137) CONCERNS_VEHICLE -> this",
+      "Recall:20V682000 (20V682000) AFFECTS_VEHICLE -> this",
+      "Recall:20V064000 (20V064000) AFFECTS_VEHICLE -> this",
+      "Recall:20V373000 (20V373000) AFFECTS_VEHICLE -> this",
+      "Recall:20V286000 (20V286000) AFFECTS_VEHICLE -> this",
+      "Recall:19V503000 (19V503000) AFFECTS_VEHICLE -> this",
+      "Recall:19V576000 (19V576000) AFFECTS_VEHICLE -> this",
+      "Recall:19V244000 (19V244000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/20V682000#0"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#0",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#0"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#1",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#1"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#2",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#2"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#3",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#3"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#4",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#4"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/16V244000#0",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/16V244000#0"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/16V244000#1",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/16V244000#1"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/17V663000#0",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/17V663000#0"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/21V839000#0",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/21V839000#0"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/22V875000#0",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/22V875000#0"
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/23V093000#0",
+   "start": {
+    "id": "Vehicle:ROGUE",
+    "kind": "record",
+    "type": "Vehicle",
+    "name": "ROGUE",
+    "record": {
+     "ref": "Vehicle:ROGUE",
+     "label": "Vehicle",
+     "key": "ROGUE",
+     "name": "ROGUE",
+     "cells": {
+      "make": "NISSAN",
+      "model_year": "2017",
+      "manufacturer": "Nissan North America, Inc."
+     },
+     "relations": [
+      "Complaint:10957753 (10957753) CONCERNS_VEHICLE -> this",
+      "Complaint:10972343 (10972343) CONCERNS_VEHICLE -> this",
+      "Complaint:11010220 (11010220) CONCERNS_VEHICLE -> this",
+      "Complaint:11030208 (11030208) CONCERNS_VEHICLE -> this",
+      "Complaint:11032133 (11032133) CONCERNS_VEHICLE -> this",
+      "Recall:17V663000 (17V663000) AFFECTS_VEHICLE -> this",
+      "Recall:16V244000 (16V244000) AFFECTS_VEHICLE -> this",
+      "Recall:21V839000 (21V839000) AFFECTS_VEHICLE -> this",
+      "Recall:22V875000 (22V875000) AFFECTS_VEHICLE -> this",
+      "Recall:23V093000 (23V093000) AFFECTS_VEHICLE -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "record/Recall/23V093000#0"
+  },
+  {
+   "id": "p:a3a07b3571c3a1bc|complaints/ford_escape_complaints.md#4",
+   "start": {
+    "id": "a3a07b3571c3a1bc",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "STALLING",
+    "record": null,
+    "mentions": [
+     {
+      "id": "cfa0d7289ad00a38",
+      "name": "STALLING",
+      "document": "complaints/honda_civic_complaints.md",
+      "chunks": [
+       "complaints/honda_civic_complaints.md#2"
+      ],
+      "sentence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING."
+     }
+    ]
+   },
+   "chunk": "complaints/ford_escape_complaints.md#4"
+  },
+  {
+   "id": "p:a3a07b3571c3a1bc|complaints/honda_civic_complaints.md#2",
+   "start": {
+    "id": "a3a07b3571c3a1bc",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "STALLING",
+    "record": null,
+    "mentions": [
+     {
+      "id": "10f4baf97a8879f2",
+      "name": "STALLING",
+      "document": "complaints/ford_escape_complaints.md",
+      "chunks": [
+       "complaints/ford_escape_complaints.md#4"
+      ],
+      "sentence": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION."
+     }
+    ]
+   },
+   "chunk": "complaints/honda_civic_complaints.md#2"
+  },
+  {
+   "id": "p:bb6393ec8c06687b|record/Recall/16V074000#0",
+   "start": {
+    "id": "bb6393ec8c06687b",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "manufactured without a piston wrist pin circlip",
+    "record": null,
+    "mentions": [
+     {
+      "id": "982200a8d590661f",
+      "name": "manufactured without a piston wrist pin circlip",
+      "document": "record/Recall/16V074000",
+      "chunks": [
+       "record/Recall/16V074000#0"
+      ],
+      "sentence": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V074000#0"
+  },
+  {
+   "id": "p:bcd2b324709cde8c|record/Recall/16V074000#0",
+   "start": {
+    "id": "bcd2b324709cde8c",
+    "kind": "concept",
+    "type": "Component",
+    "name": "piston assemblies",
+    "record": null,
+    "mentions": [
+     {
+      "id": "976ae44fe7cf5a73",
+      "name": "piston assemblies",
+      "document": "record/Recall/16V074000",
+      "chunks": [
+       "record/Recall/16V074000#0",
+       "record/Recall/16V074000#1"
+      ],
+      "sentence": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V074000#0"
+  },
+  {
+   "id": "p:bcd2b324709cde8c|record/Recall/16V074000#1",
+   "start": {
+    "id": "bcd2b324709cde8c",
+    "kind": "concept",
+    "type": "Component",
+    "name": "piston assemblies",
+    "record": null,
+    "mentions": [
+     {
+      "id": "976ae44fe7cf5a73",
+      "name": "piston assemblies",
+      "document": "record/Recall/16V074000",
+      "chunks": [
+       "record/Recall/16V074000#0",
+       "record/Recall/16V074000#1"
+      ],
+      "sentence": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V074000#1"
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V244000#0",
+   "start": {
+    "id": "c0c2673d3f8b7c70",
+    "kind": "concept",
+    "type": "Component",
+    "name": "load capacity label",
+    "record": null,
+    "mentions": [
+     {
+      "id": "faf86a814396d2e2",
+      "name": "load carrying capacity modification labels",
+      "document": "record/Recall/19V244000",
+      "chunks": [
+       "record/Recall/19V244000#1"
+      ],
+      "sentence": "GST will notify owners, and dealers will provide corrected load carrying capacity modification labels, free of charge."
+     },
+     {
+      "id": "307b4791c6929d3a",
+      "name": "load carrying capacity modification label",
+      "document": "record/Recall/19V503000",
+      "chunks": [
+       "record/Recall/19V503000#0"
+      ],
+      "sentence": "The load carrying capacity modification label may be incorrect."
+     }
+    ]
+   },
+   "chunk": "record/Recall/19V244000#0"
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V244000#1",
+   "start": {
+    "id": "c0c2673d3f8b7c70",
+    "kind": "concept",
+    "type": "Component",
+    "name": "load capacity label",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6beb98e6e8d51973",
+      "name": "load capacity label",
+      "document": "record/Recall/19V244000",
+      "chunks": [
+       "record/Recall/19V244000#0"
+      ],
+      "sentence": "The text on the load capacity label may become illegible."
+     },
+     {
+      "id": "307b4791c6929d3a",
+      "name": "load carrying capacity modification label",
+      "document": "record/Recall/19V503000",
+      "chunks": [
+       "record/Recall/19V503000#0"
+      ],
+      "sentence": "The load carrying capacity modification label may be incorrect."
+     }
+    ]
+   },
+   "chunk": "record/Recall/19V244000#1"
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V503000#0",
+   "start": {
+    "id": "c0c2673d3f8b7c70",
+    "kind": "concept",
+    "type": "Component",
+    "name": "load capacity label",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6beb98e6e8d51973",
+      "name": "load capacity label",
+      "document": "record/Recall/19V244000",
+      "chunks": [
+       "record/Recall/19V244000#0"
+      ],
+      "sentence": "The text on the load capacity label may become illegible."
+     },
+     {
+      "id": "faf86a814396d2e2",
+      "name": "load carrying capacity modification labels",
+      "document": "record/Recall/19V244000",
+      "chunks": [
+       "record/Recall/19V244000#1"
+      ],
+      "sentence": "GST will notify owners, and dealers will provide corrected load carrying capacity modification labels, free of charge."
+     }
+    ]
+   },
+   "chunk": "record/Recall/19V503000#0"
+  },
+  {
+   "id": "p:d12bbec865c32e78|complaints/subaru_outback_complaints.md#0",
+   "start": {
+    "id": "d12bbec865c32e78",
+    "kind": "concept",
+    "type": "Component",
+    "name": "WINDSHIELD",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6ce3543834f7b5e7",
+      "name": "WINDSHIELD",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#0",
+       "complaints/subaru_outback_complaints.md#3"
+      ],
+      "sentence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP."
+     }
+    ]
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#0"
+  },
+  {
+   "id": "p:d12bbec865c32e78|complaints/subaru_outback_complaints.md#3",
+   "start": {
+    "id": "d12bbec865c32e78",
+    "kind": "concept",
+    "type": "Component",
+    "name": "WINDSHIELD",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6ce3543834f7b5e7",
+      "name": "WINDSHIELD",
+      "document": "complaints/subaru_outback_complaints.md",
+      "chunks": [
+       "complaints/subaru_outback_complaints.md#0",
+       "complaints/subaru_outback_complaints.md#3"
+      ],
+      "sentence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP."
+     }
+    ]
+   },
+   "chunk": "complaints/subaru_outback_complaints.md#3"
+  },
+  {
+   "id": "p:da5f0f968a75e385|complaints/nissan_rogue_complaints.md#3",
+   "start": {
+    "id": "da5f0f968a75e385",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "ERRONEOUSLY SWITCHED TO REVERSE",
+    "record": null,
+    "mentions": [
+     {
+      "id": "fbac712b52a329ff",
+      "name": "ERRONEOUSLY SWITCHED TO REVERSE",
+      "document": "complaints/nissan_rogue_complaints.md",
+      "chunks": [
+       "complaints/nissan_rogue_complaints.md#3"
+      ],
+      "sentence": "WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS."
+     }
+    ]
+   },
+   "chunk": "complaints/nissan_rogue_complaints.md#3"
+  },
+  {
+   "id": "p:dd7dcc68006edfd3|record/Recall/16V074000#0",
+   "start": {
+    "id": "dd7dcc68006edfd3",
+    "kind": "concept",
+    "type": "Problem",
+    "name": "incorrectly installed piston wrist pin circlip",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9821a6a14060ed23",
+      "name": "incorrectly installed piston wrist pin circlip",
+      "document": "record/Recall/16V074000",
+      "chunks": [
+       "record/Recall/16V074000#0"
+      ],
+      "sentence": "The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+     }
+    ]
+   },
+   "chunk": "record/Recall/16V074000#0"
+  },
+  {
+   "id": "p:ed279b0392ad7dfd|record/Recall/23V858000#0",
+   "start": {
+    "id": "ed279b0392ad7dfd",
+    "kind": "concept",
+    "type": "Component",
+    "name": "fuel pump",
+    "record": null,
+    "mentions": [
+     {
+      "id": "18f511a9d20bb9bf",
+      "name": "fuel pump",
+      "document": "record/Recall/23V858000",
+      "chunks": [
+       "record/Recall/23V858000#0"
+      ],
+      "sentence": "The fuel pump inside the fuel tank may fail."
+     }
+    ]
+   },
+   "chunk": "record/Recall/23V858000#0"
+  }
+ ],
+ "chunks": {
+  "complaints/ford_escape_complaints.md#0": {
+   "document": "complaints/ford_escape_complaints.md",
+   "heading": "2015 Ford Escape owner complaints to NHTSA",
+   "text": "# 2015 Ford Escape owner complaints to NHTSA\n\n## Complaint 10667633 (filed 12/22/2014)\nTL* THE CONTACT OWNS A 2015 FORD ESCAPE (NA). THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE, IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED. THE VEHICLE WAS TAKEN TO A DEALER WHERE THE TECHNICIAN INFORMED THE CONTACT THAT THE FAILURE WAS A KNOWN ISSUE. THE VEHICLE WAS NOT REPAIRED. THE MANUFACTURER WAS NOTIFIED OF THE FAILURE. THE FAILURE MILEAGE WAS 1,800.  UPDATED 03/04/15*LJ   UPDATED 10/15/2015*JS"
+  },
+  "complaints/ford_escape_complaints.md#1": {
+   "document": "complaints/ford_escape_complaints.md",
+   "heading": "2015 Ford Escape owner complaints to NHTSA",
+   "text": "## Complaint 10689793 (filed 02/22/2015)\nBRAND NEW 2015 FORD ESCAPE DROVE FINE UNTIL 800 + MILES THEN...  ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR.   HAPPENS AT ALL SPEEDS WARM OR COLD. UNSAFE TO PULL OUT OF DRIVEWAYS, MAKE LANE CHANGES SAFELY ETC IF ANY CARS WITHIN VIEW OR NEARBY. COMPLETELY UNSAFE TO DRIVE IN TRAFFIC.  FIRST VISIT FOR REPAIR:  FORD DEALER AND FORD MANUFACTURER EXPLAIN HESITATION BUT DO NOT DENY IT IS OCCURRING.  SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\"   NO REPAIRS NEEDED OR MADE.  *TR"
+  },
+  "complaints/ford_escape_complaints.md#2": {
+   "document": "complaints/ford_escape_complaints.md",
+   "heading": "2015 Ford Escape owner complaints to NHTSA",
+   "text": "## Complaint 10690483 (filed 02/24/2015)\nVEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL. THREE TIMES IN FOR SERVICE. 1ST TIME, NO PROBLEM FOUND. SECOND TIME, WITH VIDEO EVIDENCE OF SQUEAL, TECH DIAGNOSED LEFT REAR BRAKE. DEGLAZED AND AND CLEANED. 3RD TIME, PADS CHANGED AND ROTORS MACHINED. NO CHANGE. SQUEAL RETURNED IN TWO DAYS. ADVISED BY FORD THIS IS NORMAL, BUT I COULD TAKE IT TO ANOTHER DEALER FOR SERVICE. THREE TIMES IN ONE MONTH.    *JS"
+  },
+  "complaints/ford_escape_complaints.md#3": {
+   "document": "complaints/ford_escape_complaints.md",
+   "heading": "2015 Ford Escape owner complaints to NHTSA",
+   "text": "## Complaint 10691672 (filed 03/02/2015)\nTL* THE CONTACT OWNS A 2015 FORD ESCAPE. WHILE ATTEMPTING TO GET OUT OF THE WAY OF AN AMBULANCE, THE VEHICLE DROVE OVER A PATCH OF BLACK ICE. THE VEHICLE SLID TO THE RIGHT SIDE OF THE ROAD AND TRAVELED DOWN A TEN FOOT EMBANKMENT. THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY. A POLICE REPORT WAS FILED. THE DRIVER SUFFERED A MILD CONCUSSION AND LACERATIONS ON BOTH SIDES OF HIS EARS. THE CONTACT RECEIVED MEDICAL ATTENTION ON THE SCENE. THE DEALER AND MANUFACTURER WERE MADE AWARE OF THE FAILURE. THE VEHICLE WAS NOT REPAIRED. THE FAILURE MILEAGE WAS 2,361."
+  },
+  "complaints/ford_escape_complaints.md#4": {
+   "document": "complaints/ford_escape_complaints.md",
+   "heading": "2015 Ford Escape owner complaints to NHTSA",
+   "text": "## Complaint 10692693 (filed 03/07/2015)\nPURCHASED VEHICLE 1/30/2015 AND DROVE OFF LOT WITH 3 MILES ON IT. LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION. VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION. PICKED UP VEHICLE WITH 810 MILES ON IT AND LESS THAN A WEEK AND 150 MILES LATER THE VEHICLE IS AGAIN STALLING AT TRAFFIC LIGHTS UPON ACCELERATION. THE VEHICLE IS DANGEROUS TO DRIVE!  *TR"
+  },
+  "complaints/honda_civic_complaints.md#0": {
+   "document": "complaints/honda_civic_complaints.md",
+   "heading": "2016 Honda Civic owner complaints to NHTSA",
+   "text": "# 2016 Honda Civic owner complaints to NHTSA\n\n## Complaint 10809523 (filed 12/10/2015)\nTHE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.   THIS MAY NOT BE A DRIVING SAFETY ISSUE BUT IT IS A SAFETY ISSUE NON THE LESS.   HONDA MUST HAVE LOST THEIR MINDS WHEN THEY REDESIGNED THE VEHICLE.  IT MAKES ABSOLUTELY NO SENSE NOT BE ABLE TO LOCK THE TRUNK."
+  },
+  "complaints/honda_civic_complaints.md#1": {
+   "document": "complaints/honda_civic_complaints.md",
+   "heading": "2016 Honda Civic owner complaints to NHTSA",
+   "text": "## Complaint 10816192 (filed 12/25/2015)\nWHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS. THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS. THE SITUATION OCCURS DURING DAYLIGHT AND NIGHTTIME HOURS WITH CLEAN CAMERAS AND RADAR WINDOW. DRIVER RESPONSE TIME IS TOO SLOW TO COUNTERACT THE EVENT. THE VEHICLE MAY SLOW BY 10-15 MPH AND DEPART THE HIGHWAY BEFORE THE DRIVER IS ABLE TO RESUME CONTROL. DURING 300 MILES OF HIGHWAY DRIVING, THE VEHICLE DID THIS TWICE. A REAR END COLLISION WAS NARROWLY AVOIDED IN ONE CASE."
+  },
+  "complaints/honda_civic_complaints.md#2": {
+   "document": "complaints/honda_civic_complaints.md",
+   "heading": "2016 Honda Civic owner complaints to NHTSA",
+   "text": "## Complaint 10823637 (filed 02/01/2016)\nPISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.  RECALL NOT PUBLICLY RELEASED BY HONDA AT THIS TIME. THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.  IT IS UNSAFE TO DRIVE THIS VEHICLE WITH SUCH LOOMING AND UNRESOLVED ISSUES."
+  },
+  "complaints/honda_civic_complaints.md#3": {
+   "document": "complaints/honda_civic_complaints.md",
+   "heading": "2016 Honda Civic owner complaints to NHTSA",
+   "text": "## Complaint 10824361 (filed 02/04/2016)\nI WAS SOLD A BRAND NEW 2016 HONDA CIVIC THE DAY AFTER A RECALL AND STOP OF SALE WAS ISSUED. NOW 5 DAYS LATER I AM HAVING ISSUES WITH THE CAR.  I CONTACTED AMERICA OF HONDA AND THEY CONFIRMED MY CAR DOES HAVE A RECALL AND I PROVIDED ME WITH A CASE NUMBER.  CAN SOMEONE PLEASE TELL ME WHO INDEED TO TALK ABOUT THIS ISSUE WITH?"
+  },
+  "complaints/honda_civic_complaints.md#4": {
+   "document": "complaints/honda_civic_complaints.md",
+   "heading": "2016 Honda Civic owner complaints to NHTSA",
+   "text": "## Complaint 10825467 (filed 02/10/2016)\nTOOK DELIVERY OF 2016 HONDA CIVIC 1 1/2 WEEKS AGO. CURRENTLY 350 MILES. CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL. CURRENTLY HONDA HAS NO FIX FOR VEHICLES AFFECTED. WOULD LIKE FOR HONDA TO PROVIDE ALTERNATIVE TRANSPORTATION UNTIL ENGINE CAN BE REPAIRED/REPLACED OR BUY THE VEHICLE BACK SINCE DEALERS HAVE BEEN FORCED TO STOP SELLING 2016 CIVICS. I DO NOT FEEL SAFE DRIVING BRAND NEW CAR ANY LONGER. EVERY TIME I START VEHICLE HONDA IS PUTTING MY LIFE AND THE LIVES OF EVERYONE ELSE AROUND ME IN JEOPARDY!"
+  },
+  "complaints/nissan_rogue_complaints.md#0": {
+   "document": "complaints/nissan_rogue_complaints.md",
+   "heading": "2017 Nissan Rogue owner complaints to NHTSA",
+   "text": "# 2017 Nissan Rogue owner complaints to NHTSA\n\n## Complaint 10957753 (filed 03/01/2017)\nTL* THE CONTACT OWNS A 2017 NISSAN ROGUE. THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING. THE VEHICLE WAS TAKEN TO THE DEALER, BUT WAS NOT DIAGNOSED OR REPAIRED. THE MANUFACTURER WAS MADE AWARE OF THE FAILURE. THE FAILURE MILEAGE WAS 130. THE VIN WAS NOT AVAILABLE."
+  },
+  "complaints/nissan_rogue_complaints.md#1": {
+   "document": "complaints/nissan_rogue_complaints.md",
+   "heading": "2017 Nissan Rogue owner complaints to NHTSA",
+   "text": "## Complaint 10972343 (filed 04/13/2017)\nTHE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.  THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.  THE CAR BRAKED ON ITS OWN.  THE CAR DID THIS ON TWO SEPARATE OCCASIONS AND WAS TAKEN TO THE DEALER ON BOTH OCCASIONS.  ON THE 2ND OCCASION NISSAN ENGINEERING DECLARED THE SYSTEM WORKED AS INTENDED.  THE VEHICLE WAS WITHIN ITS LANE OF TRAVEL WHEN APPROACHING THE BRIDGE."
+  },
+  "complaints/nissan_rogue_complaints.md#2": {
+   "document": "complaints/nissan_rogue_complaints.md",
+   "heading": "2017 Nissan Rogue owner complaints to NHTSA",
+   "text": "## Complaint 11010220 (filed 07/24/2017)\nI HAVE A SHORT COMMUTE TO WORK DOWNTOWN WHERE I HAVE TO PARK IN A PARKING STRUCTURE.  THIS FRIDAY MORNING THE CAR WAS DRIVING FINE UNTIL I PULLED INTO A PARKING SPACE.  AS I TRIED TO SLOWDOWN THE VEHICLE INTO PARKING, THE CAR DID NOT STOP.  I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE.   I AM CURRENTLY WAITING ON THE ESTIMATE FOR THE REPAIRS, BUT I NO LONGER FEEL SAFE DRIVING THIS VEHICLE."
+  },
+  "complaints/nissan_rogue_complaints.md#3": {
+   "document": "complaints/nissan_rogue_complaints.md",
+   "heading": "2017 Nissan Rogue owner complaints to NHTSA",
+   "text": "## Complaint 11030208 (filed 09/27/2017)\nTL* THE CONTACT OWNS A 2017 NISSAN ROGUE. WHILE THE VEHICLE WAS PARKED WITH THE ENGINE TURNED ON, THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS. THE CONTACT INDICATED THAT THE FAILURE OCCURRED ON TWO SEPARATE OCCASIONS. THE VEHICLE WAS TAKEN TO HALL NISSAN IN CHESAPEAKE, VA, BUT THE FAILURE COULD NOT BE DUPLICATED. THE MANUFACTURER WAS NOTIFIED OF THE FAILURE. THE VIN WAS NOT AVAILABLE. THE FAILURE MILEAGE WAS 400."
+  },
+  "complaints/nissan_rogue_complaints.md#4": {
+   "document": "complaints/nissan_rogue_complaints.md",
+   "heading": "2017 Nissan Rogue owner complaints to NHTSA",
+   "text": "## Complaint 11032133 (filed 10/06/2017)\nMY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK AND THATS NOT POSSIBLE WITH 203 MILES TO EMPTY WHEN NORMALY WHEN I FILL UP ITS OVER 440 MILES TO EMPTY"
+  },
+  "complaints/subaru_outback_complaints.md#0": {
+   "document": "complaints/subaru_outback_complaints.md",
+   "heading": "2019 Subaru Outback owner complaints to NHTSA",
+   "text": "# 2019 Subaru Outback owner complaints to NHTSA\n\n## Complaint 11123359 (filed 08/29/2018)\nWINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP. THE CRACK COVERS 1/2 THE WINDSHIELD AND IS GROWING DAILY. NATURALLY IT CAN'T BE FIXED BECAUSE NO ONE HAS THE WINDSHIELD FOR A 2019 SUBARU OUTBACK IN STOCK OR AVAILABLE BY ORDER. NO VISIBLE CHIP DAMAGE APPARENT. NOTE THERE ARE MULTIPLE CLASS ACTION LAWSUITS AGAINST SUBARU FOR THIS IDENTICAL PROBLEM."
+  },
+  "complaints/subaru_outback_complaints.md#1": {
+   "document": "complaints/subaru_outback_complaints.md",
+   "heading": "2019 Subaru Outback owner complaints to NHTSA",
+   "text": "## Complaint 11166434 (filed 01/11/2019)\nNAVIGATION SYSTEM FAILURE!  I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM.  THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.  SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY.  IT SPORADICALLY WORKS AND WORKS LESS AND LESS EVERY DAY HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.  *TR"
+  },
+  "complaints/subaru_outback_complaints.md#2": {
+   "document": "complaints/subaru_outback_complaints.md",
+   "heading": "2019 Subaru Outback owner complaints to NHTSA",
+   "text": "## Complaint 11176393 (filed 02/11/2019)\nCAR HAS LESS THAN 400 MILES ON. WHEN DRIVING AT HIGHWAY SPEEDS IT FEELS LIKE I DO NOT HAVE ANY CONTROL, NO FEEDBACK FROM A STEERING WHEEL. IT FEELS LIKE DRIVING ON ICE. WENT TO A DEALER AND THEY SAID THAT NOTHING IS WRONG WITH IT. IT FEELS EXTREMELY DANGEROUS WHEN DRIVING, AND I FEEL TOTALLY EXHAUSTED AFTER. HAD MULTIPLE OUTBACKS IN THE PAST AND NEVER HAD AN ISSUE LIKE THIS. THEY NEED TO FIX IT ASAP, TOO DANGEROUS."
+  },
+  "complaints/subaru_outback_complaints.md#3": {
+   "document": "complaints/subaru_outback_complaints.md",
+   "heading": "2019 Subaru Outback owner complaints to NHTSA",
+   "text": "## Complaint 11180230 (filed 02/15/2019)\nWINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD, UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY. I WAS NOT FOLLOWING ANY VEHICLES SO A ROCK CHIP COULD NOT BE THE CAUSE. THIS IS POOR WINDSHIELD QUALITY AND DESIGN BY SUBARU."
+  },
+  "complaints/subaru_outback_complaints.md#4": {
+   "document": "complaints/subaru_outback_complaints.md",
+   "heading": "2019 Subaru Outback owner complaints to NHTSA",
+   "text": "## Complaint 11185059 (filed 03/08/2019)\nDEAD BATTERY IF THE CARS SITS PARKED 2 DAYS. NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN. HAPPENED TWICE AND BATTERY WAS TOTALLY DEAD EACH TIME, NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP. LESS THAN 2000 MILES ON THE CAR."
+  },
+  "complaints/toyota_rav4_complaints.md#0": {
+   "document": "complaints/toyota_rav4_complaints.md",
+   "heading": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "text": "# 2019 Toyota Rav4 owner complaints to NHTSA\n\n## Complaint 11204698 (filed 04/30/2019)\nTL* THE CONTACT RENTED A 2019 TOYOTA RAV4. WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE, THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX. THE CONTACT QUICKLY PLACED THE GEAR SHIFTER BACK IN THE TRANSMISSION BOX AND NOTIFIED THE RENTAL FACILITY. THE CONTACT WAS ABLE TO DRIVE THE VEHICLE HOME. THE CONTACT WAS STILL WAITING TO SWITCH OUT THE VEHICLE WITH THE RENTAL COMPANY. THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER. THE FAILURE MILEAGE WAS 5,218. THE VIN WAS UNKNOWN."
+  },
+  "complaints/toyota_rav4_complaints.md#1": {
+   "document": "complaints/toyota_rav4_complaints.md",
+   "heading": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "text": "## Complaint 11205702 (filed 05/06/2019)\nTL* THE CONTACT OWNS A 2019 TOYOTA RAV4. THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED. ALSO, WHILE DRIVING, IT LOOKED AS IF TWO VEHICLES WERE SHOWN IN THE MIRRORS EVERY TIME. THE DRIVER'S SIDE REARVIEW MIRROR WAS ESPECIALLY AFFECTED. THE CONTACT'S VISION REMAINED BLURRED WHILE USING THE MIRROR. THE VEHICLE WAS TAKEN TO TOYOTA OF NORTH SCRANTON (3400 N MAIN AVE, SCRANTON, PA 18508, (570) 489-7584), BUT WAS NOT DIAGNOSED OR REPAIRED BECAUSE THEY STATED THE FAILURE WAS A \"MANUFACTURER'S DEFECT\". THE MANUFACTURER WAS MADE AWARE OF THE FAILURE AND NO ASSISTANCE WAS PROVIDED. THE FAILURE MILEAGE WAS 1,921."
+  },
+  "complaints/toyota_rav4_complaints.md#2": {
+   "document": "complaints/toyota_rav4_complaints.md",
+   "heading": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "text": "## Complaint 11209676 (filed 05/24/2019)\nVEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.  THIS CAN OCCUR WHEN LEAVING A PARKING PLACE OR.  FROM A TRAFFIC LIGHT.  THE ENGINE DOES NOT STOP RUNNING.  IT HAS ONLY HAPPENED THREE TIMES, BUT COULD CAUSE AN ACCIDENT.  THE TOYOTA DEALER COULD NOT DUPLICATE THIS AT THE 5000 MILE INSPECTION AND THERE ARE NO CODES SET NOR DOES IT SET A CHECK ENGINE LIGHT WHEN IT HAPPENS."
+  },
+  "complaints/toyota_rav4_complaints.md#3": {
+   "document": "complaints/toyota_rav4_complaints.md",
+   "heading": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "text": "## Complaint 11221492 (filed 06/20/2019)\nWHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL. I KNOW THIS BECAUSE MY GAS GAUGE DOES NOT INDICATE FULL AND I AM ABLE TO ADD AN ADDITIONAL 2-2.5 GALLONS TO MY TANK, THOUGH IT TAKES A WHILE BECAUSE I HAVE TO PUSH THROUGH ALL THE AUTO SHUTOFFS. IT HAPPENS EVERY TIME I FILL UP REGARDLESS OS THE STATION I'M FUELING AT."
+  },
+  "complaints/toyota_rav4_complaints.md#4": {
+   "document": "complaints/toyota_rav4_complaints.md",
+   "heading": "2019 Toyota Rav4 owner complaints to NHTSA",
+   "text": "## Complaint 11229137 (filed 07/03/2019)\nYOU CAN HEAR WIND WHEN DRIVING YOUR VEHICLE. WHEN YOU GET UP TO 50 MILES PER HOUR IS WHEN U CAN HEAR IT GOOD. ALSO YOU CAN SMELL FREON. I REPORTED THIS TO MY DEALERSHIP WITHIN TWO WEEKS OF PURCHASE."
+  },
+  "record/Recall/15V406000#0": {
+   "document": "record/Recall/15V406000",
+   "heading": "15V406000",
+   "text": "# 15V406000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain model year 2014-2015 Ford Escape vehicles manufactured May 19, 2014, to February 6, 2015, and Transit Connect vehicles manufactured May 11, 2014, to July 2, 2015.  Due to a software incompatibility issue, the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes, messages and warning lights.  Specific warning chimes, messages and warning lights.  As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 101, \"Control and Displays.\""
+  },
+  "record/Recall/15V436000#0": {
+   "document": "record/Recall/15V436000",
+   "heading": "15V436000",
+   "text": "# 15V436000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015, Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015, and Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015.  In the affected vehicles, the engine may continue to run after the key or the START/STOP engine button is turned to off.  As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 114, \"Theft Protection and Rollaway Prevention.\""
+  },
+  "record/Recall/16V074000#0": {
+   "document": "record/Recall/16V074000",
+   "heading": "16V074000",
+   "text": "# 16V074000\n\n## Summary\n\nHonda (American Honda Motor Co.) is recalling certain model year 2016 Civic vehicles manufactured September 22, 2015, to February 3, 2016 and equipped with 2.0L engines.  The affected vehicles have engines with piston assemblies that may have been manufactured without a piston wrist pin circlip or with an incorrectly installed piston wrist pin circlip."
+  },
+  "record/Recall/16V074000#1": {
+   "document": "record/Recall/16V074000",
+   "heading": "16V074000",
+   "text": "## Remedy\n\nHonda will notify owners, and dealers will inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge.  Parts are expected to be available in the Summer of 2016.  Owners were mailed an interim notification beginning March 31, 2016, and will be mailed a second notice when parts are available.  Owners may contact Honda customer service at 1-888-234-2138.  Honda's number for this recall is JX9."
+  },
+  "record/Recall/16V244000#0": {
+   "document": "record/Recall/16V244000",
+   "heading": "16V244000",
+   "text": "# 16V244000\n\n## Summary\n\nNissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder, 2014-2016 Nissan NV200 Taxi, Infiniti QX60, QX60 Hybrid, and Q50 Hybrid, 2014-2017 Nissan Rogue and Infiniti Q50, 2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express, 2014-2015 Nissan Pathfinder Hybrid, and 2013 Infiniti JX35 vehicles.  In these vehicles, the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied.  As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash."
+  },
+  "record/Recall/16V244000#1": {
+   "document": "record/Recall/16V244000",
+   "heading": "16V244000",
+   "text": "## Remedy\n\nNissan will notify their owners.  Chevrolet City Express owners will be notified by General Motors.  Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.  Interim notices were sent to owners on May 31, 2016.  Owners will receive a second notice when remedy parts become available.  Owners may contact Nissan customer service at 1-800-867-7669, Infiniti customer service at 1-888-833-3216 or Chevrolet customer service at 1-800-222-1020."
+  },
+  "record/Recall/16V526000#0": {
+   "document": "record/Recall/16V526000",
+   "heading": "16V526000",
+   "text": "# 16V526000\n\n## Summary\n\nAmerican Honda Motor Co. (Honda) is recalling certain model year 2016 Civic 2-Door vehicles manufactured February 23, 2016, through May 20, 2016.  The affected vehicles may have a damaged LED side marker light circuit board inside the taillight assembly, making the marker light inoperable.  As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 108, \"Lamps, Reflective Devices, and Assoc. Equipment.\""
+  },
+  "record/Recall/16V643000#0": {
+   "document": "record/Recall/16V643000",
+   "heading": "16V643000",
+   "text": "# 16V643000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles.  A component within the door latches may break, preventing the doors from latching and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+  },
+  "record/Recall/16V643000#1": {
+   "document": "record/Recall/16V643000",
+   "heading": "16V643000",
+   "text": "## Remedy\n\nFord will notify owners, and dealers will replace the door latches with an improved part, free of charge.  The recall began on January 27, 2017.  Owners may contact Ford customer service at 1-866-436-7332.  Ford's number for this recall is 16S30."
+  },
+  "record/Recall/16V725000#0": {
+   "document": "record/Recall/16V725000",
+   "heading": "16V725000",
+   "text": "# 16V725000\n\n## Summary\n\nHonda (American Honda Motor Co.) is recalling certain model year 2016 Honda Civic two door and four door 1.5L turbo and 2.0L vehicles.  The electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off."
+  },
+  "record/Recall/17V472000#0": {
+   "document": "record/Recall/17V472000",
+   "heading": "17V472000",
+   "text": "# 17V472000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain 2014 Ford F-150 and E-350, 2014-2015 Ford Escape, and 2015 Lincoln MKC vehicles.  Improperly manufactured bolts may have been used to install certain seats, seatbacks, seatbelt buckles, or seatbelt anchors on these vehicles."
+  },
+  "record/Recall/17V663000#0": {
+   "document": "record/Recall/17V663000",
+   "heading": "17V663000",
+   "text": "# 17V663000\n\n## Summary\n\nNissan North America, Inc. (Nissan) is recalling certain 2016-2017 Nissan Rogue vehicles.  The recliner joints on the lower seat frame for the rear seats may have improper welds.  As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standards (FMVSS) number 207, \"Seating Systems,\" and 210, \"Seat Belt Assembly Anchorages.\""
+  },
+  "record/Recall/19V244000#0": {
+   "document": "record/Recall/19V244000",
+   "heading": "19V244000",
+   "text": "# 19V244000\n\n## Summary\n\nGulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles.  The text on the load capacity label may become illegible.  As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110, \"Tire Selection and Rims.\""
+  },
+  "record/Recall/19V244000#1": {
+   "document": "record/Recall/19V244000",
+   "heading": "19V244000",
+   "text": "## Remedy\n\nGST will notify owners, and dealers will provide corrected load carrying capacity modification labels, free of charge.  The recall began May 24, 2019.  Owners may contact GST customer service at 1-800-444-1074.  GST's number for this recall is 19R1."
+  },
+  "record/Recall/19V493000#0": {
+   "document": "record/Recall/19V493000",
+   "heading": "19V493000",
+   "text": "# 19V493000\n\n## Summary\n\nSubaru of America, Inc. (Subaru) is recalling certain 2019 Legacy and Outback vehicles.  Spot welds located on the duct below the cowl panel may have been improperly applied, impacting the vehicle's body strength."
+  },
+  "record/Recall/19V493000#1": {
+   "document": "record/Recall/19V493000",
+   "heading": "19V493000",
+   "text": "## Remedy\n\nSubaru will notify owners, and dealers will inspect the vehicles and repair or repurchase the vehicle, as necessary, free of charge.  The recall began July 26, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is WUH-93."
+  },
+  "record/Recall/19V503000#0": {
+   "document": "record/Recall/19V503000",
+   "heading": "19V503000",
+   "text": "# 19V503000\n\n## Summary\n\nSoutheast Toyota Distributors, LLC (SET) is recalling certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna, and Yaris iA vehicles equipped with factory-installed floor mats.  The load carrying capacity modification label may be incorrect.  As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110, \"Tire Selection and Rims.\""
+  },
+  "record/Recall/19V576000#0": {
+   "document": "record/Recall/19V576000",
+   "heading": "19V576000",
+   "text": "# 19V576000\n\n## Summary\n\nToyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles.  Due to a damaged electrical connector, the back-up camera may not activate when the vehicle is in reverse.  As such, these vehicles fail to comply to Federal Motor Safety Standard (FMVSS) number 111, \"Rearview Mirrors.\""
+  },
+  "record/Recall/20V064000#0": {
+   "document": "record/Recall/20V064000",
+   "heading": "20V064000",
+   "text": "# 20V064000\n\n## Summary\n\nToyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines.  Porosity in the engine castings may result in cracks than can allow coolant to leak internally and/or externally."
+  },
+  "record/Recall/20V218000#0": {
+   "document": "record/Recall/20V218000",
+   "heading": "20V218000",
+   "text": "# 20V218000\n\n## Summary\n\nSubaru of America, Inc. (Subaru) is recalling certain 2019 Impreza, Outback, Legacy, and Ascent vehicles.  The low pressure fuel pump may become inoperative.\n\n## Remedy\n\nSubaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.  The recall began June 4, 2020.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is WRD-20."
+  },
+  "record/Recall/20V286000#0": {
+   "document": "record/Recall/20V286000",
+   "heading": "20V286000",
+   "text": "# 20V286000\n\n## Summary\n\nToyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles.  The front lower suspension arms may have cracks, which may result in the suspension arm separating from the front wheel assembly."
+  },
+  "record/Recall/20V331000#0": {
+   "document": "record/Recall/20V331000",
+   "heading": "20V331000",
+   "text": "# 20V331000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles.  These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.  A component within the door latches may break making the doors difficult to latch and/or leading the driver or a passenger to believe a door is securely closed when, in fact, it is not."
+  },
+  "record/Recall/20V331000#1": {
+   "document": "record/Recall/20V331000",
+   "heading": "20V331000",
+   "text": "## Remedy\n\nFord will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.  Owners will also have the option to inspect their own vehicle's door latches and enter the date codes into a website to determine if the latches are correct.  Owner notification letters were mailed on July 27, 2020.  Owners may contact Ford customer service at 1-866-436-7332.  Ford's number for this recall is 20S30."
+  },
+  "record/Recall/20V373000#0": {
+   "document": "record/Recall/20V373000",
+   "heading": "20V373000",
+   "text": "# 20V373000\n\n## Summary\n\nToyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS).  Water may enter through the steering gear box cover and cause a loss of electric power steering assist."
+  },
+  "record/Recall/20V373000#1": {
+   "document": "record/Recall/20V373000",
+   "heading": "20V373000",
+   "text": "## Remedy\n\nToyota will notify owners, and dealers will replace the power steering gear box, free of charge.  The recall began August 17, 2020.  Owners may contact Toyota customer service at 1-888-270-9371.  Toyota's number for this recall is 20TB11 / 20TA11."
+  },
+  "record/Recall/20V682000#0": {
+   "document": "record/Recall/20V682000",
+   "heading": "20V682000",
+   "text": "# 20V682000\n\n## Summary\n\nToyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles.  The low-pressure fuel pump inside the fuel tank may fail."
+  },
+  "record/Recall/20V682000#1": {
+   "document": "record/Recall/20V682000",
+   "heading": "20V682000",
+   "text": "## Remedy\n\nToyota will notify owners, and dealers will replace the fuel pump assembly with an improved one, free of charge.  Owners of specific models were notified that remedy parts were available starting January 21, 2021.  Owners of other models will be notified as remedy parts become available.  Remedy parts should be available for all affected vehicles by late March 2021.  Owners may contact Toyota customer service at 1-888-270-9371 or Lexus customer service at 1-800-255-3987.  Note: This recall is an expansion of recall 20V-012.  Toyota's number for this recall is 20TA02.  Lexus' number for this recall is 20LA01."
+  },
+  "record/Recall/21V587000#0": {
+   "document": "record/Recall/21V587000",
+   "heading": "21V587000",
+   "text": "# 21V587000\n\n## Summary\n\nSubaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles.  The low-pressure fuel pump inside the fuel tank may fail."
+  },
+  "record/Recall/21V587000#1": {
+   "document": "record/Recall/21V587000",
+   "heading": "21V587000",
+   "text": "## Remedy\n\nDealers will replace the low-pressure fuel pump, free of charge.  Owner notification letters were mailed September 24, 2021.  Subaru and Toyota owners may call customer service at 1-844-373-6614.  Subaru's number for this recall is WRG-21."
+  },
+  "record/Recall/21V839000#0": {
+   "document": "record/Recall/21V839000",
+   "heading": "21V839000",
+   "text": "# 21V839000\n\n## Summary\n\nNissan North America, Inc. (Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles.  Contact with the Electronic Control Module (ECM) bracket may damage the engine harness, causing a blown fuse."
+  },
+  "record/Recall/21V839000#1": {
+   "document": "record/Recall/21V839000",
+   "heading": "21V839000",
+   "text": "## Remedy\n\nDealers will install a harness protector cover, free of charge.  Owner notification letters were mailed December 16, 2021.  Owners may contact Nissan customer service at 1-800-867-7669.  Nissan's number for this recall is R21B6."
+  },
+  "record/Recall/22V254000#0": {
+   "document": "record/Recall/22V254000",
+   "heading": "22V254000",
+   "text": "# 22V254000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.  The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  "record/Recall/22V254000#1": {
+   "document": "record/Recall/22V254000",
+   "heading": "22V254000",
+   "text": "## Remedy\n\nDealers will replace the under hood shifter bushing and add a protective cap over the shift cable bushing, free of charge.  Owner notification letters were mailed May 27, 2022.  Owners may contact Ford customer service at 1-866-436-7332.  Ford's number for this recall is 22S25."
+  },
+  "record/Recall/22V413000#0": {
+   "document": "record/Recall/22V413000",
+   "heading": "22V413000",
+   "text": "# 22V413000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain 2013-2019 Escape, 2013-2018 C-Max, 2013-2016 Fusion, 2013-2021 Transit Connect, and  2015-2018 Edge vehicles.  The bushing that attaches the shifter cable to the transmission may degrade or detach."
+  },
+  "record/Recall/22V875000#0": {
+   "document": "record/Recall/22V875000",
+   "heading": "22V875000",
+   "text": "# 22V875000\n\n## Summary\n\nNissan North America, Inc. (Nissan) is recalling certain 2017 Rogue vehicles.  Water may leak into and corrode the dash side harness connector.\n\n## Remedy\n\nDealers will apply grease and repair any corroded connector as necessary, free of charge.  Owner notification letters are expected to be mailed January 20, 2023.  Owners may contact Nissan's customer service at 1-800-867-7669.  Nissan's number for this recall is PC934."
+  },
+  "record/Recall/23V093000#0": {
+   "document": "record/Recall/23V093000",
+   "heading": "23V093000",
+   "text": "# 23V093000\n\n## Summary\n\nNissan North America, Inc. (Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.  The jackknife key may collapse into a folded position while driving."
+  },
+  "record/Recall/23V858000#0": {
+   "document": "record/Recall/23V858000",
+   "heading": "23V858000",
+   "text": "# 23V858000\n\n## Summary\n\nHonda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles.  The fuel pump inside the fuel tank may fail."
+  },
+  "record/Recall/23V858000#1": {
+   "document": "record/Recall/23V858000",
+   "heading": "23V858000",
+   "text": "## Remedy\n\nDealers will replace the fuel pump module, free of charge.  Owner letters were mailed September 6, 2024.  Owners may contact Honda customer service at 1-888-234-2138.  Honda's numbers for this recall are KGC and KGD.  This recall is an expansion of NHTSA recall numbers 21V-215 and 20V-314."
+  },
+  "record/Recall/25V695000#0": {
+   "document": "record/Recall/25V695000",
+   "heading": "25V695000",
+   "text": "# 25V695000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles.  The rearview camera may display a distorted,  intermittent, or blank image when the vehicle is in reverse."
+  },
+  "record/Recall/25V695000#1": {
+   "document": "record/Recall/25V695000",
+   "heading": "25V695000",
+   "text": "## Remedy\n\nDealers will inspect and replace the rearview camera as necessary, free of charge. This will be a phased campaign, with the remedy becoming available in different phases based on model and model years. Interim letters notifying owners of the safety risk were mailed on October 25, 2025. Additional letters will be mailed once the final remedy is available on each phase. Mustang owner notification letters were mailed January 2, 2026. Owners may contact Ford customer service at 1-866-436-7332. Ford's number for this recall is 25SA9. Vehicle Identification Numbers (VINs) involved in this recall became searchable on NHTSA.gov on October 14, 2025."
+  },
+  "record/Recall/26V011000#0": {
+   "document": "record/Recall/26V011000",
+   "heading": "26V011000",
+   "text": "# 26V011000\n\n## Summary\n\nFord Motor Company (Ford) is recalling certain 2013-2018 Focus, 2013-2019 Escape, and 2015-2016 MKC vehicles equipped with a 2.0L engine. The engine block heater may crack and develop a coolant leak, causing it to short circuit when the block heater is plugged in."
+  },
+  "record/Recall/26V332000#0": {
+   "document": "record/Recall/26V332000",
+   "heading": "26V332000",
+   "text": "# 26V332000\n\n## Summary\n\nHonda (American Honda Motor Co.) is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback, 2016-2020 Civic coupe, 2016-2022 Civic, 2017-2022 Accord Hybrid, and 2016-2022 Accord vehicles. The front passenger seat weight sensor may crack and short circuit, which can cause the air bags to deploy unintentionally during a crash."
+  }
+ }
+}

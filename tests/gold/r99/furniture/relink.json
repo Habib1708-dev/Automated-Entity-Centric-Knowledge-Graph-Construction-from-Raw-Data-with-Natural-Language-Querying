@@ -1,0 +1,643 @@
+{
+ "build": "out/r77d_furniture",
+ "changes": [
+  {
+   "mention": "24feea1150efb6af",
+   "name": "drawer",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1021",
+   "after": "Assembly:A-1062",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "2912d829f7f588ca",
+   "name": "dresser",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "before": null,
+   "after": "Product:P-1007",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "2a95b70b5851b756",
+   "name": "drawer slide mechanism",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "before": "Assembly:A-1021",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "2f61f797ce1ee951",
+   "name": "Västerås Bookshelves",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": null,
+   "after": "Product:P-1004",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "407dc336bbda8a3c",
+   "name": "metal rails",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "before": null,
+   "after": "Component:S-1085",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "51a799b5741a29ea",
+   "name": "removable covers",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "before": null,
+   "after": "Assembly:A-1015",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "5b33ce824b97cd4c",
+   "name": "nightstands",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "before": null,
+   "after": "Product:P-1009",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "5cb4a71373cf0202",
+   "name": "shelf",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": null,
+   "after": "Assembly:A-1043",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "6afd5871b0245519",
+   "name": "frame",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "before": "Assembly:A-1012",
+   "after": null,
+   "explained": true,
+   "cause": "left_scope"
+  },
+  {
+   "mention": "7a9abd29af74f1d7",
+   "name": "pre-drilled holes for the drawer handle",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "before": "Assembly:A-1022",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "7b416418815b0a22",
+   "name": "cord",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "before": null,
+   "after": "Assembly:A-1036",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "807964e8ec15a55f",
+   "name": "slat system",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "before": null,
+   "after": "Assembly:A-1051",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "8fc5df6fbebebc3a",
+   "name": "weighted base",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "before": "Assembly:A-1031",
+   "after": "Assembly:A-1031",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "99eee1f9b0b204a4",
+   "name": "Västerås Bookshelf Reviews",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": "Product:P-1004",
+   "after": null,
+   "explained": true,
+   "cause": "containment"
+  },
+  {
+   "mention": "9e39291d29a753f2",
+   "name": "center support",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "before": "Assembly:A-1052",
+   "after": null,
+   "explained": true,
+   "cause": "left_scope"
+  },
+  {
+   "mention": "aa4602ce13e2bfd3",
+   "name": "sofa",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "before": null,
+   "after": "Product:P-1003",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "b266fe0f310969ba",
+   "name": "bookshelf",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": null,
+   "after": "Product:P-1004",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "b52e49fd27e58376",
+   "name": "adjustable shelves",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": "Assembly:A-1043",
+   "after": "Assembly:A-1043",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "b8c1f8cc187b500a",
+   "name": "cable management system",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1064",
+   "after": "Assembly:A-1064",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "bcb33f7a445dff54",
+   "name": "Västerås",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "before": null,
+   "after": "Product:P-1004",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "c21ab5530ef8c787",
+   "name": "frame construction",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "before": "Assembly:A-1012",
+   "after": "Assembly:A-1012",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "c73615052e811388",
+   "name": "drawer slides",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Component:S-1076",
+   "after": "Component:S-1078",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "e68281c94362016a",
+   "name": "drawers",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "before": "Assembly:A-1070",
+   "after": "Assembly:A-1062",
+   "explained": true,
+   "cause": "chosen"
+  }
+ ],
+ "counts": {
+  "attach.attachments": [
+   1207,
+   1193
+  ],
+  "attach.attached_key_in_sentence": [
+   578,
+   567
+  ],
+  "attach.attached_document": [
+   261,
+   258
+  ]
+ },
+ "choices": [
+  {
+   "mention": "03019f413ac178fe",
+   "name": "cushions",
+   "candidates": [
+    "Assembly:A-1010",
+    "Assembly:A-1011",
+    "Component:S-1098",
+    "Component:S-1113"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "1e067f5abf9ad371",
+   "name": "cushion",
+   "candidates": [
+    "Assembly:A-1010",
+    "Assembly:A-1011",
+    "Component:S-1098",
+    "Component:S-1113"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "24feea1150efb6af",
+   "name": "drawer",
+   "candidates": [
+    "Assembly:A-1062",
+    "Component:S-1074",
+    "Component:S-1075",
+    "Component:S-1076",
+    "Component:S-1077",
+    "Component:S-1078",
+    "Component:S-1079"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1062",
+   "evidence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "2912d829f7f588ca",
+   "name": "dresser",
+   "candidates": [
+    "Product:P-1007"
+   ],
+   "action": "chosen",
+   "record": "Product:P-1007",
+   "evidence": "dresser looks ok i guess but assembly was the worst experience ever.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "2a95b70b5851b756",
+   "name": "drawer slide mechanism",
+   "candidates": [
+    "Assembly:A-1021",
+    "Assembly:A-1022"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "2f61f797ce1ee951",
+   "name": "Västerås Bookshelves",
+   "candidates": [
+    "Product:P-1004"
+   ],
+   "action": "chosen",
+   "record": "Product:P-1004",
+   "evidence": "I purchased two Västerås Bookshelves for my home office and I'm quite pleased with them.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "31cbfee38e47cdde",
+   "name": "pre-drilled holes",
+   "candidates": [
+    "Component:S-1118"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "35e7299dd181e7dc",
+   "name": "drawer hardware",
+   "candidates": [
+    "Assembly:A-1070",
+    "Assembly:A-1071",
+    "Component:S-1081",
+    "Component:S-1082",
+    "Component:S-1083",
+    "Component:S-1084",
+    "Component:S-1085"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "407dc336bbda8a3c",
+   "name": "metal rails",
+   "candidates": [
+    "Component:S-1085"
+   ],
+   "action": "chosen",
+   "record": "Component:S-1085",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "4d3b6071e0ccd180",
+   "name": "wood grain",
+   "candidates": [
+    "Component:S-1120",
+    "Component:S-1123"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "51a799b5741a29ea",
+   "name": "removable covers",
+   "candidates": [
+    "Assembly:A-1015",
+    "Component:S-1098",
+    "Component:S-1113"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1015",
+   "evidence": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "5b33ce824b97cd4c",
+   "name": "nightstands",
+   "candidates": [
+    "Product:P-1009"
+   ],
+   "action": "chosen",
+   "record": "Product:P-1009",
+   "evidence": "These nightstands offer excellent quality for the price!",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "5cb4a71373cf0202",
+   "name": "shelf",
+   "candidates": [
+    "Assembly:A-1043",
+    "Assembly:A-1046"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1043",
+   "evidence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "6afd5871b0245519",
+   "name": "frame",
+   "candidates": [
+    "Component:S-1088"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "7a9abd29af74f1d7",
+   "name": "pre-drilled holes for the drawer handle",
+   "candidates": [
+    "Assembly:A-1021",
+    "Assembly:A-1022"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "7b416418815b0a22",
+   "name": "cord",
+   "candidates": [
+    "Assembly:A-1036"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1036",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "807964e8ec15a55f",
+   "name": "slat system",
+   "candidates": [
+    "Assembly:A-1051",
+    "Component:S-1124",
+    "Component:S-1134",
+    "Component:S-1136",
+    "Component:S-1138",
+    "Component:S-1140",
+    "Component:S-1142",
+    "Component:S-1144",
+    "Component:S-1146",
+    "Component:S-1148",
+    "Component:S-1150",
+    "Component:S-1152",
+    "Component:S-1154",
+    "Component:S-1156",
+    "Component:S-1158",
+    "Component:S-1160"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1051",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "8fc5df6fbebebc3a",
+   "name": "weighted base",
+   "candidates": [
+    "Assembly:A-1031"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1031",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "99eee1f9b0b204a4",
+   "name": "Västerås Bookshelf Reviews",
+   "candidates": [
+    "Product:P-1004"
+   ],
+   "action": "no_sentence",
+   "record": null,
+   "evidence": "",
+   "by": "code"
+  },
+  {
+   "mention": "9e39291d29a753f2",
+   "name": "center support",
+   "candidates": [
+    "Assembly:A-1028"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "aa4602ce13e2bfd3",
+   "name": "sofa",
+   "candidates": [
+    "Product:P-1003"
+   ],
+   "action": "chosen",
+   "record": "Product:P-1003",
+   "evidence": "The only reason I'm not giving 5 stars is that the sofa is slightly deeper than I expected (92cm), which makes it a bit awkward for shorter people like me to sit comfortably with feet on the floor.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "b266fe0f310969ba",
+   "name": "bookshelf",
+   "candidates": [
+    "Product:P-1004"
+   ],
+   "action": "chosen",
+   "record": "Product:P-1004",
+   "evidence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "b52e49fd27e58376",
+   "name": "adjustable shelves",
+   "candidates": [
+    "Assembly:A-1043",
+    "Assembly:A-1046"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1043",
+   "evidence": "The adjustable shelves have been a great feature as our needs have changed.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "b8c1f8cc187b500a",
+   "name": "cable management system",
+   "candidates": [
+    "Assembly:A-1064",
+    "Component:S-1126",
+    "Component:S-1127"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1064",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "b8d2fd4692e55285",
+   "name": "back angle",
+   "candidates": [
+    "Assembly:A-1038",
+    "Component:S-1107"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "b8fae9d8b59ea146",
+   "name": "panels",
+   "candidates": [
+    "Assembly:A-1066",
+    "Assembly:A-1067",
+    "Assembly:A-1068",
+    "Assembly:A-1069",
+    "Component:S-1116"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "bcb33f7a445dff54",
+   "name": "Västerås",
+   "candidates": [
+    "Product:P-1004"
+   ],
+   "action": "chosen",
+   "record": "Product:P-1004",
+   "evidence": "As a librarian with an extensive home collection, I've purchased many bookshelves over the years, and the Västerås stands out for its exceptional quality-to-price ratio.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "c1cf9772844c1a96",
+   "name": "YKK zippers",
+   "candidates": [
+    "Component:S-1099",
+    "Component:S-1114"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "c21ab5530ef8c787",
+   "name": "frame construction",
+   "candidates": [
+    "Assembly:A-1012",
+    "Component:S-1101",
+    "Component:S-1102",
+    "Component:S-1103"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1012",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "c73615052e811388",
+   "name": "drawer slides",
+   "candidates": [
+    "Assembly:A-1062",
+    "Component:S-1074",
+    "Component:S-1075",
+    "Component:S-1076",
+    "Component:S-1077",
+    "Component:S-1078",
+    "Component:S-1079"
+   ],
+   "action": "chosen",
+   "record": "Component:S-1078",
+   "evidence": "The drawer slides are smooth and the cable management keeps everything tidy.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "e66ea1ab1e5c1374",
+   "name": "leg attachment mechanism",
+   "candidates": [
+    "Assembly:A-1027"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "e68281c94362016a",
+   "name": "drawers",
+   "candidates": [
+    "Assembly:A-1062",
+    "Component:S-1074",
+    "Component:S-1075",
+    "Component:S-1076",
+    "Component:S-1077",
+    "Component:S-1078",
+    "Component:S-1079"
+   ],
+   "action": "chosen",
+   "record": "Assembly:A-1062",
+   "evidence": "The storage solutions are incredibly well-thought-out - I love the cable management system and the drawers are the perfect size for office supplies.",
+   "by": "gemini-3.8-flash"
+  }
+ ]
+}

@@ -5359,6 +5359,14 @@ nothing", R94), so the chooser is never asked. On generality, where no document 
 - **Measurement (next, paid, asked):** `kg audit-relink --choose --join` per dataset. A cache count without
   sending anything: furniture's 31 choices are R96's cache hits and 9 adjudications are new (the units R94-R96
   changed); held-out 1 choice; generality 6 choices, then the adjudications the choices change.
+  Committed at `7e6d329`.
+- **Runs** (the user's yes for each dataset, 2026-10-06; at `7e6d329` with only `.claude/settings.json` dirty):
+  `kg --preset <generality_gemini|quality|heldout> audit-relink out/r77d_<ds> --data ... --logged
+  tests/gold/r87/<ds>_logged.json --out out/r99_<ds> --choose --join`, MLflow generality `9998428d`
+  ($0.0045), furniture `ee6a8e9b` ($0.0037), held-out `c8759a09` ($0.0008): **$0.009 in all**. Then $0:
+  `kg anchor-eval` (both arms) and `kg anchor-sheets` on `out/r99_<ds>/build`. C0 passed on all three
+  replayed builds; no unexplained change. Sheets and replay outputs committed in `tests/gold/r99/<ds>/`;
+  judging next.
 
 ## Found along the way
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**
