@@ -57,6 +57,8 @@ AUDIT_LOGGED = typer.Option(..., help="The build's logged counts (tests/gold/r87
 REACH_CLAIMS = typer.Option(None, help="R68 blind claims whose (thing, chunk) pairs test reach.")
 REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims were written on.")
 # the anchor-graph evaluation (R90): the target gold of the build's dataset and the arm it walks
+SAMPLE_BUILD = typer.Option(None, help="A finished build folder: sample its corpus, not the graph (R101).")
+SAMPLE_DATA = typer.Option(None, help="With --build: the dataset folder the build ingested.")
 ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset (tests/gold/r89/).")
 ANCHOR_ARM = typer.Option(Arm.ANCHOR, help="anchor: anchor edges only; layered: also through the claims.")
 ANCHOR_REPORT = typer.Option(..., help="The anchor arm's report of kg anchor-eval (anchor_anchor.json).")
@@ -401,10 +403,15 @@ def coverage_sample(
     size: int = typer.Option(40, min=1, help="Sentences to draw (R68 judges about 40 per dataset)."),
     # R68's number, fixed before any sentence was seen, so the seed cannot have been tuned to a result
     seed: int = typer.Option(68, help="Seed of the sample: the same seed draws the same sentences."),
+    build: Path | None = SAMPLE_BUILD,
+    data: Path | None = SAMPLE_DATA,
     out: Path = OUT,
 ):
-    """Draw a fixed random sample of sentences from the graph's chunks and write it to TARGET (R68)."""
-    state = PipelineState(sample=target, sample_size=size, sample_seed=seed)
+    """Draw a fixed random sample of sentences from the graph's chunks (or, with --build, from a finished
+    build's corpus rebuilt offline, R101) and write it to TARGET (R68)."""
+    state = PipelineState(
+        sample=target, sample_size=size, sample_seed=seed, audit_source=build, data_dir=data
+    )
     with session(out) as ctx:
         run_stages(ctx, state, [st.CoverageSampleStage()])
     typer.echo(f"Wrote {target}")

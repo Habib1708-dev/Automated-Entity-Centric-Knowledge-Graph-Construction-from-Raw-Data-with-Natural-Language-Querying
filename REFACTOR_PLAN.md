@@ -5553,6 +5553,57 @@ there is no "unsure". All nine generality split groups were nominated and answer
   counts.
 - **Gate (results):** 746 passed (742 before), `ruff check` clean. **R100 done 2026-10-06.** Next: R101.
 
+### R101. The mention pass: the retrieval-worthy things the text names or talks about (started 2026-10-06)
+Mentions exist only as ends of claims (`text/subject_graph.collect_rows`), and the extractor skips what no
+fact type fits, so a thing named only in a title or only as denied ("No leaks were found on HP40-2291") has
+no node: 2 of 86, 11 of 65 and 15 of 62 target names were unplaced (R90). R101 adds a separate pass that
+lists index entries, not phrases: things a question could start from or ask about. Coverage must not turn
+the graph into a noisy copy of the text, so the bounds are fixed before measuring (below).
+- **Split: two parts, one commit each.** (a) the definition, the gold and its format, written before any
+  pass output exists ($0); (b) the code (pass, fallback types, stage, snapshot, fidelity) and at most one
+  `dev`/`smoke` run to prove the wiring (asked).
+- **Bounds, fixed now, checked in R102 and again in R103:** judged precision of a seeded sample of pass
+  mentions >= 0.90 (INCORRECT = outside the definition, a wrong name or a wrong type class); no new C7 hub
+  (> 20 % of the corpus); C9 growth reported per dataset with the added mentions per chunk (median, p90);
+  concept merges of pass mentions judged (C3, comparative). If precision or the hub rule fails, the prompt and
+  checks get at most three `dev` rounds on `samples/`; then the user decides. Recall alone never keeps a pass
+  that fails a bound.
+- **Part a (done 2026-10-07, $0, no model call):**
+  - **The definition**, `tests/gold/r101/rules.md`, one text for the prompt, the code checks, the gold and the
+    judge. In: named particulars; kinds the text says something about (an object or a piece of one; a state,
+    condition or fault, a property included; an incident or event; an action done to a thing or by it; a
+    person or organisation known only by its role); a fault, state or incident of a thing or an action done
+    to it written as a verb ("sticks"); each also when absent. Out: descriptive words alone; light or
+    reporting verbs; clauses with no thing; quantities, dates and times; the document, or its writer named
+    only as such; pronouns; generic words; everyday acts of people that are not a fault, an incident or a work
+    done to a thing. Names verbatim, whole words, no leading article; one entry per thing per sentence (two
+    names of one thing: the first); class `particular` or `kind`. Examples from an invented observatory and
+    ferry line only.
+  - **How the definition was settled** (before any pass output existed, so no gold correction after
+    output): the first blind golds differed on two points the plan's In list left open, faults written as
+    verbs (furniture kept "stick", generality and held-out left out "jammed", "SHOOK") and people known only
+    by a role ("dealer", "council"). Both were settled as In for all three datasets; the verb rule then
+    over-reached (held-out kinds 46 -> 97 with "contact" x6, "filed" x3), so it was narrowed to faults,
+    states, incidents and works done to a thing, with everyday acts of people Out (8), and each gold revised
+    once more.
+  - **`kg coverage-sample --build BUILD --data D`:** the coverage sampler (validation/sentences.py,
+    unchanged) draws from a finished build's corpus rebuilt offline (`audit/inputs.read_corpus` with the
+    build's plan and profile), no graph needed; params log the build and the chunker.
+  - **Samples:** 40 sentences per dataset, seed 101 (fixed before any sentence was seen), from the r77d
+    builds' corpora: `tests/gold/r101/<ds>_sample.json` (populations 504 / 390 / 199 sentences).
+  - **Gold:** `tests/gold/r101/<ds>_mentions.json`, written blind by one Opus 5.5 subagent per dataset
+    (rules.md and the sample only), lead-reviewed in the session (no change): furniture 75 mentions (13
+    particular, 62 kind), held-out 125 (47 / 78), generality 109 (40 / 69). Examples: "No leaks were found"-type
+    denials keep their thing; "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED." ->
+    EXTERIOR REARVIEW MIRRORS, SHOOK, RATTLED (the writer, CONTACT, is Out 5); "## Rating: ★★☆☆☆ (2/5)" -> none.
+  - **`validation/mention_gold.py`:** the format (`MentionGold`, `SentenceMentions`, `GoldMention`) and
+    `mention_gold_issues` / `load_mention_gold`: every sampled sentence answered once and unchanged, every
+    name whole words of its sentence, none twice, none with a leading article.
+  - **Tests** (`tests/test_mention_gold.py`, 7): the checks on an invented sample (each rule), a malformed file
+    refused, the offline sampler on the audit's invented build (params, the same seed draws the same
+    sentences), and the three committed golds against their samples.
+  - Gate: 753 passed (746 before), `ruff check` clean.
+
 ## Found along the way
 - **R100's adjudicator answers "unsure" for some right joins (found in R100, 2026-10-06; the user's choice).**
   Seven joins judged right in R99 are lost: furniture "cushions" / "cushion" (one review; an R75 gold pair, so

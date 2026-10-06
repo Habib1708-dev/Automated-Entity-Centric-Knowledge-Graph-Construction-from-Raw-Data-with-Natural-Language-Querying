@@ -11,6 +11,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import get_args
 
+from ..audit.inputs import read_corpus
 from ..core.errors import InvalidPlanError, ProposalRejectedError
 from ..core.text import norm
 from ..llm.base import prompt_version
@@ -28,12 +29,12 @@ from ..resolution.mentions import read_mentions
 from ..resolution.records import LinkReason
 from ..structured import proposer
 from ..structured.importer import BATCH_SIZE, construct_domain_graph
-from ..structured.plan import validate_plan
-from ..structured.profiler import profile_directory
+from ..structured.plan import ConstructionPlan, validate_plan
+from ..structured.profiler import DataProfile, profile_directory
 from ..structured.staging import stage_structured
 from ..text import extraction
 from ..text import schema as text_schema
-from ..text.chunking import chunk_document
+from ..text.chunking import Chunk, chunk_document
 from ..text.documents import load_documents
 from ..text.lexical import write_lexical_graph
 from ..text.record_documents import record_documents
@@ -628,24 +629,48 @@ class RescoreStage(EvalStage):
 
 class CoverageSampleStage(BaseStage):
     """Draw the fixed sentence sample of the coverage estimate (R68) from the graph's chunks and write it
-    to the sample file, which is committed and judged like a gold file (so not under out/)."""
+    to the sample file, which is committed and judged like a gold file (so not under out/). With a build
+    folder (R101) the chunks are that build's corpus, rebuilt offline as the graph audit rebuilds it
+    (audit/inputs.read_corpus), so a sample needs no graph."""
 
     name = "coverage_sample"
 
     def params(self, ctx, state):
-        return {
+        params: dict[str, object] = {
             "sample": state.need("sample", "pass the sample file to write"),
             "sample_size": state.need("sample_size", "pass the sample size"),
             "sample_seed": state.need("sample_seed", "pass the seed"),
         }
+        if state.audit_source is not None:
+            s = ctx.settings
+            params |= {
+                "build": input_file(state.audit_source, "build folder"),
+                "data_dir": input_file(state.need("data_dir", "pass the dataset folder"), "data folder"),
+                # the chunker settings must be the build's, or the sentences' chunks differ
+                "chunk_max_chars": s.chunk_max_chars,
+                "chunk_min_chars": s.chunk_min_chars,
+                "chunk_overlap_chars": s.chunk_overlap_chars,
+            }
+        return params
 
     def run(self, ctx, state, run):
-        sample = draw_sample(state.load_chunks(ctx), state.sample_size, state.sample_seed)
+        chunks = _build_chunks(ctx, state) if state.audit_source is not None else state.load_chunks(ctx)
+        sample = draw_sample(chunks, state.sample_size, state.sample_seed)
         target = Path(state.sample)
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(sample.model_dump_json(indent=2), encoding="utf-8")
         run.metrics(sentences_total=sample.population, sentences_sampled=len(sample.sentences))
         run.artifact(target)
+
+
+def _build_chunks(ctx: PipelineContext, state: PipelineState) -> list[Chunk]:
+    """A finished build's chunks without its graph: its dataset and staged records under its own plan and
+    profile, chunked with the settings' chunker (the build's, as the audit gate checks)."""
+    build, s = Path(state.audit_source), ctx.settings
+    plan = ConstructionPlan.model_validate_json((build / "plan.json").read_text(encoding="utf-8"))
+    profile = DataProfile.model_validate_json((build / "profile.json").read_text(encoding="utf-8"))
+    chunking = (s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
+    return read_corpus(Path(state.data_dir), build / "staging", plan, profile, chunking).chunks
 
 
 class CoverageSheetStage(BaseStage):

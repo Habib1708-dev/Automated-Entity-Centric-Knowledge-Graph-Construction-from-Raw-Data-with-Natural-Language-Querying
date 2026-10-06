@@ -1,0 +1,763 @@
+{
+ "dataset": "generality",
+ "written_by": "claude-opus-5-5, one blind subagent per dataset (tests/gold/r101/rules.md and the sample only, no pass output existed), revised twice as the definition was settled for all three datasets; lead review by Claude Opus 5.5 in the session, no change",
+ "date": "2026-10-07",
+ "rules": "tests/gold/r101/rules.md",
+ "sample": "tests/gold/r101/generality_sample.json",
+ "sentences": [
+  {
+   "id": "cdb5b789aeda",
+   "doc_id": "institute/brackwater_fen_log.txt",
+   "text": "Core BF-1, 14 April: depth 2.1 m, pH 3.8.",
+   "mentions": [
+    {
+     "name": "BF-1",
+     "kind": "particular"
+    },
+    {
+     "name": "depth",
+     "kind": "kind"
+    },
+    {
+     "name": "pH",
+     "kind": "kind"
+    }
+   ],
+   "note": "Identifier written without 'Core' (shortest name, same form as the bare HP40 ids elsewhere); depth and pH are properties the text gives values for (In 2), the values stay in the claim."
+  },
+  {
+   "id": "1dcb4e479f2a",
+   "doc_id": "institute/fieldwork_log.txt",
+   "text": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J.",
+   "mentions": [
+    {
+     "name": "AB-19",
+     "kind": "particular"
+    },
+    {
+     "name": "depth",
+     "kind": "kind"
+    },
+    {
+     "name": "pH",
+     "kind": "kind"
+    },
+    {
+     "name": "corer",
+     "kind": "kind"
+    },
+    {
+     "name": "jammed",
+     "kind": "kind"
+    },
+    {
+     "name": "freed",
+     "kind": "kind"
+    },
+    {
+     "name": "J.",
+     "kind": "particular"
+    }
+   ],
+   "note": "'jammed' (fault) and 'freed' (action done to the corer) are verbs (In 3); 'J.' is a person named by initial."
+  },
+  {
+   "id": "d66e92e743bf",
+   "doc_id": "institute/fieldwork_log.txt",
+   "text": "Core AB-20, 10 December: not taken, the site was flooded.",
+   "mentions": [
+    {
+     "name": "AB-20",
+     "kind": "particular"
+    },
+    {
+     "name": "taken",
+     "kind": "kind"
+    },
+    {
+     "name": "site",
+     "kind": "kind"
+    },
+    {
+     "name": "flooded",
+     "kind": "kind"
+    }
+   ],
+   "note": "'taken' is the coring done to the core, which did not happen (In 3 + In 4); 'flooded' is the site's state; 'site' is the unnamed coring site."
+  },
+  {
+   "id": "8ad2d56e2991",
+   "doc_id": "institute/hensley_award.md",
+   "text": "The institute gives the Hensley Field-Work Award once a year for outstanding field work.",
+   "mentions": [
+    {
+     "name": "institute",
+     "kind": "kind"
+    },
+    {
+     "name": "Hensley Field-Work Award",
+     "kind": "particular"
+    },
+    {
+     "name": "field work",
+     "kind": "kind"
+    }
+   ],
+   "note": "'institute' is an organisation known only by its role, so kind; 'gives' is a light verb (the award is the thing); 'field work' kept as the activity the award is for, not an everyday act."
+  },
+  {
+   "id": "432e5ab6208f",
+   "doc_id": "institute/hensley_award.md",
+   "text": "Samuel Osei was nominated, but the committee found that no entry met the standard.",
+   "mentions": [
+    {
+     "name": "Samuel Osei",
+     "kind": "particular"
+    },
+    {
+     "name": "committee",
+     "kind": "kind"
+    },
+    {
+     "name": "entry",
+     "kind": "kind"
+    }
+   ],
+   "note": "'nominated' is an everyday act of people (Out 8); 'entry' kept although absent (In 4); 'found' is reporting and 'met the standard' an evaluation."
+  },
+  {
+   "id": "36eaac0d87ce",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Every project lead must submit a data management plan by 30 June 2025.",
+   "mentions": [
+    {
+     "name": "project lead",
+     "kind": "kind"
+    },
+    {
+     "name": "data management plan",
+     "kind": "kind"
+    }
+   ],
+   "note": "'submit' is filing, an everyday act of people (Out 8)."
+  },
+  {
+   "id": "de614a33c49b",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "text": "Projects without a plan will not receive second-year funding.",
+   "mentions": [
+    {
+     "name": "Projects",
+     "kind": "kind"
+    },
+    {
+     "name": "plan",
+     "kind": "kind"
+    },
+    {
+     "name": "second-year funding",
+     "kind": "kind"
+    }
+   ],
+   "note": "'receive' is a light verb: the funding is the thing."
+  },
+  {
+   "id": "fe23e269344f",
+   "doc_id": "institute/minutes_2025-06-09.md",
+   "text": "Aiko Tanaka closed the meeting at 15:55.",
+   "mentions": [
+    {
+     "name": "Aiko Tanaka",
+     "kind": "particular"
+    },
+    {
+     "name": "meeting",
+     "kind": "kind"
+    }
+   ],
+   "note": "'closed' the meeting is an everyday act of a person, not a fault or work done to a thing (Out 8)."
+  },
+  {
+   "id": "a32a15b8728d",
+   "doc_id": "institute/newsletter_spring_2025.md",
+   "text": "## Field-work award",
+   "mentions": [
+    {
+     "name": "Field-work award",
+     "kind": "particular"
+    }
+   ],
+   "note": "Heading names the one award of the section; taken as a particular although in sentence case."
+  },
+  {
+   "id": "19b447120e4c",
+   "doc_id": "institute/seminar_notice_autumn.md",
+   "text": "# Seminar notice",
+   "mentions": [
+    {
+     "name": "Seminar",
+     "kind": "kind"
+    }
+   ],
+   "note": "The notice is the document itself (Out 5); the seminar it announces is an event."
+  },
+  {
+   "id": "5cc598c09a74",
+   "doc_id": "institute/travel_claims_memo.md",
+   "text": "Several colleagues have asked how the June conference trips are funded.",
+   "mentions": [
+    {
+     "name": "June conference trips",
+     "kind": "kind"
+    }
+   ],
+   "note": "'June' kept because it tells these trips apart; trips are events (In 2); 'funded' is an everyday act (Out 8); 'colleagues' is a generic people word; 'asked' is reporting."
+  },
+  {
+   "id": "3dda68832a92",
+   "doc_id": "institute/utrecht_conference_2025.md",
+   "text": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session.",
+   "mentions": [
+    {
+     "name": "Maria Lopez",
+     "kind": "particular"
+    },
+    {
+     "name": "poster",
+     "kind": "kind"
+    },
+    {
+     "name": "cores",
+     "kind": "kind"
+    },
+    {
+     "name": "Aldmoor bog",
+     "kind": "particular"
+    },
+    {
+     "name": "session",
+     "kind": "kind"
+    }
+   ],
+   "note": "'presented' is an everyday act (Out 8); 'drew more questions' is an evaluation."
+  },
+  {
+   "id": "3b24d5b3e416",
+   "doc_id": "news/bakery_opens.md",
+   "text": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office.",
+   "mentions": [
+    {
+     "name": "Maria Lopez",
+     "kind": "particular"
+    },
+    {
+     "name": "bakery",
+     "kind": "kind"
+    },
+    {
+     "name": "14 Harbour Street",
+     "kind": "particular"
+    },
+    {
+     "name": "former post office",
+     "kind": "kind"
+    }
+   ],
+   "note": "'opened' a bakery is an act of a person, not a fault or work done to a thing (Out 8); the address is kept whole as the place named; 'former' tells the building apart."
+  },
+  {
+   "id": "ccc7c64be09e",
+   "doc_id": "news/budget_2025.md",
+   "text": "# Riverton sets its 2025 works budget",
+   "mentions": [
+    {
+     "name": "Riverton",
+     "kind": "particular"
+    },
+    {
+     "name": "2025 works budget",
+     "kind": "kind"
+    }
+   ],
+   "note": "'2025' kept because it tells this budget apart from the 2026 one; 'sets' is a light verb."
+  },
+  {
+   "id": "5fdeda143df3",
+   "doc_id": "news/budget_2025.md",
+   "text": "- Mill Lane footbridge repair: 180,000 pounds",
+   "mentions": [
+    {
+     "name": "Mill Lane footbridge",
+     "kind": "particular"
+    },
+    {
+     "name": "repair",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "f8bf11e1ffbd",
+   "doc_id": "news/budget_2025.md",
+   "text": "- Harbour Street resurfacing: 95,000 pounds",
+   "mentions": [
+    {
+     "name": "Harbour Street",
+     "kind": "particular"
+    },
+    {
+     "name": "resurfacing",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "6db463e1c631",
+   "doc_id": "news/budget_2026.md",
+   "text": "- Riverside path lighting: 230,000 pounds",
+   "mentions": [
+    {
+     "name": "Riverside path",
+     "kind": "particular"
+    },
+    {
+     "name": "lighting",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "75d8459634ca",
+   "doc_id": "news/budget_2026.md",
+   "text": "- Mill Lane footbridge east railing: 15,000 pounds",
+   "mentions": [
+    {
+     "name": "Mill Lane footbridge",
+     "kind": "particular"
+    },
+    {
+     "name": "east railing",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "28f2481f2df9",
+   "doc_id": "news/budget_2026.md",
+   "text": "Councillor Priya Nandakumar welcomed the second drainage phase but asked why the resurfacing had slipped by a year.",
+   "mentions": [
+    {
+     "name": "Priya Nandakumar",
+     "kind": "particular"
+    },
+    {
+     "name": "second drainage phase",
+     "kind": "kind"
+    },
+    {
+     "name": "resurfacing",
+     "kind": "kind"
+    },
+    {
+     "name": "slipped",
+     "kind": "kind"
+    }
+   ],
+   "note": "Title 'Councillor' is part of how the named person is called, not a second thing; 'welcomed' and 'asked' are reporting."
+  },
+  {
+   "id": "4aa22b3f7a5a",
+   "doc_id": "news/council_notices.md",
+   "text": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks.",
+   "mentions": [
+    {
+     "name": "Mill Lane footbridge",
+     "kind": "particular"
+    },
+    {
+     "name": "closed",
+     "kind": "kind"
+    },
+    {
+     "name": "repair works",
+     "kind": "kind"
+    }
+   ],
+   "note": "'all users' is generic."
+  },
+  {
+   "id": "29f78d3a0f72",
+   "doc_id": "news/council_notices.md",
+   "text": "Harbour Street: resurfacing postponed to 2026.",
+   "mentions": [
+    {
+     "name": "Harbour Street",
+     "kind": "particular"
+    },
+    {
+     "name": "resurfacing",
+     "kind": "kind"
+    },
+    {
+     "name": "postponed",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "05f5e940c51f",
+   "doc_id": "news/council_notices.md",
+   "text": "The street stays open to traffic.",
+   "mentions": [
+    {
+     "name": "street",
+     "kind": "kind"
+    }
+   ],
+   "note": "'street' refers back to Harbour Street but is not named here, so kind; 'stays' is light and 'open' an adjective, not a verb form (Out 1, ambiguous); 'traffic' is part of 'open to traffic'."
+  },
+  {
+   "id": "dc9054227c1b",
+   "doc_id": "news/flood_meeting.md",
+   "text": "The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.",
+   "mentions": [
+    {
+     "name": "council",
+     "kind": "kind"
+    },
+    {
+     "name": "Daniel Okafor",
+     "kind": "particular"
+    },
+    {
+     "name": "culvert",
+     "kind": "kind"
+    },
+    {
+     "name": "Station Road",
+     "kind": "particular"
+    },
+    {
+     "name": "heavy storms",
+     "kind": "kind"
+    }
+   ],
+   "note": "'structural inspector' is Daniel Okafor in apposition: one entry per thing, kept as the name."
+  },
+  {
+   "id": "a328b6014180",
+   "doc_id": "news/footbridge_reopens.md",
+   "text": "# Mill Lane footbridge reopens",
+   "mentions": [
+    {
+     "name": "Mill Lane footbridge",
+     "kind": "particular"
+    },
+    {
+     "name": "reopens",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "f4ace719d784",
+   "doc_id": "news/footbridge_reopens.md",
+   "text": "The Mill Lane footbridge reopened on 28 March after eight weeks of works.",
+   "mentions": [
+    {
+     "name": "Mill Lane footbridge",
+     "kind": "particular"
+    },
+    {
+     "name": "reopened",
+     "kind": "kind"
+    },
+    {
+     "name": "works",
+     "kind": "kind"
+    }
+   ],
+   "note": "'works' names the repair works here, not a generic word."
+  },
+  {
+   "id": "13ccb42ae910",
+   "doc_id": "news/harbour_open_day.md",
+   "text": "# Riverton Water opens its doors",
+   "mentions": [
+    {
+     "name": "Riverton Water",
+     "kind": "particular"
+    }
+   ],
+   "note": "'opens its doors' is an idiom for an open day, not a fault or work done to a thing; 'doors' is no thing."
+  },
+  {
+   "id": "eeb4128ff7b9",
+   "doc_id": "news/harbour_open_day.md",
+   "text": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.",
+   "mentions": [
+    {
+     "name": "Rosa Delgado",
+     "kind": "particular"
+    },
+    {
+     "name": "station",
+     "kind": "kind"
+    },
+    {
+     "name": "Kestrel V-12",
+     "kind": "particular"
+    },
+    {
+     "name": "alarms",
+     "kind": "kind"
+    },
+    {
+     "name": "North Station",
+     "kind": "particular"
+    }
+   ],
+   "note": "'Kestrel V-12' is a model name, taken as particular; 'site' is the station again (one entry per thing); 'unmanned' is an adjective; 'showed', 'explained' and 'reach' are reporting or light."
+  },
+  {
+   "id": "e063b1980590",
+   "doc_id": "news/harbour_open_day.md",
+   "text": "Children could try a hand pump in the yard, and the café sold out of cakes by noon.",
+   "mentions": [
+    {
+     "name": "Children",
+     "kind": "kind"
+    },
+    {
+     "name": "hand pump",
+     "kind": "kind"
+    },
+    {
+     "name": "yard",
+     "kind": "kind"
+    },
+    {
+     "name": "café",
+     "kind": "kind"
+    },
+    {
+     "name": "cakes",
+     "kind": "kind"
+    }
+   ],
+   "note": "'sold out' is an everyday act of selling (Out 8); 'try' is light."
+  },
+  {
+   "id": "6c30b0539e20",
+   "doc_id": "news/library_reopened.md",
+   "text": "# Eastgate library back in business",
+   "mentions": [
+    {
+     "name": "Eastgate library",
+     "kind": "particular"
+    }
+   ],
+   "note": "'back in business' is an idiom with no verb or thing."
+  },
+  {
+   "id": "972dc04c241d",
+   "doc_id": "news/mill_lane_and_eastgate.md",
+   "text": "The footbridge will be closed from 3 February while its railings and deck boards are renewed.",
+   "mentions": [
+    {
+     "name": "footbridge",
+     "kind": "kind"
+    },
+    {
+     "name": "closed",
+     "kind": "kind"
+    },
+    {
+     "name": "railings",
+     "kind": "kind"
+    },
+    {
+     "name": "deck boards",
+     "kind": "kind"
+    },
+    {
+     "name": "renewed",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "32db2c49ec43",
+   "doc_id": "water/calder_quotation.md",
+   "text": "Dear Riverton Water,",
+   "mentions": [
+    {
+     "name": "Riverton Water",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "896fb5916255",
+   "doc_id": "water/calder_quotation.md",
+   "text": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty.",
+   "mentions": [
+    {
+     "name": "Hydra P-40",
+     "kind": "particular"
+    },
+    {
+     "name": "mechanical seal",
+     "kind": "kind"
+    }
+   ],
+   "note": "'Hydra P-40' is a model name, taken as particular although the claim covers any unit; 'needs' is light."
+  },
+  {
+   "id": "db2c95d2b0c9",
+   "doc_id": "water/calder_quotation.md",
+   "text": "Kind regards,",
+   "mentions": [],
+   "note": ""
+  },
+  {
+   "id": "a0a2c56a7f23",
+   "doc_id": "water/harbour_station_may_2025.md",
+   "text": "The station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure.",
+   "mentions": [
+    {
+     "name": "station",
+     "kind": "kind"
+    },
+    {
+     "name": "KV12-0457",
+     "kind": "particular"
+    },
+    {
+     "name": "tripped",
+     "kind": "kind"
+    },
+    {
+     "name": "low suction pressure",
+     "kind": "kind"
+    }
+   ],
+   "note": "'only pump' is KV12-0457 in apposition: a description, not a second name, so the id is the entry."
+  },
+  {
+   "id": "99f62343dd38",
+   "doc_id": "water/inspection_2025-03-14.md",
+   "text": "Pump HP40-2291 ran quietly.",
+   "mentions": [
+    {
+     "name": "HP40-2291",
+     "kind": "particular"
+    },
+    {
+     "name": "ran",
+     "kind": "kind"
+    }
+   ],
+   "note": "'ran' names the pump's running state; 'quietly' is manner."
+  },
+  {
+   "id": "eae1a0b0b5b7",
+   "doc_id": "water/isolation_procedure.md",
+   "text": "## Before you start",
+   "mentions": [],
+   "note": ""
+  },
+  {
+   "id": "4976b15ec68b",
+   "doc_id": "water/north_station_2024_summary.md",
+   "text": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.",
+   "mentions": [
+    {
+     "name": "HP40-1183",
+     "kind": "particular"
+    },
+    {
+     "name": "ran",
+     "kind": "kind"
+    },
+    {
+     "name": "HP40-2291",
+     "kind": "particular"
+    }
+   ],
+   "note": "'ran' names the pumps' running state, one entry for both (one entry per thing); 'kept' is light, 'on duty' a state phrase."
+  },
+  {
+   "id": "3a343e5399fb",
+   "doc_id": "water/shift_notes.txt",
+   "text": "Tue: Calder Pumps phoned about the seal returned from HP40-1183.",
+   "mentions": [
+    {
+     "name": "Calder Pumps",
+     "kind": "particular"
+    },
+    {
+     "name": "seal",
+     "kind": "kind"
+    },
+    {
+     "name": "returned",
+     "kind": "kind"
+    },
+    {
+     "name": "HP40-1183",
+     "kind": "particular"
+    }
+   ],
+   "note": "'phoned' is reporting; 'returned' is the action done to the seal."
+  },
+  {
+   "id": "b2614b4bc061",
+   "doc_id": "water/shift_notes_june.txt",
+   "text": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.",
+   "mentions": [
+    {
+     "name": "alarm",
+     "kind": "kind"
+    },
+    {
+     "name": "Harbour Station",
+     "kind": "particular"
+    },
+    {
+     "name": "cleared",
+     "kind": "kind"
+    },
+    {
+     "name": "KV12-0457",
+     "kind": "particular"
+    },
+    {
+     "name": "restarted",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "8970009338be",
+   "doc_id": "water/work_orders_2025-06.md",
+   "text": "WO-318, 30 June.",
+   "mentions": [
+    {
+     "name": "WO-318",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  }
+ ]
+}

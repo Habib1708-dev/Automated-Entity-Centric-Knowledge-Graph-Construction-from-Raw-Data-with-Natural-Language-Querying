@@ -1,0 +1,828 @@
+{
+ "dataset": "heldout",
+ "written_by": "claude-opus-5-5, one blind subagent per dataset (tests/gold/r101/rules.md and the sample only, no pass output existed), revised twice as the definition was settled for all three datasets; lead review by Claude Opus 5.5 in the session, no change",
+ "date": "2026-10-07",
+ "rules": "tests/gold/r101/rules.md",
+ "sample": "tests/gold/r101/heldout_sample.json",
+ "sentences": [
+  {
+   "id": "f4695f7a121b",
+   "doc_id": "complaints/ford_escape_complaints.md",
+   "text": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "mentions": [
+    {
+     "name": "VEHICLE",
+     "kind": "kind"
+    },
+    {
+     "name": "BRAKE SQUEAL",
+     "kind": "kind"
+    }
+   ],
+   "note": "EXHIBITS is a light verb."
+  },
+  {
+   "id": "25b47596100f",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "text": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "mentions": [
+    {
+     "name": "TRUNK",
+     "kind": "kind"
+    },
+    {
+     "name": "GLOVE COMPARTMENT",
+     "kind": "kind"
+    },
+    {
+     "name": "LOCK",
+     "kind": "kind"
+    },
+    {
+     "name": "VEHICLE",
+     "kind": "kind"
+    }
+   ],
+   "note": "LOCK is a fault of the trunk and compartment (counts though it does not happen). VALET PARK is an everyday act with the car, not a fault or a work done to it (Out 8); LEAVE is a light verb."
+  },
+  {
+   "id": "80bb9aed5a36",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "mentions": [
+    {
+     "name": "ADAPTIVE CRUISE CONTROL",
+     "kind": "kind"
+    },
+    {
+     "name": "LANE KEEPING ASSIST SYSTEM",
+     "kind": "kind"
+    },
+    {
+     "name": "ENGAGED",
+     "kind": "kind"
+    },
+    {
+     "name": "VEHICLE",
+     "kind": "kind"
+    },
+    {
+     "name": "REACT",
+     "kind": "kind"
+    }
+   ],
+   "note": "ACC and LKAS are second names: the first is kept. ENGAGED is the state of the two systems that triggers the fault; REACT is the vehicle's fault."
+  },
+  {
+   "id": "9ae03f8e8f92",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "mentions": [
+    {
+     "name": "VEHICLE",
+     "kind": "kind"
+    },
+    {
+     "name": "BRAKE",
+     "kind": "kind"
+    },
+    {
+     "name": "DECELERATE",
+     "kind": "kind"
+    },
+    {
+     "name": "DEPART",
+     "kind": "kind"
+    },
+    {
+     "name": "HIGHWAY",
+     "kind": "kind"
+    },
+    {
+     "name": "EXIT RAMPS",
+     "kind": "kind"
+    }
+   ],
+   "note": "BRAKE, DECELERATE and DEPART are incidents of the vehicle; APPROACHING is plain motion (light)."
+  },
+  {
+   "id": "b8c77715f35d",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "text": "DURING 300 MILES OF HIGHWAY DRIVING, THE VEHICLE DID THIS TWICE.",
+   "mentions": [
+    {
+     "name": "VEHICLE",
+     "kind": "kind"
+    }
+   ],
+   "note": "HIGHWAY DRIVING is an everyday act of the driver (Out 8); DID is a light verb; 300 MILES a quantity."
+  },
+  {
+   "id": "3627197d8b3a",
+   "doc_id": "complaints/honda_civic_complaints.md",
+   "text": "## Complaint 10823637 (filed 02/01/2016)",
+   "mentions": [
+    {
+     "name": "Complaint 10823637",
+     "kind": "particular"
+    }
+   ],
+   "note": "A complaint section named by its number: kept as an identifier. 'filed' is an everyday act (Out 8)."
+  },
+  {
+   "id": "a95cd600ff24",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "text": "THE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.",
+   "mentions": [
+    {
+     "name": "VEHICLE",
+     "kind": "kind"
+    },
+    {
+     "name": "ROAD",
+     "kind": "kind"
+    },
+    {
+     "name": "BRIDGE",
+     "kind": "kind"
+    },
+    {
+     "name": "I-275",
+     "kind": "particular"
+    }
+   ],
+   "note": "TRAVELING and GOES are plain motion (light, like 'arrived')."
+  },
+  {
+   "id": "d56c363f1e1f",
+   "doc_id": "complaints/nissan_rogue_complaints.md",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "mentions": [
+    {
+     "name": "FRONT CAMERA SYSTEM",
+     "kind": "kind"
+    },
+    {
+     "name": "MISTOOK",
+     "kind": "kind"
+    },
+    {
+     "name": "BRIDGE",
+     "kind": "kind"
+    },
+    {
+     "name": "ROAD",
+     "kind": "kind"
+    },
+    {
+     "name": "ACTIVATED",
+     "kind": "kind"
+    },
+    {
+     "name": "BRAKES",
+     "kind": "kind"
+    }
+   ],
+   "note": "MISTOOK is the camera system's fault, ACTIVATED an incident done to the brakes. OBJECT is a generic word here (any obstacle)."
+  },
+  {
+   "id": "e14719302c2d",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "text": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM.",
+   "mentions": [
+    {
+     "name": "OUTBACK",
+     "kind": "particular"
+    },
+    {
+     "name": "NAV SYSTEM",
+     "kind": "kind"
+    }
+   ],
+   "note": "PROBLEMS is a generic word; USING is an everyday act; 2019 is a model year (a date)."
+  },
+  {
+   "id": "c4da0454fddc",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "text": "## Complaint 11176393 (filed 02/11/2019)",
+   "mentions": [
+    {
+     "name": "Complaint 11176393",
+     "kind": "particular"
+    }
+   ],
+   "note": "'filed' is an everyday act (Out 8)."
+  },
+  {
+   "id": "806def662e70",
+   "doc_id": "complaints/subaru_outback_complaints.md",
+   "text": "IT FEELS EXTREMELY DANGEROUS WHEN DRIVING, AND I FEEL TOTALLY EXHAUSTED AFTER.",
+   "mentions": [],
+   "note": "No thing: DRIVING is an everyday act (Out 8), DANGEROUS an evaluation, EXHAUSTED an adjective after FEEL (could be read as a state)."
+  },
+  {
+   "id": "0bfe71b403c1",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "text": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER.",
+   "mentions": [
+    {
+     "name": "RENTAL COMPANY",
+     "kind": "kind"
+    },
+    {
+     "name": "DEALER",
+     "kind": "kind"
+    },
+    {
+     "name": "MANUFACTURER",
+     "kind": "kind"
+    }
+   ],
+   "note": "CONTACT is the complaint's writer named only by that role (Out 5); NOTIFIED is contacting (Out 8); UNSURE is a describing word."
+  },
+  {
+   "id": "79cfcbb70b37",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "text": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "mentions": [
+    {
+     "name": "EXTERIOR REARVIEW MIRRORS",
+     "kind": "kind"
+    },
+    {
+     "name": "SHOOK",
+     "kind": "kind"
+    },
+    {
+     "name": "RATTLED",
+     "kind": "kind"
+    }
+   ],
+   "note": "CONTACT is the complaint's writer (Out 5); STATED is a reporting verb."
+  },
+  {
+   "id": "60e40266f322",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "text": "## Complaint 11221492 (filed 06/20/2019)",
+   "mentions": [
+    {
+     "name": "Complaint 11221492",
+     "kind": "particular"
+    }
+   ],
+   "note": "'filed' is an everyday act (Out 8)."
+  },
+  {
+   "id": "a8d5a30fc1ea",
+   "doc_id": "complaints/toyota_rav4_complaints.md",
+   "text": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "mentions": [
+    {
+     "name": "TANK",
+     "kind": "kind"
+    },
+    {
+     "name": "AUTO-SHUTOFF",
+     "kind": "kind"
+    }
+   ],
+   "note": "FILLING the tank is an everyday act, not a fault or a work done to it (Out 8); HAPPENS is a light verb; FULL is an adjective; 2 GALLONS is a quantity."
+  },
+  {
+   "id": "e61403510f8f",
+   "doc_id": "record/Recall/15V436000",
+   "text": "Ford's number for this recall is 15C06.",
+   "mentions": [
+    {
+     "name": "Ford",
+     "kind": "particular"
+    },
+    {
+     "name": "recall",
+     "kind": "kind"
+    },
+    {
+     "name": "15C06",
+     "kind": "particular"
+    }
+   ],
+   "note": "'this recall' is the recall action, not the document; 15C06 is its identifier, a separate entry. 'number' is a generic word."
+  },
+  {
+   "id": "74fc4df4eee9",
+   "doc_id": "record/Recall/16V074000",
+   "text": "Owners may contact Honda customer service at 1-888-234-2138.",
+   "mentions": [
+    {
+     "name": "Owners",
+     "kind": "kind"
+    },
+    {
+     "name": "Honda customer service",
+     "kind": "particular"
+    }
+   ],
+   "note": "'contact' is an everyday act (Out 8); the phone number is a value, not the name of a thing."
+  },
+  {
+   "id": "986d5f11686b",
+   "doc_id": "record/Recall/16V244000",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "mentions": [
+    {
+     "name": "Dealers",
+     "kind": "kind"
+    },
+    {
+     "name": "reprogram",
+     "kind": "kind"
+    },
+    {
+     "name": "Air Bag Control Unit",
+     "kind": "kind"
+    },
+    {
+     "name": "OCS Electronic Control Unit",
+     "kind": "kind"
+    },
+    {
+     "name": "Altima",
+     "kind": "particular"
+    },
+    {
+     "name": "Maxima",
+     "kind": "particular"
+    },
+    {
+     "name": "Murano",
+     "kind": "particular"
+    },
+    {
+     "name": "Rogue",
+     "kind": "particular"
+    },
+    {
+     "name": "Sentra",
+     "kind": "particular"
+    },
+    {
+     "name": "vehicles",
+     "kind": "kind"
+    },
+    {
+     "name": "replace",
+     "kind": "kind"
+    },
+    {
+     "name": "LEAF",
+     "kind": "particular"
+    },
+    {
+     "name": "NV200",
+     "kind": "particular"
+    },
+    {
+     "name": "NV200 Taxi",
+     "kind": "particular"
+    },
+    {
+     "name": "Pathfinder",
+     "kind": "particular"
+    },
+    {
+     "name": "Infiniti Q50",
+     "kind": "particular"
+    },
+    {
+     "name": "JX35",
+     "kind": "particular"
+    },
+    {
+     "name": "QX60",
+     "kind": "particular"
+    },
+    {
+     "name": "Chevrolet City Express",
+     "kind": "particular"
+    }
+   ],
+   "note": "ACU, ECU and OCS ECU are second names of the two units: the first is kept."
+  },
+  {
+   "id": "79702a7439f6",
+   "doc_id": "record/Recall/19V244000",
+   "text": "The recall began May 24, 2019.",
+   "mentions": [
+    {
+     "name": "recall",
+     "kind": "kind"
+    }
+   ],
+   "note": "BEGAN marks the start of the recall, not an action of its own (light)."
+  },
+  {
+   "id": "dd41cb744172",
+   "doc_id": "record/Recall/19V493000",
+   "text": "Owners may contact Subaru customer service at 1-844-373-6614.",
+   "mentions": [
+    {
+     "name": "Owners",
+     "kind": "kind"
+    },
+    {
+     "name": "Subaru customer service",
+     "kind": "particular"
+    }
+   ],
+   "note": "'contact' is an everyday act (Out 8)."
+  },
+  {
+   "id": "6789fb066f49",
+   "doc_id": "record/Recall/19V576000",
+   "text": "The recall began September 27, 2019.",
+   "mentions": [
+    {
+     "name": "recall",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "e10832bba31d",
+   "doc_id": "record/Recall/20V064000",
+   "text": "Owners may contact Toyota customer service at 1-888-270-9371 or Lexus at 1-800-255-3987.",
+   "mentions": [
+    {
+     "name": "Owners",
+     "kind": "kind"
+    },
+    {
+     "name": "Toyota customer service",
+     "kind": "particular"
+    },
+    {
+     "name": "Lexus",
+     "kind": "particular"
+    }
+   ],
+   "note": "'contact' is an everyday act (Out 8)."
+  },
+  {
+   "id": "0b8a509a85f2",
+   "doc_id": "record/Recall/20V218000",
+   "text": "Subaru of America, Inc.",
+   "mentions": [
+    {
+     "name": "Subaru of America",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "dc92249622e1",
+   "doc_id": "record/Recall/20V218000",
+   "text": "Subaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.",
+   "mentions": [
+    {
+     "name": "Subaru",
+     "kind": "particular"
+    },
+    {
+     "name": "owners",
+     "kind": "kind"
+    },
+    {
+     "name": "dealers",
+     "kind": "kind"
+    },
+    {
+     "name": "replace",
+     "kind": "kind"
+    },
+    {
+     "name": "low pressure fuel pump",
+     "kind": "kind"
+    }
+   ],
+   "note": "'notify' is contacting (Out 8)."
+  },
+  {
+   "id": "c77e38eb22c7",
+   "doc_id": "record/Recall/20V286000",
+   "text": "Toyota's interim numbers for this recall are 20TB08 / 20TA08.",
+   "mentions": [
+    {
+     "name": "Toyota",
+     "kind": "particular"
+    },
+    {
+     "name": "recall",
+     "kind": "kind"
+    },
+    {
+     "name": "20TB08",
+     "kind": "particular"
+    },
+    {
+     "name": "20TA08",
+     "kind": "particular"
+    }
+   ],
+   "note": "Two interim numbers: two identifiers."
+  },
+  {
+   "id": "cc4d3a58ac55",
+   "doc_id": "record/Recall/20V331000",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "mentions": [
+    {
+     "name": "vehicles",
+     "kind": "kind"
+    },
+    {
+     "name": "recalled",
+     "kind": "kind"
+    },
+    {
+     "name": "repaired",
+     "kind": "kind"
+    },
+    {
+     "name": "15V-246",
+     "kind": "particular"
+    },
+    {
+     "name": "16V-643",
+     "kind": "particular"
+    },
+    {
+     "name": "17V-210",
+     "kind": "particular"
+    }
+   ],
+   "note": "'recalls' and 'the repair' name the recall and the repair again: the first names are kept. COMPLETED marks the end of the repair (light)."
+  },
+  {
+   "id": "7c81510891f8",
+   "doc_id": "record/Recall/20V331000",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "mentions": [
+    {
+     "name": "Ford",
+     "kind": "particular"
+    },
+    {
+     "name": "owners",
+     "kind": "kind"
+    },
+    {
+     "name": "dealers",
+     "kind": "kind"
+    },
+    {
+     "name": "inspect",
+     "kind": "kind"
+    },
+    {
+     "name": "latch date codes",
+     "kind": "kind"
+    },
+    {
+     "name": "repair",
+     "kind": "kind"
+    },
+    {
+     "name": "replace",
+     "kind": "kind"
+    },
+    {
+     "name": "side door latches",
+     "kind": "kind"
+    }
+   ],
+   "note": "'notify' is contacting (Out 8); 'confirm' is the purpose of the inspection, not a separate action; 'done' is a light verb."
+  },
+  {
+   "id": "f58c4038828f",
+   "doc_id": "record/Recall/21V587000",
+   "text": "Subaru's number for this recall is WRG-21.",
+   "mentions": [
+    {
+     "name": "Subaru",
+     "kind": "particular"
+    },
+    {
+     "name": "recall",
+     "kind": "kind"
+    },
+    {
+     "name": "WRG-21",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "8723563fcd78",
+   "doc_id": "record/Recall/21V839000",
+   "text": "Nissan North America, Inc.",
+   "mentions": [
+    {
+     "name": "Nissan North America",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "e224017077ba",
+   "doc_id": "record/Recall/22V254000",
+   "text": "Owner notification letters were mailed May 27, 2022.",
+   "mentions": [
+    {
+     "name": "Owner notification letters",
+     "kind": "kind"
+    }
+   ],
+   "note": "'mailed' is sending (Out 8)."
+  },
+  {
+   "id": "6780be4a14ed",
+   "doc_id": "record/Recall/22V413000",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "mentions": [
+    {
+     "name": "Owners",
+     "kind": "kind"
+    },
+    {
+     "name": "Ford customer service",
+     "kind": "particular"
+    }
+   ],
+   "note": "'contact' is an everyday act (Out 8)."
+  },
+  {
+   "id": "b5a99d85ad0e",
+   "doc_id": "record/Recall/22V875000",
+   "text": "Nissan North America, Inc.",
+   "mentions": [
+    {
+     "name": "Nissan North America",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "466e079b659d",
+   "doc_id": "record/Recall/22V875000",
+   "text": "Owners may contact Nissan's customer service at 1-800-867-7669.",
+   "mentions": [
+    {
+     "name": "Owners",
+     "kind": "kind"
+    },
+    {
+     "name": "Nissan's customer service",
+     "kind": "particular"
+    }
+   ],
+   "note": "'contact' is an everyday act (Out 8)."
+  },
+  {
+   "id": "eaf0f8e5baf2",
+   "doc_id": "record/Recall/23V093000",
+   "text": "Nissan North America, Inc.",
+   "mentions": [
+    {
+     "name": "Nissan North America",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "4c8d3e32644e",
+   "doc_id": "record/Recall/23V093000",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "mentions": [
+    {
+     "name": "Nissan",
+     "kind": "particular"
+    },
+    {
+     "name": "recalling",
+     "kind": "kind"
+    },
+    {
+     "name": "Rogue",
+     "kind": "particular"
+    },
+    {
+     "name": "Rogue Sport",
+     "kind": "particular"
+    },
+    {
+     "name": "vehicles",
+     "kind": "kind"
+    },
+    {
+     "name": "jackknife style ignition key",
+     "kind": "kind"
+    }
+   ],
+   "note": "'equipped with' is a light verb (like 'has')."
+  },
+  {
+   "id": "a17a4ae55e95",
+   "doc_id": "record/Recall/23V093000",
+   "text": "Nissan's number for this recall is R22C5.",
+   "mentions": [
+    {
+     "name": "Nissan",
+     "kind": "particular"
+    },
+    {
+     "name": "recall",
+     "kind": "kind"
+    },
+    {
+     "name": "R22C5",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "e14a45e8e867",
+   "doc_id": "record/Recall/23V858000",
+   "text": "The fuel pump inside the fuel tank may fail.",
+   "mentions": [
+    {
+     "name": "fuel pump",
+     "kind": "kind"
+    },
+    {
+     "name": "fuel tank",
+     "kind": "kind"
+    },
+    {
+     "name": "fail",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "26ef61297f10",
+   "doc_id": "record/Recall/23V858000",
+   "text": "Dealers will replace the fuel pump module, free of charge.",
+   "mentions": [
+    {
+     "name": "Dealers",
+     "kind": "kind"
+    },
+    {
+     "name": "replace",
+     "kind": "kind"
+    },
+    {
+     "name": "fuel pump module",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "27f37deb345c",
+   "doc_id": "record/Recall/26V011000",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "mentions": [
+    {
+     "name": "Owners",
+     "kind": "kind"
+    },
+    {
+     "name": "Ford customer service",
+     "kind": "particular"
+    }
+   ],
+   "note": "'contact' is an everyday act (Out 8)."
+  },
+  {
+   "id": "3f19690c088b",
+   "doc_id": "record/Recall/26V332000",
+   "text": "Honda (American Honda Motor Co.)",
+   "mentions": [
+    {
+     "name": "Honda",
+     "kind": "particular"
+    }
+   ],
+   "note": "American Honda Motor Co. is a second name of the same organisation: the first is kept."
+  }
+ ]
+}

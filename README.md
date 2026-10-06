@@ -25,6 +25,7 @@ uv run kg eval gold.json                                          # precision/re
 uv run kg eval gold.json --verdicts out/judge_verdicts.json       # plus the judge's validated precision/recall (see below)
 uv run kg rescore SHEET gold.json --verdicts V.json              # re-score an earlier eval run's logged sheet (no graph)
 uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random sample of sentences (coverage, below)
+uv run kg coverage-sample S.json --build B --data D             # ... from a finished build's corpus, no graph (R101)
 uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
@@ -248,6 +249,7 @@ src/kgbuilder/
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     -> assertion (truth, modality and condition against the assertion gold)
+                    mention_gold (R101: the things sampled sentences name, for the mention pass)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)

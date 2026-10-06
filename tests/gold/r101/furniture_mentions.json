@@ -1,0 +1,621 @@
+{
+ "dataset": "furniture",
+ "written_by": "claude-opus-5-5, one blind subagent per dataset (tests/gold/r101/rules.md and the sample only, no pass output existed), revised twice as the definition was settled for all three datasets; lead review by Claude Opus 5.5 in the session, no change",
+ "date": "2026-10-07",
+ "rules": "tests/gold/r101/rules.md",
+ "sample": "tests/gold/r101/furniture_sample.json",
+ "sentences": [
+  {
+   "id": "5bac1c86f526",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "text": "We've had it for 6 months now and it still looks brand new despite daily use with two kids.",
+   "mentions": [
+    {
+     "name": "daily use",
+     "kind": "kind"
+    },
+    {
+     "name": "kids",
+     "kind": "kind"
+    }
+   ],
+   "note": "'use' alone is generic, 'daily' tells the condition apart; 'kids' are people known by role (In 2); '6 months' is a time."
+  },
+  {
+   "id": "7ab4516a48af",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "text": "This table will clearly last for decades.",
+   "mentions": [
+    {
+     "name": "table",
+     "kind": "kind"
+    }
+   ],
+   "note": "'will clearly last for decades' is an evaluation of the table, like 'it works as expected' (Out 3); 'decades' is a time."
+  },
+  {
+   "id": "c000ac199a36",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "text": "## Rating: ★★☆☆☆ (2/5)",
+   "mentions": [],
+   "note": "Rating line: the score belongs to the review itself (Out 5) and is a value (Out 4); no thing named."
+  },
+  {
+   "id": "fba959404def",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "text": "Assembly was straightforward and the included tools were adequate.",
+   "mentions": [
+    {
+     "name": "Assembly",
+     "kind": "kind"
+    },
+    {
+     "name": "included tools",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "085c88601d39",
+   "doc_id": "product_reviews/gothenburg_table_reviews.md",
+   "text": "- @familyfirst (Denver)",
+   "mentions": [
+    {
+     "name": "@familyfirst",
+     "kind": "particular"
+    },
+    {
+     "name": "Denver",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "17e03ba48abb",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "They constantly stick and make an annoying scraping sound.",
+   "mentions": [
+    {
+     "name": "stick",
+     "kind": "kind"
+    },
+    {
+     "name": "scraping sound",
+     "kind": "kind"
+    }
+   ],
+   "note": "'stick' is a fault written as a verb (In 3); 'make' is light; 'annoying' dropped as a describing word."
+  },
+  {
+   "id": "bab9cfffad57",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "When I tried to install them, they wouldn't align properly no matter what I did.",
+   "mentions": [
+    {
+     "name": "install",
+     "kind": "kind"
+    },
+    {
+     "name": "align",
+     "kind": "kind"
+    }
+   ],
+   "note": "Verbs (In 3): 'install' is a work done to the parts, 'align' a state of the parts that did not happen (In 4); 'tried' and 'did' are light."
+  },
+  {
+   "id": "ad1cf2931e18",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "dresser looks ok i guess but assembly was the worst experience ever.",
+   "mentions": [
+    {
+     "name": "dresser",
+     "kind": "kind"
+    },
+    {
+     "name": "assembly",
+     "kind": "kind"
+    }
+   ],
+   "note": "'experience' is generic."
+  },
+  {
+   "id": "87da6387710f",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "mentions": [
+    {
+     "name": "customer service",
+     "kind": "kind"
+    },
+    {
+     "name": "drawer hardware",
+     "kind": "kind"
+    },
+    {
+     "name": "supplier",
+     "kind": "kind"
+    }
+   ],
+   "note": "'contacted' is an everyday act (Out 8), 'said' is reporting (Out 2); 'issues' is generic (Out 7); the batch is indexed by what it is a batch of; customer service and supplier are known by role (In 2)."
+  },
+  {
+   "id": "227d46d9af2d",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "- @diydan (Austin)",
+   "mentions": [
+    {
+     "name": "@diydan",
+     "kind": "particular"
+    },
+    {
+     "name": "Austin",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "41f3bd994724",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "It looks okay from a distance, but I wouldn't buy it again or recommend it to anyone else.",
+   "mentions": [],
+   "note": "'buy' and 'recommend' are everyday acts (Out 8); 'looks okay' is an evaluation and 'distance' names no thing."
+  },
+  {
+   "id": "ba1fa307be8e",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "- @familyfirst (Denver)",
+   "mentions": [
+    {
+     "name": "@familyfirst",
+     "kind": "particular"
+    },
+    {
+     "name": "Denver",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "5b4c42194827",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "## Rating: ★★★★★ (5/5)",
+   "mentions": [],
+   "note": "Rating line: the score belongs to the review itself (Out 5) and is a value (Out 4); no thing named."
+  },
+  {
+   "id": "3700cf532e33",
+   "doc_id": "product_reviews/helsingborg_dresser_reviews.md",
+   "text": "Maybe I got lucky with my unit or my DIY fix solved the issue, but I think people just need to be patient and detail-oriented during assembly.",
+   "mentions": [
+    {
+     "name": "DIY fix",
+     "kind": "kind"
+    },
+    {
+     "name": "assembly",
+     "kind": "kind"
+    }
+   ],
+   "note": "'my unit' stands in for the product like a pronoun; 'solved' is the same action as the DIY fix (first name kept); 'issue' and 'people' are generic."
+  },
+  {
+   "id": "3d5dfdd640c2",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "text": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "mentions": [
+    {
+     "name": "surface",
+     "kind": "kind"
+    },
+    {
+     "name": "scratches",
+     "kind": "kind"
+    },
+    {
+     "name": "marks",
+     "kind": "kind"
+    },
+    {
+     "name": "laptop",
+     "kind": "kind"
+    }
+   ],
+   "note": "'scratches' is the fault written as a verb (In 3); 'setting down' a laptop is an everyday act, not a fault, incident or work done to the table (Out 8); '3 stars' is a rating value."
+  },
+  {
+   "id": "fabdf02dd987",
+   "doc_id": "product_reviews/jonkoping_coffee_table_reviews.md",
+   "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks.",
+   "mentions": [
+    {
+     "name": "veneer",
+     "kind": "kind"
+    },
+    {
+     "name": "chipping",
+     "kind": "kind"
+    },
+    {
+     "name": "corners",
+     "kind": "kind"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "532b4ec06a5c",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "text": "Worth every penny!",
+   "mentions": [],
+   "note": ""
+  },
+  {
+   "id": "60884fcb3e30",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "text": "looks great though and the storage is clutch for my small apartment.",
+   "mentions": [
+    {
+     "name": "storage",
+     "kind": "kind"
+    },
+    {
+     "name": "apartment",
+     "kind": "kind"
+    }
+   ],
+   "note": "'small' dropped as a describing word."
+  },
+  {
+   "id": "5a88d1edbe0c",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "text": "- @woodworker_amy (Portland)",
+   "mentions": [
+    {
+     "name": "@woodworker_amy",
+     "kind": "particular"
+    },
+    {
+     "name": "Portland",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "03f30793962b",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "mentions": [
+    {
+     "name": "bed",
+     "kind": "kind"
+    },
+    {
+     "name": "slats",
+     "kind": "kind"
+    },
+    {
+     "name": "crack",
+     "kind": "kind"
+    },
+    {
+     "name": "storage drawers",
+     "kind": "kind"
+    },
+    {
+     "name": "opens",
+     "kind": "kind"
+    }
+   ],
+   "note": "'two months of use' is a time span and 'use' alone is generic; 'crack' is a fault (In 3); 'opens' is kept as the drawer's state that no longer holds (In 3, In 4), like 'sticks'."
+  },
+  {
+   "id": "1fa6f57f6037",
+   "doc_id": "product_reviews/linkoping_bed_reviews.md",
+   "text": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "mentions": [
+    {
+     "name": "frame",
+     "kind": "kind"
+    },
+    {
+     "name": "squeaking",
+     "kind": "kind"
+    },
+    {
+     "name": "wobbling",
+     "kind": "kind"
+    },
+    {
+     "name": "daily use",
+     "kind": "kind"
+    }
+   ],
+   "note": "'squeaking' and 'wobbling' are faults the text says are absent (In 4); 'solid' is a describing word."
+  },
+  {
+   "id": "17e90a2eb13a",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "text": "## Rating: ★★★☆☆ (3/5)",
+   "mentions": [],
+   "note": "Rating line: the score belongs to the review itself (Out 5) and is a value (Out 4); no thing named."
+  },
+  {
+   "id": "04c0353520c3",
+   "doc_id": "product_reviews/malmo_desk_reviews.md",
+   "text": "As a professional architect who works from home, I require a workspace that is both functional and aesthetically pleasing.",
+   "mentions": [
+    {
+     "name": "architect",
+     "kind": "kind"
+    },
+    {
+     "name": "workspace",
+     "kind": "kind"
+    }
+   ],
+   "note": "'architect' is the writer, but named by a profession, not by the writer role (Out 5), so kept as a person known by role (In 2), 'professional' dropped; 'works from home' is a clause; 'require' is light."
+  },
+  {
+   "id": "2c7389a46924",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "text": "## Rating: ★★★★★ (5/5)",
+   "mentions": [],
+   "note": "Rating line: the score belongs to the review itself (Out 5) and is a value (Out 4); no thing named."
+  },
+  {
+   "id": "34c58d96ab1f",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "text": "The Norrköping Nightstand is the perfect bedside companion!",
+   "mentions": [
+    {
+     "name": "Norrköping Nightstand",
+     "kind": "particular"
+    }
+   ],
+   "note": "'bedside companion' is a second, figurative name for the nightstand: the first name is the entry."
+  },
+  {
+   "id": "3f92efce4f31",
+   "doc_id": "product_reviews/norrkoping_nightstand_reviews.md",
+   "text": "## Rating: ★★☆☆☆ (2/5)",
+   "mentions": [],
+   "note": "Rating line: the score belongs to the review itself (Out 5) and is a value (Out 4); no thing named."
+  },
+  {
+   "id": "4ac19f9fe1ca",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "text": "While the lamp looks nice in photos, the reality is much less impressive.",
+   "mentions": [
+    {
+     "name": "lamp",
+     "kind": "kind"
+    },
+    {
+     "name": "photos",
+     "kind": "kind"
+    }
+   ],
+   "note": "'reality' is generic."
+  },
+  {
+   "id": "75da559e9fbd",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "text": "- @angry_customer (New York)",
+   "mentions": [
+    {
+     "name": "@angry_customer",
+     "kind": "particular"
+    },
+    {
+     "name": "New York",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "103926b21c50",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "text": "We've had our Örebro Lamp for about 6 months now and love it!",
+   "mentions": [
+    {
+     "name": "Örebro Lamp",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "1f17bae0affa",
+   "doc_id": "product_reviews/orebro_lamp_reviews.md",
+   "text": "The light quality is excellent - warm without being yellow, and bright enough to read by but not harsh.",
+   "mentions": [
+    {
+     "name": "light quality",
+     "kind": "kind"
+    }
+   ],
+   "note": "'light quality' is the property the sentence evaluates (In 2); 'read' is an everyday act (Out 8); 'warm', 'yellow', 'bright', 'harsh' are describing words alone."
+  },
+  {
+   "id": "9015d70fc108",
+   "doc_id": "product_reviews/stockholm_chair_reviews.md",
+   "text": "The Stockholm Chair is exactly what I was looking for aesthetically.",
+   "mentions": [
+    {
+     "name": "Stockholm Chair",
+     "kind": "particular"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "b360e5534c18",
+   "doc_id": "product_reviews/stockholm_chair_reviews.md",
+   "text": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room.",
+   "mentions": [
+    {
+     "name": "color",
+     "kind": "kind"
+    },
+    {
+     "name": "online photos",
+     "kind": "kind"
+    },
+    {
+     "name": "dining room",
+     "kind": "kind"
+    }
+   ],
+   "note": "'complaint' is a reporting frame; 'color' kept as the property the sentence evaluates."
+  },
+  {
+   "id": "cf8932576afa",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "text": "## Rating: ★★★★★ (5/5)",
+   "mentions": [],
+   "note": "Rating line: the score belongs to the review itself (Out 5) and is a value (Out 4); no thing named."
+  },
+  {
+   "id": "863357bcf8fb",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "text": "The sofa is firm but not hard, providing great support.",
+   "mentions": [
+    {
+     "name": "sofa",
+     "kind": "kind"
+    },
+    {
+     "name": "support",
+     "kind": "kind"
+    }
+   ],
+   "note": "'firm' and 'hard' are describing words alone."
+  },
+  {
+   "id": "bbb89782124e",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "text": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect.",
+   "mentions": [
+    {
+     "name": "removable covers",
+     "kind": "kind"
+    },
+    {
+     "name": "wash",
+     "kind": "kind"
+    },
+    {
+     "name": "wine spill",
+     "kind": "kind"
+    }
+   ],
+   "note": "'removable' kept because it tells the feature apart; 'wash' is a work done to the covers (In 3); 'wine spill' is an incident; 'came out perfect' is an evaluation."
+  },
+  {
+   "id": "1d46909272e9",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "text": "The cushion density (28kg/m³) provides the perfect balance between support and comfort.",
+   "mentions": [
+    {
+     "name": "cushion density",
+     "kind": "kind"
+    },
+    {
+     "name": "support",
+     "kind": "kind"
+    },
+    {
+     "name": "comfort",
+     "kind": "kind"
+    }
+   ],
+   "note": "'28kg/m³' is a value; 'balance' is the evaluation."
+  },
+  {
+   "id": "e2771e583020",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "text": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "mentions": [
+    {
+     "name": "legs",
+     "kind": "kind"
+    },
+    {
+     "name": "chip",
+     "kind": "kind"
+    },
+    {
+     "name": "customer service",
+     "kind": "kind"
+    },
+    {
+     "name": "replacement",
+     "kind": "kind"
+    }
+   ],
+   "note": "'one star' is a rating value; 'arrived' (Out 2) and 'send' are light verbs around the things; 'replacement' is the action."
+  },
+  {
+   "id": "b7dc9a6c914e",
+   "doc_id": "product_reviews/uppsala_sofa_reviews.md",
+   "text": "It's the perfect size for our apartment living room, comfortably seating 3-4 people.",
+   "mentions": [
+    {
+     "name": "size",
+     "kind": "kind"
+    },
+    {
+     "name": "apartment living room",
+     "kind": "kind"
+    }
+   ],
+   "note": "'apartment' kept as a noun that tells the room apart; 'seating' is neither a fault, state or incident of the sofa nor an action done to it (In 3), so it stays in the sentence with its quantity '3-4 people'; 'people' is generic."
+  },
+  {
+   "id": "9cc1ef30c70a",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "text": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit).",
+   "mentions": [
+    {
+     "name": "assembly instructions",
+     "kind": "kind"
+    }
+   ],
+   "note": "'it' (the assembly) is a pronoun; '2 hours per unit' is a quantity."
+  },
+  {
+   "id": "94516b80010d",
+   "doc_id": "product_reviews/vasteras_bookshelf_reviews.md",
+   "text": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection.",
+   "mentions": [
+    {
+     "name": "load capacity",
+     "kind": "kind"
+    },
+    {
+     "name": "tested",
+     "kind": "kind"
+    },
+    {
+     "name": "shelf",
+     "kind": "kind"
+    },
+    {
+     "name": "books",
+     "kind": "kind"
+    },
+    {
+     "name": "deflection",
+     "kind": "kind"
+    }
+   ],
+   "note": "'load capacity' is a property (In 2); 'tested' is a work done to the shelf, like 'inspected' (In 3); 'deflection' is absent (In 4); '20kg' is a value."
+  }
+ ]
+}
