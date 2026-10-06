@@ -4956,6 +4956,49 @@ a partial overlap or a close spelling decides alone.
 - **R95b, structural move (done 2026-10-06, behaviour kept):** the name test (`name_score` and its word
   helpers) leaves `resolution/records.py` (330 lines) for `resolution/names.py`; its tests for
   `tests/test_names.py` (+1: word order, empty name). Gate: 686 passed, `ruff check` clean.
+- **R95b, code (done 2026-10-06, $0, no LLM call).**
+  - **`names.py`:** `near_name` (tier 2's name test: a word shared up to its ending from a 3-letter stem, words
+    under 3 letters left out, or spelled at least `er_borderline` alike) and `same_name` (the twin test).
+  - **`resolution/record_choice.py`** (new; 310 lines: one concern, the choice, with the one graph read it
+    needs):
+    - `near_misses`: tier 2, only without a link or a tie, only inside a scope, ordered by label and key.
+    - `CHOICE_PROMPT` + `RecordChoice`: domain-neutral, examples from an invented telescope; a test checks it
+      holds no evaluated-corpus word or four-gram.
+    - `choose_records`: parallel calls; code's decision per reply is `chosen`, `none`, `not_listed`,
+      `quote_not_verified` (the quote must stand in the mention's chunk and name it) or `twin`. Code does
+      not ask when there is no sentence to quote (`no_sentence`), more than 20 near misses (`too_many`) or
+      no LLM (`skipped`). A failed call is `failed`, logged, never a failed stage.
+    - `read_candidate_views`: the near misses' plan property columns and one-hop relations, rendered as R93's
+      sheets render them ("PART_OF -> Product:P-7 (Name)", "Component:S-3 (Name) PART_OF -> this").
+  - **`records.py`:** reason `chosen`; `RecordLink.score` is None for a choice, `RecordLink.by` names the
+    model. **`particulars.py`:** near misses are computed with the matches, choices made before units are
+    formed (a chosen record's mentions are one unit, as any record's), and the edge carries `by`.
+    **`identity.py`:** `IdentityReport.record_choices` (resolve.json).
+  - **Resolve stage:** param `record_choice_prompt_version`, artifact `prompts/resolve_record_choice.txt`,
+    metrics `record_choices` and `record_choice_<action>` (and `linked_by_chosen`).
+  - **Replay:** `relink(s, plan, schema, (threshold, borderline), llm, model)`. The snapshot gives the same
+    views (properties, sorted relations) and sentences ("[heading] sentence"). A change caused by a choice is
+    `cause: chosen`, also when the record is the build's own but the build reached it otherwise
+    (containment, an adjudicated join): its edge then says why it holds. A replayed choice's edge has no
+    target (the build's graph is gone; the snapshot names records by ref).
+  - **`kg audit-relink --choose`:** asks the resolve model with the resolve thinking level; refused without a
+    provider (`LLMUnavailableError`). Params `choose`, `er_borderline`, and with `--choose` the model,
+    thinking and prompt version. Metrics `choices`, `choice_<action>`, `changes_chosen`. The run guard
+    (`.claude/hooks/run_guard.py`) treats `audit-relink --choose` as an LLM command (`FLAG_LLM_COMMANDS`),
+    so a quality-preset replay asks the user first; without `--choose` it stays free.
+  - **Tests (+16):** `test_record_choice.py` (11: near misses with R93's real cases, twins, lines, the
+    prompt's language and rendering, every decision outcome); `test_identity.py` +1 Neo4j (a scripted chooser links "brass
+    focuser" to the record "Focuser" and refuses "the thread of the focuser"; the edge, the prompt's view
+    read from the graph, the stage's params, metrics and artifact); `test_audit.py` +2 (a replayed choice and
+    its cause, "none" and no chooser; `--choose` wiring and its refusal); `test_run_guard.py` +2.
+  - **Dry run of the replay without an LLM** (nothing asked): identical to R95a (furniture 12 changes, 0
+    unexplained; held-out and generality none). With `--choose` it would ask 31 furniture mentions (one
+    more, "Västerås Bookshelf Reviews", has no sentence naming it) and 1 held-out mention; generality none.
+    The 31 prompts hold about 63k characters (about 16k input tokens); at gemini-3.8-flash prices with
+    `low` thinking the furniture replay should cost well under $0.10.
+  - **Gate (code):** 702 passed (686 before), `ruff check` clean.
+  - **Not done, needs the user's yes:** the paid replay (`kg --preset quality audit-relink out/r77d_furniture
+    --choose`), then judging the new links (R93's procedure) and the results.
 
 ## Found along the way
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice; moot for the

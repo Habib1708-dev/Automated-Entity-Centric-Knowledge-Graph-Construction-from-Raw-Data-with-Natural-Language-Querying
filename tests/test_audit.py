@@ -6,7 +6,8 @@ checks must find: a mention of the lamp's review linked to the kettle's lid (out
 and a claim about the kettle's lid hinge hung on the lid because "lid" stands inside "lid hinge". The
 replay of R94 must unlink exactly that lamp mention under the current matching rules, and call any other
 difference unexplained. A link the build made by a rule R95a retired (containment, a spelling that differs
-inside a word) is unlinked too, with that cause.
+inside a word) is unlinked too, with that cause. With a (scripted) chooser, a mention whose near miss it
+chooses is linked by that choice (R95b); `--choose` needs an LLM and logs what it asks with.
 """
 
 import json
@@ -19,7 +20,9 @@ from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import read_records, read_relations, scopes
 from kgbuilder.audit.relink import RelinkReport, relink
 from kgbuilder.config import Settings
+from kgbuilder.core.errors import LLMUnavailableError
 from kgbuilder.core.identity import concept_id, individual_id, mention_id
+from kgbuilder.llm.base import prompt_version
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.audit_stages import (
     CHECKS_FILE,
@@ -29,9 +32,10 @@ from kgbuilder.pipeline.audit_stages import (
     AuditRelinkStage,
     AuditSnapshotStage,
 )
+from kgbuilder.resolution.record_choice import CHOICE_PROMPT, RecordChoice
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.schema import TextSchema
-from tests.fakes import RecordingTracker
+from tests.fakes import RecordingTracker, ScriptedLLM
 
 CHUNKING = (1500, 200, 0)
 LAMP = "reviews/alder_lamp_reviews.md"
@@ -325,9 +329,9 @@ def test_a_folder_that_is_not_a_finished_build_is_refused(tmp_path, missing):
 # --- the record matching replayed under the current rules (R94) --------------------------------------------
 
 
-def _relink(s, out: Path):
+def _relink(s, out: Path, llm=None):
     plan = ConstructionPlan.model_validate_json((out / "plan.json").read_text(encoding="utf-8"))
-    return relink(s, plan, _schema(out), threshold=90.0)
+    return relink(s, plan, _schema(out), (90.0, 80.0), llm, "model-x")
 
 
 def test_the_replay_unlinks_only_the_link_that_left_its_documents_scope(tmp_path):
@@ -384,6 +388,93 @@ def test_a_replay_that_differs_elsewhere_is_unexplained(tmp_path):
         c for c in _relink(s.model_copy(update={"references": wrong}), out).changes if c.mention == shade
     ]
     assert (change.before, change.after, change.explained) == ("Assembly:A-2", "Assembly:A-1", False)
+
+
+def _lamp_shade(s):
+    """The invented build with the lamp's assembly A-1 named "Lamp Shade": the review's "shade" no longer
+    names it (no rule links it), but it is a near miss in the lamp's scope."""
+    # the record's name, its name column's cell, and the build's edges to it, which carry the record's name
+    # as `particulars._record_assignment` writes them
+    renamed = {"name": "Lamp Shade", "properties": {"part_name": "Lamp Shade"}}
+    records = [r.model_copy(update=renamed) if r.id == "Assembly:A-1" else r for r in s.records]
+    edges = [
+        a.model_copy(update={"name": "Lamp Shade"}) if a.canonical == "Assembly:A-1" else a
+        for a in s.references
+    ]
+    return s.model_copy(update={"records": records, "references": edges})
+
+
+def test_a_near_miss_the_chooser_picks_is_linked_by_its_choice_and_none_unlinks_it(tmp_path):
+    s, out, _ = _snapshot(tmp_path)
+    shade = mention_id("Part", "shade", LAMP)
+    prompts: list[str] = []
+
+    def script(prompt, schema):
+        prompts.append(prompt)
+        return RecordChoice(record="Assembly:A-1", quote="The shade is cracked.")
+
+    replay = _relink(_lamp_shade(s), out, ScriptedLLM(script))
+    [choice] = replay.choices
+    assert (choice.mention, choice.candidates, choice.action, choice.by) == (
+        shade, ["Assembly:A-1"], "chosen", "model-x",
+    )  # fmt: skip
+    # the same record as the build's, now reached by the choice: a change, so its edge says why it holds
+    changes = {c.mention: c for c in replay.changes}
+    assert (changes[shade].before, changes[shade].after, changes[shade].cause) == (
+        "Assembly:A-1", "Assembly:A-1", "chosen",
+    )  # fmt: skip
+    [edge] = [a for a in replay.references if a.mention == shade]
+    assert (edge.kind, edge.canonical, edge.reason, edge.by, edge.evidence, edge.score) == (
+        "record", "Assembly:A-1", "chosen", "model-x", "The shade is cracked.", None,
+    )  # fmt: skip
+    assert replay.unexplained == []
+    # what the LLM saw: the sentence and the record's data, as the build's graph held it
+    assert "[Alder Lamp Reviews] The shade is cracked." in prompts[0]
+    assert "- Assembly:A-1: Lamp Shade\n  data: part_name = Lamp Shade\n" in prompts[0]
+    assert "relations: PART_OF -> Product:P-1 (Alder Lamp)" in prompts[0]
+
+    # "none" (or no chooser at all) leaves the mention unlinked: the build's spelling link is a retired rule's
+    refused = _relink(_lamp_shade(s), out, ScriptedLLM(lambda prompt, schema: RecordChoice(record="none")))
+    assert [c.action for c in refused.choices] == ["none"]
+    without = _relink(_lamp_shade(s), out)
+    assert [c.action for c in without.choices] == ["skipped"]
+    for r in (refused, without):
+        changed = {c.mention: c for c in r.changes}
+        assert (changed[shade].after, changed[shade].cause) == (None, "spelling") and r.unexplained == []
+
+
+def _logged(tmp_path: Path, s) -> Path:
+    logged = tmp_path / "logged.json"
+    logged.write_text(
+        LoggedCounts(
+            dataset="t", build="b", git_sha="abc", runs={}, counts=snapshot_counts(s)
+        ).model_dump_json(),
+        encoding="utf-8",
+    )
+    return logged
+
+
+def test_the_relink_stage_asks_the_chooser_only_with_choose_and_logs_what_it_asks_with(tmp_path):
+    s, out, data = _snapshot(tmp_path)
+    state = PipelineState(
+        audit_source=out, data_dir=data, audit_logged=_logged(tmp_path, s), relink_choose=True
+    )
+    ctx = PipelineContext(
+        settings=Settings(), driver=None, out=tmp_path / "relink", tracker=RecordingTracker()
+    )
+    with pytest.raises(LLMUnavailableError):  # --choose without a provider: refused, not silently skipped
+        run_stages(ctx, state, [AuditRelinkStage()])
+    tracker = RecordingTracker()
+    llm = ScriptedLLM(lambda prompt, schema: RecordChoice(record="none"))
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "relink", llm=llm, tracker=tracker)
+    run_stages(ctx, state, [AuditRelinkStage()])
+    run = tracker.run("audit_relink")
+    assert run.logged_params["choose"] == 1 and run.logged_params["model"] == ctx.settings.extract_model
+    assert run.logged_params["record_choice_prompt_version"] == prompt_version(CHOICE_PROMPT)
+    assert "prompts/resolve_record_choice.txt" in run.artifacts
+    # the invented build has no near miss, so nothing was asked and the R94 change is the only one
+    assert run.logged_metrics["choices"] == 0 and llm.calls == []
+    assert run.logged_metrics["changes"] == 1.0 and run.logged_metrics["changes_chosen"] == 0.0
 
 
 def test_the_relink_stage_writes_a_build_the_snapshot_reads_and_counts_resting_on_identity(tmp_path):

@@ -473,10 +473,17 @@ def audit_snapshot(
 
 
 @app.command("audit-relink")
-def audit_relink(build: Path, data: Path = AUDIT_DATA, logged: Path = AUDIT_LOGGED, out: Path = OUT):
-    """Replay BUILD's record matching under the current rules (no graph, no model) and write the build
-    folder and logged counts it gives, refusing a replay that differs in anything but the change (R94)."""
-    state = PipelineState(audit_source=build, data_dir=data, audit_logged=logged)
+def audit_relink(
+    build: Path,
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    out: Path = OUT,
+    choose: bool = typer.Option(False, "--choose", help="Ask the LLM to choose among near misses (paid)."),
+):
+    """Replay BUILD's record matching under the current rules (no graph; no model unless --choose) and write
+    the build folder and logged counts it gives, refusing a replay that differs in anything but the change
+    (R94). With --choose, the mentions with near misses are offered to the resolve model (R95b)."""
+    state = PipelineState(audit_source=build, data_dir=data, audit_logged=logged, relink_choose=choose)
     with session(out) as ctx:
         state = run_stages(ctx, state, [aus.AuditRelinkStage()])
     for c in state.relink.changes:

@@ -5,8 +5,9 @@ documents are ABOUT) and before validation and question answering. Every reader 
 canonical entity through graph/canonical.py.
 Design: the text schema's identity class of a mention's type decides what it may refer to (fixed decision 8
 of the layered-model task: identity is an edge, not a merged node):
-  - keyed: a record of the type's plan labels, by key, name or a telling attribute (records.py); a mention
-    no record fits stands for one particular thing, an individual;
+  - keyed: a record of the type's plan labels, by key, name or a telling attribute (records.py), or by an
+    LLM's choice among near misses that code verified (record_choice.py); a mention no record fits stands
+    for one particular thing, an individual;
   - individual: an `:Individual`; the same name in two documents stays two unless the text gives evidence
     that they are one (individuals.py); records and individuals together are particulars.py;
   - concept: a `:Concept` per type and name across documents, joined by entity resolution (concepts.py).
@@ -30,6 +31,7 @@ from .individuals import IndividualDecision
 from .matchers import EntityRecord
 from .mentions import MentionRecord, read_mentions
 from .particulars import AmbiguousMention, JoinSettings, resolve_particulars
+from .record_choice import ChoiceDecision
 from .resolver import Decision, MergeGroup
 
 
@@ -54,6 +56,7 @@ class IdentityReport(BaseModel):
     groups: list[MergeGroup]
     blocked: dict[str, int] = {}  # concept guard -> the pairs it kept apart (guards.py)
     individual_decisions: list[IndividualDecision] = []  # individual pairs: joined, apart, refused
+    record_choices: list[ChoiceDecision] = []  # keyed mentions with near misses: chosen, none, refused
     assignments: list[Assignment]
 
     def count(self, kind: CanonicalKind) -> int:
@@ -113,6 +116,7 @@ def resolve_identity(
         groups=concepts.groups,
         blocked=concepts.blocked,
         individual_decisions=particulars.decisions,
+        record_choices=particulars.choices,
         assignments=sorted(assignments, key=lambda a: a.mention),
     )
 

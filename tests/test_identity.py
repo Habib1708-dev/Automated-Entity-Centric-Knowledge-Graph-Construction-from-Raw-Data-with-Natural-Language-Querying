@@ -2,8 +2,9 @@
 per mention. Pure: the flattening reader's two rules. With Neo4j: a keyed mention finds its record by an
 attribute in its sentence, two same-named records without one leave the mention ambiguous, an individual
 of one name stays one per document, a value's spellings share one concept, the resolve stage logs its
-params, metrics and audit file and refuses identity classes the plan cannot satisfy, and the flattening
-reader gives the triples of the shape before R75 on the same claims."""
+params, metrics and audit file and refuses identity classes the plan cannot satisfy, the flattening
+reader gives the triples of the shape before R75 on the same claims, and an LLM's choice among a
+mention's near misses links only when code verifies it (R95b)."""
 
 import json
 
@@ -19,6 +20,7 @@ from kgbuilder.resolution.concepts import SamePair
 from kgbuilder.resolution.identity import IdentitySettings, resolve_identity
 from kgbuilder.resolution.individuals import SameIndividual
 from kgbuilder.resolution.linking import link_graphs
+from kgbuilder.resolution.record_choice import RecordChoice
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.documents import Document
@@ -29,7 +31,7 @@ from kgbuilder.text.subject_graph import write_subject_graph
 from kgbuilder.validation.checks.base import CheckContext, ClaimRow, flatten
 
 from .fakes import RecordingTracker, ScriptedLLM
-from .sample_plans import node
+from .sample_plans import node, rel
 
 SETTINGS = IdentitySettings(auto_merge=92, borderline=80, link_threshold=90)
 
@@ -373,3 +375,105 @@ def test_kg_eval_scores_identity_pairs_on_the_live_graph(driver, tmp_path):
         1.0,
     )
     assert metrics["identity_pairs_scored"] == 3 and metrics["identity_not_extracted"] == 0
+
+
+# R95b: an invented telescope whose notes name its parts in other words; no rule links them, an LLM chooses
+SCOPE_DOC = "lyra_telescope_notes.md"
+SCOPE_TEXT = "The brass focuser sticks in the cold. The thread of the focuser is worn."
+SCOPE_PLAN = ConstructionPlan(
+    nodes=[
+        node("telescopes.csv", "Telescope", "telescope_id", ["name"]).model_copy(
+            update={"name_column": "name"}
+        ),
+        node("units.csv", "Unit", "unit_id", ["name", "finish"]).model_copy(update={"name_column": "name"}),
+    ],
+    relationships=[rel("units.csv", "PART_OF", "Unit", "unit_id", "Telescope", "telescope_id")],
+)
+SCOPE_SCHEMA = TextSchema(
+    entity_types=[
+        EntityType(name="Component", description="d", identity="keyed", record_labels=["Unit"]),
+        EntityType(name="Trait", description="d"),
+    ],
+    fact_types=[FactType(predicate="HAS", subject_type="Component", object_type="Trait", description="d")],
+)
+
+
+def build_telescope(driver) -> None:
+    driver.execute_query(
+        "CREATE (t:Telescope {telescope_id: 'T-1', name: 'Lyra Telescope'}), "
+        "(f:Unit {unit_id: 'U-1', name: 'Focuser', finish: 'brass'})-[:PART_OF]->(t), "
+        "(:Unit {unit_id: 'U-2', name: 'Focuser Knob'})-[:PART_OF]->(f)"
+    )
+    document = Document(doc_id=SCOPE_DOC, title="lyra_telescope_notes", text=SCOPE_TEXT)
+    write_lexical_graph(
+        driver, [document], [Chunk(chunk_id=f"{SCOPE_DOC}#0", doc_id=SCOPE_DOC, index=0, text=SCOPE_TEXT)]
+    )
+    write_subject_graph(
+        driver,
+        [
+            claim("brass focuser", "Component", "HAS", "sticks", "Trait", SCOPE_DOC,
+                  "The brass focuser sticks in the cold."),
+            claim("thread of the focuser", "Component", "HAS", "worn", "Trait", SCOPE_DOC,
+                  "The thread of the focuser is worn."),
+        ],
+        extractor="test",
+    )  # fmt: skip
+    link_graphs(driver, SCOPE_PLAN)
+
+
+@pytest.mark.neo4j
+def test_an_llm_chooses_among_near_misses_and_code_links_only_its_verified_choice(driver, tmp_path):
+    build_telescope(driver)
+    prompts: list[str] = []
+
+    def script(prompt: str, schema: type):
+        """The brass focuser is the record Focuser; the thread of the focuser is none of the records."""
+        if schema is not RecordChoice:
+            return schema(same=False)
+        prompts.append(prompt)
+        if '"brass focuser"' in prompt:
+            return RecordChoice(record="Unit:U-1", quote="The brass focuser sticks in the cold.")
+        return RecordChoice(record="none")
+
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / PLAN_FILE).write_text(SCOPE_PLAN.model_dump_json(), encoding="utf-8")
+    (out / TEXT_SCHEMA_FILE).write_text(SCOPE_SCHEMA.model_dump_json(), encoding="utf-8")
+    tracker = RecordingTracker()
+    ctx = PipelineContext(
+        settings=Settings(), driver=driver, out=out, llm=ScriptedLLM(script), tracker=tracker
+    )
+    run_stages(ctx, PipelineState(), [st.ResolveStage()])
+
+    [edge] = driver.execute_query(
+        "MATCH (:Mention {name: 'brass focuser'})-[r:REFERS_TO]->(u:Unit) RETURN r, u.unit_id AS unit"
+    )[0]
+    assert (edge["unit"], edge["r"]["reason"], edge["r"]["by"]) == (
+        "U-1",
+        "chosen",
+        ctx.settings.extract_model,
+    )
+    assert edge["r"]["evidence"] == "The brass focuser sticks in the cold." and edge["r"]["score"] is None
+    assert identity_of(driver, SCOPE_DOC, "thread of the focuser")[::2] == ("individual", "no_record")
+    # both near misses, with the cells and one-hop relations read from the graph
+    [shown] = [p for p in prompts if '"brass focuser"' in p]
+    assert "[lyra_telescope_notes.md] The brass focuser sticks in the cold." in shown
+    assert (
+        "- Unit:U-1: Focuser\n  data: finish = brass; name = Focuser\n"
+        "  relations: PART_OF -> Telescope:T-1 (Lyra Telescope); Unit:U-2 (Focuser Knob) PART_OF -> this"
+    ) in shown
+    assert (
+        "- Unit:U-2: Focuser Knob\n  data: name = Focuser Knob\n  relations: PART_OF -> Unit:U-1 (Focuser)"
+    ) in shown
+    run = tracker.run("resolve")
+    assert "record_choice_prompt_version" in run.logged_params
+    assert "prompts/resolve_record_choice.txt" in run.artifacts
+    metrics = run.logged_metrics
+    assert (metrics["record_choices"], metrics["record_choice_chosen"], metrics["record_choice_none"]) == (
+        2,
+        1,
+        1,
+    )
+    assert metrics["linked_by_chosen"] == 1
+    audit = json.loads((out / "resolve.json").read_text(encoding="utf-8"))
+    assert sorted(d["action"] for d in audit["record_choices"]) == ["chosen", "none"]

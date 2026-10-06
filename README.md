@@ -30,6 +30,7 @@ uv run kg coverage SHEET VERDICTS                                 # score the ju
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
 uv run kg audit-snapshot BUILD --data D --logged L --out O        # graph audit: offline snapshot, fidelity, code checks (R87; no graph)
 uv run kg audit-relink BUILD --data D --logged L --out O  # replay the record matching under the current rules (R94; no graph)
+uv run kg audit-relink BUILD --data D --logged L --out O --choose  # ... with the LLM choosing among near misses (R95b; paid)
 uv run kg anchor-eval BUILD --data D --logged L --targets T --arm anchor|layered --out O  # anchor-graph criteria C0-C2, C5, C7-C9 (R90; no graph)
 uv run kg anchor-compare BUILD --data D --targets T --anchor-report A --layered-report L --out O  # arm C (vector) + McNemar pairing (R92; embeds, cents)
 uv run kg anchor-sheets BUILD --dataset N --data D --logged L --anchor-report A --layered-report L --out O  # blind judging sheets C3, C4, C6 (R93; no graph)

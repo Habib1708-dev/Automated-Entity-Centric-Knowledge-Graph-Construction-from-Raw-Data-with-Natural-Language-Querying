@@ -16,7 +16,7 @@ from ..core.text import norm
 from ..llm.base import prompt_version
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
-from ..resolution import concepts, individuals
+from ..resolution import concepts, individuals, record_choice
 from ..resolution.attachment import attach_claims
 from ..resolution.blocking import Blocking, blocking_from
 from ..resolution.derivation import DerivationReport, derive_facts
@@ -118,6 +118,12 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
             f"individual_{action}": sum(d.action == action for d in report.individual_decisions)
             for action in _INDIVIDUAL_ACTIONS
         },
+        # keyed mentions with near misses (R95b), and what became of each: chosen, none, or refused by code
+        "record_choices": len(report.record_choices),
+        **{
+            f"record_choice_{action}": sum(d.action == action for d in report.record_choices)
+            for action in _CHOICE_ACTIONS
+        },
         # the concept pairs each guard kept apart; every guard is present, 0 when it blocked nothing
         **{f"blocked_{name}": report.blocked.get(name, 0) for name in _GUARDS},
         # the names before R75's metrics kept, now counting concepts
@@ -133,6 +139,7 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
 
 _LINK_REASONS = get_args(LinkReason)  # one metric per reason a record link can have
 _INDIVIDUAL_ACTIONS = ("joined", "apart", "quote_not_verified", "different_records", "skipped")
+_CHOICE_ACTIONS = get_args(record_choice.ChoiceAction)
 _GUARDS = ("opposed_polarity", "same_sentence", "part_and_whole", "compound_name")
 
 
@@ -416,6 +423,7 @@ class ResolveStage(_TextStage):
             "thinking": s.extract_thinking,
             "prompt_version": prompt_version(concepts.ADJUDICATE_PROMPT),
             "individual_prompt_version": prompt_version(individuals.IDENTITY_PROMPT),
+            "record_choice_prompt_version": prompt_version(record_choice.CHOICE_PROMPT),
             "llm_adjudication": int(ctx.llm is not None),
         }
 
@@ -423,6 +431,7 @@ class ResolveStage(_TextStage):
         s = ctx.settings
         run.text(concepts.ADJUDICATE_PROMPT, "prompts/resolve_concepts.txt")
         run.text(individuals.IDENTITY_PROMPT, "prompts/resolve_individuals.txt")
+        run.text(record_choice.CHOICE_PROMPT, "prompts/resolve_record_choice.txt")
         schema = state.load_text_schema(ctx, required=False)
         plan = state.load_plan(ctx, required=False)
         issues = text_schema.identity_issues(schema, plan) if schema is not None else []

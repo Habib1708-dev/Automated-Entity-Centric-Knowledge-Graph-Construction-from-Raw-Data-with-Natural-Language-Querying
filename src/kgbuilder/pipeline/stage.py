@@ -141,6 +141,7 @@ class PipelineState:
     anchor_sheets: JudgingSheets | None = None  # of `kg anchor-sheets`
     anchor_judged: JudgedReport | None = None  # of `kg anchor-judged`
     relink: Relink | None = None  # of `kg audit-relink`
+    relink_choose: bool = False  # `kg audit-relink --choose`: the replay asks the record chooser (R95b)
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

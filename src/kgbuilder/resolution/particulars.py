@@ -1,14 +1,16 @@
 """Particular things: what the mentions of keyed and individual types refer to (R75, layered-model Step 5).
 
 Role in the pipeline: the part of `kg resolve` (identity.py) before concepts. Records first: every keyed
-mention is matched against its type's records (records.py). Then individuals: a record's mentions are one
-unit, every other keyed or individual-class mention a unit of its own, and units are joined across
-documents only with evidence (individuals.py). Each group becomes one canonical entity: its record when it
-holds one, else an `:Individual` named after its fullest name.
-Design: reads the graph (records, scopes, the mentions' chunks), asks the LLM through the adjudicator only,
-writes nothing; the outcome is a list of assignments (one edge per mention) and the decisions behind them.
-Not here: the matching rules (records.py), the joining rules (individuals.py), concepts (concepts.py),
-writing (identity_graph.py).
+mention is matched against its type's records (records.py); a mention no rule links but whose scope holds
+near misses is offered to an LLM, whose choice code checks (record_choice.py). Then individuals: a record's
+mentions are one unit, every other keyed or individual-class mention a unit of its own, and units are joined
+across documents only with evidence (individuals.py). Each group becomes one canonical entity: its record
+when it holds one, else an `:Individual` named after its fullest name.
+Design: reads the graph (records, scopes, the mentions' chunks, the near misses' data), asks the LLM only
+through the record chooser and the adjudicator, writes nothing; the outcome is a list of assignments (one
+edge per mention) and the decisions behind them.
+Not here: the matching rules (records.py, record_choice.py), the joining rules (individuals.py), concepts
+(concepts.py), writing (identity_graph.py).
 """
 
 from neo4j import Driver
@@ -31,6 +33,15 @@ from .individuals import (
     nominate,
 )
 from .mentions import MentionRecord, MentionText, read_mention_texts
+from .record_choice import (
+    ChoiceDecision,
+    ChoiceRequest,
+    choice_lines,
+    choose_records,
+    chosen_links,
+    near_misses,
+    read_candidate_views,
+)
 from .records import RecordCandidate, RecordLink, RecordMatch, match_record, read_records, read_scopes
 
 
@@ -49,13 +60,22 @@ class Particulars(BaseModel):
     assignments: list[Assignment]
     ambiguous: list[AmbiguousMention]
     decisions: list[IndividualDecision]
+    choices: list[ChoiceDecision] = []  # keyed mentions with near misses, and what the chooser made of them
 
 
 class JoinSettings(BaseModel):
-    """How individuals are nominated and decided."""
+    """How the LLM is asked: which pairs of individuals and which near misses of a record are nominated, and
+    the model that decides."""
 
-    borderline: float  # a pair of names spelled at least this alike is nominated
-    model: str  # the adjudicating model, logged on each joined edge
+    borderline: float  # a pair of names (or a name and a record's) spelled at least this alike is nominated
+    model: str  # the adjudicating and choosing model, logged on each joined or chosen edge
+
+
+class _Matched(BaseModel):
+    """Every keyed mention's record match, and the near misses of those no rule decided (tier 2)."""
+
+    matches: dict[str, RecordMatch]
+    near: dict[str, list[RecordCandidate]]  # mention id -> its near misses, for the mentions that have any
 
 
 def resolve_particulars(
@@ -70,10 +90,17 @@ def resolve_particulars(
     embedder: Embedder | None = None,
     blocking: Blocking | None = None,
 ) -> Particulars:
-    """Records for the keyed mentions, then individuals joined with evidence; without an LLM no pair of
-    individuals is joined (every nominated pair is logged as skipped)."""
+    """Records for the keyed mentions (an LLM choosing among near misses), then individuals joined with
+    evidence; without an LLM no near miss is chosen and no pair of individuals is joined (each is logged as
+    skipped)."""
     texts = read_mention_texts(driver, sorted(m.id for m in (*keyed, *individuals)))
-    matches = _match_records(driver, keyed, schema, plan, link_threshold, texts) if keyed else {}
+    matched = (
+        _match_records(driver, keyed, schema, plan, (link_threshold, settings.borderline), texts)
+        if keyed
+        else _Matched(matches={}, near={})
+    )
+    choices, links = _choose_records(driver, plan, keyed, matched.near, texts, llm, settings.model)
+    matches = matched.matches | {mention: RecordMatch(link=link) for mention, link in links.items()}
     units = _units(keyed, individuals, matches)
     by_unit = {m: u for u in units for m in u.mentions}
     chunk_texts: dict[str, list[str]] = {}
@@ -89,7 +116,10 @@ def resolve_particulars(
         for a in _group_assignments([u for u in units if u.id in group], mentions, matches, joining.decisions)
     ]
     return Particulars(
-        assignments=assignments, ambiguous=_ambiguous(keyed, matches), decisions=joining.decisions
+        assignments=assignments,
+        ambiguous=_ambiguous(keyed, matches),
+        decisions=joining.decisions,
+        choices=choices,
     )
 
 
@@ -102,12 +132,14 @@ def _match_records(
     keyed: list[MentionRecord],
     schema: TextSchema | None,
     plan: ConstructionPlan | None,
-    threshold: float,
+    thresholds: tuple[float, float],
     texts: list[MentionText],
-) -> dict[str, RecordMatch]:
-    """Mention id -> its record match, for every mention of a keyed type."""
+) -> _Matched:
+    """The record match of every mention of a keyed type, and its near misses where no rule decided.
+    `thresholds` are the spelling scores a name needs to link a record and to be a near miss of one."""
     if schema is None or plan is None:  # unreachable after validation: a keyed type needs both
-        return {m.id: RecordMatch() for m in keyed}
+        return _Matched(matches={m.id: RecordMatch() for m in keyed}, near={})
+    threshold, borderline = thresholds
     types = {m.type: schema.entity_type(m.type) for m in keyed}
     labels = {label for t in types.values() if t for label in t.record_labels}
     attributes = {a for t in types.values() if t for a in t.key_attributes}
@@ -119,14 +151,48 @@ def _match_records(
     for text in texts:
         if text.mention in names:
             sentences.setdefault(text.mention, []).extend(sentences_naming(text.text, [names[text.mention]]))
-    out = {}
+    out = _Matched(matches={}, near={})
     for m in keyed:
         entity_type = types[m.type]
         wanted = set(entity_type.record_labels) if entity_type else set()
         candidates = [r for r in records if r.label in wanted]
         scopes = [[r for r in candidates if r.element_id in scope_ids.get(a, set())] for a in m.anchors]
-        out[m.id] = match_record(m.name, sentences.get(m.id, []), candidates, scopes, threshold)
+        match = match_record(m.name, sentences.get(m.id, []), candidates, scopes, threshold)
+        out.matches[m.id] = match
+        if near := near_misses(m.name, match, scopes, borderline):
+            out.near[m.id] = near
     return out
+
+
+def _choose_records(
+    driver: Driver,
+    plan: ConstructionPlan | None,
+    keyed: list[MentionRecord],
+    near: dict[str, list[RecordCandidate]],
+    texts: list[MentionText],
+    llm: LLMClient | None,
+    model: str,
+) -> tuple[list[ChoiceDecision], dict[str, RecordLink]]:
+    """Tier 3 for every mention with near misses: the decisions, and mention id -> the link of each choice
+    code verified. Reads the near misses' data only when an LLM will be asked."""
+    chunks: dict[str, list[MentionText]] = {}
+    for t in texts:
+        chunks.setdefault(t.mention, []).append(t)
+    requests = [
+        ChoiceRequest(
+            mention=m.id,
+            name=m.name,
+            lines=choice_lines(m.name, [(t.document, t.text) for t in chunks.get(m.id, [])]),
+            texts=[t.text for t in chunks.get(m.id, [])],
+            candidates=near[m.id],
+        )
+        for m in keyed
+        if m.id in near
+    ]
+    ids = sorted({c.element_id for r in requests for c in r.candidates})
+    views = read_candidate_views(driver, plan, ids) if llm is not None and plan is not None else {}
+    decisions = choose_records(requests, views, llm, model)
+    return decisions, chosen_links(decisions, requests)
 
 
 def _units(
@@ -205,6 +271,7 @@ def _record_assignment(mention: MentionRecord, link: RecordLink) -> Assignment:
         reason=link.reason,
         score=link.score,
         evidence=link.evidence,
+        by=link.by,
     )
 
 

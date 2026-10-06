@@ -24,6 +24,8 @@ Design: pure matching over `RecordCandidate`s, unit-tested without a database; `
 A name is also matched without its leading title ("Dr Jonathan Pike" is "Jonathan Pike").
 Records still tied are not linked: the mention is logged as ambiguous, because a wrong link answers
 questions about the wrong record, and a missing one only leaves the mention to stand for itself.
+A mention no rule links may still have near misses in its scope; an LLM chooses among them, and code checks
+the choice (`chosen`, record_choice.py).
 Not here: the name test (names.py), joining individuals (individuals.py), concepts (concepts.py), writing
 (identity_graph.py).
 """
@@ -54,7 +56,8 @@ _MIN_ATTRIBUTE_CHARS = 3
 # the parts of what it is about, not who made them (R11).
 _SCOPE_HOPS = 2
 
-LinkReason = Literal["key", "name", "key_in_sentence", "attribute", "variant_attribute"]
+# `chosen` (R95b): an LLM chose the record among the near misses, and code verified the choice
+LinkReason = Literal["key", "name", "key_in_sentence", "attribute", "variant_attribute", "chosen"]
 
 
 class RecordCandidate(DomainNode):
@@ -74,9 +77,10 @@ class RecordLink(BaseModel):
 
     record: RecordCandidate
     reason: LinkReason
-    score: float
+    score: float | None  # the name score where a name decided; None for an LLM's choice
     evidence: str  # the name or sentence that shows it
     scoped: bool  # found inside the scope of the mention's document
+    by: str = "code"  # "code", or the model whose choice code verified (`chosen`)
 
 
 class RecordMatch(BaseModel):

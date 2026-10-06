@@ -1,12 +1,13 @@
 """When a written name is a record's name: the same after normalisation, or the same words up to their
-endings (R95a).
+endings (R95a); and when it nearly is one, a near miss an LLM may choose (R95b).
 
 Role in the pipeline: the name test of record matching in `kg resolve` (records.py) and of its offline replay
 (audit/relink.py).
 Design: pure functions over normalised words, no record types and no reads. A name links on its own only
 when the test is sure: a record's name inside a longer name ("pre-drilled holes for the drawer handle" for
 Drawer Handle) and a spelling that differs inside a word ("drawer slides" for Drawer Sides) were R93's wrong
-links, and no lexical test tells them from right ones.
+links, and no lexical test tells them from right ones. Such near misses are only shown to an LLM, whose
+choice code checks (record_choice.py).
 Not here: which records a mention may match (records.py), name variants of individuals (variants.py).
 """
 
@@ -30,20 +31,26 @@ _WORD = re.compile(r"[^\W_]+")
 _MIN_STEM = 4
 _MAX_ENDING = 3
 
+# A near miss (R95b) needs one word shared up to its ending from a stem of _MIN_SHARED_STEM letters: looser
+# than a link ("leg"/"legs" share "leg"), since a near miss is only shown to an LLM. Shorter words ("of",
+# "a") are left out: they would make almost every record a near miss.
+_MIN_SHARED_STEM = 3
+
 
 def _words(name: str) -> list[str]:
     return _WORD.findall(norm(name))
 
 
-def _one_word(a: str, b: str) -> bool:
-    """True when two words are one word up to its ending (`_MIN_STEM`, `_MAX_ENDING`). A word with a digit
-    has no ending: "A-1063" is not "A-1062", nor "2019" "2018"."""
+def _one_word(a: str, b: str, min_stem: int = _MIN_STEM) -> bool:
+    """True when two words are one word up to its ending: they share `min_stem` letters from their start
+    and neither goes on for more than `_MAX_ENDING`. A word with a digit has no ending: "A-1063" is not
+    "A-1062", nor "2019" "2018"."""
     if a == b:
         return True
     if any(ch.isdigit() for ch in a + b):
         return False
     stem = len(commonprefix([a, b]))
-    return stem >= _MIN_STEM and max(len(a), len(b)) - stem <= _MAX_ENDING
+    return stem >= min_stem and max(len(a), len(b)) - stem <= _MAX_ENDING
 
 
 def _same_words(x: list[str], y: list[str]) -> bool:
@@ -53,11 +60,17 @@ def _same_words(x: list[str], y: list[str]) -> bool:
     )
 
 
+def _same(x: list[str], y: list[str]) -> bool:
+    """True when two names split into words are one name: the same words in any order, or the same letters
+    with other spacing."""
+    return bool(x) and (sorted(x) == sorted(y) or "".join(x) == "".join(y))
+
+
 def _score(said: list[str], record: list[str], threshold: float) -> float | None:
     """`name_score` for two names already split into words."""
     if not said or not record:
         return None
-    if sorted(said) == sorted(record) or "".join(said) == "".join(record):
+    if _same(said, record):
         return 100.0
     score = fuzz.token_sort_ratio(" ".join(said), " ".join(record))
     return score if score >= threshold and _same_words(said, record) else None
@@ -76,3 +89,30 @@ def name_score(name: str, record_name: str, threshold: float) -> float | None:
     record = _words(record_name)
     scores = [_score(_words(said), record, threshold) for said in {name, without_title(name)}]
     return max((s for s in scores if s is not None), default=None)
+
+
+def same_name(a: str, b: str) -> bool:
+    """True when two names are one name after normalisation (`name_score` 100, no title dropped)."""
+    return _same(_words(a), _words(b))
+
+
+def near_name(name: str, record_name: str, borderline: float) -> bool:
+    """True when a mention's `name` nearly names a record called `record_name`: a near miss (R95b).
+
+    A word of each is one word up to its ending from a 3-letter stem ("drawer" in "Drawer Unit", "base" in
+    "weighted base", "legs" for "Leg"), or the two names are spelled at least `borderline` alike. The record's
+    name inside the mention's, the reverse, and a close spelling are all near misses: an LLM tells which of
+    them is the thing, and code never links one on this test alone.
+    """
+    record = _words(record_name)
+    said = {w for n in {name, without_title(name)} for w in _words(n)}
+    if any(
+        min(len(a), len(b)) >= _MIN_SHARED_STEM and _one_word(a, b, _MIN_SHARED_STEM)
+        for a in said
+        for b in record
+    ):
+        return True
+    written = _words(name)
+    return (
+        bool(written and record) and fuzz.token_sort_ratio(" ".join(written), " ".join(record)) >= borderline
+    )

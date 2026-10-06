@@ -11,8 +11,9 @@ The checks run even when the fidelity gate fails, so the report shows both, and 
 `kg audit-relink` replays a build's record matching under the current rules (audit/relink.py), refuses a
 replay that differs from the build in anything but the change being measured, and writes the build folder it
 gives (the build's files with resolve.json replayed) and its logged counts, for `kg anchor-eval` and the
-judging stages to measure. One run per build: metrics are the changes (in all and per cause) and the record
-links before and after; artifacts the changes and the counts.
+judging stages to measure. One run per build: metrics are the changes (in all and per cause), the record
+links before and after and, with `--choose`, the chooser's outcomes; artifacts the changes and the counts.
+With `--choose` it is an LLM run (R95b): the mentions with near misses are offered to the resolve model.
 Not here: the judged metrics, the scoring of verdicts.
 """
 
@@ -23,7 +24,11 @@ from typing import get_args
 
 from ..audit import build_snapshot, check_fidelity, compute_reach, gold_pairs, load_logged, run_checks
 from ..audit.relink import Relink, RelinkCause, RelinkReport, relink, relinked_counts
-from ..core.errors import EvaluationError
+from ..config import Settings
+from ..core.errors import EvaluationError, LLMUnavailableError
+from ..llm.base import prompt_version
+from ..llm.thinking import with_thinking
+from ..resolution.record_choice import CHOICE_PROMPT, ChoiceAction
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
 from .inputs import digest, input_file
@@ -103,8 +108,11 @@ class AuditRelinkStage(BaseStage):
             "logged": logged,
             "logged_hash": digest(logged),
             "build_git_sha": load_logged(logged).git_sha,
-            # the build's own threshold (logged by its resolve run): the replay must decide as it did
+            # the build's own thresholds (logged by its resolve run): the replay must decide as it did
             "domain_link_threshold": ctx.settings.domain_link_threshold,
+            "er_borderline": ctx.settings.er_borderline,  # a near miss's spelling score (R95b)
+            "choose": int(state.relink_choose),
+            **(_choice_params(ctx.settings) if state.relink_choose else {}),
             "chunk_max_chars": ctx.settings.chunk_max_chars,
             "chunk_min_chars": ctx.settings.chunk_min_chars,
             "chunk_overlap_chars": ctx.settings.chunk_overlap_chars,
@@ -120,7 +128,14 @@ class AuditRelinkStage(BaseStage):
             raise EvaluationError(["the snapshot is not the build's graph (C0 failed): nothing to replay"])
         plan = ConstructionPlan.model_validate_json((source / "plan.json").read_text(encoding="utf-8"))
         schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
-        replay = relink(snapshot, plan, schema, s.domain_link_threshold)
+        if state.relink_choose and ctx.llm is None:
+            raise LLMUnavailableError("--choose needs an LLM provider: the preset has no key")
+        # the resolve stage's model and thinking level, so the replay asks what a build would ask
+        llm = with_thinking(ctx.llm, s.extract_thinking) if state.relink_choose and ctx.llm else None
+        if llm is not None:
+            run.text(CHOICE_PROMPT, "prompts/resolve_record_choice.txt")
+        thresholds = (s.domain_link_threshold, s.er_borderline)
+        replay = relink(snapshot, plan, schema, thresholds, llm, s.extract_model)
         if replay.unexplained:  # the replay would not be the build's matching: its measurement means nothing
             raise EvaluationError(
                 [f"unexplained change of {c.mention} {c.name!r}" for c in replay.unexplained]
@@ -134,14 +149,28 @@ class AuditRelinkStage(BaseStage):
             unexplained=len(replay.unexplained),
             # how many links each rule change removed (R94: left_scope; R95a: containment, spelling)
             **{f"changes_{c}": sum(x.cause == c for x in replay.changes) for c in get_args(RelinkCause)},
+            # the mentions with near misses and the chooser's outcome for each (`skipped` without --choose)
+            choices=len(replay.choices),
+            **{f"choice_{a}": sum(d.action == a for d in replay.choices) for a in get_args(ChoiceAction)},
             record_links_before=sum(a.kind == "record" for a in snapshot.references),
             record_links_after=sum(a.kind == "record" for a in replayed.references),
             counts_changed=len(changed),
         )
-        report = RelinkReport(build=source.as_posix(), changes=replay.changes, counts=changed)
+        report = RelinkReport(
+            build=source.as_posix(), changes=replay.changes, counts=changed, choices=replay.choices
+        )
         run.artifact(ctx.write(RELINK_FILE, report.model_dump_json(indent=1)))
         run.artifact(ctx.write(RELINKED_LOGGED, counts.model_dump_json(indent=1)))
         state.relink = replay
+
+
+def _choice_params(s: Settings) -> dict[str, object]:
+    """The params of a replay that asks the chooser: its model, thinking level and prompt version."""
+    return {
+        "model": s.extract_model,
+        "thinking": s.extract_thinking,
+        "record_choice_prompt_version": prompt_version(CHOICE_PROMPT),
+    }
 
 
 def _write_build(folder: Path, source: Path, replay: Relink) -> Path:
