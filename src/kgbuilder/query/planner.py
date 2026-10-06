@@ -29,6 +29,8 @@ from .plan import QueryPlan
 #   possible (code cannot tell which question words are a field's value); the kg qa comparison checks it.
 # The primitive lines name `label` for list and count of claims (R79: a count of complaints counted their
 # vehicles too) and rank's most/fewest by a property (R79: no primitive for "which value appears most").
+# The `about` line (R86): a plan could not go on from the records claims are about; R83 found 3 answers
+# lost to it (F04 "the price of the product whose frame creaks") and 4 refused plans that wrote it anyway.
 # The example's graph (hives and apiaries) is invented: no evaluated dataset uses it.
 PROMPT = """You plan how to answer a question from the graph below. Write a query plan: a list of steps,
 each one of the primitives listed, filled in with names from the graph. Code checks the plan, runs it and
@@ -55,6 +57,8 @@ Primitives. `input` is the index (from 0) of an earlier step whose result a step
   records. Only claims the text states as holding come back, unless truth is "negated" (claims the text
   denies) or modality is "possible" (claims it says may hold) or "conditional" (claims it says hold under
   a condition).
+- about(input, label?): the records the input's claims are about (label keeps only the records of that
+  label), so the next steps can read their properties, follow their relationships or find their claims.
 - read_check(input, statement): reads each candidate's own text and keeps the candidates whose text states
   the statement; at most 30 candidates, so narrow the input first.
 - retrieve_chunks(input?): text: the input's own chunks, or without an input the chunks nearest the

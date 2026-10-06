@@ -29,6 +29,7 @@ Op = Literal[
     "filter_records",
     "related",
     "find_claims",
+    "about",
     "read_check",
     "retrieve_chunks",
     "list",
@@ -39,7 +40,7 @@ Op = Literal[
 ]
 TERMINALS = frozenset({"list", "count", "sum", "rank", "answer_from_chunks"})
 # the claim layer's primitives, left out of a system that may read the records only (records plus vector)
-CLAIM_OPS = frozenset({"find_claims"})
+CLAIM_OPS = frozenset({"find_claims", "about"})
 Operator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "year"]
 Tone = Literal["positive", "negative", "neutral"]
 Truth = Literal["affirmed", "negated"]
@@ -60,8 +61,8 @@ class PlanStep(BaseModel):
         default=None,
         description="find_entity: an optional node label or entity type; filter_records: the label "
         "to filter; "
-        "related and rank: the label at the other end; list and count of the records claims are about: "
-        "only the records of this label.",
+        "related and rank: the label at the other end; about, and list and count of the records claims "
+        "are about: only the records of this label.",
     )
     property: str | None = Field(
         default=None,
@@ -359,6 +360,23 @@ class _FindClaims(_Rule):
         return issues
 
 
+class _About(_Rule):
+    """R86: the records claims are about, as records the next steps go on from (a property, a relationship,
+    their own claims); `label` keeps only the records of one label, which a property read needs."""
+
+    accepts = frozenset({"claim"})
+    needs_input = True
+
+    def produces(self, step, ctx):
+        return {"record"}
+
+    def label(self, step, ctx):
+        return step.label
+
+    def check(self, step, ctx, dropped):
+        return _about_label_issues("about", step, ctx)
+
+
 class _ReadCheck(_Rule):
     accepts = frozenset({"record", "entity", "claim", "chunk"})
     needs_input = True
@@ -389,7 +407,12 @@ class _List(_Rule):
         if step.property is not None:
             label = _input_label(step, ctx)
             if kinds != {"record"} or label is None:
-                return ["list: a property can be read only from records of one known label"]
+                # R86: the planner wrote a property read from claims and was refused (R83: G01, G02, G28);
+                # the reason names the step that gives the claims' records
+                return [
+                    "list: a property can be read only from records of one known label; for claims, "
+                    "take the records they are about first with about(input, label)"
+                ]
             if step.property not in ctx.schema.label_properties(label):
                 return [f"list: {label} has no property {step.property!r}"]
         if step.what in ("about", "subject", "object") and kinds != {"claim"}:
@@ -474,6 +497,7 @@ _RULES: dict[str, _Rule] = {
     "filter_records": _FilterRecords(),
     "related": _Related(),
     "find_claims": _FindClaims(),
+    "about": _About(),
     "read_check": _ReadCheck(),
     "retrieve_chunks": _RetrieveChunks(),
     "list": _List(),

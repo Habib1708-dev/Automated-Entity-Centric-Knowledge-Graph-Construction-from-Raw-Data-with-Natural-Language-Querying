@@ -179,6 +179,33 @@ def test_claims_are_found_about_a_record_its_parts_or_an_entity_and_listed_or_co
     assert by_kind.number == 1.0
 
 
+def test_about_goes_on_from_the_records_claims_are_about(runner_parts):
+    # R86 (R83: F04 "the price of the product whose frame creaks"): the spindle's claim hangs on the Quill
+    # Press, so its price and its parts are reached from the claim
+    store, schema = runner_parts
+    r = runner(store, schema)
+    wobbles = {"op": "find_claims", "object_like": "wobbles"}
+    priced = run(
+        r,
+        schema,
+        "What does the press with a wobbling part cost?",
+        wobbles,
+        {"op": "about", "input": 0, "label": "Press"},
+        {"op": "list", "input": 1, "property": "list_price"},
+    )
+    assert (priced.entities, priced.steps[1].items) == (["$1,200"], {"record": 1})
+    parts = run(
+        r,
+        schema,
+        "Which parts has the press with a wobbling part?",
+        wobbles,
+        {"op": "about", "input": 0, "label": "Press"},
+        {"op": "related", "input": 1, "relationship": "PART_OF", "label": "Part"},
+        {"op": "list", "input": 2},
+    )
+    assert parts.entities == ["Spindle"]
+
+
 def test_read_check_keeps_only_candidates_with_a_verified_quote_and_code_counts_them(runner_parts):
     store, schema = runner_parts
     checks = [CheckReply(supported=True, chunk_id="notes.md#0", quote="the spindle wobbles")]

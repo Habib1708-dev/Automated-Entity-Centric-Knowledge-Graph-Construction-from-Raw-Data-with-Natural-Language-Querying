@@ -4003,10 +4003,34 @@ Hollis" were verified with one quote, and the answer listed five subjects.
 - **Not measured.** Every read_check call on a claim misses the cache now. The measurement is proposed with
   R84's, not made in this step.
 
+### R86. `about`: from claims to the records they are about (Step 8 addition 3; done 2026-10-06, code and prompt, no run)
+R83 found no way for a plan to go on from the records claims are about: `list` and `count` could end a
+plan with them ("about"), but no step could read their properties or follow their relationships. 3 answers
+fail on it as the first cause (F04 "frame EXHIBITS creaks" found, then the product's price could not be
+listed; F05; H14), and in G01, G02, G22 and G28 the planner wrote such a step and was refused.
+- **Scope.**
+  - `query/plan.py`: a new primitive `about(input, label?)`, rule `_About`. It takes claims and produces
+    records, of `label` when given, which must be a record label. So `list` with a property, `related`,
+    `rank` and `find_claims` can follow. `list`'s refusal of a property read from claims now names `about`,
+    since that reason reaches the model in its retry. `CLAIM_OPS` lists it.
+  - `query/plan_run.py`: `_about` runs the existing `plan_cypher.claims_about`, the same records `list` and
+    `count` read for "about".
+  - `query/planner.py`: one primitive line, with its intent comment. The `label` field description names
+    `about`. Swept for dataset words: none; the prompt guard test covers the prompt and the plan's schema.
+- **Tests:** the check (claims to records of a label, then a property list or a relationship, pass; a
+  non-record label and a record input are refused; the list refusal names `about`). Neo4j: the price of
+  the press a wobbling claim hangs on, and its parts. Both failed before: `about` was no primitive.
+- **Gate:** 564 passed (562 + 2), `ruff check` clean.
+- **Not measured.** The planner prompt changed, so every plan is written anew: measuring needs fresh plans,
+  not R80's frozen ones. Proposed with R84 and R85.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
+- **`plan.CLAIM_OPS` is used nowhere (found in R86).** Its comment says the claim layer's primitives are
+  left out of the records-only system, but that system is restricted by `PlanSchema.claims` and the
+  `find_claims` rule, not by this set. Either use it or remove it in Step 9's clean-up.
 - **(Fixed in R84.) Claim words cannot reach a mention that refers to a record (found in R83).** `plan_run._claim_words`
   searches concepts only, while `find_claims` matches mentions by their canonical id, which is a record or
   an individual for keyed and named things (R75). 5 furniture answers fail on it (F17 F21 F23 F24 F32).

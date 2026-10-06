@@ -175,6 +175,12 @@ class PlanRunner:
         )
         return {"record": self._ids(cypher, params)}, f"direction {direction}"
 
+    def _about(self, step, inputs, question, result):
+        # R86: the records the claims hang on, as items later steps go on from; the same records that list
+        # and count end a plan with when they read the claims "about"
+        rows = self._rows(*cy.claims_about(inputs.get("claim", []), step.label))
+        return {"record": list(dict.fromkeys(str(r["about"]) for r in rows))}, ""
+
     def _find_claims(self, step: PlanStep, inputs: Items, read: bool) -> tuple[Items, str]:
         records = inputs.get("record") if inputs else None
         if records and step.include_parts:

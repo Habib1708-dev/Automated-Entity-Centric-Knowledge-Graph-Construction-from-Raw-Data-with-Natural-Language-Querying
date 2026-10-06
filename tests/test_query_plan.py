@@ -195,6 +195,37 @@ def test_claims_about_records_are_narrowed_by_a_record_label_only():
     assert issues(plan(claims, {"op": "count", "input": 0, "unit": "about", "label": "Condition"}))
 
 
+def test_about_turns_claims_into_the_records_they_are_about_for_the_steps_after_it():
+    # R86: a property of the records claims are about was refused ("list: a property can be read only from
+    # records of one known label"); `about` gives those records, of one label when it names one
+    claims = {"op": "find_claims", "predicate": "HAS_CONDITION"}
+    priced = plan(
+        claims,
+        {"op": "about", "input": 0, "label": "Press"},
+        {"op": "list", "input": 1, "property": "list_price"},
+    )
+    assert issues(priced) == []
+    followed = plan(
+        claims,
+        {"op": "about", "input": 0},
+        {"op": "related", "input": 1, "relationship": "PART_OF"},
+        {"op": "count", "input": 2},
+    )
+    assert issues(followed) == []
+    assert issues(
+        plan(claims, {"op": "about", "input": 0, "label": "Condition"}, {"op": "count", "input": 1})
+    )
+    no_claims = plan(
+        {"op": "filter_records", "label": "Press"},
+        {"op": "about", "input": 0},
+        {"op": "count", "input": 1},
+    )
+    assert "cannot work on ['record'] items; it takes ['claim']" in "\n".join(issues(no_claims))
+    # without `about` the refusal of a property read from claims names the step that gives their records
+    refused = issues(plan(claims, {"op": "list", "input": 0, "property": "list_price"}))
+    assert any("about" in issue for issue in refused)
+
+
 def test_numbers_are_read_from_text():
     assert [as_number(v) for v in ("$1,289", "42", 3, True, "none")] == [1289.0, 42.0, 3.0, None, None]
 
