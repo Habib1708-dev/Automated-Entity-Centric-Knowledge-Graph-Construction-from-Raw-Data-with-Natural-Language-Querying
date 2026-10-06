@@ -5,7 +5,8 @@ resolve.json) in a temporary directory: no Neo4j, no LLM. The build plants one e
 checks must find: a mention of the lamp's review linked to the kettle's lid (outside the lamp's scope),
 and a claim about the kettle's lid hinge hung on the lid because "lid" stands inside "lid hinge". The
 replay of R94 must unlink exactly that lamp mention under the current matching rules, and call any other
-difference unexplained.
+difference unexplained. A link the build made by a rule R95a retired (containment, a spelling that differs
+inside a word) is unlinked too, with that cause.
 """
 
 import json
@@ -339,7 +340,37 @@ def test_the_replay_unlinks_only_the_link_that_left_its_documents_scope(tmp_path
     )  # fmt: skip
     [lid] = [a for a in replay.references if a.mention == lamp_lid]
     assert (lid.kind, lid.canonical, lid.reason) == ("individual", individual_id(lamp_lid), "no_record")
-    assert replay.unexplained == []
+    assert replay.unexplained == [] and change.cause == "left_scope"
+
+
+@pytest.mark.parametrize(
+    ("component", "reason", "cause"),
+    [("Hinge", "contained", "containment"), ("Lid Hnge", "name", "spelling")],
+)
+def test_a_link_the_build_made_by_a_retired_rule_is_unlinked_with_its_cause(
+    tmp_path, component, reason, cause
+):
+    """R95a: the build linked the kettle's "lid hinge" to a component it does not name today: one called
+    "Hinge", whose name stood inside the mention's (containment), or "Lid Hnge", 94 alike but different
+    inside a word (spelling)."""
+    s, out, _ = _snapshot(tmp_path)
+    hinge = mention_id("Part", "lid hinge", KETTLE)
+    records = [r.model_copy(update={"name": component}) if r.id == "Component:S-1" else r for r in s.records]
+    built = [
+        a.model_copy(update={"name": component, "reason": reason}) if a.mention == hinge else a
+        for a in s.references
+    ]
+    replay = _relink(s.model_copy(update={"records": records, "references": built}), out)
+    changes = {c.mention: c for c in replay.changes}
+    assert (changes[hinge].before, changes[hinge].after, changes[hinge].cause) == (
+        "Component:S-1",
+        None,
+        cause,
+    )
+    assert changes[mention_id("Part", "lid", LAMP)].cause == "left_scope"  # R94's change keeps its own cause
+    assert len(changes) == 2 and replay.unexplained == []
+    [alone] = [a for a in replay.references if a.mention == hinge]
+    assert (alone.kind, alone.reason) == ("individual", "no_record")
 
 
 def test_a_replay_that_differs_elsewhere_is_unexplained(tmp_path):
@@ -369,6 +400,9 @@ def test_the_relink_stage_writes_a_build_the_snapshot_reads_and_counts_resting_o
     run_stages(ctx, PipelineState(audit_source=out, data_dir=data, audit_logged=logged), [AuditRelinkStage()])
     run = tracker.run("audit_relink")
     assert run.logged_metrics["changes"] == 1.0 and run.logged_metrics["unexplained"] == 0.0
+    assert (
+        run.logged_metrics["changes_left_scope"] == 1.0 and run.logged_metrics["changes_containment"] == 0.0
+    )
     assert run.logged_metrics["record_links_after"] == run.logged_metrics["record_links_before"] - 1
     replayed = build_snapshot(tmp_path / "relink" / RELINKED_BUILD, data, CHUNKING)
     counts = LoggedCounts.model_validate_json(

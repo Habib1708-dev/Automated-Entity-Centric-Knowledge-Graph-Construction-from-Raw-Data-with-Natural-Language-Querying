@@ -480,7 +480,9 @@ def audit_relink(build: Path, data: Path = AUDIT_DATA, logged: Path = AUDIT_LOGG
     with session(out) as ctx:
         state = run_stages(ctx, state, [aus.AuditRelinkStage()])
     for c in state.relink.changes:
-        typer.echo(f"{c.mention} {c.name!r} @{c.doc_id}: {c.before} -> {c.after}")
+        typer.echo(
+            f"{c.mention} {c.name!r} @{c.doc_id}: {c.before} -> {c.after} ({c.cause or 'unexplained'})"
+        )
     typer.echo(f"{len(state.relink.changes)} changes of {state.relink.keyed} keyed mentions")
     typer.echo(f"Wrote {out / aus.RELINKED_BUILD}, {out / aus.RELINKED_LOGGED}, {out / aus.RELINK_FILE}")
 

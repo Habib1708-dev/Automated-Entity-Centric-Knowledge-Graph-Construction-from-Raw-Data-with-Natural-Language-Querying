@@ -4810,6 +4810,73 @@ comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_n
   - C0 on the replayed build confirms the identity counts only by construction.
 - **Gate (results):** 678 passed, `ruff check` clean.
 
+### R95. Code links a name only when it is sure; an LLM chooses among the near misses (started 2026-10-06, $0 so far)
+The user, 2026-10-06, after R94: implement the earlier session's fix for the 3 in-scope links that still
+fail C4 on furniture. Collecting candidates and deciding between them are one step in `resolution/records.py`:
+a partial overlap or a close spelling decides alone.
+
+| Wrong link (R93) | Rule | Why a lexical test cannot see it |
+|---|---|---|
+| "pre-drilled holes for the drawer handle" -> Drawer Handle | `contained` | the record's name is a complement; the head is "holes" |
+| "drawer slide mechanism" -> Drawer | `contained` | the record's name is a modifier; the head is "mechanism" |
+| "drawer slides" -> Drawer Sides | `name`, spelling 96 | a different word, one letter apart |
+| the Malmö review's "drawer" (R94: now unlinked) | no rule | the right record, "Drawer Unit", is spelled differently |
+
+- **Why not head-noun rules:** fitted to 13 cases of one dataset, English grammar in the identity layer, and
+  still a list of generic heads ("system", "construction"). The direction's future forms (books, scientific
+  text, other languages) would each need a new rule.
+- **The containment rule's reason is gone:** R60 added it for "2019 Subaru Outback" against OUTBACK. Since
+  R75 the key rule covers that (all 76 held-out links are by key); containment fires only on furniture parts,
+  where 2 of its 7 links are wrong and 1 is ambiguous.
+- **The tiers:**
+  1. Code links alone, inside the document's scope (R94): the record's key (unchanged), or the record's name.
+     A name is the record's when it is the same after normalisation, or the same words up to a short ending
+     ("drawers" for "Drawer", "center supports" for "Center Support") and spelled at least
+     `domain_link_threshold` alike. The ending test says where two names may differ, the score how much:
+     without the score "pane" would link "Panel" (an ending apart, but 89 alike), a pair the old gate refused.
+  2. Code proposes candidates but never links: a record's name inside the mention's or the reverse, any other
+     near miss in spelling.
+  3. An LLM chooses one candidate or none from a closed list; code checks the answer is a listed id and its
+     quote is in the chunk. A failure or "none" is no link, so without an LLM tier 3 abstains.
+- **Split: two steps, each measured.**
+  - **R95a: tier 1 in code** (code only, $0). Containment and a spelling that differs inside a word stop
+    linking. Measured by R94's offline replay and R93's verdicts. Expected on furniture: C4 42/45 -> 38/38;
+    4 correct links lost ("weighted base", "adjustable shelves", "cable management system", "frame
+    construction"); held-out and generality unchanged.
+  - **R95b: tiers 2 and 3** (candidates and the constrained LLM choice). The prompt follows the
+    `prompt-engineering` skill. Measured by one small paid replay of only the tier-3 mentions (furniture,
+    about $0.01), only after the user's yes; the judge then rules on the new links. Success: C4 stays at or
+    above 0.95 and at least the 4 links R95a gives up, plus the Malmö drawer, come back.
+  - The earlier session's plan put the candidates in R95a with tier 3 off. They move to R95b: without a
+    chooser they would be computed and never used.
+- **Rejected:** head-noun rules or a parser (English only, a heavy dependency, tuned to 13 examples); asking
+  the extractor for clean heads (a paid re-extraction of every dataset, and the matcher would still need the
+  decision step); only raising the threshold ("slides"/"sides" scores 96, above the plurals' 92).
+- **R95a, code (done 2026-10-06, $0).**
+  - **`resolution/records.py`:** `name_score(name, record_name, threshold)` is tier 1, used by `name_matches`.
+    - 100 for the same name after normalisation: the same words in any order, or the same letters with other
+      spacing ("bed-side table" for "Bedside Table"), with or without a leading title.
+    - Else the spelling score (token_sort_ratio, as before) when it reaches the threshold *and* the two
+      names have the same words up to their endings: two words share at least 4 letters from their start and
+      neither goes on for more than 3 letters (`_MIN_STEM`, `_MAX_ENDING`). A word with a digit has no ending
+      ("Model 2019" is not "Model 2018": 90 alike, linked before).
+    - Words are letters and digits of any script, so names in another script still match only exactly.
+    - `contained_matches` and the `contained` reason are gone; `_LINK_REASONS` (the resolve stage's
+      `linked_by_*` metrics) now follows `LinkReason`, so `linked_by_contained` is no longer logged.
+  - **`audit/relink.py`:** a change is explained by a `cause`, one per rule change: `left_scope` (R94),
+    `containment`, `spelling` (R95a). The retired `contained` reason still counts as a link made by matching:
+    without it, a replay dropping such a link would show no change at all. The stage logs `changes_<cause>`.
+  - **A behaviour change, stated:** a Neo4j test (`test_linking.py`) linked "2016 Honda Civic" to a vehicle
+    `CIVIC` keyed `V1` by containment. Its vehicle now has the held-out shape (key = model, as `Vehicle:RAV4`),
+    so the key rule links it; the attachment it tests is unchanged.
+  - **Tests:** `test_records.py` 13 -> 16 (the containment tests became "is no link"; new: endings, digits,
+    exact over inflected, other scripts); `test_audit.py` +2 (a link made by each retired rule is unlinked
+    with its cause; the per-cause metrics).
+  - **Dry run of the replay** (no MLflow, nothing written), every change explained, no link added:
+    furniture 124 keyed mentions, 12 changes (`left_scope` 4 = R94's, `containment` 7, `spelling` 1);
+    held-out 260 and generality 72, 0 changes.
+  - **Gate (code):** 683 passed (678 before), `ruff check` clean.
+
 ## Found along the way
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice; moot for the
   current builds since R94, where no start is below 0.95).** The

@@ -11,17 +11,18 @@ The checks run even when the fidelity gate fails, so the report shows both, and 
 `kg audit-relink` replays a build's record matching under the current rules (audit/relink.py), refuses a
 replay that differs from the build in anything but the change being measured, and writes the build folder it
 gives (the build's files with resolve.json replayed) and its logged counts, for `kg anchor-eval` and the
-judging stages to measure. One run per build: metrics are the changes and the record links before and after;
-artifacts the changes and the counts.
+judging stages to measure. One run per build: metrics are the changes (in all and per cause) and the record
+links before and after; artifacts the changes and the counts.
 Not here: the judged metrics, the scoring of verdicts.
 """
 
 import json
 import shutil
 from pathlib import Path
+from typing import get_args
 
 from ..audit import build_snapshot, check_fidelity, compute_reach, gold_pairs, load_logged, run_checks
-from ..audit.relink import Relink, RelinkReport, relink, relinked_counts
+from ..audit.relink import Relink, RelinkCause, RelinkReport, relink, relinked_counts
 from ..core.errors import EvaluationError
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
@@ -131,6 +132,8 @@ class AuditRelinkStage(BaseStage):
             keyed_mentions=replay.keyed,
             changes=len(replay.changes),
             unexplained=len(replay.unexplained),
+            # how many links each rule change removed (R94: left_scope; R95a: containment, spelling)
+            **{f"changes_{c}": sum(x.cause == c for x in replay.changes) for c in get_args(RelinkCause)},
             record_links_before=sum(a.kind == "record" for a in snapshot.references),
             record_links_after=sum(a.kind == "record" for a in replayed.references),
             counts_changed=len(changed),

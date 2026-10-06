@@ -6,10 +6,13 @@ match leaves it to the individuals. Concept and individual types never reach a r
 Design: pure matching over `RecordCandidate`s, unit-tested without a database; `read_records` and
 `read_scopes` are the only reads. The rules, in order, each a reason on the identity edge:
   1. `key`: the record's key is a whole token of the mention's name ("pump HP40-1183");
-  2. `name` / `contained`: the name matches a record's name inside the scope of the mention's document (a
-     near-exact fuzzy match, else the record's whole name inside the mention's, R60/R67); only a document
-     without a scope may match one record of the whole domain (R11's scoped linking, moved here from
-     linking.py; R94 ended the fallback for documents with a scope);
+  2. `name`: the mention's name is a record's name inside the scope of the mention's document; only a
+     document without a scope may match one record of the whole domain (R11's scoped linking, moved here
+     from linking.py; R94 ended the fallback for documents with a scope). A name is a record's when it is
+     the same after normalisation, or the same words up to a short ending and spelled alike (`name_score`).
+     Since R95a nothing else decides alone: a record's name inside a longer name ("pre-drilled holes for the
+     drawer handle" -> Drawer Handle) and a spelling that differs inside a word ("drawer slides" -> Drawer
+     Sides) were R93's wrong links, and code cannot tell them from right ones;
   3. `key_in_sentence`: no name decides, and exactly one key (of the tied records when names tie) is written
      right next to the mention's name in a sentence ("pump HP40-1183", "the vehicle (RAV4)"): a key
      elsewhere in the sentence is no evidence, since a sentence may list many records (found in R75's
@@ -26,6 +29,7 @@ Not here: joining individuals (individuals.py), concepts (concepts.py), writing 
 
 import re
 from collections.abc import Callable
+from os.path import commonprefix
 from typing import Literal
 
 from neo4j import Driver
@@ -38,9 +42,17 @@ from ..structured.plan import ConstructionPlan, name_property
 from .linking import DomainNode
 from .variants import compatible, without_title
 
-# Names shorter than this, once squashed, are too likely to occur inside an unrelated name ("bed" in
-# "embedded") to be trusted for containment; the same bound as document matching (linking.py).
-_MIN_CONTAINED_CHARS = 4
+# A word of a name: letters and digits of any script, after `norm` ("Drawer-Unit" -> "drawer", "unit";
+# "Москва" stays one word). The underscore is excluded, so "stockholm_chair" is two words.
+_WORD = re.compile(r"[^\W_]+")
+
+# Two words are one word up to its ending when they share at least _MIN_STEM letters from their start and
+# neither goes on for more than _MAX_ENDING letters after them: "drawer"/"drawers" and "shelf"/"shelves"
+# ("shel" + "f" / "ves") pass, "sides"/"slides" (they share "s") and "car"/"card" (three letters: too short
+# a stem to tell an ending from another word) do not. No list of endings, so the rule holds for any
+# language that inflects at the end of its words (R95a).
+_MIN_STEM = 4
+_MAX_ENDING = 3
 
 # A key shorter than this, once squashed, is too likely to appear by accident ("P1" in "part 1");
 # the same bound as section matching (linking.py).
@@ -54,7 +66,7 @@ _MIN_ATTRIBUTE_CHARS = 3
 # the parts of what it is about, not who made them (R11).
 _SCOPE_HOPS = 2
 
-LinkReason = Literal["key", "name", "contained", "key_in_sentence", "attribute", "variant_attribute"]
+LinkReason = Literal["key", "name", "key_in_sentence", "attribute", "variant_attribute"]
 
 
 class RecordCandidate(DomainNode):
@@ -66,7 +78,7 @@ class RecordCandidate(DomainNode):
 
 class NameMatch(BaseModel):
     record: RecordCandidate
-    score: float  # rapidfuzz token_sort_ratio, 0..100; 100 for a contained whole name
+    score: float  # `name_score`: 100 for the same name, else the spelling score of an inflected one
 
 
 class RecordLink(BaseModel):
@@ -86,72 +98,85 @@ class RecordMatch(BaseModel):
     tied: list[RecordCandidate] = []
 
 
-def name_matches(names: list[str], records: list[RecordCandidate], threshold: float) -> list[NameMatch]:
-    """All records sharing the best fuzzy score for `names`, if it reaches `threshold`; several mean a tie.
+def _words(name: str) -> list[str]:
+    return _WORD.findall(norm(name))
 
-    token_sort_ratio ignores word order ("Chair Stockholm" = "Stockholm Chair") but not extra words, so with
-    a threshold around 90 only near-exact names match: a wrong link is worse than a missing one.
+
+def _one_word(a: str, b: str) -> bool:
+    """True when two words are one word up to its ending (`_MIN_STEM`, `_MAX_ENDING`). A word with a digit
+    has no ending: "A-1063" is not "A-1062", nor "2019" "2018"."""
+    if a == b:
+        return True
+    if any(ch.isdigit() for ch in a + b):
+        return False
+    stem = len(commonprefix([a, b]))
+    return stem >= _MIN_STEM and max(len(a), len(b)) - stem <= _MAX_ENDING
+
+
+def _same_words(x: list[str], y: list[str]) -> bool:
+    """True when two names have the same words up to their endings, in their written order or sorted."""
+    return len(x) == len(y) and any(
+        all(_one_word(a, b) for a, b in zip(p, q, strict=True)) for p, q in ((x, y), (sorted(x), sorted(y)))
+    )
+
+
+def _score(said: list[str], record: list[str], threshold: float) -> float | None:
+    """`name_score` for two names already split into words."""
+    if not said or not record:
+        return None
+    if sorted(said) == sorted(record) or "".join(said) == "".join(record):
+        return 100.0
+    score = fuzz.token_sort_ratio(" ".join(said), " ".join(record))
+    return score if score >= threshold and _same_words(said, record) else None
+
+
+def name_score(name: str, record_name: str, threshold: float) -> float | None:
+    """How well a mention's `name` names a record called `record_name` on its own; None when it does not.
+
+    100 when the two are the same name after normalisation: any word order ("Chair Stockholm"), spacing or
+    hyphens ("bed-side table" for "Bedside Table"), and without a leading title ("Dr Jonathan Pike").
+    Else the spelling score (rapidfuzz token_sort_ratio) of a name with the same words up to their endings
+    ("drawers" for "Drawer": 92.3), when it reaches `threshold`. Both tests are needed (R95a): the endings
+    say where two names may differ, the score how much. "drawer slides" is 96 alike "Drawer Sides" but
+    differs inside a word, and "pane" is "Panel" up to an ending but only 89 alike: neither is a link.
     """
-    wanted = {norm(n) for n in names if norm(n)}
-    if not wanted:
-        return []
-    scored = [
-        NameMatch(record=r, score=max(fuzz.token_sort_ratio(w, norm(r.name)) for w in wanted))
-        for r in records
-    ]
-    best = max((m.score for m in scored), default=0.0)
-    return [m for m in scored if m.score == best] if best >= threshold else []
+    record = _words(record_name)
+    scores = [_score(_words(said), record, threshold) for said in {name, without_title(name)}]
+    return max((s for s in scores if s is not None), default=None)
 
 
-def contained_matches(names: list[str], records: list[RecordCandidate]) -> list[NameMatch]:
-    """The records whose whole name occurs word for word inside one of `names`, longest name only.
-
-    R60's rule: the plan names a record by one column ("CIVIC"), the text writes it in full ("2016 Honda
-    Civic"), which no fuzzy threshold accepts without accepting garbage too. Whole words, so "ESCAPE" never
-    matches "escaped"; the longest contained name wins ("Coffee Table" over "Table").
-    """
-    words = [set(norm(n).split()) for n in names if norm(n)]
-    hits = [
-        r
-        for r in records
-        if len(squash(r.name)) >= _MIN_CONTAINED_CHARS and any(set(norm(r.name).split()) <= w for w in words)
-    ]
-    if not hits:
-        return []
-    best = max(len(squash(r.name)) for r in hits)
-    return [NameMatch(record=r, score=100.0) for r in hits if len(squash(r.name)) == best]
+def name_matches(name: str, records: list[RecordCandidate], threshold: float) -> list[NameMatch]:
+    """The records `name` names on its own (`name_score`), all those sharing the best score: several mean a
+    tie, and the same name (100) wins over an inflected one. A wrong link is worse than a missing one."""
+    scored = [(r, name_score(name, r.name, threshold)) for r in records]
+    found = [NameMatch(record=r, score=s) for r, s in scored if s is not None]
+    best = max((m.score for m in found), default=None)
+    return [m for m in found if m.score == best]
 
 
 class _ByName(BaseModel):
     matches: list[NameMatch]
     scoped: bool
-    contained: bool
 
 
 def _by_name(
     name: str, scopes: list[list[RecordCandidate]], records: list[RecordCandidate], threshold: float
 ) -> _ByName:
-    """The records the name names: inside each scope (fuzzy, else containment); only when the document has
-    no scope at all, in the whole domain (fuzzy only).
+    """The records the name names: inside each scope; only when the document has no scope at all, in the
+    whole domain.
 
     A scope vouches that the document is about the record's neighbourhood; the whole domain vouches for
     nothing. So a document with a scope never links beyond it (R94): R93 judged all 4 such links of the
     furniture build wrong, a desk review's "drawer" reaching a nightstand's "Drawer" because the desk's own
     record is called "Drawer Unit". A document without a scope (no thing it is about) still has the domain.
     """
-    names = sorted({name, without_title(name)})
+    if not scopes:
+        return _ByName(matches=name_matches(name, records, threshold), scoped=False)
     found: dict[str, NameMatch] = {}
-    contained = False
     for scope in scopes:
-        in_scope = name_matches(names, scope, threshold)
-        if not in_scope:  # fuzzy said nothing at all; a fuzzy tie is not overridden by containment
-            in_scope = contained_matches(names, scope)
-            contained |= bool(in_scope)
-        for m in in_scope:
+        for m in name_matches(name, scope, threshold):
             found.setdefault(m.record.element_id, m)
-    if found or scopes:
-        return _ByName(matches=list(found.values()), scoped=True, contained=contained)
-    return _ByName(matches=name_matches(names, records, threshold), scoped=False, contained=False)
+    return _ByName(matches=list(found.values()), scoped=True)
 
 
 def _key_tokens(text: str) -> set[str]:
@@ -213,9 +238,8 @@ def match_record(
     named = _by_name(name, scopes, records, threshold)
     if len(named.matches) == 1:
         m = named.matches[0]
-        reason: LinkReason = "contained" if named.contained else "name"
         return RecordMatch(
-            link=RecordLink(record=m.record, reason=reason, score=m.score, evidence=name, scoped=named.scoped)
+            link=RecordLink(record=m.record, reason="name", score=m.score, evidence=name, scoped=named.scoped)
         )
     tied = [m.record for m in named.matches]
     link = _by_sentence(name, sentences, records, tied, named)

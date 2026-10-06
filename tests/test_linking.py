@@ -214,14 +214,15 @@ def test_a_record_document_links_to_its_record_by_key_never_by_title(driver):
 def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_things(driver):
     # the held-out shape: one document per vehicle, one "## Complaint <key>" section per complaint
     driver.execute_query(
-        "CREATE (v:Vehicle {vehicle_id: 'V1', model: 'CIVIC'}), "
+        "CREATE (v:Vehicle {vehicle_id: 'CIVIC', model: 'CIVIC'}), "
         "(:Complaint {complaint_id: '11440801'}), "
         "(d:Document {doc_id: 'civic.md', title: '2016_honda_civic_complaints'}), "
         "(c:Chunk {chunk_id: 'civic.md#0', doc_id: 'civic.md', index: 0, "
         "text: '## Complaint 11440801: brakes\\n\\nMy 2016 Honda Civic lost its brakes.'}), "
         "(c)-[:PART_OF]->(d), "
-        # the full vehicle name, which no fuzzy threshold accepts against 'CIVIC' (entities_linked was 0
-        # on held-out since R58): the containment rule must catch it inside the document's scope
+        # the full vehicle name, which no spelling rule accepts against 'CIVIC' (entities_linked was 0 on
+        # held-out from R58 to R60). Since R75 the key rule finds it, as on held-out, where a vehicle's key
+        # is its model; containment, which R60 added for it, no longer links at all (R95a)
         "(e:Mention {id: 'm1', name: '2016 Honda Civic', type: 'Vehicle', doc_id: 'civic.md'}), "
         "(c)-[:MENTIONS]->(e), "
         "(o:Observation {id: 'o1', predicate: 'LOST', chunk_id: 'civic.md#0', "
@@ -246,7 +247,7 @@ def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_thin
         fact_types=[],
     )
     [civic] = resolve_identity(driver, schema, plan, None, "m", SETTINGS).assignments
-    assert (civic.kind, civic.reason, civic.name) == ("record", "contained", "CIVIC")
+    assert (civic.kind, civic.reason, civic.name) == ("record", "key", "CIVIC")
 
     # one claim, two things (R67 decision, kept by R76's precedence per kind): the vehicle, which the
     # quote names (so the most specific route of its kind), AND the complaint of the section

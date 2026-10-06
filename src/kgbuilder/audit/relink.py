@@ -1,4 +1,4 @@
-"""The record matching of a finished build, replayed offline under the current rules (R94).
+"""The record matching of a finished build, replayed offline under the current rules (R94, R95a).
 
 Role in the pipeline: after a build, for measuring a change to `resolution/records.py` without a rebuild.
 The build's graph is gone and `kg resolve` also asks an LLM to join individuals, but matching a keyed
@@ -9,16 +9,16 @@ REFERS_TO edges:
   - each mention's candidates (the records of its type's plan labels, with their key attributes);
   - its scopes (the records within two hops of each thing its document is ABOUT, from the link stage only);
   - its sentences (those of its chunks that name it).
-Design: the replay is checked against the build itself. A mention whose decision changes must have been
-linked, by matching, to a record outside its document's scope (the fallback R94 ended); any other change
-means the replay is not the build's matching, and it is listed as unexplained so the caller can refuse it.
+Design: the replay is checked against the build itself. A mention whose decision changes must have lost a
+link the build made by matching, for a cause a rule change names (`RelinkCause`); any other change means
+the replay is not the build's matching, and it is listed as unexplained so the caller can refuse it.
 A mention that loses its record stands for itself, as `resolution/particulars.py` makes such a mention
 before joining: the LLM's joining of individuals is not replayed.
 Must not: call an LLM, read Neo4j, or change anything but the changed mentions' REFERS_TO.
 """
 
 from collections import defaultdict
-from typing import get_args
+from typing import Literal, get_args
 
 from pydantic import BaseModel
 
@@ -26,15 +26,26 @@ from ..core.identity import individual_id, record_ref
 from ..core.text import sentences_naming
 from ..resolution.attachment import TEXT_ABOUT
 from ..resolution.identity_graph import Assignment
-from ..resolution.records import LinkReason, RecordCandidate, RecordMatch, match_record
+from ..resolution.records import LinkReason, RecordCandidate, RecordMatch, match_record, name_score
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
 from .fidelity import LoggedCounts, snapshot_counts
 from .inputs import Record, scopes
 from .snapshot import GraphSnapshot, SnapshotMention
 
-# The reasons of a link made by matching; any other record assignment (an adjudicated join) is not one.
-_MATCH_REASONS = frozenset(get_args(LinkReason))
+# The reason builds before R95a gave a link by containment, which no longer links
+_CONTAINED = "contained"
+
+# The reasons of a link made by matching, today's and the retired one; any other record assignment (an
+# adjudicated join) is not one. Without `contained` here, a build's containment link would count as no link,
+# and a replay that drops it would show no change at all.
+_MATCH_REASONS = frozenset(get_args(LinkReason)) | {_CONTAINED}
+
+# Why the replay may unlink what the build linked by matching, one cause per rule change:
+#   - `left_scope` (R94): the record is outside the scope of the mention's document;
+#   - `containment` (R95a): the record's name stood inside the mention's, which no longer links;
+#   - `spelling` (R95a): the names were spelled alike, but not the same words up to their endings.
+RelinkCause = Literal["left_scope", "containment", "spelling"]
 
 
 class RelinkChange(BaseModel):
@@ -45,7 +56,8 @@ class RelinkChange(BaseModel):
     doc_id: str
     before: str | None  # the record the build's matching linked, None when it linked none
     after: str | None
-    explained: bool  # the build's link left the document's scope, and the replay links nothing
+    explained: bool  # a rule change (`cause`) explains it: the build's link is gone, nothing replaced it
+    cause: RelinkCause | None = None  # None when unexplained, and in R94's reports, which predate the field
 
 
 class Relink(BaseModel):
@@ -69,12 +81,13 @@ def relink(s: GraphSnapshot, plan: ConstructionPlan, schema: TextSchema, thresho
         before, link = _linked(built.get(m.id)), matches[m.id].link
         after = record_ref(link.record.label, link.record.key) if link else None
         if before != after:
-            scope = replay.scope(m.doc_id)
-            left_scope = before is not None and scope is not None and before not in scope
+            # only a link lost, with nothing in its place, can be a rule change's doing
+            unlinked = before is not None and after is None
+            cause = _cause(built[m.id], replay.scope(m.doc_id), threshold) if unlinked else None
             changes.append(
                 RelinkChange(
                     mention=m.id, name=m.name, doc_id=m.doc_id, before=before, after=after,
-                    explained=left_scope and after is None,
+                    explained=cause is not None, cause=cause,
                 )
             )  # fmt: skip
     changed = {c.mention for c in changes if c.after is None}
@@ -85,6 +98,20 @@ def relink(s: GraphSnapshot, plan: ConstructionPlan, schema: TextSchema, thresho
 def _linked(a: Assignment | None) -> str | None:
     """The record a build's assignment linked by matching (not by an adjudicated join)."""
     return a.canonical if a is not None and a.kind == "record" and a.reason in _MATCH_REASONS else None
+
+
+def _cause(built: Assignment, scope: set[str] | None, threshold: float) -> RelinkCause | None:
+    """The rule change that explains why the replay unlinks a mention the build linked by matching (`built`,
+    its assignment), or None when no rule change does. `scope` is the records the mention's document may
+    link to (None: it has no scope), `threshold` the build's spelling threshold."""
+    if scope is not None and built.canonical not in scope:
+        return "left_scope"
+    if built.reason == _CONTAINED:
+        return "containment"
+    # `built.name` is the record's name the build linked to: is the pair still one name for today's rule?
+    if built.reason == "name" and name_score(built.said, built.name, threshold) is None:
+        return "spelling"
+    return None
 
 
 def _alone(a: Assignment, match: RecordMatch) -> Assignment:

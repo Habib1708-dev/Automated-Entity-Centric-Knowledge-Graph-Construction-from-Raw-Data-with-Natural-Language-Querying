@@ -1,15 +1,12 @@
-"""Record matching for mentions of keyed types (R75, resolution/records.py), pure: names near-exact or
-contained, inside the scope of the mention's document, or unique in the domain when the document has no
-scope (the linking rules of R11, R60 and R67, moved here; R94 ended the fallback beyond a scope), the
-record's key in the name or a sentence, and an attribute that tells two records of one name apart.
+"""Record matching for mentions of keyed types (R75, resolution/records.py), pure: a name links on its own
+only when it is the record's name after normalisation, or the same words up to a short ending and spelled
+alike (R95a), inside the scope of the mention's document, or unique in the domain when the document has no
+scope (the linking rules of R11, moved here; R94 ended the fallback beyond a scope), the record's key in the
+name or a sentence, and an attribute that tells two records of one name apart. A record's name inside a
+longer name, or a spelling that differs inside a word, is no link (R95a: R93 judged such links wrong).
 No Neo4j."""
 
-from kgbuilder.resolution.records import (
-    RecordCandidate,
-    contained_matches,
-    match_record,
-    name_matches,
-)
+from kgbuilder.resolution.records import RecordCandidate, match_record, name_matches, name_score
 
 
 def record(
@@ -32,33 +29,51 @@ def ids(matches) -> list[str]:
     return [m.record.element_id for m in matches]
 
 
-def test_names_match_near_exactly_ignoring_word_order():
-    assert ids(name_matches(["Chair Stockholm"], DOMAIN, threshold=90)) == ["p3"]
-    assert ids(name_matches(["the big one", "stockholm chair"], DOMAIN, threshold=90)) == ["p3"]
-    [exact] = name_matches(["Coffee Table"], DOMAIN, threshold=90)
+def test_a_name_is_the_records_after_normalisation_whatever_its_word_order_spacing_or_script():
+    assert ids(name_matches("Chair Stockholm", DOMAIN, threshold=90)) == ["p3"]
+    [exact] = name_matches("Coffee Table", DOMAIN, threshold=90)
     assert exact.record.element_id == "p2" and exact.score == 100
+    assert name_score("bed-side table", "Bedside Table", threshold=90) == 100  # spacing and hyphens
+    assert name_score("Dr Jonathan Pike", "Jonathan Pike", threshold=90) == 100  # a leading title
+    # words are letters of any script: names in another script match exactly, and only their own record
+    cities = [record("c1", "Place", "Москва"), record("c2", "Place", "Киев")]
+    assert ids(name_matches("москва", cities, threshold=90)) == ["c1"]
 
 
 def test_a_name_below_the_threshold_or_empty_matches_nothing():
-    assert name_matches(["Dining Table Deluxe"], DOMAIN, threshold=90) == []
-    assert name_matches(["", "  "], DOMAIN, threshold=90) == []
+    assert name_matches("Dining Table Deluxe", DOMAIN, threshold=90) == []
+    assert name_matches("  ", DOMAIN, threshold=90) == []
+    assert name_score("Москва", "Киев", threshold=90) is None  # no letters dropped, so no empty match
 
 
 def test_every_record_tied_for_the_best_score_comes_back():
     legs = [record("a1", "Assembly", "Legs"), record("a2", "Assembly", "Legs")]
-    assert ids(name_matches(["legs"], legs, threshold=90)) == ["a1", "a2"]
+    assert ids(name_matches("legs", legs, threshold=90)) == ["a1", "a2"]
 
 
-CIVIC, ACCORD = record("v1", "Vehicle", "CIVIC"), record("v2", "Vehicle", "ACCORD")
+def test_words_may_differ_only_in_a_short_ending_and_the_names_must_be_spelled_alike():
+    # the plurals and singulars R93 judged right: the same words up to their endings, at least 90 alike
+    assert round(name_score("drawers", "Drawer", threshold=90), 1) == 92.3
+    assert name_score("center supports", "Center Support", threshold=90) is not None
+    assert name_score("Norrköping Nightstands", "Norrköping Nightstand", threshold=90) is not None
+    # an ending apart, but too short a name to be spelled 90 alike: "pane" is not a "Panel"
+    assert name_score("pane", "Panel", threshold=90) is None
+    # 96 alike, but the letter that differs is inside the word: another word (R93: INCORRECT)
+    assert name_score("drawer slides", "Drawer Sides", threshold=90) is None
+    # at least four letters before an ending: "car" and "card" share three
+    assert name_score("red car", "Red Card", threshold=90) is None
 
 
-def test_a_name_containing_a_records_whole_name_matches_by_whole_words():
-    [match] = contained_matches(["2016 Honda Civic"], [CIVIC, ACCORD])
-    assert match.record.element_id == "v1" and match.score == 100.0
-    assert contained_matches(["the car escaped"], [record("v3", "Vehicle", "ESCAPE")]) == []  # whole words
-    assert contained_matches(["table leg"], [record("a1", "Assembly", "Leg")]) == []  # too short to trust
-    both = [record("p1", "Product", "Table"), record("p2", "Product", "Coffee Table")]
-    assert ids(contained_matches(["the jonkoping coffee table"], both)) == ["p2"]  # the longest name wins
+def test_a_word_with_a_digit_has_no_ending():
+    # 90 alike, and only the last character differs: still another model, another unit
+    assert name_score("Model 2019", "Model 2018", threshold=90) is None
+    assert name_score("unit A-1062", "Unit A-1063", threshold=90) is None
+
+
+def test_an_exact_name_wins_over_an_inflected_one():
+    drawers = [record("a1", "Assembly", "Drawer"), record("a2", "Assembly", "Drawers")]
+    [match] = name_matches("drawers", drawers, threshold=90)
+    assert match.record.element_id == "a2" and match.score == 100
 
 
 # Two products that both have an assembly called "Legs": the case that needs scopes.
@@ -98,13 +113,29 @@ def test_a_name_outside_the_scope_of_its_document_links_no_record():
     assert match("table", scopes=[[CHAIR, CHAIR_LEGS]]).link is None
 
 
-def test_containment_is_used_only_inside_a_scope_and_after_fuzzy():
-    result = match("2016 Honda Civic", scopes=[[CIVIC, ACCORD]], records=[CIVIC, ACCORD])
-    assert result.link.record.element_id == "v1" and result.link.reason == "contained" and result.link.scoped
-    # outside every scope containment is not trusted: no scope vouches for the document
-    assert match("2016 Honda Civic", records=[CIVIC, ACCORD]).link is None
-    # a fuzzy hit keeps winning unchanged
-    assert match("civic", scopes=[[CIVIC, ACCORD]], records=[CIVIC, ACCORD]).link.reason == "name"
+CIVIC, ACCORD = record("v1", "Vehicle", "CIVIC"), record("v2", "Vehicle", "ACCORD")
+
+
+def test_a_records_name_inside_a_longer_name_is_no_link():
+    """R95a. The longer name may name another thing that has the record's name as a complement or a
+    modifier: R93 judged "pre-drilled holes for the drawer handle" -> Drawer Handle and "drawer slide
+    mechanism" -> Drawer INCORRECT. Code cannot tell which reading holds, so it links neither."""
+    handle, drawer = record("a1", "Assembly", "Drawer Handle"), record("a2", "Assembly", "Drawer")
+    for name in ("pre-drilled holes for the drawer handle", "drawer slide mechanism"):
+        result = match(name, scopes=[[handle, drawer]], records=[handle, drawer])
+        assert result.link is None and result.tied == []
+    assert match("2016 Honda Civic", scopes=[[CIVIC, ACCORD]], records=[CIVIC, ACCORD]).link is None
+    # the record's own name still links inside the scope
+    civic = match("civic", scopes=[[CIVIC, ACCORD]], records=[CIVIC, ACCORD]).link
+    assert civic.record.element_id == "v1" and civic.reason == "name" and civic.scoped
+
+
+def test_a_spelling_that_differs_inside_a_word_is_no_link_and_an_ending_is_one():
+    # R93: "drawer slides" -> Drawer Sides (spelling 96) was INCORRECT
+    sides, rails = record("s1", "Component", "Drawer Sides"), record("s2", "Component", "Drawer Rails")
+    assert match("drawer slides", scopes=[[sides, rails]], records=[sides, rails]).link is None
+    inflected = match("drawer rail", scopes=[[sides, rails]], records=[sides, rails]).link
+    assert inflected.record.element_id == "s2" and inflected.reason == "name" and inflected.score < 100
 
 
 PUMPS = [

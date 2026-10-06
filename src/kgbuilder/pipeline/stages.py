@@ -9,6 +9,7 @@ specified in the `mlflow-tracking` skill; metric names are a contract, keep them
 import json
 from dataclasses import asdict
 from pathlib import Path
+from typing import get_args
 
 from ..core.errors import InvalidPlanError, ProposalRejectedError
 from ..core.text import norm
@@ -24,6 +25,7 @@ from ..resolution.identity_graph import clear_identity
 from ..resolution.linking import link_graphs
 from ..resolution.matchers import EmbeddingMatcher, FuzzyNameMatcher
 from ..resolution.mentions import read_mentions
+from ..resolution.records import LinkReason
 from ..structured import proposer
 from ..structured.importer import BATCH_SIZE, construct_domain_graph
 from ..structured.plan import validate_plan
@@ -129,7 +131,7 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
     }
 
 
-_LINK_REASONS = ("key", "name", "contained", "key_in_sentence", "attribute", "variant_attribute")
+_LINK_REASONS = get_args(LinkReason)  # one metric per reason a record link can have
 _INDIVIDUAL_ACTIONS = ("joined", "apart", "quote_not_verified", "different_records", "skipped")
 _GUARDS = ("opposed_polarity", "same_sentence", "part_and_whole", "compound_name")
 
