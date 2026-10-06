@@ -34,5 +34,27 @@
     "attach.attached_document": 261,
     "attach.documents_about_by_text": 0,
     "attach.documents_about_nothing": 0
+  },
+  "usage": {
+    "attach.completion_tokens": 0.0,
+    "attach.cost_usd": 0.0,
+    "attach.prompt_tokens": 0.0,
+    "attach.thinking_tokens": 0.0,
+    "extract.completion_tokens": 72626.0,
+    "extract.cost_usd": 0.417262,
+    "extract.prompt_tokens": 189470.0,
+    "extract.thinking_tokens": 750.0,
+    "ingest_text.completion_tokens": 0.0,
+    "ingest_text.cost_usd": 0.0,
+    "ingest_text.prompt_tokens": 0.0,
+    "ingest_text.thinking_tokens": 0.0,
+    "link.completion_tokens": 0.0,
+    "link.cost_usd": 0.0,
+    "link.prompt_tokens": 0.0,
+    "link.thinking_tokens": 0.0,
+    "resolve.completion_tokens": 1332.0,
+    "resolve.cost_usd": 0.043168,
+    "resolve.prompt_tokens": 27698.0,
+    "resolve.thinking_tokens": 4640.0
   }
 }

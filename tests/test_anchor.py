@@ -1,14 +1,26 @@
 """The anchor graph's navigation contract (R90): W1-W5 and the composed walk in both arms, the witness of
-every thing-to-thing hop, and the target gold placed on a snapshot's nodes.
+every thing-to-thing hop, the target gold placed on a snapshot's nodes, and the criteria computed from
+them (C2, C5, C7, C8, C9) up to the stage's MLflow run.
 
 The snapshot is invented (a desk lamp and a kettle, each with a part called "Switch") and holds one wrong
 claim attachment, so the leak the anchor arm prevents is visible: arm B walks from the lamp into the
-kettle's chunk through a claim, arm A cannot. No Neo4j, no LLM.
+kettle's chunk through a claim, arm A cannot. The stage test reuses the graph audit's invented build
+folder (tests/test_audit.py). No Neo4j, no LLM.
 """
 
 import pytest
 
-from kgbuilder.anchor import AnchorGraph, Arm, Context, TargetPlacer, record_nodes
+from kgbuilder.anchor import AnchorGraph, Arm, Context, PlacedTarget, TargetPlacer, record_nodes
+from kgbuilder.anchor.criteria import (
+    connectivity,
+    evidence_reach,
+    findability,
+    rank_chunks,
+    selectivity,
+    size,
+)
+from kgbuilder.anchor.report import START_MODES, evaluate
+from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import Record, Relation
 from kgbuilder.audit.snapshot import (
     AboutLink,
@@ -17,12 +29,19 @@ from kgbuilder.audit.snapshot import (
     SnapshotClaim,
     SnapshotMention,
 )
+from kgbuilder.config import Settings
+from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
+from kgbuilder.pipeline.anchor_stages import AnchorEvalStage, report_file
 from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.validation.gold import MentionRef
-from kgbuilder.validation.qa_gold import RecordEvidence
+from kgbuilder.validation.interval import Proportion
+from kgbuilder.validation.qa_gold import QAGold, RecordEvidence
 from kgbuilder.validation.target_gold import QuestionTargets, Target, TargetGold
+from tests.fakes import RecordingTracker
+from tests.test_audit import KETTLE as AUDIT_KETTLE
+from tests.test_audit import _snapshot as audit_build
 
 LAMP, KETTLE = "notes/lamp.md", "notes/kettle.md"
 L1, K1, S1, S2 = "Product:L1", "Product:K1", "Part:S1", "Part:S2"
@@ -239,3 +258,158 @@ def test_both_arms_read_the_same_records_and_chunks(arm):
     graph = AnchorGraph(SNAPSHOT, arm)
     assert graph.chunk_ids == [f"{KETTLE}#0", f"{LAMP}#0", f"{LAMP}#1"]
     assert graph.kind[L1] == "record" and graph.kind[HUM] == "concept"
+
+
+# --- the criteria (part b) ----------------------------------------------------------------------------
+
+
+def placed_target(name: str, nodes: list[str], aliases: list[str] | None = None) -> PlacedTarget:
+    return PlacedTarget(name=name, aliases=aliases or [], nodes=nodes, missing=[])
+
+
+def qa(*questions: dict) -> QAGold:
+    return QAGold.model_validate(
+        {
+            "dataset": "test",
+            "written_by": "test",
+            "date": "2026-10-06",
+            "corpus": {
+                "data_dir": "x",
+                "chunk_max_chars": 1500,
+                "chunk_min_chars": 200,
+                "chunk_overlap_chars": 0,
+            },
+            "questions": [
+                {"type": "lookup", "question": "q", "expected": {"text": "x"}, "route": "retrieval"} | q
+                for q in questions
+            ],
+        }
+    )
+
+
+def chunks(*ids: str) -> list[dict]:
+    return [{"chunk_id": c, "quote": "The"} for c in ids]
+
+
+def test_chunks_rank_by_targets_reaching_them_then_walk_length_then_id():
+    assert rank_chunks([{"a": 1, "b": 2}, {"b": 3, "c": 1}]) == ["b", "a", "c"]
+
+
+def test_c2_counts_a_target_found_within_k_and_one_the_build_lacks_as_a_miss():
+    placed = {
+        "Q1": [placed_target("Desk Lamp", [L1]), placed_target("switch", [S2]), placed_target("toaster", [])]
+    }
+    found = findability(A, placed)
+    assert [t.rank for t in found.targets] == [1, 2, None]
+    assert found.unplaced == 1
+    assert (found.hit_at[1].k, found.hit_at[5].k, found.hit_at[5].n) == (1, 2, 3)
+
+
+def test_c5_ranks_within_budgets_in_both_start_modes_and_leaves_out_questions_without_a_start():
+    gold = qa(
+        {"id": "Q1", "chunks": chunks(f"{LAMP}#1")},
+        {"id": "Q2", "chunks": chunks(f"{KETTLE}#0")},
+        {"id": "Q3", "route": "exact", "sql": "SELECT 1", "expected": {"number": 1}},
+    )
+    placed = {"Q1": [placed_target("sticking", [STICKING])], "Q3": [placed_target("lamp", [L1])]}
+    for mode in START_MODES:
+        reach = evidence_reach(A, gold, placed, (1, 2), mode)
+        (q1,) = reach.questions
+        assert q1.ranked == [f"{LAMP}#0", f"{LAMP}#1"]  # the lamp's other chunk is 3 steps away
+        assert q1.hits == {1: 0, 2: 1} and not q1.complete(1) and q1.complete(2)
+        assert reach.no_start == ["Q2"]
+        assert (reach.recall_at[2].k, reach.complete_at[1].k, reach.reached.k) == (1, 0, 1)
+
+
+def test_c5_end_to_end_starts_from_the_best_lookup_hit_not_from_the_gold_nodes():
+    gold = qa({"id": "Q1", "chunks": chunks(f"{KETTLE}#0")})
+    placed = {"Q1": [placed_target("switch", [S2])]}  # the kettle's switch; W1 puts the lamp's first
+    assert evidence_reach(A, gold, placed, (1,), "gold_start").questions[0].hits == {1: 1}
+    e2e = evidence_reach(A, gold, placed, (1,), "end_to_end").questions[0]
+    assert e2e.starts == [S1] and e2e.hits == {1: 0}
+
+
+def test_c7_lists_the_nodes_a_lookup_shows_above_the_hub_line():
+    found = selectivity(A, {"Q1": [placed_target("switch", [S1])]}, hub_share=0.5)
+    assert found.nodes == 2 and found.corpus == 3
+    assert [(h.node, h.chunks) for h in found.hubs] == [(S1, 2)]  # S2 reaches 1 of 3 chunks
+    assert found.median_share == pytest.approx(0.5) and found.p90_share == pytest.approx(2 / 3)
+
+
+def test_c8_reaches_the_kettle_only_through_the_unwitnessed_claim_of_arm_b():
+    gold = qa({"id": "Q1", "type": "multi_hop", "chunks": chunks(f"{KETTLE}#0")})
+    placed = {"Q1": [placed_target("sticking", [STICKING])]}
+    records = {"Q1": [K1]}
+    a, b = connectivity(A, gold, placed, records), connectivity(B, gold, placed, records)
+    assert a.questions[0].unreached == [K1, f"{KETTLE}#0"] and a.connections.k == 0
+    assert b.questions[0].unreached == [] and b.connections.k == 2
+    assert (a.unwitnessed_hops, b.unwitnessed_hops) == (0, 2)
+
+
+def test_c9_counts_the_labels_each_arm_walks_and_sums_the_logged_cost():
+    usage = {"extract.cost_usd": 0.4, "resolve.cost_usd": 0.1, "extract.prompt_tokens": 100.0}
+    a, b = size(SNAPSHOT, Arm.ANCHOR, usage), size(SNAPSHOT, Arm.LAYERED, {})
+    # records 4 + concepts 4 + mentions 6 + chunks 3 + documents 2; arm B adds the 2 claims
+    assert (a.nodes, b.nodes) == (19, 21)
+    # relations 2, MENTIONS 6, REFERS_TO 6, ABOUT 3, PART_OF 3, NEXT_CHUNK 1; arm B: 2 attachments + 3 x 2
+    assert (a.edges, b.edges) == (21, 29)
+    assert (a.cost_usd, a.tokens, b.cost_usd) == (pytest.approx(0.5), 100.0, None)
+
+
+def test_the_report_flattens_every_criterion_and_logs_no_rate_without_a_denominator():
+    gold = qa({"id": "Q1", "type": "multi_hop", "chunks": chunks(f"{LAMP}#1")})
+    report = evaluate(
+        SNAPSHOT, Arm.ANCHOR, gold, {"Q1": [placed_target("sticking", [STICKING])]}, {},
+        budgets=(5, 10), hub_share=0.2, usage={}, fidelity_passed=True,
+        provenance={"quotes": Proportion.of(3, 3), "empty": Proportion.of(0, 0)},
+    )  # fmt: skip
+    metrics = report.metrics()
+    assert metrics["c0_fidelity_passed"] == 1.0 and metrics["c1_provenance_min"] == 1.0
+    assert metrics["c2_hit_at_1"] == 1.0 and metrics["c5_gold_start_recall_at_5"] == 1.0
+    assert metrics["c8_connections"] == 1.0 and metrics["c8_unwitnessed_hops"] == 0.0
+    assert "c9_build_cost_usd" not in metrics  # no usage logged
+
+
+@pytest.mark.parametrize("arm", list(Arm))
+def test_the_stage_rebuilds_the_build_and_logs_one_run_per_arm(tmp_path, arm):
+    s, out, data = audit_build(tmp_path)
+    logged = tmp_path / "logged.json"
+    logged.write_text(
+        LoggedCounts(
+            dataset="t",
+            build="b",
+            git_sha="abc",
+            runs={},
+            counts=snapshot_counts(s),
+            usage={"x.cost_usd": 0.2},
+        ).model_dump_json(),
+        encoding="utf-8",
+    )
+    qa_file, targets_file = tmp_path / "qa.json", tmp_path / "targets.json"
+    question = {
+        "id": "Q1",
+        "chunks": chunks(f"{AUDIT_KETTLE}#0"),
+        "question": "Is the Birch Kettle lid stiff?",
+    }
+    qa_file.write_text(qa(question).model_dump_json(), encoding="utf-8")
+    kettle = Target(
+        name="Birch Kettle", records=[RecordEvidence(file="products.csv", row={"product_id": "P-2"})]
+    )
+    targets_file.write_text(
+        TargetGold(
+            dataset="t", qa_gold=qa_file.as_posix(), written_by="test", date="2026-10-06",
+            questions=[QuestionTargets(id="Q1", targets=[kettle])],
+        ).model_dump_json(),
+        encoding="utf-8",
+    )  # fmt: skip
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "anchor", tracker=tracker)
+    state = PipelineState(audit_source=out, data_dir=data, audit_logged=logged, anchor_targets=targets_file)
+    state = run_stages(ctx, state, [AnchorEvalStage(arm)])
+    run = tracker.run(f"anchor_eval_{arm.value}")
+    assert run.logged_params["arm"] == arm.value and run.logged_params["anchor_budgets"] == [5, 10]
+    assert run.logged_metrics["c0_fidelity_passed"] == 1.0
+    assert run.logged_metrics["c2_hit_at_1"] == 1.0 and run.logged_metrics["c9_build_cost_usd"] == 0.2
+    assert run.logged_metrics["c5_gold_start_recall_at_5"] == 1.0
+    assert (tmp_path / "anchor" / report_file(arm)).is_file()
+    assert state.anchor.placed["Q1"][0].nodes == ["Product:P-2"]

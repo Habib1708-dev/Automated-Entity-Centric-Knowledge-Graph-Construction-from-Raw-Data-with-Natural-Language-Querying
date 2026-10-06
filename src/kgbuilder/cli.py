@@ -19,6 +19,7 @@ from pathlib import Path
 import typer
 from pydantic import ValidationError
 
+from .anchor import Arm
 from .config import PRESETS_FILE, PRICES_FILE, Settings, read_presets, read_prices
 from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
@@ -28,6 +29,7 @@ from .llm.deepseek import DeepSeekClient
 from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
+from .pipeline import anchor_stages as ans
 from .pipeline import audit_stages as aus
 from .pipeline import qa_stages as qs
 from .pipeline import stages as st
@@ -53,6 +55,9 @@ AUDIT_DATA = typer.Option(..., help="The dataset folder the build ingested.")
 AUDIT_LOGGED = typer.Option(..., help="The build's logged counts (tests/gold/r87/<dataset>_logged.json).")
 REACH_CLAIMS = typer.Option(None, help="R68 blind claims whose (thing, chunk) pairs test reach.")
 REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims were written on.")
+# the anchor-graph evaluation (R90): the target gold of the build's dataset and the arm it walks
+ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset (tests/gold/r89/).")
+ANCHOR_ARM = typer.Option(Arm.ANCHOR, help="anchor: anchor edges only; layered: also through the claims.")
 
 
 @app.callback()
@@ -435,6 +440,26 @@ def audit_snapshot(
     for name, value in state.audit.metrics().items():
         typer.echo(f"{name:44} {value:.3f}")
     typer.echo(f"Wrote {out / aus.SNAPSHOT_FILE}, {out / aus.FIDELITY_FILE}, {out / aus.CHECKS_FILE}")
+
+
+@app.command("anchor-eval")
+def anchor_eval(
+    build: Path,
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    targets: Path = ANCHOR_TARGETS,
+    arm: Arm = ANCHOR_ARM,
+    out: Path = OUT,
+):
+    """Rebuild BUILD's graph offline (no graph, no model) and compute the anchor-graph criteria the code
+    decides alone in one ARM: fidelity, provenance, findability, evidence reach, selectivity, connectivity,
+    size and cost (R90)."""
+    state = PipelineState(audit_source=build, data_dir=data, audit_logged=logged, anchor_targets=targets)
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [ans.AnchorEvalStage(arm)])
+    for name, value in state.anchor.metrics().items():
+        typer.echo(f"{name:44} {value:.3f}")
+    typer.echo(f"Wrote {out / ans.report_file(arm)}")
 
 
 @app.command()

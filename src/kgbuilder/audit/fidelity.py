@@ -28,6 +28,9 @@ class LoggedCounts(BaseModel):
     git_sha: str
     runs: dict[str, str]  # stage -> MLflow run id
     counts: dict[str, int]
+    # `<stage>.<metric>` cost and token usage of the same runs, copied from MLflow like the counts (R90, C9);
+    # empty for a file written before R90. Not compared by the fidelity gate: usage is no graph count
+    usage: dict[str, float] = {}
 
 
 class Comparison(BaseModel):

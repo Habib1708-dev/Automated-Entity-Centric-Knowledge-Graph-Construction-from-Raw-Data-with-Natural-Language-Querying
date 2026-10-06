@@ -4267,6 +4267,70 @@ MLflow run per dataset and arm, `kg anchor-eval`, and the six runs on `out/r77d_
   - exactly the two unwitnessed joins;
   - record and mention placement, the containment tier and its fallback order.
 - **Gate (part a):** 605 passed (592 before), `ruff check` clean. No run, $0.
+- **Part b: the criteria, the stage and the runs (done 2026-10-06, $0).**
+  - `anchor/criteria.py`:
+    - **C2** `findability`: hit@1 and hit@5 of W1 on name + aliases, over every target. A target the build
+      has no node for is a miss, counted as `unplaced`.
+    - **C5** `evidence_reach`: in two start modes, `gold_start` (the placed nodes) and `end_to_end` (W1's
+      best hit per target). Chunks are ranked by the direction's rule (`rank_chunks`). Reported: micro
+      recall@5 and @10 over gold chunks, the questions with every gold chunk within the budget (the
+      per-question outcome for pairing), and unbudgeted reach.
+    - **C7** `selectivity`: W2 size as a share of the corpus for every node in W1's top 5 per target;
+      median, p90, hubs above `anchor_hub_share`.
+    - **C8** `connectivity`: the gold records and chunks of multi-hop questions reached from their starts;
+      a gold record that is itself a start does not count. Also every thing-to-thing hop of the arm and
+      how many are unwitnessed.
+    - **C9** `size`: nodes and edges per chunk by the labels each arm walks, and the build's logged cost.
+  - `anchor/report.py`: `AnchorReport` + `metrics()` (`c0_…`-`c9_…`; a rate without n logs nothing).
+  - `pipeline/anchor_stages.py`, `AnchorEvalStage(arm)`: rebuilds the snapshot, runs R87's fidelity gate
+    (C0) and provenance (C1), places the targets, and logs one MLflow run per build and arm.
+  - `kg anchor-eval BUILD --data --logged --targets --arm`.
+  - Settings `anchor_budgets` [5, 10] and `anchor_hub_share` 0.2.
+  - `LoggedCounts.usage`: the build's per-stage cost and tokens, copied from MLflow into
+    `tests/gold/r87/<dataset>_logged.json` from the same run ids as the counts (additions only).
+- **Runs** (`kg anchor-eval` on `out/r77d_*`, reports in `out/r90_<dataset>/anchor_<arm>.json`; MLflow
+  anchor/layered: furniture `29af8c28` / `772497c6`, held-out `42608645` / `9a9835a5`, generality
+  `def55168` / `73738c63`). C0 passed and C1 = 1.0 everywhere. Rates as k/n:
+
+  | | furniture A | furniture B | held-out A | held-out B | generality A | generality B |
+  |---|---|---|---|---|---|---|
+  | C2 hit@1 / hit@5 (n targets) | 70 / 77 of 86 | same | 46 / 52 of 65 | same | 41 / 45 of 62 | same |
+  | C2 unplaced targets | 2 | 2 | 11 | 11 | 15 | 15 |
+  | C5 gold start: recall@5 / @10 (gold chunks) | 41 / 56 of 61 | 41 / 55 | 28 / 30 of 36 | 28 / 31 | 36 / 40 of 51 | 36 / 45 |
+  | C5 gold start: all gold within 10 (questions) | 29/31 | 28/31 | 24/28 | 25/28 | 29/38 | 32/38 |
+  | C5 end to end: recall@5 / @10 | 28 / 40 | 29 / 42 | 24 / 26 | 25 / 28 | 28 / 33 | 33 / 44 |
+  | C5 unbudgeted reach (gold start) | 57/61 | 58/61 | 31/36 | 31/36 | 40/51 | 46/51 |
+  | C7 median / p90 share; hubs > 20 % | 0.014 / 0.071; none | same | 0.012 / 0.049; none | same | 0.031 / 0.156; HP40-1183, HP40-2291 (0.22) | same |
+  | C8 connections (multi-hop) | 13/14 | 14/14 | 16/16 | 16/16 | 7/12 | 12/12 |
+  | C8 thing hops, unwitnessed | 328, **0** | 1874, **219** | 54, **0** | 18757, **875** | 0, **0** | 607, **0** |
+  | C9 nodes / edges per chunk | 17.5 / 25.8 | 27.1 / 71.6 | 13.2 / 17.3 | 21.5 / 80.0 | 14.9 / 17.1 | 21.5 / 50.8 |
+  | C9 build cost (USD, tokens) | 0.46, 297k | same | 0.62, 377k | same | 0.23, 161k | same |
+
+  Read with care:
+  - **C2 and C7 do not depend on the arm:** W1 is the same lookup, and claim ends are always mentioned in
+    their claim's chunk, so claims add almost no chunks to the nodes a lookup shows.
+  - **The C8 hard rule holds in arm A (0 unwitnessed) and fails in arm B.** All 219 / 875 unwitnessed hops
+    come from `key_in_sentence` attachments: a thing hung on a claim because its name stands in the
+    sentence, with no mention of it in that chunk. Example: "drawer rails EXHIBITS allow the drawers to
+    slide smoothly" hung on the dresser's Drawers assembly A-1070. No claim end is ever unwitnessed.
+  - **Where B reaches more, it is generality** (C5 @10 45 vs 40; C8 12 vs 7). The text there has no
+    ABOUT anchor and the pump mentions do not link to the Pump records, so only the claim attachments
+    lead from "KV12-0457" in the Harbour Station report to `Pump:KV12-0457` (G28, G34). "Jon Pike" in
+    the minutes is an individual apart from Staff S-131 (C3's known split, G04).
+  - **Unbudgeted misses in A are mostly targets the build has no node for:** "customer service" (F10),
+    "repair", "rear-end collision", "crashed" (H29-H31), "leaking", "Hensley Field-Work Award".
+  - **Not yet done:** pairing A with B question by question (McNemar) waits for step 4, which adds arm C
+    and the comparison of reports. C3, C4 and C6 are step 5 (judge).
+- **Tests:** `tests/test_anchor.py` (+10, 23 in all):
+  - the ranking rule; C2 with an unplaced target;
+  - C5 in both modes, with the budget and a question without a start;
+  - end to end starting from W1's best hit (the lamp's switch, not the kettle's);
+  - C7 hubs, median and p90; C8 reaching the kettle only through arm B's unwitnessed claim;
+  - C9 counts and cost; the report's metrics;
+  - the stage in both arms on the audit's invented build (params, metrics, artifact).
+- **Gate (part b):** 615 passed (605 before), `ruff check` clean. Six offline runs, no LLM, no Neo4j, $0.
+  Next: step 4 of the direction, vector retrieval for C5 (arm C: question embeddings, a few cents; ask
+  first) and the paired comparison of arms.
 
 ## Found along the way
 

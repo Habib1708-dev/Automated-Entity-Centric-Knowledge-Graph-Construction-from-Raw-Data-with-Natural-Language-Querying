@@ -29,6 +29,7 @@ uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the grap
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
 uv run kg audit-snapshot BUILD --data D --logged L --out O        # graph audit: offline snapshot, fidelity, code checks (R87; no graph)
+uv run kg anchor-eval BUILD --data D --logged L --targets T --arm anchor|layered --out O  # anchor-graph criteria C0-C2, C5, C7-C9 (R90; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
@@ -245,6 +246,8 @@ src/kgbuilder/
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)
   audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
                     (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal)
+  anchor/           anchor-graph evaluation (R90): navigation (W1-W5 in two arms over the audit snapshot) ;
+                    targets (target gold on a build's nodes) -> criteria (C2, C5, C7, C8, C9) -> report
   query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
                     vector RAG, vector-only baseline)
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
