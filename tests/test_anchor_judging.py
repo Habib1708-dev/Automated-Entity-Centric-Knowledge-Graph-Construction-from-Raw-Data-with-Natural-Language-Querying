@@ -5,7 +5,9 @@ The snapshot is the lamp-and-kettle one of tests/test_anchor.py, with a second k
 Ruiz's kettle "switch" is linked to the lamp's switch (the planted cross-scope link), a kettle mention
 named after the kettle's key but left unlinked (the planted label mismatch), and two Ana Ruiz nodes in two
 documents (the planted split). The verdicts are invented to exercise each rule, not judged. The stage test
-reuses the graph audit's invented build folder (tests/test_audit.py). No Neo4j, no LLM.
+reuses the graph audit's invented build folder (tests/test_audit.py). The committed sheets of the three builds
+(tests/gold/r93) must load, match their code sides and name the committed inputs they were built from.
+No Neo4j, no LLM.
 """
 
 import json
@@ -16,6 +18,7 @@ import pytest
 from kgbuilder.anchor.judged import (
     check_evidence,
     evidence_issues,
+    item_texts,
     rates,
     rescore_identity,
     score_c3,
@@ -24,6 +27,7 @@ from kgbuilder.anchor.judged import (
 )
 from kgbuilder.anchor.navigation import Arm
 from kgbuilder.anchor.sheet_builder import build_sheets
+from kgbuilder.anchor.sheets import C3Sheet, C4Sheet, C6Sheet, CodeSide
 from kgbuilder.audit.checks import CodeChecks, Flag, SplitGroup
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.config import Settings
@@ -36,6 +40,7 @@ from kgbuilder.pipeline.anchor_stages import (
     report_file,
     sheet_file,
 )
+from kgbuilder.pipeline.inputs import digest
 from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.validation.anchor_verdicts import (
@@ -397,3 +402,33 @@ def test_the_stage_writes_no_sheet_for_a_snapshot_that_fails_the_gate(tmp_path):
     with pytest.raises(EvaluationError, match="C0 failed"):
         run_stages(ctx, state, [AnchorSheetsStage()])
     assert not (tmp_path / "sheets" / sheet_file("C3")).exists()
+
+
+# --- the committed sheets of R93 part a ------------------------------------------------------------------
+
+GOLD = Path(__file__).resolve().parent / "gold"
+SHEET_RUNS = json.loads((GOLD / "r93" / "runs.json").read_text(encoding="utf-8"))["runs"]
+SHEET_MODELS = {"c3": C3Sheet, "c4": C4Sheet, "c6": C6Sheet}
+# the direction's denominators (R93): mention-to-record links per dataset, and the C6 census
+LINKS = {"furniture": 50, "heldout": 76, "generality": 40}
+PAIRS = {"furniture": 140, "heldout": 125, "generality": 90}
+
+
+@pytest.mark.parametrize("run", SHEET_RUNS, ids=lambda r: r["dataset"])
+def test_each_committed_sheet_loads_matches_its_code_side_and_names_its_inputs(run):
+    ds, base = run["dataset"], GOLD / "r93" / run["dataset"]
+    assert {name: digest(base / name) for name in run["files"]} == run["files"]
+    assert digest(GOLD / "r87" / f"{ds}_logged.json") == run["logged_hash"]
+    assert digest(GOLD / "r90" / ds / "anchor_anchor.json") == run["anchor_report_hash"]
+    assert digest(GOLD / "r90" / ds / "anchor_layered.json") == run["layered_report_hash"]
+    assert run["git_dirty_files"] in ("", ".claude/settings.json")  # the code was exactly `git_sha`
+    ids = {}
+    for name, model in SHEET_MODELS.items():
+        sheet = model.model_validate_json((base / f"{name}_sheet.json").read_text(encoding="utf-8"))
+        code = CodeSide.model_validate_json((base / f"{name}_code.json").read_text(encoding="utf-8"))
+        assert sheet.snapshot_hash == run["snapshot_hash"] and sheet.dataset == ds
+        ids[name] = {i.id for i in code.items}
+        assert ids[name] == set(item_texts(sheet))  # every item has its code side, and only those
+    assert sum(i.startswith("l:") for i in ids["c4"]) >= LINKS[ds] and len(ids["c6"]) == PAIRS[ds]
+    c4 = CodeSide.model_validate_json((base / "c4_code.json").read_text(encoding="utf-8"))
+    assert sum(i.kind == "link" for i in c4.items) == LINKS[ds]

@@ -4531,7 +4531,23 @@ No threshold or definition of the direction document is changed except as record
     - each score and its pass rule;
     - the R75 rescoring;
     - the stage, including its refusal on a failed gate.
-  - **Gate (code):** 653 passed (634 before), `ruff check` clean. No run yet.
+  - **Gate (code):** 653 passed (634 before), `ruff check` clean. Committed at `0f6c089`.
+  - **Runs** (`kg --preset <quality|heldout|generality> anchor-sheets`, $0, no model, at `0f6c089` with only
+    `.claude/settings.json` dirty): furniture `1b750c2f`, held-out `a5968167`, generality `a7cd6f22`, in each
+    dataset's experiment. The C0 gate passed on all three.
+  - **Committed:** `tests/gold/r93/<dataset>/c{3,4,6}_{sheet,code}.json` (about 1.3 MB) and
+    `tests/gold/r93/runs.json` (run ids, commit, snapshot hash, input and file hashes). A test checks that
+    they load, that each sheet's items equal its code side, that they name the committed R87 and R90 files,
+    and that the denominators hold.
+
+    | Sheet items | furniture | held-out | generality |
+    |---|---|---|---|
+    | C3 merges / splits | 81 / 12 | 51 / 3 | 39 / 9 |
+    | C4 links / unlinked | 50 / 0 | 76 / 29 | 40 / 0 |
+    | C6 pairs (only arm B) | 140 (6) | 125 (0) | 90 (0) |
+    | flags | `cross_scope_link` 4, `fuzzy_name` 6, `scope_foreign` 6 | `label_mismatch` 29 | `same_label_about` 3 |
+
+  - **Gate (sheets):** 656 passed, `ruff check` clean. Next: part b, judging.
 
 ## Found along the way
 
