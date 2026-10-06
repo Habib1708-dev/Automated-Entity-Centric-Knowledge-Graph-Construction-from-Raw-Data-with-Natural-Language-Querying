@@ -196,11 +196,12 @@ def write_observations(driver: Driver, rows: list[ObservationRow], extractor: st
     )
 
 
-def _collect(
+def collect_rows(
     triples: list[Triple],
 ) -> tuple[dict[str, MentionRow], set[tuple[str, str]], list[ObservationRow]]:
     """The rows to write, without touching the graph: mentions by id, (chunk id, mention id) pairs, and one
-    observation per distinct claim."""
+    observation per distinct claim. Public so that the graph audit (audit/snapshot.py, R87) rebuilds the
+    subject graph from `triples.jsonl` with exactly the rows the writer wrote."""
     mentions: dict[str, MentionRow] = {}
     mentioned_in: set[tuple[str, str]] = set()
     observations: dict[str, ObservationRow] = {}
@@ -237,7 +238,7 @@ def _collect(
 
 def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -> SubjectGraphCounts:
     """MERGE mentions and observations. `extractor` (the model id) is stored on each observation."""
-    mentions, mentioned_in, rows = _collect(triples)
+    mentions, mentioned_in, rows = collect_rows(triples)
     write_mentions(driver, list(mentions.values()), mentioned_in)
     write_observations(driver, rows, extractor)
     return SubjectGraphCounts(

@@ -14,6 +14,8 @@ from typing import Protocol
 
 from neo4j import Driver
 
+from ..audit.checks import CodeChecks
+from ..audit.fidelity import FidelityReport
 from ..config import Settings
 from ..core.errors import LLMUnavailableError, MissingInputError
 from ..llm.base import Embedder, LLMClient
@@ -91,6 +93,11 @@ class PipelineState:
     frozen_plans: Path | None = None
     # the two outcome files of `kg qa-score` that `kg qa-compare` compares question by question (R73)
     outcomes: tuple[Path, Path] | None = None
+    # the graph audit (R87): the build folder it rebuilds, the build's logged counts, and the R68 claims and
+    # sentence sample whose (thing, chunk) pairs test reach
+    audit_source: Path | None = None
+    audit_logged: Path | None = None
+    reach_gold: tuple[Path, Path] | None = None
     embed: bool = True
 
     staged_dir: Path | None = None
@@ -112,6 +119,8 @@ class PipelineState:
     answer: SystemAnswer | None = None  # of `kg ask`
     qa_reports: dict[str, QAReport] = field(default_factory=dict)  # system name -> its scores
     paired: PairedReport | None = None  # of `kg qa-compare`
+    fidelity: FidelityReport | None = None  # of `kg audit-snapshot`
+    audit: CodeChecks | None = None
 
     def need(self, attribute: str, produced_by: str):
         """The value of an input like `data_dir` or `goal`, or an error naming what is missing."""

@@ -28,6 +28,7 @@ from .llm.deepseek import DeepSeekClient
 from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
+from .pipeline import audit_stages as aus
 from .pipeline import qa_stages as qs
 from .pipeline import stages as st
 from .resolution.resolver import ResolvePreview
@@ -47,6 +48,11 @@ QA_SYSTEMS = typer.Option(
 FROZEN_PLANS = typer.Option(
     None, help="Folder of an earlier kg qa run whose plans and text2cypher queries are replayed (R80)."
 )
+# the graph audit (R87): the dataset the build ingested, its logged counts, and the gold pairs of reach
+AUDIT_DATA = typer.Option(..., help="The dataset folder the build ingested.")
+AUDIT_LOGGED = typer.Option(..., help="The build's logged counts (tests/gold/r87/<dataset>_logged.json).")
+REACH_CLAIMS = typer.Option(None, help="R68 blind claims whose (thing, chunk) pairs test reach.")
+REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims were written on.")
 
 
 @app.callback()
@@ -401,6 +407,34 @@ def assertion(sheet: Path, gold: Path, verdicts: Path, out: Path = OUT):
         shown = "-" if value is None else f"{value:.3f}" if isinstance(value, float) else str(value)
         typer.echo(f"{name:30} {shown}")
     typer.echo(f"Wrote {out / st.AssertionStage.REPORT_FILE}")
+
+
+@app.command("audit-snapshot")
+def audit_snapshot(
+    build: Path,
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    reach_claims: Path | None = REACH_CLAIMS,
+    reach_sample: Path | None = REACH_SAMPLE,
+    out: Path = OUT,
+):
+    """Rebuild BUILD's graph offline (no graph, no model), check it against the build's logged counts and
+    judge sheet, and run the graph audit's code checks (R87 part a)."""
+    if (reach_claims is None) != (reach_sample is None):
+        typer.echo("error: pass both --reach-claims and --reach-sample, or neither", err=True)
+        raise typer.Exit(1)
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        audit_logged=logged,
+        reach_gold=(reach_claims, reach_sample) if reach_claims and reach_sample else None,
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [aus.AuditSnapshotStage()])
+    typer.echo(f"fidelity passed: {state.fidelity.passed}")
+    for name, value in state.audit.metrics().items():
+        typer.echo(f"{name:44} {value:.3f}")
+    typer.echo(f"Wrote {out / aus.SNAPSHOT_FILE}, {out / aus.FIDELITY_FILE}, {out / aus.CHECKS_FILE}")
 
 
 @app.command()

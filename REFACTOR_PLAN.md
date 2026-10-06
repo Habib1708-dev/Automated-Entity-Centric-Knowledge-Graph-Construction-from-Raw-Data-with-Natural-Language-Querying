@@ -4072,6 +4072,89 @@ listed; F05; H14), and in G01, G02, G22 and G28 the planner wrote such a step an
 - **Step 8 done (2026-10-06):** the failure table and the user's three additions (R83-R86) committed, R84
   and R85 measured. Next: Step 9, finishing the arm.
 
+### R87. Graph-correctness audit of the layered graph (started 2026-10-06; part a done; no rebuild, no paid run)
+Before more is built, measure whether the graph itself is right (the user, 2026-10-06): identity, claims,
+mention-to-record links, attachment, provenance and traversal, on the last full build `out/r77d_*`
+(`13ee2b6`; eval runs `c409e1a9`, `f375def2`, `9a4e74ca`). Steps 5-8 were measured by answers, and the
+graph's own scores are either unmeasured since R68 (claim precision and recall) or cannot see a wrong link:
+`path_truth` re-applies the rule that made each edge (`validation/paths.py:121-132` uses the same
+`claim_sentences` + `contains_words` as `attachment.named_in_quote`), so it is 1.0 by construction. A
+read-only look at `out/r77d_*` found 4 of 50 furniture record links on another product's part (the
+whole-domain fallback of `records.py:150`; the Malmö Desk's "drawer" on the Norrköping Nightstand's
+`Assembly:A-1021`), "drawer slides" on the record "Drawer Sides" (spelling 96), claims hung on things only
+co-named in their sentence ("seat PART_OF Stockholm Chair" on "back angle"), and 29 held-out Vehicle
+mentions named after recall keys (derivation).
+- **Decisions (the user, 2026-10-06):** no architecture change, no rebuild, no Neo4j, no pipeline LLM call;
+  QA planner, R86, agentic querying, hybrid RAG and new metadata are out of scope. The judge is **Claude Opus
+  5.5** in the session (subagents for blind batches, the lead reviewing every INCORRECT, AMBIGUOUS and
+  UNJUDGEABLE verdict and 10% of the VALID ones), with the verdict labels VALID, VALID_ALTERNATIVE,
+  INCORRECT, AMBIGUOUS, UNJUDGEABLE. The graph comes from an **offline snapshot** rebuilt from `out/` and the
+  data with the build's own pure functions, behind a fidelity gate.
+- **Metrics** (plan: definitions, denominators, thresholds): M0 snapshot fidelity; M5 provenance (code);
+  M3 mention-to-record links (code flags + judge); M1 identity, wrong merges and splits (judge); M4
+  attachment (claim-centred sample, judge); M6 traversal, missing paths (code) and false paths (M1, M3, M4
+  and the ABOUT links judged); M2 claim precision and recall on R68's scope and gold (judge, `kg rescore`).
+- **Split: seven parts, one commit each, in order.** (a) snapshot, fidelity gate and code-only checks ($0,
+  no judge); (b) audit sheets, verdict schema, scorers, the M2 converter, the rules file and the generality
+  traversal targets; (c) judge M3; (d) judge M1; (e) judge M4 and the ABOUT links, compute M6; (f) judge M2
+  and rescore; (g) results, failure classes ranked by impact, fix proposals for the user. Fixes come only
+  after (g), each its own step with a failing test first.
+- **Part a: snapshot, fidelity gate and code checks (done 2026-10-06, $0, no judge, no LLM, no Neo4j).**
+  - Structural moves first, behaviour kept: `text/subject_graph._collect` is public as `collect_rows`;
+    the pure body of `resolution/derivation.derive_facts` is `derive_rows` (with `DerivationSource`,
+    `DerivedRows`), which `derive_facts` now calls. The derivation and subject-graph tests pass unchanged.
+  - New package `audit/`: `inputs.py` (records and relationships from the staged tables under the plan,
+    the importer's rules; the 2-hop scopes; the corpus through the build's loaders and chunker),
+    `snapshot.py` (the graph rebuilt in stage order with the build's own pure functions: `collect_rows`,
+    `match_document`, `match_chunk_records`, `derive_rows`, resolve.json as REFERS_TO, `dominant_record`,
+    `attach`; things by record ref or canonical id), `fidelity.py` (M0), `scope.py`, `checks.py` (M5 and
+    the flags), `reach.py` (M6 missing paths and foreign chunks). `pipeline/audit_stages.py`
+    (`AuditSnapshotStage`, one MLflow run per build) and `kg audit-snapshot BUILD --data --logged
+    [--reach-claims --reach-sample] --out`. Logged counts of the three builds, copied from their MLflow
+    stage runs with the run ids: `tests/gold/r87/<dataset>_logged.json`.
+  - Tests: `tests/test_audit.py` (11; an invented lamp-and-kettle build with one planted cross-scope link
+    and one compound name: the importer's rules, the rebuilt links, derived claims and attachments, the
+    gate passing and failing count by count and fact by fact, each flag, a label mismatch, a quote not in
+    its chunk, reach with a chunk without claims left out, the stage's params, metrics and artifacts, a
+    folder that is no build refused). Gate: 575 passed (564 before), `ruff check` clean.
+  - **Runs** (`kg audit-snapshot`, $0): furniture `0e2399c6`, held-out `77e0f894`, generality `ad68e031`;
+    reports in `out/r87a_<dataset>/` (snapshot, fidelity, code checks).
+  - **M0 fidelity: passed on all three.** Every logged count equal (chunks 70 / 81 / 32, claims 666 / 673 /
+    212 of which derived 152 / 142 / 0, mentions 607 / 520 / 255, attachments 1207 / 3059 / 442 with every
+    route's count), the mention ids exactly resolve.json's, and fact by fact the same attachments as the
+    build's judge sheets (665 furniture facts, 165 held-out). The 665-vs-666 gap is the sheet's `flatten`
+    (a self-reference left out), not the graph. So M3-M6 can read the snapshot as the build's graph.
+  - **M5 provenance (code): 1.0 everywhere.** Every claim's chunk exists and is of its document, every
+    quote is in its chunk, every extracted claim passes `verify` again, every extracted mention's name is
+    in a chunk that MENTIONS it (extracted 514 / 531 / 212, derived 152 / 142 / 0).
+
+    | Code check | furniture | held-out | generality |
+    |---|---|---|---|
+    | record links (no scope) | 50 (0) | 76 (0) | 40 (40: no document has an anchor) |
+    | `cross_scope_link` | **4** | 0 | n/a |
+    | `label_mismatch` | 0 | **29** | 0 |
+    | `fuzzy_name` (score < 100) | 6 | 0 | 0 |
+    | `cross_scope_attachment` | **23** | 0 | n/a |
+    | `compound_name` | 75 | 137 | 39 |
+    | `key_in_sentence` edges to a non-end thing | 178 / 578 | 1908 / 2132 | 148 / 433 |
+    | individual names split over several canonicals (extra nodes) | 12 (22) | 3 (3) | 9 (9) |
+    | reach of R68 gold pairs, any pattern (P1 alone) | 31/31 (31/31) | 34/34 (34/34) | targets in part b |
+    | foreign chunks reached, P1 / P4 | 7 / 5 | 0 / 0 | n/a |
+
+  - Known answers found: the 4 cross-product links (the Malmö Desk's "drawer" and "drawers", the Linköping
+    Bed's "frame", the Jönköping Coffee Table's "center support"); the 29 Vehicle mentions named after a
+    recall key; "drawer slides" -> `Component:S-1076` "Drawer Sides" among the `fuzzy_name` flags.
+  - Real examples of the rest (flags, not verdicts): `cross_scope_attachment` "lower shelf EXHIBITS
+    sagging" (coffee table review) on the bed's `Assembly:A-1052` "Center Support"; `compound_name`
+    "drawer rails EXHIBITS uneven metal edges" on `Assembly:A-1070` "Drawers" ("drawer" inside "drawer
+    rails"); held-out `compound_name` flags are mostly recall listing sentences ("2016-2017 Nissan Maxima,
+    2013-2016 Nissan Murano, ..."), where the judge must decide whether the claim is about each vehicle.
+    Foreign chunks: `Assembly:A-1021` (the nightstand's drawer) reaches `malmo_desk_reviews.md#1` and `#5`.
+  - Reach is complete where gold exists: every R68 (thing, chunk) pair with a claim is reached, and by P1
+    alone, so the open question is false paths (parts c-e), not missing ones. The furniture split groups
+    are generic parts ("instructions" in 5 reviews); generality's are places and people (Utrecht, North
+    Station, Rosa Delgado), for the judge in part d.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)

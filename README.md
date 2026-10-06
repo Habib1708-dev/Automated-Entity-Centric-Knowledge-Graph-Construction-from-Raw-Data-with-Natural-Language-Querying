@@ -28,6 +28,7 @@ uv run kg coverage-sample tests/gold/r68/x_sample.json           # fixed random 
 uv run kg coverage-sheet tests/gold/r68/x_sample.json            # what the graph stores about each; writes out/coverage_sheet.json
 uv run kg coverage SHEET VERDICTS                                 # score the judge's coverage verdicts (no graph)
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
+uv run kg audit-snapshot BUILD --data D --logged L --out O        # graph audit: offline snapshot, fidelity, code checks (R87; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
@@ -241,6 +242,8 @@ src/kgbuilder/
                     -> assertion (truth, modality and condition against the assertion gold)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
+  audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
+                    (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal)
   query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
                     vector RAG, vector-only baseline)
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
@@ -261,6 +264,7 @@ src/kgbuilder/
 | `validate`, `eval` | `validation/` | no |
 | `coverage_sample`, `coverage_sheet`, `coverage` | `validation/sentences.py`, `validation/coverage_sheet.py`, `validation/coverage.py` | no |
 | `assertion` | `validation/assertion.py` | no |
+| `audit_snapshot` | `audit/` | no |
 | `ask`, `qa_graph`, `qa_vector` | `query/`, `validation/qa.py` | yes, the reader; every citation checked in code |
 | `qa_score` | `validation/qa.py` | no |
 | `qa_compare` | `validation/paired.py` | no |

@@ -1,0 +1,38 @@
+{
+  "dataset": "heldout",
+  "build": "out/r77d_heldout",
+  "git_sha": "13ee2b6",
+  "runs": {
+    "ingest_text": "7ee2700d704d4330a69da63c4a0f6df6",
+    "extract": "a2ece60ca9814aa0b6c9a04bd92c1362",
+    "link": "cac81abc6d2e4f449fba9d46036ccb02",
+    "resolve": "8d822850539e4d93b383a402b2fdf237",
+    "attach": "16c580c713464a1b8da6a5ab4c884174"
+  },
+  "counts": {
+    "ingest_text.chunks": 81,
+    "ingest_text.documents": 34,
+    "ingest_text.record_documents": 29,
+    "extract.facts": 531,
+    "extract.mention_nodes": 491,
+    "extract.mentions": 552,
+    "link.documents_linked": 34,
+    "link.record_documents_linked": 29,
+    "link.chunks_linked": 54,
+    "link.facts_derived": 142,
+    "link.mentions_created": 29,
+    "resolve.mentions": 520,
+    "resolve.mentions_to_records": 76,
+    "resolve.mentions_to_individuals": 184,
+    "resolve.mentions_to_concepts": 260,
+    "attach.observations_total": 673,
+    "attach.observations_attached": 673,
+    "attach.attachments": 3059,
+    "attach.attached_key_in_sentence": 2132,
+    "attach.attached_part_of": 152,
+    "attach.attached_section": 584,
+    "attach.attached_document": 191,
+    "attach.documents_about_by_text": 0,
+    "attach.documents_about_nothing": 0
+  }
+}

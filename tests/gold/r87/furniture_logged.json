@@ -1,0 +1,38 @@
+{
+  "dataset": "furniture",
+  "build": "out/r77d_furniture",
+  "git_sha": "13ee2b6",
+  "runs": {
+    "ingest_text": "7b1925a2a7a249b892b100b5c5a17376",
+    "extract": "7547a42cd6f94ab89ecad27d9935c512",
+    "link": "be12fd06407841c1ae5de648d23d9ee5",
+    "resolve": "808c4f99cc6c4a12972b1c3071d40484",
+    "attach": "47c428b6845e43a486a7dd437f378700"
+  },
+  "counts": {
+    "ingest_text.chunks": 70,
+    "ingest_text.documents": 10,
+    "ingest_text.record_documents": 0,
+    "extract.facts": 514,
+    "extract.mention_nodes": 607,
+    "extract.mentions": 731,
+    "link.documents_linked": 10,
+    "link.record_documents_linked": 0,
+    "link.chunks_linked": 0,
+    "link.facts_derived": 152,
+    "link.mentions_created": 0,
+    "resolve.mentions": 607,
+    "resolve.mentions_to_records": 50,
+    "resolve.mentions_to_individuals": 74,
+    "resolve.mentions_to_concepts": 483,
+    "attach.observations_total": 666,
+    "attach.observations_attached": 666,
+    "attach.attachments": 1207,
+    "attach.attached_key_in_sentence": 578,
+    "attach.attached_part_of": 368,
+    "attach.attached_section": 0,
+    "attach.attached_document": 261,
+    "attach.documents_about_by_text": 0,
+    "attach.documents_about_nothing": 0
+  }
+}
