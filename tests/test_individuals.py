@@ -6,6 +6,7 @@ import json
 
 import pytest
 
+from kgbuilder.core.errors import LLMResponseError
 from kgbuilder.resolution.individuals import (
     IDENTITY_PROMPT,
     SameIndividual,
@@ -148,6 +149,24 @@ def test_a_join_needs_a_yes_with_verified_quotes_and_never_puts_two_records_toge
     assert sorted(joining.groups) == [["a", "b"], ["c"], ["e"]]
     [joined] = [d for d in joining.decisions if d.action == "joined"]
     assert joined.by == "judge-model" and joined.evidence.startswith("A: Jonathan Pike leads")
+
+
+def test_a_failed_adjudication_keeps_its_pair_apart_and_never_fails_the_others():
+    """R100: the provider kept failing (or its reply did not parse) for one pair: that pair is logged as
+    `failed` and stays apart, the other pairs are decided as usual, and nothing is raised."""
+
+    def adjudicate(a: Unit, b: Unit) -> SameIndividual:
+        if {a.id, b.id} == {"b", "c"}:
+            raise LLMResponseError("judge-model failed 3 times for SameIndividual")
+        return SameIndividual(
+            same=True, quote_a="Jonathan Pike leads the Soil Ecology group.", quote_b="Jon Pike (chair)"
+        )
+
+    pairs = [(PIKE, JON, "variant"), (JON, JUDITH, "variant")]
+    joining = join([PIKE, JON, JUDITH], pairs, adjudicate, TEXTS, "judge-model")
+    actions = {(d.a, d.b): (d.action, d.by) for d in joining.decisions}
+    assert actions == {("a", "b"): ("joined", "judge-model"), ("b", "c"): ("failed", "judge-model")}
+    assert sorted(joining.groups) == [["a", "b"], ["c"]]
 
 
 def test_without_an_adjudicator_nominated_pairs_stay_apart():

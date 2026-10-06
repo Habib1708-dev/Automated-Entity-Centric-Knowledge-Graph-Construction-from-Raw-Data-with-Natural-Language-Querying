@@ -17,6 +17,7 @@ A join by a record's key attribute in the sentence ("Dr. J. Pike (Soil Ecology)"
 Not here: records (records.py), concepts (concepts.py), writing the outcome (identity.py, identity_graph.py).
 """
 
+import logging
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
@@ -24,6 +25,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from ..core.errors import LLMResponseError
 from ..core.similarity import name_similarity
 from ..core.text import norm
 from ..llm.base import Embedder, LLMClient
@@ -32,6 +34,8 @@ from .matchers import EmbeddingMatcher, EntityRecord, Matcher
 from .mentions import MentionText
 from .resolver import MentionRow, mention_lines
 from .variants import compatible
+
+log = logging.getLogger(__name__)
 
 _WORKERS = 8  # independent LLM calls, as in concept resolution
 
@@ -76,7 +80,9 @@ class Unit(BaseModel):
 
 
 Signal = Literal["variant", "spelling", "meaning"]
-Action = Literal["joined", "apart", "quote_not_verified", "different_records", "skipped"]
+# `failed`: the adjudication was asked but the provider kept failing or its reply did not parse (R100); the
+# pair stays apart, as for any pair without evidence
+Action = Literal["joined", "apart", "quote_not_verified", "different_records", "skipped", "failed"]
 
 
 class IndividualDecision(BaseModel):
@@ -170,15 +176,18 @@ def join(
     model: str,
 ) -> Joining:
     """Decide the nominated `pairs` and group the units. Adjudications run in parallel; unions are applied
-    in the pairs' order, each refused when it would put two different records in one group."""
+    in the pairs' order, each refused when it would put two different records in one group. A failed
+    adjudication keeps its pair apart (`failed`); nothing here raises for one."""
     replies: list[SameIndividual | None] = [None] * len(pairs)
+    asked: set[int] = set()
     if adjudicate is not None:
         # two records are never one thing, so they are not asked about
         askable = [i for i, (a, b, _) in enumerate(pairs) if not (a.record and b.record)]
         with ThreadPoolExecutor(max_workers=_WORKERS) as pool:
-            answers = pool.map(lambda i: adjudicate(pairs[i][0], pairs[i][1]), askable)
+            answers = pool.map(lambda i: _ask(adjudicate, pairs[i][0], pairs[i][1]), askable)
             for i, reply in zip(askable, answers, strict=True):
                 replies[i] = reply
+        asked = set(askable)
     parent = {u.id: u.id for u in units}
     record = {u.id: u.record for u in units}
 
@@ -189,8 +198,8 @@ def join(
         return x
 
     decisions = []
-    for (a, b, signal), reply in zip(pairs, replies, strict=True):
-        action, evidence = _decide(a, b, reply, texts)
+    for i, ((a, b, signal), reply) in enumerate(zip(pairs, replies, strict=True)):
+        action, evidence = _decide(a, b, reply, texts, i in asked)
         ra, rb = find(a.id), find(b.id)
         if action == "joined" and ra != rb:
             if record[ra] and record[rb] and record[ra] != record[rb]:
@@ -208,7 +217,7 @@ def join(
                 signal=signal,
                 action=action,
                 evidence=evidence,
-                by=model if reply is not None else "code",
+                by=model if i in asked else "code",
             )  # fmt: skip
         )
     groups: dict[str, list[str]] = {}
@@ -217,13 +226,22 @@ def join(
     return Joining(groups=list(groups.values()), decisions=decisions)
 
 
+def _ask(adjudicate: Adjudicate, a: Unit, b: Unit) -> SameIndividual | None:
+    """One adjudication; None when the provider kept failing or its reply did not fit the schema."""
+    try:
+        return adjudicate(a, b)
+    except LLMResponseError as e:  # one failed pair is kept apart and logged, never a failed stage
+        log.warning("adjudication of %r / %r failed: %s", display_name(a), display_name(b), e)
+        return None
+
+
 def _decide(
-    a: Unit, b: Unit, reply: SameIndividual | None, texts: dict[str, list[str]]
+    a: Unit, b: Unit, reply: SameIndividual | None, texts: dict[str, list[str]], asked: bool
 ) -> tuple[Action, str]:
     if a.record and b.record:  # two records are two things: their keys differ
         return "different_records", ""
-    if reply is None:
-        return "skipped", ""
+    if reply is None:  # asked without an answer, or no adjudicator at all
+        return ("failed" if asked else "skipped"), ""
     if not reply.same:
         return "apart", ""
     if not verified(reply, a, b, texts):

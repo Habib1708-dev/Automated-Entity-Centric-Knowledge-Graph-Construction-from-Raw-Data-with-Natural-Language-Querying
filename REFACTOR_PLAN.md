@@ -5430,6 +5430,25 @@ nothing", R94), so the chooser is never asked. On generality, where no document 
     fixed furniture only). Not caused by R97-R99; recorded under "Found along the way" for its own step.
 - **Gate (results):** 736 passed (732 before), `ruff check` clean. **R99 done 2026-10-06.** Next: R100.
 
+### R100. Evidence-based individual adjudication that may abstain (started 2026-10-06)
+The adjudicator of individuals (`individuals.llm_adjudicator`) sees at most three lines per side, each the
+first sentence naming it (`resolver.mention_lines`), often a heading; the sentence that holds the evidence
+usually does not name the thing, `verified` wants each quote to name its side, record units show no cells, and
+there is no "unsure". All nine generality split groups were nominated and answered apart (R93).
+- **Split: two commits.**
+  - (1) **A bug, its failing test first:** an `LLMResponseError` in one adjudication escaped `join` and failed
+    the whole resolve stage (and the replay). It becomes action `failed`, logged, the pair kept apart.
+  - (2) **The design:** per side the sentences naming it with one sentence of window each way, capped; a
+    record unit's cells; the records both sides' chunks name besides their own; answers `same` / `different`
+    / `unsure`; a quote must be one of that side's shown lines. Measured by a paid replay (asked).
+- **Commit 1 (done 2026-10-06, $0):** `individuals.join` asks through `_ask`, which logs a failed call
+  (`LLMResponseError`: the provider kept failing or the reply did not parse) and answers None; `_decide` tells
+  a pair asked without an answer (`failed`, `by` the model) from one never asked (`skipped`, `by` code).
+  `Action` gains `failed`; the resolve stage's `individual_<action>` metrics follow `Action`
+  (`_INDIVIDUAL_ACTIONS = get_args(individuals.Action)`), so `individual_failed` is logged. The test came
+  first and failed with the escaping error: `test_a_failed_adjudication_keeps_its_pair_apart_and_never_fails_the_others`.
+  Gate: 737 passed (736 before), `ruff check` clean.
+
 ## Found along the way
 - **Held-out's C3 hard rule fails since R93 (found again in R99, 2026-10-06; open, the user's choice).** One
   record link is judged INCORRECT: "2017-2022 Rogue Sport" -> `Vehicle:ROGUE` (R93's cause 4: a sibling model

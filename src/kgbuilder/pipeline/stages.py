@@ -138,7 +138,7 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
 
 
 _LINK_REASONS = get_args(LinkReason)  # one metric per reason a record link can have
-_INDIVIDUAL_ACTIONS = ("joined", "apart", "quote_not_verified", "different_records", "skipped")
+_INDIVIDUAL_ACTIONS = get_args(individuals.Action)
 _CHOICE_ACTIONS = get_args(record_choice.ChoiceAction)
 _GUARDS = ("opposed_polarity", "same_sentence", "part_and_whole", "compound_name")
 
