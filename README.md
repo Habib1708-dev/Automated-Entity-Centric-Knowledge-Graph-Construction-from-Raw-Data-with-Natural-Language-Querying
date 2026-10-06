@@ -243,7 +243,7 @@ src/kgbuilder/
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
   resolution/       linking (ABOUT) -> derivation ; identity: mentions -> records ->
-                    individuals (variants) / concepts (matchers, blocking, guards: Strategies -> resolver
+                    individuals (variants, identity_evidence: what the adjudicator is shown) / concepts (matchers, blocking, guards: Strategies -> resolver
                     decisions) -> identity_graph (the edges) ; attachment (HAS_OBSERVATION, after identity)
   validation/       checks/ (Strategy families), validator, gold (gold file), evaluate (exact-match scoring), judge (LLM-as-a-judge sheet and scoring)
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)

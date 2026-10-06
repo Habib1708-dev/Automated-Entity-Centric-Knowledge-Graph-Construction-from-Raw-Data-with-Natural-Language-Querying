@@ -41,7 +41,7 @@ from ..resolution.particulars import (
 from ..resolution.records import RecordCandidate, RecordLink, RecordMatch
 from ..text.schema import TextSchema
 from .inputs import Record
-from .relink import MATCH_REASONS
+from .relink import MATCH_REASONS, snapshot_views
 from .snapshot import GraphSnapshot
 
 
@@ -136,10 +136,12 @@ def reidentify(
     llm: LLMClient | None,
     settings: JoinSettings,
 ) -> Particulars:
-    """The particulars of `s` decided again: `assign_particulars` on the snapshot's mentions and chunks."""
+    """The particulars of `s` decided again: `assign_particulars` on the snapshot's mentions and chunks,
+    with the records' data as the graph read gives it (`relink.snapshot_views`)."""
     keyed, individual = particular_mentions(s, schema)
     texts = mention_texts(s, {m.id for m in (*keyed, *individual)})
-    return assign_particulars(keyed, individual, matches, texts, meaning, llm, settings)
+    views = snapshot_views(s) if llm is not None else {}
+    return assign_particulars(keyed, individual, matches, texts, meaning, llm, settings, views)
 
 
 def unfaithful(built: BuiltIdentity, replay: Particulars) -> list[str]:

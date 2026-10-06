@@ -8,9 +8,11 @@ gives evidence for it. So a pair is first nominated, then decided:
   - nominated by a name variant (variants.py: "J. Pike" and "Jonathan Pike"), by spelling (the resolver's
     fuzzy score) or by meaning (the concepts' blocking rule over name embeddings, `meaning_pairs`, computed
     apart so an offline replay can give a build's logged pairs instead, audit/reidentify.py);
-  - joined only on an LLM adjudication that answers "the same" AND quotes one sentence of each side, which
-    code finds in that side's own chunks and which names that side; a "same" without such quotes is
-    refused (`quote_not_verified`), so a missed join is preferred to a wrong one;
+  - joined only on an LLM adjudication that answers "same" AND quotes one line of each side, which code
+    finds among the lines that side was shown (identity_evidence.py, R100: every sentence naming it with its
+    neighbours, a record unit's data, the records both sides name); a "same" without such quotes is refused
+    (`quote_not_verified`), "different" and "unsure" keep the pair apart, and a pair one of whose sides no
+    sentence names is not asked (`no_sentence`), so a missed join is preferred to a wrong one;
   - never joined when the two would hold two different records (`different_records`): a conflicting key.
 A join by a record's key attribute in the sentence ("Dr. J. Pike (Soil Ecology)") is a record link
 (records.py, rule 5), so it reaches this module as a member of the record's unit.
@@ -18,6 +20,7 @@ Not here: records (records.py), concepts (concepts.py), writing the outcome (ide
 """
 
 import logging
+import re
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
@@ -30,42 +33,58 @@ from ..core.similarity import name_similarity
 from ..core.text import norm
 from ..llm.base import Embedder, LLMClient
 from .blocking import Blocking, PairKey
+from .identity_evidence import EvidenceLine, IdentityEvidence
 from .matchers import EmbeddingMatcher, EntityRecord, Matcher
-from .mentions import MentionText
-from .resolver import MentionRow, mention_lines
+from .record_choice import CandidateView
 from .variants import compatible
 
 log = logging.getLogger(__name__)
 
 _WORKERS = 8  # independent LLM calls, as in concept resolution
 
-# The adjudication of two individuals. Rule by rule: "particular" and "two may share a name" because the
-# same name is the commonest false evidence (two people called alike in two documents); the evidence list
-# is generic (a role, a place, an organisation, a date or event), never a domain's; the quotes are what code
-# checks, so the model is asked to copy them verbatim from the lines shown, one per side; "leave empty" lets
-# the model refuse without inventing a quote. The examples of kinds of individuals are structural.
+# The adjudication of two individuals (R100; R75's prompt showed three first sentences per side).
+# Rule by rule:
+#   - "particular" and "may share a name": the same name is the commonest false evidence;
+#   - the lines: every sentence naming a side with its neighbours, "*" on those that name it, because the
+#     evidence (a role, a date, an event) often stands next to the name: R93's nine generality splits were
+#     all answered apart on headings and first mentions;
+#   - "a similar name ... naming the same record or place is not enough": two different people can belong to
+#     one organisation; the records both sides name are shown as context only;
+#   - "different" and "unsure": the model may say the lines do not settle it; both keep the pair apart, and
+#     code counts them apart, so a reader sees how often the evidence is missing rather than contrary;
+#   - the quotes are what code checks: one line per side, from that side's own lines; empty otherwise.
+# The examples are an invented observatory, never evaluated data.
 IDENTITY_PROMPT = """Are A and B, both of type {etype}, the same particular person, organisation, place or
-object? They are named in the sentences below, often in different documents. Two different individuals may
-share a name, and one individual may be written in several ways.
-Answer same only when the sentences give evidence that A and B are one: the same role, place, organisation,
-date or event, not a similar name alone. Then copy one sentence from A's lines into quote_a and one from B's
-lines into quote_b, verbatim, that show it. Otherwise answer not the same and leave both quotes empty.
+object? Two different ones may share a name, and one may be written in several ways.
+
+Answer "same" only when the lines show that A and B are one: the same role, position, place, organisation,
+date or event is stated for both. A similar name is not enough, and neither is naming the same record or
+place: two different people can belong to one organisation. Answer "different" when the lines show two
+different ones (a role, a place or a time that cannot hold for both). Answer "unsure" when the lines do not
+settle it.
+For example, "E. Varga (dome technician)" and "Edit Varga, who services the dome" can be "same"; two
+"E. Varga" whose lines only both mention the observatory are "unsure".
+If you answer "same", copy one of A's lines into quote_a and one of B's lines into quote_b, verbatim: the
+lines that show it. Otherwise leave both quotes empty.
 
 A: {a}
-Where A is named ([document] sentence):
-{ctx_a}
+{record_a}Lines that name A, with their neighbours ([document] sentence; "*" marks a line that names A):
+{lines_a}
 
 B: {b}
-Where B is named ([document] sentence):
-{ctx_b}"""
+{record_b}Lines that name B, with their neighbours ([document] sentence; "*" marks a line that names B):
+{lines_b}
+
+Records the texts of both A and B also name:
+{shared}"""
 
 
 class SameIndividual(BaseModel):
-    """The LLM's response schema for one adjudication; the quotes are checked by code."""
+    """The LLM's response schema for one adjudication; code checks the quotes and joins only on "same"."""
 
-    same: bool
-    quote_a: str = Field(default="", description="a sentence from A's lines, copied verbatim, or empty")
-    quote_b: str = Field(default="", description="a sentence from B's lines, copied verbatim, or empty")
+    answer: Literal["same", "different", "unsure"]
+    quote_a: str = Field(default="", description="one of A's lines, copied verbatim, or empty")
+    quote_b: str = Field(default="", description="one of B's lines, copied verbatim, or empty")
 
 
 class Unit(BaseModel):
@@ -80,9 +99,20 @@ class Unit(BaseModel):
 
 
 Signal = Literal["variant", "spelling", "meaning"]
-# `failed`: the adjudication was asked but the provider kept failing or its reply did not parse (R100); the
-# pair stays apart, as for any pair without evidence
-Action = Literal["joined", "apart", "quote_not_verified", "different_records", "skipped", "failed"]
+# What became of a nominated pair. `apart`: the model answered "different"; `unsure`: the lines did not
+# settle it (R100); both keep the pair apart, counted separately so a reader sees how often evidence is
+# missing. `no_sentence`: a side has no line naming it, so no quote could be checked: not asked (R100).
+# `failed`: asked, but the provider kept failing or its reply did not parse (R100).
+Action = Literal[
+    "joined",
+    "apart",
+    "unsure",
+    "quote_not_verified",
+    "different_records",
+    "no_sentence",
+    "skipped",
+    "failed",
+]
 
 
 class IndividualDecision(BaseModel):
@@ -153,36 +183,47 @@ def display_name(unit: Unit) -> str:
     return min(unit.names, key=lambda n: (-len(n.split()), -len(n), n))
 
 
-def verified(reply: SameIndividual, a: Unit, b: Unit, texts: dict[str, list[str]]) -> bool:
-    """True when each quote is in a chunk of its own side and names that side (`texts`: unit id -> the
-    texts of its chunks). A quote from the other side, or one that names neither, shows nothing."""
+# A quote copied with its line's "[document]" prefix or a list marker is the same line
+_LINE_PREFIX = re.compile(r"^\s*[-*]?\s*(\[[^\]]*\]\s*)?\*?\s*")
 
-    def holds(quote: str, unit: Unit) -> bool:
-        q = norm(quote)
+
+def verified(reply: SameIndividual, a_lines: list[EvidenceLine], b_lines: list[EvidenceLine]) -> bool:
+    """True when each quote stands verbatim (after `norm`) in one of the lines shown for its own side, and
+    each side was shown a line naming it. The quote need not name its side: the evidence (a role, an event)
+    often stands in the sentence next to the name, which is why the neighbours are shown. A quote from the
+    other side, or from outside the lines shown, shows nothing."""
+
+    def holds(quote: str, lines: list[EvidenceLine]) -> bool:
+        q = norm(_LINE_PREFIX.sub("", quote))
         return (
             bool(q)
-            and any(q in norm(t) for t in texts.get(unit.id, []))
-            and any(norm(n) in q for n in unit.names)
+            and any(line.names_it for line in lines)
+            and any(q in norm(line.sentence) for line in lines)
         )
 
-    return holds(reply.quote_a, a) and holds(reply.quote_b, b)
+    return holds(reply.quote_a, a_lines) and holds(reply.quote_b, b_lines)
 
 
 def join(
     units: list[Unit],
     pairs: list[tuple[Unit, Unit, Signal]],
     adjudicate: Adjudicate | None,
-    texts: dict[str, list[str]],
+    shown: dict[str, list[EvidenceLine]],
     model: str,
 ) -> Joining:
-    """Decide the nominated `pairs` and group the units. Adjudications run in parallel; unions are applied
-    in the pairs' order, each refused when it would put two different records in one group. A failed
-    adjudication keeps its pair apart (`failed`); nothing here raises for one."""
+    """Decide the nominated `pairs` and group the units; `shown` is the lines each unit is shown with (unit
+    id -> lines), which quotes are checked against. Adjudications run in parallel; unions are applied in the
+    pairs' order, each refused when it would put two different records in one group. A failed adjudication
+    keeps its pair apart (`failed`); nothing here raises for one."""
     replies: list[SameIndividual | None] = [None] * len(pairs)
     asked: set[int] = set()
     if adjudicate is not None:
-        # two records are never one thing, so they are not asked about
-        askable = [i for i, (a, b, _) in enumerate(pairs) if not (a.record and b.record)]
+        # two records are never one thing, and a side no line names has nothing to quote: neither is asked
+        askable = [
+            i
+            for i, (a, b, _) in enumerate(pairs)
+            if not (a.record and b.record) and _named(shown, a) and _named(shown, b)
+        ]
         with ThreadPoolExecutor(max_workers=_WORKERS) as pool:
             answers = pool.map(lambda i: _ask(adjudicate, pairs[i][0], pairs[i][1]), askable)
             for i, reply in zip(askable, answers, strict=True):
@@ -199,7 +240,7 @@ def join(
 
     decisions = []
     for i, ((a, b, signal), reply) in enumerate(zip(pairs, replies, strict=True)):
-        action, evidence = _decide(a, b, reply, texts, i in asked)
+        action, evidence = _decide(a, b, reply, shown, i in asked)
         ra, rb = find(a.id), find(b.id)
         if action == "joined" and ra != rb:
             if record[ra] and record[rb] and record[ra] != record[rb]:
@@ -235,44 +276,63 @@ def _ask(adjudicate: Adjudicate, a: Unit, b: Unit) -> SameIndividual | None:
         return None
 
 
+def _named(shown: dict[str, list[EvidenceLine]], unit: Unit) -> bool:
+    return any(line.names_it for line in shown.get(unit.id, []))
+
+
 def _decide(
-    a: Unit, b: Unit, reply: SameIndividual | None, texts: dict[str, list[str]], asked: bool
+    a: Unit, b: Unit, reply: SameIndividual | None, shown: dict[str, list[EvidenceLine]], asked: bool
 ) -> tuple[Action, str]:
     if a.record and b.record:  # two records are two things: their keys differ
         return "different_records", ""
+    if not (_named(shown, a) and _named(shown, b)):
+        return "no_sentence", ""
     if reply is None:  # asked without an answer, or no adjudicator at all
         return ("failed" if asked else "skipped"), ""
-    if not reply.same:
-        return "apart", ""
-    if not verified(reply, a, b, texts):
+    if reply.answer != "same":
+        return ("unsure" if reply.answer == "unsure" else "apart"), ""
+    if not verified(reply, shown[a.id], shown[b.id]):
         return "quote_not_verified", ""
     return "joined", f"A: {reply.quote_a.strip()} | B: {reply.quote_b.strip()}"
 
 
-def llm_adjudicator(llm: LLMClient, model: str, rows: list[MentionText], units: list[Unit]) -> Adjudicate:
-    """An adjudicator that shows the LLM both units' names with up to three "[document] sentence" lines
-    each, the sentences that name them (resolver.mention_lines)."""
-    owner = {m: u.id for u in units for m in u.mentions}
-    names = {u.id: u.names for u in units}
-    context = mention_lines(
-        [
-            MentionRow(
-                entity=owner[r.mention], names=names[owner[r.mention]], document=r.document, text=r.text
-            )
-            for r in rows
-        ]
-    )
+def llm_adjudicator(llm: LLMClient, model: str, evidence: IdentityEvidence) -> Adjudicate:
+    """An adjudicator that shows the LLM both units' names, a record unit's data, each side's lines (every
+    sentence naming it with its neighbours) and the records both sides' texts name (identity_evidence.py)."""
 
-    def render(unit: Unit) -> str:
-        return "\n".join(f"- {line}" for line in context.get(unit.id, [])) or "- (no sentence names it)"
+    def render_side(unit: Unit) -> tuple[str, str]:
+        side = evidence.sides[unit.id]
+        record = f"{unit.record} in the data: {_data(side.view)}\n" if side.record and side.view else ""
+        lines = "\n".join(
+            f"- {'*' if line.names_it else ' '} [{line.document}] {line.sentence}" for line in side.lines
+        )
+        return record, lines or "- (no sentence names it)"
 
     def adjudicate(a: Unit, b: Unit) -> SameIndividual:
+        (record_a, lines_a), (record_b, lines_b) = render_side(a), render_side(b)
+        shared = [f"- {ref}: {_data(evidence.views.get(ref))}" for ref in evidence.shared(a, b)]
         prompt = IDENTITY_PROMPT.format(
-            etype=a.type, a=display_name(a), b=display_name(b), ctx_a=render(a), ctx_b=render(b)
+            etype=a.type,
+            a=display_name(a),
+            b=display_name(b),
+            record_a=record_a,
+            record_b=record_b,
+            lines_a=lines_a,
+            lines_b=lines_b,
+            shared="\n".join(shared) or "- (none)",
         )
         return llm.generate(prompt, SameIndividual, model=model)
 
     return adjudicate
+
+
+def _data(view: CandidateView | None) -> str:
+    """A record's cells and one-hop relations as one line, as the record chooser shows them."""
+    if view is None:
+        return "(nothing)"
+    cells = "; ".join(f"{k} = {v}" for k, v in sorted(view.cells.items())) or "(none)"
+    relations = "; ".join(view.relations) or "(none)"
+    return f"{cells}; relations: {relations}"
 
 
 def embedding_for(

@@ -526,8 +526,8 @@ def _quotes(prompt: str, schema):
     a, b = (re.search(rf"^{side}: (.+)$", prompt, re.MULTILINE).group(1) for side in "AB")
     sentence = {name: s for name, s, _ in PERSON.values()}
     if {a, b} != set(sentence):
-        return SameIndividual(same=False)
-    return SameIndividual(same=True, quote_a=sentence[a], quote_b=sentence[b])
+        return SameIndividual(answer="different")
+    return SameIndividual(answer="same", quote_a=sentence[a], quote_b=sentence[b])
 
 
 def _with_person(tmp_path: Path, joined: bool = True) -> tuple[Path, Path, list[str]]:
@@ -622,7 +622,7 @@ def test_the_faithful_replay_refuses_a_build_it_does_not_reproduce(tmp_path):
 
 def test_the_measured_replay_explains_a_join_it_undoes_and_writes_its_decisions(tmp_path):
     out, data, (founder, other) = _with_person(tmp_path)
-    apart = ScriptedLLM(lambda prompt, schema: SameIndividual(same=False))
+    apart = ScriptedLLM(lambda prompt, schema: SameIndividual(answer="different"))
     tracker, folder = _join_stage(tmp_path, out, data, apart, faithful=False)
     run = tracker.run("audit_relink")
     # R94's change of the lamp's "lid" keeps its own cause; the person's second mention is unjoined

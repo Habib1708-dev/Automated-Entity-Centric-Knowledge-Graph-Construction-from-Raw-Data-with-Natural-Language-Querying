@@ -219,19 +219,7 @@ class _Replay:
             if link.how != TEXT_ABOUT:
                 self._anchors[link.source].append(link.thing)
         self._chunks = {c.chunk_id: c for c in s.chunks}
-        self._by_id = {r.id: r for r in s.records}
-        self._relations: dict[str, list[str]] = defaultdict(list)
-        for rel in s.relations:  # each relation seen from both ends, as `read_candidate_views` reads it
-            self._relations[rel.source].append(
-                relation_line(rel.type, True, rel.target, self._name(rel.target))
-            )
-            self._relations[rel.target].append(
-                relation_line(rel.type, False, rel.source, self._name(rel.source))
-            )
-
-    def _name(self, ref: str) -> str:
-        record = self._by_id[ref]
-        return record.name or record.key
+        self._views = snapshot_views(s)
 
     def scope(self, doc_id: str) -> set[str] | None:
         """The records a document's mentions may link to; None when it is about nothing (no scope)."""
@@ -272,9 +260,8 @@ class _Replay:
         )
 
     def view(self, ref: str) -> CandidateView:
-        """`record_choice.read_candidate_views` over the snapshot: the record's plan properties and sorted
-        one-hop relations."""
-        return CandidateView(cells=dict(self._by_id[ref].properties), relations=sorted(self._relations[ref]))
+        """`record_choice.read_candidate_views` over the snapshot (`snapshot_views`)."""
+        return self._views[ref]
 
     def _candidate(self, r: Record, wanted: set[str]) -> RecordCandidate:
         """`records.read_records`: the key column is an attribute too; a missing value stays out."""
@@ -284,6 +271,23 @@ class _Replay:
             element_id=r.id, label=r.label, name=r.name or r.key, key=r.key,
             attributes={a: v for a, v in attributes.items() if v},
         )  # fmt: skip
+
+
+def snapshot_views(s: GraphSnapshot) -> dict[str, CandidateView]:
+    """Record ref -> `record_choice.read_candidate_views` over the snapshot: the record's plan properties
+    and its sorted one-hop relations, each relation seen from both ends, as the graph read sees it."""
+    by_id = {r.id: r for r in s.records}
+
+    def name(ref: str) -> str:
+        return by_id[ref].name or by_id[ref].key
+
+    relations: dict[str, list[str]] = defaultdict(list)
+    for rel in s.relations:
+        relations[rel.source].append(relation_line(rel.type, True, rel.target, name(rel.target)))
+        relations[rel.target].append(relation_line(rel.type, False, rel.source, name(rel.source)))
+    return {
+        r.id: CandidateView(cells=dict(r.properties), relations=sorted(relations[r.id])) for r in s.records
+    }
 
 
 # Counts a build logs that rest on identity: the resolve stage's, and the attach stage's, which hangs claims

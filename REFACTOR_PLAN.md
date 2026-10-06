@@ -5448,8 +5448,46 @@ there is no "unsure". All nine generality split groups were nominated and answer
   (`_INDIVIDUAL_ACTIONS = get_args(individuals.Action)`), so `individual_failed` is logged. The test came
   first and failed with the escaping error: `test_a_failed_adjudication_keeps_its_pair_apart_and_never_fails_the_others`.
   Gate: 737 passed (736 before), `ruff check` clean.
+  Committed at `89b6264`.
+- **Commit 2 (code done 2026-10-06, $0):**
+  - **New `resolution/identity_evidence.py`** (pure): `side_lines` (every sentence of a side's chunks that
+    names it, with the sentence before and after in the same chunk, each line once, at most 4 naming
+    sentences, a sentence cut at 400 characters; each line marked whether it names the side);
+    `build_evidence` (per unit its lines, its record and the record's data; per unit the records its chunks
+    name, from the keyed mentions' links); `IdentityEvidence.shared` (the records both sides' chunks name,
+    besides their own, at most 5).
+  - **`individuals.py`:** `IDENTITY_PROMPT` (version `3793a4eaa358` -> new, logged as
+    `individual_prompt_version`): the lines with "*" on those naming the side, a record unit's data, the
+    shared records as context; "same" only when the lines state the same role, position, place, organisation,
+    date or event for both; a similar name or a shared record or place is not enough; answers `same` /
+    `different` / `unsure`; quotes one line per side; examples from an invented observatory.
+    `SameIndividual.answer` replaces `same`. `verified`: each quote stands verbatim in one of the lines shown
+    for its own side (a copied "[document]" prefix ignored) and each side shows a line naming it; the quote
+    need not name its side. `join` takes the shown lines; a pair whose side has no naming line is not asked
+    (`no_sentence`, before: asked and always refused); `different` -> `apart`, `unsure` -> `unsure`, both apart.
+    `Action` adds `unsure` and `no_sentence` (resolve metrics follow `Action`).
+  - **Wiring:** `assign_particulars(..., views)` builds the evidence; `resolve_particulars` reads the linked
+    records' data (`read_candidate_views`, only when an LLM is asked); the replay gives the snapshot's
+    (`relink.snapshot_views`, moved out of `_Replay.view`, behaviour kept).
+  - **No second pass** (asking again with the evidence of an earlier pass's joins): to "Found along the way"
+    until a replayed pair needs it.
+  - **Tests** (`tests/test_individuals.py`, 21 -> 26): the lines of a side (window, heading two away not
+    shown, cap); the evidence (a record unit's data, the shared record, the prompt's rendering); evidence only
+    in the neighbouring sentence joins; a quote counts only among its own side's shown lines (a sentence of
+    the chunk outside the window refused; a copied "[document]" prefix accepted); `unsure` and `different`
+    keep the pair apart, counted apart; a side no sentence names is not asked; the corpus-language test passes
+    on the new prompt and schema (no evaluated-corpus word, no shared four-gram). The scripted adjudicators of
+    `test_identity.py` and `test_audit.py` answer with `answer` instead of `same` (no assertion changed).
+  - README module map. Gate: 742 passed, `ruff check` clean.
+  - **Size of the measurement, counted without sending anything** (the R99 replay's record decisions, every
+    chooser prompt a cache hit): 76 / 143 / 171 adjudications, all new (the prompt changed), about 1.0M
+    prompt characters (~250k input tokens): about $0.06 furniture, $0.15 held-out, $0.13 generality.
 
 ## Found along the way
+- **A second adjudication pass for individuals (R100, 2026-10-06; open until a replayed pair needs it).** A
+  pair is decided once, from its own lines. A join made in the pass could bring a side new evidence (the
+  other mentions of the group it joined); asking again with it is not built until a replay shows a pair that
+  needs it.
 - **Held-out's C3 hard rule fails since R93 (found again in R99, 2026-10-06; open, the user's choice).** One
   record link is judged INCORRECT: "2017-2022 Rogue Sport" -> `Vehicle:ROGUE` (R93's cause 4: a sibling model
   linked to the base model by key; the recall text names the Rogue Sport as a separate model). A wrong record

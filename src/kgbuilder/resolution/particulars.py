@@ -25,6 +25,7 @@ from ..llm.base import Embedder, LLMClient
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
 from .blocking import Blocking, PairKey
+from .identity_evidence import build_evidence
 from .identity_graph import Assignment
 from .individuals import (
     IndividualDecision,
@@ -38,6 +39,7 @@ from .individuals import (
 )
 from .mentions import MentionRecord, MentionText, read_mention_texts
 from .record_choice import (
+    CandidateView,
     ChoiceDecision,
     ChoiceRequest,
     choice_lines,
@@ -113,8 +115,21 @@ def resolve_particulars(
         lambda units: meaning_pairs(units, embedding_for(units, embedder, blocking), blocking),
         llm,
         settings,
+        _record_views(driver, plan, matches) if llm is not None else {},
     )
     return particulars.model_copy(update={"choices": choices})
+
+
+def _record_views(
+    driver: Driver, plan: ConstructionPlan | None, matches: dict[str, RecordMatch]
+) -> dict[str, CandidateView]:
+    """Record ref -> what the data holds about it, for every record a mention links: the adjudicator shows a
+    record unit's data and the records both sides name (R100). One read; only when an LLM will be asked."""
+    linked = {_ref(m.link.record): m.link.record.element_id for m in matches.values() if m.link is not None}
+    if plan is None or not linked:
+        return {}
+    by_element = read_candidate_views(driver, plan, sorted(set(linked.values())))
+    return {ref: by_element[element] for ref, element in linked.items() if element in by_element}
 
 
 # The unit pairs near in meaning, given the units: the embedder's in a build, a build's log in a replay
@@ -129,20 +144,20 @@ def assign_particulars(
     meaning: Meaning,
     llm: LLMClient | None,
     settings: JoinSettings,
+    views: dict[str, CandidateView],
 ) -> Particulars:
     """The pure core of `resolve_particulars`, after the records are matched: a record's mentions form one
     unit and every other mention one alone; same-type pairs are nominated (variant, spelling, `meaning`) and
     joined only on a verified adjudication; each group becomes one assignment per mention. `texts` are the
-    chunks of every mention (`read_mention_texts`'s rows and order). Reads no graph, so an offline replay
-    feeds it the same inputs (audit/reidentify.py). The result has no record choices: those come before."""
+    chunks of every mention (`read_mention_texts`'s rows and order), `views` record ref -> what the data
+    holds about it (for the adjudicator, R100). Reads no graph, so an offline replay feeds it the same
+    inputs (audit/reidentify.py). The result has no record choices: those come before."""
     units = _units(keyed, individuals, matches)
-    by_unit = {m: u for u in units for m in u.mentions}
-    chunk_texts: dict[str, list[str]] = {}
-    for t in texts:
-        chunk_texts.setdefault(by_unit[t.mention].id, []).append(t.text)
+    evidence = build_evidence(units, texts, matches, views)
     pairs = nominate(units, settings.borderline, meaning(units))
-    adjudicate = llm_adjudicator(llm, settings.model, texts, units) if llm is not None else None
-    joining = join(units, pairs, adjudicate, chunk_texts, settings.model)
+    adjudicate = llm_adjudicator(llm, settings.model, evidence) if llm is not None else None
+    shown = {unit: side.lines for unit, side in evidence.sides.items()}
+    joining = join(units, pairs, adjudicate, shown, settings.model)
     mentions = {m.id: m for m in (*keyed, *individuals)}
     assignments = [
         a

@@ -284,15 +284,15 @@ def pike_judge(prompt: str, schema: type) -> SameIndividual | RecordChoice:
         return RecordChoice(record="none")
     if "Jon Pike\n" in prompt and "Jonathan Pike" in prompt:  # the chair's line and the record's Pike
         return SameIndividual(
-            same=True,
+            answer="same",
             quote_a="Dr Jonathan Pike of the institute spoke at the flood meeting.",
             quote_b="Jon Pike (chair) opened the meeting on soil cores.",
         )
     if "J. Pike" in prompt and "Jonathan Pike" in prompt and "Jon Pike" not in prompt:
         return SameIndividual(
-            same=True, quote_a="Jonathan Pike leads the group.", quote_b="J. Pike freed it."
+            answer="same", quote_a="Jonathan Pike leads the group.", quote_b="J. Pike freed it."
         )
-    return SameIndividual(same=False)
+    return SameIndividual(answer="different")
 
 
 @pytest.mark.neo4j
@@ -436,7 +436,7 @@ def test_an_llm_chooses_among_near_misses_and_code_links_only_its_verified_choic
     def script(prompt: str, schema: type):
         """The brass focuser is the record Focuser; the thread of the focuser is none of the records."""
         if schema is not RecordChoice:
-            return schema(same=False)
+            return schema(answer="different") if schema is SameIndividual else schema(same=False)
         prompts.append(prompt)
         if '"brass focuser"' in prompt:
             return RecordChoice(record="Unit:U-1", quote="The brass focuser sticks in the cold.")
