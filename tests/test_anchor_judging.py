@@ -14,6 +14,7 @@ verdicts unchanged, score as reported, and pair with R92's vector rankings as re
 record linking) must unlink only what a retired rule had linked, carry R94's verdicts with only the two new
 items judged, and score and pair as reported. R95b's (the LLM's choice among near misses, one paid replay)
 must change only by a verified choice or a retired rule, judge only the new items, and score as reported.
+R96's (the chooser's revised prompt) must differ from R95b in one decision only, and score as reported.
 No Neo4j, no LLM.
 """
 
@@ -792,3 +793,37 @@ def test_r95b_judges_only_the_new_items_and_scores_as_reported():
     assert all(report.final.c6.hard_passed.values())
     # F17's "frame construction" was declined, so the end-to-end pairing with vector retrieval is R95a's
     assert _end_to_end_vs_vector(base) == (16.0, pytest.approx(0.1797, abs=1e-3))
+
+
+# --- the committed results of R96 (the chooser's revised prompt, one paid replay) -------------------------
+
+R96 = GOLD / "r96"
+R96_RUNS = json.loads((R96 / "runs.json").read_text(encoding="utf-8"))
+
+
+def test_r96_changed_one_decision_and_scores_as_reported():
+    """The revised prompt links "frame construction" to the sofa's Frame, the link R93 judged right and R95b's
+    chooser declined; the other 31 decisions, the declined wrong readings among them, are R95b's."""
+    run = R96_RUNS["relink"]
+    assert digest(GOLD.parent.parent / run["file"]) == run["hash"]
+    before, after = (
+        {
+            d.mention: (d.action, d.record)
+            for d in RelinkReport.model_validate_json(path.read_text("utf-8")).choices
+        }
+        for path in (R95B / "furniture" / "relink.json", GOLD.parent.parent / run["file"])
+    )
+    changed = {m: (before[m], after[m]) for m in after if before[m] != after[m]}
+    assert changed == {"c21ab5530ef8c787": (("none", None), ("chosen", "Assembly:A-1012"))}
+    report = JudgedReport.model_validate_json((R96 / "furniture" / "anchor_judged.json").read_text("utf-8"))
+    assert digest(R96 / "furniture" / "anchor_judged.json") == R96_RUNS["furniture"]["anchor_judged"]["hash"]
+    links = report.final.c4.links.accepted
+    assert (links.k, links.n, report.final.c4.hard_passed, report.final.c3.hard_passed) == (
+        50,
+        50,
+        True,
+        True,
+    )
+    assert all(report.final.c6.hard_passed.values())
+    # F17 starts at the sofa's Frame again (two mentions, so it wins W1's tie): R94's pairing comes back
+    assert _end_to_end_vs_vector(R96 / "furniture") == (17.0, pytest.approx(0.2891, abs=1e-3))

@@ -1,0 +1,61 @@
+{
+ "step": "R96: the record chooser's prompt (a name with an aspect word; a whole over its pieces), measured by one paid replay of the furniture build",
+ "relink": {
+  "dataset": "furniture",
+  "mlflow_run_id": "ae18c0f5af9b404eb8071e8d6820bf3d",
+  "experiment": "kgbuilder",
+  "command": "kg --preset quality audit-relink out/r77d_furniture --data data --logged tests/gold/r87/furniture_logged.json --out out/r96_furniture --choose",
+  "approved": "the user, 2026-10-06 ('yes you may pursue that and check in with another prompt')",
+  "model": "gemini-3.8-flash",
+  "thinking": "low",
+  "record_choice_prompt_version": "e4f3d9cfa725",
+  "llm_calls": 31,
+  "cost_usd": 0.023911,
+  "file": "tests/gold/r96/furniture/relink.json",
+  "hash": "7b6196ccecd2"
+ },
+ "furniture": {
+  "build": "out/r96_furniture/build (written by kg audit-relink --choose from out/r77d_furniture)",
+  "logged": {
+   "file": "tests/gold/r96/furniture/logged.json",
+   "hash": "00923227e863"
+  },
+  "anchor_eval": {
+   "anchor": {
+    "file": "tests/gold/r96/furniture/anchor_anchor.json",
+    "hash": "6f54a490b087",
+    "mlflow_run_id": "9178820d5ac84324b73da0b9523bd85c"
+   },
+   "layered": {
+    "file": "tests/gold/r96/furniture/anchor_layered.json",
+    "hash": "33fbf4f4135e",
+    "mlflow_run_id": "7b123a20f5154d518dc5965b245abd1a"
+   }
+  },
+  "anchor_sheets": {
+   "files": {
+    "c3_sheet.json": "a161853006da",
+    "c3_code.json": "5a65ad1a15af",
+    "c4_sheet.json": "fbe7cf57834a",
+    "c4_code.json": "7e4407f44309",
+    "c6_sheet.json": "386706aa056a",
+    "c6_code.json": "efb8c7709997"
+   },
+   "mlflow_run_id": "c29f82a6063d4af089b4c70dd8807b56"
+  },
+  "anchor_judged": {
+   "git_sha": "d4e46fb-dirty",
+   "file": "tests/gold/r96/furniture/anchor_judged.json",
+   "hash": "069b3bab800d",
+   "verdicts": {
+    "c3_verdicts.json": "c73ef94a9857",
+    "c4_verdicts.json": "64191bd2b97a",
+    "c6_verdicts.json": "180d4761f556"
+   },
+   "verdicts_from": "tests/gold/r95b/furniture, and for the one new link (frame construction -> A-1012) tests/gold/r94/furniture (R93's verdict); no item new to the judge",
+   "mlflow_run_id": "d32559c3e5d040f2a28ad781b7eb35e0"
+  }
+ },
+ "git_sha": "a98855f-dirty",
+ "git_dirty_files": ".claude/settings.json"
+}

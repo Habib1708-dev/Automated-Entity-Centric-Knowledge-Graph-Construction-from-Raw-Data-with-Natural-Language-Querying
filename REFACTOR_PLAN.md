@@ -5050,7 +5050,7 @@ a partial overlap or a close spelling decides alone.
     "drawers" slips from 2 to 3 (the desk's Drawer Unit now holds the desk's "drawers"); no C5 hit changed.
 - **Gate (results):** 704 passed (702 before), `ruff check` clean. **R95 done 2026-10-06.**
 
-### R96. The record chooser's prompt: a name with an aspect word, and a whole over its pieces (started 2026-10-06)
+### R96. The record chooser's prompt: a name with an aspect word, and a whole over its pieces (done 2026-10-06; $0.0239)
 The user, 2026-10-06, after R95b: "yes you may pursue that and check in with another prompt but it is
 important that you keep the prompt dataset domain neutral so that the system can always generalize."
 - **The miss.** R95b's chooser answered none for "frame construction" (Uppsala Sofa review: "The frame
@@ -5080,12 +5080,58 @@ important that you keep the prompt dataset domain neutral so that the system can
 - **Success:** no wrong link (C4 stays 1.0 on the judged items, at least >= 0.95); "frame construction"
   chosen; the two wrong readings R93 found ("pre-drilled holes for the drawer handle", "drawer slide
   mechanism") still none. A changed prompt that adds a wrong link is reverted.
+- **Code (done 2026-10-06, `a98855f`):** `CHOICE_PROMPT` in `resolution/record_choice.py`, version
+  `0d1d7d45e37d` -> `e4f3d9cfa725`, with its intent comment. The corpus-language test passes (no banned word,
+  no four-gram of an evaluation corpus); the only examples are the telescope's ("the focuser design").
+  Gate: 704 passed, `ruff check` clean.
+- **Run** (the user's yes above; at `a98855f` with only `.claude/settings.json` dirty): `kg --preset quality
+  audit-relink out/r77d_furniture --choose`, MLflow `ae18c0f5`: **31 LLM calls (0 cache hits: every prompt
+  changed), 0 failures, 20,471 input / 1,049 output / 1,233 thinking tokens, `cost_usd` $0.0239.** Then $0:
+  `kg anchor-eval` anchor `9178820d`, layered `7b123a20` (C0 passed); `kg anchor-sheets` `c29f82a6`;
+  `kg anchor-judged` `d32559c3` (at `d4e46fb`).
+- **One decision of 32 changed:** "frame construction" none -> `A-1012` (Frame), quoting "The frame
+  construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in
+  much more expensive pieces." The other 31 are R95b's, the 13 nones among them ("pre-drilled holes for the
+  drawer handle", "drawer slide mechanism", "drawer hardware", "back angle", "leg attachment mechanism" ...).
+- **Judging:** nothing new to judge. The new link is byte-identical to the item R93 judged VALID (carried
+  through R94); every other item equals an R95b item; the seeded VALID sample holds only reviewed items.
+  Committed in `tests/gold/r96/` with `runs.json`; a test checks the single changed decision and the scores.
+- **Results, furniture** (judge: Claude Opus 5.5, verdicts carried; before = R95b, after = R96):
+
+  | Criterion | R95b | R96 |
+  |---|---|---|
+  | C4 precision (blind labels equal) | 49/49 | **50/50** [0.93, 1.00] |
+  | C4, C3, C6 hard rules | pass | pass |
+  | C6 arm A / arm B, record + individual | 101/101 / 108/108 | 102/102 / 108/108 |
+  | C2 hit@1 | 70/86 | **72/86** (F04, F17: "frame" rank 2 -> 1) |
+  | C5 end to end: recall@5, complete@5 (A) | 30/61, 16/31 | **31/61, 17/31** (F17) |
+  | C5 end to end @10: recall, complete (A) | 39/61, 21/31 | **40/61, 22/31** |
+  | C5 gold start, unbudgeted reach | | unchanged |
+  | A vs vector, end to end, complete@5 | 16 vs 21, p 0.18 | 17 vs 21, p 0.29 (R94's) |
+
+  Read with care:
+  - **The success test is met:** the declined link is chosen, no wrong link appeared, and both wrong readings
+    stay none. With it, every link R95a gave up is back, plus the Malmö drawer, at C4 50/50.
+  - **Which rule did it is unknown:** both rules changed at once, and the reply carries no reason.
+  - **The prompt was changed after the judge counted a miss, and measured by the same judge** (one model
+    family). The change is general (an aspect word; a whole over its pieces), but it was found on one case,
+    and only furniture was replayed: held-out (its 1 near-miss mention) and generality (none) are not.
+  - **F17 recovers through a tie, not a walk:** "frame" names the sofa's Frame and the bed's lone "frame"
+    alike, and W1 orders equal exact hits by mentions, then by node id. "frame construction" gives the sofa's
+    Frame its second mention, so it wins. One mention fewer and the id decides again.
+- **Gate (results):** 705 passed (704 before), `ruff check` clean. **R96 done 2026-10-06.**
 
 ## Found along the way
-- **The chooser declined "frame construction" (found in R95b, 2026-10-06; unmeasured beyond one case).** R93
-  judged its old containment link to the sofa's Frame VALID; the LLM answered none, perhaps reading
-  "construction" as a property of the frame (the prompt's "a property of it" rule). It costs F17 end to end.
-  Any prompt change is measured on the frozen replay (the cache makes unchanged calls free) before it is kept.
+- **The chooser declined "frame construction" (found in R95b, 2026-10-06; fixed in R96).** R93 judged its old
+  containment link to the sofa's Frame VALID; the LLM answered none. R96's prompt chooses it, with no other
+  decision changed. A prompt change changes every call (the prompt is part of each cache key), so measuring
+  one costs a full replay (about $0.03 on furniture), not only the changed cases.
+- **End-to-end starts are decided by a tie-break (found in R96, 2026-10-06; open).** W1 orders equal exact
+  hits by how many mentions refer to a node, then by node id (`anchor/navigation.py` `find`). F17's "frame"
+  matches the sofa's Frame and the bed's lone "frame" alike, so one mention more or less flips its start and
+  its end-to-end result. The question names no product; nothing in the graph tells the two frames apart for
+  it. A rule that uses the question's other constraints (here "priced over $500") belongs to the query side,
+  not to record linking.
 - **Held-out's one near-miss mention was not replayed (R95b).** Only the furniture replay was paid for; the
   held-out build has 1 mention the chooser would be asked about, generality none. Their R95a numbers stand.
 - **`ruff format --check` flags `structured/profiler.py` (found in R95a, pre-existing).** One line ruff would
