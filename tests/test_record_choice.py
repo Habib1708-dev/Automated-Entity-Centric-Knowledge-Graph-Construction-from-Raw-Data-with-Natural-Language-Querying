@@ -59,13 +59,73 @@ def test_twins_are_records_of_one_name():
 def test_near_misses_exist_only_where_code_decided_nothing_and_only_inside_a_scope():
     nothing = RecordMatch()
     # both focuser records share the word; the eyepiece and the tripod do not; each record once, by label/key
-    assert near_misses("the focuser", nothing, [SCOPE, [FOCUSER]], borderline=80) == [FOCUSER, KNOB]
-    assert (
-        near_misses("the focuser", nothing, [], borderline=80) == []
-    )  # no scope: the domain vouches nothing
+    assert near_misses("the focuser", nothing, [SCOPE, [FOCUSER]], borderline=80, domain=SCOPE) == [
+        FOCUSER,
+        KNOB,
+    ]
+    # no scope: a near name in the domain vouches for nothing (R94); R99's strict candidates are tested below
+    assert near_misses("the focuser", nothing, [], borderline=80, domain=SCOPE) == []
     linked = RecordMatch(link=RecordLink(record=FOCUSER, reason="name", score=100, evidence="", scoped=True))
-    assert near_misses("focuser", linked, [SCOPE], borderline=80) == []
-    assert near_misses("focuser", RecordMatch(tied=[FOCUSER, KNOB]), [SCOPE], borderline=80) == []
+    assert near_misses("focuser", linked, [SCOPE], borderline=80, domain=SCOPE) == []
+    assert (
+        near_misses("focuser", RecordMatch(tied=[FOCUSER, KNOB]), [SCOPE], borderline=80, domain=SCOPE) == []
+    )
+
+
+# R99: outside a scope, an invented observatory's staff and instruments
+LENA = RecordCandidate(
+    element_id="o1", label="Staff", name="Helena Marsh", key="O-1", attributes={"team": "Optics"}
+)
+HUGO = RecordCandidate(
+    element_id="o2", label="Staff", name="Hugo Marsh", key="O-2", attributes={"team": "Optics"}
+)
+ORION = record("i1", "Dome scope", "I-1", label="Instrument").model_copy(
+    update={"attributes": {"model": "Orion R-7"}}
+)
+VEGA_A = record("i2", "North scope", "I-2", label="Instrument").model_copy(
+    update={"attributes": {"model": "Vega 80"}}
+)
+VEGA_B = record("i3", "South scope", "I-3", label="Instrument").model_copy(
+    update={"attributes": {"model": "Vega 80"}}
+)
+DOMAIN = [LENA, HUGO, ORION, VEGA_A, VEGA_B]
+
+
+def test_outside_a_scope_a_variant_of_a_records_name_is_a_candidate():
+    nothing = RecordMatch()
+    # a short form and an initial with a title: Helena only; the initial "H." fits Hugo as well
+    assert near_misses("Lena Marsh", nothing, [], borderline=80, domain=DOMAIN) == []  # not a prefix
+    assert near_misses("Hel Marsh", nothing, [], borderline=80, domain=DOMAIN) == [LENA]
+    assert near_misses("Dr. H. Marsh", nothing, [], borderline=80, domain=DOMAIN) == [LENA, HUGO]
+    # a shared word is no candidate outside a scope, however alike
+    assert near_misses("the dome", nothing, [], borderline=80, domain=DOMAIN) == []
+
+
+def test_outside_a_scope_the_one_record_holding_the_name_as_key_attribute_is_a_candidate():
+    nothing = RecordMatch()
+    assert near_misses("orion r-7", nothing, [], borderline=80, domain=DOMAIN) == [ORION]
+    # an attribute twin: two instruments of one model; the value names a kind of record, not one
+    assert near_misses("Vega 80", nothing, [], borderline=80, domain=DOMAIN) == []
+    assert near_misses("Optics", nothing, [], borderline=80, domain=DOMAIN) == []  # a team of two
+    # a scoped document keeps tier 2 as it was: the domain's strict candidates are not added
+    assert near_misses("Orion R-7", nothing, [[LENA]], borderline=80, domain=DOMAIN) == []
+
+
+def test_a_choice_outside_a_scope_is_linked_as_unscoped():
+    request = ChoiceRequest(
+        mention="m1",
+        name="Hel Marsh",
+        lines=["[Notes] Hel Marsh aligned the mirror."],
+        texts=["Hel Marsh aligned the mirror."],
+        candidates=[LENA],
+        scoped=False,
+    )
+    llm = ScriptedLLM(
+        lambda prompt, schema: RecordChoice(record="Staff:O-1", quote="Hel Marsh aligned the mirror.")
+    )
+    decisions = choose_records([request], {"o1": CandidateView(cells={}, relations=[])}, llm, "model-x")
+    [link] = chosen_links(decisions, [request]).values()
+    assert decisions[0].action == "chosen" and link.record is LENA and not link.scoped
 
 
 def test_the_lines_are_the_sentences_naming_the_mention_with_their_document_once_each():

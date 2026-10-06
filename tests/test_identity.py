@@ -275,9 +275,13 @@ def build_pike(driver) -> None:
     link_graphs(driver, PIKE_PLAN)
 
 
-def pike_judge(prompt: str, schema: type) -> SameIndividual:
+def pike_judge(prompt: str, schema: type) -> SameIndividual | RecordChoice:
     """A scripted adjudicator: the chair of the minutes is the record's Pike, with two real quotes; the field
-    log's J. Pike too, but with a quote the field log does not contain; everyone else not the same."""
+    log's J. Pike too, but with a quote the field log does not contain; everyone else not the same. Since R99
+    the documents' variants of the record's name ("Jon Pike", "J. Pike") are first offered to the record
+    chooser, which answers none here, so the joining of individuals decides them as before."""
+    if schema is RecordChoice:
+        return RecordChoice(record="none")
     if "Jon Pike\n" in prompt and "Jonathan Pike" in prompt:  # the chair's line and the record's Pike
         return SameIndividual(
             same=True,
@@ -310,6 +314,9 @@ def test_one_individual_across_documents_is_joined_only_with_verified_evidence(d
     assert field[0] == letter[0] == "individual" and field[1] != letter[1]
     actions = {d.action for d in report.individual_decisions}
     assert "quote_not_verified" in actions and "joined" in actions
+    # outside any scope only a variant of a record's name is a candidate (R99): never Judith Pike
+    asked = {(c.name, tuple(c.candidates), c.action) for c in report.record_choices}
+    assert asked == {("Jon Pike", ("Staff:S-131",), "none"), ("J. Pike", ("Staff:S-131",), "none")}
 
 
 GEAR_SCHEMA = TextSchema(

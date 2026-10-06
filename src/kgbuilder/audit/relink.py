@@ -112,7 +112,11 @@ def relink(
     requests = [
         replay.request(m, near)
         for m in keyed
-        if (near := near_misses(m.name, matches[m.id], replay.scopes_of(m), borderline))
+        if (
+            near := near_misses(
+                m.name, matches[m.id], replay.scopes_of(m), borderline, domain=replay.candidates_of(m)
+            )
+        )
     ]
     views = {c.element_id: replay.view(c.element_id) for r in requests for c in r.candidates}
     choices = choose_records(requests, views, llm, model)
@@ -236,9 +240,9 @@ class _Replay:
 
     def match(self, m: SnapshotMention, threshold: float) -> RecordMatch:
         sentences = [x for c in self._chunks_of(m) for x in sentences_naming(c.text, [m.name])]
-        return match_record(m.name, sentences, self._candidates_of(m), self.scopes_of(m), threshold)
+        return match_record(m.name, sentences, self.candidates_of(m), self.scopes_of(m), threshold)
 
-    def _candidates_of(self, m: SnapshotMention) -> list[RecordCandidate]:
+    def candidates_of(self, m: SnapshotMention) -> list[RecordCandidate]:
         """The records of the mention's type's labels, as `records.read_records` gives them."""
         etype = self._schema.entity_type(m.type)
         labels = set(etype.record_labels) if etype else set()
@@ -247,7 +251,7 @@ class _Replay:
 
     def scopes_of(self, m: SnapshotMention) -> list[list[RecordCandidate]]:
         """The candidates near each thing the mention's document is about, one list per thing."""
-        candidates = self._candidates_of(m)
+        candidates = self.candidates_of(m)
         anchors = sorted(self._anchors.get(m.doc_id, []))
         return [[c for c in candidates if c.element_id in self._reach.get(a, {a})] for a in anchors]
 
@@ -264,6 +268,7 @@ class _Replay:
             lines=choice_lines(m.name, [(c.context or c.doc_id, c.text) for c in chunks]),
             texts=[c.text for c in chunks],
             candidates=near,
+            scoped=self.scope(m.doc_id) is not None,
         )
 
     def view(self, ref: str) -> CandidateView:

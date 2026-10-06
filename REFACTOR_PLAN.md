@@ -5326,6 +5326,40 @@ replayable on a snapshot and proves the replay is the build's.
     run ids, calls and hits, hashes); a test reloads them.
 - **Gate (results):** 729 passed (726 before), `ruff check` clean. **R98 done 2026-10-06.** Next: R99.
 
+### R99. Record candidates outside a scope: name variants and unique attribute values (started 2026-10-06)
+A keyed mention in a document without a scope gets no near miss today (R95b: "the whole domain vouches for
+nothing", R94), so the chooser is never asked. On generality, where no document has a scope, "Jon Pike" (the
+12 May minutes) and "J. Pike" stay apart from Staff S-131 "Jonathan Pike", and the open-day "Kestrel V-12" is
+`no_record` though one pump only is of that model.
+- **Scope.** `resolution/record_choice.near_misses` gains the mention's type records (`domain`) and, only
+  when the document has no scope, offers strict tier-2 candidates (`_unscoped`):
+  - a record whose name is a variant of the mention's (`variants.compatible`: a title, an initial, a short
+    form; never a shared word alone);
+  - the one record whose key attribute (schema `key_attributes`) holds the mention's name exactly;
+  - an attribute twin (a value two records hold: a model of two pumps, a team) offers nothing; a twin of
+    names is refused at the choice, as before.
+  The chooser's prompt is unchanged, abstention and the quote check stay. A choice outside a scope is linked
+  with `scoped = False` (the request carries it; nothing reads the flag yet, but it must not lie).
+  Callers: `particulars._match_records` (the type's records) and the replay (`_Replay.candidates_of`, now
+  public).
+- **A behaviour change, stated:** `tests/test_identity.py`'s Pike corpus has no scope, so "Jon Pike" and "J.
+  Pike" are now first offered to the chooser (candidate S-131, never Judith Pike). Its scripted LLM answers
+  none, so the R75 joining it tests runs as before; the test now also asserts the two choices.
+- **Tests** (+3 in `tests/test_record_choice.py`, an invented observatory): a variant candidate (a short
+  form; an initial fitting two staff offers both), a shared word alone offers nothing; the one record of an
+  attribute value is a candidate, an attribute twin (two instruments of one model, a team of two) is not; a
+  scoped document keeps tier 2 as it was; a choice outside a scope is linked unscoped. The near-miss test
+  passes `domain`.
+- **Dry run without a model** (record replay of the three r77d builds): furniture still asks 31 mentions (1
+  without a sentence) and held-out 1, as in R95b: every document there has a scope. Generality asks 6:
+  "M. Lopez" (fieldwork log; S-104 and S-219, twins of name, so no choice can link), "J. Pike" (fieldwork
+  log) and "J. Pike" (9 June minutes) and "Jon Pike" (12 May minutes), each with S-131, and "Kestrel V-12"
+  twice (shift notes, open day) with `Pump:KV12-0457`.
+- **Gate (code):** 732 passed (729 before), `ruff check` clean.
+- **Measurement (next, paid, asked):** `kg audit-relink --choose --join` per dataset. A cache count without
+  sending anything: furniture's 31 choices are R96's cache hits and 9 adjudications are new (the units R94-R96
+  changed); held-out 1 choice; generality 6 choices, then the adjudications the choices change.
+
 ## Found along the way
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**
   `ABOUT` gives a document or a section one subject. W3-named (R97) leads from a chunk to every record and

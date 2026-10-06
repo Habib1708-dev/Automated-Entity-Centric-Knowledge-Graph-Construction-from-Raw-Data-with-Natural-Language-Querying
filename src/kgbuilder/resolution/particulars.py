@@ -192,7 +192,7 @@ def _match_records(
         scopes = [[r for r in candidates if r.element_id in scope_ids.get(a, set())] for a in m.anchors]
         match = match_record(m.name, sentences.get(m.id, []), candidates, scopes, threshold)
         out.matches[m.id] = match
-        if near := near_misses(m.name, match, scopes, borderline):
+        if near := near_misses(m.name, match, scopes, borderline, domain=candidates):
             out.near[m.id] = near
     return out
 
@@ -218,6 +218,7 @@ def _choose_records(
             lines=choice_lines(m.name, [(t.document, t.text) for t in chunks.get(m.id, [])]),
             texts=[t.text for t in chunks.get(m.id, [])],
             candidates=near[m.id],
+            scoped=bool(m.anchors),
         )
         for m in keyed
         if m.id in near

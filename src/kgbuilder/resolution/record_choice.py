@@ -5,9 +5,10 @@ Role in the pipeline: `kg resolve` (particulars.py), after code matched every ke
 before individuals are joined; also the offline replay of a build's matching (audit/relink.py).
 Design: the LLM proposes, code decides, as for individuals (individuals.py). A partial overlap or a close
 spelling ("drawer" against "Drawer Unit") is evidence for a candidate, never for a link: R93 judged such
-links wrong when code made them alone. The LLM sees the sentences naming the mention and every near miss with
-what the data says about it (cells, one-hop relations), and answers one listed id or none, with a quote. Code
-links only when:
+links wrong when code made them alone. Outside a scope (a document about nothing) the near misses are strict:
+a name variant, or the one record whose key attribute holds the name (R99). The LLM sees the sentences
+naming the mention and every near miss with what the data says about it (cells, one-hop relations), and
+answers one listed id or none, with a quote. Code links only when:
   - the id is one of those listed, so a choice never leaves the scope of the mention's document;
   - the quote stands in one of the mention's chunks and names the mention;
   - no other listed record has the same name: a choice between twins is a coin toss.
@@ -17,6 +18,7 @@ Not here: the name tests (names.py), the code rules (records.py), joining indivi
 """
 
 import logging
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Literal
 
@@ -30,6 +32,7 @@ from ..llm.base import LLMClient
 from ..structured.plan import ConstructionPlan, NodeRule, name_property
 from .names import near_name, same_name
 from .records import RecordCandidate, RecordLink, RecordMatch
+from .variants import compatible
 
 log = logging.getLogger(__name__)
 
@@ -104,6 +107,7 @@ class ChoiceRequest(BaseModel):
     lines: list[str]  # "[document] sentence" for the sentences of its chunks that name it
     texts: list[str]  # the texts of its chunks: a quote must stand in one
     candidates: list[RecordCandidate]  # its near misses, in the order shown
+    scoped: bool = True  # its document has a scope; without one the near misses are strict (R99)
 
 
 ChoiceAction = Literal[
@@ -132,18 +136,41 @@ class ChoiceDecision(BaseModel):
 
 
 def near_misses(
-    name: str, match: RecordMatch, scopes: list[list[RecordCandidate]], borderline: float
+    name: str,
+    match: RecordMatch,
+    scopes: list[list[RecordCandidate]],
+    borderline: float,
+    *,
+    domain: list[RecordCandidate],
 ) -> list[RecordCandidate]:
-    """Tier 2: the records of the mention's scopes its name nearly names (`names.near_name`), once each,
-    ordered by label and key.
+    """Tier 2: the records the mention's name nearly names, once each, ordered by label and key.
 
     Only for a mention code decided nothing about: no link, and no tie (a tie is a choice among records the
-    name does name, which stays ambiguous). Only inside a scope: the whole domain vouches for nothing (R94).
+    name does name, which stays ambiguous). Inside a scope, any near name of the scope's records
+    (`names.near_name`). A document without a scope (`scopes` empty) has only the records of the mention's
+    type, `domain`, which vouch for nothing (R94), so there only strict evidence nominates (`_unscoped`).
     """
     if match.link is not None or match.tied:
         return []
-    found = {r.element_id: r for scope in scopes for r in scope if near_name(name, r.name, borderline)}
+    if scopes:
+        found = {r.element_id: r for scope in scopes for r in scope if near_name(name, r.name, borderline)}
+    else:
+        found = {r.element_id: r for r in _unscoped(name, domain)}
     return sorted(found.values(), key=lambda r: (r.label, r.key))
+
+
+def _unscoped(name: str, domain: list[RecordCandidate]) -> list[RecordCandidate]:
+    """The candidates of a mention outside any scope (R99): a record whose name is a variant of the
+    mention's (`variants.compatible`: a title, an initial, a short form: "Jon Pike" for "Jonathan Pike"),
+    or the one record whose key attribute holds the mention's name ("the pump of model X"). A value two
+    records hold (an attribute twin: a model of two pumps) names a kind of record, not one, so it nominates
+    nothing; a twin of names is refused at the choice, as inside a scope."""
+    holders: dict[str, set[str]] = defaultdict(set)
+    for r in domain:
+        for value in r.attributes.values():
+            holders[norm(value)].add(r.element_id)
+    owner = holders.get(norm(name), set())
+    return [r for r in domain if compatible(name, r.name) or (len(owner) == 1 and r.element_id in owner)]
 
 
 def choice_lines(name: str, chunks: list[tuple[str, str]]) -> list[str]:
@@ -267,7 +294,12 @@ def chosen_links(decisions: list[ChoiceDecision], requests: list[ChoiceRequest])
             continue
         record = next(c for c in by_mention[d.mention].candidates if _ref(c) == d.record)
         links[d.mention] = RecordLink(
-            record=record, reason="chosen", score=None, evidence=d.evidence, scoped=True, by=d.by
+            record=record,
+            reason="chosen",
+            score=None,
+            evidence=d.evidence,
+            scoped=by_mention[d.mention].scoped,
+            by=d.by,
         )
     return links
 
