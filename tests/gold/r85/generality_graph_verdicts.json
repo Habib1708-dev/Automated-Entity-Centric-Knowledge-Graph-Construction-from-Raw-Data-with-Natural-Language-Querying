@@ -1,0 +1,62 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+    "date": "2026-10-06",
+    "run_id": "4611b31e9dd34fda86f21fc2e9a068d8",
+    "git_sha": "916d4bd"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r85_generality/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Ran quietly, no leaks found and a bearing temperature of 48 °C: every part of the expected answer, cited to inspection_2025-03-14.md#0, without HP40-1183's drip or 71 °C."
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Says 'Because the roof has leaked into the children's section since the autumn storms', the expected reason, taken from the library sentence and not from the footbridge. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "G11",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) The answer names 'Ines Barros, service manager at Calder Pumps' as the one saying the pump ran dry and states 'The utility does not agree' because 'its log shows the suction valve was open for the whole night', covering both parts of the expected answer and attributing the claim to the vendor as the note requires. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Replacing the seal after the March inspection would have avoided the flooding: the expected answer and the gold quote. Flag kept as judged, as R73 and R77 did: the pump id is not named."
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) 'By 30 June 2025.', the expected answer, cited to the right minutes chunk."
+    },
+    {
+      "question_id": "G18",
+      "correct": false,
+      "reason": "(carried over: the answer is word for word R77 part f's) Says the chunks do not answer it; expected 'Residents.' Retrieval missed news/mill_lane_and_eastgate.md#0 (rule 5: no answer is wrong)."
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Says 'Before the library reopens on 1 September.', exactly the expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "G20",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) '28 March' is exactly the expected 'On 28 March', and the citations tie the inspector's recommendation to the Mill Lane footbridge and its reopening. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "G33",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Dry, no leaks, bearing temperature 49 °C, 40 litres per second: all expected parts, without HP40-2291's values."
+    },
+    {
+      "question_id": "G38",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Says '15 June 2025', the exact expected deadline, with the gold sentence cited. (earlier verdict: the answer is identical to R77 part c's)"
+    }
+  ]
+}

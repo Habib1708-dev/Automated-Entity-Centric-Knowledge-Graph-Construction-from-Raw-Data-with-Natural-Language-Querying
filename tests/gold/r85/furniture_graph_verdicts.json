@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-fable-5-1 (reviewed by claude-opus-5-5)",
+    "date": "2026-10-06",
+    "run_id": "546ffd5a9a1d402fada0456e2aaa05a9",
+    "git_sha": "916d4bd"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r85_furniture/answers_graph.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) Says 'A partial refund.', exactly what the expected answer states, cited from the review where 'the shade arrived with a small dent'. (earlier verdict: the answer is identical to R77 part c's)"
+    },
+    {
+      "question_id": "F38",
+      "correct": true,
+      "reason": "(carried over: the answer is word for word R77 part f's) States both parts of the expected answer: most find it comfortable, including long periods and long dinners, and a 3-star reviewer finds it less comfortable for extended work sessions; the extra details (working from home, 'so comfy') are true of the cited chunks. No doubtful point."
+    }
+  ]
+}

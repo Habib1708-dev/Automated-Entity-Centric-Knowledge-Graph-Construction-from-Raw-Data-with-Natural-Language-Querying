@@ -3954,7 +3954,7 @@ that each addition proposed to the user has its failing questions as its reason.
   findings (7), and the task's other candidates (events, sets, read_check write-back, LLM-named
   attachment, speaker, `valid_time`), each with 0-1 failures as a first cause.
 
-### R84. Claim words reach a claim end that refers to a record (Step 8 addition 1; done 2026-10-06, code only)
+### R84. Claim words reach a claim end that refers to a record (Step 8 addition 1; done 2026-10-06; furniture 41 -> 45 on frozen plans)
 R83 found that a plan's claim words never reach a claim whose subject or object mention refers to a record:
 `PlanRunner._claim_words` looked them up among concepts and individuals only, while R75 links "frame",
 "slats" or "drawers" in the reviews to Assembly records. 5 furniture answers fail on it (F17 F21 F23 F24
@@ -3972,10 +3972,37 @@ F32). A bug of the query code, fixed alone; no prompt, no plan field, no graph c
   and `A-1021`/`A-1070`. "leg" does not reach "Legs" (`A-1014`): it is below the spelling score of 90, the
   linker's rule for every name, which is unchanged. So F24 stays out of reach by this fix.
 - **Gate:** 557 passed (556 + 1), `ruff check` clean.
-- **Not measured.** The part f graphs cannot be rebuilt from the cache on this commit, because R82 changed
-  the extraction prompt. The measurement is proposed to the user with its cost, not made in this step.
+- **Measured (2026-10-06; the user's yes for R84 and R85 only, estimate $0.3-0.8 for both; spent $0.0022
+  for R84).**
+  - Recipe, one dataset at a time, with the normal guarded `kg` commands. The checkout was switched to
+    `13ee2b6` and part f's graph rebuilt from the cache into `out/r84g_<dataset>`: frozen plan and text
+    schema copied from `out/r77d_*`, `EXTRACT_PASSES=2`, extraction on an invalid Gemini key so that a
+    cache miss would fail. Then the checkout was switched to `0449639` for `kg qa --system graph --plans
+    tests/gold/r80/<dataset>` (R80), and back to `layered-model`.
+  - The rebuild is part f's graph exactly, at $0: every extract and resolve call a cache hit (furniture
+    140 and 300, held-out 162 and 266, generality 64 and 185), and the same claims and attachments
+    (furniture 514 claims, 666 attached, 1207 attachments; held-out 532, 673, 3059; generality 212, 196,
+    442).
+  - Runs: furniture `qa_graph` `de37a529` $0.0022 (59 calls, 51 hits; tokens 3668 / 246 / 697), held-out
+    `67d9d953` $0 (21, 21), generality `e465e414` $0 (60, 60). No plan refused; every answer frozen.
+  - Judge: every free-text answer is word for word part f's (checked by code), so part f's verdicts carry
+    over (`tests/gold/r84/`). Scores `95bdffaa`, `4aead2c9`, `81fbbb0d`; paired with part f `f447a697`,
+    `b2e092fb`, `2dc61ea3`.
 
-### R85. read_check judges each claim, not only its chunk (Step 8 addition 2; done 2026-10-06, code and prompt, no run)
+    | | part f | **R84** | only part f / only R84, p |
+    |---|---|---|---|
+    | furniture | 41 / 68 | **45 / 68** | 0 / 4, p 0.125 |
+    | held-out | 51 / 68 | 51 / 68 | 0 / 0 |
+    | generality | 16 / 41 | 16 / 41 | 0 / 0 |
+
+  - Furniture gained exactly the four answers R83 expected, and lost none. F17 "Uppsala Sofa" (part f: no
+    answer); F21 "Helsingborg Dresser"; F23 "Linköping Bed"; F32 "Helsingborg Dresser", "Norrköping
+    Nightstand". By type: structured filter 12 -> 13, disambiguation 3 -> 5, negation-sensitive 3 -> 4.
+    F24 ("leg") stayed out of reach, as expected.
+  - Held-out and generality: no answer changed. Their linking failures (H06, H27) are not record-linked
+    subjects.
+
+### R85. read_check judges each claim, not only its chunk (Step 8 addition 2; done 2026-10-06; no answer changed on frozen plans)
 R83 found that read_check gave every claim of one chunk the same verdict: the checker saw the statement and
 the candidate's chunks, never the candidate. In G24 ("Who replaced the mechanical seal of pump
 HP40-2291?") all 7 claims of the sentence "Mechanical seal of HP40-2291 replaced by technician Marek
@@ -4000,8 +4027,27 @@ Hollis" were verified with one quote, and the answer listed five subjects.
   two claims of one chunk in two sentences verifies only the one whose sentence states the statement, and
   shows each claim to the checker. It failed before the fix: 2 verified, answer "Ada Rook" and "Spindle".
 - **Gate:** 562 passed (557 + 5), `ruff check` clean.
-- **Not measured.** Every read_check call on a claim misses the cache now. The measurement is proposed with
-  R84's, not made in this step.
+- **Measured (2026-10-06; the user's yes; spent $0.0675).** The same rebuilt graphs and frozen plans as R84's
+  measurement, with the checkout at `916d4bd`.
+  - Runs: furniture `qa_graph` `546ffd5a` $0.0200 (59 calls, 12 hits; tokens 25934 / 1398 / 8761),
+    held-out `ab02ac8b` $0.0159 (21, 4; 11100 / 995 / 9449), generality `4611b31e` $0.0316 (60, 12;
+    28283 / 879 / 18395).
+  - Judge: every free-text answer is word for word part f's (checked by code); verdicts carried over in
+    `tests/gold/r85/`. Scores `61ae81d7`, `b7a5a098`, `d09d0174`; paired with R84 `25233e5b`, `4000e8b1`,
+    `3a996d2c`.
+  - **No answer's verdict changed** on any dataset: furniture 45, held-out 51, generality 16, each 0 / 0
+    against R84.
+  - read_check verified fewer claims: furniture 28 -> 27, held-out 14 -> 10, generality 18 -> 6, of the
+    same 49, 17 and 48 checks. The checker now refuses claims whose own sentence does not state the
+    statement.
+  - G24 is the case R83 named: its verified subjects went from 5 ("mechanical seal", "HP40-2291", "Marek
+    Hollis", "WO-318", "WO-320") to 3 ("mechanical seal", "Marek Hollis", "WO-318"). It is still wrong,
+    because the plan lists the subjects of every claim that states the replacement.
+  - Other changed answers: F09's count went from 1 to 0, still wrong; the question rests on star ratings
+    no claim holds (R83: `document_fields`). Citations went from 45 / 17 / 32 to 44 / 13 / 20, all
+    faithful.
+  - Reading: R85 makes read_check stricter without costing an answer, but on these frozen plans it gains
+    none either.
 
 ### R86. `about`: from claims to the records they are about (Step 8 addition 3; done 2026-10-06, code and prompt, no run)
 R83 found no way for a plan to go on from the records claims are about: `list` and `count` could end a
