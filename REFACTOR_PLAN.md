@@ -4936,6 +4936,26 @@ a partial overlap or a close spelling decides alone.
       F17 starts from the wrong product. With the gold start, F17 is unchanged.
   - R95b is meant to win these back: the four lost links are tier-2 candidates.
 - **Gate (results):** 685 passed (683 before), `ruff check` clean. **R95a done 2026-10-06.** Next: R95b.
+- **R95b, scope** (code and tests $0; the measurement is a paid replay, made only after the user's yes):
+  - **Tier 2, code:** when code decided nothing for a mention (no link, no tie) and its document has a scope,
+    the near misses are the in-scope records whose name shares a word with the mention's up to an ending
+    (stem of 3 letters: a looser test than tier 1, since a candidate never links), or is spelled at least
+    `er_borderline` alike. A tie is not a near-miss list (it stays ambiguous, as before); a document without
+    a scope gets none (the whole domain vouches for nothing, R94).
+  - **Tier 3, `resolution/record_choice.py`:** the LLM sees the mention's sentences and each near miss with its
+    cells and one-hop relations (R93's sheet view), and answers one listed id or none, with a quote. Code links
+    only when the id is listed, the quote stands in one of the mention's chunks and names it, and no other
+    listed record has the same name (a choice between twins is a coin toss: 15 "Wooden Slat" rows share one
+    furniture scope). A link is `reason: chosen`, `by: <model>`, the quote its evidence. None, a failure, a
+    malformed answer, no sentence naming the mention, or too long a list means no link; without an LLM the
+    tier abstains. Every decision is logged in resolve.json.
+  - **Wiring:** `kg resolve` (resolve stage: prompt version, prompt artifact, metrics per outcome), and
+    `kg audit-relink --choose` for the replay, which the run guard treats as an LLM command.
+  - **Prototype on the three builds** (no LLM): furniture 32 mentions would be asked (95 candidates, at most
+    16 in one list), held-out 1, generality 0.
+- **R95b, structural move (done 2026-10-06, behaviour kept):** the name test (`name_score` and its word
+  helpers) leaves `resolution/records.py` (330 lines) for `resolution/names.py`; its tests for
+  `tests/test_names.py` (+1: word order, empty name). Gate: 686 passed, `ruff check` clean.
 
 ## Found along the way
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice; moot for the

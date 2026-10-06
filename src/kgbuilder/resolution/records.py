@@ -9,7 +9,7 @@ Design: pure matching over `RecordCandidate`s, unit-tested without a database; `
   2. `name`: the mention's name is a record's name inside the scope of the mention's document; only a
      document without a scope may match one record of the whole domain (R11's scoped linking, moved here
      from linking.py; R94 ended the fallback for documents with a scope). A name is a record's when it is
-     the same after normalisation, or the same words up to a short ending and spelled alike (`name_score`).
+     the same after normalisation, or the same words up to a short ending and spelled alike (names.py).
      Since R95a nothing else decides alone: a record's name inside a longer name ("pre-drilled holes for the
      drawer handle" -> Drawer Handle) and a spelling that differs inside a word ("drawer slides" -> Drawer
      Sides) were R93's wrong links, and code cannot tell them from right ones;
@@ -24,35 +24,23 @@ Design: pure matching over `RecordCandidate`s, unit-tested without a database; `
 A name is also matched without its leading title ("Dr Jonathan Pike" is "Jonathan Pike").
 Records still tied are not linked: the mention is logged as ambiguous, because a wrong link answers
 questions about the wrong record, and a missing one only leaves the mention to stand for itself.
-Not here: joining individuals (individuals.py), concepts (concepts.py), writing (identity_graph.py).
+Not here: the name test (names.py), joining individuals (individuals.py), concepts (concepts.py), writing
+(identity_graph.py).
 """
 
 import re
 from collections.abc import Callable
-from os.path import commonprefix
 from typing import Literal
 
 from neo4j import Driver
 from pydantic import BaseModel
-from rapidfuzz import fuzz
 
 from ..core.cypher import cypher_ident
 from ..core.text import contains_words, norm, squash
 from ..structured.plan import ConstructionPlan, name_property
 from .linking import DomainNode
-from .variants import compatible, without_title
-
-# A word of a name: letters and digits of any script, after `norm` ("Drawer-Unit" -> "drawer", "unit";
-# "Москва" stays one word). The underscore is excluded, so "stockholm_chair" is two words.
-_WORD = re.compile(r"[^\W_]+")
-
-# Two words are one word up to its ending when they share at least _MIN_STEM letters from their start and
-# neither goes on for more than _MAX_ENDING letters after them: "drawer"/"drawers" and "shelf"/"shelves"
-# ("shel" + "f" / "ves") pass, "sides"/"slides" (they share "s") and "car"/"card" (three letters: too short
-# a stem to tell an ending from another word) do not. No list of endings, so the rule holds for any
-# language that inflects at the end of its words (R95a).
-_MIN_STEM = 4
-_MAX_ENDING = 3
+from .names import name_score
+from .variants import compatible
 
 # A key shorter than this, once squashed, is too likely to appear by accident ("P1" in "part 1");
 # the same bound as section matching (linking.py).
@@ -96,53 +84,6 @@ class RecordMatch(BaseModel):
 
     link: RecordLink | None = None
     tied: list[RecordCandidate] = []
-
-
-def _words(name: str) -> list[str]:
-    return _WORD.findall(norm(name))
-
-
-def _one_word(a: str, b: str) -> bool:
-    """True when two words are one word up to its ending (`_MIN_STEM`, `_MAX_ENDING`). A word with a digit
-    has no ending: "A-1063" is not "A-1062", nor "2019" "2018"."""
-    if a == b:
-        return True
-    if any(ch.isdigit() for ch in a + b):
-        return False
-    stem = len(commonprefix([a, b]))
-    return stem >= _MIN_STEM and max(len(a), len(b)) - stem <= _MAX_ENDING
-
-
-def _same_words(x: list[str], y: list[str]) -> bool:
-    """True when two names have the same words up to their endings, in their written order or sorted."""
-    return len(x) == len(y) and any(
-        all(_one_word(a, b) for a, b in zip(p, q, strict=True)) for p, q in ((x, y), (sorted(x), sorted(y)))
-    )
-
-
-def _score(said: list[str], record: list[str], threshold: float) -> float | None:
-    """`name_score` for two names already split into words."""
-    if not said or not record:
-        return None
-    if sorted(said) == sorted(record) or "".join(said) == "".join(record):
-        return 100.0
-    score = fuzz.token_sort_ratio(" ".join(said), " ".join(record))
-    return score if score >= threshold and _same_words(said, record) else None
-
-
-def name_score(name: str, record_name: str, threshold: float) -> float | None:
-    """How well a mention's `name` names a record called `record_name` on its own; None when it does not.
-
-    100 when the two are the same name after normalisation: any word order ("Chair Stockholm"), spacing or
-    hyphens ("bed-side table" for "Bedside Table"), and without a leading title ("Dr Jonathan Pike").
-    Else the spelling score (rapidfuzz token_sort_ratio) of a name with the same words up to their endings
-    ("drawers" for "Drawer": 92.3), when it reaches `threshold`. Both tests are needed (R95a): the endings
-    say where two names may differ, the score how much. "drawer slides" is 96 alike "Drawer Sides" but
-    differs inside a word, and "pane" is "Panel" up to an ending but only 89 alike: neither is a link.
-    """
-    record = _words(record_name)
-    scores = [_score(_words(said), record, threshold) for said in {name, without_title(name)}]
-    return max((s for s in scores if s is not None), default=None)
 
 
 def name_matches(name: str, records: list[RecordCandidate], threshold: float) -> list[NameMatch]:

@@ -1,12 +1,11 @@
 """Record matching for mentions of keyed types (R75, resolution/records.py), pure: a name links on its own
-only when it is the record's name after normalisation, or the same words up to a short ending and spelled
-alike (R95a), inside the scope of the mention's document, or unique in the domain when the document has no
-scope (the linking rules of R11, moved here; R94 ended the fallback beyond a scope), the record's key in the
-name or a sentence, and an attribute that tells two records of one name apart. A record's name inside a
-longer name, or a spelling that differs inside a word, is no link (R95a: R93 judged such links wrong).
-No Neo4j."""
+only when it is the record's name (the name test itself: tests/test_names.py), inside the scope of the
+mention's document, or unique in the domain when the document has no scope (the linking rules of R11, moved
+here; R94 ended the fallback beyond a scope), the record's key in the name or a sentence, and an attribute
+that tells two records of one name apart. A record's name inside a longer name, or a spelling that differs
+inside a word, is no link (R95a: R93 judged such links wrong). No Neo4j."""
 
-from kgbuilder.resolution.records import RecordCandidate, match_record, name_matches, name_score
+from kgbuilder.resolution.records import RecordCandidate, match_record, name_matches
 
 
 def record(
@@ -33,8 +32,6 @@ def test_a_name_is_the_records_after_normalisation_whatever_its_word_order_spaci
     assert ids(name_matches("Chair Stockholm", DOMAIN, threshold=90)) == ["p3"]
     [exact] = name_matches("Coffee Table", DOMAIN, threshold=90)
     assert exact.record.element_id == "p2" and exact.score == 100
-    assert name_score("bed-side table", "Bedside Table", threshold=90) == 100  # spacing and hyphens
-    assert name_score("Dr Jonathan Pike", "Jonathan Pike", threshold=90) == 100  # a leading title
     # words are letters of any script: names in another script match exactly, and only their own record
     cities = [record("c1", "Place", "Москва"), record("c2", "Place", "Киев")]
     assert ids(name_matches("москва", cities, threshold=90)) == ["c1"]
@@ -43,31 +40,11 @@ def test_a_name_is_the_records_after_normalisation_whatever_its_word_order_spaci
 def test_a_name_below_the_threshold_or_empty_matches_nothing():
     assert name_matches("Dining Table Deluxe", DOMAIN, threshold=90) == []
     assert name_matches("  ", DOMAIN, threshold=90) == []
-    assert name_score("Москва", "Киев", threshold=90) is None  # no letters dropped, so no empty match
 
 
 def test_every_record_tied_for_the_best_score_comes_back():
     legs = [record("a1", "Assembly", "Legs"), record("a2", "Assembly", "Legs")]
     assert ids(name_matches("legs", legs, threshold=90)) == ["a1", "a2"]
-
-
-def test_words_may_differ_only_in_a_short_ending_and_the_names_must_be_spelled_alike():
-    # the plurals and singulars R93 judged right: the same words up to their endings, at least 90 alike
-    assert round(name_score("drawers", "Drawer", threshold=90), 1) == 92.3
-    assert name_score("center supports", "Center Support", threshold=90) is not None
-    assert name_score("Norrköping Nightstands", "Norrköping Nightstand", threshold=90) is not None
-    # an ending apart, but too short a name to be spelled 90 alike: "pane" is not a "Panel"
-    assert name_score("pane", "Panel", threshold=90) is None
-    # 96 alike, but the letter that differs is inside the word: another word (R93: INCORRECT)
-    assert name_score("drawer slides", "Drawer Sides", threshold=90) is None
-    # at least four letters before an ending: "car" and "card" share three
-    assert name_score("red car", "Red Card", threshold=90) is None
-
-
-def test_a_word_with_a_digit_has_no_ending():
-    # 90 alike, and only the last character differs: still another model, another unit
-    assert name_score("Model 2019", "Model 2018", threshold=90) is None
-    assert name_score("unit A-1062", "Unit A-1063", threshold=90) is None
 
 
 def test_an_exact_name_wins_over_an_inflected_one():

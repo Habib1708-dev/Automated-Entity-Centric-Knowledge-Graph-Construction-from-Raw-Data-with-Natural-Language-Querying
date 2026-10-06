@@ -26,7 +26,8 @@ from ..core.identity import individual_id, record_ref
 from ..core.text import sentences_naming
 from ..resolution.attachment import TEXT_ABOUT
 from ..resolution.identity_graph import Assignment
-from ..resolution.records import LinkReason, RecordCandidate, RecordMatch, match_record, name_score
+from ..resolution.names import name_score
+from ..resolution.records import LinkReason, RecordCandidate, RecordMatch, match_record
 from ..structured.plan import ConstructionPlan
 from ..text.schema import TextSchema
 from .fidelity import LoggedCounts, snapshot_counts
