@@ -52,7 +52,19 @@
     "c6_code.json": "656d17700d40"
    }
   },
-  "targets_hash": "adc32787fee3"
+  "targets_hash": "adc32787fee3",
+  "anchor_judged": {
+   "mlflow_run_id": "248e2e4b9fae48548b3af754c8c059dd",
+   "git_sha": "3aa6500-dirty",
+   "file": "tests/gold/r94/furniture/anchor_judged.json",
+   "hash": "67e93b468182",
+   "verdicts": {
+    "c3_verdicts.json": "9ec241f937d5",
+    "c4_verdicts.json": "6863e609ba3c",
+    "c6_verdicts.json": "7950581112b0"
+   },
+   "verdicts_from": "tests/gold/r93/furniture (identical items carried, no new item)"
+  }
  },
  "git_sha": "21356c5-dirty",
  "git_dirty_files": ".claude/settings.json"

@@ -8,8 +8,9 @@ named after the kettle's key but left unlinked (the planted label mismatch), and
 documents (the planted split). The verdicts are invented to exercise each rule, not judged. The stage test
 reuses the graph audit's invented build folder (tests/test_audit.py). The committed sheets of the three builds
 (tests/gold/r93) must load, match their code sides and name the committed inputs they were built from, and
-each committed verdict file must answer its sheet under the review rules, with every quote in its item.
-No Neo4j, no LLM.
+each committed verdict file must answer its sheet under the review rules, with every quote in its item. R94's
+committed results (fix A replayed offline) must show only the four cross-product links changed, carry R93's
+verdicts unchanged, score as reported, and pair with R92's vector rankings as reported. No Neo4j, no LLM.
 """
 
 import json
@@ -17,6 +18,7 @@ from pathlib import Path
 
 import pytest
 
+from kgbuilder.anchor.compare import ArmComparison, compare_arms
 from kgbuilder.anchor.judged import (
     check_evidence,
     evidence_issues,
@@ -29,11 +31,14 @@ from kgbuilder.anchor.judged import (
 )
 from kgbuilder.anchor.judged_report import JudgedReport, blind_view, impact, score_all
 from kgbuilder.anchor.navigation import Arm
+from kgbuilder.anchor.report import AnchorReport
 from kgbuilder.anchor.sheet_builder import build_sheets
 from kgbuilder.anchor.sheets import C3Sheet, C4Sheet, C6Sheet, CodeSide
 from kgbuilder.anchor.targets import PlacedTarget
+from kgbuilder.anchor.vector import vector_reach
 from kgbuilder.audit.checks import CodeChecks, Flag, SplitGroup
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
+from kgbuilder.audit.relink import RelinkReport
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
@@ -59,8 +64,8 @@ from kgbuilder.validation.anchor_verdicts import (
     verdict_issues,
 )
 from kgbuilder.validation.gold import IdentityPair, MentionRef, Quote
-from kgbuilder.validation.qa_gold import RecordEvidence
-from kgbuilder.validation.target_gold import QuestionTargets, Target, TargetGold
+from kgbuilder.validation.qa_gold import RecordEvidence, load_qa_gold
+from kgbuilder.validation.target_gold import QuestionTargets, Target, TargetGold, load_target_gold
 from tests.fakes import RecordingTracker
 from tests.test_anchor import K1, KETTLE, L1, LAMP, S1, S2, SNAPSHOT, STICKING, chunks, mention, qa
 from tests.test_audit import KETTLE as AUDIT_KETTLE
@@ -562,3 +567,72 @@ def test_each_committed_report_is_the_score_of_the_committed_verdicts(run):
     assert score_c4(files["c4"], code["c4"], 0.95) == report.final.c4
     assert score_c6(files["c6"], code["c6"], 0.95) == report.final.c6
     assert score_c4(blind_view(files["c4"]), code["c4"], 0.95) == report.blind.c4
+
+
+# --- the committed results of R94 (fix A, measured by the offline replay) ----------------------------------
+
+R94 = GOLD / "r94"
+R94_RUNS = json.loads((R94 / "runs.json").read_text(encoding="utf-8"))
+
+
+def test_the_replay_changed_only_the_four_cross_product_links_of_furniture():
+    for run in R94_RUNS["relink"]:
+        assert digest(GOLD.parent.parent / run["file"]) == run["hash"]
+        report = RelinkReport.model_validate_json(
+            (GOLD.parent.parent / run["file"]).read_text(encoding="utf-8")
+        )
+        assert all(c.explained and c.after is None for c in report.changes)
+        expected = {"furniture": {"drawer", "frame", "center support", "drawers"}}.get(run["dataset"], set())
+        assert {c.name for c in report.changes} == expected
+
+
+def test_the_replayed_furniture_verdicts_are_r93s_and_its_report_their_score():
+    base, old = R94 / "furniture", GOLD / "r93" / "furniture"
+    for name in SHEET_MODELS:
+        code = CodeSide.model_validate_json((base / f"{name}_code.json").read_text(encoding="utf-8"))
+        file = load_verdicts(base / f"{name}_verdicts.json", {i.id for i in code.items})
+        check_evidence(
+            SHEET_MODELS[name].model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file
+        )
+        r93 = {v.id: v for v in load_verdicts(old / f"{name}_verdicts.json", _ids(old, name)).verdicts}
+        assert all(v == r93[v.id] for v in file.verdicts)  # carried, never re-judged
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert digest(base / "anchor_judged.json") == R94_RUNS["furniture"]["anchor_judged"]["hash"]
+    links = report.final.c4.links.accepted
+    assert (links.k, links.n, report.final.c4.cross_scope_confirmed) == (42, 45, [])
+    assert all(report.final.c6.hard_passed.values())
+    assert sorted(report.final.c3.record_wrong_merges) == [
+        "l:2a95b70b5851b756:Assembly:A-1021",  # "drawer slide mechanism": a piece linked to its whole
+        "l:7a9abd29af74f1d7:Assembly:A-1022",  # "pre-drilled holes for the drawer handle"
+        "l:c73615052e811388:Component:S-1076",  # "drawer slides" -> Drawer Sides, spelling 96
+    ]
+
+
+def _ids(folder: Path, name: str) -> set[str]:
+    return {
+        i.id for i in CodeSide.model_validate_json((folder / f"{name}_code.json").read_text("utf-8")).items
+    }
+
+
+def test_after_the_fix_the_anchor_arm_pairs_with_vector_retrieval_as_reported():
+    """The pairing of R92 recomputed from committed files: R92's own rankings of arm C (no new embedding)."""
+    compare = ArmComparison.model_validate_json(
+        (GOLD / "r92" / "furniture" / "anchor_compare.json").read_text("utf-8")
+    )
+    qa_gold = load_qa_gold(Path(load_target_gold(GOLD / "r89" / "furniture_targets.json").qa_gold))
+    outcomes = {}
+    for step, folder in (("r90", GOLD / "r90" / "furniture"), ("r94", R94 / "furniture")):
+        a, b = (
+            AnchorReport.model_validate_json((folder / f"anchor_{arm}.json").read_text("utf-8"))
+            for arm in Arm
+        )
+        vector = vector_reach(
+            qa_gold, [q.question for q in a.reach["gold_start"].questions], compare.rankings, [5, 10]
+        )
+        m = compare_arms(a, b, vector, compare.rankings, [5, 10]).metrics()
+        outcomes[step] = (
+            m["c5_end_to_end_vs_vector_complete_at_5_a"],
+            m["c5_end_to_end_vs_vector_complete_at_5_p_value"],
+        )
+    assert outcomes["r90"] == (15.0, pytest.approx(0.0703, abs=1e-3))  # R92's logged numbers, reproduced
+    assert outcomes["r94"] == (17.0, pytest.approx(0.2891, abs=1e-3))

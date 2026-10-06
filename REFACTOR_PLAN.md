@@ -4692,7 +4692,7 @@ No threshold or definition of the direction document is changed except as record
   direction expected).
 - **Gate (results):** 672 passed, `ruff check` clean.
 
-### R94. Record links stay inside the document's scope (started 2026-10-06; fix A of R93)
+### R94. Record links stay inside the document's scope (done 2026-10-06; fix A of R93, $0)
 The user, 2026-10-06, after R93: "do fix A". R93 found that every furniture failure of a hard rule but one
 comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_name`.
 - **The defect.** When no record inside a document's scope matches a mention's name, the fallback matches
@@ -4749,10 +4749,70 @@ comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_n
     - the invented build's planted cross-scope "lid" is the one change;
     - a build that differs elsewhere is unexplained;
     - the stage writes a build its own gate passes, with only identity counts changed.
-  - **Gate (code):** 675 passed, `ruff check` clean.
+  - **Gate (code):** 675 passed, `ruff check` clean. Committed at `21356c5`.
+- **Runs** ($0, no model, at `21356c5` with only `.claude/settings.json` dirty, the dataset presets):
+  - `kg audit-relink`: furniture `d5130f7d` (4 changes), held-out `f963dbc4` (0), generality `fc4b82fd` (0).
+  - On the replayed furniture build `out/r94_furniture/build`:
+    - `kg anchor-eval`: anchor `916b77e4`, layered `10bcb2a9`. C0 passed: ingest, extract and link counts
+      equal the build's; identity counts come from the replay.
+    - `kg anchor-sheets`: `267d094e`.
+    - `kg anchor-judged`: `248e2e4b` (at `3aa6500`).
+  - Held-out and generality are not rerun: the replay changes nothing there, so every R90-R93 number of
+    theirs stands.
+- **No new judging was needed.** Every item of the replayed furniture sheets equals an R93 item byte for byte
+  (id, content, chunk texts), so its R93 verdict, review and changes carry over unchanged.
+  - The sheets only lost items: the 4 cross-product links (C4) and their 6 foreign pairs (C6), all judged
+    INCORRECT in R93.
+  - The seeded VALID samples did not change.
+- **Committed:** `tests/gold/r94/` (the replay reports of all three builds, the furniture logged counts,
+  anchor reports, sheets, carried verdicts and judged report) with `runs.json`. Three tests check:
+  - only the 4 links changed;
+  - the verdicts are R93's, and the report is their score;
+  - the pairing with vector retrieval below.
+- **Results, furniture** (judge: R93's verdicts by Claude Opus 5.5; Wilson 95 %; before = R93 / R90 / R92 on
+  `out/r77d_furniture`, after = the replayed build):
+
+  | Criterion | before | after |
+  |---|---|---|
+  | C4 precision | 42/49 = 0.857 [0.73, 0.93] | **42/45 = 0.933** [0.82, 0.98] |
+  | C4 `cross_scope_link` confirmed | 4 | **0** |
+  | C4 hard rule | fails | **still fails** (0.933 < 0.95) |
+  | C3 wrong merges of records / individuals | 7 / 0 | **3** / 0 (still fails) |
+  | C6 arm A, record + individual | 93/97 = 0.959, 3 starts below | **93/93 = 1.0**, none below |
+  | C6 arm B | 97/103 = 0.942 (fails) | **97/97 = 1.0** (passes) |
+  | C5 gold start: recall@5, complete@5 (A) | 41/61, 19/31 | **42/61, 20/31** (F17) |
+  | C5 end to end: recall@5, complete@5 (A) | 28/61, 15/31 | **31/61, 17/31** (F17, F24, F32) |
+  | C5 @10, both modes (A) | 56/61, 29/31; 40/61, 22/31 | unchanged |
+  | C5 unbudgeted reach, end to end (A) | 50/61 | **48/61** |
+  | A vs vector, end to end, complete@5 | 15 vs 21, p 0.070 | **17 vs 21, p 0.29** |
+  | A vs vector, gold start, complete@5 | 19 vs 21, p 0.69 | 20 vs 21, p 1.0 |
+  | C2, C7, C8 (A: 13/14, 0 unwitnessed) | | unchanged |
+
+  Read with care:
+  - **The fix does what it should and nothing else:** the 4 wrong links and the 6 foreign chunks are gone,
+    and no remaining verdict changed. With them goes the open C6 question (pooled vs per start): no start
+    is below 0.95 any more.
+  - **C4 still fails, on 3 in-scope links.** "pre-drilled holes for the drawer handle" -> Drawer Handle and
+    "drawer slide mechanism" -> Drawer (the `contained` rule takes a record's name inside a longer name for
+    another thing), and "drawer slides" -> Drawer Sides (spelling 96). This is R93's causes 3 and 5, a
+    separate defect for its own step.
+  - **Ranking improves at a budget of 5,** because foreign chunks no longer crowd the top. For example,
+    F32's start A-1021 no longer brings the two Malmö Desk chunks.
+  - **Unbudgeted reach loses 2 gold chunks (F08, F32),** both reached before only by 7- and 12-step chains
+    running through a wrong link (A-1021 -> the Malmö review -> ... -> the dresser's `#3`). Neither was
+    within the 10-chunk budget, so no budgeted score fell.
+  - **The vector pairing is not a new run.** It is R92's committed arm-C rankings paired with the new
+    reports (no embedding call). The same code on the R90 reports gives back R92's logged numbers exactly.
+- **Stated limitation:** the replay is the current matching code on the build's own inputs, not a rebuild.
+  - The LLM's joining of individuals is not replayed. The 4 unlinked mentions ("drawer" of the Malmö
+    review ...) stand alone, where a real `kg resolve` could join them to another document's individual,
+    only on LLM evidence.
+  - C0 on the replayed build confirms the identity counts only by construction.
+- **Gate (results):** 678 passed, `ruff check` clean.
 
 ## Found along the way
-- **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice).** The
+- **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice; moot for the
+  current builds since R94, where no start is below 0.95).** The
   direction (section 7.2) says "of the chunks reached from a node, how many concern it ... hard for record and
   individual starts: >= 0.95". R93 scores it pooled over all (start, chunk) pairs and lists the starts below
   0.95. On furniture arm A the pooled rate passes (93/97 = 0.959), but three starts fail (A-1012 3/5, A-1021
