@@ -78,23 +78,45 @@ def run_tags(preset: str) -> dict[str, str]:
 
     `preset` is "none" when no preset was chosen. `git_sha` is left out when git or the repository is not
     available (an installed package, a zip download); a `-dirty` suffix marks runs made with uncommitted
-    changes, whose code no commit holds.
+    changes, and `git_dirty_files` names them (`git_tags`).
     """
     tags = {"code_version": version("kgbuilder"), "preset": preset or "none"}
     try:
         sha = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True
         ).stdout.strip()
-        dirty = subprocess.run(
+        status = subprocess.run(
             ["git", "status", "--porcelain", "--untracked-files=no"],
             capture_output=True,
             text=True,
             check=True,
-        ).stdout.strip()
-        tags["git_sha"] = f"{sha}-dirty" if dirty else sha
+        ).stdout
+        tags |= git_tags(sha, status)
     except (OSError, subprocess.CalledProcessError) as e:
         logging.getLogger(__name__).info("no git_sha tag: %s", e)
     return tags
+
+
+# tracked files a run names when the tree is dirty; more are summarised by their count, since an MLflow tag
+# holds one short value and a reviewer needs the list only to see whether code was among them
+_DIRTY_FILES_SHOWN = 20
+
+
+def git_tags(sha: str, status: str) -> dict[str, str]:
+    """The git tags of a run from `git rev-parse --short HEAD` and `git status --porcelain`: `git_sha`, with
+    a `-dirty` suffix when a tracked file differs from the commit, and then `git_dirty_files`, the paths
+    that differ (R91). The list lets a reviewer tell a run whose code no commit holds from one where only,
+    say, a local settings file differed and the code is exactly `sha`."""
+    # a porcelain line is "XY path" (or "XY old -> new" for a rename): the path starts at column 3
+    paths = [line[3:].strip() for line in status.splitlines() if line.strip()]
+    if not paths:
+        return {"git_sha": sha}
+    shown = paths[:_DIRTY_FILES_SHOWN]
+    more = len(paths) - len(shown)
+    return {
+        "git_sha": f"{sha}-dirty",
+        "git_dirty_files": ", ".join(shown) + (f" (+{more} more)" if more else ""),
+    }
 
 
 def gemini_key(settings: Settings) -> str:

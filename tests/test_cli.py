@@ -6,7 +6,7 @@ import json
 import pytest
 from typer.testing import CliRunner
 
-from kgbuilder.cli import app, gemini_key
+from kgbuilder.cli import app, gemini_key, git_tags
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ConfigurationError
 from kgbuilder.text.schema import TextSchema
@@ -124,3 +124,14 @@ def test_coverage_prints_the_estimate_and_a_bad_verdict_file_is_a_message(tmp_pa
     result = runner.invoke(app, command)
     assert result.exit_code == 1
     assert "exactly one" in result.output and "Traceback" not in result.output
+
+
+def test_git_tags_name_the_uncommitted_files_of_a_dirty_tree():
+    assert git_tags("abc1234", "") == {"git_sha": "abc1234"}
+    status = " M .claude/settings.json\nR  old.py -> new.py\n"
+    assert git_tags("abc1234", status) == {
+        "git_sha": "abc1234-dirty",
+        "git_dirty_files": ".claude/settings.json, old.py -> new.py",
+    }
+    many = "".join(f" M f{i}.py\n" for i in range(25))
+    assert git_tags("abc1234", many)["git_dirty_files"].endswith("f19.py (+5 more)")

@@ -4332,6 +4332,25 @@ MLflow run per dataset and arm, `kg anchor-eval`, and the six runs on `out/r77d_
   Next: step 4 of the direction, vector retrieval for C5 (arm C: question embeddings, a few cents; ask
   first) and the paired comparison of arms.
 
+### R91. Runs name their uncommitted files; R90's runs repeated on a clean commit (done 2026-10-06, $0)
+The user asked that everything be logged so it can be reviewed later. A check of R90's six MLflow runs
+found two faults:
+- **Not traceable to a commit.** Every run is tagged `git_sha = e792ae9-dirty`: they ran before part b was
+  committed, so no commit holds their code. Even on a commit, every run of this checkout is `-dirty`,
+  because the user's local `.claude/settings.json` (a permission rule, not code) is uncommitted.
+- **Wrong experiment.** They went to `kgbuilder-dev`, the experiment of `.env`'s `KG_PRESET=dev`, while
+  R87a's runs of the same builds are in each dataset's experiment (`--preset quality` / `heldout` /
+  `generality`).
+
+Fix:
+- `cli.git_tags(sha, status)`, pure, called by `run_tags`: a dirty run also gets the tag
+  `git_dirty_files` (the tracked files that differ from the commit, at most 20 named). A reviewer can
+  then see that only `.claude/settings.json` differed and the code is exactly `git_sha`.
+- Test in `tests/test_cli.py`.
+- R90's six runs repeated at this commit with the dataset presets (results below). The `dev` runs
+  `29af8c28`, `772497c6`, `42608645`, `9a9835a5`, `def55168`, `73738c63` are superseded and kept, not
+  deleted.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
