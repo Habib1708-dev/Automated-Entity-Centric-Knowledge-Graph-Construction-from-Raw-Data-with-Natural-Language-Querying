@@ -4810,7 +4810,7 @@ comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_n
   - C0 on the replayed build confirms the identity counts only by construction.
 - **Gate (results):** 678 passed, `ruff check` clean.
 
-### R95. Code links a name only when it is sure; an LLM chooses among the near misses (R95a done 2026-10-06, $0; R95b open)
+### R95. Code links a name only when it is sure; an LLM chooses among the near misses (done 2026-10-06; $0.0256)
 The user, 2026-10-06, after R94: implement the earlier session's fix for the 3 in-scope links that still
 fail C4 on furniture. Collecting candidates and deciding between them are one step in `resolution/records.py`:
 a partial overlap or a close spelling decides alone.
@@ -4997,10 +4997,68 @@ a partial overlap or a close spelling decides alone.
     The 31 prompts hold about 63k characters (about 16k input tokens); at gemini-3.8-flash prices with
     `low` thinking the furniture replay should cost well under $0.10.
   - **Gate (code):** 702 passed (686 before), `ruff check` clean.
-  - **Not done, needs the user's yes:** the paid replay (`kg --preset quality audit-relink out/r77d_furniture
-    --choose`), then judging the new links (R93's procedure) and the results.
+  - Committed at `cd0ac2a`.
+- **R95b, the paid replay** (the user's yes, 2026-10-06: "yes you may run a paid run"; at `cd0ac2a` with only
+  `.claude/settings.json` dirty): `kg --preset quality audit-relink out/r77d_furniture --choose`, MLflow
+  `17c7e197`. gemini-3.8-flash, thinking low, prompt `0d1d7d45e37d`: **31 LLM calls, 0 failures, 18,345
+  input / 965 output / 2,203 thinking tokens, `cost_usd` $0.0256.**
+  - Outcomes: 17 chosen, 14 none, 0 refused by code (no unlisted id, unverified quote or twin), 1 not asked
+    (no sentence). 23 changes, 0 unexplained: `chosen` 17, `containment` 4, `left_scope` 2.
+  - Then $0, no model: `kg anchor-eval` anchor `37b8702c`, layered `13c54c51` (C0 passed); `kg anchor-sheets`
+    `8075e4ca`; `kg anchor-judged` `417aa906` (at `ec990d9`).
+  - Held-out (1 mention would be asked) and generality (none) were not replayed: only furniture was paid for.
+- **Judging** (judge: Claude Opus 5.5, `claude-opus-5-5`): byte-identical items keep their verdicts (R95a's;
+  the 3 links the chooser re-made, "weighted base", "adjustable shelves", "cable management system", R93's).
+  19 items are new: 8 C4 links and 11 C6 pairs. A blind Opus 5.5 subagent judged all 19 VALID. The lead
+  reviewed every new link, the 2 pairs the blind judge was least sure of (S-1085 from the dresser review:
+  the item shows only one hop, and the staged data confirms A-1070 "Drawers" is the Helsingborg Dresser's;
+  the desk review's "i expected more drawers"), and the 10 items the shifted VALID sample named: no change.
+- **Committed:** `tests/gold/r95b/` (the replay report with every choice, logged counts, anchor reports,
+  sheets, verdicts, judged report, `runs.json`). Two tests check the changes by cause and the choices, that
+  only the 19 new items were judged, and that the report is their score.
+- **Results, furniture** (judge: Claude Opus 5.5; Wilson 95 %; before = R95a's replay, after = R95b's):
+
+  | Criterion | R95a | R95b |
+  |---|---|---|
+  | C4 precision (blind labels equal) | 38/38 [0.91, 1.00] | **49/49** [0.93, 1.00] |
+  | C4, C3, C6 hard rules | pass | pass |
+  | C3 R75 pairs: precision / apart / recall | 1.0 / 1.0 / 8/13 | 1.0 / 1.0 / **11/13** |
+  | C3 split groups rightly apart (comparative) | 13/13 | 11/11 |
+  | C6 arm A / arm B, record + individual | 91/91 / 97/97 | **101/101 / 108/108** |
+  | C2 hit@1 / hit@5 | 68/86 / 77/86 | **70/86** / 77/86 |
+  | C5, both modes, @5 and @10; unbudgeted reach | (R95a) | unchanged |
+  | A vs vector, end to end, complete@5 | 16 vs 21, p 0.18 | unchanged |
+  | C7 nodes; C8 arm B unwitnessed hops | 109; 268 | 103; 219 |
+
+  Read with care:
+  - **No new wrong link.** All 17 choices were judged right. They split into 8 links no earlier replay had
+    right, 3 re-made containment links and 6 former joins (below). The 8: the Malmö desk's "drawer",
+    "drawers" and "drawer slides", "metal rails", "removable covers", "shelf", "cord", "bookshelf". Two of them
+    R93 had seen linked wrongly: the desk review's "drawers" (R93: the dresser's Drawers, cross-product) now
+    links the desk's own Drawer Unit, and "drawer slides" (R93: Drawer Sides) now links Drawer Rails ("The
+    drawer slides are smooth").
+  - **Recovered:** the Malmö desk's "drawer" -> A-1062 Drawer Unit (the link fix A had to give up), and 3 of
+    the 4 right containment links R95a gave up. **Not recovered: "frame construction"**: the LLM answered
+    none (R93 judged the containment link VALID), so F17 stays lost end to end. The success criterion is met
+    for precision (C4 1.0 >= 0.95) and the Malmö drawer, and for 3 of the 4 lost links.
+  - **The chooser declined both wrong readings R93 found:** "pre-drilled holes for the drawer handle" and
+    "drawer slide mechanism" (candidates Drawer and Drawer Handle) are answered none.
+  - **Six mentions the build had joined to their record by the individuals' LLM adjudication** ("dresser",
+    "sofa", "nightstands", "slat system", "Västerås Bookshelves", "Västerås") are now linked by a verified
+    choice to the same record; their verdicts carry, and their edges now hold the quote that shows it.
+  - Ranking: F12 ("removable covers") and F33 ("cord") now start from their records (C2 rank 2 -> 1); F48's
+    "drawers" slips from 2 to 3 (the desk's Drawer Unit now holds the desk's "drawers"); no C5 hit changed.
+- **Gate (results):** 704 passed (702 before), `ruff check` clean. **R95 done 2026-10-06.**
 
 ## Found along the way
+- **The chooser declined "frame construction" (found in R95b, 2026-10-06; unmeasured beyond one case).** R93
+  judged its old containment link to the sofa's Frame VALID; the LLM answered none, perhaps reading
+  "construction" as a property of the frame (the prompt's "a property of it" rule). It costs F17 end to end.
+  Any prompt change is measured on the frozen replay (the cache makes unchanged calls free) before it is kept.
+- **Held-out's one near-miss mention was not replayed (R95b).** Only the furniture replay was paid for; the
+  held-out build has 1 mention the chooser would be asked about, generality none. Their R95a numbers stand.
+- **`ruff format --check` flags `structured/profiler.py` (found in R95a, pre-existing).** One line ruff would
+  wrap differently; `ruff check` passes. R95 did not touch the file (a stray reformat was reverted).
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice; moot for the
   current builds since R94, where no start is below 0.95).** The
   direction (section 7.2) says "of the chunks reached from a node, how many concern it ... hard for record and

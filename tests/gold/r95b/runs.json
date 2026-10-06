@@ -1,0 +1,63 @@
+{
+ "step": "R95b: an LLM chooses among a mention's near misses, code links only a verified choice; measured by one paid replay of the furniture build",
+ "relink": {
+  "dataset": "furniture",
+  "mlflow_run_id": "17c7e1970f164374b3b811a678debf50",
+  "experiment": "kgbuilder",
+  "command": "kg --preset quality audit-relink out/r77d_furniture --data data --logged tests/gold/r87/furniture_logged.json --out out/r95b_furniture --choose",
+  "approved": "the user, 2026-10-06 ('yes you may run a paid run')",
+  "model": "gemini-3.8-flash",
+  "thinking": "low",
+  "record_choice_prompt_version": "0d1d7d45e37d",
+  "llm_calls": 31,
+  "cost_usd": 0.025639,
+  "file": "tests/gold/r95b/furniture/relink.json",
+  "hash": "8f22c3eb1cff"
+ },
+ "furniture": {
+  "build": "out/r95b_furniture/build (written by kg audit-relink --choose from out/r77d_furniture)",
+  "logged": {
+   "file": "tests/gold/r95b/furniture/logged.json",
+   "hash": "0db90739333f"
+  },
+  "anchor_eval": {
+   "anchor": {
+    "mlflow_run_id": "37b8702c0bdc4afa90da79cf21f8f61f",
+    "file": "tests/gold/r95b/furniture/anchor_anchor.json",
+    "hash": "8fd8395153cb"
+   },
+   "layered": {
+    "mlflow_run_id": "13c54c51748f47f19e2cec7493079334",
+    "file": "tests/gold/r95b/furniture/anchor_layered.json",
+    "hash": "7078eada5990"
+   }
+  },
+  "anchor_sheets": {
+   "mlflow_run_id": "8075e4ca5f69497ea53c04a60b9f0715",
+   "files": {
+    "c3_sheet.json": "be116052959e",
+    "c3_code.json": "5a65ad1a15af",
+    "c4_sheet.json": "b00434220c2d",
+    "c4_code.json": "151e895b8385",
+    "c6_sheet.json": "55e961ede906",
+    "c6_code.json": "af135227641f"
+   }
+  },
+  "targets_hash": "adc32787fee3",
+  "anchor_judged": {
+   "mlflow_run_id": "417aa90654214ba18ae09ab9a4d9d46c",
+   "git_sha": "ec990d9-dirty",
+   "file": "tests/gold/r95b/furniture/anchor_judged.json",
+   "hash": "1aa1e4d5e32d",
+   "verdicts": {
+    "c3_verdicts.json": "c068724b43ee",
+    "c4_verdicts.json": "aa3b41578b02",
+    "c6_verdicts.json": "778af3f43a28"
+   },
+   "verdicts_from": "tests/gold/r95a/furniture and (3 C4 links) tests/gold/r94/furniture, identical items carried; 19 new items judged blind and reviewed; 10 items of the shifted VALID sample reviewed"
+  }
+ },
+ "not_replayed": "held-out (1 mention would be asked) and generality (none): only furniture was paid for",
+ "git_sha": "cd0ac2a-dirty",
+ "git_dirty_files": ".claude/settings.json"
+}

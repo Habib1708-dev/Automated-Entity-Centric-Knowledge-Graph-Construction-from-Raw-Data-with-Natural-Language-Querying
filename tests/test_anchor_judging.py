@@ -12,7 +12,9 @@ each committed verdict file must answer its sheet under the review rules, with e
 committed results (fix A replayed offline) must show only the four cross-product links changed, carry R93's
 verdicts unchanged, score as reported, and pair with R92's vector rankings as reported. R95a's (tier 1 of
 record linking) must unlink only what a retired rule had linked, carry R94's verdicts with only the two new
-items judged, and score and pair as reported. No Neo4j, no LLM.
+items judged, and score and pair as reported. R95b's (the LLM's choice among near misses, one paid replay)
+must change only by a verified choice or a retired rule, judge only the new items, and score as reported.
+No Neo4j, no LLM.
 """
 
 import json
@@ -703,4 +705,90 @@ def test_r95a_carries_r94s_verdicts_judges_only_the_new_items_and_scores_as_repo
     assert report.final.c3.record_wrong_merges == [] and report.final.c3.hard_passed
     assert all(report.final.c6.hard_passed.values())
     # the price: one end-to-end question (F17) whose "frame" now starts from the bed's lone frame
+    assert _end_to_end_vs_vector(base) == (16.0, pytest.approx(0.1797, abs=1e-3))
+
+
+# --- the committed results of R95b (tier 3: the LLM's choice among near misses, one paid replay) ----------
+
+R95B = GOLD / "r95b"
+R95B_RUNS = json.loads((R95B / "runs.json").read_text(encoding="utf-8"))
+
+# The furniture mentions whose decision the paid replay changed, by cause. The chooser linked 17 (among them
+# the Malmö desk's "drawer" to its own Drawer Unit, and three of the four right links R95a gave up); R95a's
+# rules keep the other mentions unlinked: the two R93 judged wrong, the title, and "frame construction",
+# which the LLM declined. R94's "frame" and "center support" have no near miss to choose.
+R95B_CHANGED = {
+    "chosen": {
+        "drawer", "dresser", "Västerås Bookshelves", "metal rails", "removable covers", "nightstands",
+        "shelf", "cord", "slat system", "weighted base", "sofa", "bookshelf", "adjustable shelves",
+        "cable management system", "Västerås", "drawer slides", "drawers",
+    },
+    "containment": {
+        "drawer slide mechanism", "pre-drilled holes for the drawer handle", "Västerås Bookshelf Reviews",
+        "frame construction",
+    },
+    "left_scope": {"frame", "center support"},
+}  # fmt: skip
+
+
+def test_r95b_changed_only_by_a_verified_choice_or_a_retired_rule():
+    run = R95B_RUNS["relink"]
+    path = GOLD.parent.parent / run["file"]
+    assert digest(path) == run["hash"] and run["llm_calls"] == 31
+    report = RelinkReport.model_validate_json(path.read_text(encoding="utf-8"))
+    assert all(c.explained for c in report.changes)
+    by_cause: dict[str, set[str]] = {}
+    for c in report.changes:
+        by_cause.setdefault(c.cause, set()).add(c.name)
+    assert by_cause == R95B_CHANGED
+    actions = [d.action for d in report.choices]
+    assert (actions.count("chosen"), actions.count("none"), actions.count("no_sentence"), len(actions)) == (
+        17, 14, 1, 32,
+    )  # fmt: skip
+    # every link the chooser made carries the model and a quote that names the mention
+    chosen = [d for d in report.choices if d.action == "chosen"]
+    assert all(d.by == run["model"] and d.name.lower() in d.evidence.lower() for d in chosen)
+    [drawer] = [d for d in chosen if d.name == "drawer"]
+    assert (
+        drawer.record == "Assembly:A-1062"
+    )  # the desk's Drawer Unit, which R94's fix A had to leave unlinked
+
+
+def test_r95b_judges_only_the_new_items_and_scores_as_reported():
+    base, earlier = R95B / "furniture", (R95A / "furniture", R94 / "furniture")
+    judged_before = {
+        name: {
+            v.id: v
+            for folder in earlier
+            for v in load_verdicts(folder / f"{name}_verdicts.json", _ids(folder, name)).verdicts
+        }
+        for name in SHEET_MODELS
+    }
+    code, files = {}, {}
+    for name in SHEET_MODELS:
+        code[name] = CodeSide.model_validate_json((base / f"{name}_code.json").read_text(encoding="utf-8"))
+        files[name] = load_verdicts(base / f"{name}_verdicts.json", {i.id for i in code[name].items})
+        check_evidence(
+            SHEET_MODELS[name].model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")),
+            files[name],
+        )
+        assert all(
+            v == judged_before[name][v.id] for v in files[name].verdicts if v.id in judged_before[name]
+        )
+    new = {
+        name: [v for v in files[name].verdicts if v.id not in judged_before[name]] for name in SHEET_MODELS
+    }
+    assert {name: len(v) for name, v in new.items()} == {"c3": 0, "c4": 8, "c6": 11}
+    assert all(v.label is Label.VALID for verdicts in new.values() for v in verdicts)
+    assert {v.id for v in new["c4"]} <= set(files["c4"].reviewed)  # the lead reviewed every new link
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert digest(base / "anchor_judged.json") == R95B_RUNS["furniture"]["anchor_judged"]["hash"]
+    assert score_c4(files["c4"], code["c4"], 0.95) == report.final.c4
+    assert score_c6(files["c6"], code["c6"], 0.95) == report.final.c6
+    links = report.final.c4.links.accepted
+    assert (links.k, links.n, report.final.c4.hard_passed) == (49, 49, True)
+    assert report.final.c3.record_wrong_merges == [] and report.final.c3.hard_passed
+    assert report.final.c3.identity_pairs.joined == 11  # R75's same pairs: 8 of 13 after R95a
+    assert all(report.final.c6.hard_passed.values())
+    # F17's "frame construction" was declined, so the end-to-end pairing with vector retrieval is R95a's
     assert _end_to_end_vs_vector(base) == (16.0, pytest.approx(0.1797, abs=1e-3))
