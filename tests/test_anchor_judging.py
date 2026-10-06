@@ -15,6 +15,8 @@ record linking) must unlink only what a retired rule had linked, carry R94's ver
 items judged, and score and pair as reported. R95b's (the LLM's choice among near misses, one paid replay)
 must change only by a verified choice or a retired rule, judge only the new items, and score as reported.
 R96's (the chooser's revised prompt) must differ from R95b in one decision only, and score as reported.
+R99's (candidates outside a scope, with the individuals replayed) must carry every earlier verdict, judge
+only its eight new items, and score as reported, held-out's standing C3 failure included.
 No Neo4j, no LLM.
 """
 
@@ -827,3 +829,63 @@ def test_r96_changed_one_decision_and_scores_as_reported():
     assert all(report.final.c6.hard_passed.values())
     # F17 starts at the sofa's Frame again (two mentions, so it wins W1's tie): R94's pairing comes back
     assert _end_to_end_vs_vector(R96 / "furniture") == (17.0, pytest.approx(0.2891, abs=1e-3))
+
+
+# --- the committed results of R99 (record candidates outside a scope; the individuals replayed too) -------
+
+R99 = GOLD / "r99"
+R99_RUNS = json.loads((R99 / "runs.json").read_text(encoding="utf-8"))
+REPO = GOLD.parent.parent
+
+
+@pytest.mark.parametrize("dataset", sorted(R99_RUNS["datasets"]))
+def test_r99_carries_every_verdict_judges_only_the_new_items_and_scores_as_reported(dataset):
+    run, base = R99_RUNS["datasets"][dataset], R99 / dataset
+    old = REPO / run["verdicts"]["carried_from"]
+    for name, model in SHEET_MODELS.items():
+        assert digest(base / f"{name}_verdicts.json") == run["verdicts"]["files"][f"{name}_verdicts.json"]
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        old_file = load_verdicts(old / f"{name}_verdicts.json", _ids(old, name))
+        earlier = {v.id: v for v in old_file.verdicts}
+        new = set(run["verdicts"]["new_items"][name])
+        assert {v.id for v in file.verdicts if v.id not in earlier} <= new  # the rest are byte-identical
+        assert all(v == earlier[v.id] for v in file.verdicts if v.id not in new)  # carried, never re-judged
+        assert new <= set(file.reviewed) and not any(c.id in new for c in file.changes)  # the lead agreed
+        kept = {v.id for v in file.verdicts}
+        assert sorted(file.changes, key=lambda c: c.id) == sorted(
+            (c for c in old_file.changes if c.id in kept), key=lambda c: c.id
+        )
+        assert all(v.label == "VALID" for v in file.verdicts if v.id in new)
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert digest(base / "anchor_judged.json") == run["anchor_judged"]["hash"]
+    assert report.final.c4.hard_passed and all(report.final.c6.hard_passed.values())
+    assert report.final.c3.wrong_merges.get("individual", []) == []
+    # held-out's C3 hard rule fails since R93 on one record link no R94-R99 step touched (Found along the way)
+    assert report.final.c3.record_wrong_merges == (
+        ["l:8c6f9fa48d339e85:Vehicle:ROGUE"] if dataset == "heldout" else []
+    )
+
+
+def test_r99_links_the_pikes_and_the_kestrel_only_where_the_chooser_quoted_them():
+    """Generality's new out-of-scope candidates: four chosen (three Pikes, one Kestrel V-12), the open day's
+    Kestrel V-12 answered none, the two Maria Lopez records refused as twins; R75's identity recall 13/13."""
+    report = RelinkReport.model_validate_json((R99 / "generality" / "relink.json").read_text("utf-8"))
+    decided = sorted((c.name, c.action, c.record) for c in report.choices)
+    assert decided == [
+        ("J. Pike", "chosen", "Staff:S-131"),
+        ("J. Pike", "chosen", "Staff:S-131"),
+        ("Jon Pike", "chosen", "Staff:S-131"),
+        ("Kestrel V-12", "chosen", "Pump:KV12-0457"),
+        ("Kestrel V-12", "none", None),
+        ("M. Lopez", "twin", None),
+    ]
+    assert all(c.cause == "chosen" and c.explained for c in report.changes) and len(report.changes) == 4
+    judged = JudgedReport.model_validate_json((R99 / "generality" / "anchor_judged.json").read_text("utf-8"))
+    pairs = judged.final.c3.identity_pairs
+    assert (pairs.recall, pairs.same_scored, pairs.precision, pairs.apart) == (
+        1.0,
+        13,
+        1.0,
+        1.0,
+    )  # R93: 10/13

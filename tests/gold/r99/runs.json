@@ -1,0 +1,232 @@
+{
+ "step": "R99: record candidates outside a scope (name variants, unique key-attribute values), measured by kg audit-relink --choose --join on the three r77d builds",
+ "approved": "the user, 2026-10-06 (AskUserQuestion: yes for generality, furniture and held-out)",
+ "git_sha": "7e6d329-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "model": "gemini-3.8-flash",
+ "thinking": "low",
+ "record_choice_prompt_version": "e4f3d9cfa725",
+ "individual_prompt_version": "3793a4eaa358",
+ "cost_usd_total": 0.009042,
+ "sheets_git_sha": "d162cb1",
+ "judge": {
+  "model": "claude-opus-5-5",
+  "blind": "one Opus 5.5 subagent, rules files and the 8 new items only",
+  "lead": "Claude Opus 5.5 in the session reviewed all 8 new items and the 9 carried VALID verdicts the shifted seeded sample named; no change"
+ },
+ "datasets": {
+  "generality": {
+   "relink": {
+    "mlflow_run_id": "9998428d6ac342e1867bb65feab5f489",
+    "experiment": "kgbuilder-generality",
+    "command": "kg --preset generality_gemini audit-relink out/r77d_generality --data tests/fixtures/generality --logged tests/gold/r87/generality_logged.json --out out/r99_generality --choose --join",
+    "llm_calls": 177,
+    "cache_hits": 169,
+    "cost_usd": 0.004487,
+    "relink": {
+     "file": "tests/gold/r99/generality/relink.json",
+     "hash": "33d672fa2087"
+    },
+    "reidentify": {
+     "file": "tests/gold/r99/generality/reidentify.json",
+     "hash": "ed20a8a89461"
+    },
+    "logged": {
+     "file": "tests/gold/r99/generality/logged.json",
+     "hash": "37d46c85537a"
+    }
+   },
+   "build": "out/r99_generality/build (written by kg audit-relink --choose --join from out/r77d_generality)",
+   "anchor_eval": {
+    "preset": "generality",
+    "anchor": {
+     "mlflow_run_id": "94b90092302e4a269eb54c5c592bb3ee",
+     "file": "tests/gold/r99/generality/anchor_anchor.json",
+     "hash": "7c440a91f348"
+    },
+    "layered": {
+     "mlflow_run_id": "d7f156492b2344f7b4fd59291e052223",
+     "file": "tests/gold/r99/generality/anchor_layered.json",
+     "hash": "7c8253add109"
+    }
+   },
+   "anchor_sheets": {
+    "mlflow_run_id": "a48a972148b7444dbe8488436202c3a2",
+    "files": {
+     "c3_sheet.json": "7448e83df630",
+     "c3_code.json": "3abc796347c2",
+     "c4_sheet.json": "1493d96c58f6",
+     "c4_code.json": "ac3a043f6440",
+     "c6_sheet.json": "decbe3003357",
+     "c6_code.json": "d259b7dc9601"
+    }
+   },
+   "verdicts": {
+    "carried_from": "tests/gold/r93/generality",
+    "new_items": {
+     "c3": [],
+     "c4": [
+      "l:15ab15335189f009:Staff:S-131",
+      "l:5b8277685d24e2fb:Staff:S-131",
+      "l:ed3f535c5ff67d54:Staff:S-131"
+     ],
+     "c6": [
+      "p:Staff:S-131|institute/fieldwork_log.txt#0",
+      "p:Staff:S-131|institute/minutes_2025-05-12.md#0",
+      "p:Staff:S-131|institute/minutes_2025-06-09.md#0"
+     ]
+    },
+    "files": {
+     "c3_verdicts.json": "3ce67b21a79a",
+     "c4_verdicts.json": "8ec89a7f4c06",
+     "c6_verdicts.json": "2057d5d3249f"
+    }
+   },
+   "anchor_judged": {
+    "mlflow_run_id": "8ec8f21550b14552a5a77337c5aabd1e",
+    "git_sha": "d162cb1-dirty",
+    "identity_gold": "tests/gold/r75/generality_gold.json",
+    "file": "tests/gold/r99/generality/anchor_judged.json",
+    "hash": "660eef0d67be"
+   }
+  },
+  "furniture": {
+   "relink": {
+    "mlflow_run_id": "ee6a8e9b22b049099ee2fd7952b46301",
+    "experiment": "kgbuilder",
+    "command": "kg --preset quality audit-relink out/r77d_furniture --data data --logged tests/gold/r87/furniture_logged.json --out out/r99_furniture --choose --join",
+    "llm_calls": 110,
+    "cache_hits": 99,
+    "cost_usd": 0.003745,
+    "relink": {
+     "file": "tests/gold/r99/furniture/relink.json",
+     "hash": "dec688bf68e1"
+    },
+    "reidentify": {
+     "file": "tests/gold/r99/furniture/reidentify.json",
+     "hash": "522ee4afa117"
+    },
+    "logged": {
+     "file": "tests/gold/r99/furniture/logged.json",
+     "hash": "a16d3a58c4e0"
+    }
+   },
+   "build": "out/r99_furniture/build (written by kg audit-relink --choose --join from out/r77d_furniture)",
+   "anchor_eval": {
+    "preset": "quality",
+    "anchor": {
+     "mlflow_run_id": "9de3caf5ebed4f8895b70963e102a64e",
+     "file": "tests/gold/r99/furniture/anchor_anchor.json",
+     "hash": "4201e41a3ac4"
+    },
+    "layered": {
+     "mlflow_run_id": "9a05301022784a8abc7709f8ebbc1493",
+     "file": "tests/gold/r99/furniture/anchor_layered.json",
+     "hash": "fbfd257ba46b"
+    }
+   },
+   "anchor_sheets": {
+    "mlflow_run_id": "afd0f123d6554c20b2b701cdd4195912",
+    "files": {
+     "c3_sheet.json": "d65955dcf360",
+     "c3_code.json": "654177e40e0c",
+     "c4_sheet.json": "1b3c93cb939c",
+     "c4_code.json": "7e4407f44309",
+     "c6_sheet.json": "dad8da0f8a00",
+     "c6_code.json": "efb8c7709997"
+    }
+   },
+   "verdicts": {
+    "carried_from": "tests/gold/r96/furniture",
+    "new_items": {
+     "c3": [
+      "m:a56b8c9447c72882"
+     ],
+     "c4": [],
+     "c6": []
+    },
+    "files": {
+     "c3_verdicts.json": "1f50b0fff902",
+     "c4_verdicts.json": "c3022939b82c",
+     "c6_verdicts.json": "876b9f5a6a16"
+    }
+   },
+   "anchor_judged": {
+    "mlflow_run_id": "be8eb905252d42fb9fa1375c252ee2f1",
+    "git_sha": "d162cb1-dirty",
+    "identity_gold": "tests/gold/r75/furniture_gold.json",
+    "file": "tests/gold/r99/furniture/anchor_judged.json",
+    "hash": "76dd3d3e80ef"
+   }
+  },
+  "heldout": {
+   "relink": {
+    "mlflow_run_id": "c8759a0984214a71b2f900b43fd24a97",
+    "experiment": "kgbuilder-heldout",
+    "command": "kg --preset heldout audit-relink out/r77d_heldout --data heldout/nhtsa/data --logged tests/gold/r87/heldout_logged.json --out out/r99_heldout --choose --join",
+    "llm_calls": 144,
+    "cache_hits": 143,
+    "cost_usd": 0.00081,
+    "relink": {
+     "file": "tests/gold/r99/heldout/relink.json",
+     "hash": "4053d5a13a47"
+    },
+    "reidentify": {
+     "file": "tests/gold/r99/heldout/reidentify.json",
+     "hash": "f0599502592f"
+    },
+    "logged": {
+     "file": "tests/gold/r99/heldout/logged.json",
+     "hash": "51f50277017f"
+    }
+   },
+   "build": "out/r99_heldout/build (written by kg audit-relink --choose --join from out/r77d_heldout)",
+   "anchor_eval": {
+    "preset": "heldout",
+    "anchor": {
+     "mlflow_run_id": "a07b7f43f9ab4cb4bf6dc0bdd0d9b26d",
+     "file": "tests/gold/r99/heldout/anchor_anchor.json",
+     "hash": "bcf6837c29dc"
+    },
+    "layered": {
+     "mlflow_run_id": "3202f4268c84469ebe40cf1bf41f249c",
+     "file": "tests/gold/r99/heldout/anchor_layered.json",
+     "hash": "06efc4e50b5f"
+    }
+   },
+   "anchor_sheets": {
+    "mlflow_run_id": "5dc42e44829044ac8855f451516b44fd",
+    "files": {
+     "c3_sheet.json": "b3e8e3322510",
+     "c3_code.json": "edcd33e87adc",
+     "c4_sheet.json": "134baf6a6e24",
+     "c4_code.json": "9fdc5f81ce82",
+     "c6_sheet.json": "4697efee1172",
+     "c6_code.json": "0d73c27d302e"
+    }
+   },
+   "verdicts": {
+    "carried_from": "tests/gold/r93/heldout",
+    "new_items": {
+     "c3": [],
+     "c4": [
+      "l:fbc7f46234f20d42:Vehicle:CIVIC"
+     ],
+     "c6": []
+    },
+    "files": {
+     "c3_verdicts.json": "47ae384274f3",
+     "c4_verdicts.json": "df584e51e86f",
+     "c6_verdicts.json": "8aa06e7c64dc"
+    }
+   },
+   "anchor_judged": {
+    "mlflow_run_id": "b56bfd31040344f8ad5430a2c8f84480",
+    "git_sha": "d162cb1-dirty",
+    "identity_gold": "tests/gold/r75/heldout_gold.json",
+    "file": "tests/gold/r99/heldout/anchor_judged.json",
+    "hash": "698572e92817"
+   }
+  }
+ }
+}

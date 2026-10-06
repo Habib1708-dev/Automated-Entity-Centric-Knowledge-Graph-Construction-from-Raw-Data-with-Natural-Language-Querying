@@ -5326,7 +5326,7 @@ replayable on a snapshot and proves the replay is the build's.
     run ids, calls and hits, hashes); a test reloads them.
 - **Gate (results):** 729 passed (726 before), `ruff check` clean. **R98 done 2026-10-06.** Next: R99.
 
-### R99. Record candidates outside a scope: name variants and unique attribute values (started 2026-10-06)
+### R99. Record candidates outside a scope: name variants and unique attribute values (done 2026-10-06; $0.009)
 A keyed mention in a document without a scope gets no near miss today (R95b: "the whole domain vouches for
 nothing", R94), so the chooser is never asked. On generality, where no document has a scope, "Jon Pike" (the
 12 May minutes) and "J. Pike" stay apart from Staff S-131 "Jonathan Pike", and the open-day "Kestrel V-12" is
@@ -5366,9 +5366,77 @@ nothing", R94), so the chooser is never asked. On generality, where no document 
   ($0.0045), furniture `ee6a8e9b` ($0.0037), held-out `c8759a09` ($0.0008): **$0.009 in all**. Then $0:
   `kg anchor-eval` (both arms) and `kg anchor-sheets` on `out/r99_<ds>/build`. C0 passed on all three
   replayed builds; no unexplained change. Sheets and replay outputs committed in `tests/gold/r99/<ds>/`;
-  judging next.
+  judging next (`d162cb1`).
+- **Judging** (judge: Claude Opus 5.5, `claude-opus-5-5`). Every other item of the nine sheets equals an earlier
+  item byte for byte (R96's furniture, R93's held-out and generality sheets), so its verdict, review and
+  change carry over. Eight items are new: furniture C3 `m:a56b8c94...` ("lower shelf" + "shelf" of the coffee
+  table review, the one new join); held-out C4 "2016 CIVICS" -> `Vehicle:CIVIC`; generality C4 the three Pike
+  mentions -> `Staff:S-131` and C6 S-131 with their three chunks. A blind Opus 5.5 subagent (rules files and
+  the 8 items only) judged all 8 VALID and named the Pike links close calls: the texts never write the first
+  name. The lead reviewed all 8 and agrees: the staff table has one Pike only (S-131, Soil Ecology group
+  leader), the corpus ties him to the Aldmoor bog work ("Her group leader, Dr. Jonathan Pike"; "Dr. J. Pike
+  (Soil Ecology) ... the Aldmoor cores"), and the only other Pike (Judith) writes a residents' letter. The
+  shifted seeded VALID sample named 9 carried verdicts no lead had reviewed (furniture C3 "clear", "45cm";
+  generality C4 four pump key links; C6 S-219 in the June minutes, "seal", Core BF-2); the lead reviewed
+  them: no change.
+- **Committed:** `tests/gold/r99/<ds>/` (relink, reidentify, logged counts, anchor reports, sheets, code
+  sides, verdicts, judged report) with `runs.json` (commands, run ids, calls, hits, cost, hashes). Two tests
+  check that every earlier verdict carries, only the 8 new items were judged, the scores are the committed
+  ones, and the generality choices.
+- **The first measured join replay** (R98's machinery on R94-R96's record changes, which R94-R96 could not
+  measure): furniture's six joins of the build that R95b's verified choices made redundant ("sofa",
+  "dresser", "nightstands", "slat system", "Västerås Bookshelves", "Västerås") are not asked again, and one
+  join is new: "lower shelf" with "shelf" in the Jönköping review (judged VALID). Nominated by meaning:
+  furniture 28 (build 34), generality 38 (40), held-out 100 (100): the units changed, so the mutual-nearest
+  pairs move with them. Every other decision is the build's (cache hits: furniture 99/110, held-out 143/144,
+  generality 169/177 calls).
+- **Results** (judge: Claude Opus 5.5; before = R96 furniture, R93 held-out and generality for judged
+  criteria, R97 for the anchor reports; after = R99's replays):
+
+  | Criterion | furniture | held-out | generality |
+  |---|---|---|---|
+  | C4 precision | 50/50 (=) | 75/76 -> **76/77** | 40/40 -> **43/43** |
+  | C4 cross-scope confirmed | 0 | 0 | 0 |
+  | C3 wrong merges: individuals / records | 0 / 0 | 0 / **1** (R93's, unchanged) | 0 / 0 |
+  | C3 hard rule | passes | **fails** (since R93: "2017-2022 Rogue Sport" -> `Vehicle:ROGUE`) | passes |
+  | C3 individual merges judged (n) | 4 -> 5 (all right) | 10 | 31 -> 30 |
+  | C3 R75 pairs: precision / apart / recall | 1.0 / 1.0 / 11/13 (=) | 1.0 / 1.0 / 5/7 (=) | 1.0 / 1.0 / **10/13 -> 13/13** |
+  | C6 arm A / arm B, record + individual | 102/102 / 108/108 (=) | 77/77 / 77/77 (=) | 80/80 -> **83/83** both |
+  | C2 hit@1 / hit@5; unplaced | 72 / 77 of 86; 2 (=) | 46 / 52 of 65; 11 (=) | 41 / 45 of 62; 15 (=) |
+  | C5 gold start: recall@10, complete@10 | 56/61, 29/31 (=) | 30/36, 24/28 (=) | 46 -> **45**/51, 33 -> **32**/38 (G36) |
+  | C5 end to end: complete@5 / @10 | 17 / 22 of 31 (=) | 19 / 21 of 28 (=) | 21 -> **22** (G30) / 32 -> **31** (G36) of 38 |
+  | A vs vector, end to end, complete@10 | 22 vs 26 (=) | 21 vs 26 (=) | 32 vs 37, p 0.125 -> 31 vs 37, p 0.070 |
+  | C7 hubs (> 20 % of the corpus) | none | none | HP40-1183, HP40-2291 + **Staff:S-131** (8 of 32 chunks) |
+  | C8 arm A connections; unwitnessed | 13/14; 0 | 16/16; 0 | 12/12; 0 |
+  | Cost (MLflow `cost_usd`) | $0.0037 | $0.0008 | $0.0045 |
+
+  Read with care:
+  - **The success test is met where R99 acts:** all four new generality links are judged right; "M. Lopez" is
+    refused as a twin of two Maria Lopez records, as it must be. **One link is missed:** the open day's
+    "Kestrel V-12" ("Technician Rosa Delgado showed them the station's Kestrel V-12 pump", Harbour Station) is
+    KV12-0457, the one pump of that model and station, but the chooser answered none: a precision-first
+    abstention (no reason is recorded), so the mention stays `no_record`. Identity recall on generality reaches
+    13/13, precision and apart stay 1.0.
+    Furniture and held-out get no new candidate, as the dry run said; held-out's one never-replayed choice
+    (R95b's open item) links "2016 CIVICS" to the Civic row, judged right.
+  - **A new hub that is right:** S-131 ("Jonathan Pike") is named in 8 of 32 generality chunks once "Jon
+    Pike" and both "J. Pike" are his. C7 lists it; it is no rule breach (the "no new hub" bound is R101's,
+    for pass mentions).
+  - **The losses are ranking, not edges:** G36 ("Which Pike wrote to the newspaper ...?") starts from S-131
+    and Judith Pike; S-131's three new chunks now outrank the letter within 10. The query names only
+    "Pike", which the graph cannot resolve between the two; query-side, as in R97.
+  - **Held-out's C3 hard rule fails, and did since R93**: one INCORRECT record link ("2017-2022 Rogue Sport" ->
+    `Vehicle:ROGUE`, R93's cause 4). The plan's premise "after R96 every hard rule passes" missed it (R94-R96
+    fixed furniture only). Not caused by R97-R99; recorded under "Found along the way" for its own step.
+- **Gate (results):** 736 passed (732 before), `ruff check` clean. **R99 done 2026-10-06.** Next: R100.
 
 ## Found along the way
+- **Held-out's C3 hard rule fails since R93 (found again in R99, 2026-10-06; open, the user's choice).** One
+  record link is judged INCORRECT: "2017-2022 Rogue Sport" -> `Vehicle:ROGUE` (R93's cause 4: a sibling model
+  linked to the base model by key; the recall text names the Rogue Sport as a separate model). A wrong record
+  merge fails C3 (decision 3 of R93). R94-R96 fixed only furniture, so the R97-R103 plan's premise "every hard
+  rule passes" was wrong for held-out. Not caused by R97-R99. A fix belongs to record linking (a model name with
+  a further word is not the base model's key), in its own step.
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**
   `ABOUT` gives a document or a section one subject. W3-named (R97) leads from a chunk to every record and
   individual it names, so the current corpora need nothing more; a long document whose sections are about

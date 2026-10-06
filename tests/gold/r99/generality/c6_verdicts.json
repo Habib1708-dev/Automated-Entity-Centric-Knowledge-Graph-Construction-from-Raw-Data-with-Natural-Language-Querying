@@ -1,0 +1,775 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-06",
+  "snapshot_hash": "4dc8e1b2f8dd",
+  "sheet": "tests/gold/r99/generality/c6_sheet.json",
+  "sheet_hash": "decbe3003357",
+  "sheets_git_sha": "d162cb1"
+ },
+ "criterion": "C6",
+ "verdicts": [
+  {
+   "id": "p:0ec02bf178f7962f|water/incident_2025-03-29.md#0",
+   "label": "VALID",
+   "reason": "The incident report is about the flooding of the North Station dry well.",
+   "evidence": "About 3,000 litres of water flooded the dry well before the operator isolated the pump.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1d15903b1944ad77|news/harbour_open_day.md#0",
+   "label": "VALID",
+   "reason": "The chunk reports on Riverton Water's open day itself.",
+   "evidence": "Harbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/calder_quotation.md#0",
+   "label": "VALID",
+   "reason": "The quotation names North Station and the seal failure of one of its pumps.",
+   "evidence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/inspection_2025-03-14.md#0",
+   "label": "VALID",
+   "reason": "Inspection report of the pumps at North Station.",
+   "evidence": "Technician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/inspection_2025-06-13.md#0",
+   "label": "VALID",
+   "reason": "Summer inspection report of the pumps at North Station.",
+   "evidence": "Technician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/shift_notes.txt#0",
+   "label": "VALID",
+   "reason": "Shift notes kept for North Station.",
+   "evidence": "Shift notes, North Station, week of 7 April 2025.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/shift_notes_june.txt#0",
+   "label": "VALID",
+   "reason": "Shift notes kept for North Station.",
+   "evidence": "Shift notes, North Station, week of 9 June 2025.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3067c8796384821c|water/north_station_2024_summary.md#0",
+   "label": "VALID",
+   "reason": "The chunk is the 2024 summary of North Station.",
+   "evidence": "North Station pumped 1.9 million cubic metres in 2024.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:31c04829fc8d3d6c|institute/minutes_2025-05-12.md#0",
+   "label": "VALID",
+   "reason": "The institute's Finance Office is named as represented at the meeting by Maria Lopez, who presents the budget.",
+   "evidence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:31c04829fc8d3d6c|institute/minutes_2025-06-09.md#0",
+   "label": "VALID",
+   "reason": "The same institute Finance Office is named as represented at the meeting, reporting on the travel budget.",
+   "evidence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:398cceccecf16477|institute/brackwater_fen_log.txt#0",
+   "label": "VALID",
+   "reason": "The log has an entry for Core BF-1.",
+   "evidence": "Core BF-1, 14 April: depth 2.1 m, pH 3.8.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/budget_2025.md#0",
+   "label": "VALID",
+   "reason": "The budget lists the repair of the Mill Lane footbridge.",
+   "evidence": "- Mill Lane footbridge repair: 180,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/budget_2026.md#0",
+   "label": "VALID",
+   "reason": "The budget lists the footbridge's east railing.",
+   "evidence": "- Mill Lane footbridge east railing: 15,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/council_notices.md#0",
+   "label": "VALID",
+   "reason": "The notice announces the closure of the Mill Lane footbridge.",
+   "evidence": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/footbridge_reopens.md#0",
+   "label": "VALID",
+   "reason": "The article reports the reopening of the Mill Lane footbridge.",
+   "evidence": "The Mill Lane footbridge reopened on 28 March after eight weeks of works.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/letter_to_the_editor.md#0",
+   "label": "VALID",
+   "reason": "The letter is about the safety of the Mill Lane footbridge.",
+   "evidence": "Sir, the mayor tells us the Mill Lane footbridge is safe to use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/mill_lane_and_eastgate.md#0",
+   "label": "VALID",
+   "reason": "The council voted to repair the Mill Lane footbridge.",
+   "evidence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:45025e9eb096f52f|institute/travel_claims_memo.md#0",
+   "label": "VALID",
+   "reason": "The memo is issued by the Finance Office and sets its claim deadline.",
+   "evidence": "Travel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:57f101d1c056e6ca|institute/fieldwork_log.txt#0",
+   "label": "VALID",
+   "reason": "The chunk is the field log of the Aldmoor bog.",
+   "evidence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:57f101d1c056e6ca|institute/newsletter_spring_2025.md#0",
+   "label": "VALID",
+   "reason": "The newsletter describes the sampling campaign on the Aldmoor bog.",
+   "evidence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:57f101d1c056e6ca|institute/utrecht_conference_2025.md#0",
+   "label": "VALID",
+   "reason": "The chunk mentions a poster on the cores of the Aldmoor bog.",
+   "evidence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:61ead95083a7626e|water/harbour_station_may_2025.md#0",
+   "label": "VALID",
+   "reason": "The chunk is the monthly report of Harbour Station.",
+   "evidence": "# Harbour Station monthly report, May 2025",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:62a48c6769acc6f3|news/budget_2025.md#0",
+   "label": "VALID",
+   "reason": "The budget funds the Eastgate library roof project and sets its deadline.",
+   "evidence": "The contractor for the library roof must finish before the library reopens on 1 September.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:62a48c6769acc6f3|news/mill_lane_and_eastgate.md#0",
+   "label": "VALID",
+   "reason": "The article reports the vote and plan to replace the Eastgate library roof.",
+   "evidence": "The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:67692d644b44a8b7|news/bakery_opens.md#0",
+   "label": "VALID",
+   "reason": "The article says a bakery opened at 14 Harbour Street.",
+   "evidence": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76654ff4ab052023|institute/travel_claims_memo.md#0",
+   "label": "VALID",
+   "reason": "The memo names the conference trip to Utrecht.",
+   "evidence": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:766942258b5322ba|water/inspection_2025-03-14.md#0",
+   "label": "VALID",
+   "reason": "The inspection covers both Hydra P-40 pumps.",
+   "evidence": "Technician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:79f1fc2dde4494af|institute/utrecht_conference_2025.md#0",
+   "label": "VALID",
+   "reason": "The article reports the conference held in Utrecht.",
+   "evidence": "Two of our researchers attended the European peat conference in Utrecht in June 2025.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7d58d65611345bb0|institute/hensley_award.md#0",
+   "label": "VALID",
+   "reason": "The institute's Hydrology team is named as the affiliation of the 2022 award winner.",
+   "evidence": "- 2022: Aiko Tanaka (Hydrology), for the river gauging survey.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7d58d65611345bb0|institute/seminar_notice_autumn.md#0",
+   "label": "VALID",
+   "reason": "The seminar speaker is from Hydrology and speaks on its flume results.",
+   "evidence": "Aiko Tanaka (Hydrology) speaks on",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7d87ef3aea463c96|institute/brackwater_fen_log.txt#0",
+   "label": "VALID",
+   "reason": "The log has an entry for Core BF-3.",
+   "evidence": "Core BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:939af2da7a1f5855|news/flood_meeting.md#0",
+   "label": "VALID",
+   "reason": "The same council structural inspector Daniel Okafor speaks at the flood meeting.",
+   "evidence": "The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:939af2da7a1f5855|news/mill_lane_and_eastgate.md#0",
+   "label": "VALID",
+   "reason": "The same council structural inspector is reported on the footbridge.",
+   "evidence": "The council's structural inspector, Daniel Okafor, wrote in his report that residents had told him the east railing moved when leaned on; he recommended closing the bridge at once.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:95895c26276de0ba|water/calder_quotation.md#0",
+   "label": "VALID",
+   "reason": "The quotation is written in response to that seal failure.",
+   "evidence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:9884a2cf4e246288|news/harbour_open_day.md#0",
+   "label": "VALID",
+   "reason": "Harbour Station hosted the open day and its pump is described.",
+   "evidence": "Harbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:9884a2cf4e246288|water/shift_notes.txt#0",
+   "label": "VALID",
+   "reason": "The notes report the trips of the pump at Harbour Station.",
+   "evidence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/incident_2025-03-29.md#0",
+   "label": "VALID",
+   "reason": "The incident is the seal failure of pump HP40-1183 at North Station.",
+   "evidence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/inspection_2025-03-14.md#0",
+   "label": "VALID",
+   "reason": "The inspection reports HP40-1183's seal drip and bearing temperature.",
+   "evidence": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/inspection_2025-06-13.md#0",
+   "label": "VALID",
+   "reason": "The inspection reports HP40-1183 dry after its new seal.",
+   "evidence": "Pump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/north_station_2024_summary.md#0",
+   "label": "VALID",
+   "reason": "The summary gives HP40-1183's running hours at North Station.",
+   "evidence": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/shift_notes.txt#0",
+   "label": "VALID",
+   "reason": "The notes discuss the seal returned from HP40-1183.",
+   "evidence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/shift_notes_june.txt#0",
+   "label": "VALID",
+   "reason": "The notes report HP40-1183 on duty at North Station.",
+   "evidence": "Mon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/work_orders_2025-06.md#0",
+   "label": "VALID",
+   "reason": "A work order regreased HP40-1183's bearings.",
+   "evidence": "WO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/incident_2025-03-29.md#0",
+   "label": "VALID",
+   "reason": "The incident report says HP40-2291 was switched to duty after the failure.",
+   "evidence": "Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/inspection_2025-03-14.md#0",
+   "label": "VALID",
+   "reason": "The inspection reports on pump HP40-2291 at North Station.",
+   "evidence": "Pump HP40-2291 ran quietly. No leaks were found on HP40-2291, and its bearing temperature was 48",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/inspection_2025-06-13.md#0",
+   "label": "VALID",
+   "reason": "The June inspection describes the seal drip on HP40-2291.",
+   "evidence": "Pump HP40-2291 now shows a slow drip from its mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/north_station_2024_summary.md#0",
+   "label": "VALID",
+   "reason": "The summary gives HP40-2291's running hours for 2024.",
+   "evidence": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/shift_notes.txt#0",
+   "label": "VALID",
+   "reason": "The shift notes record HP40-2291 on duty and its flow.",
+   "evidence": "Mon: HP40-2291 on duty all week, flow steady at 41 l/s.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/shift_notes_june.txt#0",
+   "label": "VALID",
+   "reason": "The notes plan the seal change on HP40-2291.",
+   "evidence": "Wed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/work_orders_2025-06.md#0",
+   "label": "VALID",
+   "reason": "A work order replaces the seal of HP40-2291.",
+   "evidence": "WO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-104|institute/fieldwork_log.txt#0",
+   "label": "VALID",
+   "reason": "The bog coring log is kept by M. Lopez, the field researcher (Soil Ecology), not the finance accountant.",
+   "evidence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-104|institute/hensley_award.md#0",
+   "label": "VALID",
+   "reason": "The 2025 award goes to Maria Lopez of Soil Ecology, matching the record's team.",
+   "evidence": "2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-104|institute/newsletter_spring_2025.md#0",
+   "label": "VALID",
+   "reason": "The newsletter names Maria Lopez of the Soil Ecology team.",
+   "evidence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-104|institute/utrecht_conference_2025.md#0",
+   "label": "VALID",
+   "reason": "The researcher presenting the bog-core poster is the Soil Ecology Maria Lopez.",
+   "evidence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/fieldwork_log.txt#0",
+   "label": "VALID",
+   "reason": "The field log names J. Pike (Jonathan Pike) and says what he did: freed the jammed corer.",
+   "evidence": "the corer jammed at 5 m and was freed by J. Pike",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/hensley_award.md#0",
+   "label": "VALID",
+   "reason": "The 2023 award goes to Jonathan Pike of Soil Ecology.",
+   "evidence": "2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/minutes_2025-05-12.md#0",
+   "label": "VALID",
+   "reason": "The minutes name Jon Pike (Jonathan Pike) as chair of the meeting and say he closed it.",
+   "evidence": "Jon Pike closed the meeting at 16:40.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/minutes_2025-06-09.md#0",
+   "label": "VALID",
+   "reason": "The minutes name J. Pike (Jonathan Pike) as present and say he explained the Aldmoor overrun.",
+   "evidence": "J. Pike explained the equipment overrun of the Aldmoor peat project",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/newsletter_spring_2025.md#0",
+   "label": "VALID",
+   "reason": "Dr. Jonathan Pike is named as the Soil Ecology group leader, matching the record's role.",
+   "evidence": "Her group leader, Dr. Jonathan Pike, called the campaign",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/seminar_notice.md#0",
+   "label": "VALID",
+   "reason": "The seminar speaker is Dr. J. Pike of Soil Ecology.",
+   "evidence": "Dr. J. Pike (Soil Ecology) speaks on",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|institute/utrecht_conference_2025.md#0",
+   "label": "VALID",
+   "reason": "Dr. Jonathan Pike, an institute researcher, chaired a peat session.",
+   "evidence": "Dr. Jonathan Pike chaired the session on peat as a carbon archive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-131|news/flood_meeting.md#0",
+   "label": "VALID",
+   "reason": "Dr Jonathan Pike of the environmental institute speaks on peat bogs, the same researcher.",
+   "evidence": "Dr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-219|institute/minutes_2025-05-12.md#0",
+   "label": "VALID",
+   "reason": "The minutes name Maria Lopez of the Finance Office presenting the grants budget.",
+   "evidence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-219|institute/minutes_2025-06-09.md#0",
+   "label": "VALID",
+   "reason": "The minutes name Maria Lopez of the Finance Office reporting on travel budget.",
+   "evidence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Staff:S-219|institute/travel_claims_memo.md#0",
+   "label": "VALID",
+   "reason": "The memo is written by Maria Lopez, the grants accountant.",
+   "evidence": "From: Maria Lopez, grants accountant",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a5864f007aecc70c|news/letter_harbour_street.md#0",
+   "label": "VALID",
+   "reason": "Judith Pike is the author who signs this letter.",
+   "evidence": "Judith Pike, Mill Lane",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a8e247003eb71b6e|institute/minutes_2025-05-12.md#0",
+   "label": "VALID",
+   "reason": "The chunk is the minutes of this very committee meeting.",
+   "evidence": "# Minutes of the institute committee, 12 May 2025",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/budget_2025.md#0",
+   "label": "VALID",
+   "reason": "The 2025 budget lists the Eastgate library roof.",
+   "evidence": "- Eastgate library roof: 420,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/budget_2026.md#0",
+   "label": "VALID",
+   "reason": "The 2026 budget lists Eastgate library heating.",
+   "evidence": "- Eastgate library heating: 140,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/mill_lane_and_eastgate.md#0",
+   "label": "VALID",
+   "reason": "The council votes to replace the Eastgate library roof.",
+   "evidence": "to replace the roof of the Eastgate library",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ae6e3c3b29862bd7|institute/newsletter_spring_2025.md#0",
+   "label": "VALID",
+   "reason": "The newsletter section describes the Hydrology team building a flume.",
+   "evidence": "The Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:aee9785651b313d8|water/incident_2025-03-29.md#0",
+   "label": "VALID",
+   "reason": "The incident is a seal failure; the chunk speaks of the seal kind.",
+   "evidence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:aee9785651b313d8|water/inspection_2025-06-13.md#0",
+   "label": "VALID",
+   "reason": "The inspection describes a leaking seal and a seal change.",
+   "evidence": "Delgado tagged HP40-2291 for a seal change before the end of the month.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:aee9785651b313d8|water/shift_notes.txt#0",
+   "label": "VALID",
+   "reason": "The notes discuss a returned seal and its warranty.",
+   "evidence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:b27af7419faff416|news/budget_2026.md#0",
+   "label": "VALID",
+   "reason": "The budget lists the Mill Lane footbridge east railing item.",
+   "evidence": "- Mill Lane footbridge east railing: 15,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c4cac32ceba65ec8|water/calder_quotation.md#0",
+   "label": "VALID",
+   "reason": "The quotation states the seal interval of a Hydra P-40.",
+   "evidence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/calder_quotation.md#0",
+   "label": "VALID",
+   "reason": "The quotation is about mechanical seal kits and their replacement interval.",
+   "evidence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/incident_2025-03-29.md#0",
+   "label": "VALID",
+   "reason": "The incident is a mechanical seal failure.",
+   "evidence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/inspection_2025-03-14.md#0",
+   "label": "VALID",
+   "reason": "The inspection reports a drip from a mechanical seal.",
+   "evidence": "Pump HP40-1183 showed a slow drip from the mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/inspection_2025-06-13.md#0",
+   "label": "VALID",
+   "reason": "The inspection reports a drip from a mechanical seal.",
+   "evidence": "Pump HP40-2291 now shows a slow drip from its mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/work_orders_2025-06.md#0",
+   "label": "VALID",
+   "reason": "A work order replaces a mechanical seal.",
+   "evidence": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d5a2b928db96009c|news/budget_2026.md#0",
+   "label": "VALID",
+   "reason": "The council publishing Riverton's 2026 budget is the Riverton town council.",
+   "evidence": "The council has published its works budget for 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d5a2b928db96009c|news/mill_lane_and_eastgate.md#0",
+   "label": "VALID",
+   "reason": "The chunk reports the Riverton town council's vote.",
+   "evidence": "The Riverton town council voted 7 to 2 on Tuesday",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d6b00a7afd4a97b0|water/harbour_station_may_2025.md#0",
+   "label": "VALID",
+   "reason": "The report describes a blocked intake screen being cleaned.",
+   "evidence": "On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:df9b23656ace4370|water/incident_2025-03-29.md#0",
+   "label": "VALID",
+   "reason": "The chunk is the incident report of this very flooding.",
+   "evidence": "# Incident report: flooding of the North Station dry well",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ed69bddf7c659f0a|institute/minutes_2025-06-09.md#0",
+   "label": "VALID",
+   "reason": "The chunk is these very minutes.",
+   "evidence": "# Minutes of the institute committee, 9 June 2025",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/budget_2025.md#0",
+   "label": "VALID",
+   "reason": "The 2025 budget lists Harbour Street resurfacing.",
+   "evidence": "- Harbour Street resurfacing: 95,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/budget_2026.md#0",
+   "label": "VALID",
+   "reason": "The 2026 budget lists Harbour Street resurfacing carried over.",
+   "evidence": "- Harbour Street resurfacing, carried over from 2025: 110,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/council_notices.md#0",
+   "label": "VALID",
+   "reason": "The notice says Harbour Street resurfacing is postponed.",
+   "evidence": "Harbour Street: resurfacing postponed to 2026. The street stays open to traffic.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/flood_meeting.md#0",
+   "label": "VALID",
+   "reason": "The chunk names Harbour Street in passing while saying its resurfacing should come after the drainage.",
+   "evidence": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/letter_harbour_street.md#0",
+   "label": "VALID",
+   "reason": "The letter is about the delayed resurfacing of Harbour Street.",
+   "evidence": "Sir, the resurfacing of Harbour Street was promised for this year and has now been moved to next year's budget.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f9e856750f5efe67|news/letter_to_the_editor.md#0",
+   "label": "VALID",
+   "reason": "The letter complains that the east railing still moves.",
+   "evidence": "I cross it every morning with my daughter, and the east railing still moves when you lean on it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:facbbeb93eddffed|institute/brackwater_fen_log.txt#0",
+   "label": "VALID",
+   "reason": "The log records Core BF-2's depth and pH.",
+   "evidence": "Core BF-2, 14 April: depth 2.6 m, pH 4.3.",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "p:3ec5a326cfbce96a|news/budget_2025.md#0",
+  "p:3ec5a326cfbce96a|news/footbridge_reopens.md#0",
+  "p:3ec5a326cfbce96a|news/letter_to_the_editor.md#0",
+  "p:57f101d1c056e6ca|institute/fieldwork_log.txt#0",
+  "p:62a48c6769acc6f3|news/budget_2025.md#0",
+  "p:Pump:HP40-2291|water/inspection_2025-06-13.md#0",
+  "p:Staff:S-104|institute/fieldwork_log.txt#0",
+  "p:Staff:S-131|institute/fieldwork_log.txt#0",
+  "p:Staff:S-131|institute/minutes_2025-05-12.md#0",
+  "p:Staff:S-131|institute/minutes_2025-06-09.md#0",
+  "p:Staff:S-219|institute/minutes_2025-06-09.md#0",
+  "p:a8e247003eb71b6e|institute/minutes_2025-05-12.md#0",
+  "p:aee9785651b313d8|water/inspection_2025-06-13.md#0",
+  "p:c4cac32ceba65ec8|water/calder_quotation.md#0",
+  "p:facbbeb93eddffed|institute/brackwater_fen_log.txt#0"
+ ],
+ "changes": []
+}
