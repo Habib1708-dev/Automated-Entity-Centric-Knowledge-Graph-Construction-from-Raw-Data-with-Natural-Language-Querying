@@ -5,8 +5,12 @@ them (C2, C5, C7, C8, C9) up to the stage's MLflow run.
 The snapshot is invented (a desk lamp and a kettle, each with a part called "Switch") and holds one wrong
 claim attachment, so the leak the anchor arm prevents is visible: arm B walks from the lamp into the
 kettle's chunk through a claim, arm A cannot. The stage test reuses the graph audit's invented build
-folder (tests/test_audit.py). No Neo4j, no LLM.
+folder (tests/test_audit.py). The committed reports of R90's runs (tests/gold/r90, R91) must still load
+and must name the gold files they were computed from. No Neo4j, no LLM.
 """
+
+import json
+from pathlib import Path
 
 import pytest
 
@@ -19,7 +23,7 @@ from kgbuilder.anchor.criteria import (
     selectivity,
     size,
 )
-from kgbuilder.anchor.report import START_MODES, evaluate
+from kgbuilder.anchor.report import START_MODES, AnchorReport, evaluate
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import Record, Relation
 from kgbuilder.audit.snapshot import (
@@ -32,6 +36,7 @@ from kgbuilder.audit.snapshot import (
 from kgbuilder.config import Settings
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.anchor_stages import AnchorEvalStage, report_file
+from kgbuilder.pipeline.inputs import digest
 from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
@@ -413,3 +418,26 @@ def test_the_stage_rebuilds_the_build_and_logs_one_run_per_arm(tmp_path, arm):
     assert run.logged_metrics["c5_gold_start_recall_at_5"] == 1.0
     assert (tmp_path / "anchor" / report_file(arm)).is_file()
     assert state.anchor.placed["Q1"][0].nodes == ["Product:P-2"]
+
+
+# --- the committed results of R90 (R91) ---------------------------------------------------------------
+
+RESULTS = Path(__file__).resolve().parent / "gold" / "r90"
+RUNS = json.loads((RESULTS / "runs.json").read_text(encoding="utf-8"))["runs"]
+
+
+@pytest.mark.parametrize("run", RUNS, ids=lambda r: f"{r['dataset']}-{r['arm']}")
+def test_each_committed_report_loads_and_names_the_gold_it_was_computed_from(run):
+    repo = RESULTS.parent.parent.parent
+    report = AnchorReport.model_validate_json((repo / run["report"]).read_text(encoding="utf-8"))
+    assert report.arm.value == run["arm"] and report.fidelity_passed
+    # the same bytes as the committed gold and logged counts: the report describes these files
+    assert digest(repo / "tests" / "gold" / "r89" / f"{run['dataset']}_targets.json") == run["targets_hash"]
+    assert digest(repo / "tests" / "gold" / "r87" / f"{run['dataset']}_logged.json") == run["logged_hash"]
+    assert run["git_dirty_files"] in ("", ".claude/settings.json")  # the code was exactly `git_sha`
+
+
+def test_every_dataset_has_a_committed_report_in_both_arms():
+    assert {(r["dataset"], r["arm"]) for r in RUNS} == {
+        (d, a.value) for d in ("furniture", "heldout", "generality") for a in Arm
+    }

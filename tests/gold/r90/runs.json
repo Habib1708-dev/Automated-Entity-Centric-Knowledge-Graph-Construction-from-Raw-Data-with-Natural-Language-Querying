@@ -1,0 +1,83 @@
+{
+ "step": "R90 criteria, repeated in R91 at a clean commit",
+ "runs": [
+  {
+   "dataset": "furniture",
+   "arm": "anchor",
+   "report": "tests/gold/r90/furniture/anchor_anchor.json",
+   "mlflow_run_id": "bac9c159e2474102a17751b4bdda1010",
+   "experiment": "kgbuilder",
+   "git_sha": "a360797-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "build": "out/r77d_furniture",
+   "targets_hash": "adc32787fee3",
+   "qa_gold_hash": "d1a89e24fe7a",
+   "logged_hash": "28ed567d9e49"
+  },
+  {
+   "dataset": "furniture",
+   "arm": "layered",
+   "report": "tests/gold/r90/furniture/anchor_layered.json",
+   "mlflow_run_id": "3a179c4bcf154213aea797eaaf7f01d4",
+   "experiment": "kgbuilder",
+   "git_sha": "a360797-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "build": "out/r77d_furniture",
+   "targets_hash": "adc32787fee3",
+   "qa_gold_hash": "d1a89e24fe7a",
+   "logged_hash": "28ed567d9e49"
+  },
+  {
+   "dataset": "heldout",
+   "arm": "anchor",
+   "report": "tests/gold/r90/heldout/anchor_anchor.json",
+   "mlflow_run_id": "71b205322792458182a9f5f39421bcbe",
+   "experiment": "kgbuilder-heldout",
+   "git_sha": "a360797-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "build": "out/r77d_heldout",
+   "targets_hash": "32a6719fcb76",
+   "qa_gold_hash": "37922573ddf6",
+   "logged_hash": "665e546a7a57"
+  },
+  {
+   "dataset": "heldout",
+   "arm": "layered",
+   "report": "tests/gold/r90/heldout/anchor_layered.json",
+   "mlflow_run_id": "aa172378927b407badc8753bf7316ea6",
+   "experiment": "kgbuilder-heldout",
+   "git_sha": "a360797-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "build": "out/r77d_heldout",
+   "targets_hash": "32a6719fcb76",
+   "qa_gold_hash": "37922573ddf6",
+   "logged_hash": "665e546a7a57"
+  },
+  {
+   "dataset": "generality",
+   "arm": "anchor",
+   "report": "tests/gold/r90/generality/anchor_anchor.json",
+   "mlflow_run_id": "eae344b6c6974ee6a4fb62fb55c37e9e",
+   "experiment": "kgbuilder-generality",
+   "git_sha": "a360797-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "build": "out/r77d_generality",
+   "targets_hash": "affd1d1ecff4",
+   "qa_gold_hash": "83ea728af164",
+   "logged_hash": "38d56947816d"
+  },
+  {
+   "dataset": "generality",
+   "arm": "layered",
+   "report": "tests/gold/r90/generality/anchor_layered.json",
+   "mlflow_run_id": "e5df0b20bc92437c87b74dd82160140d",
+   "experiment": "kgbuilder-generality",
+   "git_sha": "a360797-dirty",
+   "git_dirty_files": ".claude/settings.json",
+   "build": "out/r77d_generality",
+   "targets_hash": "affd1d1ecff4",
+   "qa_gold_hash": "83ea728af164",
+   "logged_hash": "38d56947816d"
+  }
+ ]
+}

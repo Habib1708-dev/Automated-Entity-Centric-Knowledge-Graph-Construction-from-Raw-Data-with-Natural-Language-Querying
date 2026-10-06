@@ -4288,9 +4288,11 @@ MLflow run per dataset and arm, `kg anchor-eval`, and the six runs on `out/r77d_
   - Settings `anchor_budgets` [5, 10] and `anchor_hub_share` 0.2.
   - `LoggedCounts.usage`: the build's per-stage cost and tokens, copied from MLflow into
     `tests/gold/r87/<dataset>_logged.json` from the same run ids as the counts (additions only).
-- **Runs** (`kg anchor-eval` on `out/r77d_*`, reports in `out/r90_<dataset>/anchor_<arm>.json`; MLflow
-  anchor/layered: furniture `29af8c28` / `772497c6`, held-out `42608645` / `9a9835a5`, generality
-  `def55168` / `73738c63`). C0 passed and C1 = 1.0 everywhere. Rates as k/n:
+- **Runs** (`kg anchor-eval` on `out/r77d_*`). First made in the `dev` experiment before part b was
+  committed, then repeated in R91 at a clean commit, with identical metrics. The current runs are the
+  R91 ones, anchor/layered: furniture `bac9c159` / `3a179c4b`, held-out `71b20532` / `aa172378`,
+  generality `eae344b6` / `e5df0b20`. The reports are committed in `tests/gold/r90/`. C0 passed and
+  C1 = 1.0 everywhere. Rates as k/n:
 
   | | furniture A | furniture B | held-out A | held-out B | generality A | generality B |
   |---|---|---|---|---|---|---|
@@ -4347,9 +4349,22 @@ Fix:
   `git_dirty_files` (the tracked files that differ from the commit, at most 20 named). A reviewer can
   then see that only `.claude/settings.json` differed and the code is exactly `git_sha`.
 - Test in `tests/test_cli.py`.
-- R90's six runs repeated at this commit with the dataset presets (results below). The `dev` runs
-  `29af8c28`, `772497c6`, `42608645`, `9a9835a5`, `def55168`, `73738c63` are superseded and kept, not
-  deleted.
+- R90's six runs repeated at this commit (`a360797`) with the dataset presets, in R87a's experiments
+  (`kgbuilder` for furniture, `kgbuilder-heldout`, `kgbuilder-generality`). Each is tagged
+  `git_sha = a360797-dirty` with `git_dirty_files = .claude/settings.json`, so the code is exactly
+  `a360797`. Every metric equals the superseded `dev` run's; only `duration_s` differs. The `dev` runs
+  `29af8c28`, `772497c6`, `42608645`, `9a9835a5`, `def55168`, `73738c63` are kept, not deleted.
+- **The results are committed:** the six reports in `tests/gold/r90/<dataset>/anchor_<arm>.json`
+  (about 500 KB), and `tests/gold/r90/runs.json` mapping each one to its MLflow run id, experiment,
+  `git_sha`, build and the hashes of the target gold, QA gold and logged counts it read. They are the
+  reference results that step 4 (pairing arms) and step 6 (decision) read. `mlflow.db`, `mlruns/` and
+  `out/` stay local and git-ignored.
+- **Tests:**
+  - `test_git_tags_name_the_uncommitted_files_of_a_dirty_tree` (`tests/test_cli.py`);
+  - in `tests/test_anchor.py`, every committed report must load as `AnchorReport` with C0 passed, the
+    gold and logged hashes must equal the committed files, and only `.claude/settings.json` may be dirty.
+- **Gate:** 623 passed (616 after the code commit, 615 before R91), `ruff check` clean. Six offline runs,
+  $0.
 
 ## Found along the way
 
