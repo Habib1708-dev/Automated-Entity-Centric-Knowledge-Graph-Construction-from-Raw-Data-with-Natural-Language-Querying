@@ -3403,6 +3403,15 @@ a count over claims must tell them apart (task file, Step 7).
     adds little to answers). No type worse beyond one sample's variation: met (lowest per-type p 0.25;
     furniture overall p 0.070). `path_truth` 1.0: met. Stop rule (task file section 4): does not apply.
   - **Open, the user's decision:** the query default (see "Found along the way").
+- **Part c: the default counts conditional claims (the user's decision, 2026-10-05; code 2026-10-06).** A
+  plan's default modality "actual" now finds the claims that hold, actual or conditional; "possible" and
+  "conditional" asked for by name stay narrow (`plan_cypher._MODALITIES`). Changed in code only: the plan's
+  fields, their descriptions and the planner prompt are byte-identical to part b, so the planner's cached
+  requests are reused and the run measures the default alone. The prompt's "Only claims the text states as
+  holding come back" still reads right; its opt-in "conditional" now narrows. Test first:
+  `test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others` gains a conditional claim
+  and failed before (counted 1 for 2); the R74 parameter assertion follows the new parameter name. Gate:
+  527 passed, `ruff check` clean. Run: asked first.
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
@@ -3546,11 +3555,12 @@ records must be able to say what the question asks of the records.
 
 (Add items here during a step instead of widening its scope.)
 
-- **The query default leaves out conditional claims (found in R77 part b).** `find_claims` keeps affirmed,
-  actual claims unless the question's words ask for others, as the task file's "counts default to affirmed
-  and actual" says; 5 answers were lost to it (F17, F27, F28, F31, H06: "creaks whenever someone sits down").
-  A default of "affirmed and not possible" (actual or conditional) would keep them. A change of the planner
-  prompt re-plans every question (R77: 10 answers lost and 5 gained by new plans alone).
+- **(Changed in R77 part c.) The query default left out conditional claims (found in R77 part b).**
+  `find_claims` kept affirmed, actual claims unless the question's words asked for others, as the task file's
+  "counts default to affirmed and actual" says; 5 answers were lost to it (F17, F27, F28, F31, H06: "creaks
+  whenever someone sits down"). A change of the planner prompt re-plans every question (R77: 10 answers lost
+  and 5 gained by new plans alone), so part c changed code only. The text2cypher prompt still says "a claim
+  that holds is affirmed and actual"; align it at the next change of that prompt.
 - **The negation check knows no negating verbs (found in R77 part b).** 9 furniture claims were rejected as
   negated without a negation word, although the model read them right: "prevents sagging", "eliminates
   flickering", "resistant to water rings and scratches". The closed list holds negators only; such verbs

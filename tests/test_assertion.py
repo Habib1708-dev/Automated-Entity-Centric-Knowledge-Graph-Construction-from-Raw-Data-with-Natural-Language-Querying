@@ -257,15 +257,18 @@ def test_a_denied_or_possible_claim_is_asked_for_only_with_the_questions_words()
 
 @pytest.mark.neo4j
 def test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others(runner_parts, driver):  # noqa: F811
-    # the test graph's claim o1 ("spindle wobbles", stored before R77) holds; two more claims of the same
-    # kind on the same press: one the text denies, one it calls possible
+    # the test graph's claim o1 ("spindle wobbles", stored before R77) holds; three more claims of the same
+    # kind on the same press: one the text denies, one it calls possible, and one that holds whenever its
+    # condition holds ("wobbles when it runs fast"), which reports the wobble as much as o1 does (R77 part c:
+    # the default left it out and lost "creaks whenever someone sits down")
     store, _ = runner_parts
     schema = _with(
         driver,
         store,
         "MATCH (p:Press {press_id: 'P1'}), (o1:Observation {id: 'o1'})-[:SUBJECT]->(s), (o1)-[:OBJECT]->(w), "
         "(o1)-[:FROM]->(c) "
-        "UNWIND [['o2', 'negated', 'actual'], ['o3', 'affirmed', 'possible']] AS x "
+        "UNWIND [['o2', 'negated', 'actual'], ['o3', 'affirmed', 'possible'], "
+        "['o4', 'affirmed', 'conditional']] AS x "
         "CREATE (o:Observation {id: x[0], predicate: 'HAS_CONDITION', truth: x[1], modality: x[2]}), "
         "(o)-[:SUBJECT]->(s), (o)-[:OBJECT]->(w), (o)-[:FROM]->(c), (p)-[:HAS_OBSERVATION]->(o)",
     )
@@ -277,9 +280,10 @@ def test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others(
         step = {"op": "find_claims", "input": 0, "predicate": "HAS_CONDITION", **assertion}
         return run(r, schema, question, press, step, count).number
 
-    assert claims("How often does it wobble?") == 1.0
+    assert claims("How often does it wobble?") == 2.0  # o1 and the conditional o4
     assert claims("How often does it not wobble?", truth="negated", truth_words="not wobble") == 1.0
     assert claims("Could it wobble?", modality="possible", modality_words="could") == 1.0
+    assert claims("When does it wobble?", modality="conditional", modality_words="when") == 1.0
 
 
 # --- the scorer -----------------------------------------------------------------------------------------

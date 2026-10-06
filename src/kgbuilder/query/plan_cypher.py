@@ -170,6 +170,19 @@ def parts_of(ids: list[str], labels: list[str], cap: int) -> Fragment:
     return cypher, {"ids": ids, "labels": labels}
 
 
+# The stored modalities a plan's `modality` finds. "actual", the default, means the claims that hold: a
+# claim that holds whenever its condition holds ("the frame creaks whenever someone sits down") reports that
+# the thing happens, and leaving it out lost 5 answers in R77 part b (the user's decision for part c); only a
+# possible claim says that it may not happen. Asked for by name, "conditional" and "possible" stay narrow.
+# Kept in code, not in the plan's field or the prompt, so the planner's requests and their cache stay as
+# they were and the change is measured alone.
+_MODALITIES: dict[Modality, list[str]] = {
+    "actual": ["actual", "conditional"],
+    "possible": ["possible"],
+    "conditional": ["conditional"],
+}
+
+
 def find_claims(
     records: list[str] | None,
     entities: list[str] | None,
@@ -187,8 +200,8 @@ def find_claims(
     entities (a mention that refers to one, or attached to an individual, R76), narrowed by predicate,
     subject and object entities, tone and time; None leaves a part out. With `either_end`, the subject and
     the object entities may each be on either end of the claim (R78). Only claims of the given `truth` and
-    `modality` come back (R77; by default the claims that hold); a claim stored before R77 has neither and
-    counts as affirmed and actual."""
+    `modality` come back (R77; by default the claims that hold, `_MODALITIES`); a claim stored before R77 has
+    neither and counts as affirmed and actual."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
@@ -227,8 +240,8 @@ def find_claims(
     if time_words is not None:
         where.append("toLower(coalesce(o.time, '')) CONTAINS toLower($time)")
         params["time"] = time_words
-    where.append("coalesce(o.truth, 'affirmed') = $truth AND coalesce(o.modality, 'actual') = $modality")
-    params["truth"], params["modality"] = truth, modality
+    where.append("coalesce(o.truth, 'affirmed') = $truth AND coalesce(o.modality, 'actual') IN $modalities")
+    params["truth"], params["modalities"] = truth, _MODALITIES[modality]
     clause = f" WHERE {' AND '.join(where)}" if where else ""
     return f"MATCH (o:Observation){clause} RETURN DISTINCT o.id AS id LIMIT {int(cap)}", params
 
