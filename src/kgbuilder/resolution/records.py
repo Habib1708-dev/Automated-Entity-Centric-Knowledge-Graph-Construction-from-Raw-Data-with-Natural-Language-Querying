@@ -7,8 +7,9 @@ Design: pure matching over `RecordCandidate`s, unit-tested without a database; `
 `read_scopes` are the only reads. The rules, in order, each a reason on the identity edge:
   1. `key`: the record's key is a whole token of the mention's name ("pump HP40-1183");
   2. `name` / `contained`: the name matches a record's name inside the scope of the mention's document (a
-     near-exact fuzzy match, else the record's whole name inside the mention's, R60/R67), else one record
-     of the whole domain (R11's scoped linking, moved here from linking.py);
+     near-exact fuzzy match, else the record's whole name inside the mention's, R60/R67); only a document
+     without a scope may match one record of the whole domain (R11's scoped linking, moved here from
+     linking.py; R94 ended the fallback for documents with a scope);
   3. `key_in_sentence`: no name decides, and exactly one key (of the tied records when names tie) is written
      right next to the mention's name in a sentence ("pump HP40-1183", "the vehicle (RAV4)"): a key
      elsewhere in the sentence is no evidence, since a sentence may list many records (found in R75's
@@ -130,10 +131,13 @@ class _ByName(BaseModel):
 def _by_name(
     name: str, scopes: list[list[RecordCandidate]], records: list[RecordCandidate], threshold: float
 ) -> _ByName:
-    """The records the name names: inside each scope (fuzzy, else containment), else in the whole domain.
+    """The records the name names: inside each scope (fuzzy, else containment); only when the document has
+    no scope at all, in the whole domain (fuzzy only).
 
-    Outside every scope only fuzzy matching is used: a scope vouches that the document is about the
-    record's neighbourhood, the whole domain vouches for nothing, so containment is not trusted there.
+    A scope vouches that the document is about the record's neighbourhood; the whole domain vouches for
+    nothing. So a document with a scope never links beyond it (R94): R93 judged all 4 such links of the
+    furniture build wrong, a desk review's "drawer" reaching a nightstand's "Drawer" because the desk's own
+    record is called "Drawer Unit". A document without a scope (no thing it is about) still has the domain.
     """
     names = sorted({name, without_title(name)})
     found: dict[str, NameMatch] = {}
@@ -145,7 +149,7 @@ def _by_name(
             contained |= bool(in_scope)
         for m in in_scope:
             found.setdefault(m.record.element_id, m)
-    if found:
+    if found or scopes:
         return _ByName(matches=list(found.values()), scoped=True, contained=contained)
     return _ByName(matches=name_matches(names, records, threshold), scoped=False, contained=False)
 

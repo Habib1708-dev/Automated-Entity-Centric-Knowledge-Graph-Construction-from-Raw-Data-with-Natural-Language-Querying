@@ -4692,6 +4692,41 @@ No threshold or definition of the direction document is changed except as record
   direction expected).
 - **Gate (results):** 672 passed, `ruff check` clean.
 
+### R94. Record links stay inside the document's scope (started 2026-10-06; fix A of R93)
+The user, 2026-10-06, after R93: "do fix A". R93 found that every furniture failure of a hard rule but one
+comes from one rule, the whole-domain fallback of `resolution/records.py` `_by_name`.
+- **The defect.** When no record inside a document's scope matches a mention's name, the fallback matches
+  the name against every record of the dataset.
+  - Example: the Malmö Desk review's "drawer" fails against the desk's own `A-1062 "Drawer Unit"` (spelling
+    score 71, threshold 90). It then finds the Norrköping Nightstand's `A-1021 "Drawer"` (score 100).
+  - In documents with a scope the fallback made 4 links, all judged INCORRECT (R93).
+  - In documents without a scope (generality) it made 13 name links, all right.
+- **Fix A.** The whole-domain fallback is used only when the mention's document has no scope. With a scope
+  and no match inside it, the mention links to no record and stands for itself (an individual).
+- **A behaviour change, stated:** R11 meant the fallback for "a chair review that mentions the table"
+  (`tests/test_records.py`). After the fix, a document that names another anchored thing by its full name no
+  longer links it. In the three builds no such correct link exists (0 of 4 fallback links were right). The
+  test's expectation flips, with this reason. Fix C (an LLM choosing among the in-scope records, which would
+  find `A-1062`) is a later step, if the user wants it.
+- **Split: two parts, one commit each.**
+  - (a) The fix with a failing test first ($0).
+  - (b) The measurement ($0, no rebuild):
+    - The build's Neo4j graph is gone, and `kg resolve` also asks an LLM to join individuals. So the record
+      matching, which is pure code, is replayed offline on each build's snapshot with the fixed rules.
+    - The replay must reproduce resolve.json exactly, except the links the fix removes. Otherwise it is
+      refused.
+    - The criteria are then recomputed on the replayed builds. Only new or changed judging items are
+      judged; unchanged items keep their R93 verdicts.
+- **Part a: the fix (done 2026-10-06, $0).**
+  - `_by_name` returns the in-scope matches, empty or not, whenever the mention's document has a scope. The
+    whole-domain fuzzy match is reached only without one.
+  - Rules 3-5 still run on an empty name match: a key written next to the name, or a telling attribute, is
+    evidence wherever its record is.
+  - The test came first and failed: the old code linked "drawer" in the desk's scope (with "Drawer Unit")
+    to another product's "Drawer". `test_a_name_outside_the_scope_falls_back_to_a_unique_domain_match`
+    became `test_a_name_outside_the_scope_of_its_document_links_no_record` (the behaviour change above).
+  - Gate: 672 passed (672 before: one test changed, none added), `ruff check` clean.
+
 ## Found along the way
 - **C6's hard rule: pooled over pairs, or per start? (found in R93, 2026-10-06; the user's choice).** The
   direction (section 7.2) says "of the chunks reached from a node, how many concern it ... hard for record and

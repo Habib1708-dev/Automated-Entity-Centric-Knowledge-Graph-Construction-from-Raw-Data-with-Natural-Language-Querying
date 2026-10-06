@@ -1,7 +1,8 @@
 """Record matching for mentions of keyed types (R75, resolution/records.py), pure: names near-exact or
-contained, inside the scope of the mention's document or unique in the domain (the linking rules of R11,
-R60 and R67, moved here), the record's key in the name or a sentence, and an attribute that tells two
-records of one name apart. No Neo4j."""
+contained, inside the scope of the mention's document, or unique in the domain when the document has no
+scope (the linking rules of R11, R60 and R67, moved here; R94 ended the fallback beyond a scope), the
+record's key in the name or a sentence, and an attribute that tells two records of one name apart.
+No Neo4j."""
 
 from kgbuilder.resolution.records import (
     RecordCandidate,
@@ -86,10 +87,15 @@ def ids_of(records: list[RecordCandidate]) -> list[str]:
     return [r.element_id for r in records]
 
 
-def test_a_name_outside_the_scope_falls_back_to_a_unique_domain_match():
-    # a chair review that mentions the table: not in the chair's scope, but unique in the domain
-    result = match("table", scopes=[[CHAIR, CHAIR_LEGS]])
-    assert result.link.record.element_id == "p2" and not result.link.scoped
+def test_a_name_outside_the_scope_of_its_document_links_no_record():
+    # R94: the scope is the only evidence that a document speaks of a record. A desk review's "drawer" whose
+    # own record is called "Drawer Unit" must not reach a nightstand's "Drawer" through the whole domain
+    # (R93: 4 such links, all wrong). The price, accepted: a chair review naming "the table" stays unlinked.
+    desk, desk_drawer = record("p3", "Product", "Desk"), record("a3", "Assembly", "Drawer Unit")
+    stand_drawer = record("a4", "Assembly", "Drawer")
+    result = match("drawer", scopes=[[desk, desk_drawer]], records=[desk, desk_drawer, stand_drawer])
+    assert result.link is None and result.tied == []
+    assert match("table", scopes=[[CHAIR, CHAIR_LEGS]]).link is None
 
 
 def test_containment_is_used_only_inside_a_scope_and_after_fuzzy():
