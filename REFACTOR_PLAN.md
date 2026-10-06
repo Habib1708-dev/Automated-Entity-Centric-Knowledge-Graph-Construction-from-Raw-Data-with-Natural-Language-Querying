@@ -5430,7 +5430,7 @@ nothing", R94), so the chooser is never asked. On generality, where no document 
     fixed furniture only). Not caused by R97-R99; recorded under "Found along the way" for its own step.
 - **Gate (results):** 736 passed (732 before), `ruff check` clean. **R99 done 2026-10-06.** Next: R100.
 
-### R100. Evidence-based individual adjudication that may abstain (started 2026-10-06)
+### R100. Evidence-based individual adjudication that may abstain (done 2026-10-06; $0.398)
 The adjudicator of individuals (`individuals.llm_adjudicator`) sees at most three lines per side, each the
 first sentence naming it (`resolver.mention_lines`), often a heading; the sentence that holds the evidence
 usually does not name the thing, `verified` wants each quote to name its side, record units show no cells, and
@@ -5490,9 +5490,77 @@ there is no "unsure". All nine generality split groups were nominated and answer
   in all**, 0 failed calls, 0 unexplained changes. Then $0: `kg anchor-eval` (both arms) and `kg
   anchor-sheets` on `out/r100_<ds>/build` (C0 passed on all three). Sheets and replay outputs committed in
   `tests/gold/r100/<ds>/`; 30 items new or changed against R99's sheets, all generality but two; judging
-  next.
+  next (`f999b84`).
+- **Judging** (judge: Claude Opus 5.5, `claude-opus-5-5`). Items byte-identical to R99's keep R99's verdicts.
+  30 items are new or changed: furniture C3 2, generality C3 9 (the grown North Station, Harbour Station,
+  Rosa Delgado, Hydrology, council nodes, the new Finance Office, Utrecht and Aldmoor nodes, the new room B12
+  split), C4 1 (the open day's "Kestrel V-12" -> `Pump:KV12-0457`, joined to the record's unit by the
+  adjudicator), C6 18. Two blind Opus 5.5 subagents (C3+C4: 12 items; C6: 18) saw only the rules and their
+  items: 25 VALID, 4 VALID_ALTERNATIVE (furniture "dimmer" + "dimmer switch"; "Aldmoor", whose minutes
+  heading "Aldmoor overrun." is shorthand for the project; "Hydrology" with the heading "New hydrology flume";
+  "council" twice by context), 1 INCORRECT: the split `s:Place:room b12` (the two seminar notices of one
+  institute name one room, now two nodes). The lead reviewed all 30 and the 13 carried VALID verdicts the
+  shifted seeded sample named: no change.
+- **The prompt's effect, pair by pair** (R100 against R99's replay: the same units and the same nominated
+  pairs; only the adjudicator differs):
+
+  | | furniture (91 pairs) | held-out (163) | generality (173) |
+  |---|---|---|---|
+  | joined R99 -> R100 | 5 -> 2 | 14 -> 11 | 82 -> 92 |
+  | apart -> joined / joined -> unsure / apart -> unsure | 1 / 4 / 2 | 0 / 3 / 17 | 21 / 11 / 28 |
+  | `unsure` (new) | 6 | 20 | 39 |
+  | `no_sentence` (not asked) | 1 | 0 | 0 |
+  | failed calls | 0 | 0 | 0 |
+
+- **Results** (judge: Claude Opus 5.5; before = R99's replay, after = R100's):
+
+  | Criterion | furniture | held-out | generality |
+  |---|---|---|---|
+  | C3 wrong merges of individuals | 0 | 0 | 0 |
+  | C3 wrong merges of records | 0 | 1 (R93's, Found along the way) | 0 |
+  | C3 split groups that are one thing (comparative) | 0 of 11 -> 0 of 12 | 0 of 3 | **9 of 9 -> 3 of 3** |
+  | C3 R75 pairs: precision / apart / recall | 1.0 / 1.0 / **11/13 -> 10/13** | 1.0 / 1.0 / 5/7 | 1.0 / 1.0 / 13/13 |
+  | C3 individual merges judged (n) | 5 -> 2 | 10 -> 9 | 30 -> 30 (larger nodes) |
+  | C4 precision | 50/50 | 76/77 | 43/43 -> **44/44** |
+  | C6 arm A / B (record + individual) | 102/102 / 108/108 | 77/77 / 77/77 | 83/83 -> 84/84 |
+  | C5 gold start complete@5 / @10 (38) | (=) | (=) | 25 / 32 -> 25 / **31** (G15) |
+  | C5 end to end complete@5 / @10 (38) | (=) | (=) | 22 -> **24** (G37, G38) / 31 |
+  | A vs vector, end to end, complete@5 | (=) | (=) | 22 vs 34, p 0.002 -> 24 vs 34, p 0.006 |
+  | C7 hubs; C8 arm A | none; 13/14 | none; 16/16 | 3; 12/12, 0 unwitnessed |
+  | Cost (MLflow `cost_usd`) | $0.050 | $0.182 | $0.165 |
+
+  Read with care:
+  - **On generality the design does what it was for, with no wrong join.** Seven of R93's nine split groups
+    are one node each now: Harbour Station, North Station, Utrecht, Rosa Delgado, Aldmoor, Finance Office,
+    Hydrology. The evidence is the neighbouring line R75's prompt never showed, e.g. Harbour Station's May
+    report "# Harbour Station monthly report, May 2025" joined with the shift notes' "Wed: the Kestrel V-12 at
+    Harbour Station (serial KV12-0457) tripped twice ...", and the open day's Kestrel V-12 reached its record
+    (the link R99's chooser missed). Mill Lane and town hall stay split.
+  - **The price is caution: `unsure` replaces some right joins.** Generality's room B12 (judged INCORRECT as a
+    split) and "summer quarterly round" / "quarterly inspection"; furniture's "cushions" / "cushion" (one
+    sofa review; an R75 gold pair, so recall 11/13 -> 10/13), "dimmer" / "dimmer function", "storage" /
+    "storage mechanism", "upholstery" / "fabric"; held-out's "2019-2022 Insight" / "2019-2022 Honda Insight".
+    All were judged right in R99. The new prompt asks for a stated role, place, organisation, date or event,
+    which a part named in the singular and the plural in one review does not give. Recorded under "Found
+    along the way" for the user to weigh; no rule is changed here.
+  - **G15 is a ranking loss** (gold start, `council` now also holds the flood meeting's and the 2026
+    budget's council, so its chunks crowd the 2025 budget out of the top 10); G37 and G38 gain at 5 end to end.
+  - The prompt is the R100 design's only LLM-facing change; it was written before the measurement and from an
+    invented domain (the corpus-language test passes). Gold and verdicts come from one model family.
+- **Committed:** `tests/gold/r100/<ds>/` (replay outputs, anchor reports, sheets, verdicts, judged reports) and
+  `runs.json`; two tests in `tests/test_anchor_judging.py` check the carried verdicts, that only the 30
+  items were judged and no join is wrong, the scores, the three remaining generality splits and the `unsure`
+  counts.
+- **Gate (results):** 746 passed (742 before), `ruff check` clean. **R100 done 2026-10-06.** Next: R101.
 
 ## Found along the way
+- **R100's adjudicator answers "unsure" for some right joins (found in R100, 2026-10-06; the user's choice).**
+  Seven joins judged right in R99 are lost: furniture "cushions" / "cushion" (one review; an R75 gold pair, so
+  identity recall 11/13 -> 10/13), "dimmer" / "dimmer function", "storage" / "storage mechanism", "upholstery" /
+  "fabric"; held-out "2019-2022 Insight" / "2019-2022 Honda Insight"; generality "room B12" in two seminar
+  notices and "summer quarterly round" / "quarterly inspection". The prompt asks for a stated role, place, organisation, date or event, which a thing named in the
+  singular and the plural in one document does not give. Options: accept (precision first), or one more
+  prompt rule for names of one document, measured by a replay (about $0.4).
 - **A second adjudication pass for individuals (R100, 2026-10-06; open until a replayed pair needs it).** A
   pair is decided once, from its own lines. A join made in the pass could bring a side new evidence (the
   other mentions of the group it joined); asking again with it is not built until a replay shows a pair that

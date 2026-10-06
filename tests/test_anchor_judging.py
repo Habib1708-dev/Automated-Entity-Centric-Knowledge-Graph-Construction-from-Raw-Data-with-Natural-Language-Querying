@@ -17,6 +17,8 @@ must change only by a verified choice or a retired rule, judge only the new item
 R96's (the chooser's revised prompt) must differ from R95b in one decision only, and score as reported.
 R99's (candidates outside a scope, with the individuals replayed) must carry every earlier verdict, judge
 only its eight new items, and score as reported, held-out's standing C3 failure included.
+R100's (the evidence-based adjudicator of individuals) must carry R99's verdicts, judge only the changed
+items, make no wrong join, and score as reported.
 No Neo4j, no LLM.
 """
 
@@ -45,6 +47,7 @@ from kgbuilder.anchor.targets import PlacedTarget
 from kgbuilder.anchor.vector import vector_reach
 from kgbuilder.audit.checks import CodeChecks, Flag, SplitGroup
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
+from kgbuilder.audit.reidentify import ReidentifyReport
 from kgbuilder.audit.relink import RelinkReport
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
@@ -889,3 +892,47 @@ def test_r99_links_the_pikes_and_the_kestrel_only_where_the_chooser_quoted_them(
         1.0,
         1.0,
     )  # R93: 10/13
+
+
+# --- the committed results of R100 (the evidence-based adjudicator of individuals) -------------------------
+
+R100 = GOLD / "r100"
+R100_RUNS = json.loads((R100 / "runs.json").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("dataset", sorted(R100_RUNS["datasets"]))
+def test_r100_carries_r99s_verdicts_judges_only_the_changed_items_and_scores_as_reported(dataset):
+    run, base = R100_RUNS["datasets"][dataset], R100 / dataset
+    old = REPO / run["verdicts"]["carried_from"]
+    new = set(R100_RUNS["new_items"])
+    for name, model in SHEET_MODELS.items():
+        assert digest(base / f"{name}_verdicts.json") == run["verdicts"]["files"][f"{name}_verdicts.json"]
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        earlier = {v.id: v for v in load_verdicts(old / f"{name}_verdicts.json", _ids(old, name)).verdicts}
+        assert all(v == earlier[v.id] for v in file.verdicts if v.id not in new)  # carried, never re-judged
+        assert {v.id for v in file.verdicts if v.id not in earlier} <= new
+        assert {v.id for v in file.verdicts} & new <= set(file.reviewed)  # the lead reviewed every one
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert digest(base / "anchor_judged.json") == run["anchor_judged"]["hash"]
+    assert report.final.c4.hard_passed and all(report.final.c6.hard_passed.values())
+    assert report.final.c3.wrong_merges.get("individual", []) == []  # no new join is wrong
+    pairs = report.final.c3.identity_pairs
+    assert (pairs.precision, pairs.apart) == (1.0, 1.0)  # R75's apart pairs stay apart
+    recall = {"furniture": 10 / 13, "heldout": 5 / 7, "generality": 1.0}[dataset]
+    assert pairs.recall == pytest.approx(recall)  # furniture loses "cushions" / "cushion" to unsure
+
+
+def test_r100_joins_seven_of_the_nine_generality_splits_and_answers_unsure_where_evidence_is_missing():
+    splits = {
+        s["id"]
+        for s in json.loads((R100 / "generality" / "c3_sheet.json").read_text(encoding="utf-8"))["splits"]
+    }
+    # R93's nine splits of one thing in several nodes; seven are one node now, room B12 is newly split
+    assert splits == {"s:Place:mill lane", "s:Place:room b12", "s:Place:town hall"}
+    unsure = {}
+    for dataset in R100_RUNS["datasets"]:
+        report = ReidentifyReport.model_validate_json((R100 / dataset / "reidentify.json").read_text("utf-8"))
+        unsure[dataset] = sum(d.action == "unsure" for d in report.decisions)
+        assert not report.faithful and all(c.explained for c in report.changes)
+    assert unsure == {"furniture": 6, "heldout": 20, "generality": 39}

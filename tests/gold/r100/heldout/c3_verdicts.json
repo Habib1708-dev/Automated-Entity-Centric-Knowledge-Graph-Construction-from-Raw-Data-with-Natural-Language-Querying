@@ -1,0 +1,452 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-06",
+  "snapshot_hash": "4f3d0fbd038c",
+  "sheet": "tests/gold/r100/heldout/c3_sheet.json",
+  "sheet_hash": "be20926c1b52",
+  "sheets_git_sha": "f999b84"
+ },
+ "criterion": "C3",
+ "verdicts": [
+  {
+   "id": "m:0457f4d788dd757f",
+   "label": "VALID",
+   "reason": "Singular and plural of the same seat component in one recall.",
+   "evidence": "replace any defective lower seat frames",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:109de876a77934ff",
+   "label": "VALID",
+   "reason": "Same component kind; only hyphenation differs.",
+   "evidence": "The low-pressure fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:10b6484076189038",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All name the Ford C-Max model; the bare 'C-Max' is pinned to Ford by the recalling manufacturer.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:15d1e88410835aac",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both describe the same unintended braking event in one complaint; 'activated the brakes' needs the context to read as self-braking.",
+   "evidence": "THE CAR BRAKED ON ITS OWN.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1af364b7decf5972",
+   "label": "VALID",
+   "reason": "Same named component in two parallel recall remedies.",
+   "evidence": "add a protective cap over the shift cable bushing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1d2f4cfc36707111",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both refer to the incorrect load capacity label of the same recall; 'inaccurate label' names the label carrying the problem.",
+   "evidence": "The load carrying capacity modification label may be incorrect.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1d76769229d5bc4c",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "lead: 'ISSUES' and 'PROBLEMS' name the same generic kind (a problem); a concept is a kind, not an instance, as the other batches judged 'crack' and 'short circuit' on different objects (blind: Unspecified issues with a Civic and navigation-system problems on an Outback are different problems joined only by a generic word.)",
+   "evidence": "HAVE HAD PROBLEMS USING THE NAV SYSTEM",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1f23321c4e5db779",
+   "label": "VALID",
+   "reason": "Every mention names the same kind of problem, a physical crack, on different parts.",
+   "evidence": "The front lower suspension arms may have cracks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2afd65664e6d2d45",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both refer to Honda's 2016 Civic piston ring recall; 'clip ring' and 'snap ring' are wording variants and 'RECALL' is a short form.",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2b7afe8e8c92d9c5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All read as the generic problem kind of a part failing or not working; the complaint boilerplate 'the failure' needs that generic reading.",
+   "evidence": "THE MANUFACTURER WAS MADE AWARE OF THE FAILURE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2f26533e77122925",
+   "label": "VALID",
+   "reason": "Both name the vehicle brakes as a component kind.",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3ad8a654a1b829e9",
+   "label": "VALID",
+   "reason": "Same problem kind, an electrical short circuit, in both recalls.",
+   "evidence": "The front passenger seat weight sensor may crack and short circuit",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3c1c5fc4805deee4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The bare 'Legacy' takes the 2019 model year from the list it stands in, so both name the 2019 Subaru Legacy.",
+   "evidence": "(Subaru) is recalling certain 2019 Impreza, Outback, Legacy, and Ascent vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4298d859bece1a5d",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The complaint's 'TANK' is the fuel tank, as the filling context shows.",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4401d9e338ced22a",
+   "label": "VALID",
+   "reason": "Same component kind, the air bags.",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:457980565f4112a2",
+   "label": "VALID",
+   "reason": "Back-up camera and rearview camera name the same component kind.",
+   "evidence": "the back-up camera may not activate when the vehicle is in reverse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4fa7c4592e81d9e9",
+   "label": "VALID",
+   "reason": "Inoperable and inoperative name the same state.",
+   "evidence": "The low pressure fuel pump may become inoperative.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4fceafc144c3a6db",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Fuel pump assembly and fuel pump module name the same replaceable fuel pump unit under two wordings.",
+   "evidence": "dealers will replace the fuel pump assembly with an improved one",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5cf8d8b8017dfc6f",
+   "label": "VALID",
+   "reason": "Identical noncompliance with the same standard.",
+   "evidence": "these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:63611978df05f4af",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The recall covers only the 2020 Mustang, so the bare 'Mustang' in its remedy is that vehicle.",
+   "evidence": "Mustang owner notification letters were mailed January 2, 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6adf1557d6a8adf7",
+   "label": "VALID",
+   "reason": "The same shifter cable bushing described identically in two recalls.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6b5166289dd70f5e",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The identical phrase names the generic notion of a safety risk, though each recall's risk is a different defect.",
+   "evidence": "Interim letters, notifying owners of the safety risk, were mailed March 6, 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76131af5637a7f0d",
+   "label": "VALID",
+   "reason": "Door latches and side door latches are the same component kind in the same recall series.",
+   "evidence": "replace the side door latches if necessary",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7958eb8b0cf150e9",
+   "label": "VALID",
+   "reason": "Same jackknife ignition key in one recall.",
+   "evidence": "equipped with a jackknife style ignition key",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7e1a1854f987346c",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Same 2014-2016 Transit Connect; the second omits 'Ford', pinned by the recalling manufacturer.",
+   "evidence": "2014-2016 Transit Connect",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:818a575712731626",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Clip ring, snap ring and wrist pin circlip all name the piston pin retaining clip of the 2016 Civic recall.",
+   "evidence": "manufactured without a piston wrist pin circlip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:83f958f616657e90",
+   "label": "VALID",
+   "reason": "Same breaking of a door latch component in both recalls.",
+   "evidence": "A component within the door latches may break",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:89e5a1f68ee4c953",
+   "label": "VALID",
+   "reason": "Both describe the trunk being unable to lock in one complaint.",
+   "evidence": "IT MAKES ABSOLUTELY NO SENSE NOT BE ABLE TO LOCK THE TRUNK.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:90eb9fec9c5a0026",
+   "label": "VALID",
+   "reason": "Dead battery and battery totally dead name the same problem.",
+   "evidence": "HAPPENED TWICE AND BATTERY WAS TOTALLY DEAD EACH TIME",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:946202ff51281549",
+   "label": "VALID",
+   "reason": "Two spans of the same sentence naming the parking brake failing to engage.",
+   "evidence": "The electric parking brake (EPB) may not engage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:96587bb5f70db601",
+   "label": "VALID",
+   "reason": "Every mention names the engine as a component kind.",
+   "evidence": "dealers will inspect and replace the engine including the engine block",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a10e743e0a48edd7",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both refer to the navigation system of one complaint; 'SYSTEMS' is a generic word pinned by context.",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a3a07b3571c3a1bc",
+   "label": "VALID",
+   "reason": "Same problem kind, stalling, in two complaints.",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a7fbbf33312f9a83",
+   "label": "VALID",
+   "reason": "Shifter bushing and shift bushing under the hood are the same part in parallel recalls.",
+   "evidence": "Dealers will replace the under hood shifter bushing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ad14e331b2d79b6d",
+   "label": "VALID",
+   "reason": "Both name a battery drain.",
+   "evidence": "NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:baf6feaeb5893c7e",
+   "label": "VALID",
+   "reason": "Both name hesitation on acceleration.",
+   "evidence": "VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c0c2673d3f8b7c70",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The remedy replaces the illegible label with corrected load carrying capacity modification labels, so the short form 'load capacity label' names the same label kind, but only by context.",
+   "evidence": "dealers will provide corrected load carrying capacity modification labels",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c30213e7d0b6abf2",
+   "label": "VALID",
+   "reason": "Both mentions come from the same phrase in the same sentence and name one event.",
+   "evidence": "QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c47def9450003c42",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'2012-2015 Focus' is a short form, and the Ford recall sentence pins it to the same model-year range of Ford Focus.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c4a5ea269f0481eb",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'NV200 Taxi' in the remedy of the same recall is a short form of the 2014-2016 Nissan NV200 Taxi listed in its summary.",
+   "evidence": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c622cc4f0d3d6752",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name the same kind of component, a fuel gauge, in two vehicles.",
+   "evidence": "MY GAS GAUGE DOES NOT INDICATE FULL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cde58222e1fb8d4d",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name vehicle doors that fail to latch, the same kind.",
+   "evidence": "A component within the door latches may break making the doors difficult to latch",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d56df4ddb9a1a901",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Two mentions name '2015 Lincoln MKC' exactly; '2015 MKC' is a short form that the Ford recall context pins down, since the same list names '2013-2014 Lincoln MKZ'.",
+   "evidence": "2013-2014 Lincoln MKZ, and 2015 MKC vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d63c2b4b6c17b0fa",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'JX35' in the remedy of the same recall is a short form of the 2013 Infiniti JX35 in its summary.",
+   "evidence": "Infiniti Q50, JX35, and QX60",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d9343bbcd9f3aee5",
+   "label": "VALID",
+   "reason": "Singular and plural of the same component, in the same recall.",
+   "evidence": "dealers will inspect both the taillight assemblies",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e89bb1330d193daf",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name physical damage to a part (a circuit board, an engine harness); only the word form changes.",
+   "evidence": "may damage the engine harness, causing a blown fuse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eeb02896a8f5461f",
+   "label": "VALID",
+   "reason": "Both mentions name the navigation system in the same complaint; NAV is an abbreviation of NAVIGATION.",
+   "evidence": "HAVE HAD PROBLEMS USING THE NAV SYSTEM",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f0546ef2245527a5",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name coolant leaking, the same kind of problem.",
+   "evidence": "may result in cracks than can allow coolant to leak internally and/or externally",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fe4fa1ed56e5f5a4",
+   "label": "VALID",
+   "reason": "The same word, in identical sentences about the same bushing failure.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fe8caccfedba4bb0",
+   "label": "VALID",
+   "reason": "The same word, in identical sentences about the same bushing failure.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Vehicle:camry",
+   "label": "VALID",
+   "reason": "One node is the 2019 Camry from GST's recall and the other the 2020 Camry from Toyota's recall; the model years differ, so they are different vehicle groups.",
+   "evidence": "is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Vehicle:camry hybrid",
+   "label": "VALID",
+   "reason": "One node is the 2020 Camry Hybrid (Toyota) and the other the 2019 Camry Hybrid (GST); the model years differ.",
+   "evidence": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Vehicle:sienna",
+   "label": "VALID",
+   "reason": "One node is the 2017-2019 Sienna from SET's recall and the other the 2019 Sienna from GST's recall, with different year ranges and distributors, so they are different vehicle groups.",
+   "evidence": "Southeast Toyota Distributors, LLC (SET) is recalling certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "m:1d76769229d5bc4c",
+  "m:3ad8a654a1b829e9",
+  "m:457980565f4112a2",
+  "m:c30213e7d0b6abf2",
+  "s:Vehicle:camry"
+ ],
+ "changes": [
+  {
+   "id": "m:1d76769229d5bc4c",
+   "before": "INCORRECT",
+   "after": "VALID_ALTERNATIVE",
+   "reason": "lead: 'ISSUES' and 'PROBLEMS' name the same generic kind (a problem); a concept is a kind, not an instance, as the other batches judged 'crack' and 'short circuit' on different objects"
+  }
+ ]
+}

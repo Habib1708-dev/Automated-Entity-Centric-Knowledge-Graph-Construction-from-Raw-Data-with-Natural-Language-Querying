@@ -1,0 +1,201 @@
+{
+ "step": "R100: evidence-based adjudication of individuals (same / different / unsure), measured by kg audit-relink --choose --join on the three r77d builds",
+ "approved": "the user, 2026-10-06 (AskUserQuestion: yes for generality, furniture and held-out)",
+ "git_sha": "4ea8f50-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "model": "gemini-3.8-flash",
+ "thinking": "low",
+ "individual_prompt_version": "48511723ea6e",
+ "individual_prompt_version_before": "3793a4eaa358",
+ "cost_usd_total": 0.397923,
+ "sheets_git_sha": "f999b84",
+ "judge": {
+  "model": "claude-opus-5-5",
+  "blind": "two Opus 5.5 subagents (C3+C4: 12 items; C6: 18 items), rules files and their items only",
+  "lead": "Claude Opus 5.5 in the session reviewed all 30 new or changed items and the 13 carried VALID verdicts the shifted seeded sample named; no change"
+ },
+ "new_items": [
+  "m:d670b75ab698abb7",
+  "s:Component:storage",
+  "m:45025e9eb096f52f",
+  "m:76654ff4ab052023",
+  "m:b02f8872737d333e",
+  "s:Place:room b12",
+  "m:2c16781adb82bda0",
+  "m:7d58d65611345bb0",
+  "m:9884a2cf4e246288",
+  "m:d5a2b928db96009c",
+  "m:fb9c2d51cd65f5bf",
+  "l:aaac839b06839b41:Pump:KV12-0457",
+  "p:2c16781adb82bda0|water/north_station_2024_summary.md#0",
+  "p:45025e9eb096f52f|institute/minutes_2025-05-12.md#0",
+  "p:45025e9eb096f52f|institute/minutes_2025-06-09.md#0",
+  "p:76654ff4ab052023|institute/utrecht_conference_2025.md#0",
+  "p:7d58d65611345bb0|institute/newsletter_spring_2025.md#0",
+  "p:9884a2cf4e246288|water/harbour_station_may_2025.md#0",
+  "p:d5a2b928db96009c|news/flood_meeting.md#0",
+  "p:2c16781adb82bda0|water/calder_quotation.md#0",
+  "p:2c16781adb82bda0|water/inspection_2025-03-14.md#0",
+  "p:2c16781adb82bda0|water/inspection_2025-06-13.md#0",
+  "p:45025e9eb096f52f|institute/travel_claims_memo.md#0",
+  "p:76654ff4ab052023|institute/travel_claims_memo.md#0",
+  "p:7d58d65611345bb0|institute/hensley_award.md#0",
+  "p:7d58d65611345bb0|institute/seminar_notice_autumn.md#0",
+  "p:9884a2cf4e246288|news/harbour_open_day.md#0",
+  "p:9884a2cf4e246288|water/shift_notes.txt#0",
+  "p:d5a2b928db96009c|news/budget_2026.md#0",
+  "p:d5a2b928db96009c|news/mill_lane_and_eastgate.md#0"
+ ],
+ "datasets": {
+  "generality": {
+   "relink": {
+    "mlflow_run_id": "713aa2c6b1d8464981576fe523e49acb",
+    "experiment": "kgbuilder-generality",
+    "command": "kg --preset generality_gemini audit-relink out/r77d_generality --data tests/fixtures/generality --logged tests/gold/r87/generality_logged.json --out out/r100_generality --choose --join",
+    "llm_calls": 177,
+    "cache_hits": 6,
+    "cost_usd": 0.165074,
+    "files": {
+     "relink.json": "f6ac2af6691c",
+     "reidentify.json": "c6c556f94998",
+     "logged.json": "85496875f55f"
+    }
+   },
+   "anchor_eval": {
+    "preset": "generality",
+    "anchor": "093601bb67a74cf58430cca051d4f545",
+    "layered": "8f298b753a5d41009e3d7c96c3139217",
+    "files": {
+     "anchor_anchor.json": "0417947b18e8",
+     "anchor_layered.json": "be0643e6a7a1"
+    }
+   },
+   "anchor_sheets": {
+    "mlflow_run_id": "409429c0c106482aa9eef360f610b1fe",
+    "files": {
+     "c3_sheet.json": "6d4244aaec0e",
+     "c3_code.json": "fe20c6a70d3d",
+     "c4_sheet.json": "e4d2ed196bf1",
+     "c4_code.json": "67f5e13fa941",
+     "c6_sheet.json": "317d0ccddde4",
+     "c6_code.json": "ff3b2a757d41"
+    }
+   },
+   "verdicts": {
+    "carried_from": "tests/gold/r99/generality",
+    "files": {
+     "c3_verdicts.json": "12e74d3500cd",
+     "c4_verdicts.json": "0b7bd17cd8ca",
+     "c6_verdicts.json": "3f1ce8bd024f"
+    }
+   },
+   "anchor_judged": {
+    "mlflow_run_id": "8b4ed43474da45ed9aabc8ddc211a5cb",
+    "git_sha": "f999b84-dirty",
+    "identity_gold": "tests/gold/r75/generality_gold.json",
+    "file": "tests/gold/r100/generality/anchor_judged.json",
+    "hash": "fb2ad6b33e5c"
+   }
+  },
+  "furniture": {
+   "relink": {
+    "mlflow_run_id": "1f127c26ef7742c3ab8399212bb46547",
+    "experiment": "kgbuilder",
+    "command": "kg --preset quality audit-relink out/r77d_furniture --data data --logged tests/gold/r87/furniture_logged.json --out out/r100_furniture --choose --join",
+    "llm_calls": 109,
+    "cache_hits": 31,
+    "cost_usd": 0.050397,
+    "files": {
+     "relink.json": "8c03ffba8f13",
+     "reidentify.json": "3b2afa35af51",
+     "logged.json": "946a3c39182e"
+    }
+   },
+   "anchor_eval": {
+    "preset": "quality",
+    "anchor": "882af99773844adf9a5330cde9f2b741",
+    "layered": "8e150cb1869a47469c4355c941193cb1",
+    "files": {
+     "anchor_anchor.json": "585830bfc1a4",
+     "anchor_layered.json": "1152d8ec423f"
+    }
+   },
+   "anchor_sheets": {
+    "mlflow_run_id": "133923781cd84cee8cd0ec5c334e10ba",
+    "files": {
+     "c3_sheet.json": "df86347de7dc",
+     "c3_code.json": "3637f0c6ad0c",
+     "c4_sheet.json": "2f25b399577c",
+     "c4_code.json": "7e4407f44309",
+     "c6_sheet.json": "fa617ff2864c",
+     "c6_code.json": "efb8c7709997"
+    }
+   },
+   "verdicts": {
+    "carried_from": "tests/gold/r99/furniture",
+    "files": {
+     "c3_verdicts.json": "cde7823e09e7",
+     "c4_verdicts.json": "196bc389a5a6",
+     "c6_verdicts.json": "641e1f7f0dec"
+    }
+   },
+   "anchor_judged": {
+    "mlflow_run_id": "fdd57ed7fc954f63b81e29d7dec2cc25",
+    "git_sha": "f999b84-dirty",
+    "identity_gold": "tests/gold/r75/furniture_gold.json",
+    "file": "tests/gold/r100/furniture/anchor_judged.json",
+    "hash": "23da5c5870fc"
+   }
+  },
+  "heldout": {
+   "relink": {
+    "mlflow_run_id": "4101dba3019a426ca9dea3a43d7280aa",
+    "experiment": "kgbuilder-heldout",
+    "command": "kg --preset heldout audit-relink out/r77d_heldout --data heldout/nhtsa/data --logged tests/gold/r87/heldout_logged.json --out out/r100_heldout --choose --join",
+    "llm_calls": 144,
+    "cache_hits": 1,
+    "cost_usd": 0.182452,
+    "files": {
+     "relink.json": "4053d5a13a47",
+     "reidentify.json": "fe804ef5cc95",
+     "logged.json": "51f50277017f"
+    }
+   },
+   "anchor_eval": {
+    "preset": "heldout",
+    "anchor": "6a73928e4ca84decb7627d72bf67f5de",
+    "layered": "8bef7fbe1b64479a86dc0bb6cf000116",
+    "files": {
+     "anchor_anchor.json": "348fa597b28b",
+     "anchor_layered.json": "53b7f7ff3ca5"
+    }
+   },
+   "anchor_sheets": {
+    "mlflow_run_id": "fc5b9902523645cba4c4d5609b65a7c1",
+    "files": {
+     "c3_sheet.json": "be20926c1b52",
+     "c3_code.json": "88b3cca5b07c",
+     "c4_sheet.json": "505520053283",
+     "c4_code.json": "9fdc5f81ce82",
+     "c6_sheet.json": "cce8696354d2",
+     "c6_code.json": "0d73c27d302e"
+    }
+   },
+   "verdicts": {
+    "carried_from": "tests/gold/r99/heldout",
+    "files": {
+     "c3_verdicts.json": "8bd829b1d2f4",
+     "c4_verdicts.json": "ae35455214de",
+     "c6_verdicts.json": "8e89bf1e8ec1"
+    }
+   },
+   "anchor_judged": {
+    "mlflow_run_id": "01cacc43eead41c68247ae65b515691d",
+    "git_sha": "f999b84-dirty",
+    "identity_gold": "tests/gold/r75/heldout_gold.json",
+    "file": "tests/gold/r100/heldout/anchor_judged.json",
+    "hash": "299a2602e80b"
+   }
+  }
+ }
+}

@@ -1,0 +1,1168 @@
+{
+ "dataset": "heldout",
+ "judge_model": "claude-opus-5-5",
+ "final": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0,
+      "low": 0.7008472464490407,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 0,
+      "n": 9,
+      "rate": 0.0,
+      "low": 0.0,
+      "high": 0.2991527535509594
+     },
+     "worst_case": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0,
+      "low": 0.7008472464490407,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 0,
+      "VALID_ALTERNATIVE": 9,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 41,
+      "n": 41,
+      "rate": 1.0,
+      "low": 0.9143295511310926,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 31,
+      "n": 41,
+      "rate": 0.7560975609756098,
+      "low": 0.606563693455418,
+      "high": 0.8617514424897758
+     },
+     "worst_case": {
+      "k": 41,
+      "n": 41,
+      "rate": 1.0,
+      "low": 0.9143295511310926,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 31,
+      "VALID_ALTERNATIVE": 10,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": []
+   },
+   "record_wrong_merges": [
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "splits": {
+    "accepted": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "low": 0.43849391955098227,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "low": 0.43849391955098227,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "low": 0.43849391955098227,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 3,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.7142857142857143,
+    "apart": 1.0,
+    "scored": 18,
+    "joined": 5,
+    "same_scored": 7,
+    "different_scored": 11,
+    "not_extracted": 5,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "818a575712731626"
+      ],
+      "b_entities": [
+       "818a575712731626"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "1f23321c4e5db779"
+      ],
+      "b_entities": [
+       "1f23321c4e5db779"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "ad14e331b2d79b6d"
+      ],
+      "b_entities": [
+       "ad14e331b2d79b6d"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [
+       "eeb02896a8f5461f"
+      ],
+      "b_entities": [
+       "eeb02896a8f5461f"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:OUTBACK"
+      ]
+     },
+     {
+      "index": 7,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 8,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 10,
+      "same": false,
+      "a_entities": [
+       "90eb9fec9c5a0026"
+      ],
+      "b_entities": [
+       "ad14e331b2d79b6d"
+      ]
+     },
+     {
+      "index": 11,
+      "same": false,
+      "a_entities": [
+       "2f26533e77122925"
+      ],
+      "b_entities": [
+       "0a8eeadf1b5da8bf"
+      ]
+     },
+     {
+      "index": 12,
+      "same": false,
+      "a_entities": [
+       "7656795c850ce65b"
+      ],
+      "b_entities": [
+       "119672b2e774d1b2"
+      ]
+     },
+     {
+      "index": 13,
+      "same": false,
+      "a_entities": [
+       "461ce1925226e0fc"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "a3a07b3571c3a1bc"
+      ],
+      "b_entities": [
+       "a902227dfe07e42f"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "476a2ad53a704598"
+      ],
+      "b_entities": [
+       "c622cc4f0d3d6752"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "73a10deef9b87bf0"
+      ],
+      "b_entities": [
+       "457980565f4112a2"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "321183777719ca09"
+      ],
+      "b_entities": [
+       "4a8e81f49056032b"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "f163ec950b20d03f"
+      ],
+      "b_entities": [
+       "47002e8c60e4787a"
+      ]
+     },
+     {
+      "index": 20,
+      "same": false,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:RAV4"
+      ]
+     },
+     {
+      "index": 21,
+      "same": false,
+      "a_entities": [
+       "e61ef219478e4265"
+      ],
+      "b_entities": [
+       "1aca40d121796592"
+      ]
+     },
+     {
+      "index": 22,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     }
+    ]
+   },
+   "hard_passed": false
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 76,
+     "n": 77,
+     "rate": 0.987012987012987,
+     "low": 0.9300363315482386,
+     "high": 0.9977038418278451
+    },
+    "strict": {
+     "k": 71,
+     "n": 77,
+     "rate": 0.922077922077922,
+     "low": 0.840241945501405,
+     "high": 0.9637995380912008
+    },
+    "worst_case": {
+     "k": 76,
+     "n": 77,
+     "rate": 0.987012987012987,
+     "low": 0.9300363315482386,
+     "high": 0.9977038418278451
+    },
+    "counts": {
+     "VALID": 71,
+     "VALID_ALTERNATIVE": 5,
+     "INCORRECT": 1,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 29,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "cross_scope_confirmed": [],
+   "flags": [
+    {
+     "flag": "label_mismatch",
+     "flagged": 29,
+     "confirmed": 0,
+     "refuted": 29,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": [
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 77,
+       "n": 77,
+       "rate": 1.0,
+       "low": 0.9524799113327793,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 69,
+       "n": 77,
+       "rate": 0.8961038961038961,
+       "low": 0.8081542906371879,
+       "high": 0.9464077170420269
+      },
+      "worst_case": {
+       "k": 77,
+       "n": 78,
+       "rate": 0.9871794871794872,
+       "low": 0.9308897697115066,
+       "high": 0.9977333266111463
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 8,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 1,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 47,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 77,
+       "n": 77,
+       "rate": 1.0,
+       "low": 0.9524799113327793,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 69,
+       "n": 77,
+       "rate": 0.8961038961038961,
+       "low": 0.8081542906371879,
+       "high": 0.9464077170420269
+      },
+      "worst_case": {
+       "k": 77,
+       "n": 78,
+       "rate": 0.9871794871794872,
+       "low": 0.9308897697115066,
+       "high": 0.9977333266111463
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 8,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 1,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 47,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [],
+   "incorrect_unflagged": []
+  }
+ },
+ "blind": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0,
+      "low": 0.7008472464490407,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 0,
+      "n": 9,
+      "rate": 0.0,
+      "low": 0.0,
+      "high": 0.2991527535509594
+     },
+     "worst_case": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0,
+      "low": 0.7008472464490407,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 0,
+      "VALID_ALTERNATIVE": 9,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 40,
+      "n": 41,
+      "rate": 0.975609756097561,
+      "low": 0.8740465298832192,
+      "high": 0.9956815797292835
+     },
+     "strict": {
+      "k": 31,
+      "n": 41,
+      "rate": 0.7560975609756098,
+      "low": 0.606563693455418,
+      "high": 0.8617514424897758
+     },
+     "worst_case": {
+      "k": 40,
+      "n": 41,
+      "rate": 0.975609756097561,
+      "low": 0.8740465298832192,
+      "high": 0.9956815797292835
+     },
+     "counts": {
+      "VALID": 31,
+      "VALID_ALTERNATIVE": 9,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": [
+     "m:1d76769229d5bc4c"
+    ]
+   },
+   "record_wrong_merges": [
+    "l:122d57e9775243bb:Vehicle:RAV4",
+    "l:0a33869afdc5477f:Vehicle:RAV4",
+    "l:d7a732411cce4c82:Vehicle:RAV4",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "splits": {
+    "accepted": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "low": 0.43849391955098227,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "low": 0.43849391955098227,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "low": 0.43849391955098227,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 3,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.7142857142857143,
+    "apart": 1.0,
+    "scored": 18,
+    "joined": 5,
+    "same_scored": 7,
+    "different_scored": 11,
+    "not_extracted": 5,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "818a575712731626"
+      ],
+      "b_entities": [
+       "818a575712731626"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "1f23321c4e5db779"
+      ],
+      "b_entities": [
+       "1f23321c4e5db779"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "ad14e331b2d79b6d"
+      ],
+      "b_entities": [
+       "ad14e331b2d79b6d"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [
+       "eeb02896a8f5461f"
+      ],
+      "b_entities": [
+       "eeb02896a8f5461f"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:OUTBACK"
+      ]
+     },
+     {
+      "index": 7,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 8,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 10,
+      "same": false,
+      "a_entities": [
+       "90eb9fec9c5a0026"
+      ],
+      "b_entities": [
+       "ad14e331b2d79b6d"
+      ]
+     },
+     {
+      "index": 11,
+      "same": false,
+      "a_entities": [
+       "2f26533e77122925"
+      ],
+      "b_entities": [
+       "0a8eeadf1b5da8bf"
+      ]
+     },
+     {
+      "index": 12,
+      "same": false,
+      "a_entities": [
+       "7656795c850ce65b"
+      ],
+      "b_entities": [
+       "119672b2e774d1b2"
+      ]
+     },
+     {
+      "index": 13,
+      "same": false,
+      "a_entities": [
+       "461ce1925226e0fc"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "a3a07b3571c3a1bc"
+      ],
+      "b_entities": [
+       "a902227dfe07e42f"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "476a2ad53a704598"
+      ],
+      "b_entities": [
+       "c622cc4f0d3d6752"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "73a10deef9b87bf0"
+      ],
+      "b_entities": [
+       "457980565f4112a2"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "321183777719ca09"
+      ],
+      "b_entities": [
+       "4a8e81f49056032b"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "f163ec950b20d03f"
+      ],
+      "b_entities": [
+       "47002e8c60e4787a"
+      ]
+     },
+     {
+      "index": 20,
+      "same": false,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:RAV4"
+      ]
+     },
+     {
+      "index": 21,
+      "same": false,
+      "a_entities": [
+       "e61ef219478e4265"
+      ],
+      "b_entities": [
+       "1aca40d121796592"
+      ]
+     },
+     {
+      "index": 22,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     }
+    ]
+   },
+   "hard_passed": false
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 71,
+     "n": 75,
+     "rate": 0.9466666666666667,
+     "low": 0.8707382679518444,
+     "high": 0.9790669110399569
+    },
+    "strict": {
+     "k": 71,
+     "n": 75,
+     "rate": 0.9466666666666667,
+     "low": 0.8707382679518444,
+     "high": 0.9790669110399569
+    },
+    "worst_case": {
+     "k": 71,
+     "n": 77,
+     "rate": 0.922077922077922,
+     "low": 0.840241945501405,
+     "high": 0.9637995380912008
+    },
+    "counts": {
+     "VALID": 71,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 4,
+     "AMBIGUOUS": 2,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 29,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [
+    "l:122d57e9775243bb:Vehicle:RAV4",
+    "l:0a33869afdc5477f:Vehicle:RAV4",
+    "l:d7a732411cce4c82:Vehicle:RAV4",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "cross_scope_confirmed": [],
+   "flags": [
+    {
+     "flag": "label_mismatch",
+     "flagged": 29,
+     "confirmed": 0,
+     "refuted": 29,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": [
+    "l:122d57e9775243bb:Vehicle:RAV4",
+    "l:0a33869afdc5477f:Vehicle:RAV4",
+    "l:d7a732411cce4c82:Vehicle:RAV4",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "hard_passed": false
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 76,
+       "n": 76,
+       "rate": 1.0,
+       "low": 0.9518847317689024,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 69,
+       "n": 76,
+       "rate": 0.9078947368421053,
+       "low": 0.8218709721189175,
+       "high": 0.9546665722188714
+      },
+      "worst_case": {
+       "k": 76,
+       "n": 78,
+       "rate": 0.9743589743589743,
+       "low": 0.9112455918660103,
+       "high": 0.9929400545534146
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 7,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 2,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 47,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 76,
+       "n": 76,
+       "rate": 1.0,
+       "low": 0.9518847317689024,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 69,
+       "n": 76,
+       "rate": 0.9078947368421053,
+       "low": 0.8218709721189175,
+       "high": 0.9546665722188714
+      },
+      "worst_case": {
+       "k": 76,
+       "n": 78,
+       "rate": 0.9743589743589743,
+       "low": 0.9112455918660103,
+       "high": 0.9929400545534146
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 7,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 2,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 47,
+       "n": 47,
+       "rate": 1.0,
+       "low": 0.9244398288016114,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 47,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [],
+   "incorrect_unflagged": []
+  }
+ },
+ "impact": {
+  "l:8c6f9fa48d339e85:Vehicle:ROGUE": [
+   "H51"
+  ]
+ }
+}
