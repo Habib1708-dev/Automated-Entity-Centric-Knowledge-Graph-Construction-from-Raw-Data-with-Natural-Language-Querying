@@ -5482,6 +5482,15 @@ there is no "unsure". All nine generality split groups were nominated and answer
   - **Size of the measurement, counted without sending anything** (the R99 replay's record decisions, every
     chooser prompt a cache hit): 76 / 143 / 171 adjudications, all new (the prompt changed), about 1.0M
     prompt characters (~250k input tokens): about $0.06 furniture, $0.15 held-out, $0.13 generality.
+  - Committed at `4ea8f50`.
+- **Runs** (the user's yes for each dataset, 2026-10-06; at `4ea8f50` with only `.claude/settings.json` dirty):
+  `kg --preset <generality_gemini|quality|heldout> audit-relink out/r77d_<ds> ... --out out/r100_<ds> --choose
+  --join`, prompt `48511723ea6e`: generality `713aa2c6` ($0.165, 177 calls, 6 cache hits: the chooser's),
+  furniture `1f127c26` ($0.050, 109 calls, 31 hits), held-out `4101dba3` ($0.182, 144 calls, 1 hit): **$0.398
+  in all**, 0 failed calls, 0 unexplained changes. Then $0: `kg anchor-eval` (both arms) and `kg
+  anchor-sheets` on `out/r100_<ds>/build` (C0 passed on all three). Sheets and replay outputs committed in
+  `tests/gold/r100/<ds>/`; 30 items new or changed against R99's sheets, all generality but two; judging
+  next.
 
 ## Found along the way
 - **A second adjudication pass for individuals (R100, 2026-10-06; open until a replayed pair needs it).** A

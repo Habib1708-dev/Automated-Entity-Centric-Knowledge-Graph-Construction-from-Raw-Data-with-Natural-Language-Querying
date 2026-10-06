@@ -1,0 +1,4200 @@
+{
+ "arm": "anchor",
+ "fidelity_passed": true,
+ "provenance": {
+  "extracted.chunk_exists": {
+   "k": 514,
+   "n": 514,
+   "rate": 1.0,
+   "low": 0.9925815152741688,
+   "high": 1.0
+  },
+  "extracted.doc_consistent": {
+   "k": 514,
+   "n": 514,
+   "rate": 1.0,
+   "low": 0.9925815152741688,
+   "high": 1.0
+  },
+  "extracted.evidence_in_chunk": {
+   "k": 514,
+   "n": 514,
+   "rate": 1.0,
+   "low": 0.9925815152741688,
+   "high": 1.0
+  },
+  "extracted.ends_grounded": {
+   "k": 514,
+   "n": 514,
+   "rate": 1.0,
+   "low": 0.9925815152741688,
+   "high": 1.0
+  },
+  "derived.chunk_exists": {
+   "k": 152,
+   "n": 152,
+   "rate": 1.0,
+   "low": 0.9753493290623299,
+   "high": 1.0
+  },
+  "derived.doc_consistent": {
+   "k": 152,
+   "n": 152,
+   "rate": 1.0,
+   "low": 0.9753493290623299,
+   "high": 1.0
+  },
+  "derived.evidence_in_chunk": {
+   "k": 152,
+   "n": 152,
+   "rate": 1.0,
+   "low": 0.9753493290623299,
+   "high": 1.0
+  },
+  "extracted.mention_in_chunk": {
+   "k": 607,
+   "n": 607,
+   "rate": 1.0,
+   "low": 0.9937109718787979,
+   "high": 0.9999999999999999
+  }
+ },
+ "placed": {
+  "F01": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drawer rails",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1085"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F02": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drawer rails",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1085"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "defective",
+    "aliases": [],
+    "nodes": [
+     "6578d646824a6278"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F03": [
+   {
+    "name": "wooden slats",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "crack",
+    "aliases": [],
+    "nodes": [
+     "e3b6e22474e38913"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F04": [
+   {
+    "name": "frame",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1012"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "creaks",
+    "aliases": [],
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F05": [
+   {
+    "name": "shade fabric",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1131"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "shade",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1033"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "unevenly colored",
+    "aliases": [],
+    "nodes": [
+     "947e3d86e81d1a6c"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F06": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F07": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drawer rails",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1085"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "defective",
+    "aliases": [],
+    "nodes": [
+     "6578d646824a6278"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F08": [
+   {
+    "name": "pre-drilled holes",
+    "aliases": [],
+    "nodes": [
+     "1f2dd89b935474ea",
+     "5af56a45ba2f75d6",
+     "65e7c6a7c7e36f72",
+     "77f7c6fd6a7b5141",
+     "82ed63a727d84cee",
+     "85b29e845b251d8e"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F09": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F10": [
+   {
+    "name": "customer service",
+    "aliases": [],
+    "nodes": [],
+    "missing": [
+     "mention product_reviews/gothenburg_table_reviews.md ['customer service']",
+     "mention product_reviews/linkoping_bed_reviews.md ['customer service']",
+     "mention product_reviews/uppsala_sofa_reviews.md ['customer service']"
+    ],
+    "loose": false
+   },
+   {
+    "name": "replacement",
+    "aliases": [],
+    "nodes": [],
+    "missing": [
+     "mention product_reviews/gothenburg_table_reviews.md ['replacement']",
+     "mention product_reviews/linkoping_bed_reviews.md ['replacement']",
+     "mention product_reviews/uppsala_sofa_reviews.md ['replacement']"
+    ],
+    "loose": false
+   }
+  ],
+  "F11": [],
+  "F12": [
+   {
+    "name": "Uppsala Sofa",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "removable covers",
+    "aliases": [
+     "Cover"
+    ],
+    "nodes": [
+     "Assembly:A-1015"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F13": [],
+  "F14": [],
+  "F15": [],
+  "F16": [
+   {
+    "name": "wobbling",
+    "aliases": [],
+    "nodes": [
+     "23e3d5176cf607b4",
+     "dbccda452f70232b",
+     "fa88df0e28c761c8"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F17": [
+   {
+    "name": "frame",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1012"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "creaking",
+    "aliases": [],
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "squeaking",
+    "aliases": [],
+    "nodes": [
+     "cdb511204422912e"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F18": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F19": [
+   {
+    "name": "Malmö Desk",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1002"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drawer rails",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1078"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F20": [
+   {
+    "name": "drawer rails",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1078",
+     "Component:S-1085"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "defective",
+    "aliases": [],
+    "nodes": [
+     "6578d646824a6278"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F21": [
+   {
+    "name": "drawer handle",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1022",
+     "Assembly:A-1071",
+     "Component:S-1079"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "scratched",
+    "aliases": [],
+    "nodes": [
+     "15cb3497a55b3587"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F22": [
+   {
+    "name": "dent",
+    "aliases": [],
+    "nodes": [
+     "247c125e79fbab55",
+     "48a7ba57950fc318"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F23": [
+   {
+    "name": "slats",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1051",
+     "Component:S-1104",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "crack",
+    "aliases": [],
+    "nodes": [
+     "e3b6e22474e38913"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F24": [
+   {
+    "name": "leg",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1014",
+     "Assembly:A-1023",
+     "Assembly:A-1027",
+     "Assembly:A-1039",
+     "Assembly:A-1056",
+     "Assembly:A-1061"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "chip",
+    "aliases": [],
+    "nodes": [
+     "fc0f68791a542831"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F25": [
+   {
+    "name": "tables",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1001",
+     "Product:P-1008"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F26": [
+   {
+    "name": "wobbling",
+    "aliases": [],
+    "nodes": [
+     "23e3d5176cf607b4",
+     "5a02bfef2ac3bfdf",
+     "dbccda452f70232b",
+     "fa88df0e28c761c8"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F27": [
+   {
+    "name": "squeak",
+    "aliases": [],
+    "nodes": [
+     "cdb511204422912e"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "creak",
+    "aliases": [],
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F28": [
+   {
+    "name": "Uppsala Sofa",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "squeaking",
+    "aliases": [],
+    "nodes": [
+     "cdb511204422912e"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "creaking",
+    "aliases": [],
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F29": [
+   {
+    "name": "sagging",
+    "aliases": [],
+    "nodes": [
+     "a2646579cfcc1703"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F30": [
+   {
+    "name": "Örebro Lamp",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "flickers",
+    "aliases": [],
+    "nodes": [
+     "31f9b7c355020e90",
+     "c025fd69355bdca4"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F31": [
+   {
+    "name": "Malmö Desk",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1002"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "wobbles",
+    "aliases": [],
+    "nodes": [
+     "fa88df0e28c761c8"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F32": [
+   {
+    "name": "drawer",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F33": [
+   {
+    "name": "Örebro Lamp",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "cord",
+    "aliases": [
+     "Power Cord"
+    ],
+    "nodes": [
+     "Assembly:A-1036"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F34": [
+   {
+    "name": "Uppsala Sofa",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "cushion",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1010",
+     "Assembly:A-1011"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F35": [
+   {
+    "name": "Linköping Bed",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "slat",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1051",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F36": [
+   {
+    "name": "Linköping Bed",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drawer slides",
+    "aliases": [],
+    "nodes": [
+     "8ade9afbfdad5c7c"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F37": [
+   {
+    "name": "Örebro Lamp",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "shade",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1033"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "dent",
+    "aliases": [],
+    "nodes": [
+     "48a7ba57950fc318"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "F38": [
+   {
+    "name": "Stockholm Chair",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1000"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "comfortable",
+    "aliases": [],
+    "nodes": [
+     "cbbee077875bf855"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F39": [],
+  "F40": [],
+  "F41": [],
+  "F42": [],
+  "F43": [
+   {
+    "name": "Shanghai Metal Corp",
+    "aliases": [],
+    "nodes": [
+     "Supplier:SUP-002"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F44": [],
+  "F45": [],
+  "F46": [
+   {
+    "name": "Uppsala Sofa",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F47": [
+   {
+    "name": "Linköping Bed",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "headboard",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1048"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F48": [
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drawers",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1070"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F49": [],
+  "F50": [],
+  "F51": [],
+  "F52": [
+   {
+    "name": "screws",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1016",
+     "Assembly:A-1024",
+     "Assembly:A-1029",
+     "Assembly:A-1035",
+     "Assembly:A-1040",
+     "Assembly:A-1045",
+     "Assembly:A-1053",
+     "Assembly:A-1058",
+     "Assembly:A-1063",
+     "Assembly:A-1072"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F53": [],
+  "F54": [
+   {
+    "name": "Allen key",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1025",
+     "Assembly:A-1030",
+     "Assembly:A-1041",
+     "Assembly:A-1047",
+     "Assembly:A-1054",
+     "Assembly:A-1059",
+     "Assembly:A-1065",
+     "Assembly:A-1073"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F55": [],
+  "F56": [
+   {
+    "name": "Korean Metal Works",
+    "aliases": [],
+    "nodes": [
+     "Supplier:SUP-012"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F57": [],
+  "F58": [],
+  "F59": [
+   {
+    "name": "Linköping Bed",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "headboard",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1048"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F60": [
+   {
+    "name": "foam padding",
+    "aliases": [],
+    "nodes": [
+     "Component:S-1093",
+     "Component:S-1108"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F61": [
+   {
+    "name": "German Precision Fasteners",
+    "aliases": [],
+    "nodes": [
+     "Supplier:SUP-004"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F62": [
+   {
+    "name": "Uppsala Sofa",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "seat cushion",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1010"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F63": [
+   {
+    "name": "cable management",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1064"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F64": [
+   {
+    "name": "Malmö Desk",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1002"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Helsingborg Dresser",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F65": [
+   {
+    "name": "Stockholm Chair",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1000"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F66": [
+   {
+    "name": "Örebro Lamp",
+    "aliases": [],
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "shade",
+    "aliases": [],
+    "nodes": [
+     "Assembly:A-1033"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "F67": [],
+  "F68": [
+   {
+    "name": "Cape Town Adhesives",
+    "aliases": [],
+    "nodes": [
+     "Supplier:SUP-009"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ]
+ },
+ "findability": {
+  "targets": [
+   {
+    "question": "F01",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F01",
+    "name": "drawer rails",
+    "nodes": [
+     "Component:S-1085"
+    ],
+    "rank": 1,
+    "top": [
+     "Component:S-1085",
+     "Component:S-1078",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F02",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F02",
+    "name": "drawer rails",
+    "nodes": [
+     "Component:S-1085"
+    ],
+    "rank": 1,
+    "top": [
+     "Component:S-1085",
+     "Component:S-1078",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F02",
+    "name": "defective",
+    "nodes": [
+     "6578d646824a6278"
+    ],
+    "rank": 1,
+    "top": [
+     "6578d646824a6278"
+    ]
+   },
+   {
+    "question": "F03",
+    "name": "wooden slats",
+    "nodes": [
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    "rank": 4,
+    "top": [
+     "2ea585e9fc0a4bb3",
+     "Assembly:A-1051",
+     "Component:S-1104",
+     "Component:S-1124",
+     "Component:S-1134"
+    ]
+   },
+   {
+    "question": "F03",
+    "name": "crack",
+    "nodes": [
+     "e3b6e22474e38913"
+    ],
+    "rank": 1,
+    "top": [
+     "e3b6e22474e38913"
+    ]
+   },
+   {
+    "question": "F04",
+    "name": "frame",
+    "nodes": [
+     "Assembly:A-1012"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1012",
+     "9b4919b2d3f50cd3",
+     "Component:S-1088",
+     "Component:S-1101",
+     "Component:S-1102"
+    ]
+   },
+   {
+    "question": "F04",
+    "name": "creaks",
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "rank": 1,
+    "top": [
+     "3a805eaf418551fd"
+    ]
+   },
+   {
+    "question": "F05",
+    "name": "shade fabric",
+    "nodes": [
+     "Component:S-1131"
+    ],
+    "rank": 1,
+    "top": [
+     "Component:S-1131",
+     "Assembly:A-1033",
+     "fe2862f767bc06e0",
+     "Component:S-1094",
+     "Component:S-1109"
+    ]
+   },
+   {
+    "question": "F05",
+    "name": "shade",
+    "nodes": [
+     "Assembly:A-1033"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1033",
+     "Component:S-1130",
+     "Component:S-1131"
+    ]
+   },
+   {
+    "question": "F05",
+    "name": "unevenly colored",
+    "nodes": [
+     "947e3d86e81d1a6c"
+    ],
+    "rank": 1,
+    "top": [
+     "947e3d86e81d1a6c"
+    ]
+   },
+   {
+    "question": "F06",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F07",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F07",
+    "name": "drawer rails",
+    "nodes": [
+     "Component:S-1085"
+    ],
+    "rank": 1,
+    "top": [
+     "Component:S-1085",
+     "Component:S-1078",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F07",
+    "name": "defective",
+    "nodes": [
+     "6578d646824a6278"
+    ],
+    "rank": 1,
+    "top": [
+     "6578d646824a6278"
+    ]
+   },
+   {
+    "question": "F08",
+    "name": "pre-drilled holes",
+    "nodes": [
+     "1f2dd89b935474ea",
+     "5af56a45ba2f75d6",
+     "65e7c6a7c7e36f72",
+     "77f7c6fd6a7b5141",
+     "82ed63a727d84cee",
+     "85b29e845b251d8e"
+    ],
+    "rank": 1,
+    "top": [
+     "1f2dd89b935474ea",
+     "5af56a45ba2f75d6",
+     "65e7c6a7c7e36f72",
+     "77f7c6fd6a7b5141",
+     "85b29e845b251d8e"
+    ]
+   },
+   {
+    "question": "F09",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F10",
+    "name": "customer service",
+    "nodes": [],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F10",
+    "name": "replacement",
+    "nodes": [],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F12",
+    "name": "Uppsala Sofa",
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1003",
+     "4ee0215de5441658"
+    ]
+   },
+   {
+    "question": "F12",
+    "name": "removable covers",
+    "nodes": [
+     "Assembly:A-1015"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1015",
+     "Component:S-1094",
+     "Component:S-1098",
+     "Component:S-1109",
+     "Component:S-1113"
+    ]
+   },
+   {
+    "question": "F16",
+    "name": "wobbling",
+    "nodes": [
+     "23e3d5176cf607b4",
+     "dbccda452f70232b",
+     "fa88df0e28c761c8"
+    ],
+    "rank": 1,
+    "top": [
+     "fa88df0e28c761c8"
+    ]
+   },
+   {
+    "question": "F17",
+    "name": "frame",
+    "nodes": [
+     "Assembly:A-1012"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1012",
+     "9b4919b2d3f50cd3",
+     "Component:S-1088",
+     "Component:S-1101",
+     "Component:S-1102"
+    ]
+   },
+   {
+    "question": "F17",
+    "name": "creaking",
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F17",
+    "name": "squeaking",
+    "nodes": [
+     "cdb511204422912e"
+    ],
+    "rank": 1,
+    "top": [
+     "cdb511204422912e"
+    ]
+   },
+   {
+    "question": "F18",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F19",
+    "name": "Malmö Desk",
+    "nodes": [
+     "Product:P-1002"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1002",
+     "c8557751b04d2f26"
+    ]
+   },
+   {
+    "question": "F19",
+    "name": "drawer rails",
+    "nodes": [
+     "Component:S-1078"
+    ],
+    "rank": 2,
+    "top": [
+     "Component:S-1085",
+     "Component:S-1078",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F20",
+    "name": "drawer rails",
+    "nodes": [
+     "Component:S-1078",
+     "Component:S-1085"
+    ],
+    "rank": 1,
+    "top": [
+     "Component:S-1085",
+     "Component:S-1078",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F20",
+    "name": "defective",
+    "nodes": [
+     "6578d646824a6278"
+    ],
+    "rank": 1,
+    "top": [
+     "6578d646824a6278"
+    ]
+   },
+   {
+    "question": "F21",
+    "name": "drawer handle",
+    "nodes": [
+     "Assembly:A-1022",
+     "Assembly:A-1071",
+     "Component:S-1079"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1022",
+     "Component:S-1079",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F21",
+    "name": "scratched",
+    "nodes": [
+     "15cb3497a55b3587"
+    ],
+    "rank": 1,
+    "top": [
+     "15cb3497a55b3587"
+    ]
+   },
+   {
+    "question": "F22",
+    "name": "dent",
+    "nodes": [
+     "247c125e79fbab55",
+     "48a7ba57950fc318"
+    ],
+    "rank": 1,
+    "top": [
+     "48a7ba57950fc318",
+     "247c125e79fbab55"
+    ]
+   },
+   {
+    "question": "F23",
+    "name": "slats",
+    "nodes": [
+     "Assembly:A-1051",
+     "Component:S-1104",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1051",
+     "Component:S-1104"
+    ]
+   },
+   {
+    "question": "F23",
+    "name": "crack",
+    "nodes": [
+     "e3b6e22474e38913"
+    ],
+    "rank": 1,
+    "top": [
+     "e3b6e22474e38913"
+    ]
+   },
+   {
+    "question": "F24",
+    "name": "leg",
+    "nodes": [
+     "Assembly:A-1014",
+     "Assembly:A-1023",
+     "Assembly:A-1027",
+     "Assembly:A-1039",
+     "Assembly:A-1056",
+     "Assembly:A-1061"
+    ],
+    "rank": null,
+    "top": [
+     "2cbc7f7cac037fc7"
+    ]
+   },
+   {
+    "question": "F24",
+    "name": "chip",
+    "nodes": [
+     "fc0f68791a542831"
+    ],
+    "rank": 1,
+    "top": [
+     "fc0f68791a542831"
+    ]
+   },
+   {
+    "question": "F25",
+    "name": "tables",
+    "nodes": [
+     "Product:P-1001",
+     "Product:P-1008"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F26",
+    "name": "wobbling",
+    "nodes": [
+     "23e3d5176cf607b4",
+     "5a02bfef2ac3bfdf",
+     "dbccda452f70232b",
+     "fa88df0e28c761c8"
+    ],
+    "rank": 1,
+    "top": [
+     "fa88df0e28c761c8"
+    ]
+   },
+   {
+    "question": "F27",
+    "name": "squeak",
+    "nodes": [
+     "cdb511204422912e"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F27",
+    "name": "creak",
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F28",
+    "name": "Uppsala Sofa",
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1003",
+     "4ee0215de5441658"
+    ]
+   },
+   {
+    "question": "F28",
+    "name": "squeaking",
+    "nodes": [
+     "cdb511204422912e"
+    ],
+    "rank": 1,
+    "top": [
+     "cdb511204422912e"
+    ]
+   },
+   {
+    "question": "F28",
+    "name": "creaking",
+    "nodes": [
+     "3a805eaf418551fd"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "F29",
+    "name": "sagging",
+    "nodes": [
+     "a2646579cfcc1703"
+    ],
+    "rank": 1,
+    "top": [
+     "a2646579cfcc1703"
+    ]
+   },
+   {
+    "question": "F30",
+    "name": "Örebro Lamp",
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1005",
+     "e6bf4b4972ce4cfa"
+    ]
+   },
+   {
+    "question": "F30",
+    "name": "flickers",
+    "nodes": [
+     "31f9b7c355020e90",
+     "c025fd69355bdca4"
+    ],
+    "rank": 1,
+    "top": [
+     "c025fd69355bdca4"
+    ]
+   },
+   {
+    "question": "F31",
+    "name": "Malmö Desk",
+    "nodes": [
+     "Product:P-1002"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1002",
+     "c8557751b04d2f26"
+    ]
+   },
+   {
+    "question": "F31",
+    "name": "wobbles",
+    "nodes": [
+     "fa88df0e28c761c8"
+    ],
+    "rank": null,
+    "top": [
+     "5a02bfef2ac3bfdf",
+     "23e3d5176cf607b4",
+     "dbccda452f70232b"
+    ]
+   },
+   {
+    "question": "F32",
+    "name": "drawer",
+    "nodes": [
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070",
+     "Component:S-1085",
+     "3bc0c9d2769e85e3"
+    ]
+   },
+   {
+    "question": "F33",
+    "name": "Örebro Lamp",
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1005",
+     "e6bf4b4972ce4cfa"
+    ]
+   },
+   {
+    "question": "F33",
+    "name": "cord",
+    "nodes": [
+     "Assembly:A-1036"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1036"
+    ]
+   },
+   {
+    "question": "F34",
+    "name": "Uppsala Sofa",
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1003",
+     "4ee0215de5441658"
+    ]
+   },
+   {
+    "question": "F34",
+    "name": "cushion",
+    "nodes": [
+     "Assembly:A-1010",
+     "Assembly:A-1011"
+    ],
+    "rank": 2,
+    "top": [
+     "d4f9d988684eda21",
+     "Assembly:A-1010",
+     "Assembly:A-1011",
+     "Component:S-1098",
+     "Component:S-1113"
+    ]
+   },
+   {
+    "question": "F35",
+    "name": "Linköping Bed",
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1006",
+     "76c9f8b54130717f"
+    ]
+   },
+   {
+    "question": "F35",
+    "name": "slat",
+    "nodes": [
+     "Assembly:A-1051",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1051",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138"
+    ]
+   },
+   {
+    "question": "F36",
+    "name": "Linköping Bed",
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1006",
+     "76c9f8b54130717f"
+    ]
+   },
+   {
+    "question": "F36",
+    "name": "drawer slides",
+    "nodes": [
+     "8ade9afbfdad5c7c"
+    ],
+    "rank": 1,
+    "top": [
+     "8ade9afbfdad5c7c",
+     "Component:S-1078",
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   },
+   {
+    "question": "F37",
+    "name": "Örebro Lamp",
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1005",
+     "e6bf4b4972ce4cfa"
+    ]
+   },
+   {
+    "question": "F37",
+    "name": "shade",
+    "nodes": [
+     "Assembly:A-1033"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1033",
+     "Component:S-1130",
+     "Component:S-1131"
+    ]
+   },
+   {
+    "question": "F37",
+    "name": "dent",
+    "nodes": [
+     "48a7ba57950fc318"
+    ],
+    "rank": 1,
+    "top": [
+     "48a7ba57950fc318",
+     "247c125e79fbab55"
+    ]
+   },
+   {
+    "question": "F38",
+    "name": "Stockholm Chair",
+    "nodes": [
+     "Product:P-1000"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1000"
+    ]
+   },
+   {
+    "question": "F38",
+    "name": "comfortable",
+    "nodes": [
+     "cbbee077875bf855"
+    ],
+    "rank": 1,
+    "top": [
+     "cbbee077875bf855",
+     "f3d398640eeda06e",
+     "1d04ec2eb20d7775"
+    ]
+   },
+   {
+    "question": "F43",
+    "name": "Shanghai Metal Corp",
+    "nodes": [
+     "Supplier:SUP-002"
+    ],
+    "rank": 1,
+    "top": [
+     "Supplier:SUP-002",
+     "bac5b52a923d7ba3",
+     "Component:S-1085",
+     "308cb5b6d54e0ea0",
+     "4de037f25e02d1e1"
+    ]
+   },
+   {
+    "question": "F46",
+    "name": "Uppsala Sofa",
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1003",
+     "4ee0215de5441658"
+    ]
+   },
+   {
+    "question": "F47",
+    "name": "Linköping Bed",
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1006",
+     "76c9f8b54130717f"
+    ]
+   },
+   {
+    "question": "F47",
+    "name": "headboard",
+    "nodes": [
+     "Assembly:A-1048"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1048",
+     "Component:S-1087",
+     "Component:S-1088"
+    ]
+   },
+   {
+    "question": "F48",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F48",
+    "name": "drawers",
+    "nodes": [
+     "Assembly:A-1070"
+    ],
+    "rank": 3,
+    "top": [
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070",
+     "e2f0eb979c639ad7",
+     "74186447814bb5d4"
+    ]
+   },
+   {
+    "question": "F52",
+    "name": "screws",
+    "nodes": [
+     "Assembly:A-1016",
+     "Assembly:A-1024",
+     "Assembly:A-1029",
+     "Assembly:A-1035",
+     "Assembly:A-1040",
+     "Assembly:A-1045",
+     "Assembly:A-1053",
+     "Assembly:A-1058",
+     "Assembly:A-1063",
+     "Assembly:A-1072"
+    ],
+    "rank": 2,
+    "top": [
+     "d71301dede469980",
+     "Assembly:A-1016",
+     "Assembly:A-1024",
+     "Assembly:A-1029",
+     "Assembly:A-1035"
+    ]
+   },
+   {
+    "question": "F54",
+    "name": "Allen key",
+    "nodes": [
+     "Assembly:A-1025",
+     "Assembly:A-1030",
+     "Assembly:A-1041",
+     "Assembly:A-1047",
+     "Assembly:A-1054",
+     "Assembly:A-1059",
+     "Assembly:A-1065",
+     "Assembly:A-1073"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1025",
+     "Assembly:A-1030",
+     "Assembly:A-1041",
+     "Assembly:A-1047",
+     "Assembly:A-1054"
+    ]
+   },
+   {
+    "question": "F56",
+    "name": "Korean Metal Works",
+    "nodes": [
+     "Supplier:SUP-012"
+    ],
+    "rank": 1,
+    "top": [
+     "Supplier:SUP-012",
+     "bac5b52a923d7ba3",
+     "Component:S-1085",
+     "0dc5555ee28a679c",
+     "191fc4a3d368425b"
+    ]
+   },
+   {
+    "question": "F59",
+    "name": "Linköping Bed",
+    "nodes": [
+     "Product:P-1006"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1006",
+     "76c9f8b54130717f"
+    ]
+   },
+   {
+    "question": "F59",
+    "name": "headboard",
+    "nodes": [
+     "Assembly:A-1048"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1048",
+     "Component:S-1087",
+     "Component:S-1088"
+    ]
+   },
+   {
+    "question": "F60",
+    "name": "foam padding",
+    "nodes": [
+     "Component:S-1093",
+     "Component:S-1108"
+    ],
+    "rank": 1,
+    "top": [
+     "Component:S-1093",
+     "Component:S-1108",
+     "Component:S-1097",
+     "Component:S-1112",
+     "Supplier:SUP-005"
+    ]
+   },
+   {
+    "question": "F61",
+    "name": "German Precision Fasteners",
+    "nodes": [
+     "Supplier:SUP-004"
+    ],
+    "rank": 1,
+    "top": [
+     "Supplier:SUP-004",
+     "308cb5b6d54e0ea0",
+     "Supplier:SUP-014"
+    ]
+   },
+   {
+    "question": "F62",
+    "name": "Uppsala Sofa",
+    "nodes": [
+     "Product:P-1003"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1003",
+     "4ee0215de5441658"
+    ]
+   },
+   {
+    "question": "F62",
+    "name": "seat cushion",
+    "nodes": [
+     "Assembly:A-1010"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1010",
+     "Assembly:A-1037",
+     "d4f9d988684eda21",
+     "Assembly:A-1011",
+     "Component:S-1092"
+    ]
+   },
+   {
+    "question": "F63",
+    "name": "cable management",
+    "nodes": [
+     "Assembly:A-1064"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1064",
+     "3c9b9d00c74230f6",
+     "Component:S-1126",
+     "Component:S-1127"
+    ]
+   },
+   {
+    "question": "F64",
+    "name": "Malmö Desk",
+    "nodes": [
+     "Product:P-1002"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1002",
+     "c8557751b04d2f26"
+    ]
+   },
+   {
+    "question": "F64",
+    "name": "Helsingborg Dresser",
+    "nodes": [
+     "Product:P-1007"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1007"
+    ]
+   },
+   {
+    "question": "F65",
+    "name": "Stockholm Chair",
+    "nodes": [
+     "Product:P-1000"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1000"
+    ]
+   },
+   {
+    "question": "F66",
+    "name": "Örebro Lamp",
+    "nodes": [
+     "Product:P-1005"
+    ],
+    "rank": 1,
+    "top": [
+     "Product:P-1005",
+     "e6bf4b4972ce4cfa"
+    ]
+   },
+   {
+    "question": "F66",
+    "name": "shade",
+    "nodes": [
+     "Assembly:A-1033"
+    ],
+    "rank": 1,
+    "top": [
+     "Assembly:A-1033",
+     "Component:S-1130",
+     "Component:S-1131"
+    ]
+   },
+   {
+    "question": "F68",
+    "name": "Cape Town Adhesives",
+    "nodes": [
+     "Supplier:SUP-009"
+    ],
+    "rank": 1,
+    "top": [
+     "Supplier:SUP-009"
+    ]
+   }
+  ],
+  "unplaced": 2,
+  "hit_at": {
+   "1": {
+    "k": 72,
+    "n": 86,
+    "rate": 0.8372093023255814,
+    "low": 0.745101070539971,
+    "high": 0.9004795958773677
+   },
+   "5": {
+    "k": 77,
+    "n": 86,
+    "rate": 0.8953488372093024,
+    "low": 0.812927940593436,
+    "high": 0.9439597372751682
+   }
+  }
+ },
+ "reach": {
+  "gold_start": {
+   "mode": "gold_start",
+   "questions": [
+    {
+     "question": "F02",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "starts": [
+      "6578d646824a6278",
+      "Component:S-1085",
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F03",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#4"
+     ],
+     "starts": [
+      "Component:S-1124",
+      "Component:S-1134",
+      "Component:S-1136",
+      "Component:S-1138",
+      "Component:S-1140",
+      "Component:S-1142",
+      "Component:S-1144",
+      "Component:S-1146",
+      "Component:S-1148",
+      "Component:S-1150",
+      "Component:S-1152",
+      "Component:S-1154",
+      "Component:S-1156",
+      "Component:S-1158",
+      "Component:S-1160",
+      "e3b6e22474e38913"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F04",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "3a805eaf418551fd",
+      "Assembly:A-1012"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F05",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#4"
+     ],
+     "starts": [
+      "947e3d86e81d1a6c",
+      "Assembly:A-1033",
+      "Component:S-1131"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F06",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#3"
+     ],
+     "starts": [
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "F07",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "starts": [
+      "6578d646824a6278",
+      "Component:S-1085",
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F08",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/norrkoping_nightstand_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#1"
+     ],
+     "starts": [
+      "1f2dd89b935474ea",
+      "5af56a45ba2f75d6",
+      "65e7c6a7c7e36f72",
+      "77f7c6fd6a7b5141",
+      "82ed63a727d84cee",
+      "85b29e845b251d8e"
+     ],
+     "ranked": [
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/norrkoping_nightstand_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#0",
+      "product_reviews/gothenburg_table_reviews.md#2",
+      "product_reviews/gothenburg_table_reviews.md#3",
+      "product_reviews/gothenburg_table_reviews.md#4"
+     ],
+     "hits": {
+      "5": 5,
+      "10": 6
+     },
+     "reached": 6
+    },
+    {
+     "question": "F09",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#4"
+     ],
+     "starts": [
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F10",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#5"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "F12",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#6"
+     ],
+     "starts": [
+      "Assembly:A-1015",
+      "Product:P-1003"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 4
+     },
+     "reached": 4
+    },
+    {
+     "question": "F16",
+     "type": "structured_filter",
+     "gold": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#4"
+     ],
+     "starts": [
+      "23e3d5176cf607b4",
+      "dbccda452f70232b",
+      "fa88df0e28c761c8"
+     ],
+     "ranked": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#6",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/vasteras_bookshelf_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 3
+     },
+     "reached": 3
+    },
+    {
+     "question": "F17",
+     "type": "structured_filter",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "3a805eaf418551fd",
+      "Assembly:A-1012",
+      "cdb511204422912e"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F20",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "starts": [
+      "6578d646824a6278",
+      "Component:S-1078",
+      "Component:S-1085"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F21",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#5"
+     ],
+     "starts": [
+      "15cb3497a55b3587",
+      "Assembly:A-1022",
+      "Assembly:A-1071",
+      "Component:S-1079"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#5",
+      "product_reviews/malmo_desk_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F22",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#4"
+     ],
+     "starts": [
+      "247c125e79fbab55",
+      "48a7ba57950fc318"
+     ],
+     "ranked": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#0",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#2",
+      "product_reviews/gothenburg_table_reviews.md#3",
+      "product_reviews/gothenburg_table_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#6",
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F23",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#4"
+     ],
+     "starts": [
+      "Assembly:A-1051",
+      "Component:S-1104",
+      "Component:S-1124",
+      "Component:S-1134",
+      "Component:S-1136",
+      "Component:S-1138",
+      "Component:S-1140",
+      "Component:S-1142",
+      "Component:S-1144",
+      "Component:S-1146",
+      "Component:S-1148",
+      "Component:S-1150",
+      "Component:S-1152",
+      "Component:S-1154",
+      "Component:S-1156",
+      "Component:S-1158",
+      "Component:S-1160",
+      "e3b6e22474e38913"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F24",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#5"
+     ],
+     "starts": [
+      "Assembly:A-1014",
+      "Assembly:A-1023",
+      "Assembly:A-1027",
+      "Assembly:A-1039",
+      "Assembly:A-1056",
+      "Assembly:A-1061",
+      "fc0f68791a542831"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#0",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#2",
+      "product_reviews/gothenburg_table_reviews.md#3",
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/gothenburg_table_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F25",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#3"
+     ],
+     "starts": [
+      "Product:P-1001",
+      "Product:P-1008"
+     ],
+     "ranked": [
+      "product_reviews/gothenburg_table_reviews.md#0",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#2",
+      "product_reviews/gothenburg_table_reviews.md#3",
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/gothenburg_table_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#6",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#1",
+      "product_reviews/jonkoping_coffee_table_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F26",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#4"
+     ],
+     "starts": [
+      "23e3d5176cf607b4",
+      "5a02bfef2ac3bfdf",
+      "dbccda452f70232b",
+      "fa88df0e28c761c8"
+     ],
+     "ranked": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#6",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/vasteras_bookshelf_reviews.md#4"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 5
+     },
+     "reached": 5
+    },
+    {
+     "question": "F27",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "3a805eaf418551fd",
+      "cdb511204422912e"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F28",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "3a805eaf418551fd",
+      "Product:P-1003",
+      "cdb511204422912e"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#6"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F29",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#6",
+      "product_reviews/vasteras_bookshelf_reviews.md#0",
+      "product_reviews/vasteras_bookshelf_reviews.md#6"
+     ],
+     "starts": [
+      "a2646579cfcc1703"
+     ],
+     "ranked": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#6",
+      "product_reviews/vasteras_bookshelf_reviews.md#0",
+      "product_reviews/vasteras_bookshelf_reviews.md#6",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#1",
+      "product_reviews/jonkoping_coffee_table_reviews.md#2",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#5",
+      "product_reviews/jonkoping_coffee_table_reviews.md#6"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 4
+    },
+    {
+     "question": "F30",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#4"
+     ],
+     "starts": [
+      "31f9b7c355020e90",
+      "Product:P-1005",
+      "c025fd69355bdca4"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F31",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/malmo_desk_reviews.md#4"
+     ],
+     "starts": [
+      "Product:P-1002",
+      "fa88df0e28c761c8"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#2",
+      "product_reviews/malmo_desk_reviews.md#3",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#5",
+      "product_reviews/malmo_desk_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F32",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#4"
+     ],
+     "starts": [
+      "Assembly:A-1021",
+      "Assembly:A-1062",
+      "Assembly:A-1070"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#5",
+      "product_reviews/norrkoping_nightstand_reviews.md#0",
+      "product_reviews/norrkoping_nightstand_reviews.md#1",
+      "product_reviews/norrkoping_nightstand_reviews.md#2",
+      "product_reviews/norrkoping_nightstand_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F33",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#1"
+     ],
+     "starts": [
+      "Assembly:A-1036",
+      "Product:P-1005"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F34",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#3"
+     ],
+     "starts": [
+      "Assembly:A-1010",
+      "Assembly:A-1011",
+      "Product:P-1003"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F35",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#3"
+     ],
+     "starts": [
+      "Assembly:A-1051",
+      "Component:S-1124",
+      "Component:S-1134",
+      "Component:S-1136",
+      "Component:S-1138",
+      "Component:S-1140",
+      "Component:S-1142",
+      "Component:S-1144",
+      "Component:S-1146",
+      "Component:S-1148",
+      "Component:S-1150",
+      "Component:S-1152",
+      "Component:S-1154",
+      "Component:S-1156",
+      "Component:S-1158",
+      "Component:S-1160",
+      "Product:P-1006"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F36",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#3"
+     ],
+     "starts": [
+      "8ade9afbfdad5c7c",
+      "Product:P-1006"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F37",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#5"
+     ],
+     "starts": [
+      "48a7ba57950fc318",
+      "Assembly:A-1033",
+      "Product:P-1005"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F38",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/stockholm_chair_reviews.md#0",
+      "product_reviews/stockholm_chair_reviews.md#2",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/stockholm_chair_reviews.md#5",
+      "product_reviews/stockholm_chair_reviews.md#6"
+     ],
+     "starts": [
+      "Product:P-1000",
+      "cbbee077875bf855"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/stockholm_chair_reviews.md#0",
+      "product_reviews/stockholm_chair_reviews.md#1",
+      "product_reviews/stockholm_chair_reviews.md#2",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/stockholm_chair_reviews.md#4",
+      "product_reviews/stockholm_chair_reviews.md#5",
+      "product_reviews/stockholm_chair_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 5
+     },
+     "reached": 5
+    }
+   ],
+   "no_start": [
+    "F11",
+    "F13"
+   ],
+   "recall_at": {
+    "5": {
+     "k": 42,
+     "n": 61,
+     "rate": 0.6885245901639344,
+     "low": 0.5640832930215206,
+     "high": 0.7906272631646315
+    },
+    "10": {
+     "k": 56,
+     "n": 61,
+     "rate": 0.9180327868852459,
+     "low": 0.822051145758621,
+     "high": 0.9644809570889337
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 20,
+     "n": 31,
+     "rate": 0.6451612903225806,
+     "low": 0.469476380428149,
+     "high": 0.7888355225843418
+    },
+    "10": {
+     "k": 29,
+     "n": 31,
+     "rate": 0.9354838709677419,
+     "low": 0.7928101168125354,
+     "high": 0.9821255922249368
+    }
+   },
+   "reached": {
+    "k": 57,
+    "n": 61,
+    "rate": 0.9344262295081968,
+    "low": 0.8431697859953278,
+    "high": 0.9742067130423271
+   }
+  },
+  "end_to_end": {
+   "mode": "end_to_end",
+   "questions": [
+    {
+     "question": "F02",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "starts": [
+      "6578d646824a6278",
+      "Component:S-1085",
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F03",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#4"
+     ],
+     "starts": [
+      "2ea585e9fc0a4bb3",
+      "e3b6e22474e38913"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/stockholm_chair_reviews.md#1",
+      "product_reviews/stockholm_chair_reviews.md#4",
+      "product_reviews/stockholm_chair_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F04",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "3a805eaf418551fd",
+      "Assembly:A-1012"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F05",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#4"
+     ],
+     "starts": [
+      "947e3d86e81d1a6c",
+      "Assembly:A-1033",
+      "Component:S-1131"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F06",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#3"
+     ],
+     "starts": [
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "F07",
+     "type": "multi_hop",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "starts": [
+      "6578d646824a6278",
+      "Component:S-1085",
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F08",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/norrkoping_nightstand_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#1"
+     ],
+     "starts": [
+      "1f2dd89b935474ea"
+     ],
+     "ranked": [
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#0",
+      "product_reviews/gothenburg_table_reviews.md#2",
+      "product_reviews/gothenburg_table_reviews.md#3",
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/gothenburg_table_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 3
+    },
+    {
+     "question": "F09",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#4"
+     ],
+     "starts": [
+      "Product:P-1007"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F10",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#5"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "F12",
+     "type": "aggregation",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#6"
+     ],
+     "starts": [
+      "Assembly:A-1015",
+      "Product:P-1003"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 4
+     },
+     "reached": 4
+    },
+    {
+     "question": "F16",
+     "type": "structured_filter",
+     "gold": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#4"
+     ],
+     "starts": [
+      "fa88df0e28c761c8"
+     ],
+     "ranked": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#1",
+      "product_reviews/jonkoping_coffee_table_reviews.md#2",
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "F17",
+     "type": "structured_filter",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "Assembly:A-1012",
+      "cdb511204422912e"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F20",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#3"
+     ],
+     "starts": [
+      "6578d646824a6278",
+      "Component:S-1085"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2",
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/helsingborg_dresser_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#4",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "F21",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#5"
+     ],
+     "starts": [
+      "15cb3497a55b3587",
+      "Assembly:A-1022"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/norrkoping_nightstand_reviews.md#0",
+      "product_reviews/norrkoping_nightstand_reviews.md#1",
+      "product_reviews/norrkoping_nightstand_reviews.md#2",
+      "product_reviews/norrkoping_nightstand_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#4",
+      "product_reviews/norrkoping_nightstand_reviews.md#5",
+      "product_reviews/norrkoping_nightstand_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F22",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#4"
+     ],
+     "starts": [
+      "48a7ba57950fc318"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 1
+    },
+    {
+     "question": "F23",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#4"
+     ],
+     "starts": [
+      "Assembly:A-1051",
+      "e3b6e22474e38913"
+     ],
+     "ranked": [
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F24",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#5"
+     ],
+     "starts": [
+      "2cbc7f7cac037fc7",
+      "fc0f68791a542831"
+     ],
+     "ranked": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#1",
+      "product_reviews/jonkoping_coffee_table_reviews.md#2",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#5",
+      "product_reviews/jonkoping_coffee_table_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F25",
+     "type": "disambiguation",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#3"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "F26",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/vasteras_bookshelf_reviews.md#4"
+     ],
+     "starts": [
+      "fa88df0e28c761c8"
+     ],
+     "ranked": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#6",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#1",
+      "product_reviews/jonkoping_coffee_table_reviews.md#2",
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 4
+    },
+    {
+     "question": "F27",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "F28",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#4"
+     ],
+     "starts": [
+      "Product:P-1003",
+      "cdb511204422912e"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#6"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F29",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#6",
+      "product_reviews/vasteras_bookshelf_reviews.md#0",
+      "product_reviews/vasteras_bookshelf_reviews.md#6"
+     ],
+     "starts": [
+      "a2646579cfcc1703"
+     ],
+     "ranked": [
+      "product_reviews/jonkoping_coffee_table_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#6",
+      "product_reviews/vasteras_bookshelf_reviews.md#0",
+      "product_reviews/vasteras_bookshelf_reviews.md#6",
+      "product_reviews/jonkoping_coffee_table_reviews.md#0",
+      "product_reviews/jonkoping_coffee_table_reviews.md#1",
+      "product_reviews/jonkoping_coffee_table_reviews.md#2",
+      "product_reviews/jonkoping_coffee_table_reviews.md#4",
+      "product_reviews/jonkoping_coffee_table_reviews.md#5",
+      "product_reviews/jonkoping_coffee_table_reviews.md#6"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 4
+    },
+    {
+     "question": "F30",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#4"
+     ],
+     "starts": [
+      "Product:P-1005",
+      "c025fd69355bdca4"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F31",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/malmo_desk_reviews.md#4"
+     ],
+     "starts": [
+      "5a02bfef2ac3bfdf",
+      "Product:P-1002"
+     ],
+     "ranked": [
+      "product_reviews/gothenburg_table_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#0",
+      "product_reviews/malmo_desk_reviews.md#1",
+      "product_reviews/malmo_desk_reviews.md#2",
+      "product_reviews/malmo_desk_reviews.md#3",
+      "product_reviews/malmo_desk_reviews.md#4",
+      "product_reviews/malmo_desk_reviews.md#5",
+      "product_reviews/malmo_desk_reviews.md#6",
+      "product_reviews/gothenburg_table_reviews.md#0",
+      "product_reviews/gothenburg_table_reviews.md#1"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F32",
+     "type": "negation_sensitive",
+     "gold": [
+      "product_reviews/helsingborg_dresser_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#4"
+     ],
+     "starts": [
+      "Assembly:A-1021"
+     ],
+     "ranked": [
+      "product_reviews/norrkoping_nightstand_reviews.md#0",
+      "product_reviews/norrkoping_nightstand_reviews.md#1",
+      "product_reviews/norrkoping_nightstand_reviews.md#2",
+      "product_reviews/norrkoping_nightstand_reviews.md#3",
+      "product_reviews/norrkoping_nightstand_reviews.md#4",
+      "product_reviews/norrkoping_nightstand_reviews.md#5",
+      "product_reviews/norrkoping_nightstand_reviews.md#6"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F33",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#1"
+     ],
+     "starts": [
+      "Assembly:A-1036",
+      "Product:P-1005"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F34",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/uppsala_sofa_reviews.md#3"
+     ],
+     "starts": [
+      "Product:P-1003",
+      "d4f9d988684eda21"
+     ],
+     "ranked": [
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/uppsala_sofa_reviews.md#1",
+      "product_reviews/uppsala_sofa_reviews.md#2",
+      "product_reviews/uppsala_sofa_reviews.md#3",
+      "product_reviews/uppsala_sofa_reviews.md#4",
+      "product_reviews/uppsala_sofa_reviews.md#5",
+      "product_reviews/uppsala_sofa_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F35",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#3"
+     ],
+     "starts": [
+      "Assembly:A-1051",
+      "Product:P-1006"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#5",
+      "product_reviews/gothenburg_table_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F36",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/linkoping_bed_reviews.md#3"
+     ],
+     "starts": [
+      "8ade9afbfdad5c7c",
+      "Product:P-1006"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#1",
+      "product_reviews/linkoping_bed_reviews.md#2",
+      "product_reviews/linkoping_bed_reviews.md#3",
+      "product_reviews/linkoping_bed_reviews.md#4",
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/linkoping_bed_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F37",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/orebro_lamp_reviews.md#5"
+     ],
+     "starts": [
+      "48a7ba57950fc318",
+      "Assembly:A-1033",
+      "Product:P-1005"
+     ],
+     "ranked": [
+      "product_reviews/orebro_lamp_reviews.md#0",
+      "product_reviews/orebro_lamp_reviews.md#1",
+      "product_reviews/orebro_lamp_reviews.md#2",
+      "product_reviews/orebro_lamp_reviews.md#3",
+      "product_reviews/orebro_lamp_reviews.md#4",
+      "product_reviews/orebro_lamp_reviews.md#5",
+      "product_reviews/orebro_lamp_reviews.md#6",
+      "product_reviews/helsingborg_dresser_reviews.md#0",
+      "product_reviews/helsingborg_dresser_reviews.md#1",
+      "product_reviews/helsingborg_dresser_reviews.md#2"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "F38",
+     "type": "lookup",
+     "gold": [
+      "product_reviews/stockholm_chair_reviews.md#0",
+      "product_reviews/stockholm_chair_reviews.md#2",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/stockholm_chair_reviews.md#5",
+      "product_reviews/stockholm_chair_reviews.md#6"
+     ],
+     "starts": [
+      "Product:P-1000",
+      "cbbee077875bf855"
+     ],
+     "ranked": [
+      "product_reviews/linkoping_bed_reviews.md#5",
+      "product_reviews/stockholm_chair_reviews.md#0",
+      "product_reviews/stockholm_chair_reviews.md#1",
+      "product_reviews/stockholm_chair_reviews.md#2",
+      "product_reviews/stockholm_chair_reviews.md#3",
+      "product_reviews/stockholm_chair_reviews.md#4",
+      "product_reviews/stockholm_chair_reviews.md#5",
+      "product_reviews/stockholm_chair_reviews.md#6",
+      "product_reviews/uppsala_sofa_reviews.md#0",
+      "product_reviews/linkoping_bed_reviews.md#0"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 5
+     },
+     "reached": 5
+    }
+   ],
+   "no_start": [
+    "F11",
+    "F13"
+   ],
+   "recall_at": {
+    "5": {
+     "k": 31,
+     "n": 61,
+     "rate": 0.5081967213114754,
+     "low": 0.386024064532302,
+     "high": 0.6293981335627482
+    },
+    "10": {
+     "k": 40,
+     "n": 61,
+     "rate": 0.6557377049180327,
+     "low": 0.5304951542045838,
+     "high": 0.7625266096013678
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 17,
+     "n": 31,
+     "rate": 0.5483870967741935,
+     "low": 0.37771879603669134,
+     "high": 0.7083851716341388
+    },
+    "10": {
+     "k": 22,
+     "n": 31,
+     "rate": 0.7096774193548387,
+     "low": 0.5340734004245933,
+     "high": 0.8390437928156713
+    }
+   },
+   "reached": {
+    "k": 48,
+    "n": 61,
+    "rate": 0.7868852459016393,
+    "low": 0.6687734610328795,
+    "high": 0.8710034722938738
+   }
+  }
+ },
+ "selectivity": {
+  "nodes": 103,
+  "corpus": 70,
+  "median_share": 0.014285714285714285,
+  "p90_share": 0.07142857142857142,
+  "hubs": []
+ },
+ "connectivity": {
+  "questions": [
+   {
+    "question": "F01",
+    "gold": [
+     "Assembly:A-1070",
+     "Supplier:SUP-002",
+     "Supplier:SUP-012"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "F02",
+    "gold": [
+     "product_reviews/helsingborg_dresser_reviews.md#1",
+     "product_reviews/helsingborg_dresser_reviews.md#3"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "F03",
+    "gold": [
+     "Assembly:A-1051",
+     "product_reviews/linkoping_bed_reviews.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "F04",
+    "gold": [
+     "Product:P-1003",
+     "product_reviews/uppsala_sofa_reviews.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "F05",
+    "gold": [
+     "product_reviews/orebro_lamp_reviews.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "F06",
+    "gold": [
+     "product_reviews/helsingborg_dresser_reviews.md#6",
+     "product_reviews/linkoping_bed_reviews.md#3",
+     "product_reviews/norrkoping_nightstand_reviews.md#3"
+    ],
+    "unreached": [
+     "product_reviews/norrkoping_nightstand_reviews.md#3"
+    ]
+   },
+   {
+    "question": "F07",
+    "gold": [
+     "product_reviews/helsingborg_dresser_reviews.md#3"
+    ],
+    "unreached": []
+   }
+  ],
+  "connections": {
+   "k": 13,
+   "n": 14,
+   "rate": 0.9285714285714286,
+   "low": 0.6853073044604219,
+   "high": 0.9872781138877085
+  },
+  "thing_hops": 328,
+  "unwitnessed_hops": 0,
+  "unwitnessed_examples": []
+ },
+ "size": {
+  "chunks": 70,
+  "nodes": 1230,
+  "edges": 1809,
+  "nodes_per_chunk": 17.571428571428573,
+  "edges_per_chunk": 25.84285714285714,
+  "cost_usd": 0.46043,
+  "tokens": 296516.0
+ }
+}

@@ -1,0 +1,120 @@
+{
+ "build": "out/r77d_generality",
+ "changes": [
+  {
+   "mention": "15ab15335189f009",
+   "name": "J. Pike",
+   "doc_id": "institute/fieldwork_log.txt",
+   "before": null,
+   "after": "Staff:S-131",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "3c37c1c3ef53f19f",
+   "name": "Kestrel V-12",
+   "doc_id": "water/shift_notes.txt",
+   "before": null,
+   "after": "Pump:KV12-0457",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "5b8277685d24e2fb",
+   "name": "Jon Pike",
+   "doc_id": "institute/minutes_2025-05-12.md",
+   "before": null,
+   "after": "Staff:S-131",
+   "explained": true,
+   "cause": "chosen"
+  },
+  {
+   "mention": "ed3f535c5ff67d54",
+   "name": "J. Pike",
+   "doc_id": "institute/minutes_2025-06-09.md",
+   "before": null,
+   "after": "Staff:S-131",
+   "explained": true,
+   "cause": "chosen"
+  }
+ ],
+ "counts": {
+  "resolve.mentions_to_records": [
+   40,
+   44
+  ],
+  "resolve.mentions_to_individuals": [
+   144,
+   140
+  ]
+ },
+ "choices": [
+  {
+   "mention": "0e3b351356c249fb",
+   "name": "M. Lopez",
+   "candidates": [
+    "Staff:S-104",
+    "Staff:S-219"
+   ],
+   "action": "twin",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "15ab15335189f009",
+   "name": "J. Pike",
+   "candidates": [
+    "Staff:S-131"
+   ],
+   "action": "chosen",
+   "record": "Staff:S-131",
+   "evidence": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "3c37c1c3ef53f19f",
+   "name": "Kestrel V-12",
+   "candidates": [
+    "Pump:KV12-0457"
+   ],
+   "action": "chosen",
+   "record": "Pump:KV12-0457",
+   "evidence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "5b8277685d24e2fb",
+   "name": "Jon Pike",
+   "candidates": [
+    "Staff:S-131"
+   ],
+   "action": "chosen",
+   "record": "Staff:S-131",
+   "evidence": "Jon Pike closed the meeting at 16:40.",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "aaac839b06839b41",
+   "name": "Kestrel V-12",
+   "candidates": [
+    "Pump:KV12-0457"
+   ],
+   "action": "none",
+   "record": null,
+   "evidence": "",
+   "by": "gemini-3.8-flash"
+  },
+  {
+   "mention": "ed3f535c5ff67d54",
+   "name": "J. Pike",
+   "candidates": [
+    "Staff:S-131"
+   ],
+   "action": "chosen",
+   "record": "Staff:S-131",
+   "evidence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.",
+   "by": "gemini-3.8-flash"
+  }
+ ]
+}
