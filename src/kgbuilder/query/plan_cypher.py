@@ -321,6 +321,17 @@ def claim_ends(ids: list[str], end: Literal["subject", "object"]) -> Fragment:
     )
 
 
+def claim_statements(ids: list[str]) -> Fragment:
+    """Rows of (claim, subject, predicate, object, evidence): each claim as its own mentions word it, for
+    read_check to judge that claim and not only its chunk (R85)."""
+    return (
+        "MATCH (s:Mention)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(x:Mention) WHERE o.id IN $ids "
+        "RETURN o.id AS item, s.name AS subject, o.predicate AS predicate, x.name AS object, "
+        "coalesce(o.evidence, '') AS evidence",
+        {"ids": ids},
+    )
+
+
 def record_values(ids: list[str], prop: str) -> Fragment:
     """Rows of (record, value) of property `prop`."""
     return (

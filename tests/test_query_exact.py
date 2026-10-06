@@ -451,7 +451,8 @@ def test_a_frozen_file_must_answer_every_question_with_the_same_systems_plans(tm
     "prompt",
     [
         planner.PROMPT + planner.RETRY,
-        read_check.PROMPT,
+        read_check.PROMPT + read_check.CLAIM_RULE + read_check.CANDIDATE,
+        json.dumps(read_check.CheckReply.model_json_schema()),
         json.dumps(QueryPlan.model_json_schema()),  # the field descriptions reach the model too
         exact.PROMPT + exact.RETRY,
         exact.RECORDS_PROMPT + exact.RETRY,

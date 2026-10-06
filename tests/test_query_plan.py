@@ -11,7 +11,7 @@ from kgbuilder.query.answers import ShownChunk
 from kgbuilder.query.graph_schema import ClaimInfo, GraphSchema, LabelInfo, PropertyInfo, RelationshipInfo
 from kgbuilder.query.names import NameLinker, NodeName
 from kgbuilder.query.plan import PlanSchema, PlanStep, QueryPlan, as_number, check_plan
-from kgbuilder.query.read_check import CheckReply, ReadChecker, verify
+from kgbuilder.query.read_check import CheckCandidate, CheckReply, ReadChecker, build_prompt, verify
 
 from .fakes import ScriptedLLM
 
@@ -299,6 +299,50 @@ def test_read_check_asks_nothing_without_text_and_keeps_a_verified_quote():
     assert not checker.check("The spindle wobbles.", []).called and llm.calls == []
     result = checker.check("The spindle wobbles.", CHUNKS)
     assert result.verified and result.called and result.chunk_id == "a#0"
+
+
+# R85: two claims of one chunk, in two sentences
+SHOP = [
+    ShownChunk(chunk_id="s#0", context="Shop log", text="Ada Rook oiled the spindle. The spindle squeaks.")
+]
+OILED = CheckCandidate(claim="Ada Rook SERVICES spindle", evidence="Ada Rook oiled the spindle.")
+SQUEAKS = CheckCandidate(claim="spindle HAS_CONDITION squeaks", evidence="The spindle squeaks.")
+
+
+def test_a_check_of_a_record_or_chunk_reads_exactly_as_before_a_claim_was_shown():
+    # the prompt before R85, rendered: a record's or a chunk's check keeps its cached request
+    before = (
+        "Decide whether the text below supports a statement.\n\nRules:\n"
+        "- Answer `supported` true only when the text itself states it. A sentence saying the opposite, "
+        "saying it\n  did not happen, or saying only that it might happen, is not support.\n"
+        "- When supported, give the id of the chunk that states it and ONE contiguous quote copied "
+        "verbatim from it.\n\n<statement>The spindle was oiled.</statement>\n\n<chunks>\n"
+        '<chunk id="s#0" document="Shop log">\nAda Rook oiled the spindle. The spindle squeaks.\n</chunk>\n'
+        "</chunks>"
+    )
+    assert build_prompt("The spindle was oiled.", SHOP) == before
+
+
+def test_a_claims_check_shows_the_claim_with_its_evidence_and_one_rule_for_it():
+    prompt = build_prompt("The spindle was oiled.", SHOP, OILED)
+    shown = (
+        "<candidate>\nclaim: Ada Rook SERVICES spindle\nevidence: Ada Rook oiled the spindle.\n</candidate>"
+    )
+    assert shown in prompt
+    assert "another claim of the same text stating it is not enough" in prompt
+    assert prompt.index("</statement>") < prompt.index("<candidate>") < prompt.index("<chunks>")
+
+
+def test_a_claims_yes_counts_only_with_a_quote_from_its_own_evidence():
+    oiled = CheckReply(supported=True, chunk_id="s#0", quote="Ada Rook oiled the spindle.")
+    assert verify(oiled, SHOP, OILED)
+    assert not verify(oiled, SHOP, SQUEAKS)  # the chunk states it, but not where this claim was read
+    inside = CheckReply(supported=True, chunk_id="s#0", quote="oiled the spindle")
+    assert verify(inside, SHOP, OILED)
+    whole = CheckReply(supported=True, chunk_id="s#0", quote=SHOP[0].text)
+    assert verify(whole, SHOP, OILED) and verify(whole, SHOP, SQUEAKS)  # a passage holding the evidence
+    derived = CheckCandidate(claim="spindle PART_OF Quill Press", evidence="")
+    assert verify(oiled, SHOP, derived)  # no evidence of its own: the chunk alone decides, as before R85
 
 
 # --- find_entity's name lookup ---------------------------------------------------------------------

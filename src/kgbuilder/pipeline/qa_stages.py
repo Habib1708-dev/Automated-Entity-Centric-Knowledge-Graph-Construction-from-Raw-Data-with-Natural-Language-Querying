@@ -118,7 +118,7 @@ def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
     if system in PLANNED:
         params.update(
             planner_prompt_version=prompt_version(planner.PROMPT + planner.RETRY),
-            read_check_prompt_version=prompt_version(read_check.PROMPT),
+            read_check_prompt_version=prompt_version(_read_check_prompt()),
             cypher_prompt_version=prompt_version(_cypher_prompt(system)),
             qa_cypher_limit=s.qa_cypher_limit,
             qa_cypher_timeout_s=s.qa_cypher_timeout_s,
@@ -137,8 +137,14 @@ def _log_prompts(run: Run, system: str) -> None:
     run.text(reader.PROMPT, "prompts/qa_reader.txt")
     if system in PLANNED:
         run.text(planner.PROMPT + planner.RETRY, "prompts/qa_planner.txt")
-        run.text(read_check.PROMPT, "prompts/qa_read_check.txt")
+        run.text(_read_check_prompt(), "prompts/qa_read_check.txt")
         run.text(_cypher_prompt(system), "prompts/qa_cypher.txt")
+
+
+def _read_check_prompt() -> str:
+    """The read_check prompt with the parts a claim candidate adds (R85), so a change to either is a new
+    version."""
+    return read_check.PROMPT + read_check.CLAIM_RULE + read_check.CANDIDATE
 
 
 def _check_system(system: str) -> str:

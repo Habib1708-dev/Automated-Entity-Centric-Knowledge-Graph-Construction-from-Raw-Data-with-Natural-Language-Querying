@@ -3975,6 +3975,34 @@ F32). A bug of the query code, fixed alone; no prompt, no plan field, no graph c
 - **Not measured.** The part f graphs cannot be rebuilt from the cache on this commit, because R82 changed
   the extraction prompt. The measurement is proposed to the user with its cost, not made in this step.
 
+### R85. read_check judges each claim, not only its chunk (Step 8 addition 2; done 2026-10-06, code and prompt, no run)
+R83 found that read_check gave every claim of one chunk the same verdict: the checker saw the statement and
+the candidate's chunks, never the candidate. In G24 ("Who replaced the mechanical seal of pump
+HP40-2291?") all 7 claims of the sentence "Mechanical seal of HP40-2291 replaced by technician Marek
+Hollis" were verified with one quote, and the answer listed five subjects.
+- **Decision (the user, 2026-10-06, asked before any code):** a code check and the claim shown to the
+  checker. A code check alone cannot tell apart claims of one sentence (G24).
+- **Scope.**
+  - `query/read_check.py`: `CheckCandidate` (the claim as its own mentions word it, and its evidence).
+    `build_prompt` shows it in a `<candidate>` block with one rule (`CLAIM_RULE`): yes only when this claim,
+    read in its text, states the statement. `verify`: for a claim, the quote must hold the claim's evidence
+    or lie inside it. A derived claim has no evidence and is checked by its chunk alone, as before.
+  - For a record or a chunk the prompt is byte-identical to before (a test renders the old prompt), so
+    those checks keep their cached requests.
+  - `query/plan_cypher.claim_statements`, read by `PlanRunner._claim_candidates` for a read_check step's
+    claims.
+  - `pipeline/qa_stages.py`: `read_check_prompt_version` and the logged prompt include the claim rule and
+    block, so the version changes.
+  - Swept for dataset words: none. The prompt guard test now covers the claim parts and the reply schema.
+- **Tests:** a record's check reads as before; a claim's check shows the claim and its rule; a quote from
+  another sentence of the claim's chunk does not verify it, while a quote inside the evidence, or a passage
+  holding it, does; a claim without evidence is checked by its chunk (pure). Neo4j: a plan's read_check over
+  two claims of one chunk in two sentences verifies only the one whose sentence states the statement, and
+  shows each claim to the checker. It failed before the fix: 2 verified, answer "Ada Rook" and "Spindle".
+- **Gate:** 562 passed (557 + 5), `ruff check` clean.
+- **Not measured.** Every read_check call on a claim misses the cache now. The measurement is proposed with
+  R84's, not made in this step.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -3983,7 +4011,7 @@ F32). A bug of the query code, fixed alone; no prompt, no plan field, no graph c
   searches concepts only, while `find_claims` matches mentions by their canonical id, which is a record or
   an individual for keyed and named things (R75). 5 furniture answers fail on it (F17 F21 F23 F24 F32).
   To be fixed in its own step, with a test that fails before the fix, if the user chooses it.
-- **read_check verifies all candidates of one chunk together (found in R83).** `_read_check` asks the
+- **(Fixed in R85.) read_check verifies all candidates of one chunk together (found in R83).** `_read_check` asks the
   checker about the statement and each candidate's chunks, never about the candidate claim itself, so
   claims sharing a chunk get one verdict (G24: 7 of 28 verified with one quote).
 - **(Addressed in R82 by one prompt example; not yet measured.) Held-out's named denials carry no cue (found in R77 part f).** Gemini keeps a Problem named by a denial

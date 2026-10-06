@@ -39,8 +39,12 @@ def runner_parts(driver):
     return store, schema
 
 
-def runner(store, schema, checks=None, reply=None, check_limit=30) -> PlanRunner:
-    check_llm = ScriptedLLM(lambda prompt, s: checks.pop(0) if checks else CheckReply(supported=False))
+def runner(store, schema, checks=None, reply=None, check_limit=30, check=None) -> PlanRunner:
+    """A plan runner on the test graph; read_check replies come from `checks` in order, or from `check`
+    (prompt -> reply) when given."""
+    check_llm = ScriptedLLM(
+        lambda prompt, s: check(prompt) if check else checks.pop(0) if checks else CheckReply(supported=False)
+    )
     read_llm = ScriptedLLM(lambda prompt, s: reply or ReaderAnswer(text="nothing"))
     return PlanRunner(
         store,
@@ -200,6 +204,49 @@ def test_read_check_keeps_only_candidates_with_a_verified_quote_and_code_counts_
         {"op": "count", "input": 1},
     )
     assert unverified.number == 0.0  # the quote is not in the chunk: the yes does not count
+
+
+# R85: one chunk, two claims about the spindle in two sentences, each with its evidence
+SHOP = """
+MATCH (part:Part {part_id: 'S1'})
+CREATE (c:Chunk {chunk_id: 'shop.md#0', text: 'Ada Rook oiled the spindle. The spindle squeaks.',
+                 context: 'Shop log'})-[:PART_OF]->(:Document {doc_id: 'shop.md'}),
+       (rook:Mention {id: 'm-rook', name: 'Ada Rook', type: 'Person', doc_id: 'shop.md'}),
+       (spindle:Mention {id: 'm-spindle-shop', name: 'spindle', type: 'Component', doc_id: 'shop.md'})
+         -[:REFERS_TO {canonical: 'Part:S1', name: 'Spindle', kind: 'record', reason: 'name'}]->(part),
+       (squeaks:Mention {id: 'm-squeaks', name: 'squeaks', type: 'Condition', doc_id: 'shop.md'}),
+       (o2:Observation {id: 'o2', predicate: 'SERVICES', evidence: 'Ada Rook oiled the spindle.'}),
+       (o3:Observation {id: 'o3', predicate: 'HAS_CONDITION', evidence: 'The spindle squeaks.'}),
+       (o2)-[:SUBJECT]->(rook), (o2)-[:OBJECT]->(spindle), (o2)-[:FROM]->(c),
+       (o3)-[:SUBJECT]->(spindle), (o3)-[:OBJECT]->(squeaks), (o3)-[:FROM]->(c)
+"""
+
+
+def test_read_check_judges_each_claim_not_only_the_chunk_it_shares(runner_parts, driver):
+    store, schema = runner_parts
+    driver.execute_query(SHOP)
+    prompts: list[str] = []
+
+    def yes_to_the_oiling(prompt: str) -> CheckReply:
+        # a reader that finds the oiling in any text it is shown; only code can keep it to its own claim
+        prompts.append(prompt)
+        return CheckReply(supported=True, chunk_id="shop.md#0", quote="Ada Rook oiled the spindle.")
+
+    result = run(
+        runner(store, schema, check=yes_to_the_oiling),
+        schema,
+        "Who oiled the spindle?",
+        {"op": "find_entity", "name": "Spindle", "label": "Part"},
+        {"op": "find_claims", "input": 0},
+        {"op": "read_check", "input": 1, "statement": "The spindle was oiled."},
+        {"op": "list", "input": 2, "what": "subject"},
+    )
+    # the notes' claim is in another chunk; the squeak shares the chunk but not the sentence
+    assert (result.checks, result.verified, result.entities) == (3, 1, ["Ada Rook"])
+    assert any(
+        "claim: Ada Rook SERVICES spindle\nevidence: Ada Rook oiled the spindle.\n" in p for p in prompts
+    )
+    assert any("claim: spindle HAS_CONDITION squeaks\nevidence: The spindle squeaks.\n" in p for p in prompts)
 
 
 def test_read_check_refuses_more_candidates_than_its_bound(runner_parts):

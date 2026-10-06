@@ -7,7 +7,8 @@ fails) raises `QueryPlanError` with a reason the planner's retry can act on.
 Design: Interpreter over the closed set of primitives: one method per operation, every query from
 plan_cypher.py, every model call through the reader or the read_check reader, so the model chooses the
 steps and their values and code does the rest. Counts and lists are computed by code from the items; text
-is read only by `read_check` (one candidate at a time, quotes verified) and by `answer_from_chunks`.
+is read only by `read_check` (one candidate at a time, a claim shown with its evidence, quotes verified)
+and by `answer_from_chunks`.
 An empty search is still an answer ("none"), with two exceptions that only widen where to look (R78): a
 reading step whose input has no text searches the system's chunk source, and claim words that match
 nothing on the end the planner gave are matched on either end. Claims that will only be read as text come
@@ -30,7 +31,7 @@ from .graph_store import CypherStore, GraphStore, StoredChunk
 from .names import NameLinker
 from .plan import ItemKind, PlanSchema, PlanStep, QueryPlan, as_number
 from .ranking import rank as rank_chunks
-from .read_check import ReadChecker
+from .read_check import CheckCandidate, ReadChecker
 from .reader import Reader
 
 Items = dict[ItemKind, list[str]]  # the ids a step produced, per kind, in order
@@ -214,12 +215,13 @@ class PlanRunner:
         kept: Items = {}
         for kind, ids in inputs.items():
             chunks_of = self._item_chunks(kind, ids)
+            claims = self._claim_candidates(ids) if kind == "claim" and ids else {}
             kept[kind] = []
             for item in ids:
                 shown = _shown(
                     rank_chunks(statement_vector, chunks_of.get(item, []))[: self._settings.check_chunks]
                 )
-                outcome = self._checker.check(step.statement or "", shown)
+                outcome = self._checker.check(step.statement or "", shown, claims.get(item))
                 result.checks += int(outcome.called)
                 _add_shown(result, shown)
                 if outcome.verified:
@@ -396,6 +398,15 @@ class PlanRunner:
             names += [str(by_id[i]) for i in items["record"] if by_id.get(i) is not None]
         names += [self._entity_names[i] for i in items.get("entity", []) if i in self._entity_names]
         return list(dict.fromkeys(names))
+
+    def _claim_candidates(self, claims: list[str]) -> dict[str, CheckCandidate]:
+        """Each claim as read_check is shown it: its own words and its evidence (R85)."""
+        return {
+            str(r["item"]): CheckCandidate(
+                claim=f"{r['subject']} {r['predicate']} {r['object']}", evidence=str(r["evidence"])
+            )
+            for r in self._rows(*cy.claim_statements(claims))
+        }
 
     def _claim_names(self, claims: list[str], what: str, label: str | None) -> list[str]:
         if what in ("subject", "object"):
