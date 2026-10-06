@@ -306,6 +306,22 @@ def test_claim_words_on_the_wrong_end_are_matched_on_either_end_before_giving_up
     assert (on_its_end.entities, on_its_end.steps[0].note) == (["Spindle"], "")
 
 
+def test_claim_words_reach_a_claim_end_whose_mention_refers_to_a_record(runner_parts):
+    # R84: the notes' "spindle" refers to the part record "Spindle" (R75), so claim words naming it must
+    # reach the claim on that end; before R84 they were looked up among concepts only and found nothing
+    # (R83: furniture's "frame creaks", whose "frame" refers to an Assembly record)
+    store, schema = runner_parts
+    r = runner(store, schema)
+    by_record = run(
+        r,
+        schema,
+        "Which spindles wobble?",
+        {"op": "find_claims", "subject_like": "spindle", "object_like": "wobbles"},
+        {"op": "count", "input": 0},
+    )
+    assert (by_record.number, by_record.steps[0].note) == (1.0, "")
+
+
 def test_a_listed_property_of_one_number_is_also_the_answers_number(runner_parts):
     # R78: "What does the Quill Press cost?" answered "$1,200" as a name, never as the number 1200 (R77
     # baseline: F63 "$289", H33, H65); several values stay a list without a number

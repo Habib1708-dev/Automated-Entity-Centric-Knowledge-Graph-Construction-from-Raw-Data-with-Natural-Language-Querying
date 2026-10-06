@@ -3954,11 +3954,32 @@ that each addition proposed to the user has its failing questions as its reason.
   findings (7), and the task's other candidates (events, sets, read_check write-back, LLM-named
   attachment, speaker, `valid_time`), each with 0-1 failures as a first cause.
 
+### R84. Claim words reach a claim end that refers to a record (Step 8 addition 1; done 2026-10-06, code only)
+R83 found that a plan's claim words never reach a claim whose subject or object mention refers to a record:
+`PlanRunner._claim_words` looked them up among concepts and individuals only, while R75 links "frame",
+"slats" or "drawers" in the reviews to Assembly records. 5 furniture answers fail on it (F17 F21 F23 F24
+F32). A bug of the query code, fixed alone; no prompt, no plan field, no graph change.
+- **Scope.** `query/names.py`: `NameLinker.spelled` (the spelling part of `find`, now shared by it).
+  `query/plan_run.py`: `_claim_words` adds the records spelled alike (by their names and the names of the
+  mentions that refer to them) to the concepts and individuals it found before. Records are not added by
+  meaning, because the nearest records to "frame" are whole products. `query/plan_cypher.py`: a claim end
+  matches a mention by its canonical id, as before, or by the element id of the record it refers to
+  (`_claim_end`).
+- **Test first:** `test_claim_words_reach_a_claim_end_whose_mention_refers_to_a_record` (Neo4j; the notes'
+  "spindle" refers to the part record "Spindle"). It failed before the fix: 0 claims, even on either end.
+- **Expected effect, checked against part f's identity decisions ($0, no model):** the plans' words
+  "frame", "drawer handle", "slats" and "drawer" now reach `Assembly:A-1012`, `A-1022`/`A-1071`, `A-1051`
+  and `A-1021`/`A-1070`. "leg" does not reach "Legs" (`A-1014`): it is below the spelling score of 90, the
+  linker's rule for every name, which is unchanged. So F24 stays out of reach by this fix.
+- **Gate:** 557 passed (556 + 1), `ruff check` clean.
+- **Not measured.** The part f graphs cannot be rebuilt from the cache on this commit, because R82 changed
+  the extraction prompt. The measurement is proposed to the user with its cost, not made in this step.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
 
-- **Claim words cannot reach a mention that refers to a record (found in R83).** `plan_run._claim_words`
+- **(Fixed in R84.) Claim words cannot reach a mention that refers to a record (found in R83).** `plan_run._claim_words`
   searches concepts only, while `find_claims` matches mentions by their canonical id, which is a record or
   an individual for keyed and named things (R75). 5 furniture answers fail on it (F17 F21 F23 F24 F32).
   To be fixed in its own step, with a test that fails before the fix, if the user chooses it.

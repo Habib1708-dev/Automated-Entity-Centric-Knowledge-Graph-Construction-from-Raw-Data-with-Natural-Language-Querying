@@ -228,14 +228,10 @@ def find_claims(
         params["predicate"] = predicate
     subject_end, object_end = ("SUBJECT|OBJECT", "SUBJECT|OBJECT") if either_end else ("SUBJECT", "OBJECT")
     if subjects is not None:
-        where.append(
-            f"EXISTS {{ MATCH (o)-[:{subject_end}]->(s:Mention) WHERE {canonical_id('s')} IN $subjects }}"
-        )
+        where.append(_claim_end(subject_end, "s", "subjects"))
         params["subjects"] = subjects
     if objects is not None:
-        where.append(
-            f"EXISTS {{ MATCH (o)-[:{object_end}]->(x:Mention) WHERE {canonical_id('x')} IN $objects }}"
-        )
+        where.append(_claim_end(object_end, "x", "objects"))
         params["objects"] = objects
     if tone is not None:
         where.append("o.polarity = $tone")
@@ -256,6 +252,16 @@ def find_claims(
         params["modalities"] = _MODALITIES[modality]
     clause = f" WHERE {' AND '.join(where)}" if where else ""
     return f"MATCH (o:Observation){clause} RETURN DISTINCT o.id AS id LIMIT {int(cap)}", params
+
+
+def _claim_end(ends: str, mention: str, param: str) -> str:
+    """A claim with a mention on `ends` that names one of `$param`: the canonical id of a concept or an
+    individual, or the element id of a record the mention refers to (R84). The two id spaces cannot meet:
+    an element id has the form "4:<database>:<n>", a canonical id does not."""
+    return (
+        f"EXISTS {{ MATCH (o)-[:{ends}]->({mention}:Mention) WHERE {canonical_id(mention)} IN ${param} "
+        f"OR EXISTS {{ MATCH ({mention})-[:REFERS_TO]->(t) WHERE elementId(t) IN ${param} }} }}"
+    )
 
 
 def item_chunks(kind: str, ids: list[str]) -> list[Fragment]:

@@ -339,12 +339,19 @@ class PlanRunner:
         return "out" if out else ("in" if back else None)
 
     def _claim_words(self, words: str | None) -> list[str] | None:
-        """The entities a claim's subject or object words name: spelled alike, plus the nearest in meaning
-        (a candidate set: read_check or the reader decides what holds)."""
+        """The entities a claim's subject or object words name (a candidate set: read_check or the reader
+        decides what holds): concepts and individuals spelled alike plus the nearest in meaning, by their
+        canonical ids, and records spelled alike, by their element ids (`plan_cypher.find_claims` takes
+        both)."""
         if not words:
             return None
         found = self._linker.find(words, self._embed, {"kind"}, None, union=True)
-        return [n.node_id for n in found]
+        # R84: since R75 a claim's end may be a mention that refers to a record ("frame" -> the Assembly
+        # record "Frame"); a record's aliases are those mentions' names, so spelling reaches it. Records are
+        # not added by meaning: the nearest records to "frame" would be whole products, and their claims
+        # are not claims about a frame
+        records = self._linker.spelled(words, {"thing"}, None)
+        return [n.node_id for n in found] + [n.node_id for n in records]
 
     def _item_chunks(self, kind: str, ids: list[str]) -> dict[str, list[StoredChunk]]:
         if not ids:

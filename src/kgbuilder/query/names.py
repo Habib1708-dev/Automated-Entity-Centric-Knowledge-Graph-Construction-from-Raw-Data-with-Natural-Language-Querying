@@ -114,14 +114,7 @@ class NameLinker:
         meaning. `embed` is called only when meaning is needed. Two same-named records both come back."""
         candidates = [n for n in self._nodes if n.kind in kinds and (label is None or n.label == label)]
         wanted = " ".join(words(name))
-        spelled = [
-            n
-            for n in candidates
-            if any(
-                name_similarity(wanted, " ".join(words(x)), self._fuzzy) >= self._fuzzy
-                for x in (n.name, *n.aliases)
-            )
-        ]
+        spelled = self.spelled(name, kinds, label)
         if (spelled and not union) or not self._vectors or self._neighbours == 0 or not wanted:
             return spelled
         q = unit_vector(embed(name))
@@ -131,6 +124,21 @@ class NameLinker:
         for n in nearest[: self._neighbours]:
             found.setdefault((n.kind, n.node_id), n)
         return list(found.values())
+
+    def spelled(self, name: str, kinds: set[str], label: str | None) -> list[NodeName]:
+        """The nodes of `kinds` (and `label`, when given) whose name or an alias the name spells alike,
+        whole name against whole name; never a node by meaning alone."""
+        wanted = " ".join(words(name))
+        return [
+            n
+            for n in self._nodes
+            if n.kind in kinds
+            and (label is None or n.label == label)
+            and any(
+                name_similarity(wanted, " ".join(words(x)), self._fuzzy) >= self._fuzzy
+                for x in (n.name, *n.aliases)
+            )
+        ]
 
     def _spelled(self, name: str, question_words: list[str], by_length: dict[int, list[str]]) -> bool:
         """Whether a run of the question's words spells `name` alike (same number of words)."""
