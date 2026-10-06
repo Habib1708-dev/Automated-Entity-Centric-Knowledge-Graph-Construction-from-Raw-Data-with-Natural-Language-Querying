@@ -6,7 +6,8 @@ Ruiz's kettle "switch" is linked to the lamp's switch (the planted cross-scope l
 named after the kettle's key but left unlinked (the planted label mismatch), and two Ana Ruiz nodes in two
 documents (the planted split). The verdicts are invented to exercise each rule, not judged. The stage test
 reuses the graph audit's invented build folder (tests/test_audit.py). The committed sheets of the three builds
-(tests/gold/r93) must load, match their code sides and name the committed inputs they were built from.
+(tests/gold/r93) must load, match their code sides and name the committed inputs they were built from, and
+each committed verdict file must answer its sheet under the review rules, with every quote in its item.
 No Neo4j, no LLM.
 """
 
@@ -432,3 +433,21 @@ def test_each_committed_sheet_loads_matches_its_code_side_and_names_its_inputs(r
     assert sum(i.startswith("l:") for i in ids["c4"]) >= LINKS[ds] and len(ids["c6"]) == PAIRS[ds]
     c4 = CodeSide.model_validate_json((base / "c4_code.json").read_text(encoding="utf-8"))
     assert sum(i.kind == "link" for i in c4.items) == LINKS[ds]
+
+
+# --- the committed verdicts of R93 part b ----------------------------------------------------------------
+
+JUDGE = "claude-opus-5-5"
+
+
+@pytest.mark.parametrize("run", SHEET_RUNS, ids=lambda r: r["dataset"])
+@pytest.mark.parametrize("name", list(SHEET_MODELS))
+def test_each_committed_verdict_file_answers_its_sheet_under_the_review_rules(run, name):
+    base = GOLD / "r93" / run["dataset"]
+    code = CodeSide.model_validate_json((base / f"{name}_code.json").read_text(encoding="utf-8"))
+    verdicts = load_verdicts(base / f"{name}_verdicts.json", {i.id for i in code.items})
+    sheet = SHEET_MODELS[name].model_validate_json((base / f"{name}_sheet.json").read_text(encoding="utf-8"))
+    check_evidence(sheet, verdicts)  # every quote stands in what its item showed
+    header = verdicts.judge
+    assert (header.model, header.snapshot_hash) == (JUDGE, run["snapshot_hash"])
+    assert header.sheet_hash == digest(base / f"{name}_sheet.json") == run["files"][f"{name}_sheet.json"]

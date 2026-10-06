@@ -4548,6 +4548,50 @@ No threshold or definition of the direction document is changed except as record
     | flags | `cross_scope_link` 4, `fuzzy_name` 6, `scope_foreign` 6 | `label_mismatch` 29 | `same_label_about` 3 |
 
   - **Gate (sheets):** 656 passed, `ruff check` clean. Next: part b, judging.
+- **Part b: judging (done 2026-10-06, $0, no pipeline call).**
+  - **Blind batches.** The sheets were cut into 23 batches of at most about 70k characters (scratch, not
+    committed). Each held only its items and the chunks they name, never a code side.
+    - Each batch went to one subagent on Opus. All 23 report `claude-opus-5-5`.
+    - A subagent read only the rules file and its batch, and wrote one verdict per item.
+    - Code then checked every fragment: no missing, unknown or duplicate id, and every quote in its item.
+      All passed on the first merge.
+  - **Lead review** (Claude Opus 5.5 in the session): every blind INCORRECT, AMBIGUOUS and UNJUDGEABLE
+    verdict, plus the seeded 10 % of VALID ones. That is 101 of 745 verdicts, with 8 changes, each recorded
+    in its file's `changes` with the blind label:
+    - **Furniture C4, `l:99eee1f9…:Product:P-1004`, INCORRECT -> AMBIGUOUS.** The mention is the
+      document's title "Västerås Bookshelf Reviews". It reads as the bookshelf (the page's subject) or the
+      page itself.
+    - **Held-out C4, 5 Vehicle links -> VALID_ALTERNATIVE: one rule across batches.** "RAV4 Hybrid" ×3
+      (INCORRECT), "2020 RAV4 Hybrid" and "2017-2018, 2021 Civic Type R" (AMBIGUOUS).
+      - The blind batches disagreed: other batches accepted "2017-2019 Rogue Hybrid", "Civic Type R",
+        "Civic Coupe", "Civic Sedan" and "Civic Hatchback" as VALID.
+      - The rule applied: a Vehicle row is one row per model name (key `RAV4`; its relations reach
+        recalls of several years), so a hybrid, trim or body variant of the named model refers to that
+        row under the model-line reading.
+      - "2017-2022 Rogue Sport" stays INCORRECT: the text names it as a separate model.
+      - **This change decides the hard rule.** On the blind labels, held-out C4 precision is 70/74 =
+        0.946 (below 0.95). After review it is 75/76. Part c reports both.
+    - **Held-out C6, `p:Vehicle:ROGUE|…21V839000#0`, AMBIGUOUS -> VALID_ALTERNATIVE.** The same variant
+      rule.
+    - **Held-out C3, `m:1d76769229d5bc4c`, INCORRECT -> VALID_ALTERNATIVE.** "ISSUES" and "PROBLEMS"
+      name the same generic kind. Other batches judged "crack" and "short circuit" on different objects
+      as one kind. This is a concept merge, comparative only.
+  - **Labels, blind -> final** (VALID / VALID_ALTERNATIVE / INCORRECT / AMBIGUOUS / UNJUDGEABLE):
+
+    | | C3 | C4 | C6 |
+    |---|---|---|---|
+    | furniture | 71/20/2/0/0, unchanged | 42/0/8/0/0 -> 42/0/7/1/0 | 103/31/6/0/0, unchanged |
+    | held-out | 34/19/1/0/0 -> 34/20/0/0/0 | 99/0/4/2/0 -> 99/5/1/0/0 | 116/7/0/2/0 -> 116/8/0/1/0 |
+    | generality | 32/7/9/0/0, unchanged | 40/0/0/0/0 | 90/0/0/0/0 |
+
+  - **Committed:** `tests/gold/r93/<dataset>/c{3,4,6}_verdicts.json`. Each header names the judge
+    model, the snapshot hash, the sheet with its hash, and the sheets' commit `97ad11e`.
+  - **Test:** each verdict file loads against its code side, passes the review rules and the quote check,
+    and names its judge, snapshot and sheet.
+  - **Limitation:** the sheets and verdicts are not blind to the build (earlier sessions read
+    `out/r77d_*`), and the blind judges and the lead are one model family. No gold was changed: R75's
+    pairs are only rescored by code in part c.
+  - **Gate (verdicts):** 665 passed, `ruff check` clean.
 
 ## Found along the way
 
