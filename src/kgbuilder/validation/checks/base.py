@@ -65,6 +65,10 @@ class StoredFact(BaseModel):
     truth: str = "affirmed"
     modality: str = "actual"
     condition: str = ""
+    # R77 part d: the statement's denying and hedging words, and whether the stored triple itself is denied
+    negation: str = ""
+    hedge: str = ""
+    triple_truth: str = "affirmed"
     value: float | None = None
     unit: str | None = None
 
@@ -146,6 +150,10 @@ class CheckContext:
             # and those written before R77 as affirmed and actual, without a condition
             "coalesce(o.truth, 'affirmed') AS truth, coalesce(o.modality, 'actual') AS modality, "
             "coalesce(o.condition, '') AS condition, "
+            # and those written before R77 part d without cues; their truth was said of the triple, so it
+            # is their triple truth
+            "coalesce(o.negation, '') AS negation, coalesce(o.hedge, '') AS hedge, "
+            "coalesce(o.triple_truth, o.truth, 'affirmed') AS triple_truth, "
             "o.value AS value, o.unit AS unit, "
             # each end as its canonical entity: the id decides self-references and repeats, the names are
             # what exact matching and the judge read

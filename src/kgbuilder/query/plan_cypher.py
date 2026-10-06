@@ -200,8 +200,9 @@ def find_claims(
     entities (a mention that refers to one, or attached to an individual, R76), narrowed by predicate,
     subject and object entities, tone and time; None leaves a part out. With `either_end`, the subject and
     the object entities may each be on either end of the claim (R78). Only claims of the given `truth` and
-    `modality` come back (R77; by default the claims that hold, `_MODALITIES`); a claim stored before R77 has
-    neither and counts as affirmed and actual."""
+    `modality` come back (R77; by default the claims whose stored triple holds, `_MODALITIES`; "negated"
+    is the statement's truth, part d); a claim stored before R77 has neither and counts as affirmed and
+    actual."""
     where: list[str] = []
     params: dict[str, object] = {}
     about: list[str] = []
@@ -240,7 +241,14 @@ def find_claims(
     if time_words is not None:
         where.append("toLower(coalesce(o.time, '')) CONTAINS toLower($time)")
         params["time"] = time_words
-    where.append("coalesce(o.truth, 'affirmed') = $truth AND coalesce(o.modality, 'actual') IN $modalities")
+    # R77 part d: "negated", asked for by the question, is said of the statement, so a denial in either
+    # form comes back ("leak", negated, and a state named "will not switch off"); the default keeps the
+    # claims whose stored triple holds, which counts such a named state with the others. A graph from before
+    # part d has no triple truth; its truth was said of the triple.
+    truth_of = "o.truth" if truth == "negated" else "coalesce(o.triple_truth, o.truth)"
+    where.append(
+        f"coalesce({truth_of}, 'affirmed') = $truth AND coalesce(o.modality, 'actual') IN $modalities"
+    )
     params["truth"], params["modalities"] = truth, _MODALITIES[modality]
     clause = f" WHERE {' AND '.join(where)}" if where else ""
     return f"MATCH (o:Observation){clause} RETURN DISTINCT o.id AS id LIMIT {int(cap)}", params

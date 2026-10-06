@@ -1,8 +1,9 @@
-"""A claim's assertion (R77, layered-model Step 7): truth, modality and condition. Pure tests for the word
-checks of `verify`, the observation id, repeats within a chunk, the query plan's filters and the scorer
-of the assertion gold; Neo4j tests (the `driver` fixture) for what the subject graph stores, what the fact
-reader and the judge sheet read back, and which claims a query plan finds by default. Examples are invented
-(a kettle), like the prompt's."""
+"""A claim's assertion (R77, layered-model Step 7; revised in part d): truth, modality and condition, with
+the words that make them (negation, hedge, condition) and the stored triple's own truth. Pure tests for the
+cue checks of `verify`, the triple truth, the observation id, repeats within a chunk, the query plan's
+filters and the scorer of the assertion gold; Neo4j tests (the `driver` fixture) for what the subject graph
+stores, what the fact reader and the judge sheet read back, and which claims a query plan counts. Examples
+are invented (a kettle), like the prompt's."""
 
 import hashlib
 import json
@@ -13,7 +14,6 @@ import pytest
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
 from kgbuilder.core.identity import observation_id
-from kgbuilder.core.text import norm
 from kgbuilder.graph.connection import open_driver
 from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
@@ -27,6 +27,7 @@ from kgbuilder.text.extraction import (
     RejectionReason,
     Triple,
     extract_chunk,
+    triple_truth,
     verify,
 )
 from kgbuilder.text.schema import EntityType, FactType, TextSchema
@@ -80,17 +81,73 @@ def triple(evidence: str, obj: str = "leak", subject: str = "lid", **assertion) 
 
 # --- verification -------------------------------------------------------------------------------------
 
+# Invented sentences, one per way of wording an assertion (R77 part d): a negator, a contraction without its
+# apostrophe, verbs that prevent or remove, "cannot", modals, a condition with "when", with "unless" and
+# inverted, and a state whose name is a denial. No closed word list decides any of them: the cue is the
+# model's reading, and code checks that it is words of the quote.
+TEXT = (
+    "The lid never leaked. The spout doesnt drip. The filter prevents scale. The coating eliminates rust. "
+    "The kettle cannot boil dry. The base may crack in frost. The dial could jam. "
+    "The kettle whistles when the water boils. The lamp glows unless the lid is open. "
+    "Had the lid been shut, the kettle would have boiled. The light will not switch off. The handle got hot."
+)
+
+
+@pytest.mark.parametrize(
+    "triple_",
+    [
+        raw("The lid never leaked", truth="negated", negation="never"),
+        raw("The spout doesnt drip", "drip", "spout", truth="negated", negation="doesnt"),
+        # rejected by R77's negator list although the model read them right (part b: "prevents sagging")
+        raw("The filter prevents scale", "scale", "filter", truth="negated", negation="prevents"),
+        raw("The coating eliminates rust", "rust", "coating", truth="negated", negation="eliminates"),
+        raw("The kettle cannot boil dry", "boil dry", "kettle", truth="negated", negation="cannot"),
+        raw("The base may crack in frost", "crack", "base", modality="possible", hedge="may"),
+        raw("The dial could jam", "jam", "dial", modality="possible", hedge="could"),
+        raw(
+            "The kettle whistles when the water boils", "whistles", "kettle", modality="conditional",
+            condition="when the water boils",
+        ),
+        raw(
+            "The lamp glows unless the lid is open", "glows", "lamp", modality="conditional",
+            condition="unless the lid is open",
+        ),
+        # an inverted condition has no condition word; R77's check could not pass it
+        raw(
+            "Had the lid been shut, the kettle would have boiled", "boiled", "kettle", modality="conditional",
+            hedge="would", condition="Had the lid been shut",
+        ),
+        raw("The light will not switch off", "will not switch off", "light", truth="negated",
+            negation="will not"),
+    ],
+)  # fmt: skip
+def test_an_assertion_in_any_wording_passes_with_its_words(triple_):
+    assert verify(triple_, TEXT, SCHEMA) is None
+
 
 @pytest.mark.parametrize(
     ("triple_", "reason"),
     [
-        # "got hot" denies nothing, so a negated claim cannot rest on it
+        # a negated or possible claim without its words, or with words the quote does not have
+        (raw("The lid never leaked", truth="negated"), RejectionReason.NEGATION_NOT_IN_EVIDENCE),
         (
-            raw("The handle got hot", "hot", "handle", truth="negated"),
+            raw("The handle got hot", "hot", "handle", truth="negated", negation="not"),
             RejectionReason.NEGATION_NOT_IN_EVIDENCE,
         ),
-        (raw("The lid never leaked", modality="possible"), RejectionReason.MODALITY_NOT_IN_EVIDENCE),
-        # a conditional claim needs a condition, from the quote, with a word of condition in it
+        # a part of a word is no word of the quote
+        (
+            raw("The lid never leaked", truth="negated", negation="eve"),
+            RejectionReason.NEGATION_NOT_IN_EVIDENCE,
+        ),
+        (
+            raw("The base may crack in frost", "crack", "base", modality="possible"),
+            RejectionReason.MODALITY_NOT_IN_EVIDENCE,
+        ),
+        (
+            raw("The dial could jam", "jam", "dial", modality="possible", hedge="might"),
+            RejectionReason.MODALITY_NOT_IN_EVIDENCE,
+        ),
+        # a conditional claim needs its condition, from the quote
         (
             raw("The kettle whistles when the water boils", "whistles", "kettle", modality="conditional"),
             RejectionReason.CONDITION_NOT_IN_EVIDENCE,
@@ -102,14 +159,7 @@ def triple(evidence: str, obj: str = "leak", subject: str = "lid", **assertion) 
             ),
             RejectionReason.CONDITION_NOT_IN_EVIDENCE,
         ),
-        (
-            raw(
-                "The kettle whistles when the water boils", "whistles", "kettle", modality="conditional",
-                condition="the water boils",
-            ),
-            RejectionReason.CONDITION_NOT_IN_EVIDENCE,
-        ),
-        # a condition on a claim that is not conditional: code cannot tell which label is wrong
+        # a cue on a claim not of its kind: code cannot tell which of the two is wrong
         (
             raw(
                 "The kettle whistles when the water boils", "whistles", "kettle",
@@ -117,26 +167,22 @@ def triple(evidence: str, obj: str = "leak", subject: str = "lid", **assertion) 
             ),
             RejectionReason.CONDITION_NOT_CONDITIONAL,
         ),
+        (raw("The lid never leaked", negation="never"), RejectionReason.CUE_WITHOUT_ASSERTION),
+        (
+            raw("The base may crack in frost", "crack", "base", hedge="may"),
+            RejectionReason.CUE_WITHOUT_ASSERTION,
+        ),
     ],
 )  # fmt: skip
-def test_a_negated_possible_or_conditional_claim_needs_its_word_in_the_quote(triple_, reason):
-    assert verify(triple_, CHUNK, SCHEMA).reason == reason
+def test_an_assertion_must_rest_on_words_of_the_quote(triple_, reason):
+    assert verify(triple_, TEXT, SCHEMA).reason == reason
 
 
-def test_what_the_quote_states_passes_with_its_assertion():
-    assert verify(raw("The lid never leaked", truth="negated"), CHUNK, SCHEMA) is None
-    # informal text drops the apostrophe of "doesn't"
-    assert verify(raw("The spout doesnt drip", "drip", "spout", truth="negated"), CHUNK, SCHEMA) is None
-    assert (
-        verify(raw("The base may crack in frost", "crack", "base", modality="possible"), CHUNK, SCHEMA)
-        is None
-    )
-    whistles = raw(
-        "The kettle whistles when the water boils", "whistles", "kettle", modality="conditional",
-        condition="when the water boils",
-    )  # fmt: skip
-    assert verify(whistles, CHUNK, SCHEMA) is None
-    assert extraction._negates(extraction._words(norm("we couldn't get it to close")))
+def test_a_denial_a_name_carries_leaves_the_triple_holding():
+    # the statement is negated either way; the stored triple is denied only when no name holds the denial
+    assert triple_truth("negated", "will not", ("light", "will not switch off")) == "affirmed"
+    assert triple_truth("negated", "never", ("lid", "leak")) == "negated"
+    assert triple_truth("affirmed", "", ("lid", "leak")) == "affirmed"
 
 
 # --- ids and repeats ------------------------------------------------------------------------------------
@@ -169,9 +215,9 @@ def test_a_claim_and_its_denial_in_one_chunk_are_two_claims():
     chunk = Chunk(chunk_id=f"{DOC}#0", doc_id=DOC, index=0, text=CHUNK, context="Kettle notes")
     reply = ChunkExtraction(
         triples=[
-            raw("The lid never leaked", truth="negated"),
+            raw("The lid never leaked", truth="negated", negation="never"),
             raw("The lid never leaked"),  # the model's two readings of one quote: code keeps both
-            raw("The lid never leaked", truth="negated"),  # a repeat
+            raw("The lid never leaked", truth="negated", negation="never"),  # a repeat
         ]
     )
     result = extract_chunk(chunk, SCHEMA, ScriptedLLM(lambda p, s: reply), "m")
@@ -189,32 +235,42 @@ def test_the_subject_graph_stores_the_assertion_and_the_readers_read_it_back(dri
         condition="when the water boils",
     )  # fmt: skip
     written = [
-        triple("The lid never leaked", truth="negated"),
-        triple("The base may crack in frost", "crack", "base", modality="possible"),
+        triple("The lid never leaked", truth="negated", negation="never"),
+        # the denial in the name (R77 part b's "couldn't get the drawers to slide right"): the statement is
+        # negated, the stored triple holds
+        triple("The spout doesnt drip", "doesnt drip", "spout", truth="negated", negation="doesnt"),
+        triple("The base may crack in frost", "crack", "base", modality="possible", hedge="may"),
         whistles,
         triple("The handle got hot", "hot", "handle"),
     ]
     counts = write_subject_graph(driver, written, extractor="m")
-    assert (counts.observations_negated, counts.observations_possible, counts.observations_conditional) == (
-        1, 1, 1,
-    )  # fmt: skip
+    assert (
+        counts.observations_negated, counts.observations_denied, counts.observations_negation_in_name,
+        counts.observations_possible, counts.observations_conditional,
+    ) == (2, 1, 1, 1, 1)  # fmt: skip
     stored, _, _ = driver.execute_query(
-        "MATCH (o:Observation) RETURN o.id AS id, o.truth AS truth, o.modality AS modality, "
-        "o.condition AS condition ORDER BY o.object_name"
+        "MATCH (o:Observation) RETURN o.id AS id, o.truth AS truth, o.negation AS negation, "
+        "o.triple_truth AS triple_truth, o.modality AS modality, o.hedge AS hedge, o.condition AS condition "
+        "ORDER BY o.object_name"
     )
-    assert [(r["truth"], r["modality"], r["condition"]) for r in stored] == [
-        ("affirmed", "possible", ""),
-        ("affirmed", "actual", ""),
-        ("negated", "actual", ""),
-        ("affirmed", "conditional", "when the water boils"),
+    assert [
+        (r["truth"], r["negation"], r["triple_truth"], r["modality"], r["hedge"], r["condition"])
+        for r in stored
+    ] == [
+        ("affirmed", "", "affirmed", "possible", "may", ""),
+        ("negated", "doesnt", "affirmed", "actual", "", ""),
+        ("affirmed", "", "affirmed", "actual", "", ""),
+        ("negated", "never", "negated", "actual", "", ""),
+        ("affirmed", "", "affirmed", "conditional", "", "when the water boils"),
     ]
     # the fact reader flattens them, and the judge sheet rebuilds every stored id from them
     facts = CheckContext(driver=driver).facts
-    assert {(f.own_object, f.truth, f.modality, f.condition) for f in facts} == {
-        ("leak", "negated", "actual", ""),
-        ("crack", "affirmed", "possible", ""),
-        ("whistles", "affirmed", "conditional", "when the water boils"),
-        ("hot", "affirmed", "actual", ""),
+    assert {(f.own_object, f.truth, f.negation, f.triple_truth, f.hedge) for f in facts} == {
+        ("leak", "negated", "never", "negated", ""),
+        ("doesnt drip", "negated", "doesnt", "affirmed", ""),
+        ("crack", "affirmed", "", "affirmed", "may"),
+        ("whistles", "affirmed", "", "affirmed", ""),
+        ("hot", "affirmed", "", "affirmed", ""),
     }
     assert {fact_id(f) for f in facts} == {r["id"] for r in stored}
     sheet = build_sheet(facts, [])
@@ -224,16 +280,25 @@ def test_the_subject_graph_stores_the_assertion_and_the_readers_read_it_back(dri
 
 
 @pytest.mark.neo4j
-def test_a_claim_stored_before_r77_reads_as_affirmed_and_actual(driver):
+def test_a_claim_stored_before_r77_or_its_revision_reads_as_it_was_written(driver):
+    # before R77: no assertion at all; between R77 and part d: a truth said of the triple, without cues
     driver.execute_query(
         "CREATE (c:Chunk {chunk_id: 'a.md#0'}), (s:Mention {id: 's', type: 'Component', name: 'lid'}), "
         "(t:Mention {id: 't', type: 'Behaviour', name: 'leak'}), "
+        "(u:Mention {id: 'u', type: 'Behaviour', name: 'crack'}), "
         "(o:Observation {id: 'o', predicate: 'SHOWS', chunk_id: 'a.md#0', evidence: 'x', "
         "subject_name: 'lid', object_name: 'leak'}), "
-        "(o)-[:SUBJECT]->(s), (o)-[:OBJECT]->(t), (o)-[:FROM]->(c)"
+        "(o)-[:SUBJECT]->(s), (o)-[:OBJECT]->(t), (o)-[:FROM]->(c), "
+        "(p:Observation {id: 'p', predicate: 'SHOWS', chunk_id: 'a.md#0', evidence: 'y', "
+        "subject_name: 'lid', object_name: 'crack', truth: 'negated', modality: 'actual', condition: ''}), "
+        "(p)-[:SUBJECT]->(s), (p)-[:OBJECT]->(u), (p)-[:FROM]->(c)"
     )
-    [fact] = CheckContext(driver=driver).facts
-    assert (fact.truth, fact.modality, fact.condition) == ("affirmed", "actual", "")
+    facts = {f.own_object: f for f in CheckContext(driver=driver).facts}
+    leak, crack = facts["leak"], facts["crack"]
+    assert (leak.truth, leak.triple_truth, leak.modality, leak.condition, leak.negation, leak.hedge) == (
+        "affirmed", "affirmed", "actual", "", "", "",
+    )  # fmt: skip
+    assert (crack.truth, crack.triple_truth, crack.negation) == ("negated", "negated", "")
 
 
 # --- query plans ----------------------------------------------------------------------------------------
@@ -257,19 +322,22 @@ def test_a_denied_or_possible_claim_is_asked_for_only_with_the_questions_words()
 
 @pytest.mark.neo4j
 def test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others(runner_parts, driver):  # noqa: F811
-    # the test graph's claim o1 ("spindle wobbles", stored before R77) holds; three more claims of the same
-    # kind on the same press: one the text denies, one it calls possible, and one that holds whenever its
-    # condition holds ("wobbles when it runs fast"), which reports the wobble as much as o1 does (R77 part c:
-    # the default left it out and lost "creaks whenever someone sits down")
+    # the test graph's claim o1 ("spindle wobbles", stored before R77) holds; four more claims of the same
+    # kind on the same press: one the text denies (stored between R77 and part d: no triple truth, so its
+    # truth is the triple's), one it calls possible, one that holds whenever its condition holds ("wobbles
+    # when it runs fast"), which reports the wobble as much as o1 does (R77 part c: the default left it out
+    # and lost "creaks whenever someone sits down"), and a state whose name is a denial ("will not stop
+    # wobbling"): its statement is negated, its triple holds (part d)
     store, _ = runner_parts
     schema = _with(
         driver,
         store,
         "MATCH (p:Press {press_id: 'P1'}), (o1:Observation {id: 'o1'})-[:SUBJECT]->(s), (o1)-[:OBJECT]->(w), "
         "(o1)-[:FROM]->(c) "
-        "UNWIND [['o2', 'negated', 'actual'], ['o3', 'affirmed', 'possible'], "
-        "['o4', 'affirmed', 'conditional']] AS x "
-        "CREATE (o:Observation {id: x[0], predicate: 'HAS_CONDITION', truth: x[1], modality: x[2]}), "
+        "UNWIND [['o2', 'negated', 'actual', null], ['o3', 'affirmed', 'possible', null], "
+        "['o4', 'affirmed', 'conditional', null], ['o5', 'negated', 'actual', 'affirmed']] AS x "
+        "CREATE (o:Observation {id: x[0], predicate: 'HAS_CONDITION', truth: x[1], modality: x[2], "
+        "triple_truth: x[3]}), "
         "(o)-[:SUBJECT]->(s), (o)-[:OBJECT]->(w), (o)-[:FROM]->(c), (p)-[:HAS_OBSERVATION]->(o)",
     )
     r = runner(store, schema)
@@ -280,8 +348,10 @@ def test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others(
         step = {"op": "find_claims", "input": 0, "predicate": "HAS_CONDITION", **assertion}
         return run(r, schema, question, press, step, count).number
 
-    assert claims("How often does it wobble?") == 2.0  # o1 and the conditional o4
-    assert claims("How often does it not wobble?", truth="negated", truth_words="not wobble") == 1.0
+    # o1, the conditional o4 and the named state o5; R77 counted 2, leaving out o5 (the part d bug)
+    assert claims("How often does it wobble?") == 3.0
+    # a denial in either form: o2 (the triple denied) and o5 (the denial in its name)
+    assert claims("How often does it not wobble?", truth="negated", truth_words="not wobble") == 2.0
     assert claims("Could it wobble?", modality="possible", modality_words="could") == 1.0
     assert claims("When does it wobble?", modality="conditional", modality_words="when") == 1.0
 

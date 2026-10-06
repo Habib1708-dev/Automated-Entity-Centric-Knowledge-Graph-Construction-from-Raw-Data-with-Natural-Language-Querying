@@ -56,6 +56,10 @@ class SheetObservation(BaseModel):
     truth: str = "affirmed"
     modality: str = "actual"
     condition: str = ""
+    # R77 part d; absent from sheets written before it
+    negation: str = ""
+    hedge: str = ""
+    triple_truth: str = "affirmed"
     evidence: str | None
     things: list[str]  # what it hangs on (HAS_OBSERVATION)
 
@@ -147,6 +151,9 @@ def _observation(fact: StoredFact) -> SheetObservation:
         truth=fact.truth,
         modality=fact.modality,
         condition=fact.condition,
+        negation=fact.negation,
+        hedge=fact.hedge,
+        triple_truth=fact.triple_truth,
         evidence=fact.evidence,
         things=fact.things,
     )

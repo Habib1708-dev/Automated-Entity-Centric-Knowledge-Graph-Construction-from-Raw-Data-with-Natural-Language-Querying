@@ -5,20 +5,19 @@ accepted triples (written by subject_graph.py) and rejected triples (kept as an 
 Design: the LLM proposes, code decides. A fact is stored only if its type is in the schema, its evidence
 quote is a verbatim span of the chunk, and both entity names occur in the chunk or in the document's
 name (the chunk's context); a number (`Value` object) and a time must be stated in the quote itself (R66);
-a negated, possible or conditional claim needs a word of its kind in the quote, and a condition must be
-words of the quote (R77). This is the project's guard against hallucinated facts, and the rejection rate per
-reason is a logged quality metric.
+a negated, possible or conditional claim carries the words that make it so (its cue: negation, hedge,
+condition), and each cue must be words of the quote (R77, revised in part d). This is the project's guard
+against hallucinated facts, and the rejection rate per reason is a logged quality metric.
 Not here: graph writes (subject_graph.py) and entity merging (resolution/).
 """
 
-import re
 from concurrent.futures import ThreadPoolExecutor
 from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from ..core.text import norm
+from ..core.text import contains_words, norm
 from ..core.values import VALUE_TYPE, parse_quantity
 from ..llm.base import LLMClient
 from .chunking import Chunk
@@ -45,12 +44,20 @@ from .schema import TextSchema
 # checked in code where it can be: a time and a number must be words of the quote (`verify`).
 # The claim's assertion (R77, layered-model Step 7): "the lid cracked", "the lid did not crack", "the lid may
 # crack" and "the lid cracks when it is cold" are four facts, and a count over claims must tell them apart.
-# Truth is said of the triple as stated, not of a word in it, so a fault the names already state stays
-# affirmed. Possible and conditional are one axis with actual; what a thing is able to do stays actual, so
-# that "can" in a capacity is not read as a hedge. The condition takes the "if"/"when" clause that the naming
-# rule keeps out of the names, which until R77 was lost or stored as a time (R68 cause "role"). Each field
-# has a word check in code (`verify`). The examples are invented (a kettle), as is the generic word that
-# replaced "this dresser", the last corpus word of this prompt (task file, generality cleanups).
+# Possible and conditional are one axis with actual; what a thing is able to do stays actual, so that "can"
+# in a capacity is not read as a hedge. The condition takes the "if"/"when" clause that the naming rule keeps
+# out of the names, which until R77 was lost or stored as a time (R68 cause "role"). The examples are
+# invented (a kettle), as is the generic word that replaced "this dresser", the last corpus word of this
+# prompt (task file, generality cleanups).
+# R77 part d (the user, 2026-10-06): truth is said of the statement the claim is made of, as the gold reads
+# it. R77 said it of the triple ("a fault the names already state stays affirmed"), so "we still couldn't
+# get the drawers to slide right" was stored affirmed with "couldn't" in its object, and a count over truth
+# missed 5 of 15 furniture and 3 of 3 held-out denials. The names now leave the denial out unless the name
+# is itself the denied state; the cue fields (`negation`, `hedge`) keep the denying and hedging words, so
+# the original wording survives for the query agent, and code derives whether the stored triple itself is
+# denied (`triple_truth`). The cues replace R77's closed word lists, which rejected right claims ("prevents
+# sagging") and could not pass an inverted condition: the model reads the meaning, code checks only that
+# the words are the quote's.
 PROMPT = """Extract facts from the text chunk as subject-predicate-object triples.
 
 Allowed entity types:
@@ -67,8 +74,8 @@ Rules:
   statement supports two of the allowed fact types, state both facts.
 - `subject` and `object` are names exactly as written in the text, with only the words that name the thing:
   leave out a clause that says when or under which condition the claim holds ("when ...", "if ...",
-  "after ...") and words of frequency ("sometimes", "often"); they stay in the evidence. Never use
-  pronouns.
+  "after ..."), words of frequency ("sometimes", "often"), and the words that deny the fact or say it only
+  may hold; they stay in the evidence and in the fields below. Never use pronouns.
 - The chunk comes from the document named in <document>. When the text refers to the thing the document
   is about with a pronoun or a generic word ("it", "this kettle"), use the proper name from the document
   name as the entity name.
@@ -77,12 +84,18 @@ Rules:
   when it reports a fault, a harm or dissatisfaction, "neutral" when it only states what is so.
 - `time`: when the quote says when the claim holds or after how long ("since ...", "within ..."),
   copy those words verbatim from the quote; otherwise leave it empty. A condition is not a time.
-- `truth`: "negated" when the text denies the fact the triple states ("the kettle never leaked" gives the
-  kettle's leak, negated); otherwise "affirmed".
-- `modality`: "possible" when the text says the fact may hold or happen, not that it does ("may", "could",
-  "a risk of"); "conditional" when it holds under a condition the text states ("if ...", "unless ...", or
-  "when ..." meaning whenever); otherwise "actual", also for what a thing is able to do ("holds two
-  litres"). A fact with both a condition and "may" is conditional.
+- `truth`: "negated" when the text says the fact does not hold or did not happen, in whatever words:
+  "the kettle never leaked" denies a leak, "the filter prevents scale" denies scale; otherwise "affirmed".
+  Name the fact itself ("leak", not "never leaked"). Keep the denial in a name only when the name is itself
+  the denied state, as a fault called "will not switch off"; the fact is still negated.
+- `negation`: for a negated fact, the words of the quote that deny it, copied verbatim ("never",
+  "prevents"); otherwise leave it empty.
+- `modality`: "possible" when the text says the fact may hold or happen, not that it does; "conditional"
+  when it holds under a condition the text states, in whatever words ("if ...", "unless ...", "when ..."
+  meaning whenever, "had the lid been shut"); otherwise "actual", also for what a thing is able to do
+  ("holds two litres"). A fact with both a condition and a possibility is conditional.
+- `hedge`: the words of the quote that say the fact only may hold, copied verbatim ("may", "could", "a
+  risk of"); required for a possible fact, allowed for a conditional one, otherwise empty.
 - `condition`: for a conditional fact, the words of the condition copied verbatim from the quote ("when
   the water boils"); otherwise leave it empty.
 - When a fact type's object type is {value_type}, `object` is only the number and its unit, copied from
@@ -102,8 +115,9 @@ Modality = Literal["actual", "possible", "conditional"]
 
 class RawTriple(BaseModel):
     """One fact as the LLM returns it. `polarity` and `time` default to "no tone" and "no time", and the
-    assertion (R77) to an affirmed, actual claim without a condition: also what a claim derived by code or
-    extracted before R77 carries."""
+    assertion (R77) to an affirmed, actual claim without a condition or cue: also what a claim derived by
+    code or extracted before R77 carries. `truth` is said of the statement (R77 part d), its cue words in
+    `negation` and `hedge`."""
 
     subject: str
     subject_type: str
@@ -114,8 +128,12 @@ class RawTriple(BaseModel):
     polarity: Polarity = Field(default="neutral", description="the claim's tone toward its subject")
     time: str = Field(default="", description="words of the evidence saying when the claim holds, or empty")
     truth: Truth = Field(default="affirmed", description="whether the text states or denies the fact")
+    negation: str = Field(default="", description="words of the evidence that deny the fact, or empty")
     modality: Modality = Field(
         default="actual", description="whether the fact holds, may hold, or holds under a condition"
+    )
+    hedge: str = Field(
+        default="", description="words of the evidence that say the fact only may hold, or empty"
     )
     condition: str = Field(default="", description="words of the evidence stating the condition, or empty")
 
@@ -144,12 +162,13 @@ class RejectionReason(StrEnum):
     VALUE_NOT_A_NUMBER = "value_not_a_number"
     VALUE_NOT_IN_EVIDENCE = "value_not_in_evidence"
     TIME_NOT_IN_EVIDENCE = "time_not_in_evidence"
-    # the assertion (R77): the quote must carry the word that makes a claim negated, possible or conditional,
-    # and a condition goes only with a conditional claim
+    # the assertion (R77; cues since part d): a negated, possible or conditional claim needs its cue as
+    # words of the quote, and a cue goes only with a claim of its kind
     NEGATION_NOT_IN_EVIDENCE = "negation_not_in_evidence"
     MODALITY_NOT_IN_EVIDENCE = "modality_not_in_evidence"
     CONDITION_NOT_IN_EVIDENCE = "condition_not_in_evidence"
     CONDITION_NOT_CONDITIONAL = "condition_not_conditional"
+    CUE_WITHOUT_ASSERTION = "cue_without_assertion"
 
 
 class Rejection(BaseModel):
@@ -210,33 +229,21 @@ PRONOUNS = frozenset({
 })
 # fmt: on
 
-# The words that let a quote state a negated, a possible or a conditional claim (R77). Closed word classes of
-# English (negators, modal verbs and adverbs, conjunctions of condition), so the checks are language-level
-# and domain-neutral. A contraction ending in "n't" negates; informal text drops the apostrophe, so those
-# spellings are listed. The checks catch a label the quote cannot carry; whether a label is right is what
-# the R77 judge pass measures.
-# fmt: off
-NEGATION_WORDS = frozenset({
-    "not", "no", "never", "none", "nothing", "nobody", "neither", "nor", "without", "cannot",
-    "dont", "doesnt", "didnt", "cant", "wont", "couldnt", "wouldnt", "shouldnt", "isnt", "wasnt",
-    "arent", "werent", "hasnt", "havent", "hadnt",
-})
-MODAL_WORDS = frozenset({
-    "may", "might", "could", "can", "would", "maybe", "possibly", "possible", "possibility", "perhaps",
-    "potential", "potentially", "likely", "unlikely", "probably", "risk", "risks", "chance",
-})
-CONDITION_WORDS = frozenset({"if", "when", "whenever", "unless", "while", "once", "until", "provided"})
-# fmt: on
-_WORD = re.compile(r"\w+(?:['’]\w+)?")
+
+def triple_truth(truth: Truth, negation: str, names: tuple[str, str]) -> Truth:
+    """Whether the triple as stored is denied: only when the statement is negated and its denying words are
+    in neither name (R77 part d). A name that is itself the denied state ("will not switch off") makes a
+    triple that holds although its statement is negated, so a count of such states still counts it.
+    Known limit: a cue word that a name also holds for another reason ("no" in "No-Spill Kettle") reads as
+    a denial carried by that name."""
+    if truth == "affirmed":
+        return "affirmed"
+    return "affirmed" if any(contains_words(name, negation) for name in names) else "negated"
 
 
-def _words(normalised: str) -> set[str]:
-    """The words of a normalised text, a contraction as one word ("couldn't")."""
-    return set(_WORD.findall(normalised))
-
-
-def _negates(words: set[str]) -> bool:
-    return bool(words & NEGATION_WORDS) or any(w.endswith(("n't", "n’t")) for w in words)
+def _grounded(cue: str, evidence: str) -> bool:
+    """A cue is given and is whole words of the quote."""
+    return bool(cue.strip()) and contains_words(evidence, cue)
 
 
 def verify(triple: RawTriple, chunk_text: str, schema: TextSchema, context: str = "") -> Rejection | None:
@@ -304,31 +311,39 @@ def _verify_qualifiers(triple: RawTriple, evidence: str) -> Rejection | None:
 
 
 def _verify_assertion(triple: RawTriple, evidence: str) -> Rejection | None:
-    """A negated, possible or conditional claim needs its kind of word in the quote (normalised `evidence`),
-    and a condition must be words of the quote containing a condition word (R77). A condition on a claim
-    that is not conditional is rejected, not dropped: code cannot tell which of the two labels is wrong."""
-    words = _words(evidence)
-    if triple.truth == "negated" and not _negates(words):
+    """A negated, possible or conditional claim needs its cue (`negation`, `hedge`, `condition`) as whole
+    words of the quote (normalised `evidence`); a hedge given with a conditional claim must be too (R77
+    part d). Which words deny, hedge or state a condition is the model's reading of the meaning; code checks
+    that the reading rests on the quote. A cue on a claim not of its kind is rejected, not dropped: code
+    cannot tell which of the two is wrong."""
+    if triple.truth == "negated" and not _grounded(triple.negation, evidence):
         return Rejection(
-            reason=RejectionReason.NEGATION_NOT_IN_EVIDENCE, detail="negated, but the quote has no negation"
+            reason=RejectionReason.NEGATION_NOT_IN_EVIDENCE,
+            detail=f"negated, but its negation '{triple.negation}' is not words of the quote",
         )
-    if triple.modality == "possible" and not words & MODAL_WORDS:
+    if (triple.modality == "possible" or triple.hedge.strip()) and not _grounded(triple.hedge, evidence):
         return Rejection(
             reason=RejectionReason.MODALITY_NOT_IN_EVIDENCE,
-            detail="possible, but the quote has no modal word",
+            detail=f"{triple.modality}, but its hedge '{triple.hedge}' is not words of the quote",
         )
-    condition = norm(triple.condition)
-    if triple.modality != "conditional":
-        if not condition:
-            return None
+    if triple.modality == "conditional" and not _grounded(triple.condition, evidence):
+        return Rejection(
+            reason=RejectionReason.CONDITION_NOT_IN_EVIDENCE,
+            detail=f"conditional, but '{triple.condition}' is not a condition stated in the quote",
+        )
+    if triple.modality != "conditional" and triple.condition.strip():
         return Rejection(
             reason=RejectionReason.CONDITION_NOT_CONDITIONAL,
             detail=f"condition '{triple.condition}' on a claim that is {triple.modality}",
         )
-    if not condition or condition not in evidence or not _words(condition) & CONDITION_WORDS:
+    if triple.truth == "affirmed" and triple.negation.strip():
         return Rejection(
-            reason=RejectionReason.CONDITION_NOT_IN_EVIDENCE,
-            detail=f"conditional, but '{triple.condition}' is not a condition stated in the quote",
+            reason=RejectionReason.CUE_WITHOUT_ASSERTION,
+            detail=f"negation '{triple.negation}' on an affirmed claim",
+        )
+    if triple.modality == "actual" and triple.hedge.strip():
+        return Rejection(
+            reason=RejectionReason.CUE_WITHOUT_ASSERTION, detail=f"hedge '{triple.hedge}' on an actual claim"
         )
     return None
 

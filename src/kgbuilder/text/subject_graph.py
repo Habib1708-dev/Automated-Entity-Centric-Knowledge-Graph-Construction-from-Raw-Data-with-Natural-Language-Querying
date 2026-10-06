@@ -11,13 +11,17 @@ mention to its canonical entity with an edge; nothing here merges or guesses. Un
 node per type and name across all documents, so two people of one name were one node (task file, Step 5).
 A claim is its own node (R64), pointing at the mentions of its two ends:
     (:Observation {id, predicate, chunk_id, evidence, subject_name, object_name, extractor,
-                   polarity, time, truth, modality, condition, value, unit})
+                   polarity, time, truth, negation, modality, hedge, condition, triple_truth, value,
+                   unit})
       -[:SUBJECT]->(:Mention)   -[:OBJECT]->(:Mention)   -[:FROM]->(:Chunk)
 A claim's qualifiers (R66) are properties of its observation: its polarity, the time its sentence gives,
 and for a `Value` object the parsed number and unit; since R77 also its assertion: whether the text states
 or denies it (`truth`), whether it holds, may hold or holds under a condition (`modality`), and that
-condition. A value's mention keeps the claim's own wording ("25kg"); the identity stage gives every wording
-of one number one canonical concept ("25 kg").
+condition. Since R77 part d `truth` is said of the statement, its denying and hedging words are kept
+(`negation`, `hedge`), and `triple_truth` says whether the stored triple itself is denied: not when a name
+is the denied state ("will not switch off"), so counts of such states stay right. A value's mention keeps
+the claim's own wording ("25kg"); the identity stage gives every wording of one number one canonical
+concept ("25 kg").
 The link stage later attaches each observation to the thing its document is about (`HAS_OBSERVATION`). The
 observation keeps the names the extractor gave its two ends (`subject_name`, `object_name`), so a claim
 keeps what its own document said, whatever its mentions are found to refer to (R44).
@@ -31,7 +35,7 @@ from pydantic import BaseModel
 
 from ..core.identity import document_of, mention_id, observation_id
 from ..core.values import VALUE_TYPE, Quantity, parse_quantity
-from .extraction import Modality, Polarity, Triple, Truth
+from .extraction import Modality, Polarity, Triple, Truth, triple_truth
 
 
 class SubjectGraphCounts(BaseModel):
@@ -50,6 +54,9 @@ class SubjectGraphCounts(BaseModel):
     observations_negated: int = 0
     observations_possible: int = 0
     observations_conditional: int = 0
+    # R77 part d: negated claims whose triple is denied, and those whose denial a name carries
+    observations_denied: int = 0
+    observations_negation_in_name: int = 0
 
 
 class MentionRow(BaseModel):
@@ -74,9 +81,12 @@ class ObservationRow(BaseModel):
     object_name: str
     polarity: Polarity = "neutral"
     time: str = ""  # verbatim from the evidence; empty when the sentence gives none
-    truth: Truth = "affirmed"
+    truth: Truth = "affirmed"  # of the statement (R77 part d)
+    negation: str = ""  # verbatim from the evidence: the words that deny the statement
     modality: Modality = "actual"
+    hedge: str = ""  # verbatim from the evidence: the words that say it only may hold
     condition: str = ""  # verbatim from the evidence; set only for a conditional claim
+    triple_truth: Truth = "affirmed"  # derived by code: whether the stored triple itself is denied
     value: float | None = None  # set only when the object is a `Value`
     unit: str | None = None
 
@@ -100,12 +110,15 @@ def observation_row(
     polarity: Polarity = "neutral",
     time: str = "",
     truth: Truth = "affirmed",
+    negation: str = "",
     modality: Modality = "actual",
+    hedge: str = "",
     condition: str = "",
     quantity: Quantity | None = None,
 ) -> ObservationRow:
     """The row for one claim; `subject` and `obj` are mention ids, `names` the claim's own wording, and
-    `quantity` the parsed number when the object is a `Value`."""
+    `quantity` the parsed number when the object is a `Value`. The cues are wording, not identity: the id
+    is built without them."""
     subject_name, object_name = (n.strip() for n in names)
     return ObservationRow(
         id=observation_id(
@@ -128,8 +141,11 @@ def observation_row(
         polarity=polarity,
         time=time.strip(),
         truth=truth,
+        negation=negation.strip(),
         modality=modality,
+        hedge=hedge.strip(),
         condition=condition.strip(),
+        triple_truth=triple_truth(truth, negation, (subject_name, object_name)),
         value=quantity.value if quantity else None,
         unit=quantity.unit if quantity else None,
     )
@@ -171,6 +187,7 @@ def write_observations(driver: Driver, rows: list[ObservationRow], extractor: st
         "o.subject_name = r.subject_name, o.object_name = r.object_name, o.polarity = r.polarity, "
         # a null value or unit sets nothing: only a claim about a number has them
         "o.time = r.time, o.truth = r.truth, o.modality = r.modality, o.condition = r.condition, "
+        "o.negation = r.negation, o.hedge = r.hedge, o.triple_truth = r.triple_truth, "
         "o.value = r.value, o.unit = r.unit "
         "SET o.extractor = $extractor "
         "MERGE (o)-[:SUBJECT]->(s) MERGE (o)-[:OBJECT]->(t) MERGE (o)-[:FROM]->(c)",
@@ -206,7 +223,9 @@ def _collect(
             polarity=t.polarity,
             time=t.time,
             truth=t.truth,
+            negation=t.negation,
             modality=t.modality,
+            hedge=t.hedge,
             condition=t.condition,
             quantity=quantity,
         )
@@ -233,4 +252,8 @@ def write_subject_graph(driver: Driver, triples: list[Triple], extractor: str) -
         observations_negated=sum(r.truth == "negated" for r in rows),
         observations_possible=sum(r.modality == "possible" for r in rows),
         observations_conditional=sum(r.modality == "conditional" for r in rows),
+        observations_denied=sum(r.triple_truth == "negated" for r in rows),
+        observations_negation_in_name=sum(
+            r.truth == "negated" and r.triple_truth == "affirmed" for r in rows
+        ),
     )

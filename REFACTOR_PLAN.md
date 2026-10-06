@@ -3197,7 +3197,7 @@ documents linked, 0 observations attached).
   - **R76 done** (code, the fix and the cached rebuild). Open by the user's choice: `kg qa` and the paired
     comparison with Step 5. Next: Step 7 (assertion).
 
-### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06)
+### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06; revision parts d-f, part d done 2026-10-06)
 "The pump failed", "the pump may fail" and "if pressure rises, the pump will fail" are different facts, and
 a count over claims must tell them apart (task file, Step 7).
 - **Decisions (the user, 2026-10-05, before any code):**
@@ -3448,6 +3448,56 @@ a count over claims must tell them apart (task file, Step 7).
   new plans, not the graph. No type worse beyond one sample's variation: met (all p >= 0.375 against R79).
   `path_truth` 1.0: met. Total cost of R77's runs: $2.336 (part b) + $0.0003 (part c). Next: Step 8, the
   failure table by cause after Step 7 (task file).
+- **Revision (the user, 2026-10-06): parts d (representation), e (navigation), f (runs, asked first); one
+  commit each.** The graph is first a navigation layer for the query agent: it must lead to the right
+  claims and chunks, and the chunks hold the nuance; counting is one use of it, not the only one. Three
+  findings of part b drive it. "we still couldn't get the drawers to slide right" was stored affirmed with
+  "couldn't" in its object, so a count over truth missed 5 of 15 furniture and 3 of 3 held-out denials (the
+  bug). The closed negator list rejected 9 right claims ("prevents sagging"). And `find_claims` dropped
+  denied and possible claims even when its claims went on to be read as text. **Decisions (asked before any
+  code):** the bug is the negation left in names; truth is said of the statement (as the gold already
+  reads it), its words are kept as verbatim cues, and code derives whether the stored triple itself is
+  denied (`triple_truth`). A name may be the denied state: held-out's Problem "DO NOT LOCK"
+  `AFFECTS_COMPONENT` TRUNK stays a triple that holds, so a count of problems keeps it. Claims that flow
+  into a reading step come back whatever their assertion; claims that flow into list, count or rank keep
+  the exact default.
+- **Part d: representation (2026-10-06, code and prompt, no run).**
+  - Extraction (`text/extraction.py`): `RawTriple` gains `negation` and `hedge`, the verbatim words that
+    deny the statement or say it only may hold. Prompt: truth is of the statement, "in whatever words"
+    ("never leaked", "prevents scale"); name the fact itself, and keep a denial in a name only when the name
+    is the denied state ("will not switch off"); a condition in any wording, inverted too ("had the lid been
+    shut"). The examples are invented (a kettle); swept for dataset words: none. `verify` drops the three
+    closed word lists: a negated claim needs its `negation`, a possible one its `hedge` and a conditional one
+    its `condition`, each as whole words of the quote (`core.text.contains_words`). A hedge may come with a
+    conditional claim ("may stall if ..."). A cue on a claim not of its kind is rejected (new reason
+    `cue_without_assertion`). The other reason names are unchanged, so the metrics stay comparable.
+  - `extraction.triple_truth`: negated only when the statement is negated and its negation is in neither
+    name. Known limit, in the docstring: a cue word that a name also holds for another reason ("no" in
+    "No-Spill Kettle") reads as a denial carried by that name.
+  - Graph (`text/subject_graph.py`): the observation stores `negation`, `hedge` and `triple_truth`. The id
+    is unchanged: the cues are wording, not identity. A claim whose truth moves to negated (the bug cases)
+    gets a new id, which is the point of the fix. New extract metrics: `observations_denied` and
+    `observations_negation_in_name`.
+  - Readers: `StoredFact` and the fact query read the three fields. A graph from before part d reads
+    `triple_truth` as its stored truth, which was said of the triple. The coverage sheet shows them to the
+    pass-2 judge. `kg assertion` is unchanged: its exact truth now compares the statement with the
+    statement.
+  - Counting (`plan_cypher.find_claims`): the default keeps claims whose stored triple holds
+    (`coalesce(o.triple_truth, o.truth)`). A question's "negated" filters on the statement's truth, so both
+    forms of a denial come back. The planner prompt and the plan's fields are byte-identical to part c, so
+    the planner's cache is reused. The text2cypher schema text names the fields and says which one a count
+    needs; this closes the Found-along-the-way item on its wording.
+  - Tests (`tests/test_assertion.py`; the word-list tests are rewritten):
+    - accepted in any wording: "never", "doesnt", "prevents", "eliminates", "cannot", "may", "could",
+      "when", "unless", an inverted condition, and a state named by a denial;
+    - each rejection, including a part of a word as a cue;
+    - the triple truth;
+    - the stored, flattened and read-back fields, and graphs from before R77 and before part d.
+  - The exact-count test gains a denial in a name: the default counts it (3) and "negated" finds both forms
+    (2). It failed before the fix (counted 2 for 3; shown by stashing `plan_cypher.py`). One R74 assertion
+    changed on purpose: the bare `find_claims` Cypher now reads the triple truth.
+  - Gate: 542 passed (527 before), `ruff check` clean. `ruff format --check` flags only
+    `structured/profiler.py`, as before this step.
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
@@ -3591,17 +3641,21 @@ records must be able to say what the question asks of the records.
 
 (Add items here during a step instead of widening its scope.)
 
+- **The planner prompt says "Only claims the text states as holding come back" (R77 part d).** Since part d
+  that is true of the claims a plan counts or lists; claims that go on to be read (part e) come back
+  whatever their assertion. Left unchanged so that the planner's cached requests are reused and the
+  change is measured alone; align it at the next change of the planner prompt.
 - **(Changed in R77 part c.) The query default left out conditional claims (found in R77 part b).**
   `find_claims` kept affirmed, actual claims unless the question's words asked for others, as the task file's
   "counts default to affirmed and actual" says; 5 answers were lost to it (F17, F27, F28, F31, H06: "creaks
   whenever someone sits down"). A change of the planner prompt re-plans every question (R77: 10 answers lost
-  and 5 gained by new plans alone), so part c changed code only. The text2cypher prompt still says "a claim
-  that holds is affirmed and actual"; align it at the next change of that prompt.
-- **The negation check knows no negating verbs (found in R77 part b).** 9 furniture claims were rejected as
+  and 5 gained by new plans alone), so part c changed code only. (The text2cypher prompt's "a claim that
+  holds is affirmed and actual" was aligned in R77 part d.)
+- **(Fixed in R77 part d: cues instead of word lists.) The negation check knows no negating verbs (found in R77 part b).** 9 furniture claims were rejected as
   negated without a negation word, although the model read them right: "prevents sagging", "eliminates
   flickering", "resistant to water rings and scratches". The closed list holds negators only; such verbs
   would widen it, with a re-extraction to measure.
-- **A negation in the names instead of the field (found in R77 part b).** 5 furniture and 3 held-out negated
+- **(Fixed in R77 part d: truth of the statement, `triple_truth` derived by code.) A negation in the names instead of the field (found in R77 part b).** 5 furniture and 3 held-out negated
   claims are stored affirmed with the negation in the object ("doesn't close properly", "DOES NOT INDICATE
   FULL"): right by meaning, but a count over `truth` misses them. The prompt's example has a positive
   object; no code check can tell a fault named by a negation from a denied fact.

@@ -265,9 +265,10 @@ def test_the_claim_layer_is_walked_in_its_own_direction_only():
         "objects": ["x1"], "tone": "negative", "time": "march", "truth": "affirmed",
         "modalities": ["actual", "conditional"],
     }  # fmt: skip
-    # changed on purpose in R77: even a plan that names nothing finds only the claims that hold
+    # changed on purpose in R77: even a plan that names nothing finds only the claims that hold; and in R77
+    # part d: whether a claim holds is its stored triple's truth (a graph before part d has only `truth`)
     assert cy.find_claims(None, None, None, None, None, None, None, 5)[0] == (
-        "MATCH (o:Observation) WHERE coalesce(o.truth, 'affirmed') = $truth AND "
+        "MATCH (o:Observation) WHERE coalesce(coalesce(o.triple_truth, o.truth), 'affirmed') = $truth AND "
         "coalesce(o.modality, 'actual') IN $modalities RETURN DISTINCT o.id AS id LIMIT 5"
     )
 

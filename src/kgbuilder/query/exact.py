@@ -32,7 +32,9 @@ from .graph_store import CypherStore
 # the pipeline's fixed nodes describes this project's graph shape, the same for any dataset; since R75 a
 # claim's ends are mentions, each referring to a record, an individual or a concept. Since R77 a claim also
 # says whether the text states or denies it and whether it holds, may hold or holds under a condition, so
-# that a count can leave out the other kinds.
+# that a count can leave out the other kinds. R77 part d said truth of the statement and added the triple's
+# own truth; the paragraph says which one a count needs, where it said "a claim that holds is affirmed and
+# actual", which would now leave out a state whose name is a denial.
 _TASK = """You write one read-only Cypher query for Neo4j that answers a question from the graph below.
 
 """
@@ -46,9 +48,12 @@ The graph holds structured records (the labels of the domain) and what documents
   (:Individual {{name, type}}) or a (:Concept {{name, type}}). Mentions of one thing in several documents
   refer to the same node.
 - `polarity` is "positive", "negative" or "neutral": the claim's tone.
-- `truth` is "affirmed" or "negated" (the text denies the claim) and `modality` "actual", "possible" or
-  "conditional" (with the words of its `condition`); a claim that holds is affirmed and actual. A claim
-  stored without them is affirmed and actual.
+- `truth` is "affirmed" or "negated": whether the text states or denies the statement the claim is made
+  of, with the denying words in `negation`. A name can itself be the denied state ("will not switch off");
+  `triple_truth` is "negated" only when the claim's own relation is denied. `modality` is "actual",
+  "possible" (with the words in `hedge`) or "conditional" (with the words of its `condition`).
+- To count claims that hold, keep triple_truth "affirmed" and modality "actual" or "conditional"; to find
+  what the text denies, use truth "negated". A claim stored without these fields is affirmed and actual.
 
 """
 # The record layer alone (R73, records plus vector RAG): one sentence in place of the text layer's paragraph
