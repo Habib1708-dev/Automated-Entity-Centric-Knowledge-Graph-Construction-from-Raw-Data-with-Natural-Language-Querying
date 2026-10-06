@@ -1,14 +1,17 @@
 """The query stage against Neo4j (R71): each traversal pattern on a hand-made graph, the hop limit, walks that
 must not pass through documents, the node names and chunks the store reads, the chunk vector index, and
 `kg qa`'s stage end to end with a scripted planner and reader (params, metrics, plans and the answers
-file, R74), and the records-plus-vector system on the same graph: its schema cut to the record layer and
-its plans over records only (R73, R74).
+file, R74; with `--plans`, an earlier run's plans replayed, R80), and the records-plus-vector system on
+the same graph: its schema cut to the record layer and its plans over records only (R73, R74).
 Needs Neo4j."""
 
 import json
 import time
 
+import pytest
+
 from kgbuilder.config import Settings
+from kgbuilder.core.errors import ConfigurationError
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAStage
 from kgbuilder.pipeline.stage import PLAN_FILE
@@ -334,6 +337,45 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
     assert any(path.endswith("answers_graph.jsonl") for path in run.artifacts)
     report = json.loads((out / "qa_report_graph.json").read_text(encoding="utf-8"))
     assert report["k"] == 2
+
+
+def test_kg_qa_with_plans_replays_an_earlier_runs_plans_and_writes_none(driver, tmp_path):
+    build(driver)
+    gold_file = qa_gold(
+        tmp_path,
+        [{"id": "Q2", "type": "aggregation", "question": "How many notes name the spindle?",
+          "expected": {"number": 1}, "route": "exact",
+          "chunks": [{"chunk_id": "notes.md#0", "quote": "spindle"}]}],
+    )  # fmt: skip
+    counted = plan(
+        {"op": "find_entity", "name": "spindle", "label": "Part"},
+        {"op": "find_claims", "input": 0},
+        {"op": "count", "input": 1, "unit": "documents"},
+    )
+    earlier = tmp_path / "earlier"
+    planning = qa_context(driver, earlier, lambda prompt, schema: counted, RecordingTracker())
+    run_stages(planning, PipelineState(gold=gold_file), [QAStage("graph")])
+
+    asked: list[str] = []
+    tracker = RecordingTracker()
+    out = tmp_path / "out"
+    replaying = qa_context(driver, out, lambda prompt, schema: asked.append(schema.__name__), tracker)
+    run_stages(replaying, PipelineState(gold=gold_file, frozen_plans=earlier), [QAStage("graph")])
+
+    answer = load_system_answers(out / "answers_graph.jsonl")[0]
+    assert answer.number == 1.0 and answer.plan.frozen and answer.plan.attempts[0].plan == counted
+    assert asked == []  # no plan, no query and no reading was asked of the model
+    run = tracker.run("qa_graph")
+    frozen_file = earlier / "answers_graph.jsonl"
+    assert run.logged_params["frozen_plans"] == frozen_file and run.logged_params["frozen_plans_hash"]
+    assert run.logged_metrics["answers_frozen"] == 1 and str(frozen_file) in run.artifacts
+    # replaying into the folder the plans come from would overwrite them
+    with pytest.raises(ConfigurationError, match="another folder"):
+        run_stages(
+            qa_context(driver, earlier, lambda prompt, schema: None, RecordingTracker()),
+            PipelineState(gold=gold_file, frozen_plans=earlier),
+            [QAStage("graph")],
+        )
 
 
 def test_the_record_layer_of_a_real_graph_leaves_out_documents_chunks_and_claims(driver):

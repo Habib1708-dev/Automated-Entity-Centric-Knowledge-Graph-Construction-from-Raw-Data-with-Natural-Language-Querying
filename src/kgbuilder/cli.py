@@ -44,6 +44,9 @@ PRESET_NAMES = typer.Argument(None, help="Presets to rebuild; default: every one
 QA_SYSTEMS = typer.Option(
     list(qs.SYSTEMS), help="Systems to ask (graph, vector, records_vector); each gets its own run."
 )
+FROZEN_PLANS = typer.Option(
+    None, help="Folder of an earlier kg qa run whose plans and text2cypher queries are replayed (R80)."
+)
 
 
 @app.callback()
@@ -418,11 +421,18 @@ def ask(
 
 
 @app.command()
-def qa(gold: Path, system: list[str] = QA_SYSTEMS, out: Path = OUT):
+def qa(
+    gold: Path,
+    system: list[str] = QA_SYSTEMS,
+    plans: Path | None = FROZEN_PLANS,
+    out: Path = OUT,
+):
     """Answer every question of a QA gold file with each system and log what code can score; free-text
-    answers wait for the judge (`kg qa-score`). Writes out/answers_<system>.jsonl (R71)."""
+    answers wait for the judge (`kg qa-score`). Writes out/answers_<system>.jsonl (R71). With --plans the
+    plan systems replay that run's queries, so a changed graph is measured by its answers alone (R80)."""
+    state = PipelineState(gold=gold, frozen_plans=plans)
     with session(out) as ctx:
-        reports = run_stages(ctx, PipelineState(gold=gold), [qs.QAStage(s) for s in system]).qa_reports
+        reports = run_stages(ctx, state, [qs.QAStage(s) for s in system]).qa_reports
     for name, report in reports.items():
         _print_qa(name, report)
         typer.echo(f"Wrote {out / f'answers_{name}.jsonl'}")

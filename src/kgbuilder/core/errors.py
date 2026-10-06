@@ -57,6 +57,15 @@ class InvalidGoldError(KgBuilderError):
         self.issues = issues
 
 
+class FrozenPlansError(KgBuilderError):
+    """An answers file given to `kg qa --plans` does not fit the run (R80): a line of another system, a
+    question it does not answer, or an answer without a plan trace."""
+
+    def __init__(self, issues: list[str]):
+        super().__init__("frozen plans do not fit: " + "; ".join(issues))
+        self.issues = issues
+
+
 class QueryPlanError(KgBuilderError):
     """A checked query plan could not run to the end (too many candidates for read_check, a failed read);
     the reason goes back to the planner for its one retry (query/planner.py)."""

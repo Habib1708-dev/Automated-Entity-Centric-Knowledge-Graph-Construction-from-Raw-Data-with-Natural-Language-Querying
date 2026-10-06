@@ -8,7 +8,8 @@ with a timeout. A rejected or failing query gets one retry with the reasons; a s
 The answer is the rows, read by code: the first column's distinct values when the question asks which
 things, its single number when it asks how many. The same route serves the records-plus-vector system
 (R73) over the record layer alone: its prompt leaves out the text and claim layer, its schema shows only
-the plan's labels, and code refuses any query that names a label or type outside them.
+the plan's labels, and code refuses any query that names a label or type outside them. A frozen run (R80)
+replays an earlier run's answered query through the same checks, without the model.
 Not here: the query plans (plan.py), the retrieval route (systems.py), the checks' rules (cypher_check.py).
 """
 
@@ -153,11 +154,21 @@ class ExactRoute:
             attempt, rows = self._try(proposal)
             attempts.append(attempt)
             if not attempt.issues:
-                entities, number = rows_to_answer(rows, proposal.answer_form)
-                trace = ExactTrace(attempts=attempts, answered=True, rows=len(rows))
-                return ExactOutcome(entities=entities, number=number, trace=trace)
+                return _answered(attempts, rows, proposal.answer_form)
             prompt += RETRY.format(cypher=attempt.cypher, reasons="; ".join(attempt.issues))
         return ExactOutcome(trace=ExactTrace(attempts=attempts, answered=False))
+
+    def replay(self, frozen: ExactAttempt, form: Literal["entities", "number"]) -> ExactOutcome:
+        """An earlier run's answered query (R80, query/frozen.py), checked and run on the current graph as a
+        new proposal would be, without the model. No retry: a retry would write a new query, so a query the
+        current graph refuses or fails gives `answered=False` and the question goes to reading."""
+        parameters = [CypherParameter(name=k, value=v) for k, v in frozen.parameters.items()]
+        attempt, rows = self._try(
+            CypherProposal(cypher=frozen.cypher, parameters=parameters, answer_form=form)
+        )
+        if attempt.issues:
+            return ExactOutcome(trace=ExactTrace(attempts=[attempt], answered=False))
+        return _answered([attempt], rows, form)
 
     def _try(self, proposal: CypherProposal) -> tuple[ExactAttempt, list[list[object]]]:
         """Check the proposal's text, then its plan, then run it; the first failure stops it."""
@@ -171,6 +182,16 @@ class ExactRoute:
             rows = result.rows
             issues = [f"it failed when run: {result.error}"] if result.error else []
         return ExactAttempt(cypher=checked.cypher, parameters=parameters, issues=issues), rows
+
+
+def _answered(
+    attempts: list[ExactAttempt], rows: list[list[object]], form: Literal["entities", "number"]
+) -> ExactOutcome:
+    """The outcome of the query that ran last in `attempts`: its rows read as the answer."""
+    entities, number = rows_to_answer(rows, form)
+    return ExactOutcome(
+        entities=entities, number=number, trace=ExactTrace(attempts=attempts, answered=True, rows=len(rows))
+    )
 
 
 def rows_to_answer(

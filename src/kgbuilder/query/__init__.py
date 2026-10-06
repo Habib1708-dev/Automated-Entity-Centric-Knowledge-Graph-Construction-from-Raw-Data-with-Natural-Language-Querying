@@ -9,4 +9,5 @@ to one parameterised Cypher fragment, plan_run.py runs a plan step by step, and 
 candidate's text against a statement with a quote code verifies. exact.py (text2cypher, checked by
 cypher_check.py and the database's EXPLAIN) remains as the plans' logged fallback. systems.py puts them
 together: the graph system and records plus vector RAG (both plan systems) and the vector-only baseline.
+frozen.py (R80) reads an earlier run's plans and queries so that a plan system can replay them.
 """

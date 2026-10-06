@@ -87,6 +87,8 @@ class PipelineState:
     # question answering (R71): the question of `kg ask`, and the answers file `kg qa-score` scores
     question: str | None = None
     answers: Path | None = None
+    # the folder of an earlier `kg qa` run whose plans `kg qa --plans` replays (R80)
+    frozen_plans: Path | None = None
     # the two outcome files of `kg qa-score` that `kg qa-compare` compares question by question (R73)
     outcomes: tuple[Path, Path] | None = None
     embed: bool = True

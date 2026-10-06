@@ -3777,6 +3777,54 @@ records must be able to say what the question asks of the records.
   - **R79 done.** Next: R77 (Step 7) code, which the user paused for R78-R79; its "better than Step 6"
     baseline is now R79's numbers.
 
+**After R77 part f (the user, 2026-10-06): three steps, in this order, one commit each.** First freeze the
+QA plans so that a later graph change is measured by answers alone (R80); then two small extraction
+changes from part f's findings (R81, R82). After them R77 is not refined further unless Step 8 shows a
+concrete retrieval or query failure that needs it. No broader lexical heuristics and no further semantic
+fields.
+
+### R80. Frozen QA plans: replay an earlier run's queries on a changed graph (done 2026-10-06, code only)
+The planner's prompt carries the graph's schema text, so every rebuilt graph misses the planner cache and
+every question is planned anew (Found along the way, R77 parts b and f): in part f every changed answer came
+with a new plan, so the graph change could not be measured by its answers.
+- **Scope.** `kg qa --plans DIR` reads the plan systems' answers files of an earlier run
+  (`DIR/answers_<system>.jsonl`) and replays each question's query decisions instead of asking the model:
+  the plan that ran to its end, else the text2cypher query that answered, else reading. No model writes a
+  query in a frozen run: a frozen plan or query that the current graph refuses or fails goes to reading
+  (that failure is the graph change's effect, and is logged as a refused plan). read_check and the reader
+  still run: they read the graph's content, which is what changed. The vector baseline has no plan and
+  ignores the option.
+- Files: a new `query/frozen.py` (the frozen query per question, read from an answers file and checked to
+  cover every gold question), `query/systems.py` (`PlanSystem` replays), `query/exact.py` (a frozen query
+  checked and run without the model), `query/answers.py` (`PlanTrace.frozen`), the QA stage and `kg qa`
+  (option, params `frozen_plans` and its hash). The reference plans of part f are copied to
+  `tests/gold/r80/<dataset>/answers_graph.jsonl`, so that later steps replay the same plans.
+- Not in scope: any change to the planner, its prompt, the primitives or the scoring; any run.
+- **Done (2026-10-06, code only, no run).**
+  - What is frozen per question (`query/frozen.py`): the last plan attempt that ran to its end; else, when
+    text2cypher answered, its last query with its parameters; else nothing (the question is read again).
+    The query's answer form is not stored in the answers file; code recovers it exactly from the answer
+    (a list of entities, maybe empty, only for the "entities" form).
+  - The file is refused (`FrozenPlansError`, new) when a line is of another system, a gold question is
+    missing, or an answer has no plan trace; `--plans` naming the `--out` folder is refused too (the run
+    would overwrite the plans it replays).
+  - MLflow: params `frozen_plans` and `frozen_plans_hash`, metric `answers_frozen`, the frozen file as an
+    artifact; `PlanTrace.frozen` on every replayed answer. In a frozen run `plans_proposed` counts the
+    replayed plans and `plans_refused` the ones the changed graph refused.
+  - Reference plans: part f's answers files (`out/r77d_<dataset>/answers_graph.jsonl`, MLflow `b2d5c21e`,
+    `a9e748b7`, `2b3ec058`, built on `13ee2b6`) copied byte for byte to `tests/gold/r80/<dataset>/`.
+    Loaded with the gold ($0, no model): furniture 64 plans, 3 text2cypher queries, 1 read (F04, F07,
+    F20, F57 not by plan); held-out 68 plans; generality 32 plans, 9 text2cypher queries.
+  - Tests (7 new): `tests/test_query_exact.py`: a frozen plan runs without the planner; a frozen plan the
+    graph refuses, or that fails while running, is read with no new plan and no text2cypher; a frozen
+    text2cypher query is checked and run again without the model (its LIMIT not added twice) and, when
+    refused, read; a frozen read is read again; what an answer freezes (the plan that ran after a refused
+    one, the query and its recovered form, nothing); the file's checks. `tests/test_query_graph.py`
+    (Neo4j): `kg qa --plans` end to end, the model never asked, params, metric and artifact logged, the
+    `--out` folder refused. Gate: 552 passed (545 before), `ruff check` clean.
+  - Not verified by a run: replaying the reference plans on part f's own graphs should reproduce part f's
+    answers from the cache at about $0; it is a full-dataset `kg qa` and is only proposed.
+
 ## Found along the way
 
 (Add items here during a step instead of widening its scope.)
@@ -3795,7 +3843,7 @@ records must be able to say what the question asks of the records.
   durability" became quality and durability negated with the cue "expected much better"; "they seem poorly
   manufactured" became possible with "seem". Both are the model's reading, grounded in the quote, so no
   code check applies; the judge counts them.
-- **Every rebuild re-plans the QA questions (R77 parts b and f).** The planner prompt's schema text is read
+- **(Fixed in R80: `kg qa --plans`.) Every rebuild re-plans the QA questions (R77 parts b and f).** The planner prompt's schema text is read
   from the graph, so a rebuilt graph misses the planner cache and every plan is written anew: in part f
   every changed answer had a new plan. To measure a graph change by answers alone, the plans would have to
   be frozen (replayed from the earlier answers file) and only execution rerun.

@@ -30,6 +30,7 @@ uv run kg coverage SHEET VERDICTS                                 # score the ju
 uv run kg assertion SHEET GOLD VERDICTS                           # truth, modality, condition kept (R77; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
+uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
 uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
 uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
@@ -373,6 +374,10 @@ how they choose:
    and writes `out/answers_<system>.jsonl`, with the chunks each reader saw and, for the graph, how they
    were found. Each system is its own MLflow run, with its own cost; it logs what code can score at once:
    sets and numbers, recall@k, citation faithfulness, per question type with intervals.
+   `kg qa GOLD --plans DIR` (R80) replays the plans and text2cypher queries of an earlier run's
+   `DIR/answers_<system>.jsonl` instead of asking the planner, so a changed graph is measured by its answers
+   alone; a replayed query the graph refuses goes to reading. The reference plans (R77 part f) are in
+   `tests/gold/r80/<dataset>/`.
 2. The judge (Claude in the session) decides the free-text answers in a verdict file (`validation/qa.py`).
 3. `kg qa-score GOLD ANSWERS --verdicts V` logs the final scores and writes one outcome row per question
    (`qa_outcomes_<system>.jsonl`); it needs no graph.

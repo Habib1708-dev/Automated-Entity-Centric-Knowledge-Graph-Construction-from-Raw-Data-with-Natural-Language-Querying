@@ -88,6 +88,9 @@ class PlanTrace(BaseModel):
 
     attempts: list[PlanAttempt]
     fallback: Literal["text2cypher", "retrieval"] | None = None
+    # the plan or text2cypher query was replayed from an earlier run (R80, `kg qa --plans`), not written
+    # anew; its attempts are then the replayed ones, and a refused one is the graph change's doing
+    frozen: bool = False
     checks: int = 0  # read_check model calls
     verified: int = 0  # candidates read_check verified
 

@@ -1,7 +1,8 @@
 """The exact route (R71 part b) and the plan system (R74), without Neo4j: the text check of a model's Cypher,
 the exact route's retry and give-up over a fake store, rows read as an answer; for records plus vector RAG
 (R73), the record layer of the schema and the refusal of names outside it; the plan system's run, retry
-and fallbacks (text2cypher, then reading) with its own name on every answer; and the planner, read_check
+and fallbacks (text2cypher, then reading) with its own name on every answer; frozen plans (R80): an earlier
+answer's plan or query replayed without the model, and the frozen file's checks; and the planner, read_check
 and Cypher prompts' domain-neutral wording. The database half of the check (EXPLAIN, the read
 transaction) is tested in test_query_graph.py."""
 
@@ -10,11 +11,12 @@ import json
 import pytest
 from neo4j.time import Date
 
-from kgbuilder.core.errors import QueryPlanError
+from kgbuilder.core.errors import FrozenPlansError, QueryPlanError
 from kgbuilder.query import exact, planner, read_check
-from kgbuilder.query.answers import StepTrace
+from kgbuilder.query.answers import ExactAttempt, StepTrace, SystemAnswer
 from kgbuilder.query.cypher_check import check_text, excluded_name_issues
 from kgbuilder.query.exact import CypherParameter, CypherProposal, ExactRoute, rows_to_answer
+from kgbuilder.query.frozen import FrozenQuery, frozen_query, load_frozen
 from kgbuilder.query.graph_schema import (
     ClaimInfo,
     GraphSchema,
@@ -295,8 +297,9 @@ class TextSource:
         return [StoredChunk(chunk_id="c1", context="Quill Press", text="Two presses run.")], None
 
 
-def plan_system(plans, runner, proposals=(), name="graph", exact_store=None):
-    """A plan system whose planner, text2cypher and reader are scripted by the reply schema they ask for."""
+def plan_system(plans, runner, proposals=(), name="graph", exact_store=None, frozen=None):
+    """A plan system whose planner, text2cypher and reader are scripted by the reply schema they ask for;
+    with `frozen`, a frozen run (R80). An unscripted planner or text2cypher call fails the test."""
     plan_prompts: list[str] = []
     plans, proposals = list(plans), list(proposals)
 
@@ -314,7 +317,7 @@ def plan_system(plans, runner, proposals=(), name="graph", exact_store=None):
     store = exact_store or FakeCypherStore(rows=[[2]])
     system = PlanSystem(
         name, Planner(llm, "m", SCHEMA.text()), PLAN_SCHEMA, runner, ExactRoute(store, llm, "m", 100),
-        TextSource(), Reader(llm, "m"), k=5,
+        TextSource(), Reader(llm, "m"), k=5, frozen=frozen,
     )  # fmt: skip
     return system, plan_prompts
 
@@ -356,6 +359,89 @@ def test_two_failed_plans_fall_back_to_text2cypher_then_to_reading():
     read = system.answer("Q2", "What runs?")
     assert read.plan.fallback == "retrieval" and read.text == "read from text" and read.retrieved == ["c1"]
     assert read.system == RECORDS_VECTOR and not read.exact.answered  # the system's own name, the trace kept
+
+
+# --- frozen plans (R80): an earlier run's queries replayed, none written anew -------------------------
+
+COUNTED = ExactAttempt(cypher="MATCH (p:Press) RETURN count(p)\nLIMIT 100", parameters={}, issues=[])
+
+
+def test_a_frozen_plan_runs_without_the_planner_and_is_marked_frozen():
+    runner = ScriptedRunner(PlanRun(number=2.0, steps=[StepTrace(op="count", items={})]))
+    system, prompts = plan_system([], runner, frozen={"Q1": FrozenQuery(plan=COUNT_PRESSES)})
+    answer = system.answer("Q1", "How many presses are there?")
+    assert answer.number == 2.0 and runner.ran == [COUNT_PRESSES] and prompts == []
+    assert answer.plan.frozen and answer.plan.fallback is None and len(answer.plan.attempts) == 1
+
+
+def test_a_frozen_plan_the_graph_refuses_or_fails_is_read_with_no_new_plan_or_query():
+    # a new plan or a text2cypher query would hide what the graph change did to the frozen plan
+    refused, prompts = plan_system([], ScriptedRunner(), frozen={"Q1": FrozenQuery(plan=UNKNOWN)})
+    read = refused.answer("Q1", "How many presses?")
+    assert read.plan.fallback == "retrieval" and read.text == "read from text" and prompts == []
+    assert "unknown label 'Machine'" in read.plan.attempts[0].issues[0] and read.exact is None
+
+    failing = ScriptedRunner(QueryPlanError("read_check got 99 candidates, more than 30"))
+    system, _ = plan_system([], failing, frozen={"Q1": FrozenQuery(plan=COUNT_PRESSES)})
+    assert system.answer("Q1", "How many presses?").plan.fallback == "retrieval"
+
+
+def test_a_frozen_text2cypher_query_is_checked_and_run_again_without_the_model():
+    store = FakeCypherStore(rows=[[2]])
+    frozen = {"Q1": FrozenQuery(cypher=COUNTED, answer_form="number")}
+    system, _ = plan_system([], ScriptedRunner(), exact_store=store, frozen=frozen)
+    answer = system.answer("Q1", "How many presses?")
+    assert answer.number == 2.0 and answer.plan.fallback == "text2cypher" and answer.plan.frozen
+    assert store.ran == [(COUNTED.cypher, {})]  # its LIMIT kept, not added twice
+
+    refusing = FakeCypherStore(unplannable=["Press"])
+    system, _ = plan_system([], ScriptedRunner(), exact_store=refusing, frozen=frozen)
+    read = system.answer("Q1", "How many presses?")
+    assert read.plan.fallback == "retrieval" and not read.exact.answered and refusing.ran == []
+
+
+def test_a_frozen_question_answered_by_reading_is_read_again():
+    system, prompts = plan_system([], ScriptedRunner(), frozen={"Q1": FrozenQuery()})
+    read = system.answer("Q1", "What runs?")
+    assert (
+        read.plan.fallback == "retrieval" and read.plan.frozen and read.retrieved == ["c1"] and prompts == []
+    )
+
+
+def test_an_answer_freezes_the_plan_that_ran_else_the_query_that_answered():
+    runner = ScriptedRunner(PlanRun(number=2.0, steps=[StepTrace(op="count", items={})]))
+    planned, _ = plan_system([UNKNOWN, COUNT_PRESSES], runner)
+    assert frozen_query(planned.answer("Q1", "How many presses?")) == FrozenQuery(plan=COUNT_PRESSES)
+
+    number = proposal("MATCH (p:Press) RETURN count(p)").model_copy(update={"answer_form": "number"})
+    exact_answer, _ = plan_system([UNKNOWN, UNKNOWN], ScriptedRunner(), proposals=[number])
+    frozen = frozen_query(exact_answer.answer("Q1", "How many presses?"))
+    # the form is not stored in the answers file; code recovers it from the answer's shape
+    assert frozen.plan is None and frozen.cypher.cypher == COUNTED.cypher and frozen.answer_form == "number"
+
+    entities = proposal(READ, name="quill")
+    exact_answer, _ = plan_system([UNKNOWN, UNKNOWN], ScriptedRunner(), proposals=[entities])
+    assert frozen_query(exact_answer.answer("Q1", "Which presses?")).answer_form == "entities"
+
+    refusing = FakeCypherStore(unplannable=["Nope"])
+    failing = [proposal("MATCH (n:Nope) RETURN n")] * 2
+    read, _ = plan_system([UNKNOWN, UNKNOWN], ScriptedRunner(), failing, exact_store=refusing)
+    assert frozen_query(read.answer("Q1", "What runs?")) == FrozenQuery()
+
+
+def test_a_frozen_file_must_answer_every_question_with_the_same_systems_plans(tmp_path):
+    runner = ScriptedRunner(PlanRun(number=2.0, steps=[StepTrace(op="count", items={})]))
+    planned, _ = plan_system([COUNT_PRESSES], runner)
+    answers = [planned.answer("Q1", "How many presses?"), SystemAnswer(question_id="Q2", system="vector")]
+    path = tmp_path / "answers_graph.jsonl"
+    path.write_text(answers[0].model_dump_json() + "\n", encoding="utf-8")
+    assert load_frozen(path, "graph", ["Q1"]) == {"Q1": FrozenQuery(plan=COUNT_PRESSES)}
+    path.write_text("".join(a.model_dump_json() + "\n" for a in answers), encoding="utf-8")
+    with pytest.raises(FrozenPlansError) as error:
+        load_frozen(path, "graph", ["Q1", "Q2", "Q3"])
+    assert error.value.issues == ["Q2: answered by 'vector', not 'graph'", f"Q3: not in {path}"]
+    with pytest.raises(FrozenPlansError, match="no plan trace"):
+        frozen_query(answers[1])
 
 
 # --- the prompts ------------------------------------------------------------------------------------

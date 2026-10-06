@@ -7,7 +7,8 @@ answers in its own MLflow run (`qa_graph`, `qa_vector`, `qa_records_vector`), so
 are its own. `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
-question, which `kg qa-compare` compares between two systems or two steps.
+question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
+earlier run's plans (query/frozen.py) and logs which file they came from.
 Not here: retrieval and reading (query/), scoring (validation/qa.py), the paired test (validation/paired.py).
 """
 
@@ -20,6 +21,7 @@ from ..llm.base import Embedder, prompt_version
 from ..llm.thinking import with_thinking
 from ..query import exact, planner, read_check, reader
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
+from ..query.frozen import FrozenQuery, load_frozen
 from ..query.graph_store import Neo4jGraphStore
 from ..query.systems import (
     RECORDS_VECTOR,
@@ -54,8 +56,11 @@ def _embedder(ctx: PipelineContext) -> Embedder:
     return ctx.embedder
 
 
-def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QASystem:
-    """The system named `system` over the current graph, with the settings' model, reader and k."""
+def build_system(
+    ctx: PipelineContext, state: PipelineState, system: str, frozen: dict[str, FrozenQuery] | None = None
+) -> QASystem:
+    """The system named `system` over the current graph, with the settings' model, reader and k; a plan
+    system replays `frozen` (R80) when given."""
     s = ctx.settings
     llm = with_thinking(ctx.require_llm(), s.qa_thinking)
     answer_reader = reader.Reader(llm, s.qa_model, s.llm_temperature)
@@ -79,7 +84,19 @@ def build_system(ctx: PipelineContext, state: PipelineState, system: str) -> QAS
     labels = {rule.label for rule in plan.nodes} if plan else set()
     names = {rule.label: name_property(rule) for rule in plan.nodes} if plan else {}
     build = build_records_vector if system == RECORDS_VECTOR else build_graph_system
-    return build(store, _embedder(ctx), llm, answer_reader, settings, labels, names)
+    return build(store, _embedder(ctx), llm, answer_reader, settings, labels, names, frozen)
+
+
+def _frozen_file(ctx: PipelineContext, state: PipelineState, system: str) -> Path | None:
+    """The answers file whose plans this system replays: `<plans folder>/answers_<system>.jsonl` for a plan
+    system when `--plans` is given; None otherwise (the vector baseline has no plans to freeze). Refuses the
+    file this run is about to write: the run would overwrite the plans it replays."""
+    if state.frozen_plans is None or system not in PLANNED:
+        return None
+    path = input_file(Path(state.frozen_plans) / f"answers_{system}.jsonl", "frozen plans")
+    if path.resolve() == (ctx.out / f"answers_{system}.jsonl").resolve():
+        raise ConfigurationError("--plans must name another folder than --out: the run would overwrite them")
+    return path
 
 
 def _cypher_prompt(system: str) -> str:
@@ -150,7 +167,8 @@ def _retrieval_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
 def _plan_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
     """How the plan systems fared (R74): plans written and refused, answers that needed the retry, filters
     dropped, read_check calls and verified candidates, the fallbacks taken (text2cypher, reading), the
-    text2cypher proposals and refusals, and how many answers used each primitive."""
+    text2cypher proposals and refusals, how many answers used each primitive, and the answers whose
+    plan or query was replayed (R80; in a frozen run the plans "proposed" are the replayed ones)."""
     traces = [a.plan for a in answers if a.plan is not None]
     exact = [a.exact for a in answers if a.exact is not None]
     ran = [attempt for t in traces for attempt in t.attempts if attempt.steps]
@@ -163,6 +181,7 @@ def _plan_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
         "read_check_verified": sum(t.verified for t in traces),
         "fallback_text2cypher": sum(t.fallback == "text2cypher" for t in traces),
         "fallback_retrieval": sum(t.fallback == "retrieval" for t in traces),
+        "answers_frozen": sum(t.frozen for t in traces),
         "cypher_proposals": sum(len(t.attempts) for t in exact),
         "cypher_refused": sum(bool(a.issues) for t in exact for a in t.attempts),
     }
@@ -201,18 +220,26 @@ class QAStage(BaseStage):
 
     def params(self, ctx, state):
         gold = input_file(state.need("gold", "pass the QA gold file"), "QA gold file")
+        frozen = _frozen_file(ctx, state, self.system)
         return {
             **_system_params(ctx, self.system),
             "gold": gold,
             "gold_hash": digest(gold),
             "workers": ctx.settings.qa_workers,
+            # a frozen run (R80) is compared with the run its plans come from, never with a planned one
+            "frozen_plans": frozen,
+            "frozen_plans_hash": digest(frozen) if frozen else None,
         }
 
     def run(self, ctx, state, run):
         s = ctx.settings
         _log_prompts(run, self.system)
         gold = load_qa_gold(input_file(state.gold, "QA gold file"))
-        system = build_system(ctx, state, self.system)
+        frozen_file = _frozen_file(ctx, state, self.system)
+        frozen = (
+            load_frozen(frozen_file, self.system, [q.id for q in gold.questions]) if frozen_file else None
+        )
+        system = build_system(ctx, state, self.system, frozen)
         # questions are independent; the pool keeps the model busy while each answer waits on the network
         with ThreadPoolExecutor(max_workers=s.qa_workers) as pool:
             answers = list(pool.map(lambda q: system.answer(q.id, q.question), gold.questions))
@@ -225,6 +252,8 @@ class QAStage(BaseStage):
             run.metrics(**_plan_metrics(answers))
         run.artifact(path)
         run.artifact(Path(state.gold))
+        if frozen_file:
+            run.artifact(frozen_file)
 
 
 class QAScoreStage(BaseStage):
