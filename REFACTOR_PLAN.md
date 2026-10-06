@@ -3197,7 +3197,7 @@ documents linked, 0 observations attached).
   - **R76 done** (code, the fix and the cached rebuild). Open by the user's choice: `kg qa` and the paired
     comparison with Step 5. Next: Step 7 (assertion).
 
-### R77. Assertion: truth, modality and condition (layered-model Step 7; in progress)
+### R77. Assertion: truth, modality and condition (layered-model Step 7; done 2026-10-06)
 "The pump failed", "the pump may fail" and "if pressure rises, the pump will fail" are different facts, and
 a count over claims must tell them apart (task file, Step 7).
 - **Decisions (the user, 2026-10-05, before any code):**
@@ -3411,7 +3411,43 @@ a count over claims must tell them apart (task file, Step 7).
   holding come back" still reads right; its opt-in "conditional" now narrows. Test first:
   `test_a_plan_counts_the_claims_that_hold_unless_the_question_asks_for_others` gains a conditional claim
   and failed before (counted 1 for 2); the R74 parameter assertion follows the new parameter name. Gate:
-  527 passed, `ruff check` clean. Run: asked first.
+  527 passed, `ruff check` clean (`787d1d8`).
+- **Part c run (2026-10-06; the user's yes, estimate $0.05-0.30; spent $0.0003).** The three part b graphs
+  rebuilt from the cache into `out/r77c_<dataset>` (invalid Gemini key on `extract`; every extract and
+  resolve call a cache hit, same counts as part b: 502 / 547 / 212 claims), then `kg qa --system graph`:
+  furniture `028f1938` $0.0003 (123 calls, 122 hits), held-out `388ff264` $0 (102, 102), generality
+  `734eba35` $0 (107, 107). The plans are part b's (cached); the `read_check` calls for the newly found
+  conditional claims were already cached from R79. No free-text answer changed: part b's verdicts carry
+  over (`tests/gold/r77/<dataset>_partc_graph_verdicts.json`). Scores `5deab79e`, `e47c828c`, `fa1922b7`;
+  paired with R79 `8030e720`, `ea9ba993`, `ca3f3609`; with part b `6120a517`, `7b8a2b21`, `eac115ea`.
+
+  | Type | furniture R79 / b / **c** | held-out R79 / b / **c** | generality R79 / b / **c** |
+  |---|---|---|---|
+  | multi_hop | 13 / 12 / **12** /17 | 15 / 15 / **15** /17 | 1 / 1 / **1** /6 |
+  | aggregation | 8 / 7 / **7** /16 | 14 / 13 / **13** /16 | 2 / 2 / **2** /6 |
+  | structured_filter | 14 / 13 / **14** /16 | 16 / 14 / **15** /17 | 2 / 2 / **2** /6 |
+  | disambiguation | 3 / 3 / **3** /6 | 2 / 3 / **3** /6 | 2 / 1 / **1** /8 |
+  | negation_sensitive | 4 / 1 / **4** /7 | 4 / 5 / **5** /6 | 2 / 1 / **1** /6 |
+  | lookup | 4 / 4 / **4** /6 | 4 / 3 / **3** /6 | 7 / 6 / **6** /9 |
+  | **all** | 46 / 40 / **44** /68 | 55 / 53 / **54** /68 | 16 / 13 / **13** /41 |
+  | paired b vs c (only b / only c, p) | 0 / 4, p 0.125 | 0 / 1, p 1.0 | 0 / 0 |
+  | paired R79 vs c | 3 / 1, p 0.625 | 3 / 2, p 1.0 | 4 / 1, p 0.375 |
+
+  - The five answers lost to the default came back, and nothing else changed: F17, F27, F28, F31 (e.g. F27
+    now names the Stockholm Chair, "some squeaking when I lean back", and the Uppsala Sofa, "the frame creaks
+    whenever someone sits down") and H06 (the RAV4's "WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS
+    PEDAL"). Generality has no conditional claim, so nothing changed there.
+  - Still lost against R79, all through plans the changed planner prompt wrote anew (part b's list): F03,
+    F09, F35, H01, H37, H55, G08, G13, G24, G34; won the same way: F34, H24, H27, G20.
+- **R77 done (2026-10-06).** Acceptance: the unit tests, the field storage and the unchanged ids met (part
+  a); "COULD CAUSE AN ACCIDENT" possible and the Civic's "when ..." clauses conditional met; "couldn't get
+  the drawers to slide right" met by meaning only (the negation is in the object name, truth affirmed).
+  Negation-sensitive and aggregation better than Step 6: **not met**, with the reason: read_check has caught
+  negated and possible claims since R71, so the fields add little to these answers (negation-sensitive 4 / 5
+  / 1 against R79's 4 / 4 / 2, aggregation 7 / 13 / 2 against 8 / 14 / 2), and the remaining differences are
+  new plans, not the graph. No type worse beyond one sample's variation: met (all p >= 0.375 against R79).
+  `path_truth` 1.0: met. Total cost of R77's runs: $2.336 (part b) + $0.0003 (part c). Next: Step 8, the
+  failure table by cause after Step 7 (task file).
 
 ### R78. Query plans that come up empty (before R77's code; done 2026-10-05)
 The R77 baseline traced 40 answers lost since Step 3 to the query plans of R74. The user chose to fix the
