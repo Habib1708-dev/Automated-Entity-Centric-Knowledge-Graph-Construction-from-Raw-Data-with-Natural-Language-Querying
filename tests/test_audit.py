@@ -38,6 +38,7 @@ from kgbuilder.pipeline.audit_stages import (
     AuditRelinkStage,
     AuditSnapshotStage,
 )
+from kgbuilder.pipeline.inputs import digest
 from kgbuilder.resolution.individuals import IDENTITY_PROMPT, SameIndividual
 from kgbuilder.resolution.record_choice import CHOICE_PROMPT, RecordChoice
 from kgbuilder.structured.plan import ConstructionPlan
@@ -641,3 +642,20 @@ def test_the_measured_replay_explains_a_join_it_undoes_and_writes_its_decisions(
     replayed = build_snapshot(folder / RELINKED_BUILD, data, CHUNKING)
     counts = LoggedCounts.model_validate_json((folder / RELINKED_LOGGED).read_text(encoding="utf-8"))
     assert check_fidelity(replayed, counts, None).passed
+
+
+R98 = Path(__file__).resolve().parent / "gold" / "r98"
+R98_RUNS = json.loads((R98 / "runs.json").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("run", R98_RUNS["runs"], ids=lambda r: r["dataset"])
+def test_r98_the_faithful_replay_gave_back_every_r77d_build(run):
+    """The committed gate reports: no difference from resolve.json, every decision answered from the cache."""
+    path = R98.parent.parent.parent / run["file"]
+    assert digest(path) == run["hash"]
+    report = ReidentifyReport.model_validate_json(path.read_text(encoding="utf-8"))
+    assert report.faithful and report.issues == []
+    assert len(report.decisions) == run["decisions"]
+    assert sum(d.action == "joined" for d in report.decisions) == run["joined"]
+    assert run["cache_hits"] == run["llm_calls"] and run["cost_usd"] == 0.0
+    assert R98_RUNS["git_dirty_files"] in ("", ".claude/settings.json")

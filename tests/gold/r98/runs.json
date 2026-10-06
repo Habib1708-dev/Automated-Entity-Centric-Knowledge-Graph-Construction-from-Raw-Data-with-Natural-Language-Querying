@@ -1,0 +1,53 @@
+{
+ "step": "R98 part c: the faithfulness gate, kg audit-relink --join --faithful on the three r77d builds, answered from .cache/llm only (GEMINI_API_KEY=invalid), $0",
+ "approved": "the user, 2026-10-06 (AskUserQuestion: 'Yes, run all three')",
+ "git_sha": "5aa688a-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "model": "gemini-3.8-flash",
+ "thinking": "low",
+ "individual_prompt_version": "3793a4eaa358",
+ "runs": [
+  {
+   "dataset": "furniture",
+   "preset": "quality",
+   "experiment": "kgbuilder",
+   "mlflow_run_id": "a74607dc52db41e39e2923ccc77423a5",
+   "command": "GEMINI_API_KEY=invalid kg --preset quality audit-relink out/r77d_furniture --data data --logged tests/gold/r87/furniture_logged.json --out out/r98_furniture --join --faithful",
+   "llm_calls": 83,
+   "cache_hits": 83,
+   "cost_usd": 0.0,
+   "decisions": 93,
+   "joined": 11,
+   "file": "tests/gold/r98/furniture/reidentify.json",
+   "hash": "6078a8d7ea9d"
+  },
+  {
+   "dataset": "heldout",
+   "preset": "heldout",
+   "experiment": "kgbuilder-heldout",
+   "mlflow_run_id": "aba001d7f0f5462eb1797649d433a61c",
+   "command": "GEMINI_API_KEY=invalid kg --preset heldout audit-relink out/r77d_heldout --data heldout/nhtsa/data --logged tests/gold/r87/heldout_logged.json --out out/r98_heldout --join --faithful",
+   "llm_calls": 144,
+   "cache_hits": 144,
+   "cost_usd": 0.0,
+   "decisions": 164,
+   "joined": 14,
+   "file": "tests/gold/r98/heldout/reidentify.json",
+   "hash": "871db980fd3d"
+  },
+  {
+   "dataset": "generality",
+   "preset": "generality_gemini",
+   "experiment": "kgbuilder-generality",
+   "mlflow_run_id": "90dd6bea2e2f47868cc7848bc55819f1",
+   "command": "GEMINI_API_KEY=invalid kg --preset generality_gemini audit-relink out/r77d_generality --data tests/fixtures/generality --logged tests/gold/r87/generality_logged.json --out out/r98_generality --join --faithful",
+   "llm_calls": 181,
+   "cache_hits": 181,
+   "cost_usd": 0.0,
+   "decisions": 183,
+   "joined": 84,
+   "file": "tests/gold/r98/generality/reidentify.json",
+   "hash": "92910b983260"
+  }
+ ]
+}

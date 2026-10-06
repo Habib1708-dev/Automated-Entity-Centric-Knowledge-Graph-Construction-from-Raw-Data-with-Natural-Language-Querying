@@ -5249,7 +5249,7 @@ a measured effect and regression checks. The causes, verified on the r77d snapsh
       of 62: names the build never wrote, R101) and split individuals (9 groups, R98-R100).
 - **Gate (results):** 721 passed (710 before), `ruff check` clean. **R97 done 2026-10-06.** Next: R98.
 
-### R98. The identity of particulars replayed offline, proven faithful (started 2026-10-06; $0, structural)
+### R98. The identity of particulars replayed offline, proven faithful (done 2026-10-06; $0, structural)
 R94-R96 replay only the record matching; the LLM's joining of individuals was never replayed, so a change to
 it (R99, R100) could only be measured by a rebuild. R98 makes the whole identity of records and individuals
 replayable on a snapshot and proves the replay is the build's.
@@ -5303,6 +5303,28 @@ replayable on a snapshot and proves the replay is the build's.
     build's settings (gemini-3.8-flash, thinking low) every adjudication prompt it would send is in
     `.cache/llm` (83 / 144 / 181).
   - README: the commands and the module map. Gate: 726 passed, `ruff check` clean.
+  - Committed at `5aa688a`.
+- **Part c: the faithfulness gate (done 2026-10-06, $0).** The user agreed ("Yes, run all three"). At `5aa688a`
+  with only `.claude/settings.json` dirty, each command with `GEMINI_API_KEY=invalid` so that a cache miss
+  would fail instead of paying: `kg --preset <quality|heldout|generality_gemini> audit-relink out/r77d_<ds>
+  --data ... --logged tests/gold/r87/<ds>_logged.json --join --faithful`.
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | MLflow run | `a74607dc` | `aba001d7` | `90dd6bea` |
+  | particular mentions, individual decisions | 124, 93 | 260, 164 | 184, 183 |
+  | joined / apart / different_records | 11 / 72 / 10 | 14 / 130 / 20 | 84 / 97 / 2 |
+  | nominated by meaning (replay = build) | 34 | 100 | 40 |
+  | LLM calls, all cache hits; `cost_usd` | 83; 0 | 144; 0 | 181; 0 |
+  | **differences from resolve.json** | **0** | **0** | **0** |
+
+  The replay with today's adjudicator (prompt `3793a4eaa358`, gemini-3.8-flash, thinking low) gives back
+  every individual decision in order and every particular assignment field by field (canonical, name,
+  reason, score, evidence, `by`, element id) on all three builds. Measured replays of the identity (R99,
+  R100) can therefore rest on it: a difference they show is the rule change's, not the replay's.
+  - **Committed:** `tests/gold/r98/<ds>/reidentify.json` (the replayed decisions) and `runs.json` (commands,
+    run ids, calls and hits, hashes); a test reloads them.
+- **Gate (results):** 729 passed (726 before), `ruff check` clean. **R98 done 2026-10-06.** Next: R99.
 
 ## Found along the way
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**
