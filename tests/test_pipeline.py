@@ -26,6 +26,7 @@ from kgbuilder.text.extraction import (
     extract_chunk,
     verify,
 )
+from kgbuilder.text.mention_pass import FoundThings
 from kgbuilder.text.schema import EntityType, FactType, TextSchema, validate_text_schema
 
 from .evaluation_corpora import quoted_four_grams
@@ -77,6 +78,8 @@ def script(prompt, schema):
         return SCHEMA
     if schema is SamePair:
         return SamePair(same=False)
+    if schema is FoundThings:  # the mention pass (R101): nothing the claims do not already name
+        return FoundThings()
     assert schema is ChunkExtraction
     if "wobbles badly" in prompt:
         return ChunkExtraction(
@@ -136,7 +139,7 @@ def test_full_pipeline(driver, data_dir, tmp_path):
     # tracking contract (mlflow-tracking skill): one run per stage, with the params that explain the result
     assert [r.name for r in tracker.runs] == [
         "pipeline", "profile", "plan", "build_domain", "ingest_text",
-        "text_schema", "extract", "link", "resolve", "attach", "validate",
+        "text_schema", "extract", "link", "mention_pass", "resolve", "attach", "validate",
     ]  # fmt: skip
     assert {"model", "temperature", "prompt_version", "critic_prompt_version"} <= set(
         tracker.run("plan").logged_params

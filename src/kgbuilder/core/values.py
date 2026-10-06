@@ -42,6 +42,8 @@ _UNITS = {
     "%": "%", "percent": "%",
 }
 # fmt: on
+# The symbols of the units above: a number with one of these is a measured value, whatever the domain
+UNIT_SYMBOLS = frozenset(_UNITS.values())
 
 
 class Quantity(BaseModel):

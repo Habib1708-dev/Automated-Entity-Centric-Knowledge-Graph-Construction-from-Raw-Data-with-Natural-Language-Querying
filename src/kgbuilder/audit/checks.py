@@ -141,9 +141,8 @@ def _provenance(s: GraphSnapshot, schema: TextSchema) -> tuple[dict[str, Proport
     for m in s.mentions:
         if not m.derived:
             texts = [chunks[c].text + " " + chunks[c].context for c in m.chunks if c in chunks]
-            results["extracted.mention_in_chunk"].append(
-                (m.id, any(contains_words(t, m.name) for t in texts))
-            )
+            group = "pass" if m.found_by_pass else "extracted"  # the mention pass's own row (R101)
+            results[f"{group}.mention_in_chunk"].append((m.id, any(contains_words(t, m.name) for t in texts)))
     rates = {k: Proportion.of(sum(ok for _, ok in v), len(v)) for k, v in results.items()}
     return rates, {k: [i for i, ok in v if not ok] for k, v in results.items()}
 

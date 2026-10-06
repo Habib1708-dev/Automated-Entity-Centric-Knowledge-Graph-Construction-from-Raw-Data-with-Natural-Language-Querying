@@ -39,6 +39,8 @@ FLAGS = {"smoke": False, "dev": False, "quality": True}
         # and the individuals' adjudicator (and the embedder) with --join, faithful or not (R98)
         "uv run kg --preset quality audit-relink out/r77d_furniture --data data --logged l.json --join",
         "uv run kg --preset quality audit-relink out/b --data data --logged l.json --join --faithful",
+        # the mention pass lists each chunk's things (R101)
+        "uv run kg --preset quality mention-pass",
     ],
 )
 def test_comprehensive_runs_ask(command):

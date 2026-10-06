@@ -145,10 +145,13 @@ kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
                   ->  kg build data/
                   ->  kg ingest-text data/
                   ->  kg text-schema --goal "..."   (review out/text_schema.json)
-                  ->  kg extract  ->  kg link  ->  kg resolve [--undo]  ->  kg attach
+                  ->  kg extract  ->  kg link  ->  kg mention-pass  ->  kg resolve [--undo]  ->  kg attach
                   ->  kg validate [--gold gold.json]
 ```
 
+`kg mention-pass` (R101) asks the LLM, chunk by chunk, for the things the text names or talks about that no
+claim names (tests/gold/r101/rules.md), refuses in code every finding a visible rule rejects, and writes the
+rest as mentions; it runs after `kg link` (derivation must not see them) and before `kg resolve`.
 `kg resolve` decides what every mention refers to (a record, an individual or a concept) and runs after
 `kg link`, because records are matched inside the scope of the things the documents are ABOUT;
 `kg resolve --undo` removes that identity layer again. `kg attach` then decides which records and
@@ -243,6 +246,7 @@ src/kgbuilder/
   tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
+                    -> mention_pass (LLM, R101: the things no claim names, checked in code)
   resolution/       linking (ABOUT) -> derivation ; identity: mentions -> records ->
                     individuals (variants, identity_evidence: what the adjudicator is shown) / concepts (matchers, blocking, guards: Strategies -> resolver
                     decisions) -> identity_graph (the edges) ; attachment (HAS_OBSERVATION, after identity)

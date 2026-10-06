@@ -16,6 +16,7 @@ from .stages import (
     ExtractStage,
     IngestTextStage,
     LinkStage,
+    MentionPassStage,
     PlanStage,
     ProfileStage,
     ResolveStage,
@@ -29,8 +30,9 @@ Approve = Callable[[str, Path], bool]
 # Order matters: build needs the plan, the text schema uses the plan's node descriptions, link runs before
 # resolve because the identity stage matches mentions to records inside the scope of the things their
 # documents are ABOUT (R75; until R75 resolve merged entities first and link linked the merged ones),
-# attach runs after resolve because two of its routes read the identity edges (R76), validate sees the
-# finished graph.
+# the mention pass runs between them because derivation must not see its mentions and resolve must decide
+# them like any other (R101), attach runs after resolve because two of its routes read the identity edges
+# (R76), validate sees the finished graph.
 FULL_PIPELINE: list[Stage] = [
     ProfileStage(),
     PlanStage(),
@@ -39,6 +41,7 @@ FULL_PIPELINE: list[Stage] = [
     TextSchemaStage(),
     ExtractStage(),
     LinkStage(),
+    MentionPassStage(),
     ResolveStage(),
     AttachStage(),
     ValidateStage(),

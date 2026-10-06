@@ -345,6 +345,15 @@ def link(out: Path = OUT):
     typer.echo(report.model_dump())
 
 
+@app.command("mention-pass")
+def mention_pass(out: Path = OUT):
+    """List what each chunk names or talks about that no claim names, verify it in code and write the new
+    mentions (after `kg link`, before `kg resolve`; one LLM call per chunk; R101)."""
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(), [st.MentionPassStage()])
+    typer.echo(f"Wrote {out / st.PASS_FILE} and {out / st.PASS_REJECTED_FILE}")
+
+
 @app.command()
 def attach(out: Path = OUT):
     """Attach every claim to the records and individuals it is about (after `kg resolve`)."""

@@ -6,7 +6,9 @@ descriptions; a human reviews `out/text_schema.json`; `kg extract` is then const
 Design: same shape as the structured path: pydantic models are the LLM's response schema,
 `validate_text_schema` is the code gate, and the retry loop is `llm.refine.refine` with a critic pass.
 `Value` (core/values.py) is a built-in object type: a fact type may end in a number with a unit without the
-proposer defining it (R66).
+proposer defining it (R66). Two more types are built in for the mention pass (R101, text/mention_pass.py):
+`Particular` (individual class) and `Kind` (concept class), for a thing the text names that fits none of the
+schema's types; no fact type uses them, and the proposer may not define them.
 Every entity type declares its identity class (R75, layered-model Step 5), which decides what one name in
 the text stands for: a record of the structured data (`keyed`, with the plan labels its records carry), one
 particular thing named only in the text (`individual`), or a kind shared by many things (`concept`). The
@@ -33,6 +35,12 @@ _UPPER_SNAKE_CASE = re.compile(r"[A-Z][A-Z0-9_]*")  # HAS_PROBLEM
 # a particular thing named only in text (kept apart across documents until the text gives evidence), or a
 # kind (merged across documents by entity resolution, with its guards).
 IdentityClass = Literal["keyed", "individual", "concept"]
+
+# The mention pass's fallback types (R101): a named particular thing, and a kind, that fit none of the
+# schema's entity types. Domain-neutral by construction, and handled like `Value`: built in, never defined.
+PARTICULAR_TYPE = "Particular"
+KIND_TYPE = "Kind"
+FALLBACK_TYPES: dict[str, IdentityClass] = {PARTICULAR_TYPE: "individual", KIND_TYPE: "concept"}
 
 
 # The field descriptions reach the proposer as its response schema, so they are prompt text: the examples
@@ -96,10 +104,13 @@ class TextSchema(BaseModel):
         return next((e for e in self.entity_types if e.name == name), None)
 
     def identity_of(self, type_name: str) -> IdentityClass:
-        """The identity class of a type; a type the schema does not define (`Value`, or a stored mention
-        of a type since removed) is a concept, the class that never links to records."""
+        """The identity class of a type: a built-in fallback type's own (R101); any other type the schema
+        does not define (`Value`, or a stored mention of a type since removed) is a concept, the class that
+        never links to records."""
         entity_type = self.entity_type(type_name)
-        return entity_type.identity if entity_type is not None else "concept"
+        if entity_type is not None:
+            return entity_type.identity
+        return FALLBACK_TYPES.get(type_name, "concept")
 
     def find(self, subject_type: str, predicate: str, object_type: str) -> FactType | None:
         """The fact type with this signature, derived or not; None when the schema has none."""
@@ -252,8 +263,9 @@ def validate_text_schema(schema: TextSchema, plan: ConstructionPlan | None = Non
         if not _PASCAL_CASE.fullmatch(name):
             issues.append(f"entity type '{name}' must be PascalCase")
 
-    if VALUE_TYPE in names:
-        issues.append(f"entity type '{VALUE_TYPE}' is built in; do not define it")
+    for built_in in (VALUE_TYPE, *FALLBACK_TYPES):
+        if built_in in names:
+            issues.append(f"entity type '{built_in}' is built in; do not define it")
     seen = set()
     for fact in schema.fact_types:
         if not _UPPER_SNAKE_CASE.fullmatch(fact.predicate):

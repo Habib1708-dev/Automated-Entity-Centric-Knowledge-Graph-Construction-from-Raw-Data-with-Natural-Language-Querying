@@ -51,6 +51,7 @@ from ..resolution.individuals import IDENTITY_PROMPT, Action, IndividualDecision
 from ..resolution.particulars import JoinSettings
 from ..resolution.record_choice import CHOICE_PROMPT, ChoiceAction
 from ..structured.plan import ConstructionPlan
+from ..text.mention_pass import PASS_FILE
 from ..text.schema import TextSchema
 from .inputs import digest, input_file
 from .stages import BaseStage
@@ -318,6 +319,8 @@ def _write_build(
     folder.mkdir(parents=True, exist_ok=True)
     for name in _BUILD_FILES:
         shutil.copyfile(source / name, folder / name)
+    if (source / PASS_FILE).exists():  # the mention pass's findings (R101), when the build ran it
+        shutil.copyfile(source / PASS_FILE, folder / PASS_FILE)
     shutil.copytree(source / "staging", folder / "staging", dirs_exist_ok=True)
     resolved = json.loads((source / "resolve.json").read_text(encoding="utf-8"))
     resolved["assignments"] = [a.model_dump() for a in references]

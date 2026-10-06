@@ -7,6 +7,7 @@ specified in the `mlflow-tracking` skill; metric names are a contract, keep them
 """
 
 import json
+from collections import Counter
 from dataclasses import asdict
 from pathlib import Path
 from typing import get_args
@@ -32,13 +33,15 @@ from ..structured.importer import BATCH_SIZE, construct_domain_graph
 from ..structured.plan import ConstructionPlan, validate_plan
 from ..structured.profiler import DataProfile, profile_directory
 from ..structured.staging import stage_structured
-from ..text import extraction
+from ..text import extraction, mention_pass
 from ..text import schema as text_schema
 from ..text.chunking import Chunk, chunk_document
 from ..text.documents import load_documents
 from ..text.lexical import write_lexical_graph
+from ..text.mention_pass import PASS_FILE, PASS_REJECTED_FILE
 from ..text.record_documents import record_documents
-from ..text.subject_graph import write_subject_graph
+from ..text.schema import FALLBACK_TYPES
+from ..text.subject_graph import read_mention_rows, write_mentions, write_subject_graph
 from ..tracking.base import Run
 from ..validation.assertion import load_assertion_gold, load_assertion_verdicts, score_assertion
 from ..validation.checks.base import CheckContext
@@ -407,6 +410,57 @@ class ExtractStage(_TextStage):
         run.artifact(ctx.write("triples.jsonl", "\n".join(t.model_dump_json() for t in result.triples)))
         run.artifact(ctx.write("rejected.jsonl", "\n".join(r.model_dump_json() for r in result.rejected)))
         run.artifact(ctx.write("off_schema.json", json.dumps(result.off_schema_signatures(), indent=2)))
+
+
+class MentionPassStage(_TextStage):
+    """List what each chunk names or talks about that no claim names, verify every finding in code and write
+    the new mentions and MENTIONS edges (R101). After `link` (derivation must not see these mentions) and
+    before `resolve` (which decides what they refer to). One LLM call per chunk."""
+
+    name = "mention_pass"
+
+    def params(self, ctx, state):
+        s = ctx.settings
+        return {
+            "model": s.extract_model,
+            "thinking": s.extract_thinking,
+            "prompt_version": prompt_version(mention_pass.MENTION_PROMPT),
+            "fallback_types": ",".join(sorted(FALLBACK_TYPES)),
+        }
+
+    def run(self, ctx, state, run):
+        s = ctx.settings
+        run.text(mention_pass.MENTION_PROMPT, "prompts/mention_pass.txt")
+        chunks = state.load_chunks(ctx)
+        existing, pairs = read_mention_rows(ctx.driver)
+        names = {m.id: m.name for m in existing}
+        known: dict[str, set[str]] = {}
+        for chunk_id, mention in pairs:
+            known.setdefault(chunk_id, set()).add(names[mention])
+        outcome = mention_pass.find_mentions(
+            chunks,
+            {c: sorted(n) for c, n in known.items()},  # sorted: the same graph gives the same prompts
+            state.load_text_schema(ctx),
+            with_thinking(ctx.require_llm(), s.extract_thinking),
+            s.extract_model,
+        )
+        rows = mention_pass.pass_rows(outcome.accepted, existing, pairs)
+        write_mentions(ctx.driver, rows.mentions, set(rows.mentioned_in))
+        reasons = Counter(r.reason for r in outcome.rejected)
+        run.metrics(
+            chunks=len(chunks),
+            found=outcome.found,
+            accepted=len(outcome.accepted),
+            failed=outcome.failed,
+            # what the graph gained: new mention nodes, new MENTIONS edges, and edges to existing mentions
+            mention_nodes=len(rows.mentions),
+            mentions=len(rows.mentioned_in),
+            reused=rows.reused,
+            # which code-visible Out rule fires most tells what to fix in the prompt
+            **{f"rejected_{r}": reasons[r] for r in get_args(mention_pass.RejectionReason)},
+        )
+        run.artifact(ctx.write(PASS_FILE, "\n".join(f.model_dump_json() for f in outcome.accepted)))
+        run.artifact(ctx.write(PASS_REJECTED_FILE, "\n".join(r.model_dump_json() for r in outcome.rejected)))
 
 
 class ResolveStage(_TextStage):

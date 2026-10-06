@@ -5,8 +5,10 @@ Role in the pipeline: after a build; read by `audit/fidelity.py` (is it the grap
 never saved, so the snapshot recomputes them from what was saved, in the build's stage order:
   ingest (`audit/inputs.py`) -> subject graph (`text/subject_graph.collect_rows` over triples.jsonl) ->
   link: document and section ABOUT links (`resolution/linking`), derived claims
-  (`resolution/derivation.derive_rows`) -> identity: resolve.json's assignments are the REFERS_TO edges ->
-  attach: the text ABOUT links (`attachment.dominant_record`) and every HAS_OBSERVATION (`attachment.attach`).
+  (`resolution/derivation.derive_rows`) -> mention pass (R101, when the build has `mentions.jsonl`:
+  `mention_pass.pass_rows` over its accepted findings) -> identity: resolve.json's assignments are the
+  REFERS_TO edges -> attach: the text ABOUT links (`attachment.dominant_record`) and every HAS_OBSERVATION
+  (`attachment.attach`).
 Design: the build's own pure functions do the work, so a difference from the build is a finding, not a
 re-implementation drift; only the Cypher reads around them are restated here, each next to the query it
 restates. Things are named by record ref or canonical id, never by display name (ten "Screws" records,
@@ -30,6 +32,7 @@ from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
 from ..text.chunking import Chunk
 from ..text.extraction import Triple
+from ..text.mention_pass import PASS_FILE, PassFinding, pass_rows
 from ..text.schema import TextSchema
 from ..text.subject_graph import MentionRow, ObservationRow, collect_rows
 from .inputs import Record, Relation, read_corpus, read_records, read_relations
@@ -40,6 +43,7 @@ class SnapshotMention(MentionRow):
 
     chunks: list[str]
     derived: bool  # written by derivation, named after a plan node, not by the extractor
+    found_by_pass: bool = False  # written by the mention pass (R101), named by the text, not by a claim
 
 
 class SnapshotClaim(ObservationRow):
@@ -89,6 +93,9 @@ class GraphSnapshot(BaseModel):
     # MENTIONS edges the subject-graph writer wrote, before derivation added its own
     extracted_mentions_edges: int
     derived_object_collisions: int  # derived claims whose id an extracted claim already had (MERGE: one node)
+    # the mention pass's MENTIONS edges, and those of them that reached a mention a claim already had (R101)
+    pass_mentions_edges: int = 0
+    pass_reused: int = 0
 
 
 def build_snapshot(out_dir: Path, data_dir: Path, chunking: tuple[int, int, int]) -> GraphSnapshot:
@@ -131,9 +138,21 @@ def build_snapshot(out_dir: Path, data_dir: Path, chunking: tuple[int, int, int]
             collisions += o.id in claims
             claims.setdefault(o.id, SnapshotClaim(**o.model_dump(), derived=True))
 
+    # the mention pass ran after link: its rows come after derivation's, and derivation never saw them
+    passed: set[str] = set()
+    pass_edges = reused = 0
+    if (out_dir / PASS_FILE).exists():
+        findings = [PassFinding.model_validate_json(x) for x in _read(out_dir / PASS_FILE).splitlines() if x]
+        found = pass_rows(findings, list(mentions.values()), mentioned_in)
+        for m in found.mentions:
+            mentions[m.id] = m
+            passed.add(m.id)
+        mentioned_in |= set(found.mentioned_in)
+        pass_edges, reused = len(found.mentioned_in), found.reused
+
     resolved = json.loads(_read(out_dir / "resolve.json"))
     references = [Assignment.model_validate(a) for a in resolved["assignments"]]
-    snapshot_mentions = _mentions(mentions, mentioned_in, derived_mentions)
+    snapshot_mentions = _mentions(mentions, mentioned_in, derived_mentions, passed)
     particulars = _particulars(references, snapshot_mentions, records)
     documents_about += _text_links(corpus.documents, corpus.chunks, documents_about, particulars)
     attachments = _attach(
@@ -158,6 +177,8 @@ def build_snapshot(out_dir: Path, data_dir: Path, chunking: tuple[int, int, int]
         attachments=attachments,
         extracted_mentions_edges=extracted_edges,
         derived_object_collisions=collisions,
+        pass_mentions_edges=pass_edges,
+        pass_reused=reused,
     )
 
 
@@ -219,13 +240,15 @@ def _candidates(
 
 
 def _mentions(
-    mentions: dict[str, MentionRow], mentioned_in: set[tuple[str, str]], derived: set[str]
+    mentions: dict[str, MentionRow], mentioned_in: set[tuple[str, str]], derived: set[str], passed: set[str]
 ) -> list[SnapshotMention]:
     chunks_of: dict[str, list[str]] = defaultdict(list)
     for c, m in sorted(mentioned_in):
         chunks_of[m].append(c)
     return [
-        SnapshotMention(**m.model_dump(), chunks=chunks_of[m.id], derived=m.id in derived)
+        SnapshotMention(
+            **m.model_dump(), chunks=chunks_of[m.id], derived=m.id in derived, found_by_pass=m.id in passed
+        )
         for m in sorted(mentions.values(), key=lambda m: m.id)
     ]
 

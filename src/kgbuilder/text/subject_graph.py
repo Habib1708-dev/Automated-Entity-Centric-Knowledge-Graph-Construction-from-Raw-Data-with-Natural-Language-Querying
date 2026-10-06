@@ -26,6 +26,8 @@ The link stage later attaches each observation to the thing its document is abou
 observation keeps the names the extractor gave its two ends (`subject_name`, `object_name`), so a claim
 keeps what its own document said, whatever its mentions are found to refer to (R44).
 All writes are MERGE on the ids, so re-running extraction does not duplicate anything.
+The mention pass (mention_pass.py, R101) writes the mentions no claim names through `write_mentions` too,
+after reading the existing rows (`read_mention_rows`).
 Not here: deciding which triples are valid (extraction.py), what a mention refers to (resolution/) and
 attaching observations to things (resolution/linking.py).
 """
@@ -166,6 +168,18 @@ def write_mentions(driver: Driver, rows: list[MentionRow], mentioned_in: set[tup
         "UNWIND $rows AS r MATCH (c:Chunk {chunk_id: r.c}), (m:Mention {id: r.m}) MERGE (c)-[:MENTIONS]->(m)",
         rows=[{"c": c, "m": m} for c, m in sorted(mentioned_in)],
     )
+
+
+def read_mention_rows(driver: Driver) -> tuple[list[MentionRow], set[tuple[str, str]]]:
+    """Every mention as the writer wrote it, by id, and every (chunk id, mention id) MENTIONS pair: what the
+    mention pass (R101) reuses for a name a document already has and lists as a chunk's known names."""
+    records, _, _ = driver.execute_query(
+        "MATCH (m:Mention) RETURN m.id AS id, m.name AS name, m.type AS type, m.doc_id AS doc_id ORDER BY id"
+    )
+    pairs, _, _ = driver.execute_query(
+        "MATCH (c:Chunk)-[:MENTIONS]->(m:Mention) RETURN c.chunk_id AS c, m.id AS m"
+    )
+    return [MentionRow(**r.data()) for r in records], {(r["c"], r["m"]) for r in pairs}
 
 
 def write_observations(driver: Driver, rows: list[ObservationRow], extractor: str) -> None:

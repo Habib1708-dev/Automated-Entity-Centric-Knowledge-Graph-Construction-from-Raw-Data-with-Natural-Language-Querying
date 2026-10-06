@@ -21,8 +21,19 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 # kg commands that call an LLM, so a run of them costs money or free quota (`ask` and `qa` answer
 # questions with the reader model, R71; `anchor-compare` embeds chunks and questions, R92; `qa-score`,
-# `qa-compare` and `anchor-eval` only read files and are not listed)
-LLM_COMMANDS = {"run", "plan", "text-schema", "extract", "resolve", "ask", "qa", "anchor-compare"}
+# `qa-compare` and `anchor-eval` only read files and are not listed; `mention-pass` lists each chunk's
+# things, R101)
+LLM_COMMANDS = {
+    "run",
+    "plan",
+    "text-schema",
+    "extract",
+    "mention-pass",
+    "resolve",
+    "ask",
+    "qa",
+    "anchor-compare",
+}
 # kg commands that call an LLM only with a flag: `audit-relink --choose` asks the record chooser (R95b),
 # `--join` the individuals' adjudicator and the embedder (R98); without them the replay is offline code
 FLAG_LLM_COMMANDS = {"audit-relink": {"--choose", "--join"}}

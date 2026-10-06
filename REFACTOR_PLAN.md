@@ -5603,6 +5603,44 @@ the graph into a noisy copy of the text, so the bounds are fixed before measurin
     refused, the offline sampler on the audit's invented build (params, the same seed draws the same
     sentences), and the three committed golds against their samples.
   - Gate: 753 passed (746 before), `ruff check` clean.
+  - Committed at `6ad9499`.
+- **Part b, code (done 2026-10-07, $0):**
+  - **`text/schema.py`:** two built-in fallback types, `Particular` (individual class) and `Kind` (concept
+    class), handled like `Value`: `identity_of` gives their class, `validate_text_schema` refuses a schema
+    that defines one.
+  - **`text/mention_pass.py`** (new): `MENTION_PROMPT` (the definition's In and Out, "list only things not
+    already listed" with the chunk's known names, the schema's types plus the fallbacks; examples from an
+    invented observatory; response `FoundThings{things: [FoundThing{name, type}]}`); `verify_found`, one
+    rejection reason per code-visible Out rule (`value_type`, `unknown_type`, `not_in_text`: whole words of
+    the chunk or its document's name, the C1 rule; `quantity_or_date`: a bare number, a number with a
+    measuring unit or a duration, calendar words and digits; `pronoun`; `function_words`; `too_long`: over 6
+    words; `clause`: clause or list punctuation; `already_listed`; `duplicate`), a leading article dropped
+    from the stored name; `find_mentions` (parallel calls, a failed call adds nothing and is counted); the
+    pure `pass_rows` (one mention per document and normalised name: a claim's or derivation's mention of the
+    name is reused and its type wins; only the chunk's new MENTIONS edge is added). The Out rules code cannot
+    see (a describing word alone, a reporting verb, an everyday act) are measured by the judge, not by a word
+    list.
+  - **`text/subject_graph.py`:** `read_mention_rows` (every mention and MENTIONS pair); the pass writes
+    through `write_mentions` (MERGE, parameterised).
+  - **`MentionPassStage` + `kg mention-pass`:** after `link`, before `resolve` (also in the full pipeline).
+    Params: model, thinking, prompt version, fallback types. Metrics: chunks, found, accepted, failed,
+    `mention_nodes`, `mentions` (new edges), `reused`, `rejected_<reason>`. Artifacts: the prompt,
+    `mentions.jsonl` (accepted findings, which the audit replays), `mentions_rejected.jsonl`. The run guard
+    treats `mention-pass` as an LLM command.
+  - **Audit:** `audit/snapshot.py` replays a build's `mentions.jsonl` with `pass_rows` after derivation
+    (`SnapshotMention.found_by_pass`, `pass_mentions_edges`, `pass_reused`); `audit/fidelity.py` logs
+    `mention_pass.mention_nodes`, `.mentions`, `.reused` and no longer counts pass mentions as extracted;
+    `audit/checks.py` checks pass mentions' names in their chunks as `pass.mention_in_chunk` (C1);
+    `kg audit-relink` copies the pass file into the build it writes. `core/values.py` exposes `UNIT_SYMBOLS`.
+  - **Tests:** `tests/test_mention_pass.py` (21): each code-visible Out rule as a reason (14 cases), the pass
+    with a scripted LLM (a failed chunk, a duplicate, the prompt's known names and types, never `Value`), the
+    rows (one per document and name, the claim's type wins, a reuse counted once), the prompt's
+    corpus-language test (no evaluated-corpus word or four-gram), the fallback types, the stage order, the
+    snapshot replaying a pass file with its fidelity counts, and the stage on Neo4j (params, metrics,
+    artifacts, the written mention). `test_pipeline.py`: the full pipeline answers the pass and lists its
+    run; `test_run_guard.py` +1.
+  - README: the command, its place in the stage order, the module map. Gate: 775 passed (753 before),
+    `ruff check` clean.
 
 ## Found along the way
 - **R100's adjudicator answers "unsure" for some right joins (found in R100, 2026-10-06; the user's choice).**
