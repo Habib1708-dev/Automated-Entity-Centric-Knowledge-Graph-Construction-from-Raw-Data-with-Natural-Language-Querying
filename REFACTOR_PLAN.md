@@ -5050,6 +5050,37 @@ a partial overlap or a close spelling decides alone.
     "drawers" slips from 2 to 3 (the desk's Drawer Unit now holds the desk's "drawers"); no C5 hit changed.
 - **Gate (results):** 704 passed (702 before), `ruff check` clean. **R95 done 2026-10-06.**
 
+### R96. The record chooser's prompt: a name with an aspect word, and a whole over its pieces (started 2026-10-06)
+The user, 2026-10-06, after R95b: "yes you may pursue that and check in with another prompt but it is
+important that you keep the prompt dataset domain neutral so that the system can always generalize."
+- **The miss.** R95b's chooser answered none for "frame construction" (Uppsala Sofa review: "The frame
+  construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in
+  much more expensive pieces."). It was shown the sofa's Frame (`A-1012`) and three of its pieces (Base Frame,
+  Back Frame, Side Frames). R93 judged the old link to `A-1012` VALID: by the C4 rule, a careful reader says
+  the text speaks of that row. The reply has no reason field, so the cause is not recorded. Two rules of the
+  prompt can produce it:
+  - "Answer none if ... a property of it": "construction" can be read as a property of the frame;
+  - "Answer none also when several records fit equally well": the frame and its three pieces all hold "frame".
+- **Why it matters beyond one link:** F17 ("Which products priced over $500 have a review reporting a
+  creaking or squeaking frame?") starts end to end from the first node W1 finds for "frame". The sofa's Frame
+  and the bed's lone "frame" both match exactly, and the tie goes to the node more mentions refer to, then to
+  the node id (`anchor/navigation.py` `find`). With "frame construction" the sofa's Frame has 2 mentions and
+  wins; without it both have 1 and "9b49..." sorts before "Assembly:A-1012", so F17 starts at the bed.
+- **The change, one prompt, two rules, domain-neutral** (`prompt-engineering` skill; examples stay in the
+  invented telescope; no word or four-gram of an evaluated corpus, checked by the existing test):
+  1. Choose also when the name is the record's name with a word for the side of it the sentence talks about
+     (its design, how it is made); "a property of it" leaves the none list, since it contradicted this case
+     and the judge's question.
+  2. When the name fits a whole and also pieces of that whole (the relations show which), it is the whole,
+     unless the sentences name the piece; none only when several still fit equally.
+  Both rules change at once, so a win cannot be split between them; stated in the results.
+- **Measured** by one replay of the furniture build with `--choose` (the user's yes above; every prompt
+  changes, so all 31 calls are new: about $0.03), judged by R93's procedure. The prompt is changed after the
+  judge counted a miss and is measured by the same judge: said so in the results.
+- **Success:** no wrong link (C4 stays 1.0 on the judged items, at least >= 0.95); "frame construction"
+  chosen; the two wrong readings R93 found ("pre-drilled holes for the drawer handle", "drawer slide
+  mechanism") still none. A changed prompt that adds a wrong link is reverted.
+
 ## Found along the way
 - **The chooser declined "frame construction" (found in R95b, 2026-10-06; unmeasured beyond one case).** R93
   judged its old containment link to the sofa's Frame VALID; the LLM answered none, perhaps reading

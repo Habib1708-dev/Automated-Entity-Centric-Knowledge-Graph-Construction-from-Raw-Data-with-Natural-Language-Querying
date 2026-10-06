@@ -48,9 +48,14 @@ _SENTENCE_CHARS = 400
 #   - "the very same thing": the question R93's wrong links got wrong, asked directly;
 #   - "written in other words": plurals, fuller or shorter names and a describing word are the right links
 #     code cannot accept alone without accepting the wrong ones too ("weighted base" for a record "Base");
-#   - "only shares words ... something else": the wrong links in structural terms (a piece of the record,
-#     something made for it, a property, a larger thing): "holes for the handle" is not the handle;
-#   - "several fit equally": a guess between look-alikes is worse than no link (code also refuses twins);
+#   - "the side of it the sentence talks about": the record's name with a word for its design or how it is
+#     made still speaks of the record, as the judge reads it (R96: R95b's prompt listed "a property of it"
+#     among the none cases, and its chooser declined a link R93 judged right);
+#   - "another thing that only shares words": the wrong links in structural terms (a piece of the record,
+#     something made for it, a larger thing): "holes for the handle" is not the handle;
+#   - "a whole ... unless the sentences name the piece": a name that fits a whole and its pieces means the
+#     whole (R96: the declined link was shown a whole with three of its pieces);
+#   - "several still fit equally": a guess between look-alikes is worse than no link (code refuses twins);
 #   - the quote is what code checks; "leave quote empty" lets the model refuse without inventing one.
 # The examples come from an invented domain (a telescope), never from evaluated data.
 CHOICE_PROMPT = """A text names a thing "{name}". Is it the very same thing as one of the records below?
@@ -61,11 +66,15 @@ Where "{name}" is named ([document] sentence):
 Records (id, then what the data holds about it):
 {records}
 
-Choose a record only if "{name}" is that record itself, perhaps written in other words: a plural, a fuller or
-shorter name, or the name with a describing word ("the brass focuser" is the record "Focuser").
-Answer none if "{name}" only shares words with a record but is something else: a piece of it, something
-made for it or fixed to it, a property of it, or a larger thing it belongs to ("the thread of the focuser"
-and "the focuser cap" are not the record "Focuser"). Answer none also when several records fit equally well.
+Choose a record if "{name}" is that record itself, perhaps written in other words: a plural, a fuller or
+shorter name, the name with a describing word, or the name with a word for the side of it the sentence talks
+about, such as its design or how it is made ("the brass focuser" and "the focuser design" are the record
+"Focuser").
+Answer none if "{name}" is another thing that only shares words with a record: a piece of it, something made
+for it or fixed to it, or a larger thing it belongs to ("the thread of the focuser" and "the focuser cap" are
+not the record "Focuser").
+If "{name}" fits a whole and also pieces of that whole (the relations show which record is a piece of which),
+it is the whole, unless the sentences name the piece. Answer none when several records still fit equally well.
 If you choose a record, copy its id into record and copy one sentence from the lines above into quote,
 verbatim. Otherwise answer none and leave quote empty."""
 
