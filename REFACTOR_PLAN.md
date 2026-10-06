@@ -3869,7 +3869,7 @@ was ignored (Found along the way). Code cannot see the miss without a word list,
   Step 8 shows a concrete retrieval or query failure that needs it. R81 and R82 are measured together, by
   one rebuild and a frozen-plan `kg qa` (R80), only when the user agrees to that run.
 
-### R83. Step 8: the wrong answers after Step 7, by cause (done 2026-10-06, $0, no run)
+### R83. Step 8: the wrong answers after Step 7, by cause (done 2026-10-06, $0, no run; the user chose R84-R86)
 Step 8 of the task file starts with a failure table: every wrong answer after Step 7, grouped by cause, so
 that each addition proposed to the user has its failing questions as its reason.
 - **Scope.** The reference run is R77 part f (`13ee2b6`, the last measured answers; R81 and R82 are not
@@ -3947,7 +3947,12 @@ that each addition proposed to the user has its failing questions as its reason.
   first cause (H29, G25 and G29 are event-like), sets and quantifiers 0, writing read_check results back
   0, an LLM-named attachment 0 (no G4), the speaker 1 (G31), `valid_time` 1 (G21; 4 more under `also`).
 - **Gate:** 556 passed (553 + 3), `ruff check` clean. No run, $0.
-- **Open: the user's choice of additions** (task file, Step 8), recorded below once made.
+- **The user's choice (2026-10-06):** three additions, one step each, done in this order: **R84** claim
+  words reach mentions linked to records and individuals (the `query_code` group, code only); **R85**
+  read_check judges each claim, not only its chunk (code only); **R86** a step from claims to the records
+  they are about (a new primitive and a planner prompt change). Not chosen: open predicates for actions and
+  findings (7), and the task's other candidates (events, sets, read_check write-back, LLM-named
+  attachment, speaker, `valid_time`), each with 0-1 failures as a first cause.
 
 ## Found along the way
 
