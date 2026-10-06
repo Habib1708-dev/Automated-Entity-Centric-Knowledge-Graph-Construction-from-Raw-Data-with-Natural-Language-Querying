@@ -5169,7 +5169,7 @@ a measured effect and regression checks. The causes, verified on the r77d snapsh
   AMBIGUOUS and UNJUDGEABLE verdict and the seeded 10 % of VALID ones; byte-identical items carry their
   verdicts. Every paid run is asked for separately with its cost, as a plain guarded `kg` command.
 
-### R97. W3 follows a chunk to the things it names (started 2026-10-06; $0, no LLM, no Neo4j)
+### R97. W3 follows a chunk to the things it names (done 2026-10-06; $0, no LLM, no Neo4j)
 - **Scope.** `anchor/navigation.py`: a new walk `named(chunk)`, the records and individuals the chunk's
   mentions refer to (`SnapshotMention.chunks` with the references of kind record or individual, i.e. W2's
   mention edges read backwards). The composed walk goes from a chunk to `about | named`. `about` keeps its
@@ -5187,8 +5187,67 @@ a measured effect and regression checks. The causes, verified on the r77d snapsh
   individual and two kinds; the walk reaches the record's other chunks in both arms; a named concept is never
   followed (the shared "shade" does not lead into the lamp's chunk); `named` is W2 read backwards, W2 and the
   relation hops are unchanged.
-- **Gate (code):** 710 passed (705 before, Neo4j up), `ruff check` clean. Measurement next, committed
-  separately.
+- **Gate (code):** 710 passed (705 before, Neo4j up), `ruff check` clean. Committed at `46b618c`.
+- **Runs** ($0, no model, at `46b618c` with only `.claude/settings.json` dirty, the dataset presets as in
+  R90-R93), on the current builds: furniture `out/r96_furniture/build`, held-out and generality
+  `out/r77d_*`.
+  - `kg anchor-eval`, anchor / layered: furniture `56daa619` / `8472ee9c`, held-out `06b827ee` / `409172bc`,
+    generality `b7579fa9` / `e4f8336c`. C0 passed on all six. (Generality was first run with
+    `--preset generality_gemini`, `d1596afe` / `575dd7fb`, same experiment and reports; superseded.)
+  - `kg anchor-sheets`: furniture `3ac261d4`, held-out `f8ba998c`, generality `30eec913`. **Every C3, C4 and
+    C6 sheet and code side is byte-identical to the committed one** (R96's furniture, R93's held-out and
+    generality), so every verdict and judged score carries unchanged and nothing is judged; C3, C4 and C6
+    hold as before (all hard rules pass).
+  - The vector pairing is R92's arm-C rankings paired with the new reports (no embedding call).
+- **Committed:** `tests/gold/r97/` (the three reports that changed: held-out anchor, generality anchor and
+  layered) with `runs.json`, which names, for the three unchanged reports, the earlier committed file and its
+  hash, and the hashes of the sheets the runs wrote. Four tests (+11 cases) reload them: unchanged metrics
+  wherever every document is anchored, the generality gains and the one loss, the pairing with vector
+  retrieval, and the sheet hashes.
+- **Results.**
+  - **Furniture and held-out: no metric changed in either arm.** Furniture's reports are byte-identical.
+    Held-out arm A reorders the top 10 of 6 questions (H14, H17, H18, H25, H27, H30) with no hit changed:
+    every document there is anchored by `kg link`, and what its chunks name is reached by W2/W4 already.
+  - **Generality, arm A** (before = R90's report; C = R92's vector arm; McNemar exact p):
+
+    | Criterion | before | after R97 |
+    |---|---|---|
+    | C8 connections (multi-hop, no budget) | 7/12 | **12/12** (G04, G28, G29, G34) |
+    | C8 thing hops, unwitnessed | 0, 0 | 0, 0 (W3 adds no thing-to-thing hop) |
+    | C5 gold start: recall@5 / @10 (51 gold chunks) | 36 / 40 | 36 / **46** |
+    | C5 gold start: complete@5 / @10 (38 questions) | 25 / 29 | 25 / **33** |
+    | C5 end to end: recall@5 / @10 | 28 / 33 | **32 / 45** |
+    | C5 end to end: complete@5 / @10 | 17 / 22 | **21 / 32** |
+    | C5 unbudgeted reach, gold start / end to end | 40 / 33 | 46 / 45 |
+    | A vs C, gold start, complete@10 | 29 vs 37, p 0.008 | **33 vs 37, p 0.22** |
+    | A vs C, end to end, complete@10 | 22 vs 37, p < 0.001 | **32 vs 37, p 0.125** |
+    | A vs C, end to end, complete@5 | 17 vs 34, p < 0.001 | 21 vs 34, **p 0.001** |
+    | A vs C, gold start, complete@5 | 25 vs 34, p 0.012 | 25 vs 34, p 0.012 |
+    | A vs B, end to end, complete@10 | 22 vs 31, p 0.004 | 32 vs 31, p 1.0 |
+    | C2 hit@1 / hit@5; C7 median / p90, hubs; C9 | 41 / 45 of 62; 0.031 / 0.156, HP40-1183, HP40-2291 | unchanged |
+
+  - **Per question** (complete within the budget, arm A):
+    - gold start, @10 gained: G04, G05, G15, G37; @5: G15 gained, **G36 lost**;
+    - end to end, @10 gained: G02, G04, G05, G13, G15, G29, G30, G35, G37, G38; @5 gained: G13, G15, G29, G35;
+      none lost.
+  - **Generality arm B** reorders the top 10 of 4 questions (G13, G26, G27, G28) with no hit or metric
+    changed: its claim attachments already reached these things. Arm A now reaches what arm B reached, with
+    0 unwitnessed hops against arm B's claim joins.
+  - Read with care:
+    - **The expected connections are made.** G28 ("In which year was the pump installed whose intake screen
+      was cleaned on 6 May 2025?") reaches `Pump:KV12-0457` from the May report's "KV12-0457"; G29 reaches
+      `Staff:S-150` from the 9 June minutes' "Aiko Tanaka"; G04 reaches Staff S-131 and the spring newsletter
+      ("Dr. Jonathan Pike"); G34 the pump, as G28.
+    - **The one loss is a ranking (query-side) loss, as the plan expected.** G36 ("Which Pike wrote to the
+      newspaper about the delay of the Harbour Street resurfacing?"), gold start: the "Harbour Street" target
+      now walks through `news/flood_meeting.md#0` to "Jonathan Pike" (Staff S-131) and on to S-131's four
+      institute chunks. Those are now reached by two targets, so the ranking rule ("more distinct targets
+      first") puts them above the letter (rank 2 -> 9; still within 10). No edge is wrong; the ranking cannot tell the two
+      Pikes apart.
+    - **Generality still trails vector retrieval at 5 chunks** (21 vs 34 end to end, p 0.001; 25 vs 34 gold
+      start, p 0.012); at 10 the gap is no longer significant. The remaining misses are unplaced targets (15
+      of 62: names the build never wrote, R101) and split individuals (9 groups, R98-R100).
+- **Gate (results):** 721 passed (710 before), `ruff check` clean. **R97 done 2026-10-06.** Next: R98.
 
 ## Found along the way
 - **Per-section subject anchoring of long documents (found in R97, 2026-10-06; open until a dataset needs it).**

@@ -1,13 +1,15 @@
 """The anchor graph's navigation contract (R90): W1-W5 and the composed walk in both arms, the witness of
 every thing-to-thing hop, the target gold placed on a snapshot's nodes, and the criteria computed from
 them (C2, C5, C7, C8, C9) up to the stage's MLflow run, arm C (vector retrieval) and the pairing of the
-arms question by question (R92).
+arms question by question (R92), and W3's second half: a chunk leads to the records and individuals it
+names, never to a concept (R97).
 
 The snapshot is invented (a desk lamp and a kettle, each with a part called "Switch") and holds one wrong
 claim attachment, so the leak the anchor arm prevents is visible: arm B walks from the lamp into the
 kettle's chunk through a claim, arm A cannot. The stage test reuses the graph audit's invented build
 folder (tests/test_audit.py). The committed reports of R90's runs (tests/gold/r90, R91) and of R92's
-comparisons (tests/gold/r92) must still load and must name the files they were computed from.
+comparisons (tests/gold/r92) must still load and must name the files they were computed from; R97's results
+(tests/gold/r97) must show the moves its report states.
 No Neo4j, no LLM.
 """
 
@@ -47,8 +49,8 @@ from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.validation.gold import MentionRef
 from kgbuilder.validation.interval import Proportion
-from kgbuilder.validation.qa_gold import QAGold, RecordEvidence
-from kgbuilder.validation.target_gold import QuestionTargets, Target, TargetGold
+from kgbuilder.validation.qa_gold import QAGold, RecordEvidence, load_qa_gold
+from kgbuilder.validation.target_gold import QuestionTargets, Target, TargetGold, load_target_gold
 from tests.fakes import RecordingTracker
 from tests.test_audit import KETTLE as AUDIT_KETTLE
 from tests.test_audit import _snapshot as audit_build
@@ -675,3 +677,103 @@ def test_each_committed_comparison_loads_and_pairs_the_committed_reports(run):
     anchor = AnchorReport.model_validate_json((repo / run["anchor_report"]).read_text(encoding="utf-8"))
     pool = [q.question for q in anchor.reach["gold_start"].questions]
     assert [q.question for q in comparison.vector.questions] == pool == list(comparison.rankings)
+
+
+# --- the committed results of R97 (W3-named, measured on the current builds) ----------------------------
+
+R97 = RESULTS.parent / "r97"
+R97_RUNS = json.loads((R97 / "runs.json").read_text(encoding="utf-8"))
+
+
+def _r97_report(dataset: str, arm: Arm, side: str) -> AnchorReport:
+    """The committed report of R97's run (`side` "file") or of the run before it (`side` "before")."""
+    run = next(r for r in R97_RUNS["anchor_eval"] if r["dataset"] == dataset and r["arm"] == arm.value)
+    return AnchorReport.model_validate_json((R97.parent.parent.parent / run[side]).read_text("utf-8"))
+
+
+@pytest.mark.parametrize("run", R97_RUNS["anchor_eval"], ids=lambda r: f"{r['dataset']}-{r['arm']}")
+def test_r97_reports_load_and_change_only_where_a_chunk_names_a_thing_it_is_not_about(run):
+    repo = R97.parent.parent.parent
+    assert digest(repo / run["file"]) == run["hash"]
+    assert digest(repo / run["logged"]) and digest(repo / run["targets"])
+    before, after = (_r97_report(run["dataset"], Arm(run["arm"]), side) for side in ("before", "file"))
+    assert after.fidelity_passed
+    if not run["changed"]:
+        assert run["file"] == run["before"]  # byte-identical: the earlier committed report is R97's
+    # every document of furniture and held-out is anchored, so only generality's numbers move
+    if run["dataset"] != "generality" or run["arm"] == Arm.LAYERED.value:
+        assert after.metrics() == before.metrics()
+
+
+def test_r97_connects_every_generality_multi_hop_start_and_loses_one_question_to_crowding():
+    before, after = (_r97_report("generality", Arm.ANCHOR, side) for side in ("before", "file"))
+    assert (after.connectivity.connections.k, after.connectivity.connections.n) == (12, 12)  # was 7/12
+    assert after.connectivity.unwitnessed_hops == 0
+    gained = {
+        (mode, k): {
+            q.question
+            for q, o in zip(after.reach[mode].questions, before.reach[mode].questions, strict=True)
+            if q.complete(k) and not o.complete(k)
+        }
+        for mode in START_MODES
+        for k in (5, 10)
+    }
+    assert gained[("gold_start", 10)] == {"G04", "G05", "G15", "G37"}
+    assert gained[("end_to_end", 10)] == {
+        "G02",
+        "G04",
+        "G05",
+        "G13",
+        "G15",
+        "G29",
+        "G30",
+        "G35",
+        "G37",
+        "G38",
+    }
+    assert gained[("end_to_end", 5)] == {"G13", "G15", "G29", "G35"}
+    lost = [
+        (mode, k, q.question)
+        for mode in START_MODES
+        for q, o in zip(after.reach[mode].questions, before.reach[mode].questions, strict=True)
+        for k in (5, 10)
+        if o.complete(k) and not q.complete(k)
+    ]
+    # G36's "Harbour Street" now walks to Jonathan Pike's institute chunks, which two targets reach and so
+    # rank above the letter: a ranking (query-side) loss, not a missing edge
+    assert lost == [("gold_start", 5, "G36")]
+
+
+def test_r97_pairs_with_vector_retrieval_from_r92s_rankings():
+    """R92's own rankings of arm C (no new embedding), paired with R97's generality reports."""
+    compare = ArmComparison.model_validate_json(
+        (RESULTS.parent / "r92" / "generality" / "anchor_compare.json").read_text("utf-8")
+    )
+    qa_gold = load_qa_gold(Path(load_target_gold(RESULTS.parent / "r89" / "generality_targets.json").qa_gold))
+    a, b = (_r97_report("generality", arm, "file") for arm in Arm)
+    vector = vector_reach(
+        qa_gold, [q.question for q in a.reach["gold_start"].questions], compare.rankings, [5, 10]
+    )
+    m = compare_arms(a, b, vector, compare.rankings, [5, 10]).metrics()
+    a_vs_c = {
+        (mode, k): (m[f"c5_{mode}_vs_vector_complete_at_{k}_a"], m[f"c5_{mode}_vs_vector_complete_at_{k}_b"])
+        for mode in START_MODES
+        for k in (5, 10)
+    }
+    assert a_vs_c == {
+        ("gold_start", 5): (25, 34),
+        ("gold_start", 10): (33, 37),  # R92: 29 vs 37, p 0.008
+        ("end_to_end", 5): (21, 34),  # R92: 17 vs 34
+        ("end_to_end", 10): (32, 37),  # R92: 22 vs 37, p < 0.001
+    }
+    assert m["c5_end_to_end_vs_vector_complete_at_10_p_value"] == pytest.approx(0.125)
+    assert m["c5_end_to_end_vs_vector_complete_at_5_p_value"] == pytest.approx(0.000977, abs=1e-5)
+
+
+@pytest.mark.parametrize("run", R97_RUNS["anchor_sheets"], ids=lambda r: r["dataset"])
+def test_r97_sheets_equal_the_committed_ones_so_every_verdict_carries(run):
+    """The sheets are not committed again: the hashes of the files R97's runs wrote equal the committed
+    sheets and code sides their verdicts were given for."""
+    folder = R97.parent.parent.parent / run["identical_to"]
+    assert {file: digest(folder / file) for file in run["hashes"]} == run["hashes"]
+    assert all((folder / f"{name}_verdicts.json").exists() for name in ("c3", "c4", "c6"))

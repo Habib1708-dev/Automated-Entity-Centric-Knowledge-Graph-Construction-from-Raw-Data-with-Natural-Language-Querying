@@ -1,0 +1,134 @@
+{
+ "step": "R97: W3 follows a chunk to the records and individuals it names; kg anchor-eval (both arms) and kg anchor-sheets on the current builds, $0, no model",
+ "git_sha": "46b618c-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "anchor_eval": [
+  {
+   "dataset": "furniture",
+   "arm": "anchor",
+   "mlflow_run_id": "56daa619aaa14effaf39e2423a451dd9",
+   "experiment": "kgbuilder",
+   "build": "out/r96_furniture/build",
+   "logged": "tests/gold/r96/furniture/logged.json",
+   "targets": "tests/gold/r89/furniture_targets.json",
+   "file": "tests/gold/r96/furniture/anchor_anchor.json",
+   "hash": "6f54a490b087",
+   "before": "tests/gold/r96/furniture/anchor_anchor.json",
+   "changed": false
+  },
+  {
+   "dataset": "furniture",
+   "arm": "layered",
+   "mlflow_run_id": "8472ee9c4388455facd4382c5bac92bc",
+   "experiment": "kgbuilder",
+   "build": "out/r96_furniture/build",
+   "logged": "tests/gold/r96/furniture/logged.json",
+   "targets": "tests/gold/r89/furniture_targets.json",
+   "file": "tests/gold/r96/furniture/anchor_layered.json",
+   "hash": "33fbf4f4135e",
+   "before": "tests/gold/r96/furniture/anchor_layered.json",
+   "changed": false
+  },
+  {
+   "dataset": "heldout",
+   "arm": "anchor",
+   "mlflow_run_id": "06b827eec8ae4d6caaa4e2c5f8ea0673",
+   "experiment": "kgbuilder-heldout",
+   "build": "out/r77d_heldout",
+   "logged": "tests/gold/r87/heldout_logged.json",
+   "targets": "tests/gold/r89/heldout_targets.json",
+   "file": "tests/gold/r97/heldout/anchor_anchor.json",
+   "hash": "f09ad4c204db",
+   "before": "tests/gold/r90/heldout/anchor_anchor.json",
+   "changed": true
+  },
+  {
+   "dataset": "heldout",
+   "arm": "layered",
+   "mlflow_run_id": "409172bc10d14262ba18c59ef398a855",
+   "experiment": "kgbuilder-heldout",
+   "build": "out/r77d_heldout",
+   "logged": "tests/gold/r87/heldout_logged.json",
+   "targets": "tests/gold/r89/heldout_targets.json",
+   "file": "tests/gold/r90/heldout/anchor_layered.json",
+   "hash": "6f77c076c754",
+   "before": "tests/gold/r90/heldout/anchor_layered.json",
+   "changed": false
+  },
+  {
+   "dataset": "generality",
+   "arm": "anchor",
+   "mlflow_run_id": "b7579fa985474498986c3e8a546ad8c8",
+   "experiment": "kgbuilder-generality",
+   "build": "out/r77d_generality",
+   "logged": "tests/gold/r87/generality_logged.json",
+   "targets": "tests/gold/r89/generality_targets.json",
+   "file": "tests/gold/r97/generality/anchor_anchor.json",
+   "hash": "48b948540b11",
+   "before": "tests/gold/r90/generality/anchor_anchor.json",
+   "changed": true
+  },
+  {
+   "dataset": "generality",
+   "arm": "layered",
+   "mlflow_run_id": "e4f8336cfe5142768112aa0ac1a79e84",
+   "experiment": "kgbuilder-generality",
+   "build": "out/r77d_generality",
+   "logged": "tests/gold/r87/generality_logged.json",
+   "targets": "tests/gold/r89/generality_targets.json",
+   "file": "tests/gold/r97/generality/anchor_layered.json",
+   "hash": "16686590d359",
+   "before": "tests/gold/r90/generality/anchor_layered.json",
+   "changed": true
+  }
+ ],
+ "superseded": {
+  "runs": [
+   "d1596afece7b49169f5e877fa2a54d04",
+   "575dd7fb392e473983caeaa34aa1df31"
+  ],
+  "why": "generality anchor-eval made first with --preset generality_gemini; repeated with --preset generality as in R90-R93 (same experiment, same reports)"
+ },
+ "anchor_sheets": [
+  {
+   "dataset": "furniture",
+   "mlflow_run_id": "3ac261d4d6f44226a1cb5154b51b9768",
+   "identical_to": "tests/gold/r96/furniture",
+   "hashes": {
+    "c3_sheet.json": "a161853006da",
+    "c3_code.json": "5a65ad1a15af",
+    "c4_sheet.json": "fbe7cf57834a",
+    "c4_code.json": "7e4407f44309",
+    "c6_sheet.json": "386706aa056a",
+    "c6_code.json": "efb8c7709997"
+   }
+  },
+  {
+   "dataset": "heldout",
+   "mlflow_run_id": "f8ba998c1ff7456984a7aac50912e80a",
+   "identical_to": "tests/gold/r93/heldout",
+   "hashes": {
+    "c3_sheet.json": "ba99ea2790f3",
+    "c3_code.json": "edcd33e87adc",
+    "c4_sheet.json": "511a2ebe2ef2",
+    "c4_code.json": "2dfb8572418a",
+    "c6_sheet.json": "7c9c5f040c07",
+    "c6_code.json": "0d73c27d302e"
+   }
+  },
+  {
+   "dataset": "generality",
+   "mlflow_run_id": "30eec913f34046e19c5354f943de94f5",
+   "identical_to": "tests/gold/r93/generality",
+   "hashes": {
+    "c3_sheet.json": "05972d964d5e",
+    "c3_code.json": "1962db89234c",
+    "c4_sheet.json": "9f1c27411733",
+    "c4_code.json": "c1203389de50",
+    "c6_sheet.json": "d0ee453524c0",
+    "c6_code.json": "93763f30f1d8"
+   }
+  }
+ ],
+ "sheets_note": "every C3, C4 and C6 sheet and code side the R97 runs wrote is byte-identical to the committed one, so every verdict and judged score of R93-R96 carries unchanged; the sheets are not committed again"
+}
