@@ -1,0 +1,427 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-06",
+  "snapshot_hash": "6c521ea04b53",
+  "sheet": "tests/gold/r95b/furniture/c4_sheet.json",
+  "sheet_hash": "b00434220c2d",
+  "sheets_git_sha": "897ac17"
+ },
+ "criterion": "C4",
+ "verdicts": [
+  {
+   "id": "l:285fa8fcd4c64022:Assembly:A-1055",
+   "label": "VALID",
+   "reason": "Review of the Gothenburg Table speaks of its table top; A-1055 is the Gothenburg Table's Table Top (A-1026 belongs to the Jönköping Coffee Table).",
+   "evidence": "The table top also shows fingerprints very easily which is annoying for daily use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:a2259ba09e4184ac:Product:P-1001",
+   "label": "VALID",
+   "reason": "The document heading names the product exactly.",
+   "evidence": "# Gothenburg Table Reviews",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2912d829f7f588ca:Product:P-1007",
+   "label": "VALID",
+   "reason": "In the Helsingborg Dresser reviews, 'dresser' is the reviewed product P-1007.",
+   "evidence": "dresser looks ok i guess but assembly was the worst experience ever.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:407dc336bbda8a3c:Component:S-1085",
+   "label": "VALID",
+   "reason": "The Helsingborg Dresser review speaks of the rails its drawers slide on; S-1085 is the Drawer Rails row of the 'Drawers' assembly, while the only other Drawer Rails row (S-1078) belongs to the Drawer Unit, which the batch shows is the Malmö Desk's.",
+   "evidence": "the metal rails that the drawers slide on seem totally defective",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:53e0bb621b484523:Assembly:A-1070",
+   "label": "VALID",
+   "reason": "The chunk is about the drawers of the Helsingborg Dresser; A-1070 is that dresser's Drawers row.",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:799131dee4590bec:Component:S-1082",
+   "label": "VALID",
+   "reason": "Drawer bottoms of the Helsingborg Dresser; S-1082 belongs to the dresser's Drawers (A-1070), whereas S-1075 belongs to the desk's Drawer Unit.",
+   "evidence": "the drawer bottoms feel flimsy",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7cdf2be7e605ffb9:Assembly:A-1071",
+   "label": "VALID",
+   "reason": "Drawer handles of the reviewed Helsingborg Dresser; A-1071 is that dresser's Drawer Handles.",
+   "evidence": "One of the drawer handles was scratched right out of the box.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:883ab031d3958f03:Assembly:A-1069",
+   "label": "VALID",
+   "reason": "Back panel of the reviewed Helsingborg Dresser; A-1069 is that dresser's Back Panel, the others belong to other products.",
+   "evidence": "the back panel is basically cardboard",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c2e24a1d0955c6db:Component:S-1085",
+   "label": "VALID",
+   "reason": "Drawer rails of the Helsingborg Dresser; S-1085 belongs to the dresser's Drawers (A-1070), S-1078 to the desk's Drawer Unit.",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d414ec1ea718a183:Product:P-1007",
+   "label": "VALID",
+   "reason": "The document heading names the product exactly.",
+   "evidence": "# Helsingborg Dresser Reviews",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e8b2bb4384dbf881:Assembly:A-1070",
+   "label": "VALID",
+   "reason": "Drawers of the reviewed Helsingborg Dresser; A-1070 is that dresser's Drawers.",
+   "evidence": "we still couldn't get the drawers to slide right.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:697e9400253f4b1b:Product:P-1008",
+   "label": "VALID",
+   "reason": "The document heading names the product exactly.",
+   "evidence": "# Jönköping Coffee Table Reviews",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:289ba7dee62f79d8:Assembly:A-1048",
+   "label": "VALID",
+   "reason": "Headboard of the reviewed Linköping Bed; A-1048 is that bed's Headboard.",
+   "evidence": "The headboard is the perfect height for sitting up and reading.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4c1aa8ab9895d842:Product:P-1006",
+   "label": "VALID",
+   "reason": "The document heading names the product exactly.",
+   "evidence": "# Linköping Bed Reviews",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:596ad9b06293e8b3:Assembly:A-1051",
+   "label": "VALID",
+   "reason": "Slats of the reviewed Linköping Bed; A-1051 is that bed's Slats.",
+   "evidence": "The slats provide excellent mattress support.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:807964e8ec15a55f:Assembly:A-1051",
+   "label": "VALID",
+   "reason": "The slat system of the reviewed Linköping Bed is its Slats assembly A-1051.",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c442c14033d3b7c3:Assembly:A-1052",
+   "label": "VALID",
+   "reason": "Center supports of the Linköping Bed's frame; A-1052 is that bed's Center Support.",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0edb81a5a78c8c72:Product:P-1002",
+   "label": "VALID",
+   "reason": "The document heading names the product exactly.",
+   "evidence": "# Malmö Desk Reviews",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:24feea1150efb6af:Assembly:A-1062",
+   "label": "VALID",
+   "reason": "In a Malmö Desk review, 'the drawer' is the desk's drawer, which is this Drawer Unit row (PART_OF Malmö Desk).",
+   "evidence": "the drawer doesn't open as smoothly as I'd like",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b8c1f8cc187b500a:Assembly:A-1064",
+   "label": "VALID",
+   "reason": "Cable management of the reviewed Malmö Desk; A-1064 is that desk's Cable Management.",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:be59b6bca4b5e3a3:Assembly:A-1064",
+   "label": "VALID",
+   "reason": "Cable management of the reviewed Malmö Desk; A-1064 is that desk's Cable Management.",
+   "evidence": "the cable management keeps everything tidy.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c73615052e811388:Component:S-1078",
+   "label": "VALID",
+   "reason": "'The drawer slides' (a noun phrase: 'are smooth') are the Malmö Desk's drawer rails; S-1078 belongs to the Drawer Unit (the desk's drawer assembly), while S-1085 belongs to a different 'Drawers' assembly.",
+   "evidence": "The drawer slides are smooth and the cable management keeps everything tidy.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e68281c94362016a:Assembly:A-1062",
+   "label": "VALID",
+   "reason": "In the Malmö Desk review, 'the drawers' are the desk's drawers, which the data models as this Drawer Unit row (PART_OF Malmö Desk).",
+   "evidence": "the drawers are the perfect size for office supplies",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2d2e6476426e1954:Assembly:A-1021",
+   "label": "VALID",
+   "reason": "Drawer of the reviewed Norrköping Nightstand; A-1021 is that nightstand's Drawer.",
+   "evidence": "The drawer is spacious enough for books, reading glasses, and other essentials",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5b33ce824b97cd4c:Product:P-1009",
+   "label": "VALID",
+   "reason": "'Nightstands' here names the Norrköping Nightstand product the reviewers own.",
+   "evidence": "We've had our Norrköping Nightstands for over a year now and they've held up beautifully!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:8c1db04fe419ed96:Product:P-1009",
+   "label": "VALID",
+   "reason": "Exact product name, plural for two units of the same product.",
+   "evidence": "We've had our Norrköping Nightstands for over a year now",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b33ecaea8474b9cd:Assembly:A-1021",
+   "label": "VALID",
+   "reason": "The reviewer's nightstands' drawers are the Norrköping Nightstand's drawer part (A-1021); plural only because two units are owned.",
+   "evidence": "The drawers still slide perfectly and show no signs of sagging despite daily use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e5c3460ca8d01a69:Assembly:A-1020",
+   "label": "VALID",
+   "reason": "Review of the Norrköping Nightstand; its back panel is A-1020, not the bookshelf, dresser or chair back panels.",
+   "evidence": "Taking off one star because the back panel is a bit thin, but overall these are quality pieces at a reasonable price.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fff3de6d8c4be28a:Product:P-1009",
+   "label": "VALID",
+   "reason": "The review page title names the Norrköping Nightstand product.",
+   "evidence": "The Norrköping Nightstand is the perfect bedside companion!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:537f1c8fa80d0129:Assembly:A-1031",
+   "label": "VALID",
+   "reason": "In an Örebro Lamp review, the lamp's base is A-1031.",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7b416418815b0a22:Assembly:A-1036",
+   "label": "VALID",
+   "reason": "In an Örebro Lamp review, 'the cord' is the lamp's power cord, this row (PART_OF Örebro Lamp).",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:8fc5df6fbebebc3a:Assembly:A-1031",
+   "label": "VALID",
+   "reason": "The weighted base of the Örebro Lamp is its base part A-1031.",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bedebbc621839b2f:Assembly:A-1033",
+   "label": "VALID",
+   "reason": "The lamp's shade in an Örebro Lamp review is A-1033.",
+   "evidence": "The shade diffuses light beautifully without any harsh spots.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ec78246ff7b4d49f:Product:P-1005",
+   "label": "VALID",
+   "reason": "The page names the Örebro Lamp product.",
+   "evidence": "The Örebro Lamp is a stunning addition to my living room!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2bba1ff3c46f39b7:Product:P-1000",
+   "label": "VALID",
+   "reason": "The page names the Stockholm Chair product.",
+   "evidence": "I absolutely love my Stockholm Chair!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6eb46ea5c7563b67:Assembly:A-1037",
+   "label": "VALID",
+   "reason": "The seat of the reviewed Stockholm Chair is its Seat part A-1037.",
+   "evidence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:51a799b5741a29ea:Assembly:A-1015",
+   "label": "VALID",
+   "reason": "In an Uppsala Sofa review, 'the removable covers' are the sofa's cover, this Cover row (PART_OF Uppsala Sofa).",
+   "evidence": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5608067c455d52be:Product:P-1003",
+   "label": "VALID",
+   "reason": "The page names the Uppsala Sofa product.",
+   "evidence": "The Uppsala Sofa is everything I hoped for and more!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:706738b47b6dea84:Assembly:A-1014",
+   "label": "VALID",
+   "reason": "In an Uppsala Sofa review, the sofa's legs are A-1014, not the other products' legs.",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:aa4602ce13e2bfd3:Product:P-1003",
+   "label": "VALID",
+   "reason": "The sentence names the Uppsala Sofa directly.",
+   "evidence": "I've had the Uppsala Sofa for about 6 months now and I'm mostly satisfied.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c1818c53303be37d:Assembly:A-1012",
+   "label": "VALID",
+   "reason": "The frame of the reviewed Uppsala Sofa is its Frame part A-1012.",
+   "evidence": "the cushions are already losing their shape and the frame creaks whenever someone sits down.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:1d205c167a3ba4d0:Assembly:A-1044",
+   "label": "VALID",
+   "reason": "In a Västerås Bookshelf review, the back panel is the bookshelf's A-1044.",
+   "evidence": "the back panel is quite thin and feels a bit flimsy compared to the rest of the unit.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2564eab94cd16979:Product:P-1004",
+   "label": "VALID",
+   "reason": "The page names the Västerås Bookshelf product.",
+   "evidence": "The Västerås Bookshelf is exactly what I was looking for!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2f61f797ce1ee951:Product:P-1004",
+   "label": "VALID",
+   "reason": "Two units of the Västerås Bookshelf product; the product row is meant.",
+   "evidence": "I purchased two Västerås Bookshelves for my home office and I'm quite pleased with them.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5cb4a71373cf0202:Assembly:A-1043",
+   "label": "VALID",
+   "reason": "'Each shelf' ranges over the shelves of the Västerås Bookshelves the reviewer bought, which is this Shelves row (PART_OF Västerås Bookshelf).",
+   "evidence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b266fe0f310969ba:Product:P-1004",
+   "label": "VALID",
+   "reason": "In a Västerås Bookshelf review, 'the bookshelf' is the reviewed product, this Västerås Bookshelf row.",
+   "evidence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b52e49fd27e58376:Assembly:A-1043",
+   "label": "VALID",
+   "reason": "The adjustable shelves of the reviewed Västerås Bookshelf are its Shelves part A-1043.",
+   "evidence": "The adjustable shelves have been a great feature as our needs have changed.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bcb33f7a445dff54:Product:P-1004",
+   "label": "VALID",
+   "reason": "'the Västerås' is short for the Västerås Bookshelf among bookshelves.",
+   "evidence": "the Västerås stands out for its exceptional quality-to-price ratio.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c84dd6171084be5d:Assembly:A-1043",
+   "label": "VALID",
+   "reason": "The shelves of the reviewed Västerås Bookshelf are A-1043.",
+   "evidence": "The shelves are sturdy enough to hold my extensive book collection without any sagging.",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "l:24feea1150efb6af:Assembly:A-1062",
+  "l:2912d829f7f588ca:Product:P-1007",
+  "l:2bba1ff3c46f39b7:Product:P-1000",
+  "l:2d2e6476426e1954:Assembly:A-1021",
+  "l:407dc336bbda8a3c:Component:S-1085",
+  "l:51a799b5741a29ea:Assembly:A-1015",
+  "l:5cb4a71373cf0202:Assembly:A-1043",
+  "l:799131dee4590bec:Component:S-1082",
+  "l:7b416418815b0a22:Assembly:A-1036",
+  "l:8c1db04fe419ed96:Product:P-1009",
+  "l:b266fe0f310969ba:Product:P-1004",
+  "l:be59b6bca4b5e3a3:Assembly:A-1064",
+  "l:bedebbc621839b2f:Assembly:A-1033",
+  "l:c442c14033d3b7c3:Assembly:A-1052",
+  "l:c73615052e811388:Component:S-1078",
+  "l:c84dd6171084be5d:Assembly:A-1043",
+  "l:e68281c94362016a:Assembly:A-1062",
+  "l:e8b2bb4384dbf881:Assembly:A-1070",
+  "l:ec78246ff7b4d49f:Product:P-1005"
+ ],
+ "changes": []
+}
