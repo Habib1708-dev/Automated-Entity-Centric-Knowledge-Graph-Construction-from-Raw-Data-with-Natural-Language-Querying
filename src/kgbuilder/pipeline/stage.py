@@ -38,6 +38,7 @@ from ..text.lexical import read_chunks
 from ..text.schema import TextSchema
 from ..tracking.base import NullTracker, Run, Tracker
 from ..validation.assertion import AssertionReport
+from ..validation.claim_eval import ClaimScores
 from ..validation.coverage import CoverageReport
 from ..validation.evaluate import EvalReport
 from ..validation.mention_eval import MentionScores
@@ -109,6 +110,8 @@ class PipelineState:
     # `kg mention-eval --pass-file`: pass findings scored in place of the build's own (R105)
     mention_pass_file: Path | None = None
     mention_scores: MentionScores | None = None  # of `kg mention-eval`
+    claim_verdicts: Path | None = None  # `kg claim-eval --verdicts`: the judge's file (R110)
+    claim_scores: ClaimScores | None = None  # of `kg claim-eval` with verdicts
     audit_logged: Path | None = None
     reach_gold: tuple[Path, Path] | None = None
     # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures, and the anchor

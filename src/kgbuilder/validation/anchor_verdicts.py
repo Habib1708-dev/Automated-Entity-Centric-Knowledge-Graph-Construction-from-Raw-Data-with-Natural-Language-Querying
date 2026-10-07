@@ -1,5 +1,6 @@
-"""The judge's verdict files for the anchor-graph criteria C3, C4 and C6 (R93): their models, the check that
-a file answers exactly its sheet, and the lead's review rules.
+"""The judge's verdict files for the anchor-graph criteria C3, C4 and C6 (R93), the mention sheet (R102) and
+the claim sheet (R110): their models, the check that a file answers exactly its sheet, and the lead's review
+rules.
 
 Role in the pipeline: written by Claude in the Claude Code session (the `evaluation` skill) from the blind
 sheets of `anchor/sheets.py`; read by `anchor/judged.py`, which scores them. Verdicts are data: this module
@@ -55,6 +56,7 @@ class Verdict(BaseModel):
     evidence: str = ""  # verbatim from the item's chunk or record
     outliers: list[str] = []  # C3 merge item, INCORRECT: the mention ids that are another thing
     together: list[list[str]] = []  # C3 split item, INCORRECT: node ids that are one thing
+    faults: list[str] = []  # claim item, INCORRECT: what is wrong with it (validation/claim_eval.py)
 
     @model_validator(mode="after")
     def _complete(self) -> "Verdict":
@@ -62,8 +64,8 @@ class Verdict(BaseModel):
             raise ValueError(f"{self.id}: a verdict needs a reason")
         if not self.evidence.strip() and self.label is not Label.UNJUDGEABLE:
             raise ValueError(f"{self.id}: only UNJUDGEABLE may lack an evidence quote")
-        if (self.outliers or self.together) and self.label is not Label.INCORRECT:
-            raise ValueError(f"{self.id}: outliers and together belong to INCORRECT verdicts only")
+        if (self.outliers or self.together or self.faults) and self.label is not Label.INCORRECT:
+            raise ValueError(f"{self.id}: outliers, together and faults belong to INCORRECT verdicts only")
         return self
 
 
@@ -89,8 +91,9 @@ class JudgeHeader(BaseModel):
 
 class VerdictFile(BaseModel):
     judge: JudgeHeader
-    # the anchor criteria, and the mention pass's recall mapping and precision sample (R102, mention_eval.py)
-    criterion: Literal["C3", "C4", "C6", "mentions"]
+    # the anchor criteria, the mention pass's recall mapping and precision sample (R102, mention_eval.py), and
+    # the build's claims (R110, claim_eval.py)
+    criterion: Literal["C3", "C4", "C6", "mentions", "claims"]
     verdicts: list[Verdict]
     reviewed: list[str] = []  # ids the lead reviewed, changed or not
     changes: list[Change] = []

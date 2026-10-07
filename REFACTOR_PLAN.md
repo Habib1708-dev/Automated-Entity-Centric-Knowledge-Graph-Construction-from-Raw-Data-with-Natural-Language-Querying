@@ -6395,6 +6395,53 @@ alone:
   criterion regressed. **The refinement arm stops at R108** (the user's decision, 2026-10-07): what it
   leaves is recorded under "Known limitations" below as future work, not optimised now.
 
+### R110. Today's claims judged: every stored claim, strict and content precision (started 2026-10-07; $0, no run)
+The user, 2026-10-07: keep the claim layer (it may make structured querying more robust) and judge the
+correctness and validity of the claims of the latest run. Those are R103's re-extracted claims, replayed
+unchanged into R107 and R108 (`out/r108_<ds>/triples.jsonl` byte-identical to R103's). Claim precision was
+last judged in R66 / R68 (judge precision 0.960 held-out Gemini, 0.990 furniture); the extraction changed
+since (R77's truth, modality and condition, R81, R82), and R87's M2 was never judged. Numbered R110 because
+another session holds R109 (a derivation fix).
+- **Split, one commit each:** (a) the offline claim sheet and its scoring, the judge rules, the three sheets
+  ($0); (b) blind judging of every claim, the lead's review, the scores and the results ($0: Claude in the
+  session, no API call, no pipeline run).
+- **Validity by code** is already measured and not judged again: R103's C1 provenance is 1.0 on all three
+  (every claim's chunk exists, every quote is in its chunk, every extracted claim passes `verify` against the
+  schema again). The judge decides what code cannot see: whether the text states the claim as stored.
+- **Part a scope:**
+  - Structural move first, behaviour kept: `_build_params` and `_gated_snapshot` of
+    `pipeline/mention_stages.py` move to `pipeline/offline.py` (`build_params`, `gated_snapshot`), so a new
+    offline stage reuses the C0 gate instead of copying it.
+  - `validation/claim_eval.py` (pure): the sheet (every stored claim once, `origin` extracted or derived, every
+    stored field: ends and their types, relation, quote, polarity, time, truth and negation words, modality
+    and hedge words, condition; each chunk's text and context once; the schema's relation and type
+    descriptions), `claim_verdict_issues` (an INCORRECT verdict names at least one known fault, every quote
+    is in the claim's chunk), `score_claims`: per origin, strict precision (every stored field right) and
+    content precision (the triple right: no `not_in_text`, `wrong_entity`, `wrong_relation` or `truth`
+    fault), Wilson intervals, the count of every fault (also `modality`, `condition`, `polarity`, `time`,
+    `type`), strict precision per relation.
+  - `validation/anchor_verdicts.py`: the shared verdict file gains the criterion `claims` and an optional
+    `faults` list, for INCORRECT verdicts only (as `outliers` / `together`); old files read unchanged.
+  - `pipeline/claim_stages.py`, `ClaimEvalStage` + `kg claim-eval BUILD --dataset --data --logged
+    [--verdicts]`: the build's graph rebuilt offline behind R87's C0 gate, the sheet written; with verdicts,
+    the shared review rules, the claim rules, the scores. One MLflow run per build (params: build, data,
+    logged hash, chunker, dataset, verdicts hash; metrics: counts and, judged, both precisions per origin
+    with bounds and n, AMBIGUOUS / UNJUDGEABLE counts, every fault; artifacts: sheet and report).
+  - Judge rules `tests/gold/r110/claim_judge_rules.md`, written before any verdict: the question, how to read
+    a claim with its fields, the writer (R68's reading), lists, numbers, derived claims, the five labels, the
+    nine faults with invented examples (an observatory), the output format.
+- **Part a (done 2026-10-07, $0, no LLM, no Neo4j):** as scoped. Tests `tests/test_claim_eval.py` (4): the
+  sheet (every field, each id once with the merge counted, the schema's descriptions, the chunk's context),
+  the claim rules (an INCORRECT verdict without a fault, an unknown fault, a quote outside the chunk, a
+  fault on a VALID verdict refused by the model), the scores (content against field faults, AMBIGUOUS out of
+  the denominator), the stage on the audit's invented build (counts, params, metrics, the report, a quote
+  outside its chunk refused). README: the command and the module map.
+  - **Sheets** (`kg claim-eval` on `out/r108_<ds>`, C0 passed on all three; committed as
+    `tests/gold/r110/<ds>/claim_sheet.json` before any verdict): furniture 685 claims (531 extracted, 154
+    derived; 70 chunks), held-out 665 (530 / 135; 79 chunks), generality 216 (216 / 0; 31 chunks); no id
+    shared by two claims. MLflow `claim_eval` runs `449a5306` (furniture), `a0225324` (held-out),
+    `d7df0e3a` (generality).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

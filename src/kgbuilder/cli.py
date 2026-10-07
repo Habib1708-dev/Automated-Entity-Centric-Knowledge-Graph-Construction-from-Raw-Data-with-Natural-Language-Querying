@@ -31,6 +31,7 @@ from .llm.ollama import OllamaClient
 from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import anchor_stages as ans
 from .pipeline import audit_stages as aus
+from .pipeline import claim_stages as cls
 from .pipeline import judging_stages as jus
 from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
@@ -62,6 +63,7 @@ FROM_BUILD = typer.Option(None, help="A finished build folder: replay its triple
 MENTION_GOLD = typer.Option(..., help="The R101 mention gold folder (tests/gold/r101).")
 MENTION_VERDICTS = typer.Option(None, help="The judge's verdicts of the mention sheet (R102).")
 MENTION_PASS_FILE = typer.Option(None, help="Pass findings to score in place of the build's own (R105).")
+CLAIM_VERDICTS = typer.Option(None, help="The judge's verdicts of the claim sheet (R110).")
 # `kg mention-pass --from-build` (R105): the pass on a finished build's graph, rebuilt offline
 PASS_FROM_BUILD = typer.Option(None, help="A finished build folder: run the pass on its graph, offline.")
 PASS_DATA = typer.Option(None, help="With --from-build: the dataset folder the build ingested.")
@@ -585,6 +587,36 @@ def mention_eval(
     if s.precision is not None:
         typer.echo(f"precision {s.precision.k}/{s.precision.n}")
     typer.echo(f"Wrote {out / mes.MENTION_SHEET} and {out / mes.MENTION_REPORT}")
+
+
+@app.command("claim-eval")
+def claim_eval(
+    build: Path,
+    dataset: str = typer.Option(..., help="The dataset's name, written into the sheet."),
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    verdicts: Path | None = CLAIM_VERDICTS,
+    out: Path = OUT,
+):
+    """Rebuild BUILD's graph offline (no graph, no model) and write the sheet of its claims the judge answers;
+    with --verdicts, score the judge's answers: strict and content precision per origin, faults (R110)."""
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        audit_logged=logged,
+        anchor_dataset=dataset,
+        claim_verdicts=verdicts,
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [cls.ClaimEvalStage()])
+    if (s := state.claim_scores) is not None:
+        for origin, o in s.by_origin.items():
+            typer.echo(
+                f"{origin}: precision {o.precision.k}/{o.precision.n}, "
+                f"content {o.content_precision.k}/{o.content_precision.n}"
+            )
+        typer.echo(f"Wrote {out / cls.CLAIM_REPORT}")
+    typer.echo(f"Wrote {out / cls.CLAIM_SHEET}")
 
 
 @app.command("anchor-eval")

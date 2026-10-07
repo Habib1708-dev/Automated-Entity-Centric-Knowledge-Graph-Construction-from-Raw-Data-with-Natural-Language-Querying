@@ -26,9 +26,8 @@ import statistics
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from ..audit import GraphSnapshot, build_snapshot, check_fidelity, load_logged
 from ..core.errors import EvaluationError
-from ..text.mention_pass import PassFinding, read_findings
+from ..text.mention_pass import read_findings
 from ..text.schema import MentionClass, TextSchema
 from ..validation.anchor_verdicts import load_verdicts
 from ..validation.mention_eval import (
@@ -45,12 +44,11 @@ from ..validation.mention_eval import (
 from ..validation.mention_gold import load_mention_gold
 from ..validation.sentences import SentenceSample
 from .inputs import digest, input_file
+from .offline import build_params, gated_snapshot
 from .stages import BaseStage, MentionPassStage, PassInputs
 
 MENTION_SHEET = "mention_sheet.json"
 MENTION_REPORT = "mention_report.json"
-# the build's judge sheet, when its eval run wrote one: the fidelity gate compares attachments fact by fact
-_SHEET = "judge_sheet.json"
 
 
 class MentionEvalStage(BaseStage):
@@ -60,7 +58,7 @@ class MentionEvalStage(BaseStage):
 
     def params(self, ctx, state):
         gold, sample = _gold_files(state)
-        params: dict[str, object] = _build_params(ctx, state) | {
+        params: dict[str, object] = build_params(ctx, state) | {
             "gold": input_file(gold, "mention gold"),
             "gold_hash": digest(gold),
             "sample": input_file(sample, "sentence sample"),
@@ -79,7 +77,7 @@ class MentionEvalStage(BaseStage):
     def run(self, ctx, state, run):
         source = Path(state.audit_source)
         findings = None if state.mention_pass_file is None else read_findings(Path(state.mention_pass_file))
-        snapshot = _gated_snapshot(ctx, state, findings)
+        snapshot = gated_snapshot(ctx, state, findings)
         schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
         gold_file, sample_file = _gold_files(state)
         sample = SentenceSample.model_validate_json(sample_file.read_text(encoding="utf-8"))
@@ -128,10 +126,10 @@ class ReplayMentionPassStage(MentionPassStage):
     `mention_pass` and logs what the live pass logs, plus the build it read."""
 
     def params(self, ctx, state):
-        return super().params(ctx, state) | _build_params(ctx, state)
+        return super().params(ctx, state) | build_params(ctx, state)
 
     def read_inputs(self, ctx, state):
-        snapshot = _gated_snapshot(ctx, state, findings=[])
+        snapshot = gated_snapshot(ctx, state, findings=[])
         source = Path(state.audit_source)
         schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
         pairs = {(c, m.id) for m in snapshot.mentions for c in m.chunks}
@@ -139,39 +137,6 @@ class ReplayMentionPassStage(MentionPassStage):
 
     def write_rows(self, ctx, rows):
         return None  # offline: no graph to write; the findings files the stage writes are the output
-
-
-def _build_params(ctx, state) -> dict[str, object]:
-    """The build a stage rebuilds offline, the dataset and the logged counts that gate it, and the chunker
-    (chunk ids depend on it)."""
-    logged = input_file(state.need("audit_logged", "pass the build's logged counts"), "logged counts")
-    s = ctx.settings
-    return {
-        "build": input_file(state.need("audit_source", "pass the build's out/ folder"), "build folder"),
-        "data_dir": input_file(state.need("data_dir", "pass the dataset folder"), "data folder"),
-        "logged": logged,
-        "logged_hash": digest(logged),
-        "chunk_max_chars": s.chunk_max_chars,
-        "chunk_min_chars": s.chunk_min_chars,
-        "chunk_overlap_chars": s.chunk_overlap_chars,
-    }
-
-
-def _gated_snapshot(ctx, state, findings: list[PassFinding] | None) -> GraphSnapshot:
-    """The build's graph rebuilt offline, refused unless it is the graph the build wrote (R87's C0 gate).
-    With `findings` it is then rebuilt again with those in place of the build's own pass (an empty list: the
-    graph as the pass found it): the gate proves everything before the pass, the findings are the caller's.
-
-    Raises EvaluationError when the gate fails."""
-    source, s = Path(state.audit_source), ctx.settings
-    chunking = (s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
-    snapshot = build_snapshot(source, Path(state.data_dir), chunking)
-    sheet = source / _SHEET
-    if not check_fidelity(
-        snapshot, load_logged(Path(state.audit_logged)), sheet if sheet.exists() else None
-    ).passed:
-        raise EvaluationError(["the snapshot is not the build's graph (C0 failed)"])
-    return snapshot if findings is None else build_snapshot(source, Path(state.data_dir), chunking, findings)
 
 
 def _class_of_type(schema: TextSchema, type_name: str) -> MentionClass:
