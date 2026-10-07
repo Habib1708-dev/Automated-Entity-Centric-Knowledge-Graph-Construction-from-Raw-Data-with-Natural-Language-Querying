@@ -6,12 +6,15 @@ params, metrics and audit file and refuses identity classes the plan cannot sati
 reader gives the triples of the shape before R75 on the same claims, and an LLM's choice among a
 mention's near misses links only when code verifies it (R95b). R107, pure and on Neo4j: a keyed mention the
 mention pass stated a kind that no record fits is set aside from the particulars, never paired with another
-named thing, and resolved as a concept of the built-in `Kind` type."""
+named thing, and resolved as a concept of the built-in `Kind` type; R107's resolve of R103's three graphs
+logged only identity changes (tests/gold/r107)."""
 
 import json
+from pathlib import Path
 
 import pytest
 
+from kgbuilder.audit.fidelity import LoggedCounts
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ProposalRejectedError
 from kgbuilder.core.identity import concept_id
@@ -581,3 +584,25 @@ def test_an_llm_chooses_among_near_misses_and_code_links_only_its_verified_choic
     assert metrics["linked_by_chosen"] == 1
     audit = json.loads((out / "resolve.json").read_text(encoding="utf-8"))
     assert sorted(d["action"] for d in audit["record_choices"]) == ["chosen", "none"]
+
+
+GOLD = Path(__file__).resolve().parent / "gold"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r107_resolved_r103s_graphs_again_and_changed_only_identity(dataset):
+    """R107 part b's logged counts (copied from MLflow): R103's claims replayed and its pass answered from the
+    cache, so every count before resolve is R103's; resolve moved mentions from individuals (and generality's
+    two pumps from a record) to concepts; only resolve paid, the cost the runs index reports."""
+    runs = json.loads((GOLD / "r107" / "runs.json").read_text(encoding="utf-8"))["datasets"][dataset]
+    after = LoggedCounts.model_validate_json((GOLD / "r107" / f"{dataset}_logged.json").read_text("utf-8"))
+    before = LoggedCounts.model_validate_json((GOLD / "r103" / f"{dataset}_logged.json").read_text("utf-8"))
+    built = [k for k in before.counts if not k.startswith(("resolve.", "attach."))]
+    assert {k: after.counts[k] for k in built} == {k: before.counts[k] for k in built}
+    assert after.counts["resolve.mentions"] == before.counts["resolve.mentions"]
+    assert after.counts["resolve.mentions_to_individuals"] < before.counts["resolve.mentions_to_individuals"]
+    assert after.counts["resolve.mentions_to_concepts"] > before.counts["resolve.mentions_to_concepts"]
+    assert after.counts["resolve.mentions_to_records"] <= before.counts["resolve.mentions_to_records"]
+    paid = {k for k, v in after.usage.items() if k.endswith("cost_usd") and v > 0}
+    assert paid == {"resolve.cost_usd"} and after.usage["resolve.cost_usd"] == pytest.approx(runs["cost_usd"])
+    assert after.runs == runs["runs"]

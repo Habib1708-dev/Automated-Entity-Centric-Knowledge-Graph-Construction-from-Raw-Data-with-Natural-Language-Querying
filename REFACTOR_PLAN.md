@@ -6215,6 +6215,28 @@ of held-out's 2,192 individual pair decisions.
   evaluation of R103 part b ($0) and blind judging of the changed C3 items. It answers: is the C3 hard rule
   held again on held-out, do the splits close, and does C7 gain hubs ("recall" 28 and "recalling" 27 of 81
   held-out chunks).
+- **Part b, the runs (done 2026-10-07; $0.0132, the user's yes "yes run it").** At `5dce401` (only
+  `.claude/settings.json` dirty), the commands above into `out/r107_<ds>`, presets `quality`, `heldout`,
+  `generality_gemini`; the pass on an invalid Gemini key so a miss would fail: every pass call a cache hit and
+  each pass file byte-identical to R103's; every count before resolve equal to R103's.
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | resolve: records / individuals / concepts (R103) | 63 / 212 / 740 (63 / 240 / 712) | 83 / 353 / 633 (83 / 428 / 558) | 48 / 175 / 301 (50 / 192 / 282) |
+  | `kinds_without_record` | 28 | 75 | 19 |
+  | attach: attachments (R103) | 1227 (1277) | 3519 (3831) | 467 (476) |
+  | resolve: calls / cache hits; tokens in / out / thinking | 789 / 773; 4,773 / 147 / 666 | 727 / 719; 3,458 / 120 / 106 | 354 / 346; 1,496 / 40 / 505 |
+  | cost (MLflow; only resolve paid) | $0.0066 | $0.0034 | $0.0032 |
+  | MLflow: pass, resolve | `2f256493`, `f1a771d9` | `7a43b490`, `40d1460a` | `82d20b49`, `8443ff9c` |
+
+  - Far below the estimate: the concept pairs of the new `Kind` concepts were mostly pairs R103 had asked
+    already (same names, same context), and held-out's 1,639 individual pairs of these kinds are gone.
+  - Generality's two record mentions fewer: "pump" ("the pump had run dry", after "Pump HP40-1183 showed a
+    slow drip") and "Pump" ("Pump returned to duty the same day", after "Bearings of HP40-1183 regreased"),
+    stated kinds that R103's adjudicator joined to the record HP40-1183 as variants. The text supports both
+    joins: the kind word refers back to the one pump. R107 makes them `Kind` concepts (Found along the way).
+  - Committed: `tests/gold/r107/<ds>_logged.json`, `runs.json`; test
+    `test_r107_resolved_r103s_graphs_again_and_changed_only_identity`.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
@@ -6243,6 +6265,11 @@ of held-out's 2,192 individual pair decisions.
   furniture document's "Scraped from <url>" line), idioms, times written as nouns ("night shift"), ordinary
   operation verbs, an identifier with its common noun. A prompt round on them would chase single cases; the
   source URL line is the one a code check could see (a name inside a URL of the chunk).
+- **R107 also drops a kind word that refers back to one record (found in R107 part b, 2026-10-07; open).**
+  In generality, "the pump had run dry" and "Pump returned to duty" mean the pump HP40-1183 named just
+  before; R103's adjudicator joined both to the record, R107 makes them `Kind` concepts (2 record mentions
+  lost). The same rule removed held-out's wrong "CARS" / "CAR" join. A narrower rule would let a stated kind
+  be joined to a record's unit (a reference back to one thing) but never to another individual.
 - **`kg resolve --preview` does not see R107's kinds (found in R107, 2026-10-07; open).** The preview lists
   the concept pairs of the concept types' mentions without matching records, so a stated kind of a keyed
   type that no record fits, which `kg resolve` resolves as a `Kind` concept, is missing from its pairs.

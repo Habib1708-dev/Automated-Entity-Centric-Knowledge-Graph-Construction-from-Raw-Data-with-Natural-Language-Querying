@@ -1,0 +1,96 @@
+{
+ "step": "R107 part b: the three graphs resolved again with R107's rule, on R103's claims and pass (no re-extraction)",
+ "approved": "the user, 2026-10-07 (\"yes run it\": part b at the counted estimate of about $0.15, likely $0.05-0.35, $0.33 more if the pass missed the cache)",
+ "git_sha": "5dce401-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "datasets": {
+  "furniture": {
+   "preset": "quality",
+   "build": "out/r107_furniture",
+   "pinned_from": "out/r77d_furniture: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "claims_from": "out/r103_furniture (kg extract --from-build: replayed, no call)",
+   "commands": [
+    "kg --preset quality reset --out out/r107_furniture",
+    "kg --preset quality build data --out out/r107_furniture",
+    "kg --preset quality ingest-text data --out out/r107_furniture",
+    "kg --preset quality extract --from-build out/r103_furniture --out out/r107_furniture",
+    "kg --preset quality link --out out/r107_furniture",
+    "GEMINI_API_KEY=invalid kg --preset quality mention-pass --out out/r107_furniture",
+    "kg --preset quality resolve --out out/r107_furniture",
+    "kg --preset quality attach --out out/r107_furniture"
+   ],
+   "runs": {
+    "ingest_text": "633c2903bca6430abfa65131c10ee692",
+    "extract": "2740c97116fd4272a329c3ca625446c5",
+    "link": "3e8573fe94864713bdab0233727eb53a",
+    "mention_pass": "2f25649359cd47a18578436978d4a1d4",
+    "resolve": "f1a771d9dc3247f79da918844fd71ba0",
+    "attach": "46d8244bc77f4d3e9d4812e471834c46"
+   },
+   "cost_usd": 0.006628,
+   "pass_file": "byte-identical to out/r103_furniture/mentions.jsonl (every pass call a cache hit)",
+   "logged": {
+    "file": "tests/gold/r107/furniture_logged.json"
+   }
+  },
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r107_heldout",
+   "pinned_from": "out/r77d_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "claims_from": "out/r103_heldout (kg extract --from-build: replayed, no call)",
+   "commands": [
+    "kg --preset heldout reset --out out/r107_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r107_heldout",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r107_heldout",
+    "kg --preset heldout extract --from-build out/r103_heldout --out out/r107_heldout",
+    "kg --preset heldout link --out out/r107_heldout",
+    "GEMINI_API_KEY=invalid kg --preset heldout mention-pass --out out/r107_heldout",
+    "kg --preset heldout resolve --out out/r107_heldout",
+    "kg --preset heldout attach --out out/r107_heldout"
+   ],
+   "runs": {
+    "ingest_text": "64554730b9b64d2f8ef353db5a2d1801",
+    "extract": "55813efca9024c2b87fdbdd7407d3b3b",
+    "link": "2961ccac5d504405a942f50112651c8b",
+    "mention_pass": "7a43b4906a884110b7fe1301c7ef6755",
+    "resolve": "40d1460ac4f549de8dd66edbe4bbc991",
+    "attach": "acf893d32ec540259ba3bb1ed600cb61"
+   },
+   "cost_usd": 0.003441,
+   "pass_file": "byte-identical to out/r103_heldout/mentions.jsonl (every pass call a cache hit)",
+   "logged": {
+    "file": "tests/gold/r107/heldout_logged.json"
+   }
+  },
+  "generality": {
+   "preset": "generality_gemini",
+   "build": "out/r107_generality",
+   "pinned_from": "out/r77d_generality: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "claims_from": "out/r103_generality (kg extract --from-build: replayed, no call)",
+   "commands": [
+    "kg --preset generality_gemini reset --out out/r107_generality",
+    "kg --preset generality_gemini build tests/fixtures/generality --out out/r107_generality",
+    "kg --preset generality_gemini ingest-text tests/fixtures/generality --out out/r107_generality",
+    "kg --preset generality_gemini extract --from-build out/r103_generality --out out/r107_generality",
+    "kg --preset generality_gemini link --out out/r107_generality",
+    "GEMINI_API_KEY=invalid kg --preset generality_gemini mention-pass --out out/r107_generality",
+    "kg --preset generality_gemini resolve --out out/r107_generality",
+    "kg --preset generality_gemini attach --out out/r107_generality"
+   ],
+   "runs": {
+    "ingest_text": "361fc2f56fa8483b885441694dd75975",
+    "extract": "c5a49ce4ee164ffe816547735538f252",
+    "link": "25cd5949750549cd930abe089f5b37d5",
+    "mention_pass": "82d20b49636f48df9653e824344929f9",
+    "resolve": "8443ff9c6ccd4b258f8eb7979c01e397",
+    "attach": "ee955fde284f4c88b66a14e8a748c1cc"
+   },
+   "cost_usd": 0.003166,
+   "pass_file": "byte-identical to out/r103_generality/mentions.jsonl (every pass call a cache hit)",
+   "logged": {
+    "file": "tests/gold/r107/generality_logged.json"
+   }
+  }
+ },
+ "cost_usd_total": 0.013235
+}
