@@ -5894,6 +5894,8 @@ done to a thing", In, and an everyday act, Out 8; "THE CONTACT" read as a role, 
   quality model on the full datasets, judged: R103's rebuild, or a pass-only run on R102's three builds
   (isolates the prompt change from re-extraction; needs new code to run the pass offline on a snapshot's
   pre-pass state), each asked first.
+- **R104 done 2026-10-07** (one `dev` round of R101's three). Next: the user's choice of how to measure it,
+  then R103.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
