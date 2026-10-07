@@ -6678,7 +6678,7 @@ another session holds R109 (a derivation fix).
   The "Found along the way" item "Extraction errors R110 measured" is corrected with it: assembly time stored
   as the product's measurement is what the schema declares, not an error.
 
-### R111. Recall of today's claims against a reader's (started 2026-10-07; $0, no run)
+### R111. Recall of today's claims against a reader's (done 2026-10-07; $0, no run)
 The user, 2026-10-07 ("yes scope it", then "go"): R110 measured precision only; how much of what a careful
 reader finds does today's graph store as claims, and is a miss the model's or the schema's? The last numbers
 are R77's on the r77d builds (claims matched furniture 81/117, held-out 35/100, generality 22/108) and R68's
@@ -6716,6 +6716,67 @@ on older builds (coverage 0.486 furniture, 0.313 held-out; most misses had no fa
     sentence without stored claims; held-out 63, 100, 414, one ("Owners may contact Nissan customer service at
     1-80...", a chunk storing no claim); generality 60, 108, 444, one ("The contractor finished on 25 August,
     a week ahead...").
+  - Committed at `76e7f22`.
+- **Part b: matching, review, scores and results (done 2026-10-07, $0: no API call, no pipeline run).**
+  - **Blind matching:** 9 batches of whole sentences (16-22 sentences, 28-42 reader claims), one Opus 5.5
+    subagent each, seeing only `recall_rules.md` and its batch; a batch checker (every reader claim answered in
+    order and copied exactly, matched ids of the sentence's chunk, a cause or a match, a miss's schema type)
+    passed on all.
+  - **The sheet bug, found here:** the furniture and generality judges reasoned from the one type pair per
+    relation the sheets showed (R110's "Correction"). Those two datasets' sheets were regenerated from the
+    corrected claim sheets (only `relations` changed) and matched again blind by 6 fresh subagents; the first
+    round (furniture 71/117, generality 23/108 blind) is set aside, not committed. Held-out declares each
+    predicate once and kept its round.
+  - **Cross-check against R110 (code):** a stored claim R110 judged wrong in its content (`not_in_text`,
+    `wrong_entity`, `wrong_relation`) cannot be the claim that holds a reader's claim. 2 matches rested on one
+    and became misses ("the gas gauge does not indicate full after the auto-shutoff" on the gauge-fault claim;
+    "assembly took less than 20 minutes" on "Stockholm Chair HAS_MEASUREMENT 20 minutes"). A `truth` fault does
+    not block a match (R111 matches whatever the truth and code compares it): "no run went above 60 litres per
+    second in May" stays matched to the flume's 60 l/s claim, whose stored denial R110 reads as wrong.
+  - **Lead review** (every miss and a seeded 10 % of the blind matches: furniture 51, held-out 76, generality
+    88): consistency rulings where the batches split, each recorded: an overall evaluation of a product ("so
+    satisfied with my purchase", "highly recommend") is `extraction` like "I absolutely love my Stockholm
+    Chair" (Product `EXHIBITS` carries sentiment; star ratings stay `no_schema_type`); an item supplied with a
+    product ("they give you a little allen key") is `no_schema_type`, as R110 judged "tools PART_OF" wrong; a
+    job title kept only as an employer ("Ines Barros is Calder Pumps' service manager") is a miss like
+    Okafor's; a cause between a defect and an experience ("assembly was frustrating because the holes didn't
+    align") is `extraction` like its twin. 8 changes in all; every other verdict confirmed.
+  - **Scores:** `kg claim-recall --verdicts` (code at `df7b471`; the regenerated sheets and the verdicts
+    uncommitted then, committed here), MLflow `claim_recall` runs `92a987a3` (furniture), `35345dce`
+    (held-out), `6925abd1` (generality); reports `tests/gold/r111/<ds>/recall_report.json`. Test
+    `test_r111_verdicts_answer_their_sheets_and_score_as_reported` (each sheet rebuilds from its inputs).
+
+  | Judge: Claude Opus 5.5; recall with Wilson 95 % | furniture | held-out | generality |
+  |---|---|---|---|
+  | **random strata** (the estimate over the text) | **42/72 = 0.583** [0.468, 0.690] | **19/67 = 0.284** [0.190, 0.401] | **12/66 = 0.182** [0.107, 0.291] |
+  | random strata, **within the schema** (`no_schema_type` left out) | 42/61 = 0.689 [0.564, 0.791] | 19/35 = 0.543 [0.382, 0.695] | 12/27 = 0.444 [0.276, 0.627] |
+  | all strata (with the cue sentences) | 74/117 = 0.632 | 27/100 = 0.270 | 23/108 = 0.213 |
+  | random misses: no fact type / the model's own (`extraction`) / other | 11 / 17 / 2 | 32 / 5 / 11 | 39 / 8 / 7 |
+  | matched claims keeping the reader's truth, modality, condition (code, exact) | 69/74, 73/74, 1/1 | 25/27, 26/27, 9/9 | 23/23, 22/23, - |
+  | R77 (r77d build, Fable 5.1, all strata) | 81/117 | 35/100 | 22/108 |
+
+  Read with care:
+  - **Most misses are the schema's, not the model's, except on furniture.** Held-out's random misses are 32 of
+    48 outside every fact type (filing dates, phone numbers, remedies such as "dealers will replace the audio
+    display unit if necessary", who issued a recall), generality's 39 of 54 (job titles, awards, budgets and
+    deadlines, what a baker makes, a valve's state). Furniture's schema holds nearly all of a review, and 17
+    of its 30 misses are the model's: a half dropped ("resistant to water rings and scratches" stored as water
+    rings only), a capacity dropped ("sturdy enough to support my husband (who's over 250 lbs)" stored as
+    "sturdy"), overall evaluations not stored ("The Linköping Bed is a great addition to our guest room").
+  - **Held-out's other misses lose a detail no slot carries** (`role`, 7: the build windows of "recalling ...
+    2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015", as R68 found) and **counts**
+    ("braked on its own on two separate occasions", stored once).
+  - **What is stored keeps its assertion:** of the 124 matched claims, 117 keep the reader's truth and 121 the
+    modality exactly; the misses are about what is not stored, not about stored claims losing "not" or "may".
+  - **Against R77** (all strata, the r77d build's claims, Fable 5.1 judging, R77's matching): furniture 81 ->
+    74, held-out 35 -> 27, generality 22 -> 23; a re-extracted build, another judge and R111's cross-check
+    against R110 make it no paired comparison, and the intervals overlap.
+  - ~66-72 random reader claims per dataset: about ±10 points. The reader's claims, the matching and the
+    verdicts come from one model family (Claude); the reader's claims were written before R103's claims
+    existed. No gold correction: every reader claim judged as written (the judges flagged none as wrong).
+- **R111 done 2026-10-07** ($0). Next: the user's decision. Recall within the schema is 0.44-0.69; what limits
+  it most is the schema on held-out and generality (no fact type for remedies, titles, dates of documents) and
+  the model's dropped halves and evaluations on furniture.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

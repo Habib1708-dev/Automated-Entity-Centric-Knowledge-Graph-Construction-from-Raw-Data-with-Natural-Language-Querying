@@ -3,11 +3,14 @@
  "claim_sheet": "tests/gold/r110/furniture/claim_sheet.json",
  "question": "Which stored claims of this sentence's chunk state this reader's claim: its subject, relation and object by meaning, whatever their truth, modality and condition? None: give the first cause that fits.",
  "relations": {
-  "PART_OF": "Component -> Product: Associates a named component directly with the product it belongs to as established by the document context.",
-  "MADE_OF": "Product -> Material: Specifies the primary material or composition from which a finished product is fabricated.",
-  "CONNECTS_TO": "Component -> Component: Describes a mechanical fastening, alignment, or physical interface between two components.",
-  "HAS_MEASUREMENT": "Component -> Value: Records technical specifications, dimensions, tolerances, load ratings, or power values of a component.",
-  "EXHIBITS": "Component -> QualityAspect: Records an observed quality, flaw, or performance characteristic of an individual component, with claim polarity indicating positive or negative outcome."
+  "Component -[PART_OF]-> Product": "Associates a named component directly with the product it belongs to as established by the document context.",
+  "Component -[MADE_OF]-> Material": "Specifies the raw material or substance of which a component is constructed.",
+  "Product -[MADE_OF]-> Material": "Specifies the primary material or composition from which a finished product is fabricated.",
+  "Component -[CONNECTS_TO]-> Component": "Describes a mechanical fastening, alignment, or physical interface between two components.",
+  "Product -[HAS_MEASUREMENT]-> Value": "Records physical dimensions, overall weight, assembly duration, or capacity metrics for a finished product.",
+  "Component -[HAS_MEASUREMENT]-> Value": "Records technical specifications, dimensions, tolerances, load ratings, or power values of a component.",
+  "Product -[EXHIBITS]-> QualityAspect": "Records an observed quality, functional behavior, defect, or assembly experience of a product, with claim polarity capturing sentiment.",
+  "Component -[EXHIBITS]-> QualityAspect": "Records an observed quality, flaw, or performance characteristic of an individual component, with claim polarity indicating positive or negative outcome."
  },
  "types": {
   "Product": "Finished furniture product offered in the catalog, distinct from its individual components.",

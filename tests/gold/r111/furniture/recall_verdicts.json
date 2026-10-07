@@ -1,0 +1,981 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "git_sha": "df7b471"
+ },
+ "sheet": "tests/gold/r111/furniture/recall_sheet.json",
+ "verdicts": [
+  {
+   "key": "4294b05a9355#0",
+   "claim": "rated 5/5",
+   "cause": "no_schema_type",
+   "reason": "a star rating is an overall verdict; no fact type holds ratings, and nothing stored states it"
+  },
+  {
+   "key": "c96017e13e95#0",
+   "claim": "loves the look of the table",
+   "matched": [
+    "fe735ad3faef"
+   ],
+   "reason": "the stored 'Gothenburg Table EXHIBITS look' (positive) states the love of the table's look"
+  },
+  {
+   "key": "5f9f188691db#0",
+   "claim": "took off a star because of the complicated assembly and confusing instructions",
+   "cause": "no_schema_type",
+   "reason": "the star deduction and its reason are a rating verdict; stored claims hold only the assembly and instruction complaints, no fact type holds a rating"
+  },
+  {
+   "key": "5f9f188691db#1",
+   "claim": "it was kinda complicated to put together",
+   "matched": [
+    "d907fb4facb3"
+   ],
+   "reason": "the stored 'Gothenburg Table EXHIBITS complicated to put together' states it"
+  },
+  {
+   "key": "5f9f188691db#2",
+   "claim": "the instructions were confusing",
+   "matched": [
+    "279b0e032df6"
+   ],
+   "reason": "the stored 'instructions EXHIBITS confusing' states it"
+  },
+  {
+   "key": "9a6ca3913a57#0",
+   "claim": "now that it's built it's perfect",
+   "matched": [
+    "986951325cd8"
+   ],
+   "reason": "the stored 'Gothenburg Table EXHIBITS perfect' (time: now that it's built) states it"
+  },
+  {
+   "key": "9a6ca3913a57#1",
+   "claim": "all my friends are jealous of the table",
+   "cause": "no_schema_type",
+   "reason": "the friends' jealousy is a social reaction of people, not a quality of the table; no fact type holds it"
+  },
+  {
+   "key": "9742807d1e1c#0",
+   "claim": "the table delivers on being functional",
+   "matched": [
+    "712646371134"
+   ],
+   "reason": "the stored 'Gothenburg Table EXHIBITS functional' states it"
+  },
+  {
+   "key": "9742807d1e1c#1",
+   "claim": "the table delivers on being aesthetically pleasing",
+   "matched": [
+    "f292990bb871"
+   ],
+   "reason": "the stored 'Gothenburg Table EXHIBITS aesthetically pleasing' states it"
+  },
+  {
+   "key": "89b9ea23ae84#0",
+   "claim": "perfect table for a family of four",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "a plain suitability claim (fits a family of four) that Product EXHIBITS could hold; nothing stored for it"
+  },
+  {
+   "key": "5d936f224e45#0",
+   "claim": "taking off one star because it scratches more easily than I'd like",
+   "cause": "no_schema_type",
+   "reason": "the star deduction is a rating verdict; the stored claim holds only the scratching, no fact type holds a rating"
+  },
+  {
+   "key": "5d936f224e45#1",
+   "claim": "it scratches a bit more easily than I'd like",
+   "matched": [
+    "ec297afc4562"
+   ],
+   "reason": "the stored 'Gothenburg Table EXHIBITS scratches a bit more easily than I'd like' states it"
+  },
+  {
+   "key": "5d936f224e45#2",
+   "claim": "overall I'm happy with the purchase",
+   "reason": "lead: consistency: an overall evaluation of the product is held by Product EXHIBITS, whose claim polarity carries sentiment (the build stores 'worth the investment', 'Good lamp for the price' so, judged right in R110); only scores and star deductions have no fact type (blind: overall satisfaction with the purchase is an overall verdict with no aspect; no fact type holds it)",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS"
+  },
+  {
+   "key": "9f1d7885b437#0",
+   "claim": "the biggest issue is with the drawer rails",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "stored rail defects never say the rails are the biggest issue; Component EXHIBITS could hold 'drawer rails: main problem'"
+  },
+  {
+   "key": "9f1d7885b437#1",
+   "claim": "the drawer rails seem poorly manufactured",
+   "matched": [
+    "967ef4b4a07b"
+   ],
+   "reason": "the stored 'drawer rails EXHIBITS poorly manufactured' (hedge: seem) states it"
+  },
+  {
+   "key": "9f1d7885b437#2",
+   "claim": "the drawer rails don't allow the drawers to slide smoothly",
+   "matched": [
+    "c0d4756c5f3c"
+   ],
+   "reason": "the stored negated 'drawer rails EXHIBITS allow the drawers to slide smoothly' states it"
+  },
+  {
+   "key": "3a2d75ef222a#0",
+   "claim": "assembly took me and my roommate like 6 hours",
+   "matched": [
+    "bae554c770f9"
+   ],
+   "reason": "the stored 'dresser HAS_MEASUREMENT 6 hours' is the assembly duration; the assemblers are the writer and roommate"
+  },
+  {
+   "key": "3a2d75ef222a#1",
+   "claim": "we still couldn't get the drawers to slide right",
+   "matched": [
+    "1a16d8126641"
+   ],
+   "reason": "the stored negated 'drawers EXHIBITS slide right' states it"
+  },
+  {
+   "key": "a9ffbcf04eb6#0",
+   "claim": "I called customer service",
+   "cause": "no_schema_type",
+   "reason": "calling customer service is the writer's action; no fact type holds contacts or actions"
+  },
+  {
+   "key": "a9ffbcf04eb6#1",
+   "claim": "customer service told me I'd have to disassemble everything I'd already done and return the entire thing to the store",
+   "cause": "no_schema_type",
+   "reason": "a remedy told by customer service (disassemble and return); no fact type holds remedies or statements"
+  },
+  {
+   "key": "90880ad2f656#0",
+   "claim": "the assembly is challenging",
+   "matched": [
+    "9b02219f141f"
+   ],
+   "reason": "the stored 'Helsingborg Dresser EXHIBITS assembly is challenging' states it"
+  },
+  {
+   "key": "90880ad2f656#1",
+   "claim": "the assembly is completely doable if you carefully follow the instructions and have the right tools",
+   "cause": "assertion",
+   "schema_type": "EXHIBITS",
+   "reason": "a conditional claim (doable if instructions followed and right tools); only 'assembly is challenging' is stored"
+  },
+  {
+   "key": "672f25574cf1#0",
+   "claim": "so satisfied with my purchase",
+   "reason": "lead: consistency: an overall evaluation of the product is held by Product EXHIBITS, whose claim polarity carries sentiment (the build stores 'worth the investment', 'Good lamp for the price' so, judged right in R110); only scores and star deductions have no fact type (blind: satisfaction with the purchase is an overall verdict with no aspect; no fact type holds it)",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS"
+  },
+  {
+   "key": "672f25574cf1#1",
+   "claim": "others clearly struggled with it",
+   "cause": "role",
+   "schema_type": "EXHIBITS",
+   "reason": "other buyers' struggle with the dresser needs the experiencer (others), which no fact type carries; nothing stored"
+  },
+  {
+   "key": "66e304c09735#0",
+   "claim": "the surface is resistant to water rings",
+   "matched": [
+    "1c679378da9f"
+   ],
+   "reason": "the stored 'surface EXHIBITS resistant to water rings' states it"
+  },
+  {
+   "key": "66e304c09735#1",
+   "claim": "the surface is resistant to scratches",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "the stored surface claim keeps only water rings; Component EXHIBITS could hold 'resistant to scratches'"
+  },
+  {
+   "key": "66e304c09735#2",
+   "claim": "we've been using it daily for 3 months",
+   "cause": "no_schema_type",
+   "reason": "the writer's daily use for 3 months is a usage history, not a quality or a product measurement; no fact type holds it"
+  },
+  {
+   "key": "66e304c09735#3",
+   "claim": "no signs of wear",
+   "matched": [
+    "3a047c77797a"
+   ],
+   "reason": "the stored negated 'Jönköping Coffee Table EXHIBITS wear' states it"
+  },
+  {
+   "key": "d456c1dabcf5#0",
+   "claim": "assembly was simple",
+   "matched": [
+    "8dd7ffc7c342"
+   ],
+   "reason": "the stored 'Jönköping Coffee Table EXHIBITS Assembly' (positive, evidence 'Assembly was simple') states it"
+  },
+  {
+   "key": "d456c1dabcf5#1",
+   "claim": "assembly took about 45 minutes",
+   "matched": [
+    "8e44304cc420"
+   ],
+   "reason": "the stored 'Jönköping Coffee Table HAS_MEASUREMENT 45 minutes' is the assembly duration"
+  },
+  {
+   "key": "7ecd4de0b923#0",
+   "claim": "assembly wasn't too bad",
+   "matched": [
+    "a5bd486eb1a4"
+   ],
+   "reason": "the stored 'Jönköping Coffee Table EXHIBITS assembly wasn't too bad' states it"
+  },
+  {
+   "key": "7ecd4de0b923#1",
+   "claim": "assembly took maybe 40 mins",
+   "matched": [
+    "f63817544bb7"
+   ],
+   "reason": "the stored 'Jönköping Coffee Table HAS_MEASUREMENT 40 mins' (hedge: maybe) is the assembly duration"
+  },
+  {
+   "key": "6973002ff807#0",
+   "claim": "the table exemplifies how good design doesn't necessarily require premium pricing",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "the stored 'good design' drops the half that it comes without premium pricing; EXHIBITS could hold 'good design at a modest price'"
+  },
+  {
+   "key": "6aa65f711e59#0",
+   "claim": "the table feels sturdy",
+   "matched": [
+    "aa0a5bfe8a46"
+   ],
+   "reason": "the stored 'Jönköping Coffee Table EXHIBITS sturdy' states it"
+  },
+  {
+   "key": "6aa65f711e59#1",
+   "claim": "the lower shelf is handy for storing remote controls and magazines",
+   "matched": [
+    "8c528c13820e"
+   ],
+   "reason": "the stored 'lower shelf EXHIBITS handy' states it (the storage use is in its evidence)"
+  },
+  {
+   "key": "889af53d3ee4#0",
+   "claim": "the bed is rock solid",
+   "matched": [
+    "08172f743e7a"
+   ],
+   "reason": "the stored 'Linköping Bed EXHIBITS rock solid' states it"
+  },
+  {
+   "key": "889af53d3ee4#1",
+   "claim": "absolutely no squeaking",
+   "matched": [
+    "a0a3a5ba3d7c"
+   ],
+   "reason": "the stored negated 'Linköping Bed EXHIBITS squeaking' states it"
+  },
+  {
+   "key": "889af53d3ee4#2",
+   "claim": "absolutely no movement",
+   "matched": [
+    "b30369972c2b"
+   ],
+   "reason": "the stored negated 'Linköping Bed EXHIBITS movement' states it"
+  },
+  {
+   "key": "6605536b6d0b#0",
+   "claim": "the frame utilizes proper joinery techniques",
+   "matched": [
+    "5146229be8bd"
+   ],
+   "reason": "the stored 'frame EXHIBITS proper joinery techniques' states it"
+  },
+  {
+   "key": "6605536b6d0b#1",
+   "claim": "the frame has reinforced corner blocks",
+   "cause": "extraction",
+   "schema_type": "CONNECTS_TO",
+   "reason": "nothing stored names the corner blocks; Component CONNECTS_TO Component could hold 'reinforced corner blocks - frame'"
+  },
+  {
+   "key": "6605536b6d0b#2",
+   "claim": "the frame has center supports",
+   "cause": "extraction",
+   "schema_type": "CONNECTS_TO",
+   "reason": "nothing stored names the frame's center supports; Component CONNECTS_TO Component could hold 'center supports - frame'"
+  },
+  {
+   "key": "6605536b6d0b#3",
+   "claim": "these details are typically found in much more expensive pieces",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "a stated value claim (details of much pricier pieces); 'exceptional value' from another sentence is a different claim; EXHIBITS could hold it"
+  },
+  {
+   "key": "b6a8346166ce#0",
+   "claim": "for the price point, I expected much better quality",
+   "matched": [
+    "af4220f9d67e"
+   ],
+   "reason": "the stored 'Linköping Bed EXHIBITS quality' (cue 'expected much better') states it"
+  },
+  {
+   "key": "b6a8346166ce#1",
+   "claim": "for the price point, I expected much better durability",
+   "matched": [
+    "a86f7f9a2417"
+   ],
+   "reason": "the stored 'Linköping Bed EXHIBITS durability' (cue 'expected much better') states it"
+  },
+  {
+   "key": "41690ed910ca#0",
+   "claim": "the bed is a great addition to our guest room",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "a plain evaluation of the bed that Product EXHIBITS could hold ('great addition to our guest room'); nothing in the section states it"
+  },
+  {
+   "key": "d14fbc961b6b#0",
+   "claim": "we've had the bed for over a year",
+   "cause": "no_schema_type",
+   "reason": "how long the writer has owned the bed is neither a quality, a measurement (dimensions, weight, assembly duration, capacity), a material nor a part"
+  },
+  {
+   "key": "d14fbc961b6b#1",
+   "claim": "couldn't be happier with the bed",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "the writer's plain satisfaction with the bed could be a positive Product EXHIBITS claim; only 'worth the investment', a different claim, is stored"
+  },
+  {
+   "key": "5d8655efba6d#0",
+   "claim": "the storage drawers slide smoothly",
+   "matched": [
+    "344579a259d2"
+   ],
+   "reason": "the stored 'storage drawers EXHIBITS slide smoothly' states it"
+  },
+  {
+   "key": "5d8655efba6d#1",
+   "claim": "the storage drawers hold a surprising amount of items",
+   "matched": [
+    "a551d60011a6"
+   ],
+   "reason": "the stored 'storage drawers EXHIBITS hold a surprising amount of items' states it"
+  },
+  {
+   "key": "72eb290b686a#0",
+   "claim": "rated 5/5",
+   "cause": "no_schema_type",
+   "reason": "a star rating is a review score, not an observed quality nor any measurement kind the fact types list; nothing stored"
+  },
+  {
+   "key": "5ab3ba1736c9#0",
+   "claim": "the desk looks nice in photos",
+   "matched": [
+    "24485b305cce"
+   ],
+   "reason": "the stored 'Malmö Desk EXHIBITS looks nice in photos' states it"
+  },
+  {
+   "key": "5ab3ba1736c9#1",
+   "claim": "in person the finish has inconsistencies",
+   "cause": "attachment",
+   "schema_type": "EXHIBITS",
+   "reason": "stored as 'Malmö Desk EXHIBITS inconsistencies' on the desk; the claim is about the finish, which the stored claim drops"
+  },
+  {
+   "key": "5ab3ba1736c9#2",
+   "claim": "there were several scratches right out of the box",
+   "matched": [
+    "367ab1e67b7f"
+   ],
+   "reason": "the stored 'Malmö Desk EXHIBITS scratches' (time 'right out of the box') states it"
+  },
+  {
+   "key": "f883d9d2a4e2#0",
+   "claim": "assembly was frustrating because the pre-drilled holes didn't align",
+   "reason": "lead: consistency with ffae0ea50a40#2: Component EXHIBITS on the pre-drilled holes could hold 'made assembly frustrating'; the stored halves do not link them (blind: both halves are stored ('Assembly was frustrating', 'pre-drilled holes align properly' negated) but nothing holds the 'because' link between them)",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS"
+  },
+  {
+   "key": "f883d9d2a4e2#1",
+   "claim": "some of the pre-drilled holes didn't align properly",
+   "matched": [
+    "bfe29925f0ea"
+   ],
+   "reason": "the stored 'pre-drilled holes EXHIBITS align properly' (negated 'didn't') states it"
+  },
+  {
+   "key": "1c1072a6b63a#0",
+   "claim": "the drawer is spacious enough for books, reading glasses and other essentials",
+   "matched": [
+    "fa7fe1397337"
+   ],
+   "reason": "the stored 'drawer EXHIBITS spacious enough for books, reading glasses, and other essentials' states it"
+  },
+  {
+   "key": "1c1072a6b63a#1",
+   "claim": "the open shelf below is great for displaying decorative items",
+   "matched": [
+    "12a893bdb429"
+   ],
+   "reason": "the stored 'open shelf EXHIBITS great for displaying decorative items' states it"
+  },
+  {
+   "key": "aecc7cb20167#0",
+   "claim": "only giving 3 stars because of the sticking drawer and lightweight wood",
+   "cause": "no_schema_type",
+   "reason": "the 3-star rating and its reasons: no fact type holds a review score; the two reasons are separate gold claims"
+  },
+  {
+   "key": "aecc7cb20167#1",
+   "claim": "the drawer sometimes sticks when I open it too fast",
+   "matched": [
+    "005b6d804283"
+   ],
+   "reason": "the stored 'drawer EXHIBITS sticks' (condition 'when i open it too fast') states it"
+  },
+  {
+   "key": "aecc7cb20167#2",
+   "claim": "the wood feels kinda lightweight",
+   "matched": [
+    "66386cf99b1d"
+   ],
+   "reason": "the stored 'wood EXHIBITS lightweight' states it"
+  },
+  {
+   "key": "db2e0493c50f#0",
+   "claim": "the drawer employs proper dovetail joinery",
+   "matched": [
+    "0dafcc1559b3"
+   ],
+   "reason": "the stored 'drawer EXHIBITS proper dovetail joinery' states it"
+  },
+  {
+   "key": "db2e0493c50f#1",
+   "claim": "the drawer does not use the stapled construction common at this price point",
+   "cause": "assertion",
+   "schema_type": "EXHIBITS",
+   "reason": "the denied stapled construction ('rather than') is not stored; only the dovetail joinery is"
+  },
+  {
+   "key": "44bf8410647f#0",
+   "claim": "the nightstand looks nice in photos",
+   "matched": [
+    "6ab83be12320"
+   ],
+   "reason": "the stored 'Norrköping Nightstand EXHIBITS looks nice in photos' states it"
+  },
+  {
+   "key": "44bf8410647f#1",
+   "claim": "the quality of materials is lower than expected",
+   "matched": [
+    "31a49751c197"
+   ],
+   "reason": "the stored 'Norrköping Nightstand EXHIBITS quality of materials is lower than expected' states it"
+  },
+  {
+   "key": "d7406625910b#0",
+   "claim": "the drawer doesn't close properly",
+   "matched": [
+    "645149525529"
+   ],
+   "reason": "the stored 'drawer EXHIBITS close properly' (negated) states it"
+  },
+  {
+   "key": "d7406625910b#1",
+   "claim": "the drawer always leaves a small gap",
+   "matched": [
+    "67015612fb0e"
+   ],
+   "reason": "the stored 'drawer EXHIBITS leaves a small gap' states it"
+  },
+  {
+   "key": "7118c0fb6872#0",
+   "claim": "the nightstand is a great addition to my guest bedroom",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "a plain evaluation of the nightstand that Product EXHIBITS could hold ('great addition to my guest bedroom'); nothing in the section states it"
+  },
+  {
+   "key": "9cd18e8e4b96#0",
+   "claim": "the finish has maintained its appearance",
+   "matched": [
+    "3df0569511da"
+   ],
+   "reason": "the stored 'finish EXHIBITS maintained its appearance' states it"
+  },
+  {
+   "key": "9cd18e8e4b96#1",
+   "claim": "the finish has no scratches",
+   "matched": [
+    "775b65804f17"
+   ],
+   "reason": "the stored 'finish EXHIBITS scratches' (negated) states it"
+  },
+  {
+   "key": "9cd18e8e4b96#2",
+   "claim": "the finish has no wear marks",
+   "matched": [
+    "3b0669bd50cc"
+   ],
+   "reason": "the stored 'finish EXHIBITS wear marks' (negated) states it"
+  },
+  {
+   "key": "a6e9b6cc4c60#0",
+   "claim": "the lamp gives off nice vibes",
+   "matched": [
+    "9bec04c47c78"
+   ],
+   "reason": "the stored 'Örebro Lamp EXHIBITS nice vibes' states it"
+  },
+  {
+   "key": "a6e9b6cc4c60#1",
+   "claim": "the dimmer is perfect for creating mood lighting",
+   "matched": [
+    "20cccb6c7cd7"
+   ],
+   "reason": "the stored 'dimmer EXHIBITS perfect for creating mood lighting' states it"
+  },
+  {
+   "key": "9451dda70127#0",
+   "claim": "the power consumption is remarkably efficient at only 12W",
+   "matched": [
+    "e080c1a6a743",
+    "063cbb416ded"
+   ],
+   "reason": "'Örebro Lamp EXHIBITS power consumption is remarkably efficient' with 'Örebro Lamp HAS_MEASUREMENT 12W' state it together"
+  },
+  {
+   "key": "9451dda70127#1",
+   "claim": "it provides illuminance equivalent to a traditional 75W incandescent",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "the 75W-incandescent-equivalent illuminance is a plain stated functional property of the lamp; only the 12W value and the efficiency are stored"
+  },
+  {
+   "key": "fe22ecbd6baa#0",
+   "claim": "the design is elegant",
+   "matched": [
+    "747aa8a62e28"
+   ],
+   "reason": "the stored 'Örebro Lamp EXHIBITS design is elegant' states it"
+  },
+  {
+   "key": "fe22ecbd6baa#1",
+   "claim": "it provides nice ambient lighting in my reading nook",
+   "matched": [
+    "fc436680c72b"
+   ],
+   "reason": "the stored 'Örebro Lamp EXHIBITS nice ambient lighting' states it; the reading nook is only where the writer uses it"
+  },
+  {
+   "key": "54c81a92527b#0",
+   "claim": "the lamp feels sturdy",
+   "matched": [
+    "23c690d6fc4b"
+   ],
+   "reason": "the stored 'Örebro Lamp EXHIBITS sturdy and well-made' states the sturdy half"
+  },
+  {
+   "key": "54c81a92527b#1",
+   "claim": "the lamp feels well-made",
+   "matched": [
+    "23c690d6fc4b"
+   ],
+   "reason": "the stored 'Örebro Lamp EXHIBITS sturdy and well-made' states the well-made half"
+  },
+  {
+   "key": "54c81a92527b#2",
+   "claim": "the lamp is definitely worth the investment",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "a plain positive evaluation Product EXHIBITS could hold (stored so for the bed elsewhere); nothing in this lamp section states it"
+  },
+  {
+   "key": "7f9206e17ee5#0",
+   "claim": "I absolutely love my Stockholm Chair",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "the writer's plain love for the chair could be a positive Product EXHIBITS claim; nothing stored states it"
+  },
+  {
+   "key": "81c45bab8b7c#0",
+   "claim": "assembly was straightforward",
+   "matched": [
+    "f79b526221a8"
+   ],
+   "reason": "the stored 'Stockholm Chair EXHIBITS straightforward' (EXHIBITS covers a product's assembly experience; evidence 'Assembly was straightforward') states it"
+  },
+  {
+   "key": "81c45bab8b7c#1",
+   "claim": "assembly took less than 20 minutes",
+   "reason": "lead: the only stored counterpart, 'Stockholm Chair HAS_MEASUREMENT 20 minutes', is a claim R110 judges wrong in content (a bound stored as the value); the Product pair of HAS_MEASUREMENT (assembly duration) could hold 'less than 20 minutes' (blind: the stored 'Stockholm Chair HAS_MEASUREMENT 20 minutes' (assembly duration) states it)",
+   "cause": "extraction",
+   "schema_type": "HAS_MEASUREMENT"
+  },
+  {
+   "key": "247cf26bb067#0",
+   "claim": "everyone who comes over asks where I got the chair",
+   "cause": "no_schema_type",
+   "reason": "visitors asking where it was bought is other people's reaction, not a quality, behaviour, defect or assembly experience of the chair; no fact type holds it and nothing is stored"
+  },
+  {
+   "key": "0e5c7e65002c#0",
+   "claim": "assembly was super easy",
+   "matched": [
+    "2da27f782ff5"
+   ],
+   "reason": "the stored 'Stockholm Chair EXHIBITS assembly was super easy' states it"
+  },
+  {
+   "key": "0e5c7e65002c#1",
+   "claim": "no tools needed except the little allen key they give you",
+   "matched": [
+    "795c0509262d"
+   ],
+   "reason": "the stored 'Stockholm Chair EXHIBITS no tools needed except the little allen key' states it (truth compared by code)"
+  },
+  {
+   "key": "0e5c7e65002c#2",
+   "claim": "they give you a little allen key",
+   "reason": "lead: consistency with R110: items supplied with a product are no piece of it ('tools PART_OF Gothenburg Table' judged wrong), so no fact type holds 'comes with an allen key' (blind: that an allen key comes with the chair is a plain stated claim (supplied hardware PART_OF the chair); the key appears only inside the 'no tools needed' quality, nothing states it is supplied)",
+   "cause": "no_schema_type"
+  },
+  {
+   "key": "caf3688497d9#0",
+   "claim": "the chairs are sturdy enough to support my husband (who's over 250 lbs)",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "only 'Stockholm Chair EXHIBITS sturdy' is stored; it drops the capacity (supports a person over 250 lbs), which EXHIBITS (or HAS_MEASUREMENT) could hold"
+  },
+  {
+   "key": "caf3688497d9#1",
+   "claim": "the chairs are elegant looking",
+   "matched": [
+    "e6ea7e262f18"
+   ],
+   "reason": "the stored 'Stockholm Chair EXHIBITS elegant looking' states it"
+  },
+  {
+   "key": "882b6b990197#0",
+   "claim": "assembly was consistent across all chairs, which I appreciated",
+   "matched": [
+    "fd160ac46772"
+   ],
+   "reason": "the stored 'Stockholm Chair EXHIBITS Assembly was consistent across all chairs' with positive polarity states it; the appreciation is the polarity"
+  },
+  {
+   "key": "54a6bb30cacb#0",
+   "claim": "it's not as comfy as I hoped",
+   "matched": [
+    "bc90cd490e0a"
+   ],
+   "reason": "the stored 'Uppsala Sofa EXHIBITS not as comfy as i hoped' states it"
+  },
+  {
+   "key": "80ae4d8de5d8#0",
+   "claim": "the sofa exemplifies thoughtful design",
+   "matched": [
+    "7242846ea4a4"
+   ],
+   "reason": "the stored 'Uppsala Sofa EXHIBITS thoughtful design' states it"
+  },
+  {
+   "key": "80ae4d8de5d8#1",
+   "claim": "the sofa is at an accessible price point",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "affordability is a plain evaluated characteristic of the sofa that EXHIBITS could hold; nothing stored ('exceptional value' is value for money, not the price level)"
+  },
+  {
+   "key": "b7dc9a6c914e#0",
+   "claim": "it's the perfect size for our apartment living room",
+   "matched": [
+    "b66fdc83b446"
+   ],
+   "reason": "the stored 'Uppsala Sofa EXHIBITS perfect size' states the evaluation; the living room is the writer's setting, kept in its evidence"
+  },
+  {
+   "key": "b7dc9a6c914e#1",
+   "claim": "it comfortably seats 3-4 people",
+   "matched": [
+    "bae013a6ebf1"
+   ],
+   "reason": "the stored 'Uppsala Sofa HAS_MEASUREMENT 3-4 people' is the seating capacity the claim states"
+  },
+  {
+   "key": "f5229d2860d1#0",
+   "claim": "the cushions have maintained their shape despite daily use",
+   "matched": [
+    "a3e940522acf"
+   ],
+   "reason": "the stored 'cushions EXHIBITS maintained their shape' states it; 'despite daily use' is the usage context"
+  },
+  {
+   "key": "f5229d2860d1#1",
+   "claim": "the removable covers have been washed multiple times",
+   "cause": "event_structure",
+   "schema_type": "EXHIBITS",
+   "reason": "a repeated washing of the covers (multiple times); EXHIBITS holds qualities of the covers, not the repetition of an occurrence, and nothing is stored"
+  },
+  {
+   "key": "f5229d2860d1#2",
+   "claim": "the covers have no fading",
+   "matched": [
+    "045f3cf13c70"
+   ],
+   "reason": "the stored 'removable covers EXHIBITS fading' (negated) states it"
+  },
+  {
+   "key": "f5229d2860d1#3",
+   "claim": "the covers have no shrinking",
+   "matched": [
+    "bd71ce52f9c1"
+   ],
+   "reason": "the stored 'removable covers EXHIBITS shrinking' (negated) states it"
+  },
+  {
+   "key": "8031fcffa28b#0",
+   "claim": "highly recommends the bookshelf",
+   "reason": "lead: consistency: an overall evaluation of the product is held by Product EXHIBITS, whose claim polarity carries sentiment (the build stores 'worth the investment', 'Good lamp for the price' so, judged right in R110); only scores and star deductions have no fact type (blind: a recommendation is the writer's overall verdict, not a quality, measurement, part or material; no fact type holds it and nothing is stored)",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS"
+  },
+  {
+   "key": "32bea744b1b5#0",
+   "claim": "the finish is consistent",
+   "matched": [
+    "117f2ddef825"
+   ],
+   "reason": "the stored 'finish EXHIBITS consistent' states it"
+  },
+  {
+   "key": "32bea744b1b5#1",
+   "claim": "the overall construction feels solid",
+   "matched": [
+    "7382587d50d0"
+   ],
+   "reason": "the stored 'Västerås Bookshelves EXHIBITS solid' (evidence 'the overall construction feels solid') states it; the overall construction is the bookshelf as a whole"
+  },
+  {
+   "key": "ffae0ea50a40#0",
+   "claim": "taking off one star because some of the pre-drilled holes weren't perfectly aligned",
+   "cause": "no_schema_type",
+   "reason": "a rating deduction and its reason; no fact type holds ratings or why a star was taken off (the misalignment itself is claim #1)"
+  },
+  {
+   "key": "ffae0ea50a40#1",
+   "claim": "some of the pre-drilled holes weren't perfectly aligned",
+   "matched": [
+    "51b0a9bf93a1"
+   ],
+   "reason": "the stored 'pre-drilled holes EXHIBITS aligned' (negated, 'weren't') states it"
+  },
+  {
+   "key": "ffae0ea50a40#2",
+   "claim": "the misaligned holes made assembly a bit frustrating at times",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "stored only as 'Västerås Bookshelves EXHIBITS assembly a bit frustrating', without the holes as its cause; EXHIBITS on the pre-drilled holes could hold 'made assembly a bit frustrating'"
+  },
+  {
+   "key": "2034ae9218ac#0",
+   "claim": "the instructions were confusing",
+   "matched": [
+    "203ccfedcf3a"
+   ],
+   "reason": "the stored 'instructions EXHIBITS confusing' states it"
+  },
+  {
+   "key": "2034ae9218ac#1",
+   "claim": "I had to redo some steps",
+   "cause": "extraction",
+   "schema_type": "EXHIBITS",
+   "reason": "a plain assembly experience of the bookshelf that EXHIBITS covers; nothing stored ('pain to put together' and 'complicated to assemble' do not say steps had to be redone)"
+  },
+  {
+   "key": "94516b80010d#0",
+   "claim": "the load capacity is impressive",
+   "matched": [
+    "df7baea8f52e"
+   ],
+   "reason": "the stored 'Västerås EXHIBITS load capacity' with positive polarity states it; 'impressive' is the polarity"
+  },
+  {
+   "key": "94516b80010d#1",
+   "claim": "I've tested each shelf with approximately 20kg of books",
+   "matched": [
+    "ef5503c23376"
+   ],
+   "reason": "the stored 'shelf HAS_MEASUREMENT 20kg' is the load each shelf was tested with"
+  },
+  {
+   "key": "94516b80010d#2",
+   "claim": "no deflection under approximately 20kg of books per shelf",
+   "matched": [
+    "fe7a65499184"
+   ],
+   "reason": "the stored 'shelf EXHIBITS deflection' (negated) states it; the 20 kg test load is claim #1, stored on the same shelf"
+  },
+  {
+   "key": "5e48d7e2911c#0",
+   "claim": "now that it's built, it wobbles slightly",
+   "matched": [
+    "5578f86ab058"
+   ],
+   "reason": "the stored 'Västerås Bookshelf EXHIBITS wobbles slightly' (time 'Now that it's built') states it"
+  },
+  {
+   "key": "5e48d7e2911c#1",
+   "claim": "I don't trust putting anything heavy on the upper shelves",
+   "cause": "assertion",
+   "schema_type": "EXHIBITS",
+   "reason": "a negated claim (the writer does not trust the upper shelves with heavy loads) that EXHIBITS could hold; nothing stored"
+  },
+  {
+   "key": "c29f92dd2cdd#0",
+   "claim": "assembly was straightforward",
+   "matched": [
+    "2f8bcc0c0fa6"
+   ],
+   "reason": "the stored 'Västerås Bookshelf EXHIBITS straightforward' is the assembly experience the relation records (evidence 'Assembly was straightforward')"
+  },
+  {
+   "key": "c29f92dd2cdd#1",
+   "claim": "assembly was time-consuming",
+   "matched": [
+    "91e0bd8bc332"
+   ],
+   "reason": "the stored 'Västerås Bookshelf EXHIBITS time-consuming' is the assembly experience the relation records (evidence 'Assembly was ... time-consuming')"
+  },
+  {
+   "key": "c29f92dd2cdd#2",
+   "claim": "assembly took about 2 hours",
+   "cause": "extraction",
+   "schema_type": "HAS_MEASUREMENT",
+   "reason": "assembly duration is exactly what Product HAS_MEASUREMENT records; no '2 hours' value is stored in this section"
+  },
+  {
+   "key": "d302e732e06f#0",
+   "claim": "the only reason I'm not giving 5 stars is the thin, flimsy back panel",
+   "cause": "no_schema_type",
+   "reason": "a rating and the reason for it; no fact type holds ratings (the panel's thinness and flimsiness are claims #1 and #2)"
+  },
+  {
+   "key": "d302e732e06f#1",
+   "claim": "the back panel is quite thin",
+   "matched": [
+    "a82603336dd4"
+   ],
+   "reason": "the stored 'back panel EXHIBITS quite thin' states it"
+  },
+  {
+   "key": "d302e732e06f#2",
+   "claim": "the back panel feels a bit flimsy compared to the rest of the unit",
+   "matched": [
+    "57ff6021ee4d"
+   ],
+   "reason": "the stored 'back panel EXHIBITS flimsy' states it; the comparison with the rest of the unit is the reference"
+  }
+ ],
+ "reviewed": [
+  "0e5c7e65002c#2",
+  "2034ae9218ac#1",
+  "247cf26bb067#0",
+  "41690ed910ca#0",
+  "4294b05a9355#0",
+  "54a6bb30cacb#0",
+  "54c81a92527b#2",
+  "5ab3ba1736c9#0",
+  "5ab3ba1736c9#1",
+  "5d936f224e45#0",
+  "5d936f224e45#1",
+  "5d936f224e45#2",
+  "5e48d7e2911c#1",
+  "5f9f188691db#0",
+  "6605536b6d0b#0",
+  "6605536b6d0b#1",
+  "6605536b6d0b#2",
+  "6605536b6d0b#3",
+  "66e304c09735#1",
+  "66e304c09735#2",
+  "672f25574cf1#0",
+  "672f25574cf1#1",
+  "6973002ff807#0",
+  "7118c0fb6872#0",
+  "72eb290b686a#0",
+  "7f9206e17ee5#0",
+  "8031fcffa28b#0",
+  "80ae4d8de5d8#1",
+  "81c45bab8b7c#1",
+  "89b9ea23ae84#0",
+  "90880ad2f656#1",
+  "9451dda70127#1",
+  "9a6ca3913a57#1",
+  "9cd18e8e4b96#1",
+  "9f1d7885b437#0",
+  "a9ffbcf04eb6#0",
+  "a9ffbcf04eb6#1",
+  "aecc7cb20167#0",
+  "c29f92dd2cdd#2",
+  "caf3688497d9#0",
+  "d14fbc961b6b#0",
+  "d14fbc961b6b#1",
+  "d302e732e06f#0",
+  "d456c1dabcf5#0",
+  "db2e0493c50f#1",
+  "f5229d2860d1#1",
+  "f883d9d2a4e2#0",
+  "fe22ecbd6baa#0",
+  "fe22ecbd6baa#1",
+  "ffae0ea50a40#0",
+  "ffae0ea50a40#2"
+ ],
+ "changes": [
+  {
+   "key": "0e5c7e65002c#2",
+   "before": "extraction",
+   "after": "no_schema_type",
+   "reason": "consistency with R110: items supplied with a product are no piece of it ('tools PART_OF Gothenburg Table' judged wrong), so no fact type holds 'comes with an allen key'"
+  },
+  {
+   "key": "5d936f224e45#2",
+   "before": "no_schema_type",
+   "after": "extraction",
+   "reason": "consistency: an overall evaluation of the product is held by Product EXHIBITS, whose claim polarity carries sentiment (the build stores 'worth the investment', 'Good lamp for the price' so, judged right in R110); only scores and star deductions have no fact type"
+  },
+  {
+   "key": "672f25574cf1#0",
+   "before": "no_schema_type",
+   "after": "extraction",
+   "reason": "consistency: an overall evaluation of the product is held by Product EXHIBITS, whose claim polarity carries sentiment (the build stores 'worth the investment', 'Good lamp for the price' so, judged right in R110); only scores and star deductions have no fact type"
+  },
+  {
+   "key": "8031fcffa28b#0",
+   "before": "no_schema_type",
+   "after": "extraction",
+   "reason": "consistency: an overall evaluation of the product is held by Product EXHIBITS, whose claim polarity carries sentiment (the build stores 'worth the investment', 'Good lamp for the price' so, judged right in R110); only scores and star deductions have no fact type"
+  },
+  {
+   "key": "81c45bab8b7c#1",
+   "before": "matched",
+   "after": "extraction",
+   "reason": "the only stored counterpart, 'Stockholm Chair HAS_MEASUREMENT 20 minutes', is a claim R110 judges wrong in content (a bound stored as the value); the Product pair of HAS_MEASUREMENT (assembly duration) could hold 'less than 20 minutes'"
+  },
+  {
+   "key": "f883d9d2a4e2#0",
+   "before": "event_structure",
+   "after": "extraction",
+   "reason": "consistency with ffae0ea50a40#2: Component EXHIBITS on the pre-drilled holes could hold 'made assembly frustrating'; the stored halves do not link them"
+  }
+ ]
+}

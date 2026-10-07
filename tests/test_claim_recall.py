@@ -3,11 +3,13 @@ sheet that joins a sample, its gold and a claim sheet by chunk (a chunk without 
 verdict rules (matched or a cause, the schema type of a miss, the review of every miss and of the seeded
 matches, changes that end at their final outcome), the scores (overall, random strata, per stratum, within
 the schema, misses per cause, the stored fields of the matched claims by code) and the stage on invented
-files (params, metrics, artifacts, its refusal of a file that breaks a rule). No Neo4j, no LLM.
+files (params, metrics, artifacts, its refusal of a file that breaks a rule). The committed R111 sheets
+rebuild from their inputs, and their verdicts answer them and score as reported. No Neo4j, no LLM.
 """
 
 import json
 from dataclasses import replace
+from pathlib import Path
 
 import pytest
 
@@ -18,13 +20,14 @@ from kgbuilder.pipeline.claim_stages import RECALL_REPORT, RECALL_SHEET, ClaimRe
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.schema import TextSchema
 from kgbuilder.text.subject_graph import ObservationRow
-from kgbuilder.validation.assertion import AssertionGold, GoldClaim, GoldSentence
-from kgbuilder.validation.claim_eval import claim_item, claim_sheet
+from kgbuilder.validation.assertion import AssertionGold, GoldClaim, GoldSentence, load_assertion_gold
+from kgbuilder.validation.claim_eval import ClaimSheet, claim_item, claim_sheet
 from kgbuilder.validation.claim_recall import (
     RecallChange,
     RecallSheet,
     RecallVerdict,
     RecallVerdicts,
+    load_recall_verdicts,
     recall_issues,
     recall_sheet,
     review_sample,
@@ -265,3 +268,37 @@ def test_the_stage_writes_the_sheet_and_scores_the_judges_file(tmp_path):
     path.write_text(_file(verdicts, ["s2#1"]).model_dump_json(), encoding="utf-8")  # s3#0 not reviewed
     with pytest.raises(EvaluationError):
         run_stages(ctx, replace(state, recall_verdicts=path), [ClaimRecallStage()])
+
+
+# What R111 reported (REFACTOR_PLAN.md, R111 part b): recall overall and on the random strata, and within the
+# schema on the random strata, as (k, n)
+R111 = Path("tests/gold/r111")
+REPORTED = {
+    "furniture": ((74, 117), (42, 72), (42, 61)),
+    "heldout": ((27, 100), (19, 67), (19, 35)),
+    "generality": ((23, 108), (12, 66), (12, 27)),
+}
+
+
+@pytest.mark.parametrize("dataset", sorted(REPORTED))
+def test_r111_verdicts_answer_their_sheets_and_score_as_reported(dataset):
+    sheet = RecallSheet.model_validate_json(
+        (R111 / dataset / "recall_sheet.json").read_text(encoding="utf-8")
+    )
+    # the sheet is the join of the committed sample, gold and claim sheet, rebuilt here
+    claims = ClaimSheet.model_validate_json(
+        Path(f"tests/gold/r110/{dataset}/claim_sheet.json").read_text(encoding="utf-8")
+    )
+    sample = SentenceSample.model_validate_json(
+        Path(f"tests/gold/r77/{dataset}_assertion_sample.json").read_text(encoding="utf-8")
+    )
+    gold = load_assertion_gold(Path(f"tests/gold/r77/{dataset}_assertion_gold.json"))
+    rebuilt = recall_sheet(dataset, sample, gold, claims, sheet.claim_sheet)
+    assert rebuilt.model_dump() == sheet.model_dump()
+    scores = score_recall(sheet, load_recall_verdicts(R111 / dataset / "recall_verdicts.json", sheet))
+    logged = json.loads((R111 / dataset / "recall_report.json").read_text(encoding="utf-8"))
+    assert scores.model_dump(mode="json") == logged
+    overall, random_strata, in_schema = REPORTED[dataset]
+    assert (scores.recall.k, scores.recall.n) == overall
+    assert (scores.recall_random.k, scores.recall_random.n) == random_strata
+    assert (scores.recall_in_schema_random.k, scores.recall_in_schema_random.n) == in_schema

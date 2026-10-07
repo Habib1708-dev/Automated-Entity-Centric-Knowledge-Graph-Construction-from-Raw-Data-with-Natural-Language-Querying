@@ -1,0 +1,773 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "git_sha": "76e7f22"
+ },
+ "sheet": "tests/gold/r111/heldout/recall_sheet.json",
+ "verdicts": [
+  {
+   "key": "35ef265284c3#0",
+   "claim": "the contact stated the rear wheel wells were rusted",
+   "matched": [
+    "d4922a11a5a4"
+   ],
+   "reason": "the stored 'RUSTED AFFECTS_COMPONENT REAR WHEEL WELLS' states it; the contact is the writer whose account the report relays; 'RUSTED OCCURS_ON_VEHICLE 2015 FORD ESCAPE' drops the wheel wells"
+  },
+  {
+   "key": "35ef265284c3#1",
+   "claim": "the rust was discovered while inspecting the vehicle",
+   "cause": "role",
+   "schema_type": "AFFECTS_COMPONENT",
+   "reason": "the rust is stored ('RUSTED AFFECTS_COMPONENT REAR WHEEL WELLS') but without the occasion 'while inspecting the vehicle', the time of discovery the claim is about"
+  },
+  {
+   "key": "871e0500eab8#0",
+   "claim": "the complaint was filed 02/22/2015",
+   "cause": "no_schema_type",
+   "reason": "a complaint's filing date: no fact type holds complaints or their dates"
+  },
+  {
+   "key": "2247984ac5ae#0",
+   "claim": "the service drive and manufacturer explained the hesitation as the engine gearing down",
+   "cause": "attribution",
+   "schema_type": "CAUSES_PROBLEM",
+   "reason": "the dealer's and manufacturer's causal explanation (engine gearing down behind the hesitation) is not stored at all; CAUSES_PROBLEM could hold the cause link"
+  },
+  {
+   "key": "2247984ac5ae#1",
+   "claim": "the service drive and manufacturer explained the hesitation as the turbo spooling up",
+   "cause": "attribution",
+   "schema_type": "CAUSES_PROBLEM",
+   "reason": "the dealer's and manufacturer's explanation (turbo spooling up behind the hesitation) is not stored at all; CAUSES_PROBLEM could hold the cause link"
+  },
+  {
+   "key": "2247984ac5ae#2",
+   "claim": "the service drive and manufacturer said the vehicle operates as expected",
+   "cause": "no_schema_type",
+   "reason": "an overall verdict that the vehicle works normally: no fact type holds normal operation"
+  },
+  {
+   "key": "2247984ac5ae#3",
+   "claim": "no repairs were needed",
+   "cause": "no_schema_type",
+   "reason": "a repair need: no fact type holds repairs (Recall excludes ordinary repairs)"
+  },
+  {
+   "key": "2247984ac5ae#4",
+   "claim": "no repairs were made",
+   "cause": "no_schema_type",
+   "reason": "a repair: no fact type holds repairs (Recall excludes ordinary repairs)"
+  },
+  {
+   "key": "114c7bd5c3ac#0",
+   "claim": "the complaint was filed 02/24/2015",
+   "cause": "no_schema_type",
+   "reason": "a complaint's filing date: no fact type holds complaints or their dates"
+  },
+  {
+   "key": "09c43ed973e6#0",
+   "claim": "the first time in for service, no problem was found",
+   "cause": "no_schema_type",
+   "reason": "a service visit's diagnostic finding: no fact type holds visits or findings, and a negated OCCURS_ON_VEHICLE would deny the squeal itself"
+  },
+  {
+   "key": "5cc5ee267024#0",
+   "claim": "the vehicle was in for service three times in one month",
+   "cause": "no_schema_type",
+   "reason": "service visits and their count: no fact type holds service visits (Recall excludes ordinary repairs)"
+  },
+  {
+   "key": "ceef829c5edd#0",
+   "claim": "the failure mileage was 2,361",
+   "matched": [
+    "e689d084dc70"
+   ],
+   "reason": "the stored 'FAILED TO DEPLOY OCCURS_AT_MILEAGE 2,361' states it; the air bags failing to deploy is the report's failure"
+  },
+  {
+   "key": "dfa7ae8317db#0",
+   "claim": "the trunk and glove compartment not locking may not be a driving safety issue",
+   "cause": "no_schema_type",
+   "reason": "a classification of the problem as a (driving) safety issue: an overall verdict no fact type holds"
+  },
+  {
+   "key": "dfa7ae8317db#1",
+   "claim": "the trunk and glove compartment not locking is a safety issue nonetheless",
+   "cause": "no_schema_type",
+   "reason": "a classification of the problem as a safety issue: an overall verdict no fact type holds"
+  },
+  {
+   "key": "80bb9aed5a36#0",
+   "claim": "the vehicle will react unpredictably under certain conditions when the adaptive cruise control (ACC) and the lane keeping assist system (LKAS) are engaged simultaneously",
+   "matched": [
+    "bbcff0a71672"
+   ],
+   "reason": "the stored 'REACT UNPREDICTABLY OCCURS_ON_VEHICLE 2016 Honda Civic' states it; the AFFECTS_COMPONENT claims turn the ACC/LKAS of the condition into the affected parts, a different claim"
+  },
+  {
+   "key": "9ae03f8e8f92#0",
+   "claim": "the vehicle may brake suddenly when approaching exit ramps",
+   "matched": [
+    "fdda641ca481"
+   ],
+   "reason": "the stored 'BRAKE SUDDENLY OCCURS_ON_VEHICLE 2016 Honda Civic' states it"
+  },
+  {
+   "key": "9ae03f8e8f92#1",
+   "claim": "the vehicle may rapidly decelerate when approaching exit ramps",
+   "matched": [
+    "d82e64755ca1"
+   ],
+   "reason": "the stored 'RAPIDLY DECELERATE OCCURS_ON_VEHICLE 2016 Honda Civic' states it"
+  },
+  {
+   "key": "9ae03f8e8f92#2",
+   "claim": "the vehicle may quickly depart the highway when approaching exit ramps",
+   "matched": [
+    "f7d35cfecc70"
+   ],
+   "reason": "the stored 'QUICKLY DEPART THE HIGHWAY OCCURS_ON_VEHICLE 2016 Honda Civic' states it"
+  },
+  {
+   "key": "056c53e954ea#0",
+   "claim": "the situation occurs during daylight and nighttime hours",
+   "cause": "role",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "the situation is stored (e.g. 'REACT UNPREDICTABLY OCCURS_ON_VEHICLE') but none carries the time window 'during daylight and nighttime hours'"
+  },
+  {
+   "key": "056c53e954ea#1",
+   "claim": "the situation occurs with clean cameras and radar window",
+   "cause": "role",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "the situation is stored but none carries the circumstance 'with clean cameras and radar window', the state of the sensing instruments"
+  },
+  {
+   "key": "3e0818472dcc#0",
+   "claim": "the vehicle may slow by 10-15 mph",
+   "cause": "assertion",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "a 'may' claim with nothing stored; 'RAPIDLY DECELERATE OCCURS_ON_VEHICLE' of the previous sentence drops the 10-15 mph amount"
+  },
+  {
+   "key": "3e0818472dcc#1",
+   "claim": "the vehicle may depart the highway before the driver is able to resume control",
+   "cause": "role",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "'QUICKLY DEPART THE HIGHWAY OCCURS_ON_VEHICLE' (previous sentence) states the departure but drops 'before the driver is able to resume control', the time order the claim adds"
+  },
+  {
+   "key": "f4230c015f96#0",
+   "claim": "a rear end collision was narrowly avoided in one case",
+   "cause": "extraction",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "a plain stated near-collision (a safety hazard, a Problem) on the vehicle; nothing stored"
+  },
+  {
+   "key": "3627197d8b3a#0",
+   "claim": "the complaint was filed 02/01/2016",
+   "cause": "no_schema_type",
+   "reason": "a complaint's filing date: no fact type holds complaints or their dates"
+  },
+  {
+   "key": "3b01d11e981d#0",
+   "claim": "the writer contacted American Honda",
+   "cause": "no_schema_type",
+   "reason": "the writer's contact with the manufacturer: no fact type holds people, companies or contacts"
+  },
+  {
+   "key": "3b01d11e981d#1",
+   "claim": "Honda confirmed the car does have a recall",
+   "cause": "attribution",
+   "schema_type": "AFFECTS_VEHICLE",
+   "reason": "stored as the writer's own 'RECALL AFFECTS_VEHICLE 2016 Honda Civic' (8af31750940a); the text gives it as Honda's confirmation"
+  },
+  {
+   "key": "3b01d11e981d#2",
+   "claim": "Honda provided the writer with a case number",
+   "cause": "no_schema_type",
+   "reason": "a case number given to the writer: no fact type holds case numbers"
+  },
+  {
+   "key": "cbc946171556#0",
+   "claim": "the vehicle currently has 350 miles",
+   "matched": [
+    "7f4f76400f84"
+   ],
+   "reason": "the stored '2016 HONDA CIVIC HAS_MILEAGE 350 MILES' states it"
+  },
+  {
+   "key": "23c971e9e2c7#0",
+   "claim": "currently Honda has no fix for the vehicles affected",
+   "cause": "no_schema_type",
+   "reason": "the availability of a remedy: no fact type holds a fix or remedy"
+  },
+  {
+   "key": "0ef7c2fcf620#0",
+   "claim": "the writer does not feel safe driving the brand new car any longer",
+   "cause": "no_schema_type",
+   "reason": "the writer's feeling about driving the car: no fact type holds a person's feeling or verdict"
+  },
+  {
+   "key": "cea6a538d46c#0",
+   "claim": "the complaint was filed 03/01/2017",
+   "cause": "no_schema_type",
+   "reason": "a complaint's filing date: no fact type holds complaints or their dates"
+  },
+  {
+   "key": "d650561de9cf#0",
+   "claim": "the contact owns a 2017 Nissan Rogue",
+   "cause": "no_schema_type",
+   "reason": "ownership by a person: no fact type holds owners"
+  },
+  {
+   "key": "eac2da901c75#0",
+   "claim": "the contact stated the speedometer failed without warning",
+   "matched": [
+    "5bf1231fa222",
+    "865e7eeae030"
+   ],
+   "reason": "'SPEEDOMETER FAILED AFFECTS_COMPONENT SPEEDOMETER' and 'SPEEDOMETER FAILED OCCURS_ON_VEHICLE 2017 NISSAN ROGUE' state it; the contact is the writer; 'without warning' is manner"
+  },
+  {
+   "key": "d56c363f1e1f#0",
+   "claim": "the front camera system mistook the bridge for an object on the road",
+   "matched": [
+    "de81bdef0d31"
+   ],
+   "reason": "the stored 'MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD' AFFECTS_COMPONENT 'FRONT CAMERA SYSTEM' states it; the vehicle-only claim drops the camera"
+  },
+  {
+   "key": "d56c363f1e1f#1",
+   "claim": "the front camera system activated the brakes",
+   "cause": "extraction",
+   "schema_type": "AFFECTS_COMPONENT",
+   "reason": "'ACTIVATED THE BRAKES' is stored only on BRAKES, the vehicle and as caused by the misreading; no claim ties it to the front camera system, which AFFECTS_COMPONENT could hold"
+  },
+  {
+   "key": "a309c4d22184#0",
+   "claim": "the car braked on its own on two separate occasions",
+   "cause": "event_structure",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "only 'BRAKED ON ITS OWN' on the 2017 Nissan Rogue is stored; the count of two separate occasions is lost"
+  },
+  {
+   "key": "a309c4d22184#1",
+   "claim": "the car was taken to the dealer on both occasions",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a dealer visit; nothing stored"
+  },
+  {
+   "key": "11a223cf6bf6#0",
+   "claim": "the complaint was filed 07/24/2017",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a complaint's filing date"
+  },
+  {
+   "key": "6b02b7628358#0",
+   "claim": "the gas gauge showed full after fill up",
+   "cause": "no_schema_type",
+   "reason": "a normal full reading right after a fill-up is no problem, recall or value; no fact type holds it faithfully, and nothing is stored"
+  },
+  {
+   "key": "6b02b7628358#1",
+   "claim": "the gas gauge is now not moving",
+   "matched": [
+    "66ad0974470c"
+   ],
+   "reason": "the stored 'NOT MOVEING' AFFECTS_COMPONENT 'GAS GAUGE' states it; the vehicle-only claim drops the gauge"
+  },
+  {
+   "key": "6b02b7628358#2",
+   "claim": "the gas gauge still says a full tank, which is not possible with 203 miles to empty",
+   "cause": "extraction",
+   "schema_type": "AFFECTS_COMPONENT",
+   "reason": "only 'NOT MOVEING' is stored on the gauge; the false full-tank reading (with 203 miles to empty) is a gauge symptom AFFECTS_COMPONENT could hold, nothing stored"
+  },
+  {
+   "key": "6b02b7628358#3",
+   "claim": "normally after a fill up it is over 440 miles to empty",
+   "cause": "no_schema_type",
+   "reason": "the normal range after a fill-up is no odometer mileage, speed or duration; no fact type holds it"
+  },
+  {
+   "key": "9bef6554e7be#0",
+   "claim": "the complaint was filed 08/29/2018",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a complaint's filing date"
+  },
+  {
+   "key": "d3af2b6ca47f#0",
+   "claim": "the navigation system works sporadically",
+   "cause": "extraction",
+   "schema_type": "AFFECTS_COMPONENT",
+   "reason": "only the general 'NAVIGATION SYSTEM FAILURE' on NAV SYSTEM is stored; the sporadic working is a symptom AFFECTS_COMPONENT could hold"
+  },
+  {
+   "key": "d3af2b6ca47f#1",
+   "claim": "the navigation system works less and less every day",
+   "cause": "extraction",
+   "schema_type": "AFFECTS_COMPONENT",
+   "reason": "the worsening function of the nav system is not stored; a problem on NAV SYSTEM via AFFECTS_COMPONENT could hold it"
+  },
+  {
+   "key": "d3af2b6ca47f#2",
+   "claim": "the vehicle already had a dead battery, on a 2019 vehicle",
+   "matched": [
+    "955cbdd16999"
+   ],
+   "reason": "the stored 'DEAD BATTERY' OCCURS_ON_VEHICLE '2019 Subaru Outback' states it; the battery-only claim drops the vehicle"
+  },
+  {
+   "key": "c4da0454fddc#0",
+   "claim": "the complaint was filed 02/11/2019",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a complaint's filing date"
+  },
+  {
+   "key": "70791cf8fff4#0",
+   "claim": "the car was taken to a dealer",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a dealer visit; nothing stored"
+  },
+  {
+   "key": "70791cf8fff4#1",
+   "claim": "the dealer said that nothing is wrong with the car",
+   "cause": "assertion",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "a negated problem on the car (also the dealer's statement, so attribution would follow), and nothing is stored"
+  },
+  {
+   "key": "0cf0e0ff34ac#0",
+   "claim": "nothing was left on in the car",
+   "cause": "no_schema_type",
+   "reason": "something left on is an owner action, not a vehicle problem, component, recall or value; no fact type holds it"
+  },
+  {
+   "key": "0cf0e0ff34ac#1",
+   "claim": "the dead battery is a parasitic battery drain",
+   "matched": [
+    "d7cb230d97a8"
+   ],
+   "reason": "the stored 'PARASITIC BATTERY DRAIN' CAUSES_PROBLEM 'DEAD BATTERY' states it; the drain-only claims drop the dead battery"
+  },
+  {
+   "key": "0bfe71b403c1#0",
+   "claim": "the contact was unsure if the rental company notified the dealer and manufacturer",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds notifications or the contact's uncertainty about them"
+  },
+  {
+   "key": "930e3b62dee6#0",
+   "claim": "the failure to accelerate has only happened three times",
+   "cause": "event_structure",
+   "schema_type": "OCCURS_ON_VEHICLE",
+   "reason": "'WILL NOT ACCELERATE' is stored on the 2019 Toyota Rav4 but the count of three occurrences is lost"
+  },
+  {
+   "key": "930e3b62dee6#1",
+   "claim": "the failure to accelerate could cause an accident",
+   "matched": [
+    "b21b5e792bd2"
+   ],
+   "reason": "the stored 'WILL NOT ACCELERATE' CAUSES_PROBLEM 'ACCIDENT' states it"
+  },
+  {
+   "key": "60e40266f322#0",
+   "claim": "the complaint was filed 06/20/2019",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a complaint's filing date"
+  },
+  {
+   "key": "57630a4bce21#0",
+   "claim": "the gas gauge does not indicate full after the auto-shutoff",
+   "reason": "lead: the only stored counterpart, 'DOES NOT INDICATE FULL AFFECTS_COMPONENT GAS GAUGE', is a claim R110 judged wrong in content (not_in_text: the text uses the gauge's reading as evidence, not as a gauge fault); no fact type holds a gauge reading that is no problem (blind: the stored 'DOES NOT INDICATE FULL' AFFECTS_COMPONENT 'GAS GAUGE' states it; the vehicle-only claim drops the gauge)",
+   "cause": "no_schema_type"
+  },
+  {
+   "key": "57630a4bce21#1",
+   "claim": "the writer is able to add an additional 2-2.5 gallons to the tank after the auto-shutoff",
+   "cause": "no_schema_type",
+   "reason": "a fuel volume the writer can still add is no problem and no mileage, speed or duration value; no fact type holds it"
+  },
+  {
+   "key": "57630a4bce21#2",
+   "claim": "adding the extra fuel takes a while because the writer has to push through all the auto shutoffs",
+   "cause": "extraction",
+   "schema_type": "CAUSES_PROBLEM",
+   "reason": "only 'AUTO-SHUTOFF' on the tank and vehicle is stored; the repeated shutoffs causing slow refuelling could be held by CAUSES_PROBLEM"
+  },
+  {
+   "key": "5b0fd9815507#0",
+   "claim": "wind can be heard when driving the vehicle",
+   "matched": [
+    "90e29375a394"
+   ],
+   "reason": "the stored 'HEAR WIND' OCCURS_ON_VEHICLE '2019 Toyota Rav4' (when driving) states it"
+  },
+  {
+   "key": "74b647786e79#0",
+   "claim": "the wind noise can be heard well when the vehicle gets up to 50 miles per hour",
+   "matched": [
+    "946cf59a2e9a"
+   ],
+   "reason": "the stored 'HEAR WIND' OCCURS_AT_SPEED '50 MILES PER HOUR' states it"
+  },
+  {
+   "key": "86fbcc07b8ed#0",
+   "claim": "the recall is issued by American Honda Motor Co.",
+   "cause": "no_schema_type",
+   "reason": "no fact type links a recall to the manufacturer that issues it"
+  },
+  {
+   "key": "c236ece39b09#0",
+   "claim": "the electric parking brake (EPB) may not engage if it is applied immediately after turning the ignition off",
+   "matched": [
+    "1e09aae07e0c",
+    "c85b650c52e2"
+   ],
+   "reason": "the stored 'not engage' AFFECTS_COMPONENT 'electric parking brake' and the same on 'EPB' state it; the recall claims drop the brake or the failure"
+  },
+  {
+   "key": "bc462b566164#0",
+   "claim": "owners may contact Honda customer service at 1-888-234-2138",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a contact phone number"
+  },
+  {
+   "key": "651ecafbd360#0",
+   "claim": "owners may contact Honda's customer service at 1-888-234-2138",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a contact phone number"
+  },
+  {
+   "key": "6aff1eb1f43d#0",
+   "claim": "the Vehicle Identification Numbers (VINs) involved in this recall will be searchable on NHTSA.gov beginning May 29, 2026",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds when or where a recall's VINs become searchable"
+  },
+  {
+   "key": "a9816b7e59f2#0",
+   "claim": "owners may contact Nissan customer service at 1-800-647-7261",
+   "cause": "no_schema_type",
+   "reason": "no fact type holds a contact phone number"
+  },
+  {
+   "key": "0d949f7cca98#0",
+   "claim": "the recall is issued by Nissan North America, Inc.",
+   "cause": "no_schema_type",
+   "reason": "no fact type links a recall to the company that issues it; only vehicles, components and problems are stored for the recall"
+  },
+  {
+   "key": "d9e3ea3be92c#0",
+   "claim": "the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child",
+   "matched": [
+    "f8dd2da2fa1a"
+   ],
+   "reason": "the stored problem 'incorrectly classify an adult passenger as a child or classify the seat as empty' AFFECTS_COMPONENT the OCS states it (that one problem node holds both halves of the sentence's 'or')"
+  },
+  {
+   "key": "d9e3ea3be92c#1",
+   "claim": "the OCS may classify the seat as empty despite it being occupied",
+   "matched": [
+    "f8dd2da2fa1a"
+   ],
+   "reason": "the same stored OCS problem node holds the seat-classified-as-empty half, AFFECTS_COMPONENT the OCS"
+  },
+  {
+   "key": "0930406385f7#0",
+   "claim": "the recall is issued by Nissan",
+   "cause": "no_schema_type",
+   "reason": "no fact type links a recall to the company that issues it"
+  },
+  {
+   "key": "0930406385f7#1",
+   "claim": "the recall covers certain 2017-2019 Rogue Hybrid vehicles",
+   "matched": [
+    "61cddfa7b72d"
+   ],
+   "reason": "stored '21V839000 AFFECTS_VEHICLE 2017-2019 Rogue Hybrid' states it"
+  },
+  {
+   "key": "b616ec7176ba#0",
+   "claim": "contact with the Electronic Control Module (ECM) bracket may damage the engine harness",
+   "matched": [
+    "a94936e7c91c",
+    "cc578bc8a596"
+   ],
+   "reason": "stored 'Contact with the ECM bracket CAUSES_PROBLEM damage the engine harness' and 'Contact with the ECM bracket AFFECTS_COMPONENT engine harness' state it"
+  },
+  {
+   "key": "b616ec7176ba#1",
+   "claim": "the damaged engine harness may cause a blown fuse",
+   "matched": [
+    "bc67c0c9aebb"
+   ],
+   "reason": "stored 'damage the engine harness CAUSES_PROBLEM blown fuse' states it"
+  },
+  {
+   "key": "a1ff5c6c44ad#0",
+   "claim": "owners may contact Nissan customer service at 1-800-867-7669",
+   "cause": "no_schema_type",
+   "reason": "a customer-service phone number; no fact type holds contact details (the section stores no claim)"
+  },
+  {
+   "key": "5dc27f02e326#0",
+   "claim": "interim notification letters notifying owners of the safety risk were mailed March 29, 2023",
+   "cause": "no_schema_type",
+   "reason": "the mailing of notification letters and its date fit no fact type; the stored 'ADDRESSES_PROBLEM safety risk' is a different claim"
+  },
+  {
+   "key": "5fc5ce41739d#0",
+   "claim": "remedy parts should be available for all affected vehicles by late March 2021",
+   "cause": "no_schema_type",
+   "reason": "when remedy parts become available is a remedy schedule; no fact type holds it"
+  },
+  {
+   "key": "5acb39454531#0",
+   "claim": "Lexus' number for this recall is 20LA01",
+   "cause": "no_schema_type",
+   "reason": "a manufacturer's own recall number fits no fact type"
+  },
+  {
+   "key": "e67aaa4ed378#0",
+   "claim": "water may enter through the steering gear box cover",
+   "matched": [
+    "0a96848cc017"
+   ],
+   "reason": "stored problem 'Water may enter through the steering gear box cover' AFFECTS_COMPONENT steering gear box cover states it"
+  },
+  {
+   "key": "e67aaa4ed378#1",
+   "claim": "water entering may cause a loss of electric power steering assist",
+   "matched": [
+    "e08822bc642e"
+   ],
+   "reason": "stored 'Water may enter ... CAUSES_PROBLEM loss of electric power steering assist' states it"
+  },
+  {
+   "key": "6f8011ee4e72#0",
+   "claim": "owners may contact Toyota customer service at 1-888-270-9371",
+   "cause": "no_schema_type",
+   "reason": "a customer-service phone number; no fact type holds contact details"
+  },
+  {
+   "key": "e1cc700cbcfb#0",
+   "claim": "Toyota will notify owners",
+   "cause": "no_schema_type",
+   "reason": "the manufacturer notifying owners is a remedy step; no fact type holds it"
+  },
+  {
+   "key": "e1cc700cbcfb#1",
+   "claim": "dealers will inspect the back-up camera system, free of charge",
+   "cause": "no_schema_type",
+   "reason": "a remedy action (dealers inspect); no fact type holds it, and the stored 'COVERS_COMPONENT back-up camera system' keeps only the part, not the inspection"
+  },
+  {
+   "key": "e1cc700cbcfb#2",
+   "claim": "dealers will replace the audio display unit if necessary, free of charge",
+   "cause": "no_schema_type",
+   "reason": "a remedy action (dealers replace); no fact type holds it, and the stored 'COVERS_COMPONENT audio display unit' keeps only the part, not the replacement"
+  },
+  {
+   "key": "2ba265557d96#0",
+   "claim": "the recall began on January 27, 2017",
+   "cause": "no_schema_type",
+   "reason": "the recall's start date fits no fact type"
+  },
+  {
+   "key": "84b3a93ecbe1#0",
+   "claim": "Ford will notify owners",
+   "cause": "no_schema_type",
+   "reason": "the manufacturer notifying owners is a remedy step; no fact type holds it"
+  },
+  {
+   "key": "84b3a93ecbe1#1",
+   "claim": "dealers will update the instrument panel software, free of charge",
+   "cause": "no_schema_type",
+   "reason": "a remedy action (dealers update the software); no fact type holds it, and the stored 'COVERS_COMPONENT instrument panel software' keeps only the part"
+  },
+  {
+   "key": "38a3be2f22db#0",
+   "claim": "the recall is issued by Ford Motor Company (Ford)",
+   "cause": "no_schema_type",
+   "reason": "no fact type links a recall to the company that issues it"
+  },
+  {
+   "key": "38a3be2f22db#1",
+   "claim": "the recall covers certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015",
+   "cause": "role",
+   "schema_type": "AFFECTS_VEHICLE",
+   "reason": "stored '15V436000 AFFECTS_VEHICLE 2015 Ford Escape' drops the manufacture window April 1, 2014 to June 12, 2015, which no slot carries"
+  },
+  {
+   "key": "38a3be2f22db#2",
+   "claim": "the recall covers Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015",
+   "cause": "role",
+   "schema_type": "AFFECTS_VEHICLE",
+   "reason": "stored '15V436000 AFFECTS_VEHICLE Ford Focus' drops the manufacture window June 17, 2014 to June 12, 2015"
+  },
+  {
+   "key": "38a3be2f22db#3",
+   "claim": "the recall covers Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015",
+   "cause": "role",
+   "schema_type": "AFFECTS_VEHICLE",
+   "reason": "stored '15V436000 AFFECTS_VEHICLE Ford C-Max' drops the manufacture window April 22, 2014 to June 12, 2015"
+  },
+  {
+   "key": "7c81510891f8#0",
+   "claim": "Ford will notify owners",
+   "cause": "no_schema_type",
+   "reason": "the manufacturer notifying owners is a remedy step; no fact type holds it"
+  },
+  {
+   "key": "7c81510891f8#1",
+   "claim": "dealers will inspect the latch date codes to confirm if the repair was done correctly, free of charge",
+   "cause": "no_schema_type",
+   "reason": "a remedy action (dealers inspect latch date codes); no fact type holds it and nothing about the date codes is stored"
+  },
+  {
+   "key": "7c81510891f8#2",
+   "claim": "dealers will replace the side door latches if necessary, free of charge",
+   "cause": "no_schema_type",
+   "reason": "a remedy action (dealers replace); no fact type holds it, and the stored 'COVERS_COMPONENT side door latches' keeps only the part"
+  },
+  {
+   "key": "ecb9c2a6c2da#0",
+   "claim": "the rearview camera may display a distorted, intermittent or blank image when the vehicle is in reverse",
+   "matched": [
+    "5599d521e3b9"
+   ],
+   "reason": "stored problem 'distorted, intermittent, or blank image' AFFECTS_COMPONENT rearview camera states it"
+  },
+  {
+   "key": "b0978db51757#0",
+   "claim": "owners may contact Ford customer service at 1-866-436-7332",
+   "cause": "no_schema_type",
+   "reason": "a customer-service phone number; no fact type holds contact details"
+  },
+  {
+   "key": "4533e7fa1712#0",
+   "claim": "the engine block heater may crack",
+   "matched": [
+    "659c0260adfe"
+   ],
+   "reason": "stored problem 'crack' AFFECTS_COMPONENT engine block heater states it"
+  },
+  {
+   "key": "4533e7fa1712#1",
+   "claim": "the engine block heater may develop a coolant leak",
+   "matched": [
+    "d670e6cabdb0"
+   ],
+   "reason": "stored problem 'coolant leak' AFFECTS_COMPONENT engine block heater states it"
+  },
+  {
+   "key": "4533e7fa1712#2",
+   "claim": "the coolant leak may cause the block heater to short circuit when it is plugged in",
+   "matched": [
+    "3035c8013a4b"
+   ],
+   "reason": "stored 'coolant leak CAUSES_PROBLEM short circuit' (when the block heater is plugged in) states it; the short circuit is the heater's"
+  },
+  {
+   "key": "53fedfde3aed#0",
+   "claim": "owners are advised not to plug in their block heater until the vehicle is remedied",
+   "cause": "no_schema_type",
+   "reason": "an interim advice to owners (do not plug in the heater) fits no fact type"
+  },
+  {
+   "key": "8f4805e04362#0",
+   "claim": "interim letters notifying owners of the safety risk were mailed March 6, 2026",
+   "cause": "no_schema_type",
+   "reason": "the mailing of interim letters and its date fit no fact type"
+  }
+ ],
+ "reviewed": [
+  "056c53e954ea#0",
+  "056c53e954ea#1",
+  "0930406385f7#0",
+  "09c43ed973e6#0",
+  "0bfe71b403c1#0",
+  "0cf0e0ff34ac#0",
+  "0d949f7cca98#0",
+  "0ef7c2fcf620#0",
+  "114c7bd5c3ac#0",
+  "11a223cf6bf6#0",
+  "2247984ac5ae#0",
+  "2247984ac5ae#1",
+  "2247984ac5ae#2",
+  "2247984ac5ae#3",
+  "2247984ac5ae#4",
+  "23c971e9e2c7#0",
+  "2ba265557d96#0",
+  "35ef265284c3#1",
+  "3627197d8b3a#0",
+  "38a3be2f22db#0",
+  "38a3be2f22db#1",
+  "38a3be2f22db#2",
+  "38a3be2f22db#3",
+  "3b01d11e981d#0",
+  "3b01d11e981d#1",
+  "3b01d11e981d#2",
+  "3e0818472dcc#0",
+  "3e0818472dcc#1",
+  "53fedfde3aed#0",
+  "57630a4bce21#0",
+  "57630a4bce21#1",
+  "57630a4bce21#2",
+  "5acb39454531#0",
+  "5cc5ee267024#0",
+  "5dc27f02e326#0",
+  "5fc5ce41739d#0",
+  "60e40266f322#0",
+  "651ecafbd360#0",
+  "6aff1eb1f43d#0",
+  "6b02b7628358#0",
+  "6b02b7628358#2",
+  "6b02b7628358#3",
+  "6f8011ee4e72#0",
+  "70791cf8fff4#0",
+  "70791cf8fff4#1",
+  "7c81510891f8#0",
+  "7c81510891f8#1",
+  "7c81510891f8#2",
+  "84b3a93ecbe1#0",
+  "84b3a93ecbe1#1",
+  "86fbcc07b8ed#0",
+  "871e0500eab8#0",
+  "8f4805e04362#0",
+  "930e3b62dee6#0",
+  "9bef6554e7be#0",
+  "a1ff5c6c44ad#0",
+  "a309c4d22184#0",
+  "a309c4d22184#1",
+  "a9816b7e59f2#0",
+  "b0978db51757#0",
+  "b616ec7176ba#0",
+  "bc462b566164#0",
+  "c4da0454fddc#0",
+  "cbc946171556#0",
+  "cea6a538d46c#0",
+  "d3af2b6ca47f#0",
+  "d3af2b6ca47f#1",
+  "d56c363f1e1f#1",
+  "d650561de9cf#0",
+  "dfa7ae8317db#0",
+  "dfa7ae8317db#1",
+  "e1cc700cbcfb#0",
+  "e1cc700cbcfb#1",
+  "e1cc700cbcfb#2",
+  "ecb9c2a6c2da#0",
+  "f4230c015f96#0"
+ ],
+ "changes": [
+  {
+   "key": "57630a4bce21#0",
+   "before": "matched",
+   "after": "no_schema_type",
+   "reason": "the only stored counterpart, 'DOES NOT INDICATE FULL AFFECTS_COMPONENT GAS GAUGE', is a claim R110 judged wrong in content (not_in_text: the text uses the gauge's reading as evidence, not as a gauge fault); no fact type holds a gauge reading that is no problem"
+  }
+ ]
+}
