@@ -1,5 +1,5 @@
-"""Read the mentions of the subject graph as the identity stage sees them: names, types, documents, the
-things their documents are about, and the chunk texts they appear in.
+"""Read the mentions of the subject graph as the identity stage sees them: names, types, the class the
+mention pass stated, documents, the things their documents are about, and the chunk texts they appear in.
 
 Role in the pipeline: first step of `kg resolve` (identity.py); the record matching (records.py) and the
 concept resolution (concepts.py) decide on these models, without the database.
@@ -11,6 +11,7 @@ Not here: any decision about what a mention refers to.
 from neo4j import Driver
 from pydantic import BaseModel
 
+from ..text.schema import MentionClass
 from .attachment import TEXT_ABOUT
 
 
@@ -26,6 +27,9 @@ class MentionRecord(BaseModel):
     # say nothing about which way a kind points, so they are left out
     polarities: list[str] = []
     anchors: list[str] = []  # element ids of the things its document is ABOUT: its scope for records
+    # the class the mention pass stated (R104): a stated kind no record fits is a concept (R107); None for a
+    # claim's or derivation's mention, whose type alone decides
+    stated_class: MentionClass | None = None
 
 
 class MentionText(BaseModel):
@@ -43,6 +47,7 @@ def read_mentions(driver: Driver) -> list[MentionRecord]:
         "MATCH (m:Mention) OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(m) WITH m, count(c) AS chunks "
         # sorted, so the same graph gives the same record
         "RETURN m.id AS id, m.name AS name, m.type AS type, m.doc_id AS doc_id, chunks, "
+        "m.stated_class AS stated_class, "
         "apoc.coll.sort(apoc.coll.toSet([(m)<-[:OBJECT]-(o:Observation) "
         "WHERE o.polarity IN ['positive', 'negative'] | o.polarity])) AS polarities, "
         # the document's ABOUT links come from the link stage, which runs before identity (R75); those the

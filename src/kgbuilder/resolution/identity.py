@@ -7,7 +7,8 @@ Design: the text schema's identity class of a mention's type decides what it may
 of the layered-model task: identity is an edge, not a merged node):
   - keyed: a record of the type's plan labels, by key, name or a telling attribute (records.py), or by an
     LLM's choice among near misses that code verified (record_choice.py); a mention no record fits stands
-    for one particular thing, an individual;
+    for one particular thing, an individual, unless the mention pass stated it a kind: then it is a
+    concept of the built-in `Kind` type (R107);
   - individual: an `:Individual`; the same name in two documents stays two unless the text gives evidence
     that they are one (individuals.py); records and individuals together are particulars.py;
   - concept: a `:Concept` per type and name across documents, joined by entity resolution (concepts.py).
@@ -23,7 +24,7 @@ from pydantic import BaseModel
 from ..graph.canonical import CanonicalKind
 from ..llm.base import Embedder, LLMClient
 from ..structured.plan import ConstructionPlan
-from ..text.schema import TextSchema
+from ..text.schema import KIND_TYPE, TextSchema
 from .blocking import Blocking
 from .concepts import ConceptResolution, resolve_concepts
 from .identity_graph import Assignment, write_identity
@@ -57,6 +58,8 @@ class IdentityReport(BaseModel):
     blocked: dict[str, int] = {}  # concept guard -> the pairs it kept apart (guards.py)
     individual_decisions: list[IndividualDecision] = []  # individual pairs: joined, apart, refused
     record_choices: list[ChoiceDecision] = []  # keyed mentions with near misses: chosen, none, refused
+    # keyed mentions the pass stated a kind that no record fits, resolved as `Kind` concepts (R107)
+    kinds_without_record: list[str] = []
     assignments: list[Assignment]
 
     def count(self, kind: CanonicalKind) -> int:
@@ -91,7 +94,11 @@ def resolve_identity(
         embedder,
         blocking,
     )
-    concept_mentions = [m for m in mentions if classes[m.type] == "concept"]
+    # a stated kind no record fits joins the concepts under `Kind`, the fallback the pass gives a kind whose
+    # type cannot hold it (R104): "contractor" typed `Person` is then one concept with "contractor" typed
+    # `Kind`. In id order with the rest, so the same graph gives the same prompts.
+    kinds = {m.id: m.model_copy(update={"type": KIND_TYPE}) for m in particulars.kinds}
+    concept_mentions = [kinds.get(m.id, m) for m in mentions if classes[m.type] == "concept" or m.id in kinds]
     concepts = resolve_concepts(
         driver,
         concept_mentions,
@@ -117,6 +124,7 @@ def resolve_identity(
         blocked=concepts.blocked,
         individual_decisions=particulars.decisions,
         record_choices=particulars.choices,
+        kinds_without_record=sorted(kinds),
         assignments=sorted(assignments, key=lambda a: a.mention),
     )
 

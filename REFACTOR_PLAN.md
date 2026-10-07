@@ -6160,6 +6160,62 @@ builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pi
   leaves open (Found along the way): the keyed-kind individuals (now a wrong merge), generality's pass
   precision, and the dimmer join.
 
+### R107. A stated kind that no record fits resolves as a concept (part a done 2026-10-07; part b asked)
+The user's decision after R103 (2026-10-07, "R107 is approved"): resolve follows the class the mention pass
+states. Today the class lives in `mentions.jsonl` only; resolve routes by the type's identity class, so a
+mention the pass stated a kind and typed with a keyed type becomes a `no_record` individual when no record
+fits (`resolution/particulars.py`, `_individual`), and individuals are joined pairwise. In R103 that made 122
+kinds named things (held-out 76: "recall" x57 `Recall`, "vehicle", "CAR" `Vehicle`; furniture 29: "parts",
+"hardware"; generality 17: "contractor", "residents" `Person`), one wrong join ("CARS" / "CAR" of two
+complaints, C3's hard rule), splits ("contractor" both a `Kind` concept and a `Person` individual) and 1,639
+of held-out's 2,192 individual pair decisions.
+- **Split, one commit each:** (a) the rule, everywhere identity is decided ($0, tests); (b) the measurement,
+  a resolve of the three R103 graphs with the rule (paid, asked with its counted estimate), judged as R103.
+- **Part a scope:**
+  - The pass writes the stated class on the `:Mention` it creates (`stated_class`; `write_mentions` takes the
+    pass's classes); `read_mentions` reads it (`MentionRecord.stated_class`, None for a claim's or
+    derivation's mention, whose behaviour does not change).
+  - `resolution/particulars.py`: records are matched first, as before (rules and chooser); then a keyed
+    mention stated `kind` whose match links no record (none fits, or several tie) leaves the particulars
+    (`names_a_kind`, the one rule); `Particulars.kinds` lists them. A stated kind that a record fits still
+    links it ("back rest" -> the part record).
+  - `resolution/identity.py`: those mentions join the concept mentions under the built-in `Kind` type, the
+    fallback R104 gives a kind in the pass, so "contractor" stated kind and typed `Person` is the same
+    concept as "contractor" typed `Kind`. Report field `kinds_without_record`, metric of the same name.
+  - The offline replays follow the rule: `audit/reidentify.py` carries the snapshot's stated class into the
+    pure core (a faithful replay of a build made before R107 now lists those mentions as differences, which
+    is right: today's code would not build it); its measured mode and `audit/relink.py` refuse a stated kind
+    the replay moves to a concept that the build had as a particular, since only `kg resolve` decides
+    concepts. Not changed: the pass, the record rules, the joining of individuals, concept resolution.
+- **Part a (done 2026-10-07, $0, no run):** as scoped. `names_a_kind(stated, match)` in
+  `resolution/particulars.py` is the one rule; `assign_particulars` sets those mentions aside before the
+  units (their chunks leave the evidence too) and keeps them in `ambiguous` when records tie; `identity.py`
+  retypes them `Kind` and resolves them with the concept mentions, in id order (same graph, same prompts);
+  the assignment's `type` is the type resolved under (comment in `identity_graph.py`). Audit:
+  `reidentify.undecided_kinds`, `Relink.to_concepts`, both refused in `kg audit-relink`; a measured replay
+  drops a build's concept edge for a mention it now links to a record. README's identity paragraph.
+  - Tests: `tests/test_identity.py`: the pure rule (R103's "CARS" / "CAR" set aside and never paired, a tied
+    kind set aside and still ambiguous, a stated kind a record fits linked, a stated particular and a claim's
+    mention individuals; the same inputs without a class nominate "CARS" / "CAR" as a pair) and on Neo4j
+    ("colleague" typed `Person` and typed `Kind` in two documents, both stated kind, one `Kind` concept;
+    "Priya Shah" stated particular an individual; `kinds_without_record`); `tests/test_mention_pass.py`: the
+    stage writes `stated_class` on its new mentions, none on a claim's; `tests/test_audit.py`: a build with a
+    pass kind as a `Kind` concept passes the faithful gate and keeps its edge in a measured replay, one made
+    before R107 (an individual) is a faithful difference and refused measured, and a record replay that
+    unlinks a stated kind is refused. The two resolve tests fail on the code before part a. Gate: 828 passed
+    (823 before), `ruff check` clean.
+- **Part b, the estimate (counted before asking):** per dataset into `out/r107_<ds>`, R102's command line
+  with R103's claims: `kg reset`, `build`, `ingest-text`, `extract --from-build out/r103_<ds>` (the claims
+  replayed, no call), `link`, `mention-pass` (the same graph gives R103's prompts: answered from the LLM
+  cache), `resolve`, `attach`; plan, text schema and profile pinned from r77d as in R103. Only resolve asks
+  new questions: concept pairs of the about 122 kinds' concepts (furniture 29, held-out 76 under about 12
+  names, generality 17) and pairs whose concept gained members (new context lines); every individual pair
+  and record choice R103 asked is unchanged and cached. At R102's cost per resolve call (about $0.0005):
+  **about $0.15, likely $0.05-0.35**; $0.33 more if the pass were not answered from the cache. Then the
+  evaluation of R103 part b ($0) and blind judging of the changed C3 items. It answers: is the C3 hard rule
+  held again on held-out, do the splits close, and does C7 gain hubs ("recall" 28 and "recalling" 27 of 81
+  held-out chunks).
+
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
   Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and
@@ -6187,8 +6243,11 @@ builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pi
   furniture document's "Scraped from <url>" line), idioms, times written as nouns ("night shift"), ordinary
   operation verbs, an identifier with its common noun. A prompt round on them would chase single cases; the
   source URL line is the one a code check could see (a name inside a URL of the chunk).
+- **`kg resolve --preview` does not see R107's kinds (found in R107, 2026-10-07; open).** The preview lists
+  the concept pairs of the concept types' mentions without matching records, so a stated kind of a keyed
+  type that no record fits, which `kg resolve` resolves as a `Kind` concept, is missing from its pairs.
 - **A kind typed with a keyed type that no record fits becomes an individual (found in R104, 2026-10-07;
-  open; R103: it now makes a wrong merge).** In R103's held-out graph, "CARS" and "CAR" of two complaints,
+  closed by R107 part a: resolved as a `Kind` concept; R103: it made a wrong merge).** In R103's held-out graph, "CARS" and "CAR" of two complaints,
   both stated kind and typed `Vehicle`, became `no_record` individuals and were joined (C3 hard rule).
   Since the pass states the class, resolve could treat a pass mention stated kind that no record fits as a
   concept; the class lives in `mentions.jsonl` only, not on the graph's Mention, so this changes the pass's

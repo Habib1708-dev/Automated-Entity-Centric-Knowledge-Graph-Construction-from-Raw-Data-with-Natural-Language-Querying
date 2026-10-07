@@ -24,7 +24,9 @@ class Assignment(BaseModel):
     kind: CanonicalKind
     canonical: str  # the canonical entity's stable id: a concept or individual id, or `record_ref`
     name: str  # its display name
-    type: str  # the mention's type; a concept or individual node takes its founding mention's
+    # the type the mention is resolved under: its own, or `Kind` for a stated kind no record fits (R107); a
+    # concept or individual node takes its founding mention's
+    type: str
     target: str | None = None  # a record's element id; None for concepts and individuals
     reason: str  # the rule that decided it (records.py, `_individual_reason`, `_concept_reason`)
     score: float | None = None  # the matching score, where the rule has one

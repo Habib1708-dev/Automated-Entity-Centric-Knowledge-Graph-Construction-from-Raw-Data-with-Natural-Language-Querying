@@ -17,9 +17,10 @@ With `--choose` it is an LLM run (R95b): the mentions with near misses are offer
 With `--join` (R98) it also decides the individuals again from the replayed record matches
 (audit/reidentify.py): the adjudicator is asked as `kg resolve` asks it, the meaning pairs come from the
 embedder, every changed mention must be explained by its group (`joined`, `unjoined`), and the written build
-carries the replayed `individual_decisions`. `--join --faithful` writes no build: it is the gate that the
-replay is the build's, from the build's own record matches and logged meaning pairs, and it fails on any
-difference from resolve.json.
+carries the replayed `individual_decisions`. A stated kind that no record fits is a concept since R107, which
+no replay decides: a replay that would make one where the build has a particular is refused.
+`--join --faithful` writes no build: it is the gate that the replay is the build's, from the build's own
+record matches and logged meaning pairs, and it fails on any difference from resolve.json.
 Not here: the judged metrics, the scoring of verdicts.
 """
 
@@ -37,6 +38,7 @@ from ..audit.reidentify import (
     identity_changes,
     logged_meaning,
     reidentify,
+    undecided_kinds,
     unfaithful,
     with_build_targets,
 )
@@ -164,6 +166,13 @@ class AuditRelinkStage(BaseStage):
             raise EvaluationError(
                 [f"unexplained change of {c.mention} {c.name!r}" for c in replay.unexplained]
             )
+        if replay.to_concepts:  # R107: they become concepts, and no replay decides concepts
+            raise EvaluationError(
+                [
+                    f"{m} is a stated kind that lost its record: kg resolve decides its concept"
+                    for m in replay.to_concepts
+                ]
+            )
         references, decisions = replay.references, None
         if state.relink_join:
             references, decisions = self._join(ctx, state, run, snapshot, schema, replay, llm)
@@ -267,7 +276,16 @@ class AuditRelinkStage(BaseStage):
             raise EvaluationError(
                 [f"unexplained identity change of {c.mention} {c.name!r}" for c in unexplained]
             )
-        concepts = [a for a in snapshot.references if a.kind == "concept"]
+        if undecided := undecided_kinds(snapshot, particulars):  # R107: a concept no replay can decide
+            raise EvaluationError(
+                [
+                    f"{m.id} {m.name!r} is a stated kind no record fits: kg resolve decides its concept"
+                    for m in undecided
+                ]
+            )
+        # a stated kind the build resolved as a concept and the replay now links keeps only its record edge
+        placed = {a.mention for a in particulars.assignments}
+        concepts = [a for a in snapshot.references if a.kind == "concept" and a.mention not in placed]
         replayed = with_build_targets(snapshot, particulars.assignments)
         return sorted(replayed + concepts, key=lambda a: a.mention), particulars.decisions
 

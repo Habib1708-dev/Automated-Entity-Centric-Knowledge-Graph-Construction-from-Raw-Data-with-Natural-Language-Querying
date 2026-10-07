@@ -201,8 +201,10 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   `keyed` types refer to a record of their plan labels (by its key, by name inside the scope of the
   document's thing, or by a key attribute in the same sentence: "Maria Lopez (Finance Office)" is the
   Maria Lopez whose team is Finance Office; records still tied are not linked, the mention is logged as
-  ambiguous); `individual` types, and keyed mentions no record fits, refer to an `(:Individual)`, and one
-  name in two documents stays two things unless the text gives evidence: name variants ("Dr. J. Pike",
+  ambiguous); a keyed mention no record fits that the mention pass stated a kind ("the car") refers to a
+  `Kind` concept (R107); `individual` types, and other keyed mentions no record fits, refer to an
+  `(:Individual)`, and one name in two documents stays two things unless the text gives evidence: name
+  variants ("Dr. J. Pike",
   "Jon Pike", "Jonathan Pike") only nominate a pair, which is joined when a record's key attribute stands in
   the sentence or an LLM answers "the same" with a quote from each side that code finds in that side's own
   text; `concept` types refer to a `(:Concept)` per type and name, and entity resolution joins concepts

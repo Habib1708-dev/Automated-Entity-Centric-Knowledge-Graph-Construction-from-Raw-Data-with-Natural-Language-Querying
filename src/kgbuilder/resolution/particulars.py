@@ -2,10 +2,12 @@
 
 Role in the pipeline: the part of `kg resolve` (identity.py) before concepts. Records first: every keyed
 mention is matched against its type's records (records.py); a mention no rule links but whose scope holds
-near misses is offered to an LLM, whose choice code checks (record_choice.py). Then individuals: a record's
-mentions are one unit, every other keyed or individual-class mention a unit of its own, and units are joined
-across documents only with evidence (individuals.py). Each group becomes one canonical entity: its record
-when it holds one, else an `:Individual` named after its fullest name.
+near misses is offered to an LLM, whose choice code checks (record_choice.py). A keyed mention the mention
+pass stated a kind that no record fits then leaves the particulars: it names a kind, not one thing, and
+concepts decide it (`names_a_kind`, R107). Then individuals: a record's mentions are one unit, every other
+keyed or individual-class mention a unit of its own, and units are joined across documents only with
+evidence (individuals.py). Each group becomes one canonical entity: its record when it holds one, else an
+`:Individual` named after its fullest name.
 Design: reads the graph (records, scopes, the mentions' chunks, the near misses' data), asks the LLM only
 through the record chooser and the adjudicator, writes nothing; the outcome is a list of assignments (one
 edge per mention) and the decisions behind them. Everything after the record matching is the pure
@@ -23,7 +25,7 @@ from ..core.identity import individual_id, record_ref
 from ..core.text import sentences_naming
 from ..llm.base import Embedder, LLMClient
 from ..structured.plan import ConstructionPlan
-from ..text.schema import TextSchema
+from ..text.schema import MentionClass, TextSchema
 from .blocking import Blocking, PairKey
 from .identity_evidence import build_evidence
 from .identity_graph import Assignment
@@ -51,6 +53,15 @@ from .record_choice import (
 from .records import RecordCandidate, RecordLink, RecordMatch, match_record, read_records, read_scopes
 
 
+def names_a_kind(stated: MentionClass | None, match: RecordMatch) -> bool:
+    """R107: a keyed mention the mention pass stated a kind ("the car", "recalling") that no record fits, or
+    that several fit equally, names a kind, not one particular thing; resolve hands it to the concepts.
+    `stated` is the mention's stated class, `match` its record match. A stated kind that a record fits keeps
+    its link ("back rest" -> the chair's part record), and a mention without a stated class (a claim's)
+    keeps the type's rule: an individual of its own."""
+    return stated == "kind" and match.link is None
+
+
 class AmbiguousMention(BaseModel):
     """A keyed mention that several records fit equally: not linked to any of them."""
 
@@ -67,6 +78,8 @@ class Particulars(BaseModel):
     ambiguous: list[AmbiguousMention]
     decisions: list[IndividualDecision]
     choices: list[ChoiceDecision] = []  # keyed mentions with near misses, and what the chooser made of them
+    # keyed mentions that name a kind (`names_a_kind`, R107): no assignment here, the concepts' to decide
+    kinds: list[MentionRecord] = []
 
 
 class JoinSettings(BaseModel):
@@ -98,7 +111,7 @@ def resolve_particulars(
 ) -> Particulars:
     """Records for the keyed mentions (an LLM choosing among near misses), then individuals joined with
     evidence; without an LLM no near miss is chosen and no pair of individuals is joined (each is logged as
-    skipped)."""
+    skipped). The keyed mentions that name a kind get no assignment here: `Particulars.kinds` lists them."""
     texts = read_mention_texts(driver, sorted(m.id for m in (*keyed, *individuals)))
     matched = (
         _match_records(driver, keyed, schema, plan, (link_threshold, settings.borderline), texts)
@@ -146,19 +159,23 @@ def assign_particulars(
     settings: JoinSettings,
     views: dict[str, CandidateView],
 ) -> Particulars:
-    """The pure core of `resolve_particulars`, after the records are matched: a record's mentions form one
-    unit and every other mention one alone; same-type pairs are nominated (variant, spelling, `meaning`) and
-    joined only on a verified adjudication; each group becomes one assignment per mention. `texts` are the
-    chunks of every mention (`read_mention_texts`'s rows and order), `views` record ref -> what the data
-    holds about it (for the adjudicator, R100). Reads no graph, so an offline replay feeds it the same
-    inputs (audit/reidentify.py). The result has no record choices: those come before."""
-    units = _units(keyed, individuals, matches)
-    evidence = build_evidence(units, texts, matches, views)
+    """The pure core of `resolve_particulars`, after the records are matched: the keyed mentions that name a
+    kind are set aside (`kinds`, R107); of the rest, a record's mentions form one unit and every other
+    mention one alone; same-type pairs are nominated (variant, spelling, `meaning`) and joined only on a
+    verified adjudication; each group becomes one assignment per mention. `texts` are the chunks of every
+    mention (`read_mention_texts`'s rows and order), `views` record ref -> what the data holds about it (for
+    the adjudicator, R100). Reads no graph, so an offline replay feeds it the same inputs
+    (audit/reidentify.py). The result has no record choices: those come before."""
+    # set aside before the units: a kind is never asked about as a pair of named things ("CARS" / "CAR")
+    aside = {m.id for m in keyed if names_a_kind(m.stated_class, matches[m.id])}
+    placed = [m for m in keyed if m.id not in aside]
+    units = _units(placed, individuals, matches)
+    evidence = build_evidence(units, [t for t in texts if t.mention not in aside], matches, views)
     pairs = nominate(units, settings.borderline, meaning(units))
     adjudicate = llm_adjudicator(llm, settings.model, evidence) if llm is not None else None
     shown = {unit: side.lines for unit, side in evidence.sides.items()}
     joining = join(units, pairs, adjudicate, shown, settings.model)
-    mentions = {m.id: m for m in (*keyed, *individuals)}
+    mentions = {m.id: m for m in (*placed, *individuals)}
     assignments = [
         a
         for group in joining.groups
@@ -168,6 +185,7 @@ def assign_particulars(
         assignments=assignments,
         ambiguous=_ambiguous(keyed, matches),
         decisions=joining.decisions,
+        kinds=[m for m in keyed if m.id in aside],
     )
 
 

@@ -3,8 +3,9 @@ reason, the type a finding is stored with given its two answers (R104: the propo
 hold the stated class), the pass over chunks with a scripted LLM, the rows it writes (one mention per document
 and name, an existing mention's type winning, the stated class kept), the prompt's corpus-language guard, the
 built-in fallback types, the audit snapshot replaying a build's pass file (or other findings in its place,
-R105), the stage on Neo4j (params, metrics, artifacts), and the offline replay of the pass on a finished
-build (R105: the graph as the pass found it, behind the C0 gate, nothing written but files).
+R105), the stage on Neo4j (params, metrics, artifacts, the stated class on its new mentions for resolve,
+R107), and the offline replay of the pass on a finished build (R105: the graph as the pass found it, behind
+the C0 gate, nothing written but files).
 
 The text is an invented observatory log (as the definition's examples, tests/gold/r101/rules.md). Only the
 stage test needs Neo4j. The R102 rebuilds' logged counts (tests/gold/r102) must show the r77d claims replayed
@@ -284,10 +285,16 @@ def test_the_stage_writes_the_new_mentions_and_logs_what_it_asked_and_refused(dr
     assert {"prompts/mention_pass.txt", str(out / PASS_FILE)} <= set(run.artifacts)
     rows = driver.execute_query(
         "MATCH (:Chunk {chunk_id: $c})-[:MENTIONS]->(m:Mention) WHERE m.name IN ['condensation', 'dome'] "
-        "RETURN m.name AS name, m.type AS t ORDER BY name",
+        "RETURN m.name AS name, m.type AS t, m.stated_class AS c ORDER BY name",
         c=CHUNK.chunk_id,
     )[0]
-    assert [(r["name"], r["t"]) for r in rows] == [("condensation", KIND_TYPE), ("dome", KIND_TYPE)]
+    assert [(r["name"], r["t"], r["c"]) for r in rows] == [
+        ("condensation", KIND_TYPE, "kind"),
+        ("dome", KIND_TYPE, "kind"),
+    ]
+    # the claim's "mirror" states no class: resolve keeps its type's rule for it (R107)
+    [claimed] = driver.execute_query("MATCH (m:Mention {name: 'mirror'}) RETURN m.stated_class AS c")[0]
+    assert claimed["c"] is None
     lines = [json.loads(x) for x in (out / PASS_FILE).read_text("utf-8").splitlines()]
     assert [(x["name"], x["type"], x["mention_class"], x["proposed_type"]) for x in lines] == [
         ("condensation", KIND_TYPE, "kind", NO_TYPE),

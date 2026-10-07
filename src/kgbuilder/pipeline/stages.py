@@ -111,6 +111,8 @@ def _identity_metrics(report: IdentityReport) -> dict[str, float]:
         "mentions_to_individuals": report.count("individual"),
         "mentions_to_concepts": report.count("concept"),
         "mentions_ambiguous": len(report.ambiguous),
+        # keyed mentions the pass stated a kind that no record fits: concepts, not individuals (R107)
+        "kinds_without_record": len(report.kinds_without_record),
         "records_referred": len({a.canonical for a in to_records}),
         # comparable with `entities_linked` of the link runs before R75, which counted entities (one per
         # type and name) with a link: here the distinct types and names among the linked mentions
@@ -499,7 +501,8 @@ class MentionPassStage(_TextStage):
         return PassInputs(state.load_chunks(ctx), state.load_text_schema(ctx), existing, pairs)
 
     def write_rows(self, ctx: PipelineContext, rows: mention_pass.PassRows) -> None:
-        write_mentions(ctx.driver, rows.mentions, set(rows.mentioned_in))
+        # the stated classes go on the graph: resolve reads them there (R107)
+        write_mentions(ctx.driver, rows.mentions, set(rows.mentioned_in), rows.classes)
 
     def run(self, ctx, state, run):
         s = ctx.settings

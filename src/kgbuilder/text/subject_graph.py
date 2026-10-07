@@ -27,10 +27,12 @@ observation keeps the names the extractor gave its two ends (`subject_name`, `ob
 keeps what its own document said, whatever its mentions are found to refer to (R44).
 All writes are MERGE on the ids, so re-running extraction does not duplicate anything.
 The mention pass (mention_pass.py, R101) writes the mentions no claim names through `write_mentions` too,
-after reading the existing rows (`read_mention_rows`).
+after reading the existing rows (`read_mention_rows`), each with the class it stated (`stated_class`, R107).
 Not here: deciding which triples are valid (extraction.py), what a mention refers to (resolution/) and
 attaching observations to things (resolution/linking.py).
 """
+
+from collections.abc import Mapping
 
 from neo4j import Driver
 from pydantic import BaseModel
@@ -38,6 +40,7 @@ from pydantic import BaseModel
 from ..core.identity import document_of, mention_id, observation_id
 from ..core.values import VALUE_TYPE, Quantity, parse_quantity
 from .extraction import Modality, Polarity, Triple, Truth, triple_truth
+from .schema import MentionClass
 
 
 class SubjectGraphCounts(BaseModel):
@@ -153,16 +156,26 @@ def observation_row(
     )
 
 
-def write_mentions(driver: Driver, rows: list[MentionRow], mentioned_in: set[tuple[str, str]]) -> None:
-    """MERGE the mentions and one MENTIONS edge per (chunk id, mention id) pair; the chunks must exist."""
+def write_mentions(
+    driver: Driver,
+    rows: list[MentionRow],
+    mentioned_in: set[tuple[str, str]],
+    classes: Mapping[str, MentionClass] | None = None,
+) -> None:
+    """MERGE the mentions and one MENTIONS edge per (chunk id, mention id) pair; the chunks must exist.
+    `classes` (mention id -> class) are the mention pass's stated classes (R104), stored as `stated_class`
+    for resolve (R107); a mention without one (a claim's) gets no such property."""
     driver.execute_query("CREATE CONSTRAINT IF NOT EXISTS FOR (m:Mention) REQUIRE m.id IS UNIQUE")
     # the type is a property, not a label: a `Hive` label here would collide with the domain graph's
     driver.execute_query("CREATE INDEX mention_type IF NOT EXISTS FOR (m:Mention) ON (m.type)")
+    stated = classes or {}
     driver.execute_query(
-        # ON CREATE only: a mention's display name is its first spelling, on every rerun
+        # ON CREATE only: a mention's display name is its first spelling, on every rerun; a null class sets
+        # no property
         "UNWIND $rows AS r MERGE (m:Mention {id: r.id}) "
-        "ON CREATE SET m.name = r.name, m.type = r.type, m.doc_id = r.doc_id",
-        rows=[r.model_dump() for r in rows],
+        "ON CREATE SET m.name = r.name, m.type = r.type, m.doc_id = r.doc_id, "
+        "m.stated_class = r.stated_class",
+        rows=[{**r.model_dump(), "stated_class": stated.get(r.id)} for r in rows],
     )
     driver.execute_query(
         "UNWIND $rows AS r MATCH (c:Chunk {chunk_id: r.c}), (m:Mention {id: r.m}) MERGE (c)-[:MENTIONS]->(m)",

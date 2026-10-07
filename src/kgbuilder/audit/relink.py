@@ -16,7 +16,8 @@ of the LLM among its near misses (R95b, only when an LLM is given); any other ch
 the build's matching, and it is listed as unexplained so the caller can refuse it.
 A mention that loses its record stands for itself, as `resolution/particulars.py` makes such a mention
 before joining; the LLM's joining of individuals is replayed apart, from `Relink.matches`
-(audit/reidentify.py, R98).
+(audit/reidentify.py, R98). One the mention pass stated a kind becomes a concept instead (R107), which no
+replay decides: such mentions are listed (`Relink.to_concepts`) so the caller can refuse the replay.
 Must not: read Neo4j, call an LLM other than the chooser it is given, or change anything but the changed
 mentions' REFERS_TO.
 """
@@ -32,6 +33,7 @@ from ..llm.base import LLMClient
 from ..resolution.attachment import TEXT_ABOUT
 from ..resolution.identity_graph import Assignment
 from ..resolution.names import name_score
+from ..resolution.particulars import names_a_kind
 from ..resolution.record_choice import (
     CandidateView,
     ChoiceDecision,
@@ -86,6 +88,9 @@ class Relink(BaseModel):
     choices: list[ChoiceDecision] = []  # the mentions with near misses, and the chooser's outcome for each
     # every keyed mention's replayed match, choices included: what the individuals' replay forms units from
     matches: dict[str, RecordMatch] = {}
+    # changed mentions the pass stated a kind that lost their record: concepts under R107, which only
+    # `kg resolve` decides
+    to_concepts: list[str] = []
 
     @property
     def unexplained(self) -> list[RelinkChange]:
@@ -125,7 +130,15 @@ def relink(
     changes = [c for m in keyed if (c := _change(m, built.get(m.id), matches[m.id], replay, threshold))]
     replaced = {c.mention: matches[c.mention] for c in changes}
     references = [_replayed(a, replaced[a.mention]) if a.mention in replaced else a for a in s.references]
-    return Relink(keyed=len(keyed), changes=changes, references=references, choices=choices, matches=matches)
+    stated = {m.id: m.stated_class for m in keyed}
+    return Relink(
+        keyed=len(keyed),
+        changes=changes,
+        references=references,
+        choices=choices,
+        matches=matches,
+        to_concepts=[c.mention for c in changes if names_a_kind(stated[c.mention], matches[c.mention])],
+    )
 
 
 def _change(

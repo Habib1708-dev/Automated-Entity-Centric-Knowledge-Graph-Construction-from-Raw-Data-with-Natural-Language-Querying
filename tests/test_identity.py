@@ -4,7 +4,9 @@ attribute in its sentence, two same-named records without one leave the mention 
 of one name stays one per document, a value's spellings share one concept, the resolve stage logs its
 params, metrics and audit file and refuses identity classes the plan cannot satisfy, the flattening
 reader gives the triples of the shape before R75 on the same claims, and an LLM's choice among a
-mention's near misses links only when code verifies it (R95b)."""
+mention's near misses links only when code verifies it (R95b). R107, pure and on Neo4j: a keyed mention the
+mention pass stated a kind that no record fits is set aside from the particulars, never paired with another
+named thing, and resolved as a concept of the built-in `Kind` type."""
 
 import json
 
@@ -12,6 +14,7 @@ import pytest
 
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ProposalRejectedError
+from kgbuilder.core.identity import concept_id
 from kgbuilder.core.values import VALUE_TYPE
 from kgbuilder.pipeline import stages as st
 from kgbuilder.pipeline.runner import run_stages
@@ -20,14 +23,17 @@ from kgbuilder.resolution.concepts import SamePair
 from kgbuilder.resolution.identity import IdentitySettings, resolve_identity
 from kgbuilder.resolution.individuals import SameIndividual
 from kgbuilder.resolution.linking import link_graphs
+from kgbuilder.resolution.mentions import MentionRecord, MentionText
+from kgbuilder.resolution.particulars import JoinSettings, assign_particulars
 from kgbuilder.resolution.record_choice import RecordChoice
+from kgbuilder.resolution.records import RecordCandidate, RecordLink, RecordMatch
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.documents import Document
 from kgbuilder.text.extraction import Triple
 from kgbuilder.text.lexical import write_lexical_graph
-from kgbuilder.text.schema import EntityType, FactType, TextSchema
-from kgbuilder.text.subject_graph import write_subject_graph
+from kgbuilder.text.schema import KIND_TYPE, EntityType, FactType, MentionClass, TextSchema
+from kgbuilder.text.subject_graph import mention_row, write_mentions, write_subject_graph
 from kgbuilder.validation.checks.base import CheckContext, ClaimRow, flatten
 
 from .fakes import RecordingTracker, ScriptedLLM
@@ -57,6 +63,67 @@ def test_the_flattening_reader_leaves_out_self_references_and_reads_one_of_two_r
     ]
     assert [f.subject_name for f in flatten(rows)] == ["Table", "Table"]
     assert sorted(f.chunk_id for f in flatten(rows)) == ["a.md#0", "a.md#1"]
+
+
+def _vehicle(name: str, doc: str, stated: MentionClass | None) -> MentionRecord:
+    """A mention of an invented keyed `Vehicle` type, with the class the pass stated (None: a claim's)."""
+    return MentionRecord(
+        id=f"{doc}/{name}", name=name, type="Vehicle", doc_id=doc, chunks=1, stated_class=stated
+    )
+
+
+def test_a_stated_kind_no_record_fits_is_set_aside_and_never_paired_with_a_named_thing():
+    """R107, after R103's held-out error: "CARS" and "CAR" of two complaints, stated kinds of a keyed type
+    that no record fits, became individuals and were joined. Now they are set aside for the concepts, as is a
+    stated kind two records tie on; a stated kind a record fits keeps its link, and a stated particular or a
+    claim's mention (no stated class) that no record fits is still an individual."""
+    rogue = RecordCandidate(element_id="e-1", label="Model", name="Rogue", key="M-1")
+    sport = RecordCandidate(element_id="e-2", label="Model", name="Rogue Sport", key="M-2")
+    cars, car, tied = (
+        _vehicle("CARS", "c1.md", "kind"),
+        _vehicle("CAR", "c2.md", "kind"),
+        _vehicle("model", "c3.md", "kind"),
+    )
+    rogues = _vehicle("Rogues", "c4.md", "kind")
+    named, claimed = _vehicle("Unit 54", "c5.md", "particular"), _vehicle("car", "c6.md", None)
+    keyed = [cars, car, tied, rogues, named, claimed]
+    link = RecordLink(record=rogue, reason="name", score=96.0, evidence="Rogues", scoped=True)
+    matches = {m.id: RecordMatch() for m in keyed} | {
+        tied.id: RecordMatch(tied=[rogue, sport]),
+        rogues.id: RecordMatch(link=link),
+    }
+    texts = [
+        MentionText(mention=m.id, document=m.doc_id, chunk_id=f"{m.doc_id}#0", text=f"The {m.name} stalled.")
+        for m in keyed
+    ]
+
+    def assign(mentions: list[MentionRecord]):
+        return assign_particulars(
+            mentions,
+            [],
+            matches,
+            texts,
+            lambda units: set(),
+            None,
+            JoinSettings(borderline=80, model="m"),
+            {},
+        )
+
+    after = assign(keyed)
+    assert [m.id for m in after.kinds] == [cars.id, car.id, tied.id]
+    assert {a.mention: (a.kind, a.reason) for a in after.assignments} == {
+        rogues.id: ("record", "name"),
+        named.id: ("individual", "no_record"),
+        claimed.id: ("individual", "no_record"),
+    }
+    asked = {x for d in after.decisions for x in (d.a, d.b)}
+    assert asked.isdisjoint({cars.id, car.id, tied.id})
+    assert [a.mention for a in after.ambiguous] == [tied.id]  # several records still fit it equally
+    # before R107 (no stated class) "CARS" and "CAR" were two named things, nominated as one pair
+    before = assign([m.model_copy(update={"stated_class": None}) for m in keyed])
+    assert before.kinds == [] and frozenset((cars.id, car.id)) in {
+        frozenset((d.a, d.b)) for d in before.decisions
+    }
 
 
 # An invented institute: two staff records of one name, told apart by their team
@@ -159,6 +226,36 @@ def test_an_individual_type_gives_one_individual_per_document_and_values_share_o
     assert len({c for _, c, _ in values}) == 1 and {k for k, _, _ in values} == {"concept"}
     [name] = driver.execute_query("MATCH (c:Concept {type: $t}) RETURN c.name AS n", t=VALUE_TYPE)[0]
     assert name["n"] == "25 kg"
+
+
+@pytest.mark.neo4j
+def test_a_stated_kind_no_record_fits_refers_to_a_kind_concept_shared_across_documents(driver):
+    """R107 on the graph: the pass wrote "colleague" in two documents, stated a kind in both, typed with the
+    keyed `Person` in one and the fallback `Kind` in the other; no staff record is a colleague. Both refer to
+    one `Kind` concept, not an individual and a concept. "Priya Shah", stated a particular, whom no record
+    names, is still an individual."""
+    build(driver)
+    extra = {"rota.md": "The duty colleague signs the rota.", "handover.md": "A colleague met Priya Shah."}
+    write_lexical_graph(
+        driver,
+        [Document(doc_id=d, title=d.split(".")[0], text=t) for d, t in extra.items()],
+        [Chunk(chunk_id=f"{d}#0", doc_id=d, index=0, text=t) for d, t in extra.items()],
+    )
+    rota = mention_row("Person", "colleague", "rota.md#0")
+    handover = mention_row(KIND_TYPE, "colleague", "handover.md#0")
+    priya = mention_row("Person", "Priya Shah", "handover.md#0")
+    rows = [rota, handover, priya]
+    classes: dict[str, MentionClass] = {rota.id: "kind", handover.id: "kind", priya.id: "particular"}
+    write_mentions(driver, rows, {(f"{r.doc_id}#0", r.id) for r in rows}, classes)
+    report = resolve_identity(driver, SCHEMA, PLAN, None, "m", SETTINGS)
+    assert report.kinds_without_record == [rota.id]
+    kind, canonical, reason = identity_of(driver, "rota.md", "colleague")
+    assert (kind, canonical, reason) == ("concept", concept_id(KIND_TYPE, "colleague"), "same_name")
+    assert identity_of(driver, "handover.md", "colleague")[:2] == (kind, canonical)
+    [concept] = driver.execute_query("MATCH (c:Concept {id: $c}) RETURN c.type AS t", c=canonical)[0]
+    assert concept["t"] == KIND_TYPE
+    priya_kind, _, priya_reason = identity_of(driver, "handover.md", "Priya Shah")
+    assert (priya_kind, priya_reason) == ("individual", "no_record")
 
 
 @pytest.mark.neo4j

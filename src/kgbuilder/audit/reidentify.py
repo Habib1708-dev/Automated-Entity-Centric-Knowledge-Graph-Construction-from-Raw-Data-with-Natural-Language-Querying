@@ -5,8 +5,8 @@ individuals without a rebuild (R99, R100). `audit/relink.py` replays the record 
 replays the rest of `resolution/particulars.py` (the units, the pairs nominated, the LLM's adjudication of
 each, the groups) through the same pure core, `particulars.assign_particulars`. Its inputs are what
 `resolve_particulars` reads from the graph, restated over R87's snapshot:
-  - the keyed and individual mentions, by the text schema's identity class, with their chunk counts
-    (`mentions.read_mentions`);
+  - the keyed and individual mentions, by the text schema's identity class, with their chunk counts and
+    the class the mention pass stated (`mentions.read_mentions`);
   - every chunk naming them, by mention, document and position, the document named by its heading
     (`mentions.read_mention_texts`);
   - the record matches: the build's own (faithful mode) or the record replay's (measured mode);
@@ -17,7 +17,9 @@ particular assignments field by field; `unfaithful` lists every difference. Meas
 mention whose canonical entity changed by a change of its group (`joined`: it is now one thing with a
 mention it was not one with; `unjoined`: it only lost some); a mention whose record decision the record
 replay changed carries that replay's cause instead, and anything else is unexplained, so the caller refuses
-the replay.
+the replay. Since R107 the core sets a stated kind that no record fits aside for the concepts, which no
+replay decides: a faithful replay lists such a mention as a difference when the build made it a particular,
+and the caller refuses a measured replay with one (`undecided_kinds`).
 Must not: read Neo4j, call any model but the adjudicator (and in measured mode the embedder) it is given, or
 touch a concept mention.
 """
@@ -57,11 +59,19 @@ class BuiltIdentity(BaseModel):
 def particular_mentions(
     s: GraphSnapshot, schema: TextSchema
 ) -> tuple[list[MentionRecord], list[MentionRecord]]:
-    """The keyed and the individual-class mentions, ordered by id as `read_mentions` returns them. Their
-    scope anchors stay empty: only the record matching reads them, and it is not replayed here."""
+    """The keyed and the individual-class mentions, ordered by id as `read_mentions` returns them, with the
+    class the pass stated (R107: a stated kind no record fits is set aside for the concepts). Their scope
+    anchors stay empty: only the record matching reads them, and it is not replayed here."""
 
     def record(m) -> MentionRecord:
-        return MentionRecord(id=m.id, name=m.name, type=m.type, doc_id=m.doc_id, chunks=len(m.chunks))
+        return MentionRecord(
+            id=m.id,
+            name=m.name,
+            type=m.type,
+            doc_id=m.doc_id,
+            chunks=len(m.chunks),
+            stated_class=m.stated_class,
+        )
 
     mentions = sorted(s.mentions, key=lambda m: m.id)
     keyed = [record(m) for m in mentions if schema.identity_of(m.type) == "keyed"]
@@ -142,6 +152,14 @@ def reidentify(
     texts = mention_texts(s, {m.id for m in (*keyed, *individual)})
     views = snapshot_views(s) if llm is not None else {}
     return assign_particulars(keyed, individual, matches, texts, meaning, llm, settings, views)
+
+
+def undecided_kinds(s: GraphSnapshot, replay: Particulars) -> list[MentionRecord]:
+    """The stated kinds a replay sets aside for the concepts (R107) that the build did not resolve as
+    concepts (a build made before R107 made them individuals). Their concept is concept resolution's to
+    decide, which no replay runs, so a measured replay with any of them is refused."""
+    concepts = {a.mention for a in s.references if a.kind == "concept"}
+    return [m for m in replay.kinds if m.id not in concepts]
 
 
 def unfaithful(built: BuiltIdentity, replay: Particulars) -> list[str]:

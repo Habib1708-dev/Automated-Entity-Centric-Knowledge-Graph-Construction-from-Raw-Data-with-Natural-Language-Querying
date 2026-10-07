@@ -10,7 +10,9 @@ inside a word) is unlinked too, with that cause. With a (scripted) chooser, a me
 chooses is linked by that choice (R95b); `--choose` needs an LLM and logs what it asks with. R98 adds a
 person named in both reviews, which the build joined: the faithful replay of the individuals must give
 resolve.json back field by field and refuse a build it does not reproduce; the measured replay explains a join
-it undoes and writes its decisions into the build it gives.
+it undoes and writes its decisions into the build it gives. R107 adds a pass mention stated a kind: a build
+that resolved it as a `Kind` concept is reproduced, one made before R107 (an individual) is not, and a replay
+that would turn a particular into a concept, which no replay decides, is refused.
 """
 
 import json
@@ -42,7 +44,8 @@ from kgbuilder.pipeline.inputs import digest
 from kgbuilder.resolution.individuals import IDENTITY_PROMPT, SameIndividual
 from kgbuilder.resolution.record_choice import CHOICE_PROMPT, RecordChoice
 from kgbuilder.structured.plan import ConstructionPlan
-from kgbuilder.text.schema import TextSchema
+from kgbuilder.text.mention_pass import PASS_FILE
+from kgbuilder.text.schema import KIND_TYPE, TextSchema
 from tests.fakes import RecordingTracker, ScriptedLLM
 
 CHUNKING = (1500, 200, 0)
@@ -642,6 +645,75 @@ def test_the_measured_replay_explains_a_join_it_undoes_and_writes_its_decisions(
     replayed = build_snapshot(folder / RELINKED_BUILD, data, CHUNKING)
     counts = LoggedCounts.model_validate_json((folder / RELINKED_LOGGED).read_text(encoding="utf-8"))
     assert check_fidelity(replayed, counts, None).passed
+
+
+def _with_pass_kind(tmp_path: Path, name: str, edge: dict) -> tuple[Path, Path, str]:
+    """The invented build with a mention the pass found in the lamp's review, stated a kind and typed with the
+    keyed `Part`, `edge` its resolve.json assignment, and every record edge with its element id. Returns the
+    build, its data and the mention's id."""
+    out, data = _build(tmp_path)
+    finding = {"chunk_id": f"{LAMP}#0", "name": name, "type": "Part", "mention_class": "kind",
+               "proposed_type": "Part"}  # fmt: skip
+    (out / PASS_FILE).write_text(json.dumps(finding) + "\n", encoding="utf-8")
+    mention = mention_id("Part", name, LAMP)
+    resolved = json.loads((out / "resolve.json").read_text(encoding="utf-8"))
+    resolved["assignments"].append({"mention": mention, "said": name, "type": "Part", **edge})
+    for a in resolved["assignments"]:  # every record edge with its element id, as `kg resolve` writes it
+        if a["kind"] == "record":
+            a["target"] = f"element-{a['canonical']}"
+    (out / "resolve.json").write_text(json.dumps(resolved), encoding="utf-8")
+    return out, data, mention
+
+
+def _unasked(prompt: str, schema):
+    """The faithful replay's adjudicator: with the build's own record links no two things form a pair."""
+    raise AssertionError("a faithful replay of the invented build asks about no pair")
+
+
+# a pass kind no record fits, as R107 resolves it and as a build before R107 did
+KIND_EDGE = {"kind": "concept", "canonical": concept_id(KIND_TYPE, "bulb"), "name": "bulb", "type": KIND_TYPE,
+             "reason": "same_name"}  # fmt: skip
+INDIVIDUAL_EDGE = {"kind": "individual", "canonical": individual_id(mention_id("Part", "bulb", LAMP)),
+                   "name": "bulb", "reason": "no_record"}  # fmt: skip
+
+
+def test_a_replay_reproduces_a_stated_kind_resolved_as_a_concept_and_keeps_its_edge(tmp_path):
+    out, data, bulb = _with_pass_kind(tmp_path, "bulb", KIND_EDGE)
+    tracker, _ = _join_stage(tmp_path, out, data, ScriptedLLM(_unasked), faithful=True)
+    assert tracker.run("audit_relink").logged_metrics["faithful"] == 1
+    _, folder = _join_stage(tmp_path, out, data, ScriptedLLM(_quotes), faithful=False)
+    edges = {
+        a["mention"]: a
+        for a in json.loads((folder / RELINKED_BUILD / "resolve.json").read_text("utf-8"))["assignments"]
+    }
+    assert (edges[bulb]["kind"], edges[bulb]["canonical"]) == ("concept", concept_id(KIND_TYPE, "bulb"))
+
+
+def test_a_stated_kind_a_build_made_an_individual_is_a_difference_and_no_measured_replay(tmp_path):
+    """A build before R107 made the pass's "bulb" an individual: today's resolve would make it a concept."""
+    out, data, bulb = _with_pass_kind(tmp_path, "bulb", INDIVIDUAL_EDGE)
+    with pytest.raises(EvaluationError) as faithful:
+        _join_stage(tmp_path, out, data, ScriptedLLM(_unasked), faithful=True)
+    assert faithful.value.issues == [f"assignment of {bulb} 'bulb': in the build, not in the replay"]
+    with pytest.raises(EvaluationError) as measured:
+        _join_stage(tmp_path, out, data, ScriptedLLM(_quotes), faithful=False)
+    assert measured.value.issues == [
+        f"{bulb} 'bulb' is a stated kind no record fits: kg resolve decides its concept"
+    ]
+
+
+def test_a_record_replay_that_unlinks_a_stated_kind_is_refused(tmp_path):
+    """The build linked the pass's "lids" in the lamp's review to the kettle's lid, outside the lamp's scope:
+    the replay unlinks it (R94's cause), and a stated kind with no record is a concept no replay decides."""
+    edge = {"kind": "record", "canonical": "Assembly:A-2", "name": "Lid", "reason": "name", "score": 100.0}
+    out, data, lids = _with_pass_kind(tmp_path, "lids", edge)
+    s = build_snapshot(out, data, CHUNKING)
+    assert _relink(s, out).to_concepts == [lids]  # the lamp's "lid", a claim's mention, stays an individual
+    with pytest.raises(EvaluationError) as refused:
+        _join_stage(tmp_path, out, data, ScriptedLLM(_quotes), faithful=False)
+    assert refused.value.issues == [
+        f"{lids} is a stated kind that lost its record: kg resolve decides its concept"
+    ]
 
 
 R98 = Path(__file__).resolve().parent / "gold" / "r98"
