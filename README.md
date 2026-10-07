@@ -39,6 +39,7 @@ uv run kg anchor-eval BUILD --data D --logged L --targets T --arm anchor|layered
 uv run kg anchor-compare BUILD --data D --targets T --anchor-report A --layered-report L --out O  # arm C (vector) + McNemar pairing (R92; embeds, cents)
 uv run kg anchor-sheets BUILD --dataset N --data D --logged L --anchor-report A --layered-report L --out O  # blind judging sheets C3, C4, C6 (R93; no graph)
 uv run kg anchor-judged BUILD --judged J --identity-gold G --data D --logged L --anchor-report A --out O  # score the judge's verdicts on C3, C4, C6 (R93)
+uv run kg mention-eval BUILD --dataset N --data D --logged L --gold-dir tests/gold/r101 --out O [--verdicts V]  # mention recall and pass precision (R102; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
@@ -255,6 +256,7 @@ src/kgbuilder/
                     sentences -> coverage_sheet -> coverage (coverage estimate), interval (Wilson intervals)
                     -> assertion (truth, modality and condition against the assertion gold)
                     mention_gold (R101: the things sampled sentences name, for the mention pass)
+                    -> mention_eval (R102: recall of that gold, judged precision of the pass's mentions)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)

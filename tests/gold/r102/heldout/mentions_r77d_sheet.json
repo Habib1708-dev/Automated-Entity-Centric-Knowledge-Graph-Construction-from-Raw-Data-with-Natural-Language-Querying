@@ -1,0 +1,1302 @@
+{
+ "dataset": "heldout",
+ "build": "out/r77d_heldout",
+ "recall_question": "Does one of the candidate mention names, read in this sentence, name the same thing as the gold mention? VALID: yes; INCORRECT: none of them does; AMBIGUOUS: the sentence allows both.",
+ "precision_question": "Is this mention, read in its chunk, an entry the definition (tests/gold/r101/rules.md) admits, written as a name and with the right class (particular: one named thing; kind: a kind of thing, a state, an event, an action or a role)?",
+ "recall": [
+  {
+   "id": "f4695f7a121b|vehicle",
+   "sentence": "f4695f7a121b",
+   "text": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "chunk_id": "complaints/ford_escape_complaints.md#2",
+   "name": "VEHICLE",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "f4695f7a121b|brake squeal",
+   "sentence": "f4695f7a121b",
+   "text": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "chunk_id": "complaints/ford_escape_complaints.md#2",
+   "name": "BRAKE SQUEAL",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "25b47596100f|trunk",
+   "sentence": "25b47596100f",
+   "text": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "chunk_id": "complaints/honda_civic_complaints.md#0",
+   "name": "TRUNK",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "25b47596100f|glove compartment",
+   "sentence": "25b47596100f",
+   "text": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "chunk_id": "complaints/honda_civic_complaints.md#0",
+   "name": "GLOVE COMPARTMENT",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "25b47596100f|lock",
+   "sentence": "25b47596100f",
+   "text": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "chunk_id": "complaints/honda_civic_complaints.md#0",
+   "name": "LOCK",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "DO NOT LOCK",
+    "NOT BE ABLE TO LOCK"
+   ]
+  },
+  {
+   "id": "25b47596100f|vehicle",
+   "sentence": "25b47596100f",
+   "text": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK...THEIR IS NO WAY TO SAFELY VALET PARK THE VEHICLE AND LEAVE ANYTHING IN THE TRUNK OR THE GLOVE COMPARTMENT.",
+   "chunk_id": "complaints/honda_civic_complaints.md#0",
+   "name": "VEHICLE",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "80bb9aed5a36|adaptive cruise control",
+   "sentence": "80bb9aed5a36",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "ADAPTIVE CRUISE CONTROL",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "ADAPTIVE CRUISE CONTROL  (ACC)"
+   ]
+  },
+  {
+   "id": "80bb9aed5a36|lane keeping assist system",
+   "sentence": "80bb9aed5a36",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "LANE KEEPING ASSIST SYSTEM",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "LANE KEEPING ASSIST SYSTEM (LKAS)"
+   ]
+  },
+  {
+   "id": "80bb9aed5a36|engaged",
+   "sentence": "80bb9aed5a36",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "ENGAGED",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "80bb9aed5a36|vehicle",
+   "sentence": "80bb9aed5a36",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "VEHICLE",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "80bb9aed5a36|react",
+   "sentence": "80bb9aed5a36",
+   "text": "WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY, THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "REACT",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "REACT UNPREDICTABLY"
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92|vehicle",
+   "sentence": "9ae03f8e8f92",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "VEHICLE",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "9ae03f8e8f92|brake",
+   "sentence": "9ae03f8e8f92",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "BRAKE",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "BRAKE SUDDENLY"
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92|decelerate",
+   "sentence": "9ae03f8e8f92",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "DECELERATE",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "RAPIDLY DECELERATE"
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92|depart",
+   "sentence": "9ae03f8e8f92",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "DEPART",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "DEPART THE HIGHWAY",
+    "QUICKLY DEPART THE HIGHWAY"
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92|highway",
+   "sentence": "9ae03f8e8f92",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "HIGHWAY",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "DEPART THE HIGHWAY",
+    "QUICKLY DEPART THE HIGHWAY"
+   ]
+  },
+  {
+   "id": "9ae03f8e8f92|exit ramps",
+   "sentence": "9ae03f8e8f92",
+   "text": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "EXIT RAMPS",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "b8c77715f35d|vehicle",
+   "sentence": "b8c77715f35d",
+   "text": "DURING 300 MILES OF HIGHWAY DRIVING, THE VEHICLE DID THIS TWICE.",
+   "chunk_id": "complaints/honda_civic_complaints.md#1",
+   "name": "VEHICLE",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "3627197d8b3a|complaint 10823637",
+   "sentence": "3627197d8b3a",
+   "text": "## Complaint 10823637 (filed 02/01/2016)",
+   "chunk_id": "complaints/honda_civic_complaints.md#2",
+   "name": "Complaint 10823637",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "a95cd600ff24|vehicle",
+   "sentence": "a95cd600ff24",
+   "text": "THE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "VEHICLE",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "a95cd600ff24|road",
+   "sentence": "a95cd600ff24",
+   "text": "THE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "ROAD",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD"
+   ]
+  },
+  {
+   "id": "a95cd600ff24|bridge",
+   "sentence": "a95cd600ff24",
+   "text": "THE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "BRIDGE",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD"
+   ]
+  },
+  {
+   "id": "a95cd600ff24|i-275",
+   "sentence": "a95cd600ff24",
+   "text": "THE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "I-275",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "d56c363f1e1f|front camera system",
+   "sentence": "d56c363f1e1f",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "FRONT CAMERA SYSTEM",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "d56c363f1e1f|mistook",
+   "sentence": "d56c363f1e1f",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "MISTOOK",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD"
+   ]
+  },
+  {
+   "id": "d56c363f1e1f|bridge",
+   "sentence": "d56c363f1e1f",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "BRIDGE",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD"
+   ]
+  },
+  {
+   "id": "d56c363f1e1f|road",
+   "sentence": "d56c363f1e1f",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "ROAD",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD"
+   ]
+  },
+  {
+   "id": "d56c363f1e1f|activated",
+   "sentence": "d56c363f1e1f",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "ACTIVATED",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "ACTIVATED THE BRAKES"
+   ]
+  },
+  {
+   "id": "d56c363f1e1f|brakes",
+   "sentence": "d56c363f1e1f",
+   "text": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+   "name": "BRAKES",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "e14719302c2d|outback",
+   "sentence": "e14719302c2d",
+   "text": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM.",
+   "chunk_id": "complaints/subaru_outback_complaints.md#1",
+   "name": "OUTBACK",
+   "kind": "particular",
+   "status": "candidate",
+   "candidates": [
+    "2019 OUTBACK",
+    "2019 SUBARU OUTBACK"
+   ]
+  },
+  {
+   "id": "e14719302c2d|nav system",
+   "sentence": "e14719302c2d",
+   "text": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM.",
+   "chunk_id": "complaints/subaru_outback_complaints.md#1",
+   "name": "NAV SYSTEM",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "c4da0454fddc|complaint 11176393",
+   "sentence": "c4da0454fddc",
+   "text": "## Complaint 11176393 (filed 02/11/2019)",
+   "chunk_id": "complaints/subaru_outback_complaints.md#2",
+   "name": "Complaint 11176393",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "0bfe71b403c1|rental company",
+   "sentence": "0bfe71b403c1",
+   "text": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+   "name": "RENTAL COMPANY",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "0bfe71b403c1|dealer",
+   "sentence": "0bfe71b403c1",
+   "text": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+   "name": "DEALER",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "0bfe71b403c1|manufacturer",
+   "sentence": "0bfe71b403c1",
+   "text": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+   "name": "MANUFACTURER",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "79cfcbb70b37|exterior rearview mirrors",
+   "sentence": "79cfcbb70b37",
+   "text": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+   "name": "EXTERIOR REARVIEW MIRRORS",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "79cfcbb70b37|shook",
+   "sentence": "79cfcbb70b37",
+   "text": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+   "name": "SHOOK",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "79cfcbb70b37|rattled",
+   "sentence": "79cfcbb70b37",
+   "text": "THE CONTACT STATED THAT THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+   "name": "RATTLED",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "60e40266f322|complaint 11221492",
+   "sentence": "60e40266f322",
+   "text": "## Complaint 11221492 (filed 06/20/2019)",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+   "name": "Complaint 11221492",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "a8d5a30fc1ea|tank",
+   "sentence": "a8d5a30fc1ea",
+   "text": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+   "name": "TANK",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "a8d5a30fc1ea|auto-shutoff",
+   "sentence": "a8d5a30fc1ea",
+   "text": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+   "name": "AUTO-SHUTOFF",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL"
+   ]
+  },
+  {
+   "id": "e61403510f8f|ford",
+   "sentence": "e61403510f8f",
+   "text": "Ford's number for this recall is 15C06.",
+   "chunk_id": "record/Recall/15V436000#1",
+   "name": "Ford",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e61403510f8f|recall",
+   "sentence": "e61403510f8f",
+   "text": "Ford's number for this recall is 15C06.",
+   "chunk_id": "record/Recall/15V436000#1",
+   "name": "recall",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e61403510f8f|15c06",
+   "sentence": "e61403510f8f",
+   "text": "Ford's number for this recall is 15C06.",
+   "chunk_id": "record/Recall/15V436000#1",
+   "name": "15C06",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "74fc4df4eee9|owners",
+   "sentence": "74fc4df4eee9",
+   "text": "Owners may contact Honda customer service at 1-888-234-2138.",
+   "chunk_id": "record/Recall/16V074000#1",
+   "name": "Owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "74fc4df4eee9|honda customer service",
+   "sentence": "74fc4df4eee9",
+   "text": "Owners may contact Honda customer service at 1-888-234-2138.",
+   "chunk_id": "record/Recall/16V074000#1",
+   "name": "Honda customer service",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|dealers",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Dealers",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|reprogram",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "reprogram",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|air bag control unit",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Air Bag Control Unit",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|ocs electronic control unit",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "OCS Electronic Control Unit",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|altima",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Altima",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|maxima",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Maxima",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|murano",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Murano",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|rogue",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Rogue",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|sentra",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Sentra",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|vehicles",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "vehicles",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|replace",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "replace",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|leaf",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "LEAF",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|nv200",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "NV200",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|nv200 taxi",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "NV200 Taxi",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|pathfinder",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Pathfinder",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|infiniti q50",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Infiniti Q50",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|jx35",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "JX35",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|qx60",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "QX60",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "986d5f11686b|chevrolet city express",
+   "sentence": "986d5f11686b",
+   "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge.",
+   "chunk_id": "record/Recall/16V244000#1",
+   "name": "Chevrolet City Express",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "79702a7439f6|recall",
+   "sentence": "79702a7439f6",
+   "text": "The recall began May 24, 2019.",
+   "chunk_id": "record/Recall/19V244000#1",
+   "name": "recall",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dd41cb744172|owners",
+   "sentence": "dd41cb744172",
+   "text": "Owners may contact Subaru customer service at 1-844-373-6614.",
+   "chunk_id": "record/Recall/19V493000#1",
+   "name": "Owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dd41cb744172|subaru customer service",
+   "sentence": "dd41cb744172",
+   "text": "Owners may contact Subaru customer service at 1-844-373-6614.",
+   "chunk_id": "record/Recall/19V493000#1",
+   "name": "Subaru customer service",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "6789fb066f49|recall",
+   "sentence": "6789fb066f49",
+   "text": "The recall began September 27, 2019.",
+   "chunk_id": "record/Recall/19V576000#1",
+   "name": "recall",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e10832bba31d|owners",
+   "sentence": "e10832bba31d",
+   "text": "Owners may contact Toyota customer service at 1-888-270-9371 or Lexus at 1-800-255-3987.",
+   "chunk_id": "record/Recall/20V064000#1",
+   "name": "Owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e10832bba31d|toyota customer service",
+   "sentence": "e10832bba31d",
+   "text": "Owners may contact Toyota customer service at 1-888-270-9371 or Lexus at 1-800-255-3987.",
+   "chunk_id": "record/Recall/20V064000#1",
+   "name": "Toyota customer service",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e10832bba31d|lexus",
+   "sentence": "e10832bba31d",
+   "text": "Owners may contact Toyota customer service at 1-888-270-9371 or Lexus at 1-800-255-3987.",
+   "chunk_id": "record/Recall/20V064000#1",
+   "name": "Lexus",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "0b8a509a85f2|subaru of america",
+   "sentence": "0b8a509a85f2",
+   "text": "Subaru of America, Inc.",
+   "chunk_id": "record/Recall/20V218000#0",
+   "name": "Subaru of America",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dc92249622e1|subaru",
+   "sentence": "dc92249622e1",
+   "text": "Subaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.",
+   "chunk_id": "record/Recall/20V218000#0",
+   "name": "Subaru",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dc92249622e1|owners",
+   "sentence": "dc92249622e1",
+   "text": "Subaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.",
+   "chunk_id": "record/Recall/20V218000#0",
+   "name": "owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dc92249622e1|dealers",
+   "sentence": "dc92249622e1",
+   "text": "Subaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.",
+   "chunk_id": "record/Recall/20V218000#0",
+   "name": "dealers",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dc92249622e1|replace",
+   "sentence": "dc92249622e1",
+   "text": "Subaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.",
+   "chunk_id": "record/Recall/20V218000#0",
+   "name": "replace",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "dc92249622e1|low pressure fuel pump",
+   "sentence": "dc92249622e1",
+   "text": "Subaru will notify owners, and dealers will replace the low pressure fuel pump, free of charge.",
+   "chunk_id": "record/Recall/20V218000#0",
+   "name": "low pressure fuel pump",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "c77e38eb22c7|toyota",
+   "sentence": "c77e38eb22c7",
+   "text": "Toyota's interim numbers for this recall are 20TB08 / 20TA08.",
+   "chunk_id": "record/Recall/20V286000#1",
+   "name": "Toyota",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "c77e38eb22c7|recall",
+   "sentence": "c77e38eb22c7",
+   "text": "Toyota's interim numbers for this recall are 20TB08 / 20TA08.",
+   "chunk_id": "record/Recall/20V286000#1",
+   "name": "recall",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "c77e38eb22c7|20tb08",
+   "sentence": "c77e38eb22c7",
+   "text": "Toyota's interim numbers for this recall are 20TB08 / 20TA08.",
+   "chunk_id": "record/Recall/20V286000#1",
+   "name": "20TB08",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "c77e38eb22c7|20ta08",
+   "sentence": "c77e38eb22c7",
+   "text": "Toyota's interim numbers for this recall are 20TB08 / 20TA08.",
+   "chunk_id": "record/Recall/20V286000#1",
+   "name": "20TA08",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "cc4d3a58ac55|vehicles",
+   "sentence": "cc4d3a58ac55",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "chunk_id": "record/Recall/20V331000#0",
+   "name": "vehicles",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "cc4d3a58ac55|recalled",
+   "sentence": "cc4d3a58ac55",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "chunk_id": "record/Recall/20V331000#0",
+   "name": "recalled",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "cc4d3a58ac55|repaired",
+   "sentence": "cc4d3a58ac55",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "chunk_id": "record/Recall/20V331000#0",
+   "name": "repaired",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "cc4d3a58ac55|15v-246",
+   "sentence": "cc4d3a58ac55",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "chunk_id": "record/Recall/20V331000#0",
+   "name": "15V-246",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "cc4d3a58ac55|16v-643",
+   "sentence": "cc4d3a58ac55",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "chunk_id": "record/Recall/20V331000#0",
+   "name": "16V-643",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "cc4d3a58ac55|17v-210",
+   "sentence": "cc4d3a58ac55",
+   "text": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "chunk_id": "record/Recall/20V331000#0",
+   "name": "17V-210",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|ford",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "Ford",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|owners",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|dealers",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "dealers",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|inspect",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "inspect",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|latch date codes",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "latch date codes",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|repair",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "repair",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|replace",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "replace",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7c81510891f8|side door latches",
+   "sentence": "7c81510891f8",
+   "text": "Ford will notify owners, and dealers will inspect the latch date codes to confirm if the repair was done correctly, and replace the side door latches if necessary, free of charge.",
+   "chunk_id": "record/Recall/20V331000#1",
+   "name": "side door latches",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "f58c4038828f|subaru",
+   "sentence": "f58c4038828f",
+   "text": "Subaru's number for this recall is WRG-21.",
+   "chunk_id": "record/Recall/21V587000#1",
+   "name": "Subaru",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "f58c4038828f|recall",
+   "sentence": "f58c4038828f",
+   "text": "Subaru's number for this recall is WRG-21.",
+   "chunk_id": "record/Recall/21V587000#1",
+   "name": "recall",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "f58c4038828f|wrg-21",
+   "sentence": "f58c4038828f",
+   "text": "Subaru's number for this recall is WRG-21.",
+   "chunk_id": "record/Recall/21V587000#1",
+   "name": "WRG-21",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "8723563fcd78|nissan north america",
+   "sentence": "8723563fcd78",
+   "text": "Nissan North America, Inc.",
+   "chunk_id": "record/Recall/21V839000#0",
+   "name": "Nissan North America",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e224017077ba|owner notification letters",
+   "sentence": "e224017077ba",
+   "text": "Owner notification letters were mailed May 27, 2022.",
+   "chunk_id": "record/Recall/22V254000#1",
+   "name": "Owner notification letters",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "6780be4a14ed|owners",
+   "sentence": "6780be4a14ed",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "chunk_id": "record/Recall/22V413000#1",
+   "name": "Owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "6780be4a14ed|ford customer service",
+   "sentence": "6780be4a14ed",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "chunk_id": "record/Recall/22V413000#1",
+   "name": "Ford customer service",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "b5a99d85ad0e|nissan north america",
+   "sentence": "b5a99d85ad0e",
+   "text": "Nissan North America, Inc.",
+   "chunk_id": "record/Recall/22V875000#0",
+   "name": "Nissan North America",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "466e079b659d|owners",
+   "sentence": "466e079b659d",
+   "text": "Owners may contact Nissan's customer service at 1-800-867-7669.",
+   "chunk_id": "record/Recall/22V875000#0",
+   "name": "Owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "466e079b659d|nissan's customer service",
+   "sentence": "466e079b659d",
+   "text": "Owners may contact Nissan's customer service at 1-800-867-7669.",
+   "chunk_id": "record/Recall/22V875000#0",
+   "name": "Nissan's customer service",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "eaf0f8e5baf2|nissan north america",
+   "sentence": "eaf0f8e5baf2",
+   "text": "Nissan North America, Inc.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "Nissan North America",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "4c8d3e32644e|nissan",
+   "sentence": "4c8d3e32644e",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "Nissan",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "4c8d3e32644e|recalling",
+   "sentence": "4c8d3e32644e",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "recalling",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "4c8d3e32644e|rogue",
+   "sentence": "4c8d3e32644e",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "Rogue",
+   "kind": "particular",
+   "status": "candidate",
+   "candidates": [
+    "2014-2020 Rogue",
+    "2017-2022 Rogue Sport"
+   ]
+  },
+  {
+   "id": "4c8d3e32644e|rogue sport",
+   "sentence": "4c8d3e32644e",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "Rogue Sport",
+   "kind": "particular",
+   "status": "candidate",
+   "candidates": [
+    "2017-2022 Rogue Sport"
+   ]
+  },
+  {
+   "id": "4c8d3e32644e|vehicles",
+   "sentence": "4c8d3e32644e",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "vehicles",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "4c8d3e32644e|jackknife style ignition key",
+   "sentence": "4c8d3e32644e",
+   "text": "(Nissan) is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles equipped with a jackknife style ignition key.",
+   "chunk_id": "record/Recall/23V093000#0",
+   "name": "jackknife style ignition key",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "a17a4ae55e95|nissan",
+   "sentence": "a17a4ae55e95",
+   "text": "Nissan's number for this recall is R22C5.",
+   "chunk_id": "record/Recall/23V093000#1",
+   "name": "Nissan",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "a17a4ae55e95|recall",
+   "sentence": "a17a4ae55e95",
+   "text": "Nissan's number for this recall is R22C5.",
+   "chunk_id": "record/Recall/23V093000#1",
+   "name": "recall",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "a17a4ae55e95|r22c5",
+   "sentence": "a17a4ae55e95",
+   "text": "Nissan's number for this recall is R22C5.",
+   "chunk_id": "record/Recall/23V093000#1",
+   "name": "R22C5",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e14a45e8e867|fuel pump",
+   "sentence": "e14a45e8e867",
+   "text": "The fuel pump inside the fuel tank may fail.",
+   "chunk_id": "record/Recall/23V858000#0",
+   "name": "fuel pump",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "e14a45e8e867|fuel tank",
+   "sentence": "e14a45e8e867",
+   "text": "The fuel pump inside the fuel tank may fail.",
+   "chunk_id": "record/Recall/23V858000#0",
+   "name": "fuel tank",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "e14a45e8e867|fail",
+   "sentence": "e14a45e8e867",
+   "text": "The fuel pump inside the fuel tank may fail.",
+   "chunk_id": "record/Recall/23V858000#0",
+   "name": "fail",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "26ef61297f10|dealers",
+   "sentence": "26ef61297f10",
+   "text": "Dealers will replace the fuel pump module, free of charge.",
+   "chunk_id": "record/Recall/23V858000#1",
+   "name": "Dealers",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "26ef61297f10|replace",
+   "sentence": "26ef61297f10",
+   "text": "Dealers will replace the fuel pump module, free of charge.",
+   "chunk_id": "record/Recall/23V858000#1",
+   "name": "replace",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "26ef61297f10|fuel pump module",
+   "sentence": "26ef61297f10",
+   "text": "Dealers will replace the fuel pump module, free of charge.",
+   "chunk_id": "record/Recall/23V858000#1",
+   "name": "fuel pump module",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "27f37deb345c|owners",
+   "sentence": "27f37deb345c",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "chunk_id": "record/Recall/26V011000#1",
+   "name": "Owners",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "27f37deb345c|ford customer service",
+   "sentence": "27f37deb345c",
+   "text": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "chunk_id": "record/Recall/26V011000#1",
+   "name": "Ford customer service",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "3f19690c088b|honda",
+   "sentence": "3f19690c088b",
+   "text": "Honda (American Honda Motor Co.)",
+   "chunk_id": "record/Recall/26V332000#0",
+   "name": "Honda",
+   "kind": "particular",
+   "status": "candidate",
+   "candidates": [
+    "2017-2021, 2023, 2025 Honda Ridgeline"
+   ]
+  }
+ ],
+ "precision": []
+}

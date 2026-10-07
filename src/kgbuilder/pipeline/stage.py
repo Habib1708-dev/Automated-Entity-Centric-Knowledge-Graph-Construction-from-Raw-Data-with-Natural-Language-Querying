@@ -40,6 +40,7 @@ from ..tracking.base import NullTracker, Run, Tracker
 from ..validation.assertion import AssertionReport
 from ..validation.coverage import CoverageReport
 from ..validation.evaluate import EvalReport
+from ..validation.mention_eval import MentionScores
 from ..validation.paired import PairedReport
 from ..validation.qa import QAReport
 from ..validation.report import ValidationReport
@@ -103,6 +104,9 @@ class PipelineState:
     # sentence sample whose (thing, chunk) pairs test reach
     audit_source: Path | None = None
     extract_source: Path | None = None  # `kg extract --from-build`: the build whose claims to replay (R102)
+    mention_gold_dir: Path | None = None  # `kg mention-eval`: the R101 gold folder (R102)
+    mention_verdicts: Path | None = None  # `kg mention-eval --verdicts`: the judge's file
+    mention_scores: MentionScores | None = None  # of `kg mention-eval`
     audit_logged: Path | None = None
     reach_gold: tuple[Path, Path] | None = None
     # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures, and the anchor

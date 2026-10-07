@@ -89,7 +89,8 @@ class JudgeHeader(BaseModel):
 
 class VerdictFile(BaseModel):
     judge: JudgeHeader
-    criterion: Literal["C3", "C4", "C6"]
+    # the anchor criteria, and the mention pass's recall mapping and precision sample (R102, mention_eval.py)
+    criterion: Literal["C3", "C4", "C6", "mentions"]
     verdicts: list[Verdict]
     reviewed: list[str] = []  # ids the lead reviewed, changed or not
     changes: list[Change] = []

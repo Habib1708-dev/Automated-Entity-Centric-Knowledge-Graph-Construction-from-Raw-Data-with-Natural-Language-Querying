@@ -1,0 +1,1688 @@
+{
+ "criterion": "C6",
+ "items": [
+  {
+   "id": "p:0cd7a506f6c15761|complaints/toyota_rav4_complaints.md#2",
+   "node": "0cd7a506f6c15761",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/20V218000#0",
+   "node": "109de876a77934ff",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/20V682000#0",
+   "node": "109de876a77934ff",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/21V587000#0",
+   "node": "109de876a77934ff",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/21V587000#1",
+   "node": "109de876a77934ff",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/19V576000#0",
+   "node": "1564c38a98a6b3cb",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V064000#0",
+   "node": "1564c38a98a6b3cb",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V286000#0",
+   "node": "1564c38a98a6b3cb",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V373000#0",
+   "node": "1564c38a98a6b3cb",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V682000#0",
+   "node": "1564c38a98a6b3cb",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1aca40d121796592|complaints/ford_escape_complaints.md#4",
+   "node": "1aca40d121796592",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1aca40d121796592|complaints/nissan_rogue_complaints.md#3",
+   "node": "1aca40d121796592",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1aca40d121796592|record/Recall/22V254000#0",
+   "node": "1aca40d121796592",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1aca40d121796592|record/Recall/22V413000#0",
+   "node": "1aca40d121796592",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:1d97b2e3cb263cdd|complaints/nissan_rogue_complaints.md#1",
+   "node": "1d97b2e3cb263cdd",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:252bf49212397089|record/Recall/21V587000#0",
+   "node": "252bf49212397089",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:2afd65664e6d2d45|complaints/honda_civic_complaints.md#4",
+   "node": "2afd65664e6d2d45",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:2f26533e77122925|complaints/ford_escape_complaints.md#2",
+   "node": "2f26533e77122925",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:2f26533e77122925|complaints/nissan_rogue_complaints.md#1",
+   "node": "2f26533e77122925",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:321183777719ca09|complaints/honda_civic_complaints.md#0",
+   "node": "321183777719ca09",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:375b7825a587ca66|record/Recall/16V244000#0",
+   "node": "375b7825a587ca66",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:381007737b925cd0|record/Recall/19V244000#0",
+   "node": "381007737b925cd0",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4078e6d062bce84a|record/Recall/16V244000#0",
+   "node": "4078e6d062bce84a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4298d859bece1a5d|complaints/toyota_rav4_complaints.md#3",
+   "node": "4298d859bece1a5d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/20V682000#0",
+   "node": "4298d859bece1a5d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/21V587000#0",
+   "node": "4298d859bece1a5d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/23V858000#0",
+   "node": "4298d859bece1a5d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4401d9e338ced22a|complaints/ford_escape_complaints.md#3",
+   "node": "4401d9e338ced22a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4401d9e338ced22a|record/Recall/26V332000#0",
+   "node": "4401d9e338ced22a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:457980565f4112a2|complaints/subaru_outback_complaints.md#1",
+   "node": "457980565f4112a2",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/19V576000#0",
+   "node": "457980565f4112a2",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/25V695000#0",
+   "node": "457980565f4112a2",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/25V695000#1",
+   "node": "457980565f4112a2",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:47b5c792e8fbd4be|complaints/ford_escape_complaints.md#3",
+   "node": "47b5c792e8fbd4be",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:47b5c792e8fbd4be|complaints/toyota_rav4_complaints.md#2",
+   "node": "47b5c792e8fbd4be",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4fceafc144c3a6db|record/Recall/20V682000#1",
+   "node": "4fceafc144c3a6db",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:4fceafc144c3a6db|record/Recall/23V858000#1",
+   "node": "4fceafc144c3a6db",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6666593b1158ecaf|record/Recall/16V244000#1",
+   "node": "6666593b1158ecaf",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/ford_escape_complaints.md#0",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/ford_escape_complaints.md#3",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/honda_civic_complaints.md#4",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/nissan_rogue_complaints.md#0",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/subaru_outback_complaints.md#0",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/toyota_rav4_complaints.md#1",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:6e37aa8131abfb79|record/Recall/20V331000#0",
+   "node": "6e37aa8131abfb79",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/16V643000#0",
+   "node": "76131af5637a7f0d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/16V643000#1",
+   "node": "76131af5637a7f0d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/20V331000#0",
+   "node": "76131af5637a7f0d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/20V331000#1",
+   "node": "76131af5637a7f0d",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:7a85e307148b959a|complaints/honda_civic_complaints.md#1",
+   "node": "7a85e307148b959a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:818a575712731626|complaints/honda_civic_complaints.md#2",
+   "node": "818a575712731626",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:818a575712731626|complaints/honda_civic_complaints.md#4",
+   "node": "818a575712731626",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:818a575712731626|record/Recall/16V074000#0",
+   "node": "818a575712731626",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:8b7323b7432b7405|record/Recall/19V244000#0",
+   "node": "8b7323b7432b7405",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:8b7323b7432b7405|record/Recall/19V244000#1",
+   "node": "8b7323b7432b7405",
+   "kind": "individual",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:90eb9fec9c5a0026|complaints/subaru_outback_complaints.md#1",
+   "node": "90eb9fec9c5a0026",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:90eb9fec9c5a0026|complaints/subaru_outback_complaints.md#4",
+   "node": "90eb9fec9c5a0026",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10691672|complaints/ford_escape_complaints.md#3",
+   "node": "Complaint:10691672",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10692693|complaints/ford_escape_complaints.md#4",
+   "node": "Complaint:10692693",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10823637|complaints/honda_civic_complaints.md#2",
+   "node": "Complaint:10823637",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10824361|complaints/honda_civic_complaints.md#3",
+   "node": "Complaint:10824361",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10825467|complaints/honda_civic_complaints.md#4",
+   "node": "Complaint:10825467",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10957753|complaints/nissan_rogue_complaints.md#0",
+   "node": "Complaint:10957753",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:10972343|complaints/nissan_rogue_complaints.md#1",
+   "node": "Complaint:10972343",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:11010220|complaints/nissan_rogue_complaints.md#2",
+   "node": "Complaint:11010220",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:11030208|complaints/nissan_rogue_complaints.md#3",
+   "node": "Complaint:11030208",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:11032133|complaints/nissan_rogue_complaints.md#4",
+   "node": "Complaint:11032133",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Complaint:11209676|complaints/toyota_rav4_complaints.md#2",
+   "node": "Complaint:11209676",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:19V493000|record/Recall/19V493000#0",
+   "node": "Recall:19V493000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:19V493000|record/Recall/19V493000#1",
+   "node": "Recall:19V493000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:20V373000|record/Recall/20V373000#0",
+   "node": "Recall:20V373000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:20V373000|record/Recall/20V373000#1",
+   "node": "Recall:20V373000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:21V839000|record/Recall/21V839000#0",
+   "node": "Recall:21V839000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:21V839000|record/Recall/21V839000#1",
+   "node": "Recall:21V839000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:22V254000|record/Recall/22V254000#0",
+   "node": "Recall:22V254000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Recall:22V254000|record/Recall/22V254000#1",
+   "node": "Recall:22V254000",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#0",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#1",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#2",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#3",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#4",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V074000#0",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V526000#0",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V725000#0",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/23V858000#0",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/26V332000#0",
+   "node": "Vehicle:CIVIC",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#1",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#2",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#3",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#4",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/15V406000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/15V436000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/16V643000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/17V472000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/20V331000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/22V254000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/22V413000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/25V695000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/26V011000#0",
+   "node": "Vehicle:ESCAPE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#0",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#1",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#2",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#3",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#4",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/19V493000#0",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/20V218000#0",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/21V587000#0",
+   "node": "Vehicle:OUTBACK",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#1",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#2",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#3",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#4",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V244000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V503000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V576000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V064000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V286000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V373000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V682000#0",
+   "node": "Vehicle:RAV4",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#0",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#1",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#2",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#3",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#4",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/16V244000#0",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/16V244000#1",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/17V663000#0",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/21V839000#0",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/22V875000#0",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/23V093000#0",
+   "node": "Vehicle:ROGUE",
+   "kind": "record",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a3a07b3571c3a1bc|complaints/ford_escape_complaints.md#4",
+   "node": "a3a07b3571c3a1bc",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a3a07b3571c3a1bc|complaints/honda_civic_complaints.md#2",
+   "node": "a3a07b3571c3a1bc",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/ford_escape_complaints.md#1",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/honda_civic_complaints.md#2",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/nissan_rogue_complaints.md#2",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/subaru_outback_complaints.md#2",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/19V493000#1",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/20V331000#0",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/20V331000#1",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/22V875000#0",
+   "node": "a7e0464f9367d47a",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:bb6393ec8c06687b|record/Recall/16V074000#0",
+   "node": "bb6393ec8c06687b",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:bcd2b324709cde8c|record/Recall/16V074000#0",
+   "node": "bcd2b324709cde8c",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:bcd2b324709cde8c|record/Recall/16V074000#1",
+   "node": "bcd2b324709cde8c",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V244000#0",
+   "node": "c0c2673d3f8b7c70",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V244000#1",
+   "node": "c0c2673d3f8b7c70",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V503000#0",
+   "node": "c0c2673d3f8b7c70",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:d0120b8dd3d9d003|complaints/honda_civic_complaints.md#1",
+   "node": "d0120b8dd3d9d003",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:d12bbec865c32e78|complaints/subaru_outback_complaints.md#0",
+   "node": "d12bbec865c32e78",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:d12bbec865c32e78|complaints/subaru_outback_complaints.md#3",
+   "node": "d12bbec865c32e78",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:da5f0f968a75e385|complaints/nissan_rogue_complaints.md#3",
+   "node": "da5f0f968a75e385",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:dd7dcc68006edfd3|record/Recall/16V074000#0",
+   "node": "dd7dcc68006edfd3",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  },
+  {
+   "id": "p:ed279b0392ad7dfd|record/Recall/23V858000#0",
+   "node": "ed279b0392ad7dfd",
+   "kind": "concept",
+   "flags": [],
+   "arms": [
+    "anchor",
+    "layered"
+   ],
+   "edge": ""
+  }
+ ]
+}

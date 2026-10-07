@@ -32,6 +32,7 @@ from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import anchor_stages as ans
 from .pipeline import audit_stages as aus
 from .pipeline import judging_stages as jus
+from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
 from .pipeline import stages as st
 from .resolution.resolver import ResolvePreview
@@ -58,6 +59,8 @@ REACH_CLAIMS = typer.Option(None, help="R68 blind claims whose (thing, chunk) pa
 REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims were written on.")
 # the anchor-graph evaluation (R90): the target gold of the build's dataset and the arm it walks
 FROM_BUILD = typer.Option(None, help="A finished build folder: replay its triples.jsonl, no LLM (R102).")
+MENTION_GOLD = typer.Option(..., help="The R101 mention gold folder (tests/gold/r101).")
+MENTION_VERDICTS = typer.Option(None, help="The judge's verdicts of the mention sheet (R102).")
 SAMPLE_BUILD = typer.Option(None, help="A finished build folder: sample its corpus, not the graph (R101).")
 SAMPLE_DATA = typer.Option(None, help="With --build: the dataset folder the build ingested.")
 ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset (tests/gold/r89/).")
@@ -533,6 +536,38 @@ def audit_relink(
     for c in state.reidentified.changes if state.reidentified else []:
         typer.echo(f"{c.mention} {c.name!r} @{c.doc_id}: {c.before} -> {c.after} ({c.cause})")
     typer.echo(f"Wrote {out / aus.RELINKED_BUILD}, {out / aus.RELINKED_LOGGED}, {out / aus.RELINK_FILE}")
+
+
+@app.command("mention-eval")
+def mention_eval(
+    build: Path,
+    dataset: str = typer.Option(..., help="The dataset's name: picks its gold and sample."),
+    data: Path = AUDIT_DATA,
+    logged: Path = AUDIT_LOGGED,
+    gold_dir: Path = MENTION_GOLD,
+    verdicts: Path | None = MENTION_VERDICTS,
+    out: Path = OUT,
+):
+    """Rebuild BUILD's graph offline (no graph, no model) and score its mentions against the R101 gold:
+    exact recall, the sheet the judge answers (near-name candidates, a seeded sample of the pass's mentions)
+    and, with --verdicts, recall with the judged mapping and the pass's precision (R102)."""
+    state = PipelineState(
+        audit_source=build,
+        data_dir=data,
+        audit_logged=logged,
+        anchor_dataset=dataset,
+        mention_gold_dir=gold_dir,
+        mention_verdicts=verdicts,
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [mes.MentionEvalStage()])
+    s = state.mention_scores
+    typer.echo(
+        f"recall exact {s.recall_exact.k}/{s.recall_exact.n}; candidates {s.candidates}; misses {s.misses}"
+    )
+    if s.precision is not None:
+        typer.echo(f"precision {s.precision.k}/{s.precision.n}")
+    typer.echo(f"Wrote {out / mes.MENTION_SHEET} and {out / mes.MENTION_REPORT}")
 
 
 @app.command("anchor-eval")

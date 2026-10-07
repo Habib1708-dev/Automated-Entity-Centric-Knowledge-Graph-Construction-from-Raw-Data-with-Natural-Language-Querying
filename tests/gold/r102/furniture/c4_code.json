@@ -1,0 +1,529 @@
+{
+ "criterion": "C4",
+ "items": [
+  {
+   "id": "l:285fa8fcd4c64022:Assembly:A-1055",
+   "node": "Assembly:A-1055",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:9c298d2a31c2de3a:Product:P-1001",
+   "node": "Product:P-1001",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:a2259ba09e4184ac:Product:P-1001",
+   "node": "Product:P-1001",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:2912d829f7f588ca:Product:P-1007",
+   "node": "Product:P-1007",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:407dc336bbda8a3c:Component:S-1085",
+   "node": "Component:S-1085",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:53e0bb621b484523:Assembly:A-1070",
+   "node": "Assembly:A-1070",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 92.3076923076923"
+  },
+  {
+   "id": "l:5de3b7fb42d2dba8:Component:S-1085",
+   "node": "Component:S-1085",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:799131dee4590bec:Component:S-1082",
+   "node": "Component:S-1082",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 96.2962962962963"
+  },
+  {
+   "id": "l:7cdf2be7e605ffb9:Assembly:A-1071",
+   "node": "Assembly:A-1071",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:883ab031d3958f03:Assembly:A-1069",
+   "node": "Assembly:A-1069",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:c2e24a1d0955c6db:Component:S-1085",
+   "node": "Component:S-1085",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:d414ec1ea718a183:Product:P-1007",
+   "node": "Product:P-1007",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:e8b2bb4384dbf881:Assembly:A-1070",
+   "node": "Assembly:A-1070",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:128a48412768ad8c:Product:P-1008",
+   "node": "Product:P-1008",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:697e9400253f4b1b:Product:P-1008",
+   "node": "Product:P-1008",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:9292ced2a7589641:Product:P-1008",
+   "node": "Product:P-1008",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:289ba7dee62f79d8:Assembly:A-1048",
+   "node": "Assembly:A-1048",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:4c1aa8ab9895d842:Product:P-1006",
+   "node": "Product:P-1006",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:596ad9b06293e8b3:Assembly:A-1051",
+   "node": "Assembly:A-1051",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:6f0bff8c3b80b3dc:Product:P-1006",
+   "node": "Product:P-1006",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:807964e8ec15a55f:Assembly:A-1051",
+   "node": "Assembly:A-1051",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:c442c14033d3b7c3:Assembly:A-1052",
+   "node": "Assembly:A-1052",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 96.55172413793103"
+  },
+  {
+   "id": "l:0edb81a5a78c8c72:Product:P-1002",
+   "node": "Product:P-1002",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:24feea1150efb6af:Assembly:A-1062",
+   "node": "Assembly:A-1062",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:ae7f1624622f04d0:Product:P-1002",
+   "node": "Product:P-1002",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:b8c1f8cc187b500a:Assembly:A-1064",
+   "node": "Assembly:A-1064",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:be59b6bca4b5e3a3:Assembly:A-1064",
+   "node": "Assembly:A-1064",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:c73615052e811388:Component:S-1078",
+   "node": "Component:S-1078",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:e68281c94362016a:Assembly:A-1062",
+   "node": "Assembly:A-1062",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:2d2e6476426e1954:Assembly:A-1021",
+   "node": "Assembly:A-1021",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:4ae09507480ee873:Assembly:A-1022",
+   "node": "Assembly:A-1022",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:5b33ce824b97cd4c:Product:P-1009",
+   "node": "Product:P-1009",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:671ae96a4b5f9642:Product:P-1009",
+   "node": "Product:P-1009",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:8c1db04fe419ed96:Product:P-1009",
+   "node": "Product:P-1009",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 97.67441860465115"
+  },
+  {
+   "id": "l:b33ecaea8474b9cd:Assembly:A-1021",
+   "node": "Assembly:A-1021",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 92.3076923076923"
+  },
+  {
+   "id": "l:e5c3460ca8d01a69:Assembly:A-1020",
+   "node": "Assembly:A-1020",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:fff3de6d8c4be28a:Product:P-1009",
+   "node": "Product:P-1009",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:537f1c8fa80d0129:Assembly:A-1031",
+   "node": "Assembly:A-1031",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:546054f3bdcb4fce:Product:P-1005",
+   "node": "Product:P-1005",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:7b416418815b0a22:Assembly:A-1036",
+   "node": "Assembly:A-1036",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:8fc5df6fbebebc3a:Assembly:A-1031",
+   "node": "Assembly:A-1031",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:bedebbc621839b2f:Assembly:A-1033",
+   "node": "Assembly:A-1033",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:ec78246ff7b4d49f:Product:P-1005",
+   "node": "Product:P-1005",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:2bba1ff3c46f39b7:Product:P-1000",
+   "node": "Product:P-1000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:6eb46ea5c7563b67:Assembly:A-1037",
+   "node": "Assembly:A-1037",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:8c96c439dd4b4882:Assembly:A-1038",
+   "node": "Assembly:A-1038",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:a36e1bb94993071d:Assembly:A-1041",
+   "node": "Assembly:A-1041",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:c694ef5839d8d622:Product:P-1000",
+   "node": "Product:P-1000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:51a799b5741a29ea:Assembly:A-1015",
+   "node": "Assembly:A-1015",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:5608067c455d52be:Product:P-1003",
+   "node": "Product:P-1003",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:706738b47b6dea84:Assembly:A-1014",
+   "node": "Assembly:A-1014",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:aa4602ce13e2bfd3:Product:P-1003",
+   "node": "Product:P-1003",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:c1818c53303be37d:Assembly:A-1012",
+   "node": "Assembly:A-1012",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:c21ab5530ef8c787:Assembly:A-1012",
+   "node": "Assembly:A-1012",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:c59d3444ae339fc6:Assembly:A-1015",
+   "node": "Assembly:A-1015",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 90.9090909090909"
+  },
+  {
+   "id": "l:cd0167c01280f7b9:Assembly:A-1015",
+   "node": "Assembly:A-1015",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:1d205c167a3ba4d0:Assembly:A-1044",
+   "node": "Assembly:A-1044",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:2564eab94cd16979:Product:P-1004",
+   "node": "Product:P-1004",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:2f61f797ce1ee951:Product:P-1004",
+   "node": "Product:P-1004",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:5cb4a71373cf0202:Assembly:A-1043",
+   "node": "Assembly:A-1043",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:b266fe0f310969ba:Product:P-1004",
+   "node": "Product:P-1004",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:b52e49fd27e58376:Assembly:A-1043",
+   "node": "Assembly:A-1043",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:bcb33f7a445dff54:Product:P-1004",
+   "node": "Product:P-1004",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:c84dd6171084be5d:Assembly:A-1043",
+   "node": "Assembly:A-1043",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  }
+ ]
+}

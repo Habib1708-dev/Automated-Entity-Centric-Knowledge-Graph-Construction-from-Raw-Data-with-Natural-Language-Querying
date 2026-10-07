@@ -1,0 +1,803 @@
+{
+ "dataset": "furniture",
+ "build": "out/r77d_furniture",
+ "recall_question": "Does one of the candidate mention names, read in this sentence, name the same thing as the gold mention? VALID: yes; INCORRECT: none of them does; AMBIGUOUS: the sentence allows both.",
+ "precision_question": "Is this mention, read in its chunk, an entry the definition (tests/gold/r101/rules.md) admits, written as a name and with the right class (particular: one named thing; kind: a kind of thing, a state, an event, an action or a role)?",
+ "recall": [
+  {
+   "id": "5bac1c86f526|daily use",
+   "sentence": "5bac1c86f526",
+   "text": "We've had it for 6 months now and it still looks brand new despite daily use with two kids.",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+   "name": "daily use",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "5bac1c86f526|kids",
+   "sentence": "5bac1c86f526",
+   "text": "We've had it for 6 months now and it still looks brand new despite daily use with two kids.",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+   "name": "kids",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "7ab4516a48af|table",
+   "sentence": "7ab4516a48af",
+   "text": "This table will clearly last for decades.",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#3",
+   "name": "table",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "Gothenburg Table"
+   ]
+  },
+  {
+   "id": "fba959404def|assembly",
+   "sentence": "fba959404def",
+   "text": "Assembly was straightforward and the included tools were adequate.",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#5",
+   "name": "Assembly",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "Assembly was straightforward"
+   ]
+  },
+  {
+   "id": "fba959404def|included tools",
+   "sentence": "fba959404def",
+   "text": "Assembly was straightforward and the included tools were adequate.",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#5",
+   "name": "included tools",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "085c88601d39|@familyfirst",
+   "sentence": "085c88601d39",
+   "text": "- @familyfirst (Denver)",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#5",
+   "name": "@familyfirst",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "085c88601d39|denver",
+   "sentence": "085c88601d39",
+   "text": "- @familyfirst (Denver)",
+   "chunk_id": "product_reviews/gothenburg_table_reviews.md#5",
+   "name": "Denver",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "17e03ba48abb|stick",
+   "sentence": "17e03ba48abb",
+   "text": "They constantly stick and make an annoying scraping sound.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+   "name": "stick",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "17e03ba48abb|scraping sound",
+   "sentence": "17e03ba48abb",
+   "text": "They constantly stick and make an annoying scraping sound.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+   "name": "scraping sound",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "bab9cfffad57|install",
+   "sentence": "bab9cfffad57",
+   "text": "When I tried to install them, they wouldn't align properly no matter what I did.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1",
+   "name": "install",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "bab9cfffad57|align",
+   "sentence": "bab9cfffad57",
+   "text": "When I tried to install them, they wouldn't align properly no matter what I did.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1",
+   "name": "align",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "align properly"
+   ]
+  },
+  {
+   "id": "ad1cf2931e18|dresser",
+   "sentence": "ad1cf2931e18",
+   "text": "dresser looks ok i guess but assembly was the worst experience ever.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+   "name": "dresser",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "ad1cf2931e18|assembly",
+   "sentence": "ad1cf2931e18",
+   "text": "dresser looks ok i guess but assembly was the worst experience ever.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+   "name": "assembly",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "assembly was the worst experience ever"
+   ]
+  },
+  {
+   "id": "87da6387710f|customer service",
+   "sentence": "87da6387710f",
+   "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3",
+   "name": "customer service",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "87da6387710f|drawer hardware",
+   "sentence": "87da6387710f",
+   "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3",
+   "name": "drawer hardware",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "87da6387710f|supplier",
+   "sentence": "87da6387710f",
+   "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3",
+   "name": "supplier",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "227d46d9af2d|@diydan",
+   "sentence": "227d46d9af2d",
+   "text": "- @diydan (Austin)",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4",
+   "name": "@diydan",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "227d46d9af2d|austin",
+   "sentence": "227d46d9af2d",
+   "text": "- @diydan (Austin)",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4",
+   "name": "Austin",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "ba1fa307be8e|@familyfirst",
+   "sentence": "ba1fa307be8e",
+   "text": "- @familyfirst (Denver)",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+   "name": "@familyfirst",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "ba1fa307be8e|denver",
+   "sentence": "ba1fa307be8e",
+   "text": "- @familyfirst (Denver)",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+   "name": "Denver",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "3700cf532e33|diy fix",
+   "sentence": "3700cf532e33",
+   "text": "Maybe I got lucky with my unit or my DIY fix solved the issue, but I think people just need to be patient and detail-oriented during assembly.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6",
+   "name": "DIY fix",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "3700cf532e33|assembly",
+   "sentence": "3700cf532e33",
+   "text": "Maybe I got lucky with my unit or my DIY fix solved the issue, but I think people just need to be patient and detail-oriented during assembly.",
+   "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6",
+   "name": "assembly",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "assembly is challenging"
+   ]
+  },
+  {
+   "id": "3d5dfdd640c2|surface",
+   "sentence": "3d5dfdd640c2",
+   "text": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2",
+   "name": "surface",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "3d5dfdd640c2|scratches",
+   "sentence": "3d5dfdd640c2",
+   "text": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2",
+   "name": "scratches",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "scratches pretty easily"
+   ]
+  },
+  {
+   "id": "3d5dfdd640c2|marks",
+   "sentence": "3d5dfdd640c2",
+   "text": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2",
+   "name": "marks",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "3d5dfdd640c2|laptop",
+   "sentence": "3d5dfdd640c2",
+   "text": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2",
+   "name": "laptop",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "fabdf02dd987|veneer",
+   "sentence": "fabdf02dd987",
+   "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4",
+   "name": "veneer",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "fabdf02dd987|chipping",
+   "sentence": "fabdf02dd987",
+   "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4",
+   "name": "chipping",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "chipping at the corners"
+   ]
+  },
+  {
+   "id": "fabdf02dd987|corners",
+   "sentence": "fabdf02dd987",
+   "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks.",
+   "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4",
+   "name": "corners",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "chipping at the corners"
+   ]
+  },
+  {
+   "id": "60884fcb3e30|storage",
+   "sentence": "60884fcb3e30",
+   "text": "looks great though and the storage is clutch for my small apartment.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#2",
+   "name": "storage",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "60884fcb3e30|apartment",
+   "sentence": "60884fcb3e30",
+   "text": "looks great though and the storage is clutch for my small apartment.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#2",
+   "name": "apartment",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "5a88d1edbe0c|@woodworkeramy",
+   "sentence": "5a88d1edbe0c",
+   "text": "- @woodworker_amy (Portland)",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#3",
+   "name": "@woodworker_amy",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "5a88d1edbe0c|portland",
+   "sentence": "5a88d1edbe0c",
+   "text": "- @woodworker_amy (Portland)",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#3",
+   "name": "Portland",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "03f30793962b|bed",
+   "sentence": "03f30793962b",
+   "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#4",
+   "name": "bed",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "Linköping Bed"
+   ]
+  },
+  {
+   "id": "03f30793962b|slats",
+   "sentence": "03f30793962b",
+   "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#4",
+   "name": "slats",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "03f30793962b|crack",
+   "sentence": "03f30793962b",
+   "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#4",
+   "name": "crack",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "03f30793962b|storage drawers",
+   "sentence": "03f30793962b",
+   "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#4",
+   "name": "storage drawers",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "03f30793962b|opens",
+   "sentence": "03f30793962b",
+   "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#4",
+   "name": "opens",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "opens smoothly"
+   ]
+  },
+  {
+   "id": "1fa6f57f6037|frame",
+   "sentence": "1fa6f57f6037",
+   "text": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+   "name": "frame",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "1fa6f57f6037|squeaking",
+   "sentence": "1fa6f57f6037",
+   "text": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+   "name": "squeaking",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "1fa6f57f6037|wobbling",
+   "sentence": "1fa6f57f6037",
+   "text": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+   "name": "wobbling",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "1fa6f57f6037|daily use",
+   "sentence": "1fa6f57f6037",
+   "text": "The frame has remained solid with no squeaking or wobbling despite daily use.",
+   "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+   "name": "daily use",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "04c0353520c3|architect",
+   "sentence": "04c0353520c3",
+   "text": "As a professional architect who works from home, I require a workspace that is both functional and aesthetically pleasing.",
+   "chunk_id": "product_reviews/malmo_desk_reviews.md#3",
+   "name": "architect",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "04c0353520c3|workspace",
+   "sentence": "04c0353520c3",
+   "text": "As a professional architect who works from home, I require a workspace that is both functional and aesthetically pleasing.",
+   "chunk_id": "product_reviews/malmo_desk_reviews.md#3",
+   "name": "workspace",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "34c58d96ab1f|norrkoping nightstand",
+   "sentence": "34c58d96ab1f",
+   "text": "The Norrköping Nightstand is the perfect bedside companion!",
+   "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#0",
+   "name": "Norrköping Nightstand",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "4ac19f9fe1ca|lamp",
+   "sentence": "4ac19f9fe1ca",
+   "text": "While the lamp looks nice in photos, the reality is much less impressive.",
+   "chunk_id": "product_reviews/orebro_lamp_reviews.md#4",
+   "name": "lamp",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "Örebro Lamp"
+   ]
+  },
+  {
+   "id": "4ac19f9fe1ca|photos",
+   "sentence": "4ac19f9fe1ca",
+   "text": "While the lamp looks nice in photos, the reality is much less impressive.",
+   "chunk_id": "product_reviews/orebro_lamp_reviews.md#4",
+   "name": "photos",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "looks nice in photos"
+   ]
+  },
+  {
+   "id": "75da559e9fbd|@angrycustomer",
+   "sentence": "75da559e9fbd",
+   "text": "- @angry_customer (New York)",
+   "chunk_id": "product_reviews/orebro_lamp_reviews.md#4",
+   "name": "@angry_customer",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "75da559e9fbd|new york",
+   "sentence": "75da559e9fbd",
+   "text": "- @angry_customer (New York)",
+   "chunk_id": "product_reviews/orebro_lamp_reviews.md#4",
+   "name": "New York",
+   "kind": "particular",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "103926b21c50|orebro lamp",
+   "sentence": "103926b21c50",
+   "text": "We've had our Örebro Lamp for about 6 months now and love it!",
+   "chunk_id": "product_reviews/orebro_lamp_reviews.md#6",
+   "name": "Örebro Lamp",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "1f17bae0affa|light quality",
+   "sentence": "1f17bae0affa",
+   "text": "The light quality is excellent - warm without being yellow, and bright enough to read by but not harsh.",
+   "chunk_id": "product_reviews/orebro_lamp_reviews.md#6",
+   "name": "light quality",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "9015d70fc108|stockholm chair",
+   "sentence": "9015d70fc108",
+   "text": "The Stockholm Chair is exactly what I was looking for aesthetically.",
+   "chunk_id": "product_reviews/stockholm_chair_reviews.md#1",
+   "name": "Stockholm Chair",
+   "kind": "particular",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "b360e5534c18|color",
+   "sentence": "b360e5534c18",
+   "text": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room.",
+   "chunk_id": "product_reviews/stockholm_chair_reviews.md#5",
+   "name": "color",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "color is slightly darker than it appeared in the online photos"
+   ]
+  },
+  {
+   "id": "b360e5534c18|online photos",
+   "sentence": "b360e5534c18",
+   "text": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room.",
+   "chunk_id": "product_reviews/stockholm_chair_reviews.md#5",
+   "name": "online photos",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "color is slightly darker than it appeared in the online photos"
+   ]
+  },
+  {
+   "id": "b360e5534c18|dining room",
+   "sentence": "b360e5534c18",
+   "text": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room.",
+   "chunk_id": "product_reviews/stockholm_chair_reviews.md#5",
+   "name": "dining room",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "863357bcf8fb|sofa",
+   "sentence": "863357bcf8fb",
+   "text": "The sofa is firm but not hard, providing great support.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+   "name": "sofa",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "Uppsala Sofa"
+   ]
+  },
+  {
+   "id": "863357bcf8fb|support",
+   "sentence": "863357bcf8fb",
+   "text": "The sofa is firm but not hard, providing great support.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+   "name": "support",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "great support"
+   ]
+  },
+  {
+   "id": "bbb89782124e|removable covers",
+   "sentence": "bbb89782124e",
+   "text": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#2",
+   "name": "removable covers",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "bbb89782124e|wash",
+   "sentence": "bbb89782124e",
+   "text": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#2",
+   "name": "wash",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "bbb89782124e|wine spill",
+   "sentence": "bbb89782124e",
+   "text": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#2",
+   "name": "wine spill",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "1d46909272e9|cushion density",
+   "sentence": "1d46909272e9",
+   "text": "The cushion density (28kg/m³) provides the perfect balance between support and comfort.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#3",
+   "name": "cushion density",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "cushion"
+   ]
+  },
+  {
+   "id": "1d46909272e9|support",
+   "sentence": "1d46909272e9",
+   "text": "The cushion density (28kg/m³) provides the perfect balance between support and comfort.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#3",
+   "name": "support",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "perfect balance between support and comfort"
+   ]
+  },
+  {
+   "id": "1d46909272e9|comfort",
+   "sentence": "1d46909272e9",
+   "text": "The cushion density (28kg/m³) provides the perfect balance between support and comfort.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#3",
+   "name": "comfort",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "perfect balance between support and comfort"
+   ]
+  },
+  {
+   "id": "e2771e583020|legs",
+   "sentence": "e2771e583020",
+   "text": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+   "name": "legs",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "e2771e583020|chip",
+   "sentence": "e2771e583020",
+   "text": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+   "name": "chip",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "small chip"
+   ]
+  },
+  {
+   "id": "e2771e583020|customer service",
+   "sentence": "e2771e583020",
+   "text": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+   "name": "customer service",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "e2771e583020|replacement",
+   "sentence": "e2771e583020",
+   "text": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+   "name": "replacement",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "b7dc9a6c914e|size",
+   "sentence": "b7dc9a6c914e",
+   "text": "It's the perfect size for our apartment living room, comfortably seating 3-4 people.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+   "name": "size",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "perfect size"
+   ]
+  },
+  {
+   "id": "b7dc9a6c914e|apartment living room",
+   "sentence": "b7dc9a6c914e",
+   "text": "It's the perfect size for our apartment living room, comfortably seating 3-4 people.",
+   "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+   "name": "apartment living room",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "9cc1ef30c70a|assembly instructions",
+   "sentence": "9cc1ef30c70a",
+   "text": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit).",
+   "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1",
+   "name": "assembly instructions",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "94516b80010d|load capacity",
+   "sentence": "94516b80010d",
+   "text": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection.",
+   "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+   "name": "load capacity",
+   "kind": "kind",
+   "status": "candidate",
+   "candidates": [
+    "load capacity is impressive"
+   ]
+  },
+  {
+   "id": "94516b80010d|tested",
+   "sentence": "94516b80010d",
+   "text": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection.",
+   "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+   "name": "tested",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "94516b80010d|shelf",
+   "sentence": "94516b80010d",
+   "text": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection.",
+   "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+   "name": "shelf",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  },
+  {
+   "id": "94516b80010d|books",
+   "sentence": "94516b80010d",
+   "text": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection.",
+   "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+   "name": "books",
+   "kind": "kind",
+   "status": "miss",
+   "candidates": []
+  },
+  {
+   "id": "94516b80010d|deflection",
+   "sentence": "94516b80010d",
+   "text": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection.",
+   "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+   "name": "deflection",
+   "kind": "kind",
+   "status": "hit",
+   "candidates": []
+  }
+ ],
+ "precision": []
+}

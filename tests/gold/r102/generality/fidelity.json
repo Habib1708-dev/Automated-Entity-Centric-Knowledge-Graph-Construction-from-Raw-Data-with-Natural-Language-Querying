@@ -1,0 +1,143 @@
+{
+  "comparisons": [
+    {
+      "name": "attach.attached_document",
+      "expected": 6,
+      "found": 6
+    },
+    {
+      "name": "attach.attached_key_in_sentence",
+      "expected": 492,
+      "found": 492
+    },
+    {
+      "name": "attach.attached_part_of",
+      "expected": 3,
+      "found": 3
+    },
+    {
+      "name": "attach.attached_section",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "attach.attachments",
+      "expected": 501,
+      "found": 501
+    },
+    {
+      "name": "attach.documents_about_by_text",
+      "expected": 4,
+      "found": 4
+    },
+    {
+      "name": "attach.documents_about_nothing",
+      "expected": 28,
+      "found": 28
+    },
+    {
+      "name": "attach.observations_attached",
+      "expected": 206,
+      "found": 206
+    },
+    {
+      "name": "attach.observations_total",
+      "expected": 212,
+      "found": 212
+    },
+    {
+      "name": "extract.facts",
+      "expected": 212,
+      "found": 212
+    },
+    {
+      "name": "extract.mention_nodes",
+      "expected": 255,
+      "found": 255
+    },
+    {
+      "name": "extract.mentions",
+      "expected": 255,
+      "found": 255
+    },
+    {
+      "name": "ingest_text.chunks",
+      "expected": 32,
+      "found": 32
+    },
+    {
+      "name": "ingest_text.documents",
+      "expected": 32,
+      "found": 32
+    },
+    {
+      "name": "ingest_text.record_documents",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "link.chunks_linked",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "link.documents_linked",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "link.facts_derived",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "link.mentions_created",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "link.record_documents_linked",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "mention_pass.mention_nodes",
+      "expected": 259,
+      "found": 259
+    },
+    {
+      "name": "mention_pass.mentions",
+      "expected": 259,
+      "found": 259
+    },
+    {
+      "name": "mention_pass.reused",
+      "expected": 0,
+      "found": 0
+    },
+    {
+      "name": "resolve.mentions",
+      "expected": 514,
+      "found": 514
+    },
+    {
+      "name": "resolve.mentions_to_concepts",
+      "expected": 256,
+      "found": 256
+    },
+    {
+      "name": "resolve.mentions_to_individuals",
+      "expected": 211,
+      "found": 211
+    },
+    {
+      "name": "resolve.mentions_to_records",
+      "expected": 47,
+      "found": 47
+    }
+  ],
+  "mention_ids_equal": true,
+  "sheet_facts": 0,
+  "sheet_facts_missing": [],
+  "sheet_attachment_diffs": {}
+}
