@@ -1,0 +1,39 @@
+{
+ "step": "R105 part b: the R104 mention pass replayed offline on R102's three builds (kg mention-pass --from-build), the quality model, no graph written",
+ "approved": "the user, 2026-10-07 (\"alright lets go with option 1\": the pass-only run on R102's builds, about $0.3; counted estimate before the runs $0.27-0.40)",
+ "git_sha": "729f793-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "prompt_version": "d2a8f2cd9a6f",
+ "model": "gemini-3.8-flash, thinking low",
+ "cost_usd_total": 0.318197,
+ "datasets": {
+  "furniture": {
+   "preset": "quality",
+   "command": "kg --preset quality mention-pass --from-build out/r102_furniture --data data --logged tests/gold/r102/furniture_logged.json --out out/r105_furniture",
+   "run": "0dfe0b92852f4001bcb29f23c68c30a2",
+   "experiment": "kgbuilder",
+   "cost_usd": 0.104954,
+   "tokens": {"prompt": 71443, "completion": 13699, "thinking": 0},
+   "counts": {"chunks": 70, "llm_calls": 70, "failed": 0, "found": 453, "accepted": 445, "rejected_too_long": 8, "mention_nodes": 367, "mentions": 445, "reused": 24, "particular": 143, "retyped": 0}
+  },
+  "heldout": {
+   "preset": "heldout",
+   "command": "kg --preset heldout mention-pass --from-build out/r102_heldout --data heldout/nhtsa/data --logged tests/gold/r102/heldout_logged.json --out out/r105_heldout",
+   "run": "70e8d9883b7c45c9a2faa229d3455b39",
+   "experiment": "kgbuilder-heldout",
+   "cost_usd": 0.15289,
+   "tokens": {"prompt": 86758, "completion": 23419, "thinking": 0},
+   "counts": {"chunks": 81, "llm_calls": 81, "failed": 0, "found": 656, "accepted": 566, "rejected_quantity_or_date": 60, "rejected_not_in_text": 12, "rejected_clause": 12, "rejected_too_long": 6, "mention_nodes": 528, "mentions": 566, "reused": 1, "particular": 167, "retyped": 0}
+  },
+  "generality": {
+   "preset": "generality_gemini",
+   "command": "kg --preset generality_gemini mention-pass --from-build out/r102_generality --data tests/fixtures/generality --logged tests/gold/r102/generality_logged.json --out out/r105_generality",
+   "run": "535f774f890845da837a8b0de2195346",
+   "experiment": "kgbuilder-generality",
+   "cost_usd": 0.060353,
+   "tokens": {"prompt": 38281, "completion": 8438, "thinking": 0},
+   "counts": {"chunks": 32, "llm_calls": 32, "failed": 0, "found": 255, "accepted": 255, "mention_nodes": 255, "mentions": 255, "reused": 0, "particular": 32, "retyped": 87}
+  }
+ },
+ "files": "tests/gold/r105/<dataset>/pass_findings.jsonl and pass_rejected.jsonl: copies of out/r105_<dataset>/mentions.jsonl and mentions_rejected.jsonl"
+}

@@ -5935,6 +5935,26 @@ hubs and concept merging are not measured (they need a resolve, out of this roun
   mention-pass --from-build out/r102_furniture --data data --logged tests/gold/r102/furniture_logged.json
   --out out/r105_furniture`; `heldout` with `heldout/nhtsa/data`; `generality_gemini` with
   `tests/fixtures/generality`.
+- **Part b: the replays (done 2026-10-07; $0.318).** At `729f793` (only `.claude/settings.json` dirty),
+  prompt `d2a8f2cd9a6f`, gemini-3.8-flash, thinking low, every call a cache miss, 0 failed; each passed the
+  C0 gate on its R102 build.
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | chunks (calls); found / accepted / refused | 70; 453 / 445 / 8 (too long) | 81; 656 / 566 / 90 (60 date or number, 12 not in text, 12 clause, 6 too long) | 32; 255 / 255 / 0 |
+  | stated particular; retyped by code | 143; 0 | 167; 0 | 32; **87** |
+  | new mentions / reused (R102: 394 / 26, 563 / 1, 259 / 0) | 367 / 24 | 528 / 1 | 255 / 0 |
+  | cost (R102's pass) | $0.105 ($0.076) | $0.153 ($0.115) | $0.060 ($0.044) |
+  | MLflow run | `0dfe0b92` | `70e8d988` | `535f774f` |
+
+  - Generality's 87 retyped findings are the class doing its job: stated kind and typed with an individual
+    type, stored `Kind`: "bakery", "street", "library" (`Place`), "vote", "resurfacing", "meeting" (`Event`),
+    "council", "committee" (`Organization`); its stated particulars are names ("Brackwater fen", "Harbour
+    Street", "Priya Nandakumar", "KV12-0457"). Furniture and held-out have no individual type, so code never
+    had to retype there. Held-out's refusals equal R102's in count by reason but are other findings.
+  - Committed: `tests/gold/r105/runs.json` (commands, runs, costs, counts, approval) and each dataset's
+    `pass_findings.jsonl` / `pass_rejected.jsonl` (copies of the out/ files, so the sheets rebuild without
+    out/). Test `test_r105_replays_committed_the_findings_their_runs_logged`.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**

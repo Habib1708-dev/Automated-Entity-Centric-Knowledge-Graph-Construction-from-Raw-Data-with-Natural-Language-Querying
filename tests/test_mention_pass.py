@@ -8,7 +8,7 @@ build (R105: the graph as the pass found it, behind the C0 gate, nothing written
 
 The text is an invented observatory log (as the definition's examples, tests/gold/r101/rules.md). Only the
 stage test needs Neo4j. The R102 rebuilds' logged counts (tests/gold/r102) must show the r77d claims replayed
-unchanged and the pass's counts.
+unchanged and the pass's counts; R105's replayed findings (tests/gold/r105) must hold what their runs counted.
 """
 
 import json
@@ -41,6 +41,7 @@ from kgbuilder.text.mention_pass import (
     filed_type,
     find_mentions,
     pass_rows,
+    read_findings,
     verify_found,
 )
 from kgbuilder.text.schema import (
@@ -368,3 +369,22 @@ def test_r102_rebuild_logged_the_replayed_claims_and_the_pass(dataset):
     assert logged.counts["mention_pass.mention_nodes"] > 0
     cost = sum(v for k, v in logged.usage.items() if k.endswith("cost_usd"))
     assert cost == pytest.approx(runs["cost_usd"]) and set(logged.runs) == set(runs["runs"])
+
+
+R105 = R102.parent / "r105"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r105_replays_committed_the_findings_their_runs_logged(dataset):
+    """The replays' findings files (copied from out/r105_<dataset>) hold what their MLflow runs counted: the
+    accepted findings, the stated particulars, the retyped ones and the refusals; the total cost adds up."""
+    index = json.loads((R105 / "runs.json").read_text(encoding="utf-8"))
+    counts = index["datasets"][dataset]["counts"]
+    findings = read_findings(R105 / dataset / "pass_findings.jsonl")
+    assert len(findings) == counts["accepted"]
+    assert sum(f.mention_class == "particular" for f in findings) == counts["particular"]
+    assert sum(f.proposed_type not in (NO_TYPE, f.type) for f in findings) == counts["retyped"]
+    rejected = (R105 / dataset / "pass_rejected.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len([x for x in rejected if x]) == counts["found"] - counts["accepted"]
+    total = sum(d["cost_usd"] for d in index["datasets"].values())
+    assert total == pytest.approx(index["cost_usd_total"])
