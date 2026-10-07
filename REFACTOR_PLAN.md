@@ -5815,7 +5815,7 @@ r77d is not confounded by a new sample of the extractor (R61-R62).
 - **R102 done 2026-10-07** ($1.832, all in part b). Next: the user's decision on the failed bounds (R101's
   rule: up to three `dev` rounds on the pass), then R103 (paid, asked).
 
-### R104. The mention pass states each thing's class apart from its type (code done 2026-10-07; $0)
+### R104. The mention pass states each thing's class apart from its type (done 2026-10-07; $0.039 dev run)
 Inserted before R103 (the user's decision on R102's failed bounds, 2026-10-07: fix the pass first; a narrow
 fix, no change to resolution, hubs or concept merging). R102's 33 judged pass errors, traced to their cause:
 20 are a wrong class that came from the type (the prompt asked for a type only and showed no class; "Give it
@@ -5869,11 +5869,31 @@ done to a thing", In, and an everyday act, Out 8; "THE CONTACT" read as a role, 
   the prompt's corpus-language test on the new prompt; `tests/test_mention_eval.py`: a precision item shows a
   keyed-type piece as the kind the pass stated, and R102's class for a pre-R104 pass file. Gate: 805 passed
   (794 before), `ruff check` clean.
-- **Not measured yet.** No run in this step's code part. A `dev` run (furniture samples only, about $0.03,
-  asked) can show the wiring and the class answers against the real model, not precision, and not the title
-  errors, which were generality's; the judged precision bound (>= 0.90 on all three datasets) needs pass
-  output on the full datasets (R103's rebuild, or a cheaper pass-only run on R102's inputs, which would need
-  new code), each asked first.
+- Committed at `8e84baa`.
+- **The one `dev` run** (the user's yes, 2026-10-07; at `8e84baa`, only `.claude/settings.json` dirty): `kg
+  reset`, then `kg --preset dev run samples/dev --goal "Which products have problems, in which parts?" --out
+  out/r104_dev` (gemini-3.5-flash-lite, R101's command), MLflow `kgbuilder-dev`, pipeline `76b67ec5`, pass
+  `361e0f7a`: **$0.039 for the whole pipeline** (54,196 prompt / 9,136 completion / 0 thinking tokens), of it
+  $0.0103 for the pass (12 calls, 11,960 / 2,671 tokens; R101's pass: $0.0077, 8,500 prompt tokens: the
+  prompt is longer). All validation checks pass. Pass: 96 found, 93 accepted, 3 refused (clause, too long,
+  already listed), 0 failed calls; 86 new mentions, 1 reused; `particular` 23, `retyped` 0.
+  - **What it shows (wiring and behaviour on the cheap model; dev output is not judged, so no precision):**
+    every finding carries both answers; the 23 stated particulars are all names (user handles, cities,
+    "Stockholm Chair"); R101's dev run typed 5 kinds `Particular` ("instructions", "Customer service",
+    "supplier", "garage", "trash day"), all 5 now stated kind and stored `Kind`. `retyped` is 0 because this
+    schema (`Product`, `Assembly`, `Part` keyed; `Issue` concept) has no individual type and no particular was
+    given a concept type. Keyed kinds keep their type as designed: "back rest", "cover", "screws" as `Part`;
+    also "chair", "dresser", "sofa" as `Product` (the open item below).
+  - **Still seen** (Flash-Lite, unjudged): Out words "issues" (listed in the prompt's own Out example),
+    "space", "firm", "price"; "purchase" typed `Product` (buying, Out 8); the act "Assembly" typed with the
+    keyed type of the same name.
+  - Not comparable claim for claim with R101's run: the plan and schema were proposed again (no cache hits;
+    the profile's sampled values change, Found along the way), so the claims, and the names the pass was
+    told were listed, differ.
+- **Not measured yet: judged precision.** The bound (>= 0.90 on all three datasets) needs pass output of the
+  quality model on the full datasets, judged: R103's rebuild, or a pass-only run on R102's three builds
+  (isolates the prompt change from re-extraction; needs new code to run the pass offline on a snapshot's
+  pre-pass state), each asked first.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
