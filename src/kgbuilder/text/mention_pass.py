@@ -94,7 +94,12 @@ _DURATIONS = frozenset({
 # a complaint's reporter and a letter's "Sir" were listed as people; seasons, because "winter" was a named
 # thing; "even as the subject or object", because a generic word was listed when the sentence spoke of it.
 # "none" lets a thing no schema type fits be listed instead of skipped, code giving it its class's fallback
-# type. The examples come from an invented observatory and ferry line, never from evaluated data.
+# type. R106, from R105's judged errors: the title rule applies only when the noun names that very thing,
+# because as R104 worded it it also dropped "vehicles" after model names, which name other things (the gold
+# keeps both); a unit of a named organisation called with its name is a particular, as the gold reads
+# "<maker> customer service". No code check sees either: whether a noun names the named thing itself, or a
+# unit of an organisation, is meaning. The examples come from an invented observatory and ferry line, never
+# from evaluated data.
 MENTION_PROMPT = """List the things this text names or talks about that are not listed yet: the entries an
 index of the text would have, so that a reader looking for one of them finds this text.
 
@@ -117,9 +122,10 @@ Out:
   done to the thing (contacting, filing, buying, reading, boarding a ferry, looking through a telescope);
 - the text or document itself; its writer or reader referred to only as such ("the writer", "the person
   reporting", "the undersigned"); a form of address ("Madam", "Dear neighbours"), though a name in it counts;
-- a title, role or common noun written next to a thing's name or in apposition with it: it names the same
-  thing, so the name is the only entry, also when the name is already listed ("dome technician Edit Varga"
-  and "Edit Varga, the dome technician": Edit Varga; "ferry T-4471": T-4471).
+- a title, role or common noun written next to a name or in apposition with it when it names that very
+  thing: the name is the only entry, also when the name is already listed ("dome technician Edit Varga" and
+  "Edit Varga, the dome technician": Edit Varga; "ferry T-4471": T-4471). A noun for the many things of a
+  named model or class names other things and stays ("the Skylark 30 ferries": Skylark 30, ferries).
 
 Copy each name verbatim from the text, as whole words and without "a", "an" or "the": the shortest span that
 names the thing, keeping a describing word only when it tells the thing apart ("shutter motor", not "old
@@ -128,9 +134,10 @@ shutter motor in the dome"). List each thing once; when the text gives it two na
 
 Give every thing two separate answers:
 - mention_class, how the text refers to it: "particular" when the text calls one individual thing by its own
-  name, a proper name or an identifier ("North Dome", "Lakeside Ferries", "Varga Prize", "T-4471"); "kind"
-  for everything else, also for a common noun that means one thing here ("the dome" is a kind even where it
-  is North Dome, and so are "the ticket office" and "the morning crossing");
+  name, a proper name or an identifier ("North Dome", "Lakeside Ferries", "Varga Prize", "T-4471"), also a
+  unit of a named organisation called with that name ("Lakeside Ferries ticket office"); "kind" for
+  everything else, also for a common noun that means one thing here ("the dome" is a kind even where it is
+  North Dome, and so are "the ticket office" and "the morning crossing");
 - type, what it is: the type below whose description fits it, whatever its mention_class; "{none}" when no
   type fits.
 

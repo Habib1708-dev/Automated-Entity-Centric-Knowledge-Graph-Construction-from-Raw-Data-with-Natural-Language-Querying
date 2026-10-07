@@ -45,9 +45,11 @@ evaluation.
    done to a thing: contacting, writing, filing, sending, presenting, buying, recommending, reading,
    deciding, boarding a ferry, looking through a telescope ("she contacted the office", "the form was
    filed").
-9. A title, role or common noun written next to a thing's name or in apposition with it: it names the same
-   thing (one entry per thing), so the name is the only entry, even when the name is already listed
-   ("dome technician Edit Varga" and "Edit Varga, the dome technician": Edit Varga; "ferry T-4471": T-4471).
+9. A title, role or common noun written next to a name or in apposition with it when it names that very
+   thing (one entry per thing): the name is the only entry, even when the name is already listed ("dome
+   technician Edit Varga" and "Edit Varga, the dome technician": Edit Varga; "ferry T-4471": T-4471). A noun
+   for the many things of a named model or class names other things and stays an entry ("the Skylark 30
+   ferries": Skylark 30 and ferries).
 
 ## How a mention is written
 
@@ -58,9 +60,10 @@ evaluation.
   one thing ("Night Vision Unit (NVU)"), the entry is the first.
 - Its class: **particular** (one named thing: In 1) or **kind** (In 2 and 3). The class is how the text
   refers to the thing, not what the thing is: the text calls a particular by its own name, a proper name or
-  an identifier; a common noun is a kind even where it means one particular thing ("the dome" for North
-  Dome, "the morning crossing"). A type of the schema does not decide the class: one type holds "North
-  Dome" and "the dome" alike.
+  an identifier, and a unit of a named organisation called with that name ("Lakeside Ferries ticket
+  office") is a particular too; a common noun is a kind even where it means one particular thing ("the
+  dome" for North Dome, "the ticket office", "the morning crossing"). A type of the schema does not decide
+  the class: one type holds "North Dome" and "the dome" alike.
 
 ## For the judge of a mention the pass added (R102 precision)
 
@@ -77,3 +80,10 @@ entry changes: a title or role next to a name (Out 9); a work done to a thing ag
 In 3, Out 8); the writer, the reader and forms of address (Out 5); seasons (Out 4); generic words as subjects
 or objects (Out 7); and the class as the way the text refers to the thing. The evidence, quoted from the
 gold, is in REFACTOR_PLAN.md (R104), kept out of this file so that its examples stay invented.
+
+## Revised in R106 (2026-10-07): two R104 wordings brought back to the gold
+
+Out 9 as R104 worded it also excluded a noun for the many things of a named model, which the gold keeps; it
+now applies only when the noun names that very thing. A unit of a named organisation called with that name
+is a particular, as the gold reads it. The gold is unchanged; the evidence is in REFACTOR_PLAN.md (R105,
+R106).

@@ -6013,6 +6013,33 @@ hubs and concept merging are not measured (they need a resolve, out of this roun
 - **R105 done 2026-10-07** ($0.318, part b). Next: the user's decision (the bound is still missed, within its
   intervals); options and the open definition questions are under Found along the way, then R103.
 
+### R106. Two R104 wordings brought back to the gold (done 2026-10-07; $0, no run)
+The user's choice after R105 (2026-10-07, "option 1"): fix the two definition wordings R105 showed reading
+otherwise than the R101 gold, then R103 (asked with its own estimate). Wording only; no code path changes.
+- **Out 9** now applies only when the noun names that very thing: "a title, role or common noun written next
+  to a name or in apposition with it when it names that very thing ... A noun for the many things of a named
+  model or class names other things and stays ('the Skylark 30 ferries': Skylark 30, ferries)". The gold
+  keeps "vehicles" after model names ("Rogue and 2017-2022 Rogue Sport vehicles" -> Rogue, Rogue Sport,
+  vehicles) and drops the noun before an identifier ("Core BF-1" -> BF-1; "The station's only pump,
+  KV12-0457" -> KV12-0457); both still hold.
+- **The class of a named organisation's unit:** "particular ... also a unit of a named organisation called
+  with that name ('Lakeside Ferries ticket office')", as the gold reads "Honda / Subaru / Toyota / Ford
+  customer service" (all particular); "the ticket office" alone stays a kind (furniture's gold "customer
+  service" is a kind). Chosen over a gold correction because the gold was written blind, before any pass
+  output; changing the definition to it is the direction that cannot be bent toward the output.
+- Changed in `text/mention_pass.py` (prompt `56ebdf0b5b51`, the intent comment with the reason no code check
+  sees either rule) and `tests/gold/r101/rules.md` (Out 9, the class, a revision note); no gold entry.
+  Gate: 814 passed, `ruff check` clean; the corpus four-gram guard passes on both.
+- **No run:** the wiring is unchanged and was exercised by R104's dev run and R105's replays; R103 measures
+  the wording on its own output. Closes the first R105 item under Found along the way.
+- **R103's estimate, counted now** (for the user's yes): R103 re-extracts with r77d's settings (two passes,
+  gemini-3.8-flash, thinking low; r77d's extraction cost $0.417 / $0.607 / $0.218 = $1.243), then the pass
+  (R105: $0.318) and resolve (R102: $0.336 / $1.136 / $0.126 = $1.598, held-out's mostly recall-number
+  pairs nominated by spelling): **about $3.2, likely $2.8-3.8**, above the plan's $1.9-2.5. The "identifiers
+  nominate pairs by spelling" item below would save about $1.0 of held-out's resolve, but it changes
+  resolution.
+- **R106 done 2026-10-07.** Next: R103, asked with this estimate.
+
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
   Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and
@@ -6023,7 +6050,7 @@ hubs and concept merging are not measured (they need a resolve, out of this roun
   the decision. **The user's decision (2026-10-07): fix the pass first (R104); the hub bound, resolution and
   concept merging are not in that round.** Precision is measured again on the next full pass output.
 - **Out 9 reaches further than the gold, and the class of "<brand> customer service" (found in R105,
-  2026-10-07; open, the user's choice).** Out 9 as worded ("a common noun written next to a thing's name
+  2026-10-07; closed by R106: both read as the gold reads them).** Out 9 as worded ("a common noun written next to a thing's name
   ... names the same thing") excludes "vehicles" after model names, which the R101 gold keeps: the model
   names a model, "vehicles" the cars of it, another thing. Rewording Out 9 to the gold's reading ("when it
   names that very thing: a title of a person, a common noun before an identifier") changes the prompt and
