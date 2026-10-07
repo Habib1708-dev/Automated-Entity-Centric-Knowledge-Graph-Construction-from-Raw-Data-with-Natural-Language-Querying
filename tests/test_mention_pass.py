@@ -388,3 +388,22 @@ def test_r105_replays_committed_the_findings_their_runs_logged(dataset):
     assert len([x for x in rejected if x]) == counts["found"] - counts["accepted"]
     total = sum(d["cost_usd"] for d in index["datasets"].values())
     assert total == pytest.approx(index["cost_usd_total"])
+
+
+R103 = R102.parent / "r103"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r103_rebuild_logged_the_pinned_corpus_every_stage_and_its_cost(dataset):
+    """The re-extracted rebuilds' logged counts (copied from MLflow): the same documents and chunks as r77d
+    (the corpus and its chunker are pinned), every stage counted, and the cost the runs index reports."""
+    runs = json.loads((R103 / "runs.json").read_text(encoding="utf-8"))["datasets"][dataset]
+    logged = LoggedCounts.model_validate_json((R103 / f"{dataset}_logged.json").read_text(encoding="utf-8"))
+    r77d = LoggedCounts.model_validate_json(
+        (R102.parent / "r87" / f"{dataset}_logged.json").read_text(encoding="utf-8")
+    )
+    ingest = [k for k in r77d.counts if k.startswith("ingest_text.")]
+    assert {k: logged.counts[k] for k in ingest} == {k: r77d.counts[k] for k in ingest}
+    assert logged.counts["extract.facts"] > 0 and logged.counts["mention_pass.mention_nodes"] > 0
+    cost = sum(v for k, v in logged.usage.items() if k.endswith("cost_usd"))
+    assert cost == pytest.approx(runs["cost_usd"]) and logged.runs == runs["runs"]

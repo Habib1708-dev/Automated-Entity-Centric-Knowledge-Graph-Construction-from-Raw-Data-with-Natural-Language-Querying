@@ -6059,6 +6059,27 @@ builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pi
   `tests/gold/r103/mention_judge_rules.md`, R105's rules with R106's two wordings, written before any R103
   output), lead review, `kg anchor-judged`, `kg mention-eval --verdicts`. (c) the results against R102 and
   r77d, with R101's bounds (pass precision >= 0.90, no new hub) and the plan's regression checks.
+- **Part a: the rebuilds (done 2026-10-07; $2.374, below the $2.8-3.8 estimate).** At `6d7ab17` (only
+  `.claude/settings.json` dirty), extraction prompt as at HEAD, mention prompt `56ebdf0b5b51` (R106):
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | chunks; claims stored (rejected) (R102: the r77d claims) | 70; 531 (28) (514) | 81; 530 (9) (531) | 32; 216 (6) (212) |
+  | derived claims; claims' mentions | 154; 621 | 135; 489 | 0; 266 |
+  | pass: new mentions / edges / reused (R102) | 394 / 479 / 20 (394 / 474 / 26) | 551 / 594 / 2 (563 / 615 / 1) | 258 / 258 / 0 (259 / 259 / 0) |
+  | resolve: records / individuals / concepts (R102) | 63 / 240 / 712 (64 / 244 / 693) | 83 / 428 / 558 (77 / 400 / 606) | 50 / **192** / **282** (47 / 211 / 256) |
+  | attach: claims attached / total; attachments | 685 / 685; 1277 | 665 / 665; 3831 | 206 / 216; 476 |
+  | cost: extract + pass + resolve (MLflow) | $0.425 + $0.115 + $0.099 = **$0.639** | $0.607 + $0.154 + $0.622 = **$1.383** | $0.223 + $0.060 + $0.068 = **$0.352** |
+  | MLflow: extract, pass, resolve | `7d30cca9`, `2f56b3e1`, `622190d4` | `15fb1843`, `608d3b40`, `c25f03f1` | `76c69d65`, `4068f894`, `5316cfe9` |
+
+  - Resolve cost less than R102's ($0.336 / $1.136 / $0.126): its prompts are unchanged, so the
+    adjudications R102 already paid for are cache hits; only new pairs are asked.
+  - Generality's individuals fall 211 -> 192 and concepts rise 256 -> 282: the pass's common nouns of an
+    individual type ("café", "street") are now stated kinds and resolve as concepts (R104).
+  - Committed: `tests/gold/r103/<ds>_logged.json` (counts and usage copied from the six stage runs) and
+    `runs.json` (commands, runs, costs, approval). Test
+    `test_r103_rebuild_logged_the_pinned_corpus_every_stage_and_its_cost`: documents and chunks equal r77d's,
+    every stage counted, the cost adds up.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**

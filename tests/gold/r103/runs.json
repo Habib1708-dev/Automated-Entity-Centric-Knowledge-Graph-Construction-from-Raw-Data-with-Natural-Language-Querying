@@ -1,0 +1,93 @@
+{
+ "step": "R103 part a: the three graphs rebuilt end to end with re-extracted claims (two passes) and every R97-R106 change in place",
+ "approved": "the user, 2026-10-07 (\"lets go for option A\": R103 at the counted estimate of about $3.2, likely $2.8-3.8)",
+ "git_sha": "6d7ab17-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "cost_usd_total": 2.373747,
+ "datasets": {
+  "furniture": {
+   "preset": "quality",
+   "build": "out/r103_furniture",
+   "pinned_from": "out/r77d_furniture: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "commands": [
+    "kg --preset quality reset --out out/r103_furniture",
+    "kg --preset quality build data --out out/r103_furniture",
+    "kg --preset quality ingest-text data --out out/r103_furniture",
+    "EXTRACT_PASSES=2 kg --preset quality extract --out out/r103_furniture",
+    "kg --preset quality link --out out/r103_furniture",
+    "kg --preset quality mention-pass --out out/r103_furniture",
+    "kg --preset quality resolve --out out/r103_furniture",
+    "kg --preset quality attach --out out/r103_furniture"
+   ],
+   "runs": {
+    "ingest_text": "919d7f5af89c4d3fb7c7f6f193469e5c",
+    "extract": "7d30cca9a9ed43b28447d7e1645b98b7",
+    "link": "539300527dac40a59f41ca7526caee60",
+    "mention_pass": "2f56b3e1e2684803a6643c76cddcdc69",
+    "resolve": "622190d4599f44a8be3caae8a6125766",
+    "attach": "de1d3fc80d4648c0b8ce6d1f026259bd"
+   },
+   "cost_usd": 0.639099,
+   "logged": {
+    "file": "tests/gold/r103/furniture_logged.json",
+    "hash": "cb8b34072143"
+   }
+  },
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r103_heldout",
+   "pinned_from": "out/r77d_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "commands": [
+    "kg --preset heldout reset --out out/r103_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r103_heldout",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r103_heldout",
+    "EXTRACT_PASSES=2 kg --preset heldout extract --out out/r103_heldout",
+    "kg --preset heldout link --out out/r103_heldout",
+    "kg --preset heldout mention-pass --out out/r103_heldout",
+    "kg --preset heldout resolve --out out/r103_heldout",
+    "kg --preset heldout attach --out out/r103_heldout"
+   ],
+   "runs": {
+    "ingest_text": "238bf1a394714950b5c0adb6856702ea",
+    "extract": "15fb184301b149ccb30109ea9e12d616",
+    "link": "d39e5c41d94d425cb6d7345ff40a21d4",
+    "mention_pass": "608d3b4012fc4004930f70512a4effe3",
+    "resolve": "c25f03f1807b4ccfa88e381b67c282f3",
+    "attach": "c8e917c079514b54be8ddba396e177fe"
+   },
+   "cost_usd": 1.383102,
+   "logged": {
+    "file": "tests/gold/r103/heldout_logged.json",
+    "hash": "107979900512"
+   }
+  },
+  "generality": {
+   "preset": "generality_gemini",
+   "build": "out/r103_generality",
+   "pinned_from": "out/r77d_generality: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "commands": [
+    "kg --preset generality_gemini reset --out out/r103_generality",
+    "kg --preset generality_gemini build tests/fixtures/generality --out out/r103_generality",
+    "kg --preset generality_gemini ingest-text tests/fixtures/generality --out out/r103_generality",
+    "EXTRACT_PASSES=2 kg --preset generality_gemini extract --out out/r103_generality",
+    "kg --preset generality_gemini link --out out/r103_generality",
+    "kg --preset generality_gemini mention-pass --out out/r103_generality",
+    "kg --preset generality_gemini resolve --out out/r103_generality",
+    "kg --preset generality_gemini attach --out out/r103_generality"
+   ],
+   "runs": {
+    "ingest_text": "ed182fa3425f4b1aab7b05c974b95abb",
+    "extract": "76c69d656a654ae682591a6964e15d91",
+    "link": "bf8005557cd84820b4d1d1247592978f",
+    "mention_pass": "4068f8947f0241e691d384334a2dbfc9",
+    "resolve": "5316cfe984b7473a81057c92e2ac2a52",
+    "attach": "147c33f0e9aa48ef95914f750f9b7983"
+   },
+   "cost_usd": 0.351546,
+   "logged": {
+    "file": "tests/gold/r103/generality_logged.json",
+    "hash": "43534ab9e5a6"
+   }
+  }
+ }
+}
