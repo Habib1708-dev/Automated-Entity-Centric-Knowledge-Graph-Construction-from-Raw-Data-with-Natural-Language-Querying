@@ -6774,6 +6774,8 @@ on older builds (coverage 0.486 furniture, 0.313 held-out; most misses had no fa
   - ~66-72 random reader claims per dataset: about ±10 points. The reader's claims, the matching and the
     verdicts come from one model family (Claude); the reader's claims were written before R103's claims
     existed. No gold correction: every reader claim judged as written (the judges flagged none as wrong).
+- **Results snapshot** of R110 (corrected) and R111 for readers outside this roadmap:
+  [docs/evaluation/results_2026-10-07_claims.md](docs/evaluation/results_2026-10-07_claims.md).
 - **R111 done 2026-10-07** ($0). Next: the user's decision. Recall within the schema is 0.44-0.69; what limits
   it most is the schema on held-out and generality (no fact type for remedies, titles, dates of documents) and
   the model's dropped halves and evaluations on furniture.
