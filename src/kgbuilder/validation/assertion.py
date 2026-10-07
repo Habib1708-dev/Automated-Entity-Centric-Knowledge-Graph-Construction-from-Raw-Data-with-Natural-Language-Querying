@@ -14,15 +14,16 @@ the file to its gold and sheet; scoring is pure. Rules: `tests/gold/r77/assertio
 Not here: the sheet (coverage_sheet.py), the coverage estimate (coverage.py), MLflow (pipeline/stages.py).
 """
 
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Literal, TypeVar, get_args
+from typing import Literal, Protocol, TypeVar, get_args
 
 from pydantic import BaseModel, ValidationError, model_validator
 
 from ..core.errors import EvaluationError
 from ..core.text import norm
 from ..text.extraction import Modality, Truth
-from .coverage_sheet import CoverageSheet, SheetObservation
+from .coverage_sheet import CoverageSheet
 from .interval import Proportion
 from .judge import JudgeMeta
 
@@ -176,8 +177,20 @@ def _kept(field: AssertionField, verdict: MatchedClaim) -> bool:
     return verdict.fields is not None and getattr(verdict.fields, field)
 
 
-def _exact(field: AssertionField, claim: GoldClaim, stored: list[SheetObservation]) -> bool:
-    """Whether every matched observation's field equals the label. A condition agrees when both are empty,
+class StoredAssertion(Protocol):
+    """What the exact comparison reads of a stored claim: a coverage sheet's observation (R77) or a claim
+    sheet's item (claim_eval.py, R111)."""
+
+    @property
+    def truth(self) -> str: ...
+    @property
+    def modality(self) -> str: ...
+    @property
+    def condition(self) -> str: ...
+
+
+def exact_field(field: AssertionField, claim: GoldClaim, stored: Sequence[StoredAssertion]) -> bool:
+    """Whether every matched stored claim's field equals the label. A condition agrees when both are empty,
     or when one holds the other's words (the extractor may copy more or fewer words of the clause)."""
     if field == "truth":
         return all(o.truth == claim.truth for o in stored)
@@ -209,12 +222,12 @@ def score_assertion(
     for name, field, label, value in _GROUPS:
         group = [p for p in pairs if getattr(p[0], label) == value]
         kept_by_value[name] = Proportion.of(sum(_kept(field, v) for _, v, _ in group), len(group))
-        exact_by_value[name] = Proportion.of(sum(_exact(field, c, o) for c, _, o in group), len(group))
+        exact_by_value[name] = Proportion.of(sum(exact_field(field, c, o) for c, _, o in group), len(group))
     return AssertionReport(
         claims=claims,
         matched=Proportion.of(len(pairs), claims),
         kept={f: Proportion.of(sum(_kept(f, v) for _, v, _ in pairs), len(pairs)) for f in FIELDS},
-        exact={f: Proportion.of(sum(_exact(f, c, o) for c, _, o in pairs), len(pairs)) for f in FIELDS},
+        exact={f: Proportion.of(sum(exact_field(f, c, o) for c, _, o in pairs), len(pairs)) for f in FIELDS},
         kept_by_value=kept_by_value,
         exact_by_value=exact_by_value,
     )

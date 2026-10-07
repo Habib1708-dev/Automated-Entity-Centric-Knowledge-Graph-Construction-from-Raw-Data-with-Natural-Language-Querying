@@ -43,6 +43,7 @@ uv run kg mention-eval BUILD --dataset N --data D --logged L --gold-dir tests/go
 uv run kg mention-pass --from-build BUILD --data D --logged L --out O  # the pass on a finished build's graph as the pass found it (R105; LLM, no graph)
 uv run kg mention-eval BUILD ... --pass-file O/mentions.jsonl  # score those findings in place of the build's own pass (R105)
 uv run kg claim-eval BUILD --dataset N --data D --logged L --out O [--verdicts V]  # every stored claim for the judge; judged precision (R110; no graph)
+uv run kg claim-recall --claims S --gold G --sample P --dataset N --out O [--verdicts V]  # a claim sheet against R77's reader claims; judged recall (R111; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
@@ -268,6 +269,7 @@ src/kgbuilder/
                     mention_gold (R101: the things sampled sentences name, for the mention pass)
                     -> mention_eval (R102: recall of that gold, judged precision of the pass's mentions)
                     claim_eval (R110: the sheet of every stored claim, judged strict and content precision)
+                    -> claim_recall (R111: R77's reader claims matched to a claim sheet, recall and its causes)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)

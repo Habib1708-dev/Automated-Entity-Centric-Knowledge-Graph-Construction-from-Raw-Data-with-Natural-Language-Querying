@@ -64,6 +64,11 @@ MENTION_GOLD = typer.Option(..., help="The R101 mention gold folder (tests/gold/
 MENTION_VERDICTS = typer.Option(None, help="The judge's verdicts of the mention sheet (R102).")
 MENTION_PASS_FILE = typer.Option(None, help="Pass findings to score in place of the build's own (R105).")
 CLAIM_VERDICTS = typer.Option(None, help="The judge's verdicts of the claim sheet (R110).")
+RECALL_VERDICTS = typer.Option(None, help="The judge's matching of the recall sheet (R111).")
+# `kg claim-recall` (R111): a committed claim sheet and the R77 gold it is matched against
+RECALL_CLAIMS = typer.Option(..., help="A claim sheet of kg claim-eval (tests/gold/r110/<dataset>/).")
+RECALL_GOLD = typer.Option(..., help="The R77 gold of the dataset's sample (<dataset>_assertion_gold.json).")
+RECALL_SAMPLE = typer.Option(..., help="That gold's sentence sample (<dataset>_assertion_sample.json).")
 # `kg mention-pass --from-build` (R105): the pass on a finished build's graph, rebuilt offline
 PASS_FROM_BUILD = typer.Option(None, help="A finished build folder: run the pass on its graph, offline.")
 PASS_DATA = typer.Option(None, help="With --from-build: the dataset folder the build ingested.")
@@ -617,6 +622,32 @@ def claim_eval(
             )
         typer.echo(f"Wrote {out / cls.CLAIM_REPORT}")
     typer.echo(f"Wrote {out / cls.CLAIM_SHEET}")
+
+
+@app.command("claim-recall")
+def claim_recall(
+    claims: Path = RECALL_CLAIMS,
+    gold: Path = RECALL_GOLD,
+    sample: Path = RECALL_SAMPLE,
+    dataset: str = typer.Option(..., help="The dataset's name, written into the sheet."),
+    verdicts: Path | None = RECALL_VERDICTS,
+    out: Path = OUT,
+):
+    """Join a claim sheet with R77's reader claims into the sheet the judge matches (no graph, no model); with
+    --verdicts, score recall: overall, on the random strata, within the schema, misses per cause (R111)."""
+    state = PipelineState(
+        claim_sheet=claims,
+        assertion_gold=gold,
+        sample=sample,
+        anchor_dataset=dataset,
+        recall_verdicts=verdicts,
+    )
+    with session(out) as ctx:
+        state = run_stages(ctx, state, [cls.ClaimRecallStage()])
+    if (s := state.recall_scores) is not None:
+        typer.echo(f"recall {s.recall.k}/{s.recall.n}; random strata {s.recall_random.k}/{s.recall_random.n}")
+        typer.echo(f"Wrote {out / cls.RECALL_REPORT}")
+    typer.echo(f"Wrote {out / cls.RECALL_SHEET}")
 
 
 @app.command("anchor-eval")

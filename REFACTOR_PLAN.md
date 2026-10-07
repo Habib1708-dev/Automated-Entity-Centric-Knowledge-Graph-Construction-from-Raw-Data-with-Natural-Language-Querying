@@ -6647,6 +6647,45 @@ another session holds R109 (a derivation fix).
     no verdict rests on it (the two reasons that cite "the schema" are about fabric's entity type), and the
     judges faulted no claim for its relation's type pair.
 
+### R111. Recall of today's claims against a reader's (started 2026-10-07; $0, no run)
+The user, 2026-10-07 ("yes scope it", then "go"): R110 measured precision only; how much of what a careful
+reader finds does today's graph store as claims, and is a miss the model's or the schema's? The last numbers
+are R77's on the r77d builds (claims matched furniture 81/117, held-out 35/100, generality 22/108) and R68's
+on older builds (coverage 0.486 furniture, 0.313 held-out; most misses had no fact type to go in).
+- **Inputs, all committed:** R77's sample and gold (`tests/gold/r77/<ds>_assertion_{sample,gold}.json`: 61 /
+  63 / 60 sentences, 117 / 100 / 108 reader claims, of them 72 / 67 / 66 in the random strata, written from
+  the text before any output) and R110's claim sheets (`tests/gold/r110/<ds>/claim_sheet.json`: every stored
+  claim of R108's builds, i.e. R103's claims). R103 kept r77d's documents and chunks (its test), so the
+  sample's chunk ids are the sheets'. No build, graph or snapshot is read.
+- **Split, one commit each:** (a) the recall sheet, its verdict rules and scores, the command, the matching
+  rules, the three sheets ($0); (b) blind matching, the lead's review, scores and results ($0: Claude in the
+  session, no API call, no pipeline run).
+- **Part a scope:**
+  - Structural move first, behaviour kept: `assertion._exact` becomes `exact_field`, typed by a small
+    `StoredAssertion` Protocol, so a claim sheet's items are compared with the gold's labels by R77's code.
+  - `validation/claim_recall.py` (pure): `recall_sheet` (each sentence with its reader claims and every
+    stored claim of its chunk; a chunk with no stored claim shows none and no text); `RecallVerdict` (per gold
+    claim: the matched stored claims whatever their truth, modality and condition, or R68's first cause with
+    the fact type that could hold it); review rules as the shared verdict files (every miss and a seeded 10 %
+    of the blind matches reviewed, changes kept with the blind outcome); `score_recall`: recall overall, on
+    the random strata, per stratum, within the schema (no `no_schema_type` misses), misses per cause, and for
+    matched claims the stored truth, modality and condition against the gold labels (exact, code).
+  - `ClaimRecallStage` + `kg claim-recall --claims --gold --sample --dataset [--verdicts]`: one MLflow run per
+    dataset (params: the three files and the verdicts with hashes; metrics: the sheet's counts and, judged,
+    every rate with bounds and n, misses per cause; artifacts: sheet and report).
+  - Matching rules `tests/gold/r111/recall_rules.md`, written before any verdict: R68's pass-2 causes in
+    their order and R77's "whatever their truth, modality and condition", invented examples only.
+- **Part a (done 2026-10-07, $0, no LLM, no Neo4j):** as scoped. Tests `tests/test_claim_recall.py` (5): the
+  sheet (the join by chunk, a chunk without stored claims, a gold out of the sample's order refused), the
+  verdict model (matched or a cause, a miss's schema type), the rules (a missing, changed or foreign answer, an
+  unreviewed miss, a change that does not end at its outcome), the scores (strata, within the schema, causes,
+  fields by code), the stage on invented files. README: the command and the module map.
+  - **Sheets** (committed as `tests/gold/r111/<ds>/recall_sheet.json` before any verdict): furniture 61
+    sentences, 117 reader claims, 601 stored claims shown (every sentence shows all its chunk's claims), no
+    sentence without stored claims; held-out 63, 100, 414, one ("Owners may contact Nissan customer service at
+    1-80...", a chunk storing no claim); generality 60, 108, 444, one ("The contractor finished on 25 August,
+    a week ahead...").
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
