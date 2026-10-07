@@ -6390,9 +6390,41 @@ alone:
   - The new prompt changed no answer on furniture and generality (59 choices asked again).
   - Committed: verdict files and `anchor_judged.json` per dataset; test
     `test_r108_verdicts_are_r107s_and_held_out_passes_c3_without_a_wrong_record_link`.
-- **R108 done 2026-10-07** ($0.0872). Next: the user's choice: the four lost Civic links (the chooser's
-  year reading), the narrower kind rule (generality's two pump links), identifiers nominated by spelling,
-  the dimmer pair, generality's pass precision.
+- **R108 done and accepted 2026-10-07** ($0.0872). The user accepted it because every C3 hard rule passes
+  on the three datasets, every remaining record link is judged right, and no retrieval or graph-quality
+  criterion regressed. **The refinement arm stops at R108** (the user's decision, 2026-10-07): what it
+  leaves is recorded under "Known limitations" below as future work, not optimised now.
+
+## Known limitations (the refinement arm stopped at R108)
+The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
+recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
+re-extracted claims resolved by R108 (judge: Claude Opus 5.5, the gold and the verdicts from one model
+family): every C3 hard rule passes on furniture, held-out and generality; every record link made is judged
+right (C4 63/63, 77/77, 48/48); C6 purity is 1.0 everywhere; against R103, retrieval (C2, C5 against
+vector search), hubs (C7), connections (C8) and graph size (C9) did not regress. The four limitations, each
+with its evidence and the direction a later step would take:
+
+1. **Four right record links lost on held-out (R108).** The chooser now decides a word key inside a longer
+   name, and it refused "Civic Type R" (x2), "2017-2021 Civic hatchback" and "2016-2020 Civic coupe" -> the
+   record `Vehicle:CIVIC`, all judged VALID in R107, while it accepted "Civic Coupe", "Civic Hatchback",
+   "Civic Sedan" and "2016 Civic 2-Door". It seems to read the record's model year (2016) against the
+   ranges, and not consistently. Cost: link recall, not precision (C4 counts the links made); retrieval is
+   unchanged. Direction: a chooser rule that a range of years is no reason to refuse a version, or the
+   year left out of what the chooser sees; measured by a replay of the chooser alone (cents).
+2. **Two right record links lost on generality (R107).** "the pump had run dry" and "Pump returned to duty
+   the same day" refer back to the pump HP40-1183 named just before; R103 joined both to the record, R107's
+   kind rule makes them `Kind` concepts. Direction: the narrower kind rule, a stated kind may join a
+   record's unit (a reference back to one thing) but never another individual; it must keep held-out's
+   "CARS" / "CAR" apart.
+3. **Identifiers nominate pairs by spelling (R102).** Recall numbers typed with a keyed type ("15V-246",
+   "16V-643") are spelled alike, so a fresh build asks the adjudicator hundreds of pairs that are always
+   apart (668 in R102, about $1.1 of held-out's resolve). A cost only: no wrong join. Direction: leave names
+   with a digit out of spelling nomination, as `names.name_score` already gives such a word no ending.
+4. **The dimmer ambiguity (R103).** On furniture "dimmer" joins "dimmer switch" and "dimmer function" into
+   one individual; R75's identity gold (the user's R38 decision) keeps the switch and the function apart
+   (R75 apart pairs 32/33), while the blind C3 judge accepted the join from the text ("the dimmer function
+   ... a bit stiff to turn"). Unresolved whether the text or the gold is right. Direction: decide the
+   reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
@@ -6411,7 +6443,7 @@ alone:
   the definition. Separately, the gold lists "Ford customer service" as particular while R104's class
   sentence reads it as a kind: either a gold correction or one more class example. Both decide 4 of
   held-out's 8 INCORRECT verdicts in R105.
-- **"dimmer" joins the switch and the function (found in R103, 2026-10-07; open, the user's choice).** The
+- **"dimmer" joins the switch and the function (found in R103, 2026-10-07; deferred: Known limitation 4).** The
   re-extracted furniture claims name a plain "dimmer"; resolve joins it, "dimmer switch" and "dimmer
   function" into one individual, which R75's identity gold (the user's R38 decision) keeps apart, while the
   blind C3 judge accepted it from the text ("the dimmer function ... a bit stiff to turn"). Either the R38
@@ -6421,7 +6453,8 @@ alone:
   furniture document's "Scraped from <url>" line), idioms, times written as nouns ("night shift"), ordinary
   operation verbs, an identifier with its common noun. A prompt round on them would chase single cases; the
   source URL line is the one a code check could see (a name inside a URL of the chunk).
-- **R107 also drops a kind word that refers back to one record (found in R107 part b, 2026-10-07; open).**
+- **R107 also drops a kind word that refers back to one record (found in R107 part b, 2026-10-07; deferred:
+  Known limitation 2).**
   In generality, "the pump had run dry" and "Pump returned to duty" mean the pump HP40-1183 named just
   before; R103's adjudicator joined both to the record, R107 makes them `Kind` concepts (2 record mentions
   lost). The same rule removed held-out's wrong "CARS" / "CAR" join. A narrower rule would let a stated kind
@@ -6448,10 +6481,9 @@ alone:
 - **Near-duplicate pass mentions in one sentence (found in R102, 2026-10-07; open).** "may not engage" and
   "not engage" are two mentions of one sentence, merged into one concept (judged right); `already_listed`
   compares whole normalised names, so a name holding another passes.
-- **Identifiers nominate pairs by spelling (found in R102, 2026-10-07; open).** The mention pass types recall
-- **Identifiers nominate pairs by spelling (found in R102, 2026-10-07; open).** The mention pass types recall
-  numbers ("15V-246", "16V-643", "17V-210") with a keyed type; as `no_record` individuals they are spelled at
-  least `er_borderline` alike, so held-out's resolve asked 668 such pairs and answered every one apart ($1.14 in
+- **Identifiers nominate pairs by spelling (found in R102, 2026-10-07; deferred: Known limitation 3).** The
+  mention pass types recall numbers ("15V-246", "16V-643", "17V-210") with a keyed type; as `no_record`
+  individuals they are spelled at least `er_borderline` alike, so held-out's resolve asked 668 such pairs and answered every one apart ($1.14 in
   all). Two identifiers that differ in a digit are two things; a nomination rule that leaves names with digits
   out of spelling (as `names.name_score` already treats a word with a digit as having no ending) would save
   the calls without losing a join. Not built: it changes resolve, a separate step.
@@ -6466,7 +6498,8 @@ alone:
   pair is decided once, from its own lines. A join made in the pass could bring a side new evidence (the
   other mentions of the group it joined); asking again with it is not built until a replay shows a pair that
   needs it.
-- **Held-out's C3 hard rule fails since R93 (found again in R99, 2026-10-06; open, the user's choice).** One
+- **Held-out's C3 hard rule fails since R93 (found again in R99, 2026-10-06; closed by R108: a word key in a
+  longer name goes to the chooser, which declines the link).** One
   record link is judged INCORRECT: "2017-2022 Rogue Sport" -> `Vehicle:ROGUE` (R93's cause 4: a sibling model
   linked to the base model by key; the recall text names the Rogue Sport as a separate model). A wrong record
   merge fails C3 (decision 3 of R93). R94-R96 fixed only furniture, so the R97-R103 plan's premise "every hard
