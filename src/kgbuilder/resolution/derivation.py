@@ -6,6 +6,9 @@ every fact type the text schema marks `derived` (subject type S, predicate P, ob
 mention in a chunk of a document ABOUT a domain node becomes an observation "S mention P (O mention named
 like that node)": one per mention chunk, with the chunk's sentence that names the mention as verbatim
 evidence. It is written by the subject-graph writer, so a derived claim has the shape of an extracted one.
+The node stands for the claim's object, so it must be one of O's records (R109, `derives_into`): a recall
+document is ABOUT its Recall record, and "seatbacks INSTALLED_IN 17V472000" made a recall number a Vehicle.
+An O that names no record labels keeps the older rule, any ABOUT node.
 Design: "the LLM proposes, code decides", one step further: what the document states by itself (the title
 names the thing, the text names its piece) is never asked from the model, which used to spend more than
 half of its output on it. The rule only reads the path Mention <-MENTIONS- Chunk -PART_OF-> Document
@@ -22,7 +25,7 @@ from pydantic import BaseModel
 
 from ..core.text import norm, pick_sentence
 from ..structured.plan import ConstructionPlan
-from ..text.schema import FactType, TextSchema
+from ..text.schema import EntityType, FactType, TextSchema
 from ..text.subject_graph import (
     MentionRow,
     ObservationRow,
@@ -31,7 +34,7 @@ from ..text.subject_graph import (
     write_mentions,
     write_observations,
 )
-from .linking import read_domain_nodes
+from .linking import DomainNode, read_domain_nodes
 
 # The `extractor` property of a derived fact; facts from the model carry the model id instead.
 DERIVED_EXTRACTOR = "derived"
@@ -47,6 +50,8 @@ class DerivationReport(BaseModel):
     skipped_no_evidence: int  # mentions whose chunk has no sentence naming them: no quote, no fact
     # documents whose object mention was found by containment ("2019 Subaru Outback" for "OUTBACK", R60)
     targets_by_containment: int = 0
+    # mention chunks of documents ABOUT a node that is not a record of the object type (R109): no fact
+    skipped_other_label: int = 0
 
 
 class Candidate(BaseModel):
@@ -83,6 +88,19 @@ def containing_mention(node_name: str, candidates: list[Candidate]) -> str | Non
     return min(matching, key=lambda c: (-c.chunks, len(c.name), c.id)).id
 
 
+def derives_into(object_type: EntityType | None, label: str) -> bool:
+    """True when a document ABOUT a domain node labelled `label` gets derived claims of a fact type whose
+    object type is `object_type` (R109): the node stands for the claim's object, so it must be one of that
+    type's records. A recall document is ABOUT its `Recall` record; with object type `Vehicle` (record label
+    `Vehicle`) code wrote "seatbacks INSTALLED_IN 17V472000", a recall number as a vehicle: 97 of held-out's
+    135 derived claims in R108. An object type that names no record labels (not keyed, or not in the schema)
+    cannot say which nodes are its things, so it keeps the rule before R109: every ABOUT node.
+    """
+    if object_type is None or not object_type.record_labels:
+        return True
+    return label in object_type.record_labels
+
+
 class DerivationSource(BaseModel):
     """One mention of a derived fact type's subject type in one chunk of a document ABOUT a domain node:
     a row of the path Mention <-MENTIONS- Chunk -PART_OF-> Document -ABOUT-> node."""
@@ -104,32 +122,38 @@ class DerivedRows(BaseModel):
     created: int  # object mentions no extracted claim of their document had written
     contained: int  # object mentions found by containment
     skipped: int
+    other_label: int = 0  # sources whose ABOUT node is not a record of the object type (R109)
 
 
 def derive_rows(
     fact_type: FactType,
+    object_type: EntityType | None,
     sources: list[DerivationSource],
     candidates: dict[str, list[Candidate]],
-    names_by_node: dict[str, str],
+    nodes: dict[str, DomainNode],
 ) -> DerivedRows:
     """The rows `derive_facts` writes for one fact type, without touching the graph. Pure, so the graph audit
-    (audit/snapshot.py, R87) rebuilds the derived claims offline with this very code.
+    (audit/snapshot.py, R87) rebuilds the derived claims offline with this very code, `derives_into` included.
 
-    `sources` in write order (by mention id, then chunk id); `candidates` are the object type's mentions per
-    document; `names_by_node` the display names of the domain nodes (a node without a name derives nothing).
+    `object_type` is the schema's entity type named by the fact type's object (None when the schema lacks
+    it); `sources` in write order (by mention id, then chunk id); `candidates` are the object type's mentions
+    per document; `nodes` the named domain nodes by id (a node without a name derives nothing).
     """
     targets: dict[tuple[str, str], _Target] = {}
     rows: list[tuple[DerivationSource, MentionRow, str]] = []
-    skipped = 0
+    skipped = other_label = 0
     for r in sources:
-        node_name = names_by_node.get(r.node)  # None: the ABOUT node has no name in the plan
-        sentence = pick_sentence(r.text or "", [r.name]) if node_name is not None else None
-        if sentence is None:
+        node = nodes.get(r.node)  # None: the ABOUT node has no name in the plan
+        if node is not None and not derives_into(object_type, node.label):
+            other_label += 1
+            continue
+        sentence = pick_sentence(r.text or "", [r.name]) if node is not None else None
+        if node is None or sentence is None:
             skipped += 1
             continue
         key = (r.doc_id, r.node)
         if key not in targets:
-            targets[key] = _target(fact_type, node_name, r.chunk_id, candidates.get(r.doc_id, []))
+            targets[key] = _target(fact_type, node.name, r.chunk_id, candidates.get(r.doc_id, []))
         target = targets[key].mention
         if target.id == r.id:  # the thing itself: "OUTBACK PART_OF OUTBACK" says nothing
             skipped += 1
@@ -148,13 +172,14 @@ def derive_rows(
         created=sum(t.created for t in targets.values()),
         contained=sum(t.contained for t in targets.values()),
         skipped=skipped,
+        other_label=other_label,
     )
 
 
 def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> DerivationReport:
     """Write every fact the schema marks `derived`. Idempotent; returns the counts."""
-    names_by_node = {n.element_id: n.name for n in read_domain_nodes(driver, plan)}
-    facts = created = skipped = contained = 0
+    nodes = {n.element_id: n for n in read_domain_nodes(driver, plan)}
+    facts = created = skipped = contained = other_label = 0
     for fact_type in schema.derived():
         records, _, _ = driver.execute_query(
             # ORDER BY keeps the write order, and so the report, deterministic
@@ -170,18 +195,23 @@ def derive_facts(driver: Driver, schema: TextSchema, plan: ConstructionPlan) -> 
             )
             for r in records
         ]  # fmt: skip
-        derived = derive_rows(fact_type, sources, _candidates(driver, fact_type.object_type), names_by_node)
+        object_type = schema.entity_type(fact_type.object_type)
+        derived = derive_rows(
+            fact_type, object_type, sources, _candidates(driver, fact_type.object_type), nodes
+        )
         write_mentions(driver, derived.mentions, derived.mentioned_in)
         write_observations(driver, derived.observations, DERIVED_EXTRACTOR)
         facts += len(derived.observations)
         created += derived.created
         contained += derived.contained
         skipped += derived.skipped
+        other_label += derived.other_label
     return DerivationReport(
         facts_derived=facts,
         mentions_created=created,
         skipped_no_evidence=skipped,
         targets_by_containment=contained,
+        skipped_other_label=other_label,
     )
 
 

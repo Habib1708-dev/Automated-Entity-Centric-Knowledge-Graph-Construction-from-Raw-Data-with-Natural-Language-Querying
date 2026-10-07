@@ -5,7 +5,8 @@ Role in the pipeline: after a build; read by `audit/fidelity.py` (is it the grap
 never saved, so the snapshot recomputes them from what was saved, in the build's stage order:
   ingest (`audit/inputs.py`) -> subject graph (`text/subject_graph.collect_rows` over triples.jsonl) ->
   link: document and section ABOUT links (`resolution/linking`), derived claims
-  (`resolution/derivation.derive_rows`) -> mention pass (R101, when the build has `mentions.jsonl`:
+  (`resolution/derivation.derive_rows`, whose `derives_into` keeps a derived claim's object to a record of
+  its object type, R109) -> mention pass (R101, when the build has `mentions.jsonl`:
   `mention_pass.pass_rows` over its accepted findings, or over the findings the caller gives in their place,
   R105) -> identity: resolve.json's assignments are the
   REFERS_TO edges -> attach: the text ABOUT links (`attachment.dominant_record`) and every HAS_OBSERVATION
@@ -133,11 +134,15 @@ def build_snapshot(
         by_doc[link.source].append(link.thing)
     chunks = {c.chunk_id: c for c in corpus.chunks}
     collisions = 0
-    names_by_node = {r.id: r.name for r in records if r.name is not None}
+    # `read_domain_nodes`: the named records with their labels, which `derives_into` reads (R109)
+    nodes = {
+        r.id: DomainNode(element_id=r.id, label=r.label, name=r.name) for r in records if r.name is not None
+    }
     for fact_type in schema.derived():
         sources = _derivation_sources(fact_type.subject_type, mentions, mentioned_in, chunks, by_doc)
         candidates = _candidates(fact_type.object_type, mentions, mentioned_in)
-        derived = derive_rows(fact_type, sources, candidates, names_by_node)
+        object_type = schema.entity_type(fact_type.object_type)
+        derived = derive_rows(fact_type, object_type, sources, candidates, nodes)
         for m in derived.mentions:  # MERGE: a mention the extractor wrote stays as it was
             if m.id not in mentions:
                 mentions[m.id] = m

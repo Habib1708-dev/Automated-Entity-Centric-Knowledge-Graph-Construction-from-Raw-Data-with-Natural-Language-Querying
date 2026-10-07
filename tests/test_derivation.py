@@ -1,15 +1,26 @@
 """Derived facts: sentence picking and the containing mention as pure functions, and (with Neo4j) the rule
 that a named part is PART_OF the product its document is about: one fact per mention chunk, verbatim
 evidence, the product's mention of the document reused (named exactly like the node, or in full, R60) or
-created once per document (R75), idempotent, scored by the gold set and accepted by the validation checks."""
+created once per document (R75), idempotent, scored by the gold set and accepted by the validation checks.
+R109: a document ABOUT a record of another label than the object type's (a recall document about its Recall,
+object type Vehicle) derives nothing, purely and in the link stage; an object type without record labels
+keeps deriving onto every ABOUT node."""
 
 import pytest
 
 from kgbuilder.core.identity import mention_id
 from kgbuilder.core.text import pick_sentence, split_sentences
 from kgbuilder.resolution.attachment import attach_claims
-from kgbuilder.resolution.derivation import DERIVED_EXTRACTOR, Candidate, containing_mention, derive_facts
-from kgbuilder.resolution.linking import link_graphs
+from kgbuilder.resolution.derivation import (
+    DERIVED_EXTRACTOR,
+    Candidate,
+    DerivationSource,
+    containing_mention,
+    derive_facts,
+    derive_rows,
+    derives_into,
+)
+from kgbuilder.resolution.linking import DomainNode, link_graphs
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.documents import Document
@@ -153,6 +164,82 @@ def test_the_vehicle_the_text_names_in_full_is_the_target_not_a_second_mention(d
     assert driver.execute_query("MATCH (o:Observation) RETURN count(o) AS n")[0][0]["n"] == 1
 
 
+RECALL_DOC = "record/Recall/17V472000"
+# held-out's case (R108): a complaint file ABOUT its vehicle, and a recall's document ABOUT its Recall record
+RECALL_SOURCES = [
+    DerivationSource(
+        id="battery", name="battery", chunk_id="s.md#0", text="The battery died twice.", doc_id="s.md",
+        node="Vehicle:V1",
+    ),
+    DerivationSource(
+        id="seatbacks", name="seatbacks", chunk_id=f"{RECALL_DOC}#0",
+        text="Bolts may have been used to install the seatbacks.", doc_id=RECALL_DOC, node="Recall:17V472000",
+    ),
+]  # fmt: skip
+RECALL_NODES = {
+    "Vehicle:V1": DomainNode(element_id="Vehicle:V1", label="Vehicle", name="OUTBACK"),
+    "Recall:17V472000": DomainNode(element_id="Recall:17V472000", label="Recall", name="17V472000"),
+}
+
+
+def test_a_record_document_about_a_record_of_another_label_derives_nothing():
+    """R109: the ABOUT node stands for the derived claim's object. Before, the recall document gave
+    "seatbacks PART_OF 17V472000", a recall number as a vehicle (97 of held-out's 135 derived claims)."""
+    fact_type = VEHICLE_SCHEMA.fact_types[0]
+    vehicle = VEHICLE_SCHEMA.entity_type("Vehicle")
+    assert derives_into(vehicle, "Vehicle") and not derives_into(vehicle, "Recall")
+
+    rows = derive_rows(fact_type, vehicle, RECALL_SOURCES, {}, RECALL_NODES)
+    assert [(o.subject_name, o.predicate, o.object_name) for o in rows.observations] == [
+        ("battery", "PART_OF", "OUTBACK")
+    ]
+    assert [m.name for m in rows.mentions] == ["OUTBACK"]  # no thing named after the recall
+    assert (rows.other_label, rows.skipped, rows.created) == (1, 0, 1)
+
+    # an object type that names no records cannot tell its nodes apart: every ABOUT node, as before R109
+    for unlabelled in (EntityType(name="Vehicle", description="a vehicle"), None):
+        assert derives_into(unlabelled, "Recall")
+        rows = derive_rows(fact_type, unlabelled, RECALL_SOURCES, {}, RECALL_NODES)
+        assert [o.object_name for o in rows.observations] == ["OUTBACK", "17V472000"]
+        assert rows.other_label == 0
+
+
+@pytest.mark.neo4j
+def test_the_link_stage_derives_nothing_on_a_recall_document_and_still_on_a_complaint_file(driver):
+    """R109 in the graph: the recall's document keeps its part mention and its ABOUT link, and gains no
+    claim and no mention named after the recall number."""
+    recall = node("recalls.csv", "Recall", "campaign", ["campaign"]).model_copy(
+        update={"name_column": "campaign"}
+    )
+    plan = ConstructionPlan(nodes=[VEHICLE_PLAN.nodes[0], recall], relationships=[])
+    driver.execute_query(
+        "CREATE (v:Vehicle {vehicle_id: 'V1', model: 'OUTBACK'}), (r:Recall {campaign: '17V472000'}), "
+        "(d:Document {doc_id: 's.md', title: 'subaru_outback_complaints'})-[:ABOUT]->(v), "
+        "(:Chunk {chunk_id: 's.md#0', text: 'The battery died twice.'})-[:PART_OF]->(d), "
+        "(e:Document {doc_id: $doc, title: '17V472000'})-[:ABOUT]->(r), "
+        "(:Chunk {chunk_id: $chunk, text: $text})-[:PART_OF]->(e)",
+        doc=RECALL_DOC,
+        chunk=f"{RECALL_DOC}#0",
+        text=RECALL_SOURCES[1].text,
+    )
+    mention(driver, "Component", "battery", ["s.md#0"])
+    seatbacks = mention(driver, "Component", "seatbacks", [f"{RECALL_DOC}#0"])
+
+    report = derive_facts(driver, VEHICLE_SCHEMA, plan)
+    assert (report.facts_derived, report.mentions_created, report.skipped_other_label) == (1, 1, 1)
+    records, _, _ = driver.execute_query(
+        "MATCH (s:Mention)<-[:SUBJECT]-(:Observation)-[:OBJECT]->(o:Mention) RETURN s.name AS s, o.name AS o"
+    )
+    assert [(r["s"], r["o"]) for r in records] == [("battery", "OUTBACK")]
+    assert driver.execute_query("MATCH (m:Mention {name: '17V472000'}) RETURN count(m) AS n")[0][0]["n"] == 0
+    kept = driver.execute_query(
+        "MATCH (:Recall)<-[:ABOUT]-(:Document)<-[:PART_OF]-(:Chunk)-[:MENTIONS]->(m:Mention {id: $id}) "
+        "RETURN count(m) AS n",
+        id=seatbacks,
+    )[0][0]["n"]
+    assert kept == 1
+
+
 @pytest.mark.neo4j
 def test_the_product_named_exactly_like_its_node_is_reused_once_per_document(driver):
     """R75: a mention belongs to one document, so the product of each review file is its own mention; the
@@ -207,6 +294,7 @@ def test_a_named_part_is_part_of_the_product_its_document_is_about(driver):
         "mentions_created": 1,
         "skipped_no_evidence": 1,
         "targets_by_containment": 0,
+        "skipped_other_label": 0,
     }
     records, _, _ = driver.execute_query(
         "MATCH (s:Mention)<-[:SUBJECT]-(f:Observation {predicate: 'PART_OF'})-[:OBJECT]->(o:Mention), "

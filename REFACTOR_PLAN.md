@@ -6395,6 +6395,47 @@ alone:
   criterion regressed. **The refinement arm stops at R108** (the user's decision, 2026-10-07): what it
   leaves is recorded under "Known limitations" below as future work, not optimised now.
 
+### R109. A derived claim's object is a record of its object type (started 2026-10-07; bug fix)
+A bug fix the user chose on 2026-10-07 ("option 1"), separate from the closed refinement arm (its four known
+limitations are not touched). `resolution/derivation.py` writes, for each fact type the text schema marks
+`derived`, a claim from every subject mention of a document to the node that document is ABOUT. On held-out
+the derived type is `Component INSTALLED_IN Vehicle`, and a recall's document (`record/Recall/<id>`) is ABOUT
+its `Recall` record, so code wrote "seatbacks INSTALLED_IN 17V472000": a recall number as a Vehicle. In R108's
+held-out graph 97 of the 135 derived claims are of this kind (the other 38 are on the 5 complaint files, ABOUT
+their `Vehicle`), and they make 29 Vehicle individuals named after recall numbers; furniture's 154 are all
+on reviews ABOUT a `Product`, generality derives nothing. Checked on R108's snapshot before the fix: removing
+them cuts no source link (all 29 recall documents stay ABOUT their record through the link stage; each
+subject mention of the 97 claims is MENTIONED by its chunk through an extracted claim, 97 of 97). The "Found along the
+way" entry "Derivation mistargets record documents" (R67 part 3) is this bug.
+- **Split, one commit each:** (a) the rule and its tests ($0); (b) the held-out rebuild (paid) and its
+  offline evaluation, sheets committed before any verdict; (c) judging and results.
+- **Part a scope:** `derivation.derives_into(object_type, label)` is the one rule: a document ABOUT a node
+  derives only when the node's label is one of the object type's `record_labels`; an object type with no
+  record labels (not keyed, or absent from the schema) keeps the old rule, every ABOUT node. `derive_rows`
+  takes the object type and the named domain nodes (with their labels) and applies it, so the link stage
+  (`derive_facts`, from `read_domain_nodes`) and the offline snapshot (`audit/snapshot.py`, from the
+  records) share it, and the C0 fidelity gate compares two runs of one rule. The skipped sources are counted
+  (`skipped_other_label`, a link-stage metric). Not changed: linking, the mention pass, resolve, attach, any
+  prompt. Pointing the claim at the recall's vehicle through `AFFECTS_VEHICLE` is out of scope (Found along
+  the way).
+- **Part a (done 2026-10-07, $0, no run):** as scoped; README's derived-facts paragraph.
+  - Tests: `tests/test_derivation.py`: the pure rule on held-out's case (a recall document ABOUT a `Recall`
+    derives nothing, a complaint file ABOUT a `Vehicle` still derives "battery -> OUTBACK"; an object type
+    without record labels, or none, derives onto both) and on Neo4j (`derive_facts`: one claim, one created
+    mention, `skipped_other_label` 1, no mention named "17V472000", the seatbacks mention still MENTIONED in
+    the recall's chunk); `tests/test_audit.py`: the snapshot derives nothing onto `Product` records for an
+    object type naming another label, and derives as before for one naming none. The snapshot test fails on
+    the code before part a (it derives four claims); the two others cannot import it (`derives_into` is
+    new). Gate: 852 passed (849 before), `ruff check` clean.
+- **Part b, the estimate (counted before asking; the user's yes, 2026-10-07):** R108 part b's commands into
+  `out/r109_heldout` (claims replayed from `out/r103_heldout`, plan, text schema and profile pinned from
+  r77d). The mention pass runs on the real key: 54 of the 81 chunks lose a derived recall-number name from
+  their "already listed" names, so their prompts change (R103 paid $0.154 for 81 pass calls: about $0.10);
+  resolve asks only the pairs that touch changed pass mentions (R108's held-out resolve $0.027, mostly
+  cached: about $0.02-0.10). **About $0.15, likely $0.10-0.25, at most about $0.45.** Furniture and
+  generality are checked offline ($0): `kg audit-snapshot` with the new code on copies of their R108 builds
+  must still pass C0.
+
 ### R110. Today's claims judged: every stored claim, strict and content precision (started 2026-10-07; $0, no run)
 The user, 2026-10-07: keep the claim layer (it may make structured querying more robust) and judge the
 correctness and validity of the claims of the latest run. Those are R103's re-extracted claims, replayed
@@ -6769,14 +6810,21 @@ with its evidence and the direction a later step would take:
 - **Gold questions filter on predicate names (found in R66 part 2).** A proposed schema renames them
   (`HAS_CONDITION` for `HAS_DEFECT`), and 5 of 6 furniture questions answer nothing. Candidate: questions
   filter on polarity and entity names, not predicates (a gold correction, to be listed).
-- **Derivation mistargets record documents (found in R67 part 3).** A derived fact's object is the node
-  the document is ABOUT; for a record document that is the record itself, so all 38 derived recall claims
-  say "part PART_OF_VEHICLE 16V526000" with the campaign number as a Vehicle-typed entity (judge: 0/38
-  true). Candidate: on a record document, derivation targets the record's related domain node (the
-  recall's `AFFECTS_VEHICLE` vehicle), or skips the document. Same root cause: these entities are created
-  after `link_graphs` ran, so they carry no REFERS_TO. Still present in R68: in the held-out coverage
+- **Derivation mistargets record documents (found in R67 part 3; closed by R109, 2026-10-07).** A derived
+  fact's object is the node the document is ABOUT; for a record document that is the record itself, so all
+  38 derived recall claims say "part PART_OF_VEHICLE 16V526000" with the campaign number as a Vehicle-typed
+  entity (judge: 0/38 true). Candidate: on a record document, derivation targets the record's related domain
+  node (the recall's `AFFECTS_VEHICLE` vehicle), or skips the document. Same root cause: these entities are
+  created after `link_graphs` ran, so they carry no REFERS_TO. Still present in R68: in the held-out coverage
   sample alone 33 derived `INSTALLED_IN` facts point at a recall id typed as a Vehicle
-  (`ENGINE INSTALLED_IN 15V436000`).
+  (`ENGINE INSTALLED_IN 15V436000`). **R109 skips the document** (the user's "option 1"): a document derives
+  only onto a node of one of the object type's record labels (`derivation.derives_into`).
+- **A recall's parts could be derived onto the vehicles it affects (found in R109, out of its scope).** R109
+  derives nothing on a recall document, so "seatbacks" of recall 17V472000 is no longer said to be installed
+  in any vehicle, while the recall record names the vehicles it covers through `AFFECTS_VEHICLE`. Candidate:
+  on a document ABOUT a record of another label, derive onto the records of the object type that record is
+  related to, when exactly one is; a recall covering several models would give one claim per model, which
+  the text does not state, so the rule needs its own measurement.
 - **Two recall documents extracted zero facts (found in R67 part 3).** `16V074000` and `17V472000`: 2
   well-formed chunks each, 0 triples proposed and 0 rejected in both passes (Gemini returned empty lists).
   Candidate: a repair pass for documents with 0 facts, or accept as model variance and measure its rate.

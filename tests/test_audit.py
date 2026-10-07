@@ -14,6 +14,7 @@ it undoes and writes its decisions into the build it gives. R107 adds a pass men
 that resolved it as a `Kind` concept is reproduced, one made before R107 (an individual) is not, and a replay
 that would turn a particular into a concept, which no replay decides, is refused. R108's two rules explain
 the links a replay loses: a stated kind named by a record only up to an ending, a word key in a longer name.
+R109: the snapshot derives a claim onto a document's ABOUT record only when it is a record of the object type.
 """
 
 import json
@@ -224,6 +225,25 @@ def test_the_snapshot_rebuilds_links_derived_claims_and_attachments(tmp_path):
     stiff = next(c.id for c in s.claims if c.object_name == "stiff")
     assert (stiff, "Component:S-1", "key_in_sentence") in edges
     assert (stiff, "Assembly:A-2", "key_in_sentence") in edges  # "lid" inside "lid hinge": the build's rule
+
+
+def test_the_snapshot_derives_onto_a_record_of_the_object_type_only(tmp_path):
+    """R109: the snapshot applies derivation's rule. The reviews are ABOUT `Product` records; an object type
+    naming another label derives nothing on them, one naming no label derives as before R109."""
+    out, data = _build(tmp_path)
+    schema = json.loads(json.dumps(SCHEMA))
+    product = schema["entity_types"][0]
+    product["record_labels"] = ["Assembly"]
+    (out / "text_schema.json").write_text(json.dumps(schema), encoding="utf-8")
+    s = build_snapshot(out, data, CHUNKING)
+    assert [c for c in s.claims if c.derived] == [] and [m for m in s.mentions if m.derived] == []
+
+    product.update(identity="concept", record_labels=[])
+    (out / "text_schema.json").write_text(json.dumps(schema), encoding="utf-8")
+    s = build_snapshot(out, data, CHUNKING)
+    assert {(c.subject_name, c.object_name) for c in s.claims if c.derived} == {
+        ("shade", "Alder Lamp"), ("lid", "Alder Lamp"), ("lid", "Birch Kettle"), ("lid hinge", "Birch Kettle")
+    }  # fmt: skip
 
 
 def test_fidelity_passes_on_its_own_counts_and_reports_every_difference(tmp_path):

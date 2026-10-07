@@ -221,7 +221,9 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   `PART_OF` from a Component or Assembly to a Product) is never asked from the extractor. `kg link` writes
   it from `Mention <-[:MENTIONS]- Chunk -[:PART_OF]-> Document -[:ABOUT]-> product`, one observation per
   mention chunk, with the chunk's sentence naming the part as `evidence` and `extractor: "derived"`; its
-  object is the document's mention of the product.
+  object is the document's mention of the product. Only a document ABOUT a record of one of the object
+  type's `record_labels` derives (R109): a recall's document, ABOUT its `Recall` record, gives no
+  `INSTALLED_IN` claim to a `Vehicle`. An object type without record labels derives onto any ABOUT node.
 - Links: `(Document)-[:ABOUT]->(domain node)` and `(Chunk)-[:ABOUT]->(record)` for a section whose heading
   names the record's key, recomputed on every `kg link`.
 - Attachment (since R76): `(record or :Individual)-[:HAS_OBSERVATION {name, how, evidence}]->(Observation)`,
