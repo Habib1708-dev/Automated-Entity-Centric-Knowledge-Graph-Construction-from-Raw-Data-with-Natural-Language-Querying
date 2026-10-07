@@ -1,0 +1,785 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "cf9ddae972f4",
+  "sheet": "tests/gold/r108/generality/c3_sheet.json",
+  "sheet_hash": "2d55a8184400",
+  "sheets_git_sha": "0bc632d604781326957e62dc86946ebaa4273f61"
+ },
+ "criterion": "C3",
+ "verdicts": [
+  {
+   "id": "m:032d483384eaeccf",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All name Riverton's mayor; the footbridge article uses the short form 'Mayor Achterberg' without the first name.",
+   "evidence": "Mayor Achterberg thanked residents for their patience",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:06265b2d69f53d22",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind, a pumping-station operator; singular and plural do not make two kinds.",
+   "evidence": "Written by Tomasz Wren for new operators.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:07a722c4a267e219",
+   "label": "VALID",
+   "reason": "All three mentions name the North Station site engineer Tomasz Wren, who plans the station's pump work in each document.",
+   "evidence": "For 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0ec02bf178f7962f",
+   "label": "VALID",
+   "reason": "Both mentions come from the same heading naming the North Station dry well.",
+   "evidence": "# Incident report: flooding of the North Station dry well",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:12c7a430b169895e",
+   "label": "VALID",
+   "reason": "Both mentions name the resurfacing of Harbour Street that was postponed to the next year.",
+   "evidence": "Sir, the resurfacing of Harbour Street was promised for this year and has now been moved to next year's budget.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:13a0fa6310d631e1",
+   "label": "VALID",
+   "reason": "Both minutes name the Aldmoor peat project and its equipment overrun.",
+   "evidence": "J. Pike explained the equipment overrun of the Aldmoor peat project",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:19dd9a92b0a8922a",
+   "label": "VALID",
+   "reason": "Both mentions use the same sense of closing a public facility (the library, the bridge) to its users.",
+   "evidence": "when the library closes for four weeks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1bdb04f6ce3d9a29",
+   "label": "INCORRECT",
+   "reason": "One 'trip' is a journey to a conference, the other is a pump tripping (automatic shutdown); two different senses.",
+   "evidence": "tripped three times in the first week of May on low suction pressure",
+   "outliers": [
+    "5093787eb48c3210"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:1cf1599b781d9341",
+   "label": "VALID",
+   "reason": "Both name the same property, the depth of a peat core in a field log.",
+   "evidence": "Core AB-17, 3 December: depth 4.2 m",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1ea84ac8804eecc9",
+   "label": "VALID",
+   "reason": "Both mentions name a council vote; noun and verb form are a small wording change of the same kind.",
+   "evidence": "the vote on her motion was postponed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:285d071de52dbcf1",
+   "label": "VALID",
+   "reason": "Both mentions name the same flume flow rate of 60 litres per second.",
+   "evidence": "Samuel Osei measured the flume pump vibration at 60 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2bb0de790df85b55",
+   "label": "VALID",
+   "reason": "Every mention uses replace in the same sense of fitting a new part in place of an old one.",
+   "evidence": "Both railings and all 46 deck boards were replaced.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2c16781adb82bda0",
+   "label": "VALID",
+   "reason": "Every mention names the same Riverton Water pumping station with the Hydra P-40 pumps, to which Harbour Station's alarms are routed.",
+   "evidence": "Following the seal failure on one of your North Station pumps in March",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2e8ed62c3d9d86db",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The memo's short form 'peat conference in Utrecht' (June trips) matches the European peat conference in Utrecht in June 2025.",
+   "evidence": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:32d2744d90a12450",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of fault, a slow drip from a pump's mechanical seal.",
+   "evidence": "Pump HP40-1183 showed a slow drip from the mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3341c6e421d9335a",
+   "label": "VALID",
+   "reason": "Both mentions name the same pair of Hydra P-40 pumps at North Station inspected in each quarterly round.",
+   "evidence": "the two Hydra P-40 pumps at North Station",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:390e3b59ee9397d8",
+   "label": "VALID",
+   "reason": "All three name the same property, a pump's bearing temperature.",
+   "evidence": "its bearing temperature has risen to 52",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3e8cdf4f6efe58dc",
+   "label": "VALID",
+   "reason": "Both name the same property, the water table level recorded with a peat core.",
+   "evidence": "water table 12 cm below surface",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3ec5a326cfbce96a",
+   "label": "VALID",
+   "reason": "All mentions name the one Mill Lane footbridge in Riverton.",
+   "evidence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:40fb8a2798ea4dff",
+   "label": "VALID",
+   "reason": "Both mentions are the same 240 cores collected by Maria Lopez on the Aldmoor bog.",
+   "evidence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:435c04f12e6dcde3",
+   "label": "VALID",
+   "reason": "Both mentions in the one quotation name the seal kits being quoted for.",
+   "evidence": "we are pleased to quote for spare seal kits",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:45025e9eb096f52f",
+   "label": "VALID",
+   "reason": "All three mentions name the institute's Finance Office: Maria Lopez's office in both committee minutes and the office that issues the travel-claims memo.",
+   "evidence": "Travel claims for May must reach the Finance Office by 15 June 2025",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4637f34265a6bd3b",
+   "label": "VALID",
+   "reason": "Both mentions name the closed state of the Mill Lane footbridge from 3 February.",
+   "evidence": "The footbridge will be closed from 3 February while its railings and deck boards are renewed.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5089c062ce1dc870",
+   "label": "VALID",
+   "reason": "Both use 'budget' in the one sense of a planned spending allocation (the works' allocation, next year's council budget).",
+   "evidence": "the works had come in 12,000 pounds under budget",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5338b15f4bfea2d2",
+   "label": "VALID",
+   "reason": "Both name the state of the corer jamming (the same December jam on the Aldmoor project).",
+   "evidence": "a second corer had to be bought after the first one jammed in December",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:57f101d1c056e6ca",
+   "label": "VALID",
+   "reason": "All mentions name the Aldmoor bog sampled by Maria Lopez.",
+   "evidence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5ecd68e6500b9567",
+   "label": "VALID",
+   "reason": "Both mentions are the seal vendor Calder Pumps dealing with Riverton Water.",
+   "evidence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:62a48c6769acc6f3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The 2025 budget line 'Eastgate library roof' is read as the roof replacement project the council voted for; the line names the project, not the act.",
+   "evidence": "- Eastgate library roof: 420,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:64cd4c23d9a53e4d",
+   "label": "VALID",
+   "reason": "Both mentions name a committee meeting, the same kind.",
+   "evidence": "Aiko Tanaka closed the meeting at 15:55.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6a477556e313ca6f",
+   "label": "VALID",
+   "reason": "All three name Councillor Priya Nandakumar of the same council, pressing the same drainage-versus-resurfacing point.",
+   "evidence": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:725347b948e6f326",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "One is a tag hung on a pump starter; 'the tag from the June inspection' can be read as the same kind of label put on equipment, though the text does not say it is a physical tag.",
+   "evidence": "following the tag from the June inspection",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76654ff4ab052023",
+   "label": "VALID",
+   "reason": "Both mentions are the city where the June 2025 peat conference took place.",
+   "evidence": "Two of our researchers attended the European peat conference in Utrecht in June 2025.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7d58d65611345bb0",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Two mentions are Aiko Tanaka's Hydrology team; the lowercase heading 'hydrology flume' needs the next sentence to pin it to that team rather than the discipline.",
+   "evidence": "The Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7fb6b5c5afc84951",
+   "label": "VALID",
+   "reason": "All mentions name Riverton's Station Road with its drainage works.",
+   "evidence": "Station Road: lane closures from September while the drainage is rebuilt.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7fbbe7232a836b2f",
+   "label": "VALID",
+   "reason": "Both mentions use fix in the same sense of repairing a damaged structure.",
+   "evidence": "Nobody has fixed it, and no warning sign has been put up.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8425c75045940e10",
+   "label": "VALID",
+   "reason": "The node is a value concept; both mentions state the same quantity, 40 litres per second, though for different machines.",
+   "evidence": "Measured flow: HP40-1183 delivered 40 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8f7fea59ae201113",
+   "label": "VALID",
+   "reason": "Both mentions use projects in the same sense of planned funded undertakings; plural and capitalisation differ only.",
+   "evidence": "Projects without a plan will not receive second-year funding.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:92905cbd59c11e51",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All three are failures of a pump seal, but only 'seal failures' says so; 'failed' and 'the failure' need the surrounding text to pin them to the seal failure.",
+   "evidence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:939af2da7a1f5855",
+   "label": "VALID",
+   "reason": "Both mentions name the council's structural inspector Daniel Okafor.",
+   "evidence": "The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:94112d8767733608",
+   "label": "VALID",
+   "reason": "All mentions name the institute's Soil Ecology team (Pike, Lopez).",
+   "evidence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9884a2cf4e246288",
+   "label": "VALID",
+   "reason": "All four mentions name the one station whose pump is the Kestrel V-12 KV12-0457 with alarms routed to North Station.",
+   "evidence": "the Kestrel V-12 at Harbour Station (serial KV12-0457)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9939dac536ed42ea",
+   "label": "VALID",
+   "reason": "The node is a concept and every mention names the same kind of equipment, a corer, even if the physical corers differ.",
+   "evidence": "a second corer had to be bought after the first one jammed in December",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:996deff2cbdcfff1",
+   "label": "VALID",
+   "reason": "Every mention names a pump inspection; inspected and inspection are a small wording change of the same kind.",
+   "evidence": "Technician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9a1ffd5cbe80ae4e",
+   "label": "VALID",
+   "reason": "Both mentions name the same state, the east railing of the footbridge moving when leaned on; only the tense differs.",
+   "evidence": "the east railing still moves when you lean on it",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9d1b562366227d46",
+   "label": "VALID",
+   "reason": "Both mentions name the same measured property, pH of a peat core.",
+   "evidence": "Core BF-1, 14 April: depth 2.1 m, pH 3.8.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9f1d411f5221ee79",
+   "label": "VALID",
+   "reason": "Both minutes name the pump of the institute's flume and its vibration.",
+   "evidence": "Aiko Tanaka reported that the flume pump vibrates at high flow rates.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a324bb6cf031f211",
+   "label": "VALID",
+   "reason": "Both mentions name the institute's flume used in Aiko Tanaka's experiments.",
+   "evidence": "2. Flume. Samuel Osei measured the flume pump vibration",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a57368453c32b1b7",
+   "label": "VALID",
+   "reason": "Both mentions name the children's section of the Eastgate library.",
+   "evidence": "The library roof, which has leaked into the children's section since the autumn storms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a732d1fd35a8fb0e",
+   "label": "VALID",
+   "reason": "Both mentions name the measurement of the flume pump vibration requested before runs above 60 litres per second.",
+   "evidence": "Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a998c1cd51d6481a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions can be Riverton's town council, but the flood-meeting mention is the bare word council, tied to Riverton only through its inspector Daniel Okafor and Mayor Achterberg.",
+   "evidence": "The Riverton town council voted 7 to 2 on Tuesday",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a9d7270de884139c",
+   "label": "VALID",
+   "reason": "The budget line and the council vote both name the Mill Lane footbridge repair project.",
+   "evidence": "- Mill Lane footbridge repair: 180,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ab2aec5281becbf2",
+   "label": "VALID",
+   "reason": "All four mentions name the one Eastgate library whose roof was budgeted, replaced and reopened on 1 September.",
+   "evidence": "The Eastgate library reopened on 1 September with its new roof.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ab4c262f04dd9f4a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The short form works is pinned by context to the same eight-week Mill Lane footbridge repair announced in the notice.",
+   "evidence": "The Mill Lane footbridge reopened on 28 March after eight weeks of works.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:abb85f62561ae208",
+   "label": "VALID",
+   "reason": "The node is a concept and both mentions name the same kind of part, a pump's suction valve.",
+   "evidence": "close its suction valve last",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:adaa58b58f768c26",
+   "label": "VALID",
+   "reason": "Concept node: every mention names a committee, the same kind.",
+   "evidence": "the committee had asked for a vibration measurement first",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ae0150a41dafcf88",
+   "label": "VALID",
+   "reason": "Both mentions name the kind contractor (indeed the same library-roof contractor in both documents).",
+   "evidence": "The contractor finished on 25 August, a week ahead of the deadline.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:aee9785651b313d8",
+   "label": "VALID",
+   "reason": "Concept node: every mention names a pump's mechanical seal, the same kind of part.",
+   "evidence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b09d7436dd2a69bb",
+   "label": "VALID",
+   "reason": "Both mentions use duty in the same sense of a pump being in service and running.",
+   "evidence": "Pump returned to duty the same day.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b5e5f3723b572db3",
+   "label": "VALID",
+   "reason": "All mentions name the one Harbour Street resurfacing project, carried over from 2025 to 2026.",
+   "evidence": "- Harbour Street resurfacing, carried over from 2025: 110,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b79bb6315f0f1c0d",
+   "label": "VALID",
+   "reason": "Both mentions name a street, in both cases Harbour Street.",
+   "evidence": "Harbour Street: resurfacing postponed to 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bd208bf1a0a554fa",
+   "label": "VALID",
+   "reason": "Both mentions name the one water utility that runs Harbour Station and North Station.",
+   "evidence": "Following the seal failure on one of your North Station pumps in March",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bec5b58b2132d1d6",
+   "label": "VALID",
+   "reason": "Every mention names the kind pump; the particular pumps differ (KV12-0457, HP40-1183, the two North Station pumps) but the node is a kind concept, and plural/capitalisation do not make two kinds.",
+   "evidence": "The only stoppage was a four-hour power cut on 17 November, when both pumps were off.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bf0c6723a7b46848",
+   "label": "VALID",
+   "reason": "Both mentions name Harbour Station's alarms routed to North Station when the site is unmanned.",
+   "evidence": "The station was unmanned for the rest of May, with alarms routed to North Station.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bf73620af0373a29",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of event, a pump trip on low suction pressure.",
+   "evidence": "tripped twice on low suction pressure",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c54459227bc3ea04",
+   "label": "VALID",
+   "reason": "Both mentions name the resurfacing of Harbour Street, the same kind of work.",
+   "evidence": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c6bf42aadf6d3c6e",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind, the ground surface used as reference for the water table.",
+   "evidence": "water table 12 cm below surface",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ca52c34dbaa75d0d",
+   "label": "VALID",
+   "reason": "Both mentions are Maria Lopez's award-winning peat sampling campaign on the Aldmoor bog.",
+   "evidence": "for her peat sampling campaign on the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cac56e78505d9094",
+   "label": "VALID",
+   "reason": "Both mentions name the institute's one Hensley Field-Work Award; the newsletter's 2025 winner matches the award list.",
+   "evidence": "2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cc9167aef892d53b",
+   "label": "VALID",
+   "reason": "Concept node; every mention names the same kind of pump part, the mechanical seal.",
+   "evidence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d0f1ec7318011d43",
+   "label": "VALID",
+   "reason": "The node is a concept and every mention names the same action, replacing a pump's seal; the text uses change and replaced for the same act.",
+   "evidence": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d47b51c1b0e811dc",
+   "label": "VALID",
+   "reason": "Both mentions name Calder Pumps' service manager Ines Barros.",
+   "evidence": "Their service manager, Ines Barros, said the pump had run dry",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d4f5ea8c837adb24",
+   "label": "VALID",
+   "reason": "Concept node: every mention names the flow of water, whether into the river or delivered by pumps; same kind.",
+   "evidence": "Measured flow: HP40-1183 delivered 38 litres per second, HP40-2291 delivered 41 litres per second.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d64708873e8747fb",
+   "label": "VALID",
+   "reason": "Both mentions name the railings of the Mill Lane footbridge that were renewed in the works.",
+   "evidence": "Both railings and all 46 deck boards were replaced.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d908314241ea6013",
+   "label": "VALID",
+   "reason": "Both mentions name the same sediment flume of the institute's Hydrology team, run by Aiko Tanaka.",
+   "evidence": "has finished building a 12-metre sediment flume in the basement laboratory",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d9e9c5c473a4a1be",
+   "label": "VALID",
+   "reason": "Both mentions name the same action, an inspector tagging a pump for a seal replacement.",
+   "evidence": "Delgado tagged it for a seal replacement within two weeks.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e125f0690b0594d9",
+   "label": "VALID",
+   "reason": "Both mentions name the equipment overrun of the Aldmoor peat project.",
+   "evidence": "J. Pike explained the equipment overrun of the Aldmoor peat project",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e43a6851ef9c2bad",
+   "label": "VALID",
+   "reason": "All three mentions name the same kind, residents of the town, across the three news documents.",
+   "evidence": "About eighty residents came to the town hall on Thursday to discuss the flooding of Station Road.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eb55f5d2792a4b8e",
+   "label": "VALID",
+   "reason": "A value concept: both mentions state the identical quantity 41 litres per second.",
+   "evidence": "Test run of HP40-2291 after the seal change: 41 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ef27a350ab28025c",
+   "label": "VALID",
+   "reason": "All three mentions use flood in one sense, water covering a normally dry place (a bog site, a road, a dry well); flooded and flooding are small wording changes of one kind.",
+   "evidence": "About 3,000 litres of water flooded the dry well before the operator isolated the pump.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f2bbb04b63899cb1",
+   "label": "VALID",
+   "reason": "All three mentions are the flume pump's vibration: reported, to be measured, then measured.",
+   "evidence": "Samuel Osei measured the flume pump vibration at 60 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f395399cf3311774",
+   "label": "VALID",
+   "reason": "Both mentions name Aldmoor, the place of the institute's peat project and sampling campaign.",
+   "evidence": "The Aldmoor peat project is 18,000 euros over its equipment line",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f7ac4571e2436117",
+   "label": "VALID",
+   "reason": "All mentions use leak in one sense, liquid passing through a covering or seal where it should not (a roof letting water in, pump seals); as a concept that is one kind.",
+   "evidence": "The library roof, which has leaked into the children's section since the autumn storms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f88e2cd9bb9c98ff",
+   "label": "VALID",
+   "reason": "All mentions are Riverton news items about the same street and its postponed resurfacing.",
+   "evidence": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f9e856750f5efe67",
+   "label": "VALID",
+   "reason": "Both mentions are the east railing of the Mill Lane footbridge that moves when leaned on, named in a letter and in the council article.",
+   "evidence": "the east railing still moves when you lean on it",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fb9c2d51cd65f5bf",
+   "label": "VALID",
+   "reason": "Every mention is the same Riverton Water technician working at North Station and Harbour Station.",
+   "evidence": "Technician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ff8b6c7371c45dd6",
+   "label": "VALID",
+   "reason": "All three mentions are experiments on the institute's new flume, the same kind across the minutes and the newsletter.",
+   "evidence": "The first experiments start in May.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Person:tomasz wren",
+   "label": "INCORRECT",
+   "reason": "Both nodes are the North Station site engineer Tomasz Wren: the second wrote the North Station pump isolation procedure for its operators.",
+   "evidence": "Written by Tomasz Wren for new operators.",
+   "outliers": [],
+   "together": [
+    [
+     "07a722c4a267e219",
+     "b46e6a729eb2cb4c"
+    ]
+   ]
+  },
+  {
+   "id": "s:Place:mill lane",
+   "label": "INCORRECT",
+   "reason": "Both nodes are Riverton's Mill Lane, the street of the footbridge and of the letter writers.",
+   "evidence": "Gareth Lowe, Mill Lane",
+   "outliers": [],
+   "together": [
+    [
+     "133ac1ffb23df012",
+     "662059efffd9520b"
+    ]
+   ]
+  },
+  {
+   "id": "s:Place:riverton",
+   "label": "INCORRECT",
+   "reason": "Both nodes are the town of Riverton, whose 2025 and 2026 works budgets carry over the same project.",
+   "evidence": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds",
+   "outliers": [],
+   "together": [
+    [
+     "5f55b4c550a85205",
+     "692bbb26b3e02dfc"
+    ]
+   ]
+  },
+  {
+   "id": "s:Place:room b12",
+   "label": "INCORRECT",
+   "reason": "Both are notices of the same institute seminar series (same heading, same 14:00 slot), so room B12 is the one seminar room and the graph split it.",
+   "evidence": "at 14:00 in room B12",
+   "outliers": [],
+   "together": [
+    [
+     "82c61517cbeeb9a0",
+     "b9dfc8de11a1c165"
+    ]
+   ]
+  },
+  {
+   "id": "s:Place:town hall",
+   "label": "INCORRECT",
+   "reason": "Both are Riverton news items naming the town's one town hall, in the same town as Station Road.",
+   "evidence": "About eighty residents came to the town hall on Thursday to discuss the flooding of Station Road.",
+   "outliers": [],
+   "together": [
+    [
+     "5f2916430d870f9f",
+     "c7ad5627132f442d"
+    ]
+   ]
+  }
+ ],
+ "reviewed": [
+  "m:1bdb04f6ce3d9a29",
+  "m:32d2744d90a12450",
+  "m:3e8cdf4f6efe58dc",
+  "m:45025e9eb096f52f",
+  "m:57f101d1c056e6ca",
+  "m:adaa58b58f768c26",
+  "m:d64708873e8747fb",
+  "m:f7ac4571e2436117",
+  "m:f9e856750f5efe67",
+  "s:Person:tomasz wren",
+  "s:Place:mill lane",
+  "s:Place:riverton",
+  "s:Place:room b12",
+  "s:Place:town hall"
+ ],
+ "changes": []
+}

@@ -6289,7 +6289,7 @@ of held-out's 2,192 individual pair decisions.
   that keep held-out's C3 hard rule failing (Rogue Sport, OUTBACKS), the narrower kind rule (a kind may join
   a record's unit), identifiers nominated by spelling, the dimmer pair, generality's pass precision.
 
-### R108. Record links that only context can confirm go to the chooser (in progress)
+### R108. Record links that only context can confirm go to the chooser (done 2026-10-07; $0.0872)
 The user's choice after R107 (2026-10-07: the two bad record links next, not the narrower kind rule; "yes"
 to the scope below with its cached rebuild). Held-out's C3 hard rule fails on two record links made by code
 alone:
@@ -6363,6 +6363,36 @@ alone:
     `test_r108_resolved_r107s_graphs_again_and_changed_only_identity`. Then (b2, $0) `kg audit-snapshot`,
     `kg anchor-eval` (both arms), `kg anchor-sheets`: **C0 passed on all three**; sheets committed before any
     verdict.
+- **Part c: judging and results (done 2026-10-07, $0).** Every C3, C4 and C6 item of the three graphs is
+  byte-identical to one R107 judged (the six lost links left held-out's C4 sheet, 112 -> 106 items; the
+  unlinked mentions stand alone and make no new merge or split), so **no item was judged anew**: all
+  verdicts carry R107's. The lead reviewed the seeded sample again (113 items, 9 of them held-out record links
+  new to the sample, all VALID): no change. `kg anchor-judged` on the three graphs.
+
+  | Criterion (R107 -> R108) | furniture | held-out | generality |
+  |---|---|---|---|
+  | **C3 hard rule** | pass -> pass | **fail -> pass** | pass -> pass |
+  | C3 record links wrong | 0 | **2 -> 0** (Rogue Sport, OUTBACKS) | 0 |
+  | C4 precision (record links judged) | 63/63 | 81/83 -> **77/77** | 48/48 |
+  | C3 individual merges wrong; wrong splits | 0; 2 | 0; 1 | 0; 5 |
+  | R75 identity pairs: precision / apart / recall | unchanged | unchanged | unchanged |
+  | C2, C5 (gold start, end to end), C7 hubs, C8 | unchanged | unchanged | unchanged |
+  | C9 nodes per chunk | 26.17 | 22.65 -> 22.73 | 28.75 |
+
+  Read with care:
+  - **Held-out passes C3 for the first time since R93**: no wrong record link and no wrong join of
+    individuals in any judged item.
+  - **The price: four right links lost on held-out** ("Civic Type R" x2, "2017-2021 Civic hatchback",
+    "2016-2020 Civic coupe": judged VALID in R107, refused by the chooser, which reads the record's model
+    year against the ranges and does so inconsistently). They are recall of links, not precision: C4 counts
+    only links made. The project's rule since R75 holds: a wrong link answers questions about the wrong
+    record, a missing one leaves the mention to stand for itself. Retrieval (C5) is unchanged.
+  - The new prompt changed no answer on furniture and generality (59 choices asked again).
+  - Committed: verdict files and `anchor_judged.json` per dataset; test
+    `test_r108_verdicts_are_r107s_and_held_out_passes_c3_without_a_wrong_record_link`.
+- **R108 done 2026-10-07** ($0.0872). Next: the user's choice: the four lost Civic links (the chooser's
+  year reading), the narrower kind rule (generality's two pump links), identifiers nominated by spelling,
+  the dimmer pair, generality's pass precision.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**

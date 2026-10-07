@@ -1,0 +1,1227 @@
+{
+ "dataset": "generality",
+ "judge_model": "claude-opus-5-5",
+ "final": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 33,
+      "n": 33,
+      "rate": 1.0,
+      "low": 0.8957265699643882,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 27,
+      "n": 33,
+      "rate": 0.8181818181818182,
+      "low": 0.656114329507048,
+      "high": 0.9138934877430174
+     },
+     "worst_case": {
+      "k": 33,
+      "n": 33,
+      "rate": 1.0,
+      "low": 0.8957265699643882,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 27,
+      "VALID_ALTERNATIVE": 6,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 52,
+      "n": 53,
+      "rate": 0.9811320754716981,
+      "low": 0.9005685649885059,
+      "high": 0.9966616326132506
+     },
+     "strict": {
+      "k": 50,
+      "n": 53,
+      "rate": 0.9433962264150944,
+      "low": 0.8462955106387368,
+      "high": 0.9805636910726857
+     },
+     "worst_case": {
+      "k": 52,
+      "n": 53,
+      "rate": 0.9811320754716981,
+      "low": 0.9005685649885059,
+      "high": 0.9966616326132506
+     },
+     "counts": {
+      "VALID": 50,
+      "VALID_ALTERNATIVE": 2,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": [
+     "m:1bdb04f6ce3d9a29"
+    ]
+   },
+   "record_wrong_merges": [],
+   "splits": {
+    "accepted": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.43449149475208104
+    },
+    "strict": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.43449149475208104
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.43449149475208104
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 5,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Person:tomasz wren",
+    "s:Place:mill lane",
+    "s:Place:riverton",
+    "s:Place:room b12",
+    "s:Place:town hall"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "apart": 1.0,
+    "scored": 24,
+    "joined": 13,
+    "same_scored": 13,
+    "different_scored": 11,
+    "not_extracted": 0,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 7,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 8,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 10,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 11,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 12,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 13,
+      "same": true,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "2dd05758b05f6e59"
+      ]
+     },
+     {
+      "index": 20,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-1183"
+      ]
+     },
+     {
+      "index": 21,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-2291"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 22,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 23,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     }
+    ]
+   },
+   "hard_passed": true
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "low": 0.9258973488472576,
+     "high": 0.9999999999999999
+    },
+    "strict": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "low": 0.9258973488472576,
+     "high": 0.9999999999999999
+    },
+    "worst_case": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "low": 0.9258973488472576,
+     "high": 0.9999999999999999
+    },
+    "counts": {
+     "VALID": 48,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [],
+   "cross_scope_confirmed": [],
+   "flags": [],
+   "incorrect_unflagged": [],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 100,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 31,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 100,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 31,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [
+    {
+     "flag": "same_label_about",
+     "flagged": 4,
+     "confirmed": 0,
+     "refuted": 4,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": []
+  }
+ },
+ "blind": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 33,
+      "n": 33,
+      "rate": 1.0,
+      "low": 0.8957265699643882,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 27,
+      "n": 33,
+      "rate": 0.8181818181818182,
+      "low": 0.656114329507048,
+      "high": 0.9138934877430174
+     },
+     "worst_case": {
+      "k": 33,
+      "n": 33,
+      "rate": 1.0,
+      "low": 0.8957265699643882,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 27,
+      "VALID_ALTERNATIVE": 6,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 52,
+      "n": 53,
+      "rate": 0.9811320754716981,
+      "low": 0.9005685649885059,
+      "high": 0.9966616326132506
+     },
+     "strict": {
+      "k": 50,
+      "n": 53,
+      "rate": 0.9433962264150944,
+      "low": 0.8462955106387368,
+      "high": 0.9805636910726857
+     },
+     "worst_case": {
+      "k": 52,
+      "n": 53,
+      "rate": 0.9811320754716981,
+      "low": 0.9005685649885059,
+      "high": 0.9966616326132506
+     },
+     "counts": {
+      "VALID": 50,
+      "VALID_ALTERNATIVE": 2,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": [
+     "m:1bdb04f6ce3d9a29"
+    ]
+   },
+   "record_wrong_merges": [],
+   "splits": {
+    "accepted": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.43449149475208104
+    },
+    "strict": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.43449149475208104
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "low": 0.0,
+     "high": 0.43449149475208104
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 5,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Person:tomasz wren",
+    "s:Place:mill lane",
+    "s:Place:riverton",
+    "s:Place:room b12",
+    "s:Place:town hall"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "apart": 1.0,
+    "scored": 24,
+    "joined": 13,
+    "same_scored": 13,
+    "different_scored": 11,
+    "not_extracted": 0,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Staff:S-131"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 7,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 8,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [
+       "a5864f007aecc70c"
+      ],
+      "b_entities": [
+       "Staff:S-131"
+      ]
+     },
+     {
+      "index": 10,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 11,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 12,
+      "same": true,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 13,
+      "same": true,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "Staff:S-219"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-104"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "2dd05758b05f6e59"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "Staff:S-219"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "Staff:S-104"
+      ],
+      "b_entities": [
+       "2dd05758b05f6e59"
+      ]
+     },
+     {
+      "index": 20,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-1183"
+      ]
+     },
+     {
+      "index": 21,
+      "same": true,
+      "a_entities": [
+       "Pump:HP40-2291"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 22,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     },
+     {
+      "index": 23,
+      "same": false,
+      "a_entities": [
+       "Pump:HP40-1183"
+      ],
+      "b_entities": [
+       "Pump:HP40-2291"
+      ]
+     }
+    ]
+   },
+   "hard_passed": true
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "low": 0.9258973488472576,
+     "high": 0.9999999999999999
+    },
+    "strict": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "low": 0.9258973488472576,
+     "high": 0.9999999999999999
+    },
+    "worst_case": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "low": 0.9258973488472576,
+     "high": 0.9999999999999999
+    },
+    "counts": {
+     "VALID": 48,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [],
+   "cross_scope_confirmed": [],
+   "flags": [],
+   "incorrect_unflagged": [],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 100,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 31,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 100,
+       "n": 100,
+       "rate": 1.0,
+       "low": 0.9630051925239981,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 100,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 31,
+       "n": 31,
+       "rate": 1.0,
+       "low": 0.889740999265246,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 31,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [
+    {
+     "flag": "same_label_about",
+     "flagged": 4,
+     "confirmed": 0,
+     "refuted": 4,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": []
+  }
+ },
+ "impact": {
+  "m:1bdb04f6ce3d9a29": [],
+  "s:Person:tomasz wren": [],
+  "s:Place:mill lane": [],
+  "s:Place:riverton": [
+   "G15",
+   "G35"
+  ],
+  "s:Place:room b12": [],
+  "s:Place:town hall": []
+ }
+}

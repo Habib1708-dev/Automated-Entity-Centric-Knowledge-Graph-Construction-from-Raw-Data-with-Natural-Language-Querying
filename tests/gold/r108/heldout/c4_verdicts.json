@@ -1,0 +1,874 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "c11b53d7562b",
+  "sheet": "tests/gold/r108/heldout/c4_sheet.json",
+  "sheet_hash": "abf4fa0152e7",
+  "sheets_git_sha": "0bc632d604781326957e62dc86946ebaa4273f61"
+ },
+ "criterion": "C4",
+ "verdicts": [
+  {
+   "id": "l:99288a93b9afe6cb:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "Document title names the 2015 Ford Escape; the record is the Ford Escape of model year 2015 that these complaints concern.",
+   "evidence": "# 2015 Ford Escape owner complaints to NHTSA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:9eb98f98cf3a53c4:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "Document title names the 2016 Honda Civic; the record is the Honda Civic of model year 2016.",
+   "evidence": "# 2016 Honda Civic owner complaints to NHTSA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fbc7f46234f20d42:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "'2016 CIVICS' names the 2016 Honda Civic model, which is exactly this record (make HONDA, model_year 2016), in a complaint about a 2016 Honda Civic.",
+   "evidence": "DEALERS HAVE BEEN FORCED TO STOP SELLING 2016 CIVICS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7e752e4991236b4f:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "Document title names the 2017 Nissan Rogue; the record is the Nissan Rogue of model year 2017.",
+   "evidence": "# 2017 Nissan Rogue owner complaints to NHTSA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:15a236f2a4b1b360:Vehicle:OUTBACK",
+   "label": "VALID",
+   "reason": "Document title names the 2019 Subaru Outback; the record is the Subaru Outback of model year 2019.",
+   "evidence": "# 2019 Subaru Outback owner complaints to NHTSA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:59258530e696737b:Vehicle:OUTBACK",
+   "label": "VALID",
+   "reason": "The owner's 2019 Outback in complaint 11166434, which the record lists as CONCERNS_VEHICLE -> this; record is the 2019 Subaru Outback.",
+   "evidence": "I HAVE 3200 MILES ON MY 2019 OUTBACK AND SINCE DAY 1 HAVE HAD PROBLEMS USING THE NAV SYSTEM.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4ae4d029457abd9a:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "Document title names the 2019 Toyota Rav4; the record is the Toyota RAV4 of model year 2019.",
+   "evidence": "# 2019 Toyota Rav4 owner complaints to NHTSA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5de0c0109ab3d4bd:Recall:15V406000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 15V406000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:673ee170a6fc7e2a:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The recalled 2014-2015 Ford Escape range includes model year 2015, the record's Ford Escape; the recall row links AFFECTS_VEHICLE to it.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain model year 2014-2015 Ford Escape vehicles manufactured May 19, 2014, to February 6, 2015",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:9781277bbba7d148:Vehicle:ESCAPE",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "the bare word 'vehicles' occurs for both the Ford Escape and the Transit Connect in the sentence; the 2015 Escape record is one of the recalled vehicles it equally means",
+   "evidence": "certain model year 2014-2015 Ford Escape vehicles manufactured May 19, 2014, to February 6, 2015, and Transit Connect vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:dbd527a961f34710:Recall:15V406000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 15V406000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0563a935706cadf5:Vehicle:ESCAPE",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "the bare word 'vehicles' occurs for the Escape, Focus and C-Max in the sentence; the 2015 Ford Escape record is one of the recalled vehicles it equally means",
+   "evidence": "certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015, Ford Focus vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4c67999be49cd833:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "Recall names model year 2015 Ford Escape, exactly the record's make, model and year.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:911bcee8959bd8b4:Recall:15V436000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 15V436000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:91e93d1e2af6af44:Recall:15V436000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 15V436000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2ffb7410b6738f1b:Recall:16V074000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V074000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3021b575ecf427cc:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "Recall names model year 2016 Honda Civic, matching the record's make, model and year.",
+   "evidence": "Honda (American Honda Motor Co.) is recalling certain model year 2016 Civic vehicles manufactured September 22, 2015, to February 3, 2016 and equipped with 2.0L engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3987e8fd7f2aad5d:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "the only 'vehicles' in the sentence are the model year 2016 Civics, matching the 2016 Honda Civic record",
+   "evidence": "is recalling certain model year 2016 Civic vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c9355fbb12e628dc:Recall:16V074000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V074000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ca774e6f72b9c95a:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "The recalled 2014-2017 Nissan Rogue range includes model year 2017, the record's Nissan Rogue; the recall row links AFFECTS_VEHICLE to it.",
+   "evidence": "2014-2017 Nissan Rogue and Infiniti Q50",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:cb638d42fd0b3a8b:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "In the remedy of recall 16V244000, Rogue means the recalled Nissan Rogue vehicles, which include the record's 2017 Rogue.",
+   "evidence": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:cd8ca807a50d0e40:Recall:16V244000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V244000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d95bce01f844f611:Recall:16V244000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V244000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3f7412274cf43843:Recall:16V526000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V526000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:95bbbbab917d0dce:Recall:16V526000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V526000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ad4e4e6c3ac18327:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "The 2016 Civic 2-Door is a body variant of the record's 2016 Honda Civic; the data has no separate 2-door row and the recall links to this one.",
+   "evidence": "(Honda) is recalling certain model year 2016 Civic 2-Door vehicles manufactured February 23, 2016, through May 20, 2016.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:75f4f2d0d3c77b98:Recall:16V643000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V643000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e503e9526ecd54be:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The recalled 2013-2015 Ford Escape range includes model year 2015, the record's Ford Escape; the recall row links AFFECTS_VEHICLE to it.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f55b36757cf42397:Recall:16V643000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V643000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:13f11ab71d9a9b85:Recall:16V725000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V725000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d6cb5fbf670b7ac5:Recall:16V725000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 16V725000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ef9969d4d39169b5:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "the mention names 2016 Honda Civic vehicles, matching the 2016 Honda Civic record",
+   "evidence": "certain model year 2016 Honda Civic two door and four door 1.5L turbo and 2.0L vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6a8e81dbeebda538:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The Ford Escape named in the recall is the Ford ESCAPE record, which recall 17V472000 affects.",
+   "evidence": "2014-2015 Ford Escape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:a998c3d43bf6073c:Recall:17V472000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 17V472000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e5715e69292964b8:Recall:17V472000",
+   "label": "VALID",
+   "reason": "the mention is written exactly like the recall's key, as the heading of that recall's own chunk",
+   "evidence": "# 17V472000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:93ba6e695166cc2a:Recall:17V663000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 17V663000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c8b47e712fe26245:Recall:17V663000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 17V663000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ca11ed7b678f52bd:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "The Nissan Rogue named in the recall is the Nissan ROGUE record, which recall 17V663000 affects.",
+   "evidence": "(Nissan) is recalling certain 2016-2017 Nissan Rogue vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:db58636619829331:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "the only 'vehicles' in the sentence are 2016-2017 Nissan Rogues, which covers the 2017 Nissan Rogue record",
+   "evidence": "is recalling certain 2016-2017 Nissan Rogue vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0de4f86c8472dd6e:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "RAV4 in the list of 2019 Toyota vehicles is the Toyota RAV4 record (model_year 2019).",
+   "evidence": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:53f1ac354691a037:Recall:19V244000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V244000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ebff79aac259df4e:Recall:19V244000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V244000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0c214d1041fdc5c1:Recall:19V493000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V493000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2a0d64127dd2e01b:Vehicle:OUTBACK",
+   "label": "VALID",
+   "reason": "The 2019 Subaru Outback is the Subaru OUTBACK record (model_year 2019), which recall 19V493000 affects.",
+   "evidence": "(Subaru) is recalling certain 2019 Legacy and Outback vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2c4b3e18339c85a4:Recall:19V493000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V493000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:43eff9ff5d922fc1:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "The Toyota Rav4 in the list is the Toyota RAV4 record, which recall 19V503000 affects.",
+   "evidence": "Southeast Toyota Distributors, LLC (SET) is recalling certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna, and Yaris iA vehicles equipped with factory-installed floor mats.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:68c45ff16328d4ca:Recall:19V503000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V503000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d279382e68ef3e70:Recall:19V503000",
+   "label": "VALID",
+   "reason": "the mention is written exactly like the recall's key, as the heading of that recall's own chunk",
+   "evidence": "# 19V503000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:122d57e9775243bb:Vehicle:RAV4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "lead, one rule across blind batches: the Vehicle row is one row per model name (key RAV4; its relations reach recalls of several years), and other batches accepted variants of a model named the same way ('2017-2019 Rogue Hybrid', 'Civic Type R', 'Civic Coupe' VALID); a hybrid, trim or body variant of the named model refers to the model's row under the model-line reading: VALID_ALTERNATIVE (blind: The text lists RAV4 Hybrid as a vehicle separate from RAV4; the record is the RAV4 model, and no RAV4 Hybrid row is shown.)",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:1c07de8f8a923c68:Recall:19V576000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V576000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7951a55189ef0a46:Recall:19V576000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 19V576000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:89990ab414631eda:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "The 2019 RAV4 is the Toyota RAV4 record (model_year 2019), which recall 19V576000 affects.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:054a2f1b45442476:Recall:20V064000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V064000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0a33869afdc5477f:Vehicle:RAV4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "lead, one rule across blind batches: the Vehicle row is one row per model name (key RAV4; its relations reach recalls of several years), and other batches accepted variants of a model named the same way ('2017-2019 Rogue Hybrid', 'Civic Type R', 'Civic Coupe' VALID); a hybrid, trim or body variant of the named model refers to the model's row under the model-line reading: VALID_ALTERNATIVE (blind: The text lists RAV4 Hybrid as a vehicle separate from RAV4; the record is the RAV4 model, and no RAV4 Hybrid row is shown.)",
+   "evidence": "2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:93c7432f48b83f1f:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "The 2019-2020 RAV4 is the Toyota RAV4 record, which recall 20V064000 affects.",
+   "evidence": "2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bee3089ae15bfcc8:Recall:20V064000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V064000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:291b65fde69eddfe:Recall:20V218000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V218000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4e2a2921cf9d9a1a:Recall:20V218000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V218000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6cba8752aa54b4b6:Vehicle:OUTBACK",
+   "label": "VALID",
+   "reason": "The 2019 Subaru Outback is the Subaru OUTBACK record (model_year 2019), which recall 20V218000 affects.",
+   "evidence": "(Subaru) is recalling certain 2019 Impreza, Outback, Legacy, and Ascent vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6aa312e1bc6c4084:Recall:20V286000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V286000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:942add13fbbc959a:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "The 2019-2020 RAV4 is the Toyota RAV4 record, which recall 20V286000 affects.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:973869c07295c156:Recall:20V286000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V286000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d7a732411cce4c82:Vehicle:RAV4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "lead, one rule across blind batches: the Vehicle row is one row per model name (key RAV4; its relations reach recalls of several years), and other batches accepted variants of a model named the same way ('2017-2019 Rogue Hybrid', 'Civic Type R', 'Civic Coupe' VALID); a hybrid, trim or body variant of the named model refers to the model's row under the model-line reading: VALID_ALTERNATIVE (blind: The text lists RAV4 Hybrid as a vehicle separate from RAV4; the record is the RAV4 model, and no RAV4 Hybrid row is shown.)",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:201631fab1634594:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The Ford 2013-2015 Escape is the Ford ESCAPE record, which recall 20V331000 affects.",
+   "evidence": "2013-2015 Escape and C-Max",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6f20ce8378b63d5e:Recall:20V331000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V331000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:da4b5b3c5c85e545:Recall:20V331000",
+   "label": "VALID",
+   "reason": "The heading is exactly the record key of this recall document.",
+   "evidence": "# 20V331000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:41f12383e567ba6c:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "The recall names the RAV4 model in a year range that covers the record's 2019 Toyota RAV4, the only RAV4 row.",
+   "evidence": "is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:62da0f2516ea18c8:Vehicle:RAV4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "lead, one rule across blind batches: the Vehicle row is one row per model name (key RAV4; its relations reach recalls of several years), and other batches accepted variants of a model named the same way ('2017-2019 Rogue Hybrid', 'Civic Type R', 'Civic Coupe' VALID); a hybrid, trim or body variant of the named model refers to the model's row under the model-line reading: VALID_ALTERNATIVE (blind: The mention is the hybrid variant in 2020 only. The record is the 2019 RAV4, so it is either the model line meant or a year and variant the text does not cover.)",
+   "evidence": "2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:767bbd9c2fcf4aa3:Recall:20V373000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 20V373000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b1e7a0731c41d64c:Recall:20V373000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 20V373000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:8673b88c5405089f:Recall:20V682000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 20V682000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:8e92cd6a1ed42f91:Recall:20V682000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 20V682000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:dd0888bb804909f1:Vehicle:RAV4",
+   "label": "VALID",
+   "reason": "The Toyota recall lists the RAV4 model in a year range that covers the record's 2019 RAV4.",
+   "evidence": "2019-2020 RAV4, 2019-2020 Sequoia",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0c13f5989f8b1872:Vehicle:OUTBACK",
+   "label": "VALID",
+   "reason": "The Subaru recall lists the Outback under 2018-2020, which covers the record's 2019 Subaru Outback.",
+   "evidence": "2018-2020 Impreza, Legacy, Outback",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:1ce8b8fc365a73e7:Recall:21V587000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 21V587000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bc829d4a288c4a77:Recall:21V587000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 21V587000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2ab6dfd0f04b2968:Recall:21V839000",
+   "label": "VALID",
+   "reason": "the mention is written exactly like the recall's key, as the heading of that recall's own chunk",
+   "evidence": "# 21V839000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:52025174f0591eb9:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "The Rogue Hybrid is a version of the Rogue model. The range 2017-2019 covers the record's 2017 Nissan Rogue, the only Rogue row, which this recall affects.",
+   "evidence": "(Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f0d36e37eae33ee3:Recall:21V839000",
+   "label": "VALID",
+   "reason": "the mention is written exactly like the recall's key, as the heading of that recall's own chunk",
+   "evidence": "# 21V839000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0f1b8657669204ca:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The 2015 Ford Escape in the text matches the record's make, model and model year.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:356e9abfb3112133:Recall:22V254000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 22V254000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7289e1dbdac717d1:Recall:22V254000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 22V254000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:140976a72d9c00d4:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The Ford recall names the Escape in a range, 2013-2019, that covers the record's 2015 Escape.",
+   "evidence": "is recalling certain 2013-2019 Escape, 2013-2018 C-Max",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6a3a4152c00be771:Recall:22V413000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 22V413000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fd0849ab21dc371d:Recall:22V413000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 22V413000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:00e86470deb0cfe4:Recall:22V875000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 22V875000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:a08f7b5f73cdf369:Recall:22V875000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 22V875000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:cf0b2b7fa53336cb:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "the only 'vehicles' in the sentence are 2017 Rogues, matching the 2017 Nissan Rogue record",
+   "evidence": "is recalling certain 2017 Rogue vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fa91ed734c508196:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "The 2017 Nissan Rogue in the text matches the record's make, model and model year.",
+   "evidence": "(Nissan) is recalling certain 2017 Rogue vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:25802a441a6859a3:Recall:23V093000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 23V093000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:42fcad77415d2eb7:Recall:23V093000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 23V093000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:559d01e04a27331d:Vehicle:ROGUE",
+   "label": "VALID",
+   "reason": "The 2014-2020 Rogue range covers the record's 2017 Nissan Rogue.",
+   "evidence": "is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:50dc83033a0f7523:Recall:23V858000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 23V858000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6d84c868947814f1:Recall:23V858000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 23V858000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:75272d2650d3faf4:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "The Civic Coupe is a body style of the Honda Civic. The range 2013-2023 covers the record's 2016 Civic.",
+   "evidence": "2013-2023 Honda Accord, Civic Coupe, Civic Sedan",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:be8571e921540292:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "The Civic Sedan is a body style of the Honda Civic. The range 2013-2023 covers the record's 2016 Civic.",
+   "evidence": "2013-2023 Honda Accord, Civic Coupe, Civic Sedan",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ffb9f08b87b12a33:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "The Civic Hatchback is a body style of the Honda Civic. The range 2013-2023 covers the record's 2016 Civic.",
+   "evidence": "Civic Sedan, Civic Hatchback, Civic Type R",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:14e0587fe88b1a87:Recall:25V695000",
+   "label": "VALID",
+   "reason": "The heading is exactly the recall's key, in that recall's own document.",
+   "evidence": "# 25V695000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:65d75c32a0418550:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The Ford recall lists the Escape under 2015-2016, which covers the record's 2015 Ford Escape.",
+   "evidence": "2015-2016 C-Max, Escape, Taurus",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b2e27089b3dcfd41:Recall:25V695000",
+   "label": "VALID",
+   "reason": "The mention is the heading of the recall's own document and matches the record key 25V695000 exactly.",
+   "evidence": "# 25V695000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0912e6f3c824a4ec:Vehicle:ESCAPE",
+   "label": "VALID",
+   "reason": "The mention names the Ford Escape in a Ford recall; the record is the Ford ESCAPE vehicle, linked to this recall 26V011000, and no other Escape row is offered.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2013-2018 Focus, 2013-2019 Escape, and 2015-2016 MKC vehicles equipped with a 2.0L engine.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:13c7710b2fa9d7e9:Recall:26V011000",
+   "label": "VALID",
+   "reason": "The mention is the heading of the recall's own document and matches the record key 26V011000 exactly.",
+   "evidence": "# 26V011000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:925f6746631f9561:Recall:26V011000",
+   "label": "VALID",
+   "reason": "The mention is the heading of the recall's own document and matches the record key 26V011000 exactly.",
+   "evidence": "# 26V011000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:1b19fc1012800633:Recall:26V332000",
+   "label": "VALID",
+   "reason": "The mention is the heading of the recall's own document and matches the record key 26V332000 exactly.",
+   "evidence": "# 26V332000",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:275b13a308243fbd:Vehicle:CIVIC",
+   "label": "VALID",
+   "reason": "The plain Honda Civic in a Honda recall is the HONDA CIVIC vehicle record, which this recall 26V332000 affects; no other Civic row is offered.",
+   "evidence": "2016-2022 Civic",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5442213bd65f20a1:Recall:26V332000",
+   "label": "VALID",
+   "reason": "The mention is the heading of the recall's own document and matches the record key 26V332000 exactly.",
+   "evidence": "# 26V332000",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "l:15a236f2a4b1b360:Vehicle:OUTBACK",
+  "l:1ce8b8fc365a73e7:Recall:21V587000",
+  "l:201631fab1634594:Vehicle:ESCAPE",
+  "l:291b65fde69eddfe:Recall:20V218000",
+  "l:2ffb7410b6738f1b:Recall:16V074000",
+  "l:6aa312e1bc6c4084:Recall:20V286000",
+  "l:75272d2650d3faf4:Vehicle:CIVIC",
+  "l:942add13fbbc959a:Vehicle:RAV4",
+  "l:b2e27089b3dcfd41:Recall:25V695000",
+  "l:ebff79aac259df4e:Recall:19V244000"
+ ],
+ "changes": []
+}

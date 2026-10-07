@@ -28,6 +28,9 @@ complaints' cars, its two record links, and furniture's "dimmer" join that R75's
 R107's (R103's graphs resolved again, a stated kind no record fits a `Kind` concept) must carry R103's
 verdicts for byte-identical items, keep every lead review without a change, and score as reported: the wrong
 join of the two cars gone, held-out's two record links still failing C3, and one wrong split fewer.
+R108's (record links only context confirms, left to the chooser) must carry R107's verdicts for every
+item, with no new item to judge, and score as reported: held-out's C3 hard rule passes, no wrong record
+link left.
 No Neo4j, no LLM.
 """
 
@@ -1082,3 +1085,29 @@ def test_r107_verdicts_carry_r103s_and_the_kind_rule_removes_the_wrong_join_of_t
                        "s:Place:riverton"},
     }[dataset]  # fmt: skip
     assert set(report.final.c3.wrong_splits) == wrong_splits
+
+
+# --- the committed results of R108 (record links only context confirms, left to the chooser) --------------
+
+R108 = GOLD / "r108"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r108_verdicts_are_r107s_and_held_out_passes_c3_without_a_wrong_record_link(dataset):
+    base = R108 / dataset
+    for name, model in SHEET_MODELS.items():
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        old = load_verdicts(R107 / dataset / f"{name}_verdicts.json", _ids(R107 / dataset, name))
+        before, after = _sheet_items(R107 / dataset, name), _sheet_items(base, name)
+        assert all(before.get(i) == item for i, item in after.items())  # no new or changed item: none judged
+        final, earlier = file.final(), old.final()
+        assert all(final[i] == earlier[i] for i in after) and file.changes == []
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert report.final.c4.hard_passed and all(report.final.c6.hard_passed.values())
+    assert report.final.c3.hard_passed  # held-out's "2017-2022 Rogue Sport" and "OUTBACKS" links are gone
+    assert (
+        report.final.c3.record_wrong_merges == [] and report.final.c3.wrong_merges.get("individual", []) == []
+    )
+    assert report.final.c4.incorrect == []  # every record link judged right; held-out lost 6 of 83 (2 wrong)
+    assert report.metrics()["c4_precision_n"] == {"furniture": 63, "heldout": 77, "generality": 48}[dataset]
