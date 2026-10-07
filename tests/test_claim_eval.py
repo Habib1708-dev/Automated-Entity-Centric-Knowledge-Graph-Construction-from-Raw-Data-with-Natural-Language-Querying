@@ -233,13 +233,13 @@ def test_the_stage_writes_the_sheet_of_a_build_and_scores_the_judges_file(tmp_pa
         run_stages(ctx, replace(state, claim_verdicts=path), [ClaimEvalStage()])
 
 
-# What R110 reported for the three builds (REFACTOR_PLAN.md, R110 part b): strict and content precision per
-# origin, as (k, n)
+# What R110 reported for the three builds (REFACTOR_PLAN.md, R110 part b and its correction): strict and
+# content precision per origin, as (k, n)
 R110 = Path("tests/gold/r110")
 REPORTED = {
-    "furniture": {"extracted": ((470, 530), (490, 530)), "derived": ((138, 154), (140, 154))},
+    "furniture": {"extracted": ((498, 530), (518, 530)), "derived": ((138, 154), (140, 154))},
     "heldout": {"extracted": ((480, 530), (520, 530)), "derived": ((38, 135), (38, 135))},
-    "generality": {"extracted": ((201, 216), (207, 216)), "derived": ((0, 0), (0, 0))},
+    "generality": {"extracted": ((202, 216), (208, 216)), "derived": ((0, 0), (0, 0))},
 }
 
 
@@ -249,7 +249,8 @@ def test_r110_verdicts_answer_their_sheets_and_score_as_reported(dataset):
     verdicts = load_verdicts(R110 / dataset / "claim_verdicts.json", sheet.to_judge())
     assert claim_verdict_issues(sheet, verdicts) == []
     scores = score_claims(sheet, verdicts)
-    # the committed report is the one `kg claim-eval --verdicts` wrote (MLflow claim_eval runs at 76cc57f)
+    # the committed report is the one `kg claim-eval --verdicts` wrote (held-out at 76cc57f; furniture and
+    # generality rescored after the correction)
     logged = json.loads((R110 / dataset / "claim_report.json").read_text(encoding="utf-8"))
     assert scores.model_dump(mode="json") == logged
     for origin, (strict, content) in REPORTED[dataset].items():

@@ -4,8 +4,8 @@
   "date": "2026-10-07",
   "snapshot_hash": "e0e62eb06f6c",
   "sheet": "tests/gold/r110/furniture/claim_sheet.json",
-  "sheet_hash": "1a0ea9f88044",
-  "sheets_git_sha": "76cc57f"
+  "sheet_hash": "852a882a9b8e",
+  "sheets_git_sha": "76cc57f (claims; relation list completed in the R110 correction commit)"
  },
  "criterion": "claims",
  "verdicts": [
@@ -233,12 +233,9 @@
   },
   {
    "id": "2991481cf0b5",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says assembling the table definitely needs two people; 'needs two people' is a compressed paraphrase)",
-   "evidence": "Assembly was straightforward but definitely needs two people.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the table needs two people; an assembly experience of the product, neutral fits (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says assembling the table definitely needs two people; 'needs two people' is a compressed paraphrase))",
+   "evidence": "Assembly was straightforward but definitely needs two people."
   },
   {
    "id": "6062a7ebd2c6",
@@ -434,12 +431,9 @@
   },
   {
    "id": "bae554c770f9",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the dresser; the 6 hours is how long the assembly took the writer and roommate",
-   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): in the Helsingborg Dresser reviews, the writer says assembly of the dresser took about 6 hours; assembly duration is a product measurement (blind: stored as a measurement (specification) of the dresser; the 6 hours is how long the assembly took the writer and roommate)",
+   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right."
   },
   {
    "id": "c60e60534b02",
@@ -534,10 +528,11 @@
   {
    "id": "60775502275e",
    "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the dresser; the 4 hours is assembly time before the writer noticed the warped panels",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): stored as the dresser's assembly duration (4 hours) with time 'After 4 hours'; the text says that after 4 hours the writer found warped panels and could not assemble it, so 4 hours is not an assembly duration and the time is that of the discovery, not of a measurement (blind: stored as a measurement (specification) of the dresser; the 4 hours is assembly time before the writer noticed the warped panels)",
    "evidence": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly.",
    "faults": [
-    "wrong_relation"
+    "wrong_relation",
+    "time"
    ]
   },
   {
@@ -659,12 +654,9 @@
   },
   {
    "id": "c8f968429097",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the table; the text gives 30 minutes as how long this reviewer's assembly took, not a dimension or rating of the table",
-   "evidence": "Assembly was straightforward and took about 30 minutes.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the coffee table took about 30 minutes; an assembly duration of the product (blind: stored as a measurement (specification) of the table; the text gives 30 minutes as how long this reviewer's assembly took, not a dimension or rating of the table)",
+   "evidence": "Assembly was straightforward and took about 30 minutes."
   },
   {
    "id": "fdd91704c3b8",
@@ -692,12 +684,9 @@
   },
   {
    "id": "8e44304cc420",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement of the table; the text gives 45 minutes as the assembly time, not a specification of the table",
-   "evidence": "Assembly was simple and took about 45 minutes.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the coffee table took about 45 minutes (blind: stored as a measurement of the table; the text gives 45 minutes as the assembly time, not a specification of the table)",
+   "evidence": "Assembly was simple and took about 45 minutes."
   },
   {
    "id": "b27a5f97e2ec",
@@ -755,12 +744,9 @@
   },
   {
    "id": "f63817544bb7",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement of the table; the text gives maybe 40 minutes as the assembly time, not a specification of the table",
-   "evidence": "assembly wasn't too bad, maybe 40 mins?",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the writer guesses assembly took maybe 40 minutes; stored possible with hedge 'maybe', which matches (blind: stored as a measurement of the table; the text gives maybe 40 minutes as the assembly time, not a specification of the table)",
+   "evidence": "assembly wasn't too bad, maybe 40 mins?"
   },
   {
    "id": "09ea1ed68126",
@@ -864,12 +850,9 @@
   },
   {
    "id": "604762f5d037",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement of the table; the text gives 30 minutes as the assembly time, not a specification of the table",
-   "evidence": "Assembly was very easy - took about 30 minutes total.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the coffee table took about 30 minutes total (blind: stored as a measurement of the table; the text gives 30 minutes as the assembly time, not a specification of the table)",
+   "evidence": "Assembly was very easy - took about 30 minutes total."
   },
   {
    "id": "72432e47038e",
@@ -978,12 +961,9 @@
   },
   {
    "id": "87b439ec1d25",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the bed; the text gives 2 hours as how long this reviewer's assembly took with two people, not a spec of the bed",
-   "evidence": "Assembly took about 2 hours with two people",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 2 hours (blind: stored as a measurement (specification) of the bed; the text gives 2 hours as how long this reviewer's assembly took with two people, not a spec of the bed)",
+   "evidence": "Assembly took about 2 hours with two people"
   },
   {
    "id": "a0a3a5ba3d7c",
@@ -1011,12 +991,9 @@
   },
   {
    "id": "9537762151d4",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the bed; the text gives 2.5 hours as this reviewer's assembly time, not a spec of the bed",
-   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours).",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 2.5 hours (blind: stored as a measurement (specification) of the bed; the text gives 2.5 hours as this reviewer's assembly time, not a spec of the bed)",
+   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours)."
   },
   {
    "id": "c45bdf9e8c71",
@@ -1026,12 +1003,9 @@
   },
   {
    "id": "cdd1002bfe4b",
-   "label": "INCORRECT",
-   "reason": "stored as the bed being time-consuming; the text says the assembly was time-consuming, and the bare quality name drops what it is a quality of",
-   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours).",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed was time-consuming; an assembly experience of the product, mildly negative (blind: stored as the bed being time-consuming; the text says the assembly was time-consuming, and the bare quality name drops what it is a quality of)",
+   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours)."
   },
   {
    "id": "d330ff55cd13",
@@ -1047,12 +1021,9 @@
   },
   {
    "id": "f2c6370ae54d",
-   "label": "INCORRECT",
-   "reason": "stored as the bed being straightforward; the text says the assembly was straightforward, and a straightforward bed is not what the text says",
-   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours).",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed was straightforward; assembly experience of the product (blind: stored as the bed being straightforward; the text says the assembly was straightforward, and a straightforward bed is not what the text says)",
+   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours)."
   },
   {
    "id": "09f05c8c0f1c",
@@ -1086,12 +1057,9 @@
   },
   {
    "id": "b39af559eea2",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the bed; the text gives about 4 hours as the reviewers' assembly time, not a spec of the bed",
-   "evidence": "but assembly was a total nightmare, took me and my roommate like 4 hours",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 4 hours (blind: stored as a measurement (specification) of the bed; the text gives about 4 hours as the reviewers' assembly time, not a spec of the bed)",
+   "evidence": "but assembly was a total nightmare, took me and my roommate like 4 hours"
   },
   {
    "id": "b4cf7b1ad95e",
@@ -1233,12 +1201,9 @@
   },
   {
    "id": "9d551a45ec21",
-   "label": "INCORRECT",
-   "reason": "stored as the bed being straightforward; the text says the assembly was straightforward with the included instructions, not the bed",
-   "evidence": "Assembly took about 2 hours and was straightforward with the included instructions.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed was straightforward (blind: stored as the bed being straightforward; the text says the assembly was straightforward with the included instructions, not the bed)",
+   "evidence": "Assembly took about 2 hours and was straightforward with the included instructions."
   },
   {
    "id": "b79b8b6df901",
@@ -1248,12 +1213,9 @@
   },
   {
    "id": "d04b2b074939",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the bed; the text gives about 2 hours as this reviewer's assembly time, not a spec of the bed",
-   "evidence": "Assembly took about 2 hours and was straightforward with the included instructions.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 2 hours (blind: stored as a measurement (specification) of the bed; the text gives about 2 hours as this reviewer's assembly time, not a spec of the bed)",
+   "evidence": "Assembly took about 2 hours and was straightforward with the included instructions."
   },
   {
    "id": "d52997275f1c",
@@ -1335,12 +1297,9 @@
   },
   {
    "id": "56980b5ada97",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the desk; the 2 hours is how long this reviewer's assembly took, not a dimension, tolerance, rating or other spec of the desk",
-   "evidence": "Assembly took about 2 hours but the instructions were clear.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk took about 2 hours (blind: stored as a measurement (specification) of the desk; the 2 hours is how long this reviewer's assembly took, not a dimension, tolerance, rating or other spec of the desk)",
+   "evidence": "Assembly took about 2 hours but the instructions were clear."
   },
   {
    "id": "5ce46fd5edd3",
@@ -1419,12 +1378,9 @@
   },
   {
    "id": "45ad4b5ec8a7",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the desk; the 3 hours is how long this reviewer's assembly took, not a spec of the desk",
-   "evidence": "assembly was pretty complicated, took me like 3 hours and i'm usually good at this stuff.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk took about 3 hours (blind: stored as a measurement (specification) of the desk; the 3 hours is how long this reviewer's assembly took, not a spec of the desk)",
+   "evidence": "assembly was pretty complicated, took me like 3 hours and i'm usually good at this stuff."
   },
   {
    "id": "8be4cc8f620a",
@@ -1560,12 +1516,9 @@
   },
   {
    "id": "50c490a75e07",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the desk; the 90 minutes is how long this reviewer's assembly took, not a spec of the desk",
-   "evidence": "Assembly took about 90 minutes by myself.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk took about 90 minutes (blind: stored as a measurement (specification) of the desk; the 90 minutes is how long this reviewer's assembly took, not a spec of the desk)",
+   "evidence": "Assembly took about 90 minutes by myself."
   },
   {
    "id": "79d27071ff89",
@@ -1641,12 +1594,9 @@
   },
   {
    "id": "ffbea77f4b5c",
-   "label": "INCORRECT",
-   "reason": "stored 'Malmö Desk EXHIBITS straightforward' (the desk is straightforward); the text says the assembly was straightforward, so the object drops what is straightforward",
-   "evidence": "Assembly was straightforward with the included instructions.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk was straightforward (blind: stored 'Malmö Desk EXHIBITS straightforward' (the desk is straightforward); the text says the assembly was straightforward, so the object drops what is straightforward)",
+   "evidence": "Assembly was straightforward with the included instructions."
   },
   {
    "id": "12a893bdb429",
@@ -1719,21 +1669,15 @@
   },
   {
    "id": "6b81cf9802bb",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says assembly (of these nightstands) was straightforward; the object leaves 'assembly' to its quote but states nothing the text does not)",
-   "evidence": "Assembly was straightforward and took about 30 minutes per unit.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the nightstands was straightforward (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says assembly (of these nightstands) was straightforward; the object leaves 'assembly' to its quote but states nothing the text does not))",
+   "evidence": "Assembly was straightforward and took about 30 minutes per unit."
   },
   {
    "id": "730db70383f9",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the nightstand, '30 minutes'; the text's number is the writer's approximate assembly time per unit, not a specification or dimension of the product",
-   "evidence": "Assembly was straightforward and took about 30 minutes per unit.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly took about 30 minutes per nightstand (blind: stored as a measurement (specification) of the nightstand, '30 minutes'; the text's number is the writer's approximate assembly time per unit, not a specification or dimension of the product)",
+   "evidence": "Assembly was straightforward and took about 30 minutes per unit."
   },
   {
    "id": "97f78b1f427b",
@@ -1923,12 +1867,9 @@
   },
   {
    "id": "5b61cb3ce11e",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the nightstand, '25 minutes'; the text's number is the writer's approximate assembly time, not a specification or dimension of the product",
-   "evidence": "Assembly was very easy and took about 25 minutes.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the nightstand took about 25 minutes (blind: stored as a measurement (specification) of the nightstand, '25 minutes'; the text's number is the writer's approximate assembly time, not a specification or dimension of the product)",
+   "evidence": "Assembly was very easy and took about 25 minutes."
   },
   {
    "id": "902a96c3704a",
@@ -2392,11 +2333,10 @@
   {
    "id": "6ceb5967e4d5",
    "label": "INCORRECT",
-   "reason": "stored as a measurement of the chair of 20 minutes; the text says assembly took less than 20 minutes, an assembly time (not a specification) and an upper bound, not 20 minutes",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): stored as an assembly duration of exactly 20 minutes; the text gives only an upper bound (less than 20 minutes) (blind: stored as a measurement of the chair of 20 minutes; the text says assembly took less than 20 minutes, an assembly time (not a specification) and an upper bound, not 20 minutes)",
    "evidence": "Assembly was straightforward and took less than 20 minutes.",
    "faults": [
-    "wrong_relation",
-    "wrong_entity"
+    "wrong_relation"
    ]
   },
   {
@@ -2419,12 +2359,9 @@
   },
   {
    "id": "f79b526221a8",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the chair's assembly was straightforward; 'straightforward' is a compressed paraphrase)",
-   "evidence": "Assembly was straightforward and took less than 20 minutes.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the chair was straightforward (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the chair's assembly was straightforward; 'straightforward' is a compressed paraphrase))",
+   "evidence": "Assembly was straightforward and took less than 20 minutes."
   },
   {
    "id": "1865374ec6a5",
@@ -2664,12 +2601,9 @@
   },
   {
    "id": "0716338cf3f3",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the sofa; the text gives 45 minutes as how long this reviewer's assembly took with two people, not a dimension or spec of the sofa",
-   "evidence": "Assembly was straightforward and took about 45 minutes with two people.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the sofa took about 45 minutes (blind: stored as a measurement (specification) of the sofa; the text gives 45 minutes as how long this reviewer's assembly took with two people, not a dimension or spec of the sofa)",
+   "evidence": "Assembly was straightforward and took about 45 minutes with two people."
   },
   {
    "id": "0f3f1ea22425",
@@ -2937,21 +2871,15 @@
   },
   {
    "id": "c46169c7fd90",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the sofa's assembly definitely requires two people)",
-   "evidence": "Assembly was straightforward though it definitely requires two people.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the sofa requires two people; an assembly experience of the product (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the sofa's assembly definitely requires two people))",
+   "evidence": "Assembly was straightforward though it definitely requires two people."
   },
   {
    "id": "cc3f6edbd6e9",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the sofa's assembly was straightforward)",
-   "evidence": "Assembly was straightforward though it definitely requires two people.",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the sofa was straightforward (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the sofa's assembly was straightforward))",
+   "evidence": "Assembly was straightforward though it definitely requires two people."
   },
   {
    "id": "ec28d2b31dbc",
@@ -3027,12 +2955,9 @@
   },
   {
    "id": "80b3da071dad",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the bookshelf; the 90 minutes is how long this reviewer's assembly took, not a specification, dimension or rating of the product",
-   "evidence": "Assembly was straightforward and took about 90 minutes.",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bookshelf took about 90 minutes (blind: stored as a measurement (specification) of the bookshelf; the 90 minutes is how long this reviewer's assembly took, not a specification, dimension or rating of the product)",
+   "evidence": "Assembly was straightforward and took about 90 minutes."
   },
   {
    "id": "894a53ccf068",
@@ -3066,12 +2991,9 @@
   },
   {
    "id": "402277ce35a5",
-   "label": "INCORRECT",
-   "reason": "stored as a measurement (specification) of the bookshelves; the 2 hours per unit is how long this reviewer's assembly took, not a specification, dimension or rating of the product",
-   "evidence": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit).",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly took about 2 hours per bookshelf (blind: stored as a measurement (specification) of the bookshelves; the 2 hours per unit is how long this reviewer's assembly took, not a specification, dimension or rating of the product)",
+   "evidence": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit)."
   },
   {
    "id": "51b0a9bf93a1",
@@ -3288,12 +3210,9 @@
   },
   {
    "id": "2f8bcc0c0fa6",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the bookshelf's assembly was straightforward; the aspect drops the word 'assembly' but the evidence ties it)",
-   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bookshelf was straightforward (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the bookshelf's assembly was straightforward; the aspect drops the word 'assembly' but the evidence ties it))",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours)."
   },
   {
    "id": "42765f8d3a82",
@@ -3309,12 +3228,9 @@
   },
   {
    "id": "91e0bd8bc332",
-   "label": "INCORRECT",
-   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the bookshelf's assembly was time-consuming; the aspect drops the word 'assembly' but the evidence ties it)",
-   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
-   "faults": [
-    "wrong_entity"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bookshelf was time-consuming (blind: lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the bookshelf's assembly was time-consuming; the aspect drops the word 'assembly' but the evidence ties it))",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours)."
   },
   {
    "id": "a82603336dd4",
@@ -4370,6 +4286,7 @@
   "00800dfc1cd5",
   "024403cb640a",
   "0442b84fd9c4",
+  "06dfd10489da",
   "06ee2881389a",
   "0716338cf3f3",
   "08172f743e7a",
@@ -4379,6 +4296,7 @@
   "0e744efe6ff5",
   "0f3f1ea22425",
   "1151a396e900",
+  "1302745cd04c",
   "1687526b7746",
   "185dbad80644",
   "1865374ec6a5",
@@ -4393,7 +4311,9 @@
   "236828524625",
   "2390060d08b1",
   "2491bfbd01ff",
+  "25b2ec69ce33",
   "26c5cbd49abe",
+  "27990e675598",
   "279b0e032df6",
   "2991481cf0b5",
   "2ad0f6fcb12e",
@@ -4413,6 +4333,7 @@
   "3b0669bd50cc",
   "3d0386436268",
   "3df0569511da",
+  "3ea3435a537b",
   "3f4f6a772d4e",
   "402277ce35a5",
   "409808034737",
@@ -4430,14 +4351,17 @@
   "49e61388e653",
   "4bccc27d9c15",
   "4bfa99ed31f3",
+  "4e9ff0567efc",
   "4f5796d8a81e",
   "50c490a75e07",
+  "52cbf9e6f72a",
   "52ecf5b86589",
   "53594f5ac833",
   "5461d30f60ce",
   "54ed86b43931",
   "551e532bed1b",
   "56980b5ada97",
+  "56d6662f7eed",
   "5a0956e3b2c1",
   "5aab14b056da",
   "5b61cb3ce11e",
@@ -4452,12 +4376,14 @@
   "63ac6af4015d",
   "645149525529",
   "66386cf99b1d",
+  "675855f8cf61",
   "67983a6940ad",
   "6b81cf9802bb",
   "6ceb5967e4d5",
   "6e6899425d8f",
   "7090b092cbf0",
   "70e01a805371",
+  "7242846ea4a4",
   "730db70383f9",
   "7aab3df0f498",
   "7b5c1eef1c30",
@@ -4473,9 +4399,11 @@
   "86fd7340a711",
   "87b439ec1d25",
   "8e44304cc420",
+  "8e8ba4dce999",
   "9012fbf90b09",
   "919735539233",
   "91e0bd8bc332",
+  "9409d745073e",
   "9537762151d4",
   "955063ed9008",
   "95a59ebc50d1",
@@ -4488,10 +4416,12 @@
   "9a83ad726221",
   "9b02219f141f",
   "9bc4e3a018ee",
+  "9bd9170957d2",
   "9c87c79933f4",
   "9d551a45ec21",
   "9e302c9f1e9f",
   "9f0718a53962",
+  "a16837c3be2b",
   "a3e63ae1849e",
   "a5bb283ded8c",
   "a5bd486eb1a4",
@@ -4506,10 +4436,13 @@
   "b853c7430f5f",
   "b993c7aa270c",
   "bae554c770f9",
+  "bc8e988b04a3",
   "bd858670c697",
+  "c0b3afe874dd",
   "c46169c7fd90",
   "c46edbc76dd5",
   "c58f441828fa",
+  "c5a67bac843d",
   "c8d81016b8bd",
   "c8f968429097",
   "c9c1859a5e77",
@@ -4523,11 +4456,13 @@
   "d348ba0135e1",
   "d37876026c0b",
   "d5b950273b10",
+  "d602b4edd6d8",
   "d8e4af502545",
   "d968a5a6456a",
   "ddb8509a0b58",
   "e64394ccad64",
   "e7bb1e0f2672",
+  "e7c3d82910e1",
   "e8db1d5bb4ae",
   "ec28d2b31dbc",
   "ec297afc4562",
@@ -4536,10 +4471,12 @@
   "ee35167c9cea",
   "eedc81a36859",
   "efa153361175",
+  "f0b696a309f7",
   "f1ba7d744cbf",
   "f22b11136ead",
   "f292990bb871",
   "f2c6370ae54d",
+  "f3b685ec71d0",
   "f40f57945e7c",
   "f59868cc2285",
   "f63817544bb7",
@@ -4554,46 +4491,130 @@
  ],
  "changes": [
   {
-   "id": "2991481cf0b5",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "0716338cf3f3",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the sofa took about 45 minutes"
   },
   {
-   "id": "2f8bcc0c0fa6",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "402277ce35a5",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly took about 2 hours per bookshelf"
   },
   {
-   "id": "6b81cf9802bb",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "45ad4b5ec8a7",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk took about 3 hours"
   },
   {
-   "id": "91e0bd8bc332",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "50c490a75e07",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk took about 90 minutes"
   },
   {
-   "id": "c46169c7fd90",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "56980b5ada97",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk took about 2 hours"
   },
   {
-   "id": "cc3f6edbd6e9",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "5b61cb3ce11e",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the nightstand took about 25 minutes"
   },
   {
-   "id": "f79b526221a8",
-   "before": "VALID",
-   "after": "INCORRECT",
-   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+   "id": "604762f5d037",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the coffee table took about 30 minutes total"
+  },
+  {
+   "id": "730db70383f9",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly took about 30 minutes per nightstand"
+  },
+  {
+   "id": "80b3da071dad",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bookshelf took about 90 minutes"
+  },
+  {
+   "id": "87b439ec1d25",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 2 hours"
+  },
+  {
+   "id": "8e44304cc420",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the coffee table took about 45 minutes"
+  },
+  {
+   "id": "9537762151d4",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 2.5 hours"
+  },
+  {
+   "id": "9d551a45ec21",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed was straightforward"
+  },
+  {
+   "id": "b39af559eea2",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 4 hours"
+  },
+  {
+   "id": "bae554c770f9",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): in the Helsingborg Dresser reviews, the writer says assembly of the dresser took about 6 hours; assembly duration is a product measurement"
+  },
+  {
+   "id": "c8f968429097",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the coffee table took about 30 minutes; an assembly duration of the product"
+  },
+  {
+   "id": "cdd1002bfe4b",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed was time-consuming; an assembly experience of the product, mildly negative"
+  },
+  {
+   "id": "d04b2b074939",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed took about 2 hours"
+  },
+  {
+   "id": "f2c6370ae54d",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the bed was straightforward; assembly experience of the product"
+  },
+  {
+   "id": "f63817544bb7",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the writer guesses assembly took maybe 40 minutes; stored possible with hedge 'maybe', which matches"
+  },
+  {
+   "id": "ffbea77f4b5c",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the review says assembly of the desk was straightforward"
   }
  ]
 }

@@ -6536,7 +6536,7 @@ way" entry "Derivation mistargets record documents" (R67 part 3) is this bug.
   C0 on their R108 builds; no source link is lost; held-out passes every hard rule (C3, C4, C6); C2, C5 and
   C8 are not worse (C2 gains one target); mention recall is R108's.
 
-### R110. Today's claims judged: every stored claim, strict and content precision (done 2026-10-07; $0, no run)
+### R110. Today's claims judged: every stored claim, strict and content precision (done 2026-10-07, corrected the same day; $0, no run)
 The user, 2026-10-07: keep the claim layer (it may make structured querying more robust) and judge the
 correctness and validity of the claims of the latest run. Those are R103's re-extracted claims, replayed
 unchanged into R107 and R108 (`out/r108_<ds>/triples.jsonl` byte-identical to R103's). Claim precision was
@@ -6643,9 +6643,40 @@ another session holds R109 (a derivation fix).
     precision is the nearest number.
   - Precision only: no gold, so no recall of claims here (R68 / R77 measured it on sentence samples). Every
     claim was judged against its own text by one model family (Claude), which also wrote the rules.
-  - **The sheets showed one type pair per relation** where the schema declares several (Found along the way);
-    no verdict rests on it (the two reasons that cite "the schema" are about fabric's entity type), and the
-    judges faulted no claim for its relation's type pair.
+  - **The sheets showed one type pair per relation** where the schema declares several (Found along the way).
+    *This bullet was wrong* (corrected below): the judges read claims about a whole product, a pump or an
+    event with another pair's description; 29 verdicts change when judged against their own pair.
+- **Correction (2026-10-07, found in R111 part b; $0, no run).** The part b reading above missed that the hidden
+  pairs have their own descriptions, and that the judges used the pair the sheet showed: "Product
+  -[HAS_MEASUREMENT]-> Value: ... overall weight, **assembly duration**, or capacity metrics" (the sheet showed
+  the Component pair's "specifications ... load ratings, or power values"), "Product -[EXHIBITS]->
+  QualityAspect: ... or **assembly experience** of a product" (ruling 2 contradicted it), "Event -[HAS_COST]->
+  Value: ... or **overrun**". Held-out declares every predicate once and is unchanged.
+  - Every claim whose type pair the sheet did not show (furniture 308: Product `EXHIBITS` 267, Product
+    `HAS_MEASUREMENT` 35, Component `MADE_OF` 6; generality 95) that was not VALID (furniture 39, generality 10),
+    and a seeded 10 % of those VALID (27, 9; seed 110), were judged again blind by a fresh Opus 5.5 subagent per
+    dataset on sheets regenerated with every pair (`0d5b30c`'s fix; the claims are byte-identical, only
+    `relations` grew). The lead read every verdict and agrees; each change is recorded with the blind label.
+  - Furniture: 28 of 39 INCORRECT -> VALID (the assembly durations stated as such, "Jönköping Coffee Table
+    HAS_MEASUREMENT 30 minutes" from "took about 30 minutes", and the assembly qualities of ruling 2, which is
+    withdrawn); 11 stay INCORRECT (a bound stored as the value: "less than 20 minutes" stored as 20 minutes, x4;
+    a failed attempt as the duration: "spent 3 hours trying to assemble this dresser before GIVING UP", x2; the
+    review page as the subject, x2; aspect praise lifted onto the product, x2; "leg attachment mechanism MADE_OF
+    metal-to-metal fasteners"). Generality: 1 -> VALID ("Aldmoor peat project HAS_COST 18,000 euros", an
+    overrun); 9 stay INCORRECT (the 65 °C alarm limit, the 4.5 mm/s vibration limit: the Pump pair holds
+    measured values; "no run went above 60 l/s" stored negated; the saving; the three times of another event).
+    All 36 sampled VALID stay VALID.
+  - Rescored (`kg claim-eval --verdicts`, code at `76e7f22`, corrected sheets and verdicts uncommitted then;
+    MLflow `1ab1bd20` furniture, `5c12b696` generality); held-out's scores are part b's.
+
+  | Corrected (judge: Claude Opus 5.5) | furniture | held-out | generality |
+  |---|---|---|---|
+  | extracted, **strict** | 470 -> **498/530 = 0.940** [0.916, 0.957] | 480/530 = 0.906 (unchanged) | 201 -> **202/216 = 0.935** [0.894, 0.961] |
+  | extracted, **content** | 490 -> **518/530 = 0.977** [0.961, 0.987] | 520/530 = 0.981 (unchanged) | 207 -> **208/216 = 0.963** [0.929, 0.981] |
+  | derived, strict | 138/154 = 0.896 (unchanged) | 38/135 = 0.281 (R109 fixes the 97) | none |
+
+  The "Found along the way" item "Extraction errors R110 measured" is corrected with it: assembly time stored
+  as the product's measurement is what the schema declares, not an error.
 
 ### R111. Recall of today's claims against a reader's (started 2026-10-07; $0, no run)
 The user, 2026-10-07 ("yes scope it", then "go"): R110 measured precision only; how much of what a careful
@@ -6721,14 +6752,17 @@ with its evidence and the direction a later step would take:
 - **The claim sheet shows one type pair per relation (found in R110 part b, 2026-10-07; fixed in its own
   commit: `relations` is keyed by the type pair, "Product -[EXHIBITS]-> QualityAspect"; test
   `test_the_sheet_shows_every_type_pair_a_relation_is_declared_for` failed before the fix).** `claim_sheet`
-  keyed `relations` by predicate, so a predicate the schema declares for several type pairs kept only the last: furniture `EXHIBITS`, `HAS_MEASUREMENT`, `MADE_OF` (Product and Component
-  subjects), generality `LOCATED_AT` (four subject types), `HAS_MEASUREMENT`, `HAS_COST`. Several judges then
-  read product-level claims as "outside the schema" (and faulted none for it); extraction refuses any type
-  pair the schema lacks (`text/extraction.py`, `allows_extraction`), so every stored claim fits one. The
-  committed R110 sheets stay as judged.
+  keyed `relations` by predicate, so a predicate the schema declares for several type pairs kept only the
+  last: furniture `EXHIBITS`, `HAS_MEASUREMENT`, `MADE_OF` (Product and Component subjects), generality
+  `LOCATED_AT` (four subject types), `HAS_MEASUREMENT`, `HAS_COST`. Extraction refuses any type pair the schema
+  lacks (`text/extraction.py`, `allows_extraction`), so every stored claim fits one. It did change verdicts:
+  the judges read claims with the shown pair's description (R110's "Correction": 29 verdicts changed, the
+  furniture and generality sheets regenerated with every pair; R111's first matching of those two datasets
+  redone).
 - **Extraction errors R110 measured (found in R110 part b, 2026-10-07; open, the user's decision):**
-  a reviewer's assembly time stored as a measurement of the product (furniture, 23 claims: `HAS_MEASUREMENT`
-  24/47); a recall's own link stored with the defect's hedge (held-out, 32 claims, ruling 1); things that are
+  ~~a reviewer's assembly time stored as a measurement of the product~~ (withdrawn by R110's correction: the
+  Product pair of `HAS_MEASUREMENT` declares assembly duration; only bounds stored as values remain wrong, 4);
+  a recall's own link stored with the defect's hedge (held-out, 32 claims, ruling 1); things that are
   no piece typed `Component` ("instructions", "tools", "fabric", "wood", 19 extracted claims, repeated by
   derivation as `PART_OF`); numbers that are limits, overruns or savings stored as values, and times of
   another event (generality). The held-out recall-number `INSTALLED_IN` claims (97) are R109's.

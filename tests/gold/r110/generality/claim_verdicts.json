@@ -4,8 +4,8 @@
   "date": "2026-10-07",
   "snapshot_hash": "630ef60ede18",
   "sheet": "tests/gold/r110/generality/claim_sheet.json",
-  "sheet_hash": "c003b59ac3a8",
-  "sheets_git_sha": "76cc57f"
+  "sheet_hash": "3be7de1b97f5",
+  "sheets_git_sha": "76cc57f (claims; relation list completed in the R110 correction commit)"
  },
  "criterion": "claims",
  "verdicts": [
@@ -123,10 +123,10 @@
   {
    "id": "5c3c01e20cd6",
    "label": "INCORRECT",
-   "reason": "stored: the flume did not have a measurement of 60 L/s in May; the text gives 60 L/s as a ceiling no run exceeded, it does not deny a 60 L/s value (the number means a limit, not a measurement)",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): stored negated, reading 'the flume has no 60 l/s value in May'; the text says no run went above 60 l/s, i.e. 60 l/s was the May ceiling (an operating limit), which it does not deny (blind: stored: the flume did not have a measurement of 60 L/s in May; the text gives 60 L/s as a ceiling no run exceeded, it does not deny a 60 L/s value (the number means a limit, not a measurement))",
    "evidence": "No run went above 60 litres per second in May: the committee had asked for a vibration measurement first.",
    "faults": [
-    "wrong_relation"
+    "truth"
    ]
   },
   {
@@ -185,12 +185,9 @@
   },
   {
    "id": "3097580d7fa1",
-   "label": "INCORRECT",
-   "reason": "stored as the project's cost 18,000 euros; the text says the project is 18,000 euros over its equipment line, an overrun, not a price",
-   "evidence": "The Aldmoor peat project is 18,000 euros over its equipment line",
-   "faults": [
-    "wrong_relation"
-   ]
+   "label": "VALID",
+   "reason": "lead: re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the text gives an 18,000 euro overrun on the Aldmoor peat project's equipment line; overruns are in the HAS_COST description (blind: stored as the project's cost 18,000 euros; the text says the project is 18,000 euros over its equipment line, an overrun, not a price)",
+   "evidence": "The Aldmoor peat project is 18,000 euros over its equipment line"
   },
   {
    "id": "46e918bba97c",
@@ -1367,26 +1364,41 @@
   "4e25eeebd9e1",
   "4e84bd1bc7e2",
   "5c3c01e20cd6",
+  "687d66930aeb",
+  "7d3839521cb1",
   "8022c8e0cb05",
   "838f970ab3fb",
   "88681e3956dc",
   "8b1a3d0effd2",
   "99df4e7bdc47",
   "a3cdb8bd9f4c",
+  "a5209133b019",
+  "ae83305f2588",
   "b37b141f2d8d",
   "b5ce0e69dd3f",
   "b88746f5e955",
+  "ba7a95e2bfb7",
   "bf4fabc72d91",
   "c3a784d4fd83",
   "c518a9a175f8",
+  "ccb5d01a42f2",
   "cf988dd8f584",
   "d2b4d7c07659",
   "d874846dbe7e",
+  "e3a1aa539971",
   "e45c4163cb6c",
+  "edf7ce663e45",
   "ee678b976971",
   "ef11e8eabe73",
   "ef2d9a41549e",
   "f9876ab8fb19"
  ],
- "changes": []
+ "changes": [
+  {
+   "id": "3097580d7fa1",
+   "before": "INCORRECT",
+   "after": "VALID",
+   "reason": "re-judged blind against every declared type pair (R110's sheet showed one pair per relation): the text gives an 18,000 euro overrun on the Aldmoor peat project's equipment line; overruns are in the HAS_COST description"
+  }
+ ]
 }
