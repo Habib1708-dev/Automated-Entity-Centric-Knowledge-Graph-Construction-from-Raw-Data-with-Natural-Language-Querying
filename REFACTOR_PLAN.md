@@ -6435,6 +6435,44 @@ way" entry "Derivation mistargets record documents" (R67 part 3) is this bug.
   cached: about $0.02-0.10). **About $0.15, likely $0.10-0.25, at most about $0.45.** Furniture and
   generality are checked offline ($0): `kg audit-snapshot` with the new code on copies of their R108 builds
   must still pass C0.
+- **Part b, furniture and generality ($0, no LLM).** `kg audit-snapshot` with part a's code on
+  `out/r108_furniture` and `out/r108_generality` (read only, `--out out/r109_c0/<ds>`, R108's logged
+  files): **C0 passed on both** (MLflow `e20b87fa`, `6e50de0c`), and the rebuilt `snapshot.json` and
+  `code_checks.json` are byte-identical to R108's: the rule changes nothing there (furniture's 154 derived
+  claims are all on reviews ABOUT a `Product`, generality derives nothing).
+- **Part b, the held-out run (done 2026-10-07; $0.0037, far below the estimate).** At `584f952` (only
+  `.claude/settings.json` dirty), R108 part b's commands into `out/r109_heldout`, the pass on the real key.
+
+  | | R108 | R109 |
+  |---|---|---|
+  | link: derived claims; created object mentions; `skipped_other_label` | 135; 29; - | **38; 0; 97** |
+  | pass: calls / cache hits; findings kept | 81 / 81; 594 | 81 / **79**; 595 |
+  | resolve: mentions; records / individuals / concepts | 1069; 77 / 358 / 634 | 1041; 77 / **329** / 635 |
+  | resolve: calls / cache hits; record choices asked / chosen | 744 / 725; 13 / 7 | 724 / **724**; 13 / 7 |
+  | attach: claims attached / total; attachments | 665 / 665; 3560 | 568 / 568; 3263 |
+  | cost (MLflow) | $0.0267 (resolve) | **$0.0037** (pass: 2 calls, 2,090 / 568 tokens in / out) |
+  | MLflow: link, pass, resolve | `19733591`, `e410d14e`, `d38e63cf` | `21b28508`, `f52a625a`, `2581be2c` |
+
+  - **Why only 2 pass prompts changed, not 54:** the prompt's "already listed" line holds names, not
+    mentions. In 52 of the 54 recall chunks an extracted `Recall` mention has the same name as the removed
+    derived `Vehicle` mention ("15V406000"), so the line is unchanged and the cached answer applies. In
+    `record/Recall/17V472000#1` and `19V503000#1` the recall number was listed only through the derived
+    mention: the first gave the same findings, the second one more, "placement" (`Kind`, stated kind).
+  - Every count before link equals R108's (corpus, claims: `triples.jsonl` byte-identical); resolve asked
+    nothing new: the 29 recall-number individuals and their spelling pairs are gone, every other question
+    was R108's.
+  - Committed: `tests/gold/r109/heldout_logged.json`, `runs.json`; test
+    `test_r109_rebuilt_held_out_without_the_recall_documents_derived_claims` (tests/test_derivation.py).
+- **Part b, the evaluation ($0, no API call).** `kg audit-snapshot`, `kg anchor-eval` (both arms),
+  `kg anchor-sheets`, `kg mention-eval` (R101 gold) on `out/r109_heldout`, offline: **C0 passed**. Against
+  R108's sheets: every C3 (102) and C6 (156) item is byte-identical; C4 keeps its 77 links byte-identical
+  and loses 29, the links of the derived recall-number mentions to their own Recall record (R108 judged all
+  29 VALID: "the heading is exactly the record key"); the mention sheet's 125 recall items equal R103's,
+  while its seeded precision sample of 60 keeps 34 items and draws 26 new ones (the sample is
+  `random.Random(102).sample` over the pass mentions in id order, so one new mention shifts every later
+  position). Sheets, code sides, anchor reports, fidelity and code checks committed in
+  `tests/gold/r109/heldout/` before any verdict; test
+  `test_r109_sheets_keep_r108s_items_but_the_links_of_the_recall_number_mentions`.
 
 ### R110. Today's claims judged: every stored claim, strict and content precision (started 2026-10-07; $0, no run)
 The user, 2026-10-07: keep the claim layer (it may make structured querying more robust) and judge the

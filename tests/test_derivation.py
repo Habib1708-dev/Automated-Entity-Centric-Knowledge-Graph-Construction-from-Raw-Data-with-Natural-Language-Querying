@@ -6,8 +6,12 @@ R109: a document ABOUT a record of another label than the object type's (a recal
 object type Vehicle) derives nothing, purely and in the link stage; an object type without record labels
 keeps deriving onto every ABOUT node."""
 
+import json
+from pathlib import Path
+
 import pytest
 
+from kgbuilder.audit.fidelity import LoggedCounts
 from kgbuilder.core.identity import mention_id
 from kgbuilder.core.text import pick_sentence, split_sentences
 from kgbuilder.resolution.attachment import attach_claims
@@ -378,3 +382,50 @@ def test_a_shared_part_no_longer_carries_one_products_defect_to_another(driver):
     assert claims(bed) == [f"PART_OF {bed}"]
     report = score_paths(CheckContext(driver=driver).facts, SCHEMA)
     assert (report.paths_total, report.paths_true) == (1, 1)
+
+
+# --- the committed held-out rebuild of R109 (R103's claims, R108's rules, the derivation rule above) --------
+
+GOLD = Path(__file__).resolve().parent / "gold"
+
+
+def _sheet_items(step: str, criterion: str) -> dict[str, dict]:
+    sheet = json.loads((GOLD / step / "heldout" / f"{criterion}_sheet.json").read_text(encoding="utf-8"))
+    lists = {"c3": ["merges", "splits"], "c4": ["links"], "c6": ["pairs"]}[criterion]
+    return {item["id"]: item for name in lists for item in sheet[name]}
+
+
+def test_r109_rebuilt_held_out_without_the_recall_documents_derived_claims():
+    """R109 part b's logged counts (copied from MLflow): the same corpus and claims as R108; link derives 38
+    claims instead of 135 and creates none of the 29 recall-number Vehicle mentions, so resolve has 29
+    individuals fewer; the pass changed on two chunks (one finding more) and was the only paid stage."""
+    runs = json.loads((GOLD / "r109" / "runs.json").read_text(encoding="utf-8"))["datasets"]["heldout"]
+    after = LoggedCounts.model_validate_json((GOLD / "r109" / "heldout_logged.json").read_text("utf-8"))
+    before = LoggedCounts.model_validate_json((GOLD / "r108" / "heldout_logged.json").read_text("utf-8"))
+    built = [k for k in before.counts if k.startswith(("ingest_text.", "extract."))]
+    assert {k: after.counts[k] for k in built} == {k: before.counts[k] for k in built}
+    changed = {
+        k: (before.counts[k], after.counts[k]) for k in before.counts if before.counts[k] != after.counts[k]
+    }
+    assert changed["link.facts_derived"] == (135, 38) and changed["link.mentions_created"] == (29, 0)
+    assert changed["mention_pass.mentions"] == (594, 595)
+    assert changed["resolve.mentions"] == (1069, 1041)
+    assert changed["resolve.mentions_to_individuals"] == (358, 329)
+    assert "resolve.mentions_to_records" not in changed
+    paid = {k for k, v in after.usage.items() if k.endswith("cost_usd") and v > 0}
+    assert paid == {"mention_pass.cost_usd"} and after.usage["mention_pass.cost_usd"] == pytest.approx(
+        runs["cost_usd"]
+    )
+    assert after.runs == runs["runs"]
+
+
+def test_r109_sheets_keep_r108s_items_but_the_links_of_the_recall_number_mentions():
+    """Every C3, C4 and C6 item of R109's held-out sheets is byte-identical to one of R108's; C4 lost the 29
+    links of the derived recall-number mentions (one per recall document, each to its own Recall record)."""
+    for criterion in ("c3", "c6"):
+        assert _sheet_items("r109", criterion) == _sheet_items("r108", criterion)
+    before, after = _sheet_items("r108", "c4"), _sheet_items("r109", "c4")
+    assert all(before[i] == item for i, item in after.items())
+    gone = [before[i] for i in before.keys() - after.keys()]
+    assert len(gone) == 29
+    assert all(g["mention"]["name"] == g["record"]["key"] and g["record"]["label"] == "Recall" for g in gone)

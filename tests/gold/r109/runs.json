@@ -1,0 +1,65 @@
+{
+ "step": "R109 part b: held-out rebuilt with the derivation rule (a derived claim's object is a record of its object type); claims replayed, pass on the real key",
+ "approved": "the user, 2026-10-07 (\"Yes, run it\" to the counted estimate of about $0.15, likely $0.10-0.25, at most about $0.45)",
+ "git_sha": "584f952-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "datasets": {
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r109_heldout",
+   "pinned_from": "out/r77d_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+   "claims_from": "out/r103_heldout (kg extract --from-build: replayed, no call; triples.jsonl byte-identical to R108's)",
+   "commands": [
+    "kg --preset heldout reset --out out/r109_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r109_heldout",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r109_heldout",
+    "kg --preset heldout extract --from-build out/r103_heldout --out out/r109_heldout",
+    "kg --preset heldout link --out out/r109_heldout",
+    "kg --preset heldout mention-pass --out out/r109_heldout",
+    "kg --preset heldout resolve --out out/r109_heldout",
+    "kg --preset heldout attach --out out/r109_heldout"
+   ],
+   "runs": {
+    "ingest_text": "820e8810517a4b389eac69063a2140f9",
+    "extract": "6934f4bc43a349d08fb851a77f74ec23",
+    "link": "21b285087d3440f9adbdeb56473a06c6",
+    "mention_pass": "f52a625a0773412ca6efb3616b582834",
+    "resolve": "2581be2c4b1b49c09cb85aebc1889b55",
+    "attach": "b81c50acde0a44218d8a5f43fc5b23c9"
+   },
+   "cost_usd": 0.003697,
+   "link_skipped_other_label": 97,
+   "mention_pass_calls": 81,
+   "mention_pass_cache_hits": 79,
+   "mention_pass_changed_chunks": [
+    "record/Recall/17V472000#1",
+    "record/Recall/19V503000#1"
+   ],
+   "resolve_calls": 724,
+   "resolve_cache_hits": 724,
+   "record_choices": 13,
+   "record_choice_chosen": 7,
+   "pass_file": "R108's findings plus one: 'placement' (Kind, stated kind) in record/Recall/19V503000#1",
+   "logged": {
+    "file": "tests/gold/r109/heldout_logged.json"
+   }
+  }
+ },
+ "offline_c0": {
+  "furniture": {
+   "preset": "quality",
+   "command": "kg --preset quality audit-snapshot out/r108_furniture --data data --logged tests/gold/r108/furniture_logged.json --out out/r109_c0/furniture",
+   "run": "e20b87fa63494c94826f5e2c52feb7a8",
+   "fidelity_passed": true,
+   "snapshot": "byte-identical to out/r108_furniture/audit/snapshot.json (code_checks.json too)"
+  },
+  "generality": {
+   "preset": "generality_gemini",
+   "command": "kg --preset generality_gemini audit-snapshot out/r108_generality --data tests/fixtures/generality --logged tests/gold/r108/generality_logged.json --out out/r109_c0/generality",
+   "run": "6e50de0c71a24892aca5ff77f51d2bd3",
+   "fidelity_passed": true,
+   "snapshot": "byte-identical to out/r108_generality/audit/snapshot.json (code_checks.json too)"
+  }
+ },
+ "cost_usd_total": 0.003697
+}

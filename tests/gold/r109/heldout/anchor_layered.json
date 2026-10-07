@@ -1,0 +1,3477 @@
+{
+ "arm": "layered",
+ "fidelity_passed": true,
+ "provenance": {
+  "extracted.chunk_exists": {
+   "k": 530,
+   "n": 530,
+   "rate": 1.0,
+   "low": 0.9928038579233992,
+   "high": 1.0
+  },
+  "extracted.doc_consistent": {
+   "k": 530,
+   "n": 530,
+   "rate": 1.0,
+   "low": 0.9928038579233992,
+   "high": 1.0
+  },
+  "extracted.evidence_in_chunk": {
+   "k": 530,
+   "n": 530,
+   "rate": 1.0,
+   "low": 0.9928038579233992,
+   "high": 1.0
+  },
+  "extracted.ends_grounded": {
+   "k": 530,
+   "n": 530,
+   "rate": 1.0,
+   "low": 0.9928038579233992,
+   "high": 1.0
+  },
+  "derived.chunk_exists": {
+   "k": 38,
+   "n": 38,
+   "rate": 1.0,
+   "low": 0.90818706741616,
+   "high": 0.9999999999999999
+  },
+  "derived.doc_consistent": {
+   "k": 38,
+   "n": 38,
+   "rate": 1.0,
+   "low": 0.90818706741616,
+   "high": 0.9999999999999999
+  },
+  "derived.evidence_in_chunk": {
+   "k": 38,
+   "n": 38,
+   "rate": 1.0,
+   "low": 0.90818706741616,
+   "high": 0.9999999999999999
+  },
+  "extracted.mention_in_chunk": {
+   "k": 489,
+   "n": 489,
+   "rate": 1.0,
+   "low": 0.992205203456851,
+   "high": 0.9999999999999999
+  },
+  "pass.mention_in_chunk": {
+   "k": 552,
+   "n": 552,
+   "rate": 1.0,
+   "low": 0.9930886785012132,
+   "high": 1.0
+  }
+ },
+ "placed": {
+  "H01": [
+   {
+    "name": "2015 Ford Escape",
+    "aliases": [
+     "Ford Escape",
+     "ESCAPE"
+    ],
+    "nodes": [
+     "Vehicle:ESCAPE"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "automatic transmission",
+    "aliases": [],
+    "nodes": [
+     "1aca40d121796592"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H02": [
+   {
+    "name": "2015 Ford Escape",
+    "aliases": [
+     "Ford Escape",
+     "ESCAPE"
+    ],
+    "nodes": [
+     "Vehicle:ESCAPE"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "crash",
+    "aliases": [],
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H03": [],
+  "H04": [
+   {
+    "name": "2016 Honda Civic",
+    "aliases": [
+     "Honda Civic",
+     "CIVIC"
+    ],
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H05": [
+   {
+    "name": "2019 Subaru Outback",
+    "aliases": [
+     "Subaru Outback",
+     "OUTBACK"
+    ],
+    "nodes": [
+     "Vehicle:OUTBACK"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H06": [
+   {
+    "name": "gas pedal",
+    "aliases": [],
+    "nodes": [
+     "0cd7a506f6c15761"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H07": [
+   {
+    "name": "2019 Toyota RAV4",
+    "aliases": [
+     "Toyota RAV4",
+     "RAV4"
+    ],
+    "nodes": [
+     "Vehicle:RAV4"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "fuel pump",
+    "aliases": [],
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H08": [
+   {
+    "name": "braking",
+    "aliases": [],
+    "nodes": [
+     "2f26533e77122925",
+     "7a85e307148b959a"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H09": [],
+  "H10": [
+   {
+    "name": "crash",
+    "aliases": [],
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H11": [],
+  "H12": [
+   {
+    "name": "dead battery",
+    "aliases": [],
+    "nodes": [
+     "90eb9fec9c5a0026"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H13": [
+   {
+    "name": "fuel pump",
+    "aliases": [],
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db",
+     "ed279b0392ad7dfd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H14": [
+   {
+    "name": "piston ring",
+    "aliases": [],
+    "nodes": [
+     "818a575712731626"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H15": [
+   {
+    "name": "10823637",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10823637"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "piston",
+    "aliases": [],
+    "nodes": [
+     "1796c00b814bab88",
+     "818a575712731626",
+     "bb6393ec8c06687b",
+     "bcd2b324709cde8c",
+     "dd7dcc68006edfd3"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H16": [
+   {
+    "name": "10692693",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10692693"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "transmission",
+    "aliases": [],
+    "nodes": [
+     "1aca40d121796592"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H17": [
+   {
+    "name": "back-up camera",
+    "aliases": [],
+    "nodes": [
+     "457980565f4112a2"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H18": [
+   {
+    "name": "fuel pump",
+    "aliases": [],
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db"
+    ],
+    "missing": [],
+    "loose": true
+   },
+   {
+    "name": "fuel tank",
+    "aliases": [],
+    "nodes": [
+     "4298d859bece1a5d"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H19": [
+   {
+    "name": "10825467",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10825467"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "piston snap ring",
+    "aliases": [],
+    "nodes": [
+     "818a575712731626"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H20": [
+   {
+    "name": "10824361",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10824361"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "2016 Honda Civic",
+    "aliases": [
+     "Honda Civic",
+     "CIVIC"
+    ],
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H21": [
+   {
+    "name": "windshield",
+    "aliases": [],
+    "nodes": [
+     "d12bbec865c32e78"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H22": [
+   {
+    "name": "transmission",
+    "aliases": [],
+    "nodes": [
+     "1aca40d121796592"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "reverse",
+    "aliases": [],
+    "nodes": [
+     "c51b8e1befac9170"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H23": [
+   {
+    "name": "22S25",
+    "aliases": [
+     "22V254000"
+    ],
+    "nodes": [
+     "Recall:22V254000"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H24": [
+   {
+    "name": "door latch",
+    "aliases": [],
+    "nodes": [
+     "76131af5637a7f0d"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H25": [
+   {
+    "name": "Toyota 86",
+    "aliases": [],
+    "nodes": [
+     "252bf49212397089"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "fuel pump",
+    "aliases": [],
+    "nodes": [
+     "109de876a77934ff"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H26": [
+   {
+    "name": "RAV4",
+    "aliases": [
+     "Toyota RAV4"
+    ],
+    "nodes": [
+     "Vehicle:RAV4"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Gulf States Toyota",
+    "aliases": [
+     "GST"
+    ],
+    "nodes": [
+     "381007737b925cd0",
+     "8b7323b7432b7405"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "load label",
+    "aliases": [],
+    "nodes": [
+     "c0c2673d3f8b7c70"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H27": [
+   {
+    "name": "air bags",
+    "aliases": [],
+    "nodes": [
+     "4401d9e338ced22a"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H28": [
+   {
+    "name": "stalled",
+    "aliases": [],
+    "nodes": [
+     "a3a07b3571c3a1bc"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H29": [
+   {
+    "name": "repair",
+    "aliases": [],
+    "nodes": [
+     "6e37aa8131abfb79",
+     "a7e0464f9367d47a"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H30": [
+   {
+    "name": "rear-end collision",
+    "aliases": [],
+    "nodes": [
+     "d0120b8dd3d9d003"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H31": [
+   {
+    "name": "crashed",
+    "aliases": [],
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H32": [
+   {
+    "name": "trunk",
+    "aliases": [],
+    "nodes": [
+     "321183777719ca09"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H33": [
+   {
+    "name": "10691672",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10691672"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H34": [
+   {
+    "name": "11030208",
+    "aliases": [],
+    "nodes": [
+     "Complaint:11030208"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H35": [
+   {
+    "name": "21V839000",
+    "aliases": [
+     "R21B6"
+    ],
+    "nodes": [
+     "Recall:21V839000"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H36": [
+   {
+    "name": "11032133",
+    "aliases": [],
+    "nodes": [
+     "Complaint:11032133"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H37": [
+   {
+    "name": "10972343",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10972343"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Nissan engineering",
+    "aliases": [],
+    "nodes": [
+     "1d97b2e3cb263cdd"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H38": [
+   {
+    "name": "20V373000",
+    "aliases": [
+     "20TB11",
+     "20TA11"
+    ],
+    "nodes": [
+     "Recall:20V373000"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H39": [],
+  "H40": [],
+  "H41": [],
+  "H42": [
+   {
+    "name": "2016 Honda Civic",
+    "aliases": [
+     "Honda Civic",
+     "CIVIC"
+    ],
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H43": [
+   {
+    "name": "air bags",
+    "aliases": [],
+    "nodes": [
+     "375b7825a587ca66",
+     "4078e6d062bce84a",
+     "4401d9e338ced22a",
+     "5515049c992be7f7"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H44": [],
+  "H45": [
+   {
+    "name": "2015 Ford Escape",
+    "aliases": [
+     "Ford Escape",
+     "ESCAPE"
+    ],
+    "nodes": [
+     "Vehicle:ESCAPE"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H46": [
+   {
+    "name": "2019 Subaru Outback",
+    "aliases": [
+     "Subaru Outback",
+     "OUTBACK"
+    ],
+    "nodes": [
+     "Vehicle:OUTBACK"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H47": [
+   {
+    "name": "fuel pump",
+    "aliases": [],
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db",
+     "ed279b0392ad7dfd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H48": [
+   {
+    "name": "2019 Toyota RAV4",
+    "aliases": [
+     "Toyota RAV4",
+     "RAV4"
+    ],
+    "nodes": [
+     "Vehicle:RAV4"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Toyota Motor Engineering & Manufacturing",
+    "aliases": [],
+    "nodes": [
+     "1564c38a98a6b3cb"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H49": [],
+  "H50": [],
+  "H51": [
+   {
+    "name": "2017 Nissan Rogue",
+    "aliases": [
+     "Nissan Rogue",
+     "ROGUE"
+    ],
+    "nodes": [
+     "Vehicle:ROGUE"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H52": [],
+  "H53": [],
+  "H54": [],
+  "H55": [],
+  "H56": [],
+  "H57": [],
+  "H58": [
+   {
+    "name": "2016 Honda Civic",
+    "aliases": [
+     "Honda Civic",
+     "CIVIC"
+    ],
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H59": [
+   {
+    "name": "11010220",
+    "aliases": [],
+    "nodes": [
+     "Complaint:11010220"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H60": [
+   {
+    "name": "crash",
+    "aliases": [],
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H61": [
+   {
+    "name": "11209676",
+    "aliases": [],
+    "nodes": [
+     "Complaint:11209676"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H62": [
+   {
+    "name": "10957753",
+    "aliases": [],
+    "nodes": [
+     "Complaint:10957753"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H63": [
+   {
+    "name": "air bag",
+    "aliases": [],
+    "nodes": [
+     "375b7825a587ca66",
+     "4078e6d062bce84a",
+     "4401d9e338ced22a",
+     "5515049c992be7f7"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H64": [],
+  "H65": [
+   {
+    "name": "19V493000",
+    "aliases": [
+     "WUH-93"
+    ],
+    "nodes": [
+     "Recall:19V493000"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "H66": [
+   {
+    "name": "fuel pump",
+    "aliases": [],
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db",
+     "ed279b0392ad7dfd"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "H67": [],
+  "H68": [
+   {
+    "name": "21V839000",
+    "aliases": [
+     "R21B6"
+    ],
+    "nodes": [
+     "Recall:21V839000"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ]
+ },
+ "findability": {
+  "targets": [
+   {
+    "question": "H01",
+    "name": "2015 Ford Escape",
+    "nodes": [
+     "Vehicle:ESCAPE"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:ESCAPE",
+     "775e2fdbff3f3c4f",
+     "c47def9450003c42",
+     "7f7ecf547334f26a",
+     "aa0301c97964a469"
+    ]
+   },
+   {
+    "question": "H01",
+    "name": "automatic transmission",
+    "nodes": [
+     "1aca40d121796592"
+    ],
+    "rank": 1,
+    "top": [
+     "1aca40d121796592",
+     "e61ef219478e4265",
+     "c51b8e1befac9170",
+     "d6b7a5bdb709bb1e"
+    ]
+   },
+   {
+    "question": "H02",
+    "name": "2015 Ford Escape",
+    "nodes": [
+     "Vehicle:ESCAPE"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:ESCAPE",
+     "775e2fdbff3f3c4f",
+     "c47def9450003c42",
+     "7f7ecf547334f26a",
+     "aa0301c97964a469"
+    ]
+   },
+   {
+    "question": "H02",
+    "name": "crash",
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "rank": null,
+    "top": [
+     "a2e9600f89d36e57",
+     "375b7825a587ca66"
+    ]
+   },
+   {
+    "question": "H04",
+    "name": "2016 Honda Civic",
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:CIVIC",
+     "4946aebeb83c8072",
+     "9024116918252398",
+     "10d48a864724fd18",
+     "c02997fd1d19144f"
+    ]
+   },
+   {
+    "question": "H05",
+    "name": "2019 Subaru Outback",
+    "nodes": [
+     "Vehicle:OUTBACK"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:OUTBACK",
+     "7682ab63b6d1396a",
+     "Vehicle:RAV4",
+     "3c1c5fc4805deee4",
+     "925f56a830a43492"
+    ]
+   },
+   {
+    "question": "H06",
+    "name": "gas pedal",
+    "nodes": [
+     "0cd7a506f6c15761"
+    ],
+    "rank": 1,
+    "top": [
+     "0cd7a506f6c15761",
+     "c622cc4f0d3d6752",
+     "ca563d74c89ecc18"
+    ]
+   },
+   {
+    "question": "H07",
+    "name": "2019 Toyota RAV4",
+    "nodes": [
+     "Vehicle:RAV4"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:RAV4",
+     "4329845aa6dbfd48",
+     "82a4bf3bf3b5db5d",
+     "252bf49212397089",
+     "753badca2166d247"
+    ]
+   },
+   {
+    "question": "H07",
+    "name": "fuel pump",
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db"
+    ],
+    "rank": 2,
+    "top": [
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff",
+     "4298d859bece1a5d"
+    ]
+   },
+   {
+    "question": "H08",
+    "name": "braking",
+    "nodes": [
+     "2f26533e77122925",
+     "7a85e307148b959a"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "H10",
+    "name": "crash",
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "rank": null,
+    "top": [
+     "a2e9600f89d36e57",
+     "375b7825a587ca66"
+    ]
+   },
+   {
+    "question": "H12",
+    "name": "dead battery",
+    "nodes": [
+     "90eb9fec9c5a0026"
+    ],
+    "rank": 1,
+    "top": [
+     "90eb9fec9c5a0026",
+     "ca8b5da78c656d81",
+     "ad14e331b2d79b6d",
+     "7141512b939b3f80",
+     "9e531a57175bf43a"
+    ]
+   },
+   {
+    "question": "H13",
+    "name": "fuel pump",
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db",
+     "ed279b0392ad7dfd"
+    ],
+    "rank": 1,
+    "top": [
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff",
+     "4298d859bece1a5d"
+    ]
+   },
+   {
+    "question": "H14",
+    "name": "piston ring",
+    "nodes": [
+     "818a575712731626"
+    ],
+    "rank": 1,
+    "top": [
+     "818a575712731626",
+     "1796c00b814bab88",
+     "bcd2b324709cde8c",
+     "dd7dcc68006edfd3",
+     "bb6393ec8c06687b"
+    ]
+   },
+   {
+    "question": "H15",
+    "name": "10823637",
+    "nodes": [
+     "Complaint:10823637"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10823637"
+    ]
+   },
+   {
+    "question": "H15",
+    "name": "piston",
+    "nodes": [
+     "1796c00b814bab88",
+     "818a575712731626",
+     "bb6393ec8c06687b",
+     "bcd2b324709cde8c",
+     "dd7dcc68006edfd3"
+    ],
+    "rank": 1,
+    "top": [
+     "bcd2b324709cde8c",
+     "818a575712731626",
+     "1796c00b814bab88",
+     "dd7dcc68006edfd3",
+     "bb6393ec8c06687b"
+    ]
+   },
+   {
+    "question": "H16",
+    "name": "10692693",
+    "nodes": [
+     "Complaint:10692693"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10692693"
+    ]
+   },
+   {
+    "question": "H16",
+    "name": "transmission",
+    "nodes": [
+     "1aca40d121796592"
+    ],
+    "rank": 1,
+    "top": [
+     "1aca40d121796592",
+     "e61ef219478e4265",
+     "c51b8e1befac9170",
+     "d6b7a5bdb709bb1e"
+    ]
+   },
+   {
+    "question": "H17",
+    "name": "back-up camera",
+    "nodes": [
+     "457980565f4112a2"
+    ],
+    "rank": 1,
+    "top": [
+     "457980565f4112a2",
+     "c195a2b7a9a0cfbe",
+     "f819476171ac28d8",
+     "cdba19884bd12aa6",
+     "73a10deef9b87bf0"
+    ]
+   },
+   {
+    "question": "H18",
+    "name": "fuel pump",
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db"
+    ],
+    "rank": 2,
+    "top": [
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff",
+     "4298d859bece1a5d"
+    ]
+   },
+   {
+    "question": "H18",
+    "name": "fuel tank",
+    "nodes": [
+     "4298d859bece1a5d"
+    ],
+    "rank": 1,
+    "top": [
+     "4298d859bece1a5d",
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff"
+    ]
+   },
+   {
+    "question": "H19",
+    "name": "10825467",
+    "nodes": [
+     "Complaint:10825467"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10825467"
+    ]
+   },
+   {
+    "question": "H19",
+    "name": "piston snap ring",
+    "nodes": [
+     "818a575712731626"
+    ],
+    "rank": 1,
+    "top": [
+     "818a575712731626",
+     "1796c00b814bab88",
+     "bcd2b324709cde8c",
+     "dd7dcc68006edfd3",
+     "bb6393ec8c06687b"
+    ]
+   },
+   {
+    "question": "H20",
+    "name": "10824361",
+    "nodes": [
+     "Complaint:10824361"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10824361"
+    ]
+   },
+   {
+    "question": "H20",
+    "name": "2016 Honda Civic",
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:CIVIC",
+     "4946aebeb83c8072",
+     "9024116918252398",
+     "10d48a864724fd18",
+     "c02997fd1d19144f"
+    ]
+   },
+   {
+    "question": "H21",
+    "name": "windshield",
+    "nodes": [
+     "d12bbec865c32e78"
+    ],
+    "rank": 1,
+    "top": [
+     "d12bbec865c32e78"
+    ]
+   },
+   {
+    "question": "H22",
+    "name": "transmission",
+    "nodes": [
+     "1aca40d121796592"
+    ],
+    "rank": 1,
+    "top": [
+     "1aca40d121796592",
+     "e61ef219478e4265",
+     "c51b8e1befac9170",
+     "d6b7a5bdb709bb1e"
+    ]
+   },
+   {
+    "question": "H22",
+    "name": "reverse",
+    "nodes": [
+     "c51b8e1befac9170"
+    ],
+    "rank": 2,
+    "top": [
+     "e7a3967f2f5fe811",
+     "c51b8e1befac9170"
+    ]
+   },
+   {
+    "question": "H23",
+    "name": "22S25",
+    "nodes": [
+     "Recall:22V254000"
+    ],
+    "rank": 2,
+    "top": [
+     "662467e899f6d255",
+     "Recall:22V254000"
+    ]
+   },
+   {
+    "question": "H24",
+    "name": "door latch",
+    "nodes": [
+     "76131af5637a7f0d"
+    ],
+    "rank": 2,
+    "top": [
+     "1d4efc7bae2a9f26",
+     "76131af5637a7f0d",
+     "7ac4b98b85f4de88",
+     "b30e038de6f7c60e",
+     "Vehicle:CIVIC"
+    ]
+   },
+   {
+    "question": "H25",
+    "name": "Toyota 86",
+    "nodes": [
+     "252bf49212397089"
+    ],
+    "rank": 1,
+    "top": [
+     "252bf49212397089",
+     "4329845aa6dbfd48",
+     "753badca2166d247",
+     "Vehicle:RAV4",
+     "4a3e6c0c1542d741"
+    ]
+   },
+   {
+    "question": "H25",
+    "name": "fuel pump",
+    "nodes": [
+     "109de876a77934ff"
+    ],
+    "rank": 3,
+    "top": [
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff",
+     "4298d859bece1a5d"
+    ]
+   },
+   {
+    "question": "H26",
+    "name": "RAV4",
+    "nodes": [
+     "Vehicle:RAV4"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:RAV4",
+     "4329845aa6dbfd48",
+     "252bf49212397089",
+     "753badca2166d247",
+     "4a3e6c0c1542d741"
+    ]
+   },
+   {
+    "question": "H26",
+    "name": "Gulf States Toyota",
+    "nodes": [
+     "381007737b925cd0",
+     "8b7323b7432b7405"
+    ],
+    "rank": 1,
+    "top": [
+     "381007737b925cd0",
+     "8b7323b7432b7405",
+     "4329845aa6dbfd48",
+     "7644e91ef93e1a2d",
+     "252bf49212397089"
+    ]
+   },
+   {
+    "question": "H26",
+    "name": "load label",
+    "nodes": [
+     "c0c2673d3f8b7c70"
+    ],
+    "rank": 1,
+    "top": [
+     "c0c2673d3f8b7c70",
+     "1c4d54398ff94417",
+     "4c6c63bd137bd746",
+     "26bbe9e3f7750994",
+     "d4825eee53675390"
+    ]
+   },
+   {
+    "question": "H27",
+    "name": "air bags",
+    "nodes": [
+     "4401d9e338ced22a"
+    ],
+    "rank": 1,
+    "top": [
+     "4401d9e338ced22a",
+     "4078e6d062bce84a",
+     "5515049c992be7f7",
+     "375b7825a587ca66"
+    ]
+   },
+   {
+    "question": "H28",
+    "name": "stalled",
+    "nodes": [
+     "a3a07b3571c3a1bc"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "H29",
+    "name": "repair",
+    "nodes": [
+     "6e37aa8131abfb79",
+     "a7e0464f9367d47a"
+    ],
+    "rank": 1,
+    "top": [
+     "a7e0464f9367d47a",
+     "3101ddba1215141d"
+    ]
+   },
+   {
+    "question": "H30",
+    "name": "rear-end collision",
+    "nodes": [
+     "d0120b8dd3d9d003"
+    ],
+    "rank": 1,
+    "top": [
+     "d0120b8dd3d9d003",
+     "185684204c67307d",
+     "0a8eeadf1b5da8bf",
+     "d4161d575eeba0f7"
+    ]
+   },
+   {
+    "question": "H31",
+    "name": "crashed",
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "rank": 1,
+    "top": [
+     "e36bf7955b2df7cd"
+    ]
+   },
+   {
+    "question": "H32",
+    "name": "trunk",
+    "nodes": [
+     "321183777719ca09"
+    ],
+    "rank": 1,
+    "top": [
+     "321183777719ca09"
+    ]
+   },
+   {
+    "question": "H33",
+    "name": "10691672",
+    "nodes": [
+     "Complaint:10691672"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10691672"
+    ]
+   },
+   {
+    "question": "H34",
+    "name": "11030208",
+    "nodes": [
+     "Complaint:11030208"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:11030208"
+    ]
+   },
+   {
+    "question": "H35",
+    "name": "21V839000",
+    "nodes": [
+     "Recall:21V839000"
+    ],
+    "rank": 1,
+    "top": [
+     "Recall:21V839000",
+     "dd1d54111fbf26d0"
+    ]
+   },
+   {
+    "question": "H36",
+    "name": "11032133",
+    "nodes": [
+     "Complaint:11032133"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:11032133"
+    ]
+   },
+   {
+    "question": "H37",
+    "name": "10972343",
+    "nodes": [
+     "Complaint:10972343"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10972343"
+    ]
+   },
+   {
+    "question": "H37",
+    "name": "Nissan engineering",
+    "nodes": [
+     "1d97b2e3cb263cdd"
+    ],
+    "rank": 1,
+    "top": [
+     "1d97b2e3cb263cdd",
+     "b0dc38d1bebccb51",
+     "059f9e93e22e6a03",
+     "Vehicle:ROGUE",
+     "a6655e81586fc1b5"
+    ]
+   },
+   {
+    "question": "H38",
+    "name": "20V373000",
+    "nodes": [
+     "Recall:20V373000"
+    ],
+    "rank": 1,
+    "top": [
+     "Recall:20V373000",
+     "f3c2ebd2770de551"
+    ]
+   },
+   {
+    "question": "H42",
+    "name": "2016 Honda Civic",
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:CIVIC",
+     "4946aebeb83c8072",
+     "9024116918252398",
+     "10d48a864724fd18",
+     "c02997fd1d19144f"
+    ]
+   },
+   {
+    "question": "H43",
+    "name": "air bags",
+    "nodes": [
+     "375b7825a587ca66",
+     "4078e6d062bce84a",
+     "4401d9e338ced22a",
+     "5515049c992be7f7"
+    ],
+    "rank": 1,
+    "top": [
+     "4401d9e338ced22a",
+     "4078e6d062bce84a",
+     "5515049c992be7f7",
+     "375b7825a587ca66"
+    ]
+   },
+   {
+    "question": "H45",
+    "name": "2015 Ford Escape",
+    "nodes": [
+     "Vehicle:ESCAPE"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:ESCAPE",
+     "775e2fdbff3f3c4f",
+     "c47def9450003c42",
+     "7f7ecf547334f26a",
+     "aa0301c97964a469"
+    ]
+   },
+   {
+    "question": "H46",
+    "name": "2019 Subaru Outback",
+    "nodes": [
+     "Vehicle:OUTBACK"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:OUTBACK",
+     "7682ab63b6d1396a",
+     "Vehicle:RAV4",
+     "3c1c5fc4805deee4",
+     "925f56a830a43492"
+    ]
+   },
+   {
+    "question": "H47",
+    "name": "fuel pump",
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db",
+     "ed279b0392ad7dfd"
+    ],
+    "rank": 1,
+    "top": [
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff",
+     "4298d859bece1a5d"
+    ]
+   },
+   {
+    "question": "H48",
+    "name": "2019 Toyota RAV4",
+    "nodes": [
+     "Vehicle:RAV4"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:RAV4",
+     "4329845aa6dbfd48",
+     "82a4bf3bf3b5db5d",
+     "252bf49212397089",
+     "753badca2166d247"
+    ]
+   },
+   {
+    "question": "H48",
+    "name": "Toyota Motor Engineering & Manufacturing",
+    "nodes": [
+     "1564c38a98a6b3cb"
+    ],
+    "rank": 1,
+    "top": [
+     "1564c38a98a6b3cb",
+     "4329845aa6dbfd48",
+     "1d97b2e3cb263cdd",
+     "252bf49212397089",
+     "753badca2166d247"
+    ]
+   },
+   {
+    "question": "H51",
+    "name": "2017 Nissan Rogue",
+    "nodes": [
+     "Vehicle:ROGUE"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:ROGUE",
+     "b0dc38d1bebccb51",
+     "91981dd9a2ee3ca7",
+     "af4581c78087090a",
+     "059f9e93e22e6a03"
+    ]
+   },
+   {
+    "question": "H58",
+    "name": "2016 Honda Civic",
+    "nodes": [
+     "Vehicle:CIVIC"
+    ],
+    "rank": 1,
+    "top": [
+     "Vehicle:CIVIC",
+     "4946aebeb83c8072",
+     "9024116918252398",
+     "10d48a864724fd18",
+     "c02997fd1d19144f"
+    ]
+   },
+   {
+    "question": "H59",
+    "name": "11010220",
+    "nodes": [
+     "Complaint:11010220"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:11010220"
+    ]
+   },
+   {
+    "question": "H60",
+    "name": "crash",
+    "nodes": [
+     "e36bf7955b2df7cd"
+    ],
+    "rank": null,
+    "top": [
+     "a2e9600f89d36e57",
+     "375b7825a587ca66"
+    ]
+   },
+   {
+    "question": "H61",
+    "name": "11209676",
+    "nodes": [
+     "Complaint:11209676"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:11209676"
+    ]
+   },
+   {
+    "question": "H62",
+    "name": "10957753",
+    "nodes": [
+     "Complaint:10957753"
+    ],
+    "rank": 1,
+    "top": [
+     "Complaint:10957753"
+    ]
+   },
+   {
+    "question": "H63",
+    "name": "air bag",
+    "nodes": [
+     "375b7825a587ca66",
+     "4078e6d062bce84a",
+     "4401d9e338ced22a",
+     "5515049c992be7f7"
+    ],
+    "rank": 1,
+    "top": [
+     "4078e6d062bce84a",
+     "5515049c992be7f7",
+     "4401d9e338ced22a",
+     "375b7825a587ca66"
+    ]
+   },
+   {
+    "question": "H65",
+    "name": "19V493000",
+    "nodes": [
+     "Recall:19V493000"
+    ],
+    "rank": 2,
+    "top": [
+     "752e9796862ecb0b",
+     "Recall:19V493000"
+    ]
+   },
+   {
+    "question": "H66",
+    "name": "fuel pump",
+    "nodes": [
+     "109de876a77934ff",
+     "4fceafc144c3a6db",
+     "ed279b0392ad7dfd"
+    ],
+    "rank": 1,
+    "top": [
+     "ed279b0392ad7dfd",
+     "4fceafc144c3a6db",
+     "109de876a77934ff",
+     "4298d859bece1a5d"
+    ]
+   },
+   {
+    "question": "H68",
+    "name": "21V839000",
+    "nodes": [
+     "Recall:21V839000"
+    ],
+    "rank": 1,
+    "top": [
+     "Recall:21V839000",
+     "dd1d54111fbf26d0"
+    ]
+   }
+  ],
+  "unplaced": 0,
+  "hit_at": {
+   "1": {
+    "k": 53,
+    "n": 65,
+    "rate": 0.8153846153846154,
+    "low": 0.7044577741729509,
+    "high": 0.8911123462193701
+   },
+   "5": {
+    "k": 60,
+    "n": 65,
+    "rate": 0.9230769230769231,
+    "low": 0.8322385378144039,
+    "high": 0.9666969895411486
+   }
+  }
+ },
+ "reach": {
+  "gold_start": {
+   "mode": "gold_start",
+   "questions": [
+    {
+     "question": "H06",
+     "type": "structured_filter",
+     "gold": [
+      "complaints/toyota_rav4_complaints.md#2"
+     ],
+     "starts": [
+      "0cd7a506f6c15761"
+     ],
+     "ranked": [
+      "complaints/toyota_rav4_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#0",
+      "complaints/toyota_rav4_complaints.md#1",
+      "complaints/toyota_rav4_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#4",
+      "record/Recall/19V244000#0",
+      "record/Recall/19V503000#0",
+      "record/Recall/19V576000#0",
+      "record/Recall/20V064000#0",
+      "record/Recall/20V286000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H08",
+     "type": "aggregation",
+     "gold": [
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#1"
+     ],
+     "starts": [
+      "2f26533e77122925",
+      "7a85e307148b959a"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H12",
+     "type": "aggregation",
+     "gold": [
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#4"
+     ],
+     "starts": [
+      "90eb9fec9c5a0026"
+     ],
+     "ranked": [
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#4",
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#3",
+      "record/Recall/19V493000#0",
+      "record/Recall/20V218000#0",
+      "record/Recall/21V587000#0",
+      "record/Recall/19V493000#1",
+      "record/Recall/19V576000#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H14",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#4"
+     ],
+     "starts": [
+      "818a575712731626"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#2",
+      "record/Recall/15V436000#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H15",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#2"
+     ],
+     "starts": [
+      "1796c00b814bab88",
+      "818a575712731626",
+      "Complaint:10823637",
+      "bb6393ec8c06687b",
+      "bcd2b324709cde8c",
+      "dd7dcc68006edfd3"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V074000#1",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H16",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/ford_escape_complaints.md#4"
+     ],
+     "starts": [
+      "1aca40d121796592",
+      "Complaint:10692693"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#3",
+      "record/Recall/22V254000#0",
+      "record/Recall/22V413000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H17",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/subaru_outback_complaints.md#1"
+     ],
+     "starts": [
+      "457980565f4112a2"
+     ],
+     "ranked": [
+      "complaints/subaru_outback_complaints.md#1",
+      "record/Recall/19V576000#0",
+      "record/Recall/25V695000#0",
+      "record/Recall/25V695000#1",
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#3",
+      "complaints/subaru_outback_complaints.md#4",
+      "record/Recall/19V493000#0",
+      "record/Recall/19V576000#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H18",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/toyota_rav4_complaints.md#3"
+     ],
+     "starts": [
+      "109de876a77934ff",
+      "4298d859bece1a5d",
+      "4fceafc144c3a6db"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/toyota_rav4_complaints.md#3",
+      "record/Recall/20V218000#0",
+      "record/Recall/20V682000#0",
+      "record/Recall/20V682000#1",
+      "record/Recall/21V587000#0",
+      "record/Recall/21V587000#1",
+      "record/Recall/23V858000#0",
+      "record/Recall/23V858000#1",
+      "complaints/ford_escape_complaints.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H19",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#1"
+     ],
+     "starts": [
+      "818a575712731626",
+      "Complaint:10825467"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#2",
+      "record/Recall/15V436000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "H20",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#3",
+      "record/Recall/16V074000#0"
+     ],
+     "starts": [
+      "Complaint:10824361",
+      "Vehicle:CIVIC"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V526000#0",
+      "record/Recall/16V725000#0",
+      "record/Recall/23V858000#0",
+      "record/Recall/26V332000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H21",
+     "type": "disambiguation",
+     "gold": [
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#3"
+     ],
+     "starts": [
+      "d12bbec865c32e78"
+     ],
+     "ranked": [
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#3",
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#4",
+      "record/Recall/19V493000#0",
+      "record/Recall/20V064000#0",
+      "record/Recall/20V218000#0",
+      "record/Recall/20V286000#0",
+      "record/Recall/21V587000#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H22",
+     "type": "disambiguation",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#3"
+     ],
+     "starts": [
+      "1aca40d121796592",
+      "c51b8e1befac9170"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#3",
+      "record/Recall/22V254000#0",
+      "record/Recall/22V413000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H23",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/22V254000#1"
+     ],
+     "starts": [
+      "Recall:22V254000"
+     ],
+     "ranked": [
+      "record/Recall/22V254000#0",
+      "record/Recall/22V254000#1",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V406000#1",
+      "record/Recall/15V436000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H24",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/20V331000#0"
+     ],
+     "starts": [
+      "76131af5637a7f0d"
+     ],
+     "ranked": [
+      "record/Recall/16V643000#0",
+      "record/Recall/16V643000#1",
+      "record/Recall/20V331000#0",
+      "record/Recall/20V331000#1",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "record/Recall/15V406000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H25",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/21V587000#0"
+     ],
+     "starts": [
+      "109de876a77934ff",
+      "252bf49212397089"
+     ],
+     "ranked": [
+      "record/Recall/20V218000#0",
+      "record/Recall/20V682000#0",
+      "record/Recall/21V587000#0",
+      "record/Recall/21V587000#1",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/subaru_outback_complaints.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H26",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/19V244000#0"
+     ],
+     "starts": [
+      "381007737b925cd0",
+      "8b7323b7432b7405",
+      "Vehicle:RAV4",
+      "c0c2673d3f8b7c70"
+     ],
+     "ranked": [
+      "complaints/toyota_rav4_complaints.md#0",
+      "complaints/toyota_rav4_complaints.md#1",
+      "complaints/toyota_rav4_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#4",
+      "record/Recall/19V244000#0",
+      "record/Recall/19V244000#1",
+      "record/Recall/19V503000#0",
+      "record/Recall/19V576000#0",
+      "record/Recall/20V064000#0"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H27",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#3"
+     ],
+     "starts": [
+      "4401d9e338ced22a"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#3",
+      "record/Recall/26V332000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V436000#0",
+      "record/Recall/16V643000#0",
+      "record/Recall/17V472000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H28",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#4"
+     ],
+     "starts": [
+      "a3a07b3571c3a1bc"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H29",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4"
+     ],
+     "starts": [
+      "6e37aa8131abfb79",
+      "a7e0464f9367d47a"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#1",
+      "record/Recall/19V493000#1"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 2
+    },
+    {
+     "question": "H30",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/honda_civic_complaints.md#1"
+     ],
+     "starts": [
+      "d0120b8dd3d9d003"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V526000#0",
+      "record/Recall/16V725000#0",
+      "record/Recall/23V858000#0",
+      "record/Recall/26V332000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H31",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#2"
+     ],
+     "starts": [
+      "e36bf7955b2df7cd"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H32",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/honda_civic_complaints.md#0"
+     ],
+     "starts": [
+      "321183777719ca09"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V526000#0",
+      "record/Recall/16V725000#0",
+      "record/Recall/23V858000#0",
+      "record/Recall/26V332000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H33",
+     "type": "lookup",
+     "gold": [
+      "complaints/ford_escape_complaints.md#3"
+     ],
+     "starts": [
+      "Complaint:10691672"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#2",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V406000#1",
+      "record/Recall/15V436000#0",
+      "record/Recall/15V436000#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H34",
+     "type": "lookup",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#3"
+     ],
+     "starts": [
+      "Complaint:11030208"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/toyota_rav4_complaints.md#1",
+      "record/Recall/16V244000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H35",
+     "type": "lookup",
+     "gold": [
+      "record/Recall/21V839000#1"
+     ],
+     "starts": [
+      "Recall:21V839000"
+     ],
+     "ranked": [
+      "record/Recall/21V839000#0",
+      "record/Recall/21V839000#1",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4",
+      "record/Recall/16V244000#0",
+      "record/Recall/16V244000#1",
+      "record/Recall/17V663000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H36",
+     "type": "lookup",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#4"
+     ],
+     "starts": [
+      "Complaint:11032133"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#3",
+      "record/Recall/16V244000#0",
+      "record/Recall/16V244000#1",
+      "record/Recall/17V663000#0",
+      "record/Recall/21V839000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H37",
+     "type": "lookup",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#1"
+     ],
+     "starts": [
+      "1d97b2e3cb263cdd",
+      "Complaint:10972343"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4",
+      "record/Recall/16V244000#0",
+      "record/Recall/16V244000#1",
+      "record/Recall/17V663000#0",
+      "record/Recall/21V839000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H38",
+     "type": "lookup",
+     "gold": [
+      "record/Recall/20V373000#1"
+     ],
+     "starts": [
+      "Recall:20V373000"
+     ],
+     "ranked": [
+      "record/Recall/20V373000#0",
+      "record/Recall/20V373000#1",
+      "complaints/toyota_rav4_complaints.md#0",
+      "complaints/toyota_rav4_complaints.md#1",
+      "complaints/toyota_rav4_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#4",
+      "record/Recall/19V244000#0",
+      "record/Recall/19V503000#0",
+      "record/Recall/19V576000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    }
+   ],
+   "no_start": [],
+   "recall_at": {
+    "5": {
+     "k": 31,
+     "n": 36,
+     "rate": 0.8611111111111112,
+     "low": 0.7134014871960681,
+     "high": 0.9391827463688489
+    },
+    "10": {
+     "k": 33,
+     "n": 36,
+     "rate": 0.9166666666666666,
+     "low": 0.7817298972308114,
+     "high": 0.9712519107287082
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 24,
+     "n": 28,
+     "rate": 0.8571428571428571,
+     "low": 0.6850982695512267,
+     "high": 0.9430108706929821
+    },
+    "10": {
+     "k": 26,
+     "n": 28,
+     "rate": 0.9285714285714286,
+     "low": 0.7735426157408214,
+     "high": 0.9801883525522292
+    }
+   },
+   "reached": {
+    "k": 36,
+    "n": 36,
+    "rate": 1.0,
+    "low": 0.9035781695514236,
+    "high": 1.0
+   }
+  },
+  "end_to_end": {
+   "mode": "end_to_end",
+   "questions": [
+    {
+     "question": "H06",
+     "type": "structured_filter",
+     "gold": [
+      "complaints/toyota_rav4_complaints.md#2"
+     ],
+     "starts": [
+      "0cd7a506f6c15761"
+     ],
+     "ranked": [
+      "complaints/toyota_rav4_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#0",
+      "complaints/toyota_rav4_complaints.md#1",
+      "complaints/toyota_rav4_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#4",
+      "record/Recall/19V244000#0",
+      "record/Recall/19V503000#0",
+      "record/Recall/19V576000#0",
+      "record/Recall/20V064000#0",
+      "record/Recall/20V286000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H08",
+     "type": "aggregation",
+     "gold": [
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#1"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "H12",
+     "type": "aggregation",
+     "gold": [
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#4"
+     ],
+     "starts": [
+      "90eb9fec9c5a0026"
+     ],
+     "ranked": [
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#4",
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#3",
+      "record/Recall/19V493000#0",
+      "record/Recall/20V218000#0",
+      "record/Recall/21V587000#0",
+      "record/Recall/19V493000#1",
+      "record/Recall/19V576000#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H14",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#4"
+     ],
+     "starts": [
+      "818a575712731626"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#2",
+      "record/Recall/15V436000#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H15",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#2"
+     ],
+     "starts": [
+      "Complaint:10823637",
+      "bcd2b324709cde8c"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#2",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V074000#1",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H16",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/ford_escape_complaints.md#4"
+     ],
+     "starts": [
+      "1aca40d121796592",
+      "Complaint:10692693"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#3",
+      "record/Recall/22V254000#0",
+      "record/Recall/22V413000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H17",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/subaru_outback_complaints.md#1"
+     ],
+     "starts": [
+      "457980565f4112a2"
+     ],
+     "ranked": [
+      "complaints/subaru_outback_complaints.md#1",
+      "record/Recall/19V576000#0",
+      "record/Recall/25V695000#0",
+      "record/Recall/25V695000#1",
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#3",
+      "complaints/subaru_outback_complaints.md#4",
+      "record/Recall/19V493000#0",
+      "record/Recall/19V576000#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H18",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/toyota_rav4_complaints.md#3"
+     ],
+     "starts": [
+      "4298d859bece1a5d",
+      "ed279b0392ad7dfd"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/toyota_rav4_complaints.md#3",
+      "record/Recall/20V682000#0",
+      "record/Recall/21V587000#0",
+      "record/Recall/23V858000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H19",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#1"
+     ],
+     "starts": [
+      "818a575712731626",
+      "Complaint:10825467"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#2",
+      "record/Recall/15V436000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "H20",
+     "type": "multi_hop",
+     "gold": [
+      "complaints/honda_civic_complaints.md#3",
+      "record/Recall/16V074000#0"
+     ],
+     "starts": [
+      "Complaint:10824361",
+      "Vehicle:CIVIC"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V526000#0",
+      "record/Recall/16V725000#0",
+      "record/Recall/23V858000#0",
+      "record/Recall/26V332000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H21",
+     "type": "disambiguation",
+     "gold": [
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#3"
+     ],
+     "starts": [
+      "d12bbec865c32e78"
+     ],
+     "ranked": [
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#3",
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#4",
+      "record/Recall/19V493000#0",
+      "record/Recall/20V064000#0",
+      "record/Recall/20V218000#0",
+      "record/Recall/20V286000#0",
+      "record/Recall/21V587000#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H22",
+     "type": "disambiguation",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#3"
+     ],
+     "starts": [
+      "1aca40d121796592",
+      "e7a3967f2f5fe811"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#3",
+      "record/Recall/22V254000#0",
+      "record/Recall/22V413000#0",
+      "record/Recall/25V695000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H23",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/22V254000#1"
+     ],
+     "starts": [
+      "662467e899f6d255"
+     ],
+     "ranked": [
+      "record/Recall/22V254000#1",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V406000#1",
+      "record/Recall/15V436000#0",
+      "record/Recall/15V436000#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H24",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/20V331000#0"
+     ],
+     "starts": [
+      "1d4efc7bae2a9f26"
+     ],
+     "ranked": [
+      "record/Recall/16V643000#0",
+      "record/Recall/20V331000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V406000#1",
+      "record/Recall/15V436000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H25",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/21V587000#0"
+     ],
+     "starts": [
+      "252bf49212397089",
+      "ed279b0392ad7dfd"
+     ],
+     "ranked": [
+      "record/Recall/21V587000#0",
+      "record/Recall/23V858000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/subaru_outback_complaints.md#0",
+      "complaints/subaru_outback_complaints.md#1",
+      "complaints/subaru_outback_complaints.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H26",
+     "type": "disambiguation",
+     "gold": [
+      "record/Recall/19V244000#0"
+     ],
+     "starts": [
+      "381007737b925cd0",
+      "Vehicle:RAV4",
+      "c0c2673d3f8b7c70"
+     ],
+     "ranked": [
+      "complaints/toyota_rav4_complaints.md#0",
+      "complaints/toyota_rav4_complaints.md#1",
+      "complaints/toyota_rav4_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#4",
+      "record/Recall/19V244000#0",
+      "record/Recall/19V244000#1",
+      "record/Recall/19V503000#0",
+      "record/Recall/19V576000#0",
+      "record/Recall/20V064000#0"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H27",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#3"
+     ],
+     "starts": [
+      "4401d9e338ced22a"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#3",
+      "record/Recall/26V332000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V436000#0",
+      "record/Recall/16V643000#0",
+      "record/Recall/17V472000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H28",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#4"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "H29",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4"
+     ],
+     "starts": [
+      "a7e0464f9367d47a"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/honda_civic_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/subaru_outback_complaints.md#2",
+      "record/Recall/19V493000#1",
+      "record/Recall/20V331000#0",
+      "record/Recall/20V331000#1",
+      "record/Recall/22V875000#0",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#2"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "H30",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/honda_civic_complaints.md#1"
+     ],
+     "starts": [
+      "d0120b8dd3d9d003"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V526000#0",
+      "record/Recall/16V725000#0",
+      "record/Recall/23V858000#0",
+      "record/Recall/26V332000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H31",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#2"
+     ],
+     "starts": [
+      "e36bf7955b2df7cd"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "H32",
+     "type": "negation_sensitive",
+     "gold": [
+      "complaints/honda_civic_complaints.md#0"
+     ],
+     "starts": [
+      "321183777719ca09"
+     ],
+     "ranked": [
+      "complaints/honda_civic_complaints.md#0",
+      "complaints/honda_civic_complaints.md#1",
+      "complaints/honda_civic_complaints.md#2",
+      "complaints/honda_civic_complaints.md#3",
+      "complaints/honda_civic_complaints.md#4",
+      "record/Recall/16V074000#0",
+      "record/Recall/16V526000#0",
+      "record/Recall/16V725000#0",
+      "record/Recall/23V858000#0",
+      "record/Recall/26V332000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H33",
+     "type": "lookup",
+     "gold": [
+      "complaints/ford_escape_complaints.md#3"
+     ],
+     "starts": [
+      "Complaint:10691672"
+     ],
+     "ranked": [
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#2",
+      "record/Recall/15V406000#0",
+      "record/Recall/15V406000#1",
+      "record/Recall/15V436000#0",
+      "record/Recall/15V436000#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H34",
+     "type": "lookup",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#3"
+     ],
+     "starts": [
+      "Complaint:11030208"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/ford_escape_complaints.md#0",
+      "complaints/ford_escape_complaints.md#3",
+      "complaints/ford_escape_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/toyota_rav4_complaints.md#1",
+      "record/Recall/16V244000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H35",
+     "type": "lookup",
+     "gold": [
+      "record/Recall/21V839000#1"
+     ],
+     "starts": [
+      "Recall:21V839000"
+     ],
+     "ranked": [
+      "record/Recall/21V839000#0",
+      "record/Recall/21V839000#1",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4",
+      "record/Recall/16V244000#0",
+      "record/Recall/16V244000#1",
+      "record/Recall/17V663000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H36",
+     "type": "lookup",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#4"
+     ],
+     "starts": [
+      "Complaint:11032133"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#4",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#3",
+      "record/Recall/16V244000#0",
+      "record/Recall/16V244000#1",
+      "record/Recall/17V663000#0",
+      "record/Recall/21V839000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H37",
+     "type": "lookup",
+     "gold": [
+      "complaints/nissan_rogue_complaints.md#1"
+     ],
+     "starts": [
+      "1d97b2e3cb263cdd",
+      "Complaint:10972343"
+     ],
+     "ranked": [
+      "complaints/nissan_rogue_complaints.md#1",
+      "complaints/ford_escape_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#0",
+      "complaints/nissan_rogue_complaints.md#2",
+      "complaints/nissan_rogue_complaints.md#3",
+      "complaints/nissan_rogue_complaints.md#4",
+      "record/Recall/16V244000#0",
+      "record/Recall/16V244000#1",
+      "record/Recall/17V663000#0",
+      "record/Recall/21V839000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "H38",
+     "type": "lookup",
+     "gold": [
+      "record/Recall/20V373000#1"
+     ],
+     "starts": [
+      "Recall:20V373000"
+     ],
+     "ranked": [
+      "record/Recall/20V373000#0",
+      "record/Recall/20V373000#1",
+      "complaints/toyota_rav4_complaints.md#0",
+      "complaints/toyota_rav4_complaints.md#1",
+      "complaints/toyota_rav4_complaints.md#2",
+      "complaints/toyota_rav4_complaints.md#3",
+      "complaints/toyota_rav4_complaints.md#4",
+      "record/Recall/19V244000#0",
+      "record/Recall/19V503000#0",
+      "record/Recall/19V576000#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    }
+   ],
+   "no_start": [],
+   "recall_at": {
+    "5": {
+     "k": 28,
+     "n": 36,
+     "rate": 0.7777777777777778,
+     "low": 0.6191498017214091,
+     "high": 0.882838070251604
+    },
+    "10": {
+     "k": 31,
+     "n": 36,
+     "rate": 0.8611111111111112,
+     "low": 0.7134014871960681,
+     "high": 0.9391827463688489
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 22,
+     "n": 28,
+     "rate": 0.7857142857142857,
+     "low": 0.6046105292072612,
+     "high": 0.8978767829881058
+    },
+    "10": {
+     "k": 24,
+     "n": 28,
+     "rate": 0.8571428571428571,
+     "low": 0.6850982695512267,
+     "high": 0.9430108706929821
+    }
+   },
+   "reached": {
+    "k": 33,
+    "n": 36,
+    "rate": 0.9166666666666666,
+    "low": 0.7817298972308114,
+    "high": 0.9712519107287082
+   }
+  }
+ },
+ "selectivity": {
+  "nodes": 100,
+  "corpus": 81,
+  "median_share": 0.012345679012345678,
+  "p90_share": 0.08641975308641975,
+  "hubs": [
+   {
+    "node": "775e2fdbff3f3c4f",
+    "chunks": 23,
+    "share": 0.2839506172839506
+   }
+  ]
+ },
+ "connectivity": {
+  "questions": [
+   {
+    "question": "H14",
+    "gold": [
+     "Recall:16V074000",
+     "complaints/honda_civic_complaints.md#2",
+     "complaints/honda_civic_complaints.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "H15",
+    "gold": [
+     "Recall:16V074000",
+     "complaints/honda_civic_complaints.md#2"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "H16",
+    "gold": [
+     "Recall:22V254000",
+     "Recall:22V413000",
+     "complaints/ford_escape_complaints.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "H17",
+    "gold": [
+     "Recall:19V493000",
+     "complaints/subaru_outback_complaints.md#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "H18",
+    "gold": [
+     "Recall:20V682000",
+     "complaints/toyota_rav4_complaints.md#3"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "H19",
+    "gold": [
+     "complaints/honda_civic_complaints.md#4",
+     "record/Recall/16V074000#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "H20",
+    "gold": [
+     "complaints/honda_civic_complaints.md#3",
+     "record/Recall/16V074000#0"
+    ],
+    "unreached": []
+   }
+  ],
+  "connections": {
+   "k": 16,
+   "n": 16,
+   "rate": 1.0,
+   "low": 0.8063865817272802,
+   "high": 1.0
+  },
+  "thing_hops": 24091,
+  "unwitnessed_hops": 2080,
+  "unwitnessed_examples": [
+   "0fd23540f8047219 -claim- 4329845aa6dbfd48 (record/Recall/20V064000#0)",
+   "0fd23540f8047219 -claim- b171ce6c437e7d75 (record/Recall/20V064000#0)",
+   "1564c38a98a6b3cb -claim- 4329845aa6dbfd48 (record/Recall/20V064000#0)",
+   "1564c38a98a6b3cb -claim- b171ce6c437e7d75 (record/Recall/20V064000#0)",
+   "34c20b13e9607c25 -claim- 4329845aa6dbfd48 (record/Recall/20V064000#0)",
+   "34c20b13e9607c25 -claim- b171ce6c437e7d75 (record/Recall/20V064000#0)",
+   "4329845aa6dbfd48 -claim- 53586a7de5a5002e (record/Recall/20V064000#0)",
+   "4329845aa6dbfd48 -claim- 9332ced06109b371 (record/Recall/20V064000#0)",
+   "4329845aa6dbfd48 -claim- Recall:20V064000 (record/Recall/20V064000#0)",
+   "4329845aa6dbfd48 -claim- Vehicle:RAV4 (record/Recall/20V064000#0)"
+  ]
+ },
+ "size": {
+  "chunks": 81,
+  "nodes": 2353,
+  "edges": 7428,
+  "nodes_per_chunk": 29.049382716049383,
+  "edges_per_chunk": 91.70370370370371,
+  "cost_usd": 0.003697,
+  "tokens": 2658.0
+ }
+}
