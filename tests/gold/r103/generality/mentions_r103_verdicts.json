@@ -1,0 +1,634 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "bf1beede5e24",
+  "sheet": "tests/gold/r103/generality/mentions_r103_sheet.json",
+  "sheet_hash": "00654067b918",
+  "sheets_git_sha": "916545b3434dc3082dea6b3ec615d8e3df50bac4"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "cdb5b789aeda|bf-1",
+   "label": "VALID",
+   "reason": "\"Core BF-1\" names the same core whose identifier is BF-1.",
+   "evidence": "Core BF-1, 14 April",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1dcb4e479f2a|ab-19",
+   "label": "VALID",
+   "reason": "\"Core AB-19\" names the same core whose identifier is AB-19.",
+   "evidence": "Core AB-19, 10 December",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1dcb4e479f2a|j.",
+   "label": "VALID",
+   "reason": "The sentence was cut at \"J.\"; the chunk reads \"freed by J. Pike\", so the candidate \"J. Pike\" is the same person.",
+   "evidence": "the corer jammed at 5 m and was freed by J.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d66e92e743bf|ab-20",
+   "label": "VALID",
+   "reason": "\"Core AB-20\" names the same core whose identifier is AB-20.",
+   "evidence": "Core AB-20, 10 December: not taken",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "de614a33c49b|plan",
+   "label": "VALID",
+   "reason": "\"a plan\" refers back to the data management plan required in the previous sentence.",
+   "evidence": "Projects without a plan will not receive second-year funding.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a32a15b8728d|field-work award",
+   "label": "VALID",
+   "reason": "The section heading names the award that its body calls the Hensley Field-Work Award.",
+   "evidence": "## Field-work award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3dda68832a92|cores",
+   "label": "VALID",
+   "reason": "\"240 cores\" is the same set of cores of the Aldmoor bog that \"cores\" names.",
+   "evidence": "a poster on the 240 cores of the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5fdeda143df3|repair",
+   "label": "VALID",
+   "reason": "The repair in the line is the Mill Lane footbridge repair; the candidate names that same project.",
+   "evidence": "Mill Lane footbridge repair",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6db463e1c631|lighting",
+   "label": "VALID",
+   "reason": "The lighting in the line is the Riverside path lighting; same thing.",
+   "evidence": "Riverside path lighting",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "75d8459634ca|east railing",
+   "label": "VALID",
+   "reason": "The east railing is the Mill Lane footbridge east railing; the candidate names the same railing.",
+   "evidence": "Mill Lane footbridge east railing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "dc9054227c1b|heavy storms",
+   "label": "VALID",
+   "reason": "\"storms\" occurs in the chunk only inside \"heavy storms\", so the candidate names the same storms.",
+   "evidence": "too narrow for heavy storms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eeb4128ff7b9|station",
+   "label": "VALID",
+   "reason": "\"the station's\" is Harbour Station; the candidate \"Harbour Station\" names it (\"North Station\" is another station).",
+   "evidence": "showed them the station's Kestrel V-12 pump",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a0a2c56a7f23|station",
+   "label": "VALID",
+   "reason": "\"The station\" in the Harbour Station report is Harbour Station; that candidate names it (\"North Station\" is another station).",
+   "evidence": "The station's only pump, KV12-0457",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5cc598c09a74|june conference trips",
+   "label": "VALID",
+   "reason": "The candidate 'conference trips' is the same phrase in the same sentence and names the same June trips.",
+   "evidence": "the June conference trips are funded",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f8bf11e1ffbd|resurfacing",
+   "label": "VALID",
+   "reason": "In this line the resurfacing is the Harbour Street resurfacing, so the candidate names the same work.",
+   "evidence": "Harbour Street resurfacing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "0e42a7e9bde20f7f",
+   "label": "VALID",
+   "reason": "A work done to the railings and deck boards, written as a verb (In 3), verbatim, kind.",
+   "evidence": "Both railings and all 46 deck boards were replaced.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "123913704b6415d9",
+   "label": "VALID",
+   "reason": "The condition that made the pump trip; 'low' tells the condition apart; kind.",
+   "evidence": "tripped three times in the first week of May on low suction pressure",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "145a530ed398c8bc",
+   "label": "VALID",
+   "reason": "An object (the pump's seal) the text says something about; common noun, kind.",
+   "evidence": "asked for the old seal to be kept",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1c8d42a81aa47cde",
+   "label": "VALID",
+   "reason": "In commissioning notes a run is a test event of the new flume, and the text says something about runs.",
+   "evidence": "No run went above 60 litres per second in May",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1e82322f09ba3cd2",
+   "label": "VALID",
+   "reason": "Rain is a thing the text says something about (the bogs hold it back); kind.",
+   "evidence": "the peat bogs upstream hold back rain and slow the flow into the river",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "291c7ac15664f7da",
+   "label": "VALID",
+   "reason": "A state or fault said to be absent (In 4); kind.",
+   "evidence": "reset both times, no damage found",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2e09a5150e155eea",
+   "label": "VALID",
+   "reason": "The seminar is the event the notice announces (time and room given); a common noun, kind.",
+   "evidence": "Seminar notice",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3675f36d57f60709",
+   "label": "VALID",
+   "reason": "A property the text says something about (its monthly average); kind.",
+   "evidence": "Average flow for the month was 17 litres per second.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "36aacf370c5b6024",
+   "label": "VALID",
+   "reason": "A fault of the seal; 'slow' is degree, so 'drip' is the shortest span; kind.",
+   "evidence": "Pump HP40-2291 now shows a slow drip from its mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3898f04a31dbc7e9",
+   "label": "VALID",
+   "reason": "An object said to be absent (In 4); kind.",
+   "evidence": "no warning sign has been put up",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "43dcaedda48ae44b",
+   "label": "VALID",
+   "reason": "People known only by their role, whom the text says something about; kind.",
+   "evidence": "Mayor Achterberg thanked residents for their patience",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4455a288aaaae799",
+   "label": "INCORRECT",
+   "reason": "'under budget' is an evaluation of the works' cost; the budget is only a reference point, not a thing the text names (Out 3).",
+   "evidence": "the works had come in 12,000 pounds under budget",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4e7a5778d5e388e0",
+   "label": "INCORRECT",
+   "reason": "Tagging the pump for a seal change is a flagging or recommending act, not a fault, state or work that repairs the pump (Out 8).",
+   "evidence": "Delgado tagged HP40-2291 for a seal change before the end of the month.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5b1a0a4aae62f9c1",
+   "label": "INCORRECT",
+   "reason": "An agenda heading word; the thing the item says something about is the travel budget, and travel itself is an everyday act.",
+   "evidence": "3. Travel. Maria Lopez reported that 60 percent of the 2025 travel budget has been spent.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5c5571a1ba926896",
+   "label": "VALID",
+   "reason": "A fault of the seal written as a verb (In 3); kind.",
+   "evidence": "the mechanical seal of pump HP40-1183 failed during the night shift",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "67400d819b60d395",
+   "label": "VALID",
+   "reason": "A person known only by role, not named in this chunk; kind.",
+   "evidence": "as agreed with her group leader",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6a88369620b9a73e",
+   "label": "VALID",
+   "reason": "An object; 'standby' tells this pump apart; common noun, kind.",
+   "evidence": "check that the standby pump is available",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "702dd625649b4c75",
+   "label": "VALID",
+   "reason": "A fault of the corer written as a verb (In 3); kind.",
+   "evidence": "the corer jammed at 5 m and was freed by J. Pike",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "727871598cd14f5e",
+   "label": "VALID",
+   "reason": "A works project the text says something about, written as a common noun phrase, verbatim; kind.",
+   "evidence": "Councillor Priya Nandakumar welcomed the second drainage phase",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "76449352f6f8a93f",
+   "label": "VALID",
+   "reason": "A property the text says something about (it dropped); verbatim, kind.",
+   "evidence": "Flow on the North main dropped to 31 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7b0c461707898302",
+   "label": "VALID",
+   "reason": "An incident or fault of the pump written as a verb (In 3); kind.",
+   "evidence": "KV12-0457, tripped three times in the first week of May",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "802ee6e5b2355c9f",
+   "label": "VALID",
+   "reason": "Next year's budget is a thing the text says something about (the resurfacing was moved into it); kind.",
+   "evidence": "has now been moved to next year's budget",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8eca25d69c7ea8da",
+   "label": "VALID",
+   "reason": "A named person; the title 'Site engineer' is correctly left out; particular.",
+   "evidence": "Site engineer Tomasz Wren wrote",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8f800974a330b68d",
+   "label": "INCORRECT",
+   "reason": "'during the night shift' gives a time, which is Out 4.",
+   "evidence": "failed during the night shift",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "91bddee8fd8012a0",
+   "label": "VALID",
+   "reason": "A property the text says something about (the pump vibrates at high ones); kind.",
+   "evidence": "the flume pump vibrates at high flow rates",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "92c4b9087beb6384",
+   "label": "INCORRECT",
+   "reason": "Switching a standby pump to duty is the ordinary operation of the pump, not a fault or a work done to it, and it is a verb phrase (Out 8).",
+   "evidence": "until HP40-2291 was switched to duty",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9526e1b32cff1918",
+   "label": "VALID",
+   "reason": "A property of each core whose values the text gives; kind.",
+   "evidence": "depth 5.1 m, pH 3.9",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "953780ffaed773fd",
+   "label": "VALID",
+   "reason": "A work done to the pump (replacing its seal); kind.",
+   "evidence": "tagged HP40-2291 for a seal change",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "95f2e081fbfd77c4",
+   "label": "VALID",
+   "reason": "The water that flooded the dry well is a thing the text says something about; kind.",
+   "evidence": "About 3,000 litres of water flooded the dry well",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "97dcb26349aa92dc",
+   "label": "INCORRECT",
+   "reason": "Not a proper name: the common noun 'cores' qualified by the place Aldmoor (like 'Skylark 30 ferries'), so the class particular is wrong.",
+   "evidence": "the first results from the Aldmoor cores",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9b261ca52345bd3b",
+   "label": "INCORRECT",
+   "reason": "'surface' is only the reference point of a measurement, part of a quantity (Out 4), not a thing the text says something about.",
+   "evidence": "water table 12 cm below surface",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a30b369d350a069a",
+   "label": "VALID",
+   "reason": "A fault said to be absent (In 4); kind.",
+   "evidence": "No leaks were found on HP40-2291",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a6c66369e14d2ec5",
+   "label": "VALID",
+   "reason": "The committee meeting is an event the text says something about (closed at 15:55); kind.",
+   "evidence": "Aiko Tanaka closed the meeting at 15:55.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a6efed414eb52900",
+   "label": "VALID",
+   "reason": "A fault said to be absent (In 4); 'seal' tells it apart; kind.",
+   "evidence": "No seal failures were recorded in 2024.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a96ab89f57f5c6eb",
+   "label": "VALID",
+   "reason": "A common noun for the pump the text says something about (ran dry), not in apposition with a name; kind.",
+   "evidence": "we do not accept that the pump ran dry",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "aadc2efa121c1b4a",
+   "label": "VALID",
+   "reason": "The footbridge is withdrawn from use during the works, a state written as a verb (In 3); kind.",
+   "evidence": "The footbridge will be closed from 3 February while its railings and deck boards are renewed.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ab3b26e2d98cee80",
+   "label": "VALID",
+   "reason": "A property the text gives a value for; kind.",
+   "evidence": "water table 12 cm below surface",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ab65642247239d19",
+   "label": "VALID",
+   "reason": "A work that makes a thing (the flume), written in the verb form the text uses; kind.",
+   "evidence": "has finished building a 12-metre sediment flume",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ac5c0ddf41dff117",
+   "label": "VALID",
+   "reason": "An organisation known only by its role; kind.",
+   "evidence": "The old seal was kept for the vendor.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b1a6a512d2469b56",
+   "label": "VALID",
+   "reason": "A named award, verbatim, without the leading determiner; particular.",
+   "evidence": "received this year's Hensley Field-Work Award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b59c5d64e67ef93c",
+   "label": "VALID",
+   "reason": "A state (the project's budget overrun) the text says something about; kind.",
+   "evidence": "she asked the project lead to explain the overrun",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b850bc80de717024",
+   "label": "VALID",
+   "reason": "The library's closure during the roof works is a state of a thing written as a verb (In 3); kind.",
+   "evidence": "when the library closes for four weeks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bbc9f7a6d230e587",
+   "label": "VALID",
+   "reason": "A piece of the flume the text says something about (formed ripples); kind.",
+   "evidence": "the bed formed ripples within an hour",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bcd0934ab7188995",
+   "label": "INCORRECT",
+   "reason": "A common noun ('travel budget') with a year, not a proper name, so the class particular is wrong.",
+   "evidence": "60 percent of the 2025 travel budget has been spent",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bedf4b3d8e277363",
+   "label": "VALID",
+   "reason": "Objects the text says something about (she bakes them); kind.",
+   "evidence": "bakes rye bread and pastries every morning from five",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bf5e8a783fa998c0",
+   "label": "VALID",
+   "reason": "A work done to the pump; kind.",
+   "evidence": "Delgado tagged it for a seal replacement within two weeks.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c2a17fd8a04a41ed",
+   "label": "INCORRECT",
+   "reason": "The field log is the document itself (Out 5).",
+   "evidence": "Brackwater fen field log, spring 2025, kept by S. Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "cb4e82004bd370c3",
+   "label": "VALID",
+   "reason": "People known only by their role, not in apposition with a name; kind.",
+   "evidence": "Two of our researchers attended the European peat conference in Utrecht",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d21579d4632da4fa",
+   "label": "VALID",
+   "reason": "The writer is named, and a name is an entry; particular.",
+   "evidence": "Written by Tomasz Wren for new operators.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d699f2a47a7b2a49",
+   "label": "VALID",
+   "reason": "A name inside a form of address is an entry (Out 5 exception); an organisation, particular.",
+   "evidence": "Dear Riverton Water,",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e03026d9211c98c4",
+   "label": "VALID",
+   "reason": "A work done to the pumps (an inspection) written as a verb (In 3); kind.",
+   "evidence": "Technician Rosa Delgado inspected both Hydra P-40 pumps",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e13f7982ac45d0e4",
+   "label": "VALID",
+   "reason": "A work done to the street, which the text says something about; kind.",
+   "evidence": "I hope the resurfacing starts before winter",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e17c802ad8a56ef4",
+   "label": "VALID",
+   "reason": "An incident the text says something about (cleared remotely); kind.",
+   "evidence": "alarm from Harbour Station at 03:10, cleared remotely",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e598175c464c66d1",
+   "label": "INCORRECT",
+   "reason": "The common noun 'Core' sits next to the identifier; by Out 9 (like 'ferry T-4471') the entry is AB-19 alone.",
+   "evidence": "Core AB-19, 10 December",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e5a91f59d7116033",
+   "label": "VALID",
+   "reason": "Works done to things (the footbridge and the library roof) that the text says the council voted on; kind.",
+   "evidence": "Council votes on two repairs",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e72372d0ac68c806",
+   "label": "VALID",
+   "reason": "A named place (the town), verbatim; particular.",
+   "evidence": "Riverton sets its 2025 works budget",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "edd046fed66d3d48",
+   "label": "VALID",
+   "reason": "Objects the text says something about (off during the power cut), not in apposition with names; kind.",
+   "evidence": "when both pumps were off",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f2a0064bcd3047f7",
+   "label": "VALID",
+   "reason": "A piece of the footbridge that is renewed; kind.",
+   "evidence": "while its railings and deck boards are renewed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f83099de02465ef6",
+   "label": "INCORRECT",
+   "reason": "Being on duty is the ordinary operation of the pump, not a fault, state or work the text reports (Out 8).",
+   "evidence": "Pump returned to duty the same day.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f912674cb8740472",
+   "label": "VALID",
+   "reason": "The method of a work (taking cores) is a thing the text says something about (Osei came to learn it); kind.",
+   "evidence": "to learn the coring method",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "291c7ac15664f7da",
+  "4455a288aaaae799",
+  "4e7a5778d5e388e0",
+  "5b1a0a4aae62f9c1",
+  "75d8459634ca|east railing",
+  "8f800974a330b68d",
+  "92c4b9087beb6384",
+  "97dcb26349aa92dc",
+  "9b261ca52345bd3b",
+  "a96ab89f57f5c6eb",
+  "bcd0934ab7188995",
+  "bf5e8a783fa998c0",
+  "c2a17fd8a04a41ed",
+  "e17c802ad8a56ef4",
+  "e598175c464c66d1",
+  "e72372d0ac68c806",
+  "f83099de02465ef6",
+  "f912674cb8740472"
+ ],
+ "changes": []
+}

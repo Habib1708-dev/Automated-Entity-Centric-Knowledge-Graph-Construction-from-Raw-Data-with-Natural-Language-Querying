@@ -243,23 +243,31 @@ REPORTED = {
     ("furniture", "r77d"): ((23, 75), (39, 75), None),
     ("furniture", "r102"): ((57, 75), (70, 75), (45, 57)),
     ("furniture", "r105"): ((51, 75), (66, 75), (53, 60)),
+    ("furniture", "r103"): ((53, 75), (68, 75), (54, 59)),
     ("heldout", "r77d"): ((32, 125), (45, 125), None),
     ("heldout", "r102"): ((94, 125), (111, 125), (51, 55)),
     ("heldout", "r105"): ((98, 125), (112, 125), (51, 59)),
+    ("heldout", "r103"): ((100, 125), (116, 125), (55, 59)),
     ("generality", "r77d"): ((37, 109), (49, 109), None),
     ("generality", "r102"): ((80, 109), (97, 109), (41, 58)),
     ("generality", "r105"): ((85, 109), (99, 109), (53, 60)),
+    ("generality", "r103"): ((88, 109), (103, 109), (49, 60)),
 }
 
 
 @pytest.mark.parametrize(("dataset", "build"), sorted(REPORTED))
 def test_mention_verdicts_answer_their_sheets_and_score_as_reported(dataset, build):
-    folder = R102.parent / ("r105" if build == "r105" else "r102") / dataset
+    folder = R102.parent / (build if build in ("r103", "r105") else "r102") / dataset
     sheet = MentionSheet.model_validate_json(
         (folder / f"mentions_{build}_sheet.json").read_text(encoding="utf-8")
     )
     verdicts = load_verdicts(folder / f"mentions_{build}_verdicts.json", sheet.to_judge())
-    assert mention_evidence_issues(sheet, verdicts) == [] and verdicts.changes == []
+    assert mention_evidence_issues(sheet, verdicts) == []
+    # the one lead change: R103 held-out's "MULTIPLE OUTBACKS", INCORRECT -> AMBIGUOUS (its class reads both
+    # ways)
+    assert [c.id for c in verdicts.changes] == (
+        ["46d8fbe6280c2ded"] if (dataset, build) == ("heldout", "r103") else []
+    )
     scores = score_mentions(sheet, verdicts)
     exact, mapped, precision = REPORTED[(dataset, build)]
     assert (scores.recall_exact.k, scores.recall_exact.n) == exact

@@ -1,0 +1,1212 @@
+{
+ "dataset": "heldout",
+ "judge_model": "claude-opus-5-5",
+ "final": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 51,
+      "n": 52,
+      "rate": 0.9807692307692307,
+      "low": 0.8987925373197556,
+      "high": 0.9965972795909344
+     },
+     "strict": {
+      "k": 24,
+      "n": 52,
+      "rate": 0.46153846153846156,
+      "low": 0.3334025986239788,
+      "high": 0.5949662160231659
+     },
+     "worst_case": {
+      "k": 51,
+      "n": 53,
+      "rate": 0.9622641509433962,
+      "low": 0.8724547684904087,
+      "high": 0.9895899311661807
+     },
+     "counts": {
+      "VALID": 24,
+      "VALID_ALTERNATIVE": 27,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 1,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 65,
+      "n": 67,
+      "rate": 0.9701492537313433,
+      "low": 0.8975324995811698,
+      "high": 0.991775477652546
+     },
+     "strict": {
+      "k": 53,
+      "n": 67,
+      "rate": 0.7910447761194029,
+      "low": 0.679279673204875,
+      "high": 0.8712443127017108
+     },
+     "worst_case": {
+      "k": 65,
+      "n": 69,
+      "rate": 0.9420289855072463,
+      "low": 0.8602055747557683,
+      "high": 0.9772279796966324
+     },
+     "counts": {
+      "VALID": 53,
+      "VALID_ALTERNATIVE": 12,
+      "INCORRECT": 2,
+      "AMBIGUOUS": 2,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [
+     "m:f235a1f58888d87e"
+    ],
+    "concept": [
+     "m:9460d96e0955c3ea",
+     "m:d1c1735038dd7ef6"
+    ]
+   },
+   "record_wrong_merges": [
+    "l:46d8fbe6280c2ded:Vehicle:OUTBACK",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "splits": {
+    "accepted": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    },
+    "strict": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    },
+    "worst_case": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    },
+    "counts": {
+     "VALID": 8,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 2,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Particular:nissan customer service",
+    "s:Vehicle:legacy"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.5714285714285714,
+    "apart": 1.0,
+    "scored": 19,
+    "joined": 4,
+    "same_scored": 7,
+    "different_scored": 12,
+    "not_extracted": 4,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "818a575712731626"
+      ],
+      "b_entities": [
+       "818a575712731626"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [
+       "2517ea3ee0b3a4de"
+      ],
+      "b_entities": [
+       "2517ea3ee0b3a4de"
+      ]
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "1f23321c4e5db779"
+      ],
+      "b_entities": [
+       "1f23321c4e5db779"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "ad14e331b2d79b6d"
+      ],
+      "b_entities": [
+       "7141512b939b3f80"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [],
+      "b_entities": [
+       "eeb02896a8f5461f"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:OUTBACK"
+      ]
+     },
+     {
+      "index": 7,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 8,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 10,
+      "same": false,
+      "a_entities": [
+       "90eb9fec9c5a0026"
+      ],
+      "b_entities": [
+       "7141512b939b3f80"
+      ]
+     },
+     {
+      "index": 11,
+      "same": false,
+      "a_entities": [
+       "2f26533e77122925"
+      ],
+      "b_entities": [
+       "0a8eeadf1b5da8bf"
+      ]
+     },
+     {
+      "index": 12,
+      "same": false,
+      "a_entities": [
+       "7656795c850ce65b"
+      ],
+      "b_entities": [
+       "119672b2e774d1b2"
+      ]
+     },
+     {
+      "index": 13,
+      "same": false,
+      "a_entities": [
+       "461ce1925226e0fc"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [
+       "84481f5beb151904"
+      ],
+      "b_entities": [
+       "2517ea3ee0b3a4de"
+      ]
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "a3a07b3571c3a1bc"
+      ],
+      "b_entities": [
+       "a902227dfe07e42f"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "476a2ad53a704598"
+      ],
+      "b_entities": [
+       "c622cc4f0d3d6752"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "73a10deef9b87bf0"
+      ],
+      "b_entities": [
+       "457980565f4112a2"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "321183777719ca09"
+      ],
+      "b_entities": [
+       "4a8e81f49056032b"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "f163ec950b20d03f"
+      ],
+      "b_entities": [
+       "47002e8c60e4787a"
+      ]
+     },
+     {
+      "index": 20,
+      "same": false,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:RAV4"
+      ]
+     },
+     {
+      "index": 21,
+      "same": false,
+      "a_entities": [
+       "e61ef219478e4265"
+      ],
+      "b_entities": [
+       "1aca40d121796592"
+      ]
+     },
+     {
+      "index": 22,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     }
+    ]
+   },
+   "hard_passed": false
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 81,
+     "n": 83,
+     "rate": 0.9759036144578314,
+     "low": 0.9163352895899236,
+     "high": 0.9933669729202098
+    },
+    "strict": {
+     "k": 74,
+     "n": 83,
+     "rate": 0.891566265060241,
+     "low": 0.8065934609334693,
+     "high": 0.9418957423976531
+    },
+    "worst_case": {
+     "k": 81,
+     "n": 83,
+     "rate": 0.9759036144578314,
+     "low": 0.9163352895899236,
+     "high": 0.9933669729202098
+    },
+    "counts": {
+     "VALID": 74,
+     "VALID_ALTERNATIVE": 7,
+     "INCORRECT": 2,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 29,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [
+    "l:46d8fbe6280c2ded:Vehicle:OUTBACK",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "cross_scope_confirmed": [],
+   "flags": [
+    {
+     "flag": "fuzzy_name",
+     "flagged": 1,
+     "confirmed": 1,
+     "refuted": 0,
+     "open": 0
+    },
+    {
+     "flag": "label_mismatch",
+     "flagged": 29,
+     "confirmed": 0,
+     "refuted": 29,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": [
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 85,
+       "n": 85,
+       "rate": 1.0,
+       "low": 0.9567589957857582,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 77,
+       "n": 85,
+       "rate": 0.9058823529411765,
+       "low": 0.8251276663627338,
+       "high": 0.9515355184515875
+      },
+      "worst_case": {
+       "k": 85,
+       "n": 85,
+       "rate": 1.0,
+       "low": 0.9567589957857582,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 77,
+       "VALID_ALTERNATIVE": 8,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 86,
+       "n": 86,
+       "rate": 1.0,
+       "low": 0.9572402984808819,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 78,
+       "n": 86,
+       "rate": 0.9069767441860465,
+       "low": 0.8270407914425881,
+       "high": 0.9521082887162688
+      },
+      "worst_case": {
+       "k": 86,
+       "n": 86,
+       "rate": 1.0,
+       "low": 0.9572402984808819,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 78,
+       "VALID_ALTERNATIVE": 8,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "low": 0.20654329147389294,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "low": 0.20654329147389294,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "low": 0.20654329147389294,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 1,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [],
+   "incorrect_unflagged": []
+  }
+ },
+ "blind": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 51,
+      "n": 52,
+      "rate": 0.9807692307692307,
+      "low": 0.8987925373197556,
+      "high": 0.9965972795909344
+     },
+     "strict": {
+      "k": 24,
+      "n": 52,
+      "rate": 0.46153846153846156,
+      "low": 0.3334025986239788,
+      "high": 0.5949662160231659
+     },
+     "worst_case": {
+      "k": 51,
+      "n": 53,
+      "rate": 0.9622641509433962,
+      "low": 0.8724547684904087,
+      "high": 0.9895899311661807
+     },
+     "counts": {
+      "VALID": 24,
+      "VALID_ALTERNATIVE": 27,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 1,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 65,
+      "n": 67,
+      "rate": 0.9701492537313433,
+      "low": 0.8975324995811698,
+      "high": 0.991775477652546
+     },
+     "strict": {
+      "k": 53,
+      "n": 67,
+      "rate": 0.7910447761194029,
+      "low": 0.679279673204875,
+      "high": 0.8712443127017108
+     },
+     "worst_case": {
+      "k": 65,
+      "n": 69,
+      "rate": 0.9420289855072463,
+      "low": 0.8602055747557683,
+      "high": 0.9772279796966324
+     },
+     "counts": {
+      "VALID": 53,
+      "VALID_ALTERNATIVE": 12,
+      "INCORRECT": 2,
+      "AMBIGUOUS": 2,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [
+     "m:f235a1f58888d87e"
+    ],
+    "concept": [
+     "m:9460d96e0955c3ea",
+     "m:d1c1735038dd7ef6"
+    ]
+   },
+   "record_wrong_merges": [
+    "l:46d8fbe6280c2ded:Vehicle:OUTBACK",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "splits": {
+    "accepted": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    },
+    "strict": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    },
+    "worst_case": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    },
+    "counts": {
+     "VALID": 8,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 2,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Particular:nissan customer service",
+    "s:Vehicle:legacy"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.5714285714285714,
+    "apart": 1.0,
+    "scored": 19,
+    "joined": 4,
+    "same_scored": 7,
+    "different_scored": 12,
+    "not_extracted": 4,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "818a575712731626"
+      ],
+      "b_entities": [
+       "818a575712731626"
+      ]
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [
+       "2517ea3ee0b3a4de"
+      ],
+      "b_entities": [
+       "2517ea3ee0b3a4de"
+      ]
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "1f23321c4e5db779"
+      ],
+      "b_entities": [
+       "1f23321c4e5db779"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "ad14e331b2d79b6d"
+      ],
+      "b_entities": [
+       "7141512b939b3f80"
+      ]
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [],
+      "b_entities": [
+       "eeb02896a8f5461f"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:OUTBACK"
+      ]
+     },
+     {
+      "index": 7,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 8,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 9,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 10,
+      "same": false,
+      "a_entities": [
+       "90eb9fec9c5a0026"
+      ],
+      "b_entities": [
+       "7141512b939b3f80"
+      ]
+     },
+     {
+      "index": 11,
+      "same": false,
+      "a_entities": [
+       "2f26533e77122925"
+      ],
+      "b_entities": [
+       "0a8eeadf1b5da8bf"
+      ]
+     },
+     {
+      "index": 12,
+      "same": false,
+      "a_entities": [
+       "7656795c850ce65b"
+      ],
+      "b_entities": [
+       "119672b2e774d1b2"
+      ]
+     },
+     {
+      "index": 13,
+      "same": false,
+      "a_entities": [
+       "461ce1925226e0fc"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [
+       "84481f5beb151904"
+      ],
+      "b_entities": [
+       "2517ea3ee0b3a4de"
+      ]
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [
+       "a3a07b3571c3a1bc"
+      ],
+      "b_entities": [
+       "a902227dfe07e42f"
+      ]
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [
+       "476a2ad53a704598"
+      ],
+      "b_entities": [
+       "c622cc4f0d3d6752"
+      ]
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [
+       "73a10deef9b87bf0"
+      ],
+      "b_entities": [
+       "457980565f4112a2"
+      ]
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [
+       "321183777719ca09"
+      ],
+      "b_entities": [
+       "4a8e81f49056032b"
+      ]
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [
+       "f163ec950b20d03f"
+      ],
+      "b_entities": [
+       "47002e8c60e4787a"
+      ]
+     },
+     {
+      "index": 20,
+      "same": false,
+      "a_entities": [
+       "Vehicle:OUTBACK"
+      ],
+      "b_entities": [
+       "Vehicle:RAV4"
+      ]
+     },
+     {
+      "index": 21,
+      "same": false,
+      "a_entities": [
+       "e61ef219478e4265"
+      ],
+      "b_entities": [
+       "1aca40d121796592"
+      ]
+     },
+     {
+      "index": 22,
+      "same": true,
+      "a_entities": [
+       "7a85e307148b959a"
+      ],
+      "b_entities": [
+       "15d1e88410835aac"
+      ]
+     }
+    ]
+   },
+   "hard_passed": false
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 81,
+     "n": 83,
+     "rate": 0.9759036144578314,
+     "low": 0.9163352895899236,
+     "high": 0.9933669729202098
+    },
+    "strict": {
+     "k": 74,
+     "n": 83,
+     "rate": 0.891566265060241,
+     "low": 0.8065934609334693,
+     "high": 0.9418957423976531
+    },
+    "worst_case": {
+     "k": 81,
+     "n": 83,
+     "rate": 0.9759036144578314,
+     "low": 0.9163352895899236,
+     "high": 0.9933669729202098
+    },
+    "counts": {
+     "VALID": 74,
+     "VALID_ALTERNATIVE": 7,
+     "INCORRECT": 2,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 29,
+     "n": 29,
+     "rate": 1.0,
+     "low": 0.8830264055344442,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 29,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [
+    "l:46d8fbe6280c2ded:Vehicle:OUTBACK",
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "cross_scope_confirmed": [],
+   "flags": [
+    {
+     "flag": "fuzzy_name",
+     "flagged": 1,
+     "confirmed": 1,
+     "refuted": 0,
+     "open": 0
+    },
+    {
+     "flag": "label_mismatch",
+     "flagged": 29,
+     "confirmed": 0,
+     "refuted": 29,
+     "open": 0
+    }
+   ],
+   "incorrect_unflagged": [
+    "l:8c6f9fa48d339e85:Vehicle:ROGUE"
+   ],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 85,
+       "n": 85,
+       "rate": 1.0,
+       "low": 0.9567589957857582,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 77,
+       "n": 85,
+       "rate": 0.9058823529411765,
+       "low": 0.8251276663627338,
+       "high": 0.9515355184515875
+      },
+      "worst_case": {
+       "k": 85,
+       "n": 85,
+       "rate": 1.0,
+       "low": 0.9567589957857582,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 77,
+       "VALID_ALTERNATIVE": 8,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 86,
+       "n": 86,
+       "rate": 1.0,
+       "low": 0.9572402984808819,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 78,
+       "n": 86,
+       "rate": 0.9069767441860465,
+       "low": 0.8270407914425881,
+       "high": 0.9521082887162688
+      },
+      "worst_case": {
+       "k": 86,
+       "n": 86,
+       "rate": 1.0,
+       "low": 0.9572402984808819,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 78,
+       "VALID_ALTERNATIVE": 8,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "strict": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "worst_case": {
+       "k": 69,
+       "n": 69,
+       "rate": 1.0,
+       "low": 0.9472609058559944,
+       "high": 1.0
+      },
+      "counts": {
+       "VALID": 69,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [],
+    "layered": []
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "low": 0.20654329147389294,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "low": 0.20654329147389294,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "low": 0.20654329147389294,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 1,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [],
+   "incorrect_unflagged": []
+  }
+ },
+ "impact": {
+  "m:9460d96e0955c3ea": [],
+  "m:d1c1735038dd7ef6": [],
+  "m:f235a1f58888d87e": [],
+  "s:Particular:nissan customer service": [],
+  "s:Vehicle:legacy": [],
+  "l:8c6f9fa48d339e85:Vehicle:ROGUE": [
+   "H51"
+  ],
+  "l:46d8fbe6280c2ded:Vehicle:OUTBACK": [
+   "H05",
+   "H46"
+  ]
+ }
+}

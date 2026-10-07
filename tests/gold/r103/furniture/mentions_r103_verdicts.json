@@ -1,0 +1,647 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "42d381de0cb5",
+  "sheet": "tests/gold/r103/furniture/mentions_r103_sheet.json",
+  "sheet_hash": "9e7abd0e00ce",
+  "sheets_git_sha": "916545b3434dc3082dea6b3ec615d8e3df50bac4"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "fba959404def|assembly",
+   "label": "VALID",
+   "reason": "The candidate is a clause, but its head is this same assembly; the extra words are only an evaluation of it.",
+   "evidence": "Assembly was straightforward",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bab9cfffad57|align",
+   "label": "VALID",
+   "reason": "'align properly' is the same failure of the rails to align, with only a manner word added.",
+   "evidence": "they wouldn't align properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ad1cf2931e18|assembly",
+   "label": "VALID",
+   "reason": "The candidate clause is headed by the same assembly of the dresser; the rest is an evaluation.",
+   "evidence": "assembly was the worst experience ever",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3d5dfdd640c2|scratches",
+   "label": "VALID",
+   "reason": "The candidate is the same scratching fault of the surface, with only a manner phrase added.",
+   "evidence": "the surface scratches pretty easily",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fabdf02dd987|chipping",
+   "label": "VALID",
+   "reason": "The candidate is the same chipping of the veneer, with its location added.",
+   "evidence": "already chipping at the corners",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "03f30793962b|opens",
+   "label": "VALID",
+   "reason": "'opens smoothly' is the same drawer opening the sentence says no longer works, with only a manner word added.",
+   "evidence": "no longer opens smoothly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4ac19f9fe1ca|photos",
+   "label": "INCORRECT",
+   "reason": "The candidate names how the lamp looks, not the photos.",
+   "evidence": "looks nice in photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1d46909272e9|cushion density",
+   "label": "VALID",
+   "reason": "'density' occurs in this chunk only as the cushion density, so that candidate names the same thing ('cushion' alone would not).",
+   "evidence": "The cushion density",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e2771e583020|chip",
+   "label": "VALID",
+   "reason": "'small chip' is the same chip on the leg, with only a size word added.",
+   "evidence": "arrived with a small chip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b7dc9a6c914e|size",
+   "label": "VALID",
+   "reason": "'perfect size' is the same size of the sofa, with only an evaluative word added.",
+   "evidence": "the perfect size for our apartment living room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fba959404def|included tools",
+   "label": "VALID",
+   "reason": "the chunk's only tools are the included tools, so the candidate 'tools' names the same thing",
+   "evidence": "the included tools were adequate",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "17e03ba48abb|stick",
+   "label": "VALID",
+   "reason": "candidate 'constantly stick' names the same sticking fault of the drawers, with a degree word added",
+   "evidence": "They constantly stick",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "17e03ba48abb|scraping sound",
+   "label": "VALID",
+   "reason": "candidate is a longer span around the same scraping sound and leads to it",
+   "evidence": "make an annoying scraping sound",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3d5dfdd640c2|marks",
+   "label": "VALID",
+   "reason": "candidate is a longer span whose thing is the same marks on the surface",
+   "evidence": "already got a few marks just from setting down my laptop",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "03f30793962b|crack",
+   "label": "VALID",
+   "reason": "candidate 'started to crack' names the same cracking fault of the slats",
+   "evidence": "the slats have started to crack",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b360e5534c18|online photos",
+   "label": "INCORRECT",
+   "reason": "the candidate names the colour mismatch (the colour being darker), not the online photos",
+   "evidence": "the color is slightly darker than it appeared in the online photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "863357bcf8fb|support",
+   "label": "VALID",
+   "reason": "candidate 'providing great support' names the same support the sofa gives",
+   "evidence": "providing great support",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "10942da3945cde18",
+   "label": "VALID",
+   "reason": "a room the lamp is placed in, a kind of place a question could start from; common noun so kind",
+   "evidence": "a stunning addition to my living room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1307367dc2aeb9bb",
+   "label": "VALID",
+   "reason": "materials are an object kind the text says something about (their quality is low)",
+   "evidence": "the quality of materials is much lower than expected",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "18852cf91eb0d2ff",
+   "label": "VALID",
+   "reason": "quality is a property the text says something about (lower than expected); kind",
+   "evidence": "the quality of materials is lower than expected",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1d1a90e5429f4a7e",
+   "label": "INCORRECT",
+   "reason": "'warm' is a descriptive adjective of the light quality, not a thing (Out 1)",
+   "evidence": "warm without being yellow",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1f31a1dc51da7f64",
+   "label": "VALID",
+   "reason": "the spill on the sofa is an incident affecting the thing, written as a verb (In 3)",
+   "evidence": "our toddler spilled juice on it last week",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2bffd19af54ae071",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@interior_whiz (Miami)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2e239769fa1c2ea0",
+   "label": "VALID",
+   "reason": "the construction the text describes; 'solid wood' tells it apart; kind",
+   "evidence": "The solid wood construction gives it a substantial feel",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "31cc9f3c96b68fc8",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@designer_dave (Portland)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "324603c744a0948e",
+   "label": "VALID",
+   "reason": "an organisation known only by its role; common noun so kind",
+   "evidence": "customer service was quick to send a replacement",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3a3267c4d83373d2",
+   "label": "VALID",
+   "reason": "washing the covers is a cleaning work done to a thing, written as a verb (In 3)",
+   "evidence": "the removable covers have been washed multiple times",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3de1a4561b09a9e5",
+   "label": "VALID",
+   "reason": "the reviewer's handle is a name of a person, not a bare reference to the writer; particular",
+   "evidence": "@wfh_warrior (San Francisco)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4363b913351778fd",
+   "label": "VALID",
+   "reason": "an object kind the text says the shelf suits; 'art' tells it apart",
+   "evidence": "the shelf underneath is perfect for my art books",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "43c916e857118fb3",
+   "label": "INCORRECT",
+   "reason": "a figurative evaluation of the dresser; no actual warning label is spoken of (Out 3)",
+   "evidence": "This dresser should come with a warning label!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4823a248c4f9e8da",
+   "label": "VALID",
+   "reason": "a place kind the chair is said to fit in; common noun so kind",
+   "evidence": "fits perfectly in my apartment",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4d95535679763736",
+   "label": "VALID",
+   "reason": "writer called by what they are is a role (Out 5 note, In 2); kind",
+   "evidence": "As a furniture maker with 20 years of experience",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4f44b70798a379d9",
+   "label": "VALID",
+   "reason": "the replacement sent is an object (replacement part) the text speaks of; kind",
+   "evidence": "customer service was quick to send a replacement",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "521863aad1754ec9",
+   "label": "VALID",
+   "reason": "an object kind sent by customer service; shortest span; kind",
+   "evidence": "sending a replacement part",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "56e509db9201a344",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@designer_dave (Portland)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5edf087610bfef45",
+   "label": "VALID",
+   "reason": "the reviewer's handle names a person; particular",
+   "evidence": "@familyfirst (Denver)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "684c47e4f299e623",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@college_student (Boston)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6ee8aaea0b0d1881",
+   "label": "VALID",
+   "reason": "attaching the shade to the base is a fitting work done to a thing, written as a verb (In 3)",
+   "evidence": "just attach the shade to the base",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6f8da8a9a88f8c55",
+   "label": "VALID",
+   "reason": "the desk's construction is a property the text says something about (solid); kind",
+   "evidence": "Construction is solid with proper joinery techniques evident throughout",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "72f49a52d4c7211c",
+   "label": "VALID",
+   "reason": "sanding is a work done to the surface; kind",
+   "evidence": "with proper sanding between coats",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "74f06105715c4e2e",
+   "label": "VALID",
+   "reason": "an object kind the drawers are said to hold; kind",
+   "evidence": "the storage drawers are perfect for extra linens",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "76a0531144e1f661",
+   "label": "VALID",
+   "reason": "density is a property the text says something about (gives the balance); kind",
+   "evidence": "The cushion density",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7f49c8da203c42d1",
+   "label": "VALID",
+   "reason": "the mattress is an object the slats are said to support; kind",
+   "evidence": "The slats provide excellent mattress support",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "866cf95863ba7691",
+   "label": "VALID",
+   "reason": "marks are a damage state of the nightstand; kind",
+   "evidence": "I already have several marks just from normal use",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "86cc3e1466f9669b",
+   "label": "VALID",
+   "reason": "a design style the text says something about (timeless); a common noun phrase, so kind",
+   "evidence": "Scandinavian design continues to be timeless",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "86e2fbc5b0e7296a",
+   "label": "VALID",
+   "reason": "an object kind the chairs were bought for; kind",
+   "evidence": "I purchased six of these chairs for my dining table",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "892b1c31b1bd0b1b",
+   "label": "VALID",
+   "reason": "a piece of the bed's frame; kind",
+   "evidence": "reinforced corner blocks and center supports",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "965202af59351a15",
+   "label": "VALID",
+   "reason": "a room the sofa is said to fit; common noun so kind",
+   "evidence": "our Scandinavian-inspired living room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9d0cb47fd0ec9999",
+   "label": "VALID",
+   "reason": "the reviewer's handle names a person; particular",
+   "evidence": "@petite_patty (Nashville)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ff5aca381c97968",
+   "label": "VALID",
+   "reason": "people known by their role (guests) who comment on the bed; kind",
+   "evidence": "our guests have commented on how comfortable it is",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a20be9beae183cee",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@familyfirst (Denver)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a373d85483409c14",
+   "label": "VALID",
+   "reason": "an object kind the text speaks of; kind",
+   "evidence": "I've purchased many bookshelves over the years",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a62113fe55df4e87",
+   "label": "VALID",
+   "reason": "assembly is a work that makes the thing; kind",
+   "evidence": "Assembly took about 2 hours with two people",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a8c5306bc13e6b94",
+   "label": "VALID",
+   "reason": "writer called by what they are is a role; kind",
+   "evidence": "As a librarian with an extensive home collection",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b01cdf82f5ec720c",
+   "label": "VALID",
+   "reason": "a piece of the covers the text says something about; kind",
+   "evidence": "well-executed pattern matching at the seams",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b51c5d312305eed9",
+   "label": "INCORRECT",
+   "reason": "'trash day' is a time reference (until trash day), not a thing (Out 4)",
+   "evidence": "sitting in my garage waiting for trash day",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b71f2fe0f8eb1f7d",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@college_student (Boston)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bacfcfac9b9f608a",
+   "label": "INCORRECT",
+   "reason": "'unit' is a generic word inside a rate quantity (Out 4, Out 7)",
+   "evidence": "took about 30 minutes per unit",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bbee958a0788c043",
+   "label": "VALID",
+   "reason": "adjusting the wobbly table is a repair work done to it, written as a verb (In 3)",
+   "evidence": "despite attempts to adjust it",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c27cca4ffcd67372",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@home_chef (Chicago)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c3cdf8915e430fa9",
+   "label": "VALID",
+   "reason": "a room the chair is said to look nice in; kind",
+   "evidence": "it still looks nice in my dining room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c442c14033d3b7c3",
+   "label": "VALID",
+   "reason": "a piece of the bed's frame; kind",
+   "evidence": "reinforced corner blocks and center supports",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c5b981743fd2f08e",
+   "label": "VALID",
+   "reason": "footprint is a property the text says something about (conserves space); kind",
+   "evidence": "the minimal footprint (22cm diameter) conserves space efficiently",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c5dae9467b481c2b",
+   "label": "VALID",
+   "reason": "a room the lamp is placed in; kind",
+   "evidence": "lamp looks super cute in my bedroom!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c694ef5839d8d622",
+   "label": "VALID",
+   "reason": "the reviewed object, called by a common noun, so kind",
+   "evidence": "vibes are immaculate with this chair!!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c6d3ea4aa1d66227",
+   "label": "VALID",
+   "reason": "the reviewer's handle names a person; particular",
+   "evidence": "@angry_customer (New York)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "cc0aba50d5ca514c",
+   "label": "VALID",
+   "reason": "the reviewer's handle names a person; particular",
+   "evidence": "@angry_customer (New York)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "da2ccd52e2d75fea",
+   "label": "VALID",
+   "reason": "the cats whose clawing the fabric withstands are a thing a question could start from; kind",
+   "evidence": "has held up well to our cats' occasional clawing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "de5d7974b590a609",
+   "label": "VALID",
+   "reason": "price is a property the text says something about (reasonable); kind",
+   "evidence": "quality pieces at a reasonable price",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e05082ec8c2a906f",
+   "label": "VALID",
+   "reason": "an organisation known only by its role; kind",
+   "evidence": "customer service was helpful in sending a replacement part",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e38d92a8c5eb8fe4",
+   "label": "AMBIGUOUS",
+   "reason": "can be read as the product's identifier (In 1) or as a fragment of the source URL (Out 5)",
+   "evidence": "Scraped from https://www.between2furns.com/Malmo-Desk/dp/B0BQJWJWJW",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e500aa4a86b3da14",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@interior_whiz (Miami)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eb104db356c9e527",
+   "label": "INCORRECT",
+   "reason": "'quality' sits inside a value-for-money evaluation and no property is described (Out 3, Out 7)",
+   "evidence": "This desk represents exceptional value for the quality provided.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ebf0bffc291cd5b8",
+   "label": "VALID",
+   "reason": "the material of the shade, which the text describes; 'shade' tells it apart; kind",
+   "evidence": "The shade material has precisely calculated opacity",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f2293e66bc426ad4",
+   "label": "VALID",
+   "reason": "named place, verbatim; particular",
+   "evidence": "@scandi_lover (Minneapolis)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f58b4d620a96d2bf",
+   "label": "VALID",
+   "reason": "a workspace is an object kind the text says something about (functional, pleasing); kind",
+   "evidence": "I require a workspace that is both functional and aesthetically pleasing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fa0013ad4f319e2a",
+   "label": "VALID",
+   "reason": "support is a property the text says the density balances; kind",
+   "evidence": "the perfect balance between support and comfort",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "1d1a90e5429f4a7e",
+  "31cc9f3c96b68fc8",
+  "3d5dfdd640c2|marks",
+  "43c916e857118fb3",
+  "4823a248c4f9e8da",
+  "4ac19f9fe1ca|photos",
+  "b360e5534c18|online photos",
+  "b51c5d312305eed9",
+  "b71f2fe0f8eb1f7d",
+  "bacfcfac9b9f608a",
+  "e38d92a8c5eb8fe4",
+  "eb104db356c9e527",
+  "f2293e66bc426ad4",
+  "fa0013ad4f319e2a",
+  "fba959404def|assembly"
+ ],
+ "changes": []
+}

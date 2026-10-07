@@ -22,6 +22,9 @@ items, make no wrong join, and score as reported.
 R102's (the three rebuilds with the r77d claims and R97-R101) must carry R100's verdicts for byte-identical
 items, have every other one reviewed or blind, and score as reported: no wrong join of individuals, and the
 new wrong splits are the pass's same-named individuals.
+R103's (the rebuilds with re-extracted claims and R97-R106) must carry R102's verdicts for byte-identical
+items, keep every lead review without a change, and score as reported: held-out's wrong join of two
+complaints' cars, its two record links, and furniture's "dimmer" join that R75's identity gold keeps apart.
 No Neo4j, no LLM.
 """
 
@@ -987,5 +990,50 @@ def test_r102_verdicts_answer_their_sheets_carry_r100s_and_score_as_reported(dat
         "heldout": {"s:Particular:toyota"},
         "generality": {"s:Place:mill lane", "s:Place:room b12", "s:Place:town hall", "s:Person:tomasz wren",
                        "s:Place:children's section", "s:Place:harbour street", "s:Place:riverton"},
+    }[dataset]  # fmt: skip
+    assert set(report.final.c3.wrong_splits) == wrong_splits
+
+
+# --- the committed results of R103 (the rebuilds with re-extracted claims and R97-R106) ---------------------
+
+R103 = GOLD / "r103"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r103_verdicts_answer_their_sheets_carry_r102s_and_score_as_reported(dataset):
+    base = R103 / dataset
+    for name, model in SHEET_MODELS.items():
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        old = load_verdicts(R102 / dataset / f"{name}_verdicts.json", _ids(R102 / dataset, name))
+        before, after = _sheet_items(R102 / dataset, name), _sheet_items(base, name)
+        same = {i for i in after if before.get(i) == after[i]}
+        final, earlier = file.final(), old.final()
+        assert all(final[i] == earlier[i] for i in same)  # a byte-identical item keeps its verdict
+        assert file.changes == []  # the lead reviewed and changed no C3, C4 or C6 verdict
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert report.final.c4.hard_passed and all(report.final.c6.hard_passed.values())
+    # held-out's one wrong individual merge: two complaints' cars, pass mentions stated kind of a keyed type
+    assert report.final.c3.wrong_merges.get("individual", []) == (
+        ["m:f235a1f58888d87e"] if dataset == "heldout" else []
+    )
+    assert report.final.c3.record_wrong_merges == (
+        ["l:46d8fbe6280c2ded:Vehicle:OUTBACK", "l:8c6f9fa48d339e85:Vehicle:ROGUE"]
+        if dataset == "heldout"
+        else []
+    )
+    pairs = report.final.c3.identity_pairs
+    # furniture: "dimmer" now joins "dimmer switch" and "dimmer function", which R75's gold keeps apart
+    expected = {
+        "furniture": (11 / 12, 32 / 33, 11 / 14),
+        "heldout": (1.0, 1.0, 4 / 7),
+        "generality": (1.0, 1.0, 1.0),
+    }
+    assert (pairs.precision, pairs.apart, pairs.recall) == pytest.approx(expected[dataset])
+    wrong_splits = {
+        "furniture": {"s:Particular:austin", "s:Particular:seattle"},
+        "heldout": {"s:Particular:nissan customer service", "s:Vehicle:legacy"},
+        "generality": {"s:Place:mill lane", "s:Place:room b12", "s:Place:town hall", "s:Person:tomasz wren",
+                       "s:Place:riverton"},
     }[dataset]  # fmt: skip
     assert set(report.final.c3.wrong_splits) == wrong_splits

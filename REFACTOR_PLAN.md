@@ -6040,7 +6040,7 @@ otherwise than the R101 gold, then R103 (asked with its own estimate). Wording o
   resolution.
 - **R106 done 2026-10-07.** Next: R103, asked with this estimate.
 
-### R103. Rebuild with re-extracted claims, and evaluate everything (in progress 2026-10-07)
+### R103. Rebuild with re-extracted claims, and evaluate everything (done 2026-10-07; $2.374)
 The second rebuild of the R97-R103 plan, end to end: the claims extracted again with today's extraction
 prompt (R81, R82 since r77d) and every change of R97-R106 in place, so the graph is the one the pipeline now
 builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pipeline. The user agreed on
@@ -6080,6 +6080,85 @@ builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pi
     `runs.json` (commands, runs, costs, approval). Test
     `test_r103_rebuild_logged_the_pinned_corpus_every_stage_and_its_cost`: documents and chunks equal r77d's,
     every stage counted, the cost adds up.
+- **Part b: the evaluation (done 2026-10-07, $0: no API call).** `kg audit-snapshot`, `kg anchor-eval` (both
+  arms), `kg anchor-sheets` and `kg mention-eval` on `out/r103_<ds>`, offline; **C0 passed on all three**.
+  Arm C (vector) is not re-embedded: the chunks are r77d's (the part a test), so C5 pairs with R92's own
+  rankings, recomputed from the committed reports (`compare_arms`; the same computation reproduces R102's
+  table). Sheets committed at `916545b` before any verdict.
+  - **Judging** (Claude Opus 5.5; rules `tests/gold/r93/rules/c3.md`, `c4.md`, `c6.md` unchanged and
+    `tests/gold/r103/mention_judge_rules.md`): items byte-identical to R102's carry its verdicts (C3 76 / 81 /
+    60, C4 47 / 101 / 45, C6 138 / 132 / 116, mention recall candidates 10 / 13 / 13); the other 456 (C3 170,
+    C4 32, C6 62, mentions 192) were judged in 19 blind batches, each judge seeing only its rules and batch.
+    The lead reviewed every INCORRECT, AMBIGUOUS and UNJUDGEABLE verdict and the seeded 10 % of VALID ones
+    (165 items, carried ones included): **one change**, held-out's pass mention "OUTBACKS" ("HAD MULTIPLE
+    OUTBACKS IN THE PAST", stated kind) INCORRECT -> AMBIGUOUS: the class rule makes a particular one
+    individual thing called by its own name, the cars here are several, while the gold treats model names as
+    particulars; the text supports both.
+  - `kg anchor-judged` and `kg mention-eval --verdicts` on the three rebuilds. Committed per dataset:
+    `anchor_anchor.json`, `anchor_layered.json`, `fidelity.json`, `code_checks.json`, the C3 / C4 / C6 sheets,
+    code sides and verdicts, `anchor_judged.json`, the mention sheet, verdicts and report. Tests:
+    `test_r103_verdicts_answer_their_sheets_carry_r102s_and_score_as_reported` (tests/test_anchor_judging.py)
+    and R103's rows of `test_mention_verdicts_answer_their_sheets_and_score_as_reported`.
+- **Part c: results** (judge: Claude Opus 5.5; R102 = the rebuild with the r77d claims, R103 = re-extracted;
+  arm A unless named; C5 paired against R92's vector rankings, McNemar; n per row):
+
+  | Criterion | furniture | held-out | generality |
+  |---|---|---|---|
+  | C0 fidelity; C1 provenance | pass; 1.0 | pass; 1.0 | pass; 1.0 |
+  | **Pass precision, judged (bound >= 0.90)** (R102 -> R103) | 45/57 = 0.789 -> **54/59 = 0.915** [0.816, 0.963] | 51/55 = 0.927 -> **55/59 = 0.932** [0.838, 0.973] | 41/58 = 0.707 -> **49/60 = 0.817** [0.701, 0.894] |
+  | Mention recall of the R101 gold, exact | 57/75 -> 53/75 | 94/125 -> **100/125** | 80/109 -> **88/109** |
+  | Recall with the judged mapping | 70/75 -> 68/75 | 111/125 -> **116/125** | 97/109 -> **103/109** |
+  | **C7 hubs** (bound: no new hub against r77d) | 0 -> 0 | 1 (FORD) -> **0** | 4 -> 4 (North Station 10 -> 11 of 32) |
+  | C2 targets at rank 1; with no node | 0.860 -> 0.837; 0 -> 0 | 0.800 -> 0.800; 0 -> 0 | 0.855 -> **0.726**; 1 -> 2 |
+  | C3 individual merges judged; wrong | 26 -> 27; 0 | 42 -> 52; 0 -> **1** | 34 -> 33; 0 |
+  | C3 concept merges judged; wrong | 114 -> 121; 2 -> 1 | 82 -> 67; 1 -> 2 | 48 -> 49; 1 -> 1 ("trip") |
+  | C3 split groups that are one thing | 2 of 17 -> 2 of 16 | 1 of 6 -> 2 of 10 | 7 of 9 -> 5 of 7 |
+  | C3 record merges wrong | 0 -> 0 | 1 -> **2** | 0 -> 0 |
+  | R75 identity pairs: precision / apart / recall | 1.0 / 1.0 / 11/14 -> **11/12 / 32/33** / 11/14 | 1.0 / 1.0 / 5/7 -> 1.0 / 1.0 / 4/7 | 1.0 / 1.0 / 1.0 (unchanged) |
+  | C4 precision | 64/64 -> 63/63 | 76/77 -> 81/83 | 47/47 -> 50/50 |
+  | C6 arm A / B | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 |
+  | C8 connections; unwitnessed hops | 14/14; 0 | 16/16; 0 | 12/12; 0 |
+  | C9 nodes / edges per chunk | 26.2 / 38.2 -> 26.2 / 38.8 | 23.5 / 31.9 -> 23.2 / 31.4 | 28.3 / 33.3 -> 28.9 / 33.9 |
+  | C5 gold start complete@10 (A vs vector, p) | 29 vs 26 (0.453), unchanged | 25 -> 26 vs 26 (1.0) | 36 vs 37 (1.0), unchanged |
+  | C5 end to end complete@5 (A vs vector, p) | 17 vs 21 (0.289), unchanged | 21 -> 22 vs 26 (0.180 -> 0.289) | 26 -> 27 vs 34 (0.021 -> 0.039) |
+  | C5 end to end complete@10 (A vs vector, p) | 23 vs 26 (0.549), unchanged | 23 -> 24 vs 26 (0.453 -> 0.688) | 34 vs 37 (0.375), unchanged |
+  | Cost of the rebuild (MLflow) | $0.411 -> $0.639 | $1.251 -> $1.383 | $0.170 -> $0.352 |
+
+  Read with care:
+  - **R101's bounds:** pass precision now meets 0.90 on furniture and held-out, on the pass's own output
+    with today's claims; generality misses (0.817; the interval reaches 0.894). Its 11 INCORRECT: ordinary
+    operation of a thing ("switched to duty", "duty", "tagged"), generic words or reference points ("budget"
+    in "under budget", "surface", an agenda heading "Travel"), a time ("night shift"), common nouns stated
+    particular ("Aldmoor cores", "2025 travel budget"), the document itself ("field log"), and "Core AB-19"
+    (Out 9). The hub bound is met on held-out (no node is in more than 20 % of the chunks; R102's FORD hub is
+    gone) and furniture; generality keeps the four hubs it had in R102, North Station among them (a real
+    place the text names in 11 of 32 chunks, as in R102's decision item).
+  - **A hard rule fails on held-out, from the pass:** one wrong merge of individuals, "CARS" ("DEAD BATTERY IF
+    THE CARS SITS PARKED 2 DAYS") and "CAR" ("CAR HAS LESS THAN 400 MILES ON"), two complaints' cars. Both are
+    pass mentions stated **kind** and typed with the keyed `Vehicle`: no record fits, so resolve made them
+    `no_record` individuals and the adjudicator joined them. This is R104's open item ("a kind typed with a
+    keyed type that no record fits becomes an individual"), now with a wrong merge. Held-out's C3 hard rule
+    already failed since R93 (the Rogue Sport link); a second record-link error joins it: "OUTBACKS" (the
+    owner's past cars) linked to the 2019 Outback record (C4 81/83 still passes).
+  - **R75's apart pairs: 32/33 on furniture.** The re-extraction names a plain "dimmer", and resolve joins
+    "dimmer", "dimmer switch" and "dimmer function" into one individual; R75's gold (the user's R38 decision)
+    keeps the switch and the function apart, while the blind C3 judge accepted the merge (VALID_ALTERNATIVE:
+    "the dimmer function ... a bit stiff to turn", the physical control). Not a C3 wrong merge as judged;
+    reported against the identity gold.
+  - **Recall:** the re-extracted claims and the R104/R106 pass reach more of the R101 gold on held-out and
+    generality (mapped 116/125, 103/109); furniture loses two (68/75: "support", "comfort" in "the perfect
+    balance between support and comfort", as in R105).
+  - **C2 on generality falls 0.855 -> 0.726, a query-side ranking effect:** "committee" (4 questions) now
+    ranks second behind another committee node, "mechanical seal" (3) behind the broader "seal" concept,
+    and "works budget" and "travel claims" lost their exact node in the new extraction; C5 end to end is
+    unchanged (34 of 38 complete at 10).
+  - **C5 against vector retrieval** is unchanged or slightly better everywhere; at 10 no gap is significant
+    (p >= 0.375); at 5 generality still trails (27 vs 34, p 0.039).
+  - Gold and verdicts come from one model family (Claude); the gold was written blind in R101, the mention
+    judge rules before any R103 output.
+- **R103 done 2026-10-07** ($2.374). The R97-R103 plan is complete. Next: the user's decision on what R103
+  leaves open (Found along the way): the keyed-kind individuals (now a wrong merge), generality's pass
+  precision, and the dimmer join.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
@@ -6098,13 +6177,22 @@ builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pi
   the definition. Separately, the gold lists "Ford customer service" as particular while R104's class
   sentence reads it as a kind: either a gold correction or one more class example. Both decide 4 of
   held-out's 8 INCORRECT verdicts in R105.
+- **"dimmer" joins the switch and the function (found in R103, 2026-10-07; open, the user's choice).** The
+  re-extracted furniture claims name a plain "dimmer"; resolve joins it, "dimmer switch" and "dimmer
+  function" into one individual, which R75's identity gold (the user's R38 decision) keeps apart, while the
+  blind C3 judge accepted it from the text ("the dimmer function ... a bit stiff to turn"). Either the R38
+  decision stands and the join is a resolve error, or the text supports the join and R75's pair is revisited.
 - **The pass's remaining precision errors (found in R105, 2026-10-07; open).** One or two of each kind in
   180 judged mentions: generic stand-ins, fragments of a longer name, the scraped source URL's id (every
   furniture document's "Scraped from <url>" line), idioms, times written as nouns ("night shift"), ordinary
   operation verbs, an identifier with its common noun. A prompt round on them would chase single cases; the
   source URL line is the one a code check could see (a name inside a URL of the chunk).
 - **A kind typed with a keyed type that no record fits becomes an individual (found in R104, 2026-10-07;
-  open).** R105 shows its size: held-out's pass states "recalling" a kind 27 times with the keyed type
+  open; R103: it now makes a wrong merge).** In R103's held-out graph, "CARS" and "CAR" of two complaints,
+  both stated kind and typed `Vehicle`, became `no_record` individuals and were joined (C3 hard rule).
+  Since the pass states the class, resolve could treat a pass mention stated kind that no record fits as a
+  concept; the class lives in `mentions.jsonl` only, not on the graph's Mention, so this changes the pass's
+  write and resolve. R105 shows its size: held-out's pass states "recalling" a kind 27 times with the keyed type
   `Recall` (generality: "contractor" stated kind, typed `Person`). R104 keeps a keyed type for a mention stated `kind` ("back rest" links to the product's part
   record), but resolve turns a keyed mention that no record fits into a `no_record` individual
   (`resolution/particulars.py:330`), so a generic "chair" or "recalling" of a keyed type would still be a
