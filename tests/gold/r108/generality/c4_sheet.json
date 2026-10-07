@@ -1,0 +1,1462 @@
+{
+ "dataset": "generality",
+ "build": "out/r108_generality",
+ "snapshot_hash": "cf9ddae972f4",
+ "question": "Does this mention, read in its chunk, refer to this record?",
+ "criterion": "C4",
+ "links": [
+  {
+   "id": "l:71cb54ac7b24b77e:Staff:S-162",
+   "mention": {
+    "id": "71cb54ac7b24b77e",
+    "name": "S. Osei",
+    "document": "institute/brackwater_fen_log.txt",
+    "chunks": [
+     "institute/brackwater_fen_log.txt#0"
+    ],
+    "sentence": "Brackwater fen field log, spring 2025, kept by S. Osei."
+   },
+   "record": {
+    "ref": "Staff:S-162",
+    "label": "Staff",
+    "key": "S-162",
+    "name": "Samuel Osei",
+    "cells": {
+     "name": "Samuel Osei",
+     "team": "Hydrology",
+     "role": "PhD student",
+     "start_year": "2023"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:0e3b351356c249fb:Staff:S-104",
+   "mention": {
+    "id": "0e3b351356c249fb",
+    "name": "M. Lopez",
+    "document": "institute/fieldwork_log.txt",
+    "chunks": [
+     "institute/fieldwork_log.txt#0"
+    ],
+    "sentence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."
+   },
+   "record": {
+    "ref": "Staff:S-104",
+    "label": "Staff",
+    "key": "S-104",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Soil Ecology",
+     "role": "Postdoctoral researcher",
+     "start_year": "2021"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:15ab15335189f009:Staff:S-131",
+   "mention": {
+    "id": "15ab15335189f009",
+    "name": "J. Pike",
+    "document": "institute/fieldwork_log.txt",
+    "chunks": [
+     "institute/fieldwork_log.txt#0"
+    ],
+    "sentence": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:6ebb8e2728f2c97e:Staff:S-162",
+   "mention": {
+    "id": "6ebb8e2728f2c97e",
+    "name": "Samuel Osei",
+    "document": "institute/fieldwork_log.txt",
+    "chunks": [
+     "institute/fieldwork_log.txt#0"
+    ],
+    "sentence": "Samuel Osei joined the trip on 10 December to learn the coring method."
+   },
+   "record": {
+    "ref": "Staff:S-162",
+    "label": "Staff",
+    "key": "S-162",
+    "name": "Samuel Osei",
+    "cells": {
+     "name": "Samuel Osei",
+     "team": "Hydrology",
+     "role": "PhD student",
+     "start_year": "2023"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:c3e659155ee0725c:Staff:S-150",
+   "mention": {
+    "id": "c3e659155ee0725c",
+    "name": "Aiko Tanaka",
+    "document": "institute/flume_commissioning.md",
+    "chunks": [
+     "institute/flume_commissioning.md#0"
+    ],
+    "sentence": "The sediment flume ran for the first time on 20 May 2025, at 40 litres per second, with Aiko Tanaka at the controls."
+   },
+   "record": {
+    "ref": "Staff:S-150",
+    "label": "Staff",
+    "key": "S-150",
+    "name": "Aiko Tanaka",
+    "cells": {
+     "name": "Aiko Tanaka",
+     "team": "Hydrology",
+     "role": "Research engineer",
+     "start_year": "2018"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:0f424f2367536ee5:Staff:S-104",
+   "mention": {
+    "id": "0f424f2367536ee5",
+    "name": "Maria Lopez",
+    "document": "institute/hensley_award.md",
+    "chunks": [
+     "institute/hensley_award.md#0"
+    ],
+    "sentence": "- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+   },
+   "record": {
+    "ref": "Staff:S-104",
+    "label": "Staff",
+    "key": "S-104",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Soil Ecology",
+     "role": "Postdoctoral researcher",
+     "start_year": "2021"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:d5cdda62a1402a19:Staff:S-162",
+   "mention": {
+    "id": "d5cdda62a1402a19",
+    "name": "Samuel Osei",
+    "document": "institute/hensley_award.md",
+    "chunks": [
+     "institute/hensley_award.md#0"
+    ],
+    "sentence": "Samuel Osei was nominated, but the committee found that no entry met the standard."
+   },
+   "record": {
+    "ref": "Staff:S-162",
+    "label": "Staff",
+    "key": "S-162",
+    "name": "Samuel Osei",
+    "cells": {
+     "name": "Samuel Osei",
+     "team": "Hydrology",
+     "role": "PhD student",
+     "start_year": "2023"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:f130d887db9e8d7b:Staff:S-150",
+   "mention": {
+    "id": "f130d887db9e8d7b",
+    "name": "Aiko Tanaka",
+    "document": "institute/hensley_award.md",
+    "chunks": [
+     "institute/hensley_award.md#0"
+    ],
+    "sentence": "- 2022: Aiko Tanaka (Hydrology), for the river gauging survey."
+   },
+   "record": {
+    "ref": "Staff:S-150",
+    "label": "Staff",
+    "key": "S-150",
+    "name": "Aiko Tanaka",
+    "cells": {
+     "name": "Aiko Tanaka",
+     "team": "Hydrology",
+     "role": "Research engineer",
+     "start_year": "2018"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:fc0502c18bd57e4f:Staff:S-131",
+   "mention": {
+    "id": "fc0502c18bd57e4f",
+    "name": "Jonathan Pike",
+    "document": "institute/hensley_award.md",
+    "chunks": [
+     "institute/hensley_award.md#0"
+    ],
+    "sentence": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:082fc61c552b1fd9:Staff:S-219",
+   "mention": {
+    "id": "082fc61c552b1fd9",
+    "name": "Maria Lopez",
+    "document": "institute/minutes_2025-05-12.md",
+    "chunks": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "sentence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-219",
+    "label": "Staff",
+    "key": "S-219",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Finance Office",
+     "role": "Grants accountant",
+     "start_year": "2016"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:3ed872c16070ef96:Staff:S-162",
+   "mention": {
+    "id": "3ed872c16070ef96",
+    "name": "Samuel Osei",
+    "document": "institute/minutes_2025-05-12.md",
+    "chunks": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "sentence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-162",
+    "label": "Staff",
+    "key": "S-162",
+    "name": "Samuel Osei",
+    "cells": {
+     "name": "Samuel Osei",
+     "team": "Hydrology",
+     "role": "PhD student",
+     "start_year": "2023"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:44f8f53df9e079f3:Staff:S-150",
+   "mention": {
+    "id": "44f8f53df9e079f3",
+    "name": "Aiko Tanaka",
+    "document": "institute/minutes_2025-05-12.md",
+    "chunks": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "sentence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-150",
+    "label": "Staff",
+    "key": "S-150",
+    "name": "Aiko Tanaka",
+    "cells": {
+     "name": "Aiko Tanaka",
+     "team": "Hydrology",
+     "role": "Research engineer",
+     "start_year": "2018"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:5b8277685d24e2fb:Staff:S-131",
+   "mention": {
+    "id": "5b8277685d24e2fb",
+    "name": "Jon Pike",
+    "document": "institute/minutes_2025-05-12.md",
+    "chunks": [
+     "institute/minutes_2025-05-12.md#0"
+    ],
+    "sentence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:0e4fded89f477333:Staff:S-162",
+   "mention": {
+    "id": "0e4fded89f477333",
+    "name": "Samuel Osei",
+    "document": "institute/minutes_2025-06-09.md",
+    "chunks": [
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "sentence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-162",
+    "label": "Staff",
+    "key": "S-162",
+    "name": "Samuel Osei",
+    "cells": {
+     "name": "Samuel Osei",
+     "team": "Hydrology",
+     "role": "PhD student",
+     "start_year": "2023"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:3d46d03a294b5346:Staff:S-219",
+   "mention": {
+    "id": "3d46d03a294b5346",
+    "name": "Maria Lopez",
+    "document": "institute/minutes_2025-06-09.md",
+    "chunks": [
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "sentence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-219",
+    "label": "Staff",
+    "key": "S-219",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Finance Office",
+     "role": "Grants accountant",
+     "start_year": "2016"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:479475b4650f0614:Staff:S-150",
+   "mention": {
+    "id": "479475b4650f0614",
+    "name": "Aiko Tanaka",
+    "document": "institute/minutes_2025-06-09.md",
+    "chunks": [
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "sentence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-150",
+    "label": "Staff",
+    "key": "S-150",
+    "name": "Aiko Tanaka",
+    "cells": {
+     "name": "Aiko Tanaka",
+     "team": "Hydrology",
+     "role": "Research engineer",
+     "start_year": "2018"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:ed3f535c5ff67d54:Staff:S-131",
+   "mention": {
+    "id": "ed3f535c5ff67d54",
+    "name": "J. Pike",
+    "document": "institute/minutes_2025-06-09.md",
+    "chunks": [
+     "institute/minutes_2025-06-09.md#0"
+    ],
+    "sentence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:310da6dc0b3dc5fb:Staff:S-131",
+   "mention": {
+    "id": "310da6dc0b3dc5fb",
+    "name": "Dr. Jonathan Pike",
+    "document": "institute/newsletter_spring_2025.md",
+    "chunks": [
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "sentence": "Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\"."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:602428bf9c958b4e:Staff:S-131",
+   "mention": {
+    "id": "602428bf9c958b4e",
+    "name": "group leader",
+    "document": "institute/newsletter_spring_2025.md",
+    "chunks": [
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "sentence": "Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\"."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:73516a034cc47c9b:Staff:S-150",
+   "mention": {
+    "id": "73516a034cc47c9b",
+    "name": "Aiko Tanaka",
+    "document": "institute/newsletter_spring_2025.md",
+    "chunks": [
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "sentence": "The Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory."
+   },
+   "record": {
+    "ref": "Staff:S-150",
+    "label": "Staff",
+    "key": "S-150",
+    "name": "Aiko Tanaka",
+    "cells": {
+     "name": "Aiko Tanaka",
+     "team": "Hydrology",
+     "role": "Research engineer",
+     "start_year": "2018"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:fbca5f713671bfa2:Staff:S-104",
+   "mention": {
+    "id": "fbca5f713671bfa2",
+    "name": "Maria Lopez",
+    "document": "institute/newsletter_spring_2025.md",
+    "chunks": [
+     "institute/newsletter_spring_2025.md#0"
+    ],
+    "sentence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+   },
+   "record": {
+    "ref": "Staff:S-104",
+    "label": "Staff",
+    "key": "S-104",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Soil Ecology",
+     "role": "Postdoctoral researcher",
+     "start_year": "2021"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:9e68c98635e58c22:Staff:S-131",
+   "mention": {
+    "id": "9e68c98635e58c22",
+    "name": "Dr. J. Pike",
+    "document": "institute/seminar_notice.md",
+    "chunks": [
+     "institute/seminar_notice.md#0"
+    ],
+    "sentence": "Dr. J. Pike (Soil Ecology) speaks on \"Peat as a carbon archive\" on 3 June 2025 at 14:00 in room B12."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:d4996c0165ad9220:Staff:S-150",
+   "mention": {
+    "id": "d4996c0165ad9220",
+    "name": "Aiko Tanaka",
+    "document": "institute/seminar_notice_autumn.md",
+    "chunks": [
+     "institute/seminar_notice_autumn.md#0"
+    ],
+    "sentence": "Aiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12."
+   },
+   "record": {
+    "ref": "Staff:S-150",
+    "label": "Staff",
+    "key": "S-150",
+    "name": "Aiko Tanaka",
+    "cells": {
+     "name": "Aiko Tanaka",
+     "team": "Hydrology",
+     "role": "Research engineer",
+     "start_year": "2018"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:67400d819b60d395:Staff:S-131",
+   "mention": {
+    "id": "67400d819b60d395",
+    "name": "group leader",
+    "document": "institute/travel_claims_memo.md",
+    "chunks": [
+     "institute/travel_claims_memo.md#0"
+    ],
+    "sentence": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:729e877fb2535378:Staff:S-219",
+   "mention": {
+    "id": "729e877fb2535378",
+    "name": "Maria Lopez",
+    "document": "institute/travel_claims_memo.md",
+    "chunks": [
+     "institute/travel_claims_memo.md#0"
+    ],
+    "sentence": "From: Maria Lopez, grants accountant"
+   },
+   "record": {
+    "ref": "Staff:S-219",
+    "label": "Staff",
+    "key": "S-219",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Finance Office",
+     "role": "Grants accountant",
+     "start_year": "2016"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:10afe54efffb73f3:Staff:S-131",
+   "mention": {
+    "id": "10afe54efffb73f3",
+    "name": "Dr. Jonathan Pike",
+    "document": "institute/utrecht_conference_2025.md",
+    "chunks": [
+     "institute/utrecht_conference_2025.md#0"
+    ],
+    "sentence": "Dr. Jonathan Pike chaired the session on peat as a carbon archive."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:38567b04749016a4:Staff:S-104",
+   "mention": {
+    "id": "38567b04749016a4",
+    "name": "Maria Lopez",
+    "document": "institute/utrecht_conference_2025.md",
+    "chunks": [
+     "institute/utrecht_conference_2025.md#0"
+    ],
+    "sentence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session."
+   },
+   "record": {
+    "ref": "Staff:S-104",
+    "label": "Staff",
+    "key": "S-104",
+    "name": "Maria Lopez",
+    "cells": {
+     "name": "Maria Lopez",
+     "team": "Soil Ecology",
+     "role": "Postdoctoral researcher",
+     "start_year": "2021"
+    },
+    "relations": []
+   },
+   "same_name": [
+    {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    }
+   ]
+  },
+  {
+   "id": "l:fe459e145776fb0b:Staff:S-131",
+   "mention": {
+    "id": "fe459e145776fb0b",
+    "name": "Jonathan Pike",
+    "document": "news/flood_meeting.md",
+    "chunks": [
+     "news/flood_meeting.md#0"
+    ],
+    "sentence": "Dr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river."
+   },
+   "record": {
+    "ref": "Staff:S-131",
+    "label": "Staff",
+    "key": "S-131",
+    "name": "Jonathan Pike",
+    "cells": {
+     "name": "Jonathan Pike",
+     "team": "Soil Ecology",
+     "role": "Group leader",
+     "start_year": "2009"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:aaac839b06839b41:Pump:KV12-0457",
+   "mention": {
+    "id": "aaac839b06839b41",
+    "name": "Kestrel V-12",
+    "document": "news/harbour_open_day.md",
+    "chunks": [
+     "news/harbour_open_day.md#0"
+    ],
+    "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+   },
+   "record": {
+    "ref": "Pump:KV12-0457",
+    "label": "Pump",
+    "key": "KV12-0457",
+    "name": "KV12-0457",
+    "cells": {
+     "model": "Kestrel V-12",
+     "station": "Harbour Station",
+     "install_year": "2016",
+     "rated_flow_lps": "18"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:9dbe21dcd0ca86c1:Pump:KV12-0457",
+   "mention": {
+    "id": "9dbe21dcd0ca86c1",
+    "name": "KV12-0457",
+    "document": "water/harbour_station_may_2025.md",
+    "chunks": [
+     "water/harbour_station_may_2025.md#0"
+    ],
+    "sentence": "The station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure."
+   },
+   "record": {
+    "ref": "Pump:KV12-0457",
+    "label": "Pump",
+    "key": "KV12-0457",
+    "name": "KV12-0457",
+    "cells": {
+     "model": "Kestrel V-12",
+     "station": "Harbour Station",
+     "install_year": "2016",
+     "rated_flow_lps": "18"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:2b8548e0edb184aa:Pump:HP40-1183",
+   "mention": {
+    "id": "2b8548e0edb184aa",
+    "name": "pump",
+    "document": "water/incident_2025-03-29.md",
+    "chunks": [
+     "water/incident_2025-03-29.md#0"
+    ],
+    "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:592f8f8859bccfd8:Pump:HP40-1183",
+   "mention": {
+    "id": "592f8f8859bccfd8",
+    "name": "HP40-1183",
+    "document": "water/incident_2025-03-29.md",
+    "chunks": [
+     "water/incident_2025-03-29.md#0"
+    ],
+    "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:ecca8b372dd1990c:Pump:HP40-2291",
+   "mention": {
+    "id": "ecca8b372dd1990c",
+    "name": "HP40-2291",
+    "document": "water/incident_2025-03-29.md",
+    "chunks": [
+     "water/incident_2025-03-29.md#0"
+    ],
+    "sentence": "Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:29b0815745cd2246:Pump:HP40-1183",
+   "mention": {
+    "id": "29b0815745cd2246",
+    "name": "HP40-1183",
+    "document": "water/inspection_2025-03-14.md",
+    "chunks": [
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "sentence": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:d893ad549587410b:Pump:HP40-2291",
+   "mention": {
+    "id": "d893ad549587410b",
+    "name": "HP40-2291",
+    "document": "water/inspection_2025-03-14.md",
+    "chunks": [
+     "water/inspection_2025-03-14.md#0"
+    ],
+    "sentence": "Pump HP40-2291 ran quietly."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:334f8a02da0e7bfc:Pump:HP40-1183",
+   "mention": {
+    "id": "334f8a02da0e7bfc",
+    "name": "HP40-1183",
+    "document": "water/inspection_2025-06-13.md",
+    "chunks": [
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "sentence": "Pump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:e9ae148a2e0f5306:Pump:HP40-2291",
+   "mention": {
+    "id": "e9ae148a2e0f5306",
+    "name": "HP40-2291",
+    "document": "water/inspection_2025-06-13.md",
+    "chunks": [
+     "water/inspection_2025-06-13.md#0"
+    ],
+    "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:75b6537ca1620c2a:Pump:HP40-1183",
+   "mention": {
+    "id": "75b6537ca1620c2a",
+    "name": "HP40-1183",
+    "document": "water/north_station_2024_summary.md",
+    "chunks": [
+     "water/north_station_2024_summary.md#0"
+    ],
+    "sentence": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:e4e2e2c3e22ea248:Pump:HP40-2291",
+   "mention": {
+    "id": "e4e2e2c3e22ea248",
+    "name": "HP40-2291",
+    "document": "water/north_station_2024_summary.md",
+    "chunks": [
+     "water/north_station_2024_summary.md#0"
+    ],
+    "sentence": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:3c37c1c3ef53f19f:Pump:KV12-0457",
+   "mention": {
+    "id": "3c37c1c3ef53f19f",
+    "name": "Kestrel V-12",
+    "document": "water/shift_notes.txt",
+    "chunks": [
+     "water/shift_notes.txt#0"
+    ],
+    "sentence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found."
+   },
+   "record": {
+    "ref": "Pump:KV12-0457",
+    "label": "Pump",
+    "key": "KV12-0457",
+    "name": "KV12-0457",
+    "cells": {
+     "model": "Kestrel V-12",
+     "station": "Harbour Station",
+     "install_year": "2016",
+     "rated_flow_lps": "18"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:c5d5d7361555cb44:Pump:KV12-0457",
+   "mention": {
+    "id": "c5d5d7361555cb44",
+    "name": "KV12-0457",
+    "document": "water/shift_notes.txt",
+    "chunks": [
+     "water/shift_notes.txt#0"
+    ],
+    "sentence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found."
+   },
+   "record": {
+    "ref": "Pump:KV12-0457",
+    "label": "Pump",
+    "key": "KV12-0457",
+    "name": "KV12-0457",
+    "cells": {
+     "model": "Kestrel V-12",
+     "station": "Harbour Station",
+     "install_year": "2016",
+     "rated_flow_lps": "18"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:e63cf701dcbfa04a:Pump:HP40-2291",
+   "mention": {
+    "id": "e63cf701dcbfa04a",
+    "name": "HP40-2291",
+    "document": "water/shift_notes.txt",
+    "chunks": [
+     "water/shift_notes.txt#0"
+    ],
+    "sentence": "Mon: HP40-2291 on duty all week, flow steady at 41 l/s."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:f61a6321066eb671:Pump:HP40-1183",
+   "mention": {
+    "id": "f61a6321066eb671",
+    "name": "HP40-1183",
+    "document": "water/shift_notes.txt",
+    "chunks": [
+     "water/shift_notes.txt#0"
+    ],
+    "sentence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:1fc2b01d6d7cbfb5:Pump:KV12-0457",
+   "mention": {
+    "id": "1fc2b01d6d7cbfb5",
+    "name": "KV12-0457",
+    "document": "water/shift_notes_june.txt",
+    "chunks": [
+     "water/shift_notes_june.txt#0"
+    ],
+    "sentence": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own."
+   },
+   "record": {
+    "ref": "Pump:KV12-0457",
+    "label": "Pump",
+    "key": "KV12-0457",
+    "name": "KV12-0457",
+    "cells": {
+     "model": "Kestrel V-12",
+     "station": "Harbour Station",
+     "install_year": "2016",
+     "rated_flow_lps": "18"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:7406a104096841b7:Pump:HP40-2291",
+   "mention": {
+    "id": "7406a104096841b7",
+    "name": "HP40-2291",
+    "document": "water/shift_notes_june.txt",
+    "chunks": [
+     "water/shift_notes_june.txt#0"
+    ],
+    "sentence": "Mon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:fa34f28a1b459180:Pump:HP40-1183",
+   "mention": {
+    "id": "fa34f28a1b459180",
+    "name": "HP40-1183",
+    "document": "water/shift_notes_june.txt",
+    "chunks": [
+     "water/shift_notes_june.txt#0"
+    ],
+    "sentence": "Mon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:13eef64d09a12eaf:Pump:HP40-1183",
+   "mention": {
+    "id": "13eef64d09a12eaf",
+    "name": "HP40-1183",
+    "document": "water/work_orders_2025-06.md",
+    "chunks": [
+     "water/work_orders_2025-06.md#0"
+    ],
+    "sentence": "Bearings of HP40-1183 regreased by Rosa Delgado."
+   },
+   "record": {
+    "ref": "Pump:HP40-1183",
+    "label": "Pump",
+    "key": "HP40-1183",
+    "name": "HP40-1183",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2012",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  },
+  {
+   "id": "l:5a9de1fcc2d52029:Pump:HP40-2291",
+   "mention": {
+    "id": "5a9de1fcc2d52029",
+    "name": "HP40-2291",
+    "document": "water/work_orders_2025-06.md",
+    "chunks": [
+     "water/work_orders_2025-06.md#0"
+    ],
+    "sentence": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection."
+   },
+   "record": {
+    "ref": "Pump:HP40-2291",
+    "label": "Pump",
+    "key": "HP40-2291",
+    "name": "HP40-2291",
+    "cells": {
+     "model": "Hydra P-40",
+     "station": "North Station",
+     "install_year": "2019",
+     "rated_flow_lps": "42"
+    },
+    "relations": []
+   },
+   "same_name": []
+  }
+ ],
+ "chunks": {
+  "institute/brackwater_fen_log.txt#0": {
+   "document": "institute/brackwater_fen_log.txt",
+   "heading": "brackwater_fen_log",
+   "text": "Brackwater fen field log, spring 2025, kept by S. Osei.\nCore BF-1, 14 April: depth 2.1 m, pH 3.8.\nCore BF-2, 14 April: depth 2.6 m, pH 4.3.\nCore BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface.\nCore BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team."
+  },
+  "institute/fieldwork_log.txt#0": {
+   "document": "institute/fieldwork_log.txt",
+   "heading": "fieldwork_log",
+   "text": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.\nCore AB-17, 3 December: depth 4.2 m, pH 4.1, water table 12 cm below surface.\nCore AB-18, 3 December: depth 3.8 m, pH 4.6.\nCore AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike.\nCore AB-20, 10 December: not taken, the site was flooded.\nSamuel Osei joined the trip on 10 December to learn the coring method."
+  },
+  "institute/flume_commissioning.md#0": {
+   "document": "institute/flume_commissioning.md",
+   "heading": "Flume commissioning notes",
+   "text": "# Flume commissioning notes\n\nThe sediment flume ran for the first time on 20 May 2025, at 40 litres per second, with Aiko Tanaka at the controls. Sand was fed at the upstream end and the bed formed ripples within an hour.\n\nNo run went above 60 litres per second in May: the committee had asked for a vibration measurement first."
+  },
+  "institute/hensley_award.md#0": {
+   "document": "institute/hensley_award.md",
+   "heading": "The Hensley Field-Work Award",
+   "text": "# The Hensley Field-Work Award\n\nThe institute gives the Hensley Field-Work Award once a year for outstanding field work.\n\n- 2022: Aiko Tanaka (Hydrology), for the river gauging survey.\n- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring.\n- 2024: not awarded. Samuel Osei was nominated, but the committee found that no entry met the standard.\n- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+  },
+  "institute/minutes_2025-05-12.md#0": {
+   "document": "institute/minutes_2025-05-12.md",
+   "heading": "Minutes of the institute committee, 12 May 2025",
+   "text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40."
+  },
+  "institute/minutes_2025-06-09.md#0": {
+   "document": "institute/minutes_2025-06-09.md",
+   "heading": "Minutes of the institute committee, 9 June 2025",
+   "text": "# Minutes of the institute committee, 9 June 2025\n\nPresent: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.\n\n1. Aldmoor overrun. J. Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December. The committee accepted the explanation.\n\n2. Flume. Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit. Experiments above 60 litres per second may now start.\n\n3. Travel. Maria Lopez reported that 60 percent of the 2025 travel budget has been spent.\n\nAiko Tanaka closed the meeting at 15:55."
+  },
+  "institute/newsletter_spring_2025.md#0": {
+   "document": "institute/newsletter_spring_2025.md",
+   "heading": "Institute Newsletter, Spring 2025",
+   "text": "# Institute Newsletter, Spring 2025\n\n## Field-work award\n\nMaria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters. Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".\n\n## New hydrology flume\n\nThe Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory. The first experiments start in May."
+  },
+  "institute/seminar_notice.md#0": {
+   "document": "institute/seminar_notice.md",
+   "heading": "Seminar notice",
+   "text": "# Seminar notice\n\nDr. J. Pike (Soil Ecology) speaks on \"Peat as a carbon archive\" on 3 June 2025 at 14:00 in room B12. The talk presents the first results from the Aldmoor cores."
+  },
+  "institute/seminar_notice_autumn.md#0": {
+   "document": "institute/seminar_notice_autumn.md",
+   "heading": "Seminar notice",
+   "text": "# Seminar notice\n\nAiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12. Coffee is served from 13:45."
+  },
+  "institute/travel_claims_memo.md#0": {
+   "document": "institute/travel_claims_memo.md",
+   "heading": "Finance Office memo: travel claims",
+   "text": "# Finance Office memo: travel claims\n\nFrom: Maria Lopez, grants accountant\n\nTravel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August. Please attach every receipt.\n\nSeveral colleagues have asked how the June conference trips are funded. The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader."
+  },
+  "institute/utrecht_conference_2025.md#0": {
+   "document": "institute/utrecht_conference_2025.md",
+   "heading": "Back from Utrecht",
+   "text": "# Back from Utrecht\n\nTwo of our researchers attended the European peat conference in Utrecht in June 2025. Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session. Dr. Jonathan Pike chaired the session on peat as a carbon archive.\n\nNext year's conference will be held in Tartu."
+  },
+  "news/flood_meeting.md#0": {
+   "document": "news/flood_meeting.md",
+   "heading": "Public meeting on Station Road flooding",
+   "text": "# Public meeting on Station Road flooding\n\nAbout eighty residents came to the town hall on Thursday to discuss the flooding of Station Road.\n\nDr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river. The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.\n\nMayor Helen Achterberg said the drainage works will start in September. Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+  },
+  "news/harbour_open_day.md#0": {
+   "document": "news/harbour_open_day.md",
+   "heading": "Riverton Water opens its doors",
+   "text": "# Riverton Water opens its doors\n\nHarbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday. Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.\n\nChildren could try a hand pump in the yard, and the café sold out of cakes by noon."
+  },
+  "water/harbour_station_may_2025.md#0": {
+   "document": "water/harbour_station_may_2025.md",
+   "heading": "Harbour Station monthly report, May 2025",
+   "text": "# Harbour Station monthly report, May 2025\n\nThe station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure. On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since.\n\nAverage flow for the month was 17 litres per second. The station was unmanned for the rest of May, with alarms routed to North Station."
+  },
+  "water/incident_2025-03-29.md#0": {
+   "document": "water/incident_2025-03-29.md",
+   "heading": "Incident report: flooding of the North Station dry well",
+   "text": "# Incident report: flooding of the North Station dry well\n\nOn 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift. About 3,000 litres of water flooded the dry well before the operator isolated the pump. Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty.\n\nSite engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended.\n\nThe seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado."
+  },
+  "water/inspection_2025-03-14.md#0": {
+   "document": "water/inspection_2025-03-14.md",
+   "heading": "North Station pump inspection, 14 March 2025",
+   "text": "# North Station pump inspection, 14 March 2025\n\nTechnician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.\n\nPump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit. Delgado tagged it for a seal replacement within two weeks.\n\nPump HP40-2291 ran quietly. No leaks were found on HP40-2291, and its bearing temperature was 48 °C.\n\nMeasured flow: HP40-1183 delivered 38 litres per second, HP40-2291 delivered 41 litres per second."
+  },
+  "water/inspection_2025-06-13.md#0": {
+   "document": "water/inspection_2025-06-13.md",
+   "heading": "North Station pump inspection, 13 June 2025",
+   "text": "# North Station pump inspection, 13 June 2025\n\nTechnician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station.\n\nPump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month.\n\nPump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C.\n\nMeasured flow: HP40-1183 delivered 40 litres per second, HP40-2291 delivered 39 litres per second."
+  },
+  "water/north_station_2024_summary.md#0": {
+   "document": "water/north_station_2024_summary.md",
+   "heading": "North Station: summary of 2024",
+   "text": "# North Station: summary of 2024\n\nNorth Station pumped 1.9 million cubic metres in 2024. HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.\n\nNo seal failures were recorded in 2024. The only stoppage was a four-hour power cut on 17 November, when both pumps were off.\n\nFor 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps."
+  },
+  "water/shift_notes.txt#0": {
+   "document": "water/shift_notes.txt",
+   "heading": "shift_notes",
+   "text": "Shift notes, North Station, week of 7 April 2025.\nMon: HP40-2291 on duty all week, flow steady at 41 l/s.\nTue: Calder Pumps phoned about the seal returned from HP40-1183. Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal. Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry.\nWed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.\nThu: nothing to report."
+  },
+  "water/shift_notes_june.txt#0": {
+   "document": "water/shift_notes_june.txt",
+   "heading": "shift_notes_june",
+   "text": "Shift notes, North Station, week of 9 June 2025.\nMon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby.\nTue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.\nWed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept.\nThu: nothing to report.\nFri: quarterly inspection by Rosa Delgado."
+  },
+  "water/work_orders_2025-06.md#0": {
+   "document": "water/work_orders_2025-06.md",
+   "heading": "Work orders, North Station, June 2025",
+   "text": "# Work orders, North Station, June 2025\n\nWO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado. Pump returned to duty the same day.\n\nWO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection. The old seal was kept for the vendor.\n\nWO-320, 30 June. Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."
+  }
+ }
+}

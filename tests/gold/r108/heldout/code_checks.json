@@ -1,0 +1,2424 @@
+{
+  "provenance": {
+    "extracted.chunk_exists": {
+      "k": 530,
+      "n": 530,
+      "rate": 1.0,
+      "low": 0.9928038579233992,
+      "high": 1.0
+    },
+    "extracted.doc_consistent": {
+      "k": 530,
+      "n": 530,
+      "rate": 1.0,
+      "low": 0.9928038579233992,
+      "high": 1.0
+    },
+    "extracted.evidence_in_chunk": {
+      "k": 530,
+      "n": 530,
+      "rate": 1.0,
+      "low": 0.9928038579233992,
+      "high": 1.0
+    },
+    "extracted.ends_grounded": {
+      "k": 530,
+      "n": 530,
+      "rate": 1.0,
+      "low": 0.9928038579233992,
+      "high": 1.0
+    },
+    "derived.chunk_exists": {
+      "k": 135,
+      "n": 135,
+      "rate": 1.0,
+      "low": 0.9723310592790634,
+      "high": 1.0
+    },
+    "derived.doc_consistent": {
+      "k": 135,
+      "n": 135,
+      "rate": 1.0,
+      "low": 0.9723310592790634,
+      "high": 1.0
+    },
+    "derived.evidence_in_chunk": {
+      "k": 135,
+      "n": 135,
+      "rate": 1.0,
+      "low": 0.9723310592790634,
+      "high": 1.0
+    },
+    "extracted.mention_in_chunk": {
+      "k": 489,
+      "n": 489,
+      "rate": 1.0,
+      "low": 0.992205203456851,
+      "high": 0.9999999999999999
+    },
+    "pass.mention_in_chunk": {
+      "k": 551,
+      "n": 551,
+      "rate": 1.0,
+      "low": 0.9930762221145639,
+      "high": 1.0
+    }
+  },
+  "provenance_misses": {
+    "extracted.chunk_exists": [],
+    "extracted.doc_consistent": [],
+    "extracted.evidence_in_chunk": [],
+    "extracted.ends_grounded": [],
+    "derived.chunk_exists": [],
+    "derived.doc_consistent": [],
+    "derived.evidence_in_chunk": [],
+    "extracted.mention_in_chunk": [],
+    "pass.mention_in_chunk": []
+  },
+  "flags": [
+    {
+      "kind": "label_mismatch",
+      "item": "054a2f1b45442476",
+      "graph": "(Mention \"20V064000\" @record/Recall/20V064000)-[:REFERS_TO {no_record, None}]->(8b40aa21919322cc \"20V064000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "13f11ab71d9a9b85",
+      "graph": "(Mention \"16V725000\" @record/Recall/16V725000)-[:REFERS_TO {no_record, None}]->(5d8804b459abd0de \"16V725000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "14e0587fe88b1a87",
+      "graph": "(Mention \"25V695000\" @record/Recall/25V695000)-[:REFERS_TO {no_record, None}]->(839fd1c3b3b27113 \"25V695000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "1ce8b8fc365a73e7",
+      "graph": "(Mention \"21V587000\" @record/Recall/21V587000)-[:REFERS_TO {no_record, None}]->(381396ec3b0bdf8b \"21V587000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "25802a441a6859a3",
+      "graph": "(Mention \"23V093000\" @record/Recall/23V093000)-[:REFERS_TO {no_record, None}]->(397af299825acdc7 \"23V093000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "291b65fde69eddfe",
+      "graph": "(Mention \"20V218000\" @record/Recall/20V218000)-[:REFERS_TO {no_record, None}]->(781ce1436884146a \"20V218000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "2c4b3e18339c85a4",
+      "graph": "(Mention \"19V493000\" @record/Recall/19V493000)-[:REFERS_TO {no_record, None}]->(7f07aafc6c4f5c66 \"19V493000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "2ffb7410b6738f1b",
+      "graph": "(Mention \"16V074000\" @record/Recall/16V074000)-[:REFERS_TO {no_record, None}]->(acf3e4e9284b41b9 \"16V074000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "356e9abfb3112133",
+      "graph": "(Mention \"22V254000\" @record/Recall/22V254000)-[:REFERS_TO {no_record, None}]->(819afd9f6f81eac8 \"22V254000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "53f1ac354691a037",
+      "graph": "(Mention \"19V244000\" @record/Recall/19V244000)-[:REFERS_TO {no_record, None}]->(6ad005ebc6ec9b1c \"19V244000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "5442213bd65f20a1",
+      "graph": "(Mention \"26V332000\" @record/Recall/26V332000)-[:REFERS_TO {no_record, None}]->(81a47190f929d7ea \"26V332000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "5de0c0109ab3d4bd",
+      "graph": "(Mention \"15V406000\" @record/Recall/15V406000)-[:REFERS_TO {no_record, None}]->(199c57899019aef1 \"15V406000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "68c45ff16328d4ca",
+      "graph": "(Mention \"19V503000\" @record/Recall/19V503000)-[:REFERS_TO {no_record, None}]->(74cc142f202b7b59 \"19V503000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "6a3a4152c00be771",
+      "graph": "(Mention \"22V413000\" @record/Recall/22V413000)-[:REFERS_TO {no_record, None}]->(ba8074d93627f159 \"22V413000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "6aa312e1bc6c4084",
+      "graph": "(Mention \"20V286000\" @record/Recall/20V286000)-[:REFERS_TO {no_record, None}]->(5620f209ae06af87 \"20V286000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "6d84c868947814f1",
+      "graph": "(Mention \"23V858000\" @record/Recall/23V858000)-[:REFERS_TO {no_record, None}]->(42677e5f41aa3726 \"23V858000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "6f20ce8378b63d5e",
+      "graph": "(Mention \"20V331000\" @record/Recall/20V331000)-[:REFERS_TO {no_record, None}]->(c8d526943f14e409 \"20V331000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "767bbd9c2fcf4aa3",
+      "graph": "(Mention \"20V373000\" @record/Recall/20V373000)-[:REFERS_TO {no_record, None}]->(5915ec7ab9361205 \"20V373000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "7951a55189ef0a46",
+      "graph": "(Mention \"19V576000\" @record/Recall/19V576000)-[:REFERS_TO {no_record, None}]->(d37c506330235f85 \"19V576000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "8e92cd6a1ed42f91",
+      "graph": "(Mention \"20V682000\" @record/Recall/20V682000)-[:REFERS_TO {no_record, None}]->(e48edf9a0ed1ee5b \"20V682000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "91e93d1e2af6af44",
+      "graph": "(Mention \"15V436000\" @record/Recall/15V436000)-[:REFERS_TO {no_record, None}]->(302e0f10114efd4f \"15V436000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "925f6746631f9561",
+      "graph": "(Mention \"26V011000\" @record/Recall/26V011000)-[:REFERS_TO {no_record, None}]->(51311fcaeb78993e \"26V011000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "93ba6e695166cc2a",
+      "graph": "(Mention \"17V663000\" @record/Recall/17V663000)-[:REFERS_TO {no_record, None}]->(06f32f8fc85c1987 \"17V663000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "95bbbbab917d0dce",
+      "graph": "(Mention \"16V526000\" @record/Recall/16V526000)-[:REFERS_TO {no_record, None}]->(b9bea0454b97fe05 \"16V526000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "a08f7b5f73cdf369",
+      "graph": "(Mention \"22V875000\" @record/Recall/22V875000)-[:REFERS_TO {no_record, None}]->(82680287f1d32248 \"22V875000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "a998c3d43bf6073c",
+      "graph": "(Mention \"17V472000\" @record/Recall/17V472000)-[:REFERS_TO {no_record, None}]->(9016e7bf523feed6 \"17V472000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "cd8ca807a50d0e40",
+      "graph": "(Mention \"16V244000\" @record/Recall/16V244000)-[:REFERS_TO {no_record, None}]->(4343f281f1028919 \"16V244000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "f0d36e37eae33ee3",
+      "graph": "(Mention \"21V839000\" @record/Recall/21V839000)-[:REFERS_TO {no_record, None}]->(a7ec323f8e696ce4 \"21V839000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "label_mismatch",
+      "item": "f55b36757cf42397",
+      "graph": "(Mention \"16V643000\" @record/Recall/16V643000)-[:REFERS_TO {no_record, None}]->(0902d70cddb05569 \"16V643000\")",
+      "text": "named like a key of ['Recall'], a label type Vehicle does not name"
+    },
+    {
+      "kind": "compound_name",
+      "item": "4bef54949117 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(RUSTED OCCURS_ON_VEHICLE 2015 FORD ESCAPE)",
+      "text": "THE CONTACT OWNS A 2015 FORD ESCAPE (NA). THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE, IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED."
+    },
+    {
+      "kind": "compound_name",
+      "item": "66c1d07bf8d4 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(ACCELERATOR HESITATION OCCURS_ON_VEHICLE 2015 FORD ESCAPE)",
+      "text": "BRAND NEW 2015 FORD ESCAPE DROVE FINE UNTIL 800 + MILES THEN...  ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR."
+    },
+    {
+      "kind": "compound_name",
+      "item": "366c05dbb277 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(ACCELERATOR HESITATION OCCURS_AT_MILEAGE 800 + MILES)",
+      "text": "BRAND NEW 2015 FORD ESCAPE DROVE FINE UNTIL 800 + MILES THEN...  ACCELERATOR HESITATION OF 2-3 SECONDS OR MORE OCCURS AFTER INITIAL OR FIRST USE OF ACCELERATOR."
+    },
+    {
+      "kind": "compound_name",
+      "item": "abd4fb74d711 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(2015 FORD ESCAPE HAS_MILEAGE 800 + MILES)",
+      "text": "BRAND NEW 2015 FORD ESCAPE DROVE FINE UNTIL 800 + MILES"
+    },
+    {
+      "kind": "compound_name",
+      "item": "90148eaed85d -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(FAILED TO DEPLOY OCCURS_ON_VEHICLE 2015 FORD ESCAPE)",
+      "text": "THE CONTACT OWNS A 2015 FORD ESCAPE. WHILE ATTEMPTING TO GET OUT OF THE WAY OF AN AMBULANCE, THE VEHICLE DROVE OVER A PATCH OF BLACK ICE. THE VEHICLE SLID TO THE RIGHT SIDE OF THE ROAD AND TRAVELED DOWN A TEN FOOT EMBANKMENT. THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a95bb9111bcb -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(PISTON CLIP RING RECALL COVERS_COMPONENT PISTON CLIP RING)",
+      "text": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9a377abe1f78 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(PART FAILURE AFFECTS_COMPONENT PISTON CLIP RING)",
+      "text": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.  RECALL NOT PUBLICLY RELEASED BY HONDA AT THIS TIME. THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7b9cac44690a -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(PISTON CLIP RING RECALL ADDRESSES_PROBLEM PART FAILURE)",
+      "text": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.  RECALL NOT PUBLICLY RELEASED BY HONDA AT THIS TIME. THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cd37fad1a255 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(RECALL AND STOP OF SALE AFFECTS_VEHICLE 2016 HONDA CIVIC)",
+      "text": "I WAS SOLD A BRAND NEW 2016 HONDA CIVIC THE DAY AFTER A RECALL AND STOP OF SALE WAS ISSUED."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8af31750940a -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(RECALL AFFECTS_VEHICLE 2016 Honda Civic)",
+      "text": "I CONTACTED AMERICA OF HONDA AND THEY CONFIRMED MY CAR DOES HAVE A RECALL"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7f4f76400f84 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(2016 HONDA CIVIC HAS_MILEAGE 350 MILES)",
+      "text": "TOOK DELIVERY OF 2016 HONDA CIVIC 1 1/2 WEEKS AGO. CURRENTLY 350 MILES."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f242d95df886 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(PISTON SNAP RING RECALL COVERS_COMPONENT PISTON SNAP RING)",
+      "text": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+    },
+    {
+      "kind": "compound_name",
+      "item": "022bbfe534a9 -> 7682ab63b6d1396a",
+      "graph": "(7682ab63b6d1396a \"SUBARU\")-[:HAS_OBSERVATION {key_in_sentence}]->(CRACK OCCURS_ON_VEHICLE 2019 SUBARU OUTBACK)",
+      "text": "NATURALLY IT CAN'T BE FIXED BECAUSE NO ONE HAS THE WINDSHIELD FOR A 2019 SUBARU OUTBACK IN STOCK OR AVAILABLE BY ORDER."
+    },
+    {
+      "kind": "compound_name",
+      "item": "949dbe26e79b -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(15V406000 AFFECTS_VEHICLE 2014-2015 Ford Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2014-2015 Ford Escape vehicles manufactured May 19, 2014, to February 6, 2015"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ba419bc14909 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(15V406000 AFFECTS_VEHICLE Transit Connect)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2014-2015 Ford Escape vehicles manufactured May 19, 2014, to February 6, 2015, and Transit Connect vehicles manufactured May 11, 2014, to July 2, 2015."
+    },
+    {
+      "kind": "compound_name",
+      "item": "afacfd9b05e7 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(15V436000 AFFECTS_VEHICLE 2015 Ford Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015"
+    },
+    {
+      "kind": "compound_name",
+      "item": "295cdb55ea2b -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(15V436000 AFFECTS_VEHICLE Ford Focus)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015, Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6c0992ecb3c7 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(15V436000 AFFECTS_VEHICLE Ford C-Max)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2015 Ford Escape vehicles manufactured April 1, 2014, to June 12, 2015, Ford Focus vehicles manufactured June 17, 2014, to June 12, 2015, and Ford C-Max vehicles manufactured April 22, 2014, to June 12, 2015."
+    },
+    {
+      "kind": "compound_name",
+      "item": "510061194a26 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V074000 AFFECTS_VEHICLE 2016 Civic)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain model year 2016 Civic vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "113bc5a7e4b7 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V074000 COVERS_COMPONENT 2.0L engines)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain model year 2016 Civic vehicles manufactured September 22, 2015, to February 3, 2016 and equipped with 2.0L engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e383c9d38f0a -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2016-2017 Nissan Maxima)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e383c9d38f0a -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2016-2017 Nissan Maxima)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima"
+    },
+    {
+      "kind": "compound_name",
+      "item": "623da6c96097 -> 7932f9e38b3ecca9",
+      "graph": "(7932f9e38b3ecca9 \"Altima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2013-2016 Nissan Altima)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima"
+    },
+    {
+      "kind": "compound_name",
+      "item": "623da6c96097 -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2013-2016 Nissan Altima)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima"
+    },
+    {
+      "kind": "compound_name",
+      "item": "623da6c96097 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2013-2016 Nissan Altima)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima"
+    },
+    {
+      "kind": "compound_name",
+      "item": "21134b980939 -> 7932f9e38b3ecca9",
+      "graph": "(7932f9e38b3ecca9 \"Altima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE NV200)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200"
+    },
+    {
+      "kind": "compound_name",
+      "item": "21134b980939 -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE NV200)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200"
+    },
+    {
+      "kind": "compound_name",
+      "item": "21134b980939 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE NV200)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200"
+    },
+    {
+      "kind": "compound_name",
+      "item": "cb95832469fe -> 7932f9e38b3ecca9",
+      "graph": "(7932f9e38b3ecca9 \"Altima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE LEAF)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF"
+    },
+    {
+      "kind": "compound_name",
+      "item": "cb95832469fe -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE LEAF)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF"
+    },
+    {
+      "kind": "compound_name",
+      "item": "cb95832469fe -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE LEAF)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF"
+    },
+    {
+      "kind": "compound_name",
+      "item": "75697bf94251 -> 7932f9e38b3ecca9",
+      "graph": "(7932f9e38b3ecca9 \"Altima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Sentra)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra"
+    },
+    {
+      "kind": "compound_name",
+      "item": "75697bf94251 -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Sentra)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra"
+    },
+    {
+      "kind": "compound_name",
+      "item": "75697bf94251 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Sentra)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5545d604e44 -> 7932f9e38b3ecca9",
+      "graph": "(7932f9e38b3ecca9 \"Altima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Pathfinder)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5545d604e44 -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Pathfinder)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5545d604e44 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Pathfinder)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder"
+    },
+    {
+      "kind": "compound_name",
+      "item": "771647e40223 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2016 Nissan NV200 Taxi)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder, 2014-2016 Nissan NV200 Taxi"
+    },
+    {
+      "kind": "compound_name",
+      "item": "771647e40223 -> 7932f9e38b3ecca9",
+      "graph": "(7932f9e38b3ecca9 \"Altima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2016 Nissan NV200 Taxi)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder, 2014-2016 Nissan NV200 Taxi"
+    },
+    {
+      "kind": "compound_name",
+      "item": "771647e40223 -> f0ac2daa28d73422",
+      "graph": "(f0ac2daa28d73422 \"Maxima\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2016 Nissan NV200 Taxi)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder, 2014-2016 Nissan NV200 Taxi"
+    },
+    {
+      "kind": "compound_name",
+      "item": "771647e40223 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2016 Nissan NV200 Taxi)",
+      "text": "recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder, 2014-2016 Nissan NV200 Taxi"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ba05d920d9ba -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Infiniti QX60)",
+      "text": "2014-2016 Nissan NV200 Taxi, Infiniti QX60"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ba05d920d9ba -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Infiniti QX60)",
+      "text": "2014-2016 Nissan NV200 Taxi, Infiniti QX60"
+    },
+    {
+      "kind": "compound_name",
+      "item": "5b57abd720cc -> 72c59acb3037b055",
+      "graph": "(72c59acb3037b055 \"Infiniti QX60\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Q50 Hybrid)",
+      "text": "QX60 Hybrid, and Q50 Hybrid"
+    },
+    {
+      "kind": "compound_name",
+      "item": "3e8026e4ed18 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2017 Nissan Rogue)",
+      "text": "2014-2017 Nissan Rogue and Infiniti Q50"
+    },
+    {
+      "kind": "compound_name",
+      "item": "a4d1c6257980 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Infiniti Q50)",
+      "text": "2014-2017 Nissan Rogue and Infiniti Q50"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6e6da44a3d5c -> 5f42c3ed2c4b3446",
+      "graph": "(5f42c3ed2c4b3446 \"Murano\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2015-2016 Nissan Murano)",
+      "text": "2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6e6da44a3d5c -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2015-2016 Nissan Murano)",
+      "text": "2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6181541a6b85 -> 5f42c3ed2c4b3446",
+      "graph": "(5f42c3ed2c4b3446 \"Murano\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Murano Hybrid)",
+      "text": "2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6181541a6b85 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Murano Hybrid)",
+      "text": "2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d52802e4aa26 -> 5f42c3ed2c4b3446",
+      "graph": "(5f42c3ed2c4b3446 \"Murano\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Chevrolet City Express)",
+      "text": "2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d52802e4aa26 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Chevrolet City Express)",
+      "text": "2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express"
+    },
+    {
+      "kind": "compound_name",
+      "item": "3a101fe23da1 -> 59b5cd1df8bad5ab",
+      "graph": "(59b5cd1df8bad5ab \"Pathfinder\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2015 Nissan Pathfinder Hybrid)",
+      "text": "2014-2015 Nissan Pathfinder Hybrid, and 2013 Infiniti JX35 vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "3a101fe23da1 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2014-2015 Nissan Pathfinder Hybrid)",
+      "text": "2014-2015 Nissan Pathfinder Hybrid, and 2013 Infiniti JX35 vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b22ad343f191 -> 59b5cd1df8bad5ab",
+      "graph": "(59b5cd1df8bad5ab \"Pathfinder\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2013 Infiniti JX35)",
+      "text": "2014-2015 Nissan Pathfinder Hybrid, and 2013 Infiniti JX35 vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b22ad343f191 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE 2013 Infiniti JX35)",
+      "text": "2014-2015 Nissan Pathfinder Hybrid, and 2013 Infiniti JX35 vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "44eafd27c617 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 COVERS_COMPONENT OCS ECU)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "490c196d1397 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE LEAF)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "2b8dc6330c73 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE NV200)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "c1146173b30e -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE NV200 Taxi)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "29d54c680df1 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Pathfinder)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "cb2d97f00b31 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Infiniti Q50)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "4d084297f803 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE JX35)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b4500f807429 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE QX60)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d3a37397816c -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V244000 AFFECTS_VEHICLE Chevrolet City Express)",
+      "text": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "18a6ab7c2521 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V643000 AFFECTS_VEHICLE 2012-2015 Ford Focus)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "571a74a7aad9 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V643000 AFFECTS_VEHICLE 2013-2015 Ford Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c3f747afb141 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V643000 AFFECTS_VEHICLE Ford C-MAX)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f001858f5ef8 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V643000 AFFECTS_VEHICLE 2015 Lincoln MKC)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e94ae873202f -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V643000 AFFECTS_VEHICLE Ford Mustang)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a8f394405343 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V643000 AFFECTS_VEHICLE 2014-2016 Ford Transit Connect)",
+      "text": "Ford Motor Company (Ford) is recalling certain model year 2012-2015 Ford Focus, 2013-2015 Ford Escape and Ford C-MAX, 2015 Lincoln MKC and Ford Mustang, and 2014-2016 Ford Transit Connect vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "632d0ebbaa6b -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(16V725000 AFFECTS_VEHICLE 2016 Honda Civic two door and four door 1.5L turbo and 2.0L vehicles)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain model year 2016 Honda Civic two door and four door 1.5L turbo and 2.0L vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2597f80361c3 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(17V472000 AFFECTS_VEHICLE 2014 Ford F-150)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2014 Ford F-150 and E-350, 2014-2015 Ford Escape, and 2015 Lincoln MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "338cf3eb7318 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(17V472000 AFFECTS_VEHICLE E-350)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2014 Ford F-150 and E-350, 2014-2015 Ford Escape, and 2015 Lincoln MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5320aed7936b -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(17V472000 AFFECTS_VEHICLE 2014-2015 Ford Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2014 Ford F-150 and E-350, 2014-2015 Ford Escape, and 2015 Lincoln MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a59b5d9465f8 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(17V472000 AFFECTS_VEHICLE 2015 Lincoln MKC)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2014 Ford F-150 and E-350, 2014-2015 Ford Escape, and 2015 Lincoln MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7ec54c3615b5 -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(17V663000 AFFECTS_VEHICLE 2016-2017 Nissan Rogue)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain 2016-2017 Nissan Rogue vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4151a84344eb -> b0dc38d1bebccb51",
+      "graph": "(b0dc38d1bebccb51 \"Nissan\")-[:HAS_OBSERVATION {key_in_sentence}]->(improper welds OCCURS_ON_VEHICLE 2016-2017 Nissan Rogue)",
+      "text": "Nissan North America, Inc. (Nissan) is recalling certain 2016-2017 Nissan Rogue vehicles.  The recliner joints on the lower seat frame for the rear seats may have improper welds."
+    },
+    {
+      "kind": "compound_name",
+      "item": "266063af27a1 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE 2019 C-HR)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "266063af27a1 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE 2019 C-HR)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ff459c9ae3bf -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE 4Runner)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ff459c9ae3bf -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE 4Runner)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4d17d7552270 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Avalon)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4d17d7552270 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Avalon)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f40b5e83eac2 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Avalon Hybrid)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f40b5e83eac2 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Avalon Hybrid)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "165340bfbcda -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Camry)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "165340bfbcda -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Camry)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "29b0b6ad5c93 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Camry Hybrid)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "29b0b6ad5c93 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Camry Hybrid)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "170ab5a4cff0 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Highlander)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "170ab5a4cff0 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Highlander)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f8357560537f -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Land Cruiser)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f8357560537f -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Land Cruiser)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7aa404f8740a -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Prius)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7aa404f8740a -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Prius)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ecc4bffcad48 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE RAV4)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ecc4bffcad48 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE RAV4)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1f121d45f793 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Sequoia)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1f121d45f793 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Sequoia)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1b388391dda7 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Tacoma)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1b388391dda7 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Tacoma)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "621e3faded40 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Sienna)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "621e3faded40 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Sienna)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7517a15da87b -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Tundra)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7517a15da87b -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Tundra)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5f18782c7941 -> 68d227cb61085a93",
+      "graph": "(68d227cb61085a93 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Yaris)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5f18782c7941 -> 8ed53839d972cfb2",
+      "graph": "(8ed53839d972cfb2 \"Avalon\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V244000 AFFECTS_VEHICLE Yaris)",
+      "text": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f4ac19ab7679 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V576000 AFFECTS_VEHICLE 2019 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "01fb9bf92dfb -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(19V576000 AFFECTS_VEHICLE RAV4 Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "436cc34ab017 -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE 2020 Toyota Avalon Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "436cc34ab017 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE 2020 Toyota Avalon Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "436cc34ab017 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE 2020 Toyota Avalon Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "000fdbd48ddd -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Camry)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "000fdbd48ddd -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Camry)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "000fdbd48ddd -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Camry)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a150b2e1eccd -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Camry Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a150b2e1eccd -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Camry Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a150b2e1eccd -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Camry Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "40a560289726 -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Lexus ES300h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "40a560289726 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Lexus ES300h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "40a560289726 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE Lexus ES300h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f1aaa7e71a27 -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE 2019-2020 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f1aaa7e71a27 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE 2019-2020 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f1aaa7e71a27 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE 2019-2020 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2333839e72df -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE RAV4 Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2333839e72df -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE RAV4 Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2333839e72df -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 AFFECTS_VEHICLE RAV4 Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9743d9860e48 -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 COVERS_COMPONENT 2.5L 4-Cylinder engines)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9743d9860e48 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 COVERS_COMPONENT 2.5L 4-Cylinder engines)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9743d9860e48 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V064000 COVERS_COMPONENT 2.5L 4-Cylinder engines)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "785b872c7fe9 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V286000 AFFECTS_VEHICLE 2019-2020 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4e30dc93eadc -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V286000 AFFECTS_VEHICLE RAV4 Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1596bfc6b0c3 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2011-2014 Fiesta)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c932c3a93965 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2013-2014 Fusion)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bf8fe1294357 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2015 Mustang)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e9affafa0130 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2013-2015 Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "0f58238d9355 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE C-Max)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "14d18ccc0862 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2012-2015 Focus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a429d74fe7ab -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2014-2016 Transit Connect)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4bdc05c6eff9 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2013-2014 Lincoln MKZ)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b04137acac8b -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V331000 AFFECTS_VEHICLE 2015 MKC)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus, 2014-2016 Transit Connect, 2013-2014 Lincoln MKZ, and 2015 MKC vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "489e7e5a2fab -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V373000 AFFECTS_VEHICLE 2019-2020 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "397d609795cc -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V373000 AFFECTS_VEHICLE 2020 RAV4 Hybrid)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "5b2511dcacdd -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V373000 COVERS_COMPONENT electric power steering)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS)."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4883a4cd95de -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 4Runner)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7e1b7f4c646a -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019-2020 Avalon)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon"
+    },
+    {
+      "kind": "compound_name",
+      "item": "59f791a56359 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Corolla Hatchback)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback"
+    },
+    {
+      "kind": "compound_name",
+      "item": "33099cbeb149 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017-2019 Highlander)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7ad11e248f85 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Camry)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e35670b1dd15 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2020 Corolla)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e21cb733d58f -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Land Cruiser)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser"
+    },
+    {
+      "kind": "compound_name",
+      "item": "47b196e2ec9f -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017-2020 Tacoma)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma"
+    },
+    {
+      "kind": "compound_name",
+      "item": "1527736fe555 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019-2020 RAV4)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e5af942df4c1 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019-2020 Sequoia)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia"
+    },
+    {
+      "kind": "compound_name",
+      "item": "86863ec261ca -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017-2020 Sienna)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna"
+    },
+    {
+      "kind": "compound_name",
+      "item": "232b61ab96de -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019-2020 Tundra)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra"
+    },
+    {
+      "kind": "compound_name",
+      "item": "205e6a996352 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Lexus ES350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350"
+    },
+    {
+      "kind": "compound_name",
+      "item": "205e6a996352 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Lexus ES350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350"
+    },
+    {
+      "kind": "compound_name",
+      "item": "dfb97e84b2d6 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 Lexus GS200t)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t"
+    },
+    {
+      "kind": "compound_name",
+      "item": "dfb97e84b2d6 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 Lexus GS200t)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7af8cebd8235 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017-2019 Lexus GS350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7af8cebd8235 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017-2019 Lexus GS350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ba528623928e -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus GS300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ba528623928e -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus GS300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ecdd38e1841c -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Lexus LC500h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ecdd38e1841c -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Lexus LC500h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b4165a63199f -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019-2020 Lexus LS500)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b4165a63199f -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019-2020 Lexus LS500)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d16559d334fc -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Lexus GX460)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d16559d334fc -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Lexus GX460)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b6c8378de91b -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 Lexus IS200t)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b6c8378de91b -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 Lexus IS200t)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d8b66b65c16e -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus IS300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d8b66b65c16e -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus IS300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300"
+    },
+    {
+      "kind": "compound_name",
+      "item": "4c75f46e51ec -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus IS350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350"
+    },
+    {
+      "kind": "compound_name",
+      "item": "4c75f46e51ec -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus IS350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ad41f139a4e1 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Lexus LC500)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ad41f139a4e1 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 Lexus LC500)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500"
+    },
+    {
+      "kind": "compound_name",
+      "item": "16a604821e22 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018 Lexus LS500)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500"
+    },
+    {
+      "kind": "compound_name",
+      "item": "16a604821e22 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018 Lexus LS500)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500"
+    },
+    {
+      "kind": "compound_name",
+      "item": "9b695899fda4 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus LS500h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h"
+    },
+    {
+      "kind": "compound_name",
+      "item": "9b695899fda4 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus LS500h)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h"
+    },
+    {
+      "kind": "compound_name",
+      "item": "41cd5c3c4a33 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Lexus LX570)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570"
+    },
+    {
+      "kind": "compound_name",
+      "item": "41cd5c3c4a33 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Lexus LX570)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570"
+    },
+    {
+      "kind": "compound_name",
+      "item": "be1e80569e5e -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 Lexus RC200t)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t"
+    },
+    {
+      "kind": "compound_name",
+      "item": "be1e80569e5e -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 Lexus RC200t)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d44e925aaf03 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus RC300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d44e925aaf03 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus RC300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300"
+    },
+    {
+      "kind": "compound_name",
+      "item": "f714f331c47f -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus UX200)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200"
+    },
+    {
+      "kind": "compound_name",
+      "item": "f714f331c47f -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2019 Lexus UX200)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200"
+    },
+    {
+      "kind": "compound_name",
+      "item": "8074e0bcad40 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Lexus NX300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "8074e0bcad40 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2019 Lexus NX300)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "5c94f2d3d8eb -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE RC350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5c94f2d3d8eb -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE RC350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2a45e32cead4 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 and 2019-2020 Lexus RX350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2a45e32cead4 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2017 and 2019-2020 Lexus RX350)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d92bb1193c00 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 RX350L)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d92bb1193c00 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(20V682000 AFFECTS_VEHICLE 2018-2020 RX350L)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner, 2019-2020 Avalon, 2019 Corolla Hatchback, 2017-2019 Highlander, 2018-2020 Camry, 2020 Corolla, 2018-2019 Land Cruiser, 2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia, 2017-2020 Sienna, 2019-2020 Tundra, 2018-2020 Lexus ES350, 2017 Lexus GS200t, 2017-2019 Lexus GS350, 2019 Lexus GS300, 2018-2020 Lexus LC500h, 2019-2020 Lexus LS500, 2018-2019 Lexus GX460, 2017 Lexus IS200t, 2019 Lexus IS300, 2019 Lexus IS350, 2018-2020 Lexus LC500, 2018 Lexus LS500, 2019 Lexus LS500h, 2018-2019 Lexus LX570, 2017 Lexus RC200t, 2019 Lexus RC300, RC350, 2017 and 2019-2020 Lexus RX350, 2018-2020 RX350L, 2019 Lexus UX200, 2018-2019 Lexus NX300 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f077513ed4b8 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE 2019-2020 Ascent)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "874384fcf0c8 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE 2018 Forester)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a22493c1a228 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE 2018-2020 Impreza)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e61ccdc70f35 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE Legacy)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "16ab28d42abe -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE Outback)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "eb9d6286f6d1 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE 2018-2019 BRZ)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3cc39f5b6a3a -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE WRX)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ad7071d8a2d3 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(21V587000 AFFECTS_VEHICLE Toyota 86)",
+      "text": "Subaru of America, Inc. (Subaru) is recalling certain 2019-2020 Ascent, 2018 Forester, 2018-2020 Impreza, Legacy, Outback, 2018-2019 BRZ, WRX, and Toyota 86 vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d230a9177ead -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(22V254000 AFFECTS_VEHICLE 2015 Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2aec5cf97b7b -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(22V413000 AFFECTS_VEHICLE 2013-2019 Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2019 Escape, 2013-2018 C-Max, 2013-2016 Fusion, 2013-2021 Transit Connect, and  2015-2018 Edge vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "45bb4ec5fb08 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(22V413000 AFFECTS_VEHICLE 2013-2018 C-Max)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2019 Escape, 2013-2018 C-Max, 2013-2016 Fusion, 2013-2021 Transit Connect, and  2015-2018 Edge vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a4ba52d90052 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(22V413000 AFFECTS_VEHICLE 2013-2016 Fusion)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2019 Escape, 2013-2018 C-Max, 2013-2016 Fusion, 2013-2021 Transit Connect, and  2015-2018 Edge vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "15b74474c726 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(22V413000 AFFECTS_VEHICLE 2013-2021 Transit Connect)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2019 Escape, 2013-2018 C-Max, 2013-2016 Fusion, 2013-2021 Transit Connect, and  2015-2018 Edge vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8244542a7dc5 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(22V413000 AFFECTS_VEHICLE 2015-2018 Edge)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2019 Escape, 2013-2018 C-Max, 2013-2016 Fusion, 2013-2021 Transit Connect, and  2015-2018 Edge vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "31033472755b -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2013-2023 Honda Accord)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "31033472755b -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2013-2023 Honda Accord)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "31033472755b -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2013-2023 Honda Accord)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e55a2ae2778b -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Coupe)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e55a2ae2778b -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Coupe)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e55a2ae2778b -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Coupe)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fe2e0813eee5 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Sedan)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fe2e0813eee5 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Sedan)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fe2e0813eee5 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Sedan)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "96a60cfe8b34 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Hatchback)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "96a60cfe8b34 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Hatchback)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "96a60cfe8b34 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Hatchback)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "843c36a214fe -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Type R)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "843c36a214fe -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Type R)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "843c36a214fe -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Civic Type R)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b469df30b7fb -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE CR-V)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b469df30b7fb -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE CR-V)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b469df30b7fb -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE CR-V)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f96161058779 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE HR-V)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f96161058779 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE HR-V)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f96161058779 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE HR-V)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bc3460a190c2 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Ridgeline)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bc3460a190c2 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Ridgeline)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bc3460a190c2 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Ridgeline)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "592105be0078 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Odyssey)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "592105be0078 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Odyssey)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "592105be0078 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Odyssey)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7cb9b10895ae -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Acura ILX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7cb9b10895ae -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Acura ILX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7cb9b10895ae -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Acura ILX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "faa58c612ca2 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE MDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "faa58c612ca2 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE MDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "faa58c612ca2 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE MDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "83f12e50bb4b -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE MDX Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "83f12e50bb4b -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE MDX Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "83f12e50bb4b -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE MDX Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a267afdfc77b -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE RDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a267afdfc77b -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE RDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a267afdfc77b -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE RDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3d19e7494a01 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE RLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3d19e7494a01 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE RLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3d19e7494a01 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE RLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "16a0a3a4ac2d -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE TLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "16a0a3a4ac2d -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE TLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "16a0a3a4ac2d -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE TLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e0fdca15a67f -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2019-2022 Honda Insight)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e0fdca15a67f -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2019-2022 Honda Insight)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e0fdca15a67f -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2019-2022 Honda Insight)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5097fba72a0 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Passport)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5097fba72a0 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Passport)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5097fba72a0 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Passport)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b39b6e67bfcf -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2020 Honda CR-V Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b39b6e67bfcf -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2020 Honda CR-V Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b39b6e67bfcf -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2020 Honda CR-V Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "feb8ebf32a00 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2018-2019 Honda Clarity PHEV)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "feb8ebf32a00 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2018-2019 Honda Clarity PHEV)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "feb8ebf32a00 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2018-2019 Honda Clarity PHEV)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "50d1f16b63f5 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Fit)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "50d1f16b63f5 -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Fit)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "50d1f16b63f5 -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Fit)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d035640836fc -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2015-2020 Honda Accord Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d035640836fc -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2015-2020 Honda Accord Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d035640836fc -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE 2015-2020 Honda Accord Hybrid)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "84eba4baf14c -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Pilot)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "84eba4baf14c -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Pilot)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "84eba4baf14c -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Pilot)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2180f616204d -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Acura NSX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2180f616204d -> 08a2e5ac2e8126f1",
+      "graph": "(08a2e5ac2e8126f1 \"CR-V\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Acura NSX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2180f616204d -> 88dbc3a291f9df6f",
+      "graph": "(88dbc3a291f9df6f \"MDX\")-[:HAS_OBSERVATION {key_in_sentence}]->(23V858000 AFFECTS_VEHICLE Acura NSX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "751beb95e0ff -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015-2019 Flex)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "751beb95e0ff -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015-2019 Flex)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "751beb95e0ff -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015-2019 Flex)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "40b1e0efc381 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015 Explorer)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "40b1e0efc381 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015 Explorer)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "40b1e0efc381 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015 Explorer)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2c13eeeb6baa -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Lincoln MKT)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2c13eeeb6baa -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Lincoln MKT)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2c13eeeb6baa -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Lincoln MKT)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2a4844ac7219 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Lincoln MKZ)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2a4844ac7219 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Lincoln MKZ)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2a4844ac7219 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Lincoln MKZ)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "581243a42fac -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015-2016 C-Max)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "581243a42fac -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015-2016 C-Max)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "581243a42fac -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2015-2016 C-Max)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c610a9f3acf2 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c610a9f3acf2 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c610a9f3acf2 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b8cf6972e305 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Taurus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b8cf6972e305 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Taurus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b8cf6972e305 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Taurus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9516ad034d97 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2016 Fusion)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9516ad034d97 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2016 Fusion)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9516ad034d97 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2016 Fusion)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "99bad50a7bc3 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2018-2019 Taurus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "99bad50a7bc3 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2018-2019 Taurus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "99bad50a7bc3 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2018-2019 Taurus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "963fa73fb7a8 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2019 Lincoln MKT)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "963fa73fb7a8 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2019 Lincoln MKT)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "963fa73fb7a8 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2019 Lincoln MKT)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "099843228041 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Fiesta)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "099843228041 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Fiesta)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "099843228041 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE Fiesta)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "09f7b7bf5509 -> 833986f406cb9fd0",
+      "graph": "(833986f406cb9fd0 \"Taurus\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2020 Mustang)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "09f7b7bf5509 -> 4e69984d909b51fb",
+      "graph": "(4e69984d909b51fb \"Lincoln MKT\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2020 Mustang)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "09f7b7bf5509 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(25V695000 AFFECTS_VEHICLE 2020 Mustang)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2015-2019 Flex, 2015 Explorer, Lincoln MKT,  Lincoln MKZ, 2015-2016 C-Max, Escape, Taurus, 2016 Fusion, 2018-2019 Taurus, 2019 Lincoln MKT, Fiesta, and 2020 Mustang vehicles."
+    },
+    {
+      "kind": "compound_name",
+      "item": "49a809c25af5 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V011000 AFFECTS_VEHICLE 2013-2018 Focus)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2018 Focus, 2013-2019 Escape, and 2015-2016 MKC vehicles equipped with a 2.0L engine."
+    },
+    {
+      "kind": "compound_name",
+      "item": "42a3c1f79808 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V011000 AFFECTS_VEHICLE 2013-2019 Escape)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2018 Focus, 2013-2019 Escape, and 2015-2016 MKC vehicles equipped with a 2.0L engine."
+    },
+    {
+      "kind": "compound_name",
+      "item": "869810491b63 -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V011000 AFFECTS_VEHICLE 2015-2016 MKC)",
+      "text": "Ford Motor Company (Ford) is recalling certain 2013-2018 Focus, 2013-2019 Escape, and 2015-2016 MKC vehicles equipped with a 2.0L engine."
+    },
+    {
+      "kind": "compound_name",
+      "item": "de83c61796a2 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2018-2021, 2023 Acura TLX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2018-2021, 2023 Acura TLX"
+    },
+    {
+      "kind": "compound_name",
+      "item": "13f0d73c5916 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2019-2024 RDX)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX"
+    },
+    {
+      "kind": "compound_name",
+      "item": "66c68b62fb7d -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2021, 2023, 2025 Honda Ridgeline)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline"
+    },
+    {
+      "kind": "compound_name",
+      "item": "145240f307b9 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2022 Pilot)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ca52f0367961 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2019-2021 Passport)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7199f9277c46 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2018-2026 Odyssey)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey"
+    },
+    {
+      "kind": "compound_name",
+      "item": "77548421476a -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2019-2022 Insight)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b23218283d8c -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2019-2021 HR-V)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V"
+    },
+    {
+      "kind": "compound_name",
+      "item": "1e9d670b4b55 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2018-2020 Fit)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7aa4ed68f4f2 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2020-2022 CR-V Hybrid)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid"
+    },
+    {
+      "kind": "compound_name",
+      "item": "712d4e1e04ab -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2022 CR-V)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V"
+    },
+    {
+      "kind": "compound_name",
+      "item": "4b0305a59e44 -> Vehicle:CIVIC",
+      "graph": "(Vehicle:CIVIC \"CIVIC\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2018, 2021 Civic Type R)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R"
+    },
+    {
+      "kind": "compound_name",
+      "item": "4b0305a59e44 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2018, 2021 Civic Type R)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e3650c832d50 -> Vehicle:CIVIC",
+      "graph": "(Vehicle:CIVIC \"CIVIC\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2021 Civic hatchback)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e3650c832d50 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2021 Civic hatchback)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback"
+    },
+    {
+      "kind": "compound_name",
+      "item": "942e5f060044 -> Vehicle:CIVIC",
+      "graph": "(Vehicle:CIVIC \"CIVIC\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2016-2020 Civic coupe)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback, 2016-2020 Civic coupe"
+    },
+    {
+      "kind": "compound_name",
+      "item": "942e5f060044 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2016-2020 Civic coupe)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback, 2016-2020 Civic coupe"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7c15f4640906 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2016-2022 Civic)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback, 2016-2020 Civic coupe, 2016-2022 Civic"
+    },
+    {
+      "kind": "compound_name",
+      "item": "cfd17100c060 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2017-2022 Accord Hybrid)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback, 2016-2020 Civic coupe, 2016-2022 Civic, 2017-2022 Accord Hybrid"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e97d1dc43a5d -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(26V332000 AFFECTS_VEHICLE 2016-2022 Accord vehicles)",
+      "text": "is recalling certain 2018-2021, 2023 Acura TLX, 2019-2024 RDX, 2017-2020, 2022-2026 MDX, 2017-2021, 2023, 2025 Honda Ridgeline, 2017-2022 Pilot, 2019-2021 Passport, 2018-2026 Odyssey, 2019-2022 Insight, 2019-2021 HR-V, 2018-2020 Fit, 2020-2022 CR-V Hybrid, 2017-2022 CR-V, 2017-2018, 2021 Civic Type R, 2017-2021 Civic hatchback, 2016-2020 Civic coupe, 2016-2022 Civic, 2017-2022 Accord Hybrid, and 2016-2022 Accord vehicles"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7fb4951f7b5f -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(engines INSTALLED_IN 16V074000)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain model year 2016 Civic vehicles manufactured September 22, 2015, to February 3, 2016 and equipped with 2.0L engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b634f79ef8b7 -> 9332ced06109b371",
+      "graph": "(9332ced06109b371 \"Camry\")-[:HAS_OBSERVATION {key_in_sentence}]->(2.5L 4-Cylinder engines INSTALLED_IN 20V064000)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b634f79ef8b7 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(2.5L 4-Cylinder engines INSTALLED_IN 20V064000)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b634f79ef8b7 -> b171ce6c437e7d75",
+      "graph": "(b171ce6c437e7d75 \"Lexus\")-[:HAS_OBSERVATION {key_in_sentence}]->(2.5L 4-Cylinder engines INSTALLED_IN 20V064000)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "620f5d4155ba -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(PISTON CLIP RING INSTALLED_IN 2016 Honda Civic)",
+      "text": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+    },
+    {
+      "kind": "compound_name",
+      "item": "76c66452a1ad -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(OCS ECU INSTALLED_IN 16V244000)",
+      "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a1a90e4bb735 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(OCS Electronic Control Unit (ECU) INSTALLED_IN 16V244000)",
+      "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d620397c2797 -> 6adb9f3cf4f00fc0",
+      "graph": "(6adb9f3cf4f00fc0 \"NV200\")-[:HAS_OBSERVATION {key_in_sentence}]->(Air Bag Control Unit (ACU) INSTALLED_IN 16V244000)",
+      "text": "Dealers will reprogram the Air Bag Control Unit (ACU) and OCS Electronic Control Unit (ECU) in Altima, Maxima, Murano, Rogue, and Sentra vehicles, and replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles, free of charge."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9be532dd1c61 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(PISTON SNAP RING INSTALLED_IN 2016 Honda Civic)",
+      "text": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL."
+    },
+    {
+      "kind": "compound_name",
+      "item": "eee511c23812 -> 4946aebeb83c8072",
+      "graph": "(4946aebeb83c8072 \"HONDA\")-[:HAS_OBSERVATION {key_in_sentence}]->(2.0L engines INSTALLED_IN 16V074000)",
+      "text": "Honda (American Honda Motor Co.) is recalling certain model year 2016 Civic vehicles manufactured September 22, 2015, to February 3, 2016 and equipped with 2.0L engines."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f3673385667a -> 775e2fdbff3f3c4f",
+      "graph": "(775e2fdbff3f3c4f \"Ford\")-[:HAS_OBSERVATION {key_in_sentence}]->(TRANSMISSION INSTALLED_IN 2015 FORD ESCAPE)",
+      "text": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f0fbfc53de09 -> 4329845aa6dbfd48",
+      "graph": "(4329845aa6dbfd48 \"Toyota\")-[:HAS_OBSERVATION {key_in_sentence}]->(electric power steering INSTALLED_IN 20V373000)",
+      "text": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS)."
+    }
+  ],
+  "flag_counts": {
+    "cross_scope_link": 0,
+    "label_mismatch": 29,
+    "fuzzy_name": 0,
+    "cross_scope_attachment": 0,
+    "compound_name": 353
+  },
+  "record_links": 77,
+  "record_links_without_scope": 0,
+  "non_end_attachments": 2420,
+  "key_in_sentence_attachments": 2650,
+  "splits": [
+    {
+      "type": "Particular",
+      "name": "nissan customer service",
+      "canonicals": 2,
+      "documents": [
+        "record/Recall/16V244000",
+        "record/Recall/17V663000",
+        "record/Recall/21V839000",
+        "record/Recall/22V875000"
+      ]
+    },
+    {
+      "type": "Vehicle",
+      "name": "camry",
+      "canonicals": 2,
+      "documents": [
+        "record/Recall/19V244000",
+        "record/Recall/20V064000"
+      ]
+    },
+    {
+      "type": "Vehicle",
+      "name": "camry hybrid",
+      "canonicals": 2,
+      "documents": [
+        "record/Recall/19V244000",
+        "record/Recall/20V064000"
+      ]
+    },
+    {
+      "type": "Vehicle",
+      "name": "sienna",
+      "canonicals": 2,
+      "documents": [
+        "record/Recall/19V244000",
+        "record/Recall/19V503000"
+      ]
+    }
+  ],
+  "reach": null
+}

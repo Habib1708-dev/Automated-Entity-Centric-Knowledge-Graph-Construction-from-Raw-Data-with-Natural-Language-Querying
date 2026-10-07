@@ -5,8 +5,15 @@ here; R94 ended the fallback beyond a scope), the record's key in the name or a 
 that tells two records of one name apart. A record's name inside a longer name, or a spelling that differs
 inside a word, is no link (R95a: R93 judged such links wrong). A key that is a plain word decides only with
 numbers and the record's own attribute values beside it, and a stated kind links only by the very name
-(R108: held-out's two wrong links). No Neo4j."""
+(R108: held-out's two wrong links); R108's rebuilds logged only identity changes (tests/gold/r108).
+No Neo4j."""
 
+import json
+from pathlib import Path
+
+import pytest
+
+from kgbuilder.audit.fidelity import LoggedCounts
 from kgbuilder.resolution.records import RecordCandidate, key_decides, match_record, name_matches
 
 
@@ -210,3 +217,24 @@ def test_a_stated_kind_links_by_the_records_very_name_only():
     for mention_class in (None, "particular"):
         link = stated("drawer", mention_class).link
         assert link.record.element_id == "a2" and link.reason == "name" and link.score < 100
+
+
+# --- the committed rebuilds of R108 (R103's claims and pass, resolved with the rules above) ----------------
+
+GOLD = Path(__file__).resolve().parent / "gold"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r108_resolved_r107s_graphs_again_and_changed_only_identity(dataset):
+    """R108 part b's logged counts (copied from MLflow): every count before resolve is R107's; held-out lost
+    record links (its two wrong ones among them), the others kept their counts; only resolve paid."""
+    runs = json.loads((GOLD / "r108" / "runs.json").read_text(encoding="utf-8"))["datasets"][dataset]
+    after = LoggedCounts.model_validate_json((GOLD / "r108" / f"{dataset}_logged.json").read_text("utf-8"))
+    before = LoggedCounts.model_validate_json((GOLD / "r107" / f"{dataset}_logged.json").read_text("utf-8"))
+    built = [k for k in before.counts if not k.startswith(("resolve.", "attach."))]
+    assert {k: after.counts[k] for k in built} == {k: before.counts[k] for k in built}
+    records = after.counts["resolve.mentions_to_records"], before.counts["resolve.mentions_to_records"]
+    assert records[0] < records[1] if dataset == "heldout" else records[0] == records[1]
+    paid = {k for k, v in after.usage.items() if k.endswith("cost_usd") and v > 0}
+    assert paid == {"resolve.cost_usd"} and after.usage["resolve.cost_usd"] == pytest.approx(runs["cost_usd"])
+    assert after.runs == runs["runs"]

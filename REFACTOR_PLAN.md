@@ -6336,6 +6336,33 @@ alone:
     vehicle gets its make as a key attribute, as held-out's schema has (the old fixture had none, so "2016
     Honda Civic" now went to the chooser). The new tests fail on the code before part a. Gate: 839 passed
     (834 before), `ruff check` clean.
+  Committed at `6bac112`.
+- **Part b, the runs (done 2026-10-07; $0.0872).** At `6bac112` (only `.claude/settings.json` dirty), R107
+  part b's commands into `out/r108_<ds>`: claims replayed from `out/r103_<ds>`, the pass on an invalid key
+  (every call a cache hit, each pass file byte-identical to R103's), resolve and attach. Every count before
+  resolve equals R107's.
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | resolve: records / individuals / concepts (R107) | 63 / 212 / 740 (same) | **77** / 358 / 634 (83 / 353 / 633) | 48 / 175 / 301 (same) |
+  | chooser: asked / chosen | 49 / 27 | 13 / 7 | 10 / 7 |
+  | resolve calls / cache hits | 790 / 742 | 744 / 725 | 354 / 344 |
+  | cost (MLflow; only resolve paid) | $0.0506 | $0.0267 | $0.0099 |
+  | MLflow resolve run | `88f81dc2` | `d38e63cf` | `bdfd2877` |
+
+  - **Held-out, the 13 choices:** "2017-2022 Rogue Sport" and "OUTBACKS" -> none (both wrong links gone);
+    chosen: "2017-2019 Rogue Hybrid", "Civic Coupe", "Civic Sedan", "Civic Hatchback", "2016 Civic 2-Door",
+    "2016 Honda Civic two door and four door ... vehicles", "2016 CIVICS"; but also none for four links R107's
+    judges called right: "Civic Type R", "2017-2018, 2021 Civic Type R", "2017-2021 Civic hatchback",
+    "2016-2020 Civic coupe" (the record's data gives model year 2016; the chooser seems to read the years
+    against it, and is not consistent: "Civic Hatchback" chosen, "2017-2021 Civic hatchback" not). They are
+    claims' mentions and stand for themselves.
+  - **Furniture and generality:** the new prompt changed no answer; one link, "center supports" (a stated
+    kind named by "Center Support" up to an ending), now reaches the same record through the chooser.
+  - Committed: `tests/gold/r108/<ds>_logged.json`, `runs.json`; test
+    `test_r108_resolved_r107s_graphs_again_and_changed_only_identity`. Then (b2, $0) `kg audit-snapshot`,
+    `kg anchor-eval` (both arms), `kg anchor-sheets`: **C0 passed on all three**; sheets committed before any
+    verdict.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**

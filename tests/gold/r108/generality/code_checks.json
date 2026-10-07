@@ -1,0 +1,363 @@
+{
+  "provenance": {
+    "extracted.chunk_exists": {
+      "k": 216,
+      "n": 216,
+      "rate": 1.0,
+      "low": 0.9825256002503623,
+      "high": 1.0
+    },
+    "extracted.doc_consistent": {
+      "k": 216,
+      "n": 216,
+      "rate": 1.0,
+      "low": 0.9825256002503623,
+      "high": 1.0
+    },
+    "extracted.evidence_in_chunk": {
+      "k": 216,
+      "n": 216,
+      "rate": 1.0,
+      "low": 0.9825256002503623,
+      "high": 1.0
+    },
+    "extracted.ends_grounded": {
+      "k": 216,
+      "n": 216,
+      "rate": 1.0,
+      "low": 0.9825256002503623,
+      "high": 1.0
+    },
+    "extracted.mention_in_chunk": {
+      "k": 266,
+      "n": 266,
+      "rate": 1.0,
+      "low": 0.9857634997717181,
+      "high": 1.0
+    },
+    "pass.mention_in_chunk": {
+      "k": 258,
+      "n": 258,
+      "rate": 1.0,
+      "low": 0.9853285345033028,
+      "high": 1.0
+    }
+  },
+  "provenance_misses": {
+    "extracted.chunk_exists": [],
+    "extracted.doc_consistent": [],
+    "extracted.evidence_in_chunk": [],
+    "extracted.ends_grounded": [],
+    "extracted.mention_in_chunk": [],
+    "pass.mention_in_chunk": []
+  },
+  "flags": [
+    {
+      "kind": "compound_name",
+      "item": "f2b540362254 -> f395399cf3311774",
+      "graph": "(f395399cf3311774 \"Aldmoor\")-[:HAS_OBSERVATION {key_in_sentence}]->(Maria Lopez PARTICIPATED_IN Aldmoor peat sampling campaign)",
+      "text": "Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c518a9a175f8 -> f395399cf3311774",
+      "graph": "(f395399cf3311774 \"Aldmoor\")-[:HAS_OBSERVATION {key_in_sentence}]->(Aldmoor peat sampling campaign LOCATED_AT Aldmoor)",
+      "text": "for the Aldmoor peat sampling campaign."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3097580d7fa1 -> f395399cf3311774",
+      "graph": "(f395399cf3311774 \"Aldmoor\")-[:HAS_OBSERVATION {key_in_sentence}]->(Aldmoor peat project HAS_COST 18,000 euros)",
+      "text": "The Aldmoor peat project is 18,000 euros over its equipment line"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ef2d9a41549e -> f395399cf3311774",
+      "graph": "(f395399cf3311774 \"Aldmoor\")-[:HAS_OBSERVATION {key_in_sentence}]->(flume pump LOCATED_AT Aldmoor)",
+      "text": "Aldmoor peat project"
+    },
+    {
+      "kind": "compound_name",
+      "item": "04a3f5b272ca -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(Mill Lane footbridge repair HAS_COST 180,000 pounds)",
+      "text": "Mill Lane footbridge repair: 180,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "278203d4cfb8 -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(Mill Lane footbridge repair LOCATED_AT Mill Lane footbridge)",
+      "text": "Mill Lane footbridge repair: 180,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "2f28f5f120ef -> ab2aec5281becbf2",
+      "graph": "(ab2aec5281becbf2 \"Eastgate library\")-[:HAS_OBSERVATION {key_in_sentence}]->(Eastgate library roof HAS_COST 420,000 pounds)",
+      "text": "Eastgate library roof: 420,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b669579f9727 -> ab2aec5281becbf2",
+      "graph": "(ab2aec5281becbf2 \"Eastgate library\")-[:HAS_OBSERVATION {key_in_sentence}]->(Eastgate library roof LOCATED_AT Eastgate library)",
+      "text": "Eastgate library roof: 420,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "49d8291a1948 -> f88e2cd9bb9c98ff",
+      "graph": "(f88e2cd9bb9c98ff \"Harbour Street\")-[:HAS_OBSERVATION {key_in_sentence}]->(Harbour Street resurfacing HAS_COST 95,000 pounds)",
+      "text": "Harbour Street resurfacing: 95,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d572cac6fd83 -> f88e2cd9bb9c98ff",
+      "graph": "(f88e2cd9bb9c98ff \"Harbour Street\")-[:HAS_OBSERVATION {key_in_sentence}]->(Harbour Street resurfacing LOCATED_AT Harbour Street)",
+      "text": "Harbour Street resurfacing: 95,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "c605aa9dcde9 -> 7fb6b5c5afc84951",
+      "graph": "(7fb6b5c5afc84951 \"Station Road\")-[:HAS_OBSERVATION {key_in_sentence}]->(Station Road drainage HAS_COST 260,000 pounds)",
+      "text": "Station Road drainage: 260,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b1d4b869ea16 -> 7fb6b5c5afc84951",
+      "graph": "(7fb6b5c5afc84951 \"Station Road\")-[:HAS_OBSERVATION {key_in_sentence}]->(Station Road drainage LOCATED_AT Station Road)",
+      "text": "Station Road drainage: 260,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b5ce0e69dd3f -> 5f2916430d870f9f",
+      "graph": "(5f2916430d870f9f \"Town hall\")-[:HAS_OBSERVATION {key_in_sentence}]->(Town hall boiler HAS_COST 60,000 pounds)",
+      "text": "Town hall boiler: 60,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "9afc16bf27bb -> 5f2916430d870f9f",
+      "graph": "(5f2916430d870f9f \"Town hall\")-[:HAS_OBSERVATION {key_in_sentence}]->(Town hall boiler LOCATED_AT Town hall)",
+      "text": "Town hall boiler: 60,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ae83305f2588 -> 7fb6b5c5afc84951",
+      "graph": "(7fb6b5c5afc84951 \"Station Road\")-[:HAS_OBSERVATION {key_in_sentence}]->(Station Road drainage, second phase LOCATED_AT Station Road)",
+      "text": "Station Road drainage, second phase: 310,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "0ea822c3abb4 -> 7fb6b5c5afc84951",
+      "graph": "(7fb6b5c5afc84951 \"Station Road\")-[:HAS_OBSERVATION {key_in_sentence}]->(Station Road drainage, second phase HAS_COST 310,000 pounds)",
+      "text": "Station Road drainage, second phase: 310,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "90c134c7baf4 -> 6045bd2ea078d0b4",
+      "graph": "(6045bd2ea078d0b4 \"Riverside path\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverside path lighting LOCATED_AT Riverside path)",
+      "text": "Riverside path lighting: 230,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "a618bb384763 -> 6045bd2ea078d0b4",
+      "graph": "(6045bd2ea078d0b4 \"Riverside path\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverside path lighting HAS_COST 230,000 pounds)",
+      "text": "Riverside path lighting: 230,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "1badbdbb2aa4 -> ab2aec5281becbf2",
+      "graph": "(ab2aec5281becbf2 \"Eastgate library\")-[:HAS_OBSERVATION {key_in_sentence}]->(Eastgate library heating LOCATED_AT Eastgate library)",
+      "text": "Eastgate library heating: 140,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7e8c0698e3e5 -> ab2aec5281becbf2",
+      "graph": "(ab2aec5281becbf2 \"Eastgate library\")-[:HAS_OBSERVATION {key_in_sentence}]->(Eastgate library heating HAS_COST 140,000 pounds)",
+      "text": "Eastgate library heating: 140,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ba7a95e2bfb7 -> f88e2cd9bb9c98ff",
+      "graph": "(f88e2cd9bb9c98ff \"Harbour Street\")-[:HAS_OBSERVATION {key_in_sentence}]->(Harbour Street resurfacing LOCATED_AT Harbour Street)",
+      "text": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7a7aa258c5ac -> f88e2cd9bb9c98ff",
+      "graph": "(f88e2cd9bb9c98ff \"Harbour Street\")-[:HAS_OBSERVATION {key_in_sentence}]->(Harbour Street resurfacing HAS_COST 110,000 pounds)",
+      "text": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "f09fad08dd93 -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(Mill Lane footbridge east railing LOCATED_AT Mill Lane footbridge)",
+      "text": "Mill Lane footbridge east railing: 15,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "f7aaeaad0624 -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(Mill Lane footbridge east railing HAS_COST 15,000 pounds)",
+      "text": "Mill Lane footbridge east railing: 15,000 pounds"
+    },
+    {
+      "kind": "compound_name",
+      "item": "457f6f346711 -> f88e2cd9bb9c98ff",
+      "graph": "(f88e2cd9bb9c98ff \"Harbour Street\")-[:HAS_OBSERVATION {key_in_sentence}]->(Priya Nandakumar PARTICIPATED_IN Public meeting on Station Road flooding)",
+      "text": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9bda0cb785b3 -> f88e2cd9bb9c98ff",
+      "graph": "(f88e2cd9bb9c98ff \"Harbour Street\")-[:HAS_OBSERVATION {key_in_sentence}]->(Harbour Street resurfacing LOCATED_AT Harbour Street)",
+      "text": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "838f970ab3fb -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverton town council RESPONSIBLE_FOR repair the Mill Lane footbridge)",
+      "text": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge"
+    },
+    {
+      "kind": "compound_name",
+      "item": "838f970ab3fb -> a998c1cd51d6481a",
+      "graph": "(a998c1cd51d6481a \"council\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverton town council RESPONSIBLE_FOR repair the Mill Lane footbridge)",
+      "text": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge"
+    },
+    {
+      "kind": "compound_name",
+      "item": "a5209133b019 -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(repair the Mill Lane footbridge LOCATED_AT Mill Lane footbridge)",
+      "text": "repair the Mill Lane footbridge"
+    },
+    {
+      "kind": "compound_name",
+      "item": "507d2c5bed17 -> ab2aec5281becbf2",
+      "graph": "(ab2aec5281becbf2 \"Eastgate library\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverton town council RESPONSIBLE_FOR replace the roof of the Eastgate library)",
+      "text": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+    },
+    {
+      "kind": "compound_name",
+      "item": "507d2c5bed17 -> 3ec5a326cfbce96a",
+      "graph": "(3ec5a326cfbce96a \"Mill Lane footbridge\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverton town council RESPONSIBLE_FOR replace the roof of the Eastgate library)",
+      "text": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+    },
+    {
+      "kind": "compound_name",
+      "item": "507d2c5bed17 -> a998c1cd51d6481a",
+      "graph": "(a998c1cd51d6481a \"council\")-[:HAS_OBSERVATION {key_in_sentence}]->(Riverton town council RESPONSIBLE_FOR replace the roof of the Eastgate library)",
+      "text": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+    },
+    {
+      "kind": "compound_name",
+      "item": "edf7ce663e45 -> ab2aec5281becbf2",
+      "graph": "(ab2aec5281becbf2 \"Eastgate library\")-[:HAS_OBSERVATION {key_in_sentence}]->(replace the roof of the Eastgate library LOCATED_AT Eastgate library)",
+      "text": "replace the roof of the Eastgate library"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6902a07a56ae -> 2c16781adb82bda0",
+      "graph": "(2c16781adb82bda0 \"North Station\")-[:HAS_OBSERVATION {key_in_sentence}]->(seal failure LOCATED_AT North Station)",
+      "text": "Following the seal failure on one of your North Station pumps in March"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6ee54e5ee3a6 -> 2c16781adb82bda0",
+      "graph": "(2c16781adb82bda0 \"North Station\")-[:HAS_OBSERVATION {key_in_sentence}]->(seal kits COMPONENT_OF North Station pumps)",
+      "text": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+    },
+    {
+      "kind": "compound_name",
+      "item": "97d7505accff -> 2c16781adb82bda0",
+      "graph": "(2c16781adb82bda0 \"North Station\")-[:HAS_OBSERVATION {key_in_sentence}]->(seal failure INVOLVES_PUMP North Station pumps)",
+      "text": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+    },
+    {
+      "kind": "compound_name",
+      "item": "89c04ac1a27b -> 2c16781adb82bda0",
+      "graph": "(2c16781adb82bda0 \"North Station\")-[:HAS_OBSERVATION {key_in_sentence}]->(North Station pumps LOCATED_AT North Station)",
+      "text": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b92e6008ef8a -> 2c16781adb82bda0",
+      "graph": "(2c16781adb82bda0 \"North Station\")-[:HAS_OBSERVATION {key_in_sentence}]->(HP40-1183 LOCATED_AT North Station)",
+      "text": "Incident report: flooding of the North Station dry well\n\nOn 29 March 2025 the mechanical seal of pump HP40-1183 failed"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b92e6008ef8a -> 0ec02bf178f7962f",
+      "graph": "(0ec02bf178f7962f \"North Station dry well\")-[:HAS_OBSERVATION {key_in_sentence}]->(HP40-1183 LOCATED_AT North Station)",
+      "text": "Incident report: flooding of the North Station dry well\n\nOn 29 March 2025 the mechanical seal of pump HP40-1183 failed"
+    },
+    {
+      "kind": "compound_name",
+      "item": "2dd0a4d2bea5 -> 2c16781adb82bda0",
+      "graph": "(2c16781adb82bda0 \"North Station\")-[:HAS_OBSERVATION {key_in_sentence}]->(flooding of the North Station dry well LOCATED_AT North Station dry well)",
+      "text": "Incident report: flooding of the North Station dry well"
+    },
+    {
+      "kind": "compound_name",
+      "item": "2dd0a4d2bea5 -> 0ec02bf178f7962f",
+      "graph": "(0ec02bf178f7962f \"North Station dry well\")-[:HAS_OBSERVATION {key_in_sentence}]->(flooding of the North Station dry well LOCATED_AT North Station dry well)",
+      "text": "Incident report: flooding of the North Station dry well"
+    }
+  ],
+  "flag_counts": {
+    "cross_scope_link": 0,
+    "label_mismatch": 0,
+    "fuzzy_name": 0,
+    "cross_scope_attachment": 0,
+    "compound_name": 41
+  },
+  "record_links": 48,
+  "record_links_without_scope": 48,
+  "non_end_attachments": 167,
+  "key_in_sentence_attachments": 459,
+  "splits": [
+    {
+      "type": "Person",
+      "name": "tomasz wren",
+      "canonicals": 2,
+      "documents": [
+        "water/incident_2025-03-29.md",
+        "water/isolation_procedure.md",
+        "water/north_station_2024_summary.md",
+        "water/shift_notes_june.txt"
+      ]
+    },
+    {
+      "type": "Place",
+      "name": "mill lane",
+      "canonicals": 2,
+      "documents": [
+        "news/letter_harbour_street.md",
+        "news/letter_to_the_editor.md"
+      ]
+    },
+    {
+      "type": "Place",
+      "name": "riverton",
+      "canonicals": 2,
+      "documents": [
+        "news/budget_2025.md",
+        "news/budget_2026.md"
+      ]
+    },
+    {
+      "type": "Place",
+      "name": "room b12",
+      "canonicals": 2,
+      "documents": [
+        "institute/seminar_notice.md",
+        "institute/seminar_notice_autumn.md"
+      ]
+    },
+    {
+      "type": "Place",
+      "name": "town hall",
+      "canonicals": 2,
+      "documents": [
+        "news/budget_2025.md",
+        "news/flood_meeting.md"
+      ]
+    }
+  ],
+  "reach": null
+}

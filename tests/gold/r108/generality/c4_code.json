@@ -1,0 +1,389 @@
+{
+ "criterion": "C4",
+ "items": [
+  {
+   "id": "l:71cb54ac7b24b77e:Staff:S-162",
+   "node": "Staff:S-162",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:0e3b351356c249fb:Staff:S-104",
+   "node": "Staff:S-104",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:15ab15335189f009:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:6ebb8e2728f2c97e:Staff:S-162",
+   "node": "Staff:S-162",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:c3e659155ee0725c:Staff:S-150",
+   "node": "Staff:S-150",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:0f424f2367536ee5:Staff:S-104",
+   "node": "Staff:S-104",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "attribute 100.0"
+  },
+  {
+   "id": "l:d5cdda62a1402a19:Staff:S-162",
+   "node": "Staff:S-162",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:f130d887db9e8d7b:Staff:S-150",
+   "node": "Staff:S-150",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:fc0502c18bd57e4f:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:082fc61c552b1fd9:Staff:S-219",
+   "node": "Staff:S-219",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "attribute 100.0"
+  },
+  {
+   "id": "l:3ed872c16070ef96:Staff:S-162",
+   "node": "Staff:S-162",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:44f8f53df9e079f3:Staff:S-150",
+   "node": "Staff:S-150",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:5b8277685d24e2fb:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:0e4fded89f477333:Staff:S-162",
+   "node": "Staff:S-162",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:3d46d03a294b5346:Staff:S-219",
+   "node": "Staff:S-219",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "attribute 100.0"
+  },
+  {
+   "id": "l:479475b4650f0614:Staff:S-150",
+   "node": "Staff:S-150",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:ed3f535c5ff67d54:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:310da6dc0b3dc5fb:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:602428bf9c958b4e:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:73516a034cc47c9b:Staff:S-150",
+   "node": "Staff:S-150",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:fbca5f713671bfa2:Staff:S-104",
+   "node": "Staff:S-104",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "attribute 100.0"
+  },
+  {
+   "id": "l:9e68c98635e58c22:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "variant_attribute 0.0"
+  },
+  {
+   "id": "l:d4996c0165ad9220:Staff:S-150",
+   "node": "Staff:S-150",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:67400d819b60d395:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:729e877fb2535378:Staff:S-219",
+   "node": "Staff:S-219",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:10afe54efffb73f3:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:38567b04749016a4:Staff:S-104",
+   "node": "Staff:S-104",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:fe459e145776fb0b:Staff:S-131",
+   "node": "Staff:S-131",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:aaac839b06839b41:Pump:KV12-0457",
+   "node": "Pump:KV12-0457",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:9dbe21dcd0ca86c1:Pump:KV12-0457",
+   "node": "Pump:KV12-0457",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2b8548e0edb184aa:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key_in_sentence 100.0"
+  },
+  {
+   "id": "l:592f8f8859bccfd8:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ecca8b372dd1990c:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:29b0815745cd2246:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:d893ad549587410b:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:334f8a02da0e7bfc:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:e9ae148a2e0f5306:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:75b6537ca1620c2a:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:e4e2e2c3e22ea248:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:3c37c1c3ef53f19f:Pump:KV12-0457",
+   "node": "Pump:KV12-0457",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:c5d5d7361555cb44:Pump:KV12-0457",
+   "node": "Pump:KV12-0457",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:e63cf701dcbfa04a:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:f61a6321066eb671:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:1fc2b01d6d7cbfb5:Pump:KV12-0457",
+   "node": "Pump:KV12-0457",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:7406a104096841b7:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:fa34f28a1b459180:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:13eef64d09a12eaf:Pump:HP40-1183",
+   "node": "Pump:HP40-1183",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:5a9de1fcc2d52029:Pump:HP40-2291",
+   "node": "Pump:HP40-2291",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  }
+ ]
+}

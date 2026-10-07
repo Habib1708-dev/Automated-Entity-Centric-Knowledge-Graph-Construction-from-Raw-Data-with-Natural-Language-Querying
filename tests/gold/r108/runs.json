@@ -1,0 +1,108 @@
+{
+ "step": "R108 part b: R103's graphs resolved again with R108's record rules and chooser prompt (claims replayed, pass from the cache)",
+ "approved": "the user, 2026-10-07 (\"yes\" to R108's scope with its cached rebuild, counted estimate about $0.08, likely $0.05-0.20)",
+ "git_sha": "6bac112-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "datasets": {
+  "furniture": {
+   "preset": "quality",
+   "build": "out/r108_furniture",
+   "pinned_from": "out/r77d_furniture: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+   "claims_from": "out/r103_furniture (kg extract --from-build: replayed, no call)",
+   "commands": [
+    "kg --preset quality reset --out out/r108_furniture",
+    "kg --preset quality build data --out out/r108_furniture",
+    "kg --preset quality ingest-text data --out out/r108_furniture",
+    "kg --preset quality extract --from-build out/r103_furniture --out out/r108_furniture",
+    "kg --preset quality link --out out/r108_furniture",
+    "GEMINI_API_KEY=invalid kg --preset quality mention-pass --out out/r108_furniture",
+    "kg --preset quality resolve --out out/r108_furniture",
+    "kg --preset quality attach --out out/r108_furniture"
+   ],
+   "runs": {
+    "ingest_text": "d129c171439544509bddab24fcfcd272",
+    "extract": "27cd4f29cf8a4d9ab86bccf1180867e2",
+    "link": "86facb012e924d43b921bab4d3b0c5cb",
+    "mention_pass": "e02cec1b01a14d2bafb6748f6635d642",
+    "resolve": "88f81dc2f25a4116a6d6120af28a7bba",
+    "attach": "155232dc42d74be3a8f672fcba23f2ff"
+   },
+   "cost_usd": 0.050616,
+   "resolve_calls": 790,
+   "resolve_cache_hits": 742,
+   "record_choices": 49,
+   "record_choice_chosen": 27,
+   "pass_file": "byte-identical to out/r103_furniture/mentions.jsonl (every pass call a cache hit)",
+   "logged": {
+    "file": "tests/gold/r108/furniture_logged.json"
+   }
+  },
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r108_heldout",
+   "pinned_from": "out/r77d_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+   "claims_from": "out/r103_heldout (kg extract --from-build: replayed, no call)",
+   "commands": [
+    "kg --preset heldout reset --out out/r108_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r108_heldout",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r108_heldout",
+    "kg --preset heldout extract --from-build out/r103_heldout --out out/r108_heldout",
+    "kg --preset heldout link --out out/r108_heldout",
+    "GEMINI_API_KEY=invalid kg --preset heldout mention-pass --out out/r108_heldout",
+    "kg --preset heldout resolve --out out/r108_heldout",
+    "kg --preset heldout attach --out out/r108_heldout"
+   ],
+   "runs": {
+    "ingest_text": "60e89d4553c748fea40b5f3b3ed3788a",
+    "extract": "74366a550c5342d2b803b4a3c9451a13",
+    "link": "1973359170b14fd5a9e11561f72b26db",
+    "mention_pass": "e410d14e79ac434fbcc50ed7b1691a8b",
+    "resolve": "d38e63cfcbf642758a2db0511c5e740a",
+    "attach": "8dce1d443f174834a96dcae641c7cade"
+   },
+   "cost_usd": 0.026675,
+   "resolve_calls": 744,
+   "resolve_cache_hits": 725,
+   "record_choices": 13,
+   "record_choice_chosen": 7,
+   "pass_file": "byte-identical to out/r103_heldout/mentions.jsonl (every pass call a cache hit)",
+   "logged": {
+    "file": "tests/gold/r108/heldout_logged.json"
+   }
+  },
+  "generality": {
+   "preset": "generality_gemini",
+   "build": "out/r108_generality",
+   "pinned_from": "out/r77d_generality: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+   "claims_from": "out/r103_generality (kg extract --from-build: replayed, no call)",
+   "commands": [
+    "kg --preset generality_gemini reset --out out/r108_generality",
+    "kg --preset generality_gemini build tests/fixtures/generality --out out/r108_generality",
+    "kg --preset generality_gemini ingest-text tests/fixtures/generality --out out/r108_generality",
+    "kg --preset generality_gemini extract --from-build out/r103_generality --out out/r108_generality",
+    "kg --preset generality_gemini link --out out/r108_generality",
+    "GEMINI_API_KEY=invalid kg --preset generality_gemini mention-pass --out out/r108_generality",
+    "kg --preset generality_gemini resolve --out out/r108_generality",
+    "kg --preset generality_gemini attach --out out/r108_generality"
+   ],
+   "runs": {
+    "ingest_text": "a34665dfe90445fe9a1be98d573b7d14",
+    "extract": "2a386643a8dd44d6a3cf19590c0e0441",
+    "link": "4a4b0f279e644f9ea1be74c6ac4f9cd1",
+    "mention_pass": "2dd5a7cf833943e39e18f40a8b95e792",
+    "resolve": "bdfd287763ac43939b2cab9f2b38450a",
+    "attach": "3ad12e22cc0d44739f137f5845181402"
+   },
+   "cost_usd": 0.009914,
+   "resolve_calls": 354,
+   "resolve_cache_hits": 344,
+   "record_choices": 10,
+   "record_choice_chosen": 7,
+   "pass_file": "byte-identical to out/r103_generality/mentions.jsonl (every pass call a cache hit)",
+   "logged": {
+    "file": "tests/gold/r108/generality_logged.json"
+   }
+  }
+ },
+ "cost_usd_total": 0.087205
+}

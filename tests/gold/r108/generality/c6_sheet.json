@@ -1,0 +1,4044 @@
+{
+ "dataset": "generality",
+ "build": "out/r108_generality",
+ "snapshot_hash": "cf9ddae972f4",
+ "question": "Does this chunk concern this start node (speak of this very thing)?",
+ "criterion": "C6",
+ "pairs": [
+  {
+   "id": "p:0831bba77ea92bea|institute/minutes_2025-06-09.md#0",
+   "start": {
+    "id": "0831bba77ea92bea",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "institute committee",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e433f7123f568b74",
+      "name": "institute committee",
+      "document": "institute/minutes_2025-06-09.md",
+      "chunks": [
+       "institute/minutes_2025-06-09.md#0"
+      ],
+      "sentence": "# Minutes of the institute committee, 9 June 2025"
+     }
+    ]
+   },
+   "chunk": "institute/minutes_2025-06-09.md#0"
+  },
+  {
+   "id": "p:0ec02bf178f7962f|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "0ec02bf178f7962f",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station dry well",
+    "record": null,
+    "mentions": [
+     {
+      "id": "7cb00a2838fb4140",
+      "name": "dry well",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "# Incident report: flooding of the North Station dry well"
+     },
+     {
+      "id": "810d943f64490cc4",
+      "name": "North Station dry well",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "# Incident report: flooding of the North Station dry well"
+     }
+    ]
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:0f55108a54344d86|institute/brackwater_fen_log.txt#0",
+   "start": {
+    "id": "0f55108a54344d86",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "field log",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c2a17fd8a04a41ed",
+      "name": "field log",
+      "document": "institute/brackwater_fen_log.txt",
+      "chunks": [
+       "institute/brackwater_fen_log.txt#0"
+      ],
+      "sentence": "Brackwater fen field log, spring 2025, kept by S. Osei."
+     }
+    ]
+   },
+   "chunk": "institute/brackwater_fen_log.txt#0"
+  },
+  {
+   "id": "p:1d15903b1944ad77|news/harbour_open_day.md#0",
+   "start": {
+    "id": "1d15903b1944ad77",
+    "kind": "individual",
+    "type": "Event",
+    "name": "open day",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0293d689e0c29381",
+      "name": "open day",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Harbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday."
+     }
+    ]
+   },
+   "chunk": "news/harbour_open_day.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|news/harbour_open_day.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     },
+     {
+      "id": "55852e94581b413b",
+      "name": "North Station",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "# Incident report: flooding of the North Station dry well"
+     }
+    ]
+   },
+   "chunk": "news/harbour_open_day.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/calder_quotation.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     },
+     {
+      "id": "55852e94581b413b",
+      "name": "North Station",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "# Incident report: flooding of the North Station dry well"
+     }
+    ]
+   },
+   "chunk": "water/calder_quotation.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/harbour_station_may_2025.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "55852e94581b413b",
+      "name": "North Station",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "# Incident report: flooding of the North Station dry well"
+     }
+    ]
+   },
+   "chunk": "water/harbour_station_may_2025.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/inspection_2025-03-14.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-03-14.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/isolation_procedure.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/isolation_procedure.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/north_station_2024_summary.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/north_station_2024_summary.md#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/shift_notes.txt#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes.txt#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/shift_notes_june.txt#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes_june.txt#0"
+  },
+  {
+   "id": "p:2c16781adb82bda0|water/work_orders_2025-06.md#0",
+   "start": {
+    "id": "2c16781adb82bda0",
+    "kind": "individual",
+    "type": "Place",
+    "name": "North Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "916750d5acdef0f0",
+      "name": "North Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned."
+     },
+     {
+      "id": "251df50f2670e61d",
+      "name": "North Station",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     },
+     {
+      "id": "12a708b0f3621b50",
+      "name": "North Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "The station was unmanned for the rest of May, with alarms routed to North Station."
+     }
+    ]
+   },
+   "chunk": "water/work_orders_2025-06.md#0"
+  },
+  {
+   "id": "p:2d92473839871aa2|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "2d92473839871aa2",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "library roof",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6e7c409434b0f1ac",
+      "name": "library roof",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks."
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:3341c6e421d9335a|water/inspection_2025-03-14.md#0",
+   "start": {
+    "id": "3341c6e421d9335a",
+    "kind": "individual",
+    "type": "Pump",
+    "name": "Hydra P-40 pumps",
+    "record": null,
+    "mentions": [
+     {
+      "id": "830a8fd6ffa2ce2b",
+      "name": "Hydra P-40 pumps",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-03-14.md#0"
+  },
+  {
+   "id": "p:3341c6e421d9335a|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "3341c6e421d9335a",
+    "kind": "individual",
+    "type": "Pump",
+    "name": "Hydra P-40 pumps",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d4e0106f39d1b13b",
+      "name": "Hydra P-40 pumps",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "Technician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:398cceccecf16477|institute/brackwater_fen_log.txt#0",
+   "start": {
+    "id": "398cceccecf16477",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Core BF-1",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b02ae79c9acfc4fc",
+      "name": "Core BF-1",
+      "document": "institute/brackwater_fen_log.txt",
+      "chunks": [
+       "institute/brackwater_fen_log.txt#0"
+      ],
+      "sentence": "Core BF-1, 14 April: depth 2.1 m, pH 3.8."
+     }
+    ]
+   },
+   "chunk": "institute/brackwater_fen_log.txt#0"
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/budget_2025.md#0",
+   "start": {
+    "id": "3ec5a326cfbce96a",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Mill Lane footbridge",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5dc10672746c8848",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge east railing: 15,000 pounds"
+     },
+     {
+      "id": "31c4ddab620e16bc",
+      "name": "Mill Lane footbridge",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks."
+     },
+     {
+      "id": "0451499d64a4c9f2",
+      "name": "Mill Lane footbridge",
+      "document": "news/footbridge_reopens.md",
+      "chunks": [
+       "news/footbridge_reopens.md#0"
+      ],
+      "sentence": "# Mill Lane footbridge reopens"
+     }
+    ]
+   },
+   "chunk": "news/budget_2025.md#0"
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/budget_2026.md#0",
+   "start": {
+    "id": "3ec5a326cfbce96a",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Mill Lane footbridge",
+    "record": null,
+    "mentions": [
+     {
+      "id": "65a22039a4000a80",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge repair: 180,000 pounds"
+     },
+     {
+      "id": "31c4ddab620e16bc",
+      "name": "Mill Lane footbridge",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks."
+     },
+     {
+      "id": "0451499d64a4c9f2",
+      "name": "Mill Lane footbridge",
+      "document": "news/footbridge_reopens.md",
+      "chunks": [
+       "news/footbridge_reopens.md#0"
+      ],
+      "sentence": "# Mill Lane footbridge reopens"
+     }
+    ]
+   },
+   "chunk": "news/budget_2026.md#0"
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/council_notices.md#0",
+   "start": {
+    "id": "3ec5a326cfbce96a",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Mill Lane footbridge",
+    "record": null,
+    "mentions": [
+     {
+      "id": "65a22039a4000a80",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge repair: 180,000 pounds"
+     },
+     {
+      "id": "5dc10672746c8848",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge east railing: 15,000 pounds"
+     },
+     {
+      "id": "0451499d64a4c9f2",
+      "name": "Mill Lane footbridge",
+      "document": "news/footbridge_reopens.md",
+      "chunks": [
+       "news/footbridge_reopens.md#0"
+      ],
+      "sentence": "# Mill Lane footbridge reopens"
+     }
+    ]
+   },
+   "chunk": "news/council_notices.md#0"
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/footbridge_reopens.md#0",
+   "start": {
+    "id": "3ec5a326cfbce96a",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Mill Lane footbridge",
+    "record": null,
+    "mentions": [
+     {
+      "id": "65a22039a4000a80",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge repair: 180,000 pounds"
+     },
+     {
+      "id": "5dc10672746c8848",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge east railing: 15,000 pounds"
+     },
+     {
+      "id": "31c4ddab620e16bc",
+      "name": "Mill Lane footbridge",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks."
+     }
+    ]
+   },
+   "chunk": "news/footbridge_reopens.md#0"
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/letter_to_the_editor.md#0",
+   "start": {
+    "id": "3ec5a326cfbce96a",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Mill Lane footbridge",
+    "record": null,
+    "mentions": [
+     {
+      "id": "65a22039a4000a80",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge repair: 180,000 pounds"
+     },
+     {
+      "id": "5dc10672746c8848",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge east railing: 15,000 pounds"
+     },
+     {
+      "id": "31c4ddab620e16bc",
+      "name": "Mill Lane footbridge",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks."
+     }
+    ]
+   },
+   "chunk": "news/letter_to_the_editor.md#0"
+  },
+  {
+   "id": "p:3ec5a326cfbce96a|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "3ec5a326cfbce96a",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Mill Lane footbridge",
+    "record": null,
+    "mentions": [
+     {
+      "id": "65a22039a4000a80",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge repair: 180,000 pounds"
+     },
+     {
+      "id": "5dc10672746c8848",
+      "name": "Mill Lane footbridge",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge east railing: 15,000 pounds"
+     },
+     {
+      "id": "31c4ddab620e16bc",
+      "name": "Mill Lane footbridge",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks."
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:45025e9eb096f52f|institute/minutes_2025-05-12.md#0",
+   "start": {
+    "id": "45025e9eb096f52f",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Finance Office",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b43669014f147e9c",
+      "name": "Finance Office",
+      "document": "institute/minutes_2025-06-09.md",
+      "chunks": [
+       "institute/minutes_2025-06-09.md#0"
+      ],
+      "sentence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+     },
+     {
+      "id": "191fb3ab9b0fc32d",
+      "name": "Finance Office",
+      "document": "institute/travel_claims_memo.md",
+      "chunks": [
+       "institute/travel_claims_memo.md#0"
+      ],
+      "sentence": "# Finance Office memo: travel claims"
+     }
+    ]
+   },
+   "chunk": "institute/minutes_2025-05-12.md#0"
+  },
+  {
+   "id": "p:45025e9eb096f52f|institute/minutes_2025-06-09.md#0",
+   "start": {
+    "id": "45025e9eb096f52f",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Finance Office",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f0761569ef5283e7",
+      "name": "Finance Office",
+      "document": "institute/minutes_2025-05-12.md",
+      "chunks": [
+       "institute/minutes_2025-05-12.md#0"
+      ],
+      "sentence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+     },
+     {
+      "id": "191fb3ab9b0fc32d",
+      "name": "Finance Office",
+      "document": "institute/travel_claims_memo.md",
+      "chunks": [
+       "institute/travel_claims_memo.md#0"
+      ],
+      "sentence": "# Finance Office memo: travel claims"
+     }
+    ]
+   },
+   "chunk": "institute/minutes_2025-06-09.md#0"
+  },
+  {
+   "id": "p:45025e9eb096f52f|institute/travel_claims_memo.md#0",
+   "start": {
+    "id": "45025e9eb096f52f",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Finance Office",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f0761569ef5283e7",
+      "name": "Finance Office",
+      "document": "institute/minutes_2025-05-12.md",
+      "chunks": [
+       "institute/minutes_2025-05-12.md#0"
+      ],
+      "sentence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."
+     },
+     {
+      "id": "b43669014f147e9c",
+      "name": "Finance Office",
+      "document": "institute/minutes_2025-06-09.md",
+      "chunks": [
+       "institute/minutes_2025-06-09.md#0"
+      ],
+      "sentence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+     }
+    ]
+   },
+   "chunk": "institute/travel_claims_memo.md#0"
+  },
+  {
+   "id": "p:4c936b6353c3934f|institute/minutes_2025-05-12.md#0",
+   "start": {
+    "id": "4c936b6353c3934f",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "institute committee",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2fcd6fe6c897c333",
+      "name": "institute committee",
+      "document": "institute/minutes_2025-05-12.md",
+      "chunks": [
+       "institute/minutes_2025-05-12.md#0"
+      ],
+      "sentence": "# Minutes of the institute committee, 12 May 2025"
+     }
+    ]
+   },
+   "chunk": "institute/minutes_2025-05-12.md#0"
+  },
+  {
+   "id": "p:57f101d1c056e6ca|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "57f101d1c056e6ca",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Aldmoor bog",
+    "record": null,
+    "mentions": [
+     {
+      "id": "326d5e15d0c5c0b6",
+      "name": "Aldmoor bog",
+      "document": "institute/newsletter_spring_2025.md",
+      "chunks": [
+       "institute/newsletter_spring_2025.md#0"
+      ],
+      "sentence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+     },
+     {
+      "id": "075989d956f32b2f",
+      "name": "Aldmoor bog",
+      "document": "institute/utrecht_conference_2025.md",
+      "chunks": [
+       "institute/utrecht_conference_2025.md#0"
+      ],
+      "sentence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session."
+     }
+    ]
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:57f101d1c056e6ca|institute/newsletter_spring_2025.md#0",
+   "start": {
+    "id": "57f101d1c056e6ca",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Aldmoor bog",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ea144be311447127",
+      "name": "Aldmoor bog",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."
+     },
+     {
+      "id": "075989d956f32b2f",
+      "name": "Aldmoor bog",
+      "document": "institute/utrecht_conference_2025.md",
+      "chunks": [
+       "institute/utrecht_conference_2025.md#0"
+      ],
+      "sentence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session."
+     }
+    ]
+   },
+   "chunk": "institute/newsletter_spring_2025.md#0"
+  },
+  {
+   "id": "p:57f101d1c056e6ca|institute/utrecht_conference_2025.md#0",
+   "start": {
+    "id": "57f101d1c056e6ca",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Aldmoor bog",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ea144be311447127",
+      "name": "Aldmoor bog",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez."
+     },
+     {
+      "id": "326d5e15d0c5c0b6",
+      "name": "Aldmoor bog",
+      "document": "institute/newsletter_spring_2025.md",
+      "chunks": [
+       "institute/newsletter_spring_2025.md#0"
+      ],
+      "sentence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+     }
+    ]
+   },
+   "chunk": "institute/utrecht_conference_2025.md#0"
+  },
+  {
+   "id": "p:5f55b4c550a85205|news/budget_2025.md#0",
+   "start": {
+    "id": "5f55b4c550a85205",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Riverton",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e72372d0ac68c806",
+      "name": "Riverton",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "# Riverton sets its 2025 works budget"
+     }
+    ]
+   },
+   "chunk": "news/budget_2025.md#0"
+  },
+  {
+   "id": "p:601b500722fdaf19|news/budget_2026.md#0",
+   "start": {
+    "id": "601b500722fdaf19",
+    "kind": "individual",
+    "type": "Event",
+    "name": "works budget for 2026",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3b54e151b8a47477",
+      "name": "works budget for 2026",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "The council has published its works budget for 2026."
+     }
+    ]
+   },
+   "chunk": "news/budget_2026.md#0"
+  },
+  {
+   "id": "p:62a48c6769acc6f3|news/budget_2025.md#0",
+   "start": {
+    "id": "62a48c6769acc6f3",
+    "kind": "individual",
+    "type": "Event",
+    "name": "replace the roof of the Eastgate library",
+    "record": null,
+    "mentions": [
+     {
+      "id": "54bcd6b6383b5b30",
+      "name": "replace the roof of the Eastgate library",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+     }
+    ]
+   },
+   "chunk": "news/budget_2025.md#0"
+  },
+  {
+   "id": "p:62a48c6769acc6f3|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "62a48c6769acc6f3",
+    "kind": "individual",
+    "type": "Event",
+    "name": "replace the roof of the Eastgate library",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d2a022ac3111d7a6",
+      "name": "Eastgate library roof",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Eastgate library roof: 420,000 pounds"
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:67692d644b44a8b7|news/bakery_opens.md#0",
+   "start": {
+    "id": "67692d644b44a8b7",
+    "kind": "individual",
+    "type": "Place",
+    "name": "14 Harbour Street",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e1afb3103b5c4d1e",
+      "name": "14 Harbour Street",
+      "document": "news/bakery_opens.md",
+      "chunks": [
+       "news/bakery_opens.md#0"
+      ],
+      "sentence": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office."
+     }
+    ]
+   },
+   "chunk": "news/bakery_opens.md#0"
+  },
+  {
+   "id": "p:692bbb26b3e02dfc|news/budget_2026.md#0",
+   "start": {
+    "id": "692bbb26b3e02dfc",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Riverton",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1ad6546f241c50ee",
+      "name": "Riverton",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "# Riverton's 2026 works budget published"
+     }
+    ]
+   },
+   "chunk": "news/budget_2026.md#0"
+  },
+  {
+   "id": "p:76654ff4ab052023|institute/travel_claims_memo.md#0",
+   "start": {
+    "id": "76654ff4ab052023",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Utrecht",
+    "record": null,
+    "mentions": [
+     {
+      "id": "297fa0a482e8e722",
+      "name": "Utrecht",
+      "document": "institute/utrecht_conference_2025.md",
+      "chunks": [
+       "institute/utrecht_conference_2025.md#0"
+      ],
+      "sentence": "# Back from Utrecht"
+     }
+    ]
+   },
+   "chunk": "institute/travel_claims_memo.md#0"
+  },
+  {
+   "id": "p:76654ff4ab052023|institute/utrecht_conference_2025.md#0",
+   "start": {
+    "id": "76654ff4ab052023",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Utrecht",
+    "record": null,
+    "mentions": [
+     {
+      "id": "229b64d15310ca75",
+      "name": "Utrecht",
+      "document": "institute/travel_claims_memo.md",
+      "chunks": [
+       "institute/travel_claims_memo.md#0"
+      ],
+      "sentence": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader."
+     }
+    ]
+   },
+   "chunk": "institute/utrecht_conference_2025.md#0"
+  },
+  {
+   "id": "p:7d58d65611345bb0|institute/hensley_award.md#0",
+   "start": {
+    "id": "7d58d65611345bb0",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Hydrology",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c1483cc376945c8b",
+      "name": "Hydrology",
+      "document": "institute/newsletter_spring_2025.md",
+      "chunks": [
+       "institute/newsletter_spring_2025.md#0"
+      ],
+      "sentence": "## New hydrology flume"
+     },
+     {
+      "id": "0d4c3cbe08e473fa",
+      "name": "Hydrology",
+      "document": "institute/seminar_notice_autumn.md",
+      "chunks": [
+       "institute/seminar_notice_autumn.md#0"
+      ],
+      "sentence": "Aiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12."
+     }
+    ]
+   },
+   "chunk": "institute/hensley_award.md#0"
+  },
+  {
+   "id": "p:7d58d65611345bb0|institute/newsletter_spring_2025.md#0",
+   "start": {
+    "id": "7d58d65611345bb0",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Hydrology",
+    "record": null,
+    "mentions": [
+     {
+      "id": "64e07546e1e617dc",
+      "name": "Hydrology",
+      "document": "institute/hensley_award.md",
+      "chunks": [
+       "institute/hensley_award.md#0"
+      ],
+      "sentence": "- 2022: Aiko Tanaka (Hydrology), for the river gauging survey."
+     },
+     {
+      "id": "0d4c3cbe08e473fa",
+      "name": "Hydrology",
+      "document": "institute/seminar_notice_autumn.md",
+      "chunks": [
+       "institute/seminar_notice_autumn.md#0"
+      ],
+      "sentence": "Aiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12."
+     }
+    ]
+   },
+   "chunk": "institute/newsletter_spring_2025.md#0"
+  },
+  {
+   "id": "p:7d58d65611345bb0|institute/seminar_notice_autumn.md#0",
+   "start": {
+    "id": "7d58d65611345bb0",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Hydrology",
+    "record": null,
+    "mentions": [
+     {
+      "id": "64e07546e1e617dc",
+      "name": "Hydrology",
+      "document": "institute/hensley_award.md",
+      "chunks": [
+       "institute/hensley_award.md#0"
+      ],
+      "sentence": "- 2022: Aiko Tanaka (Hydrology), for the river gauging survey."
+     },
+     {
+      "id": "c1483cc376945c8b",
+      "name": "Hydrology",
+      "document": "institute/newsletter_spring_2025.md",
+      "chunks": [
+       "institute/newsletter_spring_2025.md#0"
+      ],
+      "sentence": "## New hydrology flume"
+     }
+    ]
+   },
+   "chunk": "institute/seminar_notice_autumn.md#0"
+  },
+  {
+   "id": "p:7d87ef3aea463c96|institute/brackwater_fen_log.txt#0",
+   "start": {
+    "id": "7d87ef3aea463c96",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Core BF-3",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2010d9e4fe052394",
+      "name": "Core BF-3",
+      "document": "institute/brackwater_fen_log.txt",
+      "chunks": [
+       "institute/brackwater_fen_log.txt#0"
+      ],
+      "sentence": "Core BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface."
+     }
+    ]
+   },
+   "chunk": "institute/brackwater_fen_log.txt#0"
+  },
+  {
+   "id": "p:8663690b1ca86f0b|institute/brackwater_fen_log.txt#0",
+   "start": {
+    "id": "8663690b1ca86f0b",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Core BF-4",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5f9435582690943e",
+      "name": "Core BF-4",
+      "document": "institute/brackwater_fen_log.txt",
+      "chunks": [
+       "institute/brackwater_fen_log.txt#0"
+      ],
+      "sentence": "Core BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team."
+     }
+    ]
+   },
+   "chunk": "institute/brackwater_fen_log.txt#0"
+  },
+  {
+   "id": "p:92905cbd59c11e51|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "92905cbd59c11e51",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "failed",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a6efed414eb52900",
+      "name": "seal failures",
+      "document": "water/north_station_2024_summary.md",
+      "chunks": [
+       "water/north_station_2024_summary.md#0"
+      ],
+      "sentence": "No seal failures were recorded in 2024."
+     },
+     {
+      "id": "d4ae3c5fde662e18",
+      "name": "failure",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry."
+     }
+    ]
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:92905cbd59c11e51|water/north_station_2024_summary.md#0",
+   "start": {
+    "id": "92905cbd59c11e51",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "failed",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5c5571a1ba926896",
+      "name": "failed",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "d4ae3c5fde662e18",
+      "name": "failure",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry."
+     }
+    ]
+   },
+   "chunk": "water/north_station_2024_summary.md#0"
+  },
+  {
+   "id": "p:92905cbd59c11e51|water/shift_notes.txt#0",
+   "start": {
+    "id": "92905cbd59c11e51",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "failed",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5c5571a1ba926896",
+      "name": "failed",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "a6efed414eb52900",
+      "name": "seal failures",
+      "document": "water/north_station_2024_summary.md",
+      "chunks": [
+       "water/north_station_2024_summary.md#0"
+      ],
+      "sentence": "No seal failures were recorded in 2024."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes.txt#0"
+  },
+  {
+   "id": "p:939af2da7a1f5855|news/flood_meeting.md#0",
+   "start": {
+    "id": "939af2da7a1f5855",
+    "kind": "individual",
+    "type": "Person",
+    "name": "Daniel Okafor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f472eb251b5b6fda",
+      "name": "Daniel Okafor",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The council's structural inspector, Daniel Okafor, wrote in his report that residents had told him the east railing moved when leaned on; he recommended closing the bridge at once."
+     }
+    ]
+   },
+   "chunk": "news/flood_meeting.md#0"
+  },
+  {
+   "id": "p:939af2da7a1f5855|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "939af2da7a1f5855",
+    "kind": "individual",
+    "type": "Person",
+    "name": "Daniel Okafor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4f6bbd100d824b5b",
+      "name": "Daniel Okafor",
+      "document": "news/flood_meeting.md",
+      "chunks": [
+       "news/flood_meeting.md#0"
+      ],
+      "sentence": "The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms."
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:9560d7f0cd9c48a7|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "9560d7f0cd9c48a7",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Core AB-18",
+    "record": null,
+    "mentions": [
+     {
+      "id": "70e4c71e43d71b49",
+      "name": "Core AB-18",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Core AB-18, 3 December: depth 3.8 m, pH 4.6."
+     }
+    ]
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:95895c26276de0ba|water/calder_quotation.md#0",
+   "start": {
+    "id": "95895c26276de0ba",
+    "kind": "individual",
+    "type": "Event",
+    "name": "seal failure",
+    "record": null,
+    "mentions": [
+     {
+      "id": "462b8ed25076761d",
+      "name": "seal failure",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "Following the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits."
+     }
+    ]
+   },
+   "chunk": "water/calder_quotation.md#0"
+  },
+  {
+   "id": "p:9884a2cf4e246288|news/harbour_open_day.md#0",
+   "start": {
+    "id": "9884a2cf4e246288",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6f3a33b9923b1c18",
+      "name": "Harbour Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "# Harbour Station monthly report, May 2025"
+     },
+     {
+      "id": "07200bb44f554a14",
+      "name": "Harbour Station",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found."
+     },
+     {
+      "id": "390e093d135e4b71",
+      "name": "Harbour Station",
+      "document": "water/shift_notes_june.txt",
+      "chunks": [
+       "water/shift_notes_june.txt#0"
+      ],
+      "sentence": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own."
+     }
+    ]
+   },
+   "chunk": "news/harbour_open_day.md#0"
+  },
+  {
+   "id": "p:9884a2cf4e246288|water/harbour_station_may_2025.md#0",
+   "start": {
+    "id": "9884a2cf4e246288",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "19ddbcde5ecca155",
+      "name": "Harbour Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Harbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday."
+     },
+     {
+      "id": "07200bb44f554a14",
+      "name": "Harbour Station",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found."
+     },
+     {
+      "id": "390e093d135e4b71",
+      "name": "Harbour Station",
+      "document": "water/shift_notes_june.txt",
+      "chunks": [
+       "water/shift_notes_june.txt#0"
+      ],
+      "sentence": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own."
+     }
+    ]
+   },
+   "chunk": "water/harbour_station_may_2025.md#0"
+  },
+  {
+   "id": "p:9884a2cf4e246288|water/shift_notes.txt#0",
+   "start": {
+    "id": "9884a2cf4e246288",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "19ddbcde5ecca155",
+      "name": "Harbour Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Harbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday."
+     },
+     {
+      "id": "6f3a33b9923b1c18",
+      "name": "Harbour Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "# Harbour Station monthly report, May 2025"
+     },
+     {
+      "id": "390e093d135e4b71",
+      "name": "Harbour Station",
+      "document": "water/shift_notes_june.txt",
+      "chunks": [
+       "water/shift_notes_june.txt#0"
+      ],
+      "sentence": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes.txt#0"
+  },
+  {
+   "id": "p:9884a2cf4e246288|water/shift_notes_june.txt#0",
+   "start": {
+    "id": "9884a2cf4e246288",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Station",
+    "record": null,
+    "mentions": [
+     {
+      "id": "19ddbcde5ecca155",
+      "name": "Harbour Station",
+      "document": "news/harbour_open_day.md",
+      "chunks": [
+       "news/harbour_open_day.md#0"
+      ],
+      "sentence": "Harbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday."
+     },
+     {
+      "id": "6f3a33b9923b1c18",
+      "name": "Harbour Station",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "# Harbour Station monthly report, May 2025"
+     },
+     {
+      "id": "07200bb44f554a14",
+      "name": "Harbour Station",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes_june.txt#0"
+  },
+  {
+   "id": "p:98a22a89f4264a59|institute/minutes_2025-05-12.md#0",
+   "start": {
+    "id": "98a22a89f4264a59",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "grants budget",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e62006fb3e75cf41",
+      "name": "grants budget",
+      "document": "institute/minutes_2025-05-12.md",
+      "chunks": [
+       "institute/minutes_2025-05-12.md#0"
+      ],
+      "sentence": "Maria Lopez presented the grants budget for 2025-26."
+     }
+    ]
+   },
+   "chunk": "institute/minutes_2025-05-12.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/inspection_2025-03-14.md#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/inspection_2025-03-14.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/north_station_2024_summary.md#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/north_station_2024_summary.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/shift_notes.txt#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/shift_notes.txt#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/shift_notes_june.txt#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/shift_notes_june.txt#0"
+  },
+  {
+   "id": "p:Pump:HP40-1183|water/work_orders_2025-06.md#0",
+   "start": {
+    "id": "Pump:HP40-1183",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-1183",
+    "record": {
+     "ref": "Pump:HP40-1183",
+     "label": "Pump",
+     "key": "HP40-1183",
+     "name": "HP40-1183",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2012",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/work_orders_2025-06.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/inspection_2025-03-14.md#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/inspection_2025-03-14.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/north_station_2024_summary.md#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/north_station_2024_summary.md#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/shift_notes.txt#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/shift_notes.txt#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/shift_notes_june.txt#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/shift_notes_june.txt#0"
+  },
+  {
+   "id": "p:Pump:HP40-2291|water/work_orders_2025-06.md#0",
+   "start": {
+    "id": "Pump:HP40-2291",
+    "kind": "record",
+    "type": "Pump",
+    "name": "HP40-2291",
+    "record": {
+     "ref": "Pump:HP40-2291",
+     "label": "Pump",
+     "key": "HP40-2291",
+     "name": "HP40-2291",
+     "cells": {
+      "model": "Hydra P-40",
+      "station": "North Station",
+      "install_year": "2019",
+      "rated_flow_lps": "42"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "water/work_orders_2025-06.md#0"
+  },
+  {
+   "id": "p:Staff:S-104|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "Staff:S-104",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:Staff:S-104|institute/hensley_award.md#0",
+   "start": {
+    "id": "Staff:S-104",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/hensley_award.md#0"
+  },
+  {
+   "id": "p:Staff:S-104|institute/newsletter_spring_2025.md#0",
+   "start": {
+    "id": "Staff:S-104",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/newsletter_spring_2025.md#0"
+  },
+  {
+   "id": "p:Staff:S-104|institute/utrecht_conference_2025.md#0",
+   "start": {
+    "id": "Staff:S-104",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-104",
+     "label": "Staff",
+     "key": "S-104",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Soil Ecology",
+      "role": "Postdoctoral researcher",
+      "start_year": "2021"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/utrecht_conference_2025.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/hensley_award.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/hensley_award.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/minutes_2025-05-12.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/minutes_2025-05-12.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/minutes_2025-06-09.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/minutes_2025-06-09.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/newsletter_spring_2025.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/newsletter_spring_2025.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/seminar_notice.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/seminar_notice.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/travel_claims_memo.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/travel_claims_memo.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|institute/utrecht_conference_2025.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/utrecht_conference_2025.md#0"
+  },
+  {
+   "id": "p:Staff:S-131|news/flood_meeting.md#0",
+   "start": {
+    "id": "Staff:S-131",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Jonathan Pike",
+    "record": {
+     "ref": "Staff:S-131",
+     "label": "Staff",
+     "key": "S-131",
+     "name": "Jonathan Pike",
+     "cells": {
+      "name": "Jonathan Pike",
+      "team": "Soil Ecology",
+      "role": "Group leader",
+      "start_year": "2009"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "news/flood_meeting.md#0"
+  },
+  {
+   "id": "p:Staff:S-219|institute/minutes_2025-05-12.md#0",
+   "start": {
+    "id": "Staff:S-219",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/minutes_2025-05-12.md#0"
+  },
+  {
+   "id": "p:Staff:S-219|institute/minutes_2025-06-09.md#0",
+   "start": {
+    "id": "Staff:S-219",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/minutes_2025-06-09.md#0"
+  },
+  {
+   "id": "p:Staff:S-219|institute/travel_claims_memo.md#0",
+   "start": {
+    "id": "Staff:S-219",
+    "kind": "record",
+    "type": "Staff",
+    "name": "Maria Lopez",
+    "record": {
+     "ref": "Staff:S-219",
+     "label": "Staff",
+     "key": "S-219",
+     "name": "Maria Lopez",
+     "cells": {
+      "name": "Maria Lopez",
+      "team": "Finance Office",
+      "role": "Grants accountant",
+      "start_year": "2016"
+     },
+     "relations": []
+    },
+    "mentions": []
+   },
+   "chunk": "institute/travel_claims_memo.md#0"
+  },
+  {
+   "id": "p:a177320a67182645|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "a177320a67182645",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Core AB-19",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e598175c464c66d1",
+      "name": "Core AB-19",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike."
+     }
+    ]
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:a5750d0cef26b1b1|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "a5750d0cef26b1b1",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Core AB-20",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6bb3ed040f630d60",
+      "name": "Core AB-20",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Core AB-20, 10 December: not taken, the site was flooded."
+     }
+    ]
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:a5864f007aecc70c|news/letter_harbour_street.md#0",
+   "start": {
+    "id": "a5864f007aecc70c",
+    "kind": "individual",
+    "type": "Person",
+    "name": "Judith Pike",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5dac7ceb2f721de2",
+      "name": "Judith Pike",
+      "document": "news/letter_harbour_street.md",
+      "chunks": [
+       "news/letter_harbour_street.md#0"
+      ],
+      "sentence": "Judith Pike, Mill Lane"
+     }
+    ]
+   },
+   "chunk": "news/letter_harbour_street.md#0"
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/budget_2025.md#0",
+   "start": {
+    "id": "ab2aec5281becbf2",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Eastgate library",
+    "record": null,
+    "mentions": [
+     {
+      "id": "08a3c63e691f8f02",
+      "name": "Eastgate library",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Eastgate library heating: 140,000 pounds"
+     },
+     {
+      "id": "b0d60b9f80c52db5",
+      "name": "Eastgate library",
+      "document": "news/library_reopened.md",
+      "chunks": [
+       "news/library_reopened.md#0"
+      ],
+      "sentence": "# Eastgate library back in business"
+     },
+     {
+      "id": "742c53aa2943c9da",
+      "name": "Eastgate library",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+     }
+    ]
+   },
+   "chunk": "news/budget_2025.md#0"
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/budget_2026.md#0",
+   "start": {
+    "id": "ab2aec5281becbf2",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Eastgate library",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a61b00ca687e6ec4",
+      "name": "Eastgate library",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Eastgate library roof: 420,000 pounds"
+     },
+     {
+      "id": "b0d60b9f80c52db5",
+      "name": "Eastgate library",
+      "document": "news/library_reopened.md",
+      "chunks": [
+       "news/library_reopened.md#0"
+      ],
+      "sentence": "# Eastgate library back in business"
+     },
+     {
+      "id": "742c53aa2943c9da",
+      "name": "Eastgate library",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+     }
+    ]
+   },
+   "chunk": "news/budget_2026.md#0"
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/library_reopened.md#0",
+   "start": {
+    "id": "ab2aec5281becbf2",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Eastgate library",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a61b00ca687e6ec4",
+      "name": "Eastgate library",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Eastgate library roof: 420,000 pounds"
+     },
+     {
+      "id": "08a3c63e691f8f02",
+      "name": "Eastgate library",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Eastgate library heating: 140,000 pounds"
+     },
+     {
+      "id": "742c53aa2943c9da",
+      "name": "Eastgate library",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+     }
+    ]
+   },
+   "chunk": "news/library_reopened.md#0"
+  },
+  {
+   "id": "p:ab2aec5281becbf2|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "ab2aec5281becbf2",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Eastgate library",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a61b00ca687e6ec4",
+      "name": "Eastgate library",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Eastgate library roof: 420,000 pounds"
+     },
+     {
+      "id": "08a3c63e691f8f02",
+      "name": "Eastgate library",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Eastgate library heating: 140,000 pounds"
+     },
+     {
+      "id": "b0d60b9f80c52db5",
+      "name": "Eastgate library",
+      "document": "news/library_reopened.md",
+      "chunks": [
+       "news/library_reopened.md#0"
+      ],
+      "sentence": "# Eastgate library back in business"
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:ae0150a41dafcf88|news/budget_2025.md#0",
+   "start": {
+    "id": "ae0150a41dafcf88",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "contractor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c3786ad040d4ab00",
+      "name": "contractor",
+      "document": "news/library_reopened.md",
+      "chunks": [
+       "news/library_reopened.md#0"
+      ],
+      "sentence": "The contractor finished on 25 August, a week ahead of the deadline."
+     }
+    ]
+   },
+   "chunk": "news/budget_2025.md#0"
+  },
+  {
+   "id": "p:ae0150a41dafcf88|news/library_reopened.md#0",
+   "start": {
+    "id": "ae0150a41dafcf88",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "contractor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "91ed4fe535f37a31",
+      "name": "contractor",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "The contractor for the library roof must finish before the library reopens on 1 September."
+     }
+    ]
+   },
+   "chunk": "news/library_reopened.md#0"
+  },
+  {
+   "id": "p:aee9785651b313d8|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "aee9785651b313d8",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "865aec536a19df3d",
+      "name": "seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     },
+     {
+      "id": "aaba94b9f3972c22",
+      "name": "seal",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183."
+     },
+     {
+      "id": "145a530ed398c8bc",
+      "name": "seal",
+      "document": "water/shift_notes_june.txt",
+      "chunks": [
+       "water/shift_notes_june.txt#0"
+      ],
+      "sentence": "Wed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept."
+     }
+    ]
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:aee9785651b313d8|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "aee9785651b313d8",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "63f89044b5110c08",
+      "name": "seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "aaba94b9f3972c22",
+      "name": "seal",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183."
+     },
+     {
+      "id": "145a530ed398c8bc",
+      "name": "seal",
+      "document": "water/shift_notes_june.txt",
+      "chunks": [
+       "water/shift_notes_june.txt#0"
+      ],
+      "sentence": "Wed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:aee9785651b313d8|water/shift_notes.txt#0",
+   "start": {
+    "id": "aee9785651b313d8",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "63f89044b5110c08",
+      "name": "seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "865aec536a19df3d",
+      "name": "seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     },
+     {
+      "id": "145a530ed398c8bc",
+      "name": "seal",
+      "document": "water/shift_notes_june.txt",
+      "chunks": [
+       "water/shift_notes_june.txt#0"
+      ],
+      "sentence": "Wed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes.txt#0"
+  },
+  {
+   "id": "p:aee9785651b313d8|water/shift_notes_june.txt#0",
+   "start": {
+    "id": "aee9785651b313d8",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "63f89044b5110c08",
+      "name": "seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "865aec536a19df3d",
+      "name": "seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     },
+     {
+      "id": "aaba94b9f3972c22",
+      "name": "seal",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183."
+     }
+    ]
+   },
+   "chunk": "water/shift_notes_june.txt#0"
+  },
+  {
+   "id": "p:aee9785651b313d8|water/work_orders_2025-06.md#0",
+   "start": {
+    "id": "aee9785651b313d8",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "63f89044b5110c08",
+      "name": "seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "865aec536a19df3d",
+      "name": "seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     },
+     {
+      "id": "aaba94b9f3972c22",
+      "name": "seal",
+      "document": "water/shift_notes.txt",
+      "chunks": [
+       "water/shift_notes.txt#0"
+      ],
+      "sentence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183."
+     }
+    ]
+   },
+   "chunk": "water/work_orders_2025-06.md#0"
+  },
+  {
+   "id": "p:af0f8c26c7ba6376|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "af0f8c26c7ba6376",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Core AB-17",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d69e012df2059003",
+      "name": "Core AB-17",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Core AB-17, 3 December: depth 4.2 m, pH 4.1, water table 12 cm below surface."
+     }
+    ]
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:b27af7419faff416|news/budget_2026.md#0",
+   "start": {
+    "id": "b27af7419faff416",
+    "kind": "individual",
+    "type": "Event",
+    "name": "Mill Lane footbridge east railing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "252c8a9cce4cb0b2",
+      "name": "Mill Lane footbridge east railing",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Mill Lane footbridge east railing: 15,000 pounds"
+     }
+    ]
+   },
+   "chunk": "news/budget_2026.md#0"
+  },
+  {
+   "id": "p:c4cac32ceba65ec8|water/calder_quotation.md#0",
+   "start": {
+    "id": "c4cac32ceba65ec8",
+    "kind": "individual",
+    "type": "Pump",
+    "name": "Hydra P-40",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f7570ff423c12a67",
+      "name": "Hydra P-40",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty."
+     }
+    ]
+   },
+   "chunk": "water/calder_quotation.md#0"
+  },
+  {
+   "id": "p:ca175c288112893b|institute/brackwater_fen_log.txt#0",
+   "start": {
+    "id": "ca175c288112893b",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Brackwater fen",
+    "record": null,
+    "mentions": [
+     {
+      "id": "645f6868817aa0d6",
+      "name": "Brackwater fen",
+      "document": "institute/brackwater_fen_log.txt",
+      "chunks": [
+       "institute/brackwater_fen_log.txt#0"
+      ],
+      "sentence": "Brackwater fen field log, spring 2025, kept by S. Osei."
+     }
+    ]
+   },
+   "chunk": "institute/brackwater_fen_log.txt#0"
+  },
+  {
+   "id": "p:cac56e78505d9094|institute/hensley_award.md#0",
+   "start": {
+    "id": "cac56e78505d9094",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Hensley Field-Work Award",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b1a6a512d2469b56",
+      "name": "Hensley Field-Work Award",
+      "document": "institute/newsletter_spring_2025.md",
+      "chunks": [
+       "institute/newsletter_spring_2025.md#0"
+      ],
+      "sentence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+     }
+    ]
+   },
+   "chunk": "institute/hensley_award.md#0"
+  },
+  {
+   "id": "p:cac56e78505d9094|institute/newsletter_spring_2025.md#0",
+   "start": {
+    "id": "cac56e78505d9094",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "Hensley Field-Work Award",
+    "record": null,
+    "mentions": [
+     {
+      "id": "069c16709084ec96",
+      "name": "Hensley Field-Work Award",
+      "document": "institute/hensley_award.md",
+      "chunks": [
+       "institute/hensley_award.md#0"
+      ],
+      "sentence": "# The Hensley Field-Work Award"
+     }
+    ]
+   },
+   "chunk": "institute/newsletter_spring_2025.md#0"
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/calder_quotation.md#0",
+   "start": {
+    "id": "cc9167aef892d53b",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "mechanical seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "fa5a2625a2f4d9a9",
+      "name": "mechanical seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "845a9a48be9b63c1",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."
+     },
+     {
+      "id": "4697ecb1795e259f",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     }
+    ]
+   },
+   "chunk": "water/calder_quotation.md#0"
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "cc9167aef892d53b",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "mechanical seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5335ceee7f8200db",
+      "name": "mechanical seal",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty."
+     },
+     {
+      "id": "845a9a48be9b63c1",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."
+     },
+     {
+      "id": "4697ecb1795e259f",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     }
+    ]
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/inspection_2025-03-14.md#0",
+   "start": {
+    "id": "cc9167aef892d53b",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "mechanical seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5335ceee7f8200db",
+      "name": "mechanical seal",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty."
+     },
+     {
+      "id": "fa5a2625a2f4d9a9",
+      "name": "mechanical seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "4697ecb1795e259f",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-03-14.md#0"
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "cc9167aef892d53b",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "mechanical seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5335ceee7f8200db",
+      "name": "mechanical seal",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty."
+     },
+     {
+      "id": "fa5a2625a2f4d9a9",
+      "name": "mechanical seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "845a9a48be9b63c1",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:cc9167aef892d53b|water/work_orders_2025-06.md#0",
+   "start": {
+    "id": "cc9167aef892d53b",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "mechanical seal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5335ceee7f8200db",
+      "name": "mechanical seal",
+      "document": "water/calder_quotation.md",
+      "chunks": [
+       "water/calder_quotation.md#0"
+      ],
+      "sentence": "In our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty."
+     },
+     {
+      "id": "fa5a2625a2f4d9a9",
+      "name": "mechanical seal",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."
+     },
+     {
+      "id": "845a9a48be9b63c1",
+      "name": "mechanical seal",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."
+     }
+    ]
+   },
+   "chunk": "water/work_orders_2025-06.md#0"
+  },
+  {
+   "id": "p:d5a2b928db96009c|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "d5a2b928db96009c",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Riverton town council",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5fd1b998828502e8",
+      "name": "Riverton town council",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library."
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:d6b00a7afd4a97b0|water/harbour_station_may_2025.md#0",
+   "start": {
+    "id": "d6b00a7afd4a97b0",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "intake screen",
+    "record": null,
+    "mentions": [
+     {
+      "id": "00c234f918166ecf",
+      "name": "intake screen",
+      "document": "water/harbour_station_may_2025.md",
+      "chunks": [
+       "water/harbour_station_may_2025.md#0"
+      ],
+      "sentence": "On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it."
+     }
+    ]
+   },
+   "chunk": "water/harbour_station_may_2025.md#0"
+  },
+  {
+   "id": "p:de4ff9bed57321f5|news/library_reopened.md#0",
+   "start": {
+    "id": "de4ff9bed57321f5",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "roof",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f77dc478653d13ae",
+      "name": "roof",
+      "document": "news/library_reopened.md",
+      "chunks": [
+       "news/library_reopened.md#0"
+      ],
+      "sentence": "The Eastgate library reopened on 1 September with its new roof."
+     }
+    ]
+   },
+   "chunk": "news/library_reopened.md#0"
+  },
+  {
+   "id": "p:ef27a350ab28025c|institute/fieldwork_log.txt#0",
+   "start": {
+    "id": "ef27a350ab28025c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "flooded",
+    "record": null,
+    "mentions": [
+     {
+      "id": "84cef05267ee2536",
+      "name": "flooding",
+      "document": "news/flood_meeting.md",
+      "chunks": [
+       "news/flood_meeting.md#0"
+      ],
+      "sentence": "# Public meeting on Station Road flooding"
+     },
+     {
+      "id": "c2c5f9bc51ce34a0",
+      "name": "flooded",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "About 3,000 litres of water flooded the dry well before the operator isolated the pump."
+     }
+    ]
+   },
+   "chunk": "institute/fieldwork_log.txt#0"
+  },
+  {
+   "id": "p:ef27a350ab28025c|news/flood_meeting.md#0",
+   "start": {
+    "id": "ef27a350ab28025c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "flooded",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8f0a518c53f27e25",
+      "name": "flooded",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Core AB-20, 10 December: not taken, the site was flooded."
+     },
+     {
+      "id": "c2c5f9bc51ce34a0",
+      "name": "flooded",
+      "document": "water/incident_2025-03-29.md",
+      "chunks": [
+       "water/incident_2025-03-29.md#0"
+      ],
+      "sentence": "About 3,000 litres of water flooded the dry well before the operator isolated the pump."
+     }
+    ]
+   },
+   "chunk": "news/flood_meeting.md#0"
+  },
+  {
+   "id": "p:ef27a350ab28025c|water/incident_2025-03-29.md#0",
+   "start": {
+    "id": "ef27a350ab28025c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "flooded",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8f0a518c53f27e25",
+      "name": "flooded",
+      "document": "institute/fieldwork_log.txt",
+      "chunks": [
+       "institute/fieldwork_log.txt#0"
+      ],
+      "sentence": "Core AB-20, 10 December: not taken, the site was flooded."
+     },
+     {
+      "id": "84cef05267ee2536",
+      "name": "flooding",
+      "document": "news/flood_meeting.md",
+      "chunks": [
+       "news/flood_meeting.md#0"
+      ],
+      "sentence": "# Public meeting on Station Road flooding"
+     }
+    ]
+   },
+   "chunk": "water/incident_2025-03-29.md#0"
+  },
+  {
+   "id": "p:f6e435e9295c91a3|institute/minutes_2025-05-12.md#0",
+   "start": {
+    "id": "f6e435e9295c91a3",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "data management plan",
+    "record": null,
+    "mentions": [
+     {
+      "id": "60d4f9577735c2a5",
+      "name": "data management plan",
+      "document": "institute/minutes_2025-05-12.md",
+      "chunks": [
+       "institute/minutes_2025-05-12.md#0"
+      ],
+      "sentence": "Every project lead must submit a data management plan by 30 June 2025."
+     }
+    ]
+   },
+   "chunk": "institute/minutes_2025-05-12.md#0"
+  },
+  {
+   "id": "p:f7ac4571e2436117|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "f7ac4571e2436117",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "leaks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a30b369d350a069a",
+      "name": "leaks",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "No leaks were found on HP40-2291, and its bearing temperature was 48 °C."
+     },
+     {
+      "id": "d88443ddc9079a11",
+      "name": "leaks",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C."
+     },
+     {
+      "id": "f854dda0a9f53d23",
+      "name": "leaks",
+      "document": "water/work_orders_2025-06.md",
+      "chunks": [
+       "water/work_orders_2025-06.md#0"
+      ],
+      "sentence": "Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:f7ac4571e2436117|water/inspection_2025-03-14.md#0",
+   "start": {
+    "id": "f7ac4571e2436117",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "leaks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "bd76af414e4d7c5f",
+      "name": "leaked",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks."
+     },
+     {
+      "id": "d88443ddc9079a11",
+      "name": "leaks",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C."
+     },
+     {
+      "id": "f854dda0a9f53d23",
+      "name": "leaks",
+      "document": "water/work_orders_2025-06.md",
+      "chunks": [
+       "water/work_orders_2025-06.md#0"
+      ],
+      "sentence": "Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-03-14.md#0"
+  },
+  {
+   "id": "p:f7ac4571e2436117|water/inspection_2025-06-13.md#0",
+   "start": {
+    "id": "f7ac4571e2436117",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "leaks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "bd76af414e4d7c5f",
+      "name": "leaked",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks."
+     },
+     {
+      "id": "a30b369d350a069a",
+      "name": "leaks",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "No leaks were found on HP40-2291, and its bearing temperature was 48 °C."
+     },
+     {
+      "id": "f854dda0a9f53d23",
+      "name": "leaks",
+      "document": "water/work_orders_2025-06.md",
+      "chunks": [
+       "water/work_orders_2025-06.md#0"
+      ],
+      "sentence": "Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."
+     }
+    ]
+   },
+   "chunk": "water/inspection_2025-06-13.md#0"
+  },
+  {
+   "id": "p:f7ac4571e2436117|water/work_orders_2025-06.md#0",
+   "start": {
+    "id": "f7ac4571e2436117",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "leaks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "bd76af414e4d7c5f",
+      "name": "leaked",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks."
+     },
+     {
+      "id": "a30b369d350a069a",
+      "name": "leaks",
+      "document": "water/inspection_2025-03-14.md",
+      "chunks": [
+       "water/inspection_2025-03-14.md#0"
+      ],
+      "sentence": "No leaks were found on HP40-2291, and its bearing temperature was 48 °C."
+     },
+     {
+      "id": "d88443ddc9079a11",
+      "name": "leaks",
+      "document": "water/inspection_2025-06-13.md",
+      "chunks": [
+       "water/inspection_2025-06-13.md#0"
+      ],
+      "sentence": "Pump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C."
+     }
+    ]
+   },
+   "chunk": "water/work_orders_2025-06.md#0"
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/budget_2025.md#0",
+   "start": {
+    "id": "f88e2cd9bb9c98ff",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Street",
+    "record": null,
+    "mentions": [
+     {
+      "id": "57100c0ee6652e6a",
+      "name": "Harbour Street",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+     },
+     {
+      "id": "49e459d2260908b4",
+      "name": "Harbour Street",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Harbour Street: resurfacing postponed to 2026."
+     },
+     {
+      "id": "46f0480d81ef4151",
+      "name": "Harbour Street",
+      "document": "news/flood_meeting.md",
+      "chunks": [
+       "news/flood_meeting.md#0"
+      ],
+      "sentence": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+     }
+    ]
+   },
+   "chunk": "news/budget_2025.md#0"
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/budget_2026.md#0",
+   "start": {
+    "id": "f88e2cd9bb9c98ff",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Street",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ed02610188440b71",
+      "name": "Harbour Street",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing: 95,000 pounds"
+     },
+     {
+      "id": "49e459d2260908b4",
+      "name": "Harbour Street",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Harbour Street: resurfacing postponed to 2026."
+     },
+     {
+      "id": "46f0480d81ef4151",
+      "name": "Harbour Street",
+      "document": "news/flood_meeting.md",
+      "chunks": [
+       "news/flood_meeting.md#0"
+      ],
+      "sentence": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+     }
+    ]
+   },
+   "chunk": "news/budget_2026.md#0"
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/council_notices.md#0",
+   "start": {
+    "id": "f88e2cd9bb9c98ff",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Street",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ed02610188440b71",
+      "name": "Harbour Street",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing: 95,000 pounds"
+     },
+     {
+      "id": "57100c0ee6652e6a",
+      "name": "Harbour Street",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+     },
+     {
+      "id": "46f0480d81ef4151",
+      "name": "Harbour Street",
+      "document": "news/flood_meeting.md",
+      "chunks": [
+       "news/flood_meeting.md#0"
+      ],
+      "sentence": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+     }
+    ]
+   },
+   "chunk": "news/council_notices.md#0"
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/flood_meeting.md#0",
+   "start": {
+    "id": "f88e2cd9bb9c98ff",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Street",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ed02610188440b71",
+      "name": "Harbour Street",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing: 95,000 pounds"
+     },
+     {
+      "id": "57100c0ee6652e6a",
+      "name": "Harbour Street",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+     },
+     {
+      "id": "49e459d2260908b4",
+      "name": "Harbour Street",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Harbour Street: resurfacing postponed to 2026."
+     }
+    ]
+   },
+   "chunk": "news/flood_meeting.md#0"
+  },
+  {
+   "id": "p:f88e2cd9bb9c98ff|news/letter_harbour_street.md#0",
+   "start": {
+    "id": "f88e2cd9bb9c98ff",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Harbour Street",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ed02610188440b71",
+      "name": "Harbour Street",
+      "document": "news/budget_2025.md",
+      "chunks": [
+       "news/budget_2025.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing: 95,000 pounds"
+     },
+     {
+      "id": "57100c0ee6652e6a",
+      "name": "Harbour Street",
+      "document": "news/budget_2026.md",
+      "chunks": [
+       "news/budget_2026.md#0"
+      ],
+      "sentence": "- Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+     },
+     {
+      "id": "49e459d2260908b4",
+      "name": "Harbour Street",
+      "document": "news/council_notices.md",
+      "chunks": [
+       "news/council_notices.md#0"
+      ],
+      "sentence": "Harbour Street: resurfacing postponed to 2026."
+     }
+    ]
+   },
+   "chunk": "news/letter_harbour_street.md#0"
+  },
+  {
+   "id": "p:f9e856750f5efe67|news/letter_to_the_editor.md#0",
+   "start": {
+    "id": "f9e856750f5efe67",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "east railing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "132120d0cf7fa438",
+      "name": "east railing",
+      "document": "news/mill_lane_and_eastgate.md",
+      "chunks": [
+       "news/mill_lane_and_eastgate.md#0"
+      ],
+      "sentence": "The council's structural inspector, Daniel Okafor, wrote in his report that residents had told him the east railing moved when leaned on; he recommended closing the bridge at once."
+     }
+    ]
+   },
+   "chunk": "news/letter_to_the_editor.md#0"
+  },
+  {
+   "id": "p:f9e856750f5efe67|news/mill_lane_and_eastgate.md#0",
+   "start": {
+    "id": "f9e856750f5efe67",
+    "kind": "concept",
+    "type": "Equipment",
+    "name": "east railing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9b4736c51b2294c0",
+      "name": "east railing",
+      "document": "news/letter_to_the_editor.md",
+      "chunks": [
+       "news/letter_to_the_editor.md#0"
+      ],
+      "sentence": "I cross it every morning with my daughter, and the east railing still moves when you lean on it."
+     }
+    ]
+   },
+   "chunk": "news/mill_lane_and_eastgate.md#0"
+  },
+  {
+   "id": "p:facbbeb93eddffed|institute/brackwater_fen_log.txt#0",
+   "start": {
+    "id": "facbbeb93eddffed",
+    "kind": "individual",
+    "type": "Place",
+    "name": "Core BF-2",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c14bce5447d5f1b2",
+      "name": "Core BF-2",
+      "document": "institute/brackwater_fen_log.txt",
+      "chunks": [
+       "institute/brackwater_fen_log.txt#0"
+      ],
+      "sentence": "Core BF-2, 14 April: depth 2.6 m, pH 4.3."
+     }
+    ]
+   },
+   "chunk": "institute/brackwater_fen_log.txt#0"
+  }
+ ],
+ "chunks": {
+  "institute/brackwater_fen_log.txt#0": {
+   "document": "institute/brackwater_fen_log.txt",
+   "heading": "brackwater_fen_log",
+   "text": "Brackwater fen field log, spring 2025, kept by S. Osei.\nCore BF-1, 14 April: depth 2.1 m, pH 3.8.\nCore BF-2, 14 April: depth 2.6 m, pH 4.3.\nCore BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface.\nCore BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team."
+  },
+  "institute/fieldwork_log.txt#0": {
+   "document": "institute/fieldwork_log.txt",
+   "heading": "fieldwork_log",
+   "text": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.\nCore AB-17, 3 December: depth 4.2 m, pH 4.1, water table 12 cm below surface.\nCore AB-18, 3 December: depth 3.8 m, pH 4.6.\nCore AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike.\nCore AB-20, 10 December: not taken, the site was flooded.\nSamuel Osei joined the trip on 10 December to learn the coring method."
+  },
+  "institute/hensley_award.md#0": {
+   "document": "institute/hensley_award.md",
+   "heading": "The Hensley Field-Work Award",
+   "text": "# The Hensley Field-Work Award\n\nThe institute gives the Hensley Field-Work Award once a year for outstanding field work.\n\n- 2022: Aiko Tanaka (Hydrology), for the river gauging survey.\n- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring.\n- 2024: not awarded. Samuel Osei was nominated, but the committee found that no entry met the standard.\n- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+  },
+  "institute/minutes_2025-05-12.md#0": {
+   "document": "institute/minutes_2025-05-12.md",
+   "heading": "Minutes of the institute committee, 12 May 2025",
+   "text": "# Minutes of the institute committee, 12 May 2025\n\nPresent: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.\n\n1. Budget. Maria Lopez presented the grants budget for 2025-26. The Aldmoor peat project is 18,000 euros over its equipment line; she asked the project lead to explain the overrun by the next meeting.\n\n2. Reporting. Every project lead must submit a data management plan by 30 June 2025. Projects without a plan will not receive second-year funding.\n\n3. Flume. Aiko Tanaka reported that the flume pump vibrates at high flow rates. Samuel Osei will measure the vibration before any experiment runs above 60 litres per second.\n\nJon Pike closed the meeting at 16:40."
+  },
+  "institute/minutes_2025-06-09.md#0": {
+   "document": "institute/minutes_2025-06-09.md",
+   "heading": "Minutes of the institute committee, 9 June 2025",
+   "text": "# Minutes of the institute committee, 9 June 2025\n\nPresent: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.\n\n1. Aldmoor overrun. J. Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December. The committee accepted the explanation.\n\n2. Flume. Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit. Experiments above 60 litres per second may now start.\n\n3. Travel. Maria Lopez reported that 60 percent of the 2025 travel budget has been spent.\n\nAiko Tanaka closed the meeting at 15:55."
+  },
+  "institute/newsletter_spring_2025.md#0": {
+   "document": "institute/newsletter_spring_2025.md",
+   "heading": "Institute Newsletter, Spring 2025",
+   "text": "# Institute Newsletter, Spring 2025\n\n## Field-work award\n\nMaria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters. Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".\n\n## New hydrology flume\n\nThe Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory. The first experiments start in May."
+  },
+  "institute/seminar_notice.md#0": {
+   "document": "institute/seminar_notice.md",
+   "heading": "Seminar notice",
+   "text": "# Seminar notice\n\nDr. J. Pike (Soil Ecology) speaks on \"Peat as a carbon archive\" on 3 June 2025 at 14:00 in room B12. The talk presents the first results from the Aldmoor cores."
+  },
+  "institute/seminar_notice_autumn.md#0": {
+   "document": "institute/seminar_notice_autumn.md",
+   "heading": "Seminar notice",
+   "text": "# Seminar notice\n\nAiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12. Coffee is served from 13:45."
+  },
+  "institute/travel_claims_memo.md#0": {
+   "document": "institute/travel_claims_memo.md",
+   "heading": "Finance Office memo: travel claims",
+   "text": "# Finance Office memo: travel claims\n\nFrom: Maria Lopez, grants accountant\n\nTravel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August. Please attach every receipt.\n\nSeveral colleagues have asked how the June conference trips are funded. The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader."
+  },
+  "institute/utrecht_conference_2025.md#0": {
+   "document": "institute/utrecht_conference_2025.md",
+   "heading": "Back from Utrecht",
+   "text": "# Back from Utrecht\n\nTwo of our researchers attended the European peat conference in Utrecht in June 2025. Maria Lopez presented a poster on the 240 cores of the Aldmoor bog, which drew more questions than any other poster in her session. Dr. Jonathan Pike chaired the session on peat as a carbon archive.\n\nNext year's conference will be held in Tartu."
+  },
+  "news/bakery_opens.md#0": {
+   "document": "news/bakery_opens.md",
+   "heading": "New bakery on Harbour Street",
+   "text": "# New bakery on Harbour Street\n\nMaria Lopez has opened a bakery at 14 Harbour Street, in the former post office. She trained in Valencia and bakes rye bread and pastries every morning from five.\n\n\"The street is full of potholes,\" she said. \"I hope the resurfacing starts before winter, or my customers will stop coming.\""
+  },
+  "news/budget_2025.md#0": {
+   "document": "news/budget_2025.md",
+   "heading": "Riverton sets its 2025 works budget",
+   "text": "# Riverton sets its 2025 works budget\n\nThe council's works budget for 2025 lists five projects:\n\n- Mill Lane footbridge repair: 180,000 pounds\n- Eastgate library roof: 420,000 pounds\n- Harbour Street resurfacing: 95,000 pounds\n- Station Road drainage: 260,000 pounds\n- Town hall boiler: 60,000 pounds\n\nThe contractor for the library roof must finish before the library reopens on 1 September. Councillor Priya Nandakumar asked for the drainage project to be moved ahead of the resurfacing; the vote on her motion was postponed."
+  },
+  "news/budget_2026.md#0": {
+   "document": "news/budget_2026.md",
+   "heading": "Riverton's 2026 works budget published",
+   "text": "# Riverton's 2026 works budget published\n\nThe council has published its works budget for 2026. It lists five projects:\n\n- Station Road drainage, second phase: 310,000 pounds\n- Riverside path lighting: 230,000 pounds\n- Eastgate library heating: 140,000 pounds\n- Harbour Street resurfacing, carried over from 2025: 110,000 pounds\n- Mill Lane footbridge east railing: 15,000 pounds\n\nCouncillor Priya Nandakumar welcomed the second drainage phase but asked why the resurfacing had slipped by a year."
+  },
+  "news/council_notices.md#0": {
+   "document": "news/council_notices.md",
+   "heading": "Council notices",
+   "text": "# Council notices\n\nMill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks.\n\nHarbour Street: resurfacing postponed to 2026. The street stays open to traffic.\n\nStation Road: lane closures from September while the drainage is rebuilt."
+  },
+  "news/flood_meeting.md#0": {
+   "document": "news/flood_meeting.md",
+   "heading": "Public meeting on Station Road flooding",
+   "text": "# Public meeting on Station Road flooding\n\nAbout eighty residents came to the town hall on Thursday to discuss the flooding of Station Road.\n\nDr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river. The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms.\n\nMayor Helen Achterberg said the drainage works will start in September. Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."
+  },
+  "news/footbridge_reopens.md#0": {
+   "document": "news/footbridge_reopens.md",
+   "heading": "Mill Lane footbridge reopens",
+   "text": "# Mill Lane footbridge reopens\n\nThe Mill Lane footbridge reopened on 28 March after eight weeks of works. Both railings and all 46 deck boards were replaced. Mayor Achterberg thanked residents for their patience and said the works had come in 12,000 pounds under budget."
+  },
+  "news/harbour_open_day.md#0": {
+   "document": "news/harbour_open_day.md",
+   "heading": "Riverton Water opens its doors",
+   "text": "# Riverton Water opens its doors\n\nHarbour Station welcomed some sixty visitors at Riverton Water's open day on Saturday. Technician Rosa Delgado showed them the station's Kestrel V-12 pump and explained how the alarms reach North Station when the site is unmanned.\n\nChildren could try a hand pump in the yard, and the café sold out of cakes by noon."
+  },
+  "news/letter_harbour_street.md#0": {
+   "document": "news/letter_harbour_street.md",
+   "heading": "Letter: when will Harbour Street be fixed?",
+   "text": "# Letter: when will Harbour Street be fixed?\n\nSir, the resurfacing of Harbour Street was promised for this year and has now been moved to next year's budget. My neighbours on Harbour Street have waited three winters. Who decided this, and why?\n\nJudith Pike, Mill Lane"
+  },
+  "news/letter_to_the_editor.md#0": {
+   "document": "news/letter_to_the_editor.md",
+   "heading": "Letter: the footbridge is not safe",
+   "text": "# Letter: the footbridge is not safe\n\nSir, the mayor tells us the Mill Lane footbridge is safe to use. I cross it every morning with my daughter, and the east railing still moves when you lean on it. Nobody has fixed it, and no warning sign has been put up.\n\nGareth Lowe, Mill Lane"
+  },
+  "news/library_reopened.md#0": {
+   "document": "news/library_reopened.md",
+   "heading": "Eastgate library back in business",
+   "text": "# Eastgate library back in business\n\nThe Eastgate library reopened on 1 September with its new roof. The contractor finished on 25 August, a week ahead of the deadline.\n\nThe children's section has new carpets and a reading corner. Opening hours are unchanged."
+  },
+  "news/mill_lane_and_eastgate.md#0": {
+   "document": "news/mill_lane_and_eastgate.md",
+   "heading": "Council votes on two repairs",
+   "text": "# Council votes on two repairs\n\nThe Riverton town council voted 7 to 2 on Tuesday to repair the Mill Lane footbridge and to replace the roof of the Eastgate library.\n\nThe footbridge will be closed from 3 February while its railings and deck boards are renewed. The library roof, which has leaked into the children's section since the autumn storms, will be replaced over the summer, when the library closes for four weeks.\n\nMayor Helen Achterberg said the footbridge \"is safe to use until the works begin\". The council's structural inspector, Daniel Okafor, wrote in his report that residents had told him the east railing moved when leaned on; he recommended closing the bridge at once."
+  },
+  "water/calder_quotation.md#0": {
+   "document": "water/calder_quotation.md",
+   "heading": "Calder Pumps: quotation for seal kits",
+   "text": "# Calder Pumps: quotation for seal kits\n\nDear Riverton Water,\n\nFollowing the seal failure on one of your North Station pumps in March, we are pleased to quote for spare seal kits.\n\nIn our experience a Hydra P-40 needs a new mechanical seal every 18 months of duty. We therefore recommend keeping two reconditioned seal kits in stock, at 640 euros each, delivery within ten working days.\n\nKind regards,\nInes Barros, Service Manager, Calder Pumps"
+  },
+  "water/harbour_station_may_2025.md#0": {
+   "document": "water/harbour_station_may_2025.md",
+   "heading": "Harbour Station monthly report, May 2025",
+   "text": "# Harbour Station monthly report, May 2025\n\nThe station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure. On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since.\n\nAverage flow for the month was 17 litres per second. The station was unmanned for the rest of May, with alarms routed to North Station."
+  },
+  "water/incident_2025-03-29.md#0": {
+   "document": "water/incident_2025-03-29.md",
+   "heading": "Incident report: flooding of the North Station dry well",
+   "text": "# Incident report: flooding of the North Station dry well\n\nOn 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift. About 3,000 litres of water flooded the dry well before the operator isolated the pump. Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty.\n\nSite engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended.\n\nThe seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado."
+  },
+  "water/inspection_2025-03-14.md#0": {
+   "document": "water/inspection_2025-03-14.md",
+   "heading": "North Station pump inspection, 14 March 2025",
+   "text": "# North Station pump inspection, 14 March 2025\n\nTechnician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round.\n\nPump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit. Delgado tagged it for a seal replacement within two weeks.\n\nPump HP40-2291 ran quietly. No leaks were found on HP40-2291, and its bearing temperature was 48 °C.\n\nMeasured flow: HP40-1183 delivered 38 litres per second, HP40-2291 delivered 41 litres per second."
+  },
+  "water/inspection_2025-06-13.md#0": {
+   "document": "water/inspection_2025-06-13.md",
+   "heading": "North Station pump inspection, 13 June 2025",
+   "text": "# North Station pump inspection, 13 June 2025\n\nTechnician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station.\n\nPump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C. Delgado tagged HP40-2291 for a seal change before the end of the month.\n\nPump HP40-1183, with the seal fitted on 31 March, was dry: no leaks were found on HP40-1183, and its bearing temperature was 49 °C.\n\nMeasured flow: HP40-1183 delivered 40 litres per second, HP40-2291 delivered 39 litres per second."
+  },
+  "water/isolation_procedure.md#0": {
+   "document": "water/isolation_procedure.md",
+   "heading": "Contents",
+   "text": "## Contents\n\n1. Before you start\n2. Isolating a duty pump\n\n# Isolating a pump at North Station\n\nWritten by Tomasz Wren for new operators.\n\n## Before you start\n\nTell the control room which pump you will isolate, and check that the standby pump is available.\n\n## Isolating a duty pump\n\nSwitch the standby pump to duty first. Then stop the pump you are isolating, close its discharge valve, and close its suction valve last. Lock both valves and hang a tag on the starter."
+  },
+  "water/north_station_2024_summary.md#0": {
+   "document": "water/north_station_2024_summary.md",
+   "heading": "North Station: summary of 2024",
+   "text": "# North Station: summary of 2024\n\nNorth Station pumped 1.9 million cubic metres in 2024. HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year.\n\nNo seal failures were recorded in 2024. The only stoppage was a four-hour power cut on 17 November, when both pumps were off.\n\nFor 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps."
+  },
+  "water/shift_notes.txt#0": {
+   "document": "water/shift_notes.txt",
+   "heading": "shift_notes",
+   "text": "Shift notes, North Station, week of 7 April 2025.\nMon: HP40-2291 on duty all week, flow steady at 41 l/s.\nTue: Calder Pumps phoned about the seal returned from HP40-1183. Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal. Our log shows the suction valve open for the whole night of the failure, so we do not accept that the pump ran dry.\nWed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found.\nThu: nothing to report."
+  },
+  "water/shift_notes_june.txt#0": {
+   "document": "water/shift_notes_june.txt",
+   "heading": "shift_notes_june",
+   "text": "Shift notes, North Station, week of 9 June 2025.\nMon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby.\nTue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.\nWed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept.\nThu: nothing to report.\nFri: quarterly inspection by Rosa Delgado."
+  },
+  "water/work_orders_2025-06.md#0": {
+   "document": "water/work_orders_2025-06.md",
+   "heading": "Work orders, North Station, June 2025",
+   "text": "# Work orders, North Station, June 2025\n\nWO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado. Pump returned to duty the same day.\n\nWO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection. The old seal was kept for the vendor.\n\nWO-320, 30 June. Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."
+  }
+ }
+}
