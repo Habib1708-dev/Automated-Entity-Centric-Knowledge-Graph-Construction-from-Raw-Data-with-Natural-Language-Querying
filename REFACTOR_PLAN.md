@@ -5676,8 +5676,41 @@ r77d is not confounded by a new sample of the extractor (R61-R62).
   (`tests/test_extract_replay.py`, 2, Neo4j): the invented build's 4 claims written again and a fifth with a
   quote not in its chunk rejected; a build of another schema refused with nothing written. README. Gate:
   778 passed (776 before), `ruff check` clean.
+  Committed at `36c0506`.
+- **Part b: the rebuilds (done 2026-10-07; $1.832).** The user agreed per dataset (furniture est. $0.35-0.5,
+  held-out $0.45-0.65, generality $0.3-0.4). At `36c0506` with only `.claude/settings.json` dirty, each into
+  `out/r102_<ds>` with r77d's `plan.json`, `text_schema.json` and `profile.json` pinned (`kg build` rewrites the
+  profile's sampled example values, DuckDB sampling, so the r77d profile was copied back before
+  `ingest-text`): `kg reset`, `build`, `ingest-text`, `extract --from-build out/r77d_<ds>`, `link`,
+  `mention-pass`, `resolve`, `attach`, presets `quality` / `heldout` / `generality_gemini`.
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | chunks; claims replayed (rejected); facts | 70; 514 (0); 514 | 81; 532 (0); 531 | 32; 212 (0); 212 |
+  | everything up to `link` equal to r77d's logged counts | yes | yes | yes |
+  | pass: found / accepted / refused | 481 / 474 / 7 (too long) | 705 / 615 / 90 (60 date or number, 12 not in text, 12 clause, 6 too long) | 259 / 259 / 0 |
+  | pass: new mentions (claims' mentions) / reused | 394 (607) / 26 | 563 (491) / 1 | 259 (255) / 0 |
+  | resolve: mentions to records / individuals / concepts | 64 / 244 / 693 | 77 / 400 / 606 | 47 / 211 / 256 |
+  | resolve: individual pairs joined / apart / unsure | 288 / 91 / 44 | 255 / 1292 / 31 | 119 / 62 / 78 |
+  | cost: pass + resolve (MLflow) | $0.076 + $0.336 = **$0.411** | $0.115 + $1.136 = **$1.251** | $0.044 + $0.126 = **$0.170** |
+  | MLflow: pass, resolve | `209c28ad`, `98e4533f` | `48c82bce`, `6d2ad084` | `89dae7b1`, `162e17c2` |
+
+  - **Held-out cost twice its estimate**, all in `resolve` (1802 calls). 1057 of its decisions are between
+    pass mentions typed `Recall` (recall numbers such as "15V-246", "16V-643"): spelling nominates every pair
+    of them and the adjudicator answered 668 apart. The estimate counted mentions, not pairs. The user was told
+    before generality's resolve and agreed to it with a counted estimate (an offline count of the pairs it
+    would ask, $0.30-0.45; it cost $0.126 with 157 cache hits). Recorded under "Found along the way".
+  - **Committed:** `tests/gold/r102/<ds>_logged.json` (counts and usage copied from the six stage runs of each
+    rebuild) and `runs.json` (commands, run ids, costs, approvals). A test checks that ingest, extract and
+    link counts equal r77d's, the pass counts are there, and the cost matches.
 
 ## Found along the way
+- **Identifiers nominate pairs by spelling (found in R102, 2026-10-07; open).** The mention pass types recall
+  numbers ("15V-246", "16V-643", "17V-210") with a keyed type; as `no_record` individuals they are spelled at
+  least `er_borderline` alike, so held-out's resolve asked 668 such pairs and answered every one apart ($1.14 in
+  all). Two identifiers that differ in a digit are two things; a nomination rule that leaves names with digits
+  out of spelling (as `names.name_score` already treats a word with a digit as having no ending) would save
+  the calls without losing a join. Not built: it changes resolve, a separate step.
 - **R100's adjudicator answers "unsure" for some right joins (found in R100, 2026-10-06; the user's choice).**
   Seven joins judged right in R99 are lost: furniture "cushions" / "cushion" (one review; an R75 gold pair, so
   identity recall 11/13 -> 10/13), "dimmer" / "dimmer function", "storage" / "storage mechanism", "upholstery" /

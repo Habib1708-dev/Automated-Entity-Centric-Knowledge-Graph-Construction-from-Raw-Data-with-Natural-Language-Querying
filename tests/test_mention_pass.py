@@ -4,15 +4,17 @@ existing mention's type winning), the prompt's corpus-language guard, the built-
 snapshot replaying a build's pass file, and the stage on Neo4j (params, metrics, artifacts).
 
 The text is an invented observatory log (as the definition's examples, tests/gold/r101/rules.md). Only the
-stage test needs Neo4j.
+stage test needs Neo4j. The R102 rebuilds' logged counts (tests/gold/r102) must show the r77d claims replayed
+unchanged and the pass's counts.
 """
 
 import json
+from pathlib import Path
 
 import pytest
 
 from kgbuilder.audit import build_snapshot
-from kgbuilder.audit.fidelity import snapshot_counts
+from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import LLMResponseError
 from kgbuilder.core.identity import mention_id
@@ -231,3 +233,22 @@ def test_the_stage_writes_the_new_mentions_and_logs_what_it_asked_and_refused(dr
     assert [json.loads(x)["name"] for x in (out / PASS_FILE).read_text("utf-8").splitlines()] == [
         "condensation"
     ]
+
+
+R102 = Path(__file__).resolve().parent / "gold" / "r102"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r102_rebuild_logged_the_replayed_claims_and_the_pass(dataset):
+    """The rebuilds' logged counts (copied from MLflow): the r77d claims replayed unchanged, the pass's own
+    counts present, and the cost the runs index reports."""
+    runs = json.loads((R102 / "runs.json").read_text(encoding="utf-8"))["datasets"][dataset]
+    logged = LoggedCounts.model_validate_json((R102 / f"{dataset}_logged.json").read_text(encoding="utf-8"))
+    r77d = LoggedCounts.model_validate_json(
+        (R102.parent / "r87" / f"{dataset}_logged.json").read_text(encoding="utf-8")
+    )
+    before_pass = [k for k in r77d.counts if k.startswith(("ingest_text.", "extract.", "link."))]
+    assert {k: logged.counts[k] for k in before_pass} == {k: r77d.counts[k] for k in before_pass}
+    assert logged.counts["mention_pass.mention_nodes"] > 0
+    cost = sum(v for k, v in logged.usage.items() if k.endswith("cost_usd"))
+    assert cost == pytest.approx(runs["cost_usd"]) and set(logged.runs) == set(runs["runs"])

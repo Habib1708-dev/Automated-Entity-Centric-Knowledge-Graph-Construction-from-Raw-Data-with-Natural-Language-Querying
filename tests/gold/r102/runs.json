@@ -1,0 +1,94 @@
+{
+ "step": "R102 part b: the three graphs rebuilt with the r77d claims (kg extract --from-build) and every R97-R101 change in place",
+ "approved": "the user, 2026-10-07 (AskUserQuestion: yes for furniture est. $0.35-0.5, held-out est. $0.45-0.65, generality est. $0.3-0.4; after held-out's overrun, asked again and approved generality's resolve at est. $0.30-0.45 more)",
+ "git_sha": "36c0506-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "cost_usd_total": 1.832095,
+ "overrun": "held-out cost $1.251 against the agreed $0.45-0.65: its resolve asked 1802 questions ($1.136), mostly pairs of pass mentions typed as recall numbers that spelling nominates (668 answered apart)",
+ "datasets": {
+  "furniture": {
+   "preset": "quality",
+   "build": "out/r102_furniture",
+   "pinned_from": "out/r77d_furniture: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "commands": [
+    "kg --preset quality reset --out out/r102_furniture",
+    "kg --preset quality build data --out out/r102_furniture",
+    "kg --preset quality ingest-text data --out out/r102_furniture",
+    "kg --preset quality extract --from-build out/r77d_furniture --out out/r102_furniture",
+    "kg --preset quality link --out out/r102_furniture",
+    "kg --preset quality mention-pass --out out/r102_furniture",
+    "kg --preset quality resolve --out out/r102_furniture",
+    "kg --preset quality attach --out out/r102_furniture"
+   ],
+   "runs": {
+    "ingest_text": "a13ecfb721c342af8de43990d0ac1e73",
+    "extract": "808f070fa3f7405abd7470b2654b9b8b",
+    "link": "641b4e201e794fabba63a6e29646cde7",
+    "mention_pass": "209c28ad8df840c0acdffeb4f07f76bc",
+    "resolve": "98e4533ff8f64e64a23c7fc45d8ec434",
+    "attach": "b8a29f7155fc4cff89603781fcaa186b"
+   },
+   "cost_usd": 0.411462,
+   "logged": {
+    "file": "tests/gold/r102/furniture_logged.json",
+    "hash": "956b4da60579"
+   }
+  },
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r102_heldout",
+   "pinned_from": "out/r77d_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "commands": [
+    "kg --preset heldout reset --out out/r102_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r102_heldout",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r102_heldout",
+    "kg --preset heldout extract --from-build out/r77d_heldout --out out/r102_heldout",
+    "kg --preset heldout link --out out/r102_heldout",
+    "kg --preset heldout mention-pass --out out/r102_heldout",
+    "kg --preset heldout resolve --out out/r102_heldout",
+    "kg --preset heldout attach --out out/r102_heldout"
+   ],
+   "runs": {
+    "ingest_text": "c4b2c2a50ca44b2eb08bb03945d6df6f",
+    "extract": "19b968d339714148b9ea22755dea236b",
+    "link": "c55c4577ec7d44028880bf1d398ac709",
+    "mention_pass": "48c82bced1474e54b371ca2c5d3594c9",
+    "resolve": "6d2ad0848a48416697de56050e6f725c",
+    "attach": "449857e03a1a4038bc52b05945848c6d"
+   },
+   "cost_usd": 1.250892,
+   "logged": {
+    "file": "tests/gold/r102/heldout_logged.json",
+    "hash": "3928ccfe2f83"
+   }
+  },
+  "generality": {
+   "preset": "generality_gemini",
+   "build": "out/r102_generality",
+   "pinned_from": "out/r77d_generality: plan.json, text_schema.json, profile.json (profile copied back after kg build, which rewrites its sampled values)",
+   "commands": [
+    "kg --preset generality_gemini reset --out out/r102_generality",
+    "kg --preset generality_gemini build tests/fixtures/generality --out out/r102_generality",
+    "kg --preset generality_gemini ingest-text tests/fixtures/generality --out out/r102_generality",
+    "kg --preset generality_gemini extract --from-build out/r77d_generality --out out/r102_generality",
+    "kg --preset generality_gemini link --out out/r102_generality",
+    "kg --preset generality_gemini mention-pass --out out/r102_generality",
+    "kg --preset generality_gemini resolve --out out/r102_generality",
+    "kg --preset generality_gemini attach --out out/r102_generality"
+   ],
+   "runs": {
+    "ingest_text": "cd7f03af02754b50b502efaab7f9bfda",
+    "extract": "fea275715bee4b39b9e582b6d78fb637",
+    "link": "13a95c2508fc441ab426460a3d0a7268",
+    "mention_pass": "89dae7b1e9b24b00a10cf7d9cb3bf135",
+    "resolve": "162e17c2c39248a6ac03a8e3837eca2a",
+    "attach": "33311a0b0cb14bb7b1cb27316431e568"
+   },
+   "cost_usd": 0.169741,
+   "logged": {
+    "file": "tests/gold/r102/generality_logged.json",
+    "hash": "1a7880af4b72"
+   }
+  }
+ }
+}
