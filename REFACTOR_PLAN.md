@@ -5660,7 +5660,7 @@ the graph into a noisy copy of the text, so the bounds are fixed before measurin
 - **R101 done 2026-10-07.** The noise and size bounds are checked in R102. Next: R102 (part a, $0, then the
   rebuild, asked per dataset).
 
-### R102. Rebuild with the r77d claims, and evaluate everything (started 2026-10-07)
+### R102. Rebuild with the r77d claims, and evaluate everything (done 2026-10-07; $1.832)
 The replays of R94-R100 were not rebuilds: each restated one stage over a snapshot. R102 builds the three
 graphs again with every change of R97-R101 in place (the anchor walk is evaluation-side; record candidates,
 the adjudicator and the mention pass are build-side), reusing the r77d claims so that the comparison with
@@ -5703,8 +5703,134 @@ r77d is not confounded by a new sample of the extractor (R61-R62).
   - **Committed:** `tests/gold/r102/<ds>_logged.json` (counts and usage copied from the six stage runs of each
     rebuild) and `runs.json` (commands, run ids, costs, approvals). A test checks that ingest, extract and
     link counts equal r77d's, the pass counts are there, and the cost matches.
+- **Part c: the evaluation (done 2026-10-07, $0: no API call; offline stages, judging in the session).**
+  - **`kg mention-eval BUILD --dataset N --data D --logged L --gold-dir tests/gold/r101 [--verdicts V]`**
+    (`validation/mention_eval.py`, `pipeline/mention_stages.py`): rebuilds a build offline behind the C0 gate
+    and scores its mentions against R101's gold. A gold mention is a `hit` when a mention of the sentence's
+    chunk has its name after `norm`, a `candidate` when only a near name (one holds the other as whole words)
+    stands there, the judge deciding whether it names the same thing (the judged paraphrase mapping), else a
+    `miss`. Precision: a seeded sample of 60 pass mentions (seed 102, fixed before any verdict), each with
+    its chunk; the class shown is the one its type gives (a concept type: kind; any other: particular).
+    Params: build, gold, sample and verdicts with hashes, sample size and seed, chunker. Metrics: recall
+    exact and mapped (with Wilson intervals), exact recall by class, precision, pass mentions, pass mentions
+    per chunk (median, p90). Artifacts: `mention_sheet.json`, `mention_report.json`. Tests
+    (`tests/test_mention_eval.py`, 10). Committed with the sheets at `0bd6b2b`.
+  - **Sheets** (committed at `0bd6b2b`, before any verdict): C3, C4 and C6 sheets of the three rebuilds with
+    their code sides, both arms' anchor reports, fidelity and code checks; the mention sheets of r77d and of
+    the rebuild per dataset.
+  - **Judging** (Claude Opus 5.5, `claude-opus-5-5`; rules `tests/gold/r93/rules/c3.md`, `c4.md`, `c6.md`
+    unchanged, and `tests/gold/r102/mention_judge_rules.md`, the R101 definition plus the two questions).
+    C3/C4/C6: items byte-identical to R100's carry R100's verdicts; 352 are new or changed (furniture C3 76,
+    C4 21, C6 12; held-out C3 85, C6 35; generality C3 60, C4 3, C6 60), judged in 26 blind batches of at
+    most 60k characters (each subagent saw only the rules and its batch): 303 VALID, 36 VALID_ALTERNATIVE,
+    9 INCORRECT, 4 AMBIGUOUS. Mentions: 6 blind batches (the recall candidates of both sheets, one verdict
+    per distinct candidate list, and the precision sample). The lead reviewed every INCORRECT, AMBIGUOUS and
+    UNJUDGEABLE verdict and the seeded 10 % of VALID ones (68 anchor items, 25 mention items): **no change**.
+    Two checks in review: the gold (written blind in R101) leaves out titles of named people ("Councillor
+    Priya Nandakumar" gives "Priya Nandakumar") and lists "recalling" as a kind, as the precision judges did.
+  - **`kg anchor-judged`** on the three rebuilds; `kg mention-eval --verdicts` on the six builds.
+    Committed: the verdict files, `anchor_judged.json`, `mentions_<build>_report.json`. Tests: the R102
+    verdicts answer their sheets, carry R100's for byte-identical items, and score as reported
+    (`tests/test_anchor_judging.py`, `tests/test_mention_eval.py`). Gate: 794 passed, `ruff check` clean.
+- **Part d: results** (judge: Claude Opus 5.5; before = R100's replay of r77d, after = the R102 rebuild; C5
+  pairing against R92's vector rankings, McNemar; n per row):
+
+  | Criterion | furniture | held-out | generality |
+  |---|---|---|---|
+  | C0 fidelity; C1 provenance | pass; 1.0 | pass; 1.0 | pass; 1.0 |
+  | **Mention recall of the R101 gold, exact** (r77d -> R102) | 23/75 -> **57/75** | 32/125 -> **94/125** | 37/109 -> **80/109** |
+  | Mention recall with the judged mapping | 39/75 -> **70/75** | 45/125 -> **111/125** | 49/109 -> **97/109** |
+  | Exact recall, particular / kind | 3/13 -> 13/13 / 20/62 -> 44/62 | 13/47 -> 35/47 / 19/78 -> 59/78 | 27/40 -> 35/40 / 10/69 -> 45/69 |
+  | **Pass precision (judged, 60 sampled; AMBIGUOUS left out)** | **45/57 = 0.789** [0.667, 0.875] | 51/55 = 0.927 [0.827, 0.971] | **41/58 = 0.707** [0.580, 0.808] |
+  | Pass mentions; per chunk median / p90 | 394; 6 / 9 | 563; 7 / 12 | 259; 8 / 13 |
+  | C9 nodes / edges per chunk, arm A | 17.6 -> 26.2 / 25.8 -> 38.2 | 13.2 -> 23.5 / 17.3 -> 31.9 | 14.6 -> 28.2 / 17.1 -> 33.2 |
+  | **C7 hubs** (> 20 % of the corpus) | 0 -> 0 | 0 -> **1** (FORD, 20 of 81 chunks) | 3 -> **4** (+ North Station, 10 of 32) |
+  | C2 target found at rank 1; targets with no node | 0.837 -> 0.860; 2 -> 0 | 0.708 -> 0.800; 11 -> 0 | 0.661 -> 0.855; 15 -> 1 |
+  | C3 individual merges judged (n); wrong | 2 -> 26; 0 | 9 -> 42; 0 | 30 -> 34; 0 |
+  | C3 concept merges judged (n); wrong | 77 -> 114; 2 (R100's) | 41 -> 82; **1** ("CONTACT") | 8 -> 48; **1** ("trip") |
+  | C3 split groups that are one thing | 0 of 12 -> **2 of 17** | 0 of 3 -> **1 of 6** | 3 of 3 -> **7 of 9** |
+  | C3 record merges wrong; R75 pairs precision / apart / recall | 0; 1.0 / 1.0 / 10/13 -> 11/14 | 1 (R93's); 1.0 / 1.0 / 5/7 | 0; 1.0 / 1.0 / 13/13 |
+  | C4 precision | 50/50 -> 64/64 | 76/77 -> 76/77 | 44/44 -> 47/47 |
+  | C6 arm A / B (record + individual starts) | 109/109 / 112/112 | 85/85 / 85/85 | 101/101 / 101/101 |
+  | C8 arm A connections; unwitnessed hops | 13/14 -> 14/14; 0 | 16/16; 0 | 12/12; 0 |
+  | C5 gold start complete@10 (A vs vector, p) | 29 vs 26 (0.375 -> 0.453) | 24 -> 25 vs 26 (0.688 -> 1.0) | 31 -> **36** vs 37 (0.070 -> 1.0) |
+  | C5 end to end complete@5 (A vs vector, p) | 17 vs 21 (0.289) | 19 -> 21 vs 26 (0.065 -> 0.180) | 24 -> 26 vs 34 (0.006 -> 0.021) |
+  | C5 end to end complete@10 (A vs vector, p) | 22 -> 23 vs 26 (0.344 -> 0.549) | 21 -> 23 vs 26 (0.180 -> 0.453) | 31 -> **34** vs 37 (0.070 -> 0.375) |
+  | Cost of the rebuild (MLflow, part b) | $0.411 | $1.251 | $0.170 |
+
+  Against r77d as built (R90), generality end to end complete@10 is 22 -> 34 of 38 (vector 37; p < 0.001 ->
+  0.375).
+
+  **Construction against query-time failures.** A question arm A leaves incomplete end to end at 10 is a
+  construction failure when a target has no node or a gold chunk cannot be reached from the gold start (the
+  graph lacks the path), and a query-time failure when the path exists but the walk ranks the chunk below 10,
+  or the name lookup starts elsewhere while the gold start is complete:
+
+  | Incomplete @10, arm A (construction / query-time) | furniture (31) | held-out (28) | generality (38) |
+  |---|---|---|---|
+  | r77d as built (R90) | 2 / 7 | 3 / 4 | 14 / 2 |
+  | R100 (replay with R97-R100) | 2 / 7 | 3 / 4 | 6 / 1 |
+  | **R102 (rebuild with R97-R101)** | **0 / 8** | **0 / 5** | **0 / 4** |
+  | R102 query-time: ranked below 10 from the gold start | F06, F32 | H19, H29, H31 | G25, G36 |
+  | R102 query-time: the name lookup starts elsewhere | F08, F16, F22, F25, F26, F27 | H08, H28 | G12, G23 |
+
+  Construction failures judged elsewhere, which leave every question complete or only rank it lower: the 7
+  new wrong C3 splits and 2 new wrong concept merges (all involving pass mentions, below), R100's three
+  generality splits and two furniture concept merges, held-out's R93 record link (H51), and the precision
+  errors of the pass.
+
+  Read with care:
+  - **What R102 shows.** With every R97-R101 change in place and the r77d claims, the anchor graph reaches
+    every gold chunk from the gold start on all three datasets (C5 gold start reached 1.0), places every
+    target but one, and finds no remaining construction failure among the incomplete questions. The C5 gap to
+    vector retrieval is no longer significant anywhere at 10 (generality end to end p 0.375; at 5 it still is,
+    26 vs 34, p 0.021). What is left is on the query side: ranking within the walk and the start chosen by
+    name lookup (Found along the way, R96's tie-break).
+  - **Two R101 bounds fail.** (1) Pass precision >= 0.90 fails on furniture (0.789) and generality (0.707);
+    held-out passes (0.927). The judged errors: furniture 12 = 9 mentions typed with a keyed type, so shown as
+    particular, that name a piece or a kind ("back rest", "seams", "covers" as `Component`; "chair",
+    "furniture" as `Product`), 1 kind typed `Particular` ("home office"), 2 Out words ("short", "space");
+    generality 17 = 7 common nouns given an individual type ("street", "café", "bakery", "control room" as
+    `Place`; "vote", "resurfacing" as `Event`; "contractor" as `Organization`), 6 titles of named people
+    ("Councillor" x2, "Mayor", "technician", "structural inspector", "chair"), 1 kind typed with a keyed type
+    ("standby pump" as `Pump`), "winter" and "Sir" as particulars, "surface"; held-out 4 = "recalling" typed
+    `Recall` x2, "START", "DRIVING". (2) "No new C7 hub" fails on held-out (FORD: 10 pass mentions, one per
+    Ford document, all judged one company) and on generality (North Station: 6 -> 10 of 32 chunks, its merge
+    judged right). Both hubs are named particulars the text really names that often, not generic words; the
+    bound counts them anyway. R101's rule applies: at most three `dev` rounds on the prompt and checks, then
+    the user decides (Found along the way).
+  - **The class of a keyed-type mention** is an artefact of the sheet, found in review: the sheet shows every
+    mention of a keyed type as particular, while the definition makes a piece ("back rest") a kind, even
+    though the graph rightly links it to the product's record. Read on the name only, as a check made after
+    the verdicts and not as the score: furniture 54/57, generality 42/58 (Found along the way).
+  - **The new wrong splits are the pass's same-named individuals** ("Austin", "Seattle", "Toyota",
+    "Riverton", "children's section", "Harbour Street", a second "Tomasz Wren"): one document each, nominated
+    and answered apart or unsure by R100's adjudicator, which asks for a stated role, place or event. Both
+    wrong concept merges join a pass mention with another sense of the same word ("THE CONTACT", the
+    complainant, with "Contact with the ECM bracket"; a conference "trip" with a pump that "tripped").
+  - Gold and verdicts come from one model family (Claude); the gold was written blind, before any pass
+    output (R101).
+- **R102 done 2026-10-07** ($1.832, all in part b). Next: the user's decision on the failed bounds (R101's
+  rule: up to three `dev` rounds on the pass), then R103 (paid, asked).
 
 ## Found along the way
+- **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
+  Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and
+  North Station (generality). The precision errors that are the pass's own: individual or fallback types for
+  common nouns, titles of named people, a few Out words. R101's rule gives the prompt and checks at most three
+  `dev` rounds on `samples/` before the user decides; the hub bound counts named particulars the text names
+  in over 20 % of the chunks, which the bound was not meant to catch, so whether it stays as written is part of
+  the decision.
+- **The mention sheet's class for keyed types (found in R102, 2026-10-07; open).** `MentionEvalStage` gives a
+  mention of a keyed type the class particular; the definition makes a piece or an unnamed object a kind
+  whatever its type. A sheet that takes the class from the type for individual and fallback types only, and
+  asks the judge for a keyed-type mention's name without a class, would measure the pass as defined. Changing
+  it changes R102's numbers, so it is not done after the verdicts; it belongs to the step that next measures
+  the pass, decided before its sheet exists.
+- **Near-duplicate pass mentions in one sentence (found in R102, 2026-10-07; open).** "may not engage" and
+  "not engage" are two mentions of one sentence, merged into one concept (judged right); `already_listed`
+  compares whole normalised names, so a name holding another passes.
+- **Identifiers nominate pairs by spelling (found in R102, 2026-10-07; open).** The mention pass types recall
 - **Identifiers nominate pairs by spelling (found in R102, 2026-10-07; open).** The mention pass types recall
   numbers ("15V-246", "16V-643", "17V-210") with a keyed type; as `no_record` individuals they are spelled at
   least `er_borderline` alike, so held-out's resolve asked 668 such pairs and answered every one apart ($1.14 in

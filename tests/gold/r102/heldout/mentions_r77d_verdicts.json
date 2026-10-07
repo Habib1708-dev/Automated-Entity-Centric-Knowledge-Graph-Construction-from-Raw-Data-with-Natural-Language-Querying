@@ -1,0 +1,176 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "0b443223be6c",
+  "sheet": "tests/gold/r102/heldout/mentions_r77d_sheet.json",
+  "sheet_hash": "256029f718ee",
+  "sheets_git_sha": "0bd6b2bc257c99ca00b342e02e36f5fe664f0695"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "25b47596100f|lock",
+   "label": "VALID",
+   "reason": "Candidate 'DO NOT LOCK' in this very sentence names the same locking fault (stated as absent) that 'LOCK' names.",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80bb9aed5a36|adaptive cruise control",
+   "label": "VALID",
+   "reason": "Candidate is the same system name with its abbreviation attached.",
+   "evidence": "ADAPTIVE CRUISE CONTROL  (ACC)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80bb9aed5a36|lane keeping assist system",
+   "label": "VALID",
+   "reason": "Candidate is the same system name with its abbreviation attached.",
+   "evidence": "LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80bb9aed5a36|react",
+   "label": "VALID",
+   "reason": "Candidate 'REACT UNPREDICTABLY' names the same behaviour of the vehicle, with only a manner word added.",
+   "evidence": "THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|brake",
+   "label": "VALID",
+   "reason": "Candidate 'BRAKE SUDDENLY' names the same braking incident, with only a manner word added.",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|decelerate",
+   "label": "VALID",
+   "reason": "Candidate 'RAPIDLY DECELERATE' names the same deceleration incident, with only a manner word added.",
+   "evidence": "RAPIDLY DECELERATE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|depart",
+   "label": "VALID",
+   "reason": "Candidates 'DEPART THE HIGHWAY' and 'QUICKLY DEPART THE HIGHWAY' name the same departure incident.",
+   "evidence": "QUICKLY DEPART THE HIGHWAY",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|highway",
+   "label": "INCORRECT",
+   "reason": "Both candidates name the departure event, not the highway itself.",
+   "evidence": "QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a95cd600ff24|road",
+   "label": "INCORRECT",
+   "reason": "The candidate names the camera's misidentification incident in another sentence, not the road.",
+   "evidence": "TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a95cd600ff24|bridge",
+   "label": "INCORRECT",
+   "reason": "The candidate names the camera's misidentification incident, not the bridge.",
+   "evidence": "A ROAD THAT GOES UNDER A BRIDGE ON I-275",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d56c363f1e1f|mistook",
+   "label": "VALID",
+   "reason": "The candidate clause names the same misidentification fault that 'MISTOOK' names in this sentence.",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d56c363f1e1f|bridge",
+   "label": "INCORRECT",
+   "reason": "The candidate names the misidentification incident, not the bridge, which is only its object.",
+   "evidence": "MISTOOK THE BRIDGE FOR AN OBJECT",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d56c363f1e1f|road",
+   "label": "INCORRECT",
+   "reason": "The candidate names the misidentification incident, not the road.",
+   "evidence": "AN OBJECT ON THE ROAD",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d56c363f1e1f|activated",
+   "label": "VALID",
+   "reason": "Candidate 'ACTIVATED THE BRAKES' names the same action of activating the brakes.",
+   "evidence": "AND ACTIVATED THE BRAKES",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e14719302c2d|outback",
+   "label": "VALID",
+   "reason": "Candidate '2019 OUTBACK' names the same vehicle the sentence calls 'OUTBACK'.",
+   "evidence": "I HAVE 3200 MILES ON MY 2019 OUTBACK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a8d5a30fc1ea|auto-shutoff",
+   "label": "VALID",
+   "reason": "The candidate clause has 'AUTO-SHUTOFF' as its head and names this same early auto-shutoff event.",
+   "evidence": "AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4c8d3e32644e|rogue",
+   "label": "VALID",
+   "reason": "Candidate '2014-2020 Rogue' names the same recalled Rogue model, with its year range.",
+   "evidence": "certain 2014-2020 Rogue and",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4c8d3e32644e|rogue sport",
+   "label": "VALID",
+   "reason": "Candidate '2017-2022 Rogue Sport' names the same Rogue Sport model, with its year range.",
+   "evidence": "2017-2022 Rogue Sport vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3f19690c088b|honda",
+   "label": "INCORRECT",
+   "reason": "The candidate names the Honda Ridgeline vehicle model, not the manufacturer Honda.",
+   "evidence": "Honda (American Honda Motor Co.)",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "3f19690c088b|honda",
+  "9ae03f8e8f92|decelerate",
+  "9ae03f8e8f92|highway",
+  "a8d5a30fc1ea|auto-shutoff",
+  "a95cd600ff24|bridge",
+  "a95cd600ff24|road",
+  "d56c363f1e1f|bridge",
+  "d56c363f1e1f|road"
+ ],
+ "changes": []
+}

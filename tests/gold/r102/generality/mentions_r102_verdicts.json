@@ -1,0 +1,657 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "2fea69be79d5",
+  "sheet": "tests/gold/r102/generality/mentions_r102_sheet.json",
+  "sheet_hash": "4cba9b3afd5d",
+  "sheets_git_sha": "0bd6b2bc257c99ca00b342e02e36f5fe664f0695"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "cdb5b789aeda|bf-1",
+   "label": "VALID",
+   "reason": "\"Core BF-1\" names the same core whose identifier is BF-1.",
+   "evidence": "Core BF-1, 14 April",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1dcb4e479f2a|ab-19",
+   "label": "VALID",
+   "reason": "\"Core AB-19\" names the same core whose identifier is AB-19.",
+   "evidence": "Core AB-19, 10 December",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1dcb4e479f2a|j.",
+   "label": "VALID",
+   "reason": "The sentence was cut at \"J.\"; the chunk reads \"freed by J. Pike\", so the candidate \"J. Pike\" is the same person.",
+   "evidence": "the corer jammed at 5 m and was freed by J.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d66e92e743bf|ab-20",
+   "label": "VALID",
+   "reason": "\"Core AB-20\" names the same core whose identifier is AB-20.",
+   "evidence": "Core AB-20, 10 December: not taken",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "de614a33c49b|plan",
+   "label": "VALID",
+   "reason": "\"a plan\" refers back to the data management plan required in the previous sentence.",
+   "evidence": "Projects without a plan will not receive second-year funding.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a32a15b8728d|field-work award",
+   "label": "VALID",
+   "reason": "The section heading names the award that its body calls the Hensley Field-Work Award.",
+   "evidence": "## Field-work award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3dda68832a92|cores",
+   "label": "VALID",
+   "reason": "\"240 cores\" is the same set of cores of the Aldmoor bog that \"cores\" names.",
+   "evidence": "a poster on the 240 cores of the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ccc7c64be09e|2025 works budget",
+   "label": "VALID",
+   "reason": "The chunk's only works budget is the council's works budget for 2025, the same budget as in the title.",
+   "evidence": "# Riverton sets its 2025 works budget",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5fdeda143df3|repair",
+   "label": "VALID",
+   "reason": "The repair in the line is the Mill Lane footbridge repair; the candidate names that same project.",
+   "evidence": "Mill Lane footbridge repair",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6db463e1c631|lighting",
+   "label": "VALID",
+   "reason": "The lighting in the line is the Riverside path lighting; same thing.",
+   "evidence": "Riverside path lighting",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "75d8459634ca|east railing",
+   "label": "VALID",
+   "reason": "The east railing is the Mill Lane footbridge east railing; the candidate names the same railing.",
+   "evidence": "Mill Lane footbridge east railing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "28f2481f2df9|resurfacing",
+   "label": "VALID",
+   "reason": "The resurfacing that slipped by a year is the Harbour Street resurfacing carried over from 2025 in the same chunk.",
+   "evidence": "asked why the resurfacing had slipped by a year",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "05f5e940c51f|street",
+   "label": "VALID",
+   "reason": "\"The street\" follows \"Harbour Street:\" in the same notice and refers to Harbour Street.",
+   "evidence": "The street stays open to traffic.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "dc9054227c1b|heavy storms",
+   "label": "VALID",
+   "reason": "\"storms\" occurs in the chunk only inside \"heavy storms\", so the candidate names the same storms.",
+   "evidence": "too narrow for heavy storms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eeb4128ff7b9|station",
+   "label": "VALID",
+   "reason": "\"the station's\" is Harbour Station; the candidate \"Harbour Station\" names it (\"North Station\" is another station).",
+   "evidence": "showed them the station's Kestrel V-12 pump",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "972dc04c241d|footbridge",
+   "label": "VALID",
+   "reason": "\"The footbridge\" is the Mill Lane footbridge named in the previous sentence; the candidate \"Mill Lane footbridge\" names it.",
+   "evidence": "The footbridge will be closed from 3 February",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a0a2c56a7f23|station",
+   "label": "VALID",
+   "reason": "\"The station\" in the Harbour Station report is Harbour Station; that candidate names it (\"North Station\" is another station).",
+   "evidence": "The station's only pump, KV12-0457",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "12a708b0f3621b50",
+   "label": "VALID",
+   "reason": "Named place, verbatim, class particular.",
+   "evidence": "with alarms routed to North Station",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "14549375dcd95a88",
+   "label": "VALID",
+   "reason": "Experiments are events the text says something about (they start in May); kind is right.",
+   "evidence": "The first experiments start in May.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "184f5fdf7771c1d3",
+   "label": "VALID",
+   "reason": "A person known in this chunk only by role; kind is right.",
+   "evidence": "as agreed with her group leader",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1e21fa1f2d1d6354",
+   "label": "INCORRECT",
+   "reason": "\"bakery\" is an unnamed place written as a common noun, so it is a kind, not a particular.",
+   "evidence": "Maria Lopez has opened a bakery at 14 Harbour Street",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1e82322f09ba3cd2",
+   "label": "VALID",
+   "reason": "Rain is a thing the text says something about (the bogs hold it back); kind is right.",
+   "evidence": "the peat bogs upstream hold back rain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2995a5610d8989d2",
+   "label": "VALID",
+   "reason": "People known only by their role who told the inspector about the railing; kind is right.",
+   "evidence": "residents had told him the east railing moved when leaned on",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2c25a930ed499750",
+   "label": "INCORRECT",
+   "reason": "A season used as a time (Out 4), and not one named particular.",
+   "evidence": "I hope the resurfacing starts before winter",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "37e230e926e68d3a",
+   "label": "INCORRECT",
+   "reason": "A title before a named person; the councillor is known by name, not only by role, so the role word is not an entry.",
+   "evidence": "Councillor Priya Nandakumar welcomed the second drainage phase",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "390e093d135e4b71",
+   "label": "VALID",
+   "reason": "Named place, verbatim, class particular.",
+   "evidence": "alarm from Harbour Station at 03:10",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "47a9c8d40e0b5efb",
+   "label": "VALID",
+   "reason": "An action done to a thing written as a verb (In 3); kind is right.",
+   "evidence": "while its railings and deck boards are renewed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4a4e5eaa77115216",
+   "label": "VALID",
+   "reason": "One specific team named by its site; a named organisation, class particular.",
+   "evidence": "the corer had been lent to the Aldmoor team",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4fce6e7f35905dbd",
+   "label": "VALID",
+   "reason": "Experiments are events the text says something about (they may now start); kind is right.",
+   "evidence": "Experiments above 60 litres per second may now start.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5c2156788331b5d6",
+   "label": "AMBIGUOUS",
+   "reason": "It could be the title of a named session (particular) or just a topic phrase describing the session, which is not a thing's name.",
+   "evidence": "chaired the session on peat as a carbon archive",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5c5571a1ba926896",
+   "label": "VALID",
+   "reason": "A fault of a thing written as a verb (In 3); kind is right.",
+   "evidence": "the mechanical seal of pump HP40-1183 failed during the night shift",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6a198d2f51f6e9a9",
+   "label": "INCORRECT",
+   "reason": "A title before a named person; the mayor is known by name, not only by role.",
+   "evidence": "Mayor Helen Achterberg said the drainage works will start in September.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6a88369620b9a73e",
+   "label": "INCORRECT",
+   "reason": "In a general procedure \"the standby pump\" is a role of any pump, not one named thing; the class should be kind.",
+   "evidence": "check that the standby pump is available",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6fcca42e030858d8",
+   "label": "VALID",
+   "reason": "An action done to a thing written as a verb (In 3); kind is right.",
+   "evidence": "while the drainage is rebuilt",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "71cb54ac7b24b77e",
+   "label": "VALID",
+   "reason": "The log keeper is named, not known only as the writer, so the named person is In; particular is right.",
+   "evidence": "kept by S. Osei",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "750180c5815ed3ff",
+   "label": "VALID",
+   "reason": "A condition the text says something about (measured at 2.3 mm/s); shortest span, kind is right.",
+   "evidence": "Samuel Osei measured the flume pump vibration at 60 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7ab43b5a84f93e2d",
+   "label": "INCORRECT",
+   "reason": "A form of address to the letter's recipient, not a named person.",
+   "evidence": "Sir, the resurfacing of Harbour Street was promised for this year",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7c0f90eb5d76a010",
+   "label": "INCORRECT",
+   "reason": "A title before a named person (Rosa Delgado); not a person known only by role.",
+   "evidence": "by technician Rosa Delgado",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7f92b2a2befe8527",
+   "label": "VALID",
+   "reason": "A state change of a thing written as a verb (In 3, like \"cancelled\"); kind is right.",
+   "evidence": "The Mill Lane footbridge reopened on 28 March",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8b0853b0e7cd1767",
+   "label": "VALID",
+   "reason": "A property the text says something about (unchanged); kind is right.",
+   "evidence": "Opening hours are unchanged.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8c1561dbe0959447",
+   "label": "VALID",
+   "reason": "An object written as a common noun that the text says something about; kind is right.",
+   "evidence": "Pump returned to duty the same day.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8eca25d69c7ea8da",
+   "label": "VALID",
+   "reason": "Named person, verbatim, class particular.",
+   "evidence": "Site engineer Tomasz Wren wrote",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "916750d5acdef0f0",
+   "label": "VALID",
+   "reason": "Named place, verbatim, class particular.",
+   "evidence": "the alarms reach North Station",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "91d65cc92f0b17e8",
+   "label": "INCORRECT",
+   "reason": "The inspector is named in apposition (Daniel Okafor), so he is not known only by role; the role phrase is not an entry.",
+   "evidence": "The council's structural inspector, Daniel Okafor, said",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "92c4b9087beb6384",
+   "label": "VALID",
+   "reason": "An action done to the pump written as the verb the text uses; \"to duty\" is needed to tell the action apart; kind is right.",
+   "evidence": "until HP40-2291 was switched to duty",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "935a4213c44ba682",
+   "label": "VALID",
+   "reason": "An event the text says something about (none runs above 60 l/s before the measurement); kind is right.",
+   "evidence": "before any experiment runs above 60 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "95f2e081fbfd77c4",
+   "label": "VALID",
+   "reason": "The water that flooded the dry well is a thing the text says something about; the quantity is left out; kind is right.",
+   "evidence": "About 3,000 litres of water flooded the dry well",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9b261ca52345bd3b",
+   "label": "INCORRECT",
+   "reason": "\"surface\" is only the reference point of a measurement of the water table; the text says nothing about it (generic, part of a quantity).",
+   "evidence": "water table 12 cm below surface",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a30b369d350a069a",
+   "label": "VALID",
+   "reason": "A fault stated as absent counts (In 4); kind is right.",
+   "evidence": "No leaks were found on HP40-2291",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a675d28f81b47e9c",
+   "label": "INCORRECT",
+   "reason": "A role of a named person (Aiko Tanaka), not a person known only by role.",
+   "evidence": "Aiko Tanaka (chair)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a8ae18ddfb786296",
+   "label": "INCORRECT",
+   "reason": "An organisation known only by role is a kind; it is not a named particular.",
+   "evidence": "The contractor finished on 25 August",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a8b49715d38f6c6f",
+   "label": "VALID",
+   "reason": "An object the text says something about (it leaked, will be replaced); shortest span, kind is right.",
+   "evidence": "The library roof, which has leaked into the children's section",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a8d2d6b67132894b",
+   "label": "VALID",
+   "reason": "A property the text says something about (measured); kind is right.",
+   "evidence": "Measured flow: HP40-1183 delivered 38 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a95a321d9b8a59f5",
+   "label": "VALID",
+   "reason": "A budget line the text says something about (the project is over it); kind is right.",
+   "evidence": "18,000 euros over its equipment line",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ab060698097b2b41",
+   "label": "VALID",
+   "reason": "An event the text says something about (it is charged to the project); kind is right.",
+   "evidence": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ab6fa07ac4569a55",
+   "label": "VALID",
+   "reason": "People known only by their role who came to the meeting; kind is right.",
+   "evidence": "About eighty residents came to the town hall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b1a6a512d2469b56",
+   "label": "VALID",
+   "reason": "Named award, verbatim, class particular.",
+   "evidence": "received this year's Hensley Field-Work Award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b6aa018e764f9bde",
+   "label": "VALID",
+   "reason": "Things the memo says something about (their deadline); kind is right.",
+   "evidence": "Travel claims for May must reach the Finance Office by 15 June 2025",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bc211e8aca49f31d",
+   "label": "VALID",
+   "reason": "An organisation known only by role; kind is right.",
+   "evidence": "The contractor for the library roof must finish before the library reopens",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bcd620db9b122b92",
+   "label": "INCORRECT",
+   "reason": "A title before a named person; the councillor is known by name, not only by role.",
+   "evidence": "Councillor Priya Nandakumar asked for the drainage project to be moved ahead of the resurfacing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bd76af414e4d7c5f",
+   "label": "VALID",
+   "reason": "A fault of the library roof written as a verb (In 3), verbatim, class kind is right.",
+   "evidence": "The library roof, which has leaked into the children's section since the autumn storms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c11478be13736327",
+   "label": "INCORRECT",
+   "reason": "The cafe is not named; as a place known only by its common noun it is a kind (like 'ticket office'), so the class particular is wrong.",
+   "evidence": "the café sold out of cakes by noon",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c30e20ee11623ba8",
+   "label": "INCORRECT",
+   "reason": "'street' is not a name: the named particular is 'Harbour Street'; the bare common noun cannot carry the class particular.",
+   "evidence": "The street is full of potholes",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ce3944ae4cb34bc2",
+   "label": "VALID",
+   "reason": "pH is a property the text says something about (a value per core, In 2); the quantity stays out, the property name is verbatim, class kind.",
+   "evidence": "Core BF-1, 14 April: depth 2.1 m, pH 3.8.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d4ae3c5fde662e18",
+   "label": "VALID",
+   "reason": "The failure is a fault/incident the text says something about (the suction valve was open that night), verbatim, class kind.",
+   "evidence": "Our log shows the suction valve open for the whole night of the failure",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d6d8bc802ff6b591",
+   "label": "VALID",
+   "reason": "The cores are objects the text says something about (results presented from them); 'Aldmoor' tells them apart, plural unnamed set, so class kind fits.",
+   "evidence": "The talk presents the first results from the Aldmoor cores.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e37b3b171dd91747",
+   "label": "VALID",
+   "reason": "Potholes are a fault/state of the street (In 2), verbatim, class kind.",
+   "evidence": "The street is full of potholes",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e3f3175e277d0f02",
+   "label": "INCORRECT",
+   "reason": "'resurfacing' is an action done to a thing (kind); as a particular the named project would be 'Harbour Street resurfacing', so the class is wrong.",
+   "evidence": "Councillor Priya Nandakumar asked for the drainage project to be moved ahead of the resurfacing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e4c8e070ab5eac48",
+   "label": "INCORRECT",
+   "reason": "The vote is an event known only by its common noun, not a named event, so it is a kind; class particular is wrong.",
+   "evidence": "the vote on her motion was postponed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e95328d34b521e1e",
+   "label": "VALID",
+   "reason": "'slipped' is an incident (a delay) of the resurfacing written as a verb (In 3, like 'cancelled'), verbatim, class kind.",
+   "evidence": "asked why the resurfacing had slipped by a year",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ebaee6f49556e8ee",
+   "label": "VALID",
+   "reason": "Leaves are an object the text says something about (they blocked the intake screen); a question could ask what blocked it; class kind.",
+   "evidence": "found the intake screen half blocked with leaves and cleaned it",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ec4c62af5a8e83d0",
+   "label": "VALID",
+   "reason": "North Station is a named place, verbatim in the chunk's heading, class particular.",
+   "evidence": "# Isolating a pump at North Station",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ee99afa6fb733440",
+   "label": "VALID",
+   "reason": "The seal change is an action done to a thing (In 2), shortest span, class kind.",
+   "evidence": "Tomasz Wren visited to plan the seal change on HP40-2291",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f2a0064bcd3047f7",
+   "label": "VALID",
+   "reason": "Railings are a piece of the footbridge the text says something about (being renewed), verbatim, class kind.",
+   "evidence": "while its railings and deck boards are renewed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f3349cb83e7e933f",
+   "label": "AMBIGUOUS",
+   "reason": "A role (In 2), but the rule admits roles of a person 'known only by its role' and here the person is named (Tomasz Wren); a question could still start from the role.",
+   "evidence": "For 2025 the site engineer, Tomasz Wren, plans to share the duty more evenly between the two pumps.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f912674cb8740472",
+   "label": "VALID",
+   "reason": "The coring method is the way an action (coring) is done, a thing the text says something about (Osei learned it); 'coring' tells it apart from a generic 'method'; class kind.",
+   "evidence": "Samuel Osei joined the trip on 10 December to learn the coring method.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fd3d1938c2bca7fa",
+   "label": "INCORRECT",
+   "reason": "The control room is a place/organisation known only by its role (like 'ticket office'), so it is a kind; class particular is wrong.",
+   "evidence": "Tell the control room which pump you will isolate",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "1e21fa1f2d1d6354",
+  "28f2481f2df9|resurfacing",
+  "2c25a930ed499750",
+  "37e230e926e68d3a",
+  "5c2156788331b5d6",
+  "6a198d2f51f6e9a9",
+  "6a88369620b9a73e",
+  "7ab43b5a84f93e2d",
+  "7c0f90eb5d76a010",
+  "8b0853b0e7cd1767",
+  "91d65cc92f0b17e8",
+  "9b261ca52345bd3b",
+  "a30b369d350a069a",
+  "a675d28f81b47e9c",
+  "a8ae18ddfb786296",
+  "ab060698097b2b41",
+  "bcd620db9b122b92",
+  "c11478be13736327",
+  "c30e20ee11623ba8",
+  "d66e92e743bf|ab-20",
+  "e3f3175e277d0f02",
+  "e4c8e070ab5eac48",
+  "ee99afa6fb733440",
+  "f3349cb83e7e933f",
+  "fd3d1938c2bca7fa"
+ ],
+ "changes": []
+}

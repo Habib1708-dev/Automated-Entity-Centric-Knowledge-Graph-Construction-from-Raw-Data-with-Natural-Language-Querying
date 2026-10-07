@@ -2,11 +2,13 @@
 (exact hits, near-name candidates for the judged mapping, misses), the seeded precision sample of the pass's
 mentions, the scores with and without verdicts, the evidence check, and the stage on the graph audit's
 invented build with a pass file (params, metrics, artifacts, and its refusal of a quote outside its item).
-No Neo4j, no LLM.
+The committed R102 sheets and verdicts (tests/gold/r102) must answer each other under the review rules and
+score as reported. No Neo4j, no LLM.
 """
 
 import json
 from dataclasses import replace
+from pathlib import Path
 
 import pytest
 
@@ -16,7 +18,7 @@ from kgbuilder.core.errors import EvaluationError
 from kgbuilder.core.identity import mention_id
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.mention_stages import MENTION_REPORT, MENTION_SHEET, MentionEvalStage
-from kgbuilder.validation.anchor_verdicts import Label, Verdict, VerdictFile
+from kgbuilder.validation.anchor_verdicts import Label, Verdict, VerdictFile, load_verdicts
 from kgbuilder.validation.mention_eval import (
     PRECISION_SAMPLE,
     MentionSheet,
@@ -177,3 +179,33 @@ def test_the_stage_scores_a_build_and_its_pass_against_the_gold(tmp_path):
     )
     with pytest.raises(EvaluationError):
         run_stages(ctx, replace(state, mention_verdicts=path), [MentionEvalStage()])
+
+
+# --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold) ---------------
+
+R102 = Path(__file__).resolve().parent / "gold" / "r102"
+# (exact recall, recall with the judged mapping, judged precision) as k/n; the r77d builds have no pass
+REPORTED = {
+    ("furniture", "r77d"): ((23, 75), (39, 75), None),
+    ("furniture", "r102"): ((57, 75), (70, 75), (45, 57)),
+    ("heldout", "r77d"): ((32, 125), (45, 125), None),
+    ("heldout", "r102"): ((94, 125), (111, 125), (51, 55)),
+    ("generality", "r77d"): ((37, 109), (49, 109), None),
+    ("generality", "r102"): ((80, 109), (97, 109), (41, 58)),
+}
+
+
+@pytest.mark.parametrize(("dataset", "build"), sorted(REPORTED))
+def test_r102_mention_verdicts_answer_their_sheets_and_score_as_reported(dataset, build):
+    sheet = MentionSheet.model_validate_json(
+        (R102 / dataset / f"mentions_{build}_sheet.json").read_text(encoding="utf-8")
+    )
+    verdicts = load_verdicts(R102 / dataset / f"mentions_{build}_verdicts.json", sheet.to_judge())
+    assert mention_evidence_issues(sheet, verdicts) == [] and verdicts.changes == []
+    scores = score_mentions(sheet, verdicts)
+    exact, mapped, precision = REPORTED[(dataset, build)]
+    assert (scores.recall_exact.k, scores.recall_exact.n) == exact
+    assert (scores.recall.k, scores.recall.n) == mapped
+    assert (None if scores.precision is None else (scores.precision.k, scores.precision.n)) == precision
+    report = json.loads((R102 / dataset / f"mentions_{build}_report.json").read_text(encoding="utf-8"))
+    assert report == json.loads(scores.model_dump_json())  # the committed report is these scores

@@ -1,0 +1,114 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "f96c7518327f",
+  "sheet": "tests/gold/r102/generality/mentions_r77d_sheet.json",
+  "sheet_hash": "046a9646cd0d",
+  "sheets_git_sha": "0bd6b2bc257c99ca00b342e02e36f5fe664f0695"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "cdb5b789aeda|bf-1",
+   "label": "VALID",
+   "reason": "\"Core BF-1\" names the same core whose identifier is BF-1.",
+   "evidence": "Core BF-1, 14 April",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1dcb4e479f2a|j.",
+   "label": "VALID",
+   "reason": "The sentence was cut at \"J.\"; the chunk reads \"freed by J. Pike\", so the candidate \"J. Pike\" is the same person.",
+   "evidence": "the corer jammed at 5 m and was freed by J.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3dda68832a92|cores",
+   "label": "VALID",
+   "reason": "\"240 cores\" is the same set of cores of the Aldmoor bog that \"cores\" names.",
+   "evidence": "a poster on the 240 cores of the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5fdeda143df3|repair",
+   "label": "VALID",
+   "reason": "The repair in the line is the Mill Lane footbridge repair; the candidate names that same project.",
+   "evidence": "Mill Lane footbridge repair",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f8bf11e1ffbd|resurfacing",
+   "label": "VALID",
+   "reason": "The resurfacing in the line is the Harbour Street resurfacing; same thing.",
+   "evidence": "Harbour Street resurfacing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6db463e1c631|lighting",
+   "label": "VALID",
+   "reason": "The lighting in the line is the Riverside path lighting; same thing.",
+   "evidence": "Riverside path lighting",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "75d8459634ca|east railing",
+   "label": "VALID",
+   "reason": "The east railing is the Mill Lane footbridge east railing; the candidate names the same railing.",
+   "evidence": "Mill Lane footbridge east railing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "28f2481f2df9|resurfacing",
+   "label": "VALID",
+   "reason": "The resurfacing that slipped by a year is the Harbour Street resurfacing carried over from 2025 in the same chunk.",
+   "evidence": "asked why the resurfacing had slipped by a year",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "05f5e940c51f|street",
+   "label": "VALID",
+   "reason": "\"The street\" follows \"Harbour Street:\" in the same notice and refers to Harbour Street.",
+   "evidence": "The street stays open to traffic.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eeb4128ff7b9|station",
+   "label": "VALID",
+   "reason": "\"the station's\" pump is Harbour Station's, the station holding the open day in the chunk.",
+   "evidence": "showed them the station's Kestrel V-12 pump",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "972dc04c241d|footbridge",
+   "label": "VALID",
+   "reason": "\"The footbridge\" is the Mill Lane footbridge named in the previous sentence; the candidate \"Mill Lane footbridge\" names it.",
+   "evidence": "The footbridge will be closed from 3 February",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a0a2c56a7f23|station",
+   "label": "VALID",
+   "reason": "The chunk is the Harbour Station monthly report, so \"The station\" is Harbour Station.",
+   "evidence": "The station's only pump, KV12-0457",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "972dc04c241d|footbridge",
+  "cdb5b789aeda|bf-1"
+ ],
+ "changes": []
+}

@@ -1,0 +1,200 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "b724ea676f7b",
+  "sheet": "tests/gold/r102/furniture/mentions_r77d_sheet.json",
+  "sheet_hash": "1ff263e1d78d",
+  "sheets_git_sha": "0bd6b2bc257c99ca00b342e02e36f5fe664f0695"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "7ab4516a48af|table",
+   "label": "VALID",
+   "reason": "In this chunk 'This table' is the Gothenburg Table named earlier in the review, so the candidate names the same table.",
+   "evidence": "This table will clearly last for decades.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fba959404def|assembly",
+   "label": "VALID",
+   "reason": "The candidate is a clause, but its head is this same assembly; the extra words are only an evaluation of it.",
+   "evidence": "Assembly was straightforward",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bab9cfffad57|align",
+   "label": "VALID",
+   "reason": "'align properly' is the same failure of the rails to align, with only a manner word added.",
+   "evidence": "they wouldn't align properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ad1cf2931e18|assembly",
+   "label": "VALID",
+   "reason": "The candidate clause is headed by the same assembly of the dresser; the rest is an evaluation.",
+   "evidence": "assembly was the worst experience ever",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3700cf532e33|assembly",
+   "label": "VALID",
+   "reason": "The sentence and the candidate clause 'the assembly is challenging' both refer to the assembly of this dresser.",
+   "evidence": "detail-oriented during assembly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3d5dfdd640c2|scratches",
+   "label": "VALID",
+   "reason": "The candidate is the same scratching fault of the surface, with only a manner phrase added.",
+   "evidence": "the surface scratches pretty easily",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fabdf02dd987|chipping",
+   "label": "VALID",
+   "reason": "The candidate is the same chipping of the veneer, with its location added.",
+   "evidence": "already chipping at the corners",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fabdf02dd987|corners",
+   "label": "INCORRECT",
+   "reason": "The candidate names the chipping fault, not the corners where it happens.",
+   "evidence": "chipping at the corners",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "03f30793962b|bed",
+   "label": "VALID",
+   "reason": "The chunk is a review in the Linkoping bed review file and 'the bed' is the reviewed product, so the candidate names the same bed (the chunk text itself does not write the product name).",
+   "evidence": "While the bed looks nice",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "03f30793962b|opens",
+   "label": "VALID",
+   "reason": "'opens smoothly' is the same drawer opening the sentence says no longer works, with only a manner word added.",
+   "evidence": "no longer opens smoothly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4ac19f9fe1ca|lamp",
+   "label": "VALID",
+   "reason": "The chunk is a review in the Orebro lamp review file and 'the lamp' is the reviewed product, so the candidate names the same lamp (the chunk text itself does not write the product name).",
+   "evidence": "While the lamp looks nice in photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4ac19f9fe1ca|photos",
+   "label": "INCORRECT",
+   "reason": "The candidate names how the lamp looks, not the photos.",
+   "evidence": "looks nice in photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b360e5534c18|color",
+   "label": "VALID",
+   "reason": "The candidate clause is headed by the same colour of the chair; the rest is the comparison said about it.",
+   "evidence": "the color is slightly darker",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b360e5534c18|online photos",
+   "label": "INCORRECT",
+   "reason": "The candidate clause names the chair's colour; the online photos are only the comparison inside it.",
+   "evidence": "than it appeared in the online photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "863357bcf8fb|sofa",
+   "label": "VALID",
+   "reason": "The chunk names the Uppsala Sofa and 'The sofa' in the sentence is that same sofa.",
+   "evidence": "The sofa is firm but not hard",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "863357bcf8fb|support",
+   "label": "VALID",
+   "reason": "'great support' is the same support of the sofa, with only an evaluative word added.",
+   "evidence": "providing great support",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1d46909272e9|cushion density",
+   "label": "INCORRECT",
+   "reason": "'cushion' names the cushion, the whole that has the density, not its density.",
+   "evidence": "The cushion density",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1d46909272e9|support",
+   "label": "INCORRECT",
+   "reason": "The candidate names the balance between support and comfort, not support itself.",
+   "evidence": "the perfect balance between support and comfort",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1d46909272e9|comfort",
+   "label": "INCORRECT",
+   "reason": "The candidate names the balance between support and comfort, not comfort itself.",
+   "evidence": "the perfect balance between support and comfort",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e2771e583020|chip",
+   "label": "VALID",
+   "reason": "'small chip' is the same chip on the leg, with only a size word added.",
+   "evidence": "arrived with a small chip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b7dc9a6c914e|size",
+   "label": "VALID",
+   "reason": "'perfect size' is the same size of the sofa, with only an evaluative word added.",
+   "evidence": "the perfect size for our apartment living room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "94516b80010d|load capacity",
+   "label": "VALID",
+   "reason": "The candidate clause is headed by the same load capacity of the bookshelf; the rest is an evaluation.",
+   "evidence": "The load capacity is impressive",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "1d46909272e9|comfort",
+  "1d46909272e9|cushion density",
+  "1d46909272e9|support",
+  "4ac19f9fe1ca|photos",
+  "b360e5534c18|online photos",
+  "fabdf02dd987|chipping",
+  "fabdf02dd987|corners",
+  "fba959404def|assembly"
+ ],
+ "changes": []
+}

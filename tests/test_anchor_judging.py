@@ -19,6 +19,9 @@ R99's (candidates outside a scope, with the individuals replayed) must carry eve
 only its eight new items, and score as reported, held-out's standing C3 failure included.
 R100's (the evidence-based adjudicator of individuals) must carry R99's verdicts, judge only the changed
 items, make no wrong join, and score as reported.
+R102's (the three rebuilds with the r77d claims and R97-R101) must carry R100's verdicts for byte-identical
+items, have every other one reviewed or blind, and score as reported: no wrong join of individuals, and the
+new wrong splits are the pass's same-named individuals.
 No Neo4j, no LLM.
 """
 
@@ -936,3 +939,53 @@ def test_r100_joins_seven_of_the_nine_generality_splits_and_answers_unsure_where
         unsure[dataset] = sum(d.action == "unsure" for d in report.decisions)
         assert not report.faithful and all(c.explained for c in report.changes)
     assert unsure == {"furniture": 6, "heldout": 20, "generality": 39}
+
+
+# --- the committed results of R102 (the rebuilds with the r77d claims and R97-R101) ------------------------
+
+R102 = GOLD / "r102"
+_LISTS = {"c3": ("merges", "splits"), "c4": ("links",), "c6": ("pairs",)}
+
+
+def _sheet_items(folder: Path, name: str) -> dict[str, str]:
+    """Each judging item of a committed sheet as its JSON and the texts of the chunks it names: two equal
+    entries are byte-identical items, whose verdict carries."""
+    sheet = json.loads((folder / f"{name}_sheet.json").read_text("utf-8"))
+    out = {}
+    for key in _LISTS[name]:
+        for item in sheet[key]:
+            text = json.dumps(item, sort_keys=True, ensure_ascii=False)
+            used = sorted(c for c in sheet["chunks"] if f'"{c}"' in text)
+            out[item["id"]] = text + json.dumps([sheet["chunks"][c] for c in used], ensure_ascii=False)
+    return out
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r102_verdicts_answer_their_sheets_carry_r100s_and_score_as_reported(dataset):
+    base = R102 / dataset
+    for name, model in SHEET_MODELS.items():
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        old = load_verdicts(R100 / dataset / f"{name}_verdicts.json", _ids(R100 / dataset, name))
+        before, after = _sheet_items(R100 / dataset, name), _sheet_items(base, name)
+        same = {i for i in after if before.get(i) == after[i]}
+        final, earlier = file.final(), old.final()
+        assert all(final[i] == earlier[i] for i in same)  # a byte-identical item keeps its verdict
+        # load_verdicts checked the review rules; the lead changed no verdict of a new or changed item
+        assert not [c for c in file.changes if c.id not in same]
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert report.final.c4.hard_passed and all(report.final.c6.hard_passed.values())
+    assert report.final.c3.wrong_merges.get("individual", []) == []
+    assert report.final.c3.record_wrong_merges == (
+        ["l:8c6f9fa48d339e85:Vehicle:ROGUE"] if dataset == "heldout" else []
+    )
+    pairs = report.final.c3.identity_pairs
+    assert (pairs.precision, pairs.apart) == (1.0, 1.0)
+    assert pairs.recall == pytest.approx({"furniture": 11 / 14, "heldout": 5 / 7, "generality": 1.0}[dataset])
+    wrong_splits = {
+        "furniture": {"s:Particular:austin", "s:Particular:seattle"},
+        "heldout": {"s:Particular:toyota"},
+        "generality": {"s:Place:mill lane", "s:Place:room b12", "s:Place:town hall", "s:Person:tomasz wren",
+                       "s:Place:children's section", "s:Place:harbour street", "s:Place:riverton"},
+    }[dataset]  # fmt: skip
+    assert set(report.final.c3.wrong_splits) == wrong_splits

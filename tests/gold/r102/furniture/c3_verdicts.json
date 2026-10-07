@@ -1,0 +1,1323 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "891ee4bba899",
+  "sheet": "tests/gold/r102/furniture/c3_sheet.json",
+  "sheet_hash": "d7e8e17f01a3",
+  "sheets_git_sha": "0bd6b2bc257c99ca00b342e02e36f5fe664f0695"
+ },
+ "criterion": "C3",
+ "verdicts": [
+  {
+   "id": "m:019ed4be164f5544",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions state lower-than-expected material quality verbatim; 'materials feel cheap' expresses the same low material quality in other words.",
+   "evidence": "The materials feel cheap, particularly the shade which is unevenly colored.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:01de27e836bd2198",
+   "label": "VALID",
+   "reason": "Every mention says the design is timeless.",
+   "evidence": "The design is timeless and blends well with various decor styles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:05305cd3ae589c37",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of room, a living room in an apartment, where each reviewer placed the furniture; as a concept the different homes do not make two kinds.",
+   "evidence": "It's the perfect size for our apartment living room, comfortably seating 3-4 people.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0575dec49cb0901b",
+   "label": "VALID",
+   "reason": "All mentions describe the piece as stylish; 'super' only intensifies.",
+   "evidence": "holds all my books and plants and looks stylish",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:084c53d0532150c9",
+   "label": "VALID",
+   "reason": "All three mentions name visitors to the reviewer's home, the same kind of person.",
+   "evidence": "The bed feels solid and our guests have commented on how comfortable it is.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:087a64ca54101dd4",
+   "label": "VALID",
+   "reason": "Every mention, including the verb forms \"assemble\" and the synonym \"put together\", names the act of assembling the bought furniture.",
+   "evidence": "looks great in my apartment but was a pain to put together tbh.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0ad40b4b22888cf8",
+   "label": "VALID",
+   "reason": "Both mentions name the same aspect, the spacing of the bed's slats; \"properly spaced\" is only a word-form change of \"spacing\".",
+   "evidence": "Our mattress has maintained its shape well thanks to the properly spaced slats.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0dcae14abfc594c2",
+   "label": "VALID",
+   "reason": "Every mention is the location line of the same reviewer handle, so all name the one city New York.",
+   "evidence": "- @angry_customer (New York)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0fa5fc8473d6d48a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions are drawers moving smoothly; 'operates smoothly' is a generic verb the drawer context pins to sliding.",
+   "evidence": "The drawer operates smoothly and the finish is consistent.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:13ea1c99eb12f87c",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions say assembly is difficult; 'complicated' and 'challenging' are paraphrases of being a pain to put together.",
+   "evidence": "Yes, the assembly is challenging",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:182407bb005eab8f",
+   "label": "VALID",
+   "reason": "All three mentions name the same activity, smoothing a surface with abrasive, whether done by the maker between coats or by the owner on rails and edges.",
+   "evidence": "so I took 10 minutes to sand them down and apply a tiny bit of lubricant before installing.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1aa3990700b9f536",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions say materials feel high-quality; 'Good quality table' is the same positive quality judgment applied to the whole product.",
+   "evidence": "Good quality table that looks more expensive than it is.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1b43a759707193e9",
+   "label": "VALID",
+   "reason": "All mentions name the same kind of room, the living room where the reviewer placed the product.",
+   "evidence": "The Örebro Lamp is a stunning addition to my living room!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1cfd39d0e646e4eb",
+   "label": "VALID",
+   "reason": "Both mentions come from the same phrase in one sentence and name the same aspect, the support the cushions give the back.",
+   "evidence": "The cushions are on the firmer side, which I personally prefer for proper back support.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:21998fd6f13b7c69",
+   "label": "VALID",
+   "reason": "Both mentions name the same act, fitting the dresser's drawer rails into place.",
+   "evidence": "When I tried to install them, they wouldn't align properly no matter what I did.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:233d343b8a7e8229",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of room, a home office, here even by the same reviewer.",
+   "evidence": "I purchased two Västerås Bookshelves for my home office and I'm quite pleased with them.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:23e3d5176cf607b4",
+   "label": "VALID",
+   "reason": "Every mention is the item wobbling slightly.",
+   "evidence": "it wobbles slightly when I'm typing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2b4f9bc667828bf1",
+   "label": "VALID",
+   "reason": "Both mentions are the same reviewer handle with the same city, so they name one reviewer.",
+   "evidence": "- @diydan (Austin)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2ba25c8f3982cef8",
+   "label": "VALID",
+   "reason": "Every mention is the location line of the same reviewer handle, so all name the one city Chicago.",
+   "evidence": "- @home_chef (Chicago)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2bb7271ccb857ed6",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of person, a roommate who helped with assembly, in two reviews by the same reviewer.",
+   "evidence": "took me and my roommate like 4 hours",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2cc2e814f6f1c35e",
+   "label": "VALID",
+   "reason": "Every mention is the location line of the same reviewer handle, so all name the one city Los Angeles.",
+   "evidence": "- @entertainer_emma (Los Angeles)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2d247f56fd0af965",
+   "label": "VALID",
+   "reason": "Both mentions call the furniture beautiful in appearance.",
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2d6871df7237dd3b",
+   "label": "VALID",
+   "reason": "Every mention is the identical phrase about looking nice in photos.",
+   "evidence": "While the bookshelf looks nice in photos",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2ea585e9fc0a4bb3",
+   "label": "VALID",
+   "reason": "Every mention names wood as the material of a furniture piece; 'wooden' is only the adjective form of the same material.",
+   "evidence": "They're also surprisingly comfortable for wooden chairs",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2f5071a48a26ff09",
+   "label": "VALID",
+   "reason": "Both mentions name the same act of washing the sofa's removable covers; 'washed' and 'wash' are inflections of one word.",
+   "evidence": "the removable covers have been washed multiple times with no fading or shrinking",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:380ebb73531d3cc3",
+   "label": "VALID",
+   "reason": "All mentions concern parts (holes, rails) aligning or lining up properly; 'line up' and 'align' are small wording changes.",
+   "evidence": "some of the pre-drilled holes didn't align properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:391d2fe2e0cb9c8d",
+   "label": "VALID",
+   "reason": "Both mentions describe a panel or part feeling flimsy.",
+   "evidence": "the drawer bottoms feel flimsy",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:394bdcbce1c5d261",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same city on the same review site, which names one account; the varying self-descriptions do not show a second person.",
+   "evidence": "- @designer_dave (Portland)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:395c1dadb0869027",
+   "label": "INCORRECT",
+   "reason": "Size and dimensions mentions are about fitting the space; 'proportions are perfect' is about the ratio of parts in the design, a different property.",
+   "evidence": "The proportions are perfect, the construction is solid",
+   "outliers": [
+    "0e517f400a63fc7d"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:3d848723d705efa0",
+   "label": "VALID",
+   "reason": "Every mention names the city Denver as a reviewer's location; two different reviewers living there still name the same city.",
+   "evidence": "- @tallguy87 (Denver)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3dcad93136c19192",
+   "label": "VALID",
+   "reason": "Both mentions name the manufacturer's quality control that reviewers expected to be better for the price; same concept in identical wording.",
+   "evidence": "For the price, I expected much better quality control.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3de8458a62776015",
+   "label": "INCORRECT",
+   "reason": "'finish is smooth' is a surface texture, while smooth drawer slides and a smooth dimmer are smooth operation; two senses of smooth.",
+   "evidence": "The wood grain is beautiful and the finish is smooth.",
+   "outliers": [
+    "e0043e5b9abb3685"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:4692a4902f65c3f7",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions praise appearance; 'amazing', 'great', 'beautiful' and 'nice' differ in intensity but read as the one aspect of looking good.",
+   "evidence": "so comfy and looks amazing in my space",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4bcf9e2ab111ffdf",
+   "label": "VALID",
+   "reason": "All mentions describe the instructions as hard to understand; 'incomprehensible' is a stronger wording of confusing.",
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4c8e15b7cb3b4de1",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same city, and the self-descriptions (furniture maker, furniture restorer) are consistent with one person.",
+   "evidence": "- @woodworker_amy (Portland)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4e2887d50f3cf560",
+   "label": "VALID",
+   "reason": "Both mentions say assembly needs two people.",
+   "evidence": "Assembly was straightforward though it definitely requires two people.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4ef95781d4960c62",
+   "label": "VALID",
+   "reason": "Both mentions name the city Austin as the location of the same reviewer.",
+   "evidence": "- @diydan (Austin)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4f64f0456a4983e4",
+   "label": "VALID",
+   "reason": "Both mentions say the surface is easy to clean.",
+   "evidence": "The surface is easy to clean",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:52a930e9a7d7b424",
+   "label": "VALID",
+   "reason": "Both mentions say the surface shows fingerprints easily.",
+   "evidence": "The table top also shows fingerprints very easily",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:53dd90a010a8b776",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions praise the item's vibe; 'immaculate' is slang for very nice vibes.",
+   "evidence": "vibes are immaculate with this chair!!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5600e3274e38cfc4",
+   "label": "VALID",
+   "reason": "Both mentions name dinner parties as a kind of social event at which the furniture was used.",
+   "evidence": "we've sat through many long dinner parties with no complaints!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5753da1c5513f055",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions describe a very bad assembly experience; 'frustrating' and 'worst experience ever' read as the same aspect as 'nightmare'.",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5b344c7f8ab24356",
+   "label": "VALID",
+   "reason": "Every mention is the same value, about 2 hours of assembly time.",
+   "evidence": "Assembly took about 2 hours but the instructions were clear.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5d40cb368d798c06",
+   "label": "VALID",
+   "reason": "Every mention praises the same kind: good value for money (quality relative to price), only worded differently.",
+   "evidence": "the Västerås stands out for its exceptional quality-to-price ratio",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:61037d2b95520c9e",
+   "label": "VALID",
+   "reason": "All three mentions name the same aspect: the design matching surrounding furniture and decor.",
+   "evidence": "The design is simple yet elegant, and they pair well with our existing furniture.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:616fef0d6e625467",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'grain patterns' does not say wood, but its chunk describes a solid wood table, so the context pins it to the wood grain named by the other mention.",
+   "evidence": "The solid wood construction gives it a substantial feel, and the joinery is impeccable. The finish has a subtle matte quality that highlights the natural grain patterns.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6578d646824a6278",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All three describe the defective drawer rails; 'poorly manufactured' reads as the same defect only in context.",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6d02053259f5e6c5",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same city, and the reviews consistently describe a home office user.",
+   "evidence": "- @wfh_warrior (San Francisco)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6d7691abf9f401d4",
+   "label": "VALID",
+   "reason": "Both use the slang 'clutch' in the same sense: a feature that is very useful.",
+   "evidence": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6db521a299b82cfa",
+   "label": "VALID",
+   "reason": "Both mentions name the same quality: well-made construction.",
+   "evidence": "Otherwise, it's a beautiful and well-made piece of furniture.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7253a6fa21b4bef3",
+   "label": "VALID",
+   "reason": "All three mentions name the same kind: an affordable, fair price.",
+   "evidence": "it was reasonably priced for what you get.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:75c32906cbfe3d2b",
+   "label": "VALID",
+   "reason": "All three mentions name the same appearance quality: looking cute.",
+   "evidence": "nightstand looks cute next to my bed!",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76c8ccf96f34df8f",
+   "label": "VALID",
+   "reason": "Both mentions name the profession of interior designer as a kind, in the same wording.",
+   "evidence": "As an interior designer with over 15 years of experience",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76dd228ad61f8a00",
+   "label": "VALID",
+   "reason": "All three mentions name the same construction quality, verbatim.",
+   "evidence": "Construction is solid with proper joinery techniques evident throughout.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7cd5c218bf1fb3cd",
+   "label": "VALID",
+   "reason": "All four mentions name the same durability quality: holding up well over time.",
+   "evidence": "The design is timeless and the finish has held up beautifully.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7f1a42dd13b5213a",
+   "label": "VALID",
+   "reason": "Every mention names the city Seattle as a reviewer's location; a second reviewer living there still names the same city.",
+   "evidence": "- @bookworm_betty (Seattle)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7fd4e0771bbf4f1c",
+   "label": "VALID",
+   "reason": "Both mentions name tools as the kind of hand tools needed for assembling the furniture.",
+   "evidence": "no tools needed except the little allen key they give you",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:805c9cc3eaf45b8b",
+   "label": "VALID",
+   "reason": "All three sentences describe the same aspect: assembly parts (not) fitting together properly.",
+   "evidence": "some of the parts didn't fit together properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:821c301b53b6e88f",
+   "label": "VALID",
+   "reason": "Deflection and bending both name shelves bending under a load of books, the same kind.",
+   "evidence": "I've tested each shelf with approximately 20kg of books with no deflection.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:852c39e1e4cb25f7",
+   "label": "VALID",
+   "reason": "All three mentions name the same flaw: sharp edges.",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8627aa0be25b8c94",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions name easy assembly; 'wasn't too bad' and 'logical' fit that kind only on a reading the text allows.",
+   "evidence": "assembly wasn't too bad, maybe 40 mins?",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:878b317a39f13d60",
+   "label": "VALID",
+   "reason": "The node is a concept and every mention names a bedroom as the kind of room where a piece of furniture stands.",
+   "evidence": "fits perfectly in my small bedroom without overwhelming the space",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:87ea11af45ccf375",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same city on review pages of the same site, so all name one reviewer.",
+   "evidence": "- @scandi_lover (Minneapolis)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:885e40981d901e04",
+   "label": "VALID",
+   "reason": "Every mention names the same property, sturdiness, of the piece or its part.",
+   "evidence": "The construction feels sturdy and the design is elegant without being flashy.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:89b2deaa286e91ba",
+   "label": "VALID",
+   "reason": "All four mentions are the identical handle with the identical city signing reviews on the same site; nothing in the text points to a second person.",
+   "evidence": "- @interior_whiz (Miami)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8d9597c88f0b379f",
+   "label": "VALID",
+   "reason": "All four mentions describe assembly as straightforward, the same kind.",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8e4a7c79c78592c5",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of object, art books stored on a shelf.",
+   "evidence": "The shelf depth of 30cm accommodates larger art books that typically protrude on standard shelves.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8e8f2b72d1d6cef5",
+   "label": "VALID",
+   "reason": "Both mentions name the same problem: drawers not closing properly.",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8f22c044d7ff02bd",
+   "label": "VALID",
+   "reason": "Both use 'adequate' in the same sense (sufficient), though applied to tools in one and storage in the other.",
+   "evidence": "The storage is adequate for my needs and the design is simple but attractive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:945497292b69f19b",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions say 'clean lines'; 'clean design' is a broader wording that the minimalist context lets read as the same aesthetic.",
+   "evidence": "The clean design fits perfectly with my minimalist aesthetic.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:964437e4582e919b",
+   "label": "VALID",
+   "reason": "Every mention is the same handle with the same city signing reviews on the same site, naming one reviewer.",
+   "evidence": "- @familyfirst (Denver)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:97cc6c633ce2d492",
+   "label": "VALID",
+   "reason": "Both mentions use 'built' in the same sense, the state of a furniture piece once assembled after a hard assembly.",
+   "evidence": "once it was built though it's pretty nice",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:97cd1838f90e90f8",
+   "label": "VALID",
+   "reason": "Both mentions name the same quality aspect, how solidly a furniture piece is constructed.",
+   "evidence": "The construction feels sturdy and the design is elegant without being flashy.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9872e66694c3f383",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions name a consistent finish; the short names 'consistent' and 'consistently applied' need the sentence to pin them to the finish.",
+   "evidence": "The finish is consistently applied with attention to detail on less visible surfaces",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:994b99910040b228",
+   "label": "VALID",
+   "reason": "All three mentions name the same kind of object, books stored on or in furniture.",
+   "evidence": "holds all my books and plants and looks stylish.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9add0738d4b37278",
+   "label": "VALID",
+   "reason": "Both mentions use 'adjust' in the same sense, trying to stop a table from wobbling on the floor.",
+   "evidence": "The table also wobbles slightly on my flat floor despite attempts to adjust it.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9b8fe8bf87735b2b",
+   "label": "VALID",
+   "reason": "Both mentions name the same property, scratch resistance of a surface or finish.",
+   "evidence": "The finish has proven remarkably resistant to scratches and water marks.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9c244d3529214e0c",
+   "label": "VALID",
+   "reason": "Every mention is the same handle with the same city signing reviews on the same site, naming one reviewer.",
+   "evidence": "- @furniture_lover92 (Seattle)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9c83652c2eb39cd9",
+   "label": "VALID",
+   "reason": "Both mentions name durability as the same quality aspect in identical sentences.",
+   "evidence": "For the price point, I expected much better quality and durability.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9d271302536d354b",
+   "label": "VALID",
+   "reason": "Every mention uses 'functional' as the same quality of a piece of furniture.",
+   "evidence": "Functional chair with decent build quality.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9dd6447fbfb58034",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, a duration of 3 hours.",
+   "evidence": "took me like 3 hours",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9f2e138f912e46ad",
+   "label": "VALID",
+   "reason": "All mentions name the same quality, a simple yet elegant design; 'but' vs 'yet' is a small wording change.",
+   "evidence": "The design is simple but elegant",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a2646579cfcc1703",
+   "label": "VALID",
+   "reason": "Every mention is the same concept, sagging under load.",
+   "evidence": "show no signs of sagging despite daily use",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a79231900f43d6a9",
+   "label": "VALID",
+   "reason": "Both mentions name the same property, a piece's dimensions; the differing values belong to different products, not to a different kind.",
+   "evidence": "The dimensions (45cm height) are ergonomically optimal for standard bed heights.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ac69289d0bd065eb",
+   "label": "VALID",
+   "reason": "Both mentions are drawers sticking, the same kind of problem.",
+   "evidence": "the drawer sometimes sticks when i open it too fast",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ada3f1f3773d3190",
+   "label": "VALID",
+   "reason": "Both mentions use the identical phrase for the same kind of praise.",
+   "evidence": "The Uppsala Sofa is a great addition to our living room.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:af7ad4609d05e014",
+   "label": "VALID",
+   "reason": "'stability' and 'stable' name the same property; small wording change.",
+   "evidence": "it's stable though and the right height for me",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b2102c03f3e5089b",
+   "label": "VALID",
+   "reason": "All four mentions name the same quality aspect, the visual design or styling of a piece.",
+   "evidence": "The design is timeless and blends well with various decor styles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b4a0d531f25d4b73",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of damage, scratch marks on a surface that scratches easily.",
+   "evidence": "The nightstand also scratches very easily - I already have several marks just from normal use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b5f2961e1a57d03d",
+   "label": "VALID",
+   "reason": "Every mention is the same handle with the same city signing reviews on the same site, naming one reviewer.",
+   "evidence": "- @home_chef (Chicago)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b7ecacdea7978cd2",
+   "label": "VALID",
+   "reason": "Every mention is the city San Francisco given as the location of the same reviewer, so all name the one city.",
+   "evidence": "- @wfh_warrior (San Francisco)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b7f1cb267da45a89",
+   "label": "VALID",
+   "reason": "Every mention is the city named in a reviewer's location tag (@designer_dave or @woodworker_amy, always Portland); nothing points to two different Portlands.",
+   "evidence": "- @designer_dave (Portland)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b8d5f56f4d063af7",
+   "label": "VALID",
+   "reason": "Every mention is the seller's customer service that reviewers contacted about damaged or faulty items; it is one kind of thing across documents.",
+   "evidence": "though customer service was quick to send a replacement.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bae3d8edeb4c2a19",
+   "label": "VALID",
+   "reason": "Both mentions call assembly time-consuming, the same aspect.",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bc38fe608736536c",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same location, signing reviews in five documents.",
+   "evidence": "- @entertainer_emma (Los Angeles)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:be26f34a4b4bc06c",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of room where a reviewer's furniture stands; as a concept, different owners' dining rooms are one kind.",
+   "evidence": "it still looks nice in my dining room",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:be91a39820d59607",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Ambient lighting and mood lighting are the same kind of light from the lamp, but 'mood lighting' needs that reading.",
+   "evidence": "the dimmer is perfect for creating mood lighting",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c69753bf4af7b154",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same location, signing reviews in three documents.",
+   "evidence": "- @petite_patty (Nashville)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c72b4d011b54c992",
+   "label": "VALID",
+   "reason": "'aesthetically pleasing' and 'the aesthetic is nice' both name visual appeal.",
+   "evidence": "The aesthetic is nice though",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c762fffa7f43d528",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, 45 minutes.",
+   "evidence": "Assembly was simple and took about 45 minutes.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cbbee077875bf855",
+   "label": "VALID",
+   "reason": "comfortable, comfy and comfort level all name the same quality, comfort.",
+   "evidence": "the comfort level is exceptional",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cdb511204422912e",
+   "label": "VALID",
+   "reason": "Every mention is the same concept, squeaking of the frame.",
+   "evidence": "I've noticed some squeaking when I lean back",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d2e2b573744a654a",
+   "label": "VALID",
+   "reason": "'ergonomic shape' and 'ergonomic design' of the Stockholm Chair name the same aspect.",
+   "evidence": "The ergonomic design is good for short periods",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d46713c6a2626482",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions say the surface scratches easily; the degree differs ('a bit more easily' vs 'very easily') so the node name fits one only loosely.",
+   "evidence": "it scratches a bit more easily than I'd like",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d5729f1bff6449ed",
+   "label": "VALID",
+   "reason": "Both mentions say the veneer is extremely thin, the same aspect.",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d5db016780c8949e",
+   "label": "VALID",
+   "reason": "Every mention names the reviewer's home as an apartment; as a concept it is one kind of dwelling across documents.",
+   "evidence": "looks great in my apartment but was a pain to put together tbh.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d670b75ab698abb7",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions are the dimmer of the Orebro Lamp in two reviews of it; 'dimmer' is a short form the context lets mean the lamp's dimmer switch, not stated outright.",
+   "evidence": "gives off nice vibes and the dimmer is perfect for creating mood lighting.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d7e0b2f37cdb5824",
+   "label": "VALID",
+   "reason": "Every mention is the product's price weighed against its quality; the same aspect in each review.",
+   "evidence": "For the price point, I expected much better quality.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dbdb71ba34f60075",
+   "label": "VALID",
+   "reason": "Both mentions say the instructions were clear.",
+   "evidence": "the instructions were clear",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dd1182d4d76a5014",
+   "label": "VALID",
+   "reason": "Both mentions state assembly was more complicated than advertised; 'much' is a small wording change.",
+   "evidence": "Assembly was also much more complicated than advertised",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dd9470b4e7e84d0b",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same location, signing reviews in seven documents.",
+   "evidence": "- @angry_customer (New York)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:de0226617cc541d9",
+   "label": "VALID",
+   "reason": "Both mentions are about a drawer opening smoothly, the same aspect.",
+   "evidence": "the drawer doesn't open as smoothly as I'd like",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dfc4036b50fd15d8",
+   "label": "VALID",
+   "reason": "Both mentions describe the firmness of the sofa's seating; 'firmer' is only the comparative of 'firm', a small wording change.",
+   "evidence": "The cushions are on the firmer side, which I personally prefer for proper back support.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dfebe493d3bed0a8",
+   "label": "VALID",
+   "reason": "All three mentions are about a piece's height; 'right' and 'perfect' only add a judgment to the same aspect, and the 45cm mention states the height itself.",
+   "evidence": "The dimensions (45cm height) are ergonomically optimal for standard bed heights.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e23823fca557f8b5",
+   "label": "VALID",
+   "reason": "Both mentions use the same phrase for the same disappointment.",
+   "evidence": "the reality is much less impressive",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e3b6e22474e38913",
+   "label": "VALID",
+   "reason": "Both mentions name cracking of a wooden part, the same kind of defect.",
+   "evidence": "the slats have started to crack",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e44098741523170e",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, 45cm.",
+   "evidence": "The seat height is ideal at 45cm",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e6ade429b5a3187f",
+   "label": "VALID",
+   "reason": "Both mentions say the back panel is thin.",
+   "evidence": "the back panel is quite thin",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e898a1c41448e94d",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'comfort' names the aspect directly; 'Comfortable to sit in' is a predicate about the chair that refers to the same aspect only when read as its noun form, which the text allows without stating.",
+   "evidence": "Comfortable to sit in while I'm working from home.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ea9e2a9746c68847",
+   "label": "VALID",
+   "reason": "Both mentions are praise that reviewers receive from others about the furniture; the same kind of thing.",
+   "evidence": "we continue to receive compliments from guests",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eb48e61f01cc4a60",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'thoughtful engineering' and 'properly engineered' both praise good engineering, but they are equal only under a loose reading.",
+   "evidence": "I appreciate the thoughtful engineering of the Jönköping Coffee Table.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ecf0be681c6bc3d2",
+   "label": "VALID",
+   "reason": "Every mention is the city in the same reviewer's location tag (@interior_whiz), one place.",
+   "evidence": "- @interior_whiz (Miami)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ed659a3217a9acd5",
+   "label": "VALID",
+   "reason": "Every mention is the city in the same reviewer's location tag (@petite_patty), one place.",
+   "evidence": "- @petite_patty (Nashville)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eded4709732351af",
+   "label": "VALID",
+   "reason": "'signs of wear' and 'wear marks' name the same concept.",
+   "evidence": "no scratches or wear marks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f0196c84a2afd518",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Six mentions name the quality of a product as an aspect; the Uppsala mention uses 'quality' as an adjective (high-grade zippers), which can be read as the same aspect rated high, but the text does not state it.",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f09456329bb3a48a",
+   "label": "VALID",
+   "reason": "All three mentions name the surface finish of a furniture piece, the same kind of aspect across documents.",
+   "evidence": "The finish is consistent and the overall construction feels solid.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f11da938ad406f3e",
+   "label": "VALID",
+   "reason": "Every mention is the city in the same reviewer signature line, naming the one city Minneapolis.",
+   "evidence": "- @scandi_lover (Minneapolis)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f33ea4c3f292ed35",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Three mentions name durability directly; 'last for decades' expresses durability only through paraphrase.",
+   "evidence": "This table will clearly last for decades.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f3b995217e30b151",
+   "label": "VALID",
+   "reason": "Every mention is the city in the same reviewer signature line, naming the one city Boston.",
+   "evidence": "- @college_student (Boston)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f3d398640eeda06e",
+   "label": "VALID",
+   "reason": "Both mentions state reduced comfort; 'not as comfy as i hoped' is a casual wording of 'less comfortable'.",
+   "evidence": "but honestly it's not as comfy as i hoped?",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f40b770bcdc5a220",
+   "label": "VALID",
+   "reason": "Both mentions name the materials a product is made of, the same kind across the two reviews.",
+   "evidence": "The materials feel high-quality and the dimmer function is smooth and responsive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f47872afd8334000",
+   "label": "VALID",
+   "reason": "Both mentions are the same value, an assembly time of about 30 minutes.",
+   "evidence": "Assembly was straightforward and took about 30 minutes per unit.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f4c1a6bc1171062e",
+   "label": "VALID",
+   "reason": "Both mentions name the general kind 'decorative items' displayed on furniture.",
+   "evidence": "I needed something to display both books and decorative items, and this works perfectly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f68db6bbe3a1039d",
+   "label": "VALID",
+   "reason": "Both mentions name price as the same aspect in the same phrase about a reasonable price.",
+   "evidence": "overall these are quality pieces at a reasonable price.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f76051a80c7e75a5",
+   "label": "VALID",
+   "reason": "Both mentions use 'handy' in the same sense of a convenient shelf.",
+   "evidence": "the open shelf is handy for books",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f8e2ae820838d166",
+   "label": "VALID",
+   "reason": "Every mention describes the same property of feeling sturdy and solid; 'rock solid' and 'construction feels solid' are small wording changes.",
+   "evidence": "The bed is rock solid - absolutely no squeaking or movement.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f94e7f99f5cdf474",
+   "label": "VALID",
+   "reason": "As a concept, 'guest room' and 'guest bedroom' are a small wording change naming the same kind of room.",
+   "evidence": "The Norrköping Nightstand is a great addition to my guest bedroom.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fa88df0e28c761c8",
+   "label": "VALID",
+   "reason": "All mentions name the same state of wobbling; 'wobble' is the verb form.",
+   "evidence": "The desk feels solid and doesn't wobble at all.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:facb425f367cf8b9",
+   "label": "VALID",
+   "reason": "Every mention is the same reviewer handle with the same city in the signature line, naming one reviewer account.",
+   "evidence": "- @college_student (Boston)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fbcf8e6d5ade7707",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All three praise clever design; 'particularly ingenious' carries the same meaning only by paraphrase.",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:assembly instructions",
+   "label": "VALID",
+   "reason": "The three nodes are the assembly instructions of three different products (dresser, chair, bookshelf), described differently, so they are different particular things.",
+   "evidence": "This dresser should come with a warning label! Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:construction",
+   "label": "VALID",
+   "reason": "One node is the construction of the Västerås Bookshelf, the other of the Jönköping Coffee Table: different products, so different particular things.",
+   "evidence": "We've had our Västerås Bookshelf for over a year now and it's held up beautifully! The construction is solid and there's been no sagging despite heavy use.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:design",
+   "label": "VALID",
+   "reason": "One node is the design of the Västerås Bookshelf, the other of the Jönköping Coffee Table: different products, so different particular things.",
+   "evidence": "The Jönköping Coffee Table is the perfect centerpiece for our living room! The design is sleek yet practical with the lower shelf providing great storage for books and magazines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:edges",
+   "label": "VALID",
+   "reason": "The edges belong to three different products (desk, bed, coffee table).",
+   "evidence": "the edges of the desk are a bit sharp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:finish",
+   "label": "VALID",
+   "reason": "Each node is the finish of a different product (table, coffee table, nightstand, bed), each from its own review file.",
+   "evidence": "The finish has a subtle matte quality that highlights the natural grain patterns.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:hardware",
+   "label": "VALID",
+   "reason": "One node is the hardware of the Västerås bookshelf, the other of the Helsingborg Dresser: different products, so different particular things.",
+   "evidence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:instructions",
+   "label": "VALID",
+   "reason": "Each node is the assembly instructions of a different product (dresser, bookshelf, desk, table, bed), judged confusing in some and clear in others; they are different individuals, so keeping them apart is right.",
+   "evidence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare. Took me over 5 hours and I consider myself handy! The instructions were confusing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:materials",
+   "label": "VALID",
+   "reason": "One node is the desk's materials, the other the chair's; different products.",
+   "evidence": "The materials feel high-quality and the desk is rock solid with no wobbling.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:parts",
+   "label": "VALID",
+   "reason": "The parts belong to three different products (sofa, bed, bookshelf).",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:pre-drilled holes",
+   "label": "VALID",
+   "reason": "Each node is the pre-drilled holes of a different product, from five different review files.",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:storage",
+   "label": "VALID",
+   "reason": "One node is the storage drawers of the Linkoping Bed, the other the storage of the Malmo Desk: parts of two different products, rightly kept apart.",
+   "evidence": "decent desk, looks nice in my apartment. the storage is helpful",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:surface",
+   "label": "VALID",
+   "reason": "One is the coffee table's surface, the other the dining table's; different products.",
+   "evidence": "The surface is easy to clean and surprisingly resistant to scratches.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Component:veneer",
+   "label": "VALID",
+   "reason": "One is the bookshelf's veneer, the other the coffee table's; different products.",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Particular:austin",
+   "label": "INCORRECT",
+   "reason": "Both nodes are the reviewer-location city Austin, written in the same handle-and-city sign-off; nothing marks a second Austin, so the graph split one place.",
+   "evidence": "- @artsy_andy (Austin)",
+   "outliers": [],
+   "together": [
+    [
+     "35bd5d98c70620e0",
+     "4ef95781d4960c62"
+    ]
+   ]
+  },
+  {
+   "id": "s:Particular:b0bqjwjwjw",
+   "label": "AMBIGUOUS",
+   "reason": "The same code string sits in the same /dp/ slot of the same site in all three URLs (one identifier), yet each URL attaches it to a different product (desk, sofa, lamp), so as a product identifier it names three different things.",
+   "evidence": "Scraped from https://www.between2furns.com/Malmo-Desk/dp/B0BQJWJWJW",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Particular:seattle",
+   "label": "INCORRECT",
+   "reason": "Both nodes are the reviewer-location city Seattle in the same sign-off pattern (the first node already joins two reviewers' Seattle); @architect_amy's Seattle is the same city, so the graph split one place.",
+   "evidence": "- @architect_amy (Seattle)",
+   "outliers": [],
+   "together": [
+    [
+     "7f1a42dd13b5213a",
+     "aba252b04953c787"
+    ]
+   ]
+  },
+  {
+   "id": "s:Product:furniture",
+   "label": "VALID",
+   "reason": "Read as individuals the mentions name different things: one reviewer's existing furniture, another reviewer's existing furniture, the Uppsala Sofa itself, and furniture in general; keeping them apart is right.",
+   "evidence": "Otherwise, it's a beautiful and well-made piece of furniture.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Product:unit",
+   "label": "VALID",
+   "reason": "One \"unit\" is the Vasteras bookshelf being reviewed, the other is the reviewer's own Helsingborg dresser; two different products.",
+   "evidence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom. Maybe I got lucky with my unit",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "m:1b43a759707193e9",
+  "m:2d6871df7237dd3b",
+  "m:394bdcbce1c5d261",
+  "m:395c1dadb0869027",
+  "m:3de8458a62776015",
+  "m:4ef95781d4960c62",
+  "m:4f64f0456a4983e4",
+  "m:52a930e9a7d7b424",
+  "m:6d7691abf9f401d4",
+  "m:7253a6fa21b4bef3",
+  "m:76c8ccf96f34df8f",
+  "m:7f1a42dd13b5213a",
+  "m:805c9cc3eaf45b8b",
+  "m:d670b75ab698abb7",
+  "m:d7e0b2f37cdb5824",
+  "m:dbdb71ba34f60075",
+  "m:dd1182d4d76a5014",
+  "m:de0226617cc541d9",
+  "m:e44098741523170e",
+  "m:e6ade429b5a3187f",
+  "m:ecf0be681c6bc3d2",
+  "s:Component:edges",
+  "s:Component:finish",
+  "s:Component:parts",
+  "s:Component:storage",
+  "s:Component:surface",
+  "s:Particular:austin",
+  "s:Particular:b0bqjwjwjw",
+  "s:Particular:seattle"
+ ],
+ "changes": []
+}
