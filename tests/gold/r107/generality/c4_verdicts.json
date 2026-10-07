@@ -1,0 +1,405 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "2150d91eca89",
+  "sheet": "tests/gold/r107/generality/c4_sheet.json",
+  "sheet_hash": "b442077f1149",
+  "sheets_git_sha": "09c67cff379c525d4db3064b4455f1416b632b3a"
+ },
+ "criterion": "C4",
+ "verdicts": [
+  {
+   "id": "l:71cb54ac7b24b77e:Staff:S-162",
+   "label": "VALID",
+   "reason": "The log keeper 'S. Osei' matches the only listed Osei, Samuel Osei, a Hydrology PhD student; field coring with water-table readings fits that team, and no other record with this name is listed.",
+   "evidence": "Brackwater fen field log, spring 2025, kept by S. Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0e3b351356c249fb:Staff:S-104",
+   "label": "VALID",
+   "reason": "The keeper of a bog coring field log is the Soil Ecology postdoc S-104, not the Finance Office grants accountant S-219.",
+   "evidence": "Aldmoor bog field log, winter 2024-25, kept by M. Lopez.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:15ab15335189f009:Staff:S-131",
+   "label": "VALID",
+   "reason": "'J. Pike' is the initial form of Jonathan Pike, the only Pike shown, and bog coring fits his Soil Ecology team; nothing in the chunk points to another person.",
+   "evidence": "the corer jammed at 5 m and was freed by J. Pike",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6ebb8e2728f2c97e:Staff:S-162",
+   "label": "VALID",
+   "reason": "Full name matches the only Samuel Osei record.",
+   "evidence": "Samuel Osei joined the trip on 10 December to learn the coring method.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c3e659155ee0725c:Staff:S-150",
+   "label": "VALID",
+   "reason": "Full name matches the only Aiko Tanaka record, a Hydrology research engineer running the flume.",
+   "evidence": "with Aiko Tanaka at the controls",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0f424f2367536ee5:Staff:S-104",
+   "label": "VALID",
+   "reason": "The text names her team as Soil Ecology, which is S-104, not S-219 (Finance Office).",
+   "evidence": "- 2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d5cdda62a1402a19:Staff:S-162",
+   "label": "VALID",
+   "reason": "The full name in the award list matches the record name exactly, and no other record with this name is listed.",
+   "evidence": "Samuel Osei was nominated, but the committee found that no entry met the standard.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f130d887db9e8d7b:Staff:S-150",
+   "label": "VALID",
+   "reason": "Name and team Hydrology match the record.",
+   "evidence": "- 2022: Aiko Tanaka (Hydrology), for the river gauging survey.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fc0502c18bd57e4f:Staff:S-131",
+   "label": "VALID",
+   "reason": "Name and team Soil Ecology match the record.",
+   "evidence": "- 2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:082fc61c552b1fd9:Staff:S-219",
+   "label": "VALID",
+   "reason": "The text names the Finance Office, which is S-219, not S-104.",
+   "evidence": "Maria Lopez (Finance Office)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3ed872c16070ef96:Staff:S-162",
+   "label": "VALID",
+   "reason": "Full name matches the only Samuel Osei record.",
+   "evidence": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:44f8f53df9e079f3:Staff:S-150",
+   "label": "VALID",
+   "reason": "Full name matches the only Aiko Tanaka record; she reports on the flume.",
+   "evidence": "Aiko Tanaka reported that the flume pump vibrates at high flow rates.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5b8277685d24e2fb:Staff:S-131",
+   "label": "VALID",
+   "reason": "'Jon' is the usual short form of Jonathan; Jon Pike is the only Pike candidate and nothing in the minutes points to another person.",
+   "evidence": "Present: Jon Pike (chair)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:0e4fded89f477333:Staff:S-162",
+   "label": "VALID",
+   "reason": "Full name matches the only Samuel Osei record.",
+   "evidence": "Samuel Osei measured the flume pump vibration at 60 litres per second",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3d46d03a294b5346:Staff:S-219",
+   "label": "VALID",
+   "reason": "The text names the Finance Office, which is S-219, not S-104.",
+   "evidence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:479475b4650f0614:Staff:S-150",
+   "label": "VALID",
+   "reason": "Full name matches the only Aiko Tanaka record.",
+   "evidence": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ed3f535c5ff67d54:Staff:S-131",
+   "label": "VALID",
+   "reason": "'J. Pike' is the initial form of Jonathan Pike, the only Pike shown; nothing in the minutes points to another person.",
+   "evidence": "J. Pike explained the equipment overrun of the Aldmoor peat project",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:310da6dc0b3dc5fb:Staff:S-131",
+   "label": "VALID",
+   "reason": "Named as group leader of the Soil Ecology award winner, matching the record's role.",
+   "evidence": "Her group leader, Dr. Jonathan Pike, called the campaign \"the most complete record of the bog we have\".",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:602428bf9c958b4e:Staff:S-131",
+   "label": "VALID",
+   "reason": "The sentence names the group leader as Dr. Jonathan Pike, and the record is Jonathan Pike, Group leader of Soil Ecology.",
+   "evidence": "Her group leader, Dr. Jonathan Pike, called the campaign",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:73516a034cc47c9b:Staff:S-150",
+   "label": "VALID",
+   "reason": "Research engineer in Hydrology matches the record's role and team.",
+   "evidence": "The Hydrology team, led by research engineer Aiko Tanaka",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fbca5f713671bfa2:Staff:S-104",
+   "label": "VALID",
+   "reason": "The text names the Soil Ecology team, which is S-104, not S-219.",
+   "evidence": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:9e68c98635e58c22:Staff:S-131",
+   "label": "VALID",
+   "reason": "J. Pike of Soil Ecology matches the only Pike record.",
+   "evidence": "Dr. J. Pike (Soil Ecology) speaks on \"Peat as a carbon archive\" on 3 June 2025 at 14:00 in room B12.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d4996c0165ad9220:Staff:S-150",
+   "label": "VALID",
+   "reason": "Name and team Hydrology match the record.",
+   "evidence": "Aiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\"",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:67400d819b60d395:Staff:S-131",
+   "label": "VALID",
+   "reason": "'Her group leader' is the group leader of Maria Lopez of Soil Ecology; the record is the Soil Ecology group leader (team Soil Ecology, role Group leader) and no other candidate is shown.",
+   "evidence": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project, as agreed with her group leader.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:729e877fb2535378:Staff:S-219",
+   "label": "VALID",
+   "reason": "The sender is the grants accountant, which is S-219, not S-104.",
+   "evidence": "From: Maria Lopez, grants accountant",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:10afe54efffb73f3:Staff:S-131",
+   "label": "VALID",
+   "reason": "One of the institute's researchers chairing a peat session; matches the only Jonathan Pike record.",
+   "evidence": "Dr. Jonathan Pike chaired the session on peat as a carbon archive.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:38567b04749016a4:Staff:S-104",
+   "label": "VALID",
+   "reason": "A researcher presenting the Aldmoor bog cores is the Soil Ecology postdoc S-104, not the grants accountant S-219.",
+   "evidence": "Maria Lopez presented a poster on the 240 cores of the Aldmoor bog",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fe459e145776fb0b:Staff:S-131",
+   "label": "VALID",
+   "reason": "Dr Jonathan Pike of the environmental institute speaking on peat bogs matches the only Pike record, a Soil Ecology group leader.",
+   "evidence": "Dr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:aaac839b06839b41:Pump:KV12-0457",
+   "label": "VALID",
+   "reason": "The mention is Harbour Station's own Kestrel V-12 pump, and the record is the Kestrel V-12 at Harbour Station with no other same-name record.",
+   "evidence": "showed them the station's Kestrel V-12 pump",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:9dbe21dcd0ca86c1:Pump:KV12-0457",
+   "label": "VALID",
+   "reason": "Mention is the record's key, in a Harbour Station report matching its station.",
+   "evidence": "The station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2b8548e0edb184aa:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "The mention is the word 'pump' directly before the record's key HP40-1183.",
+   "evidence": "the mechanical seal of pump HP40-1183 failed during the night shift",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:592f8f8859bccfd8:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key, at North Station.",
+   "evidence": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ecca8b372dd1990c:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key, at North Station.",
+   "evidence": "until HP40-2291 was switched to duty",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:29b0815745cd2246:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key, one of the two Hydra P-40 pumps at North Station.",
+   "evidence": "Pump HP40-1183 showed a slow drip from the mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d893ad549587410b:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "No leaks were found on HP40-2291, and its bearing temperature was 48 °C.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:334f8a02da0e7bfc:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "no leaks were found on HP40-1183, and its bearing temperature was 49 °C",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e9ae148a2e0f5306:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "Pump HP40-2291 now shows a slow drip from its mechanical seal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:75b6537ca1620c2a:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key, in a North Station summary.",
+   "evidence": "HP40-1183 ran for 6,100 hours",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e4e2e2c3e22ea248:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key, in a North Station summary.",
+   "evidence": "HP40-2291 for 2,300 hours",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3c37c1c3ef53f19f:Pump:KV12-0457",
+   "label": "VALID",
+   "reason": "The Kestrel V-12 at Harbour Station is given with serial KV12-0457, the record's key; model and station match.",
+   "evidence": "the Kestrel V-12 at Harbour Station (serial KV12-0457)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c5d5d7361555cb44:Pump:KV12-0457",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e63cf701dcbfa04a:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key, in North Station shift notes.",
+   "evidence": "Mon: HP40-2291 on duty all week, flow steady at 41 l/s.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f61a6321066eb671:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "Tue: Calder Pumps phoned about the seal returned from HP40-1183.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:1fc2b01d6d7cbfb5:Pump:KV12-0457",
+   "label": "VALID",
+   "reason": "The mention is written exactly like the record key and sits in a sentence about Harbour Station, which is the record's station.",
+   "evidence": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7406a104096841b7:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "HP40-2291 on standby",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fa34f28a1b459180:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key.",
+   "evidence": "Mon: HP40-1183 on duty, flow steady at 40 l/s",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:13eef64d09a12eaf:Pump:HP40-1183",
+   "label": "VALID",
+   "reason": "Mention is the record's key, in North Station work orders.",
+   "evidence": "Bearings of HP40-1183 regreased by Rosa Delgado.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5a9de1fcc2d52029:Pump:HP40-2291",
+   "label": "VALID",
+   "reason": "Mention is the record's key, in North Station work orders.",
+   "evidence": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection.",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "l:1fc2b01d6d7cbfb5:Pump:KV12-0457",
+  "l:67400d819b60d395:Staff:S-131",
+  "l:aaac839b06839b41:Pump:KV12-0457",
+  "l:d893ad549587410b:Pump:HP40-2291",
+  "l:fc0502c18bd57e4f:Staff:S-131"
+ ],
+ "changes": []
+}

@@ -25,6 +25,9 @@ new wrong splits are the pass's same-named individuals.
 R103's (the rebuilds with re-extracted claims and R97-R106) must carry R102's verdicts for byte-identical
 items, keep every lead review without a change, and score as reported: held-out's wrong join of two
 complaints' cars, its two record links, and furniture's "dimmer" join that R75's identity gold keeps apart.
+R107's (R103's graphs resolved again, a stated kind no record fits a `Kind` concept) must carry R103's
+verdicts for byte-identical items, keep every lead review without a change, and score as reported: the wrong
+join of the two cars gone, held-out's two record links still failing C3, and one wrong split fewer.
 No Neo4j, no LLM.
 """
 
@@ -1033,6 +1036,48 @@ def test_r103_verdicts_answer_their_sheets_carry_r102s_and_score_as_reported(dat
     wrong_splits = {
         "furniture": {"s:Particular:austin", "s:Particular:seattle"},
         "heldout": {"s:Particular:nissan customer service", "s:Vehicle:legacy"},
+        "generality": {"s:Place:mill lane", "s:Place:room b12", "s:Place:town hall", "s:Person:tomasz wren",
+                       "s:Place:riverton"},
+    }[dataset]  # fmt: skip
+    assert set(report.final.c3.wrong_splits) == wrong_splits
+
+
+# --- the committed results of R107 (R103's graphs resolved again with the kind rule) -----------------------
+
+R107 = GOLD / "r107"
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "generality"])
+def test_r107_verdicts_carry_r103s_and_the_kind_rule_removes_the_wrong_join_of_two_cars(dataset):
+    base = R107 / dataset
+    for name, model in SHEET_MODELS.items():
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        old = load_verdicts(R103 / dataset / f"{name}_verdicts.json", _ids(R103 / dataset, name))
+        before, after = _sheet_items(R103 / dataset, name), _sheet_items(base, name)
+        same = {i for i in after if before.get(i) == after[i]}
+        final, earlier = file.final(), old.final()
+        assert all(final[i] == earlier[i] for i in same)  # a byte-identical item keeps its verdict
+        assert file.changes == []  # the lead reviewed and changed no C3, C4 or C6 verdict
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert report.final.c4.hard_passed and all(report.final.c6.hard_passed.values())
+    assert report.final.c3.wrong_merges.get("individual", []) == []  # R103's "CARS" / "CAR" is a concept now
+    # held-out's C3 hard rule still fails on two record links, which the kind rule does not touch
+    assert report.final.c3.record_wrong_merges == (
+        ["l:46d8fbe6280c2ded:Vehicle:OUTBACK", "l:8c6f9fa48d339e85:Vehicle:ROGUE"]
+        if dataset == "heldout"
+        else []
+    )
+    pairs = report.final.c3.identity_pairs
+    expected = {
+        "furniture": (11 / 12, 32 / 33, 11 / 14),  # the "dimmer" join, as in R103
+        "heldout": (1.0, 1.0, 4 / 7),
+        "generality": (1.0, 1.0, 1.0),
+    }
+    assert (pairs.precision, pairs.apart, pairs.recall) == pytest.approx(expected[dataset])
+    wrong_splits = {
+        "furniture": {"s:Particular:austin", "s:Particular:seattle"},
+        "heldout": {"s:Particular:nissan customer service"},  # the two "Legacy" nodes are one now
         "generality": {"s:Place:mill lane", "s:Place:room b12", "s:Place:town hall", "s:Person:tomasz wren",
                        "s:Place:riverton"},
     }[dataset]  # fmt: skip

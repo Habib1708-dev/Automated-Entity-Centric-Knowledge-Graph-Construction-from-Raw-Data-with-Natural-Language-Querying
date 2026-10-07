@@ -6160,7 +6160,7 @@ builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pi
   leaves open (Found along the way): the keyed-kind individuals (now a wrong merge), generality's pass
   precision, and the dimmer join.
 
-### R107. A stated kind that no record fits resolves as a concept (part a done 2026-10-07; part b asked)
+### R107. A stated kind that no record fits resolves as a concept (done 2026-10-07; $0.0132)
 The user's decision after R103 (2026-10-07, "R107 is approved"): resolve follows the class the mention pass
 states. Today the class lives in `mentions.jsonl` only; resolve routes by the type's identity class, so a
 mention the pass stated a kind and typed with a keyed type becomes a `no_record` individual when no record
@@ -6237,6 +6237,57 @@ of held-out's 2,192 individual pair decisions.
     joins: the kind word refers back to the one pump. R107 makes them `Kind` concepts (Found along the way).
   - Committed: `tests/gold/r107/<ds>_logged.json`, `runs.json`; test
     `test_r107_resolved_r103s_graphs_again_and_changed_only_identity`.
+- **Part b, the evaluation (done 2026-10-07, $0: no API call).** `kg audit-snapshot`, `kg anchor-eval` (both
+  arms), `kg anchor-sheets` on `out/r107_<ds>`, offline; **C0 passed on all three**. Sheets, code sides,
+  anchor reports, fidelity and code checks committed at `09c67cf` before any verdict. No `kg mention-eval`:
+  the pass files are byte-identical to R103's, so pass precision and mention recall are R103's by
+  construction. Arm C (vector) as in R103: R92's rankings, the chunks are r77d's.
+  - **Judging** (Claude Opus 5.5; rules `tests/gold/r93/rules/c3.md`, `c6.md`): items byte-identical to
+    R103's carry its verdicts (C3 344, C4 223, C6 441); the other 21 (C3 13, C6 8, C4 none) were judged in 7
+    blind batches, each judge seeing only its rules and batch: 18 VALID, 3 VALID_ALTERNATIVE ("unit" for a
+    nightstand and a bookshelf; the 2016 Civic piston ring recall group; "Legacy" as the 2019 Legacy). The
+    lead read all 21 and reviewed every INCORRECT, AMBIGUOUS and UNJUDGEABLE verdict and the seeded 10 % of
+    VALID ones (116 items, 115 carried): **no change**. `kg anchor-judged` on the three graphs. Committed:
+    the verdict files and `anchor_judged.json` per dataset; test
+    `test_r107_verdicts_carry_r103s_and_the_kind_rule_removes_the_wrong_join_of_two_cars`.
+- **Part c: results** (judge: Claude Opus 5.5; R103 -> R107, same claims, same pass; n per row):
+
+  | Criterion | furniture | held-out | generality |
+  |---|---|---|---|
+  | C0 fidelity; C1 provenance | pass; 1.0 | pass; 1.0 | pass; 1.0 |
+  | C3 individual merges judged; wrong | 27 -> 27; 0 | 52 -> **27; 1 -> 0** | 33 -> 33; 0 |
+  | C3 concept merges judged; wrong | 121 -> 124; 1 | 67 -> 68; 2 | 49 -> 53; 1 ("trip") |
+  | C3 split groups; wrong (one thing kept apart) | 16 -> 11; 2 | 10 -> 4; **2 -> 1** | 7 -> 5; 5 |
+  | C3 record merges wrong (hard rule) | 0 | **2 (still: Rogue Sport, OUTBACKS)** | 0 |
+  | R75 identity pairs: precision / apart / recall | 11/12 / 32/33 / 11/14 (unchanged) | 1.0 / 1.0 / 4/7 (unchanged) | 1.0 / 1.0 / 1.0 |
+  | C4 precision | 63/63 | 81/83 | 50/50 -> 48/48 |
+  | C6 arm A / B | 1.0 / 1.0 | 1.0 / 1.0 | 1.0 / 1.0 |
+  | C7 hubs | 0 -> 0 | 0 -> 0 | 4 -> 4 |
+  | C2 targets at rank 1; C5 end to end complete@10 (A vs vector) | 0.837; 23 vs 26 (unchanged) | 0.800; 24 vs 26 (unchanged) | 0.726; 34 vs 37 (unchanged) |
+  | C9 nodes per chunk | 26.24 -> 26.17 | 23.25 -> 22.65 | 28.91 -> 28.75 |
+  | attachments (claims hung on things) | 1277 -> 1227 | 3831 -> 3519 | 476 -> 467 |
+
+  Read with care:
+  - **The wrong join is gone:** held-out's "CARS" / "CAR" of two complaints are mentions of one `Kind`
+    concept "CAR" (5 mentions, judged VALID: "a motor car" in every one). Held-out's 75 stated kinds are now
+    6 concepts ("recalling" 55 mentions, judged VALID: every one a manufacturer's safety recall; "vehicles"
+    12; "VEHICLE" 3; "CAR" 3), not 75 individuals asked about pairwise.
+  - **Held-out's C3 hard rule still fails**, on its two record links (R93's Rogue Sport, R103's OUTBACKS),
+    which R107 does not touch; R107's recommendation said it would lift the failure, which was right only for
+    the individuals' part.
+  - **One wrong split closed:** held-out's two "Legacy" nodes are one (VALID_ALTERNATIVE). The furniture and
+    generality wrong splits are R103's named places and reviewers, unchanged.
+  - **No new hub:** the broad `Kind` concepts ("recalling" in 27+ held-out chunks) are not what any gold
+    question's name finds, so C7 does not list them. C2, C5, C8 are unchanged everywhere.
+  - **Cost of the rule:** generality's "pump" / "Pump" lose their correct record link to HP40-1183 (C4 n
+    50 -> 48; Found along the way), and the claims a kind's individual held by `key_in_sentence` are no longer
+    attached to it (held-out 312 fewer attachments, to "VEHICLE" / "recall" individuals of one complaint
+    each); no measured criterion moved with them.
+  - The dimmer pair (R75 apart 32/33 on furniture) is unchanged: the "dimmer" join is not a pass kind.
+  - Gold and verdicts come from one model family (Claude).
+- **R107 done 2026-10-07** ($0.0132). Next: the user's choice among the open items: the record-link errors
+  that keep held-out's C3 hard rule failing (Rogue Sport, OUTBACKS), the narrower kind rule (a kind may join
+  a record's unit), identifiers nominated by spelling, the dimmer pair, generality's pass precision.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**

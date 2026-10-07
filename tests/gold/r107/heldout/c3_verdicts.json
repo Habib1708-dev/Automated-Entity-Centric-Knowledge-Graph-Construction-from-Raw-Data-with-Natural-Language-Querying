@@ -1,0 +1,855 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "876a65737fbc",
+  "sheet": "tests/gold/r107/heldout/c3_sheet.json",
+  "sheet_hash": "f38533775367",
+  "sheets_git_sha": "09c67cff379c525d4db3064b4455f1416b632b3a"
+ },
+ "criterion": "C3",
+ "verdicts": [
+  {
+   "id": "m:0457f4d788dd757f",
+   "label": "VALID",
+   "reason": "Singular and plural of the same seat component in one recall.",
+   "evidence": "replace any defective lower seat frames",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:07d747a5fbce3ff2",
+   "label": "VALID",
+   "reason": "Concept node: both mentions use 'THE CONTACT' as the role noun for the person reporting the complaint; the same kind across documents.",
+   "evidence": "TL* THE CONTACT RENTED A 2019 TOYOTA RAV4.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:0f8168bb3413c8c5",
+   "label": "VALID",
+   "reason": "Both mentions name water entering a vehicle part, the same kind of thing.",
+   "evidence": "Water may leak into and corrode the dash side harness connector.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:109de876a77934ff",
+   "label": "VALID",
+   "reason": "Same component kind; only hyphenation differs.",
+   "evidence": "The low-pressure fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:10b6484076189038",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All name the Ford C-Max model; the bare 'C-Max' is pinned to Ford by the recalling manufacturer.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:10d48a864724fd18",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both Civic owners contacted the Honda company about the recall; 'AMERICA OF HONDA' reads as a garbled form of 'AMERICAN HONDA', which the text allows but does not state.",
+   "evidence": "I CONTACTED AMERICA OF HONDA AND THEY CONFIRMED MY CAR DOES HAVE A RECALL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1564c38a98a6b3cb",
+   "label": "VALID",
+   "reason": "Every mention carries the same full organisation name, each time the recalling company.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:15d1e88410835aac",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both describe the same unintended braking event in one complaint; 'activated the brakes' needs the context to read as self-braking.",
+   "evidence": "THE CAR BRAKED ON ITS OWN.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1aca40d121796592",
+   "label": "VALID",
+   "reason": "Every mention names the vehicle transmission component, the same kind across complaints and recalls.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1af364b7decf5972",
+   "label": "VALID",
+   "reason": "Same named component in two parallel recall remedies.",
+   "evidence": "add a protective cap over the shift cable bushing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1b7ab09527c8e2d0",
+   "label": "VALID",
+   "reason": "Concept node for the state of not working: 'inoperative', 'non-functional' and 'inoperable' are wording variants of the same state.",
+   "evidence": "the instrument panel cluster be inoperative including a blank multiple functional display (MFD), and non-functional warning chimes",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1c4e9a16624a7fe8",
+   "label": "VALID",
+   "reason": "Concept node: every mention is 'owners' / 'Owners' meaning the owners of the recalled vehicles, the same kind in every recall record.",
+   "evidence": "Ford will notify owners, and dealers will update the instrument panel software, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1d4efc7bae2a9f26",
+   "label": "VALID",
+   "reason": "Both mentions name a vehicle door in the same door-latch defect wording, the same kind.",
+   "evidence": "A component within the door latches may break",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1f23321c4e5db779",
+   "label": "VALID",
+   "reason": "Every mention names the same kind of problem, a physical crack, on different parts.",
+   "evidence": "The front lower suspension arms may have cracks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1f8ee83eedc23411",
+   "label": "VALID",
+   "reason": "The sentence itself defines FMVSS as the abbreviation of Federal Motor Vehicle Safety Standards.",
+   "evidence": "Federal Motor Vehicle Safety Standards (FMVSS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:21998fd6f13b7c69",
+   "label": "VALID",
+   "reason": "Both mentions use 'install' in the one sense of fitting a part in place.",
+   "evidence": "Improperly manufactured bolts may have been used to install certain seats",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2517ea3ee0b3a4de",
+   "label": "VALID",
+   "reason": "All three mentions name the same problem kind, hesitation when accelerating; noun and verb forms are wording changes.",
+   "evidence": "VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:290bed1dd1de22b8",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind of part, a protective cap added over the shift cable bushing, in two remedies worded almost identically.",
+   "evidence": "add a protective cap over the shift cable bushing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2afcc4a85707eb91",
+   "label": "VALID",
+   "reason": "Both mentions name the same problem kind, non-compliance with FMVSS number 110; the second only drops the standard's title.",
+   "evidence": "these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2f26533e77122925",
+   "label": "VALID",
+   "reason": "Both name the vehicle brakes as a component kind.",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:348b2b1f07b95697",
+   "label": "VALID",
+   "reason": "Every mention names the same kind, a vehicle dealer that sells or services cars; the plurals and 'DEALERSHIP' are only wording changes.",
+   "evidence": "I REPORTED THIS TO MY DEALERSHIP WITHIN TWO WEEKS OF PURCHASE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3964bc0bbcaa608b",
+   "label": "VALID",
+   "reason": "Concept node for the act of inspecting: 'INSPECTING', 'INSPECTION' and 'inspect' are wording variants of the same activity kind.",
+   "evidence": "THE CONTACT STATED THAT WHILE INSPECTING THE VEHICLE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3ad8a654a1b829e9",
+   "label": "VALID",
+   "reason": "Same problem kind, an electrical short circuit, in both recalls.",
+   "evidence": "The front passenger seat weight sensor may crack and short circuit",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3bf207e1769112d8",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions name a 2.0L engine, but one sits in Honda Civics and the others in Ford vehicles, so they are one kind only if the node is read as the general class of engines with 2.0L displacement.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:421305af672f9526",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Every mention uses failure/fail in the same sense (a malfunction), but each complaint's 'THE FAILURE' refers back to a different defect, so it matches the generic node only on a generic reading.",
+   "evidence": "THE TECHNICIAN INFORMED THE CONTACT THAT THE FAILURE WAS A KNOWN ISSUE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4298d859bece1a5d",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The recall mentions say 'fuel tank'; the complaint 'TANK' mentions are short forms that the context of filling up and gas gauges pins to the fuel tank.",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4329845aa6dbfd48",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions name Toyota the manufacturer, but in 21V587000 'Toyota' is the make of the owners' vehicles, which needs reading the brand as the company.",
+   "evidence": "Subaru and Toyota owners may call customer service at 1-844-373-6614.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4401d9e338ced22a",
+   "label": "VALID",
+   "reason": "Same component kind, the air bags.",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:457980565f4112a2",
+   "label": "VALID",
+   "reason": "Back-up camera and rearview camera name the same component kind.",
+   "evidence": "the back-up camera may not activate when the vehicle is in reverse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4946aebeb83c8072",
+   "label": "VALID",
+   "reason": "Every mention is the one carmaker Honda: the recalls name it American Honda Motor Co., and the complaint document's HONDA is the same company the owner contacted.",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4a3e6c0c1542d741",
+   "label": "VALID",
+   "reason": "All six mentions name the same Toyota customer service line, with the same phone number in every record.",
+   "evidence": "Owners may contact Toyota customer service at 1-888-270-9371.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4c6c63bd137bd746",
+   "label": "VALID",
+   "reason": "Both mentions in recall 19V503000 name the same problem: the load carrying capacity modification label is incorrect, and the remedy covers that inaccurate label.",
+   "evidence": "SET will notify owners and provide a corrected label for placement over the inaccurate label, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4fceafc144c3a6db",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Fuel pump assembly and fuel pump module name the same replaceable fuel pump unit under two wordings.",
+   "evidence": "dealers will replace the fuel pump assembly with an improved one",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:528133c970590982",
+   "label": "AMBIGUOUS",
+   "reason": "Eight mentions name the same kind of owner letter; mention 087021ccf58baeb1 stands in the interim-letter sentence, which its chunk contrasts with a later 'Owner notification letters' mailing, so it may be that kind or the separate interim kind.",
+   "evidence": "Interim owner notification letters, informing owners of the safety risk, were mailed July 1, 2022.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5d55d285e585b6f2",
+   "label": "VALID",
+   "reason": "Both mentions name the same kind, a vehicle passenger, in the same door-latch sentence.",
+   "evidence": "leading the driver or a passenger to believe a door is securely closed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:63611978df05f4af",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The recall covers only the 2020 Mustang, so the bare 'Mustang' in its remedy is that vehicle.",
+   "evidence": "Mustang owner notification letters were mailed January 2, 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6adf1557d6a8adf7",
+   "label": "VALID",
+   "reason": "The same shifter cable bushing described identically in two recalls.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6b5166289dd70f5e",
+   "label": "VALID",
+   "reason": "Every mention is the same stock phrase naming the same kind, the safety risk owners are told about in interim letters; as a concept it is one kind across records.",
+   "evidence": "Interim notices informing owners of the safety risk were mailed September 8, 2017.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6bdc470f15e44db8",
+   "label": "VALID",
+   "reason": "The node is a concept and both mentions name the same kind, a road, even though the two complaints describe different roads.",
+   "evidence": "THE VEHICLE WAS TRAVELING ON A ROAD THAT GOES UNDER A BRIDGE ON I-275.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6d163b53825e6663",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions name the kind service technician, but 'TECH' is a short form that the service context pins down without stating it.",
+   "evidence": "TECH DIAGNOSED LEFT REAR BRAKE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6e37aa8131abfb79",
+   "label": "VALID",
+   "reason": "Every mention names the same state, being repaired (negated or not); 'FIXED' is the plain synonym used for the same repair of the vehicle.",
+   "evidence": "NATURALLY IT CAN'T BE FIXED BECAUSE NO ONE HAS THE WINDSHIELD",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:72c59acb3037b055",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Same recall 16V244000: 'QX60' in the remedy is a short form of 'Infiniti QX60' from the summary, with 'Infiniti' carried over from the list.",
+   "evidence": "Pathfinder, Infiniti Q50, JX35, and QX60 and Chevrolet City Express vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76131af5637a7f0d",
+   "label": "VALID",
+   "reason": "All three mentions name the same part kind; within 20V331000 the remedy uses 'side door latches' and 'door latches' for the very same latches, so the qualifier is a small wording change.",
+   "evidence": "Owners will also have the option to inspect their own vehicle's door latches and enter the date codes into a website to determine if the latches are correct.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7682ab63b6d1396a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The complaint's SUBARU (the maker blamed for the windshield) and the recalls' 'Subaru of America, Inc.' can be read as the one Subaru company, but the text does not state they are the same entity.",
+   "evidence": "THIS IS POOR WINDSHIELD QUALITY AND DESIGN BY SUBARU.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:771eda877b6cd6ff",
+   "label": "VALID",
+   "reason": "Both mentions name the same component (the shifter cable attached to the transmission by a bushing) in identical sentences.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:775e2fdbff3f3c4f",
+   "label": "AMBIGUOUS",
+   "reason": "The recall records name Ford Motor Company, but the complaint's FORD could be the Ford dealer the owner visited (\"another dealer\") or the manufacturer; the text supports both.",
+   "evidence": "ADVISED BY FORD THIS IS NORMAL, BUT I COULD TAKE IT TO ANOTHER DEALER FOR SERVICE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7823501fd4959440",
+   "label": "VALID",
+   "reason": "Every mention names Honda's customer service; the recall mentions share one phone number and the complaint names the same Honda customer service.",
+   "evidence": "Owners may contact Honda's customer service at 1-888-234-2138.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7958eb8b0cf150e9",
+   "label": "VALID",
+   "reason": "Same jackknife ignition key in one recall.",
+   "evidence": "equipped with a jackknife style ignition key",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7d3efdf6788e5aad",
+   "label": "VALID",
+   "reason": "Every mention is the full name of the same company, which the texts equate with Honda as the recalling party.",
+   "evidence": "American Honda Motor Co. (Honda) is recalling certain model year 2016 Civic 2-Door vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7dff424017bd16d3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All three use 'manufacturer' in the same sense (the vehicle's maker); as a role concept they are one kind, though each sentence points to a different make's maker, so the kind reading is allowed rather than stated.",
+   "evidence": "THE MANUFACTURER WAS NOTIFIED OF THE FAILURE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7e1a1854f987346c",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Same 2014-2016 Transit Connect; the second omits 'Ford', pinned by the recalling manufacturer.",
+   "evidence": "2014-2016 Transit Connect",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:818a575712731626",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Clip ring, snap ring and wrist pin circlip all name the piston pin retaining clip of the 2016 Civic recall.",
+   "evidence": "manufactured without a piston wrist pin circlip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:83f958f616657e90",
+   "label": "VALID",
+   "reason": "Same breaking of a door latch component in both recalls.",
+   "evidence": "A component within the door latches may break",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8b8de151091a573e",
+   "label": "VALID",
+   "reason": "Every mention is the same company name, Ford Motor Company, as the recalling party.",
+   "evidence": "Ford Motor Company (Ford) is recalling",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:917d0fcb05a8f8ad",
+   "label": "VALID",
+   "reason": "All three mentions name the same act, a technician's diagnosis of a vehicle fault.",
+   "evidence": "BUT WAS NOT DIAGNOSED OR REPAIRED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:925f56a830a43492",
+   "label": "VALID",
+   "reason": "Both mentions name Subaru customer service with the same phone number.",
+   "evidence": "Owners may contact Subaru customer service at 1-844-373-6614.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9441a086c6e46758",
+   "label": "VALID",
+   "reason": "All three mentions name the same website where recall VINs are searchable.",
+   "evidence": "searchable on NHTSA.gov",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9460d96e0955c3ea",
+   "label": "INCORRECT",
+   "reason": "The Subaru mentions name the navigation system; the Nissan mention names the front camera system, a different component.",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "outliers": [
+    "cefeb38d450df5e7"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:96587bb5f70db601",
+   "label": "VALID",
+   "reason": "Every mention names the same component kind, a vehicle's engine; plural and case differences do not make two kinds.",
+   "evidence": "the engine may continue to run after the key or the START/STOP engine button is turned to off",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9c747a35da236e0f",
+   "label": "VALID",
+   "reason": "VIN, VINs and Vehicle Identification Numbers all name the same kind; the records spell out the abbreviation.",
+   "evidence": "Vehicle Identification Numbers (VINs) involved in this recall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9f734bb75f958a02",
+   "label": "VALID",
+   "reason": "All three mentions name the same remedy action, dealers updating vehicle software.",
+   "evidence": "dealers will update the instrument panel software, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a2e9600f89d36e57",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The two records say crash; the complaint's ACCIDENT is a vehicle crash only by the driving context, which allows that reading without stating it.",
+   "evidence": "IT HAS ONLY HAPPENED THREE TIMES, BUT COULD CAUSE AN ACCIDENT.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a3a07b3571c3a1bc",
+   "label": "VALID",
+   "reason": "Same problem kind, stalling, in two complaints.",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a6655e81586fc1b5",
+   "label": "VALID",
+   "reason": "All three mentions name Nissan customer service at the same number 1-800-867-7669.",
+   "evidence": "Owners may contact Nissan's customer service at 1-800-867-7669.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a7e0464f9367d47a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Most mentions say repair(s); the FIX mentions mean a repair only by a synonym reading the context allows (Honda has no fix, they need to fix it).",
+   "evidence": "CURRENTLY HONDA HAS NO FIX FOR VEHICLES AFFECTED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a7fbbf33312f9a83",
+   "label": "VALID",
+   "reason": "Shifter bushing and shift bushing under the hood are the same part in parallel recalls.",
+   "evidence": "Dealers will replace the under hood shifter bushing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ac28121efdacbe44",
+   "label": "VALID",
+   "reason": "Singular and plural of the same kind, traffic light.",
+   "evidence": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b0dc38d1bebccb51",
+   "label": "VALID",
+   "reason": "Every mention names the carmaker Nissan, the recalling company in its recall records; the text gives Nissan as the short form of Nissan North America, Inc.",
+   "evidence": "Nissan North America, Inc. (Nissan) is recalling",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b171ce6c437e7d75",
+   "label": "VALID",
+   "reason": "Both mentions name the same organisation Lexus, reached at the same phone number in both recalls.",
+   "evidence": "Owners may contact Toyota customer service at 1-888-270-9371 or Lexus at 1-800-255-3987.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b8d5f56f4d063af7",
+   "label": "VALID",
+   "reason": "As a concept, both mentions name the same kind, a carmaker's customer service line that owners contact.",
+   "evidence": "Subaru and Toyota owners may call customer service at 1-844-373-6614.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c0c2673d3f8b7c70",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The remedy replaces the illegible label with corrected load carrying capacity modification labels, so the short form 'load capacity label' names the same label kind, but only by context.",
+   "evidence": "dealers will provide corrected load carrying capacity modification labels",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c30213e7d0b6abf2",
+   "label": "VALID",
+   "reason": "Both mentions come from the same phrase in the same sentence and name one event.",
+   "evidence": "QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c47def9450003c42",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'2012-2015 Focus' is a short form, and the Ford recall sentence pins it to the same model-year range of Ford Focus.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2011-2014 Fiesta, 2013-2014 Fusion, 2015 Mustang, 2013-2015 Escape and C-Max, 2012-2015 Focus",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c4a5ea269f0481eb",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'NV200 Taxi' in the remedy of the same recall is a short form of the 2014-2016 Nissan NV200 Taxi listed in its summary.",
+   "evidence": "replace the OCS ECU in LEAF, NV200, NV200 Taxi, Pathfinder",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c622cc4f0d3d6752",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name the same kind of component, a fuel gauge, in two vehicles.",
+   "evidence": "MY GAS GAUGE DOES NOT INDICATE FULL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c6e2c8765dde4534",
+   "label": "VALID",
+   "reason": "All mentions name the same kind, an interim notice or letter mailed to owners before the remedy; only the wording varies.",
+   "evidence": "Interim letters, notifying owners of the safety risk, were mailed March 6, 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c92ee0d19bffa012",
+   "label": "VALID",
+   "reason": "'PARKING SPACE' and 'PARKING PLACE' are synonymous wordings of one kind, a spot where a car is parked.",
+   "evidence": "THIS CAN OCCUR WHEN LEAVING A PARKING PLACE OR.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:caac564eb564c87f",
+   "label": "VALID",
+   "reason": "Every mention is the same action kind, replacing a vehicle part (replace / replacing / REPLACED), whatever part is replaced; the complaint uses it in the same sense.",
+   "evidence": "UNTIL ENGINE CAN BE REPAIRED/REPLACED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ccf66d22252ffac4",
+   "label": "VALID",
+   "reason": "All four mentions use 'driver' in one sense, the person driving the vehicle; one complaint names a particular driver, but the kind is the same.",
+   "evidence": "leading the driver or a passenger to believe a door is securely closed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cde58222e1fb8d4d",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name vehicle doors that fail to latch, the same kind.",
+   "evidence": "A component within the door latches may break making the doors difficult to latch",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d0fd9178678466c0",
+   "label": "VALID",
+   "reason": "Both mentions are the same kind, the second owner notice sent when remedy parts become available.",
+   "evidence": "Owners will receive a second notice when remedy parts become available.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d1c1735038dd7ef6",
+   "label": "INCORRECT",
+   "reason": "RUSTED and corrode name the corrosion problem, but corroded connector names the part that dealers repair, not the problem.",
+   "evidence": "Dealers will apply grease and repair any corroded connector as necessary, free of charge.",
+   "outliers": [
+    "89636bb34c339584"
+   ],
+   "together": []
+  },
+  {
+   "id": "m:d56df4ddb9a1a901",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Two mentions name '2015 Lincoln MKC' exactly; '2015 MKC' is a short form that the Ford recall context pins down, since the same list names '2013-2014 Lincoln MKZ'.",
+   "evidence": "2013-2014 Lincoln MKZ, and 2015 MKC vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d63c2b4b6c17b0fa",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'JX35' in the remedy of the same recall is a short form of the 2013 Infiniti JX35 in its summary.",
+   "evidence": "Infiniti Q50, JX35, and QX60",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d6842ce8fe0ae872",
+   "label": "AMBIGUOUS",
+   "reason": "All mentions use the generic word 'parts' in the sense of replacement parts, which supports one concept, but read in their sentences they name different components (transmission parts from a repair shop, an improved door latch, recall remedy parts for piston assemblies, bolts, fuel pumps, bushings).",
+   "evidence": "1200 WORTH OF PARTS REPLACED ON TRANSMISSION",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d9343bbcd9f3aee5",
+   "label": "VALID",
+   "reason": "Singular and plural of the same component, in the same recall.",
+   "evidence": "dealers will inspect both the taillight assemblies",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d94f651ae65b16f9",
+   "label": "VALID",
+   "reason": "Every mention names the same agency, NHTSA, to which complaints go and which numbers recalls.",
+   "evidence": "This recall is an expansion of NHTSA recall numbers 21V-215 and 20V-314.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e36bf7955b2df7cd",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "As a concept both mentions name the same kind of problem, a vehicle striking a wall; the second needs reading 'hitting the concrete wall' as crashing into a wall, which its context allows.",
+   "evidence": "BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ed0a53c920c470a6",
+   "label": "VALID",
+   "reason": "Every mention names Ford's customer service with the same phone number across Ford recall records.",
+   "evidence": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f0546ef2245527a5",
+   "label": "VALID",
+   "reason": "Concept node: both mentions name coolant leaking, the same kind of problem.",
+   "evidence": "may result in cracks than can allow coolant to leak internally and/or externally",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fe4fa1ed56e5f5a4",
+   "label": "VALID",
+   "reason": "The same word, in identical sentences about the same bushing failure.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fe8caccfedba4bb0",
+   "label": "VALID",
+   "reason": "The same word, in identical sentences about the same bushing failure.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Particular:nissan customer service",
+   "label": "INCORRECT",
+   "reason": "Both nodes name Nissan's customer service in Nissan recall remedies; a second phone number is another contact line of the same organisation, not a different organisation.",
+   "evidence": "Owners may contact Nissan customer service at 1-800-647-7261.",
+   "outliers": [],
+   "together": [
+    [
+     "45b86bbada53148a",
+     "a6655e81586fc1b5"
+    ]
+   ]
+  },
+  {
+   "id": "s:Vehicle:camry",
+   "label": "VALID",
+   "reason": "One node is the 2019 Camry from GST's recall and the other the 2020 Camry from Toyota's recall; the model years differ, so they are different vehicle groups.",
+   "evidence": "is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Vehicle:camry hybrid",
+   "label": "VALID",
+   "reason": "One node is the 2020 Camry Hybrid (Toyota) and the other the 2019 Camry Hybrid (GST); the model years differ.",
+   "evidence": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Vehicle:sienna",
+   "label": "VALID",
+   "reason": "One node is the 2017-2019 Sienna from SET's recall and the other the 2019 Sienna from GST's recall, with different year ranges and distributors, so they are different vehicle groups.",
+   "evidence": "Southeast Toyota Distributors, LLC (SET) is recalling certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:01c9fb994866a0ea",
+   "label": "VALID",
+   "reason": "Concept node: every CAR/CARS mention uses the word in the one sense of a motor car (other cars on the road or the owner's own car); singular/plural and the 'CARS SITS' typo do not make a second kind.",
+   "evidence": "UNSAFE TO PULL OUT OF DRIVEWAYS, MAKE LANE CHANGES SAFELY ETC IF ANY CARS WITHIN VIEW OR NEARBY.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1796c00b814bab88",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "All mentions are in the 2016 Civic complaints about one Honda piston ring recall with no fix yet (snap ring / clip ring are two owners' wordings); the 'RECALL AND STOP OF SALE' mention ties to it only through the other complaint's stop-sale remark, which the text allows but does not state.",
+   "evidence": "DEALERS HAVE BEEN FORCED TO STOP SELLING 2016 CIVICS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3c1c5fc4805deee4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions are the Subaru 2019 Legacy; the bare 'Legacy' gets its 2019 model year only from the year leading the recall's list, a reading the text allows without stating it.",
+   "evidence": "(Subaru) is recalling certain 2019 Impreza, Outback, Legacy, and Ascent vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:aefa3e0fdc156421",
+   "label": "VALID",
+   "reason": "Concept node: every VEHICLE/vehicle mention, in complaints and recall remedies alike, names the same kind (a motor vehicle); case and document differences do not make two kinds.",
+   "evidence": "THE VEHICLE WAS TAKEN TO THE DEALER, BUT WAS NOT DIAGNOSED OR REPAIRED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:babf96ce899a6397",
+   "label": "VALID",
+   "reason": "Concept node: every VEHICLES/vehicles mention (affected cars, other cars on the road, recalled model lines) names the same kind, motor vehicles.",
+   "evidence": "I WAS NOT FOLLOWING ANY VEHICLES SO A ROCK CHIP COULD NOT BE THE CAUSE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d3d57c4523315acf",
+   "label": "VALID",
+   "reason": "Concept node: all 54 mentions (recalling, recall, recalled, recalls) use the one sense of a manufacturer's vehicle safety recall; verb/noun/plural forms are small wording changes of the same kind, and no mention carries another sense.",
+   "evidence": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "m:1f23321c4e5db779",
+  "m:2517ea3ee0b3a4de",
+  "m:348b2b1f07b95697",
+  "m:457980565f4112a2",
+  "m:528133c970590982",
+  "m:775e2fdbff3f3c4f",
+  "m:9460d96e0955c3ea",
+  "m:a6655e81586fc1b5",
+  "m:b171ce6c437e7d75",
+  "m:d1c1735038dd7ef6",
+  "m:d6842ce8fe0ae872",
+  "m:d94f651ae65b16f9",
+  "s:Particular:nissan customer service",
+  "s:Vehicle:camry hybrid"
+ ],
+ "changes": []
+}
