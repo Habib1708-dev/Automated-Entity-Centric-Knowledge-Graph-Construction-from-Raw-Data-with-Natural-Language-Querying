@@ -12,7 +12,7 @@ Design: pure; the caller gives each chunk's mention names and the pass's mention
     judge accepted too.
   - Precision: a seeded sample of the pass's mentions, each shown with its chunk, judged by the definition
     (VALID: In, verbatim, its class right; INCORRECT: Out, not a thing's name, or the wrong class). The class
-    is the one its type gives: a keyed or individual type names a particular thing, a concept type a kind.
+    is the one the pass stated (R104); for a pass that stated none (R102's builds), the one its type gives.
 The sample's size and seed are fixed here, before any verdict exists.
 Not here: the gold format (mention_gold.py), the verdict rules (anchor_verdicts.py, reused), the pass.
 """
@@ -24,9 +24,10 @@ from typing import Literal
 from pydantic import BaseModel
 
 from ..core.text import contains_words, norm
+from ..text.schema import MentionClass
 from .anchor_verdicts import ACCEPTED, JUDGED, Label, VerdictFile
 from .interval import Proportion
-from .mention_gold import MentionClass, MentionGold
+from .mention_gold import MentionGold
 from .sentences import SentenceSample
 
 # Enough judged mentions per build to read a precision near the 0.90 bound (R101) without judging every one

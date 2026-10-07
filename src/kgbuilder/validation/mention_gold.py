@@ -17,15 +17,13 @@ Not here: drawing the sample (sentences.py), the pass, and the scores (R102).
 import re
 from collections import Counter
 from pathlib import Path
-from typing import Literal
 
 from pydantic import BaseModel, ValidationError
 
 from ..core.errors import InvalidGoldError
 from ..core.text import contains_words, norm
+from ..text.schema import MentionClass
 from .sentences import SentenceSample
-
-MentionClass = Literal["particular", "kind"]
 
 # A name copied with its article: the definition writes names without one
 _ARTICLE = re.compile(r"^(a|an|the)\s", re.IGNORECASE)

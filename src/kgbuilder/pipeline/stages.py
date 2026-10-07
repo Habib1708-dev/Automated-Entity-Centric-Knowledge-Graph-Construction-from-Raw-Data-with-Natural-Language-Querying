@@ -507,6 +507,10 @@ class MentionPassStage(_TextStage):
             mention_nodes=len(rows.mentions),
             mentions=len(rows.mentioned_in),
             reused=rows.reused,
+            # the class answers (R104): how many were named things, and how many code filed under their
+            # class's fallback because the proposed type cannot hold the class ("café" a kind of a place type)
+            particular=sum(f.mention_class == "particular" for f in outcome.accepted),
+            retyped=sum(f.proposed_type not in (mention_pass.NO_TYPE, f.type) for f in outcome.accepted),
             # which code-visible Out rule fires most tells what to fix in the prompt
             **{f"rejected_{r}": reasons[r] for r in get_args(mention_pass.RejectionReason)},
         )

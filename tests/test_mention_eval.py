@@ -1,7 +1,8 @@
 """The mention evaluation (R102, validation/mention_eval.py and `kg mention-eval`): recall of the R101 gold
 (exact hits, near-name candidates for the judged mapping, misses), the seeded precision sample of the pass's
 mentions, the scores with and without verdicts, the evidence check, and the stage on the graph audit's
-invented build with a pass file (params, metrics, artifacts, and its refusal of a quote outside its item).
+invented build with a pass file (params, metrics, artifacts, its refusal of a quote outside its item, and the
+class a precision item shows: the one the pass stated, R104, else R102's class of the type).
 The committed R102 sheets and verdicts (tests/gold/r102) must answer each other under the review rules and
 score as reported. No Neo4j, no LLM.
 """
@@ -15,7 +16,7 @@ import pytest
 from kgbuilder.audit import build_snapshot
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
-from kgbuilder.core.identity import mention_id
+from kgbuilder.core.identity import document_of, mention_id
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.mention_stages import MENTION_REPORT, MENTION_SHEET, MentionEvalStage
 from kgbuilder.validation.anchor_verdicts import Label, Verdict, VerdictFile, load_verdicts
@@ -113,16 +114,21 @@ def test_scores_with_the_judged_mapping_and_precision():
     assert mention_evidence_issues(sheet, bad) == ["the quote of p2 is not in its item"]
 
 
-def _with_gold(tmp_path):
-    """The audit's invented build with one pass mention, and a gold of two sampled sentences."""
+# A line of a pass file written before R104: a type, and no class
+CRACK = {"chunk_id": f"{LAMP}#0", "name": "crack", "type": "Kind"}
+
+
+def _with_gold(tmp_path, findings: tuple[dict, ...] = (CRACK,)):
+    """The audit's invented build with pass mentions (`findings`, the lines of its pass file, each resolved
+    to a concept of its own), and a gold of two sampled sentences."""
     _, out, data = audit_snapshot(tmp_path)
-    crack = mention_id("Kind", "crack", LAMP)
-    (out / "mentions.jsonl").write_text(
-        json.dumps({"chunk_id": f"{LAMP}#0", "name": "crack", "type": "Kind"}), encoding="utf-8"
-    )
+    (out / "mentions.jsonl").write_text("\n".join(json.dumps(f) for f in findings), encoding="utf-8")
     resolved = json.loads((out / "resolve.json").read_text(encoding="utf-8"))
-    resolved["assignments"].append({"mention": crack, "said": "crack", "kind": "concept", "canonical": "c9",
-                                    "name": "crack", "type": "Kind", "reason": "same_name"})  # fmt: skip
+    for i, f in enumerate(findings):
+        mention = mention_id(f["type"], f["name"], document_of(f["chunk_id"]))
+        resolved["assignments"].append({"mention": mention, "said": f["name"], "kind": "concept",
+                                        "canonical": f"c{i}", "name": f["name"], "type": f["type"],
+                                        "reason": "same_name"})  # fmt: skip
     (out / "resolve.json").write_text(json.dumps(resolved), encoding="utf-8")
     sentences = [
         SampledSentence(id="a", doc_id=LAMP, chunk_id=f"{LAMP}#0", text="The shade is cracked."),
@@ -179,6 +185,29 @@ def test_the_stage_scores_a_build_and_its_pass_against_the_gold(tmp_path):
     )
     with pytest.raises(EvaluationError):
         run_stages(ctx, replace(state, mention_verdicts=path), [MentionEvalStage()])
+
+
+HINGE = {"chunk_id": f"{KETTLE}#0", "name": "hinge", "type": "Part"}  # "Part" is the build's keyed type
+
+
+@pytest.mark.parametrize(
+    ("hinge", "shown"),
+    [
+        ({**HINGE, "mention_class": "kind", "proposed_type": "Part"}, "kind"),  # stated: a piece, a kind
+        (HINGE, "particular"),  # a pre-R104 pass file states none: R102's class of a keyed type
+    ],
+)
+def test_a_precision_item_shows_the_class_the_pass_stated(tmp_path, hinge, shown):
+    """R104: a piece typed with a keyed type is judged as the kind the pass stated, not as the particular
+    R102's sheet made of every keyed type ("back rest" as a part record)."""
+    out, data, gold_dir, logged = _with_gold(tmp_path, (CRACK, hinge))
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "eval", tracker=RecordingTracker())
+    state = PipelineState(
+        audit_source=out, data_dir=data, audit_logged=logged, anchor_dataset="test", mention_gold_dir=gold_dir
+    )
+    run_stages(ctx, state, [MentionEvalStage()])
+    sheet = MentionSheet.model_validate_json((tmp_path / "eval" / MENTION_SHEET).read_text(encoding="utf-8"))
+    assert {i.name: i.mention_class for i in sheet.precision} == {"crack": "kind", "hinge": shown}
 
 
 # --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold) ---------------

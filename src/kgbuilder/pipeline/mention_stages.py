@@ -5,7 +5,9 @@ R87's fidelity gate (it refuses a build whose snapshot is not the build's), scor
 against R101's gold (validation/mention_eval.py), and writes the judge's sheet: the recall items whose only
 match is a near name (the judged mapping) and the seeded sample of the pass's mentions (judged precision).
 Given the judge's verdict file, it scores those too. Judging itself happens in between, by Claude in the
-session, never in a stage.
+session, never in a stage. A precision item shows the class the pass stated for the mention (R104), so a
+piece typed with a keyed type ("back rest" as a part record) is judged as the kind it is; a pass file
+written before R104 states none, and its class is read off the type as R102 did.
 Design: wiring and logging only, like judging_stages.py. One MLflow run per build: params name the build, the
 gold and its sample with their hashes, the verdict file when given, and the sample's size and seed; metrics
 are recall (exact, and with the mapping), recall by class, precision, the pass's mentions and how many each
@@ -20,7 +22,7 @@ from pathlib import Path
 
 from ..audit import build_snapshot, check_fidelity, load_logged
 from ..core.errors import EvaluationError
-from ..text.schema import TextSchema
+from ..text.schema import MentionClass, TextSchema
 from ..validation.anchor_verdicts import load_verdicts
 from ..validation.mention_eval import (
     PRECISION_SAMPLE,
@@ -100,8 +102,7 @@ class MentionEvalStage(BaseStage):
                 type=m.type,
                 chunk_id=m.chunks[0],
                 text=text[m.chunks[0]],
-                # a keyed or individual type names one particular thing, a concept type a kind (R101)
-                mention_class="kind" if schema.identity_of(m.type) == "concept" else "particular",
+                mention_class=m.stated_class or _class_of_type(schema, m.type),
             )  # fmt: skip
             for m in passed
         ]
@@ -122,6 +123,14 @@ class MentionEvalStage(BaseStage):
         state.mention_scores = scores
         run.metrics(**_metrics(scores, len(passed), gained))
         run.artifact(ctx.write(MENTION_REPORT, scores.model_dump_json(indent=1)))
+
+
+def _class_of_type(schema: TextSchema, type_name: str) -> MentionClass:
+    """R102's class for a pass mention whose pass file states none (written before R104): a keyed or
+    individual type names one particular thing, a concept type a kind. Kept so that R102's sheets rebuild as
+    they were judged; it shows a piece of a keyed type ("back rest") as particular, which is why the pass now
+    states the class itself."""
+    return "kind" if schema.identity_of(type_name) == "concept" else "particular"
 
 
 def _gold_files(state) -> tuple[Path, Path]:

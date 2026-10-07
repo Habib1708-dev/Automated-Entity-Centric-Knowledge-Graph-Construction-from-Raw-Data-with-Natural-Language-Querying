@@ -42,6 +42,11 @@ PARTICULAR_TYPE = "Particular"
 KIND_TYPE = "Kind"
 FALLBACK_TYPES: dict[str, IdentityClass] = {PARTICULAR_TYPE: "individual", KIND_TYPE: "concept"}
 
+# The class of a mention (the R101 definition, tests/gold/r101/rules.md): how the text refers to the thing,
+# by its own name (`particular`) or by a common noun, a verb or a role (`kind`). It is a property of each
+# mention, not of a type: one type holds "North Dome" and "the dome" alike (R104).
+MentionClass = Literal["particular", "kind"]
+
 
 # The field descriptions reach the proposer as its response schema, so they are prompt text: the examples
 # come from an invented domain (beekeeping), never from an evaluated dataset (prompt-engineering skill).

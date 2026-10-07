@@ -33,7 +33,7 @@ from ..structured.profiler import DataProfile
 from ..text.chunking import Chunk
 from ..text.extraction import Triple
 from ..text.mention_pass import PASS_FILE, PassFinding, pass_rows
-from ..text.schema import TextSchema
+from ..text.schema import MentionClass, TextSchema
 from ..text.subject_graph import MentionRow, ObservationRow, collect_rows
 from .inputs import Record, Relation, read_corpus, read_records, read_relations
 
@@ -44,6 +44,8 @@ class SnapshotMention(MentionRow):
     chunks: list[str]
     derived: bool  # written by derivation, named after a plan node, not by the extractor
     found_by_pass: bool = False  # written by the mention pass (R101), named by the text, not by a claim
+    # the class the pass stated for it (R104); None for every other mention and for a pre-R104 pass file
+    stated_class: MentionClass | None = None
 
 
 class SnapshotClaim(ObservationRow):
@@ -139,14 +141,14 @@ def build_snapshot(out_dir: Path, data_dir: Path, chunking: tuple[int, int, int]
             claims.setdefault(o.id, SnapshotClaim(**o.model_dump(), derived=True))
 
     # the mention pass ran after link: its rows come after derivation's, and derivation never saw them
-    passed: set[str] = set()
+    passed: dict[str, MentionClass | None] = {}  # pass mention id -> the class it was stated with
     pass_edges = reused = 0
     if (out_dir / PASS_FILE).exists():
         findings = [PassFinding.model_validate_json(x) for x in _read(out_dir / PASS_FILE).splitlines() if x]
         found = pass_rows(findings, list(mentions.values()), mentioned_in)
         for m in found.mentions:
             mentions[m.id] = m
-            passed.add(m.id)
+            passed[m.id] = found.classes.get(m.id)
         mentioned_in |= set(found.mentioned_in)
         pass_edges, reused = len(found.mentioned_in), found.reused
 
@@ -240,14 +242,21 @@ def _candidates(
 
 
 def _mentions(
-    mentions: dict[str, MentionRow], mentioned_in: set[tuple[str, str]], derived: set[str], passed: set[str]
+    mentions: dict[str, MentionRow],
+    mentioned_in: set[tuple[str, str]],
+    derived: set[str],
+    passed: dict[str, MentionClass | None],
 ) -> list[SnapshotMention]:
     chunks_of: dict[str, list[str]] = defaultdict(list)
     for c, m in sorted(mentioned_in):
         chunks_of[m].append(c)
     return [
         SnapshotMention(
-            **m.model_dump(), chunks=chunks_of[m.id], derived=m.id in derived, found_by_pass=m.id in passed
+            **m.model_dump(),
+            chunks=chunks_of[m.id],
+            derived=m.id in derived,
+            found_by_pass=m.id in passed,
+            stated_class=passed.get(m.id),
         )
         for m in sorted(mentions.values(), key=lambda m: m.id)
     ]

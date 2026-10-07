@@ -5159,6 +5159,8 @@ a measured effect and regression checks. The causes, verified on the r77d snapsh
     >= 0.90, no new C7 hub, C9 growth reported, concept merges of pass mentions judged.
   - **R102** Rebuild with the r77d claims, and evaluate everything (paid, asked per dataset, est. $0.5-1.0).
   - **R103** Rebuild with re-extracted claims (paid, asked, est. $1.9-2.5).
+  - **R104** (inserted 2026-10-07, done before R103) The mention pass states each thing's class apart from its
+    type; title, use and address rules clarified; the sheet shows the stated class.
 - **Regression checks at every measured step:** C0 passes; C1 = 1.0; C3 0 wrong merges of records or
   individuals and R75's apart pairs 1.0; C4 >= 0.95 with 0 confirmed cross-scope links; C6 >= 0.95 for record
   and individual starts; C8 arm A 0 unwitnessed hops; C9 no per-dataset code or setting, and the corpus
@@ -5813,6 +5815,66 @@ r77d is not confounded by a new sample of the extractor (R61-R62).
 - **R102 done 2026-10-07** ($1.832, all in part b). Next: the user's decision on the failed bounds (R101's
   rule: up to three `dev` rounds on the pass), then R103 (paid, asked).
 
+### R104. The mention pass states each thing's class apart from its type (code done 2026-10-07; $0)
+Inserted before R103 (the user's decision on R102's failed bounds, 2026-10-07: fix the pass first; a narrow
+fix, no change to resolution, hubs or concept merging). R102's 33 judged pass errors, traced to their cause:
+20 are a wrong class that came from the type (the prompt asked for a type only and showed no class; "Give it
+the type below that fits it" put type fit before being named, so "café", "street" and "control room" became
+`Place` individuals, "vote" an `Event`, "back rest" a keyed `Component` shown as particular); 6 are titles of
+a listed person ("Councillor" before "Priya Nandakumar", who was already on the prompt's "already listed"
+line in 5 of the 6); 7 are Out rules broken, partly where two rules clash ("START VEHICLE" is both "an action
+done to a thing", In, and an everyday act, Out 8; "THE CONTACT" read as a role, not as the writer).
+- **Scope.** `text/mention_pass.py`: the response is `FoundThing{name, mention_class, type}`, the class
+  (`particular` | `kind`, a `Literal` the response schema enforces) asked as its own answer before the type,
+  the type one of the schema's or `none`; the prompt explains the class apart from the types (how the text
+  refers to the thing: its own name or identifier, else kind, also for a common noun meaning one thing), no
+  longer lists the fallback types, and clarifies the rules that read two ways (below). Code decides the
+  stored type (`filed_type`): the proposed type when its identity class can hold the stated class (keyed:
+  both, since its records also stand for the pieces a text names by a common noun, "back rest" -> the
+  product's part record; individual: particular only; concept: kind only), else the class's fallback
+  (`Particular`, `Kind`). A proposed fallback type is now `unknown_type` (the fallbacks are code's to give).
+  `mentions.jsonl` keeps both answers (`mention_class`, `proposed_type`) next to the stored `type`; a pass
+  file written before R104 still parses (both None). `MentionClass` moved to `text/schema.py` (the gold
+  format and the sheet import it). Not changed: resolution, hubs, concept merging, the extractor.
+- **The rules, clarified** (prompt and `tests/gold/r101/rules.md` alike; examples invented). Each reads the
+  way the R101 gold, written blind, already reads it, so **no gold entry changes** and there is no gold
+  correction:
+  - Out 9, a title, role or common noun next to a name or in apposition with it: the gold gives "Councillor
+    Priya Nandakumar" -> Priya Nandakumar (note: "Title 'Councillor' is part of how the named person is
+    called"), "The council's structural inspector, Daniel Okafor" -> Daniel Okafor, "The station's only
+    pump, KV12-0457" -> KV12-0457 ("the id is the entry").
+  - In 2/3 against Out 8, a work done to a thing (makes, fits, repairs, cleans, tests, replaces or withdraws
+    it) against ordinary use: the gold keeps "install", "wash", "tested", "replace", "recalled" and leaves
+    out "VALET PARK", "HIGHWAY DRIVING", "FILLING my tank", "setting down my laptop".
+  - Out 5, the writer or reader referred to only as such, forms of address: the gold leaves out "THE
+    CONTACT" (the complaint's writer), keeps "architect" (a writer called by a profession) and keeps the name
+    in "Dear Riverton Water".
+  - Out 4 seasons ("winter" was a pass `Particular`); Out 7 generic words also as subjects or objects (the
+    gold calls "issues", "number", "object" generic).
+  - The class is how the text refers to the thing: the gold gives "street", "café" and "bakery" the class
+    kind ("'street' refers back to Harbour Street but is not named here, so kind").
+- **The sheet** (`pipeline/mention_stages.py`): a precision item shows the class the pass stated
+  (`SnapshotMention.stated_class`, carried from the pass file by `pass_rows` -> the snapshot); for a pass file
+  without classes (R102's builds) the class is still read off the type, so R102's sheets rebuild as judged.
+  This closes "The mention sheet's class for keyed types" below, decided before any sheet of a new pass
+  exists.
+- **Stage metrics added:** `particular` (findings stated particular) and `retyped` (accepted findings filed
+  under their class's fallback because the proposed type cannot hold the class). Params unchanged; the
+  `prompt_version` changes with the prompt.
+- **Tests:** `tests/test_mention_pass.py`: the Out-rule reasons with the new answers (a proposed fallback type
+  is `unknown_type`), `filed_type` for every identity class and both classes (8 cases), the pass with a
+  scripted LLM (a kind typed with an individual type is filed `Kind`; the prompt no longer lists the
+  fallbacks and offers `none`), `pass_rows` keeping the first finding's stated class, the snapshot carrying
+  it, the stage on Neo4j (`particular`, `retyped`, the stored type and both answers in the pass file), and
+  the prompt's corpus-language test on the new prompt; `tests/test_mention_eval.py`: a precision item shows a
+  keyed-type piece as the kind the pass stated, and R102's class for a pre-R104 pass file. Gate: 805 passed
+  (794 before), `ruff check` clean.
+- **Not measured yet.** No run in this step's code part. A `dev` run (furniture samples only, about $0.03,
+  asked) can show the wiring and the class answers against the real model, not precision, and not the title
+  errors, which were generality's; the judged precision bound (>= 0.90 on all three datasets) needs pass
+  output on the full datasets (R103's rebuild, or a cheaper pass-only run on R102's inputs, which would need
+  new code), each asked first.
+
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
   Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and
@@ -5820,13 +5882,19 @@ r77d is not confounded by a new sample of the extractor (R61-R62).
   common nouns, titles of named people, a few Out words. R101's rule gives the prompt and checks at most three
   `dev` rounds on `samples/` before the user decides; the hub bound counts named particulars the text names
   in over 20 % of the chunks, which the bound was not meant to catch, so whether it stays as written is part of
-  the decision.
-- **The mention sheet's class for keyed types (found in R102, 2026-10-07; open).** `MentionEvalStage` gives a
-  mention of a keyed type the class particular; the definition makes a piece or an unnamed object a kind
-  whatever its type. A sheet that takes the class from the type for individual and fallback types only, and
-  asks the judge for a keyed-type mention's name without a class, would measure the pass as defined. Changing
-  it changes R102's numbers, so it is not done after the verdicts; it belongs to the step that next measures
-  the pass, decided before its sheet exists.
+  the decision. **The user's decision (2026-10-07): fix the pass first (R104); the hub bound, resolution and
+  concept merging are not in that round.** Precision is measured again on the next full pass output.
+- **A kind typed with a keyed type that no record fits becomes an individual (found in R104, 2026-10-07;
+  open).** R104 keeps a keyed type for a mention stated `kind` ("back rest" links to the product's part
+  record), but resolve turns a keyed mention that no record fits into a `no_record` individual
+  (`resolution/particulars.py:330`), so a generic "chair" or "recalling" of a keyed type would still be a
+  named-thing node. For a mention stated `kind`, a concept would be the right fallback; that is resolve's
+  rule, not built in R104 (the user kept resolution out of the round).
+- **The mention sheet's class for keyed types (found in R102, 2026-10-07; closed by R104).** `MentionEvalStage`
+  gave a mention of a keyed type the class particular; the definition makes a piece or an unnamed object a
+  kind whatever its type. Changing it changes R102's numbers, so it was not done after the verdicts. R104
+  settles it before any sheet of a new pass exists: the pass now states the class, and the sheet shows the
+  stated one; R102's pass files state none and keep their judged sheets.
 - **Near-duplicate pass mentions in one sentence (found in R102, 2026-10-07; open).** "may not engage" and
   "not engage" are two mentions of one sentence, merged into one concept (judged right); `already_listed`
   compares whole normalised names, so a name holding another passes.

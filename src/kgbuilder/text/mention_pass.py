@@ -5,15 +5,19 @@ Role in the pipeline: `kg mention-pass`, after `kg link` (derivation must not se
 as the end of a claim, so a thing no fact type fits ("No leaks were found on the pump", a place named only in
 a title) was unreachable: 2 of 86, 11 of 65 and 15 of 62 target names had no node at all (R90).
 Design: the LLM proposes, code decides (one definition for the prompt, these checks, the gold and the judge:
-tests/gold/r101/rules.md). Per chunk the model lists the things not already listed, each with a type: one
-of the schema's entity types or a built-in fallback (`Particular`, `Kind`, text/schema.py). Code refuses
-every finding an Out rule it can see rejects, with the rule as the reason: not whole words in the chunk or its
-document's name (the C1 rule), more than a few words or clause punctuation, only function words, a pronoun,
-a number, quantity, date or time, the `Value` type or an unknown type, a name the chunk already lists, a name
-given twice. The Out rules code cannot see (a describing word alone, a reporting verb) are measured by the
-judge, never by a word list of a domain. `pass_rows` then turns the accepted findings into rows: one mention
-per document and normalised name, so a mention a claim or derivation already made for the name is reused
-(its type wins) and only gains the chunk's MENTIONS edge.
+tests/gold/r101/rules.md). Per chunk the model lists the things not already listed, each with two separate
+answers (R104): its class (named by its own name, or a kind) and its type (one of the schema's entity types,
+or none). Until R104 the type alone was asked and the class followed from it, so a common noun of a type
+meant for named things ("café" as a place) became a named individual. Code refuses every finding an Out rule
+it can see rejects, with the rule as the reason: not whole words in the chunk or its document's name (the C1
+rule), more than a few words or clause punctuation, only function words, a pronoun, a number, quantity, date
+or time, the `Value` type or an unknown type, a name the chunk already lists, a name given twice. The Out
+rules code cannot see (a describing word alone, a reporting verb, a title next to a name) are measured by the
+judge, never by a word list of a domain. Code then files each accepted finding under a type that can hold
+its class (`filed_type`): the proposed one, else the built-in fallback of the class (`Particular`, `Kind`,
+text/schema.py). `pass_rows` turns the accepted findings into rows: one mention per document and normalised
+name, so a mention a claim or derivation already made for the name is reused (its type wins) and only gains
+the chunk's MENTIONS edge.
 Not here: writing (text/subject_graph.py), the stage (pipeline/stages.py), deciding identity (resolution/).
 """
 
@@ -32,7 +36,7 @@ from ..core.values import UNIT_SYMBOLS, VALUE_TYPE, parse_quantity
 from ..llm.base import LLMClient
 from .chunking import Chunk
 from .extraction import PRONOUNS
-from .schema import FALLBACK_TYPES, KIND_TYPE, PARTICULAR_TYPE, TextSchema
+from .schema import KIND_TYPE, PARTICULAR_TYPE, IdentityClass, MentionClass, TextSchema
 from .subject_graph import MentionRow, mention_row
 
 log = logging.getLogger(__name__)
@@ -78,50 +82,77 @@ _DURATIONS = frozenset({
 # a kind of noise the pass must not add; "written as a verb" because a fault is as often "sticks" as "a stick"
 # and questions start from it ("leaking", "crashed" had no node, R90); "known only by its role" because a
 # question asks about "the dealer" or "customer service" as about a named one; "also when absent" because a
-# denied thing is still what a question
-# asks about ("No condensation was found"), the sentence keeps the denial; "not listed yet" because the
-# claims' mentions are already in the graph; the fallback types let a thing no schema type fits be listed
-# instead of skipped (the extractor's "skip what does not fit" left those things unreachable). The examples
-# come from an invented observatory, never from evaluated data.
+# denied thing is still what a question asks about ("No condensation was found"), the sentence keeps the
+# denial; "not listed yet" because the claims' mentions are already in the graph.
+# R104, from R102's judged errors: the class is asked as its own answer and explained apart from the types,
+# because the type alone decided it and a common noun of a type meant for named things became a named thing
+# ("café", "vote", "street"; 20 of 33 errors); the title rule, because the role next to an already listed
+# name was the only new word left to list ("Councillor" before a listed councillor; 6 of 33); "work done to
+# a thing" and "ordinary use" settle the clash of "an action done to a thing" (In) with everyday acts (Out)
+# that let "starting" and "driving" in; the writer "referred to only as such" and forms of address, because
+# a complaint's reporter and a letter's "Sir" were listed as people; seasons, because "winter" was a named
+# thing; "even as the subject or object", because a generic word was listed when the sentence spoke of it.
+# "none" lets a thing no schema type fits be listed instead of skipped, code giving it its class's fallback
+# type. The examples come from an invented observatory and ferry line, never from evaluated data.
 MENTION_PROMPT = """List the things this text names or talks about that are not listed yet: the entries an
 index of the text would have, so that a reader looking for one of them finds this text.
 
-In: named people, places, organisations, events, works, awards and identifiers; and kinds the text says
-something about: an object or a piece of one; a state, condition or fault, a property included ("the
-brightness fades": brightness); an incident or event; an action done to a thing or by it (a repair, an
-inspection, a collision); a person or organisation known only by its role ("technician"). A fault, state or
-incident of a thing, or an action done to it, written as a verb counts too, as the text writes it ("the
-shutter sticks": sticks; "the hull was repainted": repainted). A thing counts also when the text says it is
-absent or did not happen ("No condensation was found on the mirror": condensation, mirror).
-Out: a describing word alone; a light or reporting verb such as "is", "has", "showed" or "explained"; a
-clause or evaluation that names no thing; a quantity, date or time; the text or document itself, and its
-writer named only as such; a pronoun; words that would fit any text ("thing", "issue", "time", "people");
-everyday acts of people that are not a fault, an incident or a work done to a thing (contacting, filing,
-sending, presenting, buying, reading).
+In:
+- named things: people, places, organisations, events, works, awards and identifiers;
+- kinds the text says something about: an object or a piece of one; a state, condition or fault, a property
+  included ("the brightness fades": brightness); an incident or event; a work done to a thing that makes,
+  fits, repairs, cleans, tests, replaces or withdraws it (an installation, a recalibration, an inspection);
+  a person or organisation known only by its role ("technician", "ferry operator");
+- a fault, state or incident of a thing, or a work done to it, written as a verb, as the text writes it
+  ("the shutter sticks": sticks; "the hull was repainted": repainted);
+- each of these also when the text says it is absent or did not happen ("No condensation was found on the
+  mirror": condensation, mirror).
+Out:
+- a describing word alone; a light or reporting verb such as "is", "has", "showed" or "explained"; a clause
+  or evaluation that names no thing; a quantity, date, time or season; a pronoun;
+- words that would fit any text, even as the subject or object of a sentence ("thing", "issue",
+  "experience", "number", "time", "people");
+- everyday acts of people, the ordinary use of a thing included, that are not a fault, an incident or a work
+  done to the thing (contacting, filing, buying, reading, boarding a ferry, looking through a telescope);
+- the text or document itself; its writer or reader referred to only as such ("the writer", "the person
+  reporting", "the undersigned"); a form of address ("Madam", "Dear neighbours"), though a name in it counts;
+- a title, role or common noun written next to a thing's name or in apposition with it: it names the same
+  thing, so the name is the only entry, also when the name is already listed ("dome technician Edit Varga"
+  and "Edit Varga, the dome technician": Edit Varga; "ferry T-4471": T-4471).
 
 Copy each name verbatim from the text, as whole words and without "a", "an" or "the": the shortest span that
 names the thing, keeping a describing word only when it tells the thing apart ("shutter motor", not "old
 shutter motor in the dome"). List each thing once; when the text gives it two names ("Night Vision Unit
-(NVU)"), list the first. Give it the type below that fits it; when none fits, {particular} for one named
-thing and {kind} for a kind.
+(NVU)"), list the first.
+
+Give every thing two separate answers:
+- mention_class, how the text refers to it: "particular" when the text calls one individual thing by its own
+  name, a proper name or an identifier ("North Dome", "Lakeside Ferries", "Varga Prize", "T-4471"); "kind"
+  for everything else, also for a common noun that means one thing here ("the dome" is a kind even where it
+  is North Dome, and so are "the ticket office" and "the morning crossing");
+- type, what it is: the type below whose description fits it, whatever its mention_class; "{none}" when no
+  type fits.
 
 Types:
 {types}
-- {particular}: one named person, place, organisation, event, work, award or identifier that fits no type
-  above
-- {kind}: an object, a piece, a state, an event, an action or a role that fits no type above
 
 Already listed (do not list these again): {known}
 
 Text ({document}):
 {text}"""
 
+# The type answer for a thing no schema type fits; lower case, so no schema type (PascalCase) can be named so
+NO_TYPE = "none"
+
 
 class FoundThing(BaseModel):
-    """One thing the model lists; code checks both fields."""
+    """One thing the model lists, with its two separate answers (R104); code checks every field."""
 
     name: str = Field(description="the thing's name, copied verbatim from the text")
-    type: str = Field(description="one of the types listed")
+    mention_class: MentionClass = Field(
+        description="particular when the text calls it by its own name or an identifier, else kind"
+    )
+    type: str = Field(description=f'one of the types listed, or "{NO_TYPE}" when none fits')
 
 
 class FoundThings(BaseModel):
@@ -132,7 +163,7 @@ class FoundThings(BaseModel):
 
 RejectionReason = Literal[
     "value_type",  # the built-in `Value`: numbers are claims' values, never pass mentions
-    "unknown_type",  # neither a schema type nor a fallback
+    "unknown_type",  # neither a schema type nor NO_TYPE
     "not_in_text",  # not whole words of the chunk or its document's name (the C1 rule)
     "too_long",  # more than _MAX_WORDS words: a phrase, not an entry
     "clause",  # clause or list punctuation: more than one thing, or a clause
@@ -149,13 +180,40 @@ class PassFinding(BaseModel):
 
     chunk_id: str
     name: str
-    type: str
+    type: str  # the type it is stored with (`filed_type`)
+    # the model's two answers (R104); None in a pass file written before R104, which asked for a type only
+    mention_class: MentionClass | None = None
+    proposed_type: str | None = None
 
 
-class PassRejection(PassFinding):
+class PassRejection(BaseModel):
     """A refused finding with the rule that refused it (`mentions_rejected.jsonl`)."""
 
+    chunk_id: str
+    name: str
+    mention_class: MentionClass
+    proposed_type: str
     reason: RejectionReason
+
+
+# Which classes a type of each identity class can store (R104). A keyed type holds both: its records are named
+# things ("Meridian Kettle") and also the pieces and kinds a text names by a common noun ("the lid", linked to
+# the kettle's lid record). An individual type is one named thing each; a concept type is a kind.
+_HOLDS: dict[IdentityClass, frozenset[MentionClass]] = {
+    "keyed": frozenset({"particular", "kind"}),
+    "individual": frozenset({"particular"}),
+    "concept": frozenset({"kind"}),
+}
+_FALLBACK_OF: dict[MentionClass, str] = {"particular": PARTICULAR_TYPE, "kind": KIND_TYPE}
+
+
+def filed_type(thing: FoundThing, schema: TextSchema) -> str:
+    """The type a verified finding is stored with: the proposed one when it can hold the stated class, else
+    the built-in fallback type of the class. So the class, not the type, decides whether resolve treats the
+    mention as a named thing: "café" stated a kind and typed as a place becomes a `Kind`."""
+    if thing.type != NO_TYPE and thing.mention_class in _HOLDS[schema.identity_of(thing.type)]:
+        return thing.type
+    return _FALLBACK_OF[thing.mention_class]
 
 
 def verify_found(
@@ -167,8 +225,8 @@ def verify_found(
     name = _ARTICLE.sub("", thing.name.strip())
     if thing.type == VALUE_TYPE:
         return name, "value_type"
-    allowed = {e.name for e in schema.entity_types} | set(FALLBACK_TYPES)
-    if thing.type not in allowed:
+    # the fallback types are code's to give (`filed_type`), so a proposed one is unknown like any other name
+    if thing.type not in {e.name for e in schema.entity_types} | {NO_TYPE}:
         return name, "unknown_type"
     words = _WORD.findall(norm(name))
     if not words or not (contains_words(chunk.text, name) or contains_words(chunk.context, name)):
@@ -208,8 +266,7 @@ def type_lines(schema: TextSchema) -> str:
 
 def mention_prompt(chunk: Chunk, known_names: list[str], schema: TextSchema) -> str:
     return MENTION_PROMPT.format(
-        particular=PARTICULAR_TYPE,
-        kind=KIND_TYPE,
+        none=NO_TYPE,
         types=type_lines(schema),
         known="; ".join(known_names) or "(none)",
         document=chunk.context or chunk.doc_id,
@@ -235,27 +292,55 @@ def find_mentions(
         replies = list(pool.map(lambda c: _ask(llm, model, c, known.get(c.chunk_id, []), schema), chunks))
     accepted: list[PassFinding] = []
     rejected: list[PassRejection] = []
-    found = 0
     for chunk, reply in zip(chunks, replies, strict=True):
-        if reply is None:
-            continue
-        seen = {norm(n) for n in known.get(chunk.chunk_id, [])}
-        given: set[str] = set()
-        for thing in reply.things:
-            found += 1
-            name, reason = verify_found(thing, chunk, seen, schema)
-            if reason is None and norm(name) in given:
-                reason = "duplicate"
-            if reason is None:
-                given.add(norm(name))
-                accepted.append(PassFinding(chunk_id=chunk.chunk_id, name=name, type=thing.type))
-            else:
-                rejected.append(
-                    PassRejection(chunk_id=chunk.chunk_id, name=name, type=thing.type, reason=reason)
-                )
+        if reply is not None:
+            kept, refused = _verify_reply(
+                reply, chunk, {norm(n) for n in known.get(chunk.chunk_id, [])}, schema
+            )
+            accepted += kept
+            rejected += refused
     return PassOutcome(
-        found=found, accepted=accepted, rejected=rejected, failed=sum(r is None for r in replies)
+        found=len(accepted) + len(rejected),
+        accepted=accepted,
+        rejected=rejected,
+        failed=sum(r is None for r in replies),
     )
+
+
+def _verify_reply(
+    reply: FoundThings, chunk: Chunk, seen: set[str], schema: TextSchema
+) -> tuple[list[PassFinding], list[PassRejection]]:
+    """One chunk's findings, accepted (filed under their stored type) or refused with the rule's reason, in
+    the order the model gave them. `seen` holds the normalised names the chunk already lists."""
+    accepted: list[PassFinding] = []
+    rejected: list[PassRejection] = []
+    given: set[str] = set()
+    for thing in reply.things:
+        name, reason = verify_found(thing, chunk, seen, schema)
+        if reason is None and norm(name) in given:
+            reason = "duplicate"
+        if reason is None:
+            given.add(norm(name))
+            accepted.append(
+                PassFinding(
+                    chunk_id=chunk.chunk_id,
+                    name=name,
+                    type=filed_type(thing, schema),
+                    mention_class=thing.mention_class,
+                    proposed_type=thing.type,
+                )
+            )
+        else:
+            rejected.append(
+                PassRejection(
+                    chunk_id=chunk.chunk_id,
+                    name=name,
+                    mention_class=thing.mention_class,
+                    proposed_type=thing.type,
+                    reason=reason,
+                )
+            )
+    return accepted, rejected
 
 
 def _ask(
@@ -275,6 +360,8 @@ class PassRows(BaseModel):
     mentions: list[MentionRow]
     mentioned_in: list[tuple[str, str]]  # (chunk id, mention id), new ones only
     reused: int  # findings that gave an existing mention a chunk it was not mentioned in
+    # the class stated by the finding that made each new mention (R104); none for a pre-R104 pass file
+    classes: dict[str, MentionClass] = {}
 
 
 def pass_rows(
@@ -282,13 +369,14 @@ def pass_rows(
 ) -> PassRows:
     """One mention per document and normalised name: a finding whose name a mention of its document
     already has (a claim's or a derived one; the first by id when several) reuses it, so that mention's type
-    wins; otherwise the first finding of the name makes a new mention of its type. Pure, so the stage and
-    the audit's snapshot (audit/snapshot.py) give the same rows."""
+    wins; otherwise the first finding of the name makes a new mention of its type, and its stated class is
+    the mention's. Pure, so the stage and the audit's snapshot (audit/snapshot.py) give the same rows."""
     by_name: dict[tuple[str, str], str] = {}
     for m in sorted(existing, key=lambda m: m.id):
         by_name.setdefault((m.doc_id, norm(m.name)), m.id)
     before = set(by_name.values())
     new: dict[str, MentionRow] = {}
+    classes: dict[str, MentionClass] = {}
     pairs: list[tuple[str, str]] = []
     reused = 0
     for f in findings:
@@ -297,9 +385,11 @@ def pass_rows(
             row = mention_row(f.type, f.name, f.chunk_id)
             new[row.id] = row
             by_name[key] = row.id
+            if f.mention_class is not None:
+                classes[row.id] = f.mention_class
         pair = (f.chunk_id, by_name[key])
         if pair in existing_pairs or pair in pairs:
             continue
         pairs.append(pair)
         reused += by_name[key] in before
-    return PassRows(mentions=list(new.values()), mentioned_in=pairs, reused=reused)
+    return PassRows(mentions=list(new.values()), mentioned_in=pairs, reused=reused, classes=classes)

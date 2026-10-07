@@ -152,8 +152,10 @@ kg profile data/  ->  kg plan data/ --goal "..."   (review out/plan.json)
 ```
 
 `kg mention-pass` (R101) asks the LLM, chunk by chunk, for the things the text names or talks about that no
-claim names (tests/gold/r101/rules.md), refuses in code every finding a visible rule rejects, and writes the
-rest as mentions; it runs after `kg link` (derivation must not see them) and before `kg resolve`.
+claim names (tests/gold/r101/rules.md), each with two answers: its class (named by its own name, or a kind)
+and its type (R104). Code refuses every finding a visible rule rejects, stores the rest under the proposed
+type when that type can hold the class (else `Particular` or `Kind`), and writes them as mentions; it runs
+after `kg link` (derivation must not see them) and before `kg resolve`.
 `kg resolve` decides what every mention refers to (a record, an individual or a concept) and runs after
 `kg link`, because records are matched inside the scope of the things the documents are ABOUT;
 `kg resolve --undo` removes that identity layer again. `kg attach` then decides which records and
