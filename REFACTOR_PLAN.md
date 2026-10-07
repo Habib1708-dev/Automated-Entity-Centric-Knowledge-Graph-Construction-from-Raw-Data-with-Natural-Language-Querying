@@ -5898,7 +5898,7 @@ done to a thing", In, and an everyday act, Out 8; "THE CONTACT" read as a role, 
 - **R104 done 2026-10-07** (one `dev` round of R101's three). Next: the user's choice of how to measure it,
   then R103.
 
-### R105. The R104 pass measured on R102's builds: a pass-only replay, judged (in progress 2026-10-07)
+### R105. The R104 pass measured on R102's builds: a pass-only replay, judged (done 2026-10-07; $0.318)
 The user chose to measure R104 by running only the pass on R102's three builds (2026-10-07, "option 1",
 about $0.3): same claims, same derived mentions, same text schema, so a difference in precision or recall
 is the pass's, not a new sample of the extractor (R103 re-extracts and would confound the two). Resolution,
@@ -5955,6 +5955,63 @@ hubs and concept merging are not measured (they need a resolve, out of this roun
   - Committed: `tests/gold/r105/runs.json` (commands, runs, costs, counts, approval) and each dataset's
     `pass_findings.jsonl` / `pass_rejected.jsonl` (copies of the out/ files, so the sheets rebuild without
     out/). Test `test_r105_replays_committed_the_findings_their_runs_logged`.
+- **Part c: sheets and judging (done 2026-10-07, $0: no API call).** `kg mention-eval out/r102_<ds> ...
+  --pass-file tests/gold/r105/<ds>/pass_findings.jsonl` (C0 passed on each R102 build): sheets committed at
+  `103b145` before any verdict. Judge Claude Opus 5.5 (`claude-opus-5-5`), rules
+  `tests/gold/r105/mention_judge_rules.md`. Recall candidates byte-identical to R102's carry R102's verdicts
+  (13 / 15 / 12); the 9 other candidates and all 180 precision items were judged in 3 blind batches (one per
+  dataset, each judge saw only the rules and its batch): 162 VALID, 26 INCORRECT, 1 AMBIGUOUS. The lead
+  reviewed every INCORRECT and AMBIGUOUS verdict and the seeded 10 % of VALID ones (50 items, carried ones
+  included): **no change**. Committed: `mentions_r105_verdicts.json`, `mentions_r105_report.json` per
+  dataset; test `test_mention_verdicts_answer_their_sheets_and_score_as_reported` (R102's, now with R105).
+- **Part d: results** (judge: Claude Opus 5.5; R102 = the R101 pass on these builds, R105 = the R104 pass
+  replayed on the same builds; precision on a seeded sample of 60 pass mentions, AMBIGUOUS left out; Wilson
+  intervals; the two samples are of different mentions, so precision is compared by Fisher's exact test):
+
+  | | furniture | held-out | generality |
+  |---|---|---|---|
+  | **Pass precision, judged** (R102 -> R105) | 45/57 = 0.789 -> **53/60 = 0.883** [0.778, 0.942] | 51/55 = 0.927 -> **51/59 = 0.864** [0.755, 0.930] | 41/58 = 0.707 -> **53/60 = 0.883** [0.778, 0.942] |
+  | Fisher p (R102 vs R105) | 0.213 | 0.365 | **0.022** |
+  | Mention recall of the R101 gold, exact | 57/75 -> 51/75 | 94/125 -> 98/125 | 80/109 -> 85/109 |
+  | Recall with the judged mapping | 70/75 -> **66/75** | 111/125 -> 112/125 | 97/109 -> 99/109 |
+  | Exact recall, particular / kind | 13/13 -> 12/13 / 44/62 -> 39/62 | 35/47 -> 34/47 / 59/78 -> 64/78 | 35/40 -> 35/40 / 45/69 -> 50/69 |
+  | Pass mentions (new nodes); stated particular | 394 -> 367; 143 | 563 -> 528; 167 | 259 -> 255; 32 |
+  | Cost of the pass | $0.076 -> $0.105 | $0.115 -> $0.153 | $0.044 -> $0.060 |
+
+  Read with care:
+  - **The groups R104 targeted are gone from the whole output, not only from the samples** (names only,
+    unjudged): titles of named people ("Councillor", "Mayor", "technician", "structural inspector", "chair",
+    "site engineer") 16 -> 0 in generality; "Sir" 1 -> 0, "winter" 1 -> 0; "DRIVING", "START" 4 -> 0 and
+    "THE CONTACT" 5 -> 3 in held-out; "café", "street", "bakery", "control room", "vote", "resurfacing"
+    are stated kinds stored `Kind` (were `Place` / `Event` individuals); furniture's keyed parts ("back
+    rest", "seams", "covers") are stated kinds and judged VALID. Among R105's 22 INCORRECT precision
+    verdicts, R102's groups as they were (a common noun made a named individual through its type, a title of
+    a named person, a form of address, a season, everyday use) do not recur; two relatives do: a class the
+    model itself stated wrong ("March inspection" as particular) and an identifier kept with its common noun
+    ("Core AB-19", "Core AB-20", the Out 9 case of "ferry T-4471").
+  - **The bound (>= 0.90) is still missed on all three**, though every interval holds 0.90 and only
+    generality's change is beyond chance at n = 60. The 22 INCORRECT precision verdicts are new kinds, one or
+    two each: generic words or stand-ins ("stuff", "unit", "FAILURE", "safety risk"), fragments of a longer
+    name ("SYSTEM" of "FRONT CAMERA SYSTEM", "paper" of "standard paper sizes"), an idiom ("out of the box"),
+    the scraped source URL's id ("B0BQJWJWJW", x2), an evaluation ("centerpiece"), a light verb
+    ("APPEARED"), a time ("night shift"), ordinary operation ("switched to duty", "pumped"), a degree word
+    in the span ("slow drip"), a month-described common noun as particular ("March inspection"), an
+    identifier kept with its common noun ("Core AB-19", "Core AB-20": Out 9 says the id alone).
+  - **Two held-out pairs follow R104's wording where the R101 gold reads otherwise** (a check after the
+    verdicts, not the score): "vehicles" after model names (x2: Out 9 as worded excludes it; the gold keeps
+    "Rogue ... vehicles" -> vehicles), and "Ford customer service" / "Toyota customer service" as particular
+    (R104's class sentence makes them kinds; the gold lists them as particulars). Read the gold's way,
+    held-out would be 55/59 = 0.932 (Found along the way).
+  - **Recall:** furniture loses 4 gold mentions the R101 pass listed ("support", "comfort", "online
+    photos", "@familyfirst" in one chunk); held-out loses the manufacturer lines ("Nissan North America,
+    Inc." x2, "Subaru of America") and gains "VEHICLE" x5; generality loses "2025 works budget", "slipped",
+    "reopened", "ran" and gains "site", "entry", "Seminar", "closed".
+  - Not measured here (they need resolve): hubs (C7: held-out's Ford mentions 20 -> 12 pass mentions),
+    concept merges and splits of pass mentions.
+  - Gold and verdicts come from one model family (Claude); the gold was written blind in R101, the judge
+    rules before any replay output.
+- **R105 done 2026-10-07** ($0.318, part b). Next: the user's decision (the bound is still missed, within its
+  intervals); options and the open definition questions are under Found along the way, then R103.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
@@ -5965,8 +6022,22 @@ hubs and concept merging are not measured (they need a resolve, out of this roun
   in over 20 % of the chunks, which the bound was not meant to catch, so whether it stays as written is part of
   the decision. **The user's decision (2026-10-07): fix the pass first (R104); the hub bound, resolution and
   concept merging are not in that round.** Precision is measured again on the next full pass output.
+- **Out 9 reaches further than the gold, and the class of "<brand> customer service" (found in R105,
+  2026-10-07; open, the user's choice).** Out 9 as worded ("a common noun written next to a thing's name
+  ... names the same thing") excludes "vehicles" after model names, which the R101 gold keeps: the model
+  names a model, "vehicles" the cars of it, another thing. Rewording Out 9 to the gold's reading ("when it
+  names that very thing: a title of a person, a common noun before an identifier") changes the prompt and
+  the definition. Separately, the gold lists "Ford customer service" as particular while R104's class
+  sentence reads it as a kind: either a gold correction or one more class example. Both decide 4 of
+  held-out's 8 INCORRECT verdicts in R105.
+- **The pass's remaining precision errors (found in R105, 2026-10-07; open).** One or two of each kind in
+  180 judged mentions: generic stand-ins, fragments of a longer name, the scraped source URL's id (every
+  furniture document's "Scraped from <url>" line), idioms, times written as nouns ("night shift"), ordinary
+  operation verbs, an identifier with its common noun. A prompt round on them would chase single cases; the
+  source URL line is the one a code check could see (a name inside a URL of the chunk).
 - **A kind typed with a keyed type that no record fits becomes an individual (found in R104, 2026-10-07;
-  open).** R104 keeps a keyed type for a mention stated `kind` ("back rest" links to the product's part
+  open).** R105 shows its size: held-out's pass states "recalling" a kind 27 times with the keyed type
+  `Recall` (generality: "contractor" stated kind, typed `Person`). R104 keeps a keyed type for a mention stated `kind` ("back rest" links to the product's part
   record), but resolve turns a keyed mention that no record fits into a `no_record` individual
   (`resolution/particulars.py:330`), so a generic "chair" or "recalling" of a keyed type would still be a
   named-thing node. For a mention stated `kind`, a concept would be the right fallback; that is resolve's

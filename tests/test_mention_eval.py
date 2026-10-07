@@ -3,8 +3,8 @@
 mentions, the scores with and without verdicts, the evidence check, and the stage on the graph audit's
 invented build with a pass file (params, metrics, artifacts, its refusal of a quote outside its item, and the
 class a precision item shows: the one the pass stated, R104, else R102's class of the type).
-The committed R102 sheets and verdicts (tests/gold/r102) must answer each other under the review rules and
-score as reported. No Neo4j, no LLM.
+The committed R102 and R105 sheets and verdicts (tests/gold/r102, tests/gold/r105) must answer each other
+under the review rules and score as reported. No Neo4j, no LLM.
 """
 
 import json
@@ -234,31 +234,36 @@ def test_a_replayed_pass_is_scored_in_place_of_the_builds_own(tmp_path):
     assert (run.logged_metrics["recall_hits"], run.logged_metrics["recall_candidates"]) == (3, 0)
 
 
-# --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold) ---------------
+# --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold) and of R105
+# (the R104 pass replayed on R102's builds) ------------------------------------------------------------------
 
 R102 = Path(__file__).resolve().parent / "gold" / "r102"
 # (exact recall, recall with the judged mapping, judged precision) as k/n; the r77d builds have no pass
 REPORTED = {
     ("furniture", "r77d"): ((23, 75), (39, 75), None),
     ("furniture", "r102"): ((57, 75), (70, 75), (45, 57)),
+    ("furniture", "r105"): ((51, 75), (66, 75), (53, 60)),
     ("heldout", "r77d"): ((32, 125), (45, 125), None),
     ("heldout", "r102"): ((94, 125), (111, 125), (51, 55)),
+    ("heldout", "r105"): ((98, 125), (112, 125), (51, 59)),
     ("generality", "r77d"): ((37, 109), (49, 109), None),
     ("generality", "r102"): ((80, 109), (97, 109), (41, 58)),
+    ("generality", "r105"): ((85, 109), (99, 109), (53, 60)),
 }
 
 
 @pytest.mark.parametrize(("dataset", "build"), sorted(REPORTED))
-def test_r102_mention_verdicts_answer_their_sheets_and_score_as_reported(dataset, build):
+def test_mention_verdicts_answer_their_sheets_and_score_as_reported(dataset, build):
+    folder = R102.parent / ("r105" if build == "r105" else "r102") / dataset
     sheet = MentionSheet.model_validate_json(
-        (R102 / dataset / f"mentions_{build}_sheet.json").read_text(encoding="utf-8")
+        (folder / f"mentions_{build}_sheet.json").read_text(encoding="utf-8")
     )
-    verdicts = load_verdicts(R102 / dataset / f"mentions_{build}_verdicts.json", sheet.to_judge())
+    verdicts = load_verdicts(folder / f"mentions_{build}_verdicts.json", sheet.to_judge())
     assert mention_evidence_issues(sheet, verdicts) == [] and verdicts.changes == []
     scores = score_mentions(sheet, verdicts)
     exact, mapped, precision = REPORTED[(dataset, build)]
     assert (scores.recall_exact.k, scores.recall_exact.n) == exact
     assert (scores.recall.k, scores.recall.n) == mapped
     assert (None if scores.precision is None else (scores.precision.k, scores.precision.n)) == precision
-    report = json.loads((R102 / dataset / f"mentions_{build}_report.json").read_text(encoding="utf-8"))
+    report = json.loads((folder / f"mentions_{build}_report.json").read_text(encoding="utf-8"))
     assert report == json.loads(scores.model_dump_json())  # the committed report is these scores

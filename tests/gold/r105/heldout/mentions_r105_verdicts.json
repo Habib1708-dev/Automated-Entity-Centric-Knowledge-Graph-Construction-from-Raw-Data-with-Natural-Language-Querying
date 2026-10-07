@@ -1,0 +1,642 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "43109674782c",
+  "sheet": "tests/gold/r105/heldout/mentions_r105_sheet.json",
+  "sheet_hash": "586ba8b9e152",
+  "sheets_git_sha": "103b14531dc85d5fb05d8d582f991a13ebbe8188"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "25b47596100f|lock",
+   "label": "VALID",
+   "reason": "Candidate 'DO NOT LOCK' in this very sentence names the same locking fault (stated as absent) that 'LOCK' names.",
+   "evidence": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80bb9aed5a36|adaptive cruise control",
+   "label": "VALID",
+   "reason": "Candidate is the same system name with its abbreviation attached.",
+   "evidence": "ADAPTIVE CRUISE CONTROL  (ACC)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80bb9aed5a36|lane keeping assist system",
+   "label": "VALID",
+   "reason": "Candidate is the same system name with its abbreviation attached.",
+   "evidence": "LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80bb9aed5a36|react",
+   "label": "VALID",
+   "reason": "Candidate 'REACT UNPREDICTABLY' names the same behaviour of the vehicle, with only a manner word added.",
+   "evidence": "THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|brake",
+   "label": "VALID",
+   "reason": "Candidate 'BRAKE SUDDENLY' names the same braking incident, with only a manner word added.",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|decelerate",
+   "label": "VALID",
+   "reason": "Candidate 'RAPIDLY DECELERATE' names the same deceleration incident, with only a manner word added.",
+   "evidence": "RAPIDLY DECELERATE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|depart",
+   "label": "VALID",
+   "reason": "Candidates 'DEPART THE HIGHWAY' and 'QUICKLY DEPART THE HIGHWAY' name the same departure incident.",
+   "evidence": "QUICKLY DEPART THE HIGHWAY",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9ae03f8e8f92|highway",
+   "label": "INCORRECT",
+   "reason": "Both candidates name the departure event, not the highway itself.",
+   "evidence": "QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d56c363f1e1f|mistook",
+   "label": "VALID",
+   "reason": "The candidate clause names the same misidentification fault that 'MISTOOK' names in this sentence.",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d56c363f1e1f|activated",
+   "label": "VALID",
+   "reason": "Candidate 'ACTIVATED THE BRAKES' names the same action of activating the brakes.",
+   "evidence": "AND ACTIVATED THE BRAKES",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e14719302c2d|outback",
+   "label": "VALID",
+   "reason": "Candidate '2019 OUTBACK' names the same vehicle the sentence calls 'OUTBACK'.",
+   "evidence": "I HAVE 3200 MILES ON MY 2019 OUTBACK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b5a99d85ad0e|nissan north america",
+   "label": "VALID",
+   "reason": "The chunk introduces 'Nissan' as the short name of Nissan North America, Inc., so the candidate refers to the same company.",
+   "evidence": "Nissan North America, Inc.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "466e079b659d|nissan's customer service",
+   "label": "VALID",
+   "reason": "Candidate 'customer service' occurs in the chunk only as Nissan's customer service, so it refers to the same service; 'Nissan' would be the whole.",
+   "evidence": "Owners may contact Nissan's customer service at 1-800-867-7669.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4c8d3e32644e|rogue",
+   "label": "VALID",
+   "reason": "Candidate '2014-2020 Rogue' names the same recalled Rogue model, with its year range.",
+   "evidence": "certain 2014-2020 Rogue and",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4c8d3e32644e|rogue sport",
+   "label": "VALID",
+   "reason": "Candidate '2017-2022 Rogue Sport' names the same Rogue Sport model, with its year range.",
+   "evidence": "2017-2022 Rogue Sport vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "dc92249622e1|subaru",
+   "label": "INCORRECT",
+   "reason": "The only candidate, Subaru customer service, is a department of Subaru (a piece of the company), not Subaru itself.",
+   "evidence": "Subaru will notify owners",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1b0058211c4404d5",
+   "label": "VALID",
+   "reason": "The recalling company's full proper name, verbatim; a named organisation, so particular.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1d199b5a194453de",
+   "label": "VALID",
+   "reason": "A recall identifier named in the text; particular.",
+   "evidence": "This recall is an expansion of recall 20V-012.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1e5da0dee74366c2",
+   "label": "VALID",
+   "reason": "The short proper name the text gives the company; a named organisation, particular.",
+   "evidence": "(Toyota) is recalling certain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "25af32770698b87b",
+   "label": "INCORRECT",
+   "reason": "A generic stand-in, like 'issue', for the mirror fault the text already describes; it names no fault of its own (Out 7).",
+   "evidence": "THE MANUFACTURER WAS MADE AWARE OF THE FAILURE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "261b1f97c66afa59",
+   "label": "INCORRECT",
+   "reason": "A generic stand-in for whatever defect the recall is about; it names no specific condition (Out 7).",
+   "evidence": "Interim letters notifying owners of the safety risk were mailed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2640fcae448c9dd2",
+   "label": "VALID",
+   "reason": "A work done to a thing (the module software), written as the verb the text uses; kind.",
+   "evidence": "dealers will update the body control module software",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2b19e59e97228df1",
+   "label": "VALID",
+   "reason": "A named organisation the text says something about (its number for the recall); particular.",
+   "evidence": "Ford's number for this recall is 26S01.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2de662dd5ebbca02",
+   "label": "VALID",
+   "reason": "An object kind (letters to owners) the text says something about (mailed on a date); kind.",
+   "evidence": "Owner letters were mailed September 6, 2024.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "37486725df6446b0",
+   "label": "INCORRECT",
+   "reason": "'customer service' is a lowercase common noun (a role) qualified by the brand, not a proper name, so the class should be kind, not particular.",
+   "evidence": "Owners may contact Ford customer service at 1-866-436-7332.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3c2560719e27a6a2",
+   "label": "VALID",
+   "reason": "A recall identifier named in the text; particular.",
+   "evidence": "previous NHTSA recall number 24V064",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3c8bfe449a4af58c",
+   "label": "VALID",
+   "reason": "An organisation known by its role, which the text says the problem was reported to; kind.",
+   "evidence": "I REPORTED THIS TO MY DEALERSHIP",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3f3756f804034d52",
+   "label": "VALID",
+   "reason": "An object kind (notices), told apart from the second notice by 'Interim', which the text says were sent; kind.",
+   "evidence": "Interim notices were sent to owners on May 31, 2016.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "45047b616ae22cd3",
+   "label": "VALID",
+   "reason": "A work done to a thing (replacing the bushing), written as the text's verb; kind.",
+   "evidence": "Dealers will replace the under hood shift bushing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "477e6400ebdee144",
+   "label": "VALID",
+   "reason": "The company's proper name, verbatim; particular.",
+   "evidence": "Honda (American Honda Motor Co.) is recalling",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4f74ce746576b913",
+   "label": "VALID",
+   "reason": "Besides heading the model list, the chunk speaks of the vehicle on its own (in reverse), an object kind; kind.",
+   "evidence": "when the vehicle is in reverse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "53b2fff509ba4667",
+   "label": "VALID",
+   "reason": "A substance the text says something about (it may enter the gear box cover and cause the fault); kind.",
+   "evidence": "Water may enter through the steering gear box cover",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "573c4efa1335ea7c",
+   "label": "VALID",
+   "reason": "A recall identifier named in the text; particular.",
+   "evidence": "GST's number for this recall is 19R1.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "57cd8c8107a13807",
+   "label": "VALID",
+   "reason": "An object kind the text itself calls 'THE MIRRORS' and says something about (shaking, double images); kind.",
+   "evidence": "WERE SHOWN IN THE MIRRORS EVERY TIME",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5c24dd8fd80bbbfa",
+   "label": "INCORRECT",
+   "reason": "'vehicles' only heads the list of model names it stands next to and names the same things (Out 9); the chunk says nothing else of vehicles.",
+   "evidence": "2018-2019 Lexus NX300 vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5d3957fb7e22b8a7",
+   "label": "VALID",
+   "reason": "People known by their role, whom the text says will be notified; kind.",
+   "evidence": "Toyota will notify owners",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5eb07da02828b1dc",
+   "label": "VALID",
+   "reason": "The quoted title of a named safety standard, a work; particular.",
+   "evidence": "207, \"Seating Systems,\"",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "63a6b4c7fbec2787",
+   "label": "VALID",
+   "reason": "One of the manufacturer's recall identifiers named in the text; particular.",
+   "evidence": "AOI, QO8, TOJ",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "658132f812b9d279",
+   "label": "VALID",
+   "reason": "A work done to the vehicles (repair), written as the text's verb; kind.",
+   "evidence": "previously recalled and repaired under recalls",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "66886b8f0aa5af04",
+   "label": "VALID",
+   "reason": "A work done to the car (repair), written as the text's verb; it counts though not yet done; kind.",
+   "evidence": "THEY NEED TO FIX IT ASAP",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6942ec46cb3c7d91",
+   "label": "VALID",
+   "reason": "Recalling withdraws the vehicles, a work done to a thing, written as the text's verb; kind.",
+   "evidence": "Honda (American Honda Motor Co.) is recalling certain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6ccb79cab6b7e529",
+   "label": "VALID",
+   "reason": "Recalling withdraws the vehicles, a work done to a thing, written as the text's verb; kind.",
+   "evidence": "(Nissan) is recalling certain 2014-2020 Rogue",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6e2d0c86426ab82e",
+   "label": "VALID",
+   "reason": "One of the manufacturer's recall identifiers named in the text; particular.",
+   "evidence": "Honda's numbers for this recall are BOL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "74809e305671f6ff",
+   "label": "INCORRECT",
+   "reason": "'vehicles' only heads the list of model names it stands next to and names the same things (Out 9); the chunk says nothing else of vehicles.",
+   "evidence": "2014-2016 Ford Transit Connect vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "76592611ae62a6a2",
+   "label": "VALID",
+   "reason": "The fault of the spot welds, written in the text's verb form; 'improperly' is what makes it a fault; kind.",
+   "evidence": "may have been improperly applied",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "76a87b2af436fb52",
+   "label": "VALID",
+   "reason": "A recall identifier named in the text; particular.",
+   "evidence": "Ford's number for this recall is 15C03.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "79c1408ee683c705",
+   "label": "VALID",
+   "reason": "Recalling withdraws the vehicles, a work done to a thing, written as the text's verb; kind.",
+   "evidence": "(Nissan) is recalling certain model year",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7febb35ccf3b9f83",
+   "label": "VALID",
+   "reason": "People known by their role, whom the text says were notified; kind.",
+   "evidence": "Interim letters notifying owners of the safety risk",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8cae3169e7a4cb67",
+   "label": "VALID",
+   "reason": "The condition the complaint is about (wind heard while driving), a kind the text says something about.",
+   "evidence": "YOU CAN HEAR WIND WHEN DRIVING YOUR VEHICLE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8d5ee5cb6cb0f318",
+   "label": "VALID",
+   "reason": "Organisations known by their role, which the text says will do the update; kind.",
+   "evidence": "dealers will update the body control module software",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "902c1135f3052e9f",
+   "label": "VALID",
+   "reason": "An object the text says owners can use to check the latch date codes; kind.",
+   "evidence": "enter the date codes into a website",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "96736b033f40c16c",
+   "label": "VALID",
+   "reason": "A person known by role, whom the text says was injured; kind.",
+   "evidence": "THE DRIVER SUFFERED A MILD CONCUSSION",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a02c80f41687e505",
+   "label": "VALID",
+   "reason": "A road condition the text says the vehicle drove over before the crash; kind.",
+   "evidence": "THE VEHICLE DROVE OVER A PATCH OF BLACK ICE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "aae077f373e6cb31",
+   "label": "VALID",
+   "reason": "A work done to the engine (replacement), written as the text's verb; counts though not yet done; kind.",
+   "evidence": "UNTIL ENGINE CAN BE REPAIRED/REPLACED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ad6cfa6a30eee629",
+   "label": "VALID",
+   "reason": "A work done to a thing (replacing the sensors), written as the text's verb; kind.",
+   "evidence": "Dealers will replace the seat weight sensors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b3955c4f91fd362e",
+   "label": "VALID",
+   "reason": "The vehicle's identification number, a property the text says something about (it was unknown); a common noun, so kind.",
+   "evidence": "THE VIN WAS UNKNOWN.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b93d779ef6c38435",
+   "label": "VALID",
+   "reason": "An organisation known only by its role, which owners may call; kind.",
+   "evidence": "may call customer service at 1-844-373-6614",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c15bade35a218a28",
+   "label": "VALID",
+   "reason": "A work done to the brake (cleaning), written as the text's verb; kind.",
+   "evidence": "DEGLAZED AND AND CLEANED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c4b6e6f3b2438391",
+   "label": "VALID",
+   "reason": "A named organisation the text says something about (its number for the recall); particular.",
+   "evidence": "Nissan's number for this recall is R22C5.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c9ba099ef5317e45",
+   "label": "VALID",
+   "reason": "An object kind (letters to owners) the text says something about (mailed, to be sent); kind.",
+   "evidence": "Additional letters will be sent once the final remedy is available.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "cefeb38d450df5e7",
+   "label": "INCORRECT",
+   "reason": "A generic word cut from the thing's name 'FRONT CAMERA SYSTEM', dropping the words that tell it apart.",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "cfa2e1aa0eb10176",
+   "label": "VALID",
+   "reason": "A work done to the rotors (machining), written as the text's verb; kind.",
+   "evidence": "ROTORS MACHINED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d74116793eb131e9",
+   "label": "INCORRECT",
+   "reason": "'customer service' is a lowercase common noun (a role) qualified by the brand, not a proper name, so the class should be kind, not particular.",
+   "evidence": "Owners may contact Toyota customer service at 1-888-270-9371.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d8821d5ca5abd9f4",
+   "label": "VALID",
+   "reason": "One of the manufacturer's interim recall identifiers named in the text; particular.",
+   "evidence": "20TB08 / 20TA08",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "da048ed6d35fbbd6",
+   "label": "VALID",
+   "reason": "Besides heading the model list, the chunk speaks of 'these vehicles' on their own, on which the seats were installed; kind.",
+   "evidence": "seatbelt buckles, or seatbelt anchors on these vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "db2b0360cdd76238",
+   "label": "VALID",
+   "reason": "A work done to a thing (the instrument panel software), written as the text's verb; kind.",
+   "evidence": "dealers will update the instrument panel software",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "dcb3b05ca987ebe1",
+   "label": "AMBIGUOUS",
+   "reason": "The all-caps text hides whether this is a unit's proper name (particular) or 'Nissan engineering', the brand plus a common noun (kind).",
+   "evidence": "NISSAN ENGINEERING DECLARED THE SYSTEM WORKED AS INTENDED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "dd8c985a5b6fdabd",
+   "label": "VALID",
+   "reason": "An object kind (letters to owners) the text says something about (mailed on a date); kind.",
+   "evidence": "Owner notification letters were mailed July 7, 2026.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e075c181792e2765",
+   "label": "VALID",
+   "reason": "A work done to a thing (replacing the pump), written as the text's verb; kind.",
+   "evidence": "Dealers will replace the low-pressure fuel pump",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e93b4874b4c0c57a",
+   "label": "VALID",
+   "reason": "An object kind (notices), told apart from the second notice by 'Interim', which the text says were mailed; kind.",
+   "evidence": "Interim notices informing owners of the safety risk were mailed September 8, 2017.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e9cb17a96bcd1252",
+   "label": "VALID",
+   "reason": "Recalling withdraws the vehicles, a work done to a thing, written as the text's verb; kind.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eb98e2f37c42ef34",
+   "label": "INCORRECT",
+   "reason": "A light verb of occurrence, not a fault; the fault is the crack, which the text names as a noun (Out 2).",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f12514c0aed19cd3",
+   "label": "VALID",
+   "reason": "The recall, a withdrawal done to the vehicles, which the text says something about (its number); common noun, kind.",
+   "evidence": "Subaru's number for this recall is WRG-21.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f6c9309d35b435b0",
+   "label": "VALID",
+   "reason": "An organisation known by its role, which the text says was notified; kind.",
+   "evidence": "THE MANUFACTURER WAS NOTIFIED OF THE FAILURE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fc5336e19849a077",
+   "label": "VALID",
+   "reason": "Organisations known by their role, which the text says will replace the module; kind.",
+   "evidence": "Dealers will replace the fuel pump module",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fd18d9559e97e0dc",
+   "label": "VALID",
+   "reason": "An object kind (remedy parts) the text says something about (when they will be available); kind.",
+   "evidence": "Parts are expected to be available in the Summer of 2016.",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "25af32770698b87b",
+  "261b1f97c66afa59",
+  "2b19e59e97228df1",
+  "37486725df6446b0",
+  "3c2560719e27a6a2",
+  "3f3756f804034d52",
+  "5c24dd8fd80bbbfa",
+  "658132f812b9d279",
+  "74809e305671f6ff",
+  "9ae03f8e8f92|highway",
+  "b5a99d85ad0e|nissan north america",
+  "cefeb38d450df5e7",
+  "d74116793eb131e9",
+  "dc92249622e1|subaru",
+  "dcb3b05ca987ebe1",
+  "dd8c985a5b6fdabd",
+  "eb98e2f37c42ef34",
+  "fc5336e19849a077"
+ ],
+ "changes": []
+}
