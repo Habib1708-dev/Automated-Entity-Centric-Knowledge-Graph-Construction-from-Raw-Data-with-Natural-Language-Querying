@@ -6289,6 +6289,54 @@ of held-out's 2,192 individual pair decisions.
   that keep held-out's C3 hard rule failing (Rogue Sport, OUTBACKS), the narrower kind rule (a kind may join
   a record's unit), identifiers nominated by spelling, the dimmer pair, generality's pass precision.
 
+### R108. Record links that only context can confirm go to the chooser (in progress)
+The user's choice after R107 (2026-10-07: the two bad record links next, not the narrower kind rule; "yes"
+to the scope below with its cached rebuild). Held-out's C3 hard rule fails on two record links made by code
+alone:
+- "2017-2022 Rogue Sport" -> Vehicle:ROGUE by rule 1 (`key`): the key is a whole word of the name. For an
+  identifier ("pump HP40-1183") that is safe; held-out's Vehicle keys are plain words (the model), so the
+  rule is the containment R95a retired for names. In R107's held-out graph it made 40 such links, 39 judged
+  right ("Civic Type R", "Rogue Hybrid", "Civic coupe" are versions of their record) and this one wrong (a
+  line of its own): code cannot tell them apart.
+- "OUTBACKS" ("HAD MULTIPLE OUTBACKS IN THE PAST", the owner's earlier cars) -> Vehicle:OUTBACK (the 2019
+  model) by rule 2 (`name`), a plural. The pass stated it a kind; of the 3 stated kinds linked by a name
+  only up to an ending, it is the one wrong (furniture "drawer", "center supports" are right).
+- **Scope (one commit for the rules, then the measurement):**
+  - `resolution/records.py`: `key_decides(name, record)`, rule 1's test: a key with a digit (an identifier)
+    decides alone as before; a key that is a plain word decides only when every other word of the name is a
+    number or a value the record's own key attributes hold ("2015 Ford Escape": a year and the make).
+    Otherwise no link by key: the record is a near miss. Held-out: 24 such links stay (all judged right), 11
+    go to the chooser (10 right, Rogue Sport wrong). `match_record` takes the stated class: a stated kind
+    keeps only exact name matches (score 100), so one named by a record's name only up to an ending is a near
+    miss (3 links).
+  - `resolution/record_choice.py`: outside a scope, a record whose key is a word of the name is a near miss
+    too (the old key rule nominates where it no longer decides). The chooser's prompt gains two refusals
+    (domain-neutral, invented examples): an added word that makes the name of another line of its own; other
+    things of the record's kind than the ones it stands for. Today the prompt counts "a plural" and "the name
+    with a describing word" as the record, so it would accept both errors. It also names a version (a size,
+    a finish, a variant of the same line) as the record. No code check is possible for a refusal (world
+    knowledge); a choice is still verified.
+  - `audit/relink.py`: the replay passes the stated class and explains the two losses (`word_key`,
+    `kind_ending`). Not changed: the name test, scopes, the other rules, joining, concepts.
+- **Measurement (the user's yes, counted estimate about $0.08, likely $0.05-0.20):** R107 part b's cached
+  rebuild of the three graphs with R108; the chooser asks every question again (its prompt changed, about 75
+  calls); the changed C4 and C3 items judged blind.
+- **Part a, the rules (done 2026-10-07, $0):** as scoped. `records.key_decides` and `keys_in_name`;
+  `match_record(..., stated)`; near misses add the records whose key is a word of the name (inside a scope
+  and, outside one, from the domain: rule 1's old reach); the chooser prompt (intent comment updated) gains
+  "a version of it" among the right links and the two refusals, its examples an invented telescope line
+  ("Corvid ED", "Corvid Voyager", "the Corvids I owned before"); relink's causes `word_key`, `kind_ending`.
+  README's identity paragraph.
+  - Tests: `tests/test_records.py` (a word key decides beside numbers and the record's own values and not
+    beside other words, an identifier as before; a stated kind links by the very name only, a claim's or a
+    particular's mention keeps the ending rule), `tests/test_record_choice.py` (a word key in a longer name
+    nominates its record inside a scope and outside; the corpus four-gram guard passes on the new prompt),
+    `tests/test_audit.py` (a stated kind's plural link lost with `kind_ending` and listed for the concepts;
+    `word_key` for "Corvid Voyager", none for "2021 Corvid"). `tests/test_linking.py`'s invented held-out
+    vehicle gets its make as a key attribute, as held-out's schema has (the old fixture had none, so "2016
+    Honda Civic" now went to the chooser). The new tests fail on the code before part a. Gate: 839 passed
+    (834 before), `ruff check` clean.
+
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
   Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and

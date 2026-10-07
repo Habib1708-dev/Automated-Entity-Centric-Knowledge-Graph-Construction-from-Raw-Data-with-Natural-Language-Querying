@@ -214,7 +214,7 @@ def test_a_record_document_links_to_its_record_by_key_never_by_title(driver):
 def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_things(driver):
     # the held-out shape: one document per vehicle, one "## Complaint <key>" section per complaint
     driver.execute_query(
-        "CREATE (v:Vehicle {vehicle_id: 'CIVIC', model: 'CIVIC'}), "
+        "CREATE (v:Vehicle {vehicle_id: 'CIVIC', model: 'CIVIC', make: 'HONDA'}), "
         "(:Complaint {complaint_id: '11440801'}), "
         "(d:Document {doc_id: 'civic.md', title: '2016_honda_civic_complaints'}), "
         "(c:Chunk {chunk_id: 'civic.md#0', doc_id: 'civic.md', index: 0, "
@@ -222,7 +222,8 @@ def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_thin
         "(c)-[:PART_OF]->(d), "
         # the full vehicle name, which no spelling rule accepts against 'CIVIC' (entities_linked was 0 on
         # held-out from R58 to R60). Since R75 the key rule finds it, as on held-out, where a vehicle's key
-        # is its model; containment, which R60 added for it, no longer links at all (R95a)
+        # is its model; containment, which R60 added for it, no longer links at all (R95a). The key is a
+        # plain word, so it decides only because the other words are a year and the record's make (R108)
         "(e:Mention {id: 'm1', name: '2016 Honda Civic', type: 'Vehicle', doc_id: 'civic.md'}), "
         "(c)-[:MENTIONS]->(e), "
         "(o:Observation {id: 'o1', predicate: 'LOST', chunk_id: 'civic.md#0', "
@@ -230,7 +231,7 @@ def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_thin
     )
     plan = ConstructionPlan(
         nodes=[
-            node("vehicles.csv", "Vehicle", "vehicle_id", ["model"]).model_copy(
+            node("vehicles.csv", "Vehicle", "vehicle_id", ["model", "make"]).model_copy(
                 update={"name_column": "model"}
             ),
             node("complaints.csv", "Complaint", "complaint_id"),
@@ -242,7 +243,13 @@ def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_thin
     assert report.chunks_linked == 1  # the section found its Complaint record by key
     schema = TextSchema(
         entity_types=[
-            EntityType(name="Vehicle", description="d", identity="keyed", record_labels=["Vehicle"])
+            EntityType(
+                name="Vehicle",
+                description="d",
+                identity="keyed",
+                record_labels=["Vehicle"],
+                key_attributes=["make"],
+            )
         ],
         fact_types=[],
     )

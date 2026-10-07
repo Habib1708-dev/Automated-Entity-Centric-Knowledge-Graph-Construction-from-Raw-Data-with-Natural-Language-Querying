@@ -223,7 +223,7 @@ def _match_records(
         wanted = set(entity_type.record_labels) if entity_type else set()
         candidates = [r for r in records if r.label in wanted]
         scopes = [[r for r in candidates if r.element_id in scope_ids.get(a, set())] for a in m.anchors]
-        match = match_record(m.name, sentences.get(m.id, []), candidates, scopes, threshold)
+        match = match_record(m.name, sentences.get(m.id, []), candidates, scopes, threshold, m.stated_class)
         out.matches[m.id] = match
         if near := near_misses(m.name, match, scopes, borderline, domain=candidates):
             out.near[m.id] = near

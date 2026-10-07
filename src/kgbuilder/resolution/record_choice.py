@@ -6,7 +6,10 @@ before individuals are joined; also the offline replay of a build's matching (au
 Design: the LLM proposes, code decides, as for individuals (individuals.py). A partial overlap or a close
 spelling ("drawer" against "Drawer Unit") is evidence for a candidate, never for a link: R93 judged such
 links wrong when code made them alone. Outside a scope (a document about nothing) the near misses are strict:
-a name variant, or the one record whose key attribute holds the name (R99). The LLM sees the sentences
+a name variant, or the one record whose key attribute holds the name (R99). In both, a record whose key is a
+word of the name but does not decide (`records.key_decides`, R108: "Corvid Mini" for the key "Corvid") is a
+near miss; a stated kind named by a record's name up to an ending is a near name inside a scope (R108). The
+LLM sees the sentences
 naming the mention and every near miss with what the data says about it (cells, one-hop relations), and
 answers one listed id or none, with a quote. Code links only when:
   - the id is one of those listed, so a choice never leaves the scope of the mention's document;
@@ -31,7 +34,7 @@ from ..core.text import norm, sentences_naming
 from ..llm.base import LLMClient
 from ..structured.plan import ConstructionPlan, NodeRule, name_property
 from .names import near_name, same_name
-from .records import RecordCandidate, RecordLink, RecordMatch
+from .records import RecordCandidate, RecordLink, RecordMatch, keys_in_name
 from .variants import compatible
 
 log = logging.getLogger(__name__)
@@ -54,8 +57,16 @@ _SENTENCE_CHARS = 400
 #   - "the side of it the sentence talks about": the record's name with a word for its design or how it is
 #     made still speaks of the record, as the judge reads it (R96: R95b's prompt listed "a property of it"
 #     among the none cases, and its chooser declined a link R93 judged right);
+#   - "a version of it": a variant of the same line in another size or form is the record (R108: the key
+#     rule's right links the chooser now decides, "Civic Type R" and "Rogue Hybrid" judged right);
 #   - "another thing that only shares words": the wrong links in structural terms (a piece of the record,
 #     something made for it, a larger thing): "holes for the handle" is not the handle;
+#   - "another line sold under a name of its own" (R108): the record's name with a word that makes another
+#     line's name; "2017-2022 Rogue Sport" was linked to the record "ROGUE" by its key, and "the name with a
+#     describing word" alone would let the chooser accept it too;
+#   - "other things of the record's kind than the ones it stands for" (R108): a plural may mean the record's
+#     own things ("two of these nightstands", judged right) or others ("MULTIPLE OUTBACKS IN THE PAST", the
+#     owner's earlier cars, linked to the 2019 record), and "a plural" alone would accept both;
 #   - "a whole ... unless the sentences name the piece": a name that fits a whole and its pieces means the
 #     whole (R96: the declined link was shown a whole with three of its pieces);
 #   - "several still fit equally": a guess between look-alikes is worse than no link (code refuses twins);
@@ -70,12 +81,18 @@ Records (id, then what the data holds about it):
 {records}
 
 Choose a record if "{name}" is that record itself, perhaps written in other words: a plural, a fuller or
-shorter name, the name with a describing word, or the name with a word for the side of it the sentence talks
-about, such as its design or how it is made ("the brass focuser" and "the focuser design" are the record
-"Focuser").
+shorter name, the name with a describing word, a version of it (a variant of the same line, in another size
+or form), or the name with a word for the side of it the sentence talks about, such as its design or how it
+is made ("the brass focuser" and "the focuser design" are the record "Focuser"; "the Corvid ED" is the record
+"Corvid").
 Answer none if "{name}" is another thing that only shares words with a record: a piece of it, something made
 for it or fixed to it, or a larger thing it belongs to ("the thread of the focuser" and "the focuser cap" are
 not the record "Focuser").
+Answer none if a word added to the record's name makes the name of another line sold under a name of its own
+("the Corvid Voyager" is not the record "Corvid" when the Voyager is a line of its own).
+Answer none if "{name}" means other things of the record's kind than the ones it stands for, such as earlier
+ones the sentence sets apart from it ("the Corvids I owned before" are not the record "Corvid" whose data
+gives this year's edition).
 If "{name}" fits a whole and also pieces of that whole (the relations show which record is a piece of which),
 it is the whole, unless the sentences name the piece. Answer none when several records still fit equally well.
 If you choose a record, copy its id into record and copy one sentence from the lines above into quote,
@@ -147,13 +164,15 @@ def near_misses(
 
     Only for a mention code decided nothing about: no link, and no tie (a tie is a choice among records the
     name does name, which stays ambiguous). Inside a scope, any near name of the scope's records
-    (`names.near_name`). A document without a scope (`scopes` empty) has only the records of the mention's
-    type, `domain`, which vouch for nothing (R94), so there only strict evidence nominates (`_unscoped`).
+    (`names.near_name`) and any whose key is a word of the name (R108). A document without a scope
+    (`scopes` empty) has only the records of the mention's type, `domain`, which vouch for nothing (R94), so
+    there only strict evidence nominates (`_unscoped`).
     """
     if match.link is not None or match.tied:
         return []
     if scopes:
         found = {r.element_id: r for scope in scopes for r in scope if near_name(name, r.name, borderline)}
+        found |= {r.element_id: r for scope in scopes for r in keys_in_name(name, scope)}
     else:
         found = {r.element_id: r for r in _unscoped(name, domain)}
     return sorted(found.values(), key=lambda r: (r.label, r.key))
@@ -162,7 +181,8 @@ def near_misses(
 def _unscoped(name: str, domain: list[RecordCandidate]) -> list[RecordCandidate]:
     """The candidates of a mention outside any scope (R99): a record whose name is a variant of the
     mention's (`variants.compatible`: a title, an initial, a short form: "Jon Pike" for "Jonathan Pike"),
-    or the one record whose key attribute holds the mention's name ("the pump of model X"). A value two
+    or the one record whose key attribute holds the mention's name ("the pump of model X"), or a record
+    whose key is a word of the name (R108: rule 1's reach, now a nomination). A value two
     records hold (an attribute twin: a model of two pumps) names a kind of record, not one, so it nominates
     nothing; a twin of names is refused at the choice, as inside a scope."""
     holders: dict[str, set[str]] = defaultdict(set)
@@ -170,7 +190,13 @@ def _unscoped(name: str, domain: list[RecordCandidate]) -> list[RecordCandidate]
         for value in r.attributes.values():
             holders[norm(value)].add(r.element_id)
     owner = holders.get(norm(name), set())
-    return [r for r in domain if compatible(name, r.name) or (len(owner) == 1 and r.element_id in owner)]
+    # a key in the name nominates where it no longer links alone (R108): the domain-wide reach of rule 1
+    keyed = {r.element_id for r in keys_in_name(name, domain)}
+    return [
+        r
+        for r in domain
+        if compatible(name, r.name) or (len(owner) == 1 and r.element_id in owner) or r.element_id in keyed
+    ]
 
 
 def choice_lines(name: str, chunks: list[tuple[str, str]]) -> list[str]:

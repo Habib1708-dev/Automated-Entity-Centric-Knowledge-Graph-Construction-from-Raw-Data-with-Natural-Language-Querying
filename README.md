@@ -201,7 +201,8 @@ JSON files that are not tabular are reported as skipped, not silently ignored.
   `keyed` types refer to a record of their plan labels (by its key, by name inside the scope of the
   document's thing, or by a key attribute in the same sentence: "Maria Lopez (Finance Office)" is the
   Maria Lopez whose team is Finance Office; records still tied are not linked, the mention is logged as
-  ambiguous); a keyed mention no record fits that the mention pass stated a kind ("the car") refers to a
+  ambiguous; a key that is a plain word inside a longer name, and a stated kind named by a record only up
+  to an ending, are left to an LLM's choice that code verifies, R108); a keyed mention no record fits that the mention pass stated a kind ("the car") refers to a
   `Kind` concept (R107); `individual` types, and other keyed mentions no record fits, refer to an
   `(:Individual)`, and one name in two documents stays two things unless the text gives evidence: name
   variants ("Dr. J. Pike",

@@ -3,9 +3,11 @@ only when it is the record's name (the name test itself: tests/test_names.py), i
 mention's document, or unique in the domain when the document has no scope (the linking rules of R11, moved
 here; R94 ended the fallback beyond a scope), the record's key in the name or a sentence, and an attribute
 that tells two records of one name apart. A record's name inside a longer name, or a spelling that differs
-inside a word, is no link (R95a: R93 judged such links wrong). No Neo4j."""
+inside a word, is no link (R95a: R93 judged such links wrong). A key that is a plain word decides only with
+numbers and the record's own attribute values beside it, and a stated kind links only by the very name
+(R108: held-out's two wrong links). No Neo4j."""
 
-from kgbuilder.resolution.records import RecordCandidate, match_record, name_matches
+from kgbuilder.resolution.records import RecordCandidate, key_decides, match_record, name_matches
 
 
 def record(
@@ -173,3 +175,38 @@ def test_a_key_elsewhere_in_a_listing_sentence_is_no_evidence():
     assert next_to.link.record.element_id == "v1" and next_to.link.reason == "key_in_sentence"
     before = match("pump", sentences=["The seal of pump HP40-1183 failed."], records=PUMPS)
     assert before.link.record.element_id == "x1"
+
+
+# R108: an invented telescope maker's lines, keyed by a plain word, with the maker and year as attributes
+CORVID = record("t1", "Telescope", "CORVID", key="CORVID", maker="Brightwater", year="2021")
+LINES = [CORVID, record("t2", "Telescope", "ALTAIR", key="ALTAIR", maker="Brightwater", year="2021")]
+
+
+def test_a_word_key_decides_only_beside_numbers_and_the_records_own_values():
+    """Held-out's "2017-2022 Rogue Sport" was linked to the record keyed "ROGUE": a key that is a plain word
+    inside a longer name is containment, which R95a retired for names. Numbers and the record's own values
+    ("2019-2021 Brightwater Corvid") say nothing its data does not hold, so they still decide."""
+    for name in ("Corvid", "2019-2021 Brightwater Corvid", "2021 CORVID"):
+        result = match(name, records=LINES)
+        assert result.link.record.element_id == "t1" and result.link.reason == "key", name
+    for name in ("Corvid Voyager", "2021 Corvid 2-tube"):  # a version or a line of its own: the chooser's
+        assert not key_decides(name, CORVID)
+        assert match(name, records=LINES).link is None
+    # an identifier decides whatever the name adds, as before
+    assert key_decides("pump HP40-1183", PUMPS[0]) and match("pump HP40-1183", records=PUMPS).link
+
+
+def test_a_stated_kind_links_by_the_records_very_name_only():
+    """Held-out's "HAD MULTIPLE OUTBACKS IN THE PAST" (the owner's earlier cars) was linked to the 2019 record
+    by its plural. A kind named only up to an ending is left to the chooser; its very name still links, and a
+    mention without a stated class or stated a particular keeps the ending rule."""
+    drawers = [record("a2", "Assembly", "Drawers")]
+
+    def stated(name: str, mention_class):
+        return match_record(name, [], drawers, [drawers], threshold=90, stated=mention_class)
+
+    assert stated("drawer", "kind").link is None and stated("drawer", "kind").tied == []
+    assert stated("drawers", "kind").link.record.element_id == "a2"
+    for mention_class in (None, "particular"):
+        link = stated("drawer", mention_class).link
+        assert link.record.element_id == "a2" and link.reason == "name" and link.score < 100

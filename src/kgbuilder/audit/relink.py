@@ -44,10 +44,17 @@ from ..resolution.record_choice import (
     near_misses,
     relation_line,
 )
-from ..resolution.records import LinkReason, RecordCandidate, RecordLink, RecordMatch, match_record
+from ..resolution.records import (
+    LinkReason,
+    RecordCandidate,
+    RecordLink,
+    RecordMatch,
+    key_decides,
+    match_record,
+)
 from ..structured.plan import ConstructionPlan
 from ..text.chunking import Chunk
-from ..text.schema import TextSchema
+from ..text.schema import MentionClass, TextSchema
 from .fidelity import LoggedCounts, snapshot_counts
 from .inputs import Record, scopes
 from .snapshot import GraphSnapshot, SnapshotMention
@@ -65,8 +72,10 @@ MATCH_REASONS = frozenset(get_args(LinkReason)) | {_CONTAINED}
 #   - `left_scope` (R94): the record is outside the scope of the mention's document;
 #   - `containment` (R95a): the record's name stood inside the mention's, which no longer links;
 #   - `spelling` (R95a): the names were spelled alike, but not the same words up to their endings;
-#   - `chosen` (R95b): the LLM chose the record among the mention's near misses, and code verified it.
-RelinkCause = Literal["left_scope", "containment", "spelling", "chosen"]
+#   - `chosen` (R95b): the LLM chose the record among the mention's near misses, and code verified it;
+#   - `word_key` (R108): the record's key, a plain word, stood in a name adding words its data lacks;
+#   - `kind_ending` (R108): a mention the pass stated a kind named the record only up to an ending.
+RelinkCause = Literal["left_scope", "containment", "spelling", "chosen", "word_key", "kind_ending"]
 
 
 class RelinkChange(BaseModel):
@@ -156,7 +165,9 @@ def _change(
     )
     if before == after and not newly_chosen:
         return None
-    cause = _cause(built, link, replay.scope(m.doc_id), threshold)
+    # the record the build linked, as a candidate with its attributes: R108's key test reads them
+    linked = next((c for c in replay.candidates_of(m) if before is not None and _ref(c) == before), None)
+    cause = _cause(built, link, replay.scope(m.doc_id), threshold, linked, m.stated_class)
     return RelinkChange(
         mention=m.id, name=m.name, doc_id=m.doc_id, before=before, after=after,
         explained=cause is not None, cause=cause,
@@ -173,12 +184,18 @@ def _linked(a: Assignment | None) -> str | None:
 
 
 def _cause(
-    built: Assignment | None, link: RecordLink | None, scope: set[str] | None, threshold: float
+    built: Assignment | None,
+    link: RecordLink | None,
+    scope: set[str] | None,
+    threshold: float,
+    linked: RecordCandidate | None,
+    stated: MentionClass | None,
 ) -> RelinkCause | None:
     """The rule change that explains why the replay's decision (`link`) differs from the build's (`built`, its
     assignment), or None when no rule change does. A new link is explained only as the chooser's; a lost one
     by the rule that made it. `scope` is the records the mention's document may link to (None: it has no
-    scope), `threshold` the build's spelling threshold."""
+    scope), `threshold` the build's spelling threshold, `linked` the record the build linked (as a
+    candidate), `stated` the class the pass stated for the mention."""
     if link is not None:
         return "chosen" if link.reason == "chosen" else None
     if built is None or _linked(built) is None:  # nothing was lost, so there is nothing a rule took away
@@ -190,6 +207,10 @@ def _cause(
     # `built.name` is the record's name the build linked to: is the pair still one name for today's rule?
     if built.reason == "name" and name_score(built.said, built.name, threshold) is None:
         return "spelling"
+    if built.reason == "key" and linked is not None and not key_decides(built.said, linked):
+        return "word_key"
+    if built.reason == "name" and stated == "kind" and built.score is not None and built.score < 100:
+        return "kind_ending"
     return None
 
 
@@ -241,7 +262,9 @@ class _Replay:
 
     def match(self, m: SnapshotMention, threshold: float) -> RecordMatch:
         sentences = [x for c in self._chunks_of(m) for x in sentences_naming(c.text, [m.name])]
-        return match_record(m.name, sentences, self.candidates_of(m), self.scopes_of(m), threshold)
+        return match_record(
+            m.name, sentences, self.candidates_of(m), self.scopes_of(m), threshold, m.stated_class
+        )
 
     def candidates_of(self, m: SnapshotMention) -> list[RecordCandidate]:
         """The records of the mention's type's labels, as `records.read_records` gives them."""

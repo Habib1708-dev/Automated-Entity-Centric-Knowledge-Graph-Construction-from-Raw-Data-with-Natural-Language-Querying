@@ -12,7 +12,8 @@ person named in both reviews, which the build joined: the faithful replay of the
 resolve.json back field by field and refuse a build it does not reproduce; the measured replay explains a join
 it undoes and writes its decisions into the build it gives. R107 adds a pass mention stated a kind: a build
 that resolved it as a `Kind` concept is reproduced, one made before R107 (an individual) is not, and a replay
-that would turn a particular into a concept, which no replay decides, is refused.
+that would turn a particular into a concept, which no replay decides, is refused. R108's two rules explain
+the links a replay loses: a stated kind named by a record only up to an ending, a word key in a longer name.
 """
 
 import json
@@ -25,7 +26,7 @@ from kgbuilder.audit import build_snapshot, check_fidelity, compute_reach, gold_
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.audit.inputs import read_records, read_relations, scopes
 from kgbuilder.audit.reidentify import ReidentifyReport
-from kgbuilder.audit.relink import RelinkReport, relink
+from kgbuilder.audit.relink import RelinkReport, _cause, relink
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError, LLMUnavailableError
 from kgbuilder.core.identity import concept_id, individual_id, mention_id
@@ -41,8 +42,10 @@ from kgbuilder.pipeline.audit_stages import (
     AuditSnapshotStage,
 )
 from kgbuilder.pipeline.inputs import digest
+from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.resolution.individuals import IDENTITY_PROMPT, SameIndividual
 from kgbuilder.resolution.record_choice import CHOICE_PROMPT, RecordChoice
+from kgbuilder.resolution.records import RecordCandidate
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.text.mention_pass import PASS_FILE
 from kgbuilder.text.schema import KIND_TYPE, TextSchema
@@ -714,6 +717,32 @@ def test_a_record_replay_that_unlinks_a_stated_kind_is_refused(tmp_path):
     assert refused.value.issues == [
         f"{lids} is a stated kind that lost its record: kg resolve decides its concept"
     ]
+
+
+def test_a_stated_kind_named_by_a_record_only_up_to_an_ending_loses_it_with_its_cause(tmp_path):
+    """R108: the build linked the pass's "shades" (stated kind) to the lamp's Shade by its plural; today only
+    the very name links a kind, so the replay unlinks it, explained, and lists it for the concepts (R107)."""
+    edge = {"kind": "record", "canonical": "Assembly:A-1", "name": "Shade", "reason": "name", "score": 90.9}
+    out, data, shades = _with_pass_kind(tmp_path, "shades", edge)
+    replay = _relink(build_snapshot(out, data, CHUNKING), out)
+    [change] = [c for c in replay.changes if c.mention == shades]
+    assert (change.before, change.after, change.cause) == ("Assembly:A-1", None, "kind_ending")
+    assert replay.unexplained == [] and replay.to_concepts == [shades]
+
+
+def test_a_word_key_in_a_longer_name_is_the_cause_of_a_lost_key_link():
+    """R108: a build's `key` link of "Corvid Voyager" to the record keyed "CORVID" is lost under today's rule,
+    explained; "2021 Corvid" (a year the record holds) still links, so losing it would be unexplained."""
+    corvid = RecordCandidate(
+        element_id="t1", label="Telescope", name="CORVID", key="CORVID", attributes={"year": "2021"}
+    )
+
+    def built(said: str) -> Assignment:
+        return Assignment(mention="m", said=said, kind="record", canonical="Telescope:CORVID", name="CORVID",
+                          type="Telescope", reason="key", score=100.0)  # fmt: skip
+
+    assert _cause(built("Corvid Voyager"), None, None, 90.0, corvid, None) == "word_key"
+    assert _cause(built("2021 Corvid"), None, None, 90.0, corvid, None) is None
 
 
 R98 = Path(__file__).resolve().parent / "gold" / "r98"

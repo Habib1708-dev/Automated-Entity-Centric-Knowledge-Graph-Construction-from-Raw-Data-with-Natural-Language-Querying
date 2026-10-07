@@ -5,14 +5,19 @@ matched against the records of its type's plan labels; a match makes the record 
 match leaves it to the individuals. Concept and individual types never reach a record.
 Design: pure matching over `RecordCandidate`s, unit-tested without a database; `read_records` and
 `read_scopes` are the only reads. The rules, in order, each a reason on the identity edge:
-  1. `key`: the record's key is a whole token of the mention's name ("pump HP40-1183");
+  1. `key`: the record's key is a whole token of the mention's name ("pump HP40-1183"), and `key_decides`:
+     a key that is a plain word, not an identifier, decides only when the name adds nothing but numbers and
+     the record's own attribute values (R108: "2017-2022 Rogue Sport" -> the key "ROGUE" was a line of its
+     own, where "Civic Type R" -> "CIVIC" was a version; code cannot tell them apart, the chooser can);
   2. `name`: the mention's name is a record's name inside the scope of the mention's document; only a
      document without a scope may match one record of the whole domain (R11's scoped linking, moved here
      from linking.py; R94 ended the fallback for documents with a scope). A name is a record's when it is
      the same after normalisation, or the same words up to a short ending and spelled alike (names.py).
      Since R95a nothing else decides alone: a record's name inside a longer name ("pre-drilled holes for the
      drawer handle" -> Drawer Handle) and a spelling that differs inside a word ("drawer slides" -> Drawer
-     Sides) were R93's wrong links, and code cannot tell them from right ones;
+     Sides) were R93's wrong links, and code cannot tell them from right ones. A mention the pass stated a
+     kind links only by the same name: up to an ending it may mean other things of the record's kind (R108:
+     "MULTIPLE OUTBACKS IN THE PAST" -> the 2019 Outback), which only the sentence tells;
   3. `key_in_sentence`: no name decides, and exactly one key (of the tied records when names tie) is written
      right next to the mention's name in a sentence ("pump HP40-1183", "the vehicle (RAV4)"): a key
      elsewhere in the sentence is no evidence, since a sentence may list many records (found in R75's
@@ -40,6 +45,7 @@ from pydantic import BaseModel
 from ..core.cypher import cypher_ident
 from ..core.text import contains_words, norm, squash
 from ..structured.plan import ConstructionPlan, name_property
+from ..text.schema import MentionClass
 from .linking import DomainNode
 from .names import name_score
 from .variants import compatible
@@ -50,6 +56,9 @@ _MIN_KEY_CHARS = 4
 
 # An attribute value shorter than this ("SE", "1") occurs in too many sentences to tell records apart.
 _MIN_ATTRIBUTE_CHARS = 3
+
+# `name_score` of the same name after normalisation; below it, the same words only up to an ending
+_SAME_NAME = 100.0
 
 # How far from a document's domain node a mention of that document may link, counted in domain
 # relationships. 2 reaches a thing's sub-records and theirs, but not their suppliers (3): a document names
@@ -134,6 +143,30 @@ def _with_key_in(texts: list[str], records: list[RecordCandidate]) -> list[Recor
     return [r for r in records if len(squash(r.key)) >= _MIN_KEY_CHARS and squash(r.key) in tokens]
 
 
+def keys_in_name(name: str, records: list[RecordCandidate]) -> list[RecordCandidate]:
+    """The records whose key is a whole token of `name` (rule 1's candidates; record_choice.py nominates
+    them where `key_decides` does not link)."""
+    return _with_key_in([name], records)
+
+
+def key_decides(name: str, record: RecordCandidate) -> bool:
+    """Whether `record`, whose key is a whole token of `name`, is that mention by its key alone (rule 1).
+
+    A key with a digit is an identifier ("HP40-1183"): nothing else carries it, so it decides whatever the
+    name adds ("pump HP40-1183"). A key that is a plain word ("Corvid") is a name like any other, and a
+    record's name inside a longer name decides nothing (R95a): it decides only when every other word of the
+    mention's name is a number or a word of the record's own attribute values ("2021 Brightwater Corvid", a
+    year and the record's maker). With any other word ("Corvid Mini") the mention may be a version of the
+    record or a line of its own, which only knowledge of the world tells: the chooser decides (R108)."""
+    key = squash(record.key)
+    if any(c.isdigit() for c in key):
+        return True
+    own = {squash(word) for value in record.attributes.values() for word in norm(value).split()}
+    rest = _key_tokens(name) - {key}
+    # a token of digits alone is a number or a range ("2017-2022" squashes to "20172022"); "2-door" is a word
+    return all(word.isdigit() or word in own for word in rest)
+
+
 def _key_next_to(name: str, sentence: str, key: str) -> bool:
     """True when `key` is written right before or after `name` in `sentence`, with at most a bracket, a
     colon or a number sign between ("pump HP40-1183", "the vehicle (RAV4)", "HP40-1183 pump"); a comma
@@ -172,15 +205,19 @@ def match_record(
     records: list[RecordCandidate],
     scopes: list[list[RecordCandidate]],
     threshold: float,
+    stated: MentionClass | None = None,
 ) -> RecordMatch:
     """The record a mention called `name` is, from its name and the `sentences` that name it (rules 1-5 of
     the module header). `records` are the candidates of its type's labels, `scopes` the candidates near
-    each thing its document is about. Pure."""
-    if len(by_key := _with_key_in([name], records)) == 1:
+    each thing its document is about, `stated` the class the mention pass stated (None: a claim's mention).
+    Pure."""
+    if len(by_key := _with_key_in([name], records)) == 1 and key_decides(name, by_key[0]):
         return RecordMatch(
             link=RecordLink(record=by_key[0], reason="key", score=100.0, evidence=name, scoped=False)
         )
     named = _by_name(name, scopes, records, threshold)
+    if stated == "kind":  # R108: a kind is a record by its very name; up to an ending, the chooser decides
+        named = named.model_copy(update={"matches": [m for m in named.matches if m.score >= _SAME_NAME]})
     if len(named.matches) == 1:
         m = named.matches[0]
         return RecordMatch(

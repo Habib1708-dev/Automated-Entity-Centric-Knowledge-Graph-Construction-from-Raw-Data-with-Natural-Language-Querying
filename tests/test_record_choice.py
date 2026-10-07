@@ -2,7 +2,8 @@
 linked, and an LLM's choice among them, linked only when code verifies it: a listed id, a quote that stands
 in the mention's chunk and names it, and no other listed record of the same name. Without an LLM, too long a
 list or no sentence to quote, nothing is asked and nothing is linked. The LLM is a ScriptedLLM; no Neo4j.
-The records are an invented telescope; the near-miss test also replays R93's real wrong and lost links."""
+The records are an invented telescope; the near-miss test also replays R93's real wrong and lost links. A word
+key inside a longer name nominates its record (R108)."""
 
 import json
 
@@ -232,3 +233,12 @@ def test_a_failed_call_is_no_link_and_no_failure_of_the_rest():
 
     decisions = choose_records([request(), request("focuser knob")], VIEWS, ScriptedLLM(script), "m")
     assert [d.action for d in decisions] == ["failed", "chosen"]
+
+
+def test_a_word_key_in_a_longer_name_nominates_its_record_inside_a_scope_and_outside():
+    """R108: a key that is a plain word no longer links inside a longer name ("Corvid Voyager" for the key
+    "CORVID"), so it nominates: the chooser tells a version of the record from a line of its own."""
+    corvid = record("w1", "Wide-field refractor", "CORVID", label="Telescope")
+    nothing = RecordMatch()
+    assert near_misses("Corvid Voyager", nothing, [[corvid, TRIPOD]], borderline=80, domain=SCOPE) == [corvid]
+    assert near_misses("Corvid Voyager", nothing, [], borderline=80, domain=[corvid, *SCOPE]) == [corvid]
