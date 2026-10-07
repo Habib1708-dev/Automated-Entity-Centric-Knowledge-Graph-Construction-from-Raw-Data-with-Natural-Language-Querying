@@ -1,0 +1,961 @@
+{
+ "criterion": "C4",
+ "items": [
+  {
+   "id": "l:99288a93b9afe6cb:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:9eb98f98cf3a53c4:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:fbc7f46234f20d42:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:7e752e4991236b4f:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:15a236f2a4b1b360:Vehicle:OUTBACK",
+   "node": "Vehicle:OUTBACK",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:46d8fbe6280c2ded:Vehicle:OUTBACK",
+   "node": "Vehicle:OUTBACK",
+   "kind": "link",
+   "flags": [
+    "fuzzy_name"
+   ],
+   "arms": [],
+   "edge": "name 93.33333333333333"
+  },
+  {
+   "id": "l:59258530e696737b:Vehicle:OUTBACK",
+   "node": "Vehicle:OUTBACK",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:4ae4d029457abd9a:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:5de0c0109ab3d4bd:Recall:15V406000",
+   "node": "Recall:15V406000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:673ee170a6fc7e2a:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:9781277bbba7d148:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key_in_sentence 100.0"
+  },
+  {
+   "id": "l:dbd527a961f34710:Recall:15V406000",
+   "node": "Recall:15V406000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:0563a935706cadf5:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key_in_sentence 100.0"
+  },
+  {
+   "id": "l:4c67999be49cd833:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:911bcee8959bd8b4:Recall:15V436000",
+   "node": "Recall:15V436000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:91e93d1e2af6af44:Recall:15V436000",
+   "node": "Recall:15V436000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:2ffb7410b6738f1b:Recall:16V074000",
+   "node": "Recall:16V074000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:3021b575ecf427cc:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:3987e8fd7f2aad5d:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key_in_sentence 100.0"
+  },
+  {
+   "id": "l:c9355fbb12e628dc:Recall:16V074000",
+   "node": "Recall:16V074000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ca774e6f72b9c95a:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:cb638d42fd0b3a8b:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:cd8ca807a50d0e40:Recall:16V244000",
+   "node": "Recall:16V244000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:d95bce01f844f611:Recall:16V244000",
+   "node": "Recall:16V244000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:3f7412274cf43843:Recall:16V526000",
+   "node": "Recall:16V526000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:95bbbbab917d0dce:Recall:16V526000",
+   "node": "Recall:16V526000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:ad4e4e6c3ac18327:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:75f4f2d0d3c77b98:Recall:16V643000",
+   "node": "Recall:16V643000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:e503e9526ecd54be:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:f55b36757cf42397:Recall:16V643000",
+   "node": "Recall:16V643000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:13f11ab71d9a9b85:Recall:16V725000",
+   "node": "Recall:16V725000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:d6cb5fbf670b7ac5:Recall:16V725000",
+   "node": "Recall:16V725000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ef9969d4d39169b5:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6a8e81dbeebda538:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:a998c3d43bf6073c:Recall:17V472000",
+   "node": "Recall:17V472000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:e5715e69292964b8:Recall:17V472000",
+   "node": "Recall:17V472000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:93ba6e695166cc2a:Recall:17V663000",
+   "node": "Recall:17V663000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:c8b47e712fe26245:Recall:17V663000",
+   "node": "Recall:17V663000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ca11ed7b678f52bd:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:db58636619829331:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key_in_sentence 100.0"
+  },
+  {
+   "id": "l:0de4f86c8472dd6e:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:53f1ac354691a037:Recall:19V244000",
+   "node": "Recall:19V244000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:ebff79aac259df4e:Recall:19V244000",
+   "node": "Recall:19V244000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:0c214d1041fdc5c1:Recall:19V493000",
+   "node": "Recall:19V493000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2a0d64127dd2e01b:Vehicle:OUTBACK",
+   "node": "Vehicle:OUTBACK",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2c4b3e18339c85a4:Recall:19V493000",
+   "node": "Recall:19V493000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:43eff9ff5d922fc1:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:68c45ff16328d4ca:Recall:19V503000",
+   "node": "Recall:19V503000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:d279382e68ef3e70:Recall:19V503000",
+   "node": "Recall:19V503000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:122d57e9775243bb:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:1c07de8f8a923c68:Recall:19V576000",
+   "node": "Recall:19V576000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:7951a55189ef0a46:Recall:19V576000",
+   "node": "Recall:19V576000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:89990ab414631eda:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:054a2f1b45442476:Recall:20V064000",
+   "node": "Recall:20V064000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:0a33869afdc5477f:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:93c7432f48b83f1f:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:bee3089ae15bfcc8:Recall:20V064000",
+   "node": "Recall:20V064000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:291b65fde69eddfe:Recall:20V218000",
+   "node": "Recall:20V218000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:4e2a2921cf9d9a1a:Recall:20V218000",
+   "node": "Recall:20V218000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6cba8752aa54b4b6:Vehicle:OUTBACK",
+   "node": "Vehicle:OUTBACK",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6aa312e1bc6c4084:Recall:20V286000",
+   "node": "Recall:20V286000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:942add13fbbc959a:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:973869c07295c156:Recall:20V286000",
+   "node": "Recall:20V286000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:d7a732411cce4c82:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:201631fab1634594:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6f20ce8378b63d5e:Recall:20V331000",
+   "node": "Recall:20V331000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:da4b5b3c5c85e545:Recall:20V331000",
+   "node": "Recall:20V331000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:41f12383e567ba6c:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:62da0f2516ea18c8:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:767bbd9c2fcf4aa3:Recall:20V373000",
+   "node": "Recall:20V373000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:b1e7a0731c41d64c:Recall:20V373000",
+   "node": "Recall:20V373000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:8673b88c5405089f:Recall:20V682000",
+   "node": "Recall:20V682000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:8e92cd6a1ed42f91:Recall:20V682000",
+   "node": "Recall:20V682000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:dd0888bb804909f1:Vehicle:RAV4",
+   "node": "Vehicle:RAV4",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:0c13f5989f8b1872:Vehicle:OUTBACK",
+   "node": "Vehicle:OUTBACK",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:1ce8b8fc365a73e7:Recall:21V587000",
+   "node": "Recall:21V587000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:bc829d4a288c4a77:Recall:21V587000",
+   "node": "Recall:21V587000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2ab6dfd0f04b2968:Recall:21V839000",
+   "node": "Recall:21V839000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:52025174f0591eb9:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:f0d36e37eae33ee3:Recall:21V839000",
+   "node": "Recall:21V839000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:0f1b8657669204ca:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:356e9abfb3112133:Recall:22V254000",
+   "node": "Recall:22V254000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:7289e1dbdac717d1:Recall:22V254000",
+   "node": "Recall:22V254000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:140976a72d9c00d4:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6a3a4152c00be771:Recall:22V413000",
+   "node": "Recall:22V413000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:fd0849ab21dc371d:Recall:22V413000",
+   "node": "Recall:22V413000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:00e86470deb0cfe4:Recall:22V875000",
+   "node": "Recall:22V875000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:a08f7b5f73cdf369:Recall:22V875000",
+   "node": "Recall:22V875000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:cf0b2b7fa53336cb:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key_in_sentence 100.0"
+  },
+  {
+   "id": "l:fa91ed734c508196:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:25802a441a6859a3:Recall:23V093000",
+   "node": "Recall:23V093000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:42fcad77415d2eb7:Recall:23V093000",
+   "node": "Recall:23V093000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:559d01e04a27331d:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:8c6f9fa48d339e85:Vehicle:ROGUE",
+   "node": "Vehicle:ROGUE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:0d4f6ee3d88b56dd:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:50dc83033a0f7523:Recall:23V858000",
+   "node": "Recall:23V858000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6d84c868947814f1:Recall:23V858000",
+   "node": "Recall:23V858000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:75272d2650d3faf4:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:be8571e921540292:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ffb9f08b87b12a33:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:14e0587fe88b1a87:Recall:25V695000",
+   "node": "Recall:25V695000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:65d75c32a0418550:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:b2e27089b3dcfd41:Recall:25V695000",
+   "node": "Recall:25V695000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:0912e6f3c824a4ec:Vehicle:ESCAPE",
+   "node": "Vehicle:ESCAPE",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:13c7710b2fa9d7e9:Recall:26V011000",
+   "node": "Recall:26V011000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:925f6746631f9561:Recall:26V011000",
+   "node": "Recall:26V011000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:1b19fc1012800633:Recall:26V332000",
+   "node": "Recall:26V332000",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:275b13a308243fbd:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:5442213bd65f20a1:Recall:26V332000",
+   "node": "Recall:26V332000",
+   "kind": "unlinked",
+   "flags": [
+    "label_mismatch"
+   ],
+   "arms": [],
+   "edge": "no_record"
+  },
+  {
+   "id": "l:63965e96ef20b442:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:a8857074193eb076:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:e48ce6d651fe830c:Vehicle:CIVIC",
+   "node": "Vehicle:CIVIC",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  }
+ ]
+}

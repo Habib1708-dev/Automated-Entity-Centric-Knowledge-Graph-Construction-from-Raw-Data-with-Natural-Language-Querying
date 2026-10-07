@@ -1,0 +1,978 @@
+{
+  "provenance": {
+    "extracted.chunk_exists": {
+      "k": 531,
+      "n": 531,
+      "rate": 1.0,
+      "low": 0.9928173126398545,
+      "high": 1.0
+    },
+    "extracted.doc_consistent": {
+      "k": 531,
+      "n": 531,
+      "rate": 1.0,
+      "low": 0.9928173126398545,
+      "high": 1.0
+    },
+    "extracted.evidence_in_chunk": {
+      "k": 531,
+      "n": 531,
+      "rate": 1.0,
+      "low": 0.9928173126398545,
+      "high": 1.0
+    },
+    "extracted.ends_grounded": {
+      "k": 531,
+      "n": 531,
+      "rate": 1.0,
+      "low": 0.9928173126398545,
+      "high": 1.0
+    },
+    "derived.chunk_exists": {
+      "k": 154,
+      "n": 154,
+      "rate": 1.0,
+      "low": 0.9756616760093663,
+      "high": 0.9999999999999999
+    },
+    "derived.doc_consistent": {
+      "k": 154,
+      "n": 154,
+      "rate": 1.0,
+      "low": 0.9756616760093663,
+      "high": 0.9999999999999999
+    },
+    "derived.evidence_in_chunk": {
+      "k": 154,
+      "n": 154,
+      "rate": 1.0,
+      "low": 0.9756616760093663,
+      "high": 0.9999999999999999
+    },
+    "pass.mention_in_chunk": {
+      "k": 394,
+      "n": 394,
+      "rate": 1.0,
+      "low": 0.9903438956609868,
+      "high": 1.0
+    },
+    "extracted.mention_in_chunk": {
+      "k": 621,
+      "n": 621,
+      "rate": 1.0,
+      "low": 0.9938518818209289,
+      "high": 1.0
+    }
+  },
+  "provenance_misses": {
+    "extracted.chunk_exists": [],
+    "extracted.doc_consistent": [],
+    "extracted.evidence_in_chunk": [],
+    "extracted.ends_grounded": [],
+    "derived.chunk_exists": [],
+    "derived.doc_consistent": [],
+    "derived.evidence_in_chunk": [],
+    "pass.mention_in_chunk": [],
+    "extracted.mention_in_chunk": []
+  },
+  "flags": [
+    {
+      "kind": "fuzzy_name",
+      "item": "53e0bb621b484523",
+      "graph": "(Mention \"drawer\" @product_reviews/helsingborg_dresser_reviews.md)-[:REFERS_TO {name, 92.3076923076923}]->(Assembly:A-1070 \"Drawers\")",
+      "text": "spelling score 92.3076923076923"
+    },
+    {
+      "kind": "fuzzy_name",
+      "item": "799131dee4590bec",
+      "graph": "(Mention \"drawer bottoms\" @product_reviews/helsingborg_dresser_reviews.md)-[:REFERS_TO {name, 96.2962962962963}]->(Component:S-1082 \"Drawer Bottom\")",
+      "text": "spelling score 96.2962962962963"
+    },
+    {
+      "kind": "fuzzy_name",
+      "item": "8c1db04fe419ed96",
+      "graph": "(Mention \"Norrköping Nightstands\" @product_reviews/norrkoping_nightstand_reviews.md)-[:REFERS_TO {name, 97.67441860465115}]->(Product:P-1009 \"Norrköping Nightstand\")",
+      "text": "spelling score 97.67441860465115"
+    },
+    {
+      "kind": "fuzzy_name",
+      "item": "b33ecaea8474b9cd",
+      "graph": "(Mention \"drawers\" @product_reviews/norrkoping_nightstand_reviews.md)-[:REFERS_TO {name, 92.3076923076923}]->(Assembly:A-1021 \"Drawer\")",
+      "text": "spelling score 92.3076923076923"
+    },
+    {
+      "kind": "fuzzy_name",
+      "item": "c442c14033d3b7c3",
+      "graph": "(Mention \"center supports\" @product_reviews/linkoping_bed_reviews.md)-[:REFERS_TO {name, 96.55172413793103}]->(Assembly:A-1052 \"Center Support\")",
+      "text": "spelling score 96.55172413793103"
+    },
+    {
+      "kind": "fuzzy_name",
+      "item": "c59d3444ae339fc6",
+      "graph": "(Mention \"covers\" @product_reviews/uppsala_sofa_reviews.md)-[:REFERS_TO {name, 90.9090909090909}]->(Assembly:A-1015 \"Cover\")",
+      "text": "spelling score 90.9090909090909"
+    },
+    {
+      "kind": "compound_name",
+      "item": "2d8de4969492 -> Product:P-1001",
+      "graph": "(Product:P-1001 \"Gothenburg Table\")-[:HAS_OBSERVATION {key_in_sentence}]->(table top EXHIBITS shows fingerprints very easily)",
+      "text": "The table top also shows fingerprints very easily"
+    },
+    {
+      "kind": "compound_name",
+      "item": "74f32632243c -> 465600e18f07ba40",
+      "graph": "(465600e18f07ba40 \"holes\")-[:HAS_OBSERVATION {key_in_sentence}]->(pre-drilled holes EXHIBITS line up correctly)",
+      "text": "many of the pre-drilled holes didn't line up correctly"
+    },
+    {
+      "kind": "compound_name",
+      "item": "967ef4b4a07b -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS poorly manufactured)",
+      "text": "the drawer rails - they seem poorly manufactured"
+    },
+    {
+      "kind": "compound_name",
+      "item": "c0d4756c5f3c -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS allow the drawers to slide smoothly)",
+      "text": "they seem poorly manufactured and don't allow the drawers to slide smoothly"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ad4400792237 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS defective)",
+      "text": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1977a107c5b9 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails MADE_OF metal)",
+      "text": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+    },
+    {
+      "kind": "compound_name",
+      "item": "297ae97a740c -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS uneven metal edges)",
+      "text": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1831ce1ef233 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS rough sliding mechanisms)",
+      "text": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+    },
+    {
+      "kind": "compound_name",
+      "item": "df520b5d8e21 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS defective)",
+      "text": "The drawer rails are clearly defective"
+    },
+    {
+      "kind": "compound_name",
+      "item": "30a9f573684a -> Component:S-1082",
+      "graph": "(Component:S-1082 \"Drawer Bottom\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer EXHIBITS crack developing along the bottom)",
+      "text": "one drawer already has a crack developing along the bottom from the strain of forcing it open and closed"
+    },
+    {
+      "kind": "compound_name",
+      "item": "000d3cfa4922 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer hardware EXHIBITS issues)",
+      "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\""
+    },
+    {
+      "kind": "compound_name",
+      "item": "000d3cfa4922 -> b1136bf631011954",
+      "graph": "(b1136bf631011954 \"hardware\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer hardware EXHIBITS issues)",
+      "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\""
+    },
+    {
+      "kind": "compound_name",
+      "item": "52ecf5b86589 -> 2424c4353f6ade1b",
+      "graph": "(2424c4353f6ade1b \"instructions\")-[:HAS_OBSERVATION {key_in_sentence}]->(Assembly instructions EXHIBITS incomprehensible)",
+      "text": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f22b11136ead -> 2424c4353f6ade1b",
+      "graph": "(2424c4353f6ade1b \"instructions\")-[:HAS_OBSERVATION {key_in_sentence}]->(Assembly instructions EXHIBITS tiny diagrams)",
+      "text": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e8db1d5bb4ae -> 2424c4353f6ade1b",
+      "graph": "(2424c4353f6ade1b \"instructions\")-[:HAS_OBSERVATION {key_in_sentence}]->(Assembly instructions EXHIBITS missing steps)",
+      "text": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+    },
+    {
+      "kind": "compound_name",
+      "item": "637fec2dc285 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer bottoms EXHIBITS flimsy)",
+      "text": "the drawer bottoms feel flimsy"
+    },
+    {
+      "kind": "compound_name",
+      "item": "6983d30a7060 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer handles EXHIBITS scratched)",
+      "text": "One of the drawer handles was scratched right out of the box"
+    },
+    {
+      "kind": "compound_name",
+      "item": "9d25e4ff1c6e -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails EXHIBITS rough)",
+      "text": "I noticed the drawer rails seemed a bit rough"
+    },
+    {
+      "kind": "compound_name",
+      "item": "bce4f5563a9c -> 9056382c27bd2b55",
+      "graph": "(9056382c27bd2b55 \"finish\")-[:HAS_OBSERVATION {key_in_sentence}]->(surface EXHIBITS exceptional durability)",
+      "text": "The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats, resulting in exceptional durability."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a82cd24ccae8 -> 58f7f7a12deda75a",
+      "graph": "(58f7f7a12deda75a \"corners\")-[:HAS_OBSERVATION {key_in_sentence}]->(veneer EXHIBITS extremely thin)",
+      "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bb05b42a8987 -> 58f7f7a12deda75a",
+      "graph": "(58f7f7a12deda75a \"corners\")-[:HAS_OBSERVATION {key_in_sentence}]->(veneer EXHIBITS chipping at the corners)",
+      "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+    },
+    {
+      "kind": "compound_name",
+      "item": "14a07f1b10b7 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(hidden storage EXHIBITS incredibly practical)",
+      "text": "the hidden storage is incredibly practical in our small apartment"
+    },
+    {
+      "kind": "compound_name",
+      "item": "861586a5abf8 -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slats EXHIBITS excellent mattress support)",
+      "text": "The slats provide excellent mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "09f05c8c0f1c -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers EXHIBITS love)",
+      "text": "i love the storage drawers!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "46cb1958f790 -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slat system EXHIBITS properly engineered)",
+      "text": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "48db95601d2d -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slat system HAS_MEASUREMENT 7cm)",
+      "text": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "691d6020e9f2 -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slat system HAS_MEASUREMENT 8mm)",
+      "text": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3d0386436268 -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slat system EXHIBITS ideal mattress support)",
+      "text": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f9ae7a0ec001 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slides HAS_MEASUREMENT 25kg)",
+      "text": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2c5636e456b9 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slides EXHIBITS quality)",
+      "text": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7df242ef604c -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers EXHIBITS opens smoothly)",
+      "text": "one of the storage drawers no longer opens smoothly"
+    },
+    {
+      "kind": "compound_name",
+      "item": "31e4ba2b576d -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers EXHIBITS perfect for extra linens)",
+      "text": "the storage drawers are perfect for extra linens"
+    },
+    {
+      "kind": "compound_name",
+      "item": "344579a259d2 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers EXHIBITS slide smoothly)",
+      "text": "The storage drawers slide smoothly and hold a surprising amount of items."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a551d60011a6 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers EXHIBITS hold a surprising amount of items)",
+      "text": "The storage drawers slide smoothly and hold a surprising amount of items."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d97aac0e5f34 -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage solutions EXHIBITS incredibly well-thought-out)",
+      "text": "The storage solutions are incredibly well-thought-out"
+    },
+    {
+      "kind": "compound_name",
+      "item": "e07f2f0c1ca9 -> Assembly:A-1062",
+      "graph": "(Assembly:A-1062 \"Drawer Unit\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slides EXHIBITS smooth)",
+      "text": "The drawer slides are smooth"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b7217b4c5723 -> Product:P-1002",
+      "graph": "(Product:P-1002 \"Malmö Desk\")-[:HAS_OBSERVATION {key_in_sentence}]->(edges of the desk EXHIBITS sharp)",
+      "text": "the edges of the desk are a bit sharp"
+    },
+    {
+      "kind": "compound_name",
+      "item": "c0b3afe874dd -> Product:P-1002",
+      "graph": "(Product:P-1002 \"Malmö Desk\")-[:HAS_OBSERVATION {key_in_sentence}]->(Malmö Desk EXHIBITS decent desk)",
+      "text": "decent desk"
+    },
+    {
+      "kind": "compound_name",
+      "item": "97371e04ce41 -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage compartments EXHIBITS intelligently designed)",
+      "text": "The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies."
+    },
+    {
+      "kind": "compound_name",
+      "item": "79d27071ff89 -> Product:P-1002",
+      "graph": "(Product:P-1002 \"Malmö Desk\")-[:HAS_OBSERVATION {key_in_sentence}]->(Malmö Desk EXHIBITS Great desk for the price)",
+      "text": "Great desk for the price!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "9c501f0683b2 -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage solutions EXHIBITS cleverly designed)",
+      "text": "The storage solutions are cleverly designed and keep everything I need within reach."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8857cd454c57 -> Assembly:A-1021",
+      "graph": "(Assembly:A-1021 \"Drawer\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slide mechanism EXHIBITS self-closing feature with dampened action)",
+      "text": "The drawer slide mechanism utilizes a self-closing feature with dampened action - a premium detail unexpected in this category."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7b5c1eef1c30 -> 949de1a1832e4cbe",
+      "graph": "(949de1a1832e4cbe \"finish\")-[:HAS_OBSERVATION {key_in_sentence}]->(Norrköping Nightstand EXHIBITS finish is consistently applied with attention to detail on less visible surfaces)",
+      "text": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bc17624398aa -> Assembly:A-1021",
+      "graph": "(Assembly:A-1021 \"Drawer\")-[:HAS_OBSERVATION {key_in_sentence}]->(pre-drilled holes for the drawer handle EXHIBITS aligned correctly)",
+      "text": "the pre-drilled holes for the drawer handle weren't aligned correctly"
+    },
+    {
+      "kind": "compound_name",
+      "item": "bc17624398aa -> Assembly:A-1022",
+      "graph": "(Assembly:A-1022 \"Drawer Handle\")-[:HAS_OBSERVATION {key_in_sentence}]->(pre-drilled holes for the drawer handle EXHIBITS aligned correctly)",
+      "text": "the pre-drilled holes for the drawer handle weren't aligned correctly"
+    },
+    {
+      "kind": "compound_name",
+      "item": "97cc85a129b8 -> 9c0b5df7b6f7c7af",
+      "graph": "(9c0b5df7b6f7c7af \"dimmer function\")-[:HAS_OBSERVATION {key_in_sentence}]->(LED driver EXHIBITS flickering)",
+      "text": "The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings"
+    },
+    {
+      "kind": "compound_name",
+      "item": "0fed5ece4113 -> Assembly:A-1033",
+      "graph": "(Assembly:A-1033 \"Shade\")-[:HAS_OBSERVATION {key_in_sentence}]->(shade EXHIBITS diffuse light evenly)",
+      "text": "The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b3d0beea6ed0 -> Assembly:A-1033",
+      "graph": "(Assembly:A-1033 \"Shade\")-[:HAS_OBSERVATION {key_in_sentence}]->(shade EXHIBITS directional control)",
+      "text": "The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control."
+    },
+    {
+      "kind": "compound_name",
+      "item": "dc10bce663aa -> 6705943fd31fbb38",
+      "graph": "(6705943fd31fbb38 \"switch\")-[:HAS_OBSERVATION {key_in_sentence}]->(dimmer switch EXHIBITS finicky)",
+      "text": "The dimmer switch is finicky and sometimes flickers at lower settings."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c5a67bac843d -> Assembly:A-1031",
+      "graph": "(Assembly:A-1031 \"Base\")-[:HAS_OBSERVATION {key_in_sentence}]->(Örebro Lamp EXHIBITS Assembly was easy enough)",
+      "text": "Assembly was easy enough but the lamp wobbles slightly on its base."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c027bb5ef054 -> Assembly:A-1031",
+      "graph": "(Assembly:A-1031 \"Base\")-[:HAS_OBSERVATION {key_in_sentence}]->(Örebro Lamp EXHIBITS wobbles slightly on its base)",
+      "text": "the lamp wobbles slightly on its base"
+    },
+    {
+      "kind": "compound_name",
+      "item": "a5bb283ded8c -> Product:P-1005",
+      "graph": "(Product:P-1005 \"Örebro Lamp\")-[:HAS_OBSERVATION {key_in_sentence}]->(Örebro Lamp EXHIBITS Good lamp for the price)",
+      "text": "Good lamp for the price!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "795c0509262d -> Assembly:A-1041",
+      "graph": "(Assembly:A-1041 \"Allen Key\")-[:HAS_OBSERVATION {key_in_sentence}]->(Stockholm Chair EXHIBITS no tools needed except the little allen key)",
+      "text": "assembly was super easy too, no tools needed except the little allen key they give you."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6c177da6ffdf -> Product:P-1000",
+      "graph": "(Product:P-1000 \"Stockholm Chair\")-[:HAS_OBSERVATION {key_in_sentence}]->(Stockholm Chair EXHIBITS Good chair)",
+      "text": "Good chair, good price."
+    },
+    {
+      "kind": "compound_name",
+      "item": "27293cae0205 -> Product:P-1000",
+      "graph": "(Product:P-1000 \"Stockholm Chair\")-[:HAS_OBSERVATION {key_in_sentence}]->(Stockholm Chair EXHIBITS good price)",
+      "text": "Good chair, good price."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fd160ac46772 -> Product:P-1000",
+      "graph": "(Product:P-1000 \"Stockholm Chair\")-[:HAS_OBSERVATION {key_in_sentence}]->(Stockholm Chair EXHIBITS Assembly was consistent across all chairs)",
+      "text": "Assembly was consistent across all chairs, which I appreciated."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2491bfbd01ff -> Assembly:A-1015",
+      "graph": "(Assembly:A-1015 \"Cover\")-[:HAS_OBSERVATION {key_in_sentence}]->(cover EXHIBITS easy to remove the cover and wash it)",
+      "text": "it was so easy to remove the cover and wash it."
+    },
+    {
+      "kind": "compound_name",
+      "item": "333cd23e75f2 -> a94079255b5e23cc",
+      "graph": "(a94079255b5e23cc \"seams\")-[:HAS_OBSERVATION {key_in_sentence}]->(removable covers CONNECTS_TO YKK zippers)",
+      "text": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f4b178e27291 -> a94079255b5e23cc",
+      "graph": "(a94079255b5e23cc \"seams\")-[:HAS_OBSERVATION {key_in_sentence}]->(YKK zippers EXHIBITS quality)",
+      "text": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+    },
+    {
+      "kind": "compound_name",
+      "item": "09388b0b7f93 -> a94079255b5e23cc",
+      "graph": "(a94079255b5e23cc \"seams\")-[:HAS_OBSERVATION {key_in_sentence}]->(removable covers EXHIBITS well-executed pattern matching at the seams)",
+      "text": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+    },
+    {
+      "kind": "compound_name",
+      "item": "894a53ccf068 -> 77874f3640b1db1f",
+      "graph": "(77874f3640b1db1f \"finish\")-[:HAS_OBSERVATION {key_in_sentence}]->(Västerås Bookshelf EXHIBITS clean lines)",
+      "text": "The clean lines and quality finish make it look much more expensive than it actually was."
+    },
+    {
+      "kind": "compound_name",
+      "item": "df2183dfd1ab -> 77874f3640b1db1f",
+      "graph": "(77874f3640b1db1f \"finish\")-[:HAS_OBSERVATION {key_in_sentence}]->(Västerås Bookshelf EXHIBITS quality finish)",
+      "text": "The clean lines and quality finish make it look much more expensive than it actually was."
+    },
+    {
+      "kind": "compound_name",
+      "item": "86fd7340a711 -> 4cc8e0586cb9ebc2",
+      "graph": "(4cc8e0586cb9ebc2 \"instructions\")-[:HAS_OBSERVATION {key_in_sentence}]->(assembly instructions EXHIBITS clear)",
+      "text": "The assembly instructions were clear"
+    },
+    {
+      "kind": "compound_name",
+      "item": "402277ce35a5 -> 419f2c1708e59c81",
+      "graph": "(419f2c1708e59c81 \"unit\")-[:HAS_OBSERVATION {key_in_sentence}]->(Västerås Bookshelves HAS_MEASUREMENT 2 hours per unit)",
+      "text": "it did take longer than expected (about 2 hours per unit)"
+    },
+    {
+      "kind": "compound_name",
+      "item": "72af461b87a6 -> Assembly:A-1043",
+      "graph": "(Assembly:A-1043 \"Shelves\")-[:HAS_OBSERVATION {key_in_sentence}]->(shelf HAS_MEASUREMENT 30cm)",
+      "text": "The shelf depth of 30cm accommodates larger art books that typically protrude on standard shelves."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5578f86ab058 -> Assembly:A-1043",
+      "graph": "(Assembly:A-1043 \"Shelves\")-[:HAS_OBSERVATION {key_in_sentence}]->(Västerås Bookshelf EXHIBITS wobbles slightly)",
+      "text": "Now that it's built, it wobbles slightly and I don't trust putting anything heavy on the upper shelves."
+    },
+    {
+      "kind": "compound_name",
+      "item": "03260f2ea2b2 -> Product:P-1004",
+      "graph": "(Product:P-1004 \"Västerås Bookshelf\")-[:HAS_OBSERVATION {key_in_sentence}]->(Västerås Bookshelf EXHIBITS Good bookshelf for the price)",
+      "text": "Good bookshelf for the price!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7996547c5e6b -> Product:P-1001",
+      "graph": "(Product:P-1001 \"Gothenburg Table\")-[:HAS_OBSERVATION {key_in_sentence}]->(table top PART_OF Gothenburg Table)",
+      "text": "The table top also shows fingerprints very easily which is annoying for daily use."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bd70bf9d4180 -> Assembly:A-1021",
+      "graph": "(Assembly:A-1021 \"Drawer\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slide mechanism PART_OF Norrköping Nightstand)",
+      "text": "The drawer slide mechanism utilizes a self-closing feature with dampened action - a premium detail unexpected in this category."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3ac1c94132a0 -> 465600e18f07ba40",
+      "graph": "(465600e18f07ba40 \"holes\")-[:HAS_OBSERVATION {key_in_sentence}]->(pre-drilled holes PART_OF Helsingborg Dresser)",
+      "text": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8bf396b6e93e -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer hardware PART_OF Helsingborg Dresser)",
+      "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\" For the price, I expected much better quality control."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8bf396b6e93e -> b1136bf631011954",
+      "graph": "(b1136bf631011954 \"hardware\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer hardware PART_OF Helsingborg Dresser)",
+      "text": "I contacted customer service who said they're \"aware of issues with a recent batch of drawer hardware from their supplier.\" For the price, I expected much better quality control."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b33e3c4e5fe9 -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage compartments PART_OF Malmö Desk)",
+      "text": "The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies."
+    },
+    {
+      "kind": "compound_name",
+      "item": "158d115c2a1c -> 58f7f7a12deda75a",
+      "graph": "(58f7f7a12deda75a \"corners\")-[:HAS_OBSERVATION {key_in_sentence}]->(veneer PART_OF Jönköping Coffee Table)",
+      "text": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+    },
+    {
+      "kind": "compound_name",
+      "item": "3a52a11005a1 -> a94079255b5e23cc",
+      "graph": "(a94079255b5e23cc \"seams\")-[:HAS_OBSERVATION {key_in_sentence}]->(removable covers PART_OF Uppsala Sofa)",
+      "text": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+    },
+    {
+      "kind": "compound_name",
+      "item": "21b018e38b03 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer PART_OF Helsingborg Dresser)",
+      "text": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cc359d0df1d9 -> 9056382c27bd2b55",
+      "graph": "(9056382c27bd2b55 \"finish\")-[:HAS_OBSERVATION {key_in_sentence}]->(surface PART_OF Jönköping Coffee Table)",
+      "text": "The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats, resulting in exceptional durability."
+    },
+    {
+      "kind": "compound_name",
+      "item": "725127089a59 -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slats PART_OF Linköping Bed)",
+      "text": "The slats provide excellent mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5066ed9a9d05 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(slats PART_OF Linköping Bed)",
+      "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5461d30f60ce -> 465600e18f07ba40",
+      "graph": "(465600e18f07ba40 \"holes\")-[:HAS_OBSERVATION {key_in_sentence}]->(instructions PART_OF Helsingborg Dresser)",
+      "text": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "65cd3e44f9c9 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage PART_OF Linköping Bed)",
+      "text": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "f40e6a3f4f28 -> Assembly:A-1043",
+      "graph": "(Assembly:A-1043 \"Shelves\")-[:HAS_OBSERVATION {key_in_sentence}]->(shelf PART_OF Västerås Bookshelf)",
+      "text": "The shelf depth of 30cm accommodates larger art books that typically protrude on standard shelves."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4639b84ca71f -> 6705943fd31fbb38",
+      "graph": "(6705943fd31fbb38 \"switch\")-[:HAS_OBSERVATION {key_in_sentence}]->(dimmer switch PART_OF Örebro Lamp)",
+      "text": "The dimmer switch is finicky and sometimes flickers at lower settings."
+    },
+    {
+      "kind": "compound_name",
+      "item": "223afeb24227 -> 2424c4353f6ade1b",
+      "graph": "(2424c4353f6ade1b \"instructions\")-[:HAS_OBSERVATION {key_in_sentence}]->(Assembly instructions PART_OF Helsingborg Dresser)",
+      "text": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ad4b56a0f7af -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer bottoms PART_OF Helsingborg Dresser)",
+      "text": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d50ba642b9f9 -> Assembly:A-1021",
+      "graph": "(Assembly:A-1021 \"Drawer\")-[:HAS_OBSERVATION {key_in_sentence}]->(pre-drilled holes for the drawer handle PART_OF Norrköping Nightstand)",
+      "text": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d50ba642b9f9 -> Assembly:A-1022",
+      "graph": "(Assembly:A-1022 \"Drawer Handle\")-[:HAS_OBSERVATION {key_in_sentence}]->(pre-drilled holes for the drawer handle PART_OF Norrköping Nightstand)",
+      "text": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "517eafc6b8d3 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer handles PART_OF Helsingborg Dresser)",
+      "text": "One of the drawer handles was scratched right out of the box."
+    },
+    {
+      "kind": "compound_name",
+      "item": "87fbe416ac3b -> be1357ba27e0c401",
+      "graph": "(be1357ba27e0c401 \"mattress\")-[:HAS_OBSERVATION {key_in_sentence}]->(slat system PART_OF Linköping Bed)",
+      "text": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1d737869051b -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(back panel PART_OF Helsingborg Dresser)",
+      "text": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+    },
+    {
+      "kind": "compound_name",
+      "item": "0c2bb2c84b50 -> 4cc8e0586cb9ebc2",
+      "graph": "(4cc8e0586cb9ebc2 \"instructions\")-[:HAS_OBSERVATION {key_in_sentence}]->(assembly instructions PART_OF Västerås Bookshelf)",
+      "text": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit)."
+    },
+    {
+      "kind": "compound_name",
+      "item": "0c2bb2c84b50 -> 419f2c1708e59c81",
+      "graph": "(419f2c1708e59c81 \"unit\")-[:HAS_OBSERVATION {key_in_sentence}]->(assembly instructions PART_OF Västerås Bookshelf)",
+      "text": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit)."
+    },
+    {
+      "kind": "compound_name",
+      "item": "551e532bed1b -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slides PART_OF Linköping Bed)",
+      "text": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+    },
+    {
+      "kind": "compound_name",
+      "item": "955063ed9008 -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage solutions PART_OF Malmö Desk)",
+      "text": "The storage solutions are incredibly well-thought-out - I love the cable management system and the drawers are the perfect size for office supplies."
+    },
+    {
+      "kind": "compound_name",
+      "item": "354dc8dfcc9f -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage solutions PART_OF Malmö Desk)",
+      "text": "The storage solutions are cleverly designed and keep everything I need within reach."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c4b24b802310 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers PART_OF Linköping Bed)",
+      "text": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7cec3f9c384a -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers PART_OF Linköping Bed)",
+      "text": "While the bed looks nice, after just two months of use the slats have started to crack and one of the storage drawers no longer opens smoothly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b54011c23f57 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers PART_OF Linköping Bed)",
+      "text": "The design is simple but elegant, and the storage drawers are perfect for extra linens."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f9cb8dc51e97 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(storage drawers PART_OF Linköping Bed)",
+      "text": "The storage drawers slide smoothly and hold a surprising amount of items."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5aab14b056da -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(cable management system PART_OF Malmö Desk)",
+      "text": "The storage solutions are incredibly well-thought-out - I love the cable management system and the drawers are the perfect size for office supplies."
+    },
+    {
+      "kind": "compound_name",
+      "item": "24db34a0de88 -> 20c2b445643f917f",
+      "graph": "(20c2b445643f917f \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(hidden storage PART_OF Linköping Bed)",
+      "text": "The platform design is sleek and modern, while the hidden storage is incredibly practical in our small apartment."
+    },
+    {
+      "kind": "compound_name",
+      "item": "13ae964de070 -> 9c0b5df7b6f7c7af",
+      "graph": "(9c0b5df7b6f7c7af \"dimmer function\")-[:HAS_OBSERVATION {key_in_sentence}]->(LED driver PART_OF Örebro Lamp)",
+      "text": "The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings - a detail often overlooked in consumer lighting."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a99b177f7a23 -> Assembly:A-1062",
+      "graph": "(Assembly:A-1062 \"Drawer Unit\")-[:HAS_OBSERVATION {key_in_sentence}]->(cable management PART_OF Malmö Desk)",
+      "text": "The drawer slides are smooth and the cable management keeps everything tidy."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6be3205f0f24 -> Assembly:A-1033",
+      "graph": "(Assembly:A-1033 \"Shade\")-[:HAS_OBSERVATION {key_in_sentence}]->(shade PART_OF Örebro Lamp)",
+      "text": "The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d348ba0135e1 -> a94079255b5e23cc",
+      "graph": "(a94079255b5e23cc \"seams\")-[:HAS_OBSERVATION {key_in_sentence}]->(YKK zippers PART_OF Uppsala Sofa)",
+      "text": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d330c649015a -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails PART_OF Helsingborg Dresser)",
+      "text": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2390060d08b1 -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails PART_OF Helsingborg Dresser)",
+      "text": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+    },
+    {
+      "kind": "compound_name",
+      "item": "63ac6af4015d -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails PART_OF Helsingborg Dresser)",
+      "text": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bdeaab139bcf -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer rails PART_OF Helsingborg Dresser)",
+      "text": "I don't understand all these negative reviews about the drawer rails!"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7ad8c980c8f3 -> Assembly:A-1062",
+      "graph": "(Assembly:A-1062 \"Drawer Unit\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawer slides PART_OF Malmö Desk)",
+      "text": "The drawer slides are smooth and the cable management keeps everything tidy."
+    },
+    {
+      "kind": "compound_name",
+      "item": "052f7462a1f9 -> Product:P-1002",
+      "graph": "(Product:P-1002 \"Malmö Desk\")-[:HAS_OBSERVATION {key_in_sentence}]->(edges of the desk PART_OF Malmö Desk)",
+      "text": "Taking off one star because the edges of the desk are a bit sharp - I had to add some edge protectors to avoid scratching myself."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6e178b049171 -> 3dd9f42a4b4506e3",
+      "graph": "(3dd9f42a4b4506e3 \"storage\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawers PART_OF Malmö Desk)",
+      "text": "The storage solutions are incredibly well-thought-out - I love the cable management system and the drawers are the perfect size for office supplies."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fbfff1dac74f -> Assembly:A-1070",
+      "graph": "(Assembly:A-1070 \"Drawers\")-[:HAS_OBSERVATION {key_in_sentence}]->(drawers PART_OF Helsingborg Dresser)",
+      "text": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+    }
+  ],
+  "flag_counts": {
+    "cross_scope_link": 0,
+    "label_mismatch": 0,
+    "fuzzy_name": 6,
+    "cross_scope_attachment": 0,
+    "compound_name": 113
+  },
+  "record_links": 63,
+  "record_links_without_scope": 0,
+  "non_end_attachments": 230,
+  "key_in_sentence_attachments": 686,
+  "splits": [
+    {
+      "type": "Component",
+      "name": "assembly instructions",
+      "canonicals": 3,
+      "documents": [
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/stockholm_chair_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "corner blocks",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/linkoping_bed_reviews.md",
+        "product_reviews/uppsala_sofa_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "edges",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/jonkoping_coffee_table_reviews.md",
+        "product_reviews/linkoping_bed_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "finish",
+      "canonicals": 5,
+      "documents": [
+        "product_reviews/gothenburg_table_reviews.md",
+        "product_reviews/jonkoping_coffee_table_reviews.md",
+        "product_reviews/linkoping_bed_reviews.md",
+        "product_reviews/norrkoping_nightstand_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "hardware",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "instructions",
+      "canonicals": 4,
+      "documents": [
+        "product_reviews/gothenburg_table_reviews.md",
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/malmo_desk_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "parts",
+      "canonicals": 3,
+      "documents": [
+        "product_reviews/linkoping_bed_reviews.md",
+        "product_reviews/uppsala_sofa_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "pre-drilled holes",
+      "canonicals": 5,
+      "documents": [
+        "product_reviews/gothenburg_table_reviews.md",
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/jonkoping_coffee_table_reviews.md",
+        "product_reviews/malmo_desk_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "replacement",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/linkoping_bed_reviews.md",
+        "product_reviews/uppsala_sofa_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "storage",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/linkoping_bed_reviews.md",
+        "product_reviews/malmo_desk_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "surface",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/gothenburg_table_reviews.md",
+        "product_reviews/jonkoping_coffee_table_reviews.md"
+      ]
+    },
+    {
+      "type": "Component",
+      "name": "veneer",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/jonkoping_coffee_table_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Particular",
+      "name": "austin",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/gothenburg_table_reviews.md",
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/jonkoping_coffee_table_reviews.md"
+      ]
+    },
+    {
+      "type": "Particular",
+      "name": "b0bqjwjwjw",
+      "canonicals": 3,
+      "documents": [
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/malmo_desk_reviews.md",
+        "product_reviews/stockholm_chair_reviews.md"
+      ]
+    },
+    {
+      "type": "Particular",
+      "name": "seattle",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/gothenburg_table_reviews.md",
+        "product_reviews/helsingborg_dresser_reviews.md",
+        "product_reviews/malmo_desk_reviews.md",
+        "product_reviews/uppsala_sofa_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    },
+    {
+      "type": "Product",
+      "name": "furniture",
+      "canonicals": 4,
+      "documents": [
+        "product_reviews/jonkoping_coffee_table_reviews.md",
+        "product_reviews/norrkoping_nightstand_reviews.md",
+        "product_reviews/stockholm_chair_reviews.md",
+        "product_reviews/uppsala_sofa_reviews.md"
+      ]
+    },
+    {
+      "type": "Product",
+      "name": "unit",
+      "canonicals": 2,
+      "documents": [
+        "product_reviews/norrkoping_nightstand_reviews.md",
+        "product_reviews/vasteras_bookshelf_reviews.md"
+      ]
+    }
+  ],
+  "reach": null
+}
