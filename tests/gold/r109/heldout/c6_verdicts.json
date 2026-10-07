@@ -1,0 +1,1279 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "f68031595b75",
+  "sheet": "tests/gold/r109/heldout/c6_sheet.json",
+  "sheet_hash": "cac1b80f0b1f",
+  "sheets_git_sha": "1361b757cb9b0c481d282564d50148f4090022b0"
+ },
+ "criterion": "C6",
+ "verdicts": [
+  {
+   "id": "p:0cd7a506f6c15761|complaints/toyota_rav4_complaints.md#2",
+   "label": "VALID",
+   "reason": "The complaint is about the vehicle not accelerating when the gas pedal is pressed.",
+   "evidence": "VEHICLE WILL NOT ACCELERATE WHEN PUSHING DOWN ON THE GAS PEDAL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/20V218000#0",
+   "label": "VALID",
+   "reason": "The chunk says the low pressure fuel pump may become inoperative and will be replaced.",
+   "evidence": "The low pressure fuel pump may become inoperative.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/20V682000#0",
+   "label": "VALID",
+   "reason": "The chunk names the low-pressure fuel pump as the failing part.",
+   "evidence": "The low-pressure fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/21V587000#0",
+   "label": "VALID",
+   "reason": "The chunk names the low-pressure fuel pump as the failing part.",
+   "evidence": "The low-pressure fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:109de876a77934ff|record/Recall/21V587000#1",
+   "label": "VALID",
+   "reason": "The remedy is to replace the low-pressure fuel pump.",
+   "evidence": "Dealers will replace the low-pressure fuel pump, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/19V576000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the start organisation as the party issuing this recall.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V064000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the start organisation as the party issuing this recall.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2020 Toyota Avalon Hybrid, Camry, Camry Hybrid and  Lexus ES300h and 2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V286000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the start organisation as the party issuing this recall.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V373000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the start organisation as the party issuing this recall.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles equipped with electric power steering (EPS).",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1564c38a98a6b3cb|record/Recall/20V682000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the same organisation (same full name, same Toyota abbreviation as in the start's sentences) as the recalling party.",
+   "evidence": "Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2019 4Runner",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1796c00b814bab88|complaints/honda_civic_complaints.md#2",
+   "label": "VALID",
+   "reason": "The start's sentences identify it as Honda's 2016 Civic piston ring recall that came with a stop of sale; this chunk is a complaint about that same piston clip ring recall.",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1796c00b814bab88|complaints/honda_civic_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk names the start directly: the recall and stop of sale on the 2016 Honda Civic, and the owner's car being covered by it.",
+   "evidence": "I WAS SOLD A BRAND NEW 2016 HONDA CIVIC THE DAY AFTER A RECALL AND STOP OF SALE WAS ISSUED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1796c00b814bab88|complaints/honda_civic_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk speaks of the 2016 Civic piston snap ring recall with no fix and the forced stop of sales, which is the recall the start's sentences describe.",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL. CURRENTLY HONDA HAS NO FIX FOR VEHICLES AFFECTED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1aca40d121796592|complaints/ford_escape_complaints.md#4",
+   "label": "VALID",
+   "reason": "The complaint speaks of transmission parts being replaced, i.e. of the transmission component.",
+   "evidence": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS WITH 1200 WORTH OF PARTS REPLACED ON TRANSMISSION.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1aca40d121796592|complaints/nissan_rogue_complaints.md#3",
+   "label": "VALID",
+   "reason": "The complaint describes a transmission failure, speaking directly of the transmission component.",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1aca40d121796592|record/Recall/22V254000#0",
+   "label": "VALID",
+   "reason": "The recall concerns the bushing attaching the shifter cable to the transmission; it names the transmission while saying something about its attachment.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1aca40d121796592|record/Recall/22V413000#0",
+   "label": "VALID",
+   "reason": "The recall concerns the bushing attaching the shifter cable to the transmission; it names the transmission while saying something about its attachment.",
+   "evidence": "The bushing that attaches the shifter cable to the transmission may degrade or detach.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:1d97b2e3cb263cdd|complaints/nissan_rogue_complaints.md#1",
+   "label": "VALID",
+   "reason": "The chunk is the very place the start is mentioned and says what Nissan Engineering declared.",
+   "evidence": "ON THE 2ND OCCASION NISSAN ENGINEERING DECLARED THE SYSTEM WORKED AS INTENDED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:252bf49212397089|record/Recall/21V587000#0",
+   "label": "VALID",
+   "reason": "The recall summary lists Toyota 86 vehicles among those recalled.",
+   "evidence": "and Toyota 86 vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2f26533e77122925|complaints/ford_escape_complaints.md#2",
+   "label": "VALID",
+   "reason": "The complaint is about brake squeal and brake service.",
+   "evidence": "VEHICLE EXHIBITS SEVERE INTERMITTENT BRAKE SQUEAL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2f26533e77122925|complaints/nissan_rogue_complaints.md#1",
+   "label": "VALID",
+   "reason": "The complaint is about the brakes being activated by the camera system.",
+   "evidence": "THE FRONT CAMERA SYSTEM MISTOOK THE BRIDGE FOR AN OBJECT ON THE ROAD AND ACTIVATED THE BRAKES.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:321183777719ca09|complaints/honda_civic_complaints.md#0",
+   "label": "VALID",
+   "reason": "The complaint is about the trunk not locking.",
+   "evidence": "IT MAKES ABSOLUTELY NO SENSE NOT BE ABLE TO LOCK THE TRUNK.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:375b7825a587ca66|record/Recall/16V244000#0",
+   "label": "VALID",
+   "reason": "The chunk states this exact problem as the recall's consequence.",
+   "evidence": "As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:381007737b925cd0|record/Recall/19V244000#0",
+   "label": "VALID",
+   "reason": "The recall summary names Gulf States Toyota as the recalling party.",
+   "evidence": "Gulf States Toyota (GST) is recalling certain 2019 C-HR, 4Runner, Avalon, Avalon Hybrid, Camry, Camry Hybrid, Highlander, Land Cruiser, Prius, RAV4, Sequoia, Tacoma, Sienna, Tundra and Yaris vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4078e6d062bce84a|record/Recall/16V244000#0",
+   "label": "VALID",
+   "reason": "The chunk speaks of the passenger frontal air bag being turned off.",
+   "evidence": "As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4298d859bece1a5d|complaints/nissan_rogue_complaints.md#4",
+   "label": "VALID",
+   "reason": "The complaint speaks of the vehicle's fuel tank, which the gauge wrongly reads as full.",
+   "evidence": "SAYS I STILL HAVE A FULL TANK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4298d859bece1a5d|complaints/toyota_rav4_complaints.md#3",
+   "label": "VALID",
+   "reason": "The complaint is about filling the fuel tank and the pump shutting off before the tank is full.",
+   "evidence": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/20V682000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the fuel tank as where the failing fuel pump sits.",
+   "evidence": "The low-pressure fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/21V587000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the fuel tank as where the failing fuel pump sits.",
+   "evidence": "The low-pressure fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4298d859bece1a5d|record/Recall/23V858000#0",
+   "label": "VALID",
+   "reason": "The recall summary names the fuel tank as where the failing fuel pump sits.",
+   "evidence": "The fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4401d9e338ced22a|complaints/ford_escape_complaints.md#3",
+   "label": "VALID",
+   "reason": "The complaint says the air bags failed to deploy in a crash.",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4401d9e338ced22a|record/Recall/26V332000#0",
+   "label": "VALID",
+   "reason": "The recall says a sensor fault can make the air bags deploy unintentionally.",
+   "evidence": "The front passenger seat weight sensor may crack and short circuit, which can cause the air bags to deploy unintentionally during a crash.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:457980565f4112a2|complaints/subaru_outback_complaints.md#1",
+   "label": "VALID",
+   "reason": "The complaint says the back up camera stops working when the system freezes; a back up camera is a rearview camera.",
+   "evidence": "THE SYSTEM FREEZES UP COMPLETELY CAUSING EVERYTHING NOT WORK RADIO BACK UP CAMERA ETC.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/19V576000#0",
+   "label": "VALID",
+   "reason": "The recall is about the back-up camera not activating in reverse.",
+   "evidence": "the back-up camera may not activate when the vehicle is in reverse.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/25V695000#0",
+   "label": "VALID",
+   "reason": "The recall is about the rearview camera image.",
+   "evidence": "The rearview camera may display a distorted",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:457980565f4112a2|record/Recall/25V695000#1",
+   "label": "VALID",
+   "reason": "The remedy is to inspect and replace the rearview camera.",
+   "evidence": "Dealers will inspect and replace the rearview camera as necessary, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4fceafc144c3a6db|record/Recall/20V682000#1",
+   "label": "VALID",
+   "reason": "The remedy replaces the fuel pump assembly, the same kind of part as a fuel pump module.",
+   "evidence": "dealers will replace the fuel pump assembly with an improved one, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4fceafc144c3a6db|record/Recall/23V858000#1",
+   "label": "VALID",
+   "reason": "The remedy names the fuel pump module.",
+   "evidence": "Dealers will replace the fuel pump module, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:5515049c992be7f7|record/Recall/16V244000#1",
+   "label": "VALID",
+   "reason": "The remedy says dealers will reprogram the Air Bag Control Unit (ACU), the start itself.",
+   "evidence": "Dealers will reprogram the Air Bag Control Unit (ACU)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/ford_escape_complaints.md#0",
+   "label": "VALID",
+   "reason": "The complaint states the repair outcome of the vehicle (not repaired), speaking of repair in passing.",
+   "evidence": "THE VEHICLE WAS NOT REPAIRED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/ford_escape_complaints.md#3",
+   "label": "VALID",
+   "reason": "The complaint states the repair outcome of the vehicle (not repaired), speaking of repair in passing.",
+   "evidence": "THE VEHICLE WAS NOT REPAIRED. THE FAILURE MILEAGE WAS 2,361.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/honda_civic_complaints.md#4",
+   "label": "VALID",
+   "reason": "The complaint speaks of the engine waiting to be repaired, naming repair while saying something about it.",
+   "evidence": "UNTIL ENGINE CAN BE REPAIRED/REPLACED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/nissan_rogue_complaints.md#0",
+   "label": "VALID",
+   "reason": "The complaint states the vehicle was not repaired at the dealer, speaking of repair in passing.",
+   "evidence": "THE VEHICLE WAS TAKEN TO THE DEALER, BUT WAS NOT DIAGNOSED OR REPAIRED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/subaru_outback_complaints.md#0",
+   "label": "VALID",
+   "reason": "The complaint says the windshield cannot be fixed; fixed is the same kind of thing as repaired, said of this vehicle's damage.",
+   "evidence": "NATURALLY IT CAN'T BE FIXED BECAUSE NO ONE HAS THE WINDSHIELD FOR A 2019 SUBARU OUTBACK IN STOCK OR AVAILABLE BY ORDER.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|complaints/toyota_rav4_complaints.md#1",
+   "label": "VALID",
+   "reason": "The chunk says the vehicle was taken to a dealer but not repaired, so it speaks of the concept of being repaired (here, its absence), like the start's own mention sentences.",
+   "evidence": "BUT WAS NOT DIAGNOSED OR REPAIRED",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6e37aa8131abfb79|record/Recall/20V331000#0",
+   "label": "VALID",
+   "reason": "The recall summary says the vehicles were previously repaired and that the repair may be incomplete, so it speaks of being repaired.",
+   "evidence": "These vehicles were previously recalled and repaired under recalls 15V-246, 16V-643 or 17V-210, however the repair may not have been completed properly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/16V643000#0",
+   "label": "VALID",
+   "reason": "The recall summary describes a defect inside the door latches, the very component kind of the start.",
+   "evidence": "A component within the door latches may break, preventing the doors from latching",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/16V643000#1",
+   "label": "VALID",
+   "reason": "The remedy says dealers will replace the door latches, so it speaks of the start component.",
+   "evidence": "dealers will replace the door latches with an improved part, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/20V331000#0",
+   "label": "VALID",
+   "reason": "The recall is about a component within the door latches breaking.",
+   "evidence": "A component within the door latches may break making the doors difficult to latch",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76131af5637a7f0d|record/Recall/20V331000#1",
+   "label": "VALID",
+   "reason": "The remedy describes inspecting and replacing the side door latches, so it speaks of the start component.",
+   "evidence": "replace the side door latches if necessary, free of charge.  Owners will also have the option to inspect their own vehicle's door latches",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7a85e307148b959a|complaints/honda_civic_complaints.md#1",
+   "label": "VALID",
+   "reason": "The complaint describes the vehicle braking suddenly.",
+   "evidence": "THE VEHICLE MAY BRAKE SUDDENLY, RAPIDLY DECELERATE, AND QUICKLY DEPART THE HIGHWAY WHEN APPROACHING EXIT RAMPS.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:818a575712731626|complaints/honda_civic_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk names the piston clip ring and its failure.",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:818a575712731626|complaints/honda_civic_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk names the piston snap ring, the same part as a piston clip ring.",
+   "evidence": "CONTACTED AMERICAN HONDA TODAY IN REGARDS TO PISTON SNAP RING RECALL.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:818a575712731626|record/Recall/16V074000#0",
+   "label": "VALID",
+   "reason": "The recall is about a missing or misinstalled piston wrist pin circlip, the piston clip ring.",
+   "evidence": "may have been manufactured without a piston wrist pin circlip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8b7323b7432b7405|record/Recall/19V244000#0",
+   "label": "VALID",
+   "reason": "The summary of the same recall names GST (Gulf States Toyota) as the company recalling the vehicles.",
+   "evidence": "Gulf States Toyota (GST) is recalling certain 2019 C-HR",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8b7323b7432b7405|record/Recall/19V244000#1",
+   "label": "VALID",
+   "reason": "The remedy of the same recall says GST will notify owners and gives GST's contact details.",
+   "evidence": "GST will notify owners, and dealers will provide corrected load carrying capacity modification labels, free of charge.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:90eb9fec9c5a0026|complaints/subaru_outback_complaints.md#1",
+   "label": "VALID",
+   "reason": "The complaint reports a dead battery caused by the navigation system draining it.",
+   "evidence": "HAD A DEAD BATTERY ALREADY ON A 2019 VEHICLE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:90eb9fec9c5a0026|complaints/subaru_outback_complaints.md#4",
+   "label": "VALID",
+   "reason": "The complaint is about a dead battery after the car sits parked.",
+   "evidence": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10691672|complaints/ford_escape_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10691672 itself, an air bag failure in a crash.",
+   "evidence": "## Complaint 10691672 (filed 03/02/2015)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10692693|complaints/ford_escape_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10692693 itself, stalling and hesitation.",
+   "evidence": "## Complaint 10692693 (filed 03/07/2015)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10823637|complaints/honda_civic_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10823637 itself, about engine failure.",
+   "evidence": "## Complaint 10823637 (filed 02/01/2016)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10824361|complaints/honda_civic_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10824361 itself.",
+   "evidence": "## Complaint 10824361 (filed 02/04/2016)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10825467|complaints/honda_civic_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10825467 itself, about the piston snap ring engine recall.",
+   "evidence": "## Complaint 10825467 (filed 02/10/2016)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10957753|complaints/nissan_rogue_complaints.md#0",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10957753 itself, a speedometer failure on a 2017 Rogue.",
+   "evidence": "## Complaint 10957753 (filed 03/01/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:10972343|complaints/nissan_rogue_complaints.md#1",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10972343 itself, about the front camera braking on its own.",
+   "evidence": "## Complaint 10972343 (filed 04/13/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:11010220|complaints/nissan_rogue_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk is complaint 11010220 itself, a brake failure that ended in a crash.",
+   "evidence": "## Complaint 11010220 (filed 07/24/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:11030208|complaints/nissan_rogue_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk is complaint 11030208 itself, the transmission switching to reverse.",
+   "evidence": "## Complaint 11030208 (filed 09/27/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:11032133|complaints/nissan_rogue_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk is complaint 11032133 itself, a stuck fuel gauge.",
+   "evidence": "## Complaint 11032133 (filed 10/06/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Complaint:11209676|complaints/toyota_rav4_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk is complaint 11209676 itself, a vehicle that does not accelerate.",
+   "evidence": "## Complaint 11209676 (filed 05/24/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:19V493000|record/Recall/19V493000#0",
+   "label": "VALID",
+   "reason": "The chunk is the summary of recall 19V493000.",
+   "evidence": "Spot welds located on the duct below the cowl panel may have been improperly applied",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:19V493000|record/Recall/19V493000#1",
+   "label": "VALID",
+   "reason": "The chunk is the remedy section of recall 19V493000; its text matches the record's Remedy field.",
+   "evidence": "Subaru's number for this recall is WUH-93.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:20V373000|record/Recall/20V373000#0",
+   "label": "VALID",
+   "reason": "The chunk is the summary of recall 20V373000.",
+   "evidence": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:20V373000|record/Recall/20V373000#1",
+   "label": "VALID",
+   "reason": "The chunk is the remedy section of recall 20V373000; its text matches the record's Remedy field.",
+   "evidence": "Toyota's number for this recall is 20TB11 / 20TA11.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:21V839000|record/Recall/21V839000#0",
+   "label": "VALID",
+   "reason": "The chunk is the summary of recall 21V839000.",
+   "evidence": "Nissan North America, Inc. (Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:21V839000|record/Recall/21V839000#1",
+   "label": "VALID",
+   "reason": "The chunk is the remedy section of recall 21V839000; its text matches the record's Remedy field.",
+   "evidence": "Nissan's number for this recall is R21B6.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:22V254000|record/Recall/22V254000#0",
+   "label": "VALID",
+   "reason": "The chunk is the summary of recall 22V254000.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Recall:22V254000|record/Recall/22V254000#1",
+   "label": "VALID",
+   "reason": "The chunk is the remedy section of recall 22V254000; its text matches the record's Remedy field.",
+   "evidence": "Ford's number for this recall is 22S25.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#0",
+   "label": "VALID",
+   "reason": "The chunk is an owner complaint about the 2016 Honda Civic (no lock on the trunk).",
+   "evidence": "# 2016 Honda Civic owner complaints to NHTSA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#1",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10816192, which the start's relations link to this Civic (the 2016 Civic complaints document).",
+   "evidence": "## Complaint 10816192 (filed 12/25/2015)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10823637 about this Civic's engine (piston clip) recall; the relations link it to this vehicle.",
+   "evidence": "PISTON CLIP RING RECALL FROM HONDA",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk names the 2016 Honda Civic directly.",
+   "evidence": "I WAS SOLD A BRAND NEW 2016 HONDA CIVIC",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|complaints/honda_civic_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk names the 2016 Honda Civic directly.",
+   "evidence": "TOOK DELIVERY OF 2016 HONDA CIVIC",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V074000#0",
+   "label": "VALID",
+   "reason": "The recall covers model year 2016 Civic vehicles, which matches the start's model year.",
+   "evidence": "is recalling certain model year 2016 Civic vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V526000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2016 Civic 2-Door vehicles, a subset of the 2016 Civic.",
+   "evidence": "is recalling certain model year 2016 Civic 2-Door vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/16V725000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2016 Honda Civic vehicles.",
+   "evidence": "is recalling certain model year 2016 Honda Civic two door and four door",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/23V858000#0",
+   "label": "VALID",
+   "reason": "The recall's 2013-2023 range includes Civic models, so the 2016 Civic is covered.",
+   "evidence": "2013-2023 Honda Accord, Civic Coupe, Civic Sedan",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:CIVIC|record/Recall/26V332000#0",
+   "label": "VALID",
+   "reason": "The recall lists 2016-2022 Civic vehicles, which covers the 2016 Civic.",
+   "evidence": "2016-2022 Civic",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#0",
+   "label": "VALID",
+   "reason": "The chunk is a complaint about a 2015 Ford Escape.",
+   "evidence": "THE CONTACT OWNS A 2015 FORD ESCAPE (NA).",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#1",
+   "label": "VALID",
+   "reason": "The chunk is a complaint about a 2015 Ford Escape.",
+   "evidence": "BRAND NEW 2015 FORD ESCAPE DROVE FINE",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10690483, which the start's relations link to this Escape (the 2015 Escape complaints document).",
+   "evidence": "## Complaint 10690483 (filed 02/24/2015)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk is a complaint about a 2015 Ford Escape.",
+   "evidence": "THE CONTACT OWNS A 2015 FORD ESCAPE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#4",
+   "label": "VALID",
+   "reason": "The chunk is complaint 10692693, which the start's relations link to this Escape (the 2015 Escape complaints document).",
+   "evidence": "## Complaint 10692693 (filed 03/07/2015)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/15V406000#0",
+   "label": "VALID",
+   "reason": "The recall covers model year 2014-2015 Ford Escape vehicles, so the 2015 Escape is included.",
+   "evidence": "model year 2014-2015 Ford Escape vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/15V436000#0",
+   "label": "VALID",
+   "reason": "The recall covers model year 2015 Ford Escape vehicles.",
+   "evidence": "model year 2015 Ford Escape vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/16V643000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2013-2015 Ford Escape vehicles, so the 2015 Escape is included.",
+   "evidence": "2013-2015 Ford Escape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/17V472000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2014-2015 Ford Escape vehicles, so the 2015 Escape is included.",
+   "evidence": "2014-2015 Ford Escape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/20V331000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2013-2015 Escape vehicles, so the 2015 Escape is included.",
+   "evidence": "2013-2015 Escape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/22V254000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2015 Escape vehicles.",
+   "evidence": "Ford Motor Company (Ford) is recalling certain 2015 Escape vehicles equipped with 2.0L engines.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/22V413000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2013-2019 Escape vehicles, so the 2015 Escape is included.",
+   "evidence": "2013-2019 Escape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/25V695000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2015-2016 Escape vehicles, so the 2015 Escape is included.",
+   "evidence": "2015-2016 C-Max, Escape, Taurus",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ESCAPE|record/Recall/26V011000#0",
+   "label": "VALID",
+   "reason": "The recall covers 2013-2019 Escape vehicles with a 2.0L engine, so the 2015 Escape is included.",
+   "evidence": "2013-2019 Escape",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#0",
+   "label": "VALID",
+   "reason": "The chunk is a complaint about a 2019 Subaru Outback windshield.",
+   "evidence": "FOR A 2019 SUBARU OUTBACK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#1",
+   "label": "VALID",
+   "reason": "The chunk is a complaint about a 2019 Outback's navigation system.",
+   "evidence": "I HAVE 3200 MILES ON MY 2019 OUTBACK",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#2",
+   "label": "VALID",
+   "reason": "The chunk is complaint 11176393, which the start's relations link to this Outback (the 2019 Outback complaints document).",
+   "evidence": "## Complaint 11176393 (filed 02/11/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk is complaint 11180230, which the start's relations link to this Outback (the 2019 Outback complaints document).",
+   "evidence": "## Complaint 11180230 (filed 02/15/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 11185059 in the 2019 Subaru Outback complaints document, one of this record's complaints; the chunk itself does not name the Outback.",
+   "evidence": "Complaint 11185059 (filed 03/08/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/19V493000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019 Outback vehicles.",
+   "evidence": "is recalling certain 2019 Legacy and Outback vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/20V218000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019 Outback vehicles.",
+   "evidence": "is recalling certain 2019 Impreza, Outback, Legacy, and Ascent vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:OUTBACK|record/Recall/21V587000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2018-2020 Outback, which includes model year 2019.",
+   "evidence": "2018-2020 Impreza, Legacy, Outback",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#0",
+   "label": "VALID",
+   "reason": "Complaint explicitly about a 2019 Toyota RAV4.",
+   "evidence": "THE CONTACT RENTED A 2019 TOYOTA RAV4.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#1",
+   "label": "VALID",
+   "reason": "Complaint explicitly about a 2019 Toyota RAV4.",
+   "evidence": "THE CONTACT OWNS A 2019 TOYOTA RAV4.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 11209676 in the 2019 Toyota Rav4 complaints document, one of this record's complaints; the chunk does not name the RAV4.",
+   "evidence": "Complaint 11209676 (filed 05/24/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 11221492 in the 2019 Toyota Rav4 complaints document, one of this record's complaints; the chunk does not name the RAV4.",
+   "evidence": "Complaint 11221492 (filed 06/20/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|complaints/toyota_rav4_complaints.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 11229137 in the 2019 Toyota Rav4 complaints document, one of this record's complaints; the chunk does not name the RAV4.",
+   "evidence": "Complaint 11229137 (filed 07/03/2019)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V244000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019 RAV4 vehicles among others.",
+   "evidence": "Highlander, Land Cruiser, Prius, RAV4, Sequoia",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V503000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2017-2019 Rav4, which includes model year 2019.",
+   "evidence": "is recalling certain 2017-2019 Toyota Camry, Corolla, Rav4, Sienna, and Yaris iA vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/19V576000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019 RAV4 vehicles.",
+   "evidence": "is recalling certain 2019 RAV4 and RAV4 Hybrid vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V064000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019-2020 RAV4 vehicles.",
+   "evidence": "2019-2020 RAV4 and RAV4 Hybrid vehicles equipped with 2.5L 4-Cylinder engines",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V286000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019-2020 RAV4 vehicles.",
+   "evidence": "is recalling certain 2019-2020 RAV4 and RAV4 Hybrid vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V373000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2019-2020 RAV4 vehicles.",
+   "evidence": "is recalling certain 2019-2020 RAV4 and 2020 RAV4 Hybrid vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:RAV4|record/Recall/20V682000#0",
+   "label": "VALID",
+   "reason": "Recall list includes 2019-2020 RAV4.",
+   "evidence": "2017-2020 Tacoma, 2019-2020 RAV4, 2019-2020 Sequoia",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#0",
+   "label": "VALID",
+   "reason": "Complaint explicitly about a 2017 Nissan Rogue.",
+   "evidence": "THE CONTACT OWNS A 2017 NISSAN ROGUE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 10972343 in the 2017 Nissan Rogue complaints document, one of this record's complaints; the chunk does not name the Rogue.",
+   "evidence": "Complaint 10972343 (filed 04/13/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 11010220 in the 2017 Nissan Rogue complaints document, one of this record's complaints; the chunk does not name the Rogue.",
+   "evidence": "Complaint 11010220 (filed 07/24/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#3",
+   "label": "VALID",
+   "reason": "Complaint explicitly about a 2017 Nissan Rogue.",
+   "evidence": "THE CONTACT OWNS A 2017 NISSAN ROGUE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|complaints/nissan_rogue_complaints.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Complaint 11032133 in the 2017 Nissan Rogue complaints document, one of this record's complaints; the chunk does not name the Rogue.",
+   "evidence": "Complaint 11032133 (filed 10/06/2017)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/16V244000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2014-2017 Nissan Rogue, which includes model year 2017.",
+   "evidence": "2014-2017 Nissan Rogue and Infiniti Q50",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/16V244000#1",
+   "label": "VALID",
+   "reason": "Remedy section of the same recall names the Rogue vehicles that get reprogrammed.",
+   "evidence": "in Altima, Maxima, Murano, Rogue, and Sentra vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/17V663000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2016-2017 Nissan Rogue vehicles.",
+   "evidence": "is recalling certain 2016-2017 Nissan Rogue vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/21V839000#0",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "lead, the variant rule of held-out C4: the Vehicle row is one row per model name (key ROGUE), so a chunk about the '2017-2019 Rogue Hybrid' concerns the Rogue model under the model-line reading (blind: Recall names only the 2017-2019 Rogue Hybrid, a variant; the text could be read as the same 2017 Rogue model or as a distinct hybrid model.)",
+   "evidence": "is recalling certain 2017-2019 Rogue Hybrid vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/22V875000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2017 Rogue vehicles.",
+   "evidence": "is recalling certain 2017 Rogue vehicles.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Vehicle:ROGUE|record/Recall/23V093000#0",
+   "label": "VALID",
+   "reason": "Recall covers 2014-2020 Rogue, which includes model year 2017.",
+   "evidence": "is recalling certain 2014-2020 Rogue and 2017-2022 Rogue Sport vehicles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a3a07b3571c3a1bc|complaints/ford_escape_complaints.md#4",
+   "label": "VALID",
+   "reason": "Chunk describes the vehicle stalling, the concept itself.",
+   "evidence": "LESS THAN A WEEK LATER VEHICLE STARTED STALLING AT TRAFFIC LIGHTS AND HESITATING UPON ACCELERATION.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a3a07b3571c3a1bc|complaints/honda_civic_complaints.md#2",
+   "label": "VALID",
+   "reason": "Chunk names stalling as a result of the part failure.",
+   "evidence": "THE RESULT OF THIS PART FAILURE IS ENGINE FAILURE, AND/OR STALLING.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/ford_escape_complaints.md#1",
+   "label": "VALID",
+   "reason": "The complaint speaks of a repair visit and says no repairs were made.",
+   "evidence": "FIRST VISIT FOR REPAIR",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/honda_civic_complaints.md#4",
+   "label": "VALID",
+   "reason": "The complaint speaks of the missing fix and of the engine waiting to be repaired.",
+   "evidence": "CURRENTLY HONDA HAS NO FIX FOR VEHICLES AFFECTED.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/nissan_rogue_complaints.md#2",
+   "label": "VALID",
+   "reason": "The complaint speaks of waiting on an estimate for the repairs.",
+   "evidence": "I AM CURRENTLY WAITING ON THE ESTIMATE FOR THE REPAIRS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|complaints/subaru_outback_complaints.md#2",
+   "label": "VALID",
+   "reason": "The complaint asks for the steering problem to be fixed, which is a demand for a repair.",
+   "evidence": "THEY NEED TO FIX IT ASAP, TOO DANGEROUS.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/19V493000#1",
+   "label": "VALID",
+   "reason": "The remedy says dealers will repair the vehicles or buy them back.",
+   "evidence": "dealers will inspect the vehicles and repair or repurchase the vehicle",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/20V331000#0",
+   "label": "VALID",
+   "reason": "The summary says an earlier repair under previous recalls may not have been done properly.",
+   "evidence": "however the repair may not have been completed properly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/20V331000#1",
+   "label": "VALID",
+   "reason": "The remedy has dealers check whether the earlier repair was done correctly and replace latches.",
+   "evidence": "confirm if the repair was done correctly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7e0464f9367d47a|record/Recall/22V875000#0",
+   "label": "VALID",
+   "reason": "The remedy says dealers will repair any corroded connector.",
+   "evidence": "Dealers will apply grease and repair any corroded connector as necessary",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bb6393ec8c06687b|record/Recall/16V074000#0",
+   "label": "VALID",
+   "reason": "Chunk states the defect of piston assemblies manufactured without a circlip.",
+   "evidence": "may have been manufactured without a piston wrist pin circlip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bcd2b324709cde8c|record/Recall/16V074000#0",
+   "label": "VALID",
+   "reason": "Chunk speaks of the engines' piston assemblies.",
+   "evidence": "The affected vehicles have engines with piston assemblies",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bcd2b324709cde8c|record/Recall/16V074000#1",
+   "label": "VALID",
+   "reason": "Remedy says dealers will inspect and replace the piston assemblies.",
+   "evidence": "dealers will inspect and replace the piston assemblies and damaged engine components",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V244000#0",
+   "label": "VALID",
+   "reason": "Chunk names the load capacity label and its defect.",
+   "evidence": "The text on the load capacity label may become illegible.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V244000#1",
+   "label": "VALID",
+   "reason": "Remedy provides corrected load carrying capacity labels, the same kind of label.",
+   "evidence": "dealers will provide corrected load carrying capacity modification labels",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c0c2673d3f8b7c70|record/Recall/19V503000#0",
+   "label": "VALID",
+   "reason": "Chunk speaks of a load carrying capacity label, the same kind of thing.",
+   "evidence": "The load carrying capacity modification label may be incorrect.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c51b8e1befac9170|complaints/nissan_rogue_complaints.md#3",
+   "label": "VALID",
+   "reason": "The chunk describes exactly this problem: the transmission switching to reverse on its own.",
+   "evidence": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d0120b8dd3d9d003|complaints/honda_civic_complaints.md#1",
+   "label": "VALID",
+   "reason": "The complaint says a rear end collision was narrowly avoided, so it speaks of that kind of problem (a near occurrence of it).",
+   "evidence": "A REAR END COLLISION WAS NARROWLY AVOIDED IN ONE CASE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d12bbec865c32e78|complaints/subaru_outback_complaints.md#0",
+   "label": "VALID",
+   "reason": "Complaint is about a windshield crack.",
+   "evidence": "WINDSHIELD CRACK APPEARED OVERNIGHT ON THE 4TH DAY OF OWNERSHIP.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d12bbec865c32e78|complaints/subaru_outback_complaints.md#3",
+   "label": "VALID",
+   "reason": "Complaint is about a windshield cracking.",
+   "evidence": "WINDSHIELD SPONTANEOUSLY CRACKED AT THE BASE OF THE WINDSHIELD",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:dd7dcc68006edfd3|record/Recall/16V074000#0",
+   "label": "VALID",
+   "reason": "Chunk names the incorrectly installed piston wrist pin circlip defect.",
+   "evidence": "or with an incorrectly installed piston wrist pin circlip.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e36bf7955b2df7cd|complaints/ford_escape_complaints.md#3",
+   "label": "VALID",
+   "reason": "The complaint reports this kind of problem: the vehicle crashed into a wall.",
+   "evidence": "THE VEHICLE CRASHED INTO A WALL AND THE AIR BAGS FAILED TO DEPLOY.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e36bf7955b2df7cd|complaints/nissan_rogue_complaints.md#2",
+   "label": "VALID",
+   "reason": "The car failed to stop and hit a concrete wall, which is a crash into a wall, the concept the start names.",
+   "evidence": "I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ed279b0392ad7dfd|record/Recall/23V858000#0",
+   "label": "VALID",
+   "reason": "Chunk states the fuel pump may fail.",
+   "evidence": "The fuel pump inside the fuel tank may fail.",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "p:1564c38a98a6b3cb|record/Recall/20V373000#0",
+  "p:381007737b925cd0|record/Recall/19V244000#0",
+  "p:4298d859bece1a5d|record/Recall/23V858000#0",
+  "p:4401d9e338ced22a|complaints/ford_escape_complaints.md#3",
+  "p:4401d9e338ced22a|record/Recall/26V332000#0",
+  "p:4fceafc144c3a6db|record/Recall/23V858000#1",
+  "p:6e37aa8131abfb79|complaints/honda_civic_complaints.md#4",
+  "p:6e37aa8131abfb79|complaints/toyota_rav4_complaints.md#1",
+  "p:Vehicle:ESCAPE|complaints/ford_escape_complaints.md#3",
+  "p:Vehicle:ESCAPE|record/Recall/16V643000#0",
+  "p:Vehicle:ESCAPE|record/Recall/26V011000#0",
+  "p:Vehicle:OUTBACK|complaints/subaru_outback_complaints.md#1",
+  "p:a7e0464f9367d47a|complaints/ford_escape_complaints.md#1",
+  "p:d0120b8dd3d9d003|complaints/honda_civic_complaints.md#1",
+  "p:dd7dcc68006edfd3|record/Recall/16V074000#0"
+ ],
+ "changes": []
+}

@@ -234,8 +234,9 @@ def test_a_replayed_pass_is_scored_in_place_of_the_builds_own(tmp_path):
     assert (run.logged_metrics["recall_hits"], run.logged_metrics["recall_candidates"]) == (3, 0)
 
 
-# --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold) and of R105
-# (the R104 pass replayed on R102's builds) ------------------------------------------------------------------
+# --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold), of R105
+# (the R104 pass replayed on R102's builds) and of R109 (held-out without the recall documents' derived
+# claims: R103's pass and one finding more, a precision sample that draws 26 other items) -----------------
 
 R102 = Path(__file__).resolve().parent / "gold" / "r102"
 # (exact recall, recall with the judged mapping, judged precision) as k/n; the r77d builds have no pass
@@ -248,6 +249,7 @@ REPORTED = {
     ("heldout", "r102"): ((94, 125), (111, 125), (51, 55)),
     ("heldout", "r105"): ((98, 125), (112, 125), (51, 59)),
     ("heldout", "r103"): ((100, 125), (116, 125), (55, 59)),
+    ("heldout", "r109"): ((100, 125), (116, 125), (52, 59)),
     ("generality", "r77d"): ((37, 109), (49, 109), None),
     ("generality", "r102"): ((80, 109), (97, 109), (41, 58)),
     ("generality", "r105"): ((85, 109), (99, 109), (53, 60)),
@@ -257,7 +259,7 @@ REPORTED = {
 
 @pytest.mark.parametrize(("dataset", "build"), sorted(REPORTED))
 def test_mention_verdicts_answer_their_sheets_and_score_as_reported(dataset, build):
-    folder = R102.parent / (build if build in ("r103", "r105") else "r102") / dataset
+    folder = R102.parent / (build if build in ("r103", "r105", "r109") else "r102") / dataset
     sheet = MentionSheet.model_validate_json(
         (folder / f"mentions_{build}_sheet.json").read_text(encoding="utf-8")
     )

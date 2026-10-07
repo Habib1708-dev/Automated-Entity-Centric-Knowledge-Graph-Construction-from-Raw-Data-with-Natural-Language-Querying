@@ -31,6 +31,9 @@ join of the two cars gone, held-out's two record links still failing C3, and one
 R108's (record links only context confirms, left to the chooser) must carry R107's verdicts for every
 item, with no new item to judge, and score as reported: held-out's C3 hard rule passes, no wrong record
 link left.
+R109's (held-out without the recall documents' derived claims) must carry R108's verdicts for every item,
+with no new item to judge, and score as R108 but for the 29 flagged links of the removed recall-number
+mentions.
 No Neo4j, no LLM.
 """
 
@@ -1111,3 +1114,34 @@ def test_r108_verdicts_are_r107s_and_held_out_passes_c3_without_a_wrong_record_l
     )
     assert report.final.c4.incorrect == []  # every record link judged right; held-out lost 6 of 83 (2 wrong)
     assert report.metrics()["c4_precision_n"] == {"furniture": 63, "heldout": 77, "generality": 48}[dataset]
+
+
+# --- the committed results of R109 (a derived claim's object is a record of its object type) ---------------
+
+R109 = GOLD / "r109"
+
+
+def test_r109_verdicts_are_r108s_and_only_the_recall_number_mentions_left():
+    """Held-out only: furniture and generality are R108's builds, unchanged by the rule."""
+    base, earlier_base = R109 / "heldout", R108 / "heldout"
+    for name, model in SHEET_MODELS.items():
+        file = load_verdicts(base / f"{name}_verdicts.json", _ids(base, name))
+        check_evidence(model.model_validate_json((base / f"{name}_sheet.json").read_text("utf-8")), file)
+        old = load_verdicts(earlier_base / f"{name}_verdicts.json", _ids(earlier_base, name))
+        before, after = _sheet_items(earlier_base, name), _sheet_items(base, name)
+        assert all(before.get(i) == item for i, item in after.items())  # no new or changed item: none judged
+        final, earlier = file.final(), old.final()
+        assert all(final[i] == earlier[i] for i in after) and file.changes == []
+    report = JudgedReport.model_validate_json((base / "anchor_judged.json").read_text(encoding="utf-8"))
+    r108 = JudgedReport.model_validate_json((earlier_base / "anchor_judged.json").read_text(encoding="utf-8"))
+    assert report.final.c3.hard_passed and report.final.c4.hard_passed
+    assert all(report.final.c6.hard_passed.values())
+    # R108's 29 label-mismatch flags were the derived Vehicle mentions named like their recall's key, judged
+    # to refer to that recall; with no such mention left, every other judged score is R108's
+    after, before = report.metrics(), r108.metrics()
+    flagged = {k for k in before if k.startswith(("c4_unlinked_refers", "c4_flag_label_mismatch"))}
+    assert (before["c4_flag_label_mismatch"], before["c4_unlinked_refers_n"]) == (29, 29)
+    assert after["c4_unlinked_refers_n"] == 0 and "c4_flag_label_mismatch" not in after
+    assert {k: v for k, v in after.items() if k not in flagged} == {
+        k: v for k, v in before.items() if k not in flagged
+    }

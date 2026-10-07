@@ -6395,7 +6395,7 @@ alone:
   criterion regressed. **The refinement arm stops at R108** (the user's decision, 2026-10-07): what it
   leaves is recorded under "Known limitations" below as future work, not optimised now.
 
-### R109. A derived claim's object is a record of its object type (started 2026-10-07; bug fix)
+### R109. A derived claim's object is a record of its object type (done 2026-10-07; $0.0037; bug fix)
 A bug fix the user chose on 2026-10-07 ("option 1"), separate from the closed refinement arm (its four known
 limitations are not touched). `resolution/derivation.py` writes, for each fact type the text schema marks
 `derived`, a claim from every subject mention of a document to the node that document is ABOUT. On held-out
@@ -6473,6 +6473,68 @@ way" entry "Derivation mistargets record documents" (R67 part 3) is this bug.
   position). Sheets, code sides, anchor reports, fidelity and code checks committed in
   `tests/gold/r109/heldout/` before any verdict; test
   `test_r109_sheets_keep_r108s_items_but_the_links_of_the_recall_number_mentions`.
+- **Part c: judging and results (done 2026-10-07, $0).** Judge: Claude Opus 5.5; rules
+  `tests/gold/r93/rules/c3.md`, `c4.md`, `c6.md`, `tests/gold/r103/mention_judge_rules.md`. Every C3 (102),
+  C4 (77) and C6 (156) item carries R108's verdict; the mention sheet's 16 recall candidates and 34 kept
+  precision items carry R103's. The 26 new precision items were judged in 2 blind batches of 13 (one Opus
+  subagent each, seeing only the rules and its batch): 23 VALID, 3 INCORRECT ("PARKED" in "THE CARS SITS
+  PARKED 2 DAYS", ordinary use; "OBJECT" in "MISTOOK THE BRIDGE FOR AN OBJECT", generic; "SYSTEM", a
+  fragment of "FRONT CAMERA SYSTEM"). The lead read all 26 and reviewed every INCORRECT, AMBIGUOUS and
+  UNJUDGEABLE verdict and the seeded 10 % of VALID ones (52 items, 45 carried): **no change**. `kg
+  anchor-judged` (MLflow `91cb1170`) and `kg mention-eval --verdicts` (`4ba4b210`) on `out/r109_heldout`.
+
+  | Held-out (R108 -> R109) | R108 | R109 |
+  |---|---|---|
+  | derived claims | 135 | **38** |
+  | derived claims whose object is not a record of the object type (the bug) | 97 | **0** |
+  | derived claims judged right (R110's blind claim verdicts; the 38 kept are byte-identical) | 38/135 | **38/38** |
+  | Vehicle individuals named after a recall number | 29 | **0** |
+  | code check: label-mismatch flags (a `Vehicle` mention named like its recall's key) | 29 | **0** |
+  | C0 fidelity; C1 provenance | pass; 1.0 | pass; 1.0 |
+  | **C3 hard rule**; record links wrong; individual / concept wrong merges; wrong splits | pass; 0; 0 / 2; 1 | pass; 0; 0 / 2; 1 |
+  | C4 precision (hard rule) | 77/77 (pass) | 77/77 (pass) |
+  | C6 purity arm A / B (hard rule) | 1.0 / 1.0 (pass) | 1.0 / 1.0 (pass) |
+  | C2 targets at rank 1 | 52/65 = 0.800 | **53/65 = 0.815** |
+  | C5 end to end complete@10 / @5, A vs vector (p) | 24 vs 26 (0.688) / 22 vs 26 (0.289) | unchanged |
+  | C5 gold start complete@10, A vs vector (p) | 26 vs 26 (1.0) | unchanged |
+  | C7 hubs | 0 | 0 |
+  | C8 gold connections reached; unwitnessed hops | 16/16; 0 | 16/16; 0 |
+  | C9 nodes / edges per chunk | 22.73 / 31.38 | 22.04 / 30.38 |
+  | mention recall of the R101 gold, exact; judged mapping | 100/125; 116/125 | 100/125; 116/125 |
+  | pass precision, judged sample | 55/59 = 0.932 [0.838, 0.973] (R103's) | 52/59 = 0.881 [0.775, 0.941] |
+  | attachments (claims attached / total) | 3560 (665 / 665) | 3263 (568 / 568) |
+
+  Furniture and generality: C0 passes on their R108 builds with the new code, snapshots byte-identical
+  (part b); every other criterion is R108's by construction.
+
+  Read with care:
+  - **The bug is gone and nothing else moved:** the 97 removed claims are exactly the ones R110's blind
+    judges called INCORRECT ("fuel pump assembly INSTALLED_IN 20V682000"); the 38 kept, on the 5 complaint
+    files, are R108's byte for byte ("PADS INSTALLED_IN 2015 FORD ESCAPE", from "3RD TIME, PADS CHANGED AND
+    ROTORS MACHINED."). Every judged C3, C4 and C6 score equals R108's but the 29 label-mismatch items: in
+    R108 the code flagged each derived `Vehicle` mention "17V472000" as named like the record
+    `Recall:17V472000` of its own document, and the judges confirmed each refers to that recall.
+  - **No source link lost:** all 29 recall documents are ABOUT their own Recall record; each of the 97
+    removed claims' subject mentions is still MENTIONED by its chunk, all through an extracted claim (18 as
+    its subject, 79 as its object); the recall numbers stay findable as the `Recall` records and their
+    extracted `Recall` mentions.
+  - **C2 gains one target:** "20V373000" (question H38) ranked second in R108, behind the fake `Vehicle`
+    individual "20V373000"; now the recall record is first. Two others ("22S25", "19V493000") move from rank
+    3 to 2 for the same reason.
+  - **Pass precision 0.932 -> 0.881 is a resampling, not a change of the pass:** 594 of the 595 pass
+    findings are R103's and the one new ("placement") is not in the sample; the seeded sampler redrew 26 of
+    the 60 items (Found along the way), 3 of which are wrong. Both draws together, 86 items of one pass:
+    78/85 = 0.918. The intervals overlap; R101's bound (0.90) is met by R103's draw and by the union,
+    missed by this draw.
+  - **Why only 2 pass prompts changed:** see part b; the estimate ($0.10-0.25) assumed 54 changed prompts.
+  - Gold and verdicts come from one model family (Claude).
+  - Committed: verdict files, `anchor_judged.json`, the mention verdicts and report in
+    `tests/gold/r109/heldout/`; tests `test_r109_verdicts_are_r108s_and_only_the_recall_number_mentions_left`
+    (tests/test_anchor_judging.py) and R109's row of `test_mention_verdicts_answer_their_sheets_and_score_as_reported`.
+- **R109 done 2026-10-07** ($0.0037). Every "done when" holds: 0 of 38 derived claims point at a node of
+  another label (was 97 of 135) and the complaint documents' 38 are unchanged; furniture and generality pass
+  C0 on their R108 builds; no source link is lost; held-out passes every hard rule (C3, C4, C6); C2, C5 and
+  C8 are not worse (C2 gains one target); mention recall is R108's.
 
 ### R110. Today's claims judged: every stored claim, strict and content precision (done 2026-10-07; $0, no run)
 The user, 2026-10-07: keep the claim layer (it may make structured querying more robust) and judge the
@@ -6941,6 +7003,13 @@ with its evidence and the direction a later step would take:
   on a document ABOUT a record of another label, derive onto the records of the object type that record is
   related to, when exactly one is; a recall covering several models would give one claim per model, which
   the text does not state, so the rule needs its own measurement.
+- **The pass's precision sample is redrawn by any change in its mention set (found in R109).**
+  `mention_eval.precision_sample` is `random.Random(102).sample` over the pass mentions in id order, so one
+  added mention shifts every later position: R109's one new finding redrew 26 of held-out's 60 items, and
+  precision read 52/59 against R103's 55/59 for the same pass output (both draws together 78/85). A
+  comparison of pass precision between builds then mixes the pass's change with sampling. Candidate: draw
+  by a seeded hash of each mention id (the 60 lowest), so an unchanged mention keeps its place; a change of
+  the sample, so it needs its own step and keeps the committed sheets as they are.
 - **Two recall documents extracted zero facts (found in R67 part 3).** `16V074000` and `17V472000`: 2
   well-formed chunks each, 0 triples proposed and 0 rejected in both passes (Gemini returned empty lists).
   Candidate: a repair pass for documents with 0 facts, or accept as model variance and measure its rate.
