@@ -6474,7 +6474,7 @@ way" entry "Derivation mistargets record documents" (R67 part 3) is this bug.
   `tests/gold/r109/heldout/` before any verdict; test
   `test_r109_sheets_keep_r108s_items_but_the_links_of_the_recall_number_mentions`.
 
-### R110. Today's claims judged: every stored claim, strict and content precision (started 2026-10-07; $0, no run)
+### R110. Today's claims judged: every stored claim, strict and content precision (done 2026-10-07; $0, no run)
 The user, 2026-10-07: keep the claim layer (it may make structured querying more robust) and judge the
 correctness and validity of the claims of the latest run. Those are R103's re-extracted claims, replayed
 unchanged into R107 and R108 (`out/r108_<ds>/triples.jsonl` byte-identical to R103's). Claim precision was
@@ -6520,6 +6520,70 @@ another session holds R109 (a derivation fix).
     derived; 70 chunks), held-out 665 (530 / 135; 79 chunks), generality 216 (216 / 0; 31 chunks); no id
     shared by two claims. MLflow `claim_eval` runs `449a5306` (furniture), `a0225324` (held-out),
     `d7df0e3a` (generality).
+  - Committed at `76cc57f`.
+- **Part b: judging, review, scores and results (done 2026-10-07, $0: no API call, no pipeline run).**
+  - **Blind judging:** 20 batches of whole documents (23-100 claims each), one Claude Opus 5.5 subagent per
+    batch, each seeing only the rules and its batch; a batch checker (every claim answered in order, known
+    labels and faults, every quote in its chunk by `norm`) passed on all 20. Blind labels (VALID /
+    VALID_ALTERNATIVE / INCORRECT / AMBIGUOUS): furniture extracted 472 / 5 / 53 / 1, derived 138 / 0 / 16 / 0;
+    held-out extracted 494 / 3 / 33 / 0, derived 38 / 0 / 97 / 0; generality 200 / 1 / 15 / 0.
+  - **Lead review** (every INCORRECT, AMBIGUOUS and UNJUDGEABLE verdict and the seeded 10 % of the blind VALID
+    ones: 184 / 243 / 35 items). Two consistency rulings where the batches split, applied to every claim of
+    the pattern, each change recorded with its blind label:
+    1. A recall's own link (`ADDRESSES_PROBLEM`, `COVERS_COMPONENT`) stored possible or conditional because the
+       defect is hedged ("may") or the remedy says "if necessary": INCORRECT, `modality` (and `condition` when
+       one is stored). The recall's link is certain; only the defect is hedged ("20V218000 ADDRESSES_PROBLEM
+       inoperative", possible, from "The low pressure fuel pump may become inoperative"). 32 claims; 17 blind
+       VALID changed (the batches split 4 strict, 2 lenient, 1 mixed).
+    2. A quality only of the assembly stored as a quality of the product ("Linköping Bed EXHIBITS
+       straightforward" from "Assembly was straightforward"): INCORRECT, `wrong_entity`; read as a sentence the
+       claim says the bed is straightforward. 11 claims; 7 blind VALID changed (4 batches lenient, 2 strict).
+       A claim whose object keeps the aspect ("assembly was super easy") stays VALID.
+    Also a `condition` fault added to three single past events stored conditional ("WHEN THE CONTACT
+    ATTEMPTED TO SHIFT ... THE GEAR SHIFTER CAME OUT": R77 reads such a when-clause as time), no label change.
+    Every other reviewed verdict confirmed. The review sample was first drawn from the labels after the
+    rulings; `load_verdicts` refused the file, and the sample of the blind labels was then reviewed.
+  - **Scores:** `kg claim-eval --verdicts` on `out/r108_<ds>`, run in a worktree at `76cc57f` (clean): R109's
+    `584f952` changes how derivation is replayed, so at the branch head the snapshot of R108's held-out build
+    no longer passes C0. MLflow `claim_eval` runs `6a95cec4` (furniture), `1ec7cfcd` (held-out), `959090dd`
+    (generality); verdicts and reports committed as `tests/gold/r110/<ds>/claim_verdicts.json`,
+    `claim_report.json`. Test `test_r110_verdicts_answer_their_sheets_and_score_as_reported`.
+
+  | Judge: Claude Opus 5.5; precision with Wilson 95 % | furniture | held-out | generality |
+  |---|---|---|---|
+  | extracted, **strict** (every stored field right) | 470/530 = **0.887** [0.857, 0.911] | 480/530 = **0.906** [0.878, 0.928] | 201/216 = **0.931** [0.889, 0.957] |
+  | extracted, **content** (the triple right) | 490/530 = **0.925** [0.899, 0.944] | 520/530 = **0.981** [0.966, 0.990] | 207/216 = **0.958** [0.923, 0.978] |
+  | derived, strict / content | 138/154 = 0.896 / 140/154 = 0.909 | **38/135 = 0.281** [0.212, 0.363] | none derived |
+  | AMBIGUOUS left out | 1 | 0 | 0 |
+  | weakest relation (strict) | `HAS_MEASUREMENT` 24/47 | `INSTALLED_IN` 38/135, `ADDRESSES_PROBLEM` 24/46 | `SERVICES` 5/7 |
+
+  Read with care:
+  - **Held-out derived claims, 97 of 135 wrong, one cause:** on the 29 recall records the document is about a
+    Recall record, and derivation states "part INSTALLED_IN <recall number>" with the recall number typed
+    `Vehicle` ("fuel pump assembly INSTALLED_IN 20V682000"); all 38 derived claims of complaint documents are
+    right ("TRANSMISSION INSTALLED_IN 2015 FORD ESCAPE"). R109 (`584f952`, another session) removes exactly
+    these: a derived claim's object must be a record of its object type.
+  - **Held-out extracted: 38 of its 50 errors are modality or condition only** (ruling 1, and three when-clauses
+    stored as conditions); the triples themselves are right in 520 of 530.
+  - **Furniture: 23 of the 60 extracted errors are a reviewer's assembly time stored as a measurement of the
+    product** ("Linköping Bed HAS_MEASUREMENT 2 hours" from "Assembly took about 2 hours with two people"; the
+    bed "measures" 2, 2.5, 4 and 2 hours); 19 are type only (things that are no piece typed `Component`:
+    "instructions", "tools", "fabric", "wood", "back angle"), and derivation repeats them as 16 wrong
+    `PART_OF` claims ("instructions PART_OF Västerås Bookshelf"). Also: qualities of one aspect lifted onto the
+    product ("Malmö Desk EXHIBITS perfect" from "The dimensions are perfect"), the review page as the subject
+    ("Helsingborg Dresser Reviews EXHIBITS somewhat functional").
+  - **Generality: numbers that mean something else** ("HP40-1183 HAS_MEASUREMENT 65 °C", the alarm limit, the
+    reading being 71 °C; "works HAS_COST 12,000 pounds", a saving) and **times of another event** (6: "Rosa
+    Delgado SERVICES HP40-1183, within two weeks", the deadline of a later replacement).
+  - **Not comparable one to one with R66 / R68** (judge precision 0.990 furniture, 0.960 held-out Gemini;
+    Claude Fable 5.1, the triple only): another judge model, rules that also judge truth, modality,
+    condition, tone, time and end types, and a re-extracted build with R77's assertion fields. Content
+    precision is the nearest number.
+  - Precision only: no gold, so no recall of claims here (R68 / R77 measured it on sentence samples). Every
+    claim was judged against its own text by one model family (Claude), which also wrote the rules.
+  - **The sheets showed one type pair per relation** where the schema declares several (Found along the way);
+    no verdict rests on it (the two reasons that cite "the schema" are about fabric's entity type), and the
+    judges faulted no claim for its relation's type pair.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
@@ -6553,6 +6617,19 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **The claim sheet shows one type pair per relation (found in R110 part b, 2026-10-07; fixed in its own
+  commit).** `claim_sheet` keys `relations` by predicate, so a predicate the schema declares for several type
+  pairs keeps only the last: furniture `EXHIBITS`, `HAS_MEASUREMENT`, `MADE_OF` (Product and Component
+  subjects), generality `LOCATED_AT` (four subject types), `HAS_MEASUREMENT`, `HAS_COST`. Several judges then
+  read product-level claims as "outside the schema" (and faulted none for it); extraction refuses any type
+  pair the schema lacks (`text/extraction.py`, `allows_extraction`), so every stored claim fits one. The
+  committed R110 sheets stay as judged.
+- **Extraction errors R110 measured (found in R110 part b, 2026-10-07; open, the user's decision):**
+  a reviewer's assembly time stored as a measurement of the product (furniture, 23 claims: `HAS_MEASUREMENT`
+  24/47); a recall's own link stored with the defect's hedge (held-out, 32 claims, ruling 1); things that are
+  no piece typed `Component` ("instructions", "tools", "fabric", "wood", 19 extracted claims, repeated by
+  derivation as `PART_OF`); numbers that are limits, overruns or savings stored as values, and times of
+  another event (generality). The held-out recall-number `INSTALLED_IN` claims (97) are R109's.
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
   Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and
   North Station (generality). The precision errors that are the pass's own: individual or fallback types for

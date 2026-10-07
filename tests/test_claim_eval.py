@@ -3,11 +3,13 @@ claim (extracted and derived apart, each id once, every stored field, the chunks
 descriptions), the claim rules on a verdict file (a fault on every INCORRECT verdict, known faults only, every
 quote in its chunk), the scores (strict and content precision per origin, faults, per relation), and the stage
 on the graph audit's invented build (params, metrics, artifacts, its refusal of a file that breaks a rule).
-No Neo4j, no LLM.
+The committed R110 sheets and verdicts (tests/gold/r110) must answer each other under the review rules and
+score as reported. No Neo4j, no LLM.
 """
 
 import json
 from dataclasses import replace
+from pathlib import Path
 
 import pytest
 
@@ -18,7 +20,7 @@ from kgbuilder.pipeline.claim_stages import CLAIM_REPORT, CLAIM_SHEET, ClaimEval
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.text.schema import TextSchema
 from kgbuilder.text.subject_graph import ObservationRow
-from kgbuilder.validation.anchor_verdicts import Label, Verdict, VerdictFile, review_sample
+from kgbuilder.validation.anchor_verdicts import Label, Verdict, VerdictFile, load_verdicts, review_sample
 from kgbuilder.validation.claim_eval import (
     ClaimSheet,
     claim_item,
@@ -202,3 +204,28 @@ def test_the_stage_writes_the_sheet_of_a_build_and_scores_the_judges_file(tmp_pa
     path.write_text(file.model_copy(update={"verdicts": unquoted}).model_dump_json(), encoding="utf-8")
     with pytest.raises(EvaluationError):
         run_stages(ctx, replace(state, claim_verdicts=path), [ClaimEvalStage()])
+
+
+# What R110 reported for the three builds (REFACTOR_PLAN.md, R110 part b): strict and content precision per
+# origin, as (k, n)
+R110 = Path("tests/gold/r110")
+REPORTED = {
+    "furniture": {"extracted": ((470, 530), (490, 530)), "derived": ((138, 154), (140, 154))},
+    "heldout": {"extracted": ((480, 530), (520, 530)), "derived": ((38, 135), (38, 135))},
+    "generality": {"extracted": ((201, 216), (207, 216)), "derived": ((0, 0), (0, 0))},
+}
+
+
+@pytest.mark.parametrize("dataset", sorted(REPORTED))
+def test_r110_verdicts_answer_their_sheets_and_score_as_reported(dataset):
+    sheet = ClaimSheet.model_validate_json((R110 / dataset / "claim_sheet.json").read_text(encoding="utf-8"))
+    verdicts = load_verdicts(R110 / dataset / "claim_verdicts.json", sheet.to_judge())
+    assert claim_verdict_issues(sheet, verdicts) == []
+    scores = score_claims(sheet, verdicts)
+    # the committed report is the one `kg claim-eval --verdicts` wrote (MLflow claim_eval runs at 76cc57f)
+    logged = json.loads((R110 / dataset / "claim_report.json").read_text(encoding="utf-8"))
+    assert scores.model_dump(mode="json") == logged
+    for origin, (strict, content) in REPORTED[dataset].items():
+        o = scores.by_origin[origin]
+        assert (o.precision.k, o.precision.n) == strict
+        assert (o.content_precision.k, o.content_precision.n) == content

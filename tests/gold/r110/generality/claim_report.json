@@ -1,0 +1,170 @@
+{
+ "claims": 216,
+ "merged": 0,
+ "by_origin": {
+  "extracted": {
+   "claims": 216,
+   "ambiguous": 0,
+   "unjudgeable": 0,
+   "precision": {
+    "k": 201,
+    "n": 216,
+    "rate": 0.9305555555555556,
+    "low": 0.888595897559128,
+    "high": 0.9574678137675728
+   },
+   "content_precision": {
+    "k": 207,
+    "n": 216,
+    "rate": 0.9583333333333334,
+    "low": 0.9227215493218093,
+    "high": 0.9779269175743561
+   },
+   "faults": {
+    "not_in_text": 2,
+    "wrong_entity": 0,
+    "wrong_relation": 7,
+    "truth": 0,
+    "modality": 0,
+    "condition": 0,
+    "polarity": 0,
+    "time": 6,
+    "type": 0
+   },
+   "incorrect": [
+    "17acb512b5fb",
+    "26068e91456e",
+    "3097580d7fa1",
+    "31b91ec97805",
+    "4e25eeebd9e1",
+    "4e84bd1bc7e2",
+    "5c3c01e20cd6",
+    "99df4e7bdc47",
+    "bf4fabc72d91",
+    "cf988dd8f584",
+    "d2b4d7c07659",
+    "e45c4163cb6c",
+    "ef11e8eabe73",
+    "ef2d9a41549e",
+    "f9876ab8fb19"
+   ]
+  },
+  "derived": {
+   "claims": 0,
+   "ambiguous": 0,
+   "unjudgeable": 0,
+   "precision": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "low": null,
+    "high": null
+   },
+   "content_precision": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "low": null,
+    "high": null
+   },
+   "faults": {
+    "not_in_text": 0,
+    "wrong_entity": 0,
+    "wrong_relation": 0,
+    "truth": 0,
+    "modality": 0,
+    "condition": 0,
+    "polarity": 0,
+    "time": 0,
+    "type": 0
+   },
+   "incorrect": []
+  }
+ },
+ "by_relation": {
+  "AFFILIATED_WITH": {
+   "k": 19,
+   "n": 20,
+   "rate": 0.95,
+   "low": 0.7638641064874331,
+   "high": 0.9911187805671268
+  },
+  "COMPONENT_OF": {
+   "k": 11,
+   "n": 11,
+   "rate": 1.0,
+   "low": 0.7411599827511859,
+   "high": 1.0
+  },
+  "HAS_COST": {
+   "k": 11,
+   "n": 13,
+   "rate": 0.8461538461538461,
+   "low": 0.5776482949136899,
+   "high": 0.9567427368172621
+  },
+  "HAS_MEASUREMENT": {
+   "k": 36,
+   "n": 40,
+   "rate": 0.9,
+   "low": 0.7694792561952611,
+   "high": 0.9604211124044252
+  },
+  "INVOLVES_EQUIPMENT": {
+   "k": 5,
+   "n": 5,
+   "rate": 1.0,
+   "low": 0.5655085052479191,
+   "high": 1.0
+  },
+  "INVOLVES_PUMP": {
+   "k": 12,
+   "n": 13,
+   "rate": 0.9230769230769231,
+   "low": 0.6668546607175265,
+   "high": 0.9862899336203037
+  },
+  "LOCATED_AT": {
+   "k": 66,
+   "n": 71,
+   "rate": 0.9295774647887324,
+   "low": 0.8455078823270786,
+   "high": 0.9695468465937355
+  },
+  "OPERATES": {
+   "k": 3,
+   "n": 3,
+   "rate": 1.0,
+   "low": 0.43849391955098227,
+   "high": 1.0
+  },
+  "PARTICIPATED_IN": {
+   "k": 28,
+   "n": 28,
+   "rate": 1.0,
+   "low": 0.8793527963418923,
+   "high": 1.0
+  },
+  "RESPONSIBLE_FOR": {
+   "k": 4,
+   "n": 4,
+   "rate": 1.0,
+   "low": 0.5100999795960008,
+   "high": 1.0
+  },
+  "SERVICES": {
+   "k": 5,
+   "n": 7,
+   "rate": 0.7142857142857143,
+   "low": 0.35892909014821267,
+   "high": 0.9177828342909844
+  },
+  "SUPERVISES": {
+   "k": 1,
+   "n": 1,
+   "rate": 1.0,
+   "low": 0.20654329147389294,
+   "high": 1.0
+  }
+ }
+}

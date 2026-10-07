@@ -1,0 +1,4599 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-07",
+  "snapshot_hash": "e0e62eb06f6c",
+  "sheet": "tests/gold/r110/furniture/claim_sheet.json",
+  "sheet_hash": "1a0ea9f88044",
+  "sheets_git_sha": "76cc57f"
+ },
+ "criterion": "claims",
+ "verdicts": [
+  {
+   "id": "17345cd9389b",
+   "label": "VALID",
+   "reason": "the review says the table's quality is exceptional; 'quality', positive, paraphrases it",
+   "evidence": "The modern design is stunning yet timeless, and the quality is exceptional."
+  },
+  {
+   "id": "a0b7c14d97b5",
+   "label": "VALID",
+   "reason": "the text says the surface is surprisingly resistant to scratches",
+   "evidence": "The surface is easy to clean and surprisingly resistant to scratches."
+  },
+  {
+   "id": "a3e63ae1849e",
+   "label": "VALID",
+   "reason": "the text praises the table's modern design as stunning yet timeless",
+   "evidence": "The modern design is stunning yet timeless, and the quality is exceptional."
+  },
+  {
+   "id": "e35efc705498",
+   "label": "VALID",
+   "reason": "the text says the surface is easy to clean",
+   "evidence": "The surface is easy to clean and surprisingly resistant to scratches."
+  },
+  {
+   "id": "09abcb20147e",
+   "label": "VALID",
+   "reason": "the text says the Gothenburg Table looks beautiful",
+   "evidence": "The Gothenburg Table looks beautiful, I'll give it that."
+  },
+  {
+   "id": "2d3cba1ef133",
+   "label": "VALID",
+   "reason": "the text says assembly of the table was a nightmare; negative tone right",
+   "evidence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+  },
+  {
+   "id": "2d8de4969492",
+   "label": "VALID",
+   "reason": "the text says the table top shows fingerprints very easily",
+   "evidence": "The table top also shows fingerprints very easily which is annoying for daily use."
+  },
+  {
+   "id": "e0fb80e6b7b9",
+   "label": "VALID",
+   "reason": "the text says once assembled the table is sturdy enough; 'Once assembled' is the claim's time",
+   "evidence": "Once assembled, it's sturdy enough, but I expected better quality control for this price point."
+  },
+  {
+   "id": "e720ae06ad08",
+   "label": "VALID",
+   "reason": "the text says some pre-drilled holes didn't line up properly; the negation is carried by the name",
+   "evidence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+  },
+  {
+   "id": "279b0e032df6",
+   "label": "INCORRECT",
+   "reason": "the text does say the instructions were confusing, but instructions are a document, not a structural part, hardware or sub-unit of the table, stored as Component",
+   "evidence": "took off a star because it was kinda complicated to put together and the instructions were confusing.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "986951325cd8",
+   "label": "VALID",
+   "reason": "the text says now that it's built the table is perfect; time words match",
+   "evidence": "but now that it's built it's perfect and all my friends are jealous."
+  },
+  {
+   "id": "a86c4592d6c7",
+   "label": "VALID",
+   "reason": "the text says the table's finish is gorgeous; 'finish', positive, paraphrases it",
+   "evidence": "perfect size for my apartment and the finish is gorgeous."
+  },
+  {
+   "id": "c58f441828fa",
+   "label": "VALID",
+   "reason": "the text says the table is the perfect size for the writer's apartment",
+   "evidence": "perfect size for my apartment and the finish is gorgeous."
+  },
+  {
+   "id": "d907fb4facb3",
+   "label": "VALID",
+   "reason": "the text says the table was kinda complicated to put together; 'kinda' softens, it is no hedge of possibility",
+   "evidence": "took off a star because it was kinda complicated to put together and the instructions were confusing."
+  },
+  {
+   "id": "fe735ad3faef",
+   "label": "VALID",
+   "reason": "the writer loves the look of the table",
+   "evidence": "love love LOVE the look of this table!!"
+  },
+  {
+   "id": "33f6a4551590",
+   "label": "VALID",
+   "reason": "the text gives the table's dimensions as 180cm x 90cm",
+   "evidence": "The dimensions (180cm x 90cm) are perfect for seating 6-8 people comfortably."
+  },
+  {
+   "id": "48d56913c013",
+   "label": "VALID",
+   "reason": "the writer asserts the table will clearly last for decades; a confident prediction, stored actual is fine",
+   "evidence": "This table will clearly last for decades."
+  },
+  {
+   "id": "712646371134",
+   "label": "VALID",
+   "reason": "the writer needed a functional table and says the Gothenburg Table delivers on both counts",
+   "evidence": "I needed a table that was both functional and aesthetically pleasing. The Gothenburg Table delivers on both counts."
+  },
+  {
+   "id": "85c4b74be6ab",
+   "label": "VALID",
+   "reason": "the text says the table seats 6-8 people comfortably, a seating-capacity specification of the table",
+   "evidence": "The dimensions (180cm x 90cm) are perfect for seating 6-8 people comfortably."
+  },
+  {
+   "id": "a0b518f0ee2d",
+   "label": "VALID",
+   "reason": "the text says assembly of the table was straightforward",
+   "evidence": "Assembly was straightforward with clear instructions."
+  },
+  {
+   "id": "b7d9c9e70341",
+   "label": "VALID",
+   "reason": "the text says the joinery is impeccable",
+   "evidence": "The solid wood construction gives it a substantial feel, and the joinery is impeccable."
+  },
+  {
+   "id": "d968a5a6456a",
+   "label": "VALID",
+   "reason": "the text says the construction gives the table a substantial feel",
+   "evidence": "The solid wood construction gives it a substantial feel, and the joinery is impeccable."
+  },
+  {
+   "id": "e7bb1e0f2672",
+   "label": "VALID",
+   "reason": "the text says the table has solid wood construction",
+   "evidence": "The solid wood construction gives it a substantial feel, and the joinery is impeccable."
+  },
+  {
+   "id": "f292990bb871",
+   "label": "VALID",
+   "reason": "the writer needed an aesthetically pleasing table and says the Gothenburg Table delivers on both counts",
+   "evidence": "I needed a table that was both functional and aesthetically pleasing. The Gothenburg Table delivers on both counts."
+  },
+  {
+   "id": "f9b6aac2330a",
+   "label": "VALID",
+   "reason": "the text says the finish has a subtle matte quality that highlights the grain",
+   "evidence": "The finish has a subtle matte quality that highlights the natural grain patterns."
+  },
+  {
+   "id": "7c46b756fb93",
+   "label": "VALID",
+   "reason": "the text says the table arrived with a small dent",
+   "evidence": "The table arrived with a small dent on one edge"
+  },
+  {
+   "id": "b5ef4c51bb89",
+   "label": "VALID",
+   "reason": "the text says the table wobbles slightly",
+   "evidence": "The table also wobbles slightly on my hardwood floor despite multiple attempts to adjust it."
+  },
+  {
+   "id": "f0d7fbfad1fa",
+   "label": "VALID",
+   "reason": "the text says there is a small dent on one edge",
+   "evidence": "The table arrived with a small dent on one edge"
+  },
+  {
+   "id": "0b9e646ef306",
+   "label": "VALID",
+   "reason": "the text says the surface cleans easily",
+   "evidence": "The surface cleans easily and has resisted stains from art projects and spilled drinks."
+  },
+  {
+   "id": "70e01a805371",
+   "label": "VALID",
+   "reason": "the text says the design is simple yet elegant",
+   "evidence": "The design is simple yet elegant - exactly what we wanted."
+  },
+  {
+   "id": "84b3ec8eb0d7",
+   "label": "VALID",
+   "reason": "the surface has resisted stains, so 'surface shows stains', negated, holds; positive tone right",
+   "evidence": "The surface cleans easily and has resisted stains from art projects and spilled drinks."
+  },
+  {
+   "id": "960b988dc948",
+   "label": "INCORRECT",
+   "reason": "the text does say the included tools were adequate, but assembly tools are separate accessories, not a part or sub-unit of the table, stored as Component",
+   "evidence": "Assembly was straightforward and the included tools were adequate.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "cc50a56d06d5",
+   "label": "VALID",
+   "reason": "the text says the table shows no signs of wear; stored negated with 'no'",
+   "evidence": "It's held up beautifully with no signs of wear."
+  },
+  {
+   "id": "f3b685ec71d0",
+   "label": "VALID",
+   "reason": "the text says assembly was straightforward",
+   "evidence": "Assembly was straightforward and the included tools were adequate."
+  },
+  {
+   "id": "098c8d25e223",
+   "label": "VALID",
+   "reason": "the text says the finish is smooth",
+   "evidence": "The wood grain is beautiful and the finish is smooth."
+  },
+  {
+   "id": "1302745cd04c",
+   "label": "VALID",
+   "reason": "the text calls it a good quality table",
+   "evidence": "Good quality table that looks more expensive than it is."
+  },
+  {
+   "id": "2991481cf0b5",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says assembling the table definitely needs two people; 'needs two people' is a compressed paraphrase)",
+   "evidence": "Assembly was straightforward but definitely needs two people.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "6062a7ebd2c6",
+   "label": "VALID",
+   "reason": "the text says assembly was straightforward",
+   "evidence": "Assembly was straightforward but definitely needs two people."
+  },
+  {
+   "id": "d8e4af502545",
+   "label": "INCORRECT",
+   "reason": "the text does say the wood grain is beautiful, but wood grain is a characteristic of the material, not a structural part, hardware or sub-unit, stored as Component",
+   "evidence": "The wood grain is beautiful and the finish is smooth.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "ec297afc4562",
+   "label": "VALID",
+   "reason": "the text says the table scratches a bit more easily than the writer would like",
+   "evidence": "I'm taking off one star because it scratches a bit more easily than I'd like, but overall I'm happy with the purchase."
+  },
+  {
+   "id": "f58a948f0048",
+   "label": "VALID",
+   "reason": "the text says the table looks more expensive than it is",
+   "evidence": "Good quality table that looks more expensive than it is."
+  },
+  {
+   "id": "1a0aed24ef79",
+   "label": "INCORRECT",
+   "reason": "the text does say the instructions were confusing, but instructions are stored as a Component; an instruction sheet is no structural part, hardware or functional sub-unit of the product",
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "1ab0b6244fba",
+   "label": "VALID",
+   "reason": "the writer says the dresser's assembly was a complete nightmare; negative",
+   "evidence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare."
+  },
+  {
+   "id": "3fcd3874c278",
+   "label": "VALID",
+   "reason": "the writer says the Helsingborg Dresser looks nice; positive",
+   "evidence": "The Helsingborg Dresser looks nice in my bedroom, but wow, the assembly was a complete nightmare."
+  },
+  {
+   "id": "5ebade457735",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'They constantly stick' follows both 'the drawer rails' (the topic) and 'the drawers' (nearest noun); read as the rails, the claim holds",
+   "evidence": "They constantly stick and make an annoying scraping sound."
+  },
+  {
+   "id": "74f32632243c",
+   "label": "VALID",
+   "reason": "the text says many pre-drilled holes didn't line up correctly; stored negated",
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+  },
+  {
+   "id": "967ef4b4a07b",
+   "label": "VALID",
+   "reason": "the text says the drawer rails seem poorly manufactured; stored possible with hedge 'seem', a fair reading",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+  },
+  {
+   "id": "c0d4756c5f3c",
+   "label": "VALID",
+   "reason": "the text says the rails don't allow the drawers to slide smoothly; stored negated, actual",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+  },
+  {
+   "id": "eacd91c6d0cb",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'They ... make an annoying scraping sound' may refer to the drawer rails (the topic) or the drawers; read as the rails, the claim holds",
+   "evidence": "They constantly stick and make an annoying scraping sound."
+  },
+  {
+   "id": "1831ce1ef233",
+   "label": "VALID",
+   "reason": "the text says the drawer rails had rough sliding mechanisms",
+   "evidence": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+  },
+  {
+   "id": "1977a107c5b9",
+   "label": "VALID",
+   "reason": "the rails' 'uneven metal edges' state that the rails are metal",
+   "evidence": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+  },
+  {
+   "id": "297ae97a740c",
+   "label": "VALID",
+   "reason": "the text says the drawer rails had uneven metal edges",
+   "evidence": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+  },
+  {
+   "id": "85ce2068d62f",
+   "label": "VALID",
+   "reason": "the text says the rails wouldn't align properly when the writer tried to install them; negated, with the installation as condition",
+   "evidence": "When I tried to install them, they wouldn't align properly no matter what I did."
+  },
+  {
+   "id": "ad4400792237",
+   "label": "VALID",
+   "reason": "the text says the drawer rails were clearly defective",
+   "evidence": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+  },
+  {
+   "id": "bd858670c697",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the dresser; the 3 hours is the time the writer spent trying to assemble it",
+   "evidence": "I spent 3 hours trying to assemble this dresser before GIVING UP.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "d45a1b60f9c2",
+   "label": "VALID",
+   "reason": "the writer's opening exclamation about this dresser and its assembly; an opinion, negative",
+   "evidence": "ABSOLUTELY INFURIATING!!! I spent 3 hours trying to assemble this dresser before GIVING UP."
+  },
+  {
+   "id": "1a16d8126641",
+   "label": "VALID",
+   "reason": "the text says they still couldn't get the drawers to slide right; negated",
+   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right."
+  },
+  {
+   "id": "1c4dea6ef573",
+   "label": "INCORRECT",
+   "reason": "the text says the dresser ('it') was made somewhat functional; the subject stored is 'Helsingborg Dresser Reviews', the review page, not the product",
+   "evidence": "ended up having to use random screws i had lying around and file down the rails just to make it somewhat functional.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "35c11ef18f2c",
+   "label": "VALID",
+   "reason": "the text says the drawers still stick",
+   "evidence": "drawers still stick and make this horrible metal-on-metal sound."
+  },
+  {
+   "id": "38307c39e27e",
+   "label": "VALID",
+   "reason": "the text says half the screws didn't fit where they were supposed to; negated",
+   "evidence": "instructions made no sense and half the screws didn't fit where they were supposed to."
+  },
+  {
+   "id": "3bd41048a88e",
+   "label": "VALID",
+   "reason": "the drawers slide on the metal rails: a physical interface between the two",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "464535fb6ef8",
+   "label": "VALID",
+   "reason": "the writer says the dresser's assembly was the worst experience ever",
+   "evidence": "dresser looks ok i guess but assembly was the worst experience ever."
+  },
+  {
+   "id": "51a238f4e4d7",
+   "label": "VALID",
+   "reason": "the text says the metal rails don't match each other's dimensions; negated",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "756a1ab4a420",
+   "label": "VALID",
+   "reason": "the text says the metal rails seem totally defective; possible with hedge 'seem' is a fair reading",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "88067ab46d34",
+   "label": "VALID",
+   "reason": "the text says the drawers make a horrible metal-on-metal sound",
+   "evidence": "drawers still stick and make this horrible metal-on-metal sound."
+  },
+  {
+   "id": "9e302c9f1e9f",
+   "label": "VALID",
+   "reason": "the text lists rough edges among the metal rails' faults",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "b49108c2dad3",
+   "label": "VALID",
+   "reason": "the writer says the dresser looks ok; neutral fits the lukewarm tone",
+   "evidence": "dresser looks ok i guess but assembly was the worst experience ever."
+  },
+  {
+   "id": "bae554c770f9",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the dresser; the 6 hours is how long the assembly took the writer and roommate",
+   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "c60e60534b02",
+   "label": "VALID",
+   "reason": "the text calls them the metal rails",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "ca0b958d54f1",
+   "label": "VALID",
+   "reason": "the text lists uneven surfaces among the metal rails' faults",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "000d3cfa4922",
+   "label": "VALID",
+   "reason": "customer service's statement of issues with the drawer hardware is endorsed by the writer, who says the drawer rails are clearly defective",
+   "evidence": "aware of issues with a recent batch of drawer hardware from their supplier."
+  },
+  {
+   "id": "30a9f573684a",
+   "label": "VALID",
+   "reason": "the text says one drawer already has a crack developing along the bottom",
+   "evidence": "one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+  },
+  {
+   "id": "57832fcd395e",
+   "label": "VALID",
+   "reason": "the text says the dresser looks nice in photos; positive for that clause",
+   "evidence": "While the dresser looks nice in photos, the quality of materials is much lower than expected."
+  },
+  {
+   "id": "6132a6c444d8",
+   "label": "VALID",
+   "reason": "the text says the drawer rails have rough, uneven surfaces",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "6415978e84e0",
+   "label": "VALID",
+   "reason": "the text says two of the drawers don't close properly; negated",
+   "evidence": "Two of the drawers don't close properly no matter how I adjust them"
+  },
+  {
+   "id": "946639c92416",
+   "label": "VALID",
+   "reason": "expecting much better quality control states the quality control was poor; stored as the aspect with negative polarity",
+   "evidence": "For the price, I expected much better quality control."
+  },
+  {
+   "id": "d2df4922f1b0",
+   "label": "VALID",
+   "reason": "the text says the rails cause the drawers to stick",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "d596972abd46",
+   "label": "VALID",
+   "reason": "the text says the rails cause the drawers to misalign",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "db174360dddf",
+   "label": "VALID",
+   "reason": "the text says the dresser's quality of materials is much lower than expected",
+   "evidence": "While the dresser looks nice in photos, the quality of materials is much lower than expected."
+  },
+  {
+   "id": "df520b5d8e21",
+   "label": "VALID",
+   "reason": "the text says the drawer rails are clearly defective",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "0e744efe6ff5",
+   "label": "INCORRECT",
+   "reason": "the panels being warped is stated, but the stored time 'After 4 hours' dates the writer's realization, not the warping, which existed before",
+   "evidence": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly.",
+   "faults": [
+    "time"
+   ]
+  },
+  {
+   "id": "52ecf5b86589",
+   "label": "INCORRECT",
+   "reason": "the text does say the assembly instructions were incomprehensible, but instructions are stored as a Component, which they are not (no structural part, hardware or sub-unit)",
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "60775502275e",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the dresser; the 4 hours is assembly time before the writer noticed the warped panels",
+   "evidence": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "95a59ebc50d1",
+   "label": "INCORRECT",
+   "reason": "the text says the warped panels made the dresser impossible to assemble correctly; the subject stored is 'Helsingborg Dresser Reviews', the review page, not the product",
+   "evidence": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "e8db1d5bb4ae",
+   "label": "INCORRECT",
+   "reason": "the text does say the instructions had missing steps, but instructions are stored as a Component, which they are not",
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "f22b11136ead",
+   "label": "INCORRECT",
+   "reason": "the text does say the instructions had tiny diagrams, but instructions are stored as a Component, which they are not",
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "637fec2dc285",
+   "label": "VALID",
+   "reason": "the text says the drawer bottoms feel flimsy",
+   "evidence": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+  },
+  {
+   "id": "6983d30a7060",
+   "label": "VALID",
+   "reason": "the text says one of the drawer handles was scratched right out of the box; the time is the text's",
+   "evidence": "One of the drawer handles was scratched right out of the box."
+  },
+  {
+   "id": "9bd9170957d2",
+   "label": "VALID",
+   "reason": "the text says the dresser looks okay from a distance",
+   "evidence": "It looks okay from a distance, but I wouldn't buy it again or recommend it to anyone else."
+  },
+  {
+   "id": "ae5d5c782ef1",
+   "label": "VALID",
+   "reason": "the text says the dresser's quality is mediocre at best",
+   "evidence": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+  },
+  {
+   "id": "e07546ba4b5c",
+   "label": "VALID",
+   "reason": "the writer says the back panel is basically cardboard; stored as its material with a negative tone",
+   "evidence": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+  },
+  {
+   "id": "25b2ec69ce33",
+   "label": "VALID",
+   "reason": "the text says the dresser is sturdy; positive",
+   "evidence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+  },
+  {
+   "id": "9b02219f141f",
+   "label": "VALID",
+   "reason": "the text says the assembly is challenging",
+   "evidence": "Yes, the assembly is challenging, but if you carefully follow the instructions and have the right tools, it's completely doable."
+  },
+  {
+   "id": "9d25e4ff1c6e",
+   "label": "VALID",
+   "reason": "the text says the drawer rails seemed a bit rough; possible with hedge 'seemed' is a fair reading",
+   "evidence": "I noticed the drawer rails seemed a bit rough, so I took 10 minutes to sand them down and apply a tiny bit of lubricant before installing."
+  },
+  {
+   "id": "a8c5c34e9193",
+   "label": "VALID",
+   "reason": "the text says the dresser looks beautiful; positive",
+   "evidence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+  },
+  {
+   "id": "f8b7ecb7376a",
+   "label": "VALID",
+   "reason": "the text says the drawers now slide perfectly; time 'now' is the text's",
+   "evidence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+  },
+  {
+   "id": "1c679378da9f",
+   "label": "VALID",
+   "reason": "the text says the surface is resistant to water rings",
+   "evidence": "The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear."
+  },
+  {
+   "id": "25b8e4fda5ad",
+   "label": "VALID",
+   "reason": "the reviewer calls the table the perfect centerpiece; an opinion, positive",
+   "evidence": "The Jönköping Coffee Table is the perfect centerpiece for our living room!"
+  },
+  {
+   "id": "3a047c77797a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "no signs of wear after 3 months of daily use; 'it' follows 'the surface' but is just as naturally the table, read here as the table",
+   "evidence": "The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear."
+  },
+  {
+   "id": "53594f5ac833",
+   "label": "VALID",
+   "reason": "the table's design is sleek yet practical",
+   "evidence": "The design is sleek yet practical with the lower shelf providing great storage for books and magazines."
+  },
+  {
+   "id": "696d8a4805e2",
+   "label": "VALID",
+   "reason": "the reviewer says assembly of the table was straightforward",
+   "evidence": "Assembly was straightforward and took about 30 minutes."
+  },
+  {
+   "id": "c8f968429097",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the table; the text gives 30 minutes as how long this reviewer's assembly took, not a dimension or rating of the table",
+   "evidence": "Assembly was straightforward and took about 30 minutes.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "fdd91704c3b8",
+   "label": "VALID",
+   "reason": "the lower shelf provides great storage",
+   "evidence": "The design is sleek yet practical with the lower shelf providing great storage for books and magazines."
+  },
+  {
+   "id": "7c856fe56053",
+   "label": "VALID",
+   "reason": "the size is perfect for the reviewer's room; size stored as a positive aspect",
+   "evidence": "The size (110cm x 60cm) is perfect for my apartment living room - not too large but substantial enough to be functional."
+  },
+  {
+   "id": "7c89b614b42e",
+   "label": "VALID",
+   "reason": "the table's size is 110cm x 60cm; positive tone matches the praise in the sentence",
+   "evidence": "The size (110cm x 60cm) is perfect for my apartment living room - not too large but substantial enough to be functional."
+  },
+  {
+   "id": "8dd7ffc7c342",
+   "label": "VALID",
+   "reason": "assembly was simple; assembly stored as a positive aspect of the table",
+   "evidence": "Assembly was simple and took about 45 minutes."
+  },
+  {
+   "id": "8e44304cc420",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement of the table; the text gives 45 minutes as the assembly time, not a specification of the table",
+   "evidence": "Assembly was simple and took about 45 minutes.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "b27a5f97e2ec",
+   "label": "VALID",
+   "reason": "the edges are a bit sharper than the reviewer would prefer, negative",
+   "evidence": "Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price."
+  },
+  {
+   "id": "ca9394b9df6b",
+   "label": "VALID",
+   "reason": "the table's construction feels solid, positive",
+   "evidence": "The construction feels solid and the finish is consistent."
+  },
+  {
+   "id": "d42782bf557e",
+   "label": "VALID",
+   "reason": "the table's finish is consistent, positive",
+   "evidence": "The construction feels solid and the finish is consistent."
+  },
+  {
+   "id": "102e5430266e",
+   "label": "VALID",
+   "reason": "the reviewer says the table looks good",
+   "evidence": "looks good but definitely need to be careful with it."
+  },
+  {
+   "id": "2a02258ff327",
+   "label": "VALID",
+   "reason": "the surface already got a few marks from setting down a laptop",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop."
+  },
+  {
+   "id": "3eb8e7010048",
+   "label": "VALID",
+   "reason": "the shelf underneath is perfect for the reviewer's art books",
+   "evidence": "love the scandinavian vibes and the shelf underneath is perfect for my art books."
+  },
+  {
+   "id": "4c0f5eae4d35",
+   "label": "VALID",
+   "reason": "the table looks super cute, positive opinion",
+   "evidence": "table looks super cute in my space!"
+  },
+  {
+   "id": "6f0056d503d3",
+   "label": "VALID",
+   "reason": "the surface scratches pretty easily, negative",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop."
+  },
+  {
+   "id": "a5bd486eb1a4",
+   "label": "VALID",
+   "reason": "assembly wasn't too bad; the negation is in the name and reads the same as the text, mildly positive",
+   "evidence": "assembly wasn't too bad, maybe 40 mins?"
+  },
+  {
+   "id": "f63817544bb7",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement of the table; the text gives maybe 40 minutes as the assembly time, not a specification of the table",
+   "evidence": "assembly wasn't too bad, maybe 40 mins?",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "09ea1ed68126",
+   "label": "VALID",
+   "reason": "the designer says the table exemplifies good design",
+   "evidence": "This table exemplifies how good design doesn't necessarily require premium pricing."
+  },
+  {
+   "id": "2e1cb0635440",
+   "label": "INCORRECT",
+   "reason": "stored as the mechanism being made of a material; the text says the mechanism uses metal-to-metal fasteners, which are hardware parts, not a raw material",
+   "evidence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time.",
+   "faults": [
+    "wrong_relation",
+    "type"
+   ]
+  },
+  {
+   "id": "5e46b3656235",
+   "label": "VALID",
+   "reason": "the designer appreciates the table's thoughtful engineering",
+   "evidence": "As a furniture designer, I appreciate the thoughtful engineering of the Jönköping Coffee Table."
+  },
+  {
+   "id": "86e5fc4764cc",
+   "label": "VALID",
+   "reason": "the center support keeps the lower shelf from sagging even when loaded with heavy art books; the stored condition is the text's words and the denial holds under it",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+  },
+  {
+   "id": "a77926f0b999",
+   "label": "VALID",
+   "reason": "the lower shelf is reinforced with a center support, a physical interface between the two parts",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+  },
+  {
+   "id": "bce4f5563a9c",
+   "label": "VALID",
+   "reason": "the surface's multi-layer finish results in exceptional durability",
+   "evidence": "The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats, resulting in exceptional durability."
+  },
+  {
+   "id": "ec67e98f7f1d",
+   "label": "VALID",
+   "reason": "the leg attachment mechanism ensures stability over time",
+   "evidence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time."
+  },
+  {
+   "id": "10fe77230ab2",
+   "label": "VALID",
+   "reason": "the text concedes the table looks nice in photos; the qualifier 'in photos' is kept",
+   "evidence": "While the table looks nice in photos, the reality is much less impressive."
+  },
+  {
+   "id": "3b4c6116e211",
+   "label": "VALID",
+   "reason": "'I expected much better quality' for the price means the table lacks the better quality expected; stored as denied, negative",
+   "evidence": "For the price, I expected much better quality."
+  },
+  {
+   "id": "6758f409a51e",
+   "label": "VALID",
+   "reason": "the table wobbles slightly on a flat floor, negative",
+   "evidence": "The table also wobbles slightly on my flat floor despite attempts to adjust it."
+  },
+  {
+   "id": "7f3147679a67",
+   "label": "VALID",
+   "reason": "the reality of the table is much less impressive, negative",
+   "evidence": "While the table looks nice in photos, the reality is much less impressive."
+  },
+  {
+   "id": "a0c6ddbd9901",
+   "label": "VALID",
+   "reason": "some of the pre-drilled holes weren't aligned properly; stored as denied, negative",
+   "evidence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+  },
+  {
+   "id": "a82cd24ccae8",
+   "label": "VALID",
+   "reason": "the veneer is extremely thin, negative",
+   "evidence": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+  },
+  {
+   "id": "bb05b42a8987",
+   "label": "VALID",
+   "reason": "the veneer is chipping at the corners after a few weeks; time is the chipping's time",
+   "evidence": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+  },
+  {
+   "id": "c444bd6519ac",
+   "label": "VALID",
+   "reason": "assembly was straightforward",
+   "evidence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+  },
+  {
+   "id": "1d779813a43c",
+   "label": "VALID",
+   "reason": "the table's design is simple yet elegant",
+   "evidence": "The design is simple yet elegant, and it pairs well with our existing furniture."
+  },
+  {
+   "id": "604762f5d037",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement of the table; the text gives 30 minutes as the assembly time, not a specification of the table",
+   "evidence": "Assembly was very easy - took about 30 minutes total.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "72432e47038e",
+   "label": "VALID",
+   "reason": "the surface shows fingerprints easily, negative",
+   "evidence": "Taking off one star because the surface shows fingerprints easily and requires frequent cleaning, but otherwise very satisfied with this purchase!"
+  },
+  {
+   "id": "8c528c13820e",
+   "label": "VALID",
+   "reason": "the lower shelf is handy for storing remotes and magazines",
+   "evidence": "The table feels sturdy and the lower shelf is handy for storing remote controls and magazines."
+  },
+  {
+   "id": "a311181545bf",
+   "label": "VALID",
+   "reason": "the surface requires frequent cleaning, negative",
+   "evidence": "Taking off one star because the surface shows fingerprints easily and requires frequent cleaning, but otherwise very satisfied with this purchase!"
+  },
+  {
+   "id": "aa0a5bfe8a46",
+   "label": "VALID",
+   "reason": "the table feels sturdy",
+   "evidence": "The table feels sturdy and the lower shelf is handy for storing remote controls and magazines."
+  },
+  {
+   "id": "f0b696a309f7",
+   "label": "VALID",
+   "reason": "assembly was very easy",
+   "evidence": "Assembly was very easy - took about 30 minutes total."
+  },
+  {
+   "id": "18397a161a78",
+   "label": "VALID",
+   "reason": "the reviewer calls the table excellent value for the quality",
+   "evidence": "Excellent value for the quality!"
+  },
+  {
+   "id": "19a8523fe558",
+   "label": "INCORRECT",
+   "reason": "the denial of wobbling is right, but 'construction' (the build of the whole table, which has the parts) is stored as a Component, an individual part",
+   "evidence": "The construction remains solid with no wobbling or loose parts.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "675855f8cf61",
+   "label": "VALID",
+   "reason": "the table's design is timeless",
+   "evidence": "The design is timeless and we continue to receive compliments from guests."
+  },
+  {
+   "id": "67983a6940ad",
+   "label": "INCORRECT",
+   "reason": "the construction remaining solid is right, but 'construction' (the whole table's build) is stored as a Component, an individual part",
+   "evidence": "The construction remains solid with no wobbling or loose parts.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "73348c9fb0ce",
+   "label": "VALID",
+   "reason": "the table has held up beautifully over more than a year",
+   "evidence": "We've had our Jönköping Coffee Table for over a year now and it's held up beautifully through daily use, two kids, and multiple dinner parties where it served as extra seating."
+  },
+  {
+   "id": "c46edbc76dd5",
+   "label": "INCORRECT",
+   "reason": "no loose parts is right, but 'construction' (the whole table's build, which contains the parts) is stored as a Component, an individual part",
+   "evidence": "The construction remains solid with no wobbling or loose parts.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "cd0a323f714e",
+   "label": "VALID",
+   "reason": "the finish has proven resistant to scratches",
+   "evidence": "The finish has proven remarkably resistant to scratches and water marks."
+  },
+  {
+   "id": "08172f743e7a",
+   "label": "VALID",
+   "reason": "the reviewer says the bed is rock solid; positive, affirmed, actual as stored",
+   "evidence": "The bed is rock solid - absolutely no squeaking or movement."
+  },
+  {
+   "id": "14a07f1b10b7",
+   "label": "VALID",
+   "reason": "the text says the hidden storage is incredibly practical",
+   "evidence": "the hidden storage is incredibly practical in our small apartment"
+  },
+  {
+   "id": "3ea3435a537b",
+   "label": "VALID",
+   "reason": "the text says the bed's platform design is sleek and modern",
+   "evidence": "The platform design is sleek and modern"
+  },
+  {
+   "id": "861586a5abf8",
+   "label": "VALID",
+   "reason": "the text says the slats provide excellent mattress support",
+   "evidence": "The slats provide excellent mattress support."
+  },
+  {
+   "id": "87b439ec1d25",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the bed; the text gives 2 hours as how long this reviewer's assembly took with two people, not a spec of the bed",
+   "evidence": "Assembly took about 2 hours with two people",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "a0a3a5ba3d7c",
+   "label": "VALID",
+   "reason": "the text denies squeaking ('absolutely no squeaking'); stored negated with a positive tone, as the text says",
+   "evidence": "The bed is rock solid - absolutely no squeaking or movement."
+  },
+  {
+   "id": "b30369972c2b",
+   "label": "VALID",
+   "reason": "the text denies movement ('absolutely no ... movement'); stored negated, positive",
+   "evidence": "The bed is rock solid - absolutely no squeaking or movement."
+  },
+  {
+   "id": "6389fa6388a2",
+   "label": "VALID",
+   "reason": "the text says some of the edges were a bit sharp; negative complaint",
+   "evidence": "some of the edges were a bit sharp and needed sanding"
+  },
+  {
+   "id": "9409d745073e",
+   "label": "VALID",
+   "reason": "the text says the bed's construction feels sturdy; a sturdy bed is a fair paraphrase",
+   "evidence": "The construction feels sturdy"
+  },
+  {
+   "id": "9537762151d4",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the bed; the text gives 2.5 hours as this reviewer's assembly time, not a spec of the bed",
+   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours).",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "c45bdf9e8c71",
+   "label": "VALID",
+   "reason": "the text says the design is elegant; an elegant bed is a fair paraphrase",
+   "evidence": "the design is elegant without being flashy"
+  },
+  {
+   "id": "cdd1002bfe4b",
+   "label": "INCORRECT",
+   "reason": "stored as the bed being time-consuming; the text says the assembly was time-consuming, and the bare quality name drops what it is a quality of",
+   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours).",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "d330ff55cd13",
+   "label": "VALID",
+   "reason": "the text says some of the edges needed sanding; negative",
+   "evidence": "some of the edges were a bit sharp and needed sanding"
+  },
+  {
+   "id": "e57df5d6fcdb",
+   "label": "VALID",
+   "reason": "the text says the headboard is the perfect height for sitting up and reading",
+   "evidence": "The headboard is the perfect height for sitting up and reading."
+  },
+  {
+   "id": "f2c6370ae54d",
+   "label": "INCORRECT",
+   "reason": "stored as the bed being straightforward; the text says the assembly was straightforward, and a straightforward bed is not what the text says",
+   "evidence": "Assembly was straightforward though time-consuming (about 2.5 hours).",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "09f05c8c0f1c",
+   "label": "VALID",
+   "reason": "the reviewer says she loves the storage drawers; a positive opinion of the drawers, stored positive",
+   "evidence": "i love the storage drawers!"
+  },
+  {
+   "id": "31ca01d3340e",
+   "label": "VALID",
+   "reason": "the text calls the bed super stylish",
+   "evidence": "bed looks amazing in my room, super stylish"
+  },
+  {
+   "id": "5d28384601f0",
+   "label": "VALID",
+   "reason": "the text says the bed looks amazing in the reviewer's room",
+   "evidence": "bed looks amazing in my room"
+  },
+  {
+   "id": "5ff6f173af7e",
+   "label": "VALID",
+   "reason": "the text says the bed looks great",
+   "evidence": "looks great though"
+  },
+  {
+   "id": "722e0df8c2fd",
+   "label": "VALID",
+   "reason": "the text says the storage is clutch (very useful) for a small apartment",
+   "evidence": "the storage is clutch for my small apartment"
+  },
+  {
+   "id": "b39af559eea2",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the bed; the text gives about 4 hours as the reviewers' assembly time, not a spec of the bed",
+   "evidence": "but assembly was a total nightmare, took me and my roommate like 4 hours",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "b4cf7b1ad95e",
+   "label": "VALID",
+   "reason": "the text says the slats make noise when the reviewer moves around at night; conditional with that condition, time at night, negative, all as stated",
+   "evidence": "also the slats make noise sometimes when i move around at night which is annoying."
+  },
+  {
+   "id": "f11b77acc12d",
+   "label": "VALID",
+   "reason": "the text says assembly of the bed was a total nightmare; the quality name keeps the assembly aspect",
+   "evidence": "but assembly was a total nightmare"
+  },
+  {
+   "id": "182ea4e9efb5",
+   "label": "VALID",
+   "reason": "the text says the finish is applied with attention to detail on less visible surfaces",
+   "evidence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+  },
+  {
+   "id": "2c5636e456b9",
+   "label": "VALID",
+   "reason": "the text calls the drawer slides quality drawer slides",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+  },
+  {
+   "id": "3d0386436268",
+   "label": "VALID",
+   "reason": "the text says the slat system provides ideal mattress support",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+  },
+  {
+   "id": "46cb1958f790",
+   "label": "VALID",
+   "reason": "the text says the slat system is properly engineered",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+  },
+  {
+   "id": "48db95601d2d",
+   "label": "VALID",
+   "reason": "the text gives 7cm as the slat spacing, a dimension of the slat system; positive tone matches 'optimal'",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+  },
+  {
+   "id": "5146229be8bd",
+   "label": "VALID",
+   "reason": "the text says the frame uses proper joinery techniques",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "521337ea9cdb",
+   "label": "VALID",
+   "reason": "the text says the bed represents exceptional value",
+   "evidence": "This bed represents exceptional value and craftsmanship at this price point."
+  },
+  {
+   "id": "691d6020e9f2",
+   "label": "VALID",
+   "reason": "the text gives 8mm as the slat thickness, a dimension of the slat system; positive tone matches 'appropriate'",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+  },
+  {
+   "id": "b38c4c2e4cef",
+   "label": "VALID",
+   "reason": "the text praises the bed's exceptional craftsmanship",
+   "evidence": "This bed represents exceptional value and craftsmanship at this price point."
+  },
+  {
+   "id": "c8d81016b8bd",
+   "label": "VALID",
+   "reason": "the reviewer was pleasantly surprised by the quality of the Linköping Bed; positive",
+   "evidence": "I was pleasantly surprised by the quality of the Linköping Bed."
+  },
+  {
+   "id": "cd300fb4f873",
+   "label": "VALID",
+   "reason": "the text says the finish is consistently applied",
+   "evidence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+  },
+  {
+   "id": "f9ae7a0ec001",
+   "label": "VALID",
+   "reason": "the text says the drawer slides are rated for 25kg loads, a load rating of the slides",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+  },
+  {
+   "id": "57e5b29cbbd5",
+   "label": "VALID",
+   "reason": "the text says some parts did not fit together properly; stored negated with 'not', negative",
+   "evidence": "Assembly was also much more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "5a0956e3b2c1",
+   "label": "VALID",
+   "reason": "the reviewer says assembly of the bed was much more complicated than advertised; negative",
+   "evidence": "Assembly was also much more complicated than advertised"
+  },
+  {
+   "id": "7df242ef604c",
+   "label": "VALID",
+   "reason": "the text says one of the storage drawers no longer opens smoothly; stored negated with 'no longer', negative; the stored time 'no longer' is the claim's own temporal words",
+   "evidence": "one of the storage drawers no longer opens smoothly"
+  },
+  {
+   "id": "9003b92e60bc",
+   "label": "VALID",
+   "reason": "the text says the slats started to crack after just two months of use; time as stated",
+   "evidence": "after just two months of use the slats have started to crack"
+  },
+  {
+   "id": "97a3f4896d4c",
+   "label": "VALID",
+   "reason": "the text concedes the bed looks nice",
+   "evidence": "While the bed looks nice"
+  },
+  {
+   "id": "a86f7f9a2417",
+   "label": "VALID",
+   "reason": "the reviewer says the durability fell far short of expectation (after slats cracked in two months); stored as lacking durability, negative",
+   "evidence": "For the price point, I expected much better quality and durability."
+  },
+  {
+   "id": "af4220f9d67e",
+   "label": "VALID",
+   "reason": "the reviewer says the quality fell far short of expectation; stored as lacking quality, negative",
+   "evidence": "For the price point, I expected much better quality and durability."
+  },
+  {
+   "id": "31e4ba2b576d",
+   "label": "VALID",
+   "reason": "the text says the storage drawers are perfect for extra linens",
+   "evidence": "the storage drawers are perfect for extra linens"
+  },
+  {
+   "id": "9012fbf90b09",
+   "label": "VALID",
+   "reason": "the text says the bed feels solid",
+   "evidence": "The bed feels solid"
+  },
+  {
+   "id": "9d551a45ec21",
+   "label": "INCORRECT",
+   "reason": "stored as the bed being straightforward; the text says the assembly was straightforward with the included instructions, not the bed",
+   "evidence": "Assembly took about 2 hours and was straightforward with the included instructions.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "b79b8b6df901",
+   "label": "VALID",
+   "reason": "the text says the bed's design is simple but elegant",
+   "evidence": "The design is simple but elegant"
+  },
+  {
+   "id": "d04b2b074939",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the bed; the text gives about 2 hours as this reviewer's assembly time, not a spec of the bed",
+   "evidence": "Assembly took about 2 hours and was straightforward with the included instructions.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "d52997275f1c",
+   "label": "VALID",
+   "reason": "the writer relays guests' comments on 'how comfortable it is' as praise in her own review, presupposing and endorsing the comfort",
+   "evidence": "The bed feels solid and our guests have commented on how comfortable it is."
+  },
+  {
+   "id": "fb6e22367f7d",
+   "label": "VALID",
+   "reason": "the text says one of the drawer pulls arrived damaged; negative",
+   "evidence": "one of the drawer pulls arrived damaged"
+  },
+  {
+   "id": "0f0368bfbdc6",
+   "label": "VALID",
+   "reason": "the text says the bed's design is timeless",
+   "evidence": "The design is timeless and the finish has held up beautifully."
+  },
+  {
+   "id": "344579a259d2",
+   "label": "VALID",
+   "reason": "the text says the storage drawers slide smoothly",
+   "evidence": "The storage drawers slide smoothly and hold a surprising amount of items."
+  },
+  {
+   "id": "3f4f6a772d4e",
+   "label": "VALID",
+   "reason": "the text says the finish has held up beautifully",
+   "evidence": "The design is timeless and the finish has held up beautifully."
+  },
+  {
+   "id": "6a4ffa9c2522",
+   "label": "VALID",
+   "reason": "the text mentions the properly spaced slats as the reason the mattress kept its shape",
+   "evidence": "Our mattress has maintained its shape well thanks to the properly spaced slats."
+  },
+  {
+   "id": "982c96382756",
+   "label": "VALID",
+   "reason": "the text says the frame has remained solid",
+   "evidence": "The frame has remained solid with no squeaking or wobbling despite daily use."
+  },
+  {
+   "id": "9a83ad726221",
+   "label": "VALID",
+   "reason": "the text denies wobbling of the frame ('no ... wobbling'); stored negated, positive",
+   "evidence": "The frame has remained solid with no squeaking or wobbling despite daily use."
+  },
+  {
+   "id": "a551d60011a6",
+   "label": "VALID",
+   "reason": "the text says the storage drawers hold a surprising amount of items",
+   "evidence": "The storage drawers slide smoothly and hold a surprising amount of items."
+  },
+  {
+   "id": "aa7d0645f3d0",
+   "label": "VALID",
+   "reason": "the text denies squeaking of the frame ('no squeaking'); stored negated, positive",
+   "evidence": "The frame has remained solid with no squeaking or wobbling despite daily use."
+  },
+  {
+   "id": "db9adfb899a2",
+   "label": "VALID",
+   "reason": "the reviewer calls their Linköping Bed definitely worth the investment",
+   "evidence": "Definitely worth the investment!"
+  },
+  {
+   "id": "0bd931e9bfbc",
+   "label": "VALID",
+   "reason": "the review of the Malmö Desk says the desk feels solid",
+   "evidence": "The desk feels solid and doesn't wobble at all."
+  },
+  {
+   "id": "4c56ed095bfa",
+   "label": "VALID",
+   "reason": "the text denies wobbling ('doesn't wobble at all'); stored negated with a positive tone",
+   "evidence": "The desk feels solid and doesn't wobble at all."
+  },
+  {
+   "id": "56980b5ada97",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the desk; the 2 hours is how long this reviewer's assembly took, not a dimension, tolerance, rating or other spec of the desk",
+   "evidence": "Assembly took about 2 hours but the instructions were clear.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "5ce46fd5edd3",
+   "label": "INCORRECT",
+   "reason": "the text says the instructions were clear, but instructions are typed Component; they are a printed guide, not a structural part, hardware or functional sub-unit of the desk",
+   "evidence": "Assembly took about 2 hours but the instructions were clear.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "64d7f71fcc66",
+   "label": "VALID",
+   "reason": "the text praises the desk's clean design",
+   "evidence": "The clean design fits perfectly with my minimalist aesthetic."
+  },
+  {
+   "id": "96d256ea331c",
+   "label": "VALID",
+   "reason": "the writer says they love the cable management system; an opinion stored as a positive quality of it",
+   "evidence": "I love the cable management system"
+  },
+  {
+   "id": "bfeb4ff00f33",
+   "label": "VALID",
+   "reason": "the text says the drawers are the perfect size for office supplies",
+   "evidence": "the drawers are the perfect size for office supplies"
+  },
+  {
+   "id": "d97aac0e5f34",
+   "label": "VALID",
+   "reason": "the text says the storage solutions are incredibly well-thought-out",
+   "evidence": "The storage solutions are incredibly well-thought-out"
+  },
+  {
+   "id": "09c2669fc923",
+   "label": "VALID",
+   "reason": "the text says the cable management keeps everything tidy",
+   "evidence": "The drawer slides are smooth and the cable management keeps everything tidy."
+  },
+  {
+   "id": "140c1080fd10",
+   "label": "VALID",
+   "reason": "the text says the surface area is perfect for a dual monitor setup with room to spare",
+   "evidence": "The surface area (140cm x 65cm) is perfect for my dual monitor setup with room to spare."
+  },
+  {
+   "id": "7af45fd8528f",
+   "label": "VALID",
+   "reason": "the text gives the desk's surface as 140cm x 65cm, which is the desk's width and depth; positive tone matches the sentence",
+   "evidence": "The surface area (140cm x 65cm) is perfect for my dual monitor setup with room to spare."
+  },
+  {
+   "id": "b7217b4c5723",
+   "label": "VALID",
+   "reason": "the text says the edges of the desk are a bit sharp, a complaint",
+   "evidence": "Taking off one star because the edges of the desk are a bit sharp"
+  },
+  {
+   "id": "e07f2f0c1ca9",
+   "label": "VALID",
+   "reason": "the text says the drawer slides are smooth",
+   "evidence": "The drawer slides are smooth"
+  },
+  {
+   "id": "fcae93599065",
+   "label": "VALID",
+   "reason": "the text gives the surface area as 140cm x 65cm",
+   "evidence": "The surface area (140cm x 65cm) is perfect for my dual monitor setup with room to spare."
+  },
+  {
+   "id": "23866e84c2c3",
+   "label": "VALID",
+   "reason": "the review of the desk says it looks nice in the writer's apartment",
+   "evidence": "decent desk, looks nice in my apartment."
+  },
+  {
+   "id": "45ad4b5ec8a7",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the desk; the 3 hours is how long this reviewer's assembly took, not a spec of the desk",
+   "evidence": "assembly was pretty complicated, took me like 3 hours and i'm usually good at this stuff.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "8be4cc8f620a",
+   "label": "VALID",
+   "reason": "the text says the storage is helpful",
+   "evidence": "the storage is helpful but honestly i expected more drawers based on the description."
+  },
+  {
+   "id": "a2d6586981ec",
+   "label": "VALID",
+   "reason": "the text says the desk is stable",
+   "evidence": "it's stable though and the right height for me (i'm tall)."
+  },
+  {
+   "id": "c0b3afe874dd",
+   "label": "VALID",
+   "reason": "the writer calls it a decent desk, mildly positive",
+   "evidence": "decent desk, looks nice in my apartment."
+  },
+  {
+   "id": "c71bdbe5104a",
+   "label": "VALID",
+   "reason": "the text says the desk is the right height for the (tall) writer",
+   "evidence": "it's stable though and the right height for me (i'm tall)."
+  },
+  {
+   "id": "eda78bb07b85",
+   "label": "VALID",
+   "reason": "the text says the desk's assembly was pretty complicated, a complaint about the desk",
+   "evidence": "assembly was pretty complicated, took me like 3 hours and i'm usually good at this stuff."
+  },
+  {
+   "id": "0d15719dded2",
+   "label": "VALID",
+   "reason": "the text says the desk's construction is solid, i.e. the desk is solidly built",
+   "evidence": "Construction is solid with proper joinery techniques evident throughout."
+  },
+  {
+   "id": "2b7fe50e9df3",
+   "label": "VALID",
+   "reason": "the text says the work surface stays perfectly flat under the weight of the drafting equipment; the load is stored as the condition, with the text's words",
+   "evidence": "The work surface maintains perfect flatness under the weight of my drafting equipment."
+  },
+  {
+   "id": "791a8abe6a30",
+   "label": "VALID",
+   "reason": "the text names rubber grommets, so the grommets are made of rubber",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "97371e04ce41",
+   "label": "VALID",
+   "reason": "the text says the storage compartments are intelligently designed",
+   "evidence": "The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies."
+  },
+  {
+   "id": "9b498b6d2129",
+   "label": "VALID",
+   "reason": "the text says the cable management system is particularly ingenious",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "aea3202f470c",
+   "label": "VALID",
+   "reason": "the text says the desk represents exceptional value",
+   "evidence": "This desk represents exceptional value for the quality provided."
+  },
+  {
+   "id": "b8a20bf0f82e",
+   "label": "VALID",
+   "reason": "the text says the rubber grommets prevent cable fraying; stored as no cable fraying with the grommets, positive, which the prevention entails",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "d24d261ea01b",
+   "label": "VALID",
+   "reason": "the text says proper joinery techniques are evident throughout the desk's construction",
+   "evidence": "Construction is solid with proper joinery techniques evident throughout."
+  },
+  {
+   "id": "fc36fbda7164",
+   "label": "VALID",
+   "reason": "the text says the Malmö Desk exceeds expectations",
+   "evidence": "The Malmö Desk exceeds expectations on both fronts."
+  },
+  {
+   "id": "24485b305cce",
+   "label": "VALID",
+   "reason": "the text says the desk looks nice in photos; the stored object keeps 'in photos', so it does not overclaim the in-person look",
+   "evidence": "The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box."
+  },
+  {
+   "id": "2f6d26182bd2",
+   "label": "VALID",
+   "reason": "the text says that now it is built the desk is functional; the stored time is the text's",
+   "evidence": "Now that it's built, it's functional but I notice it wobbles slightly when I'm typing."
+  },
+  {
+   "id": "33ff2c2c3768",
+   "label": "VALID",
+   "reason": "the text says the desk's assembly was frustrating",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+  },
+  {
+   "id": "367ab1e67b7f",
+   "label": "VALID",
+   "reason": "the text says the desk had several scratches right out of the box",
+   "evidence": "The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box."
+  },
+  {
+   "id": "800af310f35a",
+   "label": "VALID",
+   "reason": "the text says the desk wobbles slightly when the writer is typing; stored conditional with that condition",
+   "evidence": "Now that it's built, it's functional but I notice it wobbles slightly when I'm typing."
+  },
+  {
+   "id": "8df34fa13f53",
+   "label": "VALID",
+   "reason": "the text says the desk's finish has inconsistencies, so the desk has inconsistencies (in its finish)",
+   "evidence": "The desk looks nice in photos but in person the finish has inconsistencies and there were several scratches right out of the box."
+  },
+  {
+   "id": "bfe29925f0ea",
+   "label": "VALID",
+   "reason": "the text says some of the pre-drilled holes did not align properly; stored negated, negative",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+  },
+  {
+   "id": "4f0645dbb2dd",
+   "label": "VALID",
+   "reason": "the text says the storage is adequate for the writer's needs",
+   "evidence": "The storage is adequate for my needs and the design is simple but attractive."
+  },
+  {
+   "id": "50c490a75e07",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the desk; the 90 minutes is how long this reviewer's assembly took, not a spec of the desk",
+   "evidence": "Assembly took about 90 minutes by myself.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "79d27071ff89",
+   "label": "VALID",
+   "reason": "the text calls it a great desk for the price",
+   "evidence": "Great desk for the price!"
+  },
+  {
+   "id": "93ecd379e9c0",
+   "label": "VALID",
+   "reason": "the text says the drawer does not open as smoothly as the writer would like; stored negated, negative",
+   "evidence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like."
+  },
+  {
+   "id": "b853c7430f5f",
+   "label": "VALID",
+   "reason": "the text says the desk's design is simple but attractive",
+   "evidence": "The storage is adequate for my needs and the design is simple but attractive."
+  },
+  {
+   "id": "d5b950273b10",
+   "label": "VALID",
+   "reason": "'this' is the desk under review; the text says it fits perfectly in the writer's apartment",
+   "evidence": "I'm a college student and this fits perfectly in my apartment."
+  },
+  {
+   "id": "06dfd10489da",
+   "label": "VALID",
+   "reason": "the text says the desk is not too bulky; stored as bulkiness denied, positive",
+   "evidence": "The dimensions are perfect - not too bulky but plenty of workspace."
+  },
+  {
+   "id": "081fc596b2aa",
+   "label": "INCORRECT",
+   "reason": "stored 'Malmö Desk EXHIBITS perfect' (the desk is perfect); the text says only the dimensions are perfect, so the object is a fragment that turns praise of the size into praise of the whole desk",
+   "evidence": "The dimensions are perfect - not too bulky but plenty of workspace.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "248de5f41132",
+   "label": "VALID",
+   "reason": "the text says the desk has no wobbling; stored negated, positive",
+   "evidence": "The materials feel high-quality and the desk is rock solid with no wobbling."
+  },
+  {
+   "id": "5c730aaa87d4",
+   "label": "INCORRECT",
+   "reason": "stored 'Malmö Desk EXHIBITS high-quality' (the desk is high-quality); the text says the materials feel high-quality, a quality of the materials lifted onto the whole desk",
+   "evidence": "The materials feel high-quality and the desk is rock solid with no wobbling.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "621585db359d",
+   "label": "VALID",
+   "reason": "the text says the desk is rock solid",
+   "evidence": "The materials feel high-quality and the desk is rock solid with no wobbling."
+  },
+  {
+   "id": "9c501f0683b2",
+   "label": "VALID",
+   "reason": "the text says the storage solutions are cleverly designed",
+   "evidence": "The storage solutions are cleverly designed and keep everything I need within reach."
+  },
+  {
+   "id": "d602b4edd6d8",
+   "label": "VALID",
+   "reason": "the text says the desk's dimensions give plenty of workspace",
+   "evidence": "The dimensions are perfect - not too bulky but plenty of workspace."
+  },
+  {
+   "id": "ffbea77f4b5c",
+   "label": "INCORRECT",
+   "reason": "stored 'Malmö Desk EXHIBITS straightforward' (the desk is straightforward); the text says the assembly was straightforward, so the object drops what is straightforward",
+   "evidence": "Assembly was straightforward with the included instructions.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "12a893bdb429",
+   "label": "VALID",
+   "reason": "the text says the open shelf below is great for displaying decorative items; positive fits",
+   "evidence": "the open shelf below is great for displaying decorative items."
+  },
+  {
+   "id": "21a69ee3f1c8",
+   "label": "VALID",
+   "reason": "the nightstand's compact size fits perfectly in the writer's small bedroom without overwhelming it",
+   "evidence": "The compact size (45cm x 40cm) fits perfectly in my small bedroom without overwhelming the space."
+  },
+  {
+   "id": "4e9ff0567efc",
+   "label": "VALID",
+   "reason": "the text gives the nightstand's size as 45cm x 40cm, a dimension",
+   "evidence": "The compact size (45cm x 40cm) fits perfectly in my small bedroom without overwhelming the space."
+  },
+  {
+   "id": "6c5579b6d1a3",
+   "label": "VALID",
+   "reason": "the writer says the nightstand's construction feels solid",
+   "evidence": "The construction feels solid and the drawer slides smoothly."
+  },
+  {
+   "id": "8be1965c2579",
+   "label": "VALID",
+   "reason": "the writer says assembly of the nightstand was incredibly simple",
+   "evidence": "Assembly was incredibly simple - took less than 20 minutes."
+  },
+  {
+   "id": "9831763f82dd",
+   "label": "VALID",
+   "reason": "the text calls the nightstand the perfect bedside companion",
+   "evidence": "The Norrköping Nightstand is the perfect bedside companion!"
+  },
+  {
+   "id": "b993c7aa270c",
+   "label": "VALID",
+   "reason": "the text says the drawer slides smoothly",
+   "evidence": "The construction feels solid and the drawer slides smoothly."
+  },
+  {
+   "id": "f86c0c5eeaa6",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the nightstand, '20 minutes'; the text's number is an upper bound on the writer's assembly time ('less than 20 minutes'), not a specification or dimension of the product",
+   "evidence": "Assembly was incredibly simple - took less than 20 minutes.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "fa7fe1397337",
+   "label": "VALID",
+   "reason": "the text says the drawer is spacious enough for books, reading glasses and other essentials",
+   "evidence": "The drawer is spacious enough for books, reading glasses, and other essentials"
+  },
+  {
+   "id": "0f68ede397e1",
+   "label": "VALID",
+   "reason": "the text says the finish is consistent; positive fits",
+   "evidence": "The drawer operates smoothly and the finish is consistent."
+  },
+  {
+   "id": "3f4d135619d3",
+   "label": "VALID",
+   "reason": "the writer takes off a star because the back panel is a bit thin; negative fits",
+   "evidence": "Taking off one star because the back panel is a bit thin"
+  },
+  {
+   "id": "6b81cf9802bb",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says assembly (of these nightstands) was straightforward; the object leaves 'assembly' to its quote but states nothing the text does not)",
+   "evidence": "Assembly was straightforward and took about 30 minutes per unit.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "730db70383f9",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the nightstand, '30 minutes'; the text's number is the writer's approximate assembly time per unit, not a specification or dimension of the product",
+   "evidence": "Assembly was straightforward and took about 30 minutes per unit.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "97f78b1f427b",
+   "label": "VALID",
+   "reason": "the text says the drawer operates smoothly",
+   "evidence": "The drawer operates smoothly and the finish is consistent."
+  },
+  {
+   "id": "9fbf3e649a29",
+   "label": "VALID",
+   "reason": "the text says the nightstands' design is simple yet elegant",
+   "evidence": "The design is simple yet elegant, and they pair well with our existing furniture."
+  },
+  {
+   "id": "005b6d804283",
+   "label": "VALID",
+   "reason": "the drawer sometimes sticks when the writer opens it too fast; conditional with that condition is right, negative fits",
+   "evidence": "only giving 3 stars because the drawer sometimes sticks when i open it too fast"
+  },
+  {
+   "id": "12675d2c86f5",
+   "label": "VALID",
+   "reason": "the writer says the nightstand looks nice",
+   "evidence": "looks nice though and does the job for now."
+  },
+  {
+   "id": "1687526b7746",
+   "label": "VALID",
+   "reason": "the writer says assembly was super easy",
+   "evidence": "assembly was super easy, like 15 mins tops."
+  },
+  {
+   "id": "431e698d9a30",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the nightstand, '15 mins'; the text's number is the writer's rough assembly time ('like 15 mins tops'), not a specification or dimension of the product",
+   "evidence": "assembly was super easy, like 15 mins tops.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "66386cf99b1d",
+   "label": "INCORRECT",
+   "reason": "the text does say the wood feels kinda lightweight, but wood is stored as a Component, whose description excludes raw materials; wood is a Material",
+   "evidence": "the wood feels kinda lightweight.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "9f06694af0c2",
+   "label": "VALID",
+   "reason": "'the wood' of the nightstand presupposes the nightstand is made of wood",
+   "evidence": "the wood feels kinda lightweight."
+  },
+  {
+   "id": "af208d270c19",
+   "label": "VALID",
+   "reason": "the text says the nightstand looks cute next to the bed",
+   "evidence": "nightstand looks cute next to my bed!"
+  },
+  {
+   "id": "c9b00ea55f83",
+   "label": "VALID",
+   "reason": "the writer says the nightstand is the perfect height",
+   "evidence": "perfect height and i love the little drawer for my stuff."
+  },
+  {
+   "id": "0dafcc1559b3",
+   "label": "VALID",
+   "reason": "the text says the drawer employs proper dovetail joinery, presented as a quality mark",
+   "evidence": "The drawer employs proper dovetail joinery rather than the stapled construction common at this price point."
+  },
+  {
+   "id": "52cbf9e6f72a",
+   "label": "VALID",
+   "reason": "the text gives the nightstand's height as 45cm, a dimension",
+   "evidence": "The dimensions (45cm height) are ergonomically optimal for standard bed heights."
+  },
+  {
+   "id": "7b5c1eef1c30",
+   "label": "VALID",
+   "reason": "the text says the finish is consistently applied with attention to detail on less visible surfaces",
+   "evidence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+  },
+  {
+   "id": "8857cd454c57",
+   "label": "VALID",
+   "reason": "the text says the drawer slide mechanism uses a self-closing feature with dampened action, called a premium detail",
+   "evidence": "The drawer slide mechanism utilizes a self-closing feature with dampened action - a premium detail unexpected in this category."
+  },
+  {
+   "id": "8e8ba4dce999",
+   "label": "VALID",
+   "reason": "the text says the nightstand represents exceptional value",
+   "evidence": "This nightstand represents exceptional value and craftsmanship."
+  },
+  {
+   "id": "92497916d3b5",
+   "label": "VALID",
+   "reason": "the text says the nightstand represents exceptional craftsmanship; positive carries the praise",
+   "evidence": "This nightstand represents exceptional value and craftsmanship."
+  },
+  {
+   "id": "97c9663ddef9",
+   "label": "VALID",
+   "reason": "the writer is impressed with the nightstand's construction quality; positive fits",
+   "evidence": "I'm impressed with the construction quality of the Norrköping Nightstand."
+  },
+  {
+   "id": "9f0718a53962",
+   "label": "VALID",
+   "reason": "the text says the case construction uses proper mortise and tenon joints at stress points",
+   "evidence": "The case construction uses proper mortise and tenon joints at stress points rather than relying solely on fasteners."
+  },
+  {
+   "id": "a9f11a77f481",
+   "label": "VALID",
+   "reason": "the text says the nightstand's 45cm height is ergonomically optimal for standard bed heights",
+   "evidence": "The dimensions (45cm height) are ergonomically optimal for standard bed heights."
+  },
+  {
+   "id": "31a49751c197",
+   "label": "VALID",
+   "reason": "the writer says the nightstand's quality of materials is lower than expected",
+   "evidence": "the quality of materials is lower than expected."
+  },
+  {
+   "id": "645149525529",
+   "label": "VALID",
+   "reason": "the text says the drawer doesn't close properly; stored negated with that negation",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap."
+  },
+  {
+   "id": "67015612fb0e",
+   "label": "VALID",
+   "reason": "the drawer always leaves a small gap when closed",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap."
+  },
+  {
+   "id": "6ab83be12320",
+   "label": "VALID",
+   "reason": "the writer grants that the nightstand looks nice in photos",
+   "evidence": "While the nightstand looks nice in photos, the quality of materials is lower than expected."
+  },
+  {
+   "id": "8092dd81e09d",
+   "label": "VALID",
+   "reason": "the writer already has several marks on the nightstand from normal use; time 'already' is the text's",
+   "evidence": "The nightstand also scratches very easily - I already have several marks just from normal use."
+  },
+  {
+   "id": "83afa54bdb76",
+   "label": "VALID",
+   "reason": "the text says the nightstand scratches very easily",
+   "evidence": "The nightstand also scratches very easily - I already have several marks just from normal use."
+  },
+  {
+   "id": "8d4de52788ed",
+   "label": "VALID",
+   "reason": "the writer says assembly was simple enough",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+  },
+  {
+   "id": "bc17624398aa",
+   "label": "VALID",
+   "reason": "the text says the pre-drilled holes for the drawer handle weren't aligned correctly; stored negated, negative",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+  },
+  {
+   "id": "0db9cb3313c1",
+   "label": "VALID",
+   "reason": "the text says the nightstand's size is perfect",
+   "evidence": "The size is perfect and the design is clean and simple."
+  },
+  {
+   "id": "4595ae6f94ef",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "reading 'it' as the damaged corner (it may also be the damage), the text says it is not very noticeable; 'against the wall' is where the writer's nightstand actually stands, dropped from the stored object",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall."
+  },
+  {
+   "id": "56c74ea62c12",
+   "label": "VALID",
+   "reason": "the text says one corner arrived slightly damaged; negative fits",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall."
+  },
+  {
+   "id": "5b61cb3ce11e",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the nightstand, '25 minutes'; the text's number is the writer's approximate assembly time, not a specification or dimension of the product",
+   "evidence": "Assembly was very easy and took about 25 minutes.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "902a96c3704a",
+   "label": "VALID",
+   "reason": "the text says the open shelf is handy for books",
+   "evidence": "The drawer slides smoothly and the open shelf is handy for books."
+  },
+  {
+   "id": "9ad4b203278a",
+   "label": "VALID",
+   "reason": "the text says the drawer slides smoothly",
+   "evidence": "The drawer slides smoothly and the open shelf is handy for books."
+  },
+  {
+   "id": "a12ef99a2cf1",
+   "label": "VALID",
+   "reason": "the writer says assembly was very easy",
+   "evidence": "Assembly was very easy and took about 25 minutes."
+  },
+  {
+   "id": "b29a01da55bd",
+   "label": "VALID",
+   "reason": "the text says the nightstand's design is clean and simple",
+   "evidence": "The size is perfect and the design is clean and simple."
+  },
+  {
+   "id": "2f09db56cd99",
+   "label": "VALID",
+   "reason": "the drawers still slide perfectly after over a year; time 'still' is the text's",
+   "evidence": "The drawers still slide perfectly and show no signs of sagging despite daily use."
+  },
+  {
+   "id": "3b0669bd50cc",
+   "label": "VALID",
+   "reason": "the finish has no wear marks; stored negated, positive fits a denied flaw",
+   "evidence": "The finish has maintained its appearance with no scratches or wear marks."
+  },
+  {
+   "id": "3df0569511da",
+   "label": "VALID",
+   "reason": "the text says the finish has maintained its appearance",
+   "evidence": "The finish has maintained its appearance with no scratches or wear marks."
+  },
+  {
+   "id": "6e287c642f52",
+   "label": "VALID",
+   "reason": "the text says the nightstands' design blends well with various decor styles",
+   "evidence": "The design is timeless and blends well with various decor styles."
+  },
+  {
+   "id": "775b65804f17",
+   "label": "VALID",
+   "reason": "the finish has no scratches; stored negated, positive fits a denied flaw",
+   "evidence": "The finish has maintained its appearance with no scratches or wear marks."
+  },
+  {
+   "id": "87a2512f66ca",
+   "label": "VALID",
+   "reason": "the text says the nightstands' design is timeless",
+   "evidence": "The design is timeless and blends well with various decor styles."
+  },
+  {
+   "id": "99b717b4c710",
+   "label": "VALID",
+   "reason": "the drawers show no signs of sagging despite daily use; stored negated with 'no signs of'",
+   "evidence": "The drawers still slide perfectly and show no signs of sagging despite daily use."
+  },
+  {
+   "id": "c1e5cbf89b42",
+   "label": "VALID",
+   "reason": "the text says these nightstands offer excellent quality for the price",
+   "evidence": "These nightstands offer excellent quality for the price!"
+  },
+  {
+   "id": "e7ba65bcff9f",
+   "label": "VALID",
+   "reason": "the nightstands have held up beautifully over more than a year of ownership; the time words are the text's",
+   "evidence": "We've had our Norrköping Nightstands for over a year now and they've held up beautifully!"
+  },
+  {
+   "id": "152279d99ce8",
+   "label": "VALID",
+   "reason": "the review says the lamp's design provides the perfect ambient lighting for evening relaxation; positive, actual",
+   "evidence": "The design is both modern and timeless, providing the perfect ambient lighting for evening relaxation."
+  },
+  {
+   "id": "49268a4295b2",
+   "label": "VALID",
+   "reason": "the text says the shade diffuses light beautifully without harsh spots",
+   "evidence": "The shade diffuses light beautifully without any harsh spots."
+  },
+  {
+   "id": "7090b092cbf0",
+   "label": "VALID",
+   "reason": "the review says assembly of the lamp was incredibly simple; positive experiential quality",
+   "evidence": "Assembly was incredibly simple - took less than 10 minutes."
+  },
+  {
+   "id": "838b0105552d",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement of the lamp of 10 minutes; the text gives an upper bound (less than 10 minutes) on how long this reviewer's assembly took, not a specification or dimension of the lamp",
+   "evidence": "Assembly was incredibly simple - took less than 10 minutes.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "a16837c3be2b",
+   "label": "VALID",
+   "reason": "the text calls the Orebro Lamp a stunning addition to the living room",
+   "evidence": "The Örebro Lamp is a stunning addition to my living room!"
+  },
+  {
+   "id": "abbfdb54b8bd",
+   "label": "VALID",
+   "reason": "the text says the lamp's design is modern and timeless",
+   "evidence": "The design is both modern and timeless, providing the perfect ambient lighting for evening relaxation."
+  },
+  {
+   "id": "b0a40168bf72",
+   "label": "VALID",
+   "reason": "the text says the dimmer function is smooth and responsive",
+   "evidence": "The materials feel high-quality and the dimmer function is smooth and responsive."
+  },
+  {
+   "id": "d4113175a4fa",
+   "label": "VALID",
+   "reason": "the text says the lamp's materials feel high-quality",
+   "evidence": "The materials feel high-quality and the dimmer function is smooth and responsive."
+  },
+  {
+   "id": "358a6e8ae6c5",
+   "label": "VALID",
+   "reason": "the review of this lamp says its light output is perfect for task lighting",
+   "evidence": "The light output is perfect for task lighting - bright enough to work by but not harsh or glaring."
+  },
+  {
+   "id": "4479b9c76066",
+   "label": "VALID",
+   "reason": "the review says the lamp's assembly came with clear instructions; positive experiential quality",
+   "evidence": "Assembly was straightforward with clear instructions."
+  },
+  {
+   "id": "555f17243b6a",
+   "label": "VALID",
+   "reason": "the text says the cord is a bit short; negative complaint",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied."
+  },
+  {
+   "id": "5e02fe1b0d34",
+   "label": "VALID",
+   "reason": "the text denies that the lamp's light is harsh or glaring; stored negated with 'not', positive tone",
+   "evidence": "The light output is perfect for task lighting - bright enough to work by but not harsh or glaring."
+  },
+  {
+   "id": "734e1369d9cc",
+   "label": "VALID",
+   "reason": "the text says the adjustable arm stays in position",
+   "evidence": "The adjustable arm is sturdy and stays in position."
+  },
+  {
+   "id": "8112e3132c58",
+   "label": "VALID",
+   "reason": "the text says the lamp's light is bright enough to work by",
+   "evidence": "The light output is perfect for task lighting - bright enough to work by but not harsh or glaring."
+  },
+  {
+   "id": "9626a4a07fb5",
+   "label": "VALID",
+   "reason": "'this lamp' in a review of the Orebro Lamp has been a great addition to the home office",
+   "evidence": "I purchased this lamp for my home office and it's been a great addition."
+  },
+  {
+   "id": "a92751265366",
+   "label": "VALID",
+   "reason": "the text says the adjustable arm is sturdy",
+   "evidence": "The adjustable arm is sturdy and stays in position."
+  },
+  {
+   "id": "bf601a66be23",
+   "label": "VALID",
+   "reason": "the text gives the cord's length as 1.5m",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied."
+  },
+  {
+   "id": "e273d237eba7",
+   "label": "VALID",
+   "reason": "the review says assembly of the lamp was straightforward",
+   "evidence": "Assembly was straightforward with clear instructions."
+  },
+  {
+   "id": "0fe32bce10b8",
+   "label": "VALID",
+   "reason": "the review says assembly of the lamp was easy peasy",
+   "evidence": "assembly was easy peasy."
+  },
+  {
+   "id": "16d8ee19c4ed",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'it tips over easily if you bump it' follows 'the base is lighter than i expected'; 'it' most naturally means the lamp, but grammatically can be the base; conditional on bumping is right",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it."
+  },
+  {
+   "id": "20cccb6c7cd7",
+   "label": "VALID",
+   "reason": "the text says the dimmer is perfect for creating mood lighting",
+   "evidence": "gives off nice vibes and the dimmer is perfect for creating mood lighting."
+  },
+  {
+   "id": "481dbf0315bd",
+   "label": "VALID",
+   "reason": "the lamp tips over easily when bumped because its base is light; conditional 'if you bump it' is the text's condition",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it."
+  },
+  {
+   "id": "563a908a30ee",
+   "label": "VALID",
+   "reason": "the text says the switch feels kinda cheap; negative",
+   "evidence": "only giving 3 stars because the switch feels kinda cheap and i'm worried it might break eventually."
+  },
+  {
+   "id": "68015f3f6bed",
+   "label": "VALID",
+   "reason": "the text says the lamp looks super cute",
+   "evidence": "lamp looks super cute in my bedroom!"
+  },
+  {
+   "id": "95f5854420c2",
+   "label": "VALID",
+   "reason": "the review closes saying the lamp looks good",
+   "evidence": "looks good though!"
+  },
+  {
+   "id": "9bec04c47c78",
+   "label": "VALID",
+   "reason": "the lamp gives off nice vibes, per the review",
+   "evidence": "gives off nice vibes and the dimmer is perfect for creating mood lighting."
+  },
+  {
+   "id": "b50f881d1fd3",
+   "label": "VALID",
+   "reason": "the writer worries the switch might break eventually; stored possible with hedge 'might' and time 'eventually', both the text's",
+   "evidence": "only giving 3 stars because the switch feels kinda cheap and i'm worried it might break eventually."
+  },
+  {
+   "id": "fee84b319b1e",
+   "label": "VALID",
+   "reason": "the text says the base is lighter than expected; negative complaint",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it."
+  },
+  {
+   "id": "063cbb416ded",
+   "label": "VALID",
+   "reason": "the text gives the lamp's power consumption as 12W",
+   "evidence": "The power consumption is remarkably efficient at only 12W while providing illuminance equivalent to a traditional 75W incandescent."
+  },
+  {
+   "id": "07484f9a2ddf",
+   "label": "VALID",
+   "reason": "the text gives the lamp's color temperature as 3000K",
+   "evidence": "The color temperature (3000K) provides a perfect warm white that renders colors accurately with a CRI of approximately 90+."
+  },
+  {
+   "id": "0fed5ece4113",
+   "label": "VALID",
+   "reason": "the text says the shade material's opacity diffuses light evenly",
+   "evidence": "The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control."
+  },
+  {
+   "id": "1c715eabf7cc",
+   "label": "VALID",
+   "reason": "the text says the lamp's warm white light renders colors accurately",
+   "evidence": "The color temperature (3000K) provides a perfect warm white that renders colors accurately with a CRI of approximately 90+."
+  },
+  {
+   "id": "1de46969ec41",
+   "label": "VALID",
+   "reason": "the text says the lamp's minimal footprint conserves space efficiently",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+  },
+  {
+   "id": "409808034737",
+   "label": "VALID",
+   "reason": "the text gives the lamp's footprint as 22cm diameter; the stored value drops the word diameter but is the lamp's dimension",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+  },
+  {
+   "id": "457ddd6b71b7",
+   "label": "VALID",
+   "reason": "the text says the weighted base ensures stability",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+  },
+  {
+   "id": "5807fb579fb1",
+   "label": "VALID",
+   "reason": "the text gives the base's weight as 3.2kg",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+  },
+  {
+   "id": "97cc85a129b8",
+   "label": "VALID",
+   "reason": "the text says the LED driver's constant current design eliminates flickering; stored negated with 'eliminates', positive",
+   "evidence": "The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings - a detail often overlooked in consumer lighting."
+  },
+  {
+   "id": "a1f162de3fff",
+   "label": "VALID",
+   "reason": "the text gives the lamp's CRI as approximately 90+; the stored value omits the name CRI and 'approximately' but is the lamp's specification",
+   "evidence": "The color temperature (3000K) provides a perfect warm white that renders colors accurately with a CRI of approximately 90+."
+  },
+  {
+   "id": "b3d0beea6ed0",
+   "label": "VALID",
+   "reason": "the text says the shade material still allows directional control",
+   "evidence": "The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control."
+  },
+  {
+   "id": "e080c1a6a743",
+   "label": "VALID",
+   "reason": "the text says the lamp's power consumption is remarkably efficient",
+   "evidence": "The power consumption is remarkably efficient at only 12W while providing illuminance equivalent to a traditional 75W incandescent."
+  },
+  {
+   "id": "0f3f43e200df",
+   "label": "VALID",
+   "reason": "the text says the lamp's materials feel cheap; negative",
+   "evidence": "The materials feel cheap, particularly the shade which is unevenly colored."
+  },
+  {
+   "id": "1a5ec9a42030",
+   "label": "VALID",
+   "reason": "the text says the lamp in reality is much less impressive than in photos; negative",
+   "evidence": "While the lamp looks nice in photos, the reality is much less impressive."
+  },
+  {
+   "id": "498ec0daad76",
+   "label": "VALID",
+   "reason": "the writer is disappointed with the purchase of this lamp; a negative opinion of the lamp, worded as the writer's feeling",
+   "evidence": "Disappointed with this purchase."
+  },
+  {
+   "id": "9083534c64e7",
+   "label": "VALID",
+   "reason": "the text says the shade is unevenly colored; negative",
+   "evidence": "The materials feel cheap, particularly the shade which is unevenly colored."
+  },
+  {
+   "id": "c027bb5ef054",
+   "label": "VALID",
+   "reason": "the text says the lamp wobbles slightly on its base; negative",
+   "evidence": "Assembly was easy enough but the lamp wobbles slightly on its base."
+  },
+  {
+   "id": "c5a67bac843d",
+   "label": "VALID",
+   "reason": "the text says assembly of the lamp was easy enough",
+   "evidence": "Assembly was easy enough but the lamp wobbles slightly on its base."
+  },
+  {
+   "id": "d7d21c0fb368",
+   "label": "VALID",
+   "reason": "the text says the dimmer switch sometimes flickers at lower settings; conditional on 'at lower settings' matches",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings."
+  },
+  {
+   "id": "dc10bce663aa",
+   "label": "VALID",
+   "reason": "the text says the dimmer switch is finicky; negative",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings."
+  },
+  {
+   "id": "ef2d47bcfc7c",
+   "label": "VALID",
+   "reason": "the text concedes the lamp looks nice in photos before contrasting it with reality; the statement itself is positive",
+   "evidence": "While the lamp looks nice in photos, the reality is much less impressive."
+  },
+  {
+   "id": "4d44123311a0",
+   "label": "VALID",
+   "reason": "the text says assembly of the lamp was very simple",
+   "evidence": "Assembly was very simple - just attach the shade to the base."
+  },
+  {
+   "id": "747aa8a62e28",
+   "label": "VALID",
+   "reason": "the text says the lamp's design is elegant",
+   "evidence": "The design is elegant and it provides nice ambient lighting in my reading nook."
+  },
+  {
+   "id": "815ffc6e7f1b",
+   "label": "VALID",
+   "reason": "the text says the shade arrived with a small dent; negative",
+   "evidence": "Taking off one star because the shade arrived with a small dent, though customer service was helpful and offered a partial refund since I didn't want to go through the hassle of returning it."
+  },
+  {
+   "id": "9478246b31d5",
+   "label": "VALID",
+   "reason": "the text says the dimmer function works well",
+   "evidence": "The dimmer function works well though it's a bit stiff to turn."
+  },
+  {
+   "id": "a35176d2c083",
+   "label": "VALID",
+   "reason": "the text says the dimmer is a bit stiff to turn; negative",
+   "evidence": "The dimmer function works well though it's a bit stiff to turn."
+  },
+  {
+   "id": "a5bb283ded8c",
+   "label": "VALID",
+   "reason": "the text calls it a good lamp for the price",
+   "evidence": "Good lamp for the price!"
+  },
+  {
+   "id": "f8594f50687a",
+   "label": "VALID",
+   "reason": "the text says assembly is attaching the shade to the base, a physical interface between the two",
+   "evidence": "Assembly was very simple - just attach the shade to the base."
+  },
+  {
+   "id": "fc436680c72b",
+   "label": "VALID",
+   "reason": "the text says the lamp provides nice ambient lighting",
+   "evidence": "The design is elegant and it provides nice ambient lighting in my reading nook."
+  },
+  {
+   "id": "23c690d6fc4b",
+   "label": "VALID",
+   "reason": "the text says the lamp feels sturdy and well-made",
+   "evidence": "The lamp feels sturdy and well-made - definitely worth the investment!"
+  },
+  {
+   "id": "7eab8bcd1499",
+   "label": "VALID",
+   "reason": "the text says the dimmer function has been reliable and smooth",
+   "evidence": "The dimmer function has been reliable and smooth."
+  },
+  {
+   "id": "93bb52ed9a9e",
+   "label": "VALID",
+   "reason": "the text says the lamp's light quality is excellent; the aspect is stored with positive polarity as the relation description allows",
+   "evidence": "The light quality is excellent - warm without being yellow, and bright enough to read by but not harsh."
+  },
+  {
+   "id": "e7c3d82910e1",
+   "label": "VALID",
+   "reason": "the text praises the lamp's design as simple yet distinctive; the aspect is stored with positive polarity",
+   "evidence": "The design is simple yet distinctive and we've received many compliments from guests."
+  },
+  {
+   "id": "1745e6ecee0d",
+   "label": "VALID",
+   "reason": "the text praises the chair's minimalist Scandinavian design",
+   "evidence": "The minimalist Scandinavian design fits perfectly in my apartment and the ergonomic shape makes it incredibly comfortable for long periods of sitting."
+  },
+  {
+   "id": "62cf9961cffe",
+   "label": "VALID",
+   "reason": "the text says the chair's ergonomic shape makes it comfortable",
+   "evidence": "The minimalist Scandinavian design fits perfectly in my apartment and the ergonomic shape makes it incredibly comfortable for long periods of sitting."
+  },
+  {
+   "id": "6ceb5967e4d5",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement of the chair of 20 minutes; the text says assembly took less than 20 minutes, an assembly time (not a specification) and an upper bound, not 20 minutes",
+   "evidence": "Assembly was straightforward and took less than 20 minutes.",
+   "faults": [
+    "wrong_relation",
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "bf16e6075746",
+   "label": "VALID",
+   "reason": "the text says the chair is incredibly comfortable for long periods of sitting; the stored time is the claim's own duration words",
+   "evidence": "The minimalist Scandinavian design fits perfectly in my apartment and the ergonomic shape makes it incredibly comfortable for long periods of sitting."
+  },
+  {
+   "id": "db5af532e88b",
+   "label": "VALID",
+   "reason": "the text says the chair's materials feel durable, which describes the chair as a whole",
+   "evidence": "The materials feel high-quality and durable."
+  },
+  {
+   "id": "e23c33297f76",
+   "label": "VALID",
+   "reason": "the text says the chair's materials feel high-quality",
+   "evidence": "The materials feel high-quality and durable."
+  },
+  {
+   "id": "f79b526221a8",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the chair's assembly was straightforward; 'straightforward' is a compressed paraphrase)",
+   "evidence": "Assembly was straightforward and took less than 20 minutes.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "1865374ec6a5",
+   "label": "AMBIGUOUS",
+   "reason": "the only material cue is 'beautiful wood finish', which reads either as the finish of a wooden chair (made of wood) or as a wood-look finish (material unstated)",
+   "evidence": "Clean lines, beautiful wood finish, and it looks much more expensive than it actually was."
+  },
+  {
+   "id": "1bb5e1c35361",
+   "label": "VALID",
+   "reason": "the text praises the chair's clean lines",
+   "evidence": "Clean lines, beautiful wood finish, and it looks much more expensive than it actually was."
+  },
+  {
+   "id": "991a4fcbad70",
+   "label": "INCORRECT",
+   "reason": "stored 'instructions are clearer', affirmed and possible; 'could have been clearer' is a counterfactual complaint that they actually were not clear enough; instructions are also no Component",
+   "evidence": "I'm taking off one star because the assembly instructions could have been clearer",
+   "faults": [
+    "truth",
+    "modality",
+    "type"
+   ]
+  },
+  {
+   "id": "9e354f31c1a8",
+   "label": "VALID",
+   "reason": "the text praises the chair's beautiful wood finish",
+   "evidence": "Clean lines, beautiful wood finish, and it looks much more expensive than it actually was."
+  },
+  {
+   "id": "2da27f782ff5",
+   "label": "VALID",
+   "reason": "the text says assembly of the chair was super easy",
+   "evidence": "assembly was super easy too, no tools needed except the little allen key they give you."
+  },
+  {
+   "id": "5e9d2b222179",
+   "label": "VALID",
+   "reason": "the writer says the vibes are immaculate with this chair",
+   "evidence": "vibes are immaculate with this chair!!"
+  },
+  {
+   "id": "795c0509262d",
+   "label": "VALID",
+   "reason": "the text says no tools are needed except the included allen key; negation carried by the name",
+   "evidence": "assembly was super easy too, no tools needed except the little allen key they give you."
+  },
+  {
+   "id": "b302db1c613d",
+   "label": "VALID",
+   "reason": "the text says the chair looks amazing",
+   "evidence": "so comfy and looks amazing in my space."
+  },
+  {
+   "id": "eddf70900a66",
+   "label": "VALID",
+   "reason": "the text says the chair is so comfy",
+   "evidence": "so comfy and looks amazing in my space."
+  },
+  {
+   "id": "0612d3dc5582",
+   "label": "VALID",
+   "reason": "the writer finds the chair less comfortable for extended work sessions; the stored time is the claim's scope words",
+   "evidence": "The ergonomic design is good for short periods, but I find it less comfortable for extended work sessions."
+  },
+  {
+   "id": "1022085e0c51",
+   "label": "VALID",
+   "reason": "the text calls it a functional chair",
+   "evidence": "Functional chair with decent build quality."
+  },
+  {
+   "id": "74f47e895b27",
+   "label": "VALID",
+   "reason": "the text says the ergonomic design is good for short periods; the stored time keeps that scope",
+   "evidence": "The ergonomic design is good for short periods, but I find it less comfortable for extended work sessions."
+  },
+  {
+   "id": "a83a0038b88b",
+   "label": "VALID",
+   "reason": "the text says the chair has decent build quality",
+   "evidence": "Functional chair with decent build quality."
+  },
+  {
+   "id": "b02da8805de6",
+   "label": "VALID",
+   "reason": "the text reports squeaking after about 3 months of use, when leaning back; time and condition match",
+   "evidence": "However, after about 3 months of use, I've noticed some squeaking when I lean back."
+  },
+  {
+   "id": "b880ca10ba0c",
+   "label": "VALID",
+   "reason": "the text says the chair's aesthetic is nice",
+   "evidence": "The aesthetic is nice though, and it was reasonably priced for what you get."
+  },
+  {
+   "id": "f40f57945e7c",
+   "label": "VALID",
+   "reason": "the text says the chair was reasonably priced",
+   "evidence": "The aesthetic is nice though, and it was reasonably priced for what you get."
+  },
+  {
+   "id": "0d36baa7a28f",
+   "label": "VALID",
+   "reason": "the text says the natural wood grain is beautifully highlighted by the finish",
+   "evidence": "The natural wood grain is beautifully highlighted by the finish."
+  },
+  {
+   "id": "2e2f591a918f",
+   "label": "VALID",
+   "reason": "the text says the seat height is ideal",
+   "evidence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support."
+  },
+  {
+   "id": "3520f27e9197",
+   "label": "INCORRECT",
+   "reason": "the text does say the back angle gives excellent lumbar support, but an angle is a geometric property of the backrest, not a structural part, stored as Component",
+   "evidence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "7c5810263903",
+   "label": "VALID",
+   "reason": "the text says the proportions are perfect",
+   "evidence": "The proportions are perfect, the construction is solid, and the attention to detail is evident in every aspect."
+  },
+  {
+   "id": "8570e4489f9b",
+   "label": "VALID",
+   "reason": "the text gives the seat height as 45cm",
+   "evidence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support."
+  },
+  {
+   "id": "a3768e6cddf7",
+   "label": "VALID",
+   "reason": "the text says the Stockholm Chair exceeds the writer's expectations",
+   "evidence": "As an interior designer, I'm extremely particular about furniture, and the Stockholm Chair exceeds my expectations."
+  },
+  {
+   "id": "bbdabedc8a1d",
+   "label": "VALID",
+   "reason": "the text says the chair's construction is solid",
+   "evidence": "The proportions are perfect, the construction is solid, and the attention to detail is evident in every aspect."
+  },
+  {
+   "id": "e4190f506058",
+   "label": "VALID",
+   "reason": "the text says attention to detail is evident in every aspect",
+   "evidence": "The proportions are perfect, the construction is solid, and the attention to detail is evident in every aspect."
+  },
+  {
+   "id": "f8bdc4b52a38",
+   "label": "VALID",
+   "reason": "the chair shows natural wood grain under its finish, so it is made of wood",
+   "evidence": "The natural wood grain is beautifully highlighted by the finish."
+  },
+  {
+   "id": "27293cae0205",
+   "label": "VALID",
+   "reason": "the text says good price",
+   "evidence": "Good chair, good price."
+  },
+  {
+   "id": "27990e675598",
+   "label": "VALID",
+   "reason": "the text says the chair is comfortable to sit in while working from home; time words match",
+   "evidence": "Comfortable to sit in while I'm working from home."
+  },
+  {
+   "id": "537a97dfe152",
+   "label": "VALID",
+   "reason": "the text says the chair was easy enough to put together",
+   "evidence": "Arrived on time and was easy enough to put together."
+  },
+  {
+   "id": "6c177da6ffdf",
+   "label": "VALID",
+   "reason": "the text says good chair",
+   "evidence": "Good chair, good price."
+  },
+  {
+   "id": "b962b1b2ddcb",
+   "label": "VALID",
+   "reason": "the text says the chair still looks nice in the dining room",
+   "evidence": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room."
+  },
+  {
+   "id": "c2d60e5d0161",
+   "label": "VALID",
+   "reason": "the text complains the color is slightly darker than in the online photos; negative right",
+   "evidence": "Only complaint is that the color is slightly darker than it appeared in the online photos, but it still looks nice in my dining room."
+  },
+  {
+   "id": "d5cd2b93b291",
+   "label": "VALID",
+   "reason": "the text says the chair arrived on time, a positive experiential aspect of the purchase",
+   "evidence": "Arrived on time and was easy enough to put together."
+  },
+  {
+   "id": "33f2404c7665",
+   "label": "VALID",
+   "reason": "the text says the chairs are surprisingly comfortable",
+   "evidence": "They're also surprisingly comfortable for wooden chairs - we've sat through many long dinner parties with no complaints!"
+  },
+  {
+   "id": "6352de9389e1",
+   "label": "VALID",
+   "reason": "the text praises the chairs' clean lines",
+   "evidence": "The clean lines work perfectly with our mid-century modern decor."
+  },
+  {
+   "id": "71d5dc16a9bd",
+   "label": "VALID",
+   "reason": "the text calls them wooden chairs; 'wooden' paraphrases wood",
+   "evidence": "They're also surprisingly comfortable for wooden chairs - we've sat through many long dinner parties with no complaints!"
+  },
+  {
+   "id": "91f7b5391d38",
+   "label": "VALID",
+   "reason": "the text says the chairs are sturdy enough to support a person over 250 lbs",
+   "evidence": "They're sturdy enough to support my husband (who's over 250 lbs) yet elegant looking."
+  },
+  {
+   "id": "e6ea7e262f18",
+   "label": "VALID",
+   "reason": "the text says the chairs are elegant looking",
+   "evidence": "They're sturdy enough to support my husband (who's over 250 lbs) yet elegant looking."
+  },
+  {
+   "id": "fd160ac46772",
+   "label": "VALID",
+   "reason": "the text says assembly was consistent across all chairs, which the writer appreciated",
+   "evidence": "Assembly was consistent across all chairs, which I appreciated."
+  },
+  {
+   "id": "0716338cf3f3",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the sofa; the text gives 45 minutes as how long this reviewer's assembly took with two people, not a dimension or spec of the sofa",
+   "evidence": "Assembly was straightforward and took about 45 minutes with two people.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "0f3f1ea22425",
+   "label": "VALID",
+   "reason": "the text calls the covers removable and praises them as a game-changer",
+   "evidence": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it."
+  },
+  {
+   "id": "2491bfbd01ff",
+   "label": "VALID",
+   "reason": "the text says it was so easy to remove the cover and wash it",
+   "evidence": "it was so easy to remove the cover and wash it."
+  },
+  {
+   "id": "29a74b838fde",
+   "label": "VALID",
+   "reason": "the text says the sofa (the Uppsala Sofa) is firm but not hard, in praise",
+   "evidence": "The sofa is firm but not hard, providing great support."
+  },
+  {
+   "id": "98272971e4a0",
+   "label": "VALID",
+   "reason": "the text says the sofa's assembly was straightforward",
+   "evidence": "Assembly was straightforward and took about 45 minutes with two people."
+  },
+  {
+   "id": "ada4d0ff809b",
+   "label": "VALID",
+   "reason": "the text says the sofa provides great support",
+   "evidence": "The sofa is firm but not hard, providing great support."
+  },
+  {
+   "id": "deb3330b15ed",
+   "label": "VALID",
+   "reason": "the text praises the sofa's clean lines",
+   "evidence": "The clean lines fit perfectly with our Scandinavian-inspired living room, and the comfort level is exceptional."
+  },
+  {
+   "id": "eb6d235e01b7",
+   "label": "VALID",
+   "reason": "the text says the sofa's comfort level is exceptional",
+   "evidence": "The clean lines fit perfectly with our Scandinavian-inspired living room, and the comfort level is exceptional."
+  },
+  {
+   "id": "0aca2b70bdd2",
+   "label": "VALID",
+   "reason": "the text calls the sofa (it) a beautiful piece of furniture",
+   "evidence": "Otherwise, it's a beautiful and well-made piece of furniture."
+  },
+  {
+   "id": "3960d7972aa4",
+   "label": "VALID",
+   "reason": "the text says the cushions have maintained their shape well",
+   "evidence": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+  },
+  {
+   "id": "7f618d6951bd",
+   "label": "INCORRECT",
+   "reason": "the text does say the fabric quality is excellent, but fabric is stored as a Component, whose description excludes raw materials while Material explicitly names fabric",
+   "evidence": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "a15219a462b2",
+   "label": "VALID",
+   "reason": "the text says the sofa is slightly deeper than expected, the reason for a lost star",
+   "evidence": "The only reason I'm not giving 5 stars is that the sofa is slightly deeper than I expected (92cm), which makes it a bit awkward for shorter people like me to sit comfortably with feet on the floor."
+  },
+  {
+   "id": "a67a7193db7e",
+   "label": "VALID",
+   "reason": "the text calls the sofa a well-made piece of furniture",
+   "evidence": "Otherwise, it's a beautiful and well-made piece of furniture."
+  },
+  {
+   "id": "c22e0b754143",
+   "label": "VALID",
+   "reason": "the text gives the sofa's depth as 92cm, a dimension of the sofa",
+   "evidence": "the sofa is slightly deeper than I expected (92cm)"
+  },
+  {
+   "id": "eab2f96c9985",
+   "label": "VALID",
+   "reason": "the text says the depth makes the sofa a bit awkward for shorter people to sit with feet on the floor",
+   "evidence": "The only reason I'm not giving 5 stars is that the sofa is slightly deeper than I expected (92cm), which makes it a bit awkward for shorter people like me to sit comfortably with feet on the floor."
+  },
+  {
+   "id": "305b6ad65d5a",
+   "label": "VALID",
+   "reason": "the text says the removable covers were washed after a wine spill and came out perfect",
+   "evidence": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect."
+  },
+  {
+   "id": "723539bf29a3",
+   "label": "VALID",
+   "reason": "the text says the sofa looks amazing",
+   "evidence": "sofa looks amazing in my apartment, super stylish and i get tons of compliments!"
+  },
+  {
+   "id": "841c0fd32083",
+   "label": "VALID",
+   "reason": "the text says the removable covers are clutch (very handy)",
+   "evidence": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect."
+  },
+  {
+   "id": "9e79e609ac76",
+   "label": "VALID",
+   "reason": "the text says the sofa is pretty firm, a complaint for this writer who wanted something squishier",
+   "evidence": "like it's pretty firm which some people might like but i was wanting something more squishy."
+  },
+  {
+   "id": "a5c5ab34c60e",
+   "label": "VALID",
+   "reason": "the text says the sofa does look great",
+   "evidence": "mixed feelings overall but it does look great."
+  },
+  {
+   "id": "bc8e988b04a3",
+   "label": "VALID",
+   "reason": "the text calls the sofa super stylish",
+   "evidence": "sofa looks amazing in my apartment, super stylish and i get tons of compliments!"
+  },
+  {
+   "id": "bc90cd490e0a",
+   "label": "VALID",
+   "reason": "the text says the sofa is not as comfy as hoped; the negation is carried by the name",
+   "evidence": "but honestly it's not as comfy as i hoped?"
+  },
+  {
+   "id": "09388b0b7f93",
+   "label": "VALID",
+   "reason": "the text says the removable covers feature well-executed pattern matching at the seams",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+  },
+  {
+   "id": "207d866f7e28",
+   "label": "VALID",
+   "reason": "the text says the frame uses reinforced corner blocks",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "2f40a32dc13b",
+   "label": "VALID",
+   "reason": "the text says the upholstery is a polyester blend",
+   "evidence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use."
+  },
+  {
+   "id": "333cd23e75f2",
+   "label": "VALID",
+   "reason": "the text says the covers feature YKK zippers, fastening hardware attached to the covers",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+  },
+  {
+   "id": "362cfe5fa96e",
+   "label": "VALID",
+   "reason": "the text says the frame's joinery uses reinforced corner blocks, a fastening between frame and blocks, in praise",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "457d3cb54f46",
+   "label": "VALID",
+   "reason": "the text says the cushion density provides the perfect balance between support and comfort",
+   "evidence": "The cushion density (28kg/m³) provides the perfect balance between support and comfort."
+  },
+  {
+   "id": "7242846ea4a4",
+   "label": "VALID",
+   "reason": "the text says this sofa exemplifies thoughtful design",
+   "evidence": "This sofa exemplifies thoughtful design at an accessible price point."
+  },
+  {
+   "id": "b7312de22247",
+   "label": "VALID",
+   "reason": "the text gives the upholstery's abrasion rating as 30,000 Martindale rubs",
+   "evidence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use."
+  },
+  {
+   "id": "c95a81052d97",
+   "label": "VALID",
+   "reason": "the text calls the upholstery commercial-grade",
+   "evidence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use."
+  },
+  {
+   "id": "d0caef0737c8",
+   "label": "VALID",
+   "reason": "the text gives the cushion density as 28kg/m³",
+   "evidence": "The cushion density (28kg/m³) provides the perfect balance between support and comfort."
+  },
+  {
+   "id": "d37876026c0b",
+   "label": "VALID",
+   "reason": "the text says the frame construction uses proper joinery techniques",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "e64394ccad64",
+   "label": "VALID",
+   "reason": "the writer says the Uppsala Sofa represents exceptional value",
+   "evidence": "As an interior designer with over 15 years of experience, I can confidently say the Uppsala Sofa represents exceptional value."
+  },
+  {
+   "id": "f4b178e27291",
+   "label": "VALID",
+   "reason": "the text calls the YKK zippers quality zippers",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+  },
+  {
+   "id": "fb0eb6c2c223",
+   "label": "VALID",
+   "reason": "the text says the upholstery will withstand years of use, a statement of durability; the time repeats the span of use",
+   "evidence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use."
+  },
+  {
+   "id": "4bfa55b3a96a",
+   "label": "VALID",
+   "reason": "the text concedes the sofa looks nice",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+  },
+  {
+   "id": "7beda712a0fa",
+   "label": "VALID",
+   "reason": "the text says the frame creaks whenever someone sits down; condition stored with those words",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+  },
+  {
+   "id": "ca0fb1c234ee",
+   "label": "VALID",
+   "reason": "the text says assembly was more complicated than advertised",
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "cdf287e5f3ad",
+   "label": "VALID",
+   "reason": "the text says the cushions are losing their shape after just two months of normal use",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+  },
+  {
+   "id": "cf32cb5ce225",
+   "label": "VALID",
+   "reason": "the text says some parts did not fit together properly; stored negated with 'not'",
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "0442b84fd9c4",
+   "label": "INCORRECT",
+   "reason": "the text does say the fabric is durable, but fabric is stored as a Component, whose description excludes raw materials while Material explicitly names fabric",
+   "evidence": "The fabric is durable and has held up well to our cats' occasional clawing.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "13750bfebd43",
+   "label": "VALID",
+   "reason": "the text says the cushions are on the firmer side, which the writer prefers",
+   "evidence": "The cushions are on the firmer side, which I personally prefer for proper back support."
+  },
+  {
+   "id": "83b1948fc33e",
+   "label": "VALID",
+   "reason": "the text says the firmer cushions are what the writer prefers for proper back support, i.e. they give it",
+   "evidence": "The cushions are on the firmer side, which I personally prefer for proper back support."
+  },
+  {
+   "id": "c46169c7fd90",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the sofa's assembly definitely requires two people)",
+   "evidence": "Assembly was straightforward though it definitely requires two people.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "cc3f6edbd6e9",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the sofa's assembly was straightforward)",
+   "evidence": "Assembly was straightforward though it definitely requires two people.",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "ec28d2b31dbc",
+   "label": "VALID",
+   "reason": "the text says one of the legs arrived with a small chip",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement."
+  },
+  {
+   "id": "045f3cf13c70",
+   "label": "VALID",
+   "reason": "the text says the covers were washed many times with no fading; stored negated",
+   "evidence": "The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times with no fading or shrinking."
+  },
+  {
+   "id": "2ea076909d1c",
+   "label": "VALID",
+   "reason": "the text says the frame has no wobbling; stored negated",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling."
+  },
+  {
+   "id": "4ee23455cc71",
+   "label": "VALID",
+   "reason": "the text says the frame feels incredibly solid",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling."
+  },
+  {
+   "id": "a3e940522acf",
+   "label": "VALID",
+   "reason": "the text says the cushions have maintained their shape despite daily use",
+   "evidence": "The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times with no fading or shrinking."
+  },
+  {
+   "id": "b66fdc83b446",
+   "label": "VALID",
+   "reason": "the text says the sofa (it) is the perfect size for the living room",
+   "evidence": "It's the perfect size for our apartment living room, comfortably seating 3-4 people."
+  },
+  {
+   "id": "bae013a6ebf1",
+   "label": "VALID",
+   "reason": "the text gives the sofa's seating capacity as 3-4 people, said with approval",
+   "evidence": "It's the perfect size for our apartment living room, comfortably seating 3-4 people."
+  },
+  {
+   "id": "bd71ce52f9c1",
+   "label": "VALID",
+   "reason": "the text says the covers were washed many times with no shrinking; stored negated",
+   "evidence": "The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times with no fading or shrinking."
+  },
+  {
+   "id": "ed3d98ed7500",
+   "label": "VALID",
+   "reason": "the text says the frame has no squeaking; stored negated",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling."
+  },
+  {
+   "id": "4bfa99ed31f3",
+   "label": "VALID",
+   "reason": "the text says the shelves hold the collection without any sagging; stored negated, positive",
+   "evidence": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+  },
+  {
+   "id": "56d6662f7eed",
+   "label": "VALID",
+   "reason": "the reviewer praises the bookshelf's modular design",
+   "evidence": "The modular design allowed me to configure it perfectly for my space."
+  },
+  {
+   "id": "5a4ad6eeccea",
+   "label": "VALID",
+   "reason": "the text says assembly of the bookshelf was straightforward",
+   "evidence": "Assembly was straightforward and took about 90 minutes."
+  },
+  {
+   "id": "80b3da071dad",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the bookshelf; the 90 minutes is how long this reviewer's assembly took, not a specification, dimension or rating of the product",
+   "evidence": "Assembly was straightforward and took about 90 minutes.",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "894a53ccf068",
+   "label": "VALID",
+   "reason": "the text praises the bookshelf's clean lines",
+   "evidence": "The clean lines and quality finish make it look much more expensive than it actually was."
+  },
+  {
+   "id": "daba69674b32",
+   "label": "VALID",
+   "reason": "the text says the shelves are sturdy",
+   "evidence": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+  },
+  {
+   "id": "df2183dfd1ab",
+   "label": "VALID",
+   "reason": "the text praises the bookshelf's quality finish",
+   "evidence": "The clean lines and quality finish make it look much more expensive than it actually was."
+  },
+  {
+   "id": "117f2ddef825",
+   "label": "VALID",
+   "reason": "the text says the finish is consistent",
+   "evidence": "The finish is consistent and the overall construction feels solid."
+  },
+  {
+   "id": "1ffc22683ec7",
+   "label": "VALID",
+   "reason": "the text says each shelf holds its load without any sign of bending; stored negated, positive",
+   "evidence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+  },
+  {
+   "id": "402277ce35a5",
+   "label": "INCORRECT",
+   "reason": "stored as a measurement (specification) of the bookshelves; the 2 hours per unit is how long this reviewer's assembly took, not a specification, dimension or rating of the product",
+   "evidence": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit).",
+   "faults": [
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "51b0a9bf93a1",
+   "label": "VALID",
+   "reason": "the text says some pre-drilled holes were not perfectly aligned; stored negated, negative",
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+  },
+  {
+   "id": "7382587d50d0",
+   "label": "VALID",
+   "reason": "the text says the bookshelves' overall construction feels solid",
+   "evidence": "The finish is consistent and the overall construction feels solid."
+  },
+  {
+   "id": "86fd7340a711",
+   "label": "INCORRECT",
+   "reason": "the text does say the assembly instructions were clear, but the instructions are stored as a Component; a printed instruction document is no structural part, hardware or sub-unit of the product",
+   "evidence": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit).",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "e77d373bfa0e",
+   "label": "VALID",
+   "reason": "the text gives each shelf's load as approximately 30-35 hardcover books, a load figure for the shelf",
+   "evidence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+  },
+  {
+   "id": "f1ba7d744cbf",
+   "label": "VALID",
+   "reason": "the text says the misaligned holes made assembly a bit frustrating at times; time 'at times' is the text's",
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+  },
+  {
+   "id": "203ccfedcf3a",
+   "label": "INCORRECT",
+   "reason": "the text does say the instructions were confusing, but the instructions are stored as a Component; an instruction document is no structural part, hardware or sub-unit of the product",
+   "evidence": "instructions were confusing and i had to redo some steps.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "292ad119e56b",
+   "label": "VALID",
+   "reason": "'it' is the reviewed bookshelf, which the text says looks stylish",
+   "evidence": "once it was built though it's pretty nice, holds all my books and plants and looks stylish."
+  },
+  {
+   "id": "2f9b577b2146",
+   "label": "VALID",
+   "reason": "the text says the bookshelf was a pain to put together",
+   "evidence": "looks great in my apartment but was a pain to put together tbh."
+  },
+  {
+   "id": "6a84178c5006",
+   "label": "VALID",
+   "reason": "wishing it 'wasn't so complicated to assemble' states that it is complicated to assemble; affirmed is right",
+   "evidence": "just wish it wasn't so complicated to assemble."
+  },
+  {
+   "id": "6c982cf15819",
+   "label": "VALID",
+   "reason": "the text says the bookshelf works for what the reviewer needs",
+   "evidence": "probably wouldn't buy again but it works for what i need."
+  },
+  {
+   "id": "9d63622c8966",
+   "label": "VALID",
+   "reason": "the text says once built the bookshelf is pretty nice; time 'once it was built' is the text's",
+   "evidence": "once it was built though it's pretty nice, holds all my books and plants and looks stylish."
+  },
+  {
+   "id": "dff2128655fc",
+   "label": "VALID",
+   "reason": "the text says the bookshelf holds all the reviewer's books and plants",
+   "evidence": "once it was built though it's pretty nice, holds all my books and plants and looks stylish."
+  },
+  {
+   "id": "ea1ddfebe45b",
+   "label": "VALID",
+   "reason": "the text says the bookshelf looks great",
+   "evidence": "looks great in my apartment but was a pain to put together tbh."
+  },
+  {
+   "id": "00800dfc1cd5",
+   "label": "INCORRECT",
+   "reason": "the text does say the included instructions were precise, but the instructions are stored as a Component; an instruction document is no structural part, hardware or sub-unit of the product",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "128ce5ded99a",
+   "label": "VALID",
+   "reason": "the text says the vertical supports use proper mortise and tenon construction, as praise",
+   "evidence": "The vertical supports utilize a proper mortise and tenon construction rather than the cam-lock fasteners common at this price point."
+  },
+  {
+   "id": "294e0a544e7b",
+   "label": "VALID",
+   "reason": "the text says the hardware was sorted by step",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step."
+  },
+  {
+   "id": "2d6408bc37bb",
+   "label": "VALID",
+   "reason": "aspect 'Assembly' with positive polarity: the text says assembly of the Västerås was logical",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step."
+  },
+  {
+   "id": "72af461b87a6",
+   "label": "VALID",
+   "reason": "the text gives the shelf depth as 30cm, a dimension of the shelf",
+   "evidence": "The shelf depth of 30cm accommodates larger art books that typically protrude on standard shelves."
+  },
+  {
+   "id": "7aab3df0f498",
+   "label": "VALID",
+   "reason": "the text says the components were properly numbered",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step."
+  },
+  {
+   "id": "9501561b338e",
+   "label": "VALID",
+   "reason": "the text says the Västerås stands out for its exceptional quality-to-price ratio",
+   "evidence": "As a librarian with an extensive home collection, I've purchased many bookshelves over the years, and the Västerås stands out for its exceptional quality-to-price ratio."
+  },
+  {
+   "id": "b6b36deb34e5",
+   "label": "VALID",
+   "reason": "the text says the bookshelf's finish has no uneven application; stored negated, positive",
+   "evidence": "The finish is consistent with no visible brush marks or uneven application."
+  },
+  {
+   "id": "deb7d7c0265f",
+   "label": "VALID",
+   "reason": "the text says the bookshelf's finish has no visible brush marks; stored negated, positive",
+   "evidence": "The finish is consistent with no visible brush marks or uneven application."
+  },
+  {
+   "id": "df7baea8f52e",
+   "label": "VALID",
+   "reason": "aspect 'load capacity' with positive polarity: the text calls the load capacity impressive",
+   "evidence": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection."
+  },
+  {
+   "id": "ef5503c23376",
+   "label": "VALID",
+   "reason": "the text gives approximately 20kg as the load each shelf held, a load figure for the shelf",
+   "evidence": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection."
+  },
+  {
+   "id": "f6b72ae8abe6",
+   "label": "VALID",
+   "reason": "aspect 'finish' with positive polarity: the text says the finish is consistent",
+   "evidence": "The finish is consistent with no visible brush marks or uneven application."
+  },
+  {
+   "id": "fe7a65499184",
+   "label": "VALID",
+   "reason": "the text says each shelf showed no deflection under load; stored negated, positive",
+   "evidence": "The load capacity is impressive - I've tested each shelf with approximately 20kg of books with no deflection."
+  },
+  {
+   "id": "1d8303909be0",
+   "label": "VALID",
+   "reason": "the text says some parts did not fit together properly; stored negated, negative",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+  },
+  {
+   "id": "41b96f05ad6b",
+   "label": "VALID",
+   "reason": "the text says the veneer is extremely thin",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly."
+  },
+  {
+   "id": "5578f86ab058",
+   "label": "VALID",
+   "reason": "the text says the built bookshelf wobbles slightly; time 'Now that it's built' is the text's",
+   "evidence": "Now that it's built, it wobbles slightly and I don't trust putting anything heavy on the upper shelves."
+  },
+  {
+   "id": "6815eb6659d8",
+   "label": "VALID",
+   "reason": "the writer concedes the bookshelf looks nice in photos before the complaint",
+   "evidence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected."
+  },
+  {
+   "id": "6c6cef39eab3",
+   "label": "VALID",
+   "reason": "the text says the bookshelf's assembly was a nightmare",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+  },
+  {
+   "id": "be7846be365e",
+   "label": "VALID",
+   "reason": "the text says the veneer chipped in several places during assembly; time is the text's",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly."
+  },
+  {
+   "id": "eedc81a36859",
+   "label": "VALID",
+   "reason": "the text says the bookshelf's quality of materials is lower than expected",
+   "evidence": "While the bookshelf looks nice in photos, the quality of materials is lower than expected."
+  },
+  {
+   "id": "03260f2ea2b2",
+   "label": "VALID",
+   "reason": "the reviewer calls it a good bookshelf for the price",
+   "evidence": "Good bookshelf for the price!"
+  },
+  {
+   "id": "2f8bcc0c0fa6",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the bookshelf's assembly was straightforward; the aspect drops the word 'assembly' but the evidence ties it)",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "42765f8d3a82",
+   "label": "VALID",
+   "reason": "the text says the shelves are adjustable, as a nice feature",
+   "evidence": "The shelves are adjustable which is a nice feature I've already taken advantage of."
+  },
+  {
+   "id": "57ff6021ee4d",
+   "label": "VALID",
+   "reason": "the text says the back panel feels a bit flimsy",
+   "evidence": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+  },
+  {
+   "id": "91e0bd8bc332",
+   "label": "INCORRECT",
+   "reason": "lead: ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it (blind: the text says the bookshelf's assembly was time-consuming; the aspect drops the word 'assembly' but the evidence ties it)",
+   "evidence": "Assembly was straightforward though time-consuming (about 2 hours).",
+   "faults": [
+    "wrong_entity"
+   ]
+  },
+  {
+   "id": "a82603336dd4",
+   "label": "VALID",
+   "reason": "the text says the back panel is quite thin, as a complaint",
+   "evidence": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+  },
+  {
+   "id": "bf4dd594abea",
+   "label": "VALID",
+   "reason": "the text says the bookshelf works perfectly for displaying books and items",
+   "evidence": "I needed something to display both books and decorative items, and this works perfectly."
+  },
+  {
+   "id": "56f74060255d",
+   "label": "VALID",
+   "reason": "the text says the bookshelf has held up beautifully over a year; time is the text's",
+   "evidence": "We've had our Västerås Bookshelf for over a year now and it's held up beautifully!"
+  },
+  {
+   "id": "78c53b541227",
+   "label": "VALID",
+   "reason": "the text says there has been no sagging despite heavy use; stored negated, positive",
+   "evidence": "The construction is solid and there's been no sagging despite heavy use."
+  },
+  {
+   "id": "86a55cc8c0c9",
+   "label": "VALID",
+   "reason": "the text says the adjustable shelves have been a great feature",
+   "evidence": "The adjustable shelves have been a great feature as our needs have changed."
+  },
+  {
+   "id": "a61d6ee2acb3",
+   "label": "VALID",
+   "reason": "the text says assembly of the bookshelf was straightforward",
+   "evidence": "Assembly was straightforward with clear instructions."
+  },
+  {
+   "id": "c9c1859a5e77",
+   "label": "VALID",
+   "reason": "the text says the bookshelf's design is timeless",
+   "evidence": "The design is timeless and blends well with both our modern and antique pieces."
+  },
+  {
+   "id": "ecf36563a8ac",
+   "label": "INCORRECT",
+   "reason": "the text does say the instructions were clear, but the instructions are stored as a Component; an instruction document is no structural part, hardware or sub-unit of the product",
+   "evidence": "Assembly was straightforward with clear instructions.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "efa153361175",
+   "label": "VALID",
+   "reason": "aspect 'value' with positive polarity: the text calls the bookshelf excellent value",
+   "evidence": "Excellent value for the quality!"
+  },
+  {
+   "id": "f8d2da595d54",
+   "label": "VALID",
+   "reason": "the text says the bookshelf's construction is solid",
+   "evidence": "The construction is solid and there's been no sagging despite heavy use."
+  },
+  {
+   "id": "ee35167c9cea",
+   "label": "VALID",
+   "reason": "in a document about the Gothenburg Table, 'the surface' is the table's surface",
+   "evidence": "The surface is easy to clean and surprisingly resistant to scratches."
+  },
+  {
+   "id": "7996547c5e6b",
+   "label": "VALID",
+   "reason": "the table top named in the Gothenburg Table review is a piece of that table",
+   "evidence": "The table top also shows fingerprints very easily which is annoying for daily use."
+  },
+  {
+   "id": "f26f98dd8d23",
+   "label": "VALID",
+   "reason": "the pre-drilled holes are in the Gothenburg Table's parts, a feature of that table",
+   "evidence": "But assembly was a nightmare - some of the pre-drilled holes didn't line up properly and I had to drill new ones."
+  },
+  {
+   "id": "60f0bea3b102",
+   "label": "INCORRECT",
+   "reason": "stored instructions as a piece of the table; the instructions are a separate document for assembling it, not part of the table",
+   "evidence": "took off a star because it was kinda complicated to put together and the instructions were confusing.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "024403cb640a",
+   "label": "VALID",
+   "reason": "the finish described is the Gothenburg Table's finish",
+   "evidence": "The finish has a subtle matte quality that highlights the natural grain patterns."
+  },
+  {
+   "id": "d90cddb7039e",
+   "label": "VALID",
+   "reason": "the joinery described is the Gothenburg Table's joinery",
+   "evidence": "The solid wood construction gives it a substantial feel, and the joinery is impeccable."
+  },
+  {
+   "id": "afb1453d5bce",
+   "label": "VALID",
+   "reason": "the dented edge is an edge of the Gothenburg Table",
+   "evidence": "The table arrived with a small dent on one edge"
+  },
+  {
+   "id": "64a8d565a16b",
+   "label": "VALID",
+   "reason": "in a document about the Gothenburg Table, 'the surface' is the table's surface",
+   "evidence": "The surface cleans easily and has resisted stains from art projects and spilled drinks."
+  },
+  {
+   "id": "6e6899425d8f",
+   "label": "INCORRECT",
+   "reason": "stored the included tools as a piece of the table; tools supplied for assembly are no part of the table",
+   "evidence": "Assembly was straightforward and the included tools were adequate.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "35f329ced277",
+   "label": "VALID",
+   "reason": "the finish described is the Gothenburg Table's finish",
+   "evidence": "The wood grain is beautiful and the finish is smooth."
+  },
+  {
+   "id": "435b68b703d6",
+   "label": "INCORRECT",
+   "reason": "the grain does belong to this table, but wood grain is a characteristic of its wood, not a piece or Component of the table",
+   "evidence": "The wood grain is beautiful and the finish is smooth.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "3ac1c94132a0",
+   "label": "VALID",
+   "reason": "the pre-drilled holes named in a review of the Helsingborg Dresser are holes in that dresser's parts",
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly."
+  },
+  {
+   "id": "5461d30f60ce",
+   "label": "INCORRECT",
+   "reason": "derived: the instructions come with the dresser but are no piece of it, and are no Component",
+   "evidence": "The instructions were confusing, and many of the pre-drilled holes didn't line up correctly.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "d330c649015a",
+   "label": "VALID",
+   "reason": "derived: the drawer rails named in a review of the Helsingborg Dresser are that dresser's rails",
+   "evidence": "The biggest issue is with the drawer rails - they seem poorly manufactured and don't allow the drawers to slide smoothly."
+  },
+  {
+   "id": "2390060d08b1",
+   "label": "VALID",
+   "reason": "derived: the drawer rails of the dresser the writer tried to assemble",
+   "evidence": "The drawer rails were the worst part - they were clearly defective with uneven metal edges and rough sliding mechanisms."
+  },
+  {
+   "id": "212badb09f92",
+   "label": "VALID",
+   "reason": "derived: the metal rails the dresser's drawers slide on are part of the dresser",
+   "evidence": "the metal rails that the drawers slide on seem totally defective - rough edges, uneven surfaces, and they don't even match each other's dimensions."
+  },
+  {
+   "id": "bf8ff60acc1d",
+   "label": "VALID",
+   "reason": "derived: the screws that didn't fit are the dresser's supplied hardware (not the writer's own spare screws)",
+   "evidence": "instructions made no sense and half the screws didn't fit where they were supposed to."
+  },
+  {
+   "id": "d35497500c50",
+   "label": "VALID",
+   "reason": "derived: the drawers are the dresser's drawers",
+   "evidence": "took me and my roommate like 6 hours and we still couldn't get the drawers to slide right."
+  },
+  {
+   "id": "21b018e38b03",
+   "label": "VALID",
+   "reason": "derived: the cracked drawer is one of the dresser's drawers (the stored quote is the rails sentence; another sentence names the drawer)",
+   "evidence": "one drawer already has a crack developing along the bottom from the strain of forcing it open and closed."
+  },
+  {
+   "id": "63ac6af4015d",
+   "label": "VALID",
+   "reason": "derived: the drawer rails are the dresser's rails",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "8bf396b6e93e",
+   "label": "VALID",
+   "reason": "derived: the drawer hardware customer service refers to is the dresser's drawer hardware",
+   "evidence": "aware of issues with a recent batch of drawer hardware from their supplier."
+  },
+  {
+   "id": "fbfff1dac74f",
+   "label": "VALID",
+   "reason": "derived: the drawers are the dresser's drawers",
+   "evidence": "The drawer rails are clearly defective - they have rough, uneven surfaces that cause the drawers to stick and misalign."
+  },
+  {
+   "id": "223afeb24227",
+   "label": "INCORRECT",
+   "reason": "derived: the assembly instructions come with the dresser but are no piece of it, and are no Component",
+   "evidence": "Assembly instructions were incomprehensible, with tiny diagrams and missing steps.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "f59868cc2285",
+   "label": "VALID",
+   "reason": "derived: the warped panels are panels of the dresser being assembled",
+   "evidence": "After 4 hours, I realized that several of the panels were warped, making it impossible to assemble correctly."
+  },
+  {
+   "id": "1d737869051b",
+   "label": "VALID",
+   "reason": "derived: the back panel is the dresser's back panel",
+   "evidence": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+  },
+  {
+   "id": "517eafc6b8d3",
+   "label": "VALID",
+   "reason": "derived: the scratched drawer handle is one of the dresser's handles",
+   "evidence": "One of the drawer handles was scratched right out of the box."
+  },
+  {
+   "id": "ad4b56a0f7af",
+   "label": "VALID",
+   "reason": "derived: the drawer bottoms are the dresser's drawer bottoms",
+   "evidence": "The quality is mediocre at best - the back panel is basically cardboard, and the drawer bottoms feel flimsy."
+  },
+  {
+   "id": "09ea54194f4f",
+   "label": "VALID",
+   "reason": "derived: the drawers are the dresser's drawers",
+   "evidence": "The dresser is sturdy, the drawers now slide perfectly, and it looks beautiful in my bedroom."
+  },
+  {
+   "id": "bdeaab139bcf",
+   "label": "VALID",
+   "reason": "derived: the drawer rails the writer sanded are this dresser's rails",
+   "evidence": "I noticed the drawer rails seemed a bit rough, so I took 10 minutes to sand them down and apply a tiny bit of lubricant before installing."
+  },
+  {
+   "id": "3d2c27664cd7",
+   "label": "VALID",
+   "reason": "the surface in a review of the Jönköping table is that table's surface",
+   "evidence": "The surface is resistant to water rings and scratches - we've been using it daily for 3 months with no signs of wear."
+  },
+  {
+   "id": "4145bb668b62",
+   "label": "VALID",
+   "reason": "the lower shelf is part of the reviewed table",
+   "evidence": "The design is sleek yet practical with the lower shelf providing great storage for books and magazines."
+  },
+  {
+   "id": "e2a9db426ddb",
+   "label": "VALID",
+   "reason": "the edges are the edges of the reviewed coffee table",
+   "evidence": "Taking off one star because the edges are a bit sharper than I'd prefer, but overall it's a quality piece at a reasonable price."
+  },
+  {
+   "id": "0dc0d9c4eb83",
+   "label": "VALID",
+   "reason": "the shelf underneath is the reviewed table's shelf",
+   "evidence": "love the scandinavian vibes and the shelf underneath is perfect for my art books."
+  },
+  {
+   "id": "61cc85c8451a",
+   "label": "VALID",
+   "reason": "the surface is the reviewed table's surface",
+   "evidence": "only giving 3 stars because the surface scratches pretty easily - already got a few marks just from setting down my laptop."
+  },
+  {
+   "id": "10c3a2e4d28d",
+   "label": "VALID",
+   "reason": "the center support reinforcing the lower shelf is a part of the reviewed table",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+  },
+  {
+   "id": "2ad0f6fcb12e",
+   "label": "VALID",
+   "reason": "the leg attachment mechanism is part of the Jönköping table",
+   "evidence": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time."
+  },
+  {
+   "id": "6ba0ddb871ee",
+   "label": "VALID",
+   "reason": "the lower shelf is part of the reviewed table",
+   "evidence": "The lower shelf is properly reinforced with a center support that prevents sagging even when loaded with heavy art books."
+  },
+  {
+   "id": "cc359d0df1d9",
+   "label": "VALID",
+   "reason": "the surface is the reviewed table's surface",
+   "evidence": "The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats, resulting in exceptional durability."
+  },
+  {
+   "id": "158d115c2a1c",
+   "label": "VALID",
+   "reason": "the veneer is on the reviewed table",
+   "evidence": "The veneer is extremely thin and already chipping at the corners after just a few weeks."
+  },
+  {
+   "id": "f25e7803feb3",
+   "label": "VALID",
+   "reason": "the pre-drilled holes are in the reviewed table's parts",
+   "evidence": "Assembly was straightforward but some of the pre-drilled holes weren't aligned properly."
+  },
+  {
+   "id": "0a5cc004f1f7",
+   "label": "VALID",
+   "reason": "the surface is the reviewed table's surface",
+   "evidence": "Taking off one star because the surface shows fingerprints easily and requires frequent cleaning, but otherwise very satisfied with this purchase!"
+  },
+  {
+   "id": "d1042bbcf341",
+   "label": "VALID",
+   "reason": "the lower shelf is part of the reviewed table",
+   "evidence": "The table feels sturdy and the lower shelf is handy for storing remote controls and magazines."
+  },
+  {
+   "id": "4f5796d8a81e",
+   "label": "INCORRECT",
+   "reason": "stored as a component of the table; 'the construction' is the table's overall build, not a piece of it",
+   "evidence": "The construction remains solid with no wobbling or loose parts.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "b56a3c3b184e",
+   "label": "VALID",
+   "reason": "the finish is the reviewed table's finish, a coating layer on it",
+   "evidence": "The finish has proven remarkably resistant to scratches and water marks."
+  },
+  {
+   "id": "24db34a0de88",
+   "label": "VALID",
+   "reason": "derived; the hidden storage is named as a feature of the reviewed Linköping Bed",
+   "evidence": "The Linköping Bed has transformed our bedroom! The platform design is sleek and modern, while the hidden storage is incredibly practical in our small apartment."
+  },
+  {
+   "id": "725127089a59",
+   "label": "VALID",
+   "reason": "derived; the slats are the reviewed bed's slats",
+   "evidence": "The slats provide excellent mattress support."
+  },
+  {
+   "id": "7094c4710ac5",
+   "label": "VALID",
+   "reason": "derived; the sharp edges are edges of the reviewed bed",
+   "evidence": "Taking off one star because some of the edges were a bit sharp and needed sanding"
+  },
+  {
+   "id": "9620d2396d2d",
+   "label": "VALID",
+   "reason": "derived; the headboard is the reviewed bed's headboard",
+   "evidence": "The headboard is the perfect height for sitting up and reading."
+  },
+  {
+   "id": "4fd608542d7c",
+   "label": "VALID",
+   "reason": "derived; the noisy slats are the reviewed bed's slats",
+   "evidence": "also the slats make noise sometimes when i move around at night which is annoying."
+  },
+  {
+   "id": "65cd3e44f9c9",
+   "label": "VALID",
+   "reason": "derived; the storage is the reviewed bed's storage",
+   "evidence": "the storage is clutch for my small apartment"
+  },
+  {
+   "id": "c4b24b802310",
+   "label": "VALID",
+   "reason": "derived; the storage drawers are the reviewed bed's drawers",
+   "evidence": "bed looks amazing in my room, super stylish and i love the storage drawers!"
+  },
+  {
+   "id": "185dbad80644",
+   "label": "VALID",
+   "reason": "derived; the frame is the frame of the Linköping Bed under review",
+   "evidence": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "2f932a820eb0",
+   "label": "VALID",
+   "reason": "derived; the finish is the finish applied to the reviewed bed",
+   "evidence": "The finish is consistently applied with attention to detail on less visible surfaces - a true mark of quality."
+  },
+  {
+   "id": "551e532bed1b",
+   "label": "VALID",
+   "reason": "derived; the drawer slides belong to the reviewed bed's storage mechanism",
+   "evidence": "The storage mechanism uses quality drawer slides rated for 25kg loads."
+  },
+  {
+   "id": "87fbe416ac3b",
+   "label": "VALID",
+   "reason": "derived; the slat system is the reviewed bed's slat system",
+   "evidence": "The slat system is properly engineered with the optimal 7cm spacing and appropriate thickness (8mm) to provide ideal mattress support."
+  },
+  {
+   "id": "5066ed9a9d05",
+   "label": "VALID",
+   "reason": "derived; the cracking slats are the reviewed bed's slats",
+   "evidence": "after just two months of use the slats have started to crack"
+  },
+  {
+   "id": "7cec3f9c384a",
+   "label": "VALID",
+   "reason": "derived; the storage drawers are the reviewed bed's drawers",
+   "evidence": "one of the storage drawers no longer opens smoothly"
+  },
+  {
+   "id": "a63e1911b293",
+   "label": "VALID",
+   "reason": "derived; the parts that did not fit are parts of the reviewed bed being assembled",
+   "evidence": "Assembly was also much more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "9bdeb1502f36",
+   "label": "VALID",
+   "reason": "derived; the damaged drawer pull is one of the reviewed bed's drawer pulls",
+   "evidence": "Taking off one star because one of the drawer pulls arrived damaged"
+  },
+  {
+   "id": "b54011c23f57",
+   "label": "VALID",
+   "reason": "derived; the storage drawers are those of the Linköping Bed in the guest room",
+   "evidence": "The design is simple but elegant, and the storage drawers are perfect for extra linens."
+  },
+  {
+   "id": "26c5cbd49abe",
+   "label": "VALID",
+   "reason": "derived; the frame is the frame of the reviewer's Linköping Bed",
+   "evidence": "The frame has remained solid with no squeaking or wobbling despite daily use."
+  },
+  {
+   "id": "58f78f83a913",
+   "label": "VALID",
+   "reason": "derived; the finish is the finish of the reviewer's Linköping Bed",
+   "evidence": "The design is timeless and the finish has held up beautifully."
+  },
+  {
+   "id": "b3e9016b366e",
+   "label": "VALID",
+   "reason": "derived; the properly spaced slats are the reviewer's bed's slats",
+   "evidence": "Our mattress has maintained its shape well thanks to the properly spaced slats."
+  },
+  {
+   "id": "f9cb8dc51e97",
+   "label": "VALID",
+   "reason": "derived; the storage drawers are the reviewer's bed's drawers",
+   "evidence": "The storage drawers slide smoothly and hold a surprising amount of items."
+  },
+  {
+   "id": "5aab14b056da",
+   "label": "VALID",
+   "reason": "derived: the cable management system named in a review of the Malmö Desk is part of that desk",
+   "evidence": "I love the cable management system"
+  },
+  {
+   "id": "6e178b049171",
+   "label": "VALID",
+   "reason": "derived: the drawers named in a review of the Malmö Desk are part of that desk",
+   "evidence": "the drawers are the perfect size for office supplies"
+  },
+  {
+   "id": "955063ed9008",
+   "label": "VALID",
+   "reason": "derived: the storage solutions named in a review of the Malmö Desk are part of that desk",
+   "evidence": "The storage solutions are incredibly well-thought-out"
+  },
+  {
+   "id": "ddb8509a0b58",
+   "label": "INCORRECT",
+   "reason": "derived 'instructions PART_OF Malmö Desk'; the assembly instructions come with the desk but are no piece of it, and are typed Component",
+   "evidence": "Assembly took about 2 hours but the instructions were clear.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "052f7462a1f9",
+   "label": "VALID",
+   "reason": "derived: the text speaks of 'the edges of the desk', the reviewed Malmö Desk",
+   "evidence": "the edges of the desk are a bit sharp"
+  },
+  {
+   "id": "28915f0228a7",
+   "label": "VALID",
+   "reason": "derived: the surface (work top) the reviewer uses is part of the reviewed Malmö Desk",
+   "evidence": "The surface area (140cm x 65cm) is perfect for my dual monitor setup with room to spare."
+  },
+  {
+   "id": "7ad8c980c8f3",
+   "label": "VALID",
+   "reason": "derived: the drawer slides named in a review of the Malmö Desk are part of that desk",
+   "evidence": "The drawer slides are smooth"
+  },
+  {
+   "id": "a99b177f7a23",
+   "label": "VALID",
+   "reason": "derived: the cable management named in a review of the Malmö Desk is part of that desk",
+   "evidence": "the cable management keeps everything tidy"
+  },
+  {
+   "id": "6b42922fdcff",
+   "label": "VALID",
+   "reason": "derived: the storage named in a review of the Malmö Desk is part of that desk",
+   "evidence": "the storage is helpful but honestly i expected more drawers based on the description."
+  },
+  {
+   "id": "3a8a63b48a78",
+   "label": "VALID",
+   "reason": "derived: the work surface named in a review of the Malmö Desk is part of that desk",
+   "evidence": "The work surface maintains perfect flatness under the weight of my drafting equipment."
+  },
+  {
+   "id": "57476a9daf50",
+   "label": "VALID",
+   "reason": "derived: the rubber grommets of the desk's cable management system are part of the Malmö Desk",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "b33e3c4e5fe9",
+   "label": "VALID",
+   "reason": "derived: the storage compartments named in a review of the Malmö Desk are part of that desk",
+   "evidence": "The storage compartments are intelligently designed with dimensions that accommodate standard paper sizes and supplies."
+  },
+  {
+   "id": "e7b35369f745",
+   "label": "VALID",
+   "reason": "derived: the cable management system named in a review of the Malmö Desk is part of that desk",
+   "evidence": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."
+  },
+  {
+   "id": "808a12c419c5",
+   "label": "VALID",
+   "reason": "derived: the pre-drilled holes met while assembling the reviewed desk belong to the Malmö Desk",
+   "evidence": "Assembly was frustrating because some of the pre-drilled holes didn't align properly."
+  },
+  {
+   "id": "605fe1a0f3ee",
+   "label": "VALID",
+   "reason": "derived: the drawer named in a review of the Malmö Desk is part of that desk",
+   "evidence": "The only reason I'm not giving 5 stars is that the drawer doesn't open as smoothly as I'd like."
+  },
+  {
+   "id": "70d434010733",
+   "label": "VALID",
+   "reason": "derived: the storage named in a review of the Malmö Desk is part of that desk",
+   "evidence": "The storage is adequate for my needs and the design is simple but attractive."
+  },
+  {
+   "id": "354dc8dfcc9f",
+   "label": "VALID",
+   "reason": "derived: the storage solutions named in a review of the Malmö Desk are part of that desk",
+   "evidence": "The storage solutions are cleverly designed and keep everything I need within reach."
+  },
+  {
+   "id": "6c6082f7c9a3",
+   "label": "VALID",
+   "reason": "in a review of the Norrköping Nightstand, 'the open shelf below' is the nightstand's shelf",
+   "evidence": "the open shelf below is great for displaying decorative items."
+  },
+  {
+   "id": "7013b9687067",
+   "label": "VALID",
+   "reason": "in a review of the Norrköping Nightstand, 'the drawer' is the nightstand's drawer",
+   "evidence": "The drawer is spacious enough for books, reading glasses, and other essentials"
+  },
+  {
+   "id": "15d7e48375af",
+   "label": "VALID",
+   "reason": "the finish described is the finish of the reviewed nightstands",
+   "evidence": "The drawer operates smoothly and the finish is consistent."
+  },
+  {
+   "id": "57c8a1d74f4a",
+   "label": "VALID",
+   "reason": "the back panel is the back panel of the reviewed nightstands",
+   "evidence": "Taking off one star because the back panel is a bit thin"
+  },
+  {
+   "id": "7fb492313833",
+   "label": "VALID",
+   "reason": "the drawer is the drawer of the reviewed nightstands",
+   "evidence": "The drawer operates smoothly and the finish is consistent."
+  },
+  {
+   "id": "06ee2881389a",
+   "label": "INCORRECT",
+   "reason": "stored as wood (Component) PART_OF the nightstand; wood is the raw material the nightstand is made of (a Material, which Component excludes), so the text's relation is MADE_OF, not a component belonging to it",
+   "evidence": "the wood feels kinda lightweight.",
+   "faults": [
+    "type",
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "32334b45bb9a",
+   "label": "VALID",
+   "reason": "'the little drawer' is the drawer of the reviewed nightstand",
+   "evidence": "perfect height and i love the little drawer for my stuff."
+  },
+  {
+   "id": "1f57c57aea9d",
+   "label": "VALID",
+   "reason": "the case construction names the case of the reviewed nightstand, built with mortise and tenon joints",
+   "evidence": "The case construction uses proper mortise and tenon joints at stress points rather than relying solely on fasteners."
+  },
+  {
+   "id": "bd70bf9d4180",
+   "label": "VALID",
+   "reason": "the drawer slide mechanism belongs to the reviewed nightstand",
+   "evidence": "The drawer slide mechanism utilizes a self-closing feature with dampened action - a premium detail unexpected in this category."
+  },
+  {
+   "id": "c4ce98000001",
+   "label": "VALID",
+   "reason": "the drawer is the drawer of the reviewed nightstand",
+   "evidence": "The drawer employs proper dovetail joinery rather than the stapled construction common at this price point."
+  },
+  {
+   "id": "33c5aacf1c9b",
+   "label": "VALID",
+   "reason": "the drawer is the drawer of the reviewed nightstand",
+   "evidence": "The drawer doesn't close properly - it always leaves a small gap."
+  },
+  {
+   "id": "d50ba642b9f9",
+   "label": "VALID",
+   "reason": "the pre-drilled holes for the drawer handle are a feature of the reviewed nightstand's drawer",
+   "evidence": "Assembly was simple enough but the pre-drilled holes for the drawer handle weren't aligned correctly."
+  },
+  {
+   "id": "919735539233",
+   "label": "VALID",
+   "reason": "the damaged corner is a corner of the reviewed nightstand",
+   "evidence": "Taking off one star because one corner arrived slightly damaged, though it's not very noticeable against the wall."
+  },
+  {
+   "id": "b5ccd70d6792",
+   "label": "VALID",
+   "reason": "the open shelf is the shelf of the reviewed nightstand",
+   "evidence": "The drawer slides smoothly and the open shelf is handy for books."
+  },
+  {
+   "id": "caf9c38b7812",
+   "label": "VALID",
+   "reason": "the drawer is the drawer of the reviewed nightstand",
+   "evidence": "The drawer slides smoothly and the open shelf is handy for books."
+  },
+  {
+   "id": "147e6d8d425b",
+   "label": "VALID",
+   "reason": "the finish is the finish of the writer's Norrköping Nightstands",
+   "evidence": "The finish has maintained its appearance with no scratches or wear marks."
+  },
+  {
+   "id": "c898bdb7d37a",
+   "label": "VALID",
+   "reason": "the drawers are the drawers of the writer's Norrköping Nightstands",
+   "evidence": "The drawers still slide perfectly and show no signs of sagging despite daily use."
+  },
+  {
+   "id": "03cf3355376f",
+   "label": "VALID",
+   "reason": "derived: the dimmer function named in a review of the Orebro Lamp is a functional sub-unit of that lamp",
+   "evidence": "The materials feel high-quality and the dimmer function is smooth and responsive."
+  },
+  {
+   "id": "04e365e4cb11",
+   "label": "VALID",
+   "reason": "derived: the shade in a review of the Orebro Lamp is that lamp's shade",
+   "evidence": "The shade diffuses light beautifully without any harsh spots."
+  },
+  {
+   "id": "16161a8569e0",
+   "label": "VALID",
+   "reason": "derived: the adjustable arm of 'this lamp' in an Orebro Lamp review is a part of that lamp",
+   "evidence": "The adjustable arm is sturdy and stays in position."
+  },
+  {
+   "id": "64b0bbf21df1",
+   "label": "VALID",
+   "reason": "derived: the cord in an Orebro Lamp review is that lamp's cord",
+   "evidence": "Taking off one star because the cord is a bit short (only 1.5m) which limited my placement options, but otherwise very satisfied."
+  },
+  {
+   "id": "3b8fd81f5894",
+   "label": "VALID",
+   "reason": "derived: the dimmer in an Orebro Lamp review is part of that lamp",
+   "evidence": "gives off nice vibes and the dimmer is perfect for creating mood lighting."
+  },
+  {
+   "id": "a34ad8ffe569",
+   "label": "VALID",
+   "reason": "derived: the base in an Orebro Lamp review is that lamp's base",
+   "evidence": "also the base is lighter than i expected so it tips over easily if you bump it."
+  },
+  {
+   "id": "f5d6e64f364f",
+   "label": "VALID",
+   "reason": "derived: the switch in an Orebro Lamp review is that lamp's switch",
+   "evidence": "only giving 3 stars because the switch feels kinda cheap and i'm worried it might break eventually."
+  },
+  {
+   "id": "13ae964de070",
+   "label": "VALID",
+   "reason": "derived: the LED driver described in a review of the Orebro Lamp is that lamp's driver",
+   "evidence": "The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings - a detail often overlooked in consumer lighting."
+  },
+  {
+   "id": "6be3205f0f24",
+   "label": "VALID",
+   "reason": "derived: the shade in an Orebro Lamp review is that lamp's shade",
+   "evidence": "The shade material has precisely calculated opacity to diffuse light evenly while still allowing directional control."
+  },
+  {
+   "id": "76be8d74ff59",
+   "label": "VALID",
+   "reason": "derived: the weighted base in an Orebro Lamp review is that lamp's base",
+   "evidence": "The weighted base (3.2kg) ensures stability while the minimal footprint (22cm diameter) conserves space efficiently."
+  },
+  {
+   "id": "271613bffb46",
+   "label": "VALID",
+   "reason": "derived: the shade in an Orebro Lamp review is that lamp's shade",
+   "evidence": "The materials feel cheap, particularly the shade which is unevenly colored."
+  },
+  {
+   "id": "4639b84ca71f",
+   "label": "VALID",
+   "reason": "derived: the dimmer switch in an Orebro Lamp review is part of that lamp",
+   "evidence": "The dimmer switch is finicky and sometimes flickers at lower settings."
+  },
+  {
+   "id": "25d482fbd328",
+   "label": "VALID",
+   "reason": "derived: the shade attached during assembly of this Orebro Lamp is part of that lamp",
+   "evidence": "Assembly was very simple - just attach the shade to the base."
+  },
+  {
+   "id": "9b38d1dabda9",
+   "label": "VALID",
+   "reason": "derived: the dimmer function in an Orebro Lamp review is part of that lamp",
+   "evidence": "The dimmer function works well though it's a bit stiff to turn."
+  },
+  {
+   "id": "b744141d4189",
+   "label": "VALID",
+   "reason": "derived: the base the shade attaches to during assembly of this Orebro Lamp is part of that lamp",
+   "evidence": "Assembly was very simple - just attach the shade to the base."
+  },
+  {
+   "id": "ad105faa2977",
+   "label": "VALID",
+   "reason": "derived: the dimmer function of 'our Orebro Lamp' is part of that lamp",
+   "evidence": "The dimmer function has been reliable and smooth."
+  },
+  {
+   "id": "1eec219a7e69",
+   "label": "INCORRECT",
+   "reason": "stored the assembly instructions as a piece of the chair; they are a separate document for assembling it, not part of the chair",
+   "evidence": "I'm taking off one star because the assembly instructions could have been clearer - I had to redo one section when I realized I had attached the back rest upside down.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "1151a396e900",
+   "label": "INCORRECT",
+   "reason": "the back angle is this chair's, but an angle is a geometric property of the backrest, not a piece or Component of the chair",
+   "evidence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support.",
+   "faults": [
+    "type"
+   ]
+  },
+  {
+   "id": "ea62074c9eb2",
+   "label": "VALID",
+   "reason": "the seat named in the Stockholm Chair review is a piece of that chair",
+   "evidence": "The seat height is ideal at 45cm, and the back angle provides excellent lumbar support."
+  },
+  {
+   "id": "6b155f676a3b",
+   "label": "VALID",
+   "reason": "the cover the reviewer removed and washed is the Uppsala Sofa's cover",
+   "evidence": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it."
+  },
+  {
+   "id": "cc6897d49763",
+   "label": "VALID",
+   "reason": "the removable covers praised are the Uppsala Sofa's covers",
+   "evidence": "The removable covers are a game-changer - our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it."
+  },
+  {
+   "id": "05f33bc863bc",
+   "label": "VALID",
+   "reason": "the cushions described are the reviewer's Uppsala Sofa's cushions",
+   "evidence": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent."
+  },
+  {
+   "id": "ca508be81aea",
+   "label": "INCORRECT",
+   "reason": "the fabric is the sofa's upholstery material, which the schema types as Material; stored as a Component PART_OF the sofa instead of the sofa being made of it",
+   "evidence": "The cushions have maintained their shape well despite daily use, and the fabric quality is excellent.",
+   "faults": [
+    "type",
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "5d581be8afce",
+   "label": "VALID",
+   "reason": "the removable covers are the reviewed Uppsala Sofa's covers",
+   "evidence": "the removable covers are clutch though, already had to wash them after a wine spill and they came out perfect."
+  },
+  {
+   "id": "02a5246f2c52",
+   "label": "VALID",
+   "reason": "the upholstery described is the Uppsala Sofa's upholstery",
+   "evidence": "The upholstery is a commercial-grade polyester blend (30,000 Martindale rubs) that will withstand years of use."
+  },
+  {
+   "id": "27257c8bec7f",
+   "label": "VALID",
+   "reason": "the cushion described is the Uppsala Sofa's cushion",
+   "evidence": "The cushion density (28kg/m³) provides the perfect balance between support and comfort."
+  },
+  {
+   "id": "3a52a11005a1",
+   "label": "VALID",
+   "reason": "the removable covers described are the Uppsala Sofa's covers",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+  },
+  {
+   "id": "986d4b0e964b",
+   "label": "VALID",
+   "reason": "the frame construction described is the Uppsala Sofa's frame",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "a5710b11d72a",
+   "label": "VALID",
+   "reason": "the reinforced corner blocks are in the Uppsala Sofa's frame",
+   "evidence": "The frame construction utilizes proper joinery techniques with reinforced corner blocks - details typically found in much more expensive pieces."
+  },
+  {
+   "id": "d348ba0135e1",
+   "label": "VALID",
+   "reason": "the YKK zippers are on the Uppsala Sofa's removable covers",
+   "evidence": "The removable covers feature quality YKK zippers and well-executed pattern matching at the seams."
+  },
+  {
+   "id": "759da5084c60",
+   "label": "VALID",
+   "reason": "the parts that did not fit together during assembly are the Uppsala Sofa's parts",
+   "evidence": "Assembly was also more complicated than advertised, with some parts not fitting together properly."
+  },
+  {
+   "id": "8cfec9cd8e67",
+   "label": "VALID",
+   "reason": "the cushions losing shape are the reviewed Uppsala Sofa's cushions",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+  },
+  {
+   "id": "9a34813f224b",
+   "label": "VALID",
+   "reason": "the creaking frame is the reviewed Uppsala Sofa's frame",
+   "evidence": "While the sofa looks nice, after just two months of normal use, the cushions are already losing their shape and the frame creaks whenever someone sits down."
+  },
+  {
+   "id": "41d77f088ff7",
+   "label": "VALID",
+   "reason": "the legs, one of which arrived chipped, are the Uppsala Sofa's legs",
+   "evidence": "Taking off one star because one of the legs arrived with a small chip, though customer service was quick to send a replacement."
+  },
+  {
+   "id": "4765a40eeb35",
+   "label": "VALID",
+   "reason": "the firm cushions are the Uppsala Sofa's cushions",
+   "evidence": "The cushions are on the firmer side, which I personally prefer for proper back support."
+  },
+  {
+   "id": "9c87c79933f4",
+   "label": "INCORRECT",
+   "reason": "the fabric is the sofa's upholstery material, which the schema types as Material; stored as a Component PART_OF the sofa instead of the sofa being made of it",
+   "evidence": "The fabric is durable and has held up well to our cats' occasional clawing.",
+   "faults": [
+    "type",
+    "wrong_relation"
+   ]
+  },
+  {
+   "id": "27421c88a3e9",
+   "label": "VALID",
+   "reason": "the solid frame is the reviewers' Uppsala Sofa's frame",
+   "evidence": "The frame feels incredibly solid - no squeaking or wobbling."
+  },
+  {
+   "id": "bb1dc4a1b9fd",
+   "label": "VALID",
+   "reason": "the washed removable covers are the reviewers' Uppsala Sofa's covers",
+   "evidence": "The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times with no fading or shrinking."
+  },
+  {
+   "id": "ff79a5527f96",
+   "label": "VALID",
+   "reason": "the cushions keeping their shape are the reviewers' Uppsala Sofa's cushions",
+   "evidence": "The cushions have maintained their shape despite daily use, and the removable covers have been washed multiple times with no fading or shrinking."
+  },
+  {
+   "id": "f8f0ed2b36b5",
+   "label": "VALID",
+   "reason": "derived: the review is of the Västerås Bookshelf and the shelves named are its shelves",
+   "evidence": "The shelves are sturdy enough to hold my extensive book collection without any sagging."
+  },
+  {
+   "id": "0c2bb2c84b50",
+   "label": "INCORRECT",
+   "reason": "derived: stored as instructions being a component of the bookshelf; the text names the assembly instructions that come with it, which are no piece of the product",
+   "evidence": "The assembly instructions were clear, though it did take longer than expected (about 2 hours per unit).",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "2dec5d245c6f",
+   "label": "VALID",
+   "reason": "derived: the finish described is the reviewed bookshelf's own surface finish",
+   "evidence": "The finish is consistent and the overall construction feels solid."
+  },
+  {
+   "id": "73e0496b1bd1",
+   "label": "VALID",
+   "reason": "derived: each shelf named is a shelf of the reviewed Västerås Bookshelves",
+   "evidence": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+  },
+  {
+   "id": "805a7f6270c8",
+   "label": "VALID",
+   "reason": "derived: the pre-drilled holes are those of the reviewed bookshelf's parts",
+   "evidence": "Taking off one star because some of the pre-drilled holes weren't perfectly aligned, which made assembly a bit frustrating at times."
+  },
+  {
+   "id": "54ed86b43931",
+   "label": "INCORRECT",
+   "reason": "derived: stored as instructions being a component of the bookshelf; the text names its assembly instructions, which are no piece of the product",
+   "evidence": "instructions were confusing and i had to redo some steps.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "1dd23f4a95a1",
+   "label": "VALID",
+   "reason": "derived: the vertical supports are those of the reviewed Västerås",
+   "evidence": "The vertical supports utilize a proper mortise and tenon construction rather than the cam-lock fasteners common at this price point."
+  },
+  {
+   "id": "4bccc27d9c15",
+   "label": "INCORRECT",
+   "reason": "derived: stored as instructions being a component of the bookshelf; the text says the instructions were included with it, which makes them no piece of the product",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  },
+  {
+   "id": "6a6c6821f653",
+   "label": "VALID",
+   "reason": "derived: the numbered components are the reviewed bookshelf's components",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step."
+  },
+  {
+   "id": "833f5f572236",
+   "label": "VALID",
+   "reason": "derived: the hardware sorted by step is the reviewed bookshelf's hardware",
+   "evidence": "Assembly was logical and the included instructions were precise, with properly numbered components and hardware sorted by step."
+  },
+  {
+   "id": "f40e6a3f4f28",
+   "label": "VALID",
+   "reason": "derived: 'the shelf depth' is that of the reviewed Västerås, not the standard shelves it is compared with",
+   "evidence": "The shelf depth of 30cm accommodates larger art books that typically protrude on standard shelves."
+  },
+  {
+   "id": "04da747fa135",
+   "label": "VALID",
+   "reason": "derived: the parts that did not fit are the reviewed bookshelf's parts",
+   "evidence": "Speaking of assembly, it was a nightmare - took over 3 hours and some of the parts didn't fit together properly."
+  },
+  {
+   "id": "49e61388e653",
+   "label": "VALID",
+   "reason": "derived: the veneer is the reviewed bookshelf's veneer",
+   "evidence": "The veneer is extremely thin and chipped in several places during assembly."
+  },
+  {
+   "id": "236828524625",
+   "label": "VALID",
+   "reason": "derived: the back panel is the reviewed bookshelf's back panel ('compared to the rest of the unit')",
+   "evidence": "The only reason I'm not giving 5 stars is that the back panel is quite thin and feels a bit flimsy compared to the rest of the unit."
+  },
+  {
+   "id": "329831f72413",
+   "label": "VALID",
+   "reason": "derived: the adjustable shelves are the reviewed bookshelf's shelves",
+   "evidence": "The shelves are adjustable which is a nice feature I've already taken advantage of."
+  },
+  {
+   "id": "22f5a59bc019",
+   "label": "VALID",
+   "reason": "derived: the adjustable shelves are those of the reviewers' Västerås Bookshelf",
+   "evidence": "The adjustable shelves have been a great feature as our needs have changed."
+  },
+  {
+   "id": "9bc4e3a018ee",
+   "label": "INCORRECT",
+   "reason": "derived: stored as instructions being a component of the bookshelf; the text names the instructions for assembling it, which are no piece of the product",
+   "evidence": "Assembly was straightforward with clear instructions.",
+   "faults": [
+    "not_in_text",
+    "type"
+   ]
+  }
+ ],
+ "reviewed": [
+  "00800dfc1cd5",
+  "024403cb640a",
+  "0442b84fd9c4",
+  "06ee2881389a",
+  "0716338cf3f3",
+  "08172f743e7a",
+  "081fc596b2aa",
+  "0bd931e9bfbc",
+  "0c2bb2c84b50",
+  "0e744efe6ff5",
+  "0f3f1ea22425",
+  "1151a396e900",
+  "1687526b7746",
+  "185dbad80644",
+  "1865374ec6a5",
+  "19a8523fe558",
+  "1a0aed24ef79",
+  "1a5ec9a42030",
+  "1c4dea6ef573",
+  "1d8303909be0",
+  "1eec219a7e69",
+  "203ccfedcf3a",
+  "223afeb24227",
+  "236828524625",
+  "2390060d08b1",
+  "2491bfbd01ff",
+  "26c5cbd49abe",
+  "279b0e032df6",
+  "2991481cf0b5",
+  "2ad0f6fcb12e",
+  "2b7fe50e9df3",
+  "2e1cb0635440",
+  "2ea076909d1c",
+  "2f09db56cd99",
+  "2f8bcc0c0fa6",
+  "2f932a820eb0",
+  "305b6ad65d5a",
+  "30a9f573684a",
+  "31ca01d3340e",
+  "31e4ba2b576d",
+  "329831f72413",
+  "3520f27e9197",
+  "3a8a63b48a78",
+  "3b0669bd50cc",
+  "3d0386436268",
+  "3df0569511da",
+  "3f4f6a772d4e",
+  "402277ce35a5",
+  "409808034737",
+  "431e698d9a30",
+  "435b68b703d6",
+  "4479b9c76066",
+  "457d3cb54f46",
+  "457ddd6b71b7",
+  "45ad4b5ec8a7",
+  "4639b84ca71f",
+  "464535fb6ef8",
+  "4765a40eeb35",
+  "48d56913c013",
+  "49268a4295b2",
+  "49e61388e653",
+  "4bccc27d9c15",
+  "4bfa99ed31f3",
+  "4f5796d8a81e",
+  "50c490a75e07",
+  "52ecf5b86589",
+  "53594f5ac833",
+  "5461d30f60ce",
+  "54ed86b43931",
+  "551e532bed1b",
+  "56980b5ada97",
+  "5a0956e3b2c1",
+  "5aab14b056da",
+  "5b61cb3ce11e",
+  "5c730aaa87d4",
+  "5ce46fd5edd3",
+  "5d581be8afce",
+  "5ff6f173af7e",
+  "604762f5d037",
+  "6062a7ebd2c6",
+  "60775502275e",
+  "60f0bea3b102",
+  "63ac6af4015d",
+  "645149525529",
+  "66386cf99b1d",
+  "67983a6940ad",
+  "6b81cf9802bb",
+  "6ceb5967e4d5",
+  "6e6899425d8f",
+  "7090b092cbf0",
+  "70e01a805371",
+  "730db70383f9",
+  "7aab3df0f498",
+  "7b5c1eef1c30",
+  "7eab8bcd1499",
+  "7f618d6951bd",
+  "800af310f35a",
+  "805a7f6270c8",
+  "80b3da071dad",
+  "8112e3132c58",
+  "838b0105552d",
+  "8570e4489f9b",
+  "861586a5abf8",
+  "86fd7340a711",
+  "87b439ec1d25",
+  "8e44304cc420",
+  "9012fbf90b09",
+  "919735539233",
+  "91e0bd8bc332",
+  "9537762151d4",
+  "955063ed9008",
+  "95a59ebc50d1",
+  "960b988dc948",
+  "967ef4b4a07b",
+  "97f78b1f427b",
+  "986951325cd8",
+  "991a4fcbad70",
+  "99b717b4c710",
+  "9a83ad726221",
+  "9b02219f141f",
+  "9bc4e3a018ee",
+  "9c87c79933f4",
+  "9d551a45ec21",
+  "9e302c9f1e9f",
+  "9f0718a53962",
+  "a3e63ae1849e",
+  "a5bb283ded8c",
+  "a5bd486eb1a4",
+  "a61d6ee2acb3",
+  "a67a7193db7e",
+  "a82603336dd4",
+  "a83a0038b88b",
+  "a92751265366",
+  "b29a01da55bd",
+  "b38c4c2e4cef",
+  "b39af559eea2",
+  "b853c7430f5f",
+  "b993c7aa270c",
+  "bae554c770f9",
+  "bd858670c697",
+  "c46169c7fd90",
+  "c46edbc76dd5",
+  "c58f441828fa",
+  "c8d81016b8bd",
+  "c8f968429097",
+  "c9c1859a5e77",
+  "ca508be81aea",
+  "cc359d0df1d9",
+  "cc3f6edbd6e9",
+  "cdd1002bfe4b",
+  "d04b2b074939",
+  "d0caef0737c8",
+  "d24d261ea01b",
+  "d348ba0135e1",
+  "d37876026c0b",
+  "d5b950273b10",
+  "d8e4af502545",
+  "d968a5a6456a",
+  "ddb8509a0b58",
+  "e64394ccad64",
+  "e7bb1e0f2672",
+  "e8db1d5bb4ae",
+  "ec28d2b31dbc",
+  "ec297afc4562",
+  "ecf36563a8ac",
+  "eda78bb07b85",
+  "ee35167c9cea",
+  "eedc81a36859",
+  "efa153361175",
+  "f1ba7d744cbf",
+  "f22b11136ead",
+  "f292990bb871",
+  "f2c6370ae54d",
+  "f40f57945e7c",
+  "f59868cc2285",
+  "f63817544bb7",
+  "f79b526221a8",
+  "f8594f50687a",
+  "f86c0c5eeaa6",
+  "f9b6aac2330a",
+  "fc436680c72b",
+  "fe735ad3faef",
+  "fee84b319b1e",
+  "ffbea77f4b5c"
+ ],
+ "changes": [
+  {
+   "id": "2991481cf0b5",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  },
+  {
+   "id": "2f8bcc0c0fa6",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  },
+  {
+   "id": "6b81cf9802bb",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  },
+  {
+   "id": "91e0bd8bc332",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  },
+  {
+   "id": "c46169c7fd90",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  },
+  {
+   "id": "cc3f6edbd6e9",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  },
+  {
+   "id": "f79b526221a8",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "ruling 2: the text gives this quality to the assembly, not to the product; read as a sentence the claim says the product itself has it"
+  }
+ ]
+}
