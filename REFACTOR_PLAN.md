@@ -6040,6 +6040,26 @@ otherwise than the R101 gold, then R103 (asked with its own estimate). Wording o
   resolution.
 - **R106 done 2026-10-07.** Next: R103, asked with this estimate.
 
+### R103. Rebuild with re-extracted claims, and evaluate everything (in progress 2026-10-07)
+The second rebuild of the R97-R103 plan, end to end: the claims extracted again with today's extraction
+prompt (R81, R82 since r77d) and every change of R97-R106 in place, so the graph is the one the pipeline now
+builds. R102 reused the r77d claims to isolate R97-R101; R103 shows the whole pipeline. The user agreed on
+2026-10-07 ("option A") at the counted estimate of about $3.2 (likely $2.8-3.8, R106).
+- **Pinned as in R102:** r77d's `plan.json`, `text_schema.json` and `profile.json` (copied back after `kg
+  build`, which rewrites the profile's sampled values), so the schema is not a new sample of the proposer;
+  extraction with r77d's settings (two passes, gemini-3.8-flash, thinking low; `EXTRACT_PASSES=2`).
+- **Split, one commit each:** (a) the rebuilds (paid): `kg reset`, `build`, `ingest-text`, `extract`,
+  `link`, `mention-pass`, `resolve`, `attach` per dataset into `out/r103_<ds>`, presets `quality`,
+  `heldout`, `generality_gemini`; logged counts and usage copied from the stage runs into
+  `tests/gold/r103/<ds>_logged.json`, the runs index `runs.json`. (b) the evaluation ($0 but the vector
+  arm's embeddings, a fraction of a cent): `kg audit-snapshot` (C0, C1, code checks), `kg anchor-eval`
+  (both arms), `kg anchor-compare` (arm C), `kg anchor-sheets` (C3, C4, C6), `kg mention-eval` (recall of
+  the R101 gold, the pass's precision sample); sheets committed before any verdict; blind Opus 5.5 judging
+  (items byte-identical to R102's carry its verdicts; mention items judged by
+  `tests/gold/r103/mention_judge_rules.md`, R105's rules with R106's two wordings, written before any R103
+  output), lead review, `kg anchor-judged`, `kg mention-eval --verdicts`. (c) the results against R102 and
+  r77d, with R101's bounds (pass precision >= 0.90, no new hub) and the plan's regression checks.
+
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**
   Pass precision 0.789 (furniture) and 0.707 (generality) against >= 0.90; new hubs FORD (held-out) and
