@@ -1,17 +1,23 @@
-"""The mention evaluation's stage (R102): `kg mention-eval`.
+"""The mention pass's offline stages on a finished build: `kg mention-eval` (R102) and `kg mention-pass
+--from-build` (R105).
 
-Role in the pipeline: after a finished build; no graph, no model. It rebuilds the build's graph offline behind
-R87's fidelity gate (it refuses a build whose snapshot is not the build's), scores the build's mentions
-against R101's gold (validation/mention_eval.py), and writes the judge's sheet: the recall items whose only
-match is a near name (the judged mapping) and the seeded sample of the pass's mentions (judged precision).
-Given the judge's verdict file, it scores those too. Judging itself happens in between, by Claude in the
-session, never in a stage. A precision item shows the class the pass stated for the mention (R104), so a
-piece typed with a keyed type ("back rest" as a part record) is judged as the kind it is; a pass file
-written before R104 states none, and its class is read off the type as R102 did.
+Role in the pipeline: after a finished build; no graph. Both rebuild the build's graph offline behind R87's
+fidelity gate (they refuse a build whose snapshot is not the build's).
+  - `kg mention-eval` (no model) scores the build's mentions against R101's gold (validation/mention_eval.py)
+    and writes the judge's sheet: the recall items whose only match is a near name (the judged mapping) and
+    the seeded sample of the pass's mentions (judged precision). Given the judge's verdict file, it scores
+    those too. Judging itself happens in between, by Claude in the session, never in a stage. A precision
+    item shows the class the pass stated for the mention (R104), so a piece typed with a keyed type ("back
+    rest" as a part record) is judged as the kind it is; a pass file written before R104 states none, and
+    its class is read off the type as R102 did. With `--pass-file`, another pass's findings are scored in
+    place of the build's own (R105).
+  - `kg mention-pass --from-build` runs the pass (the LLM) on the build's graph as the pass found it, so a
+    change to the pass is measured on the build's own claims, not on a new sample of the extractor (R105).
 Design: wiring and logging only, like judging_stages.py. One MLflow run per build: params name the build, the
 gold and its sample with their hashes, the verdict file when given, and the sample's size and seed; metrics
 are recall (exact, and with the mapping), recall by class, precision, the pass's mentions and how many each
-chunk gained (median and p90: the size bound of R101); artifacts the sheet and the report.
+chunk gained (median and p90: the size bound of R101); artifacts the sheet and the report. The replay logs
+what the live pass logs, plus the build.
 Not here: the scores (validation/mention_eval.py), the pass (text/mention_pass.py).
 """
 
@@ -20,8 +26,9 @@ import statistics
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from ..audit import build_snapshot, check_fidelity, load_logged
+from ..audit import GraphSnapshot, build_snapshot, check_fidelity, load_logged
 from ..core.errors import EvaluationError
+from ..text.mention_pass import PassFinding, read_findings
 from ..text.schema import MentionClass, TextSchema
 from ..validation.anchor_verdicts import load_verdicts
 from ..validation.mention_eval import (
@@ -38,7 +45,7 @@ from ..validation.mention_eval import (
 from ..validation.mention_gold import load_mention_gold
 from ..validation.sentences import SentenceSample
 from .inputs import digest, input_file
-from .stages import BaseStage
+from .stages import BaseStage, MentionPassStage, PassInputs
 
 MENTION_SHEET = "mention_sheet.json"
 MENTION_REPORT = "mention_report.json"
@@ -52,39 +59,27 @@ class MentionEvalStage(BaseStage):
     name = "mention_eval"
 
     def params(self, ctx, state):
-        source = input_file(state.need("audit_source", "pass the build's out/ folder"), "build folder")
-        logged = input_file(state.need("audit_logged", "pass the build's logged counts"), "logged counts")
         gold, sample = _gold_files(state)
-        params: dict[str, object] = {
-            "build": source,
-            "data_dir": input_file(state.need("data_dir", "pass the dataset folder"), "data folder"),
-            "logged": logged,
-            "logged_hash": digest(logged),
+        params: dict[str, object] = _build_params(ctx, state) | {
             "gold": input_file(gold, "mention gold"),
             "gold_hash": digest(gold),
             "sample": input_file(sample, "sentence sample"),
             "sample_hash": digest(sample),
             "precision_sample": PRECISION_SAMPLE,
             "precision_seed": PRECISION_SEED,
-            "chunk_max_chars": ctx.settings.chunk_max_chars,
-            "chunk_min_chars": ctx.settings.chunk_min_chars,
-            "chunk_overlap_chars": ctx.settings.chunk_overlap_chars,
         }
+        if state.mention_pass_file is not None:
+            pass_file = input_file(state.mention_pass_file, "pass findings")
+            params |= {"pass_file": pass_file, "pass_file_hash": digest(pass_file)}
         if state.mention_verdicts is not None:
             verdicts = input_file(state.mention_verdicts, "mention verdicts")
             params |= {"verdicts": verdicts, "verdicts_hash": digest(verdicts)}
         return params
 
     def run(self, ctx, state, run):
-        source, s = Path(state.audit_source), ctx.settings
-        snapshot = build_snapshot(
-            source, Path(state.data_dir), (s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
-        )
-        sheet = source / _SHEET
-        if not check_fidelity(
-            snapshot, load_logged(Path(state.audit_logged)), sheet if sheet.exists() else None
-        ).passed:
-            raise EvaluationError(["the snapshot is not the build's graph (C0 failed): nothing to score"])
+        source = Path(state.audit_source)
+        findings = None if state.mention_pass_file is None else read_findings(Path(state.mention_pass_file))
+        snapshot = _gated_snapshot(ctx, state, findings)
         schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
         gold_file, sample_file = _gold_files(state)
         sample = SentenceSample.model_validate_json(sample_file.read_text(encoding="utf-8"))
@@ -123,6 +118,60 @@ class MentionEvalStage(BaseStage):
         state.mention_scores = scores
         run.metrics(**_metrics(scores, len(passed), gained))
         run.artifact(ctx.write(MENTION_REPORT, scores.model_dump_json(indent=1)))
+
+
+class ReplayMentionPassStage(MentionPassStage):
+    """`kg mention-pass --from-build BUILD` (R105): the mention pass run on a finished build's graph as the
+    pass found it: the claims' and derivation's mentions and their chunks, rebuilt offline behind the C0
+    gate, the build's own pass left out, and the build's text schema. No graph is written: the findings go to
+    out/ as `kg mention-pass` writes them, for `kg mention-eval BUILD --pass-file`. Its run is named
+    `mention_pass` and logs what the live pass logs, plus the build it read."""
+
+    def params(self, ctx, state):
+        return super().params(ctx, state) | _build_params(ctx, state)
+
+    def read_inputs(self, ctx, state):
+        snapshot = _gated_snapshot(ctx, state, findings=[])
+        source = Path(state.audit_source)
+        schema = TextSchema.model_validate_json((source / "text_schema.json").read_text(encoding="utf-8"))
+        pairs = {(c, m.id) for m in snapshot.mentions for c in m.chunks}
+        return PassInputs(snapshot.chunks, schema, snapshot.mentions, pairs)
+
+    def write_rows(self, ctx, rows):
+        return None  # offline: no graph to write; the findings files the stage writes are the output
+
+
+def _build_params(ctx, state) -> dict[str, object]:
+    """The build a stage rebuilds offline, the dataset and the logged counts that gate it, and the chunker
+    (chunk ids depend on it)."""
+    logged = input_file(state.need("audit_logged", "pass the build's logged counts"), "logged counts")
+    s = ctx.settings
+    return {
+        "build": input_file(state.need("audit_source", "pass the build's out/ folder"), "build folder"),
+        "data_dir": input_file(state.need("data_dir", "pass the dataset folder"), "data folder"),
+        "logged": logged,
+        "logged_hash": digest(logged),
+        "chunk_max_chars": s.chunk_max_chars,
+        "chunk_min_chars": s.chunk_min_chars,
+        "chunk_overlap_chars": s.chunk_overlap_chars,
+    }
+
+
+def _gated_snapshot(ctx, state, findings: list[PassFinding] | None) -> GraphSnapshot:
+    """The build's graph rebuilt offline, refused unless it is the graph the build wrote (R87's C0 gate).
+    With `findings` it is then rebuilt again with those in place of the build's own pass (an empty list: the
+    graph as the pass found it): the gate proves everything before the pass, the findings are the caller's.
+
+    Raises EvaluationError when the gate fails."""
+    source, s = Path(state.audit_source), ctx.settings
+    chunking = (s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
+    snapshot = build_snapshot(source, Path(state.data_dir), chunking)
+    sheet = source / _SHEET
+    if not check_fidelity(
+        snapshot, load_logged(Path(state.audit_logged)), sheet if sheet.exists() else None
+    ).passed:
+        raise EvaluationError(["the snapshot is not the build's graph (C0 failed)"])
+    return snapshot if findings is None else build_snapshot(source, Path(state.data_dir), chunking, findings)
 
 
 def _class_of_type(schema: TextSchema, type_name: str) -> MentionClass:

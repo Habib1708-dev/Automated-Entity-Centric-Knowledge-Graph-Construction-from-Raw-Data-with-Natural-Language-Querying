@@ -106,6 +106,8 @@ class PipelineState:
     extract_source: Path | None = None  # `kg extract --from-build`: the build whose claims to replay (R102)
     mention_gold_dir: Path | None = None  # `kg mention-eval`: the R101 gold folder (R102)
     mention_verdicts: Path | None = None  # `kg mention-eval --verdicts`: the judge's file
+    # `kg mention-eval --pass-file`: pass findings scored in place of the build's own (R105)
+    mention_pass_file: Path | None = None
     mention_scores: MentionScores | None = None  # of `kg mention-eval`
     audit_logged: Path | None = None
     reach_gold: tuple[Path, Path] | None = None

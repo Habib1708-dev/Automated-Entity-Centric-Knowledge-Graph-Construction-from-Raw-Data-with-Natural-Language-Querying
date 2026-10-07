@@ -6,7 +6,8 @@ never saved, so the snapshot recomputes them from what was saved, in the build's
   ingest (`audit/inputs.py`) -> subject graph (`text/subject_graph.collect_rows` over triples.jsonl) ->
   link: document and section ABOUT links (`resolution/linking`), derived claims
   (`resolution/derivation.derive_rows`) -> mention pass (R101, when the build has `mentions.jsonl`:
-  `mention_pass.pass_rows` over its accepted findings) -> identity: resolve.json's assignments are the
+  `mention_pass.pass_rows` over its accepted findings, or over the findings the caller gives in their place,
+  R105) -> identity: resolve.json's assignments are the
   REFERS_TO edges -> attach: the text ABOUT links (`attachment.dominant_record`) and every HAS_OBSERVATION
   (`attachment.attach`).
 Design: the build's own pure functions do the work, so a difference from the build is a finding, not a
@@ -32,7 +33,7 @@ from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
 from ..text.chunking import Chunk
 from ..text.extraction import Triple
-from ..text.mention_pass import PASS_FILE, PassFinding, pass_rows
+from ..text.mention_pass import PASS_FILE, PassFinding, pass_rows, read_findings
 from ..text.schema import MentionClass, TextSchema
 from ..text.subject_graph import MentionRow, ObservationRow, collect_rows
 from .inputs import Record, Relation, read_corpus, read_records, read_relations
@@ -100,8 +101,14 @@ class GraphSnapshot(BaseModel):
     pass_reused: int = 0
 
 
-def build_snapshot(out_dir: Path, data_dir: Path, chunking: tuple[int, int, int]) -> GraphSnapshot:
+def build_snapshot(
+    out_dir: Path, data_dir: Path, chunking: tuple[int, int, int], findings: list[PassFinding] | None = None
+) -> GraphSnapshot:
     """Rebuild the graph of the build in `out_dir` from its saved files and the dataset in `data_dir`.
+
+    `findings` replaces the build's own mention pass file (R105): an empty list gives the graph as the pass
+    found it, another pass's findings the graph that pass would have written. Identity is still the build's
+    resolve.json, so a mention it never saw refers to nothing.
 
     Failure modes: a missing file of the build raises (FileNotFoundError); a file of another shape raises
     pydantic's ValidationError. Both mean the folder is not a finished build.
@@ -143,8 +150,9 @@ def build_snapshot(out_dir: Path, data_dir: Path, chunking: tuple[int, int, int]
     # the mention pass ran after link: its rows come after derivation's, and derivation never saw them
     passed: dict[str, MentionClass | None] = {}  # pass mention id -> the class it was stated with
     pass_edges = reused = 0
-    if (out_dir / PASS_FILE).exists():
-        findings = [PassFinding.model_validate_json(x) for x in _read(out_dir / PASS_FILE).splitlines() if x]
+    if findings is None and (out_dir / PASS_FILE).exists():
+        findings = read_findings(out_dir / PASS_FILE)
+    if findings:
         found = pass_rows(findings, list(mentions.values()), mentioned_in)
         for m in found.mentions:
             mentions[m.id] = m

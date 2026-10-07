@@ -210,6 +210,30 @@ def test_a_precision_item_shows_the_class_the_pass_stated(tmp_path, hinge, shown
     assert {i.name: i.mention_class for i in sheet.precision} == {"crack": "kind", "hinge": shown}
 
 
+def test_a_replayed_pass_is_scored_in_place_of_the_builds_own(tmp_path):
+    """R105: `--pass-file` scores another pass's findings on the build's graph; the C0 gate still checks
+    the build as it was built (its own pass included)."""
+    out, data, gold_dir, logged = _with_gold(tmp_path)  # the build's own pass: crack
+    replayed = tmp_path / "replay" / "mentions.jsonl"
+    replayed.parent.mkdir()
+    replayed.write_text(
+        json.dumps({**HINGE, "mention_class": "kind", "proposed_type": "Part"}), encoding="utf-8"
+    )
+    tracker = RecordingTracker()
+    ctx = PipelineContext(settings=Settings(), driver=None, out=tmp_path / "eval", tracker=tracker)
+    state = PipelineState(
+        audit_source=out, data_dir=data, audit_logged=logged, anchor_dataset="test",
+        mention_gold_dir=gold_dir, mention_pass_file=replayed,
+    )  # fmt: skip
+    run_stages(ctx, state, [MentionEvalStage()])
+    run = tracker.run("mention_eval")
+    assert {"pass_file", "pass_file_hash"} <= set(run.logged_params)
+    sheet = MentionSheet.model_validate_json((tmp_path / "eval" / MENTION_SHEET).read_text(encoding="utf-8"))
+    assert [(i.name, i.mention_class) for i in sheet.precision] == [("hinge", "kind")]  # crack is gone
+    # the gold's "hinge" is now a mention of its chunk: a hit, no longer a near-name candidate
+    assert (run.logged_metrics["recall_hits"], run.logged_metrics["recall_candidates"]) == (3, 0)
+
+
 # --- the committed results of R102 (the r77d builds and the rebuilds, against the R101 gold) ---------------
 
 R102 = Path(__file__).resolve().parent / "gold" / "r102"

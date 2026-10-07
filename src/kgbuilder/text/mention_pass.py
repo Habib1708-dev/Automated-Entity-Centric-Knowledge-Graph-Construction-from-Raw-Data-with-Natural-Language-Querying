@@ -25,6 +25,7 @@ import logging
 import re
 from collections.abc import Iterable
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -184,6 +185,12 @@ class PassFinding(BaseModel):
     # the model's two answers (R104); None in a pass file written before R104, which asked for a type only
     mention_class: MentionClass | None = None
     proposed_type: str | None = None
+
+
+def read_findings(path: Path) -> list[PassFinding]:
+    """The findings of a pass file (`mentions.jsonl`), in order. A malformed line raises pydantic's
+    ValidationError: the file is not a pass file."""
+    return [PassFinding.model_validate_json(x) for x in path.read_text(encoding="utf-8").splitlines() if x]
 
 
 class PassRejection(BaseModel):

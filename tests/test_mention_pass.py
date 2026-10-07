@@ -2,8 +2,9 @@
 reason, the type a finding is stored with given its two answers (R104: the proposed type only when it can
 hold the stated class), the pass over chunks with a scripted LLM, the rows it writes (one mention per document
 and name, an existing mention's type winning, the stated class kept), the prompt's corpus-language guard, the
-built-in fallback types, the audit snapshot replaying a build's pass file, and the stage on Neo4j (params,
-metrics, artifacts).
+built-in fallback types, the audit snapshot replaying a build's pass file (or other findings in its place,
+R105), the stage on Neo4j (params, metrics, artifacts), and the offline replay of the pass on a finished
+build (R105: the graph as the pass found it, behind the C0 gate, nothing written but files).
 
 The text is an invented observatory log (as the definition's examples, tests/gold/r101/rules.md). Only the
 stage test needs Neo4j. The R102 rebuilds' logged counts (tests/gold/r102) must show the r77d claims replayed
@@ -18,11 +19,12 @@ import pytest
 from kgbuilder.audit import build_snapshot
 from kgbuilder.audit.fidelity import LoggedCounts, snapshot_counts
 from kgbuilder.config import Settings
-from kgbuilder.core.errors import LLMResponseError
+from kgbuilder.core.errors import EvaluationError, LLMResponseError
 from kgbuilder.core.identity import mention_id
 from kgbuilder.core.values import VALUE_TYPE
 from kgbuilder.llm.base import prompt_version
 from kgbuilder.pipeline import stages as st
+from kgbuilder.pipeline.mention_stages import ReplayMentionPassStage
 from kgbuilder.pipeline.runner import FULL_PIPELINE, run_stages
 from kgbuilder.pipeline.stage import TEXT_SCHEMA_FILE, PipelineContext, PipelineState
 from kgbuilder.text.chunking import Chunk
@@ -54,7 +56,7 @@ from kgbuilder.text.subject_graph import MentionRow, write_subject_graph
 
 from .evaluation_corpora import quoted_four_grams
 from .fakes import RecordingTracker, ScriptedLLM
-from .test_audit import CHUNKING, KETTLE, LAMP
+from .test_audit import CHUNKING, KETTLE, LAMP, _logged
 from .test_audit import _build as audit_build
 
 LOG = "notes/night_log.md"
@@ -239,6 +241,12 @@ def test_the_snapshot_replays_a_builds_pass_file(tmp_path):
     passes = [counts[f"mention_pass.{k}"] for k in ("mention_nodes", "mentions", "reused")]
     assert passes == [1, 1, 0]
     assert counts["extract.mention_nodes"] == sum(not (m.derived or m.found_by_pass) for m in s.mentions)
+    # R105: findings given in place of the build's pass file; none at all is the graph the pass found
+    before = build_snapshot(out, data, CHUNKING, findings=[])
+    assert not any(m.found_by_pass for m in before.mentions) and before.pass_mentions_edges == 0
+    other = [PassFinding(chunk_id=f"{KETTLE}#0", name="hinge", type="Part", mention_class="kind")]
+    instead = build_snapshot(out, data, CHUNKING, findings=other)
+    assert [(m.name, m.stated_class) for m in instead.mentions if m.found_by_pass] == [("hinge", "kind")]
 
 
 @pytest.mark.neo4j
@@ -284,6 +292,63 @@ def test_the_stage_writes_the_new_mentions_and_logs_what_it_asked_and_refused(dr
         ("condensation", KIND_TYPE, "kind", NO_TYPE),
         ("dome", KIND_TYPE, "kind", "Building"),
     ]
+
+
+def _replay(tmp_path, logged: Path, script) -> tuple[RecordingTracker, Path]:
+    """`kg mention-pass --from-build` on the audit's invented build, no graph: the tracker and the out dir."""
+    tracker, out = RecordingTracker(), tmp_path / "replay"
+    ctx = PipelineContext(settings=Settings(), driver=None, out=out, tracker=tracker, llm=ScriptedLLM(script))
+    state = PipelineState(audit_source=tmp_path / "build", data_dir=tmp_path / "data", audit_logged=logged)
+    run_stages(ctx, state, [ReplayMentionPassStage()])
+    return tracker, out
+
+
+def test_the_pass_replays_offline_on_a_builds_graph_as_the_pass_found_it(tmp_path):
+    out, data = audit_build(tmp_path)
+    old = [PassFinding(chunk_id=f"{LAMP}#0", name="crack", type=KIND_TYPE)]  # the build's own pass
+    (out / PASS_FILE).write_text("\n".join(f.model_dump_json() for f in old), encoding="utf-8")
+    resolved = json.loads((out / "resolve.json").read_text(encoding="utf-8"))  # resolve saw the old pass
+    resolved["assignments"].append(
+        {"mention": mention_id(KIND_TYPE, "crack", LAMP), "said": "crack", "kind": "concept",
+         "canonical": "c1", "name": "crack", "type": KIND_TYPE, "reason": "same_name"}
+    )  # fmt: skip
+    (out / "resolve.json").write_text(json.dumps(resolved), encoding="utf-8")
+    logged = _logged(tmp_path, build_snapshot(out, data, CHUNKING))
+    prompts: list[str] = []
+
+    def script(prompt: str, schema: type) -> FoundThings:
+        prompts.append(prompt)
+        if "Alder Lamp" in prompt:  # "shade" is a claim's mention of the chunk: already listed
+            return FoundThings(things=[
+                FoundThing(name="shade", mention_class="kind", type="Part"),
+                FoundThing(name="Lamp", mention_class="kind", type=NO_TYPE),
+            ])  # fmt: skip
+        return FoundThings(things=[FoundThing(name="hinge", mention_class="kind", type="Part")])
+
+    tracker, replay = _replay(tmp_path, logged, script)
+    run = tracker.run("mention_pass")
+    assert run.logged_params["build"] == out and "logged_hash" in run.logged_params
+    assert run.logged_params["prompt_version"] == prompt_version(MENTION_PROMPT)
+    m = run.logged_metrics
+    assert [m[k] for k in ("chunks", "found", "accepted", "rejected_already_listed", "mention_nodes")] == [
+        2, 3, 2, 1, 2,
+    ]  # fmt: skip
+    # the names the prompt calls listed are the claims' and derivation's, never the build's own pass
+    lamp = next(p for p in prompts if "Alder Lamp" in p)
+    listed = lamp.split("do not list these again): ")[1].splitlines()[0].split("; ")
+    assert listed == ["Alder Lamp", "cracked", "lid", "loose", "shade"]  # no "crack": that was the old pass
+    lines = [json.loads(x) for x in (replay / PASS_FILE).read_text("utf-8").splitlines()]
+    assert [(x["name"], x["type"]) for x in lines] == [("Lamp", KIND_TYPE), ("hinge", "Part")]
+
+
+def test_the_replay_refuses_a_build_whose_snapshot_is_not_its_graph(tmp_path):
+    out, data = audit_build(tmp_path)
+    logged = _logged(tmp_path, build_snapshot(out, data, CHUNKING))
+    counts = json.loads(logged.read_text(encoding="utf-8"))
+    counts["counts"]["extract.mention_nodes"] += 1  # the build logged a graph the snapshot is not
+    logged.write_text(json.dumps(counts), encoding="utf-8")
+    with pytest.raises(EvaluationError):
+        _replay(tmp_path, logged, lambda prompt, schema: FoundThings())
 
 
 R102 = Path(__file__).resolve().parent / "gold" / "r102"

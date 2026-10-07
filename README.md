@@ -40,6 +40,8 @@ uv run kg anchor-compare BUILD --data D --targets T --anchor-report A --layered-
 uv run kg anchor-sheets BUILD --dataset N --data D --logged L --anchor-report A --layered-report L --out O  # blind judging sheets C3, C4, C6 (R93; no graph)
 uv run kg anchor-judged BUILD --judged J --identity-gold G --data D --logged L --anchor-report A --out O  # score the judge's verdicts on C3, C4, C6 (R93)
 uv run kg mention-eval BUILD --dataset N --data D --logged L --gold-dir tests/gold/r101 --out O [--verdicts V]  # mention recall and pass precision (R102; no graph)
+uv run kg mention-pass --from-build BUILD --data D --logged L --out O  # the pass on a finished build's graph as the pass found it (R105; LLM, no graph)
+uv run kg mention-eval BUILD ... --pass-file O/mentions.jsonl  # score those findings in place of the build's own pass (R105)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)

@@ -5161,6 +5161,7 @@ a measured effect and regression checks. The causes, verified on the r77d snapsh
   - **R103** Rebuild with re-extracted claims (paid, asked, est. $1.9-2.5).
   - **R104** (inserted 2026-10-07, done before R103) The mention pass states each thing's class apart from its
     type; title, use and address rules clarified; the sheet shows the stated class.
+  - **R105** (inserted 2026-10-07, before R103) R104 measured by a pass-only replay on R102's builds, judged.
 - **Regression checks at every measured step:** C0 passes; C1 = 1.0; C3 0 wrong merges of records or
   individuals and R75's apart pairs 1.0; C4 >= 0.95 with 0 confirmed cross-scope links; C6 >= 0.95 for record
   and individual starts; C8 arm A 0 unwitnessed hops; C9 no per-dataset code or setting, and the corpus
@@ -5896,6 +5897,44 @@ done to a thing", In, and an everyday act, Out 8; "THE CONTACT" read as a role, 
   pre-pass state), each asked first.
 - **R104 done 2026-10-07** (one `dev` round of R101's three). Next: the user's choice of how to measure it,
   then R103.
+
+### R105. The R104 pass measured on R102's builds: a pass-only replay, judged (in progress 2026-10-07)
+The user chose to measure R104 by running only the pass on R102's three builds (2026-10-07, "option 1",
+about $0.3): same claims, same derived mentions, same text schema, so a difference in precision or recall
+is the pass's, not a new sample of the extractor (R103 re-extracts and would confound the two). Resolution,
+hubs and concept merging are not measured (they need a resolve, out of this round's scope).
+- **Split, one commit each:** (a) the offline replay and the scoring of replayed findings ($0); (b) the three
+  replays with the quality model (paid); (c) sheets, blind judging, results ($0).
+- **Part a (done 2026-10-07, $0):**
+  - `audit/snapshot.py`: `build_snapshot(..., findings=None)`: given findings replace the build's pass file
+    (an empty list: the graph as the pass found it). Identity stays the build's `resolve.json`, whose lines
+    for mentions absent from the snapshot are skipped as before. `text/mention_pass.read_findings` reads a
+    pass file (the snapshot's inline reader moved there).
+  - `pipeline/stages.py`: `MentionPassStage` is a Template Method (`read_inputs` / `write_rows`, a frozen
+    `PassInputs`), behaviour unchanged for `kg mention-pass`.
+  - `pipeline/mention_stages.py`: `ReplayMentionPassStage` (`kg mention-pass --from-build BUILD --data D
+    --logged L`): the build's graph rebuilt offline behind the C0 gate, then rebuilt again without its pass;
+    the prompt's known names are the claims' and derivation's mentions of each chunk, the schema the build's;
+    nothing is written to a graph, the findings files go to `--out`; the run is `mention_pass` with the live
+    params plus build, logged counts and chunker. `kg mention-eval BUILD --pass-file FILE`: the C0 gate on the
+    build as built, then the sheet and scores on the build with FILE's findings in place of its own pass
+    (params `pass_file`, `pass_file_hash`). `_build_params` and `_gated_snapshot` are shared by both.
+  - **Judge rules** `tests/gold/r105/mention_judge_rules.md`, written before any replay output: R102's rules
+    with R104's definition (Out 4, 5, 7, 8, 9, In 2 and 3, the class sentence) and one sentence on the
+    precision item: the type is the graph's category and not judged (R102's question never asked about it).
+  - Tests: `tests/test_mention_pass.py`: findings in place of the pass file (none, other), the replay on the
+    audit's invented build with a scripted LLM (known names exactly the claims' and derivation's, not the
+    old pass's "crack"; params; counts; files), and the replay refusing a build whose logged counts its
+    snapshot does not meet; `tests/test_mention_eval.py`: `--pass-file` scores the replayed findings, not the
+    build's own, and the gold "hinge" becomes a hit. README. Gate: 808 passed (805 before), `ruff check`
+    clean.
+- **Part b, estimate (counted before asking):** R102's passes cost $0.234 (furniture $0.076, held-out $0.115,
+  generality $0.044; 0 thinking tokens). The R104 prompt is 933 characters longer (about 230 tokens on each
+  of 183 calls: +$0.032) and each finding carries a class (about 10 tokens on each of about 1,450: +$0.054):
+  **about $0.32** in all, likely $0.27-0.40. Commands, each with its preset (R102's): `kg --preset quality
+  mention-pass --from-build out/r102_furniture --data data --logged tests/gold/r102/furniture_logged.json
+  --out out/r105_furniture`; `heldout` with `heldout/nhtsa/data`; `generality_gemini` with
+  `tests/fixtures/generality`.
 
 ## Found along the way
 - **R101's precision and hub bounds fail on the rebuilds (found in R102, 2026-10-07; the user's decision).**

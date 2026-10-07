@@ -61,6 +61,11 @@ REACH_SAMPLE = typer.Option(None, help="The R68 sentence sample those claims wer
 FROM_BUILD = typer.Option(None, help="A finished build folder: replay its triples.jsonl, no LLM (R102).")
 MENTION_GOLD = typer.Option(..., help="The R101 mention gold folder (tests/gold/r101).")
 MENTION_VERDICTS = typer.Option(None, help="The judge's verdicts of the mention sheet (R102).")
+MENTION_PASS_FILE = typer.Option(None, help="Pass findings to score in place of the build's own (R105).")
+# `kg mention-pass --from-build` (R105): the pass on a finished build's graph, rebuilt offline
+PASS_FROM_BUILD = typer.Option(None, help="A finished build folder: run the pass on its graph, offline.")
+PASS_DATA = typer.Option(None, help="With --from-build: the dataset folder the build ingested.")
+PASS_LOGGED = typer.Option(None, help="With --from-build: the build's logged counts (its C0 gate).")
 SAMPLE_BUILD = typer.Option(None, help="A finished build folder: sample its corpus, not the graph (R101).")
 SAMPLE_DATA = typer.Option(None, help="With --build: the dataset folder the build ingested.")
 ANCHOR_TARGETS = typer.Option(..., help="The target gold of the build's dataset (tests/gold/r89/).")
@@ -352,11 +357,20 @@ def link(out: Path = OUT):
 
 
 @app.command("mention-pass")
-def mention_pass(out: Path = OUT):
+def mention_pass(
+    out: Path = OUT,
+    from_build: Path | None = PASS_FROM_BUILD,
+    data: Path | None = PASS_DATA,
+    logged: Path | None = PASS_LOGGED,
+):
     """List what each chunk names or talks about that no claim names, verify it in code and write the new
-    mentions (after `kg link`, before `kg resolve`; one LLM call per chunk; R101)."""
+    mentions (after `kg link`, before `kg resolve`; one LLM call per chunk; R101). With --from-build, run it
+    on a finished build's graph rebuilt offline instead and write only the findings files (R105)."""
+    if from_build is not None and (data is None or logged is None):
+        raise typer.BadParameter("--from-build needs --data and --logged")
+    stage = mes.ReplayMentionPassStage() if from_build is not None else st.MentionPassStage()
     with session(out) as ctx:
-        run_stages(ctx, PipelineState(), [st.MentionPassStage()])
+        run_stages(ctx, PipelineState(audit_source=from_build, data_dir=data, audit_logged=logged), [stage])
     typer.echo(f"Wrote {out / st.PASS_FILE} and {out / st.PASS_REJECTED_FILE}")
 
 
@@ -546,11 +560,13 @@ def mention_eval(
     logged: Path = AUDIT_LOGGED,
     gold_dir: Path = MENTION_GOLD,
     verdicts: Path | None = MENTION_VERDICTS,
+    pass_file: Path | None = MENTION_PASS_FILE,
     out: Path = OUT,
 ):
     """Rebuild BUILD's graph offline (no graph, no model) and score its mentions against the R101 gold:
     exact recall, the sheet the judge answers (near-name candidates, a seeded sample of the pass's mentions)
-    and, with --verdicts, recall with the judged mapping and the pass's precision (R102)."""
+    and, with --verdicts, recall with the judged mapping and the pass's precision (R102). With --pass-file,
+    those findings stand in for the build's own pass (R105)."""
     state = PipelineState(
         audit_source=build,
         data_dir=data,
@@ -558,6 +574,7 @@ def mention_eval(
         anchor_dataset=dataset,
         mention_gold_dir=gold_dir,
         mention_verdicts=verdicts,
+        mention_pass_file=pass_file,
     )
     with session(out) as ctx:
         state = run_stages(ctx, state, [mes.MentionEvalStage()])
