@@ -8,7 +8,7 @@ Design: pure; the caller gives the claims, the types of their ends and the chunk
   - The sheet shows every claim of the build once, extracted and derived apart (`origin`), with every field
     the graph stores (its two ends with their types, the relation, the quote, tone, time, truth, modality,
     condition and their verbatim cue words), each chunk's text once, and the schema's descriptions of the
-    relations and types, so the judge reads a claim as the graph means it.
+    relations (every declared type pair) and types, so the judge reads a claim as the graph means it.
   - The verdicts use the shared file and review rules (anchor_verdicts.py). An INCORRECT verdict names its
     faults (`FAULTS`); a content fault means the stored triple says something the text does not, a field
     fault that the triple is right and a stored field around it is not. So one judging pass gives both the
@@ -79,7 +79,10 @@ class ClaimSheet(BaseModel):
     dataset: str
     build: str
     question: str = CLAIM_QUESTION
-    relations: dict[str, str]  # predicate -> "<subject type> -> <object type>: <description>"
+    # "<subject type> -[<predicate>]-> <object type>" -> description, one entry per declared type pair: a
+    # predicate may be declared for several (a quality of a piece and of the whole thing). Sheets written
+    # before this fix (R110's, as judged) key by predicate and show only the last pair.
+    relations: dict[str, str]
     types: dict[str, str]  # entity type -> its description
     chunks: dict[str, ChunkText]
     claims: list[ClaimItem]
@@ -126,7 +129,7 @@ def claim_sheet(
         dataset=dataset,
         build=build,
         relations={
-            f.predicate: f"{f.subject_type} -> {f.object_type}: {f.description}" for f in schema.fact_types
+            f"{f.subject_type} -[{f.predicate}]-> {f.object_type}": f.description for f in schema.fact_types
         },
         types={e.name: e.description for e in schema.entity_types},
         chunks={c.chunk_id: ChunkText(context=c.context, text=c.text) for c in chunks if c.chunk_id in used},

@@ -6618,8 +6618,9 @@ with its evidence and the direction a later step would take:
 
 ## Found along the way
 - **The claim sheet shows one type pair per relation (found in R110 part b, 2026-10-07; fixed in its own
-  commit).** `claim_sheet` keys `relations` by predicate, so a predicate the schema declares for several type
-  pairs keeps only the last: furniture `EXHIBITS`, `HAS_MEASUREMENT`, `MADE_OF` (Product and Component
+  commit: `relations` is keyed by the type pair, "Product -[EXHIBITS]-> QualityAspect"; test
+  `test_the_sheet_shows_every_type_pair_a_relation_is_declared_for` failed before the fix).** `claim_sheet`
+  keyed `relations` by predicate, so a predicate the schema declares for several type pairs kept only the last: furniture `EXHIBITS`, `HAS_MEASUREMENT`, `MADE_OF` (Product and Component
   subjects), generality `LOCATED_AT` (four subject types), `HAS_MEASUREMENT`, `HAS_COST`. Several judges then
   read product-level claims as "outside the schema" (and faulted none for it); extraction refuses any type
   pair the schema lacks (`text/extraction.py`, `allows_extraction`), so every stored claim fits one. The

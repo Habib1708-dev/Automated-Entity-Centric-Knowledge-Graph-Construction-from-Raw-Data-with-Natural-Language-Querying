@@ -109,8 +109,32 @@ def test_the_sheet_shows_every_stored_field_each_id_once_and_the_schema():
         "not",
     )
     assert (leak.modality, leak.hedge, leak.condition) == ("conditional", "may", "if the hatch is open")
-    assert sheet.relations == {"SHOWS": "Part -> State: A state."}
+    assert sheet.relations == {"Part -[SHOWS]-> State": "A state."}
     assert sheet.types["Part"] == "A piece of the observatory." and sheet.chunks[LOG].context == "Night log"
+
+
+def test_the_sheet_shows_every_type_pair_a_relation_is_declared_for():
+    # one predicate declared for a piece and for the whole thing: the judge must see both pairs (R110 showed
+    # only the last, and judges read claims about the whole thing as outside the schema)
+    whole = {"name": "Dome", "description": "The whole observatory dome.", "identity": "concept"}
+    schema = SCHEMA.model_copy(
+        update={
+            "entity_types": [*SCHEMA.entity_types, type(SCHEMA.entity_types[0]).model_validate(whole)],
+            "fact_types": [
+                *SCHEMA.fact_types,
+                type(SCHEMA.fact_types[0]).model_validate(
+                    {
+                        "predicate": "SHOWS",
+                        "subject_type": "Dome",
+                        "object_type": "State",
+                        "description": "Its state.",
+                    }
+                ),
+            ],
+        }
+    )
+    sheet = claim_sheet("test", "build", [claim_item(STALL, "extracted", TYPES)], [CHUNK], schema)
+    assert sheet.relations == {"Part -[SHOWS]-> State": "A state.", "Dome -[SHOWS]-> State": "Its state."}
 
 
 def test_the_claim_rules_want_a_known_fault_on_every_incorrect_verdict_and_quotes_in_the_chunk():
@@ -171,7 +195,10 @@ def test_the_stage_writes_the_sheet_of_a_build_and_scores_the_judges_file(tmp_pa
     assert (m["claims"], m["extracted_claims"], m["derived_claims"], m["chunks"]) == (8, 4, 4, 2)
     assert "extracted_precision" not in m and {"build", "logged_hash", "dataset"} <= set(run.logged_params)
     sheet = ClaimSheet.model_validate_json((tmp_path / "eval" / CLAIM_SHEET).read_text(encoding="utf-8"))
-    assert sheet.relations.keys() == {c.predicate for c in _schema(out).fact_types}
+    fact_types = _schema(out).fact_types
+    assert sheet.relations.keys() == {
+        f"{f.subject_type} -[{f.predicate}]-> {f.object_type}" for f in fact_types
+    }
     lamp_lid = next(c for c in sheet.claims if c.origin == "extracted" and c.evidence == "The lid is loose.")
     assert (lamp_lid.subject, lamp_lid.subject_type, lamp_lid.object_type) == ("lid", "Part", "Quality")
     # the judge's file: one extracted claim wrong, every verdict quoted from its chunk, reviewed as required
