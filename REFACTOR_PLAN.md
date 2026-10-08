@@ -7409,6 +7409,20 @@ committed as the `config.py` defaults before any held-out or generality run.
 - **Cost:** $0 logged (no reader). Embeddings unpriced: 2,154 texts, 64,252 characters over the ten runs
   (MLflow `embedded_texts`/`embedded_chars`: 68 question texts per cell, 805 in each M5 cell, which embeds the
   737 node names); about $0.002 at the list price R119 used. 884 s of runs.
+- **Further analysis** (2026-10-08, the user asked; offline, $0, no run): the results snapshot
+  [docs/evaluation/results_2026-10-08_r121_hybrid.md](docs/evaluation/results_2026-10-08_r121_hybrid.md)
+  (local) with its scripts. Depths 1, 3 and 20 were recomputed from the stored per-retriever lists with the
+  system's own `rrf`; the recomputed top 10 equals every report's.
+  - **K = 5 separates the systems most:** Complete 20 (vector) to 27 (M2/k10).
+  - **At K = 20, chunks alone (M1) complete 31, as M2 does:** claims mostly move evidence up.
+  - **Cards cost completeness at every K** (29-30 at 20).
+  - **Seeds:** the name linker finds 46 of 86 targets at K = 1 against the cards' 36. The cards pass it at
+    20 (83 against 82), and both fused find all 86 by 20.
+  - **The linker alone (15 targets)** finds names spelled in questions that also mention opinions, parts or
+    neighbours, whose cards then win (`Product:P-1007` in F06, the `Frame` assembly in F04).
+  - **The cards alone (9 targets)** find same-named parts and described targets (`Component:S-1085` in F01,
+    `Legs` in F24).
+  - **The ceiling:** F08 and F13 cite 6 and 8 chunks, so Complete@5 is at most 31 of 33.
 - **R121 done 2026-10-08.** Next: R122, A measured on held-out and generality, asked per dataset.
 
 ## Known limitations (the refinement arm stopped at R108)
