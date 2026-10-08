@@ -6895,6 +6895,95 @@ computed in code).
   that the rule does no harm, not that it helps.
 - **R115 code done 2026-10-08.** Next: the plan comparison if the user agrees; then Part 2.
 
+### Plan R116-R125: hybrid retrieval, and two node representations compared fairly (accepted 2026-10-08)
+The user, 2026-10-08, starting Part 2: hybrid search and retrieval (graph, dense, maybe lexical), and what to
+embed besides the chunks; then "make a plan to implement that in a modular way as we will also experiment
+with another approach ... and later we will run both approaches against a benchmark to measure fairly"; then
+the second approach: LLM-generated node summaries, compared against deterministic node cards ("Do not
+implement LLM summaries immediately. Complete the existing deterministic approach first, but design the
+architecture now"). The full plan with files, types and tests: `docs/tasks/hybrid-retrieval.md` (local).
+
+Why (a real failure): held-out H17 ("Which recall campaigns concern the back-up camera of a vehicle whose
+owner complains that the back-up camera stopped working?", expected none). R73b's vector system retrieved
+only recall chunks and answered 19V576000 and 25V695000, camera recalls of vehicles whose owners never
+mention a camera. The question names no vehicle, so the name linker has nothing to link; the fact that
+answers it is a claim on the Outback, `SYSTEM FREEZES UP COMPLETELY -AFFECTS_COMPONENT-> BACK UP CAMERA`
+(via `HAS_OBSERVATION`), whose recalls are FUEL PUMP, STRUCTURE, FUEL PUMP. Bare node names embed poorly
+(`resolution/matchers.py`: "short names of different things often have very similar embeddings").
+
+- **What is embedded besides chunks:** a text per record and canonical entity (its title, label, aliases,
+  key properties, relations with neighbour names, a few claims) and one sentence per claim. Lexical (BM25)
+  indexes over chunk, card and claim text; the ranked lists are fused by rank (reciprocal rank fusion),
+  never by a similarity threshold, the rule of `query/names.py`.
+- **Two node representations, one engine.** A, deterministic node cards: code renders the node's verified
+  graph evidence with a fixed template (built and measured first, R118-R122). B, LLM node summaries: code
+  gathers the same evidence, an LLM writes a grounded summary (R123-R125, after A; hypothesis: richer
+  vectors find the right starting nodes better). B is one `NodeRepresentation` (name, version,
+  render(evidence) -> card texts); evidence gathering, index writer, embedding, retrievers, fusion, reader
+  and benchmark are shared. Card and summary text only ranks: the reader sees source chunks only.
+- **The user's decisions (2026-10-08):** (a) the indexes live in Neo4j as additive, deletable
+  `:RetrievalUnit` nodes and indexes; frozen Part 1 nodes are never modified; (b) each approach is tuned on
+  furniture only; held-out and generality are measured, never tuned on; (c) B is designed now, built after
+  A is measured; (d) A and B share the evidence, the embedding model, the retrieval settings and the
+  benchmark.
+- **Storage:** `(:RetrievalUnit:NodeCard:<Rep>Card)-[:CARD_OF]->(record | :Concept | :Individual)`, one
+  label and one vector and full-text index per representation (Neo4j 5 vector indexes are one label each and
+  cannot pre-filter), so A and B coexist on the same graph; `(:RetrievalUnit:ClaimSentence)-[:SENTENCE_OF]->
+  (:Observation)`, shared. Every card stores the hash of its evidence. The planner's schema and the graph
+  digest leave the index layer out (`query/graph_schema._labels` lists every label).
+- **Claim semantics:** truth is never left to the vector (the English analyzer even drops "not"). The claim
+  retrievers read `truth`, `negation`, `modality`, `hedge`, `condition`, `triple_truth` from the
+  `:Observation` and carry them in the trace; a filter on them applies only when the caller knows the
+  question's polarity (the retrieval-only system filters nothing); claims of the opposite truth on the same
+  canonical subject, predicate and object stay next to a returned claim. Card claim lines carry code-made
+  tags (`denied`, `conditional: ...`, `hedged`) and conflict counts.
+- **Metrics:** Seed Recall@K (the R89 targets placed by `anchor/targets.TargetPlacer`; placed nodes are
+  record refs and canonical ids, the ids the cards use), Evidence Recall@K and Complete@K (gold chunks),
+  multi-hop answer accuracy (exact and judge, with n), groundedness (A by construction and a test; B a code
+  check and Claude's verdicts on a stratified sample), retrieval latency p50/p95, cost; exact McNemar on
+  each paired measure.
+- **Fairness contract:** the same graph (`graph_digest` param), the same evidence (per-card hash), the same
+  questions and targets (hashes; a gold chunk missing from the loaded graph refuses the run), one reader and
+  k for every system, the same embedding model and sealed retrieval settings. Tuning is recorded, not
+  enforceable: grids pre-registered here, the choice committed as `config.py` defaults (the seal) and in
+  `tests/gold/r121/` and `r124/tuning.json`; held-out and generality runs take no overrides and descend from
+  the seal; their cards and summaries are not opened before their final run. Known bias: the shared fusion
+  settings are sealed with A, as B does not exist yet; so the headline A-vs-B number is Seed Recall@K of card
+  retrieval alone, which no fusion setting touches, with the full hybrid reported beside it.
+- **Pre-registered grids (fixed before any number):** R121, A and the shared settings: mixes M1 chunk dense
+  + chunk lexical (the no-graph control), M2 = M1 + claims, M3 = M1 + cards, M4 = all six, M5 = M4 + the
+  name-linker route; `rrf_k` in {10, 60}; depth 20; criterion furniture Complete@5, ties to Seed Recall@5,
+  then the smaller mix, then `rrf_k` 60. R124, B's own knobs only (the summary length cap, at most two
+  prompt variants); criterion furniture Seed Recall@5 of card dense retrieval alone.
+- **Steps, strictly one after another** (`implement-step`, one commit each):
+  - **R116** QA systems built by name from shared parts ($0, refactor).
+  - **R117** The retrieval benchmark without the reader, `kg retrieve-eval`: evidence and seed recall,
+    latency, the graph digest, the name-linker route as `graph_retrieval`; part b the furniture baselines
+    (guarded, about $0).
+  - **R118** Node evidence, the representation seam, deterministic cards and claim sentences, `kg units`
+    ($0, no LLM).
+  - **R119** `kg index --cards <rep>`: embedded units and indexes in Neo4j; unchanged units keep their
+    vectors (one guarded smoke run).
+  - **R120** Hybrid retrievers, claim semantics, fusion, the `hybrid` system (one guarded smoke run).
+  - **R121** A and the shared settings tuned on furniture, then sealed (asked).
+  - **R122** A measured on held-out and generality against vector and graph retrieval (asked per dataset).
+  - **R123-R125** (later) B: summaries with a code grounding check and a fallback to the card; tuned on
+    furniture; A against B on held-out and generality (each run asked).
+- **Defaults chosen:** the working Neo4j holds furniture from R117 part b until R122 (Community holds one
+  database); cards map to chunks per card in turn (round-robin), as pooling all reached chunks by cosine
+  would bring back H17's camera recalls; `kg qa` keeps asking the original three systems by default.
+
+### R116. QA systems built by name from shared parts (planned; $0, no run, refactor)
+- **Scope:** how a QA system is assembled, behaviour unchanged. `pipeline/qa_stages.py` chooses a system by
+  an `if` ladder (`build_system`) and two name tuples (`SYSTEMS`, `PLANNED`) that `_system_params`,
+  `_log_prompts` and `_frozen_file` each test again; every new approach would add a branch in four places.
+  A new `pipeline/qa_systems.py` (Factory) maps a name to a `SystemSpec`: how to build the system from the
+  parts every system shares, the params and prompts that decide its answers beyond the shared ones, and
+  whether it is a plan system. The shared parts (reader, k, embedder, store, model) are built once, so two
+  systems differ only in what their spec builds on top. `query/systems.py`: a `ReadingSystem` (the source's
+  best k chunks, read by the reader) replaces the `answer` of `VectorBaseline` and `GraphRetrieval`, which
+  become chunk sources only.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
