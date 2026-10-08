@@ -4,7 +4,8 @@ Role in the pipeline: first step of `kg profile`. Afterwards the profiler and th
 uniform format (CSV files under `out/staging`), whatever the user supplied.
 Design: nothing is dropped silently; every file that looked structured but could not be staged is
 reported in `StagingReport.skipped` with the reason. A database is a `TableSource` (R114), a port that the
-composition root fills with an adapter (structured/postgres.py), so this module never talks to a database.
+composition root fills with an adapter (structured/postgres.py), so this module never talks to a database;
+the keys it declares are staged next to its tables as `DECLARED_KEYS_FILE` (R115).
 Not here: text documents (text/documents.py) and profiling (profiler.py).
 """
 
@@ -30,6 +31,32 @@ _MARKER = ".kgbuilder-staging"
 # a letter, digit or "_" ("order_items", "Order Items 2024"). A database may name a table "a/b" or "..",
 # which would write outside the staging dir.
 _FILE_SAFE = re.compile(r"\w[\w .-]*")
+# The keys a database declares, staged next to the tables (R115); the profiler marks them in the profile.
+# Inside the staging dir, so a build folder that copies `staging/` keeps them for offline replays.
+DECLARED_KEYS_FILE = "declared_keys.json"
+
+
+class DeclaredForeignKey(BaseModel):
+    """A single-column foreign key a database declares: `from_table.from_column` refers to
+    `to_table.to_column`."""
+
+    from_table: str
+    from_column: str
+    to_table: str
+    to_column: str
+
+
+class DeclaredKeys(BaseModel):
+    """The primary and foreign keys a `TableSource` declares (R115): what the profiler otherwise guesses.
+
+    Names are tables as the source names them; `DECLARED_KEYS_FILE` holds them with staged file names
+    ("orders" -> "orders.csv"), the names the profile uses. Only single-column keys inside the source fit
+    the profile; the others are listed in `skipped` with the reason, not dropped silently.
+    """
+
+    primary_keys: dict[str, str] = {}  # table -> its key column
+    foreign_keys: list[DeclaredForeignKey] = []
+    skipped: list[str] = []  # "orders.orders_pkey: 2 columns", "orders.fk_region: refers to schema geo"
 
 
 class TableSource(Protocol):
@@ -50,6 +77,10 @@ class TableSource(Protocol):
 
     def write_csv(self, table: str, dest: Path) -> None:
         """Write one table to `dest` as UTF-8 CSV with a header row."""
+        ...
+
+    def declared_keys(self) -> DeclaredKeys:
+        """The primary and foreign keys the source declares for its tables (R115)."""
         ...
 
 
@@ -168,9 +199,42 @@ def _stage_source(source: TableSource, names: list[str], files: list[Path], stag
             log.warning("skipped table %r: not usable as a file name", name)
             skipped.append(SkippedFile(file=name, reason="the table name is not usable as a file name"))
             continue
-        source.write_csv(name, staging / f"{name}.csv")
+        source.write_csv(name, staging / _staged_file(name))
         tables.append(name)
+    keys = _keys_of_staged_tables(source.declared_keys(), set(tables))
+    (staging / DECLARED_KEYS_FILE).write_text(keys.model_dump_json(indent=2), encoding="utf-8")
     return StagingReport(staged_dir=staging, tables=tables, skipped=skipped)
+
+
+def _staged_file(table: str) -> str:
+    """The staged file of a source's table, relative to the staging dir: the name the profile uses."""
+    return f"{table}.csv"
+
+
+def _keys_of_staged_tables(keys: DeclaredKeys, staged: set[str]) -> DeclaredKeys:
+    """`keys` restricted to the staged tables and renamed to their staged files.
+
+    A key on a table that was not staged (a name unusable as a file name) has no file to mark; it is
+    listed in `skipped` instead.
+    """
+    skipped = list(keys.skipped)
+    primary = {}
+    for table, column in keys.primary_keys.items():
+        if table in staged:
+            primary[_staged_file(table)] = column
+        else:
+            skipped.append(f"{table}.{column}: the table was not staged")
+    foreign = []
+    for fk in keys.foreign_keys:
+        if {fk.from_table, fk.to_table} <= staged:
+            foreign.append(
+                fk.model_copy(
+                    update={"from_table": _staged_file(fk.from_table), "to_table": _staged_file(fk.to_table)}
+                )
+            )
+        else:
+            skipped.append(f"{fk.from_table}.{fk.from_column}: a table of the key was not staged")
+    return DeclaredKeys(primary_keys=primary, foreign_keys=foreign, skipped=skipped)
 
 
 def _stage_files(data_dir: Path, files: list[Path], staging: Path) -> StagingReport:

@@ -2,8 +2,11 @@
 
 from collections.abc import Callable
 from contextlib import contextmanager
+from pathlib import Path
 
 from pydantic import BaseModel
+
+from kgbuilder.structured.staging import DeclaredKeys
 
 
 class ScriptedLLM:
@@ -60,3 +63,23 @@ class RecordingTracker:
 
     def run(self, name: str) -> RecordingRun:
         return next(r for r in self.runs if r.name == name)
+
+
+class FakeTables:
+    """`TableSource` whose tables are CSV texts held in memory, with the keys it is told to declare."""
+
+    def __init__(self, tables: dict[str, str], keys: DeclaredKeys | None = None):
+        self._tables = tables
+        self._keys = keys or DeclaredKeys()
+
+    def describe(self) -> str:
+        return "fake db schema shop"
+
+    def tables(self) -> list[str]:
+        return sorted(self._tables)
+
+    def write_csv(self, table: str, dest: Path) -> None:
+        dest.write_text(self._tables[table], encoding="utf-8")
+
+    def declared_keys(self) -> DeclaredKeys:
+        return self._keys

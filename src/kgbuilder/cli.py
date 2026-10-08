@@ -280,10 +280,10 @@ def profile(data_dir: Path | None = DATA_DIR, out: Path = OUT):
     with session(out) as ctx:
         result = run_stages(ctx, PipelineState(data_dir=_data(ctx, data_dir)), [st.ProfileStage()]).profile
     for f in result.files:
-        keys = [c.name for c in f.columns if c.is_unique]
+        keys = [c.name + (" (primary key)" if c.primary_key else "") for c in f.columns if c.is_unique]
         typer.echo(f"{f.file}: {f.row_count} rows, unique columns: {keys}")
     for fk in result.foreign_keys:
-        mark = "" if fk.name_match else "  (name mismatch)"
+        mark = ("" if fk.name_match else "  (name mismatch)") + ("  (declared)" if fk.declared else "")
         source, target = f"{fk.from_file}.{fk.from_column}", f"{fk.to_file}.{fk.to_column}"
         typer.echo(f"  {source} -> {target} [{fk.inclusion:.0%}]{mark}")
     typer.echo(f"Wrote {out / 'profile.json'}")

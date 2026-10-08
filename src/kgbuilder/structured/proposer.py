@@ -28,7 +28,7 @@ Design construction rules that turn the CSV files below into a graph serving the
 The data profile below was computed exactly from the files. Trust it over your intuition:
 - `is_unique` tells you which columns can be node keys. Never use a non-unique column as `unique_column`.
 - `foreign_keys` lists columns whose values are contained in another file's unique column.
-  Candidates with `name_match: false` on small integer columns are usually coincidences.
+  Candidates with `name_match: false` on small integer columns are usually coincidences.{declared_rule}
 
 <profile>
 {profile}
@@ -47,6 +47,14 @@ Modeling rules:
 - No two relationships between the same pair of labels may be inverses or synonyms of each other.
 
 {feedback}"""
+
+# Filled into {declared_rule} only when the profile carries keys a database declares (R115), so the
+# prompt for file datasets stays byte for byte what it was (and their cached replies stay valid). A
+# declared key is the schema's own statement, so it outranks a candidate found by value overlap; a
+# declared foreign key may show an inclusion below 1 (dangling rows), which the importer reports.
+DECLARED_KEYS_RULE = """
+- `primary_key: true` and `declared: true` mark keys the database itself declares. Prefer them over
+  undeclared candidates, even when a declared foreign key's `inclusion` is below 1."""
 
 # The critic is told what code already guarantees, so it spends its judgement on modeling only, and it
 # must answer "valid" unless a problem would change the plan; otherwise critics nitpick forever.
@@ -86,9 +94,12 @@ def propose_plan(
 ) -> Refinement[ConstructionPlan]:
     """Ask `llm` for a plan until it passes `validate_plan` and the critic, or `max_rounds` is used up."""
     profile_json = profile.model_dump_json(indent=1)
+    declared_rule = DECLARED_KEYS_RULE if profile.has_declared_keys() else ""
 
     def propose(feedback: str) -> ConstructionPlan:
-        prompt = PROPOSER_PROMPT.format(goal=goal, profile=profile_json, feedback=feedback)
+        prompt = PROPOSER_PROMPT.format(
+            goal=goal, profile=profile_json, feedback=feedback, declared_rule=declared_rule
+        )
         return llm.generate(prompt, ConstructionPlan, model=model, temperature=temperature)
 
     def critique(plan: ConstructionPlan) -> list[str]:

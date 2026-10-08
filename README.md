@@ -183,7 +183,12 @@ preset) and `kg profile` stages that schema's tables and views as `out/staging/<
 every stage treats them like CSV files, and column types are inferred from them the same way. The data
 dir's CSV and JSON files are then reported as skipped; its documents are still read. A view is the way to
 choose, filter or join in SQL what the graph sees. `POSTGRES_URL` defaults to the `postgres` service of
-`docker-compose.yml`; a preset may set the schema but not the URL, which can hold a password. Loading a CSV:
+`docker-compose.yml`; a preset may set the schema but not the URL, which can hold a password.
+The keys the schema declares (R115) are staged too (`out/staging/declared_keys.json`): the profile marks a
+declared primary key `primary_key: true` and a declared foreign key `declared: true` (kept even when some
+rows dangle), `kg profile` prints them, and the plan prompt then gets one rule to prefer them. Only
+single-column keys inside the schema fit the profile; the others are listed as skipped. Rows are exported in
+primary key order. A profile of files has no such marks, so its plan prompt is the same as before. Loading a CSV:
 
 ```
 docker compose exec -T postgres psql -U kgbuilder -c "CREATE SCHEMA shop; CREATE TABLE shop.products (product_name text, price text, description text, product_id text)"

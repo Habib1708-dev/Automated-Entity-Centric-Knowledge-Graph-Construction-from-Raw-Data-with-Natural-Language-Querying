@@ -24,27 +24,11 @@ from kgbuilder.structured.postgres import PostgresTables
 from kgbuilder.structured.profiler import profile_directory
 from kgbuilder.structured.staging import stage_structured
 
-from .fakes import RecordingTracker
+from .fakes import FakeTables, RecordingTracker
 from .pg_load import PgSchema, load_csv_dir
 
 ROOT = Path(__file__).parent.parent
 DOMAIN_PLAN = ROOT / "tests" / "gold" / "domain_plan.json"
-
-
-class FakeTables:
-    """A `TableSource` whose tables are CSV texts held in memory."""
-
-    def __init__(self, tables: dict[str, str]):
-        self._tables = tables
-
-    def describe(self) -> str:
-        return "fake db schema shop"
-
-    def tables(self) -> list[str]:
-        return sorted(self._tables)
-
-    def write_csv(self, table: str, dest: Path) -> None:
-        dest.write_text(self._tables[table], encoding="utf-8")
 
 
 class DownTables(FakeTables):

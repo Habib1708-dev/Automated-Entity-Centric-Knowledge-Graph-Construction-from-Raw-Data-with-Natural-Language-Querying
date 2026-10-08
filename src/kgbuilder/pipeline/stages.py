@@ -177,6 +177,9 @@ class ProfileStage(BaseStage):
             rows=sum(f.row_count for f in state.profile.files),
             # columns holding running text (R67): these records become documents at ingest
             prose_columns=sum(c.is_prose for f in state.profile.files for c in f.columns),
+            # keys the database declares (R115); 0 for files
+            declared_primary_keys=sum(bool(c.primary_key) for f in state.profile.files for c in f.columns),
+            declared_foreign_keys=sum(bool(fk.declared) for fk in state.profile.foreign_keys),
         )
         run.artifact(ctx.write(PROFILE_FILE, state.profile.model_dump_json(indent=2)))
 
@@ -199,12 +202,17 @@ class PlanStage(BaseStage):
             "thinking": s.schema_thinking,
             "prompt_version": prompt_version(proposer.PROPOSER_PROMPT),
             "critic_prompt_version": prompt_version(proposer.CRITIC_PROMPT),
+            # the extra rule for keys a database declares (R115): sent only when the profile has some
+            "declared_keys": bool(state.profile and state.profile.has_declared_keys()),
+            "declared_keys_rule_version": prompt_version(proposer.DECLARED_KEYS_RULE),
         }
 
     def run(self, ctx, state, run):
         s = ctx.settings
         run.text(proposer.PROPOSER_PROMPT, "prompts/plan_proposer.txt")
         run.text(proposer.CRITIC_PROMPT, "prompts/plan_critic.txt")
+        if state.profile and state.profile.has_declared_keys():
+            run.text(proposer.DECLARED_KEYS_RULE, "prompts/plan_declared_keys_rule.txt")
         result = proposer.propose_plan(
             state.need("goal", "pass --goal"),
             state.need("profile", "run the profile stage first"),

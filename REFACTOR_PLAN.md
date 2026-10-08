@@ -6861,16 +6861,39 @@ was fast-forwarded into `main` and pushed (Part 1 on GitHub, tag `part1-final`).
   MLflow param `structured_source = postgres localhost:5434/kgbuilder schema furniture`.
 - **R114 done 2026-10-08.** Next: R115.
 
-### R115. Declared keys from the PostgreSQL catalog (planned, user's choice 2026-10-08)
-A database states its primary and foreign keys; the profiler only guesses them from the data. Read the
-schema's single-column primary and foreign keys from `pg_constraint` (composite and cross-schema ones counted
-and logged as skipped), write them to `out/staging/declared_keys.json` (build folders copy `staging/`), and
-mark them in the profile: `ColumnProfile.primary_key` and `ForeignKeyCandidate.declared`, both left out of the
-JSON when unset, so profiles and prompts of file datasets stay byte-identical (a test). A declared foreign key
-is always a candidate, with its measured inclusion even below `min_inclusion`; declared keys sort first; rows
-are exported in primary-key order. The plan prompt gets one domain-neutral rule, only when the profile
-carries declared keys. Measured by one `kg plan` on the furniture tables with declared constraints against
-the file-based plan (about $0.05, only with the user's permission at that time).
+### R115. Declared keys from the PostgreSQL catalog (code done 2026-10-08; $0, no run; plan comparison open)
+The user, 2026-10-08, chose this as the second step of PostgreSQL support: a database states its primary and
+foreign keys, where the profiler only guesses them from the data (CLAUDE.md: what can be computed exactly is
+computed in code).
+- **How:** `PostgresTables.declared_keys()` reads the schema's primary and foreign keys from `pg_constraint`
+  (not information_schema, which cannot pair the columns of a composite key). Only single-column keys inside
+  the schema fit one column of a staged file; composite keys and foreign keys to another schema are listed
+  in `skipped` with the reason. Staging writes the keys of the staged tables, renamed to their files, to
+  `out/staging/declared_keys.json` (build folders copy `staging/`, so offline replays keep them). The
+  profiler marks `ColumnProfile.primary_key` and `ForeignKeyCandidate.declared`; both are left out of the
+  JSON when unset (pydantic `exclude_if`), so a profile of files is byte for byte what it was. A declared
+  foreign key the value search misses (dangling rows, other inferred types, a target with nulls) is added
+  with its inclusion measured as text; declared keys sort first. Rows are exported in primary key order.
+  The plan prompt has a `{declared_rule}` slot filled with `DECLARED_KEYS_RULE` ("prefer them over
+  undeclared candidates, even when a declared foreign key's inclusion is below 1") only when the profile
+  carries declared keys: the prompt for files renders exactly as before, so its cached replies stay valid,
+  while `prompt_version` (a hash of the template) changes once. New params `declared_keys`,
+  `declared_keys_rule_version`; new profile metrics `declared_primary_keys`, `declared_foreign_keys`;
+  `kg profile` prints "(primary key)" and "(declared)".
+- **Verified:** 7 new tests (`tests/test_declared_keys.py`) and the rule added to the corpus-word test:
+  staged key names and skips, the marks and a dangling declared key (inclusion 0.6667, kept), a file
+  profile without marks whose plan prompt equals the pre-R115 template's rendering, the rule present for a
+  declared profile, the constraints PostgreSQL reports (composite primary key and cross-schema foreign key
+  skipped), primary key order, and the furniture tables with their 4 primary and 4 foreign keys declared:
+  the same profile as the files but for the marks (and the samples, an open issue). CLI check, no LLM: the
+  working PostgreSQL's schema `furniture_keys` (the furniture tables with those constraints, left there),
+  `POSTGRES_SCHEMA=furniture_keys kg profile --out out/r115_pg_profile`: 4 primary keys and 4 foreign keys
+  declared (MLflow `f067b7ec`).
+- **Open:** the prompt rule is unmeasured. The comparison is one `kg plan` on `furniture_keys` against the
+  file-based plan (Gemini plan stage, about $0.05), only with the user's permission. On furniture the value
+  search already finds the 4 foreign keys at 100 %, so the expected result is the same plan: the run checks
+  that the rule does no harm, not that it helps.
+- **R115 code done 2026-10-08.** Next: the plan comparison if the user agrees; then Part 2.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

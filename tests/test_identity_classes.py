@@ -122,6 +122,7 @@ _BANNED = ("product", "review", "vehicle", "complaint", "recall", "drawer", "def
         PROMPT.split("Rules:")[1] + CRITIC_PROMPT.split("<goal>")[0],
         json.dumps(TextSchema.model_json_schema()),
         proposer.PROPOSER_PROMPT.split("<profile>")[0] + proposer.PROPOSER_PROMPT.split("</profile>")[1],
+        proposer.DECLARED_KEYS_RULE,
         proposer.CRITIC_PROMPT.split("<goal>")[0],
         json.dumps(ConstructionPlan.model_json_schema()),
     ],

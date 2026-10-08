@@ -1,8 +1,10 @@
-"""PostgreSQL as a source of tables (R114): the tables and views of one schema, exported as CSV.
+"""PostgreSQL as a source of tables (R114): the tables and views of one schema, exported as CSV, and the
+primary and foreign keys the schema declares (R115).
 
 Role in the pipeline: `kg profile` (ProfileStage) hands it to `stage_structured`, which writes every table to
 `out/staging/<table>.csv`. From there on a table from PostgreSQL looks exactly like a CSV file, so the
-profiler, the plan, the importer and record documents work unchanged.
+profiler, the plan, the importer and record documents work unchanged; the declared keys only add marks to
+the profile.
 Design: Adapter for the `TableSource` port of staging.py, and the only module that imports psycopg. It reads
 in read-only transactions and never writes to the database. One connection per call, closed by its `with`.
 Not here: what gets staged and the skip report (staging.py); column types (the profiler infers them from
@@ -16,6 +18,7 @@ from psycopg import sql
 from psycopg.conninfo import conninfo_to_dict
 
 from ..core.errors import DataSourceError
+from .staging import DeclaredForeignKey, DeclaredKeys
 
 # Session settings that make the CSV text the same on every server: timestamps in UTC, dates as ISO 8601
 # ("2024-01-05"), whatever the server's or the user's defaults are.
@@ -26,6 +29,36 @@ _CONNECT_TIMEOUT_S = 10
 # JSON; to_json makes them ["a","b"], the form json_to_csv gives a JSON list, so a list reads the same
 # whichever input it came from.
 _ARRAY = "ARRAY"
+
+# Every primary key ('p') and foreign key ('f') of the schema's tables, with its columns in key order and,
+# for a foreign key, the table, schema and columns it refers to. pg_constraint rather than
+# information_schema: the latter cannot pair the columns of a composite foreign key reliably.
+_CONSTRAINTS = """
+SELECT c.contype::text, c.conname, src.relname, ref.relname, refns.nspname,
+       ARRAY(SELECT a.attname FROM unnest(c.conkey) WITH ORDINALITY AS k(num, pos)
+             JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = k.num ORDER BY k.pos),
+       ARRAY(SELECT a.attname FROM unnest(c.confkey) WITH ORDINALITY AS k(num, pos)
+             JOIN pg_attribute a ON a.attrelid = c.confrelid AND a.attnum = k.num ORDER BY k.pos)
+FROM pg_constraint c
+JOIN pg_class src ON src.oid = c.conrelid
+JOIN pg_namespace ns ON ns.oid = src.relnamespace
+LEFT JOIN pg_class ref ON ref.oid = c.confrelid
+LEFT JOIN pg_namespace refns ON refns.oid = ref.relnamespace
+WHERE ns.nspname = %s AND c.contype IN ('p', 'f')
+ORDER BY src.relname, c.conname
+"""
+
+# The primary key columns of one table, in key order; none for a view or a table without a key.
+_PRIMARY_KEY = """
+SELECT a.attname
+FROM pg_constraint c
+JOIN pg_class t ON t.oid = c.conrelid
+JOIN pg_namespace ns ON ns.oid = t.relnamespace
+JOIN unnest(c.conkey) WITH ORDINALITY AS k(num, pos) ON true
+JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = k.num
+WHERE c.contype = 'p' AND ns.nspname = %s AND t.relname = %s
+ORDER BY k.pos
+"""
 
 
 class PostgresTables:
@@ -60,16 +93,21 @@ class PostgresTables:
     def write_csv(self, table: str, dest: Path) -> None:
         """Stream the table to `dest` as UTF-8 CSV with a header row, columns in table order.
 
-        Rows come in the order the database returns them; a table without ORDER BY has no other order.
+        Rows are in primary key order (R115), so a rerun writes the same file; a view or a table without
+        a primary key has no stable order, and its rows come as the database returns them.
         """
         columns = self._fetch(
             "SELECT column_name, data_type FROM information_schema.columns "
             "WHERE table_schema = %s AND table_name = %s ORDER BY ordinal_position",
             (self._schema, table),
         )
+        key = [name for (name,) in self._fetch(_PRIMARY_KEY, (self._schema, table))]
         select = sql.SQL(", ").join(_column(name, data_type) for name, data_type in columns)
-        query = sql.SQL("COPY (SELECT {} FROM {}) TO STDOUT (FORMAT csv, HEADER)").format(
-            select, sql.Identifier(self._schema, table)
+        order = sql.SQL("")
+        if key:
+            order = sql.SQL(" ORDER BY {}").format(sql.SQL(", ").join(map(sql.Identifier, key)))
+        query = sql.SQL("COPY (SELECT {} FROM {}{}) TO STDOUT (FORMAT csv, HEADER)").format(
+            select, sql.Identifier(self._schema, table), order
         )
         try:
             with self._connect() as conn, conn.cursor() as cur, cur.copy(query) as copy, dest.open("wb") as f:
@@ -78,7 +116,30 @@ class PostgresTables:
         except psycopg.Error as e:
             raise DataSourceError(f"{self.describe()}: cannot read table '{table}': {e}") from e
 
-    def _fetch(self, query: str, params: tuple[str, ...]) -> list[tuple[str, ...]]:
+    def declared_keys(self) -> DeclaredKeys:
+        """The schema's single-column primary keys and its single-column foreign keys within the schema.
+
+        A composite key, or a foreign key to a table of another schema (which is not staged), cannot be
+        marked on one column of a staged file; it is listed in `skipped` with the reason.
+        """
+        keys = DeclaredKeys()
+        for kind, name, table, ref_table, ref_schema, columns, ref_columns in self._fetch(
+            _CONSTRAINTS, (self._schema,)
+        ):
+            if len(columns) != 1:
+                keys.skipped.append(f"{table}.{name}: {len(columns)} columns")
+            elif kind == "p":
+                keys.primary_keys[table] = columns[0]
+            elif ref_schema != self._schema:
+                keys.skipped.append(f"{table}.{name}: refers to schema {ref_schema}")
+            else:
+                fk = DeclaredForeignKey(
+                    from_table=table, from_column=columns[0], to_table=ref_table, to_column=ref_columns[0]
+                )
+                keys.foreign_keys.append(fk)
+        return keys
+
+    def _fetch(self, query: str, params: tuple[str, ...]) -> list[tuple]:
         """The rows of one catalog query."""
         try:
             with self._connect() as conn:
