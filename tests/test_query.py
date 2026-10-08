@@ -289,5 +289,5 @@ def test_qa_score_scores_an_answers_file_with_the_judges_verdicts_and_reads_no_g
 
 
 def test_an_unknown_system_is_refused_before_anything_runs():
-    with pytest.raises(ConfigurationError, match="unknown system 'hybrid'"):
-        QAStage("hybrid")
+    with pytest.raises(ConfigurationError, match="unknown system 'oracle'"):
+        QAStage("oracle")

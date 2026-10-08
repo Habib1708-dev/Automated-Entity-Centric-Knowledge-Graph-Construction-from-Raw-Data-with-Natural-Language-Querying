@@ -135,6 +135,7 @@ def _rank(
         gold_chunks=sorted({c.chunk_id for c in question.chunks}),
         ranked=[c.chunk_id for c in ranked[:depth]],
         seeds=trace.seeds if trace is not None else None,
+        lists=trace.lists if trace is not None else {},
         gold_targets=[t.nodes for t in targets],
         latency_ms=round(latency_ms, 1),
     )

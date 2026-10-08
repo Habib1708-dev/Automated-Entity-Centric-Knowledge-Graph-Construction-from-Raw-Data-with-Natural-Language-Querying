@@ -41,6 +41,9 @@ class RetrievalOutcome(BaseModel):
     # each gold target's nodes in the build; [] for a target the build lacks (a miss, as in C2)
     gold_targets: list[list[str]]
     latency_ms: float
+    # a fusing system's own lists before fusion, by retriever (R120b): which retriever brought each chunk;
+    # empty for a single-list system and in reports from before R120b
+    lists: dict[str, list[str]] = {}
 
     def evidence_hits(self, k: int) -> int:
         """Gold chunks among the top k ranked."""

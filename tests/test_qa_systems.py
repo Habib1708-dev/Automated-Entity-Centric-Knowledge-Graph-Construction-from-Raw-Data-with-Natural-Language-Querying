@@ -12,6 +12,7 @@ from kgbuilder import cli
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ConfigurationError
 from kgbuilder.graph.connection import open_driver
+from kgbuilder.hybrid.cards import CARD_TEMPLATE
 from kgbuilder.llm.base import prompt_version
 from kgbuilder.pipeline import PipelineContext, PipelineState
 from kgbuilder.pipeline.qa_stages import AskStage, QAStage
@@ -28,12 +29,13 @@ from kgbuilder.pipeline.retrieval_stages import RetrieveEvalStage
 from kgbuilder.query import exact, planner, read_check, reader
 
 from .fakes import ScriptedLLM
+from .test_hybrid_retrievers import FakeUnitStore
 from .test_query import FakeStore, FixedEmbedder, chunk, citing_reader
 
 READ_CHECK = read_check.PROMPT + read_check.CLAIM_RULE + read_check.CANDIDATE
 CYPHER = {"graph": exact.PROMPT + exact.RETRY, "records_vector": exact.RECORDS_PROMPT + exact.RETRY}
 PLANNED = ("graph", "records_vector")
-EVERY_SYSTEM = ["graph", "vector", "graph_retrieval", "records_vector"]
+EVERY_SYSTEM = ["graph", "vector", "graph_retrieval", "hybrid", "records_vector"]
 
 
 @pytest.fixture
@@ -54,10 +56,15 @@ def expected_params(s: Settings, system: str) -> dict[str, object]:
         "qa_top_k": s.qa_top_k,
         "embed_model": s.embed_model,
     }
-    if system == "graph_retrieval":  # the graph route alone: the linker's settings and the hop limit
+    if system in ("graph_retrieval", "hybrid"):  # the linker's settings and the hop limit
         params.update(
             qa_link_fuzzy=s.qa_link_fuzzy, qa_link_neighbours=s.qa_link_neighbours, qa_hops=s.qa_hops
         )
+    if system == "hybrid":  # R120b: the fusion settings and the cards' representation with its version
+        params.update(
+            hybrid_retrievers=s.hybrid_retrievers, hybrid_rrf_k=s.hybrid_rrf_k, hybrid_depth=s.hybrid_depth,
+            hybrid_cards="template", representation_version=prompt_version(CARD_TEMPLATE),
+        )  # fmt: skip
     if system in PLANNED:
         params.update(
             planner_prompt_version=prompt_version(planner.PROMPT + planner.RETRY),
@@ -119,6 +126,7 @@ def test_kg_qa_reads_the_k_nearest_chunks_of_the_vector_system_and_searches_no_d
         llm=ScriptedLLM(lambda prompt, schema: None),
         reader=reader,
         plan=None,
+        units=FakeUnitStore(),
     )
     answer = SYSTEMS["vector"].build(parts).answer("Q1", "Which press?")
     assert answer.retrieved == ["c0", "c1", "c2"] and store.nearest_calls == [3]
@@ -126,7 +134,9 @@ def test_kg_qa_reads_the_k_nearest_chunks_of_the_vector_system_and_searches_no_d
 
 def test_a_source_ranks_as_deep_as_it_is_asked_so_a_budget_beyond_k_is_not_cut_short():
     store = FakeStore(chunks=[chunk(f"c{i}", None) for i in range(12)], nearest=[f"c{i}" for i in range(12)])
-    parts = SourceParts(settings=Settings(qa_top_k=3), store=store, embedder=FixedEmbedder(), plan=None)
+    parts = SourceParts(
+        settings=Settings(qa_top_k=3), store=store, embedder=FixedEmbedder(), plan=None, units=FakeUnitStore()
+    )
     ranked, trace = check_source("vector")(parts, 10).ranked("Which press?")
     assert len(ranked) == 10 and store.nearest_calls == [10] and trace is None
 
@@ -144,12 +154,12 @@ def test_only_a_reading_system_has_a_source_for_the_retrieval_benchmark():
         "qa_link_neighbours": s.qa_link_neighbours, "qa_hops": s.qa_hops,
     }  # fmt: skip
     assert source_params(s, "vector") == {"system": "vector", "embed_model": s.embed_model}
-    with pytest.raises(ConfigurationError, match="choose from vector, graph_retrieval"):
+    with pytest.raises(ConfigurationError, match="choose from vector, graph_retrieval, hybrid"):
         check_source("graph")
     with pytest.raises(ConfigurationError, match="no chunk source"):
         RetrieveEvalStage("records_vector")
     with pytest.raises(ConfigurationError, match="unknown system"):
-        RetrieveEvalStage("hybrid")
+        RetrieveEvalStage("oracle")
 
 
 def test_only_the_plan_systems_replay_frozen_plans(ctx, tmp_path):
@@ -166,5 +176,6 @@ def test_only_the_plan_systems_replay_frozen_plans(ctx, tmp_path):
         "graph": earlier / "answers_graph.jsonl",
         "vector": None,
         "graph_retrieval": None,
+        "hybrid": None,
         "records_vector": earlier / "answers_records_vector.jsonl",
     }

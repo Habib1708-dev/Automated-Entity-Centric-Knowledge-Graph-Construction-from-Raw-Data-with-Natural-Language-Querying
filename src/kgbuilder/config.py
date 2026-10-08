@@ -214,6 +214,15 @@ class Settings(BaseSettings):
     index_card_names: int = Field(default=5, ge=1)
     index_card_claims: int = Field(default=3, ge=0)
     index_card_max_chars: int = Field(default=1500, ge=100)
+    # hybrid retrieval (R120b, plan R116-R125): the retrievers fused (all six until R121 seals a mix from its
+    # pre-registered grid; `graph_route`, the name-linker route, is the optional seventh), the constant k of
+    # reciprocal rank fusion (60, Cormack et al. 2009; the grid also tries 10), and how many chunks each list
+    # and the fused list hold
+    hybrid_retrievers: list[str] = [
+        "chunk_dense", "chunk_lexical", "claim_dense", "claim_lexical", "card_dense", "card_lexical",
+    ]  # fmt: skip
+    hybrid_rrf_k: int = Field(default=60, ge=0)
+    hybrid_depth: int = Field(default=20, ge=1)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

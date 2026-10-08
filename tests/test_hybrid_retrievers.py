@@ -27,9 +27,10 @@ VECTOR = [1.0, 0.0]
 class FakeUnitStore:
     """`UnitStore` with fixed answers; records each call."""
 
-    def __init__(self, cards=(), claims=(), chunks=(), starts=None):
+    def __init__(self, cards=(), claims=(), chunks=(), starts=None, state=None):
         self._cards, self._claims, self._chunks = list(cards), list(claims), list(chunks)
         self._starts = starts or {}
+        self._state = state
         self.calls: list[tuple] = []
 
     def nearest_cards(self, representation, vector, k):
@@ -54,6 +55,9 @@ class FakeUnitStore:
 
     def card_starts(self, refs):
         return {r: s for r, s in self._starts.items() if r in refs}
+
+    def index_state(self, representation):
+        return self._state
 
 
 class ReachStore(FakeStore):

@@ -68,6 +68,11 @@ class RetrievalTrace(BaseModel):
     # the nodes retrieval started from, best first, by stable id (R117): record refs and canonical ids, the
     # ids the target gold is placed on, so `kg retrieve-eval` scores them; empty in files from before R117
     seeds: list[str] = []
+    # hybrid retrieval (R120): each retriever's own ranked chunks before fusion, by retriever name, so a chunk
+    # can be traced to the lists that brought it; and the claims the claim retrievers found, with their
+    # truth fields. Empty for every other source
+    lists: dict[str, list[str]] = {}
+    claims: list[ClaimHit] = []
 
 
 class ExactAttempt(BaseModel):

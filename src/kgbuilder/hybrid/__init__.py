@@ -9,6 +9,8 @@ vectors and indexes, re-embedding only what changed.
 R120a: unit_store.py searches that layer (and the chunks' full-text index) by vector and by words
 (lucene.py), and retrievers.py turns a question into one ranked list of chunk ids per retriever: chunks,
 claims with their opposite-truth siblings, cards taking turns, and the name-linker route.
+R120b: source.py embeds a question once, asks the retrievers the settings name, fuses their lists by rank
+(fusion.py) and returns the best chunks: the `hybrid` system's chunk source (pipeline/qa_systems.py).
 Dependencies: pipeline -> hybrid -> query's public models, graph, llm.base, core; nothing imports hybrid but
 the pipeline.
 """

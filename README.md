@@ -319,6 +319,7 @@ src/kgbuilder/
                     unit_graph (R119: the units written into Neo4j with their vectors and indexes) ;
                     unit_store (R120a: that layer searched by vector and by words, lucene) -> retrievers
                     (chunks, claims with their opposite-truth siblings, cards in turn, the name-linker route)
+                    -> fusion (R120b: reciprocal rank fusion) -> source (the hybrid chunk source)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
@@ -469,7 +470,12 @@ how they choose:
 - `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph;
 - `graph_retrieval` (R117): the graph's retrieval route alone, its chunks read without a plan. Asked only
   when named: `kg qa` asks `graph`, `vector` and `records_vector` by default, so a newly registered
-  system never adds a paid run by itself.
+  system never adds a paid run by itself;
+- `hybrid` (R120b): the question embedded once, the retrievers of `HYBRID_RETRIEVERS` asked (chunks by
+  vector and by words, claim sentences by vector and by words, node cards by vector and by words, and
+  optionally the name-linker route), their lists fused by reciprocal rank (`HYBRID_RRF_K`, 60) to
+  `HYBRID_DEPTH` chunks, the first k read. It needs `kg index` first and refuses a missing or stale layer.
+  Card and claim texts only order the chunks: the reader sees source chunks alone. Not a default either.
 
 Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
 cites as evidence (otherwise the graph is not the build the gold was written on, and the run stops), and

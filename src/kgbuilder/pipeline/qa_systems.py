@@ -19,6 +19,9 @@ from dataclasses import dataclass, field
 
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
+from ..hybrid import representation
+from ..hybrid.source import HybridSettings, build_hybrid
+from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
 from ..llm.base import Embedder, LLMClient, prompt_version
 from ..llm.thinking import with_thinking
 from ..query import exact, planner, read_check
@@ -51,6 +54,7 @@ class SourceParts:
     store: PlanStore
     embedder: Embedder
     plan: ConstructionPlan | None  # the construction plan: the record labels and their name properties
+    units: UnitStore  # the retrieval index layer (R119), which the hybrid sources search (R120b)
 
 
 @dataclass(frozen=True)
@@ -111,6 +115,37 @@ def _graph_retrieval(parts: SourceParts, depth: int) -> ChunkSource:
     # the route ranks every chunk its traversal reaches, so it fills any depth as far as the graph allows
     s = parts.settings
     return build_graph_retrieval(parts.store, parts.embedder, s.qa_link_fuzzy, s.qa_link_neighbours)
+
+
+def hybrid_spec(name: str, cards: str) -> SystemSpec:
+    """A hybrid system (R120b): the hybrid source over the cards of the representation `cards`, read like
+    every reading system. Its settings are the `hybrid_*` ones; its depth is at least `hybrid_depth`, so
+    fusion sees as deep as tuned whatever k or budget the caller reads."""
+
+    def source(parts: SourceParts, depth: int) -> ChunkSource:
+        s = parts.settings
+        settings = HybridSettings(
+            retrievers=s.hybrid_retrievers,
+            rrf_k=s.hybrid_rrf_k,
+            depth=max(depth, s.hybrid_depth),
+            cards=cards,
+        )
+        # the name-linker route embeds every node name once: built only when the settings list it
+        route = _graph_retrieval(parts, depth) if "graph_route" in settings.retrievers else None
+        version = representation(cards, s.index_card_max_chars).version
+        return build_hybrid(settings, parts.store, parts.units, parts.embedder, route, version, s.embed_model)
+
+    def params(s: Settings) -> dict[str, object]:
+        return {
+            "hybrid_retrievers": s.hybrid_retrievers,
+            "hybrid_rrf_k": s.hybrid_rrf_k,
+            "hybrid_depth": s.hybrid_depth,
+            "hybrid_cards": cards,
+            "representation_version": representation(cards, s.index_card_max_chars).version,
+            **_graph_retrieval_params(s),  # the cards' traversal and the name-linker route, when listed
+        }
+
+    return reading(name, source, params)
 
 
 def _graph(parts: QAParts) -> QASystem:
@@ -198,6 +233,8 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         reading("vector", _vector),
         # the graph system's retrieval route alone (R117): its chunks read directly, no plan
         reading("graph_retrieval", _graph_retrieval, _graph_retrieval_params),
+        # hybrid retrieval over the deterministic node cards (R120b); LLM summaries would add hybrid_summary
+        hybrid_spec("hybrid", "template"),
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,
@@ -272,7 +309,8 @@ def source_parts(ctx: PipelineContext, state: PipelineState) -> SourceParts:
     if ctx.embedder is None:
         raise LLMUnavailableError("question answering needs an embedding model: set GEMINI_API_KEY")
     store = Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s)
-    return SourceParts(settings=s, store=store, embedder=ctx.embedder, plan=plan)
+    units = Neo4jUnitStore(ctx.driver)
+    return SourceParts(settings=s, store=store, embedder=ctx.embedder, plan=plan, units=units)
 
 
 def qa_parts(
@@ -288,6 +326,7 @@ def qa_parts(
         store=src.store,
         embedder=src.embedder,
         plan=src.plan,
+        units=src.units,
         llm=llm,
         reader=Reader(llm, s.qa_model, s.llm_temperature),
         frozen=frozen,

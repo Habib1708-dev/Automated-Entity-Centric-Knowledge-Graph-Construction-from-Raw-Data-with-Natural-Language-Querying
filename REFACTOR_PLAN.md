@@ -7267,6 +7267,44 @@ check run: too much for one reviewable step. It is split in two, done one after 
   end. 958 passed (944 + 14), ruff clean.
 - **R120a done 2026-10-08.** Next: R120b, fusion, the hybrid source and the `hybrid` system.
 
+### R120b. Fusion, the hybrid source and the `hybrid` system (code done 2026-10-08; $0, no run; the check run awaits permission)
+- **Scope:** the fused chunk source, its system and settings; `kg qa` defaults unchanged (`hybrid` is asked
+  only when named).
+- **How:**
+  - `hybrid/fusion.py` `rrf(lists, k)`: sum of 1 / (k + rank), ranks from 1, an item once per list; ties by
+    best single rank, then the earlier list, then the item.
+  - `hybrid/source.py`: `RETRIEVERS` (the six of the grid and `graph_route`), `HybridSettings(retrievers,
+    rrf_k, depth, cards)` (unknown names refused, one order), `HybridSource` (a `ChunkSource`: the question
+    embedded once, each retriever asked to the depth, chunk lists and seed lists fused, the best `depth`
+    chunks read from the store; trace `candidates`, `seeds`, `lists`, `claims`), `build_hybrid` with
+    `check_layer`: refuses cards missing or of another version, claim sentences missing or of another
+    version, vectors of another embedding model, or the needed indexes offline (`MissingInputError`, "run kg
+    index"), before any question is embedded; `graph_route` without a built route refused.
+  - `query/answers.py` `RetrievalTrace.lists` and `.claims` (additive); `RetrievalOutcome.lists` in the
+    retrieval report, so the benchmark shows which retriever brought each chunk.
+  - `pipeline/qa_systems.py`: `SourceParts.units` (the `Neo4jUnitStore`), `hybrid_spec(name, cards)` and
+    `hybrid = hybrid_spec("hybrid", "template")`: a reading system whose depth is at least `hybrid_depth`;
+    params `hybrid_retrievers`, `hybrid_rrf_k`, `hybrid_depth`, `hybrid_cards`, `representation_version`,
+    the linker's and the traversal's settings. The name-linker route (which embeds every node name) is built
+    only when `graph_route` is listed. `qa_systems.py` is now 340 lines, over the guideline: still the one
+    registry, which B adds one line to.
+  - `config.py`: `hybrid_retrievers` (the six: M4 until R121 seals a mix), `hybrid_rrf_k` 60, `hybrid_depth`
+    20. The plan's `hybrid_cards` setting is not added: the representation is part of the system
+    (`hybrid` -> template, later `hybrid_summary` -> summary).
+  - Two tests that used "hybrid" as an unknown system's name use "oracle" now (the refusal they test is
+    unchanged).
+- **Verified:** 15 new tests. `tests/test_hybrid_source.py` (11, fakes): fusion's order and ties, a small k
+  rewarding one first place and k = 60 agreement, one embedding for every retriever, the fused list, its
+  lists, seeds and claims, only the listed retrievers asked, unknown retriever names refused, five ways a
+  layer does not fit (each refused with nothing embedded), `graph_route` without a route refused, the
+  `hybrid` reader given exactly k = 3 of 6 fused chunks. `tests/test_hybrid_system.py` (2, Neo4j): an
+  H17-shaped synthetic case (invented words): the words alone rank the other press's feed-roller notice
+  before the right press's notice, while the claim leads to the ticket and the right press's card to its
+  own notice, both read; the claim hit carries its truth fields; and on the shared graph no card line or
+  claim sentence reaches the reader's prompt, only the shown chunks. 973 passed (958 + 15), ruff clean.
+- **Open, asked:** the check run on the working graph (furniture): `kg retrieve-eval ... --system hybrid`
+  (68 question embeddings) and one `kg ask --system hybrid` for the trace with claim truth fields.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
