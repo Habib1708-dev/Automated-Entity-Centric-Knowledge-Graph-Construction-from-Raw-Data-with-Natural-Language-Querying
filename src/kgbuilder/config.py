@@ -222,6 +222,9 @@ class Settings(BaseSettings):
     index_summary_model: str = "gemini-3.5-flash-lite"
     index_summary_thinking: ThinkingLevel = ""
     index_summary_max_chars: int = Field(default=600, ge=100)
+    # the summary prompt (R124's grid, pre-registered in R123): "p1" the description, "p2" the same plus up to
+    # three questions the facts answer (hybrid/summaries.py SUMMARY_PROMPTS)
+    index_summary_prompt: Literal["p1", "p2"] = "p1"
     # hybrid retrieval (R120b, plan R116-R125): the retrievers fused, the constant k of reciprocal rank fusion
     # and how many chunks each list and the fused list hold. Sealed by R121 (tests/gold/r121/tuning.json):
     # chunks and claim sentences, each by vector and by words, with k 10 completed the most furniture

@@ -10,14 +10,17 @@ import re
 
 import pytest
 
+from kgbuilder.config import Settings
 from kgbuilder.core.errors import LLMUnavailableError
 from kgbuilder.hybrid import Neighbours, NodeEvidence, evidence_hash
 from kgbuilder.hybrid.cards import TemplateCards
 from kgbuilder.hybrid.summaries import (
     FACT,
     PROMPT,
+    PROMPT_QUESTIONS,
     RELATION_FROM,
     RELATION_TO,
+    SUMMARY_PROMPTS,
     NodeSummary,
     SummaryCards,
     SummaryOptions,
@@ -28,6 +31,7 @@ from kgbuilder.hybrid.summaries import (
 )
 from kgbuilder.llm.base import prompt_version
 from kgbuilder.llm.cache import CachedLLM
+from kgbuilder.pipeline.index_stages import card_representation
 
 from .evaluation_corpora import quoted_four_grams
 from .fakes import ScriptedLLM
@@ -160,7 +164,7 @@ def test_without_a_model_the_version_is_known_but_nothing_is_rendered():
     assert no_model.prompts() == {"summary": PROMPT}
     assert no_model.params() == {
         "summary_model": "writer", "summary_temperature": 0.0, "summary_thinking": "low",
-        "summary_max_chars": 400, "summary_prompt_version": prompt_version(PROMPT),
+        "summary_max_chars": 400, "summary_prompt": "p1", "summary_prompt_version": prompt_version(PROMPT),
     }  # fmt: skip
     with pytest.raises(LLMUnavailableError, match="kg index --cards summary"):
         no_model.render([PRESS])
@@ -176,7 +180,7 @@ def test_a_second_render_is_answered_by_the_cache(tmp_path):
 
 @pytest.mark.parametrize(
     "change",
-    [{"model": "other"}, {"temperature": 0.5}, {"thinking": "high"}, {"max_chars": 401}],
+    [{"model": "other"}, {"temperature": 0.5}, {"thinking": "high"}, {"max_chars": 401}, {"prompt": "p2"}],
 )
 def test_the_version_changes_with_every_knob(change):
     base = summary_version(OPTIONS, TemplateCards.version)
@@ -184,12 +188,44 @@ def test_the_version_changes_with_every_knob(change):
 
 
 def test_the_version_hashes_the_prompt_the_reply_schema_the_options_and_the_fallback_cards():
-    schema, options = NodeSummary.model_json_schema(), OPTIONS.model_dump(mode="json")
+    # the variant enters by its text; its name is left out, so adding P2 left P1's version as it was
+    schema = NodeSummary.model_json_schema()
+    options = OPTIONS.model_dump(mode="json", exclude={"prompt"})
     material = [PROMPT, FACT, RELATION_FROM, RELATION_TO, schema, options, "v1"]
     assert summary_version(OPTIONS, "v1") == prompt_version(json.dumps(material, sort_keys=True))
     assert summary_version(OPTIONS, "v1") != summary_version(OPTIONS, "v2")
 
 
-def test_the_prompt_and_its_field_descriptions_quote_no_corpus():
+def test_p1_keeps_the_version_r123_measured():
+    """R124's grid counts R123's run (MLflow 1a48e5a9, summaries cb2853048d1f) as its cell P1/600."""
+    s = Settings(index_summary_prompt="p1", index_summary_max_chars=600)
+    assert card_representation(s, "summary").version == "cb2853048d1f"
+
+
+def test_p2_is_p1_with_the_questions_rule_and_the_examples_questions():
+    assert SUMMARY_PROMPTS == {"p1": PROMPT, "p2": PROMPT_QUESTIONS}
+    rule = PROMPT_QUESTIONS.split('such as "F2".\n', 1)[1].splitlines()[0]
+    assert rule.startswith("10. After the text, add up to three short questions that these facts answer")
+    example = PROMPT_QUESTIONS.split("A good text: ", 1)[1].splitlines()[0]
+    questions = (
+        " Who built the Arden Viola? Which fittings are fitted to the Arden Viola? Do sources agree that the "
+        "Arden Viola has a warm tone?"
+    )
+    assert example.endswith(f'A buzzing is denied.{questions}"')
+    # nothing else differs: removing the two insertions gives P1 back
+    assert PROMPT_QUESTIONS.replace(f"\n{rule}", "").replace(questions, "") == PROMPT
+
+
+def test_a_p2_card_is_asked_with_the_p2_prompt():
+    prompts = []
+    llm = ScriptedLLM(lambda prompt, schema: prompts.append(prompt) or summary(GOOD))
+    p2 = SummaryCards(OPTIONS.model_copy(update={"prompt": "p2"}), llm, TemplateCards(1500))
+    p2.render([PRESS])
+    assert prompts == [summary_prompt(PRESS, facts(PRESS), 400, PROMPT_QUESTIONS)]
+    assert p2.prompts() == {"summary": PROMPT_QUESTIONS} and p2.params()["summary_prompt"] == "p2"
+
+
+def test_the_prompts_and_the_field_descriptions_quote_no_corpus():
     descriptions = " ".join(f.description or "" for f in NodeSummary.model_fields.values())
-    assert quoted_four_grams(PROMPT) == [] and quoted_four_grams(descriptions) == []
+    assert quoted_four_grams(PROMPT) == [] and quoted_four_grams(PROMPT_QUESTIONS) == []
+    assert quoted_four_grams(descriptions) == []

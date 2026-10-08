@@ -131,6 +131,7 @@ def card_representation(settings: Settings, cards: str, llm: LLMClient | None = 
         temperature=s.llm_temperature,
         thinking=s.index_summary_thinking,
         max_chars=s.index_summary_max_chars,
+        prompt=s.index_summary_prompt,
     )
     options = RepresentationOptions(card_max_chars=s.index_card_max_chars, summary=summary)
     return representation(cards, options, llm)

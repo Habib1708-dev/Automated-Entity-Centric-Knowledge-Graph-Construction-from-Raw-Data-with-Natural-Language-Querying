@@ -13,14 +13,16 @@ checks every reply (the node is named, the cited facts exist, every number and e
 in the evidence, the length cap); a refused reply is retried once with its issues listed (llm/refine.py), and
 a node whose retry is refused too gets its template card, marked `fallback`. What code cannot check (a denied
 fact written as plain fact) is judged by Claude on a sample (R124). `version` hashes everything that can
-change a text: the prompt, the reply schema, the model, the temperature, the thinking level, the length cap
-and the version of the fallback cards.
+change a text: the prompt (the variant of `SUMMARY_PROMPTS` the settings choose, R124: P1 the description,
+P2 with questions), the reply schema, the model, the temperature, the thinking level, the length cap and
+the version of the fallback cards.
 Not here: the evidence (unit_sources.py), the template (cards.py), writing the units (unit_graph.py).
 """
 
 import json
 import re
 from concurrent.futures import ThreadPoolExecutor
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -99,6 +101,27 @@ denies it. Its Chinrest has a loose fit, but only in humid weather. Its Tailpiec
 denied."
 facts_used: F1, F2, F3, F4, F5, F6, F7, F8"""
 
+# P2, R124's second prompt variant (pre-registered in R123): P1 plus one rule, up to three short questions the
+# facts answer after the text, and the example's text extended by such questions. Intent (doc2query): a text
+# shaped like the questions it answers may lie nearer them as a vector. The questions are part of the text, so
+# the code check (names, numbers, the cap) applies to them too. Built from P1 by insertion, so P1's text and
+# version stay as R123 measured them; the anchors are checked by a test.
+_LAST_RULE = '9. In facts_used, give the id of every fact the text uses, such as "F2".'
+_QUESTIONS_RULE = (
+    "10. After the text, add up to three short questions that these facts answer, worded as a person would "
+    "ask them and naming only what the facts name; write fewer when the characters of rule 8 run out."
+)
+_EXAMPLE_END = 'A buzzing is denied."'
+_EXAMPLE_QUESTIONS = (
+    " Who built the Arden Viola? Which fittings are fitted to the Arden Viola? Do sources agree that the "
+    'Arden Viola has a warm tone?"'
+)
+PROMPT_QUESTIONS = PROMPT.replace(_LAST_RULE, f"{_LAST_RULE}\n{_QUESTIONS_RULE}").replace(
+    _EXAMPLE_END, _EXAMPLE_END[:-1] + _EXAMPLE_QUESTIONS
+)
+# the prompt variants by the name the setting `index_summary_prompt` gives
+SUMMARY_PROMPTS = {"p1": PROMPT, "p2": PROMPT_QUESTIONS}
+
 FACT = "F{n}. {fact}"  # one numbered fact line; the ids are what `facts_used` cites
 # a relation as a fact: the node's own name at one end of the arrow, so the direction cannot be misread
 RELATION_FROM = "{title} -{type}-> {label} ({count}): {names}"
@@ -127,6 +150,12 @@ class SummaryOptions(BaseModel):
     temperature: float
     thinking: ThinkingLevel
     max_chars: int
+    prompt: Literal["p1", "p2"] = "p1"  # the variant of `SUMMARY_PROMPTS` (R124)
+
+    @property
+    def template(self) -> str:
+        """The prompt template of the chosen variant."""
+        return SUMMARY_PROMPTS[self.prompt]
 
 
 class NodeSummary(BaseModel):
@@ -161,23 +190,24 @@ class SummaryCards:
             return list(pool.map(lambda e: self._card(llm, e), evidence))
 
     def params(self) -> dict[str, object]:
-        """The model and its settings, the length cap and the prompt's own version."""
+        """The model and its settings, the length cap, the prompt variant and its own version."""
         o = self._options
         return {
             "summary_model": o.model,
             "summary_temperature": o.temperature,
             "summary_thinking": o.thinking,
             "summary_max_chars": o.max_chars,
-            "summary_prompt_version": prompt_version(PROMPT),
+            "summary_prompt": o.prompt,
+            "summary_prompt_version": prompt_version(o.template),
         }
 
     def prompts(self) -> dict[str, str]:
-        return {"summary": PROMPT}
+        return {"summary": self._options.template}
 
     def _card(self, llm: LLMClient, e: NodeEvidence) -> RenderedCard:
         o = self._options
         lines = facts(e)
-        prompt = summary_prompt(e, lines, o.max_chars)
+        prompt = summary_prompt(e, lines, o.max_chars, o.template)
         replies: list[NodeSummary] = []
 
         def propose(feedback: str) -> NodeSummary:
@@ -230,21 +260,23 @@ def relation_fact(title: str, n: Neighbours) -> str:
     return form.format(title=title, type=n.type, label=n.label, count=n.count, names=names)
 
 
-def summary_prompt(e: NodeEvidence, lines: list[str], max_chars: int) -> str:
-    """The prompt for one node: its name and label, and its facts numbered F1..Fn."""
+def summary_prompt(e: NodeEvidence, lines: list[str], max_chars: int, template: str = PROMPT) -> str:
+    """The prompt `template` (a variant of `SUMMARY_PROMPTS`) for one node: its name and label, and its facts
+    numbered F1..Fn."""
     numbered = "\n".join(FACT.format(n=i, fact=line) for i, line in enumerate(lines, start=1))
-    return PROMPT.format(title=e.title, label=e.label, facts=numbered or "(none)", max_chars=max_chars)
+    return template.format(title=e.title, label=e.label, facts=numbered or "(none)", max_chars=max_chars)
 
 
 def summary_version(options: SummaryOptions, fallback_version: str) -> str:
-    """12 hex characters over everything that can change a summary's text from the same evidence."""
+    """12 hex characters over everything that can change a summary's text from the same evidence. The
+    variant enters by its text, not its name, so P1's version is the one R123 measured."""
     material = [
-        PROMPT,
+        options.template,
         FACT,
         RELATION_FROM,
         RELATION_TO,
         NodeSummary.model_json_schema(),
-        options.model_dump(mode="json"),
+        options.model_dump(mode="json", exclude={"prompt"}),
         fallback_version,
     ]
     return prompt_version(json.dumps(material, sort_keys=True))

@@ -7598,6 +7598,20 @@ it, and the card retrievers can search either representation.
 - **R123 done 2026-10-08** ($0.573243: two summary runs; retrieval embeddings unpriced). Next: R124, B tuned on
   furniture (P2 written, cells P1/250, P2/600, P2/250 asked), groundedness judged, sealed.
 
+### R124 split (2026-10-08, as CLAUDE.md asks of a step that holds two concerns)
+R124 holds B's tuning and seal, and a new instrument (a judged sample of summaries with its sheet, verdict file
+and scoring code). They are done one after the other:
+- **R124a. B tuned on furniture and sealed:** P2 and the `index_summary_prompt` setting (P1's text and
+  version unchanged), the three remaining cells of the pre-registered grid (each a summary set and the three
+  `*_summary` card systems' retrieval runs; the user, 2026-10-08: "yes run"), the criterion applied, the
+  seal (`config.py` defaults, `tests/gold/r124/tuning.json`, a test like R121's), committed before any
+  held-out run.
+- **R124b. B's groundedness judged on furniture:** a seeded stratified sample of the sealed summaries
+  written as a judging sheet (summary, numbered facts), Claude's verdict file (unsupported statement,
+  polarity flip, identity confusion or none, each with a quote of the summary and the fact it contradicts or
+  lacks), code that refuses a verdict file that does not fit the sheet and counts the verdicts, and the
+  counts with n next to the code check's pass, retry and fallback rates.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
