@@ -41,6 +41,8 @@ FLAGS = {"smoke": False, "dev": False, "quality": True}
         "uv run kg --preset quality audit-relink out/b --data data --logged l.json --join --faithful",
         # the mention pass lists each chunk's things (R101)
         "uv run kg --preset quality mention-pass",
+        # the retrieval benchmark embeds the questions (R117)
+        "uv run kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --system vector",
     ],
 )
 def test_comprehensive_runs_ask(command):
@@ -55,6 +57,7 @@ def test_comprehensive_runs_ask(command):
         "uv run kg --preset quality profile",  # no LLM call
         "uv run kg --preset quality qa-score gold.json out/answers_graph.jsonl",  # scores a file
         "uv run kg --preset quality anchor-eval out/r77d_furniture --data data",  # reads files only
+        "uv run kg --preset quality retrieve-compare out/a/retrieval_vector.json out/b/retrieval_vector.json",
         # the replay without --choose is offline code
         "uv run kg --preset quality audit-relink out/r77d_furniture --data data --logged l.json",
         "uv run kg reset",

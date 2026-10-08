@@ -203,6 +203,10 @@ class Settings(BaseSettings):
     qa_step_cap: int = Field(default=200, ge=1)
     qa_check_limit: int = Field(default=30, ge=1)
     qa_check_chunks: int = Field(default=3, ge=1)
+    # the retrieval benchmark (R117, `kg retrieve-eval`): the chunk and seed budgets K of Evidence and Seed
+    # Recall@K, fixed by plan R116-R125 before measuring; 5 is the reader's k, 10 shows what a larger k would
+    # add. A source ranks at least the largest, so no budget is cut short
+    retrieval_budgets: list[int] = Field(default=[5, 10], min_length=1)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

@@ -35,6 +35,9 @@ class DomainNode(BaseModel):
     element_id: str  # Neo4j elementId: stable while the node exists, so read and write agree within a run
     label: str
     name: str
+    # the unique column's value as text, the key of `record_ref` (read_domain_nodes reads it); "" where the
+    # caller addresses records by their ref already (the audit snapshot)
+    key: str = ""
 
 
 class LinkReport(BaseModel):
@@ -98,13 +101,17 @@ def match_chunk_records(text: str, records: list[RecordKey]) -> list[RecordKey]:
 
 
 def read_domain_nodes(driver: Driver, plan: ConstructionPlan) -> list[DomainNode]:
-    """Element id, label and display name of every domain node that has a name."""
+    """Element id, label, display name and key of every domain node that has a name."""
     nodes: list[DomainNode] = []
     for rule in plan.nodes:
         label, name = cypher_ident(rule.label), cypher_ident(name_property(rule))
-        records, _, _ = driver.execute_query(f"MATCH (n:{label}) RETURN elementId(n) AS id, n.{name} AS name")
+        key = cypher_ident(rule.unique_column)
+        # the key as text, as `read_record_keys` reads it: a number key 11440802 is the record "11440802"
+        records, _, _ = driver.execute_query(
+            f"MATCH (n:{label}) RETURN elementId(n) AS id, n.{name} AS name, toString(n.{key}) AS key"
+        )
         nodes += [
-            DomainNode(element_id=r["id"], label=rule.label, name=str(r["name"]))
+            DomainNode(element_id=r["id"], label=rule.label, name=str(r["name"]), key=r["key"] or "")
             for r in records
             if r["name"] is not None
         ]

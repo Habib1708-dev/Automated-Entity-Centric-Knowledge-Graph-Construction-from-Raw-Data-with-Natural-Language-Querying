@@ -23,10 +23,10 @@ from kgbuilder.validation.qa_gold import QAGold
 from .evaluation_corpora import quoted_four_grams
 from .fakes import RecordingTracker, ScriptedLLM
 
-DRESSER = NodeName(kind="thing", node_id="4:x:1", name="Quill Press")
-RAILS = NodeName(kind="kind", node_id="k-rails", name="guide rails", aliases=["metal rails"])
-SLEEVE = NodeName(kind="kind", node_id="k-sleeve", name="sleeve")
-TINY = [NodeName(kind="kind", node_id=f"k-{n}", name=n) for n in ("the", "of it", "ab")]
+DRESSER = NodeName(kind="thing", node_id="4:x:1", ref="Press:P1", name="Quill Press")
+RAILS = NodeName(kind="kind", node_id="k-rails", ref="k-rails", name="guide rails", aliases=["metal rails"])
+SLEEVE = NodeName(kind="kind", node_id="k-sleeve", ref="k-sleeve", name="sleeve")
+TINY = [NodeName(kind="kind", node_id=f"k-{n}", ref=f"k-{n}", name=n) for n in ("the", "of it", "ab")]
 
 
 def linker(
@@ -107,6 +107,7 @@ class FakeStore:
         self._chunks = {c.chunk_id: c for c in chunks}
         self._nearest = list(nearest)
         self.reach_calls: list[tuple[list[str], list[str]]] = []
+        self.nearest_calls: list[int] = []  # the k of each vector search
 
     def node_names(self):
         return self._names
@@ -119,6 +120,7 @@ class FakeStore:
         return [self._chunks[i] for i in chunk_ids if i in self._chunks]
 
     def nearest_chunks(self, vector, k):
+        self.nearest_calls.append(k)
         return self._nearest[:k]
 
 
@@ -175,6 +177,17 @@ def test_the_graph_route_reads_the_best_ranked_chunks_its_traversal_reached():
         "thing_observations": ["c-far", "c-near"],
         "kind_observations": ["c-mid", "c-near"],
     }
+
+
+def test_the_graph_routes_seeds_are_its_links_by_stable_ref_spelling_links_first():
+    """R117: the traversal starts a thing by its element id, while the seeds name it by `record_ref`, which
+    a rebuild keeps, so `kg retrieve-eval` can compare them with the target gold."""
+    question = "What about the Quill Press?"
+    embedder = FixedEmbedder({"sleeve": [0.0, 1.0], question: [0.0, 1.0]})
+    store = FakeStore(names=[DRESSER, RAILS, SLEEVE])
+    _, trace = build_graph_retrieval(store, embedder, 90.0, neighbours=1).ranked(question)
+    assert trace.seeds == ["Press:P1", "k-sleeve"]  # spelled, then the name nearest in meaning
+    assert store.reach_calls == [(["4:x:1"], ["k-sleeve"])]
 
 
 def test_the_graph_route_gives_the_reader_nothing_when_no_name_links():

@@ -47,6 +47,9 @@ class RetrievalTrace(BaseModel):
     # present beyond the top k was cut by the ranking
     candidates: list[str] = []
     reached_by: dict[str, list[str]] = {}  # traversal pattern -> the chunks it reached
+    # the nodes retrieval started from, best first, by stable id (R117): record refs and canonical ids, the
+    # ids the target gold is placed on, so `kg retrieve-eval` scores them; empty in files from before R117
+    seeds: list[str] = []
 
 
 class ExactAttempt(BaseModel):

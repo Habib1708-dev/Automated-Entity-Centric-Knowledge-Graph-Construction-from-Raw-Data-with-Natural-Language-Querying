@@ -48,9 +48,12 @@ uv run kg claim-eval BUILD --dataset N --data D --logged L --out O [--verdicts V
 uv run kg claim-recall --claims S --gold G --sample P --dataset N --out O [--verdicts V]  # a claim sheet against R77's reader claims; judged recall (R111; no graph)
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
+uv run kg qa GOLD --system graph_retrieval                         # the graph's retrieval route alone, read (R117; not a default)
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
 uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
 uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
+uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --system graph_retrieval --out O  # retrieval without the reader (R117; embeds)
+uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -275,7 +278,8 @@ src/kgbuilder/
   core/             shared kernel: text normalisation, ids, Cypher identifier escaping, error types
   llm/              LLMClient/Embedder protocols, Gemini adapter (retry), disk-cache decorator,
                     refine.py = the propose -> validate -> critique -> retry loop
-  graph/            Neo4j driver factory ; canonical (how readers find what a mention refers to)
+  graph/            Neo4j driver factory ; canonical (how readers find what a mention refers to) ;
+                    digest (R117: a hash of the loaded graph's content, logged by every run that queries it)
   tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer ;
                     postgres (R114: a PostgreSQL schema's tables, a source for staging)
@@ -293,6 +297,7 @@ src/kgbuilder/
                     -> claim_recall (R111: R77's reader claims matched to a claim sheet, recall and its causes)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
+                    retrieval_scores (R117: evidence and seed recall within budgets, latency, paired)
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)
   audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
                     (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal) ;
@@ -303,11 +308,12 @@ src/kgbuilder/
                     -> vector (arm C, C5 by cosine) -> compare (McNemar, question by question)
                     sheets <- sheet_builder (blind sheets of C3, C4, C6, R93) -> judged -> judged_report
   query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
-                    vector RAG, vector-only baseline)
+                    vector RAG, vector-only baseline, the graph route alone)
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
                     exact (text2cypher, the plans' logged fallback) with cypher_check
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
-                    qa_systems (R116: each QA system built by name from the parts every system shares)
+                    qa_systems (R116: each QA system built by name from the parts every system shares) ;
+                    qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117)
 ```
 
 | Stage (MLflow run) | Module | LLM? |
@@ -327,6 +333,8 @@ src/kgbuilder/
 | `ask`, `qa_graph`, `qa_vector` | `query/`, `validation/qa.py` | yes, the reader; every citation checked in code |
 | `qa_score` | `validation/qa.py` | no |
 | `qa_compare` | `validation/paired.py` | no |
+| `retrieve_eval_<system>` | `pipeline/retrieval_stages.py`, `validation/retrieval_scores.py` | embeddings only |
+| `retrieve_compare` | `validation/retrieval_scores.py`, `validation/paired.py` | no |
 
 ## Experiment tracking
 
@@ -447,7 +455,15 @@ how they choose:
 - `records_vector` (R73, R74): the same plans over the record layer alone (the plan's labels: no claim
   primitives, no documents), with vector search as its source of text. It separates what the records
   give from what the extracted claims give;
-- `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph.
+- `vector`: the chunks nearest the question in the `chunk_embeddings` index, nothing from the graph;
+- `graph_retrieval` (R117): the graph's retrieval route alone, its chunks read without a plan. Asked only
+  when named: `kg qa` asks `graph`, `vector` and `records_vector` by default, so a newly registered
+  system never adds a paid run by itself.
+
+Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
+cites as evidence (otherwise the graph is not the build the gold was written on, and the run stops), and
+log `graph_digest`, a hash of the graph's label and relationship counts and chunk texts, so two runs are
+paired only on the same graph.
 
 1. `kg qa GOLD` asks every question of a gold file (`tests/gold/qa/`, format `validation/qa_gold.py`)
    and writes `out/answers_<system>.jsonl`, with the chunks each reader saw and, for the graph, how they
@@ -463,6 +479,16 @@ how they choose:
 4. `kg qa-compare A B` compares two outcome files question by question: the questions only one system
    answered right and the exact McNemar p-value, overall and per type. Two systems (or two steps) differ
    beyond one sample's variation only when p < 0.05; overlapping intervals of the totals are no verdict.
+
+Retrieval is also measured without the reader (R117), so a retrieval change shows before the reader's own
+variation can hide it. `kg retrieve-eval GOLD --targets T --build B --data D --system S` asks a reading
+system's chunk source every question, one at a time, and scores at each budget K (`RETRIEVAL_BUDGETS`,
+5 and 10): Evidence Recall@K (gold chunks in the top K) and Complete@K (questions with all of theirs);
+for a system that starts from nodes, Seed Recall@K (R89 targets, placed on the loaded build B, with a node
+among the top K seeds) and Seed found@K; and the latency per question (p50, p95). Seeds are stable ids
+(record refs and canonical ids), never Neo4j element ids, which change on every rebuild. The report
+`retrieval_<system>.json` keeps every question's ranking; `kg retrieve-compare A B` pairs two reports
+with the exact McNemar test and refuses reports of other questions, targets, graphs or embedding models.
 
 ## Development
 

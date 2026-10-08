@@ -3,7 +3,7 @@ must not pass through documents, the node names and chunks the store reads, the 
 `kg qa`'s stage end to end with a scripted planner and reader (params, metrics, plans and the answers
 file, R74; with `--plans`, an earlier run's plans replayed, R80), and the records-plus-vector system on
 the same graph: its schema cut to the record layer and its plans over records only (R73, R74).
-Needs Neo4j."""
+R117: `kg qa` logs the graph digest and refuses a gold whose evidence the graph lacks. Needs Neo4j."""
 
 import json
 import time
@@ -11,7 +11,8 @@ import time
 import pytest
 
 from kgbuilder.config import Settings
-from kgbuilder.core.errors import ConfigurationError
+from kgbuilder.core.errors import ConfigurationError, EvaluationError
+from kgbuilder.graph.digest import graph_digest
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAStage
 from kgbuilder.pipeline.stage import PLAN_FILE
@@ -127,6 +128,10 @@ def test_the_store_reads_node_names_and_chunks_in_the_order_asked(driver):
     assert ("thing", "Spindle", ("spindle",)) in names
     assert ("kind", "wobbles", ("wobbles", "wobbling")) in names
     assert not [n for n in store.node_names() if n.kind == "kind" and n.name == "Spindle"]
+    # R117: each name's stable ref, which a rebuild keeps: a record by label and key, a kind by its id
+    refs = {(n.kind, n.name): n.ref for n in store.node_names()}
+    assert refs[("thing", "Quill Press")] == "Press:P1" and refs[("thing", "T-1")] == "Ticket:T-1"
+    assert refs[("kind", "wobbles")] == "k-wobble"
     chunks = store.chunks(["notes.md#1", "missing#0", "notes.md#0"])
     assert [c.chunk_id for c in chunks] == ["notes.md#1", "notes.md#0"]
     assert chunks[1].context == "Quill Press notes" and chunks[1].embedding == [1.0, 0.0]
@@ -318,6 +323,7 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
         "prompt_version", "planner_prompt_version", "read_check_prompt_version", "cypher_prompt_version",
         "qa_hops", "qa_step_cap", "qa_check_limit", "qa_check_chunks", "gold_hash", "workers",
     } <= set(run.logged_params)  # fmt: skip
+    assert run.logged_params["graph_digest"] == graph_digest(driver).value  # the graph answered from (R117)
     metrics = run.logged_metrics
     # Q1 read from the text the graph route reached, Q2 counted by code; Q3 is free text, for the judge
     assert metrics["answer_accuracy"] == 1.0 and metrics["answer_accuracy_n"] == 2
@@ -337,6 +343,23 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
     assert any(path.endswith("answers_graph.jsonl") for path in run.artifacts)
     report = json.loads((out / "qa_report_graph.json").read_text(encoding="utf-8"))
     assert report["k"] == 2
+
+
+def test_kg_qa_refuses_a_gold_whose_evidence_the_graph_lacks_before_any_call(driver, tmp_path):
+    """R117: another dataset's graph loaded would score every system against chunks it cannot return."""
+    build(driver)
+    gold_file = qa_gold(
+        tmp_path,
+        [
+            {"id": "Q1", "type": "lookup", "question": "Which press wobbles?", "expected": {"text": "x"},
+             "route": "retrieval", "chunks": [{"chunk_id": "elsewhere.md#0", "quote": "wobbles"}]},
+        ],
+    )  # fmt: skip
+    out = tmp_path / "out"
+    ctx = qa_context(driver, out, lambda prompt, schema: pytest.fail("no model call"), RecordingTracker())
+    with pytest.raises(EvaluationError, match="not in the loaded graph"):
+        run_stages(ctx, PipelineState(gold=gold_file), [QAStage("graph")])
+    assert ctx.llm.calls == [] and not (out / "answers_graph.jsonl").exists()
 
 
 def test_kg_qa_with_plans_replays_an_earlier_runs_plans_and_writes_none(driver, tmp_path):

@@ -3,7 +3,8 @@ of them answered right, and an exact McNemar test on those, overall and per ques
 
 Role in the pipeline: `kg qa-compare` reads two outcome files of `kg qa-score` (qa.py `QAOutcome`) and
 reports here whether one system beats the other beyond one sample's variation, which every later step of
-the layered-model arm must show (task file, Step 3).
+the layered-model arm must show (task file, Step 3). `kg retrieve-compare` (R117) pairs retrieval outcomes
+with the same test (`compare_pairs`, through retrieval_scores.py).
 Design: pure arithmetic over outcome rows. Two systems answering the same 38 questions are not two
 independent samples: the questions both get right or both get wrong say nothing about which is better,
 so only the discordant questions are tested, and two overlapping Wilson intervals are no verdict.
@@ -94,7 +95,15 @@ def compare_outcomes(
     """
     _check(a, b)
     right_b = {o.question_id: bool(o.correct) for o in b}
-    pairs = [(o.type, bool(o.correct), right_b[o.question_id]) for o in a]
+    return compare_pairs([(o.type, bool(o.correct), right_b[o.question_id]) for o in a], a_name, b_name)
+
+
+def compare_pairs(
+    pairs: Sequence[tuple[QuestionType, bool, bool]], a_name: str = "a", b_name: str = "b"
+) -> PairedReport:
+    """Compare two systems on per-question outcomes already paired: one (type, A right, B right) per
+    question. The caller decides what "right" means (an answer, a complete retrieval, a found start, R117)
+    and that both sides answer the same questions."""
     return PairedReport(
         a=a_name,
         b=b_name,

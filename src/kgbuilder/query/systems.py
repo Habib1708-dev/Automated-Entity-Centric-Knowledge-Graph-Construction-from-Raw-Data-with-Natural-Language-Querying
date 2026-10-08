@@ -73,28 +73,33 @@ class ReadingSystem:
 
 
 class VectorBaseline:
-    """The k chunks nearest the question in the chunk vector index (a `ChunkSource`). The vector-only
-    baseline's source, and the chunk source of records plus vector RAG."""
+    """The `depth` chunks nearest the question in the chunk vector index (a `ChunkSource`). The vector-only
+    baseline's source, and the chunk source of records plus vector RAG. `kg qa` gives it the depth k, the
+    chunks it reads; `kg retrieve-eval` the largest budget it scores (R117), so a budget beyond k is not
+    cut short."""
 
-    def __init__(self, store: GraphStore, embedder: Embedder, k: int):
+    def __init__(self, store: GraphStore, embedder: Embedder, depth: int):
         self._store = store
         self._embedder = embedder
-        self._k = k
+        self._depth = depth
 
     def ranked(self, question: str) -> tuple[list[StoredChunk], RetrievalTrace | None]:
         vector = self._embedder.embed([question])[0]
-        return self._store.chunks(self._store.nearest_chunks(vector, self._k)), None
+        return self._store.chunks(self._store.nearest_chunks(vector, self._depth)), None
 
 
 class GraphRetrieval:
     """The graph's retrieval route (a `ChunkSource`): linked names -> traversal patterns -> ranked chunks.
     When nothing is linked or reached, it gives nothing: falling back to vector search would hide the
-    graph's own failure. The chunk source of the graph system."""
+    graph's own failure. The chunk source of the graph system. It ranks every chunk it reaches, so it needs
+    no depth; the linked nodes are its seeds (R117)."""
 
     def __init__(self, store: GraphStore, embedder: Embedder, linker: NameLinker):
         self._store = store
         self._embedder = embedder
         self.linker = linker
+        # a link names its node by element id; the seeds name it by its stable ref
+        self._refs = {(n.kind, n.node_id): n.ref for n in linker.nodes}
 
     def ranked(self, question: str) -> tuple[list[StoredChunk], RetrievalTrace | None]:
         vector = self._embedder.embed([question])[0]
@@ -107,6 +112,8 @@ class GraphRetrieval:
             linked=linked,
             candidates=[c.chunk_id for c in ranked],
             reached_by={pattern: sorted(ids) for pattern, ids in reached.items()},
+            # in link order: spelling links first, then the names nearest in meaning by rank
+            seeds=[self._refs[(n.kind, n.node_id)] for n in linked],
         )
         return ranked, trace
 

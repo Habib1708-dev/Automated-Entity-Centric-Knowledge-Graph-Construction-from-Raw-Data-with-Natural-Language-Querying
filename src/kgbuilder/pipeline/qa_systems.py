@@ -1,14 +1,17 @@
 """Each question-answering system, built by name from the parts every system shares (R116).
 
 Role in the pipeline: `kg ask` and `kg qa` (qa_stages.py) look a system up here by the name they are given,
-log what decides its answers, and build it over the current graph.
+log what decides its answers, and build it over the current graph; `kg retrieve-eval` (retrieval_stages.py)
+builds a reading system's chunk source alone, without the reader.
 Design: Factory. `SYSTEMS` maps a name to a `SystemSpec`: how to build the system from the shared parts, the
-params and prompts that decide its answers beyond the shared ones, and whether it is a plan system (R74:
-frozen-plan replay, plan metrics). The parts every system shares (the reader with its model, temperature and
-prompt; k; the embedder; the graph store) are built once, by `qa_parts`, so two systems differ only in what
-their spec builds on top of them: a fair comparison is a property of the construction, not a promise. A new
-approach is one more spec here, not one more branch in the stages.
-Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py).
+params and prompts that decide its answers beyond the shared ones, whether it is a plan system (R74:
+frozen-plan replay, plan metrics), and for a reading system its chunk source. The parts every system shares
+(the reader with its model, temperature and prompt; k; the embedder; the graph store) are built once, by
+`qa_parts`, so two systems differ only in what their spec builds on top of them: a fair comparison is a
+property of the construction, not a promise. A new approach is one more spec here, not one more branch in
+the stages.
+Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py,
+retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py).
 """
 
 from collections.abc import Callable, Mapping
@@ -30,6 +33,7 @@ from ..query.systems import (
     QASystem,
     ReadingSystem,
     VectorBaseline,
+    build_graph_retrieval,
     build_graph_system,
     build_records_vector,
 )
@@ -39,16 +43,29 @@ from .stage import PipelineContext, PipelineState
 
 
 @dataclass(frozen=True)
-class QAParts:
-    """What every system is built from, made once per stage by `qa_parts`."""
+class SourceParts:
+    """What every chunk source is built from, made once per stage by `source_parts` (R117): `kg
+    retrieve-eval` builds a source from these alone, with no model and no reader."""
 
     settings: Settings
     store: PlanStore
     embedder: Embedder
+    plan: ConstructionPlan | None  # the construction plan: the record labels and their name properties
+
+
+@dataclass(frozen=True)
+class QAParts(SourceParts):
+    """What every system is built from, made once per stage by `qa_parts`: the source parts, and the model
+    and the reader every system answers with."""
+
     llm: LLMClient  # the QA model at the settings' thinking level: the reader, planner and checks call it
     reader: Reader
-    plan: ConstructionPlan | None  # the construction plan: the record labels and their name properties
     frozen: Mapping[str, FrozenQuery] | None = None  # R80: an earlier run's plans, replayed by a plan system
+
+
+# a reading system's chunk source, built from the source parts and asked to rank at least `depth` chunks:
+# `kg qa` asks for k, the chunks the reader reads; `kg retrieve-eval` for its largest budget (R117)
+SourceBuilder = Callable[[SourceParts, int], ChunkSource]
 
 
 def _no_params(settings: Settings) -> dict[str, object]:
@@ -69,18 +86,31 @@ class SystemSpec:
     params: Callable[[Settings], dict[str, object]] = _no_params
     prompts: Mapping[str, str] = field(default_factory=dict)
     planned: bool = False
+    source: SourceBuilder | None = None  # a reading system's chunk source, which kg retrieve-eval ranks alone
 
 
-def reading(name: str, source: Callable[[QAParts], ChunkSource]) -> SystemSpec:
+def reading(
+    name: str, source: SourceBuilder, params: Callable[[Settings], dict[str, object]] = _no_params
+) -> SystemSpec:
     """A system that reads the best k chunks of the source `source` builds (`ReadingSystem`): with the shared
-    reader and k, it can differ from another such system only in the chunks it chooses."""
-    return SystemSpec(
-        name, lambda parts: ReadingSystem(name, source(parts), parts.reader, parts.settings.qa_top_k)
-    )
+    reader and k, it can differ from another such system only in the chunks it chooses. `params` gives the
+    settings its source reads."""
+
+    def build(parts: QAParts) -> QASystem:
+        k = parts.settings.qa_top_k
+        return ReadingSystem(name, source(parts, k), parts.reader, k)
+
+    return SystemSpec(name, build, params, source=source)
 
 
-def _vector(parts: QAParts) -> ChunkSource:
-    return VectorBaseline(parts.store, parts.embedder, parts.settings.qa_top_k)
+def _vector(parts: SourceParts, depth: int) -> ChunkSource:
+    return VectorBaseline(parts.store, parts.embedder, depth)
+
+
+def _graph_retrieval(parts: SourceParts, depth: int) -> ChunkSource:
+    # the route ranks every chunk its traversal reaches, so it fills any depth as far as the graph allows
+    s = parts.settings
+    return build_graph_retrieval(parts.store, parts.embedder, s.qa_link_fuzzy, s.qa_link_neighbours)
 
 
 def _graph(parts: QAParts) -> QASystem:
@@ -139,6 +169,15 @@ def _graph_params(s: Settings) -> dict[str, object]:
     return {**_plan_params(s), "qa_hops": s.qa_hops}
 
 
+def _graph_retrieval_params(s: Settings) -> dict[str, object]:
+    # the name linker's spelling score and meaning neighbours, then the traversal's hop limit
+    return {
+        "qa_link_fuzzy": s.qa_link_fuzzy,
+        "qa_link_neighbours": s.qa_link_neighbours,
+        "qa_hops": s.qa_hops,
+    }
+
+
 # the prompts both plan systems send; read_check with the parts a claim candidate adds (R85), so a change to
 # either is a new version
 _PLAN_PROMPTS = {
@@ -157,6 +196,8 @@ SYSTEMS: Mapping[str, SystemSpec] = {
             planned=True,
         ),
         reading("vector", _vector),
+        # the graph system's retrieval route alone (R117): its chunks read directly, no plan
+        reading("graph_retrieval", _graph_retrieval, _graph_retrieval_params),
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,
@@ -169,12 +210,34 @@ SYSTEMS: Mapping[str, SystemSpec] = {
 }
 
 
+# what `kg qa` asks without --system: the systems before R117, so registering a system never adds a paid run
+DEFAULT_SYSTEMS = ("graph", "vector", "records_vector")
+
+
 def check_system(name: str) -> SystemSpec:
     """The spec of the system `name`. Raises `ConfigurationError` for a name no spec has, before anything
     runs."""
     if name not in SYSTEMS:
         raise ConfigurationError(f"unknown system '{name}'; choose from {', '.join(SYSTEMS)}")
     return SYSTEMS[name]
+
+
+def check_source(name: str) -> SourceBuilder:
+    """The chunk source of the system `name`. Raises `ConfigurationError` for an unknown name and for a plan
+    system, which chooses chunks per plan step and has no single ranked list to score."""
+    source = check_system(name).source
+    if source is None:
+        ranked = ", ".join(n for n, spec in SYSTEMS.items() if spec.source is not None)
+        raise ConfigurationError(
+            f"system '{name}' answers by query plans and has no chunk source; choose from {ranked}"
+        )
+    return source
+
+
+def source_params(settings: Settings, name: str) -> dict[str, object]:
+    """What decides a source's ranking: the embedding model and the settings the source reads."""
+    check_source(name)
+    return {"system": name, "embed_model": settings.embed_model, **SYSTEMS[name].params(settings)}
 
 
 def system_params(settings: Settings, name: str) -> dict[str, object]:
@@ -201,6 +264,17 @@ def log_prompts(run: Run, name: str) -> None:
         run.text(text, f"prompts/qa_{key}.txt")
 
 
+def source_parts(ctx: PipelineContext, state: PipelineState) -> SourceParts:
+    """The parts a chunk source needs over the current graph. Raises `LLMUnavailableError` without an
+    embedder."""
+    s = ctx.settings
+    plan = state.load_plan(ctx, required=False)
+    if ctx.embedder is None:
+        raise LLMUnavailableError("question answering needs an embedding model: set GEMINI_API_KEY")
+    store = Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s)
+    return SourceParts(settings=s, store=store, embedder=ctx.embedder, plan=plan)
+
+
 def qa_parts(
     ctx: PipelineContext, state: PipelineState, frozen: Mapping[str, FrozenQuery] | None = None
 ) -> QAParts:
@@ -208,16 +282,14 @@ def qa_parts(
     Raises `LLMUnavailableError` without a model or an embedder."""
     s = ctx.settings
     llm = with_thinking(ctx.require_llm(), s.qa_thinking)
-    plan = state.load_plan(ctx, required=False)
-    if ctx.embedder is None:
-        raise LLMUnavailableError("question answering needs an embedding model: set GEMINI_API_KEY")
+    src = source_parts(ctx, state)
     return QAParts(
         settings=s,
-        store=Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s),
-        embedder=ctx.embedder,
+        store=src.store,
+        embedder=src.embedder,
+        plan=src.plan,
         llm=llm,
         reader=Reader(llm, s.qa_model, s.llm_temperature),
-        plan=plan,
         frozen=frozen,
     )
 

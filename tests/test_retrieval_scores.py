@@ -1,0 +1,177 @@
+"""Retrieval scores without the reader (R117, validation/retrieval_scores.py): evidence recall and complete
+retrieval within each budget, seed recall and found seeds against placed targets, questions without
+evidence or targets left out of that measure, a target the build lacks counted as a miss, no seed scores for
+a system without seeds, the nearest-rank latency, the flat metrics, two reports paired with McNemar's test
+(and `compare_pairs` equal to `compare_outcomes`), and the report file. Pure: no Neo4j, no model."""
+
+import pytest
+
+from kgbuilder.core.errors import EvaluationError
+from kgbuilder.validation.paired import compare_outcomes, compare_pairs, mcnemar_exact
+from kgbuilder.validation.qa import QAOutcome
+from kgbuilder.validation.qa_gold import QuestionType
+from kgbuilder.validation.retrieval_scores import (
+    RetrievalFingerprint,
+    RetrievalOutcome,
+    compare_retrieval,
+    load_retrieval_report,
+    score_retrieval,
+)
+
+FINGERPRINT = RetrievalFingerprint(gold_hash="g1", targets_hash="t1", graph_digest="d1", embed_model="e1")
+LOOKUP, MULTI_HOP = QuestionType.LOOKUP, QuestionType.MULTI_HOP
+
+
+def outcome(
+    qid: str,
+    qtype: QuestionType = LOOKUP,
+    gold: tuple[str, ...] = (),
+    ranked: tuple[str, ...] = (),
+    seeds: tuple[str, ...] | None = None,
+    targets: tuple[tuple[str, ...], ...] = (),
+    latency: float = 10.0,
+) -> RetrievalOutcome:
+    return RetrievalOutcome(
+        question_id=qid,
+        type=qtype,
+        system="s",
+        gold_chunks=list(gold),
+        ranked=list(ranked),
+        seeds=None if seeds is None else list(seeds),
+        gold_targets=[list(t) for t in targets],
+        latency_ms=latency,
+    )
+
+
+def score(outcomes: list[RetrievalOutcome], fingerprint: RetrievalFingerprint = FINGERPRINT):
+    return score_retrieval(outcomes, [5, 10], "s", fingerprint)
+
+
+def test_evidence_counts_gold_chunks_within_each_budget_and_leaves_out_questions_without_evidence():
+    report = score(
+        [
+            # one gold chunk at rank 2, the other at rank 6: in the top 10 only
+            outcome("Q1", MULTI_HOP, gold=("a", "b"), ranked=("x", "a", "y", "z", "w", "b")),
+            outcome("Q2", LOOKUP, gold=("c",), ranked=("c",)),
+            outcome("Q3", LOOKUP, ranked=("c",)),  # no chunk evidence: no evidence measure
+        ]
+    )
+    o = report.overall
+    assert (o.evidence_recall[5].k, o.evidence_recall[5].n) == (2, 3) and o.evidence_recall[10].rate == 1.0
+    assert (o.complete[5].k, o.complete[5].n) == (1, 2) and (o.complete[10].k, o.complete[10].n) == (2, 2)
+    hop = report.by_type[MULTI_HOP]
+    assert hop.questions == 1 and (hop.evidence_recall[5].k, hop.evidence_recall[5].n) == (1, 2)
+    assert report.by_type[LOOKUP].complete[5].rate == 1.0 and report.overall.questions == 3
+
+
+def test_seeds_find_a_target_by_any_of_its_nodes_and_a_target_the_build_lacks_is_a_miss():
+    report = score(
+        [
+            outcome(
+                "Q1",
+                seeds=("Press:P1", "k-a", "k-b", "k-c", "k-d", "Part:S2"),  # the part's second node, rank 6
+                targets=(("Press:P1",), ("Part:S1", "Part:S2"), ()),  # the third has no node in the build
+            ),
+            outcome("Q2", seeds=(), targets=(("Maker:M1",),)),  # nothing linked
+            outcome("Q3", seeds=("Press:P1",)),  # no target: no seed measure
+        ]
+    )
+    o = report.overall
+    assert (o.seed_recall[5].k, o.seed_recall[5].n) == (1, 4) and o.seed_recall[10].k == 2
+    assert (o.seed_found[5].k, o.seed_found[5].n) == (0, 2) and o.seed_found[10].k == 0
+    assert (report.targets, report.targets_unplaced, report.seeded) == (4, 1, True)
+    found = score([outcome("Q1", seeds=("Part:S2",), targets=(("Part:S1", "Part:S2"),))])
+    assert found.overall.seed_found[5].rate == 1.0
+
+
+def test_a_system_without_seeds_has_no_seed_scores_rather_than_zeros():
+    report = score([outcome("Q1", gold=("a",), ranked=("a",), targets=(("Press:P1",),))])
+    metrics = report.metrics()
+    assert not report.seeded and report.overall.seed_recall == {} and report.overall.seed_found == {}
+    assert "seed_recall_at_5" not in metrics and metrics["evidence_recall_at_5"] == 1.0
+
+
+def test_latency_is_the_nearest_rank_percentile_of_the_questions():
+    report = score([outcome(f"Q{i}", latency=ms) for i, ms in enumerate((40.0, 10.0, 30.0, 20.0))])
+    assert (report.latency_p50_ms, report.latency_p95_ms) == (20.0, 40.0)
+    assert score([]).latency_p50_ms is None
+
+
+def test_the_metrics_give_each_rate_with_its_interval_overall_and_its_n_per_type():
+    metrics = score(
+        [outcome("Q1", MULTI_HOP, gold=("a",), ranked=("a",), seeds=("n1",), targets=(("n1",),))]
+    ).metrics()
+    assert metrics["complete_at_10"] == 1.0 and metrics["complete_at_10_n"] == 1
+    assert metrics["evidence_recall_at_5_low"] < 1.0 and metrics["evidence_recall_at_5_high"] == 1.0
+    assert metrics["seed_found_at_5_multi_hop"] == 1.0 and metrics["seed_found_at_5_n_multi_hop"] == 1
+    assert metrics["questions_lookup"] == 0 and metrics["complete_at_5_lookup"] is None  # logged as nothing
+    assert metrics["latency_p95_ms"] == 10.0 and metrics["targets"] == 1
+
+
+def test_a_question_ranked_twice_and_a_budget_below_one_are_refused():
+    with pytest.raises(EvaluationError, match="more than once"):
+        score([outcome("Q1"), outcome("Q1")])
+    with pytest.raises(ValueError, match="at least 1"):
+        score_retrieval([outcome("Q1")], [0, 5], "s", FINGERPRINT)
+
+
+def test_two_systems_are_paired_on_complete_retrieval_and_on_found_seeds():
+    a = score(
+        [
+            outcome("Q1", gold=("a",), ranked=("a",), seeds=("n1",), targets=(("n1",),)),
+            outcome("Q2", gold=("b",), ranked=("b",), seeds=(), targets=(("n2",),)),
+            outcome("Q3", gold=("c",), ranked=(), seeds=()),
+            outcome("Q4", gold=("d",), ranked=("d",), seeds=()),
+        ]
+    )
+    b = score(
+        [
+            outcome("Q1", gold=("a",), ranked=(), seeds=(), targets=(("n1",),)),
+            outcome("Q2", gold=("b",), ranked=("b",), seeds=("n2",), targets=(("n2",),)),
+            outcome("Q3", gold=("c",), ranked=("c",), seeds=()),
+            outcome("Q4", gold=("d",), ranked=(), seeds=()),
+        ]
+    )
+    c = compare_retrieval(a, b, 5, "r1/a", "r1/b")
+    assert (c.complete.overall.only_a, c.complete.overall.only_b, c.complete.overall.questions) == (2, 1, 4)
+    assert c.complete.overall.p_value == mcnemar_exact(2, 1) and c.complete.a == "r1/a"
+    assert (c.seed_found.overall.only_a, c.seed_found.overall.only_b) == (1, 1)
+    assert c.seed_found.overall.questions == 2  # Q3 and Q4 have no target
+    assert c.metrics()["complete_at_5_only_a"] == 2 and c.metrics()["seed_found_at_5_questions"] == 2
+    # vector search has no seeds: only completeness is paired
+    unseeded = score([outcome(o.question_id, gold=tuple(o.gold_chunks)) for o in b.outcomes])
+    assert compare_retrieval(a, unseeded, 5).seed_found is None
+
+
+def test_reports_of_other_graphs_questions_or_budgets_are_never_paired():
+    a = score([outcome("Q1", gold=("a",))])
+    other_graph = FINGERPRINT.model_copy(update={"graph_digest": "d2"})
+    with pytest.raises(EvaluationError, match="differ in what they ran on"):
+        compare_retrieval(a, score([outcome("Q1", gold=("a",))], other_graph), 5)
+    with pytest.raises(EvaluationError, match="other questions"):
+        compare_retrieval(a, score([outcome("Q2", gold=("a",))]), 5)
+    with pytest.raises(EvaluationError, match="budget 3"):
+        compare_retrieval(a, a, 3)
+
+
+def test_compare_pairs_gives_compare_outcomes_own_report():
+    def qa_outcome(qid: str, qtype: QuestionType, correct: bool) -> QAOutcome:
+        return QAOutcome(
+            question_id=qid, type=qtype, system="s", correct=correct, route="retrieval", system_route=None,
+            cited_chunks=[],
+        )  # fmt: skip
+
+    a = [qa_outcome("Q1", LOOKUP, True), qa_outcome("Q2", MULTI_HOP, False), qa_outcome("Q3", LOOKUP, True)]
+    b = [qa_outcome("Q1", LOOKUP, False), qa_outcome("Q2", MULTI_HOP, True), qa_outcome("Q3", LOOKUP, True)]
+    pairs = [(LOOKUP, True, False), (MULTI_HOP, False, True), (LOOKUP, True, True)]
+    assert compare_outcomes(a, b, "x", "y") == compare_pairs(pairs, "x", "y")
+
+
+def test_a_report_file_loads_back_and_a_foreign_file_is_refused(tmp_path):
+    report = score([outcome("Q1", gold=("a",), ranked=("a",), seeds=("n1",), targets=(("n1",),))])
+    path = tmp_path / "retrieval_s.json"
+    path.write_text(report.model_dump_json(), encoding="utf-8")
+    assert load_retrieval_report(path) == report
+    path.write_text('{"system": "s"}', encoding="utf-8")
+    with pytest.raises(EvaluationError):
+        load_retrieval_report(path)

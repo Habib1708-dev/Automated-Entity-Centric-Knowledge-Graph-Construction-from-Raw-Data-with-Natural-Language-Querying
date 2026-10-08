@@ -35,14 +35,16 @@ from .pipeline import claim_stages as cls
 from .pipeline import judging_stages as jus
 from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
+from .pipeline import retrieval_stages as rs
 from .pipeline import stages as st
-from .pipeline.qa_systems import SYSTEMS
+from .pipeline.qa_systems import DEFAULT_SYSTEMS, SYSTEMS
 from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
 from .structured.postgres import PostgresTables
 from .tracking.mlflow_tracker import create_tracker
 from .validation.qa import QAReport
 from .validation.report import ValidationReport
+from .validation.retrieval_scores import RetrievalReport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
@@ -50,7 +52,12 @@ OUT = Path("out")
 DATA_DIR = typer.Argument(None, help="Data directory; default: the data_dir setting (the preset's dataset).")
 PRESET_NAMES = typer.Argument(None, help="Presets to rebuild; default: every one with a sample block.")
 QA_SYSTEMS = typer.Option(
-    list(SYSTEMS), help=f"Systems to ask ({', '.join(SYSTEMS)}); each gets its own run."
+    list(DEFAULT_SYSTEMS), help=f"Systems to ask ({', '.join(SYSTEMS)}); each gets its own run."
+)
+# the retrieval benchmark (R117): the systems whose chunk sources it ranks, and the build loaded in the graph
+RETRIEVAL_SYSTEMS = typer.Option(..., help="Systems whose chunk source to rank (vector, graph_retrieval).")
+RETRIEVAL_BUILD = typer.Option(
+    ..., help="The build folder loaded in the graph: the targets are placed on it."
 )
 FROZEN_PLANS = typer.Option(
     None, help="Folder of an earlier kg qa run whose plans and text2cypher queries are replayed (R80)."
@@ -816,6 +823,45 @@ def qa_compare(a: Path, b: Path, out: Path = OUT):
     typer.echo(f"Wrote {out / qs.QACompareStage.REPORT_FILE}")
 
 
+@app.command("retrieve-eval")
+def retrieve_eval(
+    gold: Path,
+    targets: Path = ANCHOR_TARGETS,
+    build: Path = RETRIEVAL_BUILD,
+    data: Path = AUDIT_DATA,
+    system: list[str] = RETRIEVAL_SYSTEMS,
+    out: Path = OUT,
+):
+    """Rank every question of a QA gold file with each system's chunk source, without the reader, and score
+    the chunks against the gold's evidence and the start nodes against the target gold placed on BUILD, the
+    build loaded in the graph (R117). Embeds each question; graph_retrieval also its node names once."""
+    state = PipelineState(gold=gold, anchor_targets=targets, audit_source=build, data_dir=data)
+    with session(out) as ctx:
+        reports = run_stages(ctx, state, [rs.RetrieveEvalStage(s) for s in system]).retrieval
+    for name, report in reports.items():
+        _print_retrieval(name, report)
+        typer.echo(f"Wrote {out / f'retrieval_{name}.json'}")
+
+
+@app.command("retrieve-compare")
+def retrieve_compare(a: Path, b: Path, out: Path = OUT):
+    """Pair two reports of `kg retrieve-eval` question by question at every budget both have: complete
+    evidence and found targets, with the exact McNemar p-value; no graph, no model (R117)."""
+    with session(out) as ctx:
+        comparisons = run_stages(
+            ctx, PipelineState(retrieval_reports=(a, b)), [rs.RetrieveCompareStage()]
+        ).retrieval_comparison
+    for c in comparisons:
+        for measure, report in (("complete", c.complete), ("seeds found", c.seed_found)):
+            if report is not None:
+                o = report.overall
+                typer.echo(
+                    f"{measure}@{c.k:<3} a {o.a_correct}/{o.questions}  b {o.b_correct}/{o.questions}  "
+                    f"only a {o.only_a}  only b {o.only_b}  p {o.p_value:.3f}"
+                )
+    typer.echo(f"Wrote {out / rs.RetrieveCompareStage.REPORT_FILE}")
+
+
 @app.command()
 def run(
     data_dir: Path | None = DATA_DIR,
@@ -877,6 +923,21 @@ def _print_qa(system: str, report: QAReport) -> None:
         ]
         unjudged = f"  unjudged {scores.unjudged}" if scores.unjudged else ""
         typer.echo(f"{label:19} " + "  ".join(cells) + unjudged)
+
+
+def _print_retrieval(system: str, report: RetrievalReport) -> None:
+    """One line per budget of a system's retrieval scores (overall), then its latency."""
+    typer.echo(f"== {system}")
+    o = report.overall
+    for k in report.budgets:
+        shares = [("evidence", o.evidence_recall), ("complete", o.complete)]
+        shares += [("seed recall", o.seed_recall), ("seeds found", o.seed_found)] if report.seeded else []
+        cells = [
+            f"{name} {'-' if (p := by_k[k]).rate is None else f'{p.rate:.3f}'} ({p.k}/{p.n})"
+            for name, by_k in shares
+        ]
+        typer.echo(f"@{k:<4} " + "  ".join(cells))
+    typer.echo(f"latency p50 {report.latency_p50_ms} ms  p95 {report.latency_p95_ms} ms")
 
 
 def _print_report(report: ValidationReport) -> None:

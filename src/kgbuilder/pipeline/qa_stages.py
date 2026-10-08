@@ -8,7 +8,8 @@ are its own. `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
 question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
-earlier run's plans (query/frozen.py) and logs which file they came from.
+earlier run's plans (query/frozen.py) and logs which file they came from. Before any call, `kg qa`
+refuses a gold whose evidence chunks the loaded graph lacks and logs the graph's digest (R117).
 Not here: how a system is built and what it logs as params (qa_systems.py), retrieval and reading (query/),
 scoring (validation/qa.py), the paired test (validation/paired.py).
 """
@@ -25,6 +26,7 @@ from ..validation.paired import compare_outcomes
 from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
 from ..validation.qa_gold import load_qa_gold
 from .inputs import digest, input_file
+from .qa_graph import check_graph
 from .qa_systems import SystemSpec, build_system, check_system, log_prompts, system_params
 from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
@@ -138,6 +140,8 @@ class QAStage(BaseStage):
         s = ctx.settings
         log_prompts(run, self.system)
         gold = load_qa_gold(input_file(state.gold, "QA gold file"))
+        # R117: the graph the answers come from; a graph without the gold's evidence is refused here, free
+        run.params(graph_digest=check_graph(ctx.driver, gold).value)
         frozen_file = _frozen_file(ctx, state, self.spec)
         frozen = (
             load_frozen(frozen_file, self.system, [q.id for q in gold.questions]) if frozen_file else None
@@ -211,7 +215,7 @@ class QACompareStage(BaseStage):
 
     def run(self, ctx, state, run):
         a, b = (input_file(path, "outcome file") for path in state.outcomes)
-        report = compare_outcomes(load_outcomes(a), load_outcomes(b), _label(a), _label(b))
+        report = compare_outcomes(load_outcomes(a), load_outcomes(b), side_label(a), side_label(b))
         state.paired = report
         run.metrics(**report.metrics())
         run.artifact(ctx.write(self.REPORT_FILE, report.model_dump_json(indent=2)))
@@ -219,7 +223,7 @@ class QACompareStage(BaseStage):
         run.artifact(b)
 
 
-def _label(path: Path) -> str:
+def side_label(path: Path) -> str:
     """A side's name in the comparison: its folder and file, which tell the run and the system apart
     (`r71_heldout/qa_outcomes_graph.jsonl`), where two steps' files share a system name."""
     return f"{path.parent.name}/{path.name}"

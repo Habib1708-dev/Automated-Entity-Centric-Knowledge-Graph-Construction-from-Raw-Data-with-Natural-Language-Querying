@@ -379,10 +379,17 @@ def test_a_claims_yes_counts_only_with_a_quote_from_its_own_evidence():
 # --- find_entity's name lookup ---------------------------------------------------------------------
 
 NODES = [
-    NodeName(kind="thing", node_id="s-104", name="Rosa Vey", label="Staff"),
-    NodeName(kind="thing", node_id="s-219", name="Rosa Vey", label="Staff"),
-    NodeName(kind="thing", node_id="d-1", name="Dock Office", label="Team"),
-    NodeName(kind="kind", node_id="k-seal", name="seal failure", aliases=["failed seal"], label="Condition"),
+    NodeName(kind="thing", node_id="s-104", ref="Staff:104", name="Rosa Vey", label="Staff"),
+    NodeName(kind="thing", node_id="s-219", ref="Staff:219", name="Rosa Vey", label="Staff"),
+    NodeName(kind="thing", node_id="d-1", ref="Team:1", name="Dock Office", label="Team"),
+    NodeName(
+        kind="kind",
+        node_id="k-seal",
+        ref="k-seal",
+        name="seal failure",
+        aliases=["failed seal"],
+        label="Condition",
+    ),
 ]
 
 

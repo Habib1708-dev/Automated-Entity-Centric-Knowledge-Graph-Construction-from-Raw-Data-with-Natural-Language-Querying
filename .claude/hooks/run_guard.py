@@ -22,7 +22,8 @@ ROOT = Path(__file__).resolve().parents[2]
 # kg commands that call an LLM, so a run of them costs money or free quota (`ask` and `qa` answer
 # questions with the reader model, R71; `anchor-compare` embeds chunks and questions, R92; `qa-score`,
 # `qa-compare` and `anchor-eval` only read files and are not listed; `mention-pass` lists each chunk's
-# things, R101)
+# things, R101; `retrieve-eval` embeds the questions and graph_retrieval's node names, R117, while
+# `retrieve-compare` only reads its reports)
 LLM_COMMANDS = {
     "run",
     "plan",
@@ -33,6 +34,7 @@ LLM_COMMANDS = {
     "ask",
     "qa",
     "anchor-compare",
+    "retrieve-eval",
 }
 # kg commands that call an LLM only with a flag: `audit-relink --choose` asks the record chooser (R95b),
 # `--join` the individuals' adjudicator and the embedder (R98); without them the replay is offline code

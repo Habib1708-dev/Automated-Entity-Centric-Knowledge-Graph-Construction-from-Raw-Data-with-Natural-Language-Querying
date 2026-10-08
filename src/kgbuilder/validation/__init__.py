@@ -9,4 +9,6 @@ qa_gold.py holds the question-answer gold file and its checks against the corpus
 system's answers to it (R70); qa_records.py computes the answers of record questions from the source
 files with DuckDB, and paired.py compares two systems question by question (R73). target_gold.py holds
 the anchor-graph target gold: for each QA question, the names it starts from and what they reach (R89).
+retrieval_scores.py scores retrieval without the reader: evidence and seed recall within budgets, and
+latency (R117).
 """

@@ -17,6 +17,7 @@ from neo4j.exceptions import ClientError, Neo4jError
 from pydantic import BaseModel
 
 from ..core.errors import MissingInputError
+from ..core.identity import record_ref
 from ..graph.canonical import canonical_id, canonical_kind, canonical_name
 from ..resolution.linking import read_domain_nodes
 from ..structured.plan import ConstructionPlan
@@ -139,6 +140,7 @@ class Neo4jGraphStore:
             NodeName(
                 kind="thing",
                 node_id=n.element_id,
+                ref=record_ref(n.label, n.key),
                 name=n.name,
                 label=n.label,
                 aliases=aliases.get(n.element_id, []),
@@ -153,8 +155,16 @@ class Neo4jGraphStore:
             "apoc.coll.sort(collect(DISTINCT said)) AS aliases "
             "RETURN id, name, aliases, type ORDER BY id"
         )
+        # a kind is addressed by its canonical id already, which a rebuild keeps: it is its own ref
         kinds = [
-            NodeName(kind="kind", node_id=r["id"], name=r["name"], aliases=r["aliases"], label=r["type"])
+            NodeName(
+                kind="kind",
+                node_id=r["id"],
+                ref=r["id"],
+                name=r["name"],
+                aliases=r["aliases"],
+                label=r["type"],
+            )
             for r in records
             if r["name"]
         ]

@@ -47,6 +47,7 @@ from ..validation.mention_eval import MentionScores
 from ..validation.paired import PairedReport
 from ..validation.qa import QAReport
 from ..validation.report import ValidationReport
+from ..validation.retrieval_scores import RetrievalComparison, RetrievalReport
 
 PLAN_FILE = "plan.json"
 TEXT_SCHEMA_FILE = "text_schema.json"
@@ -105,8 +106,11 @@ class PipelineState:
     frozen_plans: Path | None = None
     # the two outcome files of `kg qa-score` that `kg qa-compare` compares question by question (R73)
     outcomes: tuple[Path, Path] | None = None
+    # the two reports of `kg retrieve-eval` that `kg retrieve-compare` pairs (R117)
+    retrieval_reports: tuple[Path, Path] | None = None
     # the graph audit (R87): the build folder it rebuilds, the build's logged counts, and the R68 claims and
-    # sentence sample whose (thing, chunk) pairs test reach
+    # sentence sample whose (thing, chunk) pairs test reach; `kg retrieve-eval` places its targets on the
+    # build in `audit_source` too, the build loaded in the graph (R117)
     audit_source: Path | None = None
     extract_source: Path | None = None  # `kg extract --from-build`: the build whose claims to replay (R102)
     mention_gold_dir: Path | None = None  # `kg mention-eval`: the R101 gold folder (R102)
@@ -122,8 +126,9 @@ class PipelineState:
     recall_scores: RecallScores | None = None
     audit_logged: Path | None = None
     reach_gold: tuple[Path, Path] | None = None
-    # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures, and the anchor
-    # and layered reports of `kg anchor-eval` that `kg anchor-compare` pairs (R92)
+    # the anchor-graph evaluation (R90): the target gold (R89) whose questions it measures (also the seed
+    # gold of `kg retrieve-eval`, R117), and the anchor and layered reports of `kg anchor-eval` that `kg
+    # anchor-compare` pairs (R92)
     anchor_targets: Path | None = None
     anchor_reports: tuple[Path, Path] | None = None
     anchor_dataset: str | None = None  # the dataset's name, written into the judging sheets (R93)
@@ -153,6 +158,8 @@ class PipelineState:
     answer: SystemAnswer | None = None  # of `kg ask`
     qa_reports: dict[str, QAReport] = field(default_factory=dict)  # system name -> its scores
     paired: PairedReport | None = None  # of `kg qa-compare`
+    retrieval: dict[str, RetrievalReport] = field(default_factory=dict)  # of `kg retrieve-eval`, by system
+    retrieval_comparison: list[RetrievalComparison] | None = None  # of `kg retrieve-compare`, one per budget
     fidelity: FidelityReport | None = None  # of `kg audit-snapshot`
     audit: CodeChecks | None = None
     anchor: AnchorReport | None = None  # of `kg anchor-eval`

@@ -7002,6 +7002,68 @@ answers it is a claim on the Outback, `SYSTEM FREEZES UP COMPLETELY -AFFECTS_COM
   (both stop the run before any call).
 - **R116 done 2026-10-08.** Next: R117, the retrieval benchmark without the reader.
 
+### R117. The retrieval benchmark without the reader: `kg retrieve-eval` (code done 2026-10-08; $0, no run; part b awaits permission)
+Plan R116-R125, step 2: measure retrieval apart from answering, so a retrieval change (R120's hybrid) shows
+in what it retrieves before the reader's own variation can hide it, and the baselines exist before any
+hybrid code.
+- **Scope:** a new stage pair and its scorer; the sources and the graph store give what it needs; `kg qa`
+  gains the graph check. No hybrid or card code, no prompt change.
+- **How:**
+  - `validation/retrieval_scores.py` (pure): `RetrievalOutcome` (gold chunks, ranked chunks up to the largest
+    budget, seeds, placed targets, latency); `score_retrieval` gives at every budget K (`retrieval_budgets`
+    = [5, 10], new setting) Evidence Recall@K (gold chunks in the top K, pooled), Complete@K (questions with
+    all of theirs), Seed Recall@K (R89 targets with a node among the top K seeds; a target the build lacks
+    is a miss, as in C2) and Seed found@K, each with n and Wilson interval overall and n per type, plus
+    latency p50/p95 (nearest rank). A system without seeds (vector) has no seed scores rather than zeros.
+    `compare_retrieval(a, b, k)` pairs Complete@K and Seed found@K with McNemar, and refuses two reports
+    whose fingerprint (gold hash, targets hash, `graph_digest`, embedding model) differs.
+  - `validation/paired.py`: public `compare_pairs(pairs, a, b)`; `compare_outcomes` delegates to it (same
+    report, tested). `anchor/criteria.py` is not imported.
+  - `graph/digest.py` `graph_digest`: a 12-hex hash of the label counts, relationship type counts and every
+    chunk's id and text; content, not element ids, so a rebuild of one recipe gives one digest.
+    `pipeline/qa_graph.py` `check_graph`: the digest, after refusing (`EvaluationError`) a gold whose
+    evidence chunks the loaded graph lacks (`GraphStore.chunks` drops unknown ids without a word).
+  - Seeds: `NodeName.ref` (required): `record_ref(label, key)` for a record (`read_domain_nodes` now also
+    reads `toString(key)`, as `read_record_keys` does), the canonical id for a kind. `RetrievalTrace.seeds`
+    (additive, default empty, so older answers files load): `GraphRetrieval` gives its links' refs in link
+    order (spelling first, then meaning).
+  - `qa_systems.py`: `SourceParts` (store, embedder, plan, settings; `QAParts` extends it with the model
+    and reader); a source builder takes a depth (`kg qa` passes k, pinned by a test written first and green
+    on the old code; retrieve-eval passes max(budgets)); `graph_retrieval = reading(GraphRetrieval)` with
+    its params (link fuzzy, neighbours, hops); `DEFAULT_SYSTEMS = (graph, vector, records_vector)`, the
+    `kg qa` default, so a registered system never adds a paid run by itself; `check_source` refuses a plan
+    system (no single ranked list).
+  - `pipeline/retrieval_stages.py`: `RetrieveEvalStage(system)` (run `retrieve_eval_<system>`): checks the
+    graph first, places the targets with `audit.build_snapshot` + `anchor.TargetPlacer` on `--build` (and
+    refuses a target gold written for another QA gold), ranks the questions one at a time (Gemini embed has
+    no retry), counts `embedded_texts`/`embedded_chars` through a counting decorator (Gemini reports no
+    embedding tokens); params: the source's settings, budgets, gold/targets with hashes, build, data, chunk
+    settings, `graph_digest`; artifact `retrieval_<system>.json` with every outcome. `RetrieveCompareStage`
+    (`kg retrieve-compare A B`): every shared budget, `retrieve_compare.json`. CLI: `kg retrieve-eval GOLD
+    --targets T --build B --data D --system S` (`--data`: the snapshot needs the dataset);
+    `.claude/hooks/run_guard.py` adds `retrieve-eval` (retrieve-compare reads files only).
+- **A small behaviour change in `kg qa`:** it now logs `graph_digest` and refuses, before any model or
+  embedding call, a gold whose evidence chunks the loaded graph lacks (another dataset loaded would have
+  scored every system against chunks it cannot return). Checked before committing: every cited chunk is
+  in each final build (furniture 33 questions with chunk evidence, 42 chunks; held-out 28, 26; generality
+  38, 24; none missing, from each build's `audit/snapshot.json`), and the working graph (held-out, R113)
+  passes the stage's own check (`graph_digest` bc7c5a1efe3d) while furniture's gold on it is refused (42 of
+  42 missing). On that graph every one of the store's 59 record refs and 570 canonical ids is an id of the
+  build's snapshot, none missing either way.
+- **Verified:** 24 new tests: the pin (`kg qa`'s vector system asks for exactly k), a source asked for 10,
+  defaults and the CLI default, `graph_retrieval` params and prompts, plan systems refused
+  (`test_qa_systems.py`); seeds by stable ref, spelling first (`test_query.py`); the store's refs
+  (`test_query_graph.py`); `kg qa` logs the digest and refuses a missing chunk with no model call; the
+  scorer (`test_retrieval_scores.py`, 10); the stage end to end on a hand-made graph of a small build,
+  refusal before any embedding, the digest equal over a rebuild and changed by a text, a label, an edge or
+  a lost chunk, and the compare stage (`test_retrieval_stages.py`, 4); the guard. 920 passed (896 + 24),
+  ruff clean. `kg qa --help` defaults unchanged.
+- **Part b (asked, not run):** load the furniture final build into the working Neo4j (R113-style into
+  `out/r117_furniture` from `tests/gold/r108/runs.json`'s recipe, preset `quality`, every LLM call expected
+  from the cache), check its logged counts against `tests/gold/r108/furniture_logged.json`, then `kg
+  retrieve-eval` for `vector` and `graph_retrieval`: the furniture baselines before any hybrid code.
+- **R117 code done 2026-10-08.** Next: part b with the user's permission; then R118.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -7034,12 +7096,18 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **`EvaluationError` says "verdicts do not match the graph" whatever the issue (found in R117, 2026-10-08;
+  open).** `core/errors.py` prefixes every message with it, so R117's gold-chunk refusal reads "verdicts do
+  not match the graph: 42 of the gold's 42 evidence chunks are not in the loaded graph ...", and paired.py's
+  "outcomes a hold a question more than once" reads the same way. The issues after the prefix are right; a
+  neutral prefix ("evaluation inputs do not fit: ") is a one-line change to messages only, left for its own
+  commit.
 - **Build files hold Neo4j element ids, which change on every rebuild (found in R113, 2026-10-08; open, a
   rule for Part 2).** `resolve.json` and the audit snapshot keep each record reference's `target`, the
   element id of the record node in the database that build wrote. A rebuild of the same content gives the 77
   held-out record nodes new ids, so the two files differ in those fields only. Comparisons between builds
   ignore `target` (as R113 did); the query engine must address records by label and key, never by a stored
-  element id.
+  element id. R117 follows it: retrieval's seeds are record refs and canonical ids (`NodeName.ref`).
 - **The claim sheet shows one type pair per relation (found in R110 part b, 2026-10-07; fixed in its own
   commit: `relations` is keyed by the type pair, "Product -[EXHIBITS]-> QualityAspect"; test
   `test_the_sheet_shows_every_type_pair_a_relation_is_declared_for` failed before the fix).** `claim_sheet`

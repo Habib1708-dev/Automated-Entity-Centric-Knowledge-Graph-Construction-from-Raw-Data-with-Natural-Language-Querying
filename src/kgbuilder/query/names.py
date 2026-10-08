@@ -46,6 +46,9 @@ class NodeName(BaseModel):
 
     kind: Literal["thing", "kind"]
     node_id: str
+    # the node's stable id (R117): a record's `record_ref`, a kind's canonical id. `node_id` is a thing's
+    # element id, which a rebuild changes (R113), so a seed is compared with the target gold by `ref`
+    ref: str
     name: str
     aliases: list[str] = []
     label: str | None = (
