@@ -7527,6 +7527,31 @@ it, and the card retrievers can search either representation.
   - Criterion: furniture Seed Recall@5 of `card_dense_summary` alone (code-computed by `kg retrieve-eval`);
     ties to Seed Recall@1, then Seed Recall@10, then the smaller cap, then P1.
   - Each cell is a full summary set; the first, P1 with cap 600 (the defaults now), is R123's check run.
+- **The first check run, discarded before any retrieval number** (the user, 2026-10-08: "Yes, run it"): `uv run
+  kg --preset quality index --cards summary --out out/r117_furniture` at `122d754` (MLflow `cde92a70`, 172 s):
+  749 calls (737 first replies, 12 retries, 3 cache hits), 0 failures, 567,317 input / 44,789 output / 0
+  thinking tokens, **$0.282168**; 737 summaries (109 characters on average), every evidence hash equal to
+  A's, 12 first replies refused, 1 fallback. What it showed:
+  - The check's refusals were mostly its own fault: 8 "ID" (`core/text.norm` drops "_" as a markdown marker,
+    so `part_id` became one word `partid` and "part ID" an unknown name), 2 for "@furniture_lover92" (the same
+    cause; the one fallback), 1 "Products" (a plural of the label). 2 were right: "It has 7 components" for
+    a supplier (no 7 in its facts) and "Jgnkgping Coffee Table" (the model mangled "Jönköping"); both retries
+    fixed them.
+  - **The model reversed incoming relations:** of the 256 nodes whose only relations are incoming EXHIBITS
+    lines, 116 summaries say the node itself exhibits something ("worth the investment is a quality aspect.
+    It exhibits Product Linköping Bed"), 85 keep the direction, 55 neither (a word pattern, not a judgement).
+    Other cases: "metal is a material. It is made of 1 Component, Drawer Rails"; "Helsingborg Dresser ... is
+    part of Assembly, including Allen Key". The card's `TYPE <- Label (n): names` line puts the other ends
+    after an arrow pointing at nobody named.
+- **The fix, before any retrieval number** (the user, 2026-10-08: "Fix and re-run"; this changes P1 as
+  pre-registered, on the tuning set, from the summaries' text alone): each relation is now a fact with the
+  node's name at one end of an arrow (`RELATION_FROM` "Quill Press -MADE_BY-> Maker (1): Norcast",
+  `RELATION_TO` "Part (7): Gear, Pin, Spindle (+4 more) -PART_OF-> Quill Press"), the reading note says "A
+  -TYPE-> B" means A has TYPE to B, never the reverse, and a rule says so with the example's relation; the
+  example's incoming relation is written the same way. The check splits words at "_" and accepts a plural
+  of a known word. P1 is this corrected prompt (version `65f9c18fcc9d`, summaries `cb2853048d1f`); the grid
+  is otherwise unchanged. Tests: the facts' new lines, the version's material, three texts the old check
+  refused falsely now pass; 1004 passed, ruff clean.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
@@ -7560,6 +7585,11 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **One units file per build, not per representation (found in R123, 2026-10-08; open).** `kg units` and `kg
+  index` write `index/units.jsonl` whatever `--cards` names, so `kg index --cards summary` on
+  `out/r117_furniture` replaced the template cards' file of R119 (their copy stays in MLflow `1030c6bf`, and
+  `kg units --cards template` renders them again for $0, no model). Nothing reads the file back, so no result
+  changes. Direction: `index/units_<representation>.jsonl`, a rename of an artifact path, in its own commit.
 - **`EvaluationError` says "verdicts do not match the graph" whatever the issue (found in R117, 2026-10-08;
   open).** `core/errors.py` prefixes every message with it, so R117's gold-chunk refusal reads "verdicts do
   not match the graph: 42 of the gold's 42 evidence chunks are not in the loaded graph ...", and paired.py's

@@ -16,6 +16,8 @@ from kgbuilder.hybrid.cards import TemplateCards
 from kgbuilder.hybrid.summaries import (
     FACT,
     PROMPT,
+    RELATION_FROM,
+    RELATION_TO,
     NodeSummary,
     SummaryCards,
     SummaryOptions,
@@ -67,9 +69,10 @@ def test_the_facts_are_numbered_in_the_templates_formats_with_their_tags():
         "F1. Also called: the press",
         "F2. press_id: P1",
         "F3. year: 2019",
-        "F4. CONCERNS <- Ticket (1): T-1",
-        "F5. MADE_BY -> Maker (1): Norcast",
-        "F6. PART_OF <- Part (7): Gear, Pin, Spindle (+4 more)",
+        # a relation names the node at its end, so its direction cannot be misread (the R123 check run)
+        "F4. Ticket (1): T-1 -CONCERNS-> Quill Press",
+        "F5. Quill Press -MADE_BY-> Maker (1): Norcast",
+        "F6. Part (7): Gear, Pin, Spindle (+4 more) -PART_OF-> Quill Press",
         "F7. Spindle (Part) has condition wobbles (Condition) [stated 2, denied 1]",
         "F8. Gear (Part) has condition grinds (Condition) [conditional: when cold]",
         "F9. Pin (Part) has condition rattles (Condition) [denied]",
@@ -85,6 +88,10 @@ def test_a_grounded_summary_passes_the_check():
     assert issues("The press's maker is Norcast.", ["F1", "F5"]) == []
     # a label written in words is found in the evidence ("Noise Kind" for NoiseKind)
     assert issues("hums is a Noise Kind that Quill Press has.", [], e=HUM) == []
+    # a column's words, a plural of a label, a name with an underscore (the R123 check run's false refusals)
+    assert issues("Quill Press has press ID P1 and 7 Parts.", ["F2", "F6"]) == []
+    handle = HUM.model_copy(update={"title": "@quill_fan92", "label": "Particular", "relations": []})
+    assert issues("@quill_fan92, also written quill_fan92.", [], e=handle) == []
 
 
 @pytest.mark.parametrize(
@@ -177,7 +184,8 @@ def test_the_version_changes_with_every_knob(change):
 
 
 def test_the_version_hashes_the_prompt_the_reply_schema_the_options_and_the_fallback_cards():
-    material = [PROMPT, FACT, NodeSummary.model_json_schema(), OPTIONS.model_dump(mode="json"), "v1"]
+    schema, options = NodeSummary.model_json_schema(), OPTIONS.model_dump(mode="json")
+    material = [PROMPT, FACT, RELATION_FROM, RELATION_TO, schema, options, "v1"]
     assert summary_version(OPTIONS, "v1") == prompt_version(json.dumps(material, sort_keys=True))
     assert summary_version(OPTIONS, "v1") != summary_version(OPTIONS, "v2")
 
