@@ -1,17 +1,20 @@
-"""Stage structured inputs: CSVs are copied, tabular JSON is converted to CSV.
+"""Stage structured inputs: CSVs are copied, tabular JSON is converted to CSV, database tables are exported.
 
 Role in the pipeline: first step of `kg profile`. Afterwards the profiler and the importer see one
 uniform format (CSV files under `out/staging`), whatever the user supplied.
 Design: nothing is dropped silently; every file that looked structured but could not be staged is
-reported in `StagingReport.skipped` with the reason.
+reported in `StagingReport.skipped` with the reason. A database is a `TableSource` (R114), a port that the
+composition root fills with an adapter (structured/postgres.py), so this module never talks to a database.
 Not here: text documents (text/documents.py) and profiling (profiler.py).
 """
 
 import csv
 import json
 import logging
+import re
 import shutil
 from pathlib import Path
+from typing import Protocol
 
 from pydantic import BaseModel
 
@@ -23,6 +26,31 @@ _JSON_SUFFIXES = {".json", ".jsonl", ".ndjson"}
 # Written into every staging dir we create. Only a dir carrying it may be wiped on the next run, so a
 # mistyped --out can never delete a user's folder.
 _MARKER = ".kgbuilder-staging"
+# A table name that is safe as a file name on every OS: letters, digits, "_", " ", "." and "-", starting with
+# a letter, digit or "_" ("order_items", "Order Items 2024"). A database may name a table "a/b" or "..",
+# which would write outside the staging dir.
+_FILE_SAFE = re.compile(r"\w[\w .-]*")
+
+
+class TableSource(Protocol):
+    """Where the tables come from when they are not files in the data dir (R114): a database schema.
+
+    Implemented by `PostgresTables` (structured/postgres.py); tests pass a fake. Every method may raise
+    `DataSourceError`.
+    """
+
+    def describe(self) -> str:
+        """A name for logs, params and skip reasons ("postgres localhost:5434/kgbuilder schema shop").
+        Never contains a password."""
+        ...
+
+    def tables(self) -> list[str]:
+        """The names of the tables to stage, sorted."""
+        ...
+
+    def write_csv(self, table: str, dest: Path) -> None:
+        """Write one table to `dest` as UTF-8 CSV with a header row."""
+        ...
 
 
 class SkippedFile(BaseModel):
@@ -31,7 +59,8 @@ class SkippedFile(BaseModel):
 
 
 class StagingReport(BaseModel):
-    """What staging produced. `tables` and `skipped` are paths relative to the data dir."""
+    """What staging produced. `tables` and `skipped` are paths relative to the data dir, or the names of a
+    `TableSource`'s tables."""
 
     staged_dir: Path
     tables: list[str]
@@ -104,18 +133,51 @@ def _reset_dir(staging: Path) -> None:
     (staging / _MARKER).touch()
 
 
-def stage_structured(data_dir: Path, staging: Path) -> StagingReport:
-    """Copy CSVs and convert JSON to CSV under `staging`. Rebuilds `staging` from scratch every time."""
+def stage_structured(data_dir: Path, staging: Path, source: TableSource | None = None) -> StagingReport:
+    """Stage the tables as CSV under `staging`. Rebuilds `staging` from scratch every time.
+
+    Without a `source`, the data dir's CSVs are copied and its JSON is converted to CSV. With one (R114),
+    the tables come from it instead, and the data dir's CSV and JSON files are reported as skipped: a
+    dataset kept in both places would otherwise be staged twice. Raises `DataSourceError` when the source
+    cannot be read; the staging dir is then left as it was.
+    """
     data_dir, staging = Path(data_dir), Path(staging)
     # Collect first: when `out/` lives inside the data dir, files staged below must not be picked up.
-    sources = [
+    files = [
         p for p in sorted(data_dir.rglob("*")) if p.is_file() and staging.resolve() not in p.resolve().parents
     ]
+    if source is None:
+        _reset_dir(staging)
+        return _stage_files(data_dir, files, staging)
+    names = source.tables()  # before the reset: an unreachable database must not cost the last staging
     _reset_dir(staging)
+    return _stage_source(source, names, [p.relative_to(data_dir) for p in files], staging)
 
+
+def _stage_source(source: TableSource, names: list[str], files: list[Path], staging: Path) -> StagingReport:
+    """Write every table of `source` to `staging/<table>.csv`; report the data dir's tables as skipped."""
+    reason = f"the tables come from {source.describe()}"
+    skipped = [
+        SkippedFile(file=rel.as_posix(), reason=reason)
+        for rel in files
+        if rel.suffix.lower() in {".csv", *_JSON_SUFFIXES}
+    ]
+    tables: list[str] = []
+    for name in names:
+        if not _FILE_SAFE.fullmatch(name):
+            log.warning("skipped table %r: not usable as a file name", name)
+            skipped.append(SkippedFile(file=name, reason="the table name is not usable as a file name"))
+            continue
+        source.write_csv(name, staging / f"{name}.csv")
+        tables.append(name)
+    return StagingReport(staged_dir=staging, tables=tables, skipped=skipped)
+
+
+def _stage_files(data_dir: Path, files: list[Path], staging: Path) -> StagingReport:
+    """Copy the CSVs among `files` and convert their JSON to CSV, under `staging`."""
     tables: list[str] = []
     skipped: list[SkippedFile] = []
-    for path in sources:
+    for path in files:
         rel = path.relative_to(data_dir)
         suffix = path.suffix.lower()
         if suffix == ".csv":

@@ -6829,6 +6829,49 @@ the cheapest rebuild (R109: $0.0037).
   relationships.
 - **R113 done 2026-10-08.** Next: Part 2, scoped with the user.
 
+### R114. PostgreSQL tables as a structured source (done 2026-10-08; $0, no run)
+The user, 2026-10-08 ("Make a plan to support SQL ... we would rather use postgreSQL as it has pgvector"):
+read tables from a database, not only from files; PostgreSQL, because pgvector can hold vectors later. No
+append or update layer (the user: "not desirable right now"). Branch `postgres-source`, after `anchor-graph`
+was fast-forwarded into `main` and pushed (Part 1 on GitHub, tag `part1-final`).
+- **Scope:** staging is the only entry of structured data: every later consumer (profiler, plan check,
+  importer, record documents, audit, anchor, build folders) reads `out/staging/<name>.csv`. So a database
+  enters at staging and nothing downstream changes; files keep their behaviour exactly.
+- **How:** a `TableSource` port in `structured/staging.py` and its adapter `structured/postgres.py`
+  (`PostgresTables`, the only psycopg user): one schema's tables and views, sorted, each exported with
+  `COPY ... TO STDOUT (FORMAT csv, HEADER)` in a read-only session in UTC and ISO dates, arrays as JSON text
+  (the form `json_to_csv` gives a list). With `POSTGRES_SCHEMA` set, `kg profile` stages the schema and
+  reports the data dir's CSV/JSON files as skipped; documents still come from the data dir. A table name that
+  is no safe file name is skipped and reported; an unreachable server, a missing or an empty schema raise
+  `DataSourceError` (an empty profile would make the plan stage skip without a word), before the last
+  staging is wiped. Settings `postgres_url` (default: the new `postgres` service; refused in presets, it can
+  hold a password) and `postgres_schema`; the profile stage logs `structured_source` (the server, database
+  and schema, never the password). Docker: `postgres` (port 5434, volume) and `postgres-test` (5435), image
+  `pgvector/pgvector:pg17`. Prompts unchanged: a table arrives as `<table>.csv`, so the plan prompt's "CSV
+  files" stays true and its hash does not move.
+- **Verified:** 12 new tests (11 in `tests/test_postgres_source.py`, one in `tests/test_config.py`); the
+  `postgres` marker and the `pg_schema` fixture (a fresh schema per test in the test server) as for Neo4j.
+  The furniture CSVs loaded into PostgreSQL as text give the same profile as the files but for the sample
+  values (an open issue, below) and the same domain graph: every node and relationship with its properties
+  (`construct_domain_graph` with `tests/gold/domain_plan.json`). Typed columns (integer, numeric, boolean,
+  date, timestamptz, jsonb, text[], text with a comma, a quote and a line break) come out as BIGINT, DOUBLE,
+  BOOLEAN, DATE, TIMESTAMP WITH TIME ZONE and VARCHAR. CLI check, no LLM: the furniture tables in the working
+  PostgreSQL (schema `furniture`, left there to try), `POSTGRES_SCHEMA=furniture kg profile --out
+  out/r114_pg_profile`: 5 tables, 358 rows, the 4 foreign keys at 100 %, 5 sample CSVs reported skipped,
+  MLflow param `structured_source = postgres localhost:5434/kgbuilder schema furniture`.
+- **R114 done 2026-10-08.** Next: R115.
+
+### R115. Declared keys from the PostgreSQL catalog (planned, user's choice 2026-10-08)
+A database states its primary and foreign keys; the profiler only guesses them from the data. Read the
+schema's single-column primary and foreign keys from `pg_constraint` (composite and cross-schema ones counted
+and logged as skipped), write them to `out/staging/declared_keys.json` (build folders copy `staging/`), and
+mark them in the profile: `ColumnProfile.primary_key` and `ForeignKeyCandidate.declared`, both left out of the
+JSON when unset, so profiles and prompts of file datasets stay byte-identical (a test). A declared foreign key
+is always a candidate, with its measured inclusion even below `min_inclusion`; declared keys sort first; rows
+are exported in primary-key order. The plan prompt gets one domain-neutral rule, only when the profile
+carries declared keys. Measured by one `kg plan` on the furniture tables with declared constraints against
+the file-based plan (about $0.05, only with the user's permission at that time).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -7475,6 +7518,8 @@ with its evidence and the direction a later step would take:
 - **Profile samples are not deterministic (found in R11).** `profiler.py` takes `SELECT DISTINCT ... LIMIT 5`
   without `ORDER BY`, so the samples, and therefore the plan prompt, differ between runs: the plan is never
   served from the cache and runs are not exactly reproducible. Fix with an `ORDER BY` and a test.
+  Still open in R114 (2026-10-08): five profiles of the same `data/` gave five different sample sets, so
+  R114's test compares the PostgreSQL and the file profile without the samples.
 - **The test suite wipes the working graph (found in R11; closed by R112: the tests use their own server,
   `neo4j-test` on bolt 7688).** `neo4j` tests share the one database with
   the pipeline, so `uv run pytest` deletes the graph of the last `kg run`. Point tests at a separate

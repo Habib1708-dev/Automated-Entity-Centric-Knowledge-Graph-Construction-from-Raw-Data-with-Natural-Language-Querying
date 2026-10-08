@@ -37,6 +37,10 @@ class ConfigurationError(KgBuilderError):
     """The settings cannot be loaded: an unknown preset, an unknown key in presets.yaml, or a bad value."""
 
 
+class DataSourceError(KgBuilderError):
+    """A database the tables come from cannot be read (R114): unreachable, a missing schema, or no tables."""
+
+
 class MissingInputError(KgBuilderError):
     """A stage was started before the stage that produces its input (for example no out/plan.json)."""
 

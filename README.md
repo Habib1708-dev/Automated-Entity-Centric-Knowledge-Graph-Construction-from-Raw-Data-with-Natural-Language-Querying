@@ -12,7 +12,8 @@ every extracted fact carries a verbatim evidence quote that is verified against 
 ```
 uv sync
 docker compose up -d        # Neo4j 5 + APOC: the working graph on bolt://localhost:7687 (browser on
-                            # http://localhost:7474) and the tests' own database on bolt://localhost:7688
+                            # http://localhost:7474) and the tests' own database on bolt://localhost:7688;
+                            # PostgreSQL 17 + pgvector: a source of tables on port 5434, the tests' own on 5435
 copy .env.example .env      # then set GEMINI_API_KEY
 ```
 
@@ -177,6 +178,19 @@ chunk ids in the graph and in the provenance of facts always agree.
 Inputs in the data dir: CSV and tabular JSON/NDJSON (staged to CSV), plus md/txt/pdf (documents).
 JSON files that are not tabular are reported as skipped, not silently ignored.
 
+Tables can come from PostgreSQL instead (R114). Set `POSTGRES_SCHEMA` (in `.env`, the environment or a
+preset) and `kg profile` stages that schema's tables and views as `out/staging/<table>.csv`; from there on
+every stage treats them like CSV files, and column types are inferred from them the same way. The data
+dir's CSV and JSON files are then reported as skipped; its documents are still read. A view is the way to
+choose, filter or join in SQL what the graph sees. `POSTGRES_URL` defaults to the `postgres` service of
+`docker-compose.yml`; a preset may set the schema but not the URL, which can hold a password. Loading a CSV:
+
+```
+docker compose exec -T postgres psql -U kgbuilder -c "CREATE SCHEMA shop; CREATE TABLE shop.products (product_name text, price text, description text, product_id text)"
+docker compose exec -T postgres psql -U kgbuilder -c "\copy shop.products FROM STDIN (FORMAT csv, HEADER)" < data/products.csv
+POSTGRES_SCHEMA=shop uv run kg profile
+```
+
 ## Graph model
 
 - Domain graph: labels and relationships from the approved plan (Product, Part, Supplier, ...).
@@ -258,7 +272,8 @@ src/kgbuilder/
                     refine.py = the propose -> validate -> critique -> retry loop
   graph/            Neo4j driver factory ; canonical (how readers find what a mention refers to)
   tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
-  structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer
+  structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer ;
+                    postgres (R114: a PostgreSQL schema's tables, a source for staging)
   text/             documents -> chunking -> lexical -> schema (LLM) -> extraction (LLM) -> subject_graph
                     -> mention_pass (LLM, R101: the things no claim names, checked in code)
   resolution/       linking (ABOUT) -> derivation ; identity: mentions -> records ->
@@ -291,7 +306,7 @@ src/kgbuilder/
 
 | Stage (MLflow run) | Module | LLM? |
 |---|---|---|
-| `profile` | `structured/staging.py`, `structured/profiler.py` | no |
+| `profile` | `structured/staging.py`, `structured/postgres.py`, `structured/profiler.py` | no |
 | `plan` | `structured/proposer.py`, `structured/plan.py` | yes, code-validated, then critic |
 | `build_domain` | `structured/importer.py` | no |
 | `ingest_text` | `text/documents.py`, `text/chunking.py`, `text/lexical.py` | embeddings only |
@@ -446,12 +461,13 @@ how they choose:
 ## Development
 
 ```
-uv run pytest                    # all tests; those marked neo4j skip when the test database is down
-uv run pytest -m "not neo4j"     # fast tests, no database, no network
+uv run pytest                    # all tests; those marked neo4j or postgres skip when their database is down
+uv run pytest -m "not neo4j and not postgres"   # fast tests, no database, no network
 uv run ruff check . ; uv run ruff format .
 ```
 
 Note: the `neo4j` tests empty the database they connect to, so they use their own server (`neo4j-test`
 in `docker-compose.yml`, bolt 7688), never the working graph on 7687; they refuse to run when `NEO4J_URI`
-points at 7688 (R112). Working rules for contributors (and for
+points at 7688 (R112). The `postgres` tests use their own server too (`postgres-test`, port 5435), each in
+a fresh schema that it drops again (R114). Working rules for contributors (and for
 Claude) are in `CLAUDE.md`; the audit and the refactoring history are in `REFACTOR_PLAN.md`.

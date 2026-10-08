@@ -32,6 +32,7 @@ from ..resolution.linking import LinkReport
 from ..resolution.resolver import ResolvePreview
 from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
+from ..structured.staging import TableSource
 from ..text.chunking import Chunk
 from ..text.extraction import ExtractionResult
 from ..text.lexical import read_chunks
@@ -63,6 +64,8 @@ class PipelineContext:
     llm: LLMClient | None = None
     embedder: Embedder | None = None
     tracker: Tracker = field(default_factory=NullTracker)
+    # the database the tables come from (R114); None = the data dir's CSV and JSON files
+    tables: TableSource | None = None
 
     def require_llm(self) -> LLMClient:
         """Return the LLM client, or fail with a clear message for stages that cannot work without one."""

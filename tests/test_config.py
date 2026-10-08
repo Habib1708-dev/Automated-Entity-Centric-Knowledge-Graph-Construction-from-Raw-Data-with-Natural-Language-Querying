@@ -83,6 +83,20 @@ def test_environment_beats_preset_beats_dotenv(tmp_path, monkeypatch):
     assert settings.embed_model == "from-dotenv"  # what the preset leaves out still comes from .env
 
 
+def test_a_preset_may_choose_the_postgres_schema_but_not_hold_the_url(tmp_path, monkeypatch):
+    # the URL can carry a password and presets.yaml is committed (R114); the schema is a plain choice
+    monkeypatch.chdir(tmp_path)
+    for name in ("KG_PRESET", "POSTGRES_URL", "POSTGRES_SCHEMA"):
+        monkeypatch.delenv(name, raising=False)
+    write(tmp_path / "presets.yaml", "shop:\n  postgres_schema: sales\n")
+    monkeypatch.setenv("KG_PRESET", "shop")
+    assert Settings(_env_file=None).postgres_schema == "sales"
+
+    write(tmp_path / "presets.yaml", "shop:\n  postgres_url: postgresql://u:secret@db/shop\n")
+    with pytest.raises(ConfigurationError, match="forbidden keys: postgres_url"):
+        Settings(_env_file=None)
+
+
 def test_the_price_table_is_read_and_a_malformed_one_is_an_error(tmp_path):
     prices = write(tmp_path / "prices.yaml", "checked: 2026-09-22\nmodels:\n  m: {input: 0.3, output: 2.5}\n")
     assert read_prices(prices)["m"].output == 2.5

@@ -1,13 +1,20 @@
-"""Shared fixtures: a temp data dir with small CSVs (one deliberately dirty file) and an empty Neo4j
-database; every test that uses the database is marked `neo4j` here, so none can forget the marker.
+"""Shared fixtures: a temp data dir with small CSVs (one deliberately dirty file), an empty Neo4j
+database, and a fresh PostgreSQL schema (R114); every test that uses a database is marked `neo4j` or
+`postgres` here, so none can forget the marker.
 
-The database is the tests' own server (`neo4j-test` in docker-compose.yml), never the working graph the
-pipeline writes: the fixture empties it before every test (R112)."""
+The databases are the tests' own servers (`neo4j-test` and `postgres-test` in docker-compose.yml), never
+the working graph the pipeline writes: the `driver` fixture empties Neo4j before every test (R112)."""
 
+import uuid
+
+import psycopg
 import pytest
+from psycopg import sql
 
 from kgbuilder.config import Settings
 from kgbuilder.graph.connection import open_driver
+
+from .pg_load import TEST_POSTGRES_URL, PgSchema
 
 # the `neo4j-test` service of docker-compose.yml: bolt on 7688, its own fixed credentials
 TEST_NEO4J_URI = "bolt://localhost:7688"
@@ -38,6 +45,8 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     for item in items:
         if "driver" in getattr(item, "fixturenames", ()):
             item.add_marker(pytest.mark.neo4j)
+        if "pg_schema" in getattr(item, "fixturenames", ()):
+            item.add_marker(pytest.mark.postgres)
 
 
 @pytest.fixture
@@ -67,3 +76,36 @@ def driver():
     d.execute_query("MATCH (n) DETACH DELETE n")
     yield d
     d.close()
+
+
+@pytest.fixture(scope="session")
+def pg_reachable() -> bool:
+    """Whether the test PostgreSQL answers, asked once per session.
+
+    Once, because on Windows a connection to a closed port fails only at the connect timeout (2 s, the
+    shortest libpq takes), which per test would add seconds to every skipped test.
+    """
+    try:
+        psycopg.connect(TEST_POSTGRES_URL, connect_timeout=2).close()
+    except psycopg.OperationalError:  # no server to connect to: the tests skip, they do not fail
+        return False
+    return True
+
+
+@pytest.fixture
+def pg_schema(pg_reachable):
+    """A fresh, empty schema in the tests' own PostgreSQL, dropped after the test. Skips when it is down.
+
+    It touches nothing but the schema it creates, so unlike `driver` it needs no guard against pointing at
+    the working database.
+    """
+    if not pg_reachable:
+        pytest.skip("the test PostgreSQL is not running (docker compose up -d postgres-test)")
+    conn = psycopg.connect(TEST_POSTGRES_URL, autocommit=True)
+    name = f"t_{uuid.uuid4().hex[:12]}"
+    conn.execute(sql.SQL("CREATE SCHEMA {}").format(sql.Identifier(name)))
+    try:
+        yield PgSchema(conn=conn, name=name)
+    finally:
+        conn.execute(sql.SQL("DROP SCHEMA {} CASCADE").format(sql.Identifier(name)))
+        conn.close()

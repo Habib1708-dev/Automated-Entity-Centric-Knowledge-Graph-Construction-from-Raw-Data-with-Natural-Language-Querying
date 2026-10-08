@@ -157,16 +157,17 @@ def _er_blocking(ctx: PipelineContext) -> Blocking | None:
 
 
 class ProfileStage(BaseStage):
-    """Stage JSON/CSV under `out/staging` and profile the tables."""
+    """Stage the tables (JSON/CSV files, or a database schema) under `out/staging` and profile them."""
 
     name = "profile"
 
     def params(self, ctx, state):
-        return {"data_dir": state.data_dir}
+        source = ctx.tables.describe() if ctx.tables else "files"
+        return {"data_dir": state.data_dir, "structured_source": source}
 
     def run(self, ctx, state, run):
         data_dir = state.need("data_dir", "pass the data directory")
-        staging = stage_structured(data_dir, ctx.out / STAGING_DIR)
+        staging = stage_structured(data_dir, ctx.out / STAGING_DIR, ctx.tables)
         state.staged_dir = staging.staged_dir
         state.profile = profile_directory(staging.staged_dir)
         run.metrics(

@@ -30,8 +30,8 @@ PRICES_FILE = Path("prices.yaml")  # model prices for the cost_usd metric
 # needs the user's permission first (read by .claude/hooks/run_guard.py), and how its data_dir is made
 # from the full dataset (read by `kg sample`). The pipeline never sees them.
 _PRESET_META_KEYS = {"description", "ask_permission", "sample"}
-# Settings a preset must never hold: presets.yaml is committed.
-_PRESET_FORBIDDEN_KEYS = {"gemini_api_key", "gemini_free_api_key"}
+# Settings a preset must never hold: presets.yaml is committed, and a database URL can carry a password.
+_PRESET_FORBIDDEN_KEYS = {"gemini_api_key", "gemini_free_api_key", "postgres_url"}
 
 
 def load_preset(path: Path, name: str, allowed: set[str]) -> dict[str, Any]:
@@ -146,6 +146,12 @@ class Settings(BaseSettings):
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_username: str = "neo4j"
     neo4j_password: str = "password123"
+
+    # PostgreSQL as the source of the tables (R114): with a schema set, `kg profile` stages that schema's
+    # tables and views instead of the data dir's CSV and JSON files; documents still come from the data dir.
+    # Empty = the files. The default URL is the `postgres` service of docker-compose.yml.
+    postgres_url: str = "postgresql://kgbuilder:password123@localhost:5434/kgbuilder"
+    postgres_schema: str = ""
 
     cache_dir: Path = Path(".cache/llm")
 

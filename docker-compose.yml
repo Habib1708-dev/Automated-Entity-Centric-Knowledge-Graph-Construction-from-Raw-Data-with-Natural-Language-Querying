@@ -23,5 +23,31 @@ services:
       NEO4J_server_memory_heap_max__size: 512m
       NEO4J_server_memory_pagecache_size: 128m
 
+  # PostgreSQL as a source of tables (R114): `kg profile` stages one schema's tables when POSTGRES_SCHEMA is
+  # set. The pgvector image is the official postgres image plus the pgvector extension, so vectors can live
+  # here later without a migration; nothing enables the extension yet. Host port 5434, because 5432 and 5433
+  # are often taken by a local PostgreSQL.
+  postgres:
+    image: pgvector/pgvector:pg17
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: kgbuilder
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: kgbuilder
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # The tests' own PostgreSQL: every test creates a schema of its own and drops it again, so no volume.
+  postgres-test:
+    image: pgvector/pgvector:pg17
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: kgbuilder
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: kgbuilder
+
 volumes:
   neo4j_data:
+  postgres_data:

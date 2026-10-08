@@ -123,9 +123,10 @@ Details live in the `evaluation` skill. The invariants:
 
 ```
 uv sync                                   # install
-docker compose up -d                      # Neo4j 5 + APOC: working graph on 7687, test database on 7688
-uv run pytest                             # all tests (Neo4j tests use 7688 only; skip when it is down)
-uv run pytest -m "not neo4j"              # fast unit tests only
+docker compose up -d                      # Neo4j 5 + APOC: working graph on 7687, test database on 7688;
+                                          # PostgreSQL + pgvector: working 5434, tests 5435
+uv run pytest                             # all tests (Neo4j tests use 7688, Postgres 5435; skip when down)
+uv run pytest -m "not neo4j and not postgres"  # fast unit tests only
 uv run ruff check . ; uv run ruff format . # lint and format
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's dataset: smoke / dev (subsets) / quality (data/)

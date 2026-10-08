@@ -14,6 +14,7 @@ dependencies = [
     "typer>=0.12",
     "mlflow>=2.16",
     "pypdf>=4.0",
+    "psycopg[binary]>=3.2",  # PostgreSQL as a source of tables (R114); binary: no local libpq needed
 ]
 
 [project.scripts]
@@ -34,7 +35,10 @@ packages = ["src/kgbuilder"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["neo4j: needs a running Neo4j (docker compose up -d); skipped when it is down"]
+markers = [
+    "neo4j: needs a running Neo4j (docker compose up -d); skipped when it is down",
+    "postgres: needs the test PostgreSQL (docker compose up -d postgres-test); skipped when it is down",
+]
 
 [tool.ruff]
 line-length = 110

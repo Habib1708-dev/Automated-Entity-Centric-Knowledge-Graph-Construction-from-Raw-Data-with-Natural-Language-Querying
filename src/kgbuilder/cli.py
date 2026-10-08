@@ -1,8 +1,8 @@
 """Command line interface and composition root: one Typer command per pipeline stage, plus `run`/`reset`.
 
 Role in the pipeline: the entry point. It is the only place that reads settings and builds the concrete
-LLM client, cache, MLflow tracker and Neo4j driver; everything below receives them through a
-`PipelineContext`.
+LLM client, cache, MLflow tracker, Neo4j driver and PostgreSQL table source; everything below receives them
+through a `PipelineContext`.
 Design: composition root (Factory). A command only chooses stages, fills `PipelineState` from its
 arguments and prints the result. Expected failures (`KgBuilderError`) become a message and exit code 1.
 Not here: pipeline logic (pipeline/) and anything that talks to the LLM or Neo4j directly.
@@ -38,6 +38,7 @@ from .pipeline import qa_stages as qs
 from .pipeline import stages as st
 from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
+from .structured.postgres import PostgresTables
 from .tracking.mlflow_tracker import create_tracker
 from .validation.qa import QAReport
 from .validation.report import ValidationReport
@@ -237,8 +238,12 @@ def build_context(out: Path) -> PipelineContext:
         embedder = build_embedder(settings, tracker.record_llm_call, provider)
     # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
     driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
+    # a schema set means the tables come from PostgreSQL (R114); it connects only when profile stages them
+    tables = None
+    if settings.postgres_schema:
+        tables = PostgresTables(settings.postgres_url, settings.postgres_schema)
     return PipelineContext(
-        settings=settings, driver=driver, out=out, llm=llm, embedder=embedder, tracker=tracker
+        settings=settings, driver=driver, out=out, llm=llm, embedder=embedder, tracker=tracker, tables=tables
     )
 
 
