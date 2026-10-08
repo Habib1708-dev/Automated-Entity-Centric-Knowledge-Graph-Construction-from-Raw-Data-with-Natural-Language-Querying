@@ -7332,6 +7332,85 @@ check run: too much for one reviewable step. It is split in two, done one after 
     `modality: possible`, hedge "seem").
 - **R120b done 2026-10-08** ($0.0017). Next: R121, A tuned on furniture and sealed, asked first.
 
+### R121. A and the shared retrieval settings tuned on furniture, then sealed (done 2026-10-08; $0 logged, about $0.002 unpriced)
+Plan R116-R125, step 6: the pre-registered grid run on the tuning set, the criterion applied, the choice
+committed as the `config.py` defaults before any held-out or generality run.
+- **Scope:** ten `kg retrieve-eval` runs, three pairings, the seal (`config.py` defaults, `tests/gold/r121/`,
+  a test). No retrieval code, prompt or template change; no reader run (the user, asked: not needed by the
+  criterion).
+- **The runs** (the user, 2026-10-08, in this session: "Yes, run all 10"): one command per cell, all at
+  code `54053e4` (dirty only by the user's `.claude/settings.json`), on `out/r117_furniture`
+  (`graph_digest` 392a170ecc10), questions ranked one at a time, each into `out/r121/<cell>`:
+  `HYBRID_RETRIEVERS='<mix>' HYBRID_RRF_K=<k> uv run kg --preset quality retrieve-eval
+  tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r117_furniture
+  --data data --system hybrid --out out/r121/<cell>`. MLflow logged each cell's mix, `rrf_k`, depth 20 and
+  `representation_version` 54d556f3ea08 as params. The M4/k60 cell repeats R120b's check and gives its
+  numbers exactly (Evidence@5 52/73, Complete@5 24/33, Seed Recall@5 67/86): the ranking is deterministic,
+  only latency moves (p50 1,282 ms against 1,661).
+- **Every cell** (code-computed rates, no judge; n: 73 gold chunks over 33 questions, 86 targets over 50
+  questions; M1 and M2 list no seed-giving retriever, so their seed scores are 0 by design):
+
+    | Mix | rrf_k | Evidence@5 | Evidence@10 | Complete@5 | Complete@10 | Seed Recall@5 | Seed Recall@10 | Seeds found@5 | latency p50 / p95 | MLflow |
+    |---|---|---|---|---|---|---|---|---|---|---|
+    | M1 | 10 | 0.685 (50/73) | 0.808 (59/73) | 0.758 (25/33) | 0.818 (27/33) | 0.000 (0/86) | 0.000 (0/86) | 0.000 (0/50) | 550 / 948 ms | `82d2cabf` |
+    | M1 | 60 | 0.671 (49/73) | 0.808 (59/73) | 0.697 (23/33) | 0.818 (27/33) | 0.000 (0/86) | 0.000 (0/86) | 0.000 (0/50) | 535 / 754 ms | `c74d7bd7` |
+    | **M2** | **10** | **0.795 (58/73)** | 0.863 (63/73) | **0.818 (27/33)** | 0.879 (29/33) | 0.000 (0/86) | 0.000 (0/86) | 0.000 (0/50) | 562 / 920 ms | `1a4d1f8a` |
+    | M2 | 60 | 0.767 (56/73) | 0.877 (64/73) | 0.788 (26/33) | 0.879 (29/33) | 0.000 (0/86) | 0.000 (0/86) | 0.000 (0/50) | 540 / 811 ms | `cfbaa089` |
+    | M3 | 10 | 0.685 (50/73) | 0.808 (59/73) | 0.697 (23/33) | 0.848 (28/33) | 0.779 (67/86) | 0.895 (77/86) | 0.640 (32/50) | 1,300 / 1,871 ms | `8ac9489a` |
+    | M3 | 60 | 0.658 (48/73) | 0.822 (60/73) | 0.667 (22/33) | 0.848 (28/33) | 0.779 (67/86) | 0.884 (76/86) | 0.640 (32/50) | 1,166 / 1,599 ms | `cb035278` |
+    | M4 | 10 | 0.740 (54/73) | 0.822 (60/73) | 0.727 (24/33) | 0.879 (29/33) | 0.779 (67/86) | 0.895 (77/86) | 0.640 (32/50) | 1,285 / 1,790 ms | `93b2fe8c` |
+    | M4 | 60 | 0.712 (52/73) | 0.808 (59/73) | 0.727 (24/33) | 0.848 (28/33) | 0.779 (67/86) | 0.884 (76/86) | 0.640 (32/50) | 1,282 / 1,703 ms | `aa81f15c` |
+    | M5 | 10 | 0.740 (54/73) | 0.836 (61/73) | 0.758 (25/33) | 0.909 (30/33) | 0.942 (81/86) | 0.977 (84/86) | 0.900 (45/50) | 1,363 / 1,783 ms | `a0970c69` |
+    | M5 | 60 | 0.699 (51/73) | 0.836 (61/73) | 0.727 (24/33) | 0.909 (30/33) | 0.919 (79/86) | 0.977 (84/86) | 0.860 (43/50) | 1,311 / 1,848 ms | `44e0d50c` |
+
+- **The choice** (the pre-registered criterion, applied in code and again by the test): Complete@5 first,
+  and M2 (chunks and claim sentences, each by vector and by words) with `rrf_k` 10 is alone at the top with
+  27 of 33; the runner-up is M2 with `rrf_k` 60 (26). No tie, so the later rules did not decide. n is 33
+  questions: one question separates the first two cells, so the choice is coarse.
+- **Paired** (`kg retrieve-compare`, files only, $0; MLflow `cd1f3268`, `86b8c742`, `0075b83b`): against
+  vector (R117) Complete@5 only M2/k10 7 (F12, F16, F20, F24, F26, F28, F29), only vector 0, p = 0.016;
+  Complete@10 4 and 1, p = 0.375. Against graph_retrieval (R117) Complete@5 3 (F12, F28, F29) and 0, p =
+  0.25; Complete@10 2 and 1, p = 1.0. Against the runner-up M2/k60 Complete@5 1 and 0, p = 1.0. Per type at
+  5, M2/k10 completes all 7 negation_sensitive questions (vector 4). The chosen cell is the best of ten on
+  the tuning set, so these p-values are optimistic: R122 on held-out and generality is the test.
+- **What the grid shows:**
+  - Claim sentences add complete questions in both k (M2 over M1: 27 against 25, 26 against 23). F29
+    ("Which products do reviews report as sagging?", expected none: the reviews deny it): chunk vector
+    search ranks none of the 4 gold chunks in its 20, while the claim vector list ranks them 1 to 4 through
+    "Shelves (Component) exhibits sagging (QualityAspect)" and three more such sentences (truth stays out of
+    the text; the reader decides it).
+  - Cards do not add complete questions here: M3 completes fewer than M1 (23 against 25 at k 10), M4 fewer
+    than M2 (24 against 27). They are what gives seeds (67/86 at 5) and they cost latency (p50 about 1.3 s
+    against 0.55 s: the card retrievers traverse from up to 20 cards each).
+  - Both seed sources together answer R120b's question: M5/k10 finds 81 of 86 targets at 5, more than the
+    name linker alone (73, R117) or the cards alone (67), so the cards' "drawer rails" fix and the linker's
+    spelled product names can be had together; it completes 25 questions, 2 fewer than M2/k10.
+  - `rrf_k` 10 completes at least as many questions as 60 in every mix.
+- **What the choice means for R122 and B** (recorded, not acted on): the sealed hybrid lists no card
+  retriever, so the cards (representation A) no longer change its chunk ranking and it gives no seeds;
+  R122's `hybrid` measures chunks plus claim sentences. `kg index --cards template` is still needed (it
+  writes the claim sentences; the cards are written too). The plan's A-against-B headline, Seed Recall@K of
+  card retrieval alone, is untouched by the seal, but no sealed system measures it yet, and R122 takes no
+  `HYBRID_*` override: whether card retrieval alone is measured on held-out (a fixed, untuned system or
+  report, added before R122) is the user's decision, asked with R122.
+- **The seal:** `config.py` `hybrid_retrievers` = `["chunk_dense", "chunk_lexical", "claim_dense",
+  "claim_lexical"]`, `hybrid_rrf_k` = 10, `hybrid_depth` = 20 (unchanged). `tests/gold/r121/tuning.json`:
+  the grid, the criterion, the n, every cell's numbers, run id, embedding counts and cost, the choice and the
+  runner-up, the three pairings with run ids, the git sha, `graph_digest`, the gold and targets hashes, the
+  embedding model and the representation version; `tests/gold/r121/retrieval_hybrid.json`, the chosen
+  cell's report. README's `hybrid` paragraph names the sealed defaults.
+- **Verified:** `test_r121_the_config_defaults_are_the_cell_the_pre_registered_criterion_chose`
+  (`tests/test_retrieval_scores.py`): the recorded grid equals the pre-registered one written in the test,
+  every cell is there once with its mix's retrievers and depth 20, the criterion applied to the recorded
+  numbers picks the recorded choice, the `config.py` defaults equal it, the committed report shares R117's
+  fingerprint and the hashes of today's gold and targets files, scores 27/33, and pairs with R117's vector
+  report to the recorded counts. On the old defaults the test fails (the two card retrievers). 974 passed
+  (973 + 1), ruff clean.
+- **Cost:** $0 logged (no reader). Embeddings unpriced: 2,154 texts, 64,252 characters over the ten runs
+  (MLflow `embedded_texts`/`embedded_chars`: 68 question texts per cell, 805 in each M5 cell, which embeds the
+  737 node names); about $0.002 at the list price R119 used. 884 s of runs.
+- **R121 done 2026-10-08.** Next: R122, A measured on held-out and generality, asked per dataset.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

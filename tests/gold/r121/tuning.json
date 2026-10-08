@@ -1,0 +1,528 @@
+{
+ "step": "R121: representation A (template cards) and the shared hybrid retrieval settings tuned on furniture, then sealed as the config.py defaults",
+ "approved": "the user, 2026-10-08, in this session (\"Yes, run all 10\": the pre-registered grid, no reader run)",
+ "git_sha": "54053e4-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "build": "out/r117_furniture",
+ "graph_digest": "392a170ecc10",
+ "gold": "tests/gold/qa/furniture_qa.json",
+ "gold_hash": "d1a89e24fe7a",
+ "targets": "tests/gold/r89/furniture_targets.json",
+ "targets_hash": "adc32787fee3",
+ "embed_model": "gemini-embedding-001",
+ "representation_version": "54d556f3ea08",
+ "command": "HYBRID_RETRIEVERS='<mix>' HYBRID_RRF_K=<k> uv run kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r117_furniture --data data --system hybrid --out out/r121/<cell>",
+ "grid": {
+  "mixes": {
+   "M1": [
+    "chunk_dense",
+    "chunk_lexical"
+   ],
+   "M2": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical"
+   ],
+   "M3": [
+    "chunk_dense",
+    "chunk_lexical",
+    "card_dense",
+    "card_lexical"
+   ],
+   "M4": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical",
+    "card_dense",
+    "card_lexical"
+   ],
+   "M5": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical",
+    "card_dense",
+    "card_lexical",
+    "graph_route"
+   ]
+  },
+  "rrf_k": [
+   10,
+   60
+  ],
+  "depth": 20
+ },
+ "criterion": [
+  "furniture Complete@5 (questions with all their gold chunks in the top 5), higher first",
+  "ties: Seed Recall@5, higher first (M1 and M2 have no seed-giving retriever: 0 by design)",
+  "then the smaller mix (M1 < M2 < M3 < M4 < M5)",
+  "then rrf_k 60"
+ ],
+ "n": {
+  "questions": 68,
+  "complete": 33,
+  "evidence_chunks": 73,
+  "seed_targets": 86,
+  "seeded_questions": 50
+ },
+ "cells": [
+  {
+   "cell": "m1_k10",
+   "mix": "M1",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical"
+   ],
+   "rrf_k": 10,
+   "depth": 20,
+   "run_id": "82d2cabf4f864b3abaea27ce970d252e",
+   "evidence_recall": {
+    "5": "50/73",
+    "10": "59/73"
+   },
+   "complete": {
+    "5": "25/33",
+    "10": "27/33"
+   },
+   "seed_recall": {
+    "5": "0/86",
+    "10": "0/86"
+   },
+   "seeds_found": {
+    "5": "0/50",
+    "10": "0/50"
+   },
+   "latency_p50_ms": 550.4,
+   "latency_p95_ms": 947.8,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m1_k60",
+   "mix": "M1",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical"
+   ],
+   "rrf_k": 60,
+   "depth": 20,
+   "run_id": "c74d7bd73b2544348f61d4048cff051a",
+   "evidence_recall": {
+    "5": "49/73",
+    "10": "59/73"
+   },
+   "complete": {
+    "5": "23/33",
+    "10": "27/33"
+   },
+   "seed_recall": {
+    "5": "0/86",
+    "10": "0/86"
+   },
+   "seeds_found": {
+    "5": "0/50",
+    "10": "0/50"
+   },
+   "latency_p50_ms": 535.2,
+   "latency_p95_ms": 754.2,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m2_k10",
+   "mix": "M2",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical"
+   ],
+   "rrf_k": 10,
+   "depth": 20,
+   "run_id": "1a4d1f8a6d9f4827b678646b0d10453e",
+   "evidence_recall": {
+    "5": "58/73",
+    "10": "63/73"
+   },
+   "complete": {
+    "5": "27/33",
+    "10": "29/33"
+   },
+   "seed_recall": {
+    "5": "0/86",
+    "10": "0/86"
+   },
+   "seeds_found": {
+    "5": "0/50",
+    "10": "0/50"
+   },
+   "latency_p50_ms": 561.9,
+   "latency_p95_ms": 920.2,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m2_k60",
+   "mix": "M2",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical"
+   ],
+   "rrf_k": 60,
+   "depth": 20,
+   "run_id": "cfbaa08914f24e939cadcbb7b46539fc",
+   "evidence_recall": {
+    "5": "56/73",
+    "10": "64/73"
+   },
+   "complete": {
+    "5": "26/33",
+    "10": "29/33"
+   },
+   "seed_recall": {
+    "5": "0/86",
+    "10": "0/86"
+   },
+   "seeds_found": {
+    "5": "0/50",
+    "10": "0/50"
+   },
+   "latency_p50_ms": 539.8,
+   "latency_p95_ms": 810.6,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m3_k10",
+   "mix": "M3",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "card_dense",
+    "card_lexical"
+   ],
+   "rrf_k": 10,
+   "depth": 20,
+   "run_id": "8ac9489a2a5a4312be39f9f1d767db19",
+   "evidence_recall": {
+    "5": "50/73",
+    "10": "59/73"
+   },
+   "complete": {
+    "5": "23/33",
+    "10": "28/33"
+   },
+   "seed_recall": {
+    "5": "67/86",
+    "10": "77/86"
+   },
+   "seeds_found": {
+    "5": "32/50",
+    "10": "42/50"
+   },
+   "latency_p50_ms": 1300.5,
+   "latency_p95_ms": 1871.2,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m3_k60",
+   "mix": "M3",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "card_dense",
+    "card_lexical"
+   ],
+   "rrf_k": 60,
+   "depth": 20,
+   "run_id": "cb035278740640648da271256990eb8e",
+   "evidence_recall": {
+    "5": "48/73",
+    "10": "60/73"
+   },
+   "complete": {
+    "5": "22/33",
+    "10": "28/33"
+   },
+   "seed_recall": {
+    "5": "67/86",
+    "10": "76/86"
+   },
+   "seeds_found": {
+    "5": "32/50",
+    "10": "41/50"
+   },
+   "latency_p50_ms": 1165.9,
+   "latency_p95_ms": 1599.2,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m4_k10",
+   "mix": "M4",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical",
+    "card_dense",
+    "card_lexical"
+   ],
+   "rrf_k": 10,
+   "depth": 20,
+   "run_id": "93b2fe8cfd8442579f8599dec7fe1926",
+   "evidence_recall": {
+    "5": "54/73",
+    "10": "60/73"
+   },
+   "complete": {
+    "5": "24/33",
+    "10": "29/33"
+   },
+   "seed_recall": {
+    "5": "67/86",
+    "10": "77/86"
+   },
+   "seeds_found": {
+    "5": "32/50",
+    "10": "42/50"
+   },
+   "latency_p50_ms": 1284.9,
+   "latency_p95_ms": 1789.9,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m4_k60",
+   "mix": "M4",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical",
+    "card_dense",
+    "card_lexical"
+   ],
+   "rrf_k": 60,
+   "depth": 20,
+   "run_id": "aa81f15c6b104990a4a8386c58d9716e",
+   "evidence_recall": {
+    "5": "52/73",
+    "10": "59/73"
+   },
+   "complete": {
+    "5": "24/33",
+    "10": "28/33"
+   },
+   "seed_recall": {
+    "5": "67/86",
+    "10": "76/86"
+   },
+   "seeds_found": {
+    "5": "32/50",
+    "10": "41/50"
+   },
+   "latency_p50_ms": 1282.2,
+   "latency_p95_ms": 1703.4,
+   "embedded_texts": 68,
+   "embedded_chars": 4446,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m5_k10",
+   "mix": "M5",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical",
+    "card_dense",
+    "card_lexical",
+    "graph_route"
+   ],
+   "rrf_k": 10,
+   "depth": 20,
+   "run_id": "a0970c69942b4c1f97fd1059b47d10b3",
+   "evidence_recall": {
+    "5": "54/73",
+    "10": "61/73"
+   },
+   "complete": {
+    "5": "25/33",
+    "10": "30/33"
+   },
+   "seed_recall": {
+    "5": "81/86",
+    "10": "84/86"
+   },
+   "seeds_found": {
+    "5": "45/50",
+    "10": "48/50"
+   },
+   "latency_p50_ms": 1363.4,
+   "latency_p95_ms": 1783.4,
+   "embedded_texts": 805,
+   "embedded_chars": 14342,
+   "cost_usd": 0.0
+  },
+  {
+   "cell": "m5_k60",
+   "mix": "M5",
+   "retrievers": [
+    "chunk_dense",
+    "chunk_lexical",
+    "claim_dense",
+    "claim_lexical",
+    "card_dense",
+    "card_lexical",
+    "graph_route"
+   ],
+   "rrf_k": 60,
+   "depth": 20,
+   "run_id": "44e0d50cf18b4f7e8736276fcc76c798",
+   "evidence_recall": {
+    "5": "51/73",
+    "10": "61/73"
+   },
+   "complete": {
+    "5": "24/33",
+    "10": "30/33"
+   },
+   "seed_recall": {
+    "5": "79/86",
+    "10": "84/86"
+   },
+   "seeds_found": {
+    "5": "43/50",
+    "10": "48/50"
+   },
+   "latency_p50_ms": 1311.3,
+   "latency_p95_ms": 1848.0,
+   "embedded_texts": 805,
+   "embedded_chars": 14342,
+   "cost_usd": 0.0
+  }
+ ],
+ "choice": {
+  "cell": "m2_k10",
+  "hybrid_retrievers": [
+   "chunk_dense",
+   "chunk_lexical",
+   "claim_dense",
+   "claim_lexical"
+  ],
+  "hybrid_rrf_k": 10,
+  "hybrid_depth": 20,
+  "complete_5": "27/33",
+  "runner_up": "m2_k60",
+  "runner_up_complete_5": "26/33",
+  "report": "tests/gold/r121/retrieval_hybrid.json"
+ },
+ "paired": {
+  "m2_k10 vs vector": {
+   "b": "tests/gold/r117/retrieval_vector.json",
+   "run_id": "cd1f32687eab4aecae292f9f2d712ea8",
+   "complete_5": {
+    "questions": 33,
+    "a_correct": 27,
+    "b_correct": 20,
+    "only_a": 7,
+    "only_b": 0,
+    "p_value": 0.015625
+   },
+   "complete_10": {
+    "questions": 33,
+    "a_correct": 29,
+    "b_correct": 26,
+    "only_a": 4,
+    "only_b": 1,
+    "p_value": 0.375
+   }
+  },
+  "m2_k10 vs graph_retrieval": {
+   "b": "tests/gold/r117/retrieval_graph_retrieval.json",
+   "run_id": "86b8c742152344e3b35d32aab1bcc18d",
+   "complete_5": {
+    "questions": 33,
+    "a_correct": 27,
+    "b_correct": 24,
+    "only_a": 3,
+    "only_b": 0,
+    "p_value": 0.25
+   },
+   "seed_found_5": {
+    "questions": 50,
+    "a_correct": 0,
+    "b_correct": 39,
+    "only_a": 0,
+    "only_b": 39,
+    "p_value": 3.637978807091713e-12
+   },
+   "complete_10": {
+    "questions": 33,
+    "a_correct": 29,
+    "b_correct": 28,
+    "only_a": 2,
+    "only_b": 1,
+    "p_value": 1.0
+   },
+   "seed_found_10": {
+    "questions": 50,
+    "a_correct": 0,
+    "b_correct": 45,
+    "only_a": 0,
+    "only_b": 45,
+    "p_value": 5.684341886080802e-14
+   }
+  },
+  "m2_k10 vs m2_k60": {
+   "b": "out/r121/m2_k60/retrieval_hybrid.json",
+   "run_id": "0075b83b4bc04edbaacdd01ae46915a9",
+   "complete_5": {
+    "questions": 33,
+    "a_correct": 27,
+    "b_correct": 26,
+    "only_a": 1,
+    "only_b": 0,
+    "p_value": 1.0
+   },
+   "seed_found_5": {
+    "questions": 50,
+    "a_correct": 0,
+    "b_correct": 0,
+    "only_a": 0,
+    "only_b": 0,
+    "p_value": 1.0
+   },
+   "complete_10": {
+    "questions": 33,
+    "a_correct": 29,
+    "b_correct": 29,
+    "only_a": 0,
+    "only_b": 0,
+    "p_value": 1.0
+   },
+   "seed_found_10": {
+    "questions": 50,
+    "a_correct": 0,
+    "b_correct": 0,
+    "only_a": 0,
+    "only_b": 0,
+    "p_value": 1.0
+   }
+  }
+ },
+ "paired_note": "exact McNemar on the 33 questions with chunk evidence (Complete) and the 50 with targets (Seeds found); M2 lists no seed-giving retriever, so its Seeds found is 0 by design. The chosen cell is the best of ten on the tuning set, so its p-values are optimistic: R122 on held-out and generality is the test"
+}

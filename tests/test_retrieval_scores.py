@@ -2,15 +2,17 @@
 retrieval within each budget, seed recall and found seeds against placed targets, questions without
 evidence or targets left out of that measure, a target the build lacks counted as a miss, no seed scores for
 a system without seeds, the nearest-rank latency, the flat metrics, two reports paired with McNemar's test
-(and `compare_pairs` equal to `compare_outcomes`), the report file, and the committed furniture baselines
-of R117 part b. Pure: no Neo4j, no model."""
+(and `compare_pairs` equal to `compare_outcomes`), the report file, the committed furniture baselines of
+R117 part b, and R121's seal of the hybrid settings. Pure: no Neo4j, no model."""
 
 import json
 from pathlib import Path
 
 import pytest
 
+from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
+from kgbuilder.pipeline.inputs import digest
 from kgbuilder.validation.paired import compare_outcomes, compare_pairs, mcnemar_exact
 from kgbuilder.validation.qa import QAOutcome
 from kgbuilder.validation.qa_gold import QuestionType
@@ -181,7 +183,8 @@ def test_a_report_file_loads_back_and_a_foreign_file_is_refused(tmp_path):
         load_retrieval_report(path)
 
 
-R117 = Path(__file__).resolve().parent / "gold" / "r117"
+ROOT = Path(__file__).resolve().parents[1]
+R117 = ROOT / "tests" / "gold" / "r117"
 
 
 def test_r117_baselines_load_pair_again_to_the_committed_comparison_and_seed_by_stable_ids():
@@ -200,3 +203,62 @@ def test_r117_baselines_load_pair_again_to_the_committed_comparison_and_seed_by_
     assert again == committed
     complete = graph.overall.complete[5]
     assert (vector.overall.complete[5].k, complete.k, complete.n) == (20, 24, 33)
+
+
+R121 = ROOT / "tests" / "gold" / "r121"
+# R121's grid as the roadmap pre-registered it (section "Plan R116-R125"), written here rather than read from
+# the seal, so an edited grid in tuning.json fails the test below
+CHUNKS = ["chunk_dense", "chunk_lexical"]
+CLAIMS = ["claim_dense", "claim_lexical"]
+CARDS = ["card_dense", "card_lexical"]
+R121_GRID = {
+    "M1": CHUNKS,
+    "M2": CHUNKS + CLAIMS,
+    "M3": CHUNKS + CARDS,
+    "M4": CHUNKS + CLAIMS + CARDS,
+    "M5": CHUNKS + CLAIMS + CARDS + ["graph_route"],
+}
+
+
+def test_r121_the_config_defaults_are_the_cell_the_pre_registered_criterion_chose():
+    """The seal of R121: the grid recorded is the pre-registered one (five mixes, rrf_k 10 and 60, depth 20),
+    the criterion (Complete@5, then Seed Recall@5, then the smaller mix, then rrf_k 60) applied to the
+    recorded cells picks the recorded choice, the `config.py` defaults are that cell, and its committed
+    report ran on R117's gold, targets, graph and embedding model, scores what the seal records and pairs
+    with R117's vector report as recorded. Held-out and generality runs take these defaults, so a changed
+    default, grid, gold or targets file fails here."""
+    tuning = json.loads((R121 / "tuning.json").read_text(encoding="utf-8"))
+    assert tuning["grid"] == {"mixes": R121_GRID, "rrf_k": [10, 60], "depth": 20}
+    cells = tuning["cells"]
+    assert sorted((c["mix"], c["rrf_k"]) for c in cells) == [(m, k) for m in R121_GRID for k in (10, 60)]
+    assert all(c["retrievers"] == R121_GRID[c["mix"]] and c["depth"] == 20 for c in cells)
+
+    def found(cell: dict, measure: str) -> int:
+        return int(cell[measure]["5"].split("/")[0])
+
+    mixes = list(R121_GRID)
+    chosen = min(
+        cells,
+        key=lambda c: (
+            -found(c, "complete"),
+            -found(c, "seed_recall"),
+            mixes.index(c["mix"]),
+            c["rrf_k"] != 60,
+        ),
+    )
+    assert chosen["cell"] == tuning["choice"]["cell"]
+    fields = Settings.model_fields
+    assert (
+        fields["hybrid_retrievers"].default == chosen["retrievers"] == tuning["choice"]["hybrid_retrievers"]
+    )
+    assert fields["hybrid_rrf_k"].default == chosen["rrf_k"] == tuning["choice"]["hybrid_rrf_k"]
+    assert fields["hybrid_depth"].default == 20
+    report = load_retrieval_report(R121 / "retrieval_hybrid.json")
+    vector = load_retrieval_report(R117 / "retrieval_vector.json")
+    assert report.fingerprint == vector.fingerprint
+    assert report.fingerprint.gold_hash == tuning["gold_hash"] == digest(ROOT / tuning["gold"])
+    assert report.fingerprint.targets_hash == tuning["targets_hash"] == digest(ROOT / tuning["targets"])
+    complete = report.overall.complete[5]
+    assert f"{complete.k}/{complete.n}" == chosen["complete"]["5"]
+    paired = compare_retrieval(report, vector, 5, "a", "b").complete.overall
+    assert paired.model_dump() == tuning["paired"]["m2_k10 vs vector"]["complete_5"]

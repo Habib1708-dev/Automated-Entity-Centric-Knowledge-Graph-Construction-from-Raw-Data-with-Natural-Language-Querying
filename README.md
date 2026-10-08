@@ -473,8 +473,10 @@ how they choose:
   system never adds a paid run by itself;
 - `hybrid` (R120b): the question embedded once, the retrievers of `HYBRID_RETRIEVERS` asked (chunks by
   vector and by words, claim sentences by vector and by words, node cards by vector and by words, and
-  optionally the name-linker route), their lists fused by reciprocal rank (`HYBRID_RRF_K`, 60) to
-  `HYBRID_DEPTH` chunks, the first k read. It needs `kg index` first and refuses a missing or stale layer.
+  optionally the name-linker route), their lists fused by reciprocal rank (`HYBRID_RRF_K`) to
+  `HYBRID_DEPTH` chunks, the first k read. The defaults are R121's seal, tuned on furniture: chunks and
+  claim sentences, `HYBRID_RRF_K` 10, depth 20 (`tests/gold/r121/tuning.json`). It needs `kg index` first
+  and refuses a missing or stale layer.
   Card and claim texts only order the chunks: the reader sees source chunks alone. Not a default either.
 
 Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
