@@ -7450,6 +7450,70 @@ in the session that starts R123, chose each of the following.
   `gemini-3.8-flash`).
 - **Retrieval only:** A and B are compared on seeds and chunks (`kg retrieve-eval`); no answer-level system
   that reads the cards' chunks is built, and no reader run is made for B.
+- **The K of the headline are computed by code:** `retrieval_budgets` becomes 1, 3, 5, 10, 20 (R117 fixed 5
+  and 10; R121 computed 1, 3 and 20 offline). Every `kg retrieve-eval` from R123 on scores all five, with no
+  override; a source ranks to 20, so the vector system now asks its index for 20 chunks instead of 10 (R121
+  section 5.9: the counts at 5 and 10 were equal on furniture).
+
+### R123. B, LLM node summaries as a second representation (code done 2026-10-08; the real-API check asked)
+Plan R116-R125, B's code: a model writes each node's text from the same evidence as A's cards, code checks
+it, and the card retrievers can search either representation.
+- **Scope:** the representation seam (its own structural commit first), `hybrid/summaries.py`, the summary
+  units' provenance, B's settings, the six card systems, the five budgets. No change to A's texts, to the
+  claim sentences, to the sealed `hybrid` or to any Part 1 node.
+- **How:**
+  - **The seam** (`567d3fb`, behaviour unchanged, 974 passed): `REPRESENTATIONS` maps a name to a factory of
+    `(RepresentationOptions, LLMClient | None)`; the protocol adds `params()` and `prompts()` (empty for the
+    template); stages and systems build a representation through `index_stages.card_representation(settings,
+    cards, llm)`, so all compute one version from one settings object; `kg units` never passes a model.
+  - **`hybrid/summaries.py` `SummaryCards`** (Strategy over the `LLMClient` port, given the composition
+    root's `CachedLLM`): the evidence as numbered facts F1..Fn in the card's own line formats (aliases,
+    properties, relations, claims with the code-made tags; `cards.qualified_claim` split out of `claim_line`,
+    same output), the prompt below, a `NodeSummary(text, facts_used)` reply. The grounding check
+    (`grounding_issues`): the title or an alias in the text, every cited id a fact, every standalone number
+    in the evidence, every name-like word (a capital not at a sentence start, a capital after the first
+    letter, or a digit inside a word) found in the evidence's words (labels also split at their capitals),
+    the length cap. A refused reply is asked again once with its issues (`llm/refine.py`, `ROUNDS` 2); a node
+    refused twice gets its template card with `fallback` true. Eight nodes are asked in parallel; a provider
+    failure stops the run (the cache keeps what was written). `version` hashes the prompt, the fact format,
+    the reply schema, the model, temperature, thinking level, length cap and the template version.
+  - **The prompt** (`PROMPT`, version `prompt_version(PROMPT)`, logged as `prompts/summary.txt`): what the
+    text is for (a vector a question finds; never an answer), the node, its numbered facts, how to read the
+    relation notation and the tags, eight rules (facts only; the name first, then the kind; connections, then
+    claims; every qualifier kept, never plain fact; names and numbers copied exactly, relation types in
+    words; little facts, little text; the cap; the cited ids), and one example from an invented domain
+    (string instruments) with every tag. No word of a dataset under evaluation; a test checks that no four
+    consecutive words occur in a corpus.
+  - **Units:** `RenderedCard` gains `facts_used`, `fallback` and `rejected` (the refused replies with their
+    issues), None for the template, so A's lines of `index/units.jsonl` are unchanged (`exclude_none`);
+    `:SummaryCard` units store `facts_used` and `fallback` beside the evidence hash. `kg index` metrics add
+    `summaries_rejected` (nodes whose first reply was refused) and `summaries_fallback`; params add
+    `summary_model`, `summary_temperature`, `summary_thinking`, `summary_max_chars`, `summary_prompt_version`.
+  - **Settings:** `index_summary_model` gemini-3.5-flash-lite, `index_summary_thinking` "" (the model's
+    default; MLflow shows 0 thinking tokens on every earlier Flash-Lite run), `index_summary_max_chars` 600;
+    the temperature is `llm_temperature` (0).
+  - **The card systems** (`qa_systems.CARD_SYSTEMS`): `card_dense_<rep>`, `card_lexical_<rep>`,
+    `card_seeds_<rep>` for `template` and `summary`, through `hybrid_spec(name, rep, retrievers)` with the
+    list fixed; `hybrid_rrf_k` and `hybrid_depth` are the seal's. No `hybrid_summary` (see the plan change).
+  - `.claude/hooks/run_guard.py`: `index` already asks; its comment says a model writes the summaries.
+- **Verified:** 30 new tests, 3 changed; 1004 passed (974 + 30), ruff clean. `tests/test_hybrid_summaries.py`
+  (20, no Neo4j): the numbered facts
+  with their tags, a grounded text passing (an alias, a possessive, a label in words), each rule refusing its
+  failure (empty, no name, an unknown fact id, invented numbers, invented names and a fact id in the text, the
+  cap), a grounded reply kept with A's evidence hash, the retry with the issues and the earlier reply in its
+  prompt, the fallback after two refusals, the order kept in parallel, no render without a model, the cache
+  answering a second render, the version changing with each knob and hashing what it should, no corpus
+  quote in the prompt or the field descriptions. `tests/test_hybrid_summary_index.py` (3, Neo4j 7688):
+  summary and template cards of every node with equal evidence hashes, the claim sentences reused, the
+  fallback and cited facts stored on the unit and absent on a template unit, the summary metrics, params and
+  prompt artifact, both indexes online; dropping the template cards leaves the summaries with their vectors;
+  `kg units --cards summary` refused with no model call. `tests/test_qa_systems.py` (+7): each card system's
+  list fixed under an override of `HYBRID_RETRIEVERS`, and `card_dense_summary` asking only the summary
+  cards. Changed: the registry test (two representations), `read_units` called with a representation, R117's
+  stage test pinning the five budgets.
+- **Offline render** ($0, no model; the working graph, furniture, read-only): the 737 prompts hold 1,990,844
+  characters (2,701 on average, 2,589 of them the fixed text); the facts 99 characters on average, median 51,
+  at most 448 (records 193, individuals 183, concepts 41 on average); 1,760 facts in all.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

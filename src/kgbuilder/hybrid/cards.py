@@ -84,6 +84,12 @@ def relation_line(n: Neighbours) -> str:
 
 def claim_line(c: EvidenceClaim) -> str:
     """`- Spindle (Part) has condition wobbles (Condition) [hedged, stated 2, denied 1]`."""
+    return CLAIM.format(sentence=qualified_claim(c))
+
+
+def qualified_claim(c: EvidenceClaim) -> str:
+    """The claim's sentence with its tags, `Spindle (Part) has condition wobbles (Condition) [hedged]`: a
+    card's claim line without its bullet, and a fact line of the summaries (summaries.py)."""
     tags = []
     if c.modality == "possible":
         tags.append(HEDGED)
@@ -93,7 +99,7 @@ def claim_line(c: EvidenceClaim) -> str:
         tags.append(CONFLICT.format(stated=c.stated, denied=c.denied))
     elif c.denied:
         tags.append(DENIED)
-    return CLAIM.format(sentence=c.sentence) + (TAGS.format(tags=", ".join(tags)) if tags else "")
+    return c.sentence + (TAGS.format(tags=", ".join(tags)) if tags else "")
 
 
 def _fit(

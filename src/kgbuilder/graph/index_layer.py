@@ -5,7 +5,7 @@ graph digest (digest.py) and the planner's schema (query/graph_schema.py) leave 
 the layer never changes a Part 1 measurement or a planner prompt.
 Design: the layer is additive and deletable. Every unit is a `:RetrievalUnit` (one constraint, one label to
 drop it all by); a node card also carries `:NodeCard` and its representation's own label (`TemplateCard`,
-later `SummaryCard`), because a Neo4j 5 vector index covers one label and cannot filter, so two
+`SummaryCard` since R123), because a Neo4j 5 vector index covers one label and cannot filter, so two
 representations need two labels to be searched apart on one graph; a claim sentence carries `:ClaimSentence`.
 Units point at what they stand for (`CARD_OF` a record, individual or concept; `SENTENCE_OF` an
 observation); nothing in Part 1 points at a unit. Dropping the layer:

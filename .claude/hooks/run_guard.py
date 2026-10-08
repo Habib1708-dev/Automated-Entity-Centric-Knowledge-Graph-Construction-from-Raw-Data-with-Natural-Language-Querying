@@ -23,8 +23,8 @@ ROOT = Path(__file__).resolve().parents[2]
 # questions with the reader model, R71; `anchor-compare` embeds chunks and questions, R92; `qa-score`,
 # `qa-compare` and `anchor-eval` only read files and are not listed; `mention-pass` lists each chunk's
 # things, R101; `retrieve-eval` embeds the questions and graph_retrieval's node names, R117, while
-# `retrieve-compare` only reads its reports; `index` embeds the retrieval units, R119, `units` writes them
-# without a model)
+# `retrieve-compare` only reads its reports; `index` embeds the retrieval units, R119, and with `--cards
+# summary` a model writes them, R123; `units` writes them without a model)
 LLM_COMMANDS = {
     "run",
     "plan",

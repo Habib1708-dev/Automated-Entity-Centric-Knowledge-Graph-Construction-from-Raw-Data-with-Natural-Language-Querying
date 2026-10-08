@@ -117,15 +117,19 @@ def _graph_retrieval(parts: SourceParts, depth: int) -> ChunkSource:
     return build_graph_retrieval(parts.store, parts.embedder, s.qa_link_fuzzy, s.qa_link_neighbours)
 
 
-def hybrid_spec(name: str, cards: str) -> SystemSpec:
+def hybrid_spec(name: str, cards: str, retrievers: tuple[str, ...] = ()) -> SystemSpec:
     """A hybrid system (R120b): the hybrid source over the cards of the representation `cards`, read like
-    every reading system. Its settings are the `hybrid_*` ones; its depth is at least `hybrid_depth`, so
-    fusion sees as deep as tuned whatever k or budget the caller reads."""
+    every reading system. Its settings are the `hybrid_*` ones, but for a fixed retriever list `retrievers`
+    (R123's card systems), which no setting changes; its depth is at least `hybrid_depth`, so fusion sees as
+    deep as tuned whatever k or budget the caller reads."""
+
+    def listed(s: Settings) -> list[str]:
+        return list(retrievers) or s.hybrid_retrievers
 
     def source(parts: SourceParts, depth: int) -> ChunkSource:
         s = parts.settings
         settings = HybridSettings(
-            retrievers=s.hybrid_retrievers,
+            retrievers=listed(s),
             rrf_k=s.hybrid_rrf_k,
             depth=max(depth, s.hybrid_depth),
             cards=cards,
@@ -137,7 +141,7 @@ def hybrid_spec(name: str, cards: str) -> SystemSpec:
 
     def params(s: Settings) -> dict[str, object]:
         return {
-            "hybrid_retrievers": s.hybrid_retrievers,
+            "hybrid_retrievers": listed(s),
             "hybrid_rrf_k": s.hybrid_rrf_k,
             "hybrid_depth": s.hybrid_depth,
             "hybrid_cards": cards,
@@ -213,6 +217,22 @@ def _graph_retrieval_params(s: Settings) -> dict[str, object]:
     }
 
 
+# The card systems of the A-against-B comparison (the plan change after R121), one of each per representation
+# (A "template", B "summary"): `card_dense_<rep>` (the headline: its seeds; and its chunks),
+# `card_lexical_<rep>` (the seeds of a summary's words), `card_seeds_<rep>` (both card lists fused with the
+# name linker at the sealed rrf_k, the seeds of R121's M5). Their lists are fixed here, untuned, and no
+# HYBRID_RETRIEVERS setting changes them, so a held-out run of them takes no override.
+CARD_RETRIEVERS: Mapping[str, tuple[str, ...]] = {
+    "card_dense": ("card_dense",),
+    "card_lexical": ("card_lexical",),
+    "card_seeds": ("card_dense", "card_lexical", "graph_route"),
+}
+CARD_SYSTEMS = tuple(
+    hybrid_spec(f"{kind}_{rep}", rep, retrievers)
+    for kind, retrievers in CARD_RETRIEVERS.items()
+    for rep in ("template", "summary")
+)
+
 # the prompts both plan systems send; read_check with the parts a claim candidate adds (R85), so a change to
 # either is a new version
 _PLAN_PROMPTS = {
@@ -233,8 +253,10 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         reading("vector", _vector),
         # the graph system's retrieval route alone (R117): its chunks read directly, no plan
         reading("graph_retrieval", _graph_retrieval, _graph_retrieval_params),
-        # hybrid retrieval over the deterministic node cards (R120b); LLM summaries would add hybrid_summary
+        # hybrid retrieval over the deterministic node cards (R120b). Sealed by R121 without a card retriever,
+        # it ranks the same chunks over either representation, so no hybrid over the summaries is registered
         hybrid_spec("hybrid", "template"),
+        *CARD_SYSTEMS,
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,

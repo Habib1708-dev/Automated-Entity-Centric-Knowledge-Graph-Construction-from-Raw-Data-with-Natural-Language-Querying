@@ -21,6 +21,7 @@ from ..core.errors import ConfigurationError
 from ..llm.base import LLMClient
 from .cards import TemplateCards
 from .evidence import NodeEvidence, RenderedCard
+from .summaries import SummaryCards, SummaryOptions
 
 
 class NodeRepresentation(Protocol):
@@ -48,7 +49,8 @@ class RepresentationOptions(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    card_max_chars: int  # a template card's length cap in characters
+    card_max_chars: int  # a template card's length cap in characters (also B's fallback cards)
+    summary: SummaryOptions  # B's model, its settings and the summaries' length cap
 
 
 # name -> the factory of the representation, given the options and the model it writes with (None: no model)
@@ -56,6 +58,10 @@ RepresentationFactory = Callable[[RepresentationOptions, LLMClient | None], Node
 
 REPRESENTATIONS: Mapping[str, RepresentationFactory] = {
     TemplateCards.name: lambda options, llm: TemplateCards(options.card_max_chars),
+    # B (R123): a node whose summary fails the code check twice gets its template card
+    SummaryCards.name: lambda options, llm: SummaryCards(
+        options.summary, llm, TemplateCards(options.card_max_chars)
+    ),
 }
 
 

@@ -204,9 +204,10 @@ class Settings(BaseSettings):
     qa_check_limit: int = Field(default=30, ge=1)
     qa_check_chunks: int = Field(default=3, ge=1)
     # the retrieval benchmark (R117, `kg retrieve-eval`): the chunk and seed budgets K of Evidence and Seed
-    # Recall@K, fixed by plan R116-R125 before measuring; 5 is the reader's k, 10 shows what a larger k would
-    # add. A source ranks at least the largest, so no budget is cut short
-    retrieval_budgets: list[int] = Field(default=[5, 10], min_length=1)
+    # Recall@K. R117 fixed 5 (the reader's k) and 10 (what a larger k would add); the plan change after R121
+    # adds 1, 3 and 20, the K of the A-against-B headline (R121 computed them offline). A source ranks at
+    # least the largest, so no budget is cut short
+    retrieval_budgets: list[int] = Field(default=[1, 3, 5, 10, 20], min_length=1)
     # node evidence and cards (R118, plan R116-R125): the names a card shows per relation and as aliases (a
     # hub keeps its count, "+k more"), the claims per node (the best supported; this is the evidence every
     # representation gets, so A and B read the same), and a card's length in characters, well inside the
@@ -214,6 +215,13 @@ class Settings(BaseSettings):
     index_card_names: int = Field(default=5, ge=1)
     index_card_claims: int = Field(default=3, ge=0)
     index_card_max_chars: int = Field(default=1500, ge=100)
+    # LLM node summaries (R123, representation B, `kg index --cards summary`): the model that writes them (the
+    # user's choice, 2026-10-08: the cheapest Gemini; the builder is gemini-3.8-flash), its thinking level (""
+    # = the model's default: Flash-Lite hardly thinks) and a summary's length cap in characters, R124's knob.
+    # The temperature is `llm_temperature`. Each is part of the summaries' version: a change re-writes them
+    index_summary_model: str = "gemini-3.5-flash-lite"
+    index_summary_thinking: ThinkingLevel = ""
+    index_summary_max_chars: int = Field(default=600, ge=100)
     # hybrid retrieval (R120b, plan R116-R125): the retrievers fused, the constant k of reciprocal rank fusion
     # and how many chunks each list and the fused list hold. Sealed by R121 (tests/gold/r121/tuning.json):
     # chunks and claim sentences, each by vector and by words, with k 10 completed the most furniture

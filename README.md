@@ -56,6 +56,7 @@ uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --sy
 uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
 uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
 uv run kg index --cards template --out BUILD                      # the same units embedded into Neo4j with their indexes (R119; embeds only what changed)
+uv run kg index --cards summary --out BUILD                       # LLM node summaries checked by code, beside the cards (R123; a model writes them, cached)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -315,7 +316,8 @@ src/kgbuilder/
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
                     exact (text2cypher, the plans' logged fallback) with cypher_check
   hybrid/           R118: unit_sources (a node's evidence, read-only) -> evidence -> representation (Strategy,
-                    by name) -> cards (A: deterministic node cards) ; claims (one sentence per claim) ;
+                    by name) -> cards (A: deterministic node cards), summaries (R123, B: LLM node
+                    summaries checked by code, the card as fallback) ; claims (one sentence per claim) ;
                     unit_graph (R119: the units written into Neo4j with their vectors and indexes) ;
                     unit_store (R120a: that layer searched by vector and by words, lucene) -> retrievers
                     (chunks, claims with their opposite-truth siblings, cards in turn, the name-linker route)
@@ -346,7 +348,7 @@ src/kgbuilder/
 | `retrieve_eval_<system>` | `pipeline/retrieval_stages.py`, `validation/retrieval_scores.py` | embeddings only |
 | `retrieve_compare` | `validation/retrieval_scores.py`, `validation/paired.py` | no |
 | `units` | `pipeline/index_stages.py`, `hybrid/` | no |
-| `index` | `pipeline/index_stages.py`, `hybrid/unit_graph.py` | embeddings only |
+| `index` | `pipeline/index_stages.py`, `hybrid/unit_graph.py` | embeddings; with `--cards summary` also the summary model (R123) |
 
 ## Experiment tracking
 
@@ -477,7 +479,12 @@ how they choose:
   `HYBRID_DEPTH` chunks, the first k read. The defaults are R121's seal, tuned on furniture: chunks and
   claim sentences, `HYBRID_RRF_K` 10, depth 20 (`tests/gold/r121/tuning.json`). It needs `kg index` first
   and refuses a missing or stale layer.
-  Card and claim texts only order the chunks: the reader sees source chunks alone. Not a default either.
+  Card and claim texts only order the chunks: the reader sees source chunks alone. Not a default either;
+- the card systems (R123), for comparing the node representations A (`template`) and B (`summary`):
+  `card_dense_<rep>` (the cards by vector alone), `card_lexical_<rep>` (by words alone) and
+  `card_seeds_<rep>` (both fused with the name-linker route). Their retriever lists are fixed in code, no
+  `HYBRID_RETRIEVERS` value changes them; `HYBRID_RRF_K` and `HYBRID_DEPTH` are the seal's. Meant for `kg
+  retrieve-eval`, where their seeds (the nodes they start from) are scored.
 
 Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
 cites as evidence (otherwise the graph is not the build the gold was written on, and the run stops), and
@@ -502,7 +509,7 @@ paired only on the same graph.
 Retrieval is also measured without the reader (R117), so a retrieval change shows before the reader's own
 variation can hide it. `kg retrieve-eval GOLD --targets T --build B --data D --system S` asks a reading
 system's chunk source every question, one at a time, and scores at each budget K (`RETRIEVAL_BUDGETS`,
-5 and 10): Evidence Recall@K (gold chunks in the top K) and Complete@K (questions with all of theirs);
+1, 3, 5, 10 and 20): Evidence Recall@K (gold chunks in the top K) and Complete@K (questions with all of theirs);
 for a system that starts from nodes, Seed Recall@K (R89 targets, placed on the loaded build B, with a node
 among the top K seeds) and Seed found@K; and the latency per question (p50, p95). Seeds are stable ids
 (record refs and canonical ids), never Neo4j element ids, which change on every rebuild. The report
@@ -514,11 +521,22 @@ Hybrid retrieval (plan R116-R125) finds a question's start nodes by a text per n
 (`hybrid/unit_sources.py`: its title, the names its mentions write, a record's columns but its name and prose
 columns, its relationships grouped with the first `INDEX_CARD_NAMES` names and a count, the claims it holds,
 each predicate's best supported first, at most `INDEX_CARD_CLAIMS`, with their counts of stating and denying
-observations) and renders it with a node representation: today deterministic cards (`hybrid/cards.py`, a
-fixed domain-neutral template, at most `INDEX_CARD_MAX_CHARS`); LLM summaries are planned as a second one
-over the same evidence. It writes the cards and one sentence per claim ("Spindle (Part) has condition wobbles
-(Condition)") to `BUILD/index/units.jsonl`. Truth is never left to the text: tags on a card line (`denied`,
-`hedged`, `conditional: ...`) come from the claim's fields.
+observations) and renders it with a node representation: deterministic cards (`--cards template`,
+`hybrid/cards.py`, a fixed domain-neutral template, at most `INDEX_CARD_MAX_CHARS`). It writes the cards and
+one sentence per claim ("Spindle (Part) has condition wobbles (Condition)") to `BUILD/index/units.jsonl`.
+Truth is never left to the text: tags on a card line (`denied`, `hedged`, `conditional: ...`) come from the
+claim's fields.
+
+The second representation, LLM node summaries (`--cards summary`, R123, `hybrid/summaries.py`), gets the same
+evidence as numbered facts in the card's formats and tags; `INDEX_SUMMARY_MODEL` (default
+`gemini-3.5-flash-lite`) writes a text of at most `INDEX_SUMMARY_MAX_CHARS` and the facts it used. Code
+checks every reply: the node's name or an alias is in it, every cited fact exists, every number and every
+capitalised word is found in the evidence, the cap holds. A refused reply is asked again once with its issues;
+a node refused twice gets its template card, marked `fallback`. Only `kg index` writes summaries (`kg units`
+never calls a model); the replies are cached in `.cache/llm`, so a re-index costs nothing. The run logs the
+prompt (`prompts/summary.txt`), its version, the model's settings, `summaries_rejected` and
+`summaries_fallback`, and every unit keeps its evidence hash, so the summaries and the cards of one node
+provably come from the same evidence.
 
 `kg index --cards template --out BUILD` (R119) writes the same units into Neo4j as an additive, deletable
 layer: each a `:RetrievalUnit` (a card also `:NodeCard:TemplateCard`, a claim sentence `:ClaimSentence`) with
@@ -529,7 +547,8 @@ version and embedding model are unchanged keeps its vector, so a second run embe
 
 ```
 MATCH (u:RetrievalUnit) DETACH DELETE u
-DROP INDEX card_template_embeddings IF EXISTS   // and card_template_text, claim_sentence_embeddings,
+DROP INDEX card_template_embeddings IF EXISTS   // and card_template_text, card_summary_embeddings,
+                                                // card_summary_text, claim_sentence_embeddings,
                                                 // claim_sentence_text, chunk_text
 ```
 

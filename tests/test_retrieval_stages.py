@@ -101,7 +101,9 @@ def test_retrieve_eval_ranks_every_question_without_the_reader_and_scores_chunks
     ctx, state = eval_run(driver, tmp_path, embedder, *gold_files(tmp_path))
     run = ctx.tracker.run("retrieve_eval_graph_retrieval")
     params = run.logged_params
-    assert params["graph_digest"] == graph_digest(driver).value and params["retrieval_budgets"] == [5, 10]
+    # the budgets of the A-against-B headline (the plan change after R121): 1, 3, 5, 10, 20
+    budgets = params["retrieval_budgets"]
+    assert params["graph_digest"] == graph_digest(driver).value and budgets == [1, 3, 5, 10, 20]
     assert (params["system"], params["qa_hops"], params["qa_link_neighbours"]) == ("graph_retrieval", 2, 0)
     assert {"gold_hash", "targets_hash", "embed_model", "build", "chunk_max_chars"} <= set(params)
     metrics = run.logged_metrics

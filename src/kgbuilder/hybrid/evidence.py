@@ -64,6 +64,14 @@ class NodeEvidence(BaseModel):
     claims_total: int  # the claims the node holds before the cap
 
 
+class RejectedSummary(BaseModel):
+    """A model's summary of a node that the code check refused (R123), kept for review."""
+
+    text: str
+    facts_used: list[str]
+    issues: list[str]
+
+
 class RenderedCard(BaseModel):
     """A node's text as one representation renders it, with the hash of the evidence it came from: a line of
     `index/units.jsonl`, and the text R119 embeds for the node."""
@@ -73,6 +81,11 @@ class RenderedCard(BaseModel):
     text: str
     evidence_hash: str
     truncated: bool  # the length cap dropped something of the evidence
+    # set by a representation that writes with a model (B, summaries.py); None for the template cards, so
+    # their lines of the units file stay as they were
+    facts_used: list[str] | None = None  # the fact ids the text says it rests on
+    fallback: bool | None = None  # no summary passed the code check: the text is the node's template card
+    rejected: list[RejectedSummary] | None = None  # the summaries the check refused, in the order asked
 
 
 def evidence_hash(evidence: NodeEvidence) -> str:

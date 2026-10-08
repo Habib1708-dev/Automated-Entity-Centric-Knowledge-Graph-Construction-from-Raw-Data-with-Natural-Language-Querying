@@ -33,6 +33,7 @@ from ..hybrid import (
     NodeRepresentation,
     RenderedCard,
     RepresentationOptions,
+    SummaryOptions,
     check_representation,
     read_claim_sentences,
     read_evidence,
@@ -124,7 +125,15 @@ class IndexStage(BaseStage):
 def card_representation(settings: Settings, cards: str, llm: LLMClient | None = None) -> NodeRepresentation:
     """The representation `cards` built from the settings, writing with `llm` if it writes with a model:
     every stage and system builds it here, so all compute the same version from the same settings."""
-    return representation(cards, RepresentationOptions(card_max_chars=settings.index_card_max_chars), llm)
+    s = settings
+    summary = SummaryOptions(
+        model=s.index_summary_model,
+        temperature=s.llm_temperature,
+        thinking=s.index_summary_thinking,
+        max_chars=s.index_summary_max_chars,
+    )
+    options = RepresentationOptions(card_max_chars=s.index_card_max_chars, summary=summary)
+    return representation(cards, options, llm)
 
 
 def card_params(ctx: PipelineContext, cards: str) -> dict[str, object]:
@@ -160,8 +169,10 @@ def read_units(
 
 
 def write_units_file(ctx: PipelineContext, units: Units):
-    """`index/units.jsonl`: the cards, then the claim sentences, one JSON line each."""
-    lines = [c.model_dump_json() for c in units.cards] + [c.model_dump_json() for c in units.claims]
+    """`index/units.jsonl`: the cards, then the claim sentences, one JSON line each. Fields a representation
+    leaves unset (a template card's summary fields) are left out."""
+    lines = [c.model_dump_json(exclude_none=True) for c in units.cards]
+    lines += [c.model_dump_json() for c in units.claims]
     return ctx.write(UNITS_FILE, "\n".join(lines) + "\n")
 
 
@@ -189,10 +200,15 @@ def _prose(plan: ConstructionPlan | None, profile: DataProfile | None) -> dict[s
 
 def unit_metrics(units: Units) -> dict[str, float | int | None]:
     """The cards per kind, the claim sentences, the claims the claims cap leaves out of the evidence, the
-    cards the length cap truncated, and the characters of cards and claim sentences."""
+    cards the length cap truncated, and the characters of cards and claim sentences; for cards a model wrote
+    (B), the nodes whose first summary the code check refused and those left with their template card (None,
+    so not logged, for the template)."""
     card_chars = [len(c.text) for c in units.cards]
     kinds = ("record", "individual", "concept")
+    written = [c for c in units.cards if c.fallback is not None]  # the cards a model was asked for
     return {
+        "summaries_rejected": sum(bool(c.rejected) for c in written) if written else None,
+        "summaries_fallback": sum(bool(c.fallback) for c in written) if written else None,
         "cards": len(units.cards),
         **{f"cards_{kind}": sum(e.kind == kind for e in units.evidence) for kind in kinds},
         "claims": len(units.claims),

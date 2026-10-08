@@ -8,7 +8,8 @@ it stands for (`CARD_OF` a record, individual or concept; `SENTENCE_OF` an obser
 embedded again, so a re-index costs nothing and adding a second representation later re-embeds none of the
 first's cards or of the claim sentences they share. Stale units are removed per kind: the cards of the
 representation written now (never another's) and the claim sentences whose observation is gone. Element ids
-are used only inside one run, to find the targets the refs name.
+are used only inside one run, to find the targets the refs name. A card keeps the hash of its evidence and,
+for an LLM summary (R123), the facts it cites and whether it fell back to the template card.
 Not here: the evidence and the texts (unit_sources.py, cards.py, claims.py), searching (R120).
 """
 
@@ -50,6 +51,8 @@ class UnitRow(BaseModel):
     target: str  # the element id of the node a card stands for, or the observation id of a claim sentence
     ref: str | None = None  # a card's node ref; a claim sentence has none
     evidence_hash: str | None = None  # a card's evidence hash
+    facts_used: list[str] | None = None  # a summary's cited facts (R123); None for a template card
+    fallback: bool | None = None  # a summary that fell back to the template card (R123)
     embedding: list[float] | None = None  # set only for a unit embedded in this run
 
 
@@ -80,6 +83,8 @@ def card_rows(
                 target=targets[card.ref],
                 ref=card.ref,
                 evidence_hash=card.evidence_hash,
+                facts_used=card.facts_used,
+                fallback=card.fallback,
             )
         )
     return rows
@@ -157,7 +162,9 @@ def _write(
         driver.execute_query(
             f"UNWIND $rows AS r MERGE (u:{RETRIEVAL_UNIT} {{id: r.id}}) SET u:{labels}, u.text = r.text, "
             "u.text_hash = r.text_hash, u.version = r.version, u.ref = r.ref, "
-            "u.evidence_hash = r.evidence_hash, u.representation = $representation "
+            "u.evidence_hash = r.evidence_hash, u.representation = $representation, "
+            # a summary's provenance (R123); null, so absent, on a template card or a claim sentence
+            "u.facts_used = r.facts_used, u.fallback = r.fallback "
             # FOREACH-as-IF: a unit not embedded now keeps the vector (and the model that made it) it has
             "FOREACH (_ IN CASE WHEN r.embedding IS NULL THEN [] ELSE [1] END | "
             "  SET u.embedding = r.embedding, u.embed_model = $model) "

@@ -4,6 +4,8 @@ prompt constants and the settings, not from the registry, so they pin what the r
 R117: `kg qa`'s vector system reads exactly k chunks, a source ranks as deep as it is asked, the graph route
 is a system of its own (`graph_retrieval`), `kg qa` asks the systems before R117 by default, and only a
 reading system has a source for `kg retrieve-eval`.
+R123: the card systems of the A-against-B comparison keep their fixed retriever lists whatever the hybrid
+settings, and search only their own representation's cards.
 Answering end to end is tested in test_query.py (fake store) and test_query_graph.py (Neo4j)."""
 
 import pytest
@@ -12,9 +14,12 @@ from kgbuilder import cli
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ConfigurationError
 from kgbuilder.graph.connection import open_driver
+from kgbuilder.graph.index_layer import index_names
 from kgbuilder.hybrid.cards import CARD_TEMPLATE
+from kgbuilder.hybrid.unit_store import IndexState
 from kgbuilder.llm.base import prompt_version
 from kgbuilder.pipeline import PipelineContext, PipelineState
+from kgbuilder.pipeline.index_stages import card_representation
 from kgbuilder.pipeline.qa_stages import AskStage, QAStage
 from kgbuilder.pipeline.qa_systems import (
     DEFAULT_SYSTEMS,
@@ -160,6 +165,39 @@ def test_only_a_reading_system_has_a_source_for_the_retrieval_benchmark():
         RetrieveEvalStage("records_vector")
     with pytest.raises(ConfigurationError, match="unknown system"):
         RetrieveEvalStage("oracle")
+
+
+CARD_LISTS = {
+    "card_dense": ["card_dense"],
+    "card_lexical": ["card_lexical"],
+    "card_seeds": ["card_dense", "card_lexical", "graph_route"],
+}
+
+
+@pytest.mark.parametrize("rep", ["template", "summary"])
+@pytest.mark.parametrize("kind", list(CARD_LISTS))
+def test_the_card_systems_lists_are_fixed_whatever_the_hybrid_settings(kind, rep):
+    """R123: the card systems of the A-against-B comparison are untuned; the hybrid settings (the sealed ones
+    or an override) change the hybrid system's list, never theirs. Fusion's k and the depth are the seal's."""
+    override = Settings(hybrid_retrievers=["chunk_dense"])
+    for s in (Settings(), override):
+        params = source_params(s, f"{kind}_{rep}")
+        assert (params["hybrid_retrievers"], params["hybrid_cards"]) == (CARD_LISTS[kind], rep)
+        assert (params["hybrid_rrf_k"], params["hybrid_depth"]) == (s.hybrid_rrf_k, s.hybrid_depth)
+        assert params["representation_version"] == card_representation(s, rep).version
+    assert source_params(override, "hybrid")["hybrid_retrievers"] == ["chunk_dense"]
+
+
+def test_a_card_system_searches_only_the_cards_of_its_representation():
+    s = Settings()
+    state = IndexState(
+        cards=1, card_versions=[card_representation(s, "summary").version], claims=0, claim_versions=[],
+        embed_models=[s.embed_model], online=index_names(["summary"]),
+    )  # fmt: skip
+    units = FakeUnitStore(state=state)
+    parts = SourceParts(settings=s, store=FakeStore(), embedder=FixedEmbedder(), plan=None, units=units)
+    check_source("card_dense_summary")(parts, 20).ranked("Which press?")
+    assert units.calls == [("nearest_cards", "summary", 20)]
 
 
 def test_only_the_plan_systems_replay_frozen_plans(ctx, tmp_path):
