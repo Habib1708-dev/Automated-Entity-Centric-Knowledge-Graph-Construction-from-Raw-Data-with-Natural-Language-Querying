@@ -1,0 +1,134 @@
+[
+ {
+  "k": 5,
+  "complete": {
+   "a": "r117b_retrieval/retrieval_vector.json",
+   "b": "r117b_retrieval/retrieval_graph_retrieval.json",
+   "overall": {
+    "questions": 33,
+    "a_correct": 20,
+    "b_correct": 24,
+    "only_a": 0,
+    "only_b": 4,
+    "p_value": 0.125
+   },
+   "by_type": {
+    "multi_hop": {
+     "questions": 6,
+     "a_correct": 5,
+     "b_correct": 5,
+     "only_a": 0,
+     "only_b": 0,
+     "p_value": 1.0
+    },
+    "aggregation": {
+     "questions": 6,
+     "a_correct": 1,
+     "b_correct": 1,
+     "only_a": 0,
+     "only_b": 0,
+     "p_value": 1.0
+    },
+    "structured_filter": {
+     "questions": 2,
+     "a_correct": 1,
+     "b_correct": 2,
+     "only_a": 0,
+     "only_b": 1,
+     "p_value": 1.0
+    },
+    "disambiguation": {
+     "questions": 6,
+     "a_correct": 4,
+     "b_correct": 6,
+     "only_a": 0,
+     "only_b": 2,
+     "p_value": 0.5
+    },
+    "negation_sensitive": {
+     "questions": 7,
+     "a_correct": 4,
+     "b_correct": 5,
+     "only_a": 0,
+     "only_b": 1,
+     "p_value": 1.0
+    },
+    "lookup": {
+     "questions": 6,
+     "a_correct": 5,
+     "b_correct": 5,
+     "only_a": 0,
+     "only_b": 0,
+     "p_value": 1.0
+    }
+   }
+  },
+  "seed_found": null
+ },
+ {
+  "k": 10,
+  "complete": {
+   "a": "r117b_retrieval/retrieval_vector.json",
+   "b": "r117b_retrieval/retrieval_graph_retrieval.json",
+   "overall": {
+    "questions": 33,
+    "a_correct": 26,
+    "b_correct": 28,
+    "only_a": 1,
+    "only_b": 3,
+    "p_value": 0.625
+   },
+   "by_type": {
+    "multi_hop": {
+     "questions": 6,
+     "a_correct": 6,
+     "b_correct": 5,
+     "only_a": 1,
+     "only_b": 0,
+     "p_value": 1.0
+    },
+    "aggregation": {
+     "questions": 6,
+     "a_correct": 2,
+     "b_correct": 3,
+     "only_a": 0,
+     "only_b": 1,
+     "p_value": 1.0
+    },
+    "structured_filter": {
+     "questions": 2,
+     "a_correct": 2,
+     "b_correct": 2,
+     "only_a": 0,
+     "only_b": 0,
+     "p_value": 1.0
+    },
+    "disambiguation": {
+     "questions": 6,
+     "a_correct": 5,
+     "b_correct": 6,
+     "only_a": 0,
+     "only_b": 1,
+     "p_value": 1.0
+    },
+    "negation_sensitive": {
+     "questions": 7,
+     "a_correct": 6,
+     "b_correct": 7,
+     "only_a": 0,
+     "only_b": 1,
+     "p_value": 1.0
+    },
+    "lookup": {
+     "questions": 6,
+     "a_correct": 5,
+     "b_correct": 5,
+     "only_a": 0,
+     "only_b": 0,
+     "p_value": 1.0
+    }
+   }
+  },
+  "seed_found": null
+ }
+]

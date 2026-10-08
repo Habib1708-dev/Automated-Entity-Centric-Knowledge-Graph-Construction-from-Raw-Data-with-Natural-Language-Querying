@@ -1,0 +1,2809 @@
+{
+ "system": "graph_retrieval",
+ "budgets": [
+  5,
+  10
+ ],
+ "fingerprint": {
+  "gold_hash": "d1a89e24fe7a",
+  "targets_hash": "adc32787fee3",
+  "graph_digest": "392a170ecc10",
+  "embed_model": "gemini-embedding-001"
+ },
+ "seeded": true,
+ "overall": {
+  "questions": 68,
+  "evidence_recall": {
+   "5": {
+    "k": 47,
+    "n": 73,
+    "rate": 0.6438356164383562,
+    "low": 0.529332842211795,
+    "high": 0.7439566259929274
+   },
+   "10": {
+    "k": 58,
+    "n": 73,
+    "rate": 0.7945205479452054,
+    "low": 0.6882613165474036,
+    "high": 0.871331404062266
+   }
+  },
+  "complete": {
+   "5": {
+    "k": 24,
+    "n": 33,
+    "rate": 0.7272727272727273,
+    "low": 0.5578211674561319,
+    "high": 0.849327273436772
+   },
+   "10": {
+    "k": 28,
+    "n": 33,
+    "rate": 0.8484848484848485,
+    "low": 0.6907978686153953,
+    "high": 0.9334964074203904
+   }
+  },
+  "seed_recall": {
+   "5": {
+    "k": 73,
+    "n": 86,
+    "rate": 0.8488372093023255,
+    "low": 0.7583624424375595,
+    "high": 0.9094796262700324
+   },
+   "10": {
+    "k": 81,
+    "n": 86,
+    "rate": 0.9418604651162791,
+    "low": 0.8710198527204016,
+    "high": 0.9749134343092147
+   }
+  },
+  "seed_found": {
+   "5": {
+    "k": 39,
+    "n": 50,
+    "rate": 0.78,
+    "low": 0.6475818431054045,
+    "high": 0.8724621377569771
+   },
+   "10": {
+    "k": 45,
+    "n": 50,
+    "rate": 0.9,
+    "low": 0.7863950966521162,
+    "high": 0.956524876008429
+   }
+  }
+ },
+ "by_type": {
+  "multi_hop": {
+   "questions": 17,
+   "evidence_recall": {
+    "5": {
+     "k": 7,
+     "n": 9,
+     "rate": 0.7777777777777778,
+     "low": 0.4525833436728054,
+     "high": 0.9367762376877727
+    },
+    "10": {
+     "k": 7,
+     "n": 9,
+     "rate": 0.7777777777777778,
+     "low": 0.4525833436728054,
+     "high": 0.9367762376877727
+    }
+   },
+   "complete": {
+    "5": {
+     "k": 5,
+     "n": 6,
+     "rate": 0.8333333333333334,
+     "low": 0.43649056343635395,
+     "high": 0.9699474141282697
+    },
+    "10": {
+     "k": 5,
+     "n": 6,
+     "rate": 0.8333333333333334,
+     "low": 0.43649056343635395,
+     "high": 0.9699474141282697
+    }
+   },
+   "seed_recall": {
+    "5": {
+     "k": 23,
+     "n": 29,
+     "rate": 0.7931034482758621,
+     "low": 0.6160955339174228,
+     "high": 0.9015406348441479
+    },
+    "10": {
+     "k": 28,
+     "n": 29,
+     "rate": 0.9655172413793104,
+     "low": 0.8282410893529976,
+     "high": 0.9938869433859677
+    }
+   },
+   "seed_found": {
+    "5": {
+     "k": 12,
+     "n": 16,
+     "rate": 0.75,
+     "low": 0.5050123107060135,
+     "high": 0.8981809801576265
+    },
+    "10": {
+     "k": 15,
+     "n": 16,
+     "rate": 0.9375,
+     "low": 0.7167073163197013,
+     "high": 0.9888809426916687
+    }
+   }
+  },
+  "aggregation": {
+   "questions": 16,
+   "evidence_recall": {
+    "5": {
+     "k": 12,
+     "n": 27,
+     "rate": 0.4444444444444444,
+     "low": 0.2758559767007283,
+     "high": 0.6268728052042312
+    },
+    "10": {
+     "k": 15,
+     "n": 27,
+     "rate": 0.5555555555555556,
+     "low": 0.37312719479576884,
+     "high": 0.7241440232992717
+    }
+   },
+   "complete": {
+    "5": {
+     "k": 1,
+     "n": 6,
+     "rate": 0.16666666666666666,
+     "low": 0.03005258587173032,
+     "high": 0.563509436563646
+    },
+    "10": {
+     "k": 3,
+     "n": 6,
+     "rate": 0.5,
+     "low": 0.18761280689940868,
+     "high": 0.8123871931005913
+    }
+   },
+   "seed_recall": {
+    "5": {
+     "k": 9,
+     "n": 9,
+     "rate": 1.0,
+     "low": 0.7008472464490407,
+     "high": 1.0
+    },
+    "10": {
+     "k": 9,
+     "n": 9,
+     "rate": 1.0,
+     "low": 0.7008472464490407,
+     "high": 1.0
+    }
+   },
+   "seed_found": {
+    "5": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    },
+    "10": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    }
+   }
+  },
+  "structured_filter": {
+   "questions": 16,
+   "evidence_recall": {
+    "5": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "low": 0.5100999795960008,
+     "high": 1.0
+    },
+    "10": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "low": 0.5100999795960008,
+     "high": 1.0
+    }
+   },
+   "complete": {
+    "5": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "low": 0.34237195288961925,
+     "high": 1.0
+    },
+    "10": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "low": 0.34237195288961925,
+     "high": 1.0
+    }
+   },
+   "seed_recall": {
+    "5": {
+     "k": 13,
+     "n": 13,
+     "rate": 1.0,
+     "low": 0.7718981569447083,
+     "high": 1.0
+    },
+    "10": {
+     "k": 13,
+     "n": 13,
+     "rate": 1.0,
+     "low": 0.7718981569447083,
+     "high": 1.0
+    }
+   },
+   "seed_found": {
+    "5": {
+     "k": 8,
+     "n": 8,
+     "rate": 1.0,
+     "low": 0.6755843804891231,
+     "high": 1.0
+    },
+    "10": {
+     "k": 8,
+     "n": 8,
+     "rate": 1.0,
+     "low": 0.6755843804891231,
+     "high": 1.0
+    }
+   }
+  },
+  "disambiguation": {
+   "questions": 6,
+   "evidence_recall": {
+    "5": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    },
+    "10": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    }
+   },
+   "complete": {
+    "5": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "low": 0.6096569663469354,
+     "high": 0.9999999999999999
+    },
+    "10": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "low": 0.6096569663469354,
+     "high": 0.9999999999999999
+    }
+   },
+   "seed_recall": {
+    "5": {
+     "k": 6,
+     "n": 10,
+     "rate": 0.6,
+     "low": 0.3126695474501864,
+     "high": 0.8318224187964902
+    },
+    "10": {
+     "k": 8,
+     "n": 10,
+     "rate": 0.8,
+     "low": 0.49015684672072335,
+     "high": 0.9433190520193067
+    }
+   },
+   "seed_found": {
+    "5": {
+     "k": 2,
+     "n": 6,
+     "rate": 0.3333333333333333,
+     "low": 0.09676933255921683,
+     "high": 0.7000116786584712
+    },
+    "10": {
+     "k": 4,
+     "n": 6,
+     "rate": 0.6666666666666666,
+     "low": 0.29998832134152864,
+     "high": 0.9032306674407831
+    }
+   }
+  },
+  "negation_sensitive": {
+   "questions": 7,
+   "evidence_recall": {
+    "5": {
+     "k": 11,
+     "n": 16,
+     "rate": 0.6875,
+     "low": 0.4440393186673406,
+     "high": 0.8583556494803894
+    },
+    "10": {
+     "k": 16,
+     "n": 16,
+     "rate": 1.0,
+     "low": 0.8063865817272802,
+     "high": 1.0
+    }
+   },
+   "complete": {
+    "5": {
+     "k": 5,
+     "n": 7,
+     "rate": 0.7142857142857143,
+     "low": 0.35892909014821267,
+     "high": 0.9177828342909844
+    },
+    "10": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    }
+   },
+   "seed_recall": {
+    "5": {
+     "k": 12,
+     "n": 12,
+     "rate": 1.0,
+     "low": 0.7574992425007574,
+     "high": 1.0
+    },
+    "10": {
+     "k": 12,
+     "n": 12,
+     "rate": 1.0,
+     "low": 0.7574992425007574,
+     "high": 1.0
+    }
+   },
+   "seed_found": {
+    "5": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    },
+    "10": {
+     "k": 7,
+     "n": 7,
+     "rate": 1.0,
+     "low": 0.6456611570247934,
+     "high": 1.0
+    }
+   }
+  },
+  "lookup": {
+   "questions": 6,
+   "evidence_recall": {
+    "5": {
+     "k": 6,
+     "n": 10,
+     "rate": 0.6,
+     "low": 0.3126695474501864,
+     "high": 0.8318224187964902
+    },
+    "10": {
+     "k": 9,
+     "n": 10,
+     "rate": 0.9,
+     "low": 0.5958436145024278,
+     "high": 0.9821242504842788
+    }
+   },
+   "complete": {
+    "5": {
+     "k": 5,
+     "n": 6,
+     "rate": 0.8333333333333334,
+     "low": 0.43649056343635395,
+     "high": 0.9699474141282697
+    },
+    "10": {
+     "k": 5,
+     "n": 6,
+     "rate": 0.8333333333333334,
+     "low": 0.43649056343635395,
+     "high": 0.9699474141282697
+    }
+   },
+   "seed_recall": {
+    "5": {
+     "k": 10,
+     "n": 13,
+     "rate": 0.7692307692307693,
+     "low": 0.49743126004873084,
+     "high": 0.918206209075343
+    },
+    "10": {
+     "k": 11,
+     "n": 13,
+     "rate": 0.8461538461538461,
+     "low": 0.5776482949136899,
+     "high": 0.9567427368172621
+    }
+   },
+   "seed_found": {
+    "5": {
+     "k": 3,
+     "n": 6,
+     "rate": 0.5,
+     "low": 0.18761280689940868,
+     "high": 0.8123871931005913
+    },
+    "10": {
+     "k": 4,
+     "n": 6,
+     "rate": 0.6666666666666666,
+     "low": 0.29998832134152864,
+     "high": 0.9032306674407831
+    }
+   }
+  }
+ },
+ "latency_p50_ms": 584.1,
+ "latency_p95_ms": 847.0,
+ "targets": 86,
+ "targets_unplaced": 0,
+ "outcomes": [
+  {
+   "question_id": "F01",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#5"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Component:S-1078",
+    "Component:S-1085",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ],
+    [
+     "Component:S-1085"
+    ]
+   ],
+   "latency_ms": 1074.5
+  },
+  {
+   "question_id": "F02",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Component:S-1078",
+    "Component:S-1085",
+    "6578d646824a6278",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ],
+    [
+     "Component:S-1085"
+    ],
+    [
+     "6578d646824a6278"
+    ]
+   ],
+   "latency_ms": 620.8
+  },
+  {
+   "question_id": "F03",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/linkoping_bed_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#5"
+   ],
+   "seeds": [
+    "Assembly:A-1051",
+    "Component:S-1124",
+    "Component:S-1134",
+    "Component:S-1136",
+    "Component:S-1138",
+    "Component:S-1140",
+    "Component:S-1142",
+    "Component:S-1144",
+    "Component:S-1146",
+    "Component:S-1148",
+    "Component:S-1150",
+    "Component:S-1152",
+    "Component:S-1154",
+    "Component:S-1156",
+    "Component:S-1158",
+    "Component:S-1160",
+    "2ea585e9fc0a4bb3",
+    "bcebd736bf70affc",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896"
+   ],
+   "gold_targets": [
+    [
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    [
+     "bcebd736bf70affc"
+    ]
+   ],
+   "latency_ms": 847.0
+  },
+  {
+   "question_id": "F04",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/uppsala_sofa_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#4"
+   ],
+   "seeds": [
+    "Assembly:A-1012",
+    "3a805eaf418551fd",
+    "9b4919b2d3f50cd3",
+    "f68db6bbe3a1039d",
+    "13ea1c99eb12f87c",
+    "7f24634430793bb5"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1012"
+    ],
+    [
+     "3a805eaf418551fd"
+    ]
+   ],
+   "latency_ms": 805.8
+  },
+  {
+   "question_id": "F05",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/orebro_lamp_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#2",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/orebro_lamp_reviews.md#1",
+    "product_reviews/orebro_lamp_reviews.md#6"
+   ],
+   "seeds": [
+    "Assembly:A-1033",
+    "Component:S-1131",
+    "947e3d86e81d1a6c",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "fe2862f767bc06e0",
+    "d428a305b7063629"
+   ],
+   "gold_targets": [
+    [
+     "Component:S-1131"
+    ],
+    [
+     "Assembly:A-1033"
+    ],
+    [
+     "947e3d86e81d1a6c"
+    ]
+   ],
+   "latency_ms": 594.9
+  },
+  {
+   "question_id": "F06",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "f6e56e875b9eede3",
+    "c483ae6c39967b04"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ]
+   ],
+   "latency_ms": 556.0
+  },
+  {
+   "question_id": "F07",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/norrkoping_nightstand_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Component:S-1078",
+    "Component:S-1085",
+    "6578d646824a6278",
+    "e6c877727c9f37ff",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ],
+    [
+     "Component:S-1085"
+    ],
+    [
+     "6578d646824a6278"
+    ]
+   ],
+   "latency_ms": 726.2
+  },
+  {
+   "question_id": "F08",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#1"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/vasteras_bookshelf_reviews.md#1"
+   ],
+   "seeds": [
+    "1f2dd89b935474ea",
+    "40b6d47c657eb042",
+    "5af56a45ba2f75d6",
+    "65e7c6a7c7e36f72",
+    "77f7c6fd6a7b5141",
+    "85b29e845b251d8e"
+   ],
+   "gold_targets": [
+    [
+     "1f2dd89b935474ea",
+     "5af56a45ba2f75d6",
+     "65e7c6a7c7e36f72",
+     "77f7c6fd6a7b5141",
+     "82ed63a727d84cee",
+     "85b29e845b251d8e"
+    ]
+   ],
+   "latency_ms": 501.1
+  },
+  {
+   "question_id": "F09",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#6"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "f6e56e875b9eede3",
+    "c483ae6c39967b04"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ]
+   ],
+   "latency_ms": 580.9
+  },
+  {
+   "question_id": "F10",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#5"
+   ],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#5"
+   ],
+   "seeds": [
+    "b8d5f56f4d063af7",
+    "fa4054fcf39e4904",
+    "d87589d1ea1659ba",
+    "6578d646824a6278"
+   ],
+   "gold_targets": [
+    [
+     "b8d5f56f4d063af7"
+    ],
+    [
+     "d87589d1ea1659ba",
+     "fa4054fcf39e4904"
+    ]
+   ],
+   "latency_ms": 525.3
+  },
+  {
+   "question_id": "F11",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#2",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#6"
+   ],
+   "ranked": [
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#1"
+   ],
+   "seeds": [
+    "eb8ee878b3cd9f68",
+    "277339d5227c9de5",
+    "5d40cb368d798c06"
+   ],
+   "gold_targets": [],
+   "latency_ms": 550.8
+  },
+  {
+   "question_id": "F12",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#6"
+   ],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1003",
+    "Assembly:A-1015",
+    "d5f62f2341fb965b",
+    "77aff478dc4d93ef",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1003"
+    ],
+    [
+     "Assembly:A-1015"
+    ]
+   ],
+   "latency_ms": 582.3
+  },
+  {
+   "question_id": "F13",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/jonkoping_coffee_table_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#6",
+    "product_reviews/norrkoping_nightstand_reviews.md#0",
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/vasteras_bookshelf_reviews.md#0"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#6"
+   ],
+   "seeds": [
+    "f408244c7b95e597",
+    "93a3307747e7e58d",
+    "Assembly:A-1071"
+   ],
+   "gold_targets": [],
+   "latency_ms": 570.1
+  },
+  {
+   "question_id": "F14",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#6",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/jonkoping_coffee_table_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#3"
+   ],
+   "seeds": [
+    "3dcf092ae8176799",
+    "d7e0b2f37cdb5824",
+    "ff08c19d1b62f491"
+   ],
+   "gold_targets": [],
+   "latency_ms": 483.3
+  },
+  {
+   "question_id": "F15",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/jonkoping_coffee_table_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#3"
+   ],
+   "seeds": [
+    "bac5b52a923d7ba3",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "308cb5b6d54e0ea0"
+   ],
+   "gold_targets": [],
+   "latency_ms": 476.2
+  },
+  {
+   "question_id": "F16",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/jonkoping_coffee_table_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/jonkoping_coffee_table_reviews.md#6"
+   ],
+   "seeds": [
+    "f68db6bbe3a1039d",
+    "fa88df0e28c761c8",
+    "23e3d5176cf607b4",
+    "5a02bfef2ac3bfdf"
+   ],
+   "gold_targets": [
+    [
+     "23e3d5176cf607b4",
+     "5a02bfef2ac3bfdf",
+     "fa88df0e28c761c8"
+    ]
+   ],
+   "latency_ms": 528.1
+  },
+  {
+   "question_id": "F17",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/uppsala_sofa_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/jonkoping_coffee_table_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#3"
+   ],
+   "seeds": [
+    "Assembly:A-1012",
+    "9b4919b2d3f50cd3",
+    "cdb511204422912e",
+    "f68db6bbe3a1039d",
+    "3a805eaf418551fd",
+    "1f1ee6ed2de0b6cd"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1012"
+    ],
+    [
+     "3a805eaf418551fd"
+    ],
+    [
+     "cdb511204422912e"
+    ]
+   ],
+   "latency_ms": 729.2
+  },
+  {
+   "question_id": "F18",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "c483ae6c39967b04",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ]
+   ],
+   "latency_ms": 698.1
+  },
+  {
+   "question_id": "F19",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/malmo_desk_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#3"
+   ],
+   "seeds": [
+    "Product:P-1002",
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Component:S-1078",
+    "Component:S-1085",
+    "e6c877727c9f37ff"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1002"
+    ],
+    [
+     "Component:S-1078"
+    ]
+   ],
+   "latency_ms": 772.1
+  },
+  {
+   "question_id": "F20",
+   "type": "disambiguation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#2"
+   ],
+   "seeds": [
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Component:S-1078",
+    "Component:S-1085",
+    "6578d646824a6278",
+    "8ade9afbfdad5c7c"
+   ],
+   "gold_targets": [
+    [
+     "Component:S-1078",
+     "Component:S-1085"
+    ],
+    [
+     "6578d646824a6278"
+    ]
+   ],
+   "latency_ms": 637.9
+  },
+  {
+   "question_id": "F21",
+   "type": "disambiguation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#5"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/norrkoping_nightstand_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/norrkoping_nightstand_reviews.md#1"
+   ],
+   "seeds": [
+    "Assembly:A-1021",
+    "Assembly:A-1022",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Assembly:A-1071",
+    "Component:S-1079",
+    "15cb3497a55b3587",
+    "33a97d9b0b83bed5",
+    "44bb18344e4170c3",
+    "82ed63a727d84cee"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1022",
+     "Assembly:A-1071",
+     "Component:S-1079"
+    ],
+    [
+     "15cb3497a55b3587"
+    ]
+   ],
+   "latency_ms": 640.2
+  },
+  {
+   "question_id": "F22",
+   "type": "disambiguation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/gothenburg_table_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/norrkoping_nightstand_reviews.md#5"
+   ],
+   "seeds": [
+    "48a7ba57950fc318",
+    "65ff0d0787655b27",
+    "d1bfe201fc5956c7",
+    "c503f235a17c6ae5"
+   ],
+   "gold_targets": [
+    [
+     "48a7ba57950fc318",
+     "65ff0d0787655b27"
+    ]
+   ],
+   "latency_ms": 499.0
+  },
+  {
+   "question_id": "F23",
+   "type": "disambiguation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/linkoping_bed_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#6"
+   ],
+   "seeds": [
+    "Assembly:A-1051",
+    "Component:S-1124",
+    "Component:S-1134"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1051",
+     "Component:S-1104",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ],
+    [
+     "5a12f4f27dbf5ce7",
+     "bcebd736bf70affc"
+    ]
+   ],
+   "latency_ms": 516.9
+  },
+  {
+   "question_id": "F24",
+   "type": "disambiguation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/uppsala_sofa_reviews.md#5"
+   ],
+   "ranked": [
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#5"
+   ],
+   "seeds": [
+    "987eb2e0a728c3a3",
+    "9fb1b5b0229d7074",
+    "c503f235a17c6ae5"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1014",
+     "Assembly:A-1023",
+     "Assembly:A-1027",
+     "Assembly:A-1039",
+     "Assembly:A-1056",
+     "Assembly:A-1061"
+    ],
+    [
+     "987eb2e0a728c3a3"
+    ]
+   ],
+   "latency_ms": 480.0
+  },
+  {
+   "question_id": "F25",
+   "type": "disambiguation",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/gothenburg_table_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/jonkoping_coffee_table_reviews.md#1",
+    "product_reviews/gothenburg_table_reviews.md#0",
+    "product_reviews/jonkoping_coffee_table_reviews.md#2",
+    "product_reviews/gothenburg_table_reviews.md#6",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#5"
+   ],
+   "seeds": [
+    "Product:P-1001",
+    "Product:P-1008",
+    "92db637bbad4ccb2",
+    "954f7a08d01b0e11",
+    "c171430aeb25a3ad"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1001",
+     "Product:P-1008"
+    ]
+   ],
+   "latency_ms": 645.8
+  },
+  {
+   "question_id": "F26",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#6",
+    "product_reviews/malmo_desk_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#6"
+   ],
+   "seeds": [
+    "fa88df0e28c761c8",
+    "23e3d5176cf607b4",
+    "5a02bfef2ac3bfdf"
+   ],
+   "gold_targets": [
+    [
+     "23e3d5176cf607b4",
+     "5a02bfef2ac3bfdf",
+     "fa88df0e28c761c8"
+    ]
+   ],
+   "latency_ms": 498.6
+  },
+  {
+   "question_id": "F27",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#6"
+   ],
+   "seeds": [
+    "3a805eaf418551fd",
+    "cdb511204422912e",
+    "caca75cc1e3132d5"
+   ],
+   "gold_targets": [
+    [
+     "cdb511204422912e"
+    ],
+    [
+     "3a805eaf418551fd"
+    ]
+   ],
+   "latency_ms": 515.5
+  },
+  {
+   "question_id": "F28",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/uppsala_sofa_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#6"
+   ],
+   "seeds": [
+    "Product:P-1003",
+    "cdb511204422912e",
+    "3a805eaf418551fd"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1003"
+    ],
+    [
+     "cdb511204422912e"
+    ],
+    [
+     "3a805eaf418551fd"
+    ]
+   ],
+   "latency_ms": 532.0
+  },
+  {
+   "question_id": "F29",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/jonkoping_coffee_table_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/vasteras_bookshelf_reviews.md#0",
+    "product_reviews/vasteras_bookshelf_reviews.md#6"
+   ],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#2",
+    "product_reviews/vasteras_bookshelf_reviews.md#6",
+    "product_reviews/jonkoping_coffee_table_reviews.md#3",
+    "product_reviews/vasteras_bookshelf_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#6"
+   ],
+   "seeds": [
+    "a2646579cfcc1703",
+    "d3dc7a36f7de59a7",
+    "019ed4be164f5544"
+   ],
+   "gold_targets": [
+    [
+     "a2646579cfcc1703"
+    ]
+   ],
+   "latency_ms": 497.7
+  },
+  {
+   "question_id": "F30",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/orebro_lamp_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#6",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#2",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/orebro_lamp_reviews.md#1"
+   ],
+   "seeds": [
+    "Product:P-1005",
+    "c025fd69355bdca4",
+    "31f9b7c355020e90"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1005"
+    ],
+    [
+     "31f9b7c355020e90",
+     "c025fd69355bdca4"
+    ]
+   ],
+   "latency_ms": 559.3
+  },
+  {
+   "question_id": "F31",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/malmo_desk_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/malmo_desk_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#5",
+    "product_reviews/malmo_desk_reviews.md#6"
+   ],
+   "seeds": [
+    "Product:P-1002",
+    "5a02bfef2ac3bfdf",
+    "fa88df0e28c761c8",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1002"
+    ],
+    [
+     "5a02bfef2ac3bfdf",
+     "fa88df0e28c761c8"
+    ]
+   ],
+   "latency_ms": 589.0
+  },
+  {
+   "question_id": "F32",
+   "type": "negation_sensitive",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#4"
+   ],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/norrkoping_nightstand_reviews.md#2"
+   ],
+   "seeds": [
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "8e8f2b72d1d6cef5"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1021",
+     "Assembly:A-1062",
+     "Assembly:A-1070"
+    ]
+   ],
+   "latency_ms": 668.3
+  },
+  {
+   "question_id": "F33",
+   "type": "lookup",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/orebro_lamp_reviews.md#1"
+   ],
+   "ranked": [
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/orebro_lamp_reviews.md#6",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#1",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/orebro_lamp_reviews.md#2",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1005",
+    "Assembly:A-1036",
+    "f6e56e875b9eede3",
+    "e6bf4b4972ce4cfa"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1005"
+    ],
+    [
+     "Assembly:A-1036"
+    ]
+   ],
+   "latency_ms": 640.8
+  },
+  {
+   "question_id": "F34",
+   "type": "lookup",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/uppsala_sofa_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/jonkoping_coffee_table_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1003",
+    "7536d4e7f3ef0f56",
+    "d4f9d988684eda21",
+    "eba748189a004669",
+    "f6e56e875b9eede3",
+    "d50309299d9c2907"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1003"
+    ],
+    [
+     "Assembly:A-1010",
+     "Assembly:A-1011"
+    ]
+   ],
+   "latency_ms": 561.8
+  },
+  {
+   "question_id": "F35",
+   "type": "lookup",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/linkoping_bed_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/norrkoping_nightstand_reviews.md#2"
+   ],
+   "seeds": [
+    "Product:P-1006",
+    "03e37ac51290a8cb",
+    "0ad40b4b22888cf8",
+    "f6e56e875b9eede3",
+    "66cb844d9f0e28a0"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1006"
+    ],
+    [
+     "Assembly:A-1051",
+     "Component:S-1124",
+     "Component:S-1134",
+     "Component:S-1136",
+     "Component:S-1138",
+     "Component:S-1140",
+     "Component:S-1142",
+     "Component:S-1144",
+     "Component:S-1146",
+     "Component:S-1148",
+     "Component:S-1150",
+     "Component:S-1152",
+     "Component:S-1154",
+     "Component:S-1156",
+     "Component:S-1158",
+     "Component:S-1160"
+    ]
+   ],
+   "latency_ms": 593.3
+  },
+  {
+   "question_id": "F36",
+   "type": "lookup",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/linkoping_bed_reviews.md#3"
+   ],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/norrkoping_nightstand_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#6"
+   ],
+   "seeds": [
+    "Product:P-1006",
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "Component:S-1076",
+    "Component:S-1078",
+    "Component:S-1083",
+    "8ade9afbfdad5c7c",
+    "55f18e7ccaeb993e"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1006"
+    ],
+    [
+     "8ade9afbfdad5c7c"
+    ]
+   ],
+   "latency_ms": 685.6
+  },
+  {
+   "question_id": "F37",
+   "type": "lookup",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/orebro_lamp_reviews.md#5"
+   ],
+   "ranked": [
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/orebro_lamp_reviews.md#6",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#2",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#2"
+   ],
+   "seeds": [
+    "Product:P-1005",
+    "Assembly:A-1033",
+    "48a7ba57950fc318",
+    "65ff0d0787655b27",
+    "b8d5f56f4d063af7",
+    "f6e56e875b9eede3",
+    "e6bf4b4972ce4cfa"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1005"
+    ],
+    [
+     "Assembly:A-1033"
+    ],
+    [
+     "48a7ba57950fc318"
+    ]
+   ],
+   "latency_ms": 662.4
+  },
+  {
+   "question_id": "F38",
+   "type": "lookup",
+   "system": "graph_retrieval",
+   "gold_chunks": [
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#2",
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#5",
+    "product_reviews/stockholm_chair_reviews.md#6"
+   ],
+   "ranked": [
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/stockholm_chair_reviews.md#6"
+   ],
+   "seeds": [
+    "Product:P-1000",
+    "cbbee077875bf855",
+    "f6e56e875b9eede3",
+    "Product:P-1003"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1000"
+    ],
+    [
+     "cbbee077875bf855"
+    ]
+   ],
+   "latency_ms": 676.6
+  },
+  {
+   "question_id": "F39",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#6",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/jonkoping_coffee_table_reviews.md#1",
+    "product_reviews/jonkoping_coffee_table_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#1"
+   ],
+   "seeds": [
+    "ff08c19d1b62f491",
+    "f68db6bbe3a1039d",
+    "3dcf092ae8176799"
+   ],
+   "gold_targets": [],
+   "latency_ms": 520.4
+  },
+  {
+   "question_id": "F40",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/jonkoping_coffee_table_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/jonkoping_coffee_table_reviews.md#0"
+   ],
+   "seeds": [
+    "3dcf092ae8176799",
+    "d7e0b2f37cdb5824",
+    "f68db6bbe3a1039d"
+   ],
+   "gold_targets": [],
+   "latency_ms": 512.6
+  },
+  {
+   "question_id": "F41",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#2",
+    "product_reviews/stockholm_chair_reviews.md#5",
+    "product_reviews/stockholm_chair_reviews.md#6",
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3"
+   ],
+   "seeds": [
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "Supplier:SUP-015",
+    "Component:S-1093",
+    "Component:S-1108"
+   ],
+   "gold_targets": [],
+   "latency_ms": 599.4
+  },
+  {
+   "question_id": "F42",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#3"
+   ],
+   "seeds": [
+    "e6c877727c9f37ff",
+    "Supplier:SUP-005",
+    "e7bd4a657cbe1896"
+   ],
+   "gold_targets": [],
+   "latency_ms": 562.7
+  },
+  {
+   "question_id": "F43",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#5"
+   ],
+   "seeds": [
+    "Supplier:SUP-002",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "bac5b52a923d7ba3",
+    "Supplier:SUP-014",
+    "f47872afd8334000"
+   ],
+   "gold_targets": [
+    [
+     "Supplier:SUP-002"
+    ]
+   ],
+   "latency_ms": 631.5
+  },
+  {
+   "question_id": "F44",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/vasteras_bookshelf_reviews.md#5",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#0"
+   ],
+   "seeds": [
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "c2e7cf71dfa7fed0",
+    "e6c877727c9f37ff"
+   ],
+   "gold_targets": [],
+   "latency_ms": 523.5
+  },
+  {
+   "question_id": "F45",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3"
+   ],
+   "seeds": [
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "a38d3a5a841533cb",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d"
+   ],
+   "gold_targets": [],
+   "latency_ms": 531.0
+  },
+  {
+   "question_id": "F46",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/vasteras_bookshelf_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#0"
+   ],
+   "seeds": [
+    "Product:P-1003",
+    "087a64ca54101dd4",
+    "12f67b89689e206f",
+    "35f7e8177502aaa2",
+    "93a3307747e7e58d",
+    "Product:P-1006"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1003"
+    ]
+   ],
+   "latency_ms": 738.7
+  },
+  {
+   "question_id": "F47",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/linkoping_bed_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1006",
+    "Assembly:A-1048",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "Component:S-1088",
+    "Component:S-1087"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1006"
+    ],
+    [
+     "Assembly:A-1048"
+    ]
+   ],
+   "latency_ms": 629.6
+  },
+  {
+   "question_id": "F48",
+   "type": "structured_filter",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/norrkoping_nightstand_reviews.md#5",
+    "product_reviews/norrkoping_nightstand_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#2",
+    "product_reviews/malmo_desk_reviews.md#1"
+   ],
+   "seeds": [
+    "Product:P-1007",
+    "Assembly:A-1021",
+    "Assembly:A-1062",
+    "Assembly:A-1070",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff",
+    "f6e56e875b9eede3",
+    "c483ae6c39967b04"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1007"
+    ],
+    [
+     "Assembly:A-1070"
+    ]
+   ],
+   "latency_ms": 738.6
+  },
+  {
+   "question_id": "F49",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/jonkoping_coffee_table_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/gothenburg_table_reviews.md#6",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/norrkoping_nightstand_reviews.md#6",
+    "product_reviews/jonkoping_coffee_table_reviews.md#1",
+    "product_reviews/jonkoping_coffee_table_reviews.md#0",
+    "product_reviews/norrkoping_nightstand_reviews.md#1"
+   ],
+   "seeds": [
+    "ff08c19d1b62f491",
+    "f68db6bbe3a1039d",
+    "3dcf092ae8176799"
+   ],
+   "gold_targets": [],
+   "latency_ms": 504.5
+  },
+  {
+   "question_id": "F50",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#5",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/jonkoping_coffee_table_reviews.md#0"
+   ],
+   "seeds": [
+    "7253a6fa21b4bef3",
+    "3dcf092ae8176799",
+    "d7e0b2f37cdb5824"
+   ],
+   "gold_targets": [],
+   "latency_ms": 547.5
+  },
+  {
+   "question_id": "F51",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#6",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/jonkoping_coffee_table_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#3"
+   ],
+   "seeds": [
+    "3dcf092ae8176799",
+    "d7e0b2f37cdb5824",
+    "ff08c19d1b62f491"
+   ],
+   "gold_targets": [],
+   "latency_ms": 481.9
+  },
+  {
+   "question_id": "F52",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/vasteras_bookshelf_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#0"
+   ],
+   "seeds": [
+    "Assembly:A-1016",
+    "Assembly:A-1024",
+    "Assembly:A-1029",
+    "Assembly:A-1035",
+    "Assembly:A-1040",
+    "Assembly:A-1045",
+    "Assembly:A-1053",
+    "Assembly:A-1058",
+    "Assembly:A-1063",
+    "Assembly:A-1072",
+    "Component:S-1080",
+    "Component:S-1086",
+    "Component:S-1091",
+    "Component:S-1096",
+    "Component:S-1106",
+    "Component:S-1111",
+    "087a64ca54101dd4",
+    "35f7e8177502aaa2",
+    "d71301dede469980"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1016",
+     "Assembly:A-1024",
+     "Assembly:A-1029",
+     "Assembly:A-1035",
+     "Assembly:A-1040",
+     "Assembly:A-1045",
+     "Assembly:A-1053",
+     "Assembly:A-1058",
+     "Assembly:A-1063",
+     "Assembly:A-1072"
+    ]
+   ],
+   "latency_ms": 890.7
+  },
+  {
+   "question_id": "F53",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/vasteras_bookshelf_reviews.md#3",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/gothenburg_table_reviews.md#0"
+   ],
+   "seeds": [
+    "087a64ca54101dd4",
+    "12f67b89689e206f",
+    "35f7e8177502aaa2",
+    "7f24634430793bb5",
+    "4044ad68ce0d6de0",
+    "8b0e6fa485c16d2e"
+   ],
+   "gold_targets": [],
+   "latency_ms": 669.1
+  },
+  {
+   "question_id": "F54",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#4",
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/gothenburg_table_reviews.md#5",
+    "product_reviews/vasteras_bookshelf_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/vasteras_bookshelf_reviews.md#1",
+    "product_reviews/jonkoping_coffee_table_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#6"
+   ],
+   "seeds": [
+    "Assembly:A-1025",
+    "Assembly:A-1030",
+    "Assembly:A-1041",
+    "Assembly:A-1047",
+    "Assembly:A-1054",
+    "Assembly:A-1059",
+    "Assembly:A-1065",
+    "Assembly:A-1073",
+    "087a64ca54101dd4",
+    "35f7e8177502aaa2"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1025",
+     "Assembly:A-1030",
+     "Assembly:A-1041",
+     "Assembly:A-1047",
+     "Assembly:A-1054",
+     "Assembly:A-1059",
+     "Assembly:A-1065",
+     "Assembly:A-1073"
+    ]
+   ],
+   "latency_ms": 865.3
+  },
+  {
+   "question_id": "F55",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/uppsala_sofa_reviews.md#4"
+   ],
+   "seeds": [
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff"
+   ],
+   "gold_targets": [],
+   "latency_ms": 562.7
+  },
+  {
+   "question_id": "F56",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#0"
+   ],
+   "seeds": [
+    "Supplier:SUP-012",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "bac5b52a923d7ba3"
+   ],
+   "gold_targets": [
+    [
+     "Supplier:SUP-012"
+    ]
+   ],
+   "latency_ms": 591.3
+  },
+  {
+   "question_id": "F57",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#0"
+   ],
+   "seeds": [
+    "e6c877727c9f37ff",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02"
+   ],
+   "gold_targets": [],
+   "latency_ms": 648.7
+  },
+  {
+   "question_id": "F58",
+   "type": "aggregation",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#4",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/linkoping_bed_reviews.md#0"
+   ],
+   "seeds": [
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896"
+   ],
+   "gold_targets": [],
+   "latency_ms": 543.7
+  },
+  {
+   "question_id": "F59",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/linkoping_bed_reviews.md#3",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#4"
+   ],
+   "seeds": [
+    "Product:P-1006",
+    "Assembly:A-1048",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "Component:S-1088",
+    "Component:S-1087"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1006"
+    ],
+    [
+     "Assembly:A-1048"
+    ]
+   ],
+   "latency_ms": 575.8
+  },
+  {
+   "question_id": "F60",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/stockholm_chair_reviews.md#2",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/stockholm_chair_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/uppsala_sofa_reviews.md#5"
+   ],
+   "seeds": [
+    "Component:S-1093",
+    "Component:S-1108",
+    "Component:S-1097"
+   ],
+   "gold_targets": [
+    [
+     "Component:S-1093",
+     "Component:S-1108"
+    ]
+   ],
+   "latency_ms": 513.2
+  },
+  {
+   "question_id": "F61",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/norrkoping_nightstand_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/linkoping_bed_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/malmo_desk_reviews.md#5"
+   ],
+   "seeds": [
+    "Supplier:SUP-004",
+    "e00627d080fae50a",
+    "Supplier:SUP-014"
+   ],
+   "gold_targets": [
+    [
+     "Supplier:SUP-004"
+    ]
+   ],
+   "latency_ms": 570.8
+  },
+  {
+   "question_id": "F62",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#5",
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/uppsala_sofa_reviews.md#2",
+    "product_reviews/stockholm_chair_reviews.md#3"
+   ],
+   "seeds": [
+    "Product:P-1003",
+    "Assembly:A-1010",
+    "Assembly:A-1037",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "d4f9d988684eda21",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "eba748189a004669"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1003"
+    ],
+    [
+     "Assembly:A-1010"
+    ]
+   ],
+   "latency_ms": 708.6
+  },
+  {
+   "question_id": "F63",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#5",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#6",
+    "product_reviews/malmo_desk_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#2",
+    "product_reviews/vasteras_bookshelf_reviews.md#5",
+    "product_reviews/gothenburg_table_reviews.md#6"
+   ],
+   "seeds": [
+    "Assembly:A-1064",
+    "087a64ca54101dd4",
+    "35f7e8177502aaa2",
+    "d0bde4e58d7b043f",
+    "f68db6bbe3a1039d",
+    "8627aa0be25b8c94",
+    "7f24634430793bb5"
+   ],
+   "gold_targets": [
+    [
+     "Assembly:A-1064"
+    ]
+   ],
+   "latency_ms": 780.1
+  },
+  {
+   "question_id": "F64",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#6",
+    "product_reviews/helsingborg_dresser_reviews.md#2",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/helsingborg_dresser_reviews.md#5",
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/helsingborg_dresser_reviews.md#1"
+   ],
+   "seeds": [
+    "Product:P-1002",
+    "Product:P-1007",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "f6e56e875b9eede3"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1002"
+    ],
+    [
+     "Product:P-1007"
+    ]
+   ],
+   "latency_ms": 584.1
+  },
+  {
+   "question_id": "F65",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/stockholm_chair_reviews.md#4",
+    "product_reviews/stockholm_chair_reviews.md#0",
+    "product_reviews/stockholm_chair_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/uppsala_sofa_reviews.md#1",
+    "product_reviews/stockholm_chair_reviews.md#6",
+    "product_reviews/uppsala_sofa_reviews.md#6",
+    "product_reviews/linkoping_bed_reviews.md#0"
+   ],
+   "seeds": [
+    "Product:P-1000",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "Product:P-1003",
+    "93a3307747e7e58d"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1000"
+    ]
+   ],
+   "latency_ms": 592.8
+  },
+  {
+   "question_id": "F66",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#6",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/orebro_lamp_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#0",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#1",
+    "product_reviews/orebro_lamp_reviews.md#4",
+    "product_reviews/helsingborg_dresser_reviews.md#3"
+   ],
+   "seeds": [
+    "Product:P-1005",
+    "Assembly:A-1033",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "e6c877727c9f37ff",
+    "e7bd4a657cbe1896",
+    "d428a305b7063629",
+    "Component:S-1131"
+   ],
+   "gold_targets": [
+    [
+     "Product:P-1005"
+    ],
+    [
+     "Assembly:A-1033"
+    ]
+   ],
+   "latency_ms": 614.0
+  },
+  {
+   "question_id": "F67",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/helsingborg_dresser_reviews.md#3",
+    "product_reviews/orebro_lamp_reviews.md#3",
+    "product_reviews/gothenburg_table_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#0",
+    "product_reviews/helsingborg_dresser_reviews.md#1",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/orebro_lamp_reviews.md#5",
+    "product_reviews/orebro_lamp_reviews.md#4"
+   ],
+   "seeds": [
+    "e6c877727c9f37ff",
+    "Supplier:SUP-018",
+    "d87589d1ea1659ba",
+    "21b1e767eb14760a"
+   ],
+   "gold_targets": [],
+   "latency_ms": 580.8
+  },
+  {
+   "question_id": "F68",
+   "type": "multi_hop",
+   "system": "graph_retrieval",
+   "gold_chunks": [],
+   "ranked": [
+    "product_reviews/gothenburg_table_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#3",
+    "product_reviews/malmo_desk_reviews.md#1",
+    "product_reviews/malmo_desk_reviews.md#0",
+    "product_reviews/vasteras_bookshelf_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#5",
+    "product_reviews/uppsala_sofa_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#4",
+    "product_reviews/malmo_desk_reviews.md#2",
+    "product_reviews/linkoping_bed_reviews.md#0"
+   ],
+   "seeds": [
+    "Supplier:SUP-009",
+    "21b1e767eb14760a",
+    "72c8d20c595ede7d",
+    "8e6405ea0acf4e02",
+    "Supplier:SUP-019",
+    "Component:S-1129"
+   ],
+   "gold_targets": [
+    [
+     "Supplier:SUP-009"
+    ]
+   ],
+   "latency_ms": 639.1
+  }
+ ]
+}

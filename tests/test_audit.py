@@ -15,7 +15,8 @@ that resolved it as a `Kind` concept is reproduced, one made before R107 (an ind
 that would turn a particular into a concept, which no replay decides, is refused. R108's two rules explain
 the links a replay loses: a stated kind named by a record only up to an ending, a word key in a longer name.
 R109: the snapshot derives a claim onto a document's ABOUT record only when it is a record of the object type.
-R113: the committed logged counts of the working graph's reload equal the frozen held-out build's (R109).
+R113: the committed logged counts of the working graph's reload equal the frozen held-out build's (R109);
+R117 part b: the same for the furniture reload (R108).
 """
 
 import json
@@ -792,6 +793,19 @@ def test_r113_the_working_graph_is_the_frozen_held_out_build():
     runs = json.loads((GOLD / "r113" / "runs.json").read_text(encoding="utf-8"))["datasets"]["heldout"]
     reload = LoggedCounts.model_validate_json((GOLD / "r113" / "heldout_logged.json").read_text("utf-8"))
     frozen = LoggedCounts.model_validate_json((GOLD / "r109" / "heldout_logged.json").read_text("utf-8"))
+    assert reload.counts == frozen.counts
+    assert reload.runs == runs["runs"] and runs["frozen_build"] == frozen.build
+    assert all(v == 0 for k, v in reload.usage.items() if k.endswith("cost_usd"))
+    assert runs["mention_pass_cache_hits"] == runs["mention_pass_calls"]
+    assert runs["resolve_cache_hits"] == runs["resolve_calls"]
+
+
+def test_r117_the_working_graph_is_the_frozen_furniture_build():
+    """R117 part b reloaded R108's furniture build into the working Neo4j for the retrieval baselines: every
+    count its stages logged is R108's, and no stage paid (every LLM answer came from the cache)."""
+    runs = json.loads((GOLD / "r117" / "runs.json").read_text(encoding="utf-8"))["furniture_load"]
+    reload = LoggedCounts.model_validate_json((GOLD / "r117" / "furniture_logged.json").read_text("utf-8"))
+    frozen = LoggedCounts.model_validate_json((GOLD / "r108" / "furniture_logged.json").read_text("utf-8"))
     assert reload.counts == frozen.counts
     assert reload.runs == runs["runs"] and runs["frozen_build"] == frozen.build
     assert all(v == 0 for k, v in reload.usage.items() if k.endswith("cost_usd"))

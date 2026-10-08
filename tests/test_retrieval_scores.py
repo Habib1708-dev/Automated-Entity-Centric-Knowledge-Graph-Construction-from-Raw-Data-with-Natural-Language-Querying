@@ -2,7 +2,11 @@
 retrieval within each budget, seed recall and found seeds against placed targets, questions without
 evidence or targets left out of that measure, a target the build lacks counted as a miss, no seed scores for
 a system without seeds, the nearest-rank latency, the flat metrics, two reports paired with McNemar's test
-(and `compare_pairs` equal to `compare_outcomes`), and the report file. Pure: no Neo4j, no model."""
+(and `compare_pairs` equal to `compare_outcomes`), the report file, and the committed furniture baselines
+of R117 part b. Pure: no Neo4j, no model."""
+
+import json
+from pathlib import Path
 
 import pytest
 
@@ -175,3 +179,24 @@ def test_a_report_file_loads_back_and_a_foreign_file_is_refused(tmp_path):
     path.write_text('{"system": "s"}', encoding="utf-8")
     with pytest.raises(EvaluationError):
         load_retrieval_report(path)
+
+
+R117 = Path(__file__).resolve().parent / "gold" / "r117"
+
+
+def test_r117_baselines_load_pair_again_to_the_committed_comparison_and_seed_by_stable_ids():
+    """The furniture baselines of R117 part b, the reference R121 pairs against: both reports ran on one
+    gold, targets, graph and embedding model, the graph route's seeds are record refs and canonical ids
+    (never element ids, which hold a colon after a number, `4:...`), and pairing them again gives the
+    committed comparison."""
+    vector = load_retrieval_report(R117 / "retrieval_vector.json")
+    graph = load_retrieval_report(R117 / "retrieval_graph_retrieval.json")
+    assert vector.fingerprint == graph.fingerprint and vector.fingerprint.graph_digest == "392a170ecc10"
+    assert not vector.seeded and graph.seeded and graph.targets_unplaced == 0
+    assert all(not seed[:1].isdigit() or ":" not in seed for o in graph.outcomes for seed in o.seeds)
+    committed = json.loads((R117 / "retrieve_compare.json").read_text(encoding="utf-8"))
+    names = ("r117b_retrieval/retrieval_vector.json", "r117b_retrieval/retrieval_graph_retrieval.json")
+    again = [compare_retrieval(vector, graph, k, *names).model_dump(mode="json") for k in (5, 10)]
+    assert again == committed
+    complete = graph.overall.complete[5]
+    assert (vector.overall.complete[5].k, complete.k, complete.n) == (20, 24, 33)

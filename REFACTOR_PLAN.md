@@ -7002,7 +7002,7 @@ answers it is a claim on the Outback, `SYSTEM FREEZES UP COMPLETELY -AFFECTS_COM
   (both stop the run before any call).
 - **R116 done 2026-10-08.** Next: R117, the retrieval benchmark without the reader.
 
-### R117. The retrieval benchmark without the reader: `kg retrieve-eval` (code done 2026-10-08; $0, no run; part b awaits permission)
+### R117. The retrieval benchmark without the reader: `kg retrieve-eval` (done 2026-10-08; $0 logged)
 Plan R116-R125, step 2: measure retrieval apart from answering, so a retrieval change (R120's hybrid) shows
 in what it retrieves before the reader's own variation can hide it, and the baselines exist before any
 hybrid code.
@@ -7058,11 +7058,40 @@ hybrid code.
   refusal before any embedding, the digest equal over a rebuild and changed by a text, a label, an edge or
   a lost chunk, and the compare stage (`test_retrieval_stages.py`, 4); the guard. 920 passed (896 + 24),
   ruff clean. `kg qa --help` defaults unchanged.
-- **Part b (asked, not run):** load the furniture final build into the working Neo4j (R113-style into
-  `out/r117_furniture` from `tests/gold/r108/runs.json`'s recipe, preset `quality`, every LLM call expected
-  from the cache), check its logged counts against `tests/gold/r108/furniture_logged.json`, then `kg
-  retrieve-eval` for `vector` and `graph_retrieval`: the furniture baselines before any hybrid code.
-- **R117 code done 2026-10-08.** Next: part b with the user's permission; then R118.
+- **Part b** (the user, 2026-10-08: "yes run it"): the furniture baselines before any hybrid code. Commands,
+  runs and checks in `tests/gold/r117/runs.json`; tests `test_r117_the_working_graph_is_the_frozen_furniture_build`
+  (tests/test_audit.py) and `test_r117_baselines_load_pair_again_to_the_committed_comparison_and_seed_by_stable_ids`
+  (tests/test_retrieval_scores.py).
+  - **The load:** R108's recipe into `out/r117_furniture` (preset `quality`; plan, text schema and profile
+    pinned from `out/r77d_furniture`, claims replayed from `out/r103_furniture`, the mention pass on an
+    invalid key). Every LLM call a cache hit (mention pass 70/70, resolve 790/790); MLflow logs $0 (10
+    unpriced embedding calls). All 27 logged counts equal R108's (`tests/gold/r117/furniture_logged.json`);
+    `build_report.json`, `triples.jsonl`, `mentions.jsonl` and `audit/code_checks.json` byte-identical;
+    `resolve.json` equal but the 63 record targets' element ids; C0 passed (MLflow `509ce19f`). The working
+    Neo4j now holds furniture (1,015 Mention, 685 Observation, 448 Concept, 107 Individual, 88 Component, 70
+    Chunk, 64 Assembly, 20 Supplier, 10 Document, 10 Product; 5,996 relationships; `graph_digest`
+    392a170ecc10) until R122.
+  - **The baselines** (`kg retrieve-eval`, MLflow `366fc0d5` vector, `81ee3aa8` graph_retrieval; reports
+    copied to `tests/gold/r117/`). 68 questions, 33 with chunk evidence (73 gold chunks counted per
+    question), 50 with targets (86 targets, none unplaced). Rates over those n, no judge involved:
+
+    | System | Evidence@5 | Evidence@10 | Complete@5 | Complete@10 | Seed Recall@5 | Seed Recall@10 | Seeds found@5 | latency p50 / p95 |
+    |---|---|---|---|---|---|---|---|---|
+    | vector | 0.548 (40/73) | 0.726 (53/73) | 0.606 (20/33) | 0.788 (26/33) | - | - | - | 444 / 581 ms |
+    | graph_retrieval | 0.644 (47/73) | 0.795 (58/73) | 0.727 (24/33) | 0.848 (28/33) | 0.849 (73/86) | 0.942 (81/86) | 0.780 (39/50) | 584 / 847 ms |
+
+  - **Paired** (`kg retrieve-compare`, MLflow `e84ea03d`): Complete@5 only graph 4 (F16, F20, F24, F26), only
+    vector 0, p = 0.125; Complete@10 only graph 3, only vector 1 (F06), p = 0.625. Not beyond one sample's
+    variation at n = 33. Per type at 5, graph_retrieval completes 2 more disambiguation questions (6/6
+    against 4/6) and 1 more structured_filter and negation_sensitive question each.
+  - **What the seeds show** (for R120): the name linker's spelling links come in node order, not by
+    relevance, so a name many records share fills the top 5 seeds with the wrong ones. "drawer rails" in
+    F01, F02 and F07 links Assembly:A-1021, A-1062, A-1070 and Component:S-1078 before the Helsingborg
+    Dresser's own rails, Component:S-1085, which comes 6th: 13 of the 86 targets are missed at 5, 5 at
+    10. A seed ranking (the card retriever of R120) is where hybrid retrieval can gain on seeds.
+  - **Cost:** $0 logged. Embeddings unpriced: vector 68 calls (4,446 characters), graph_retrieval 76 calls
+    (737 node names once and 68 questions, 14,342 characters).
+- **R117 done 2026-10-08.** Next: R118, node evidence and deterministic cards.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

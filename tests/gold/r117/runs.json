@@ -1,0 +1,81 @@
+{
+ "step": "R117 part b: the furniture final build (R108) loaded into the working Neo4j, every LLM answer from the cache, then the retrieval baselines of vector and graph_retrieval before any hybrid code",
+ "approved": "the user, 2026-10-08 (\"yes run it\" to part b: the furniture load at about $0 and kg retrieve-eval for vector and graph_retrieval, embeddings well under a cent)",
+ "git_sha": "ee83762-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "furniture_load": {
+  "preset": "quality",
+  "build": "out/r117_furniture",
+  "frozen_build": "out/r108_furniture",
+  "pinned_from": "out/r77d_furniture: plan.json, text_schema.json, profile.json (profile copied back after kg build), each byte-identical to out/r108_furniture's",
+  "claims_from": "out/r103_furniture (kg extract --from-build: replayed, no call; triples.jsonl byte-identical to out/r108_furniture's)",
+  "commands": [
+   "kg --preset quality reset --out out/r117_furniture",
+   "kg --preset quality build data --out out/r117_furniture",
+   "kg --preset quality ingest-text data --out out/r117_furniture",
+   "kg --preset quality extract --from-build out/r103_furniture --out out/r117_furniture",
+   "kg --preset quality link --out out/r117_furniture",
+   "GEMINI_API_KEY=invalid kg --preset quality mention-pass --out out/r117_furniture",
+   "kg --preset quality resolve --out out/r117_furniture",
+   "kg --preset quality attach --out out/r117_furniture",
+   "kg --preset quality audit-snapshot out/r117_furniture --data data --logged out/r117_furniture/logged.json --out out/r117_furniture/audit"
+  ],
+  "runs": {
+   "ingest_text": "49cf279fce7f46a3a6670b8e71d94c7c",
+   "extract": "58da111a8cf547798fe7f988a291f312",
+   "link": "6933016dab9b403d871b6e2495abd7b1",
+   "mention_pass": "0f4beb6bf69944daad6b8c7a4f8491fe",
+   "resolve": "566fa47bbc144cf5b0e222d488b384de",
+   "attach": "fa84cf338cd44f0d884fefdc0deaa205"
+  },
+  "audit_snapshot_run": "509ce19f43b1408ca62307d16654eeaa",
+  "cost_usd": 0.0,
+  "cost_note": "MLflow logs 0: every LLM call was a cache hit; the 10 Gemini embedding calls (1 in ingest_text, 9 in resolve) report no tokens, so prices.yaml cannot price them (well under one cent)",
+  "mention_pass_calls": 70,
+  "mention_pass_cache_hits": 70,
+  "resolve_calls": 790,
+  "resolve_cache_hits": 790,
+  "equal_to_frozen": {
+   "logged_counts": "all 27 equal to tests/gold/r108/furniture_logged.json",
+   "byte_identical": [
+    "build_report.json",
+    "triples.jsonl",
+    "mentions.jsonl",
+    "audit/code_checks.json"
+   ],
+   "equal_but_element_ids": [
+    "resolve.json (63 record assignments' target)"
+   ],
+   "fidelity_passed": true
+  },
+  "neo4j": {
+   "Mention": 1015,
+   "Observation": 685,
+   "Concept": 448,
+   "Individual": 107,
+   "Component": 88,
+   "Chunk": 70,
+   "Assembly": 64,
+   "Supplier": 20,
+   "Document": 10,
+   "Product": 10,
+   "relationships": 5996,
+   "graph_digest": "392a170ecc10"
+  }
+ },
+ "baselines": {
+  "preset": "quality",
+  "commands": [
+   "kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r117_furniture --data data --system vector --system graph_retrieval --out out/r117b_retrieval",
+   "kg --preset quality retrieve-compare out/r117b_retrieval/retrieval_vector.json out/r117b_retrieval/retrieval_graph_retrieval.json --out out/r117b_retrieval"
+  ],
+  "runs": {
+   "retrieve_eval_vector": "366fc0d572bd438c80fb090a3980e888",
+   "retrieve_eval_graph_retrieval": "81ee3aa867c0495ab134276779ba3638",
+   "retrieve_compare": "e84ea03d397143b7b6f2a5850b8a5e8c"
+  },
+  "reports": "tests/gold/r117/retrieval_vector.json, retrieval_graph_retrieval.json, retrieve_compare.json (copies of the run artifacts)",
+  "cost_usd": 0.0,
+  "cost_note": "no generating model is called; embeddings are unpriced: vector 68 calls, 68 texts, 4446 characters; graph_retrieval 76 calls, 805 texts (737 node names once, 68 questions), 14342 characters"
+ }
+}
