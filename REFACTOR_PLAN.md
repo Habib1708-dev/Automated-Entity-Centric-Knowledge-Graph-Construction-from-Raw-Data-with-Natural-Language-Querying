@@ -7513,7 +7513,20 @@ it, and the card retrievers can search either representation.
   stage test pinning the five budgets.
 - **Offline render** ($0, no model; the working graph, furniture, read-only): the 737 prompts hold 1,990,844
   characters (2,701 on average, 2,589 of them the fixed text); the facts 99 characters on average, median 51,
-  at most 448 (records 193, individuals 183, concepts 41 on average); 1,760 facts in all.
+  at most 448 (records 193, individuals 183, concepts 41 on average); 1,760 facts in all. Facts longer than
+  150 / 200 / 250 / 300 / 400 characters: 222 / 115 / 81 / 43 / 5 nodes.
+- **R124's grid, pre-registered before any summary was written** (the user, 2026-10-08: "4 cells: caps ×
+  P1/P2"): B's own knobs only, the shared retrieval settings stay R121's seal.
+  - `index_summary_max_chars` in {250, 600}: 600 cuts no furniture summary (the longest facts are 448
+    characters), 250 cuts roughly the 80-115 nodes with the longest facts (records and individuals).
+  - The prompt in {P1, P2}: P1 is `PROMPT` above; P2 is P1 plus one rule, after the text add up to three
+    short questions that these facts answer, worded as a person would ask them and naming only what the facts
+    name (doc2query: text shaped like questions may lie nearer the questions), with the example extended by
+    such questions. The grounding check and the cap apply to the whole text, questions included. P2 is
+    written in R124, before its cells run; P1's text and version do not change.
+  - Criterion: furniture Seed Recall@5 of `card_dense_summary` alone (code-computed by `kg retrieve-eval`);
+    ties to Seed Recall@1, then Seed Recall@10, then the smaller cap, then P1.
+  - Each cell is a full summary set; the first, P1 with cap 600 (the defaults now), is R123's check run.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
