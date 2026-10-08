@@ -7213,6 +7213,60 @@ deletable index layer with vectors and indexes, which R120's retrievers search.
   existing units still warns once, on a graph never indexed.
 - **R119 done 2026-10-08.** Next: R120, the hybrid retrievers, fusion and the `hybrid` system.
 
+### R120 split (2026-10-08, as the plan allows "if it grows")
+R120 holds a store of six queries, seven retrievers, fusion, the source, the registry entry, settings and a
+check run: too much for one reviewable step. It is split in two, done one after the other:
+- **R120a. The unit store and the retrievers** ($0, no run): `words()` moved to `core/text.py`;
+  `hybrid/lucene.py`; `hybrid/unit_store.py` (`UnitStore` + `Neo4jUnitStore`: card, claim and chunk search
+  by vector and by full text, a claim filter applied in Cypher with over-fetch, opposite-truth siblings,
+  card starts, the index state); `hybrid/retrievers.py` (`ChunkDense`, `ChunkLexical`, `ClaimRetriever`,
+  `CardRetriever` with round-robin per card and seeds, `SourceRetriever` for the name-linker route given
+  the question's vector); `ClaimHit` in `query/answers.py`. Tested with fakes and on Neo4j.
+- **R120b. Fusion, the hybrid source and the `hybrid` system** (one check run, asked): `hybrid/fusion.py`
+  `rrf`; `hybrid/source.py` (`HybridSettings`, `build_hybrid`: refuses a missing or stale index or another
+  embedding model, embeds the question once, trace with the lists, seeds and claims); `hybrid =
+  hybrid_spec("template")` in `qa_systems.py`; the `hybrid_*` settings; the system-level tests (only
+  listed retrievers called, the reader gets exactly k, no card text in the reader prompt, an H17-shaped
+  synthetic case).
+
+### R120a. The unit store and the retrievers (done 2026-10-08; $0, no run)
+- **Scope:** the queries over the R119 layer and one retriever per kind of list; no system uses them yet
+  (R120b), so no `kg` command changes.
+- **How:**
+  - `words()` moved from `query/names.py` to `core/text.py` (the name linker and the lexical retrievers
+    share it), alone and green first (98 query tests).
+  - `query/answers.py` `ClaimHit` (observation id, chunk, `truth`, `negation`, `modality`, `hedge`,
+    `condition`, `triple_truth`, opposite-truth `siblings` with their `sibling_chunks`).
+    `GraphRetrieval.ranked_for(question, vector)`: the route from a vector the caller has (`ranked` calls
+    it), so hybrid retrieval embeds a question once.
+  - `hybrid/lucene.py` `lucene_query`: each word quoted once, joined by spaces (OR), so Lucene operators in
+    identifiers ("hp40-1183") are plain text; None for a text without words.
+  - `hybrid/unit_store.py`: `UnitStore` + `Neo4jUnitStore`. Against the plan's sketch (`nearest_units`,
+    `search_units`, `claims(ids, filter)`) the store has one method per unit kind and search mode
+    (`nearest_cards`, `search_cards`, `nearest_claims`, `search_claims`, `search_chunks`), so a claim search
+    joins its observation, applies `ClaimFilter(triple_truth, modality)` and finds the siblings (same
+    canonical subject, predicate and object, opposite `triple_truth`) in one query, over-fetching 4x when a
+    filter is set; `card_starts` (a record's card starts the traversal as a thing by element id, an
+    individual's or a concept's as a kind by canonical id); `index_state` (card and claim counts,
+    versions, embedding models, online indexes), reading labels as values so a graph without the layer gets
+    no server warning.
+  - `hybrid/retrievers.py` (Strategy, all given the question, its vector and a depth): `ChunkDense`,
+    `ChunkLexical`, `ClaimRetriever(mode)` (each claim's chunk, then its siblings' chunks, each chunk once),
+    `CardRetriever(representation, mode)` (one `reach` per card, one read of all reached chunks, each card's
+    chunks ranked by similarity to the question, the cards in turn; seeds: the cards with a node),
+    `SourceRetriever` (`graph_route`, over a `LinkedRoute` protocol, so `hybrid` imports no `query` class);
+    `round_robin`.
+- **Verified:** 14 new tests. `tests/test_hybrid_retrievers.py` (7, fakes): the quoted query, list order and
+  depth, sibling chunks right after their claim, the filter passed through, no search without a word, a
+  hub of five chunks and a second card taking turns (h0, b0, h1, b1, h2), a card without a node no seed,
+  the name-linker route without a second embedding. `tests/test_hybrid_store.py` (7, Neo4j 7688, the
+  shared graph indexed with a keyword embedder): cards by vector and by words ("quill" finds exactly the
+  six cards that write it; BM25 ranks the short ones high), chunks by words, stop words alone find nothing,
+  siblings (o1 stated against o2 denied; o2 against o1 and o3, a condition's claim), the filter with
+  over-fetch (asking for one denied claim of four), card starts, the index state, the card retriever end to
+  end. 958 passed (944 + 14), ruff clean.
+- **R120a done 2026-10-08.** Next: R120b, fusion, the hybrid source and the `hybrid` system.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

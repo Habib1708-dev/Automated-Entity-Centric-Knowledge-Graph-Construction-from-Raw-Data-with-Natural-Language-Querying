@@ -14,6 +14,9 @@ import unicodedata
 _MARKDOWN_MARKERS = re.compile(r"[*_`#>]")
 _WHITESPACE = re.compile(r"\s+")
 _NON_ALPHANUMERIC = re.compile(r"[^a-z0-9]")
+# A word: letters and digits, keeping inner hyphens, apostrophes, dots and slashes ("hp40-1183", "can't",
+# "fuel/propulsion"), so an identifier stays one word; punctuation around it ("hp40-1183?") is dropped.
+_WORD = re.compile(r"[a-z0-9]+(?:[-'./][a-z0-9]+)*")
 
 
 def norm(text: str) -> str:
@@ -26,6 +29,12 @@ def norm(text: str) -> str:
     without_accents = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
     without_markdown = _MARKDOWN_MARKERS.sub("", without_accents.lower())
     return _WHITESPACE.sub(" ", without_markdown).strip()
+
+
+def words(text: str) -> list[str]:
+    """The words of `text` after `norm` (case, accents and markdown ignored): what the name linker matches
+    (query/names.py) and the lexical retrievers search for (hybrid/lucene.py)."""
+    return _WORD.findall(norm(text))
 
 
 def squash(text: str) -> str:

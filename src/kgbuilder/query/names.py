@@ -17,12 +17,8 @@ from typing import Literal
 from pydantic import BaseModel
 
 from ..core.similarity import dot, name_similarity, unit_vector
-from ..core.text import norm
+from ..core.text import words
 from .answers import LinkedNode
-
-# A word: letters and digits, keeping inner hyphens, apostrophes, dots and slashes ("hp40-1183", "can't",
-# "fuel/propulsion"), so an identifier stays one word; punctuation around it ("hp40-1183?") is dropped.
-_WORD = re.compile(r"[a-z0-9]+(?:[-'./][a-z0-9]+)*")
 
 # English function words. A run made only of them names nothing ("of the", "which"), and a node named like
 # one would be linked to every question. They belong to the language, not to any domain.
@@ -54,11 +50,6 @@ class NodeName(BaseModel):
     label: str | None = (
         None  # a thing's record label or a kind's entity type (find_entity narrows by it, R74)
     )
-
-
-def words(text: str) -> list[str]:
-    """The words of `text` after `norm` (case, accents and markdown ignored)."""
-    return _WORD.findall(norm(text))
 
 
 def spans(question_words: list[str], length: int) -> list[str]:

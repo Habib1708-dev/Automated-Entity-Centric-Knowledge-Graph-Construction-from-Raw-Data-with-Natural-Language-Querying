@@ -102,7 +102,11 @@ class GraphRetrieval:
         self._refs = {(n.kind, n.node_id): n.ref for n in linker.nodes}
 
     def ranked(self, question: str) -> tuple[list[StoredChunk], RetrievalTrace | None]:
-        vector = self._embedder.embed([question])[0]
+        return self.ranked_for(question, self._embedder.embed([question])[0])
+
+    def ranked_for(self, question: str, vector: list[float]) -> tuple[list[StoredChunk], RetrievalTrace]:
+        """`ranked` with the question's vector given: hybrid retrieval (R120) embeds a question once for
+        all its retrievers, this route among them."""
         linked = self.linker.link(question, vector)
         reached = self._store.reach(
             [n.node_id for n in linked if n.kind == "thing"], [n.node_id for n in linked if n.kind == "kind"]

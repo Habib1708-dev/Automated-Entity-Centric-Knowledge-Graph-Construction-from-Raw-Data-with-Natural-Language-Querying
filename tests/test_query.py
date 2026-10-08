@@ -7,12 +7,13 @@ import pytest
 
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import ConfigurationError, EvaluationError
+from kgbuilder.core.text import words
 from kgbuilder.graph.connection import open_driver
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAScoreStage, QAStage
 from kgbuilder.query.answers import SystemAnswer, load_system_answers, shown_texts
 from kgbuilder.query.graph_store import StoredChunk
-from kgbuilder.query.names import NameLinker, NodeName, spans, words
+from kgbuilder.query.names import NameLinker, NodeName, spans
 from kgbuilder.query.ranking import rank
 from kgbuilder.query.reader import NOTHING_TO_READ, PROMPT, Reader, ReaderAnswer, ReaderCitation, build_prompt
 from kgbuilder.query.systems import GraphRetrieval, ReadingSystem, VectorBaseline, build_graph_retrieval

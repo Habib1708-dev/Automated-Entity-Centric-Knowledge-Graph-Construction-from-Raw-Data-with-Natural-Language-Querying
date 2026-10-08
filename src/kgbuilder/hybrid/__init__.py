@@ -6,6 +6,9 @@ index embeds: today deterministic cards (cards.py, A); LLM node summaries (B, R1
 representation over the same evidence. Every claim also gets a sentence of its own (claims.py).
 R119: unit_graph.py writes the cards and claim sentences into Neo4j as the retrieval index layer, with their
 vectors and indexes, re-embedding only what changed.
+R120a: unit_store.py searches that layer (and the chunks' full-text index) by vector and by words
+(lucene.py), and retrievers.py turns a question into one ranked list of chunk ids per retriever: chunks,
+claims with their opposite-truth siblings, cards taking turns, and the name-linker route.
 Dependencies: pipeline -> hybrid -> query's public models, graph, llm.base, core; nothing imports hybrid but
 the pipeline.
 """

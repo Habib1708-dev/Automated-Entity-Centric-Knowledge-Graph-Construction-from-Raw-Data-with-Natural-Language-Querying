@@ -39,6 +39,24 @@ class LinkedNode(BaseModel):
     by: Literal["spelling", "meaning"]
 
 
+class ClaimHit(BaseModel):
+    """A claim that claim retrieval found (R120): its observation, the chunk it was read from, its truth
+    fields as stored (truth is never left to the claim sentence's text, which an embedding and a full-text
+    analyzer both blur), and its siblings: the observations of the same canonical subject, predicate and
+    object whose triple has the opposite truth, with their chunks, so a disagreement is read together."""
+
+    id: str
+    chunk_id: str
+    truth: str  # of the statement (R77 part d)
+    negation: str = ""
+    modality: str = "actual"
+    hedge: str = ""
+    condition: str = ""
+    triple_truth: str = "affirmed"  # whether the stored triple itself is denied: what siblings oppose
+    siblings: list[str] = []  # the opposite-truth observations' ids, sorted
+    sibling_chunks: list[str] = []  # their chunks, in the same order
+
+
 class RetrievalTrace(BaseModel):
     """How the graph route chose its chunks, kept so a wrong answer can be traced to its cause."""
 

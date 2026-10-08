@@ -316,7 +316,9 @@ src/kgbuilder/
                     exact (text2cypher, the plans' logged fallback) with cypher_check
   hybrid/           R118: unit_sources (a node's evidence, read-only) -> evidence -> representation (Strategy,
                     by name) -> cards (A: deterministic node cards) ; claims (one sentence per claim) ;
-                    unit_graph (R119: the units written into Neo4j with their vectors and indexes)
+                    unit_graph (R119: the units written into Neo4j with their vectors and indexes) ;
+                    unit_store (R120a: that layer searched by vector and by words, lucene) -> retrievers
+                    (chunks, claims with their opposite-truth siblings, cards in turn, the name-linker route)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
