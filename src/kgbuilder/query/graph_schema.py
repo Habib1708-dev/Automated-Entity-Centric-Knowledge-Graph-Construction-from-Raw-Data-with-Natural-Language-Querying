@@ -117,9 +117,11 @@ def read_graph_schema(driver: Driver) -> GraphSchema:
 
 def _labels(driver: Driver) -> list[LabelInfo]:
     records, _, _ = driver.execute_query(
-        # the property keys of every node of a label, flattened in Python: nodes of one label may differ
-        f"MATCH (n) WHERE NOT n:{RETRIEVAL_UNIT} UNWIND labels(n) AS label "
-        "RETURN label, count(*) AS n, collect(keys(n)) AS keys ORDER BY label"
+        # the property keys of every node of a label, flattened in Python: nodes of one label may differ. The
+        # layer's label is a value here, not a name, so a graph without the layer gets no server warning
+        "MATCH (n) WHERE NOT $layer IN labels(n) UNWIND labels(n) AS label "
+        "RETURN label, count(*) AS n, collect(keys(n)) AS keys ORDER BY label",
+        layer=RETRIEVAL_UNIT,
     )
     labels = []
     for r in records:
@@ -179,10 +181,11 @@ def _temporal_function(value: object) -> str:
 
 def _relationships(driver: Driver) -> list[RelationshipInfo]:
     records, _, _ = driver.execute_query(
-        f"MATCH (a)-[r]->(b) WHERE NOT a:{RETRIEVAL_UNIT} AND NOT b:{RETRIEVAL_UNIT} "
+        "MATCH (a)-[r]->(b) WHERE NOT $layer IN labels(a) AND NOT $layer IN labels(b) "
         "UNWIND labels(a) AS source UNWIND labels(b) AS target "
         "RETURN source, type(r) AS type, target, count(*) AS n, collect(DISTINCT keys(r)) AS keys "
-        "ORDER BY type, source, target"
+        "ORDER BY type, source, target",
+        layer=RETRIEVAL_UNIT,
     )
     relationships = []
     for r in records:

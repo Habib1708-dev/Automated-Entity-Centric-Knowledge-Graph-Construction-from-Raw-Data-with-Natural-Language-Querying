@@ -31,14 +31,18 @@ class GraphDigest(BaseModel):
 def graph_digest(driver: Driver) -> GraphDigest:
     """Read the label and relationship counts and every chunk's id and text, and hash them. Read-only. The
     retrieval index layer (index_layer.py) is left out: indexing a graph does not change its digest."""
-    # a node with two labels counts under each: a label added to or removed from a node changes the digest
+    # a node with two labels counts under each: a label added to or removed from a node changes the digest.
+    # The layer's label is tested as a value, not named: on a graph without the layer, naming it makes the
+    # server warn on every query that the label does not exist
     labels, _, _ = driver.execute_query(
-        f"MATCH (n) WHERE NOT n:{RETRIEVAL_UNIT} UNWIND labels(n) AS label "
-        "RETURN label, count(*) AS n ORDER BY label"
+        "MATCH (n) WHERE NOT $layer IN labels(n) UNWIND labels(n) AS label "
+        "RETURN label, count(*) AS n ORDER BY label",
+        layer=RETRIEVAL_UNIT,
     )
     types, _, _ = driver.execute_query(
-        f"MATCH (a)-[r]->(b) WHERE NOT a:{RETRIEVAL_UNIT} AND NOT b:{RETRIEVAL_UNIT} "
-        "RETURN type(r) AS type, count(*) AS n ORDER BY type"
+        "MATCH (a)-[r]->(b) WHERE NOT $layer IN labels(a) AND NOT $layer IN labels(b) "
+        "RETURN type(r) AS type, count(*) AS n ORDER BY type",
+        layer=RETRIEVAL_UNIT,
     )
     chunks, _, _ = driver.execute_query("MATCH (c:Chunk) RETURN c.chunk_id AS id, c.text AS text ORDER BY id")
     label_counts = {r["label"]: r["n"] for r in labels}
