@@ -7455,7 +7455,7 @@ in the session that starts R123, chose each of the following.
   override; a source ranks to 20, so the vector system now asks its index for 20 chunks instead of 10 (R121
   section 5.9: the counts at 5 and 10 were equal on furniture).
 
-### R123. B, LLM node summaries as a second representation (code done 2026-10-08; the real-API check asked)
+### R123. B, LLM node summaries as a second representation (done 2026-10-08; $0.573)
 Plan R116-R125, B's code: a model writes each node's text from the same evidence as A's cards, code checks
 it, and the card retrievers can search either representation.
 - **Scope:** the representation seam (its own structural commit first), `hybrid/summaries.py`, the summary
@@ -7552,6 +7552,51 @@ it, and the card retrievers can search either representation.
   of a known word. P1 is this corrected prompt (version `65f9c18fcc9d`, summaries `cb2853048d1f`); the grid
   is otherwise unchanged. Tests: the facts' new lines, the version's material, three texts the old check
   refused falsely now pass; 1004 passed, ruff clean.
+- **The check run, the set that counts as R124's cell P1/600** (the user, 2026-10-08: "Fix and re-run"): the
+  same command at `2349ce0` (MLflow `1a48e5a9`, 167 s): 738 calls (737 first replies, 1 retry, 3 cache
+  hits), 0 failures, 599,766 input / 44,458 output / 0 thinking tokens, **$0.291075**; 737 summaries (113
+  characters on average, median 90, at most 424; template cards 131 / 87 / 511), every evidence hash equal to
+  A's, **1 first reply refused, 0 fallbacks**: "Malm%C3%B6 Desk" (the model wrote "Malmö" URL-encoded; the
+  words "B6, C3, Malm" in no fact), retried as "Malmö Desk". Reversed EXHIBITS directions by the same word
+  pattern: 3 of 256 (116 before), the right direction 157 (85 before). The 685 claim sentences were reused,
+  737 summaries embedded (83,057 characters, unpriced). R123's two summary runs together: **$0.573243**.
+  Examples (`out/r117_furniture/index/units.jsonl`): "sagging is a quality aspect. Drawer, Shelves, lower
+  shelf exhibit sagging. Västerås Bookshelf exhibits sagging."; "Frame is an assembly ... It is part of
+  Uppsala Sofa, and 6 components are part of it ... It exhibits creaks, but only whenever someone sits
+  down."
+- **The card systems checked end to end, A's baselines and cell P1/600 measured** (the user, 2026-10-08:
+  "Yes, run all six"): one command at `2349ce0`, `uv run kg --preset quality retrieve-eval
+  tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r117_furniture
+  --data data --system card_dense_template --system card_lexical_template --system card_seeds_template
+  --system card_dense_summary --system card_lexical_summary --system card_seeds_summary --out out/r123`
+  (MLflow `edc50597`, `4c0e99fc`, `c6ca4ded`, `b4ac888a`, `9648e248`, `4b57b98b`; `graph_digest` 392a170ecc10;
+  A version 54d556f3ea08, B cb2853048d1f; $0 logged, 1,882 texts / 46,468 characters embedded, unpriced).
+  Code-computed, no judge; seeds of 86 targets over 50 questions, chunks of 73 over 33:
+
+  | System | Seed Recall@1 / 3 / 5 / 10 / 20 | Seeds found@5 | Evidence@5 / 20 | Complete@5 / 10 / 20 | p50 |
+  |---|---|---|---|---|---|
+  | `card_dense_template` (A) | 36 / 52 / 59 / 69 / 73 | 27 | 42 / 56 | 20 / 25 / 27 | 942 ms |
+  | `card_dense_summary` (B) | 33 / 48 / 58 / 71 / 81 | 29 | 42 / 63 | 21 / 25 / 30 | 755 ms |
+  | `card_lexical_template` | 27 / 51 / 64 / 74 / 81 | 30 | 46 / 59 | 22 / 25 / 27 | 885 ms |
+  | `card_lexical_summary` | 28 / 52 / 61 / 68 / 72 | 27 | 44 / 58 | 21 / 25 / 27 | 761 ms |
+  | `card_seeds_template` | 43 / 73 / 81 / 84 / 86 | 45 | 48 / 59 | 24 / 28 / 29 | 1,287 ms |
+  | `card_seeds_summary` | 40 / 70 / 82 / 86 / 86 | 46 | 51 / 62 | 24 / 29 / 30 | 1,247 ms |
+
+  - `card_seeds_template` gives R121's M5/k10 seeds exactly (43 / 73 / 81 / 84 / 86): the fixed list is that
+    cell's seed side, as designed.
+  - **Headline, paired** (`kg retrieve-compare`, files only; MLflow `69a93583`, `157367ff`, `78b0d1d4`): Seeds
+    found@5 of `card_dense`, A 27 / B 29 of 50, only A 5, only B 7, **p = 0.774**; at 20, 39 / 45, only A 2,
+    only B 8, p = 0.109. `card_lexical` Seeds found@20 45 / 38, only A 8, only B 1, p = 0.039 (A's words
+    win deep down: a summary rewrites a card's identifiers and column words). `card_seeds` at 5: 45 / 46, p =
+    1.0. Nothing else differs beyond one sample's variation; this is one cell of four on the tuning set.
+  - **Where B moves targets (card_dense, rank under A -> B):** B finds what A's short cards hid, F04's
+    `Frame` (none -> 2), F17's `Frame` (none -> 3), F33's `Power Cord` (none -> 3), F06's dresser (none ->
+    10); it loses products whose summaries are long: F37 Örebro Lamp 1 -> 6, F33 the lamp 1 -> 9, F34 Uppsala
+    Sofa 2 -> 13, F28 4 -> 14, F09 dresser 5 -> 10. F01/F02/F07's `Drawer Rails` stays 1st. At 5, B alone
+    finds 9 targets (6 of them assemblies or concepts), A alone 10 (8 of them products). The length cap of
+    R124's grid (250 against 600) tests whether shorter product summaries recover them.
+- **R123 done 2026-10-08** ($0.573243: two summary runs; retrieval embeddings unpriced). Next: R124, B tuned on
+  furniture (P2 written, cells P1/250, P2/600, P2/250 asked), groundedness judged, sealed.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
