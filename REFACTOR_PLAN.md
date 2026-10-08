@@ -7630,6 +7630,15 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **A concept's relation lines ignore the truth of the claims they come from (found in R123, 2026-10-08;
+  open).** `unit_sources` groups the claims a concept is an end of by predicate, direction and the other
+  end's type, counting every claim; their stated and denied counts are not kept. So the concept "wobbling"
+  (`fa88df0e28c761c8`) reads `EXHIBITS <- Component (3): Frame, construction, frame` although "construction
+  exhibits wobbling" is denied ("The construction remains solid with no wobbling", R121's F26), and B's
+  summary says "wobbling ... is exhibited by 3 components including Frame, construction, frame". Both A and B
+  share the evidence, so neither can show the denial. Direction: a denied-only neighbour tagged or counted
+  apart in `Neighbours`; it changes the shared evidence (both representations' texts), so its own step,
+  measured on furniture before any held-out run.
 - **One units file per build, not per representation (found in R123, 2026-10-08; open).** `kg units` and `kg
   index` write `index/units.jsonl` whatever `--cards` names, so `kg index --cards summary` on
   `out/r117_furniture` replaced the template cards' file of R119 (their copy stays in MLflow `1030c6bf`, and
