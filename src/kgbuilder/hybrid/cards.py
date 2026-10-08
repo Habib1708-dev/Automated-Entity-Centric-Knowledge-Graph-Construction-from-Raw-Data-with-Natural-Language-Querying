@@ -58,6 +58,14 @@ class TemplateCards:
         """One card per node, in the order given."""
         return [self._card(e) for e in evidence]
 
+    def params(self) -> dict[str, object]:
+        """Nothing beyond the evidence caps, which the stages log: the template is in the version."""
+        return {}
+
+    def prompts(self) -> dict[str, str]:
+        """No model reads anything: no prompt."""
+        return {}
+
     def _card(self, e: NodeEvidence) -> RenderedCard:
         head = [TITLE.format(title=e.title, label=e.label)]
         if e.aliases:

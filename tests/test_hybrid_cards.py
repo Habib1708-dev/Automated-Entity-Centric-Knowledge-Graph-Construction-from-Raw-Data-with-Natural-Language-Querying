@@ -12,6 +12,7 @@ from kgbuilder.hybrid import (
     EvidenceClaim,
     Neighbours,
     NodeEvidence,
+    RepresentationOptions,
     claim_text,
     evidence_hash,
     predicate_words,
@@ -131,7 +132,8 @@ def test_a_claim_sentence_names_both_ends_with_their_types_and_the_predicate_in_
 
 def test_a_representation_is_chosen_by_name_and_versioned_by_its_template():
     assert set(REPRESENTATIONS) == {"template"}
-    cards = representation("template", 900)
+    cards = representation("template", RepresentationOptions(card_max_chars=900))
     assert cards.name == "template" and cards.version == prompt_version(CARD_TEMPLATE)
+    assert (cards.params(), cards.prompts()) == ({}, {})  # no model, no knob beyond the evidence caps
     with pytest.raises(ConfigurationError, match="choose from template"):
-        representation("summary", 900)
+        representation("summary", RepresentationOptions(card_max_chars=900))

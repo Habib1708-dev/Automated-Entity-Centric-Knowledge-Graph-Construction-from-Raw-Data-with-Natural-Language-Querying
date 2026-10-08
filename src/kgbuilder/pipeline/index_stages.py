@@ -7,10 +7,12 @@ render its card with one node representation, and take one sentence per claim. `
 to `index/units.jsonl`; `kg index` also writes them into the graph as `:RetrievalUnit` nodes with their
 vectors and creates the indexes R120's retrievers search, embedding only the units that are new or changed.
 Design: wiring and logging only, like qa_stages.py. One MLflow run per stage: params name the representation
-with its version, the evidence caps, the graph digest (which the index layer leaves unchanged), and for `kg
-index` the embedding model and the full-text analyzer; metrics count the cards per kind, the claim
-sentences, the claims the claims cap leaves out, the truncated cards and the text lengths, and for `kg index`
-the units written, reused and removed and the embedding volume; the artifact is the units file.
+with its version and its own params, the evidence caps, the graph digest (which the index layer leaves
+unchanged), and for `kg index` the embedding model and the full-text analyzer; metrics count the cards per
+kind, the claim sentences, the claims the claims cap leaves out, the truncated cards and the text lengths, and
+for `kg index` the units written, reused and removed and the embedding volume; the artifacts are the units
+file and the representation's prompts, if it sends any. The representation is built here from the settings
+(`card_representation`), with the context's model only for `kg index`: `kg units` never calls a model.
 Not here: the evidence and its Cypher (hybrid/unit_sources.py), the cards (hybrid/cards.py), the index
 layer's writes (hybrid/unit_graph.py) and names (graph/index_layer.py).
 """
@@ -19,6 +21,7 @@ from statistics import mean
 
 from pydantic import BaseModel
 
+from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..graph.digest import graph_digest
 from ..graph.index_layer import ANALYZER, RESERVED_LABELS, RESERVED_TYPES, card_label
@@ -27,17 +30,22 @@ from ..hybrid import (
     ClaimSentence,
     EvidenceCaps,
     NodeEvidence,
+    NodeRepresentation,
     RenderedCard,
+    RepresentationOptions,
+    check_representation,
     read_claim_sentences,
     read_evidence,
     read_targets,
+    representation,
 )
-from ..hybrid import representation as node_representation
 from ..hybrid.unit_graph import card_rows, claim_rows, ensure_indexes, write_units
+from ..llm.base import LLMClient
 from ..llm.counting import CountingEmbedder
 from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
 from ..text.record_documents import prose_columns
+from ..tracking.base import Run
 from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
 
@@ -60,15 +68,16 @@ class UnitsStage(BaseStage):
     UNITS_FILE = UNITS_FILE
 
     def __init__(self, cards: str):
-        node_representation(cards, 1)  # an unknown name is refused before anything runs
-        self.cards = cards
+        self.cards = check_representation(cards)  # an unknown name is refused before anything runs
 
     def params(self, ctx, state):
         return card_params(ctx, self.cards)
 
     def run(self, ctx, state, run):
         run.params(graph_digest=graph_digest(ctx.driver).value)
-        units = read_units(ctx, state, self.cards, state.load_plan(ctx, required=False))
+        rep = card_representation(ctx.settings, self.cards)  # no model: `kg units` never calls one
+        log_prompts(run, rep)
+        units = read_units(ctx, state, rep, state.load_plan(ctx, required=False))
         run.metrics(**unit_metrics(units))
         run.artifact(write_units_file(ctx, units))
 
@@ -80,8 +89,7 @@ class IndexStage(BaseStage):
     name = "index"
 
     def __init__(self, cards: str):
-        node_representation(cards, 1)
-        self.cards = cards
+        self.cards = check_representation(cards)
 
     def params(self, ctx, state):
         return {**card_params(ctx, self.cards), "embed_model": ctx.settings.embed_model, "analyzer": ANALYZER}
@@ -92,9 +100,10 @@ class IndexStage(BaseStage):
         plan = state.load_plan(ctx, required=False)
         refuse_collisions(plan)
         run.params(graph_digest=graph_digest(ctx.driver).value)
-        units = read_units(ctx, state, self.cards, plan)
-        version = node_representation(self.cards, ctx.settings.index_card_max_chars).version
-        cards = card_rows(self.cards, version, units.cards, read_targets(ctx.driver, plan))
+        rep = card_representation(ctx.settings, self.cards, ctx.llm)
+        log_prompts(run, rep)
+        units = read_units(ctx, state, rep, plan)
+        cards = card_rows(self.cards, rep.version, units.cards, read_targets(ctx.driver, plan))
         embedder = CountingEmbedder(ctx.embedder)
         written = write_units(
             ctx.driver, self.cards, cards, claim_rows(units.claims), embedder, ctx.settings.embed_model
@@ -112,28 +121,42 @@ class IndexStage(BaseStage):
         run.artifact(write_units_file(ctx, units))
 
 
+def card_representation(settings: Settings, cards: str, llm: LLMClient | None = None) -> NodeRepresentation:
+    """The representation `cards` built from the settings, writing with `llm` if it writes with a model:
+    every stage and system builds it here, so all compute the same version from the same settings."""
+    return representation(cards, RepresentationOptions(card_max_chars=settings.index_card_max_chars), llm)
+
+
 def card_params(ctx: PipelineContext, cards: str) -> dict[str, object]:
-    """What decides the cards' texts: the representation and its version, and the evidence caps."""
+    """What decides the cards' texts: the representation, its version and its own params, and the evidence
+    caps."""
     s = ctx.settings
+    rep = card_representation(s, cards)
     return {
         "cards": cards,
-        "representation_version": node_representation(cards, s.index_card_max_chars).version,
+        "representation_version": rep.version,
         "index_card_names": s.index_card_names,
         "index_card_claims": s.index_card_claims,
         "index_card_max_chars": s.index_card_max_chars,
+        **rep.params(),
     }
 
 
+def log_prompts(run: Run, rep: NodeRepresentation) -> None:
+    """Log the prompts the representation sends to a model as `prompts/<name>.txt` artifacts of `run`."""
+    for name, text in rep.prompts().items():
+        run.text(text, f"prompts/{name}.txt")
+
+
 def read_units(
-    ctx: PipelineContext, state: PipelineState, cards: str, plan: ConstructionPlan | None
+    ctx: PipelineContext, state: PipelineState, rep: NodeRepresentation, plan: ConstructionPlan | None
 ) -> Units:
-    """Every node's evidence (records only with a plan), its card in the representation `cards`, and every
+    """Every node's evidence (records only with a plan), its card in the representation `rep`, and every
     claim's sentence, read from the graph."""
     s = ctx.settings
     caps = EvidenceCaps(names=s.index_card_names, claims=s.index_card_claims)
     evidence = read_evidence(ctx.driver, plan, caps, _prose(plan, state.load_profile(ctx)))
-    rendered = node_representation(cards, s.index_card_max_chars).render(evidence)
-    return Units(evidence=evidence, cards=rendered, claims=read_claim_sentences(ctx.driver))
+    return Units(evidence=evidence, cards=rep.render(evidence), claims=read_claim_sentences(ctx.driver))
 
 
 def write_units_file(ctx: PipelineContext, units: Units):

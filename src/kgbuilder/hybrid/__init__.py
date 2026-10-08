@@ -17,7 +17,13 @@ the pipeline.
 
 from .claims import ClaimSentence, claim_text, predicate_words
 from .evidence import EvidenceClaim, Neighbours, NodeEvidence, RenderedCard, evidence_hash
-from .representation import REPRESENTATIONS, NodeRepresentation, representation
+from .representation import (
+    REPRESENTATIONS,
+    NodeRepresentation,
+    RepresentationOptions,
+    check_representation,
+    representation,
+)
 from .unit_sources import EvidenceCaps, read_claim_sentences, read_evidence, read_targets
 
 __all__ = [
@@ -29,6 +35,8 @@ __all__ = [
     "NodeEvidence",
     "NodeRepresentation",
     "RenderedCard",
+    "RepresentationOptions",
+    "check_representation",
     "claim_text",
     "evidence_hash",
     "predicate_words",

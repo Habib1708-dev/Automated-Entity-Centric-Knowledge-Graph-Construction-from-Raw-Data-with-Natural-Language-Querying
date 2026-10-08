@@ -7425,6 +7425,32 @@ committed as the `config.py` defaults before any held-out or generality run.
   - **The ceiling:** F08 and F13 cite 6 and 8 chunks, so Complete@5 is at most 31 of 33.
 - **R121 done 2026-10-08.** Next: R122, A measured on held-out and generality, asked per dataset.
 
+### Plan change (2026-10-08): B before R122, then one step per dataset with A and B together
+The user, 2026-10-08: "We still need to test against the llm-generated node summaries embeddings", then, asked
+in the session that starts R123, chose each of the following.
+- **Order:** R123 (B's code) -> R124 (B tuned on furniture and sealed) -> R122 (A and B on held-out) -> R125 (A
+  and B on generality). Furniture is the working graph now and B is built and tuned on it; measuring A and B
+  together per dataset loads held-out and generality once each. The plan's R122 (A alone on both datasets)
+  and R125 (B against A on both) become one step per dataset.
+- **What R121's seal means for B:** the sealed `hybrid` lists no card retriever, so it ranks the same chunks
+  whichever representation is indexed. A `hybrid_summary` system (the plan's sketch) would equal `hybrid`: it
+  is not registered, and neither is paid for twice. A and B differ only where the cards are used: the card
+  retrievers' seeds and their chunk lists.
+- **Measures, fixed before any B number exists:**
+  - headline (pre-registered in the plan): Seed Recall@K of `card_dense` alone, A against B, K = 1, 3, 5, 10,
+    20, exact McNemar on Seeds found@5;
+  - secondary (a): Evidence@K and Complete@K (K = 5, 10, 20) of the `card_dense` list alone;
+  - secondary (b): Seed Recall@K of `card_lexical` alone (a summary changes the words too);
+  - secondary (c): the fused seeds of `card_dense` + `card_lexical` + `graph_route` at the sealed `rrf_k` 10,
+    per representation (the seeds of R121's M5/k10, the best seed finder: 81/86 at 5).
+  Each is a registered retrieval-only system per representation whose retriever list is fixed in code, not
+  set through `HYBRID_*` overrides, so the held-out and generality runs stay override-free; A's numbers on
+  furniture are measured before B's.
+- **The summary model:** `gemini-3.5-flash-lite` (the user's choice, the cheapest Gemini; the builder is
+  `gemini-3.8-flash`).
+- **Retrieval only:** A and B are compared on seeds and chunks (`kg retrieve-eval`); no answer-level system
+  that reads the cards' chunks is built, and no reader run is made for B.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

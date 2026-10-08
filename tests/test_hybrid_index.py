@@ -15,7 +15,7 @@ from kgbuilder.graph.index_layer import ANALYZER, card_indexes, index_names
 from kgbuilder.hybrid import read_claim_sentences, read_targets
 from kgbuilder.hybrid.unit_graph import card_rows, claim_rows, ensure_indexes, write_units
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
-from kgbuilder.pipeline.index_stages import IndexStage, read_units
+from kgbuilder.pipeline.index_stages import IndexStage, card_representation, read_units
 from kgbuilder.pipeline.stage import PLAN_FILE
 from kgbuilder.query.graph_schema import read_graph_schema
 
@@ -103,7 +103,7 @@ def test_a_second_run_embeds_nothing_and_a_changed_node_only_its_changed_cards(l
 def test_two_representations_coexist_and_stale_removal_touches_only_the_one_written(layer, tmp_path):
     ctx = index_context(layer, tmp_path, FixedEmbedder())
     run_index(ctx)
-    units = read_units(ctx, PipelineState(), "template", RELATED_PLAN)
+    units = read_units(ctx, PipelineState(), card_representation(ctx.settings, "template"), RELATED_PLAN)
     targets, claims = read_targets(layer, RELATED_PLAN), claim_rows(read_claim_sentences(layer))
     # a second representation, "other", of the same nodes: its own label, the shared claims reused
     embedder = FixedEmbedder()

@@ -19,7 +19,6 @@ from dataclasses import dataclass, field
 
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
-from ..hybrid import representation
 from ..hybrid.source import HybridSettings, build_hybrid
 from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
 from ..llm.base import Embedder, LLMClient, prompt_version
@@ -42,6 +41,7 @@ from ..query.systems import (
 )
 from ..structured.plan import ConstructionPlan, name_property
 from ..tracking.base import Run
+from .index_stages import card_representation
 from .stage import PipelineContext, PipelineState
 
 
@@ -132,7 +132,7 @@ def hybrid_spec(name: str, cards: str) -> SystemSpec:
         )
         # the name-linker route embeds every node name once: built only when the settings list it
         route = _graph_retrieval(parts, depth) if "graph_route" in settings.retrievers else None
-        version = representation(cards, s.index_card_max_chars).version
+        version = card_representation(s, cards).version
         return build_hybrid(settings, parts.store, parts.units, parts.embedder, route, version, s.embed_model)
 
     def params(s: Settings) -> dict[str, object]:
@@ -141,7 +141,7 @@ def hybrid_spec(name: str, cards: str) -> SystemSpec:
             "hybrid_rrf_k": s.hybrid_rrf_k,
             "hybrid_depth": s.hybrid_depth,
             "hybrid_cards": cards,
-            "representation_version": representation(cards, s.index_card_max_chars).version,
+            "representation_version": card_representation(s, cards).version,
             **_graph_retrieval_params(s),  # the cards' traversal and the name-linker route, when listed
         }
 
