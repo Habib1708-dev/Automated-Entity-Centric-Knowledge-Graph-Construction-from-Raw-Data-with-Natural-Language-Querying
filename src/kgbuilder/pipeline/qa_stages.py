@@ -9,40 +9,26 @@ logs what code can score at once (sets, numbers, recall@k, citation faithfulness
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
 question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
 earlier run's plans (query/frozen.py) and logs which file they came from.
-Not here: retrieval and reading (query/), scoring (validation/qa.py), the paired test (validation/paired.py).
+Not here: how a system is built and what it logs as params (qa_systems.py), retrieval and reading (query/),
+scoring (validation/qa.py), the paired test (validation/paired.py).
 """
 
 import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from ..core.errors import ConfigurationError, LLMUnavailableError
-from ..llm.base import Embedder, prompt_version
-from ..llm.thinking import with_thinking
-from ..query import exact, planner, read_check, reader
+from ..core.errors import ConfigurationError
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
-from ..query.frozen import FrozenQuery, load_frozen
-from ..query.graph_store import Neo4jGraphStore
-from ..query.systems import (
-    RECORDS_VECTOR,
-    QASettings,
-    QASystem,
-    VectorBaseline,
-    build_graph_system,
-    build_records_vector,
-)
-from ..structured.plan import name_property
+from ..query.frozen import load_frozen
 from ..tracking.base import Run
 from ..validation.paired import compare_outcomes
 from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
 from ..validation.qa_gold import load_qa_gold
 from .inputs import digest, input_file
+from .qa_systems import SystemSpec, build_system, check_system, log_prompts, system_params
 from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
 
-SYSTEMS = ("graph", "vector", RECORDS_VECTOR)
-# the plan systems (R74), which log their plans, read_checks and fallbacks, and their extra prompts
-PLANNED = ("graph", RECORDS_VECTOR)
 # the primitives whose use per answer is counted (`answers_using_<op>`)
 _OPS = (
     "find_entity", "filter_records", "related", "find_claims", "read_check", "retrieve_chunks",
@@ -50,107 +36,16 @@ _OPS = (
 )  # fmt: skip
 
 
-def _embedder(ctx: PipelineContext) -> Embedder:
-    if ctx.embedder is None:
-        raise LLMUnavailableError("question answering needs an embedding model: set GEMINI_API_KEY")
-    return ctx.embedder
-
-
-def build_system(
-    ctx: PipelineContext, state: PipelineState, system: str, frozen: dict[str, FrozenQuery] | None = None
-) -> QASystem:
-    """The system named `system` over the current graph, with the settings' model, reader and k; a plan
-    system replays `frozen` (R80) when given."""
-    s = ctx.settings
-    llm = with_thinking(ctx.require_llm(), s.qa_thinking)
-    answer_reader = reader.Reader(llm, s.qa_model, s.llm_temperature)
-    plan = state.load_plan(ctx, required=False)
-    store = Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s)
-    if system == "vector":
-        return VectorBaseline(store, _embedder(ctx), answer_reader, s.qa_top_k)
-    if system == RECORDS_VECTOR and plan is None:
-        raise ConfigurationError("records plus vector RAG needs the construction plan's record labels")
-    settings = QASettings(
-        model=s.qa_model,
-        temperature=s.llm_temperature,
-        top_k=s.qa_top_k,
-        link_fuzzy=s.qa_link_fuzzy,
-        link_neighbours=s.qa_link_neighbours,
-        cypher_limit=s.qa_cypher_limit,
-        step_cap=s.qa_step_cap,
-        check_limit=s.qa_check_limit,
-        check_chunks=s.qa_check_chunks,
-    )
-    labels = {rule.label for rule in plan.nodes} if plan else set()
-    names = {rule.label: name_property(rule) for rule in plan.nodes} if plan else {}
-    build = build_records_vector if system == RECORDS_VECTOR else build_graph_system
-    return build(store, _embedder(ctx), llm, answer_reader, settings, labels, names, frozen)
-
-
-def _frozen_file(ctx: PipelineContext, state: PipelineState, system: str) -> Path | None:
+def _frozen_file(ctx: PipelineContext, state: PipelineState, spec: SystemSpec) -> Path | None:
     """The answers file whose plans this system replays: `<plans folder>/answers_<system>.jsonl` for a plan
-    system when `--plans` is given; None otherwise (the vector baseline has no plans to freeze). Refuses the
+    system when `--plans` is given; None otherwise (a reading system has no plans to freeze). Refuses the
     file this run is about to write: the run would overwrite the plans it replays."""
-    if state.frozen_plans is None or system not in PLANNED:
+    if state.frozen_plans is None or not spec.planned:
         return None
-    path = input_file(Path(state.frozen_plans) / f"answers_{system}.jsonl", "frozen plans")
-    if path.resolve() == (ctx.out / f"answers_{system}.jsonl").resolve():
+    path = input_file(Path(state.frozen_plans) / f"answers_{spec.name}.jsonl", "frozen plans")
+    if path.resolve() == (ctx.out / f"answers_{spec.name}.jsonl").resolve():
         raise ConfigurationError("--plans must name another folder than --out: the run would overwrite them")
     return path
-
-
-def _cypher_prompt(system: str) -> str:
-    return (exact.RECORDS_PROMPT if system == RECORDS_VECTOR else exact.PROMPT) + exact.RETRY
-
-
-def _system_params(ctx: PipelineContext, system: str) -> dict[str, object]:
-    """What decides a system's answers: the model, its prompts, k, and the graph system's settings."""
-    s = ctx.settings
-    params: dict[str, object] = {
-        "system": system,
-        "model": s.qa_model,
-        "thinking": s.qa_thinking,
-        "temperature": s.llm_temperature,
-        "prompt_version": prompt_version(reader.PROMPT),
-        "qa_top_k": s.qa_top_k,
-        "embed_model": s.embed_model,
-    }
-    if system in PLANNED:
-        params.update(
-            planner_prompt_version=prompt_version(planner.PROMPT + planner.RETRY),
-            read_check_prompt_version=prompt_version(_read_check_prompt()),
-            cypher_prompt_version=prompt_version(_cypher_prompt(system)),
-            qa_cypher_limit=s.qa_cypher_limit,
-            qa_cypher_timeout_s=s.qa_cypher_timeout_s,
-            qa_step_cap=s.qa_step_cap,
-            qa_check_limit=s.qa_check_limit,
-            qa_check_chunks=s.qa_check_chunks,
-            qa_link_fuzzy=s.qa_link_fuzzy,
-            qa_link_neighbours=s.qa_link_neighbours,
-        )
-    if system == "graph":
-        params.update(qa_hops=s.qa_hops)
-    return params
-
-
-def _log_prompts(run: Run, system: str) -> None:
-    run.text(reader.PROMPT, "prompts/qa_reader.txt")
-    if system in PLANNED:
-        run.text(planner.PROMPT + planner.RETRY, "prompts/qa_planner.txt")
-        run.text(_read_check_prompt(), "prompts/qa_read_check.txt")
-        run.text(_cypher_prompt(system), "prompts/qa_cypher.txt")
-
-
-def _read_check_prompt() -> str:
-    """The read_check prompt with the parts a claim candidate adds (R85), so a change to either is a new
-    version."""
-    return read_check.PROMPT + read_check.CLAIM_RULE + read_check.CANDIDATE
-
-
-def _check_system(system: str) -> str:
-    if system not in SYSTEMS:
-        raise ConfigurationError(f"unknown system '{system}'; choose from {', '.join(SYSTEMS)}")
-    return system
 
 
 def _retrieval_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
@@ -203,13 +98,14 @@ class AskStage(BaseStage):
     ANSWER_FILE = "ask.json"
 
     def __init__(self, system: str = "graph"):
-        self.system = _check_system(system)
+        self.system = check_system(system).name
 
     def params(self, ctx, state):
-        return {**_system_params(ctx, self.system), "question": state.need("question", "pass a question")}
+        question = state.need("question", "pass a question")
+        return {**system_params(ctx.settings, self.system), "question": question}
 
     def run(self, ctx, state, run):
-        _log_prompts(run, self.system)
+        log_prompts(run, self.system)
         answer = build_system(ctx, state, self.system).answer("ask", state.question)
         state.answer = answer
         run.metrics(retrieved=len(answer.retrieved), citations=len(answer.citations))
@@ -220,15 +116,16 @@ class QAStage(BaseStage):
     """Answer every question of a QA gold file with one system (`kg qa`); log what code can score."""
 
     def __init__(self, system: str):
-        self.system = _check_system(system)
+        self.spec = check_system(system)
+        self.system = system
         self.name = f"qa_{system}"
         self.answers_file = f"answers_{system}.jsonl"
 
     def params(self, ctx, state):
         gold = input_file(state.need("gold", "pass the QA gold file"), "QA gold file")
-        frozen = _frozen_file(ctx, state, self.system)
+        frozen = _frozen_file(ctx, state, self.spec)
         return {
-            **_system_params(ctx, self.system),
+            **system_params(ctx.settings, self.system),
             "gold": gold,
             "gold_hash": digest(gold),
             "workers": ctx.settings.qa_workers,
@@ -239,9 +136,9 @@ class QAStage(BaseStage):
 
     def run(self, ctx, state, run):
         s = ctx.settings
-        _log_prompts(run, self.system)
+        log_prompts(run, self.system)
         gold = load_qa_gold(input_file(state.gold, "QA gold file"))
-        frozen_file = _frozen_file(ctx, state, self.system)
+        frozen_file = _frozen_file(ctx, state, self.spec)
         frozen = (
             load_frozen(frozen_file, self.system, [q.id for q in gold.questions]) if frozen_file else None
         )
@@ -254,7 +151,7 @@ class QAStage(BaseStage):
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
         run.metrics(**_retrieval_metrics(answers))
-        if self.system in PLANNED:
+        if self.spec.planned:
             run.metrics(**_plan_metrics(answers))
         run.artifact(path)
         run.artifact(Path(state.gold))

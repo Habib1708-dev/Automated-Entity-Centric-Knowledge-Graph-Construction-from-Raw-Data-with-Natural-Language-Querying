@@ -306,7 +306,8 @@ src/kgbuilder/
                     vector RAG, vector-only baseline)
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
                     exact (text2cypher, the plans' logged fallback) with cypher_check
-  pipeline/         Stage protocol + context/state, the concrete stages, the runner
+  pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
+                    qa_systems (R116: each QA system built by name from the parts every system shares)
 ```
 
 | Stage (MLflow run) | Module | LLM? |

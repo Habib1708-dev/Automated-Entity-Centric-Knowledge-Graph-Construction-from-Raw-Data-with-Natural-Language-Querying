@@ -1,11 +1,13 @@
 """The question-answering systems: the graph system, the vector-only baseline, and records plus vector RAG.
 
-Role in the pipeline: `kg ask` and `kg qa` (pipeline/qa_stages.py) build them and ask them the questions.
+Role in the pipeline: `kg ask` and `kg qa` build them by name (pipeline/qa_systems.py) and ask them the
+questions.
 Design: Strategy. The systems implement `QASystem.answer` and share the reader, the number of chunks shown
 (k) and the embedder, so a difference in their scores comes only from how they choose:
-- `VectorBaseline`: the k chunks nearest the question in the chunk vector index, nothing from the graph;
-- `GraphRetrieval`, the graph's retrieval route: link the question's names to nodes (names.py), follow the
-  fixed traversal patterns (traversal.py), rank the chunks they reach by similarity to the question, keep k;
+- `ReadingSystem` (R116): the best k chunks of a chunk source, read by the reader. Two chunk sources:
+  - `VectorBaseline`: the chunks nearest the question in the chunk vector index, nothing from the graph;
+  - `GraphRetrieval`, the graph's retrieval route: link the question's names to nodes (names.py), follow
+    the fixed traversal patterns (traversal.py), rank the chunks they reach by similarity to the question;
 - `PlanSystem` (R74): the planner (planner.py) writes a query plan of fixed primitives, code checks it
   (plan.py) and runs it (plan_run.py); a refused or failing plan gets one retry with the reasons, then the
   question falls back to text2cypher (exact.py, logged so its use can be counted) and then to reading.
@@ -54,40 +56,45 @@ class QASystem(Protocol):
         ...
 
 
+class ReadingSystem:
+    """Answers by reading: the best k chunks of its chunk source, read by the shared reader, with the
+    source's trace. Template Method: systems built on it differ only in their source, so a difference in
+    their answers comes only from the chunks they choose."""
+
+    def __init__(self, name: str, source: ChunkSource, reader: Reader, k: int):
+        self.name = name
+        self._source = source
+        self._reader = reader
+        self._k = k
+
+    def answer(self, question_id: str, question: str) -> SystemAnswer:
+        ranked, trace = self._source.ranked(question)
+        return _answer(self.name, question_id, question, ranked[: self._k], self._reader, trace)
+
+
 class VectorBaseline:
-    """The k chunks nearest the question in the chunk vector index, read by the shared reader. Also the
-    chunk source of records plus vector RAG."""
+    """The k chunks nearest the question in the chunk vector index (a `ChunkSource`). The vector-only
+    baseline's source, and the chunk source of records plus vector RAG."""
 
-    name = "vector"
-
-    def __init__(self, store: GraphStore, embedder: Embedder, reader: Reader, k: int):
+    def __init__(self, store: GraphStore, embedder: Embedder, k: int):
         self._store = store
         self._embedder = embedder
-        self._reader = reader
         self._k = k
 
     def ranked(self, question: str) -> tuple[list[StoredChunk], RetrievalTrace | None]:
         vector = self._embedder.embed([question])[0]
         return self._store.chunks(self._store.nearest_chunks(vector, self._k)), None
 
-    def answer(self, question_id: str, question: str) -> SystemAnswer:
-        chosen, _ = self.ranked(question)
-        return _answer(self.name, question_id, question, chosen, self._reader)
-
 
 class GraphRetrieval:
-    """The graph's retrieval route: linked names -> traversal patterns -> ranked chunks -> reader. When
-    nothing is linked or reached, the reader gets nothing: falling back to vector search would hide the
-    graph's own failure. Also the chunk source of the graph system."""
+    """The graph's retrieval route (a `ChunkSource`): linked names -> traversal patterns -> ranked chunks.
+    When nothing is linked or reached, it gives nothing: falling back to vector search would hide the
+    graph's own failure. The chunk source of the graph system."""
 
-    name = "graph"
-
-    def __init__(self, store: GraphStore, embedder: Embedder, linker: NameLinker, reader: Reader, k: int):
+    def __init__(self, store: GraphStore, embedder: Embedder, linker: NameLinker):
         self._store = store
         self._embedder = embedder
         self.linker = linker
-        self._reader = reader
-        self._k = k
 
     def ranked(self, question: str) -> tuple[list[StoredChunk], RetrievalTrace | None]:
         vector = self._embedder.embed([question])[0]
@@ -103,10 +110,6 @@ class GraphRetrieval:
         )
         return ranked, trace
 
-    def answer(self, question_id: str, question: str) -> SystemAnswer:
-        ranked, trace = self.ranked(question)
-        return _answer(self.name, question_id, question, ranked[: self._k], self._reader, trace)
-
 
 def _linker(names: list[NodeName], embedder: Embedder, fuzzy: float, neighbours: int) -> NameLinker:
     """A linker over `names`, their display names embedded once (one batched call) when meaning is used."""
@@ -115,12 +118,10 @@ def _linker(names: list[NodeName], embedder: Embedder, fuzzy: float, neighbours:
 
 
 def build_graph_retrieval(
-    store: GraphStore, embedder: Embedder, reader: Reader, k: int, fuzzy: float, neighbours: int
+    store: GraphStore, embedder: Embedder, fuzzy: float, neighbours: int
 ) -> GraphRetrieval:
-    """The graph route over `store`."""
-    return GraphRetrieval(
-        store, embedder, _linker(store.node_names(), embedder, fuzzy, neighbours), reader, k
-    )
+    """The graph route over `store`, its node names read and embedded once."""
+    return GraphRetrieval(store, embedder, _linker(store.node_names(), embedder, fuzzy, neighbours))
 
 
 class QASettings(BaseModel):
@@ -267,9 +268,7 @@ def build_graph_system(
     """The graph system over `store`: every primitive over the whole graph, the graph's retrieval route as its
     chunk source, the schema read once and the node names embedded once."""
     schema = store.schema()
-    retrieval = build_graph_retrieval(
-        store, embedder, reader, settings.top_k, settings.link_fuzzy, settings.link_neighbours
-    )
+    retrieval = build_graph_retrieval(store, embedder, settings.link_fuzzy, settings.link_neighbours)
     exact = ExactRoute(store, llm, settings.model, settings.cypher_limit, settings.temperature, schema=schema)
     plan_schema = PlanSchema(schema=schema, record_labels=frozenset(record_labels))
     return _plan_system("graph", store, embedder, llm, reader, settings, plan_schema, retrieval.linker,
@@ -304,7 +303,7 @@ def build_records_vector(
     things = [n for n in store.node_names() if n.kind == "thing"]
     linker = _linker(things, embedder, settings.link_fuzzy, settings.link_neighbours)
     plan_schema = PlanSchema(schema=records, record_labels=frozenset(record_labels), claims=False)
-    vector = VectorBaseline(store, embedder, reader, settings.top_k)
+    vector = VectorBaseline(store, embedder, settings.top_k)
     return _plan_system(RECORDS_VECTOR, store, embedder, llm, reader, settings, plan_schema, linker,
                         name_properties, vector, exact, frozen)  # fmt: skip
 

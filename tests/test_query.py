@@ -15,7 +15,7 @@ from kgbuilder.query.graph_store import StoredChunk
 from kgbuilder.query.names import NameLinker, NodeName, spans, words
 from kgbuilder.query.ranking import rank
 from kgbuilder.query.reader import NOTHING_TO_READ, PROMPT, Reader, ReaderAnswer, ReaderCitation, build_prompt
-from kgbuilder.query.systems import GraphRetrieval, VectorBaseline, build_graph_retrieval
+from kgbuilder.query.systems import GraphRetrieval, ReadingSystem, VectorBaseline, build_graph_retrieval
 from kgbuilder.validation.judge import JudgeMeta
 from kgbuilder.validation.qa import AnswerVerdict, QAVerdicts, load_outcomes
 from kgbuilder.validation.qa_gold import QAGold
@@ -139,13 +139,18 @@ def citing_reader(answer: ReaderAnswer | None = None) -> tuple[Reader, ScriptedL
     return Reader(llm, "reader-model"), llm
 
 
+def vector_system(store: FakeStore, reader: Reader, k: int) -> ReadingSystem:
+    """The vector-only baseline as `kg qa` builds it: its k nearest chunks, read by the reader."""
+    return ReadingSystem("vector", VectorBaseline(store, FixedEmbedder(), k), reader, k)
+
+
 def test_the_baseline_reads_the_k_nearest_chunks_and_nothing_from_the_graph():
     store = FakeStore(
         chunks=[chunk("c1", None), chunk("c2", None), chunk("c3", None)], nearest=["c2", "c1", "c3"]
     )
     reply = ReaderAnswer(entities=["Quill Press"], citations=[ReaderCitation(chunk_id="c2", quote="text")])
     reader, llm = citing_reader(reply)
-    answer = VectorBaseline(store, FixedEmbedder(), reader, k=2).answer("Q1", "Which press?")
+    answer = vector_system(store, reader, k=2).answer("Q1", "Which press?")
     assert answer.retrieved == ["c2", "c1"] and [c.chunk_id for c in answer.shown] == ["c2", "c1"]
     assert answer.entities == ["Quill Press"] and answer.citations[0].chunk_id == "c2"
     assert store.reach_calls == [] and answer.trace is None and answer.system == "vector"
@@ -158,7 +163,9 @@ def test_the_graph_route_reads_the_best_ranked_chunks_its_traversal_reached():
         chunks=[chunk("c-far", [0.0, 1.0]), chunk("c-near", [1.0, 0.0]), chunk("c-mid", [0.7, 0.7])],
     )
     reader, _ = citing_reader()
-    system = GraphRetrieval(store, FixedEmbedder(), linker([DRESSER, RAILS]), reader, k=2)
+    system = ReadingSystem(
+        "graph", GraphRetrieval(store, FixedEmbedder(), linker([DRESSER, RAILS])), reader, k=2
+    )
     answer = system.answer("Q2", "What is wrong with the guide rails of the Quill Press?")
     # things and kinds go to the traversal separately: a thing starts by element id, a kind by entity id
     assert store.reach_calls == [(["4:x:1"], ["k-rails"])]
@@ -173,7 +180,8 @@ def test_the_graph_route_reads_the_best_ranked_chunks_its_traversal_reached():
 def test_the_graph_route_gives_the_reader_nothing_when_no_name_links():
     store = FakeStore(chunks=[chunk("c1", [1.0, 0.0])], nearest=["c1"])
     reader, llm = citing_reader()
-    answer = GraphRetrieval(store, FixedEmbedder(), linker([DRESSER]), reader, k=2).answer("Q3", "Why?")
+    source = GraphRetrieval(store, FixedEmbedder(), linker([DRESSER]))
+    answer = ReadingSystem("graph", source, reader, k=2).answer("Q3", "Why?")
     # no fallback to vector search: the failure must show as the graph's own
     assert answer.retrieved == [] and answer.text == NOTHING_TO_READ and llm.calls == []
     assert answer.trace.linked == [] and answer.trace.candidates == []
@@ -182,7 +190,8 @@ def test_the_graph_route_gives_the_reader_nothing_when_no_name_links():
 def test_the_graph_route_embeds_the_node_names_once_and_each_question_once():
     embedder = FixedEmbedder()
     reader, _ = citing_reader()
-    system = build_graph_retrieval(FakeStore(names=[DRESSER, RAILS]), embedder, reader, 5, 90.0, neighbours=1)
+    source = build_graph_retrieval(FakeStore(names=[DRESSER, RAILS]), embedder, 90.0, neighbours=1)
+    system = ReadingSystem("graph", source, reader, k=5)
     system.answer("Q1", "a question")
     system.answer("Q2", "another question")
     assert embedder.batches == [["Quill Press", "guide rails"], ["a question"], ["another question"]]
@@ -196,7 +205,7 @@ def test_an_answers_file_round_trips_and_keeps_the_texts_shown(tmp_path):
     reader, _ = citing_reader(
         ReaderAnswer(text="rough", citations=[ReaderCitation(chunk_id="c1", quote="rough")])
     )
-    answer = VectorBaseline(store, FixedEmbedder(), reader, k=1).answer("Q1", "How are the rails?")
+    answer = vector_system(store, reader, k=1).answer("Q1", "How are the rails?")
     path = tmp_path / "answers_vector.jsonl"
     path.write_text(answer.model_dump_json() + "\n\n", encoding="utf-8")
     loaded = load_system_answers(path)
@@ -228,7 +237,7 @@ def test_qa_score_scores_an_answers_file_with_the_judges_verdicts_and_reads_no_g
     reader, _ = citing_reader(
         ReaderAnswer(text="rough", citations=[ReaderCitation(chunk_id="c1", quote="rough")])
     )
-    answer = VectorBaseline(store, FixedEmbedder(), reader, k=1).answer("Q1", "How are the rails?")
+    answer = vector_system(store, reader, k=1).answer("Q1", "How are the rails?")
     files = {"gold.json": gold.model_dump_json(), "answers_vector.jsonl": answer.model_dump_json()}
     verdicts = QAVerdicts(
         judge=JudgeMeta(model="claude-fable-5-1", date="2026-09-30"),

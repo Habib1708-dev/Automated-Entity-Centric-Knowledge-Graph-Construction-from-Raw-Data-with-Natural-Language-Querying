@@ -36,6 +36,7 @@ from .pipeline import judging_stages as jus
 from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
 from .pipeline import stages as st
+from .pipeline.qa_systems import SYSTEMS
 from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
 from .structured.postgres import PostgresTables
@@ -49,7 +50,7 @@ OUT = Path("out")
 DATA_DIR = typer.Argument(None, help="Data directory; default: the data_dir setting (the preset's dataset).")
 PRESET_NAMES = typer.Argument(None, help="Presets to rebuild; default: every one with a sample block.")
 QA_SYSTEMS = typer.Option(
-    list(qs.SYSTEMS), help="Systems to ask (graph, vector, records_vector); each gets its own run."
+    list(SYSTEMS), help=f"Systems to ask ({', '.join(SYSTEMS)}); each gets its own run."
 )
 FROZEN_PLANS = typer.Option(
     None, help="Folder of an earlier kg qa run whose plans and text2cypher queries are replayed (R80)."
@@ -756,7 +757,7 @@ def anchor_judged(
 @app.command()
 def ask(
     question: str,
-    system: str = typer.Option("graph", help="graph (the retrieval route) or vector (the baseline)."),
+    system: str = typer.Option("graph", help=f"The system to ask: one of {', '.join(SYSTEMS)}."),
     out: Path = OUT,
 ):
     """Answer one question from the current graph, with the chunks it cites (R71)."""

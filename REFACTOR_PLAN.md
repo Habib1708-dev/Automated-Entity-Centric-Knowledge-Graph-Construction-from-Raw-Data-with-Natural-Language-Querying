@@ -6973,7 +6973,7 @@ answers it is a claim on the Outback, `SYSTEM FREEZES UP COMPLETELY -AFFECTS_COM
   database); cards map to chunks per card in turn (round-robin), as pooling all reached chunks by cosine
   would bring back H17's camera recalls; `kg qa` keeps asking the original three systems by default.
 
-### R116. QA systems built by name from shared parts (planned; $0, no run, refactor)
+### R116. QA systems built by name from shared parts (done 2026-10-08; $0, no run, refactor)
 - **Scope:** how a QA system is assembled, behaviour unchanged. `pipeline/qa_stages.py` chooses a system by
   an `if` ladder (`build_system`) and two name tuples (`SYSTEMS`, `PLANNED`) that `_system_params`,
   `_log_prompts` and `_frozen_file` each test again; every new approach would add a branch in four places.
@@ -6983,6 +6983,24 @@ answers it is a claim on the Outback, `SYSTEM FREEZES UP COMPLETELY -AFFECTS_COM
   systems differ only in what their spec builds on top. `query/systems.py`: a `ReadingSystem` (the source's
   best k chunks, read by the reader) replaces the `answer` of `VectorBaseline` and `GraphRetrieval`, which
   become chunk sources only.
+- **How:** `SystemSpec(name, build, params, prompts, planned)`; `prompts` maps a short name to a prompt,
+  logged as `prompts/qa_<name>.txt` and versioned as `<name>_prompt_version`, the names the runs already
+  used. `reading(name, source)` makes a spec for a reading system (today `vector`). `qa_parts` builds the
+  model at the settings' thinking level, the reader, the store, the embedder and the plan once per stage;
+  `system_params`, `log_prompts`, `check_system` and `build_system` read the spec. `qa_stages.py` lost the
+  tuples, the ladder and the per-system branches (336 to 232 lines: the stages and their metrics); `kg qa
+  --system` and `kg ask --system` list the registry's names in their help.
+- **Verified:** 7 tests written first and green on the old code (`tests/test_qa_systems.py`), unchanged after
+  the move but for the prompt test calling the now public `log_prompts`: each system's params equal a dict
+  written from the prompt constants and the settings (not from the registry); each system's prompt artifacts
+  and their texts, in order; only the plan systems replay `--plans`. `tests/test_query.py` builds the reading
+  systems as `ReadingSystem(name, source, reader, k)` with the same assertions; `test_query_graph.py` and
+  `test_query_exact.py` unchanged and green. 896 passed (889 + 7), ruff clean. `kg qa --help` defaults
+  unchanged (graph, vector, records_vector).
+- **One difference, in an error path only:** with neither an embedding model nor a construction plan,
+  `records_vector` used to report the missing plan first; `qa_parts` now reports the missing embedder first
+  (both stop the run before any call).
+- **R116 done 2026-10-08.** Next: R117, the retrieval benchmark without the reader.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
