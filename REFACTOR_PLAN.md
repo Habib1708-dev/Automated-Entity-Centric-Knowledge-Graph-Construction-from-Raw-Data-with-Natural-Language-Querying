@@ -7093,6 +7093,67 @@ hybrid code.
     (737 node names once and 68 questions, 14,342 characters).
 - **R117 done 2026-10-08.** Next: R118, node evidence and deterministic cards.
 
+### R118. Node evidence, the representation seam, deterministic cards and claim sentences: `kg units` (done 2026-10-08; $0, no model)
+Plan R116-R125, step 3: the text each node is found by, built from the node's verified graph evidence, with
+the seam where LLM summaries (B, R123) will plug in. Nothing is embedded or written to the graph yet (R119).
+- **Scope:** a new feature package `hybrid/` (pipeline -> hybrid -> graph, llm.base, core and other packages'
+  models; nothing imports it but the pipeline), the stage `kg units`, three settings. No query or prompt
+  change.
+- **How:**
+  - `hybrid/evidence.py`: `NodeEvidence(ref, kind, label, title, aliases, properties, relations, claims,
+    claims_total)`, `Neighbours(type, outgoing, label, count, names)`, `EvidenceClaim(id, predicate,
+    sentence, stated, denied, modality, hedge, condition, chunk_id)`, `RenderedCard(ref, text, evidence_hash,
+    truncated)`, `evidence_hash` (16 hex over the sorted JSON). Against the plan's sketch, a claim carries
+    `stated`/`denied` counts instead of one `truth` and a `conflicts` count: the observations of one
+    canonical triple (with the same modality and condition) on one node are one claim line, and "stated 2,
+    denied 1" needs both numbers.
+  - `hybrid/unit_sources.py` (Repository, read-only): records per plan node rule (key and plan columns as
+    text, but the name and the prose columns `text/record_documents.prose_columns` finds, which the stage
+    passes in), the names their mentions write, relationships per plan rule and direction with the names
+    sorted and cut to `index_card_names` in Cypher and the full count; individuals and concepts with their
+    names and the claims they are an end of (grouped by predicate, direction and the other end's type);
+    the claims records and individuals hold (`HAS_OBSERVATION`; concepts hold none), read with canonical
+    ends, `triple_truth`, `modality`, `hedge`, `condition` (defaults for an observation without them) and
+    the chunk of the FROM edge; capped at `index_card_claims`. One `ClaimSentence` per observation.
+  - **Claim order (a design choice made on the furniture cards, the tuning set):** each predicate's best
+    supported claim first, then the second of each. By support alone the Helsingborg Dresser's three lines
+    were two derived "part of" claims, which its `PART_OF <- Assembly (8)` line already says, and one quality
+    claim; now they read "Drawer Rails (Component) part of Helsingborg Dresser (Product)", "Helsingborg
+    Dresser (Product) exhibits pain to put together (QualityAspect)", "Drawer Rails (Component) made of
+    metal (Material)".
+  - `hybrid/claims.py`: `claim_text` = "{subject} ({type}) {predicate in words} {object} ({type})" from the
+    canonical names; `predicate_words` ("HAS_DEFECT" -> "has defect"). Truth stays out of the text.
+  - `hybrid/cards.py` `TemplateCards` (A, Strategy): title (label), "Also called", properties, one line per
+    relation `TYPE -> Label (n): a, b (+k more)` (`<-` for incoming), "Claims (shown of total):" and claim
+    lines tagged from the fields (`denied`, `hedged` for modality possible, `conditional: <condition>`,
+    "stated s, denied d" when they disagree). Over `index_card_max_chars` it drops claims (last first), then
+    relations (smallest first), then cuts at a space. `version` = hash of `CARD_TEMPLATE` (every format).
+  - `hybrid/representation.py`: the `NodeRepresentation` Protocol (`name`, `version`, `render`),
+    `REPRESENTATIONS = {"template": TemplateCards}`, `representation(name, max_chars)`.
+  - `pipeline/index_stages.py` `UnitsStage` (not in `FULL_PIPELINE`), `kg units --cards template --out
+    BUILD`: params `cards`, `representation_version`, the three caps, `graph_digest`; metrics `cards`,
+    `cards_record/individual/concept`, `claims`, `claims_skipped` (claims the claims cap leaves out),
+    `cards_truncated`, `card_chars_mean/max`, `claim_chars_mean`; artifact `index/units.jsonl` (cards, then
+    claim sentences, each with `unit`). Settings `index_card_names` 5, `index_card_claims` 3,
+    `index_card_max_chars` 1500 (the plan's values).
+  - `tests/graphs.py`: the hand-made Press/Part graph moved out of `test_query_graph.py` unchanged (its 13
+    tests green after the move, before any new code).
+- **Verified:** 13 new tests. `tests/test_hybrid_cards.py` (8, no Neo4j): the layout line by line, a hub's
+  "(+4 more)", every tag and the disagreement counts, truncation order and the cut at a space, determinism
+  and the hash, every card word the template's, the evidence's or a count code computes from it (grounded
+  by construction), no four words of a corpus in the template, the claim sentence, the registry.
+  `tests/test_hybrid_units.py` (5, Neo4j 7688): the shared graph plus a denied twin, a conditional claim,
+  a claim of another predicate, a hedged claim of an individual and three more parts; titles, columns,
+  names, capped relations, grouping and counts, each predicate's best first (o1, o5, o3 where support and
+  sentence alone give o1, o3, o5), concept and individual relations, FROM chunks, defaults, sentences, and
+  the stage's params, metrics and file. 935 passed (922 + 13), ruff clean.
+- **CLI check (no model, no write; the working graph is furniture, the tuning set):** `kg units --out
+  out/r117_furniture` (MLflow `9e3eba80`, 7.6 s): 737 cards (182 records, 107 individuals, 448 concepts: the
+  737 names `graph_retrieval` embedded in R117), 685 claim sentences, cards 130.9 characters on average, at
+  most 511, none truncated; 735 claims left out by the cap of 3 (the Helsingborg Dresser alone holds 60).
+  Held-out and generality cards were not built (plan: not before R122).
+- **R118 done 2026-10-08.** Next: R119, embedding the units into Neo4j (`kg index`, one guarded smoke run).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

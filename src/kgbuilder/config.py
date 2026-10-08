@@ -207,6 +207,13 @@ class Settings(BaseSettings):
     # Recall@K, fixed by plan R116-R125 before measuring; 5 is the reader's k, 10 shows what a larger k would
     # add. A source ranks at least the largest, so no budget is cut short
     retrieval_budgets: list[int] = Field(default=[5, 10], min_length=1)
+    # node evidence and cards (R118, plan R116-R125): the names a card shows per relation and as aliases (a
+    # hub keeps its count, "+k more"), the claims per node (the best supported; this is the evidence every
+    # representation gets, so A and B read the same), and a card's length in characters, well inside the
+    # 2,048 input tokens the embedding model reads
+    index_card_names: int = Field(default=5, ge=1)
+    index_card_claims: int = Field(default=3, ge=0)
+    index_card_max_chars: int = Field(default=1500, ge=100)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

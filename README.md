@@ -54,6 +54,7 @@ uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with t
 uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
 uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --system graph_retrieval --out O  # retrieval without the reader (R117; embeds)
 uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
+uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -311,9 +312,12 @@ src/kgbuilder/
                     vector RAG, vector-only baseline, the graph route alone)
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
                     exact (text2cypher, the plans' logged fallback) with cypher_check
+  hybrid/           R118: unit_sources (a node's evidence, read-only) -> evidence -> representation (Strategy,
+                    by name) -> cards (A: deterministic node cards) ; claims (one sentence per claim)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
-                    qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117)
+                    qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
+                    index_stages (R118: kg units)
 ```
 
 | Stage (MLflow run) | Module | LLM? |
@@ -335,6 +339,7 @@ src/kgbuilder/
 | `qa_compare` | `validation/paired.py` | no |
 | `retrieve_eval_<system>` | `pipeline/retrieval_stages.py`, `validation/retrieval_scores.py` | embeddings only |
 | `retrieve_compare` | `validation/retrieval_scores.py`, `validation/paired.py` | no |
+| `units` | `pipeline/index_stages.py`, `hybrid/` | no |
 
 ## Experiment tracking
 
@@ -489,6 +494,17 @@ among the top K seeds) and Seed found@K; and the latency per question (p50, p95)
 (record refs and canonical ids), never Neo4j element ids, which change on every rebuild. The report
 `retrieval_<system>.json` keeps every question's ranking; `kg retrieve-compare A B` pairs two reports
 with the exact McNemar test and refuses reports of other questions, targets, graphs or embedding models.
+
+Hybrid retrieval (plan R116-R125) finds a question's start nodes by a text per node. `kg units --out BUILD`
+(R118, no model, nothing written to the graph) reads every record's, individual's and concept's evidence
+(`hybrid/unit_sources.py`: its title, the names its mentions write, a record's columns but its name and prose
+columns, its relationships grouped with the first `INDEX_CARD_NAMES` names and a count, the claims it holds,
+each predicate's best supported first, at most `INDEX_CARD_CLAIMS`, with their counts of stating and denying
+observations) and renders it with a node representation: today deterministic cards (`hybrid/cards.py`, a
+fixed domain-neutral template, at most `INDEX_CARD_MAX_CHARS`); LLM summaries are planned as a second one
+over the same evidence. It writes the cards and one sentence per claim ("Spindle (Part) has condition wobbles
+(Condition)") to `BUILD/index/units.jsonl`. Truth is never left to the text: tags on a card line (`denied`,
+`hedged`, `conditional: ...`) come from the claim's fields.
 
 ## Development
 

@@ -23,6 +23,7 @@ from .anchor import Arm
 from .config import PRESETS_FILE, PRICES_FILE, Settings, read_presets, read_prices
 from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
+from .hybrid import REPRESENTATIONS
 from .llm.base import CallListener, Embedder
 from .llm.cache import CachedLLM
 from .llm.deepseek import DeepSeekClient
@@ -32,6 +33,7 @@ from .pipeline import PipelineContext, PipelineState, run_all, run_stages
 from .pipeline import anchor_stages as ans
 from .pipeline import audit_stages as aus
 from .pipeline import claim_stages as cls
+from .pipeline import index_stages as ixs
 from .pipeline import judging_stages as jus
 from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
@@ -59,6 +61,8 @@ RETRIEVAL_SYSTEMS = typer.Option(..., help="Systems whose chunk source to rank (
 RETRIEVAL_BUILD = typer.Option(
     ..., help="The build folder loaded in the graph: the targets are placed on it."
 )
+# the retrieval units (R118): the node representation whose cards are rendered
+UNIT_CARDS = typer.Option("template", help=f"Node representation ({', '.join(REPRESENTATIONS)}).")
 FROZEN_PLANS = typer.Option(
     None, help="Folder of an earlier kg qa run whose plans and text2cypher queries are replayed (R80)."
 )
@@ -860,6 +864,16 @@ def retrieve_compare(a: Path, b: Path, out: Path = OUT):
                     f"only a {o.only_a}  only b {o.only_b}  p {o.p_value:.3f}"
                 )
     typer.echo(f"Wrote {out / rs.RetrieveCompareStage.REPORT_FILE}")
+
+
+@app.command()
+def units(cards: str = UNIT_CARDS, out: Path = OUT):
+    """Read every record's, individual's and concept's evidence from the graph, render its card, and write
+    the cards and one sentence per claim to OUT/index/units.jsonl for review; no model, no write (R118).
+    OUT is the build folder: its plan and profile name the records and their prose columns."""
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(), [ixs.UnitsStage(cards)])
+    typer.echo(f"Wrote {out / ixs.UnitsStage.UNITS_FILE}")
 
 
 @app.command()
