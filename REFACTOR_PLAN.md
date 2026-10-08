@@ -7154,7 +7154,7 @@ the seam where LLM summaries (B, R123) will plug in. Nothing is embedded or writ
   Held-out and generality cards were not built (plan: not before R122).
 - **R118 done 2026-10-08.** Next: R119, embedding the units into Neo4j (`kg index`, one guarded smoke run).
 
-### R119. `kg index --cards <rep>`: the retrieval units embedded into Neo4j (code done 2026-10-08; $0, no run; the index run awaits permission)
+### R119. `kg index --cards <rep>`: the retrieval units embedded into Neo4j (done 2026-10-08; $0 logged, about $0.005 unpriced)
 Plan R116-R125, step 4: the cards and claim sentences of R118 written into the graph as an additive,
 deletable index layer with vectors and indexes, which R120's retrievers search.
 - **Scope:** the layer's names, its writer and indexes, the stage `kg index`; the digest and the planner's
@@ -7190,13 +7190,28 @@ deletable index layer with vectors and indexes, which R120's retrievers search.
   and the planner's schema text identical before and after; a plan label `TemplateCard` or `RetrievalUnit`
   refused with nothing embedded or written; an index rebuilt for other dimensions. The guard asks before
   `kg index` and not before `kg units` (2). 944 passed (935 + 9), ruff clean.
-- **Open, asked:** the index run on the working graph (furniture): `kg --preset quality index --cards template
-  --out out/r117_furniture`, then the same again (it must embed nothing), with `graph_digest` and the
-  planner's schema text compared before and after. It embeds 1,422 units (737 cards, 685 claim sentences,
-  about 140,000 characters), about $0.005 at the embedding model's list price, unpriced in MLflow. The plan
-  named a `smoke` run, but no free key is set and the units are the whole furniture graph, so it is a
-  paid embedding of the whole dataset and is asked like one.
-- **R119 code done 2026-10-08.** Next: the index run with the user's permission, then R120.
+- **The index run** (the user, 2026-10-08: "yes"; the plan named a `smoke` run, but no free key is set and
+  the units are the whole furniture graph, so it was asked as a paid embedding of the whole dataset):
+  `kg --preset quality index --cards template --out out/r117_furniture`, twice.
+  - First (MLflow `1030c6bf`): 1,422 units written (737 cards, 685 claim sentences), 15 embedding calls,
+    139,732 characters, vectors of 3,072 dimensions, 0 reused, 0 stale; the 5 indexes online (the card and
+    claim vector indexes at 3,072, the three full-text ones `english`). 306 s, of which 299 s waiting on the
+    embedding calls (about 20 s per batch of 100). MLflow logs $0 (embeddings are unpriced); at the list
+    price about $0.005.
+  - Second (MLflow `5df53f95`): 0 written, 1,422 reused, 0 embedding calls, 1.0 s.
+  - Part 1 unchanged: `graph_digest` 392a170ecc10 before and after, the planner's schema text (7,147
+    characters) byte-identical.
+  - The indexes answer (read-only check): full text "drawer rails helsingborg" ranks the dresser's rails
+    `Component:S-1085` second, after `Assembly:A-1070`; claim full text "drawer rails stick" returns "Drawer
+    Rails (Component) exhibits stick (QualityAspect)" with its chunk `helsingborg_dresser_reviews.md#0`;
+    S-1085's own vector finds S-1085 first (0.999).
+- **Fixed along the way (separate commit `4086718`):** naming `:RetrievalUnit` in the digest's and the
+  schema's queries made Neo4j warn "label does not exist" on every read of a graph without the layer, so
+  every `kg qa` and `kg retrieve-eval` would have logged it (seen on the working graph before the run). The
+  label is now tested as a value (`NOT $layer IN labels(n)`), same rows. No test can reproduce it: the test
+  database keeps the label's token from earlier tests and never warns. `kg index`'s own first lookup of
+  existing units still warns once, on a graph never indexed.
+- **R119 done 2026-10-08.** Next: R120, the hybrid retrievers, fusion and the `hybrid` system.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
