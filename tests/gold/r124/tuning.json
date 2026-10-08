@@ -1,0 +1,561 @@
+{
+ "step": "R124a: representation B (LLM node summaries) tuned on furniture with its own knobs only, then sealed as the config.py defaults; the shared retrieval settings stay R121's seal",
+ "approved": "the user, 2026-10-08/09, in the session of R123-R124: \"4 cells: caps x P1/P2\" (the grid), \"Yes, run it\" and \"Fix and re-run\" (cell p1_600), \"yes run\" (the three other cells)",
+ "build": "out/r117_furniture",
+ "graph_digest": "392a170ecc10",
+ "gold": "tests/gold/qa/furniture_qa.json",
+ "gold_hash": "d1a89e24fe7a",
+ "targets": "tests/gold/r89/furniture_targets.json",
+ "targets_hash": "adc32787fee3",
+ "embed_model": "gemini-embedding-001",
+ "summary_model": "gemini-3.5-flash-lite",
+ "summary_thinking": "",
+ "summary_temperature": 0.0,
+ "template_version": "54d556f3ea08",
+ "commands": [
+  "INDEX_SUMMARY_PROMPT=<prompt> INDEX_SUMMARY_MAX_CHARS=<cap> uv run kg --preset quality index --cards summary --out out/r117_furniture",
+  "INDEX_SUMMARY_PROMPT=<prompt> INDEX_SUMMARY_MAX_CHARS=<cap> uv run kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r117_furniture --data data --system card_dense_summary --system card_lexical_summary --system card_seeds_summary --out out/r124/<cell> (cell p1_600: R123's run without overrides, the defaults, --out out/r123)"
+ ],
+ "grid": {
+  "max_chars": [
+   250,
+   600
+  ],
+  "prompt": [
+   "p1",
+   "p2"
+  ]
+ },
+ "criterion": [
+  "furniture Seed Recall@5 of card_dense_summary alone (targets with a node among the top 5 seeds), higher first",
+  "ties: Seed Recall@1, higher first",
+  "then Seed Recall@10, higher first",
+  "then the smaller cap",
+  "then p1"
+ ],
+ "n": {
+  "targets": 86,
+  "questions_with_targets": 50,
+  "gold_chunks": 73,
+  "questions_with_chunks": 33
+ },
+ "cells": [
+  {
+   "cell": "p1_600",
+   "prompt": "p1",
+   "max_chars": 600,
+   "representation_version": "cb2853048d1f",
+   "summary_prompt_version": "65f9c18fcc9d",
+   "git_sha": "2349ce0-dirty",
+   "index_run": "1a48e5a9",
+   "retrieve_runs": {
+    "card_dense": "b4ac888a",
+    "card_lexical": "9648e248",
+    "card_seeds": "4b57b98b"
+   },
+   "cost_usd": 0.291075,
+   "llm_calls": 738,
+   "prompt_tokens": 599766,
+   "completion_tokens": 44458,
+   "thinking_tokens": 0,
+   "summaries_rejected": 1,
+   "summaries_fallback": 0,
+   "summary_chars_mean": 112.7,
+   "card_dense": {
+    "seed_recall": {
+     "1": "33/86",
+     "3": "48/86",
+     "5": "58/86",
+     "10": "71/86",
+     "20": "81/86"
+    },
+    "seed_found": {
+     "1": "12/50",
+     "3": "23/50",
+     "5": "29/50",
+     "10": "38/50",
+     "20": "45/50"
+    },
+    "evidence": {
+     "1": "20/73",
+     "3": "35/73",
+     "5": "42/73",
+     "10": "53/73",
+     "20": "63/73"
+    },
+    "complete": {
+     "1": "10/33",
+     "3": "18/33",
+     "5": "21/33",
+     "10": "25/33",
+     "20": "30/33"
+    }
+   },
+   "card_lexical": {
+    "seed_recall": {
+     "1": "28/86",
+     "3": "52/86",
+     "5": "61/86",
+     "10": "68/86",
+     "20": "72/86"
+    },
+    "seed_found": {
+     "1": "11/50",
+     "3": "21/50",
+     "5": "27/50",
+     "10": "34/50",
+     "20": "38/50"
+    },
+    "evidence": {
+     "1": "18/73",
+     "3": "35/73",
+     "5": "44/73",
+     "10": "53/73",
+     "20": "58/73"
+    },
+    "complete": {
+     "1": "11/33",
+     "3": "17/33",
+     "5": "21/33",
+     "10": "25/33",
+     "20": "27/33"
+    }
+   },
+   "card_seeds": {
+    "seed_recall": {
+     "1": "40/86",
+     "3": "70/86",
+     "5": "82/86",
+     "10": "86/86",
+     "20": "86/86"
+    },
+    "seed_found": {
+     "1": "16/50",
+     "3": "36/50",
+     "5": "46/50",
+     "10": "50/50",
+     "20": "50/50"
+    },
+    "evidence": {
+     "1": "21/73",
+     "3": "39/73",
+     "5": "51/73",
+     "10": "60/73",
+     "20": "62/73"
+    },
+    "complete": {
+     "1": "10/33",
+     "3": "20/33",
+     "5": "24/33",
+     "10": "29/33",
+     "20": "30/33"
+    }
+   }
+  },
+  {
+   "cell": "p1_250",
+   "prompt": "p1",
+   "max_chars": 250,
+   "representation_version": "ad9cf5ba8566",
+   "summary_prompt_version": "65f9c18fcc9d",
+   "git_sha": "b0e94ef-dirty",
+   "index_run": "6d0117ce",
+   "retrieve_runs": {
+    "card_dense": "0e26b7e6",
+    "card_lexical": "129910d3",
+    "card_seeds": "3eff6f5c"
+   },
+   "cost_usd": 0.310133,
+   "llm_calls": 776,
+   "prompt_tokens": 640844,
+   "completion_tokens": 47152,
+   "thinking_tokens": 0,
+   "summaries_rejected": 39,
+   "summaries_fallback": 9,
+   "summary_chars_mean": 102.2,
+   "card_dense": {
+    "seed_recall": {
+     "1": "34/86",
+     "3": "45/86",
+     "5": "53/86",
+     "10": "66/86",
+     "20": "78/86"
+    },
+    "seed_found": {
+     "1": "12/50",
+     "3": "19/50",
+     "5": "26/50",
+     "10": "32/50",
+     "20": "42/50"
+    },
+    "evidence": {
+     "1": "23/73",
+     "3": "38/73",
+     "5": "45/73",
+     "10": "54/73",
+     "20": "61/73"
+    },
+    "complete": {
+     "1": "11/33",
+     "3": "20/33",
+     "5": "21/33",
+     "10": "24/33",
+     "20": "29/33"
+    }
+   },
+   "card_lexical": {
+    "seed_recall": {
+     "1": "24/86",
+     "3": "45/86",
+     "5": "55/86",
+     "10": "67/86",
+     "20": "74/86"
+    },
+    "seed_found": {
+     "1": "8/50",
+     "3": "16/50",
+     "5": "23/50",
+     "10": "33/50",
+     "20": "39/50"
+    },
+    "evidence": {
+     "1": "19/73",
+     "3": "33/73",
+     "5": "44/73",
+     "10": "53/73",
+     "20": "58/73"
+    },
+    "complete": {
+     "1": "11/33",
+     "3": "15/33",
+     "5": "20/33",
+     "10": "25/33",
+     "20": "27/33"
+    }
+   },
+   "card_seeds": {
+    "seed_recall": {
+     "1": "38/86",
+     "3": "69/86",
+     "5": "80/86",
+     "10": "86/86",
+     "20": "86/86"
+    },
+    "seed_found": {
+     "1": "13/50",
+     "3": "34/50",
+     "5": "44/50",
+     "10": "50/50",
+     "20": "50/50"
+    },
+    "evidence": {
+     "1": "23/73",
+     "3": "41/73",
+     "5": "51/73",
+     "10": "56/73",
+     "20": "64/73"
+    },
+    "complete": {
+     "1": "11/33",
+     "3": "20/33",
+     "5": "23/33",
+     "10": "27/33",
+     "20": "30/33"
+    }
+   }
+  },
+  {
+   "cell": "p2_600",
+   "prompt": "p2",
+   "max_chars": 600,
+   "representation_version": "fd28b3af882b",
+   "summary_prompt_version": "d5ddf2471fb0",
+   "git_sha": "b0e94ef-dirty",
+   "index_run": "5e314485",
+   "retrieve_runs": {
+    "card_dense": "4934bde2",
+    "card_lexical": "99038b30",
+    "card_seeds": "e903ceff"
+   },
+   "cost_usd": 0.329258,
+   "llm_calls": 742,
+   "prompt_tokens": 657543,
+   "completion_tokens": 52798,
+   "thinking_tokens": 0,
+   "summaries_rejected": 5,
+   "summaries_fallback": 1,
+   "summary_chars_mean": 165.9,
+   "card_dense": {
+    "seed_recall": {
+     "1": "33/86",
+     "3": "47/86",
+     "5": "56/86",
+     "10": "66/86",
+     "20": "77/86"
+    },
+    "seed_found": {
+     "1": "13/50",
+     "3": "22/50",
+     "5": "29/50",
+     "10": "33/50",
+     "20": "41/50"
+    },
+    "evidence": {
+     "1": "18/73",
+     "3": "37/73",
+     "5": "46/73",
+     "10": "57/73",
+     "20": "65/73"
+    },
+    "complete": {
+     "1": "9/33",
+     "3": "17/33",
+     "5": "21/33",
+     "10": "25/33",
+     "20": "29/33"
+    }
+   },
+   "card_lexical": {
+    "seed_recall": {
+     "1": "32/86",
+     "3": "59/86",
+     "5": "68/86",
+     "10": "78/86",
+     "20": "81/86"
+    },
+    "seed_found": {
+     "1": "12/50",
+     "3": "27/50",
+     "5": "33/50",
+     "10": "42/50",
+     "20": "45/50"
+    },
+    "evidence": {
+     "1": "18/73",
+     "3": "34/73",
+     "5": "40/73",
+     "10": "49/73",
+     "20": "57/73"
+    },
+    "complete": {
+     "1": "9/33",
+     "3": "17/33",
+     "5": "18/33",
+     "10": "24/33",
+     "20": "26/33"
+    }
+   },
+   "card_seeds": {
+    "seed_recall": {
+     "1": "45/86",
+     "3": "76/86",
+     "5": "81/86",
+     "10": "85/86",
+     "20": "86/86"
+    },
+    "seed_found": {
+     "1": "16/50",
+     "3": "40/50",
+     "5": "45/50",
+     "10": "49/50",
+     "20": "50/50"
+    },
+    "evidence": {
+     "1": "20/73",
+     "3": "40/73",
+     "5": "51/73",
+     "10": "59/73",
+     "20": "63/73"
+    },
+    "complete": {
+     "1": "9/33",
+     "3": "20/33",
+     "5": "23/33",
+     "10": "28/33",
+     "20": "29/33"
+    }
+   }
+  },
+  {
+   "cell": "p2_250",
+   "prompt": "p2",
+   "max_chars": 250,
+   "representation_version": "825e96bcee80",
+   "summary_prompt_version": "d5ddf2471fb0",
+   "git_sha": "b0e94ef-dirty",
+   "index_run": "9d0e7191",
+   "retrieve_runs": {
+    "card_dense": "1bce9a93",
+    "card_lexical": "0bb1369b",
+    "card_seeds": "f150d8a0"
+   },
+   "cost_usd": 0.406769,
+   "llm_calls": 881,
+   "prompt_tokens": 814048,
+   "completion_tokens": 65022,
+   "thinking_tokens": 0,
+   "summaries_rejected": 144,
+   "summaries_fallback": 43,
+   "summary_chars_mean": 131.9,
+   "card_dense": {
+    "seed_recall": {
+     "1": "33/86",
+     "3": "47/86",
+     "5": "57/86",
+     "10": "67/86",
+     "20": "80/86"
+    },
+    "seed_found": {
+     "1": "13/50",
+     "3": "23/50",
+     "5": "28/50",
+     "10": "34/50",
+     "20": "44/50"
+    },
+    "evidence": {
+     "1": "21/73",
+     "3": "37/73",
+     "5": "43/73",
+     "10": "56/73",
+     "20": "63/73"
+    },
+    "complete": {
+     "1": "10/33",
+     "3": "17/33",
+     "5": "18/33",
+     "10": "25/33",
+     "20": "29/33"
+    }
+   },
+   "card_lexical": {
+    "seed_recall": {
+     "1": "32/86",
+     "3": "57/86",
+     "5": "65/86",
+     "10": "75/86",
+     "20": "79/86"
+    },
+    "seed_found": {
+     "1": "11/50",
+     "3": "27/50",
+     "5": "32/50",
+     "10": "39/50",
+     "20": "43/50"
+    },
+    "evidence": {
+     "1": "22/73",
+     "3": "34/73",
+     "5": "44/73",
+     "10": "52/73",
+     "20": "59/73"
+    },
+    "complete": {
+     "1": "11/33",
+     "3": "17/33",
+     "5": "20/33",
+     "10": "24/33",
+     "20": "27/33"
+    }
+   },
+   "card_seeds": {
+    "seed_recall": {
+     "1": "40/86",
+     "3": "77/86",
+     "5": "82/86",
+     "10": "85/86",
+     "20": "86/86"
+    },
+    "seed_found": {
+     "1": "15/50",
+     "3": "41/50",
+     "5": "46/50",
+     "10": "49/50",
+     "20": "50/50"
+    },
+    "evidence": {
+     "1": "20/73",
+     "3": "42/73",
+     "5": "52/73",
+     "10": "59/73",
+     "20": "62/73"
+    },
+    "complete": {
+     "1": "9/33",
+     "3": "20/33",
+     "5": "23/33",
+     "10": "29/33",
+     "20": "29/33"
+    }
+   }
+  }
+ ],
+ "choice": {
+  "cell": "p1_600",
+  "index_summary_prompt": "p1",
+  "index_summary_max_chars": 600,
+  "representation_version": "cb2853048d1f",
+  "why": "alone at the top: Seed Recall@5 58/86, then p2_250 57, p2_600 56, p1_250 53; no tie, so the later rules did not decide"
+ },
+ "runner_up": "p2_250",
+ "paired": {
+  "p1_600 vs p2_250": {
+   "seed_found_5": {
+    "questions": 50,
+    "a_correct": 29,
+    "b_correct": 28,
+    "only_a": 3,
+    "only_b": 2,
+    "p_value": 1.0
+   },
+   "mlflow": "fd1d20a8"
+  },
+  "summary p1_600 vs template (card_dense)": {
+   "seed_found_5": {
+    "questions": 50,
+    "a_correct": 27,
+    "b_correct": 29,
+    "only_a": 5,
+    "only_b": 7,
+    "p_value": 0.7744140625
+   },
+   "mlflow": "69a93583"
+  }
+ },
+ "template_card_dense": {
+  "retrieve_run": "edc50597",
+  "seed_recall": {
+   "1": "36/86",
+   "3": "52/86",
+   "5": "59/86",
+   "10": "69/86",
+   "20": "73/86"
+  },
+  "seed_found": {
+   "1": "14/50",
+   "3": "23/50",
+   "5": "27/50",
+   "10": "36/50",
+   "20": "39/50"
+  },
+  "evidence": {
+   "1": "15/73",
+   "3": "36/73",
+   "5": "42/73",
+   "10": "51/73",
+   "20": "56/73"
+  },
+  "complete": {
+   "1": "7/33",
+   "3": "17/33",
+   "5": "20/33",
+   "10": "25/33",
+   "20": "27/33"
+  }
+ },
+ "discarded": "R123's first summary set (MLflow cde92a70, $0.282168, P1 before the direction fix 2349ce0): measured by no retrieval run",
+ "cost_usd": {
+  "r123_summary_sets": 0.573243,
+  "r124a_cells": 1.04616,
+  "retrieval": "0 logged (embeddings unpriced)"
+ }
+}

@@ -3,7 +3,8 @@ retrieval within each budget, seed recall and found seeds against placed targets
 evidence or targets left out of that measure, a target the build lacks counted as a miss, no seed scores for
 a system without seeds, the nearest-rank latency, the flat metrics, two reports paired with McNemar's test
 (and `compare_pairs` equal to `compare_outcomes`), the report file, the committed furniture baselines of
-R117 part b, and R121's seal of the hybrid settings. Pure: no Neo4j, no model."""
+R117 part b, R121's seal of the hybrid settings and R124's seal of the summary settings. Pure: no Neo4j, no
+model."""
 
 import json
 from pathlib import Path
@@ -12,6 +13,7 @@ import pytest
 
 from kgbuilder.config import Settings
 from kgbuilder.core.errors import EvaluationError
+from kgbuilder.pipeline.index_stages import card_representation
 from kgbuilder.pipeline.inputs import digest
 from kgbuilder.validation.paired import compare_outcomes, compare_pairs, mcnemar_exact
 from kgbuilder.validation.qa import QAOutcome
@@ -262,3 +264,55 @@ def test_r121_the_config_defaults_are_the_cell_the_pre_registered_criterion_chos
     assert f"{complete.k}/{complete.n}" == chosen["complete"]["5"]
     paired = compare_retrieval(report, vector, 5, "a", "b").complete.overall
     assert paired.model_dump() == tuning["paired"]["m2_k10 vs vector"]["complete_5"]
+
+
+R124 = ROOT / "tests" / "gold" / "r124"
+# R124's grid as R123's roadmap entry pre-registered it, before any summary was written
+R124_GRID = {"max_chars": [250, 600], "prompt": ["p1", "p2"]}
+
+
+def test_r124_the_summary_defaults_are_the_cell_the_pre_registered_criterion_chose():
+    """The seal of R124a: the grid recorded is the pre-registered one (caps 250 and 600, prompts p1 and p2),
+    each cell once with the version the code computes for it, the criterion (Seed Recall@5 of card_dense
+    alone, then @1, then @10, then the smaller cap, then p1) applied to the recorded cells picks the recorded
+    choice, the `config.py` defaults are that cell, and its committed report ran on R117's gold, targets,
+    graph and embedding model, scores what the seal records and pairs with A's card_dense report as recorded.
+    The held-out and generality summaries take these defaults, so a changed default, grid or prompt fails
+    here."""
+    tuning = json.loads((R124 / "tuning.json").read_text(encoding="utf-8"))
+    assert tuning["grid"] == R124_GRID
+    cells = tuning["cells"]
+    assert sorted((c["prompt"], c["max_chars"]) for c in cells) == [
+        (p, m) for p in R124_GRID["prompt"] for m in R124_GRID["max_chars"]
+    ]
+    for c in cells:
+        s = Settings(index_summary_prompt=c["prompt"], index_summary_max_chars=c["max_chars"])
+        assert card_representation(s, "summary").version == c["representation_version"]
+
+    def found(cell: dict, k: str) -> int:
+        return int(cell["card_dense"]["seed_recall"][k].split("/")[0])
+
+    chosen = min(
+        cells, key=lambda c: (-found(c, "5"), -found(c, "1"), -found(c, "10"), c["max_chars"], c["prompt"])
+    )
+    assert chosen["cell"] == tuning["choice"]["cell"]
+    fields = Settings.model_fields
+    choice = tuning["choice"]
+    assert fields["index_summary_prompt"].default == chosen["prompt"] == choice["index_summary_prompt"]
+    assert (
+        fields["index_summary_max_chars"].default == chosen["max_chars"] == choice["index_summary_max_chars"]
+    )
+    assert (fields["index_summary_model"].default, fields["index_summary_thinking"].default) == (
+        tuning["summary_model"], tuning["summary_thinking"],
+    )  # fmt: skip
+    assert card_representation(Settings(), "summary").version == tuning["choice"]["representation_version"]
+    summary = load_retrieval_report(R124 / "retrieval_card_dense_summary.json")
+    template = load_retrieval_report(R124 / "retrieval_card_dense_template.json")
+    vector = load_retrieval_report(R117 / "retrieval_vector.json")
+    assert summary.fingerprint == template.fingerprint == vector.fingerprint
+    assert summary.fingerprint.gold_hash == tuning["gold_hash"] == digest(ROOT / tuning["gold"])
+    assert summary.fingerprint.targets_hash == tuning["targets_hash"] == digest(ROOT / tuning["targets"])
+    recall = summary.overall.seed_recall[5]
+    assert f"{recall.k}/{recall.n}" == chosen["card_dense"]["seed_recall"]["5"]
+    paired = compare_retrieval(template, summary, 5, "a", "b").seed_found.overall
+    assert paired.model_dump() == tuning["paired"]["summary p1_600 vs template (card_dense)"]["seed_found_5"]

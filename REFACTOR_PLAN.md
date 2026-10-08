@@ -7612,6 +7612,64 @@ and scoring code). They are done one after the other:
   lacks), code that refuses a verdict file that does not fit the sheet and counts the verdicts, and the
   counts with n next to the code check's pass, retry and fallback rates.
 
+### R124a. B tuned on furniture and sealed (done 2026-10-09; $1.046)
+Plan R116-R125, B's tuning: the pre-registered grid of B's own knobs run on the tuning set, the criterion
+applied, the choice committed as the `config.py` defaults before any held-out or generality summary.
+- **Scope:** P2 and its setting (`b0e94ef`), three summary sets with their retrieval runs, the seal. No change to
+  the shared retrieval settings (R121's seal), to A or to the claim sentences.
+- **P2** (`hybrid/summaries.py` `PROMPT_QUESTIONS`, version `d5ddf2471fb0`): P1 plus rule 10 ("After the text,
+  add up to three short questions that these facts answer, worded as a person would ask them and naming only
+  what the facts name; write fewer when the characters of rule 8 run out.") and the example's text extended
+  by "Who built the Arden Viola? Which fittings are fitted to the Arden Viola? Do sources agree that the Arden
+  Viola has a warm tone?". Built from P1 by insertion; a test removes the two insertions and gets P1 back.
+  `index_summary_prompt` ("p1" | "p2") chooses it; the variant enters the version by its text only, so P1's
+  version is still `cb2853048d1f` (pinned by a test) and R123's run is the cell P1/600 as pre-registered.
+- **The runs** (the user, 2026-10-09: "yes run"), on `out/r117_furniture` (`graph_digest` 392a170ecc10), at
+  `b0e94ef`, per cell `INDEX_SUMMARY_PROMPT=<p> INDEX_SUMMARY_MAX_CHARS=<cap> uv run kg --preset quality index
+  --cards summary --out out/r117_furniture`, then the same overrides on `kg --preset quality retrieve-eval ...
+  --system card_dense_summary --system card_lexical_summary --system card_seeds_summary --out out/r124/<cell>`.
+  Seeds of 86 targets over 50 questions, code-computed, no judge:
+
+  | Cell | Seed Recall@1 / 3 / 5 / 10 / 20 (`card_dense`) | `card_lexical` @5 | `card_seeds` @5 | refused / fallback | cost | MLflow index, dense |
+  |---|---|---|---|---|---|---|
+  | **P1/600** (R123) | 33 / 48 / **58** / 71 / 81 | 61 | 82 | 1 / 0 | $0.291 | `1a48e5a9`, `b4ac888a` |
+  | P1/250 | 34 / . / 53 / . / 78 | 55 | 80 | 39 / 9 | $0.310 | `6d0117ce`, `0e26b7e6` |
+  | P2/600 | 33 / . / 56 / . / 77 | 68 | 81 | 5 / 1 | $0.329 | `5e314485`, `4934bde2` |
+  | P2/250 | 33 / . / 57 / . / 80 | 65 | 82 | 144 / 43 | $0.407 | `9d0e7191`, `1bce9a93` |
+
+  ("." = in `tests/gold/r124/tuning.json`, which holds every K, Seeds found, Evidence and Complete of all three
+  systems per cell, the retrieval run ids, tokens and versions.) A's `card_dense_template`: 36 / 52 / 59 / 69 /
+  73 (R123, `edc50597`).
+- **The choice:** P1/600, alone at the top with 58/86 (then P2/250 57, P2/600 56, P1/250 53): no tie, so the
+  later rules did not decide. It is the default already, so the seal changes no value; it fixes them. Against
+  the runner-up P2/250, Seeds found@5 29 / 28 of 50, only P1/600 3, only P2/250 2, p = 1.0 (MLflow
+  `fd1d20a8`): the choice is coarse. Against A (R123): 27 / 29, p = 0.774.
+- **What the grid shows:**
+  - The 250 cap costs: Flash-Lite writes past it, so P2/250 refused 144 first replies and fell back to the
+    template card on 43 nodes (P1/250: 39 and 9), and found fewer targets at 5 than the same prompt at 600 for
+    P1 (53 against 58).
+  - P2's questions help word search, not vector search: `card_lexical_summary` finds 68 targets at 5 with P2/600
+    (P1/600 61, A's cards 64), while `card_dense_summary` finds 56 (P1/600 58).
+  - The fused seeds hardly move (80-82 at 5 in every cell; A 81).
+- **The seal:** `config.py` `index_summary_prompt` "p1", `index_summary_max_chars` 600 (comment names the
+  seal); `tests/gold/r124/tuning.json` (grid, criterion, n, every cell with its runs, costs, refusals and
+  scores, the choice, the runner-up, both pairings, A's card_dense scores, the discarded first set, costs);
+  `tests/gold/r124/retrieval_card_dense_summary.json` (the chosen cell's report, R123's run) and
+  `retrieval_card_dense_template.json` (A's).
+- **Verified:** `test_r124_the_summary_defaults_are_the_cell_the_pre_registered_criterion_chose`
+  (`tests/test_retrieval_scores.py`): the recorded grid equals the pre-registered one written in the test, each
+  cell once with the version the code computes for its knobs, the criterion applied to the recorded numbers
+  picks the recorded choice, the `config.py` defaults (prompt, cap, model, thinking) equal it and give its
+  version, the committed reports share R117's fingerprint and today's gold and targets hashes, score 58/86 and
+  pair with A to the recorded counts. 4 tests for P2 (`tests/test_hybrid_summaries.py`). 1009 passed (1004 +
+  5), ruff clean.
+- **Cost:** $1.046160 (three summary sets; MLflow `cost_usd`); retrieval $0 logged (941 texts per cell, 2,823 in
+  all, unpriced). With R123: B's furniture tuning cost $1.619 (the discarded first set included).
+- **State left:** the working graph's `:SummaryCard` units and `out/r117_furniture/index/units.jsonl` hold the
+  last cell written (P2/250), not the seal; the sealed P1/600 set is MLflow `1a48e5a9`'s artifact and the
+  disk cache (a re-index with the defaults calls no model). R122 replaces the furniture graph anyway.
+- **R124a done 2026-10-09.** Next: R124b, the groundedness of the sealed summaries judged on furniture.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

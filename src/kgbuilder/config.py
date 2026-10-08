@@ -218,7 +218,10 @@ class Settings(BaseSettings):
     # LLM node summaries (R123, representation B, `kg index --cards summary`): the model that writes them (the
     # user's choice, 2026-10-08: the cheapest Gemini; the builder is gemini-3.8-flash), its thinking level (""
     # = the model's default: Flash-Lite hardly thinks) and a summary's length cap in characters, R124's knob.
-    # The temperature is `llm_temperature`. Each is part of the summaries' version: a change re-writes them
+    # The temperature is `llm_temperature`. Each is part of the summaries' version: a change re-writes them.
+    # The cap and the prompt are sealed by R124a (tests/gold/r124/tuning.json): of the pre-registered grid, p1
+    # with cap 600 found the most furniture targets at 5 seeds by card vectors alone (58 of 86); held-out and
+    # generality summaries take these values unchanged, so change them only through a new tuning step
     index_summary_model: str = "gemini-3.5-flash-lite"
     index_summary_thinking: ThinkingLevel = ""
     index_summary_max_chars: int = Field(default=600, ge=100)
