@@ -7267,7 +7267,7 @@ check run: too much for one reviewable step. It is split in two, done one after 
   end. 958 passed (944 + 14), ruff clean.
 - **R120a done 2026-10-08.** Next: R120b, fusion, the hybrid source and the `hybrid` system.
 
-### R120b. Fusion, the hybrid source and the `hybrid` system (code done 2026-10-08; $0, no run; the check run awaits permission)
+### R120b. Fusion, the hybrid source and the `hybrid` system (done 2026-10-08; $0.0017)
 - **Scope:** the fused chunk source, its system and settings; `kg qa` defaults unchanged (`hybrid` is asked
   only when named).
 - **How:**
@@ -7302,8 +7302,35 @@ check run: too much for one reviewable step. It is split in two, done one after 
   before the right press's notice, while the claim leads to the ticket and the right press's card to its
   own notice, both read; the claim hit carries its truth fields; and on the shared graph no card line or
   claim sentence reaches the reader's prompt, only the shown chunks. 973 passed (958 + 15), ruff clean.
-- **Open, asked:** the check run on the working graph (furniture): `kg retrieve-eval ... --system hybrid`
-  (68 question embeddings) and one `kg ask --system hybrid` for the trace with claim truth fields.
+- **The check run** (the user, 2026-10-08: "yes"; the working graph, furniture, the tuning set; untuned:
+  the six retrievers, `rrf_k` 60, depth 20, which is the grid's M4 cell at k = 60):
+  - `kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --targets
+    tests/gold/r89/furniture_targets.json --build out/r117_furniture --data data --system hybrid --out
+    out/r120_check` (MLflow `751398c2`, `graph_digest` 392a170ecc10, 68 embedding calls, 4,446 characters,
+    $0 logged). Code-computed rates, n as given (no judge):
+
+    | System | Evidence@5 | Complete@5 | Complete@10 | Seed Recall@5 | Seeds found@5 | latency p50 / p95 |
+    |---|---|---|---|---|---|---|
+    | vector (R117) | 0.548 (40/73) | 0.606 (20/33) | 0.788 (26/33) | - | - | 444 / 581 ms |
+    | graph_retrieval (R117) | 0.644 (47/73) | 0.727 (24/33) | 0.848 (28/33) | 0.849 (73/86) | 0.780 (39/50) | 584 / 847 ms |
+    | hybrid (M4, k 60) | 0.712 (52/73) | 0.727 (24/33) | 0.848 (28/33) | 0.779 (67/86) | 0.640 (32/50) | 1,661 / 3,367 ms |
+
+  - Paired (`kg retrieve-compare` against `tests/gold/r117/`, same gold, targets, digest and embedding
+    model): against vector, Complete@5 only hybrid 5, only vector 1, p = 0.219; against graph_retrieval,
+    Complete@5 2 and 2, p = 1.0, Seeds found@5 only hybrid 6, only graph_retrieval 13, p = 0.167. No
+    difference beyond one sample's variation at these n.
+  - What the seeds show (for R121): the cards fix R117's crowding, the Helsingborg Dresser's rails
+    `Component:S-1085` are found at 5 in F01, F02 and F07 (9 targets found only by the hybrid), but 15
+    targets the name linker spells (the "Helsingborg Dresser" product in F06 and F09, assemblies in F04,
+    F05, F17) are lost: the pre-registered mix M5 (adding `graph_route`) answers whether both can be had.
+    Latency is about 3x the name linker's: two card retrievers traverse from up to 20 cards each.
+  - `kg --preset quality ask --system hybrid "Which products do reviews report with defective drawer rails?"
+    --out out/r117_furniture` (MLflow `a88f39c3`, 1 reader call, 1,142 / 228 tokens, $0.001711): answer
+    Helsingborg Dresser, three cited quotes. The trace (`out/r117_furniture/ask.json`) holds every
+    retriever's list (all six put the dresser's chunks first), the fused seeds (a drawer-rails concept, then
+    `Component:S-1085` second) and 28 claim hits with their truth fields (for example chunk #2,
+    `modality: possible`, hedge "seem").
+- **R120b done 2026-10-08** ($0.0017). Next: R121, A tuned on furniture and sealed, asked first.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
