@@ -6810,6 +6810,25 @@ $0.166 `kg qa` run). The old query engine's check on the final graph was propose
 - **R112 done 2026-10-08** ($0). Part 1 is frozen at `part1-final`; its four known limitations stay as recorded
   below. Next: Part 2, the query engine, scoped with the user.
 
+### R113. The working graph: the held-out final build loaded into Neo4j (done 2026-10-08; $0 logged)
+The user, 2026-10-08 ("alright go ahead" to loading one of the final builds into Neo4j): Part 2 queries a live
+graph, and after R112 the working Neo4j held only 7 test nodes. Neo4j Community holds one database, so one
+dataset at a time; held-out first: the most varied sources (CSV, JSON, NDJSON, prose, record documents) and
+the cheapest rebuild (R109: $0.0037).
+- **How:** R109's recipe into a new folder `out/r113_heldout`, so the frozen `out/r109_heldout` is only read:
+  plan, text schema and profile pinned from it, claims replayed from `out/r103_heldout` as in R109, the mention
+  pass on an invalid key (a cache miss would fail instead of paying), then resolve and attach. Commands, runs
+  and checks in `tests/gold/r113/runs.json`; logged counts `tests/gold/r113/heldout_logged.json`; test
+  `test_r113_the_working_graph_is_the_frozen_held_out_build` (tests/test_audit.py).
+- **Result:** every LLM call a cache hit (mention pass 81/81, resolve 724/724); MLflow logs $0 (the 9 Gemini
+  embedding calls report no tokens, so `prices.yaml` cannot price them: well under a cent). All 28 logged
+  counts equal R109's; `triples.jsonl`, `mentions.jsonl` and `audit/code_checks.json` byte-identical; C0
+  passed (`kg audit-snapshot`, MLflow `469018d3`); `resolve.json` and `audit/snapshot.json` equal but for the
+  77 record references' Neo4j element id (below). Neo4j now holds 1,041 Mention, 568 Observation, 327
+  Concept, 243 Individual, 81 Chunk, 34 Document, 29 Recall, 25 Complaint and 5 Vehicle nodes, 7,428
+  relationships.
+- **R113 done 2026-10-08.** Next: Part 2, scoped with the user.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -6842,6 +6861,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **Build files hold Neo4j element ids, which change on every rebuild (found in R113, 2026-10-08; open, a
+  rule for Part 2).** `resolve.json` and the audit snapshot keep each record reference's `target`, the
+  element id of the record node in the database that build wrote. A rebuild of the same content gives the 77
+  held-out record nodes new ids, so the two files differ in those fields only. Comparisons between builds
+  ignore `target` (as R113 did); the query engine must address records by label and key, never by a stored
+  element id.
 - **The claim sheet shows one type pair per relation (found in R110 part b, 2026-10-07; fixed in its own
   commit: `relations` is keyed by the type pair, "Product -[EXHIBITS]-> QualityAspect"; test
   `test_the_sheet_shows_every_type_pair_a_relation_is_declared_for` failed before the fix).** `claim_sheet`

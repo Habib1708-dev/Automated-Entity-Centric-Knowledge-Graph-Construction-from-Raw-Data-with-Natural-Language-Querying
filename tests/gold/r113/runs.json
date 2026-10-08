@@ -1,0 +1,66 @@
+{
+ "step": "R113: the held-out final build (R109) loaded into the working Neo4j for Part 2: rebuilt into a new folder, every LLM answer from the cache",
+ "approved": "the user, 2026-10-08 (\"alright go ahead\" to loading one of the final builds into Neo4j, estimated at R108/R109's $0.004-0.05 per dataset)",
+ "git_sha": "458619e-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "datasets": {
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r113_heldout",
+   "frozen_build": "out/r109_heldout",
+   "pinned_from": "out/r109_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+   "claims_from": "out/r103_heldout (kg extract --from-build: replayed, no call; triples.jsonl byte-identical to out/r109_heldout's)",
+   "commands": [
+    "kg --preset heldout reset --out out/r113_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r113_heldout",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r113_heldout",
+    "kg --preset heldout extract --from-build out/r103_heldout --out out/r113_heldout",
+    "kg --preset heldout link --out out/r113_heldout",
+    "GEMINI_API_KEY=invalid kg --preset heldout mention-pass --out out/r113_heldout",
+    "kg --preset heldout resolve --out out/r113_heldout",
+    "kg --preset heldout attach --out out/r113_heldout",
+    "kg --preset heldout audit-snapshot out/r113_heldout --data heldout/nhtsa/data --logged out/r113_heldout/logged.json --out out/r113_heldout/audit"
+   ],
+   "runs": {
+    "ingest_text": "94be83d7f9fd49368d40b8657c6b242c",
+    "extract": "313321d76e4c4276b6e4164e23777084",
+    "link": "c116993ca8794bc097da4fa4a1fd170e",
+    "mention_pass": "f941d4db25944ba78a802ff6b3832691",
+    "resolve": "4c1ec1b59d1e4be4bbe1a406e434c2f1",
+    "attach": "30ca00b6d4f64b3da800b99851645af9"
+   },
+   "audit_snapshot_run": "469018d35633414694ce00f6ad2c234b",
+   "cost_usd": 0.0,
+   "cost_note": "MLflow logs 0: every LLM call was a cache hit; the 9 Gemini embedding calls (1 in ingest_text, 8 in resolve) report no tokens, so prices.yaml cannot price them (well under one cent)",
+   "mention_pass_calls": 81,
+   "mention_pass_cache_hits": 81,
+   "resolve_calls": 724,
+   "resolve_cache_hits": 724,
+   "equal_to_frozen": {
+    "logged_counts": "all 28 equal to tests/gold/r109/heldout_logged.json",
+    "byte_identical": [
+     "triples.jsonl",
+     "mentions.jsonl",
+     "audit/code_checks.json"
+    ],
+    "equal_but_element_ids": [
+     "resolve.json (77 record assignments' target)",
+     "audit/snapshot.json (the same 77 references' target, and source)"
+    ],
+    "fidelity_passed": true
+   },
+   "neo4j": {
+    "Mention": 1041,
+    "Observation": 568,
+    "Concept": 327,
+    "Individual": 243,
+    "Chunk": 81,
+    "Document": 34,
+    "Recall": 29,
+    "Complaint": 25,
+    "Vehicle": 5,
+    "relationships": 7428
+   }
+  }
+ }
+}
