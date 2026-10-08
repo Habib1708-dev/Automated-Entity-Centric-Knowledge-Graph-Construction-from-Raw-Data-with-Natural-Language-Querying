@@ -10,5 +10,18 @@ services:
     volumes:
       - neo4j_data:/data
 
+  # The tests' own database (R112). The `driver` fixture in tests/conftest.py empties it before every test,
+  # so it must never be the working graph above: other port, no named volume (its contents are thrown away).
+  neo4j-test:
+    image: neo4j:5
+    ports:
+      - "7688:7687"
+    environment:
+      NEO4J_AUTH: neo4j/password123
+      NEO4J_PLUGINS: '["apoc"]'
+      # test graphs hold a few dozen nodes; small memory keeps two Neo4j servers light on a laptop
+      NEO4J_server_memory_heap_max__size: 512m
+      NEO4J_server_memory_pagecache_size: 128m
+
 volumes:
   neo4j_data:

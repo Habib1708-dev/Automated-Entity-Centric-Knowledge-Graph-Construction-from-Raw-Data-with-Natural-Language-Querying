@@ -11,7 +11,8 @@ every extracted fact carries a verbatim evidence quote that is verified against 
 
 ```
 uv sync
-docker compose up -d        # Neo4j 5 + APOC on bolt://localhost:7687, browser on http://localhost:7474
+docker compose up -d        # Neo4j 5 + APOC: the working graph on bolt://localhost:7687 (browser on
+                            # http://localhost:7474) and the tests' own database on bolt://localhost:7688
 copy .env.example .env      # then set GEMINI_API_KEY
 ```
 
@@ -349,6 +350,22 @@ snapshots next to it (`docs/evaluation/results_<date>.md`), each pinned to a com
 A snapshot describes the system on its date only. `docs/` is git-ignored (moved there on 2026-09-22),
 so these files exist only in the local checkout, like the skills.
 
+**Part 1's final builds (frozen in R112, git tag `part1-final`).** The graph builder (Part 1) stops here;
+these three builds are the graphs every later result about Part 1 refers to:
+
+| Dataset | Build | Made by | Recipe and MLflow runs |
+|---|---|---|---|
+| furniture (`data/`) | `out/r108_furniture` | R108 | `tests/gold/r108/runs.json` |
+| held-out (`heldout/nhtsa/data`) | `out/r109_heldout` | R109 | `tests/gold/r109/runs.json` |
+| generality (`tests/fixtures/generality`) | `out/r108_generality` | R108 | `tests/gold/r108/runs.json` |
+
+The held-out graph is R109's, not R108's: R109 changed derivation, so R108's held-out build no longer
+passes the fidelity check (C0) at today's code. All three pass C0 at the tag (`kg audit-snapshot`, offline;
+the snapshot it rebuilds is byte-identical to the build's own). `out/` is git-ignored: the runs files hold
+the commands that made each build (they read earlier builds in `out/` and the local LLM cache, so the
+builds themselves exist only in this checkout). Their judged results are in `REFACTOR_PLAN.md`
+(R108-R111 and "Known limitations").
+
 ## LLM-as-a-judge
 
 Exact matching undercounts (`wobbly legs` versus `legs wobble`), so `kg eval` also supports a second,
@@ -429,10 +446,12 @@ how they choose:
 ## Development
 
 ```
-uv run pytest                    # all tests; those marked neo4j skip when Neo4j is down
+uv run pytest                    # all tests; those marked neo4j skip when the test database is down
 uv run pytest -m "not neo4j"     # fast tests, no database, no network
 uv run ruff check . ; uv run ruff format .
 ```
 
-Note: the `neo4j` tests wipe the database they connect to. Working rules for contributors (and for
+Note: the `neo4j` tests empty the database they connect to, so they use their own server (`neo4j-test`
+in `docker-compose.yml`, bolt 7688), never the working graph on 7687; they refuse to run when `NEO4J_URI`
+points at 7688 (R112). Working rules for contributors (and for
 Claude) are in `CLAUDE.md`; the audit and the refactoring history are in `REFACTOR_PLAN.md`.

@@ -1,10 +1,17 @@
 """Shared fixtures: a temp data dir with small CSVs (one deliberately dirty file) and an empty Neo4j
-database; every test that uses the database is marked `neo4j` here, so none can forget the marker."""
+database; every test that uses the database is marked `neo4j` here, so none can forget the marker.
+
+The database is the tests' own server (`neo4j-test` in docker-compose.yml), never the working graph the
+pipeline writes: the fixture empties it before every test (R112)."""
 
 import pytest
 
 from kgbuilder.config import Settings
 from kgbuilder.graph.connection import open_driver
+
+# the `neo4j-test` service of docker-compose.yml: bolt on 7688, its own fixed credentials
+TEST_NEO4J_URI = "bolt://localhost:7688"
+TEST_NEO4J_AUTH = ("neo4j", "password123")
 
 FILES = {
     "products.csv": "product_id,product_name,price\nP1,Table,199.5\nP2,Chair,89\nP3,Lamp,35\n",
@@ -42,14 +49,21 @@ def data_dir(tmp_path):
 
 @pytest.fixture
 def driver():
-    """An empty Neo4j database. Skips the test when Neo4j is down; wipes the database first."""
-    s = Settings()
-    d = open_driver(s.neo4j_uri, s.neo4j_username, s.neo4j_password)
+    """An empty Neo4j database: the tests' own server. Skips the test when it is down; wipes it first.
+
+    Fails, without touching any database, when the pipeline's NEO4J_URI points at the test server, because
+    the wipe would then delete the working graph.
+    """
+    if Settings().neo4j_uri == TEST_NEO4J_URI:
+        pytest.fail(
+            f"NEO4J_URI is the test database {TEST_NEO4J_URI}: the tests would wipe the working graph"
+        )
+    d = open_driver(TEST_NEO4J_URI, *TEST_NEO4J_AUTH)
     try:
         d.verify_connectivity()
     except Exception:  # any connection failure means "no database available", which is a skip, not an error
         d.close()
-        pytest.skip("Neo4j is not running (docker compose up -d)")
+        pytest.skip("the test Neo4j is not running (docker compose up -d neo4j-test)")
     d.execute_query("MATCH (n) DETACH DELETE n")
     yield d
     d.close()

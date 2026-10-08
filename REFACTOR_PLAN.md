@@ -6780,6 +6780,36 @@ on older builds (coverage 0.486 furniture, 0.313 held-out; most misses had no fa
   it most is the schema on held-out and generality (no fact type for remedies, titles, dates of documents) and
   the model's dropped halves and evaluations on furniture.
 
+### R112. Part 1 frozen: the final builds named, the tests on their own Neo4j (done 2026-10-08; $0, no run)
+The user, 2026-10-08: the graph builder (Part 1) is judged by whether it builds correctly (merges and
+deduplication), and on that reading it is done; work moves to the query engine (Part 2). Before that, freeze
+Part 1: tag the commit, name the three final builds, and give the tests their own Neo4j, because a query
+engine queries the live working graph and `uv run pytest` emptied it (the open item of R11; it cost one void
+$0.166 `kg qa` run). The old query engine's check on the final graph was proposed and declined by the user
+("not interested in the old query engine right now").
+- **Scope:** `docker-compose.yml` (a second service `neo4j-test`: bolt on 7688, APOC, no named volume, small
+  memory), `tests/conftest.py` (the `driver` fixture connects to 7688 with fixed credentials, never to
+  `Settings().neo4j_uri`, and fails before any wipe when `NEO4J_URI` is the test server), README (setup,
+  development, the final builds), CLAUDE.md (the two command comments). No source code changes, so no
+  behaviour of the pipeline changes.
+- **The final builds** (also in README, "Evaluation results"): furniture `out/r108_furniture` (R108),
+  held-out `out/r109_heldout` (R109; R108's held-out build fails C0 at today's code since R109 changed
+  derivation), generality `out/r108_generality` (R108). Their commands and MLflow runs are in
+  `tests/gold/r108/runs.json` and `tests/gold/r109/runs.json`; `out/` is git-ignored, so the builds exist in
+  this checkout only. Git tag `part1-final` on this step's commit (local, not pushed).
+- **C0 at the frozen code** (before any edit, at `6ba7a9a` with only the user's `.claude/settings.json`
+  dirty; `kg audit-snapshot`, offline, no LLM, no Neo4j, into `out/r112_c0/<ds>`): fidelity passed on all three
+  (MLflow `f3a6311d` furniture, `acb838b4` held-out, `83e5f31a` generality); the rebuilt `snapshot.json` and
+  `code_checks.json` are byte-identical to each build's own `audit/` files. Source code is unchanged since,
+  so this holds at the tag.
+- **Verified:** baseline with the working Neo4j stopped 780 passed, 88 skipped (every `neo4j` test skips);
+  after the change, with both servers up, **868 passed, 0 skipped**: every `neo4j` test ran on 7688. A marker
+  node written to the working graph before the run was still there after it (8 nodes, 1 marker; removed
+  after). With `NEO4J_URI=bolt://localhost:7688` the fixture fails with "the tests would wipe the working
+  graph" and the test database keeps its nodes (7 before and after). `uv run ruff check .` clean.
+- **R112 done 2026-10-08** ($0). Part 1 is frozen at `part1-final`; its four known limitations stay as recorded
+  below. Next: Part 2, the query engine, scoped with the user.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -7398,7 +7428,8 @@ with its evidence and the direction a later step would take:
   so extraction returned empty lists and resolve / link ran on nothing. The code worked; the weak model
   on tiny data did not exercise the later stages. Watch it in the next smoke runs; if it persists, the
   text-schema prompt may need to discourage restating the domain graph (a behaviour change, own step).
-- **A smoke run checks the whole pipeline but fails on a graph left by the tests (found in R15).** The
+- **A smoke run checks the whole pipeline but fails on a graph left by the tests (found in R15; closed by
+  R112 with the item below).** The
   first run after `uv run pytest` failed five checks because of the test nodes (11 parts instead of 10, an
   orphan chunk). The fix is the open item "the test suite wipes the working graph": a separate Neo4j.
 
@@ -7419,7 +7450,8 @@ with its evidence and the direction a later step would take:
 - **Profile samples are not deterministic (found in R11).** `profiler.py` takes `SELECT DISTINCT ... LIMIT 5`
   without `ORDER BY`, so the samples, and therefore the plan prompt, differ between runs: the plan is never
   served from the cache and runs are not exactly reproducible. Fix with an `ORDER BY` and a test.
-- **The test suite wipes the working graph (found in R11).** `neo4j` tests share the one database with
+- **The test suite wipes the working graph (found in R11; closed by R112: the tests use their own server,
+  `neo4j-test` on bolt 7688).** `neo4j` tests share the one database with
   the pipeline, so `uv run pytest` deletes the graph of the last `kg run`. Point tests at a separate
   Neo4j (a second container or port).
 - **Extraction thinking dominated cost (found in R11, fixed in R16).** A full run costs about $1.25;
