@@ -6,7 +6,7 @@ those stages refuse a gold whose evidence the graph lacks before any model is ca
 Design: content, not identity. Element ids change on every rebuild (R113's finding), so the digest hashes
 what a rebuild of the same build keeps: how many nodes carry each label, how many relationships have each
 type, and every chunk's id and text. Two builds of one recipe give one digest; a missing node, an extra
-relationship or one changed chunk text gives another.
+relationship or one changed chunk text gives another. The retrieval index layer (R119) is not counted.
 Not here: the gold check itself (pipeline/qa_systems.py), anything that writes.
 """
 
@@ -15,6 +15,8 @@ import json
 
 from neo4j import Driver
 from pydantic import BaseModel
+
+from .index_layer import RETRIEVAL_UNIT
 
 
 class GraphDigest(BaseModel):
@@ -27,12 +29,17 @@ class GraphDigest(BaseModel):
 
 
 def graph_digest(driver: Driver) -> GraphDigest:
-    """Read the label and relationship counts and every chunk's id and text, and hash them. Read-only."""
+    """Read the label and relationship counts and every chunk's id and text, and hash them. Read-only. The
+    retrieval index layer (index_layer.py) is left out: indexing a graph does not change its digest."""
     # a node with two labels counts under each: a label added to or removed from a node changes the digest
     labels, _, _ = driver.execute_query(
-        "MATCH (n) UNWIND labels(n) AS label RETURN label, count(*) AS n ORDER BY label"
+        f"MATCH (n) WHERE NOT n:{RETRIEVAL_UNIT} UNWIND labels(n) AS label "
+        "RETURN label, count(*) AS n ORDER BY label"
     )
-    types, _, _ = driver.execute_query("MATCH ()-[r]->() RETURN type(r) AS type, count(*) AS n ORDER BY type")
+    types, _, _ = driver.execute_query(
+        f"MATCH (a)-[r]->(b) WHERE NOT a:{RETRIEVAL_UNIT} AND NOT b:{RETRIEVAL_UNIT} "
+        "RETURN type(r) AS type, count(*) AS n ORDER BY type"
+    )
     chunks, _, _ = driver.execute_query("MATCH (c:Chunk) RETURN c.chunk_id AS id, c.text AS text ORDER BY id")
     label_counts = {r["label"]: r["n"] for r in labels}
     type_counts = {r["type"]: r["n"] for r in types}

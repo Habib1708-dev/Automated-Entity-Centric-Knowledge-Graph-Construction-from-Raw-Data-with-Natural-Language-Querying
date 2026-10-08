@@ -8,7 +8,8 @@ types and the claim patterns (subject type, predicate, object type) of the obser
 from the dataset at hand, which the prompt-engineering rules allow; the fixed shape of the pipeline's own
 nodes is described in the prompts. Chunk texts, vectors and evidence quotes are left out: long, and never
 what a filter or count needs. `records_only` cuts the schema down to the plan's record layer, for the
-records-plus-vector system (R73).
+records-plus-vector system (R73). The retrieval index layer (R119, graph/index_layer.py) is left out: no plan
+queries it, and indexing a graph must not change the planner's prompt.
 Not here: checking a query (cypher_check.py).
 """
 
@@ -16,6 +17,7 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
+from ..graph.index_layer import RETRIEVAL_UNIT
 
 # Properties never shown: text and vectors that no filter or count needs, and that would crowd out the rest
 # The identity edges' audit fields (R75: reason, score, by) and the attachments' route (R76: how, on
@@ -116,7 +118,7 @@ def read_graph_schema(driver: Driver) -> GraphSchema:
 def _labels(driver: Driver) -> list[LabelInfo]:
     records, _, _ = driver.execute_query(
         # the property keys of every node of a label, flattened in Python: nodes of one label may differ
-        "MATCH (n) UNWIND labels(n) AS label "
+        f"MATCH (n) WHERE NOT n:{RETRIEVAL_UNIT} UNWIND labels(n) AS label "
         "RETURN label, count(*) AS n, collect(keys(n)) AS keys ORDER BY label"
     )
     labels = []
@@ -177,7 +179,8 @@ def _temporal_function(value: object) -> str:
 
 def _relationships(driver: Driver) -> list[RelationshipInfo]:
     records, _, _ = driver.execute_query(
-        "MATCH (a)-[r]->(b) UNWIND labels(a) AS source UNWIND labels(b) AS target "
+        f"MATCH (a)-[r]->(b) WHERE NOT a:{RETRIEVAL_UNIT} AND NOT b:{RETRIEVAL_UNIT} "
+        "UNWIND labels(a) AS source UNWIND labels(b) AS target "
         "RETURN source, type(r) AS type, target, count(*) AS n, collect(DISTINCT keys(r)) AS keys "
         "ORDER BY type, source, target"
     )

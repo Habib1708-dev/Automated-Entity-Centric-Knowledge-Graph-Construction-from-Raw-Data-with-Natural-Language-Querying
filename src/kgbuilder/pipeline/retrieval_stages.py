@@ -23,7 +23,7 @@ from pathlib import Path
 from ..anchor import PlacedTarget, TargetPlacer, read_staged
 from ..audit import build_snapshot
 from ..core.errors import EvaluationError
-from ..llm.base import Embedder
+from ..llm.counting import CountingEmbedder
 from ..query.plan_run import ChunkSource
 from ..structured.plan import ConstructionPlan
 from ..validation.qa_gold import QAGold, QAQuestion, load_qa_gold
@@ -43,21 +43,6 @@ from .stage import PipelineContext, PipelineState
 from .stages import BaseStage
 
 Placed = dict[str, list[PlacedTarget]]  # question id -> its targets with their nodes in the build
-
-
-class _CountingEmbedder:
-    """Decorator over the embedder: passes every batch on and counts the texts and characters sent. The
-    Gemini API reports no tokens for embeddings, so these are the size of the calls (as R92 logged them)."""
-
-    def __init__(self, inner: Embedder) -> None:
-        self._inner = inner
-        self.texts = 0
-        self.chars = 0
-
-    def embed(self, texts: list[str]) -> list[list[float]]:
-        self.texts += len(texts)
-        self.chars += sum(len(t) for t in texts)
-        return self._inner.embed(texts)
 
 
 class RetrieveEvalStage(BaseStage):
@@ -99,7 +84,7 @@ class RetrieveEvalStage(BaseStage):
         run.params(graph_digest=graph.value)
         state.plan, placed = _placed_targets(ctx, state, gold)  # the loaded build's plan names its records
         parts = source_parts(ctx, state)
-        embedder = _CountingEmbedder(parts.embedder)
+        embedder = CountingEmbedder(parts.embedder)
         depth = max(s.retrieval_budgets)
         source = check_source(self.system)(replace(parts, embedder=embedder), depth)
         outcomes = [_rank(source, q, placed[q.id], self.system, depth) for q in gold.questions]

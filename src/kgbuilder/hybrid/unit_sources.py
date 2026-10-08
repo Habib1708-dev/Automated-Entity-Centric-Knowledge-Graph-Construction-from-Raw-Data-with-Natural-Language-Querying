@@ -68,6 +68,23 @@ def read_evidence(
     ]
 
 
+def read_targets(driver: Driver, plan: ConstructionPlan | None) -> dict[str, str]:
+    """Ref -> element id of every record (by the plan's node rules), individual and concept: where a card
+    points (R119). Element ids change on every rebuild (R113), so they are read anew in each run and never
+    stored as a ref."""
+    out = {}
+    for rule in plan.nodes if plan else []:
+        rows, _, _ = driver.execute_query(
+            f"MATCH (n:{cypher_ident(rule.label)}) "
+            f"RETURN elementId(n) AS id, toString(n.{cypher_ident(rule.unique_column)}) AS key"
+        )
+        out |= {record_ref(rule.label, r["key"]): r["id"] for r in rows}
+    rows, _, _ = driver.execute_query(
+        "MATCH (n) WHERE n:Concept OR n:Individual RETURN n.id AS ref, elementId(n) AS id"
+    )
+    return out | {r["ref"]: r["id"] for r in rows}
+
+
 def read_claim_sentences(driver: Driver) -> list[ClaimSentence]:
     """One sentence per observation, by id."""
     rows, _, _ = driver.execute_query(f"MATCH {_ENDS} RETURN {_CLAIM} ORDER BY id")

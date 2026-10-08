@@ -876,6 +876,16 @@ def units(cards: str = UNIT_CARDS, out: Path = OUT):
     typer.echo(f"Wrote {out / ixs.UnitsStage.UNITS_FILE}")
 
 
+@app.command("index")
+def index_units(cards: str = UNIT_CARDS, out: Path = OUT):
+    """Write every node's card and every claim's sentence into the graph as the retrieval index layer
+    (`:RetrievalUnit` nodes), with their vectors and their vector and full-text indexes (R119). Embeds only
+    the units that are new or changed; drop the layer with `MATCH (u:RetrievalUnit) DETACH DELETE u`."""
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(), [ixs.IndexStage(cards)])
+    typer.echo(f"Indexed the {cards} cards and the claim sentences; wrote {out / ixs.UNITS_FILE}")
+
+
 @app.command()
 def run(
     data_dir: Path | None = DATA_DIR,

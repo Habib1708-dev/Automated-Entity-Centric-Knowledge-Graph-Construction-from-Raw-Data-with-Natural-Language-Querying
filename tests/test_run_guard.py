@@ -43,6 +43,8 @@ FLAGS = {"smoke": False, "dev": False, "quality": True}
         "uv run kg --preset quality mention-pass",
         # the retrieval benchmark embeds the questions (R117)
         "uv run kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --system vector",
+        # indexing embeds every new or changed retrieval unit (R119)
+        "uv run kg --preset quality index --cards template --out out/r117_furniture",
     ],
 )
 def test_comprehensive_runs_ask(command):
@@ -58,6 +60,7 @@ def test_comprehensive_runs_ask(command):
         "uv run kg --preset quality qa-score gold.json out/answers_graph.jsonl",  # scores a file
         "uv run kg --preset quality anchor-eval out/r77d_furniture --data data",  # reads files only
         "uv run kg --preset quality retrieve-compare out/a/retrieval_vector.json out/b/retrieval_vector.json",
+        "uv run kg --preset quality units --out out/r117_furniture",  # no model (R118)
         # the replay without --choose is offline code
         "uv run kg --preset quality audit-relink out/r77d_furniture --data data --logged l.json",
         "uv run kg reset",

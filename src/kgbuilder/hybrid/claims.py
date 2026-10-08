@@ -14,6 +14,12 @@ from typing import Literal
 
 from pydantic import BaseModel
 
+from ..llm.base import prompt_version
+
+# The sentence's fixed shape; its hash versions every claim unit, so a change re-embeds them (R119)
+CLAIM_TEMPLATE = "{subject} ({subject_type}) {predicate} {object} ({object_type})"
+CLAIM_VERSION = prompt_version(CLAIM_TEMPLATE)
+
 
 class ClaimSentence(BaseModel):
     """One claim's sentence: a line of `index/units.jsonl`, and the text R119 embeds for it."""
@@ -31,4 +37,10 @@ def predicate_words(predicate: str) -> str:
 
 def claim_text(subject: str, subject_type: str, predicate: str, obj: str, object_type: str) -> str:
     """The claim's sentence: "Spindle (Part) has condition wobbles (Condition)"."""
-    return f"{subject} ({subject_type}) {predicate_words(predicate)} {obj} ({object_type})"
+    return CLAIM_TEMPLATE.format(
+        subject=subject,
+        subject_type=subject_type,
+        predicate=predicate_words(predicate),
+        object=obj,
+        object_type=object_type,
+    )

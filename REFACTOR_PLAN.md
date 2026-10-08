@@ -7154,6 +7154,50 @@ the seam where LLM summaries (B, R123) will plug in. Nothing is embedded or writ
   Held-out and generality cards were not built (plan: not before R122).
 - **R118 done 2026-10-08.** Next: R119, embedding the units into Neo4j (`kg index`, one guarded smoke run).
 
+### R119. `kg index --cards <rep>`: the retrieval units embedded into Neo4j (code done 2026-10-08; $0, no run; the index run awaits permission)
+Plan R116-R125, step 4: the cards and claim sentences of R118 written into the graph as an additive,
+deletable index layer with vectors and indexes, which R120's retrievers search.
+- **Scope:** the layer's names, its writer and indexes, the stage `kg index`; the digest and the planner's
+  schema leave the layer out. Part 1 nodes are never changed; no query or prompt change.
+- **How:**
+  - `graph/index_layer.py`: `RetrievalUnit`, `NodeCard`, `ClaimSentence`, `CARD_OF`, `SENTENCE_OF`,
+    `card_label(rep)` ("template" -> `TemplateCard`), `card_indexes(rep)`, the claim and chunk index names,
+    `ANALYZER = "english"`, `RESERVED_LABELS`/`RESERVED_TYPES`, `index_names()`, and in its header the
+    Cypher that drops the layer.
+  - `hybrid/unit_graph.py`: `card_rows`/`claim_rows` (unit id `<rep>:<ref>` / `claim:<observation id>`,
+    text hash, version: the representation's or `CLAIM_VERSION`, the hash of the new `CLAIM_TEMPLATE`);
+    `write_units` MERGEs by id, embeds only the units whose (text hash, version) differ or whose vector
+    another embedding model made, sets a vector and its `embed_model` only where one was made now, links
+    `CARD_OF` (to the element id `read_targets` gives in this run) and `SENTENCE_OF`, dropping an edge to a
+    node the unit no longer stands for, and removes the stale cards of this representation only and the
+    stale claim sentences; `ensure_indexes` creates the missing indexes (a vector and an English full-text
+    index per representation's cards and for the claim sentences, a full-text index on `Chunk.text`) and
+    recreates one whose label, dimensions or analyzer differ, then waits for them.
+  - `graph/digest.py` and `query/graph_schema.py` (`_labels`, `_relationships`) skip `:RetrievalUnit` and
+    its edges.
+  - `pipeline/index_stages.py`: `IndexStage` beside `UnitsStage`, sharing `read_units`; refuses a plan
+    whose labels or relationship types use the layer's names (before any read or write); params `cards`,
+    `representation_version`, the three caps, `embed_model`, `analyzer`, `graph_digest`; metrics R118's plus
+    `units_written`, `units_reused`, `stale_units_removed`, `embedded_texts`, `embedded_chars`,
+    `indexes_recreated` (`duration_s` from the tracker); artifact `index/units.jsonl`. The counting embedder
+    of R117 moved to `llm/counting.py` (`CountingEmbedder`) for both stages. CLI `kg index`; run_guard adds
+    `index`.
+- **Verified:** 9 new tests. `tests/test_hybrid_index.py` (7, Neo4j 7688): every unit with its vector, model,
+  target and evidence hash and the 5 indexes (dimensions 2, English analyzer); a second run embeds nothing
+  (0 written, 15 reused); renaming one part re-embeds exactly 2 cards (the part's and the press's, whose
+  PART_OF line names it); a second representation ("other", a name in the test only) beside the template
+  cards, and a template write without one card removes that card and no other card; Part 1 nodes, the digest
+  and the planner's schema text identical before and after; a plan label `TemplateCard` or `RetrievalUnit`
+  refused with nothing embedded or written; an index rebuilt for other dimensions. The guard asks before
+  `kg index` and not before `kg units` (2). 944 passed (935 + 9), ruff clean.
+- **Open, asked:** the index run on the working graph (furniture): `kg --preset quality index --cards template
+  --out out/r117_furniture`, then the same again (it must embed nothing), with `graph_digest` and the
+  planner's schema text compared before and after. It embeds 1,422 units (737 cards, 685 claim sentences,
+  about 140,000 characters), about $0.005 at the embedding model's list price, unpriced in MLflow. The plan
+  named a `smoke` run, but no free key is set and the units are the whole furniture graph, so it is a
+  paid embedding of the whole dataset and is asked like one.
+- **R119 code done 2026-10-08.** Next: the index run with the user's permission, then R120.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

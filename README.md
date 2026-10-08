@@ -55,6 +55,7 @@ uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # pai
 uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --system graph_retrieval --out O  # retrieval without the reader (R117; embeds)
 uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
 uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
+uv run kg index --cards template --out BUILD                      # the same units embedded into Neo4j with their indexes (R119; embeds only what changed)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -280,7 +281,8 @@ src/kgbuilder/
   llm/              LLMClient/Embedder protocols, Gemini adapter (retry), disk-cache decorator,
                     refine.py = the propose -> validate -> critique -> retry loop
   graph/            Neo4j driver factory ; canonical (how readers find what a mention refers to) ;
-                    digest (R117: a hash of the loaded graph's content, logged by every run that queries it)
+                    digest (R117: a hash of the loaded graph's content, logged by every run that queries it) ;
+                    index_layer (R119: the names of the retrieval index layer)
   tracking/         Tracker protocol + NullTracker, MLflow adapter (runs, LLM traces, usage metrics)
   structured/       staging -> profiler -> proposer (LLM) + plan (validation) -> importer ;
                     postgres (R114: a PostgreSQL schema's tables, a source for staging)
@@ -313,11 +315,12 @@ src/kgbuilder/
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
                     exact (text2cypher, the plans' logged fallback) with cypher_check
   hybrid/           R118: unit_sources (a node's evidence, read-only) -> evidence -> representation (Strategy,
-                    by name) -> cards (A: deterministic node cards) ; claims (one sentence per claim)
+                    by name) -> cards (A: deterministic node cards) ; claims (one sentence per claim) ;
+                    unit_graph (R119: the units written into Neo4j with their vectors and indexes)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
-                    index_stages (R118: kg units)
+                    index_stages (R118: kg units, R119: kg index)
 ```
 
 | Stage (MLflow run) | Module | LLM? |
@@ -340,6 +343,7 @@ src/kgbuilder/
 | `retrieve_eval_<system>` | `pipeline/retrieval_stages.py`, `validation/retrieval_scores.py` | embeddings only |
 | `retrieve_compare` | `validation/retrieval_scores.py`, `validation/paired.py` | no |
 | `units` | `pipeline/index_stages.py`, `hybrid/` | no |
+| `index` | `pipeline/index_stages.py`, `hybrid/unit_graph.py` | embeddings only |
 
 ## Experiment tracking
 
@@ -505,6 +509,19 @@ fixed domain-neutral template, at most `INDEX_CARD_MAX_CHARS`); LLM summaries ar
 over the same evidence. It writes the cards and one sentence per claim ("Spindle (Part) has condition wobbles
 (Condition)") to `BUILD/index/units.jsonl`. Truth is never left to the text: tags on a card line (`denied`,
 `hedged`, `conditional: ...`) come from the claim's fields.
+
+`kg index --cards template --out BUILD` (R119) writes the same units into Neo4j as an additive, deletable
+layer: each a `:RetrievalUnit` (a card also `:NodeCard:TemplateCard`, a claim sentence `:ClaimSentence`) with
+its text and vector, pointing at what it stands for (`CARD_OF`, `SENTENCE_OF`), plus a vector and an English
+full-text index per kind and a full-text index on the chunk texts (names in `graph/index_layer.py`). Part 1
+nodes are never changed; `graph_digest` and the planner's schema leave the layer out. A unit whose text,
+version and embedding model are unchanged keeps its vector, so a second run embeds nothing. To drop the layer:
+
+```
+MATCH (u:RetrievalUnit) DETACH DELETE u
+DROP INDEX card_template_embeddings IF EXISTS   // and card_template_text, claim_sentence_embeddings,
+                                                // claim_sentence_text, chunk_text
+```
 
 ## Development
 
