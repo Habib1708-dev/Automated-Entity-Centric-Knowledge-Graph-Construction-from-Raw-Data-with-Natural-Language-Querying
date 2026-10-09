@@ -8,10 +8,12 @@ Design: Adapter over an in-memory DuckDB with one view per staged CSV, named by 
 profile and the plan use. Column types are mapped to R74's type names (INTEGER, FLOAT, STRING, DATE,
 BOOLEAN), so one value check (structured_query.py) serves records and tables. Only statements compiled by
 code (table_query.py) are run, all of them SELECTs over views, so nothing can write; a failed run is
-reported, not raised, for the agent to read.
+reported, not raised, for the agent to read. The connection is in memory and lives as long as the system
+that reads it (one `kg qa` or `kg ask`); a lock lets the parallel questions of `kg qa` share it.
 Not here: compiling (table_query.py), the record layer (record_query.py).
 """
 
+import threading
 from pathlib import Path
 from typing import Any, Protocol
 
@@ -51,6 +53,7 @@ class DuckDBTables:
 
     def __init__(self, staging: Path):
         self._con = duckdb.connect()
+        self._lock = threading.Lock()  # `kg qa` answers questions in parallel; one connection runs one query
         for path in sorted(Path(staging).glob("*.csv")):
             self._con.read_csv(str(path), header=True).create_view(path.stem)
         self._tables = [self._describe(path.stem) for path in sorted(Path(staging).glob("*.csv"))]
@@ -60,9 +63,11 @@ class DuckDBTables:
 
     def run(self, statement: str, parameters: dict[str, Any]) -> ReadResult:
         try:
-            result = self._con.execute(statement, parameters)
-            keys = [d[0] for d in result.description]
-            return ReadResult(rows=[list(row) for row in result.fetchall()], keys=keys)
+            with self._lock:
+                result = self._con.execute(statement, parameters)
+                keys = [d[0] for d in result.description]
+                rows = [list(row) for row in result.fetchall()]
+            return ReadResult(rows=rows, keys=keys)
         except duckdb.Error as e:  # a runtime error (a cast, a type): the agent reads it as the result
             return ReadResult(error=str(e))
 

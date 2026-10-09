@@ -8479,6 +8479,64 @@ decision then. Also make graphs supporting this decision."
 - **R134 done 2026-10-09.** Next: R135, the agent loop, its containment and its tracing ($0, code; one dev
   run at most).
 
+### R135. The agent loop, its containment, its citations and its tracing (done 2026-10-09; one dev run, $0.0109)
+- **Scope:** in `agent/`:
+  - `loop.py`: the loop. Each turn the model (the shared `qa_model` at `qa_thinking`, so R136 compares like
+    with like) reads the question, the tools (name, description, arguments' JSON schema) and every call so
+    far with its result, and replies with one `AgentStep`: a tool call (its name and its arguments as a JSON
+    object) or the answer (entities, number or text, as the reader answers, and citations). Code parses the
+    arguments into the tool's model, refuses an unknown tool, arguments that do not parse and a call
+    identical to an earlier one (each answered with the reason in the transcript), runs the call, and keeps
+    every id the result offers.
+  - Containment per question: caps on turns, tool calls, the characters of all prompts sent, and wall-clock
+    time. At a cap the model is asked once more with the tools closed, to answer from what it has or say
+    the steps do not answer the question. The prompt-size budget stands in for the token and cost caps of
+    the plan: the LLM port reports usage to the tracker only, not to its caller, and the prompt is what grows
+    with every turn (output is short and schema-bound); recorded as a decision.
+  - `citations.py`: every id the answer cites must be one a tool returned; an answer citing others is sent
+    back once with the ids named, then they are dropped and counted. A cited claim brings its chunk along
+    (computed by code). Chunk citations keep their verbatim quote, which `kg qa` checks as for every system.
+  - `system.py`: the agent as a `QASystem` named `agent`: its answer as a `SystemAnswer` (shown: every chunk
+    whose text the agent read, then the cited chunks it saw only by id, read from the graph; retrieved in
+    that order) with an `AgentTrace` (each call, its arguments, refusal, note, the ids it returned and its
+    latency; turns, why the loop stopped, prompt characters, citations kept and dropped), a new field of
+    `SystemAnswer` in `query/answers.py`.
+  - Wiring: settings `agent_*` (the loop's caps and each tool's cap; text tools fuse at `hybrid_rrf_k`, the
+    seeding at `seed_candidates`/`seed_rrf_k`), a `SystemSpec("agent")` in `pipeline/qa_systems.py` logging
+    them and the agent's prompt as params and an artifact, the staged tables read from `<out>/staging`, and
+    agent metrics in `kg qa` (turns, calls per tool, refusals, stops by reason, citations dropped). Every
+    LLM call is traced by the existing listener.
+- **Not here:** any measured comparison (R136), prompt tuning beyond one dev round.
+- **Accept:** the loop, the caps, the refusals, the citation rule, the adapter and the metrics tested with
+  `ScriptedLLM` and fake tools; earlier tests unchanged and green; at most one cheap `dev` run on a few
+  questions to show the real model completes the loop, its cost reported.
+- **Decision (containment):** the prompt-size budget (`agent_max_prompt_chars` 400 000, about 100k tokens)
+  stands in for the plan's token and cost caps, for the reason in the scope; with turns (12), calls (10) and
+  time (180 s) it bounds every question. The agent answers with `qa_model` at `qa_thinking`, the model of
+  every other system.
+- **The dev run** (the one this step allows; the user's "proceed with all three steps"): `QA_MODEL=gemini-3.5-
+  flash-lite kg --preset dev qa <G08, G28, G39 of the generality gold> --system agent --out
+  out/r132_generality` on the generality build loaded for R132, MLflow `6ea6f871` (experiment
+  `kgbuilder-dev`): 10 generate calls, 0 cache hits, 4 embedding calls, 30 383 prompt / 701 output tokens,
+  `cost_usd` 0.010867; 3.3 turns and 2.3 calls per question, no call refused, every loop stopped by an
+  answer. G08 read the pump's node evidence and answered from the inspection passage (unjudged); G28 went
+  search_text -> find_nodes -> get_node and found the year 2016; G39 read the schema and ran one
+  query_records (rated flow > 40), finding both pumps. Exact match 0/2 on form alone, which the run exists
+  to show: G28 put the year in `text` (the gold scores a number) and G39 listed refs (`Pump:HP40-1183`), not
+  names. Fixed after the run, unmeasured (no second dev run in this step): code gives an entity written as
+  a ref the node's name a tool returned (`Ledger.name_of`; `query_records` now returns names beside refs),
+  and the prompt names a year as a number and asks for names, never refs (prompt version `af4dcf954d74`
+  of the run -> `940f0aa26f94`). Nothing here is a quality number: flash-lite, three questions.
+- **Verified:** 14 new tests (`tests/test_agent_loop.py`): a call and its result in the next prompt with
+  the calls left; the four refusals written back and not counted as calls; an identical call not run
+  again; each cap (calls, turns, prompt characters, time) closing the tools; an answer citing unknown ids
+  sent back once, then dropped; a cited claim bringing its chunk and a chunk citation keeping its quote;
+  the answer `kg qa` reads (shown chunks read, then cited ones from the store; checked citations; the
+  trace); refs given names; the metrics; the registration with its caps and prompt version; the prompt free
+  of dataset words. Plus a name check in the two structured tests. 1157 passed (1143 + 14), ruff clean.
+- **R135 done 2026-10-09.** Next: R136, answers measured with `kg qa` against the existing systems (a paid
+  run, asked first with its estimate).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

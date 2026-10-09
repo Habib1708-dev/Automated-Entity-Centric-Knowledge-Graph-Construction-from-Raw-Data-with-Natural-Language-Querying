@@ -25,6 +25,7 @@ def test_records_related_to_one_record_are_listed_by_key_with_their_total(driver
     assert result.issues == []
     assert result.refs == ["Part:S1", "Part:S2", "Part:S3"] and result.total == 4  # four parts, three shown
     assert result.columns == ["name", "part_id"] and result.rows[0] == ["Spindle", "S1"]
+    assert result.names == ["Spindle", "Gear", "Pin"]
 
 
 def test_counts_sums_and_dates_run_on_the_records(driver):

@@ -241,6 +241,23 @@ class Settings(BaseSettings):
     # R131b (tests/gold/r131): pooled 203 of 213 targets at 15 seeds; change them only through a new step
     seed_candidates: int = Field(default=25, ge=1)
     seed_rrf_k: int = Field(default=60, ge=0)
+    # the agent (R135, agent/loop.py): its caps per question. A question the earlier systems answer takes
+    # 2-4 lookups (a start, a walk or a search, a reading), so 10 calls in 12 turns leave room for a
+    # correction without an open-ended loop; the prompt budget (about 100k tokens at 4 characters a token)
+    # stands in for token and cost caps, which the loop cannot see per call; 180 s bounds a stuck question
+    agent_max_turns: int = Field(default=12, ge=1)
+    agent_max_calls: int = Field(default=10, ge=1)
+    agent_max_prompt_chars: int = Field(default=400_000, ge=1000)
+    agent_timeout_s: float = Field(default=180.0, gt=0)
+    # what each tool returns at most: R131b's 15 start nodes; 5 passages, the k every reading system reads;
+    # 10 claims, 20 relation groups and 20 rows keep one result within a few thousand characters
+    agent_nodes: int = Field(default=15, ge=1)
+    agent_relations: int = Field(default=20, ge=1)
+    agent_chunks: int = Field(default=5, ge=1)
+    agent_claims: int = Field(default=10, ge=1)
+    agent_rows: int = Field(default=20, ge=1)
+    agent_value_chars: int = Field(default=300, ge=20)
+    agent_names: int = Field(default=10, ge=1)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

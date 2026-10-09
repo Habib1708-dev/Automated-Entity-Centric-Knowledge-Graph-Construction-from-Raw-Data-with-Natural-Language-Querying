@@ -49,6 +49,7 @@ uv run kg claim-recall --claims S --gold G --sample P --dataset N --out O [--ver
 uv run kg ask "Which parts crack?"                                # answer one question from the graph, with citations
 uv run kg qa tests/gold/qa/furniture_qa.json                      # every gold question: graph, vector-only, records plus vector
 uv run kg qa GOLD --system graph_retrieval                         # the graph's retrieval route alone, read (R117; not a default)
+uv run kg qa GOLD --system agent --out BUILD                       # the agentic query engine (R135; BUILD holds plan and staging)
 uv run kg qa GOLD --system graph --plans tests/gold/r80/furniture   # replay frozen plans on a changed graph (R80)
 uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with the judge's verdicts on free text (no graph)
 uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
@@ -333,7 +334,9 @@ src/kgbuilder/
                     fused card seeding), get_node, neighbours, node_evidence (graph_tools) ; search_text,
                     search_claims (text_tools) ; node_reader (read-only Cypher) -> results (what each returns) ;
                     R134: schema, query_records, query_tables (structured_tools): structured_query (typed
-                    query, checked) -> record_query (Cypher) / table_query (SQL over tables, DuckDB)
+                    query, checked) -> record_query (Cypher) / table_query (SQL over tables, DuckDB) ;
+                    R135: loop (one call per turn, caps, closing answer) with prompt and citations
+                    (ids the tools returned) -> system (the `agent` QA system, build_tools)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;

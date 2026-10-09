@@ -225,6 +225,7 @@ def test_query_records_lists_records_with_their_refs_and_reports_a_failed_run():
     tool, store = query_records(rows, reader)
     result = tool.run(RecordQuery(label="Part", related_to="Press:P1", relationship="PART_OF"))
     assert (result.rows, result.refs, result.total) == ([["S1"], ["S2"]], ["Part:S1", "Part:S2"], 5)
+    assert result.names == ["S1", "S2"]  # no name in the rows: the key the ref ends in
     assert result.cites() == [result.query_id, "Part:S1", "Part:S2"]
     assert store.reads[0][1]["anchor"] == "4:x:1"
     failed, _ = query_records(ReadResult(error="the timeout"))

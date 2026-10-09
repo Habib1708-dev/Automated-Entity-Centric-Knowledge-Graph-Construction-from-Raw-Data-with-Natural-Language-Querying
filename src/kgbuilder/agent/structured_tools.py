@@ -23,7 +23,7 @@ from pydantic import BaseModel
 
 from ..query.graph_schema import GraphSchema
 from ..query.graph_store import CypherStore, ReadResult
-from ..structured.plan import ConstructionPlan
+from ..structured.plan import ConstructionPlan, name_property
 from .node_reader import NodeReader
 from .record_query import compile_records
 from .results import ToolResult
@@ -49,6 +49,7 @@ class QueryResult(ToolResult):
     columns: list[str] = []
     rows: list[list[str]] = []
     refs: list[str] = []  # query_records listing records: each row's record ref, in row order
+    names: list[str] = []  # and each one's display name (its name column, else its key), in row order
     total: int = 0  # the entries or groups before the cut; 1 for a single measured value
     issues: list[str] = []  # why the query was refused, or the error of its run
 
@@ -101,6 +102,7 @@ class QueryRecords:
         records = schema.records_only(record_labels)
         self._fields = {i.label: {p.name: p for p in i.properties} for i in records.labels}
         self._keys = {rule.label: rule.unique_column for rule in plan.nodes} if plan else {}
+        self._names = {rule.label: name_property(rule) for rule in plan.nodes} if plan else {}
         self._relationships = {r.type for r in records.relationships}
         self._store = store
         self._reader = reader
@@ -118,7 +120,7 @@ class QueryRecords:
         rules = [{"label": label, "key": key} for label, key in self._keys.items()]
         compiled = compile_records(arguments, fields, self._keys[arguments.label], rules, anchor, self._limit)
         read = self._store.run_read(compiled.statement, compiled.parameters)
-        return _result(compiled, read, sorted(fields), self._value_chars)
+        return _result(compiled, read, sorted(fields), self._value_chars, self._names[arguments.label])
 
     def _anchor(self, query: RecordQuery) -> tuple[list[str], str | None]:
         """Why `related_to` and `relationship` cannot be used, and the related record's element id."""
@@ -179,8 +181,11 @@ def _refused(issues: list[str]) -> QueryResult:
     return QueryResult(issues=issues, note="The query was refused; correct it and ask again.")
 
 
-def _result(compiled: Compiled, read: ReadResult, columns: list[str], value_chars: int) -> QueryResult:
-    """A run's rows as the agent reads them: values as text and cut, the total, and the statement's id."""
+def _result(
+    compiled: Compiled, read: ReadResult, columns: list[str], value_chars: int, name_column: str = ""
+) -> QueryResult:
+    """A run's rows as the agent reads them: values as text and cut, the total, and the statement's id;
+    listed records with their refs and their names (`name_column`, else the key the ref ends in)."""
     if read.error is not None:
         return QueryResult(issues=[read.error], note="The query failed to run.")
     query_id = _query_id(compiled)
@@ -196,7 +201,10 @@ def _result(compiled: Compiled, read: ReadResult, columns: list[str], value_char
     if "props" in read.keys:  # records: each row's properties and its ref
         values = [[_text(r["props"].get(c), value_chars) for c in columns] for r in rows]
         refs = [r["ref"] for r in rows]
-        return QueryResult(query_id=query_id, columns=columns, rows=values, refs=refs, total=total, note=note)
+        names = [str(r["props"].get(name_column) or r["ref"].partition(":")[2]) for r in rows]
+        return QueryResult(
+            query_id=query_id, columns=columns, rows=values, refs=refs, names=names, total=total, note=note
+        )
     values = [[_text(r[c], value_chars) for c in columns] for r in rows]
     return QueryResult(query_id=query_id, columns=columns, rows=values, total=total, note=note)
 

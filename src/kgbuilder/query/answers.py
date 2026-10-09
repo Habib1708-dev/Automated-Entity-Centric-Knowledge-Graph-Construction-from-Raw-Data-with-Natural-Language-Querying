@@ -6,7 +6,8 @@ Design: `SystemAnswer` extends the scoring model `QAAnswer` with what a reader o
 the answer: the exact chunk texts the model was shown (the judge reads them, and citation faithfulness is
 checked against them without a graph) and a trace of the retrieval (which node each name linked to, which
 chunks the traversal reached), from which failures are grouped by cause; for a plan system (R74), the
-plans tried, why they were refused, the steps they ran and the fallback that answered, if any.
+plans tried, why they were refused, the steps they ran and the fallback that answered, if any; for the
+agent (R135), its tool calls and why its loop stopped.
 Not here: producing answers (systems.py), scoring them (validation/qa.py).
 """
 
@@ -121,15 +122,47 @@ class PlanTrace(BaseModel):
     verified: int = 0  # candidates read_check verified
 
 
+class AgentCall(BaseModel):
+    """One tool call the agent proposed (R135): the tool and its arguments as written, why code refused it
+    (empty when it ran), the result's note, the ids it returned, and how long it took."""
+
+    turn: int
+    tool: str
+    arguments: str  # the JSON object the model wrote
+    refused: str = ""
+    note: str = ""
+    returned: list[str] = []
+    latency_ms: float = 0.0
+
+
+AgentStop = Literal["answer", "turns", "calls", "prompt_chars", "timeout"]
+
+
+class AgentTrace(BaseModel):
+    """How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model
+    answered, or a cap was reached and it answered with the tools closed), the characters of every prompt
+    sent, and the citations code kept and dropped (ids no tool returned)."""
+
+    calls: list[AgentCall]
+    turns: int
+    stopped: AgentStop
+    prompt_chars: int
+    cited: list[str] = []
+    dropped: list[str] = []
+    retried: bool = False  # the answer was sent back once for citing ids no tool returned
+
+
 class SystemAnswer(QAAnswer):
     """One system's answer to one question, with the chunks shown and its traces: the retrieval route's,
-    the exact route's (R71's graph system, and the text2cypher fallback of a plan system), and the plans'."""
+    the exact route's (R71's graph system, and the text2cypher fallback of a plan system), the plans', and
+    the agent's (R135)."""
 
     system: str
     shown: list[ShownChunk] = []
     trace: RetrievalTrace | None = None
     exact: ExactTrace | None = None
     plan: PlanTrace | None = None
+    agent: AgentTrace | None = None
 
 
 def shown_texts(answers: list[SystemAnswer]) -> dict[str, str]:

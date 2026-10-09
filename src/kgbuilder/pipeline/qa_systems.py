@@ -16,11 +16,17 @@ retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py
 
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
+from pathlib import Path
 
+from ..agent import prompt as agent_prompt
+from ..agent.loop import AgentLimits, AgentLoop
+from ..agent.node_reader import Neo4jNodeReader, NodeReader
+from ..agent.system import AGENT, AgentSystem, ToolCaps, build_tools
+from ..agent.tables import DuckDBTables
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..hybrid.seed_fusion import SeedSetting
-from ..hybrid.source import HybridSettings, build_hybrid
+from ..hybrid.source import HybridSettings, build_hybrid, check_layer
 from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
 from ..llm.base import Embedder, LLMClient, prompt_version
 from ..llm.thinking import with_thinking
@@ -43,7 +49,7 @@ from ..query.systems import (
 from ..structured.plan import ConstructionPlan, name_property
 from ..tracking.base import Run
 from .index_stages import card_representation
-from .stage import PipelineContext, PipelineState
+from .stage import STAGING_DIR, PipelineContext, PipelineState
 
 
 @dataclass(frozen=True)
@@ -56,6 +62,10 @@ class SourceParts:
     embedder: Embedder
     plan: ConstructionPlan | None  # the construction plan: the record labels and their name properties
     units: UnitStore  # the retrieval index layer (R119), which the hybrid sources search (R120b)
+    # R135, read by the agent alone: nodes by ref with their relations and claims, and the build's staged
+    # source tables; None where a caller builds the parts of another system, and the agent refuses None
+    nodes: NodeReader | None = field(default=None, kw_only=True)
+    staging: Path | None = field(default=None, kw_only=True)
 
 
 @dataclass(frozen=True)
@@ -271,6 +281,55 @@ SINGLE_SYSTEMS = tuple(
     for name in ("chunk_dense", "chunk_lexical", "claim_dense", "claim_lexical")
 )
 
+# the retrievers whose layer the agent's tools search: the fused cards (find_nodes), the chunks' words
+# (search_text) and the claim sentences (search_claims); the chunks' vectors are the ingest's own index
+AGENT_RETRIEVERS = ("chunk_lexical", "claim_dense", "claim_lexical", "card_fused")
+
+
+def _agent(parts: QAParts) -> QASystem:
+    """The agent (R135) over the template cards' layer, refused like a hybrid source when the layer is
+    missing or stale; its tables are the build's staged ones."""
+    s = parts.settings
+    if parts.nodes is None or parts.staging is None:
+        raise ConfigurationError("the agent needs the node reader and the staged tables of the parts")
+    seeding = _seeding(s, "template")
+    layer = HybridSettings(retrievers=list(AGENT_RETRIEVERS), rrf_k=s.hybrid_rrf_k, depth=s.agent_chunks,
+                           cards="template", seeding=seeding)  # fmt: skip
+    check_layer(layer, parts.units, card_representation(s, "template").version, s.embed_model)
+    tools = build_tools(
+        parts.store, parts.units, parts.nodes, parts.embedder, DuckDBTables(parts.staging),
+        parts.store.schema(), parts.plan, seeding, _tool_caps(s),
+    )  # fmt: skip
+    limits = AgentLimits(turns=s.agent_max_turns, calls=s.agent_max_calls,
+                         prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
+    return AgentSystem(AgentLoop(tools, parts.llm, s.qa_model, s.llm_temperature, limits), parts.store)
+
+
+def _tool_caps(s: Settings) -> ToolCaps:
+    return ToolCaps(
+        nodes=s.agent_nodes, relations=s.agent_relations, chunks=s.agent_chunks, claims=s.agent_claims,
+        rows=s.agent_rows, value_chars=s.agent_value_chars, names=s.agent_names, text_rrf_k=s.hybrid_rrf_k,
+    )  # fmt: skip
+
+
+def _agent_params(s: Settings) -> dict[str, object]:
+    # the loop's caps, each tool's cap, the seeding, the text tools' fusion, the cards' version, and the
+    # traversal node_evidence follows and the timeout query_records runs under
+    return {
+        "agent_max_turns": s.agent_max_turns,
+        "agent_max_calls": s.agent_max_calls,
+        "agent_max_prompt_chars": s.agent_max_prompt_chars,
+        "agent_timeout_s": s.agent_timeout_s,
+        **{f"agent_{k}": v for k, v in _tool_caps(s).model_dump().items() if k != "text_rrf_k"},
+        "seed_candidates": s.seed_candidates,
+        "seed_rrf_k": s.seed_rrf_k,
+        "hybrid_rrf_k": s.hybrid_rrf_k,
+        "representation_version": card_representation(s, "template").version,
+        "qa_hops": s.qa_hops,
+        "qa_cypher_timeout_s": s.qa_cypher_timeout_s,
+    }
+
+
 # the prompts both plan systems send; read_check with the parts a claim candidate adds (R85), so a change to
 # either is a new version
 _PLAN_PROMPTS = {
@@ -297,6 +356,13 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         *CARD_SYSTEMS,
         *SINGLE_SYSTEMS,
         *FUSED_SYSTEMS,
+        # the agentic query engine (plan R130-R136): its prompt, the closing prompt and the citation retry
+        SystemSpec(
+            AGENT,
+            _agent,
+            _agent_params,
+            {"agent": agent_prompt.PROMPT + agent_prompt.CLOSING + agent_prompt.CITATION_RETRY},
+        ),
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,
@@ -372,7 +438,9 @@ def source_parts(ctx: PipelineContext, state: PipelineState) -> SourceParts:
         raise LLMUnavailableError("question answering needs an embedding model: set GEMINI_API_KEY")
     store = Neo4jGraphStore(ctx.driver, plan, s.qa_hops, s.qa_cypher_timeout_s)
     units = Neo4jUnitStore(ctx.driver)
-    return SourceParts(settings=s, store=store, embedder=ctx.embedder, plan=plan, units=units)
+    nodes = Neo4jNodeReader(ctx.driver, plan)
+    return SourceParts(settings=s, store=store, embedder=ctx.embedder, plan=plan, units=units, nodes=nodes,
+                       staging=ctx.out / STAGING_DIR)  # fmt: skip
 
 
 def qa_parts(
@@ -389,6 +457,8 @@ def qa_parts(
         embedder=src.embedder,
         plan=src.plan,
         units=src.units,
+        nodes=src.nodes,
+        staging=src.staging,
         llm=llm,
         reader=Reader(llm, s.qa_model, s.llm_temperature),
         frozen=frozen,

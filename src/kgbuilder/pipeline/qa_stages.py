@@ -3,8 +3,8 @@
 Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-score` and `kg qa-compare`
 need no graph and no model.
 Design: wiring and logging only, like stages.py (kept apart from it, which builds the graph). Each system
-answers in its own MLflow run (`qa_graph`, `qa_vector`, `qa_records_vector`), so its tokens and `cost_usd`
-are its own. `kg qa`
+answers in its own MLflow run (`qa_graph`, `qa_vector`, `qa_records_vector`, `qa_agent`), so its tokens and
+`cost_usd` are its own; the agent's runs add its loop's metrics (R135). `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
 question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
@@ -93,6 +93,28 @@ def _plan_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
     return metrics
 
 
+def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
+    """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
+    each loop stopped, answers sent back for their citations, citations dropped, and prompt characters."""
+    traces = [a.agent for a in answers if a.agent is not None]
+    if not traces:
+        return {}
+    calls = [c for t in traces for c in t.calls]
+    metrics: dict[str, float | int] = {
+        "agent_turns_mean": sum(t.turns for t in traces) / len(traces),
+        "agent_calls_mean": sum(sum(not c.refused for c in t.calls) for t in traces) / len(traces),
+        "agent_calls_refused": sum(bool(c.refused) for c in calls),
+        "agent_answers_retried": sum(t.retried for t in traces),
+        "agent_citations_dropped": sum(len(t.dropped) for t in traces),
+        "agent_prompt_chars_mean": sum(t.prompt_chars for t in traces) / len(traces),
+    }
+    for tool in sorted({c.tool for c in calls if not c.refused}):
+        metrics[f"agent_calls_{tool}"] = sum(c.tool == tool and not c.refused for c in calls)
+    for stop in ("answer", "turns", "calls", "prompt_chars", "timeout"):
+        metrics[f"agent_stopped_{stop}"] = sum(t.stopped == stop for t in traces)
+    return metrics
+
+
 class AskStage(BaseStage):
     """Answer one question with one system and keep the answer (`kg ask`)."""
 
@@ -154,7 +176,7 @@ class QAStage(BaseStage):
         report = score_qa(gold, answers, shown_texts(answers), s.qa_top_k, allow_unjudged=True)
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
-        run.metrics(**_retrieval_metrics(answers))
+        run.metrics(**_retrieval_metrics(answers), **_agent_metrics(answers))
         if self.spec.planned:
             run.metrics(**_plan_metrics(answers))
         run.artifact(path)
