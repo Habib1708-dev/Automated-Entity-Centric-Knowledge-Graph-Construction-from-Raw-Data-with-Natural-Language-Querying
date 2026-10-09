@@ -5,7 +5,8 @@ R117: `kg qa`'s vector system reads exactly k chunks, a source ranks as deep as 
 is a system of its own (`graph_retrieval`), `kg qa` asks the systems before R117 by default, and only a
 reading system has a source for `kg retrieve-eval`.
 R123: the card systems of the A-against-B comparison keep their fixed retriever lists whatever the hybrid
-settings, and search only their own representation's cards.
+settings, and search only their own representation's cards. R126: so do the four single-technique chunk and
+claim systems, which alone log node seeds as on.
 Answering end to end is tested in test_query.py (fake store) and test_query_graph.py (Neo4j)."""
 
 import pytest
@@ -198,6 +199,26 @@ def test_a_card_system_searches_only_the_cards_of_its_representation():
     parts = SourceParts(settings=s, store=FakeStore(), embedder=FixedEmbedder(), plan=None, units=units)
     check_source("card_dense_summary")(parts, 20).ranked("Which press?")
     assert units.calls == [("nearest_cards", "summary", 20)]
+
+
+SINGLE = ["chunk_dense", "chunk_lexical", "claim_dense", "claim_lexical"]
+
+
+@pytest.mark.parametrize("system", SINGLE)
+def test_the_single_technique_systems_list_one_retriever_whatever_the_hybrid_settings(system):
+    """R126: each chunk or claim retriever alone, with node seeds; fusion's k and the depth are the seal's."""
+    override = Settings(hybrid_retrievers=["card_dense"])
+    for s in (Settings(), override):
+        params = source_params(s, system)
+        assert (params["hybrid_retrievers"], params["hybrid_node_seeds"]) == ([system], True)
+        assert (params["hybrid_rrf_k"], params["hybrid_depth"]) == (s.hybrid_rrf_k, s.hybrid_depth)
+
+
+@pytest.mark.parametrize(
+    "system", ["hybrid", *(f"{k}_{rep}" for k in CARD_LISTS for rep in ("template", "summary"))]
+)
+def test_the_systems_before_r126_ask_for_no_node_seeds(system):
+    assert "hybrid_node_seeds" not in source_params(Settings(), system)
 
 
 def test_only_the_plan_systems_replay_frozen_plans(ctx, tmp_path):

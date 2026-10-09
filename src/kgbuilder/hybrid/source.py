@@ -6,11 +6,13 @@ reader, and `kg retrieve-eval` ranks with it; both build it here from the settin
 Design: a `ChunkSource` like the vector baseline and the graph route, so the reader, k and the benchmark are
 the very ones the other systems use. Its lists hold chunk ids only: card and claim texts decide the order,
 and only source chunks reach the reader. The seeds of the card retrievers and of the name-linker route are
-fused by rank too. Before anything is asked, `build_hybrid` checks the retrieval layer the retrievers need:
-cards of this representation's version, claim sentences of the current version, vectors of this embedding
-model and their indexes online; a missing or stale layer is refused instead of quietly ranking with old
-texts or another model's vectors.
-Not here: the retrievers (retrievers.py), fusion (fusion.py), the queries (unit_store.py).
+fused by rank too; with `node_seeds` (R126) the chunk and claim retrievers give seeds as well (seeds.py), off
+for every system but the single-technique ones. Before anything is asked, `build_hybrid` checks the
+retrieval layer the retrievers need: cards of this representation's version, claim sentences of the current
+version, vectors of this embedding model and their indexes online; a missing or stale layer is refused
+instead of quietly ranking with old texts or another model's vectors.
+Not here: the retrievers (retrievers.py), their seeds (seeds.py), fusion (fusion.py), the queries
+(unit_store.py).
 """
 
 from pydantic import BaseModel, Field, field_validator
@@ -31,6 +33,7 @@ from .retrievers import (
     Retriever,
     SourceRetriever,
 )
+from .seeds import with_node_seeds
 from .unit_store import UnitStore
 
 # every retriever the settings may name; the order is the trace's and the fusion's tie order
@@ -47,12 +50,13 @@ RETRIEVERS = (
 
 class HybridSettings(BaseModel):
     """Which retrievers a hybrid source asks, the fusion constant, how deep each list goes (and the fused
-    one), and which representation's cards it searches."""
+    one), which representation's cards it searches, and whether its chunk and claim retrievers give seeds."""
 
     retrievers: list[str] = Field(min_length=1)
     rrf_k: int = Field(ge=0)
     depth: int = Field(ge=1)
     cards: str
+    node_seeds: bool = False  # R126: the nodes the chunks concern and the claims join, as start nodes
 
     @field_validator("retrievers")
     @classmethod
@@ -114,6 +118,8 @@ def build_hybrid(
         "graph_route": lambda: SourceRetriever(_route(route)),
     }
     retrievers = [build[name]() for name in settings.retrievers]
+    if settings.node_seeds:
+        retrievers = [with_node_seeds(r, store) for r in retrievers]
     return HybridSource(retrievers, embedder, store, settings.rrf_k, settings.depth)
 
 

@@ -323,7 +323,8 @@ src/kgbuilder/
                     summaries checked by code, the card as fallback) ; claims (one sentence per claim) ;
                     unit_graph (R119: the units written into Neo4j with their vectors and indexes) ;
                     unit_store (R120a: that layer searched by vector and by words, lucene) -> retrievers
-                    (chunks, claims with their opposite-truth siblings, cards in turn, the name-linker route)
+                    (chunks, claims with their opposite-truth siblings, cards in turn, the name-linker route;
+                    seeds, R126: the start nodes of chunks and claims)
                     -> fusion (R120b: reciprocal rank fusion) -> source (the hybrid chunk source)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
@@ -490,7 +491,11 @@ how they choose:
   `card_dense_<rep>` (the cards by vector alone), `card_lexical_<rep>` (by words alone) and
   `card_seeds_<rep>` (both fused with the name-linker route). Their retriever lists are fixed in code, no
   `HYBRID_RETRIEVERS` value changes them; `HYBRID_RRF_K` and `HYBRID_DEPTH` are the seal's. Meant for `kg
-  retrieve-eval`, where their seeds (the nodes they start from) are scored.
+  retrieve-eval`, where their seeds (the nodes they start from) are scored;
+- the single-technique systems (R126): `chunk_dense`, `chunk_lexical`, `claim_dense`, `claim_lexical`, each
+  one retriever alone (fixed in code like the card systems), whose seeds are the nodes the ranked chunks
+  concern (the records they are about, then what their mentions refer to, in reading order) or the ranked
+  claims join (subject, object, then the things a claim is attached to). Meant for `kg retrieve-eval`.
 
 Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
 cites as evidence (otherwise the graph is not the build the gold was written on, and the run stops), and

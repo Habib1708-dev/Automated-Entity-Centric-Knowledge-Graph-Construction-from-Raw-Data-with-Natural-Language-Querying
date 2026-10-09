@@ -7904,6 +7904,84 @@ gold, targets and verdicts by the same model family as the judge):
 - **R125 done 2026-10-09; plan R116-R125 done.** Next: the user's decision on Part 2 (the open items: a
   concept's or an individual's relation lines without truth; the gendered pronouns; one units file per build).
 
+### Plan R126-R128: each retrieval technique alone, at K = 5, 10, 15, 20 and 50 (accepted 2026-10-09)
+The user, 2026-10-09: "Evaluate each retrieval technique independently across different K values. Test chunk,
+claim, node-card, and LLM-summary retrieval. Evaluate K = 5, 10, 15, 20, and possibly 50. Identify which
+techniques perform best at finding relevant evidence versus identifying graph starting nodes." Asked in the
+same session, the user chose new runs 50 deep (not the saved lists alone) and seeds for chunks and claims.
+- **Why new runs:** the reports R121-R125 saved hold every retriever's own list 20 deep, enough for K <= 20,
+  but a claim list asks for 20 claims and many share a chunk: furniture 43 of 68 claim_dense lists hold fewer
+  than 15 chunks and all 68 fewer than 20 (held-out 57 and 67 of 68, generality 41 and 41 of 41). Scored from
+  them, claims would lose at K = 15 and 20 for want of a list. Each technique is asked 50 deep instead.
+- **Why seeds for chunks and claims:** today only the cards (and the name linker) give start nodes, so "which
+  technique finds start nodes best" could not include chunks and claims. Their seeds are read off the graph's
+  own navigation contract (`anchor/navigation.py`), not invented: a chunk concerns the records it is ABOUT
+  (W3) and the things its mentions refer to (W2/W3 named); a claim joins the things at its ends and the thing
+  it is attached to (arm B).
+- **The techniques** (one ranked list each, no fusion; dense = by vector, lexical = by words, BM25):
+  `chunk_dense`, `chunk_lexical`, `claim_dense`, `claim_lexical` (new systems, R126),
+  `card_dense_template`, `card_lexical_template` (node cards, A), `card_dense_summary`,
+  `card_lexical_summary` (LLM summaries, B, sealed by R124a); `graph_retrieval` (the name linker) as the
+  reference start-node finder of R117.
+- **Fixed before any number** (pre-registered):
+  - K = 5, 10, 15, 20, 50 (`RETRIEVAL_BUDGETS=[5,10,15,20,50]`, so every source ranks 50 deep: `hybrid_depth`
+    20 stays the floor and is not changed). Everything else at its sealed default.
+  - Evidence: Evidence Recall@K and Complete@K (gold chunks). Start nodes: Seed Recall@K and Seeds found@K
+    (R89 targets, as placed on the build). A list shorter than K is counted as it is (a technique that cannot
+    fill K is scored on what it gives), and the number of questions whose list is shorter than K is shown next
+    to every rate.
+  - A chunk's seeds: the records it is ABOUT (its own ABOUT, else its document's), then the records,
+    individuals and concepts its mentions refer to, each group in the order its names first occur in the
+    chunk's text (case-insensitive; a name not found after, ties by ref); a mention without a REFERS_TO edge
+    gives none. The ranked chunks are read in order and every node is kept once.
+  - A claim's seeds: its subject's entity, its object's entity, then the things it is attached to
+    (`HAS_OBSERVATION`, by ref); siblings give chunks, not seeds. Claims in rank order, every node once.
+  - The best technique per dataset and K: for evidence the highest Complete@K (ties: Evidence Recall@K, then
+    the earlier technique in the list above); for start nodes the highest Seed Recall@K (ties: Seeds found@K,
+    then list order); each best paired with the runner-up by exact McNemar (Complete@K, Seeds found@K). The
+    three datasets also pooled (counts summed; their questions are distinct).
+  - Known bias: B's summary prompt and cap were tuned on furniture (R124a); no single-technique list has any
+    other tuned knob. Held-out and generality decide.
+- **Steps, strictly one after another:**
+  - **R126** Seeds for chunk and claim retrieval, and the four single-technique systems ($0, code).
+  - **R127** `kg retrieve-table`: the technique x K tables, short lists, best per measure with its paired
+    test, from saved reports ($0, code; tested on fixtures).
+  - **R128** The runs on generality (loaded now), held-out and furniture (each reloaded from the cache,
+    both index runs from the cache; asked before running), the tables, the documented result.
+
+### R126. Seeds for chunk and claim retrieval, and the four single-technique systems (done 2026-10-09; $0, no run)
+- **Scope:** `query/graph_store.py` (two reads: what a chunk concerns, what a claim joins),
+  `hybrid/seeds.py` (new: the seed order and two Decorators that give a chunk or claim retriever seeds),
+  `hybrid/source.py` (`HybridSettings.node_seeds`, off by default), `pipeline/qa_systems.py` (the four
+  systems), tests. Not changed: any existing system's lists, seeds or params (the sealed `hybrid` keeps
+  `node_seeds` off and gives no seeds), the cards, the claim sentences, any Part 1 node.
+- **How:**
+  - `GraphStore.chunk_nodes(ids) -> {chunk: ChunkNodes(about, named)}`: W3's records the chunk is about (its
+    own ABOUT, else its document's) and the entities its mentions refer to (`NamedNode(ref, names)`, the
+    names those mentions are written with in that chunk); a mention without a REFERS_TO edge gives none.
+    `GraphStore.claim_nodes(ids) -> {observation: refs}`: the subject's entity, the object's, then the
+    things attached by `HAS_OBSERVATION` (sorted). Records are written as `record_ref` in Cypher from the
+    plan's key columns (`$rules`), so the refs equal the cards' and the target gold's.
+  - `hybrid/seeds.py`: `chunk_order(text, nodes)` (the about records, then the named nodes by the first
+    case-insensitive occurrence of any of their names in the chunk's text, unfound names last, ties by ref);
+    `ChunkSeeds` and `ClaimSeeds` (Decorator: the wrapped retriever's chunks, claims and name unchanged,
+    `seeds` added in rank order, every node once); `with_node_seeds` wraps chunk and claim retrievers only.
+  - `HybridSettings.node_seeds` (default off) wraps the retrievers in `build_hybrid`; `hybrid_spec(...,
+    node_seeds)` logs `hybrid_node_seeds` only where it is on, so every older system logs what it logged.
+    `SINGLE_SYSTEMS`: `chunk_dense`, `chunk_lexical`, `claim_dense`, `claim_lexical`, each its one retriever
+    with seeds. README lists them.
+- **Verified:** 18 new tests. `tests/test_hybrid_seeds.py` (6, fakes): reading order (case, a node's
+  earliest name, unfound last, an about record not repeated), names found nowhere by ref, chunk seeds in
+  rank order each once with the list unchanged, claim seeds in claim order with siblings' chunks kept and no
+  sibling seed, only chunk and claim retrievers wrapped, `claim_dense` asked 50 deep giving its claims'
+  nodes while the sealed `hybrid` gives none. `tests/test_query_graph.py` (1, Neo4j 7688, the shared graph):
+  a chunk's own ABOUT before its document's, a document about two presses, the named nodes with their
+  names, an unbound mention giving none, unknown ids left out, the claim's subject, object and two holders
+  (a record and an individual). `tests/test_qa_systems.py` (11): the four systems' lists fixed under a
+  `HYBRID_RETRIEVERS` override with node seeds on; `hybrid` and the six card systems log no node seeds.
+  1046 passed (1028 + 18), ruff clean.
+- **R126 done 2026-10-09.** Next: R127, `kg retrieve-table`.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

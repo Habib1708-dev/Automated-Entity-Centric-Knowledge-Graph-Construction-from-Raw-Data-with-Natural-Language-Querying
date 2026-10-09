@@ -117,11 +117,14 @@ def _graph_retrieval(parts: SourceParts, depth: int) -> ChunkSource:
     return build_graph_retrieval(parts.store, parts.embedder, s.qa_link_fuzzy, s.qa_link_neighbours)
 
 
-def hybrid_spec(name: str, cards: str, retrievers: tuple[str, ...] = ()) -> SystemSpec:
+def hybrid_spec(
+    name: str, cards: str, retrievers: tuple[str, ...] = (), node_seeds: bool = False
+) -> SystemSpec:
     """A hybrid system (R120b): the hybrid source over the cards of the representation `cards`, read like
     every reading system. Its settings are the `hybrid_*` ones, but for a fixed retriever list `retrievers`
-    (R123's card systems), which no setting changes; its depth is at least `hybrid_depth`, so fusion sees as
-    deep as tuned whatever k or budget the caller reads."""
+    (R123's card systems, R126's single techniques), which no setting changes; its depth is at least
+    `hybrid_depth`, so fusion sees as deep as tuned whatever k or budget the caller reads. `node_seeds`
+    gives its chunk and claim retrievers seeds (R126)."""
 
     def listed(s: Settings) -> list[str]:
         return list(retrievers) or s.hybrid_retrievers
@@ -133,6 +136,7 @@ def hybrid_spec(name: str, cards: str, retrievers: tuple[str, ...] = ()) -> Syst
             rrf_k=s.hybrid_rrf_k,
             depth=max(depth, s.hybrid_depth),
             cards=cards,
+            node_seeds=node_seeds,
         )
         # the name-linker route embeds every node name once: built only when the settings list it
         route = _graph_retrieval(parts, depth) if "graph_route" in settings.retrievers else None
@@ -147,6 +151,8 @@ def hybrid_spec(name: str, cards: str, retrievers: tuple[str, ...] = ()) -> Syst
             "hybrid_cards": cards,
             "representation_version": card_representation(s, cards).version,
             **_graph_retrieval_params(s),  # the cards' traversal and the name-linker route, when listed
+            # only where it is on, so every system registered before R126 logs the params it logged then
+            **({"hybrid_node_seeds": True} if node_seeds else {}),
         }
 
     return reading(name, source, params)
@@ -233,6 +239,14 @@ CARD_SYSTEMS = tuple(
     for rep in ("template", "summary")
 )
 
+# Each chunk and claim retriever alone (plan R126-R128), with the nodes its chunks concern or its claims join
+# as seeds, so all four techniques are scored on evidence and on start nodes beside the card systems above.
+# One list each, fixed here like the card systems'; the cards they name are never searched.
+SINGLE_SYSTEMS = tuple(
+    hybrid_spec(name, "template", (name,), node_seeds=True)
+    for name in ("chunk_dense", "chunk_lexical", "claim_dense", "claim_lexical")
+)
+
 # the prompts both plan systems send; read_check with the parts a claim candidate adds (R85), so a change to
 # either is a new version
 _PLAN_PROMPTS = {
@@ -257,6 +271,7 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         # it ranks the same chunks over either representation, so no hybrid over the summaries is registered
         hybrid_spec("hybrid", "template"),
         *CARD_SYSTEMS,
+        *SINGLE_SYSTEMS,
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,

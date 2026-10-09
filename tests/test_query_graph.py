@@ -3,7 +3,8 @@ must not pass through documents, the node names and chunks the store reads, the 
 `kg qa`'s stage end to end with a scripted planner and reader (params, metrics, plans and the answers
 file, R74; with `--plans`, an earlier run's plans replayed, R80), and the records-plus-vector system on
 the same graph: its schema cut to the record layer and its plans over records only (R73, R74).
-R117: `kg qa` logs the graph digest and refuses a gold whose evidence the graph lacks. Needs Neo4j."""
+R117: `kg qa` logs the graph digest and refuses a gold whose evidence the graph lacks. R126: what a chunk
+concerns and what a claim joins, the start nodes of chunk and claim retrieval. Needs Neo4j."""
 
 import json
 import time
@@ -17,7 +18,7 @@ from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAStage
 from kgbuilder.pipeline.stage import PLAN_FILE
 from kgbuilder.query.answers import load_system_answers
-from kgbuilder.query.graph_store import Neo4jGraphStore
+from kgbuilder.query.graph_store import ChunkNodes, NamedNode, Neo4jGraphStore
 from kgbuilder.query.plan import PlanStep, QueryPlan
 from kgbuilder.query.reader import ReaderAnswer, ReaderCitation
 from kgbuilder.text.lexical import CHUNK_VECTOR_INDEX
@@ -74,6 +75,30 @@ def test_the_store_reads_node_names_and_chunks_in_the_order_asked(driver):
     chunks = store.chunks(["notes.md#1", "missing#0", "notes.md#0"])
     assert [c.chunk_id for c in chunks] == ["notes.md#1", "notes.md#0"]
     assert chunks[1].context == "Quill Press notes" and chunks[1].embedding == [1.0, 0.0]
+
+
+def test_r126_the_store_reads_what_a_chunk_concerns_and_what_a_claim_joins(driver):
+    build(driver)
+    # a mention no identity decision bound, and an individual the claim is attached to besides the press
+    driver.execute_query(
+        "MATCH (c:Chunk {chunk_id: 'notes.md#1'}), (o:Observation {id: 'o1'}) "
+        "CREATE (c)-[:MENTIONS]->(:Mention {id: 'm-late', name: 'late', type: 'Event', doc_id: 'notes.md'}), "
+        "(:Individual {id: 'i-crew', name: 'night crew'})-[:HAS_OBSERVATION]->(o)"
+    )
+    store = Neo4jGraphStore(driver, PLAN, hops=2)
+    nodes = store.chunk_nodes(["notes.md#0", "log.md#0", "log.md#1", "both.md#0", "notes.md#1", "missing#0"])
+    # W3: the document's ABOUT when the chunk has none (the press), and what its mentions refer to
+    assert nodes["notes.md#0"] == ChunkNodes(
+        about=["Press:P1"],
+        named=[NamedNode(ref="Part:S1", names=["spindle"]), NamedNode(ref="k-wobble", names=["wobbles"])],
+    )
+    assert nodes["log.md#0"].about == ["Ticket:T-1"]  # the chunk's own ABOUT wins over its document's
+    assert nodes["both.md#0"].about == ["Press:P1", "Press:P2"]
+    assert nodes["log.md#1"] == ChunkNodes(about=[], named=[NamedNode(ref="k-wobble", names=["wobbling"])])
+    assert nodes["notes.md#1"].named == []  # a mention without a REFERS_TO edge is no start node
+    assert "missing#0" not in nodes
+    # arm B: the subject's entity, the object's, then the attached things by ref (the press, the individual)
+    assert store.claim_nodes(["o1", "missing"]) == {"o1": ["Part:S1", "k-wobble", "Press:P1", "i-crew"]}
 
 
 def _index_dimensions(driver) -> int | None:

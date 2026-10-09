@@ -1,5 +1,6 @@
-"""Everything the query stage reads from the graph: node names, traversals, chunks, the vector index, and for
-the exact route the schema, the plan check (EXPLAIN) and the read-only run.
+"""Everything the query stage reads from the graph: node names, traversals, chunks, the vector index, the
+nodes a chunk concerns and a claim joins (R126, the start nodes of chunk and claim retrieval), and for the
+exact route the schema, the plan check (EXPLAIN) and the read-only run.
 
 Role in the pipeline: the one reader of Neo4j for question answering; systems.py and exact.py depend on the
 `GraphStore` and `CypherStore` protocols, so they are tested with fakes and the Cypher is tested once,
@@ -36,6 +37,22 @@ class StoredChunk(BaseModel):
     embedding: list[float] | None = None  # None when ingest ran without an embedder
 
 
+class NamedNode(BaseModel):
+    """A node a chunk's mentions refer to: its stable ref, and the names those mentions are written with."""
+
+    ref: str
+    names: list[str]
+
+
+class ChunkNodes(BaseModel):
+    """What a chunk concerns by the graph's own navigation contract (anchor/navigation.py W3): the records it
+    is about (its own ABOUT, else its document's), and the records, individuals and concepts its mentions
+    refer to. Refs only: record refs and canonical ids, the ids the target gold is placed on."""
+
+    about: list[str]  # sorted
+    named: list[NamedNode]  # sorted by ref
+
+
 class GraphStore(Protocol):
     """What the question-answering systems read from the graph."""
 
@@ -53,6 +70,15 @@ class GraphStore(Protocol):
 
     def nearest_chunks(self, vector: list[float], k: int) -> list[str]:
         """The ids of the `k` chunks nearest `vector` in the chunk vector index, nearest first."""
+        ...
+
+    def chunk_nodes(self, chunk_ids: list[str]) -> dict[str, ChunkNodes]:
+        """Chunk id -> the nodes it concerns; unknown ids are left out."""
+        ...
+
+    def claim_nodes(self, claim_ids: list[str]) -> dict[str, list[str]]:
+        """Observation id -> the refs of the nodes the claim joins: its subject's entity, its object's
+        entity, then the things it is attached to (sorted), each once; unknown ids are left out."""
         ...
 
 
@@ -200,3 +226,69 @@ class Neo4jGraphStore:
                 "run `kg ingest-text` with an embedding model first"
             ) from e
         return [r["chunk_id"] for r in records]
+
+    def chunk_nodes(self, chunk_ids: list[str]) -> dict[str, ChunkNodes]:
+        records, _, _ = self._driver.execute_query(_CHUNK_NODES, ids=chunk_ids, rules=self._key_rules())
+        out = {}
+        for r in records:
+            names: dict[str, set[str]] = {}
+            for hit in r["named"]:
+                names.setdefault(hit["ref"], set()).add(hit["name"])
+            out[r["chunk_id"]] = ChunkNodes(
+                about=sorted({ref for ref in r["about"] if ref}),  # an ABOUT target no plan label keys: none
+                named=[NamedNode(ref=ref, names=sorted(said)) for ref, said in sorted(names.items())],
+            )
+        return out
+
+    def claim_nodes(self, claim_ids: list[str]) -> dict[str, list[str]]:
+        records, _, _ = self._driver.execute_query(_CLAIM_NODES, ids=claim_ids, rules=self._key_rules())
+        out = {}
+        for r in records:
+            attached = sorted(ref for ref in r["attached"] if ref)  # a holder no plan label keys: none
+            out[r["id"]] = list(dict.fromkeys(ref for ref in [r["subject"], r["object"], *attached] if ref))
+        return out
+
+    def _key_rules(self) -> list[dict[str, str]]:
+        """Each record label with its key column, so a query can write a record's ref (`_record_ref`)."""
+        rules = self._plan.nodes if self._plan else []
+        return [{"label": rule.label, "key": rule.unique_column} for rule in rules]
+
+
+def _record_ref(node: str) -> str:
+    """Cypher for `core.identity.record_ref` of the record bound to `node`, from the `$rules` parameter (label
+    and key column per record label); null for a node of no plan label."""
+    return f"head([r IN $rules WHERE r.label IN labels({node}) | r.label + ':' + toString({node}[r.key])])"
+
+
+def _resolved(mention: str) -> str:
+    """Cypher for the canonical id of the entity the mention bound to `mention` refers to; null when the
+    variable is unbound or the mention has no REFERS_TO edge, since it then stands for no node a question
+    could start from."""
+    return (
+        f"CASE WHEN {mention} IS NULL OR {canonical_kind(mention)} = 'mention' THEN null "
+        f"ELSE {canonical_id(mention)} END"
+    )
+
+
+# R126, a chunk's start nodes by the navigation contract (anchor/navigation.py): W3's records it is about (the
+# chunk's own ABOUT links, else its document's), and the entities its resolved mentions refer to
+_CHUNK_NODES = (
+    "UNWIND $ids AS id MATCH (c:Chunk {chunk_id: id}) "
+    "WITH c, [(c)-[:ABOUT]->(t) | t] AS own "
+    "WITH c, CASE WHEN size(own) > 0 THEN own "
+    "ELSE [(c)-[:PART_OF]->(:Document)-[:ABOUT]->(t) | t] END AS about "
+    "OPTIONAL MATCH (c)-[:MENTIONS]->(m:Mention) "
+    f"WITH c, about, m, {_resolved('m')} AS ref "
+    "WITH c, about, collect(CASE WHEN ref IS NULL THEN null ELSE {ref: ref, name: m.name} END) AS named "
+    f"RETURN c.chunk_id AS chunk_id, [t IN about | {_record_ref('t')}] AS about, named"
+)
+
+# R126, a claim's start nodes by arm B of the navigation contract: the entities at its two ends, then the
+# things it is attached to (a record by its ref, an individual by its canonical id)
+_CLAIM_NODES = (
+    "UNWIND $ids AS id MATCH (o:Observation {id: id}) "
+    "OPTIONAL MATCH (o)-[:SUBJECT]->(s:Mention) OPTIONAL MATCH (o)-[:OBJECT]->(t:Mention) "
+    f"RETURN o.id AS id, {_resolved('s')} AS subject, {_resolved('t')} AS object, "
+    "[(h)-[:HAS_OBSERVATION]->(o) | "
+    f"CASE WHEN h:Individual OR h:Concept THEN h.id ELSE {_record_ref('h')} END] AS attached"
+)
