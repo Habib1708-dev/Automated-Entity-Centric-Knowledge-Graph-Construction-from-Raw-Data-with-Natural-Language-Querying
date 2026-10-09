@@ -1,9 +1,11 @@
-"""The retrieval benchmark's stages (R117): `kg retrieve-eval` and `kg retrieve-compare`.
+"""The retrieval benchmark's stages (R117): `kg retrieve-eval`, `kg retrieve-compare` and, since R127,
+`kg retrieve-table`.
 
 Role in the pipeline: on a loaded graph, before any reader. `kg retrieve-eval` asks one reading system's
 chunk source (qa_systems.py) every question of a QA gold file, without the reader, and scores the chunks it
 ranks against the gold's evidence and the nodes it starts from (its seeds) against the target gold (R89)
-placed on the loaded build; `kg retrieve-compare` pairs two of its reports question by question. No
+placed on the loaded build; `kg retrieve-compare` pairs two of its reports question by question; `kg
+retrieve-table` lays many reports out as a technique x budget table per dataset and pooled. No
 generating model is called: the only paid calls are embeddings (each question, and graph_retrieval's node
 names once).
 Design: wiring and logging only, like qa_stages.py. One MLflow run per system (`retrieve_eval_<system>`):
@@ -11,18 +13,20 @@ params name the source's settings, the budgets, the gold and targets with their 
 graph digest; metrics are every score with its n, the latency and the embedding volume; the artifact is the
 report with every outcome row, so systems can be paired later. Questions are ranked one at a time: the
 Gemini embedder has no retry, and R73 hit its rate limit with parallel calls.
-Not here: the scores (validation/retrieval_scores.py), the sources (query/systems.py), the placement of the
-targets (anchor/targets.py).
+Not here: the scores and the table (validation/retrieval_scores.py, retrieval_table.py), the sources
+(query/systems.py), the placement of the targets (anchor/targets.py).
 """
 
+import hashlib
 import json
 import time
+from collections.abc import Mapping, Sequence
 from dataclasses import replace
 from pathlib import Path
 
 from ..anchor import PlacedTarget, TargetPlacer, read_staged
 from ..audit import build_snapshot
-from ..core.errors import EvaluationError
+from ..core.errors import ConfigurationError, EvaluationError
 from ..llm.counting import CountingEmbedder
 from ..query.plan_run import ChunkSource
 from ..structured.plan import ConstructionPlan
@@ -34,6 +38,7 @@ from ..validation.retrieval_scores import (
     load_retrieval_report,
     score_retrieval,
 )
+from ..validation.retrieval_table import build_table
 from ..validation.target_gold import load_target_gold
 from .inputs import digest, input_file
 from .qa_graph import check_graph
@@ -168,3 +173,47 @@ class RetrieveCompareStage(BaseStage):
         run.artifact(ctx.write(self.REPORT_FILE, report))
         run.artifact(a_path)
         run.artifact(b_path)
+
+
+class RetrieveTableStage(BaseStage):
+    """The technique table of plan R126-R128 (`kg retrieve-table`): every named system's report read from
+    each dataset's folder (`retrieval_<system>.json`, as `kg retrieve-eval` writes it), each technique's
+    scores and short lists at every budget, and the best per measure and budget with its paired test, per
+    dataset and pooled; no graph, no model. `systems` is the table's order and the tie order."""
+
+    name = "retrieve_table"
+    TABLE_FILE = "retrieve_table.json"
+    MARKDOWN_FILE = "retrieve_table.md"
+
+    def __init__(self, datasets: Mapping[str, Path], systems: Sequence[str]):
+        if not datasets or not systems:
+            raise ConfigurationError("kg retrieve-table needs at least one dataset folder and one system")
+        self.datasets = {name: Path(folder) for name, folder in datasets.items()}
+        self.systems = list(systems)
+
+    def params(self, ctx, state):
+        out: dict[str, object] = {"systems": self.systems}
+        for name, paths in self._reports().items():
+            out[f"{name}_reports"] = str(self.datasets[name])
+            # one hash per dataset over its reports' own, in system order: a changed report changes it
+            joined = " ".join(digest(p) for p in paths.values())
+            out[f"{name}_reports_hash"] = hashlib.sha256(joined.encode()).hexdigest()[:12]
+        return out
+
+    def run(self, ctx, state, run):
+        reports = {
+            name: {system: load_retrieval_report(path) for system, path in paths.items()}
+            for name, paths in self._reports().items()
+        }
+        table = build_table(reports, self.systems)
+        state.retrieval_table = table
+        run.metrics(**table.metrics())
+        run.artifact(ctx.write(self.TABLE_FILE, table.model_dump_json(indent=1)))
+        run.artifact(ctx.write(self.MARKDOWN_FILE, table.markdown()))
+
+    def _reports(self) -> dict[str, dict[str, Path]]:
+        """Dataset -> system -> its report file; `MissingInputError` names the first one missing."""
+        return {
+            name: {s: input_file(folder / f"retrieval_{s}.json", "retrieval report") for s in self.systems}
+            for name, folder in self.datasets.items()
+        }

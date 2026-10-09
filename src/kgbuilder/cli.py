@@ -63,6 +63,11 @@ RETRIEVAL_SYSTEMS = typer.Option(..., help="Systems whose chunk source to rank (
 RETRIEVAL_BUILD = typer.Option(
     ..., help="The build folder loaded in the graph: the targets are placed on it."
 )
+# the technique table (R127): each dataset's report folder, and the techniques in table order
+TABLE_DATASETS = typer.Option(
+    ..., help="A dataset's name and the folder of its kg retrieve-eval reports, as NAME=FOLDER; repeat."
+)
+TABLE_SYSTEMS = typer.Option(..., help="The techniques in table order (also the tie order); repeat.")
 # the retrieval units (R118): the node representation whose cards are rendered
 UNIT_CARDS = typer.Option("template", help=f"Node representation ({', '.join(REPRESENTATIONS)}).")
 FROZEN_PLANS = typer.Option(
@@ -866,6 +871,27 @@ def retrieve_compare(a: Path, b: Path, out: Path = OUT):
                     f"only a {o.only_a}  only b {o.only_b}  p {o.p_value:.3f}"
                 )
     typer.echo(f"Wrote {out / rs.RetrieveCompareStage.REPORT_FILE}")
+
+
+@app.command("retrieve-table")
+def retrieve_table(dataset: list[str] = TABLE_DATASETS, system: list[str] = TABLE_SYSTEMS, out: Path = OUT):
+    """Lay the reports of kg retrieve-eval out as one table per dataset and pooled: each technique's evidence
+    and start-node scores at every budget, the lists shorter than the budget, and the best technique per
+    budget with its paired test against the runner-up; no graph, no model (R127)."""
+    folders = {}
+    for item in dataset:
+        name, sep, folder = item.partition("=")
+        if not (sep and name and folder):
+            raise typer.BadParameter(f"'{item}' is not NAME=FOLDER", param_hint="--dataset")
+        folders[name] = Path(folder)
+    with session(out) as ctx:
+        table = run_stages(ctx, PipelineState(), [rs.RetrieveTableStage(folders, system)]).retrieval_table
+    for t in table.tables:
+        for b in t.best:
+            typer.echo(f"{t.name:<12} {b.measure:<8} @{b.k:<3} best {b.best}")
+    typer.echo(
+        f"Wrote {out / rs.RetrieveTableStage.TABLE_FILE} and {out / rs.RetrieveTableStage.MARKDOWN_FILE}"
+    )
 
 
 @app.command()

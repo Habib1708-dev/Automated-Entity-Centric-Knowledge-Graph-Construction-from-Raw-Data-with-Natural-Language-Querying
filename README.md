@@ -54,6 +54,7 @@ uv run kg qa-score GOLD out/answers_graph.jsonl --verdicts V.json # score with t
 uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # paired McNemar test of two systems (no graph)
 uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --system graph_retrieval --out O  # retrieval without the reader (R117; embeds)
 uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
+uv run kg retrieve-table --dataset A=O1 --dataset B=O2 --system S1 --system S2 --out T  # technique x K tables per dataset and pooled (R127; no graph)
 uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
 uv run kg index --cards template --out BUILD                      # the same units embedded into Neo4j with their indexes (R119; embeds only what changed)
 uv run kg index --cards summary --out BUILD                       # LLM node summaries checked by code, beside the cards (R123; a model writes them, cached)
@@ -526,6 +527,11 @@ among the top K seeds) and Seed found@K; and the latency per question (p50, p95)
 (record refs and canonical ids), never Neo4j element ids, which change on every rebuild. The report
 `retrieval_<system>.json` keeps every question's ranking; `kg retrieve-compare A B` pairs two reports
 with the exact McNemar test and refuses reports of other questions, targets, graphs or embedding models.
+`kg retrieve-table` (R127) lays the reports of several systems out per dataset (`--dataset NAME=FOLDER`, the
+folder `kg retrieve-eval` wrote) and pooled over the datasets: each technique's evidence and start-node scores
+at every budget, the questions whose list is shorter than the budget, and the best technique per budget
+(evidence by Complete@K, start nodes by Seed Recall@K; ties by the other count, then the `--system` order)
+paired with the runner-up; `retrieve_table.json` and `retrieve_table.md`.
 
 Hybrid retrieval (plan R116-R125) finds a question's start nodes by a text per node. `kg units --out BUILD`
 (R118, no model, nothing written to the graph) reads every record's, individual's and concept's evidence

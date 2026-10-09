@@ -7982,6 +7982,31 @@ same session, the user chose new runs 50 deep (not the saved lists alone) and se
   1046 passed (1028 + 18), ruff clean.
 - **R126 done 2026-10-09.** Next: R127, `kg retrieve-table`.
 
+### R127. `kg retrieve-table`: the technique x K tables (done 2026-10-09; $0, files only)
+- **Scope:** `validation/retrieval_table.py` (new, pure), `RetrieveTableStage` in
+  `pipeline/retrieval_stages.py`, `PipelineState.retrieval_table`, the CLI command, README, tests. No
+  retrieval, scoring or report format change.
+- **How:** `build_table(datasets, systems)`: every dataset's reports by system (refused when a report is
+  missing, when a dataset's reports differ in fingerprint or questions, when a dataset is named `pooled`, or
+  when they share no budget); per technique and K the report's own Evidence Recall, Complete, Seed Recall,
+  Seeds found, and the questions whose list is shorter than K (`short_chunks`, `short_seeds`); per K and
+  measure the best by the plan's rule (evidence: Complete@K, then Evidence Recall@K, then the `--system`
+  order; start nodes: Seed Recall@K, then Seeds found@K, then the order; only seeded techniques) paired with
+  the runner-up by `compare_retrieval` (Complete@K or Seeds found@K). The pooled table re-scores the
+  concatenated outcomes with `score_retrieval` (ids prefixed by the dataset; digests joined by "+").
+  `RetrievalTable.metrics()` (each pairing's discordant counts and p) and `.markdown()` (k/n counts, short
+  lists, the best rows). The stage reads `<folder>/retrieval_<system>.json`, logs the systems, each
+  dataset's folder and a hash over its reports, writes `retrieve_table.json` and `retrieve_table.md`.
+  `kg retrieve-table --dataset NAME=FOLDER ... --system S ... --out T`; not guarded (no model, no graph).
+- **Verified:** 6 new tests (`tests/test_retrieval_table.py`): rates and short lists, the best by counts then
+  the tie count then the order (and a reordering changing the runner-up), only seeded techniques for start
+  nodes, the pooled table over every dataset's questions with its pairing, five refusals, the markdown and
+  metrics, the stage end to end (params, metrics, both files, a missing report named). 1052 passed (1046 +
+  6), ruff clean. A files-only check on the saved R122 and R125 reports (MLflow `eb0658a3`, $0, no model, no
+  graph) reproduces R122's recorded numbers (card_dense_template Seed Recall@1/3/5/10/20 31/42/50/52/55 of
+  65, graph_retrieval Complete@5 26/28).
+- **R127 done 2026-10-09.** Next: R128, the runs (asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -48,6 +48,7 @@ from ..validation.paired import PairedReport
 from ..validation.qa import QAReport
 from ..validation.report import ValidationReport
 from ..validation.retrieval_scores import RetrievalComparison, RetrievalReport
+from ..validation.retrieval_table import RetrievalTable
 
 PLAN_FILE = "plan.json"
 TEXT_SCHEMA_FILE = "text_schema.json"
@@ -160,6 +161,7 @@ class PipelineState:
     paired: PairedReport | None = None  # of `kg qa-compare`
     retrieval: dict[str, RetrievalReport] = field(default_factory=dict)  # of `kg retrieve-eval`, by system
     retrieval_comparison: list[RetrievalComparison] | None = None  # of `kg retrieve-compare`, one per budget
+    retrieval_table: RetrievalTable | None = None  # of `kg retrieve-table` (R127)
     fidelity: FidelityReport | None = None  # of `kg audit-snapshot`
     audit: CodeChecks | None = None
     anchor: AnchorReport | None = None  # of `kg anchor-eval`
