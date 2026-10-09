@@ -1,0 +1,218 @@
+{
+ "step": "R128: each retrieval technique alone (chunks, claims, node cards A, LLM summaries B; dense and lexical; the name linker as reference) at K = 5, 10, 15, 20, 50 on furniture, held-out and generality",
+ "approved": "the user, 2026-10-09, in this session: \"Yes, all three datasets\" (asked with the question, $0 logged estimated, worst case about $0.59 on a summary cache miss, embeddings under $0.05)",
+ "git_sha": "9b21af0-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "budgets": [
+  5,
+  10,
+  15,
+  20,
+  50
+ ],
+ "systems": [
+  "chunk_dense",
+  "chunk_lexical",
+  "claim_dense",
+  "claim_lexical",
+  "card_dense_template",
+  "card_lexical_template",
+  "card_dense_summary",
+  "card_lexical_summary",
+  "graph_retrieval"
+ ],
+ "datasets": {
+  "generality": {
+   "preset": "generality_gemini",
+   "build": "out/r125_generality (loaded since R125; not reloaded, its index layer R125's: template 54d556f3ea08, summary cb2853048d1f, claims 50e2a01188c0)",
+   "graph_digest": "f79f9411ea81",
+   "retrieve_eval": {
+    "command": "RETRIEVAL_BUDGETS='[5,10,15,20,50]' kg --preset generality_gemini retrieve-eval tests/gold/qa/generality_qa.json --targets tests/gold/r89/generality_targets.json --build out/r125_generality --data tests/fixtures/generality --system chunk_dense --system chunk_lexical --system claim_dense --system claim_lexical --system card_dense_template --system card_lexical_template --system card_dense_summary --system card_lexical_summary --system graph_retrieval --out out/r128/generality",
+    "runs": {
+     "chunk_dense": "efb65b54",
+     "chunk_lexical": "c9b5e9d1",
+     "claim_dense": "d17bed86",
+     "claim_lexical": "28f08621",
+     "card_dense_template": "539e19bc",
+     "card_lexical_template": "ee1c545f",
+     "card_dense_summary": "fab3d375",
+     "card_lexical_summary": "d5b4455a",
+     "graph_retrieval": "9b9f89bb"
+    }
+   }
+  },
+  "heldout": {
+   "preset": "heldout",
+   "build": "out/r128_heldout",
+   "frozen_build": "out/r109_heldout",
+   "claims_from": "out/r103_heldout",
+   "load_commands": [
+    "cp out/r109_heldout/plan.json out/r109_heldout/text_schema.json out/r109_heldout/profile.json out/r128_heldout/",
+    "kg --preset heldout reset --out out/r128_heldout",
+    "kg --preset heldout build heldout/nhtsa/data --out out/r128_heldout",
+    "cp out/r109_heldout/profile.json out/r128_heldout/profile.json",
+    "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r128_heldout",
+    "kg --preset heldout extract --from-build out/r103_heldout --out out/r128_heldout",
+    "kg --preset heldout link --out out/r128_heldout",
+    "GEMINI_API_KEY=invalid kg --preset heldout mention-pass --out out/r128_heldout",
+    "kg --preset heldout resolve --out out/r128_heldout",
+    "kg --preset heldout attach --out out/r128_heldout",
+    "(logged.json written from the six stage runs' MLflow metrics, as tests/gold/r122/heldout_logged.json was)",
+    "kg --preset heldout audit-snapshot out/r128_heldout --data heldout/nhtsa/data --logged out/r128_heldout/logged.json --out out/r128_heldout/audit",
+    "kg --preset heldout index --cards template --out out/r128_heldout",
+    "kg --preset heldout index --cards summary --out out/r128_heldout"
+   ],
+   "load_runs": {
+    "ingest_text": "5ed32193b1e64daebed96dcda6ee046d",
+    "extract": "ab135804ca87495b934c4f8273cf7320",
+    "link": "9b37a473a66e46719fecd6fd6a1147c4",
+    "mention_pass": "2b15653f7b7c43218e226eaa92ad63d2",
+    "resolve": "b6715e4c562a4fc383103b9130d489ab",
+    "attach": "7d8e4350e14742469df46744fe361916"
+   },
+   "load_checks": {
+    "logged_counts": "all 27 equal to tests/gold/r109/heldout_logged.json (tests/gold/r128/heldout_logged.json)",
+    "byte_identical_to_r109": [
+     "triples.jsonl",
+     "mentions.jsonl"
+    ],
+    "byte_identical_to_r113": [
+     "audit/code_checks.json"
+    ],
+    "fidelity_passed": true,
+    "audit_snapshot_run": "d26d590b",
+    "cost_usd": 0
+   },
+   "graph_digest": "bc7c5a1efe3d",
+   "index_runs": {
+    "template": {
+     "run": "e5aa09d9",
+     "representation_version": "54d556f3ea08",
+     "cards": 629,
+     "claims": 568,
+     "cost_usd": 0
+    },
+    "summary": {
+     "run": "fde696ca",
+     "representation_version": "cb2853048d1f",
+     "llm_calls": 650,
+     "cache_hits": 650,
+     "cost_usd": 0,
+     "summaries_rejected": 21,
+     "summaries_fallback": 13
+    }
+   },
+   "retrieve_eval": {
+    "command": "RETRIEVAL_BUDGETS='[5,10,15,20,50]' kg --preset heldout retrieve-eval tests/gold/qa/heldout_qa.json --targets tests/gold/r89/heldout_targets.json --build out/r128_heldout --data heldout/nhtsa/data --system chunk_dense --system chunk_lexical --system claim_dense --system claim_lexical --system card_dense_template --system card_lexical_template --system card_dense_summary --system card_lexical_summary --system graph_retrieval --out out/r128/heldout",
+    "runs": {
+     "chunk_dense": "7e3773a0",
+     "chunk_lexical": "9e632783",
+     "claim_dense": "f34d43e7",
+     "claim_lexical": "bcab91c7",
+     "card_dense_template": "1181b272",
+     "card_lexical_template": "28125ef5",
+     "card_dense_summary": "719b06ad",
+     "card_lexical_summary": "cb1d3d96",
+     "graph_retrieval": "f032538e"
+    }
+   }
+  },
+  "furniture": {
+   "preset": "quality",
+   "build": "out/r128_furniture",
+   "frozen_build": "out/r108_furniture",
+   "claims_from": "out/r103_furniture",
+   "load_commands": [
+    "cp out/r108_furniture/plan.json out/r108_furniture/text_schema.json out/r108_furniture/profile.json out/r128_furniture/",
+    "kg --preset quality reset --out out/r128_furniture",
+    "kg --preset quality build data --out out/r128_furniture",
+    "cp out/r108_furniture/profile.json out/r128_furniture/profile.json",
+    "kg --preset quality ingest-text data --out out/r128_furniture",
+    "kg --preset quality extract --from-build out/r103_furniture --out out/r128_furniture",
+    "kg --preset quality link --out out/r128_furniture",
+    "GEMINI_API_KEY=invalid kg --preset quality mention-pass --out out/r128_furniture",
+    "kg --preset quality resolve --out out/r128_furniture",
+    "kg --preset quality attach --out out/r128_furniture",
+    "(logged.json written from the six stage runs' MLflow metrics, as tests/gold/r122/heldout_logged.json was)",
+    "kg --preset quality audit-snapshot out/r128_furniture --data data --logged out/r128_furniture/logged.json --out out/r128_furniture/audit",
+    "kg --preset quality index --cards template --out out/r128_furniture",
+    "kg --preset quality index --cards summary --out out/r128_furniture"
+   ],
+   "load_runs": {
+    "ingest_text": "f553f862a2ef405db4612aecd2275474",
+    "extract": "4f43d693c5944d90b66e3ebcfc2368e4",
+    "link": "be4060e04588484b9ac50e827963de6a",
+    "mention_pass": "e54c9cb7000e4cee915f9233618f0326",
+    "resolve": "76cb4cc7c9804991938f83af3c048495",
+    "attach": "ec3458d7243a4633955671b40d55c380"
+   },
+   "load_checks": {
+    "logged_counts": "all 27 equal to tests/gold/r108/furniture_logged.json (tests/gold/r128/furniture_logged.json)",
+    "byte_identical_to_r108": [
+     "build_report.json",
+     "triples.jsonl",
+     "mentions.jsonl"
+    ],
+    "byte_identical_to_r117": [
+     "audit/code_checks.json"
+    ],
+    "fidelity_passed": true,
+    "audit_snapshot_run": "1d642973",
+    "cost_usd": 0
+   },
+   "graph_digest": "392a170ecc10",
+   "index_runs": {
+    "template": {
+     "run": "204f4b1b",
+     "representation_version": "54d556f3ea08",
+     "cards": 737,
+     "claims": 685,
+     "cost_usd": 0
+    },
+    "summary": {
+     "run": "57d6ce95",
+     "representation_version": "cb2853048d1f",
+     "llm_calls": 738,
+     "cache_hits": 738,
+     "cost_usd": 0,
+     "summaries_rejected": 1,
+     "summaries_fallback": 0
+    }
+   },
+   "retrieve_eval": {
+    "command": "RETRIEVAL_BUDGETS='[5,10,15,20,50]' kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r128_furniture --data data --system chunk_dense --system chunk_lexical --system claim_dense --system claim_lexical --system card_dense_template --system card_lexical_template --system card_dense_summary --system card_lexical_summary --system graph_retrieval --out out/r128/furniture",
+    "runs": {
+     "chunk_dense": "ace4356d",
+     "chunk_lexical": "53672913",
+     "claim_dense": "50ff6bc2",
+     "claim_lexical": "721a830c",
+     "card_dense_template": "eb2b7433",
+     "card_lexical_template": "5e2d4350",
+     "card_dense_summary": "de39ee67",
+     "card_lexical_summary": "7ba7af21",
+     "graph_retrieval": "da41513c"
+    },
+    "failed_run": "e6152391: claim_lexical stopped by a transient Gemini 503 UNAVAILABLE on a question's embedding (the embedder has no retry) after chunk_dense, chunk_lexical and claim_dense had finished; the six remaining systems were run again with the same command and only those --system flags (run-policy: a second run for a failure outside the change)"
+   }
+  }
+ },
+ "table": {
+  "command": "kg retrieve-table --dataset furniture=out/r128/furniture --dataset heldout=out/r128/heldout --dataset generality=out/r128/generality --system chunk_dense --system chunk_lexical --system claim_dense --system claim_lexical --system card_dense_template --system card_lexical_template --system card_dense_summary --system card_lexical_summary --system graph_retrieval --out out/r128/table",
+  "run": "2f3ff6d4",
+  "files": [
+   "tests/gold/r128/retrieve_table.json",
+   "tests/gold/r128/retrieve_table.md"
+  ]
+ },
+ "exploratory_pairings": {
+  "note": "chosen after the table was seen, not pre-registered: the same command with two systems, whose 'best per K' is their paired test",
+  "runs": {
+   "chunk_lexical vs card_lexical_template": "6e5155a0",
+   "chunk_dense vs card_dense_template": "891bccb2",
+   "card_lexical_template vs chunk_dense": "8e495d99",
+   "card_lexical_template vs claim_dense": "2eb479ab"
+  }
+ },
+ "cost_usd": 0,
+ "cost_note": "MLflow logs $0: 3,053 LLM calls, every one a cache hit (mention pass and resolve of two loads, two summary index runs). 7,276 texts / 584,207 characters embedded (index units of two reloads, every question once per system, graph_retrieval's node names), unpriced: about $0.02 at the list price R119 used ($0.005 per 139,732 characters)."
+}

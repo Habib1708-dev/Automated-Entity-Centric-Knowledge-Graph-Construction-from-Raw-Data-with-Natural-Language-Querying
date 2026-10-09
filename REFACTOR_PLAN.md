@@ -8007,6 +8007,100 @@ same session, the user chose new runs 50 deep (not the saved lists alone) and se
   65, graph_retrieval Complete@5 26/28).
 - **R127 done 2026-10-09.** Next: R128, the runs (asked first).
 
+### R128. Each retrieval technique alone on the three datasets (done 2026-10-09; $0 logged, about $0.02 unpriced)
+The user, 2026-10-09, asked with the question, the estimate ($0 logged; at worst about $0.59 on a summary cache
+miss; embeddings under $0.05) and the plan: "Yes, all three datasets".
+- **Scope:** runs and the record only; no code change. Every run at `9b21af0` (dirty only by the user's
+  `.claude/settings.json`); commands, run ids, checks and costs in `tests/gold/r128/runs.json`.
+- **The runs:**
+  - Generality as loaded since R125 (graph `f79f9411ea81`, its index layer R125's), no reload.
+  - Held-out and furniture reloaded into `out/r128_heldout` and `out/r128_furniture` with R122's and R117's
+    recipes: every LLM answer from the cache, all 27 logged counts equal to R109's and R108's
+    (`tests/gold/r128/<ds>_logged.json`), triples, mentions (and furniture's build report) byte-identical to
+    the frozen builds, `code_checks.json` to R113's and R117's, C0 passed (`d26d590b`, `1d642973`); graphs
+    `bc7c5a1efe3d` and `392a170ecc10`, the digests R122 and R117 measured. Index runs: template `e5aa09d9`
+    and `204f4b1b`; summary `fde696ca` (650 of 650 calls cached, 13 fallbacks as in R122) and `57d6ce95`
+    (738 of 738 cached, 0 fallbacks as in R123), the sealed versions.
+  - `RETRIEVAL_BUDGETS='[5,10,15,20,50]' kg retrieve-eval` for the nine systems per dataset (27 runs), then
+    `kg retrieve-table` (MLflow `2f3ff6d4`; `tests/gold/r128/retrieve_table.json` and `.md`, every rate as
+    k/n per dataset and pooled).
+  - One run failed outside the change: furniture's `claim_lexical` (`e6152391`) stopped on a transient
+    Gemini 503 at a question's embedding (the embedder has no retry, "Found along the way"). The three
+    finished reports were kept, and the six remaining systems were run again with the same command.
+- **Results, pooled over the three datasets** (code-computed, exact match against the gold chunks and the R89
+  targets, no judge; full per-dataset tables in `tests/gold/r128/retrieve_table.md`):
+
+  | Technique | Complete@5 / 10 / 15 / 20 / 50 (of 99) | Seed Recall@5 / 10 / 15 / 20 / 50 (of 213) |
+  |---|---|---|
+  | chunk_dense | 81 / 89 / 91 / 93 / 97 | 112 / 140 / 161 / 174 / 188 |
+  | chunk_lexical | **86** / 88 / 90 / 91 / 95 | 102 / 141 / 162 / 178 / 200 |
+  | claim_dense | 82 / **90** / **92** / **93** / 95 | 151 / 162 / 167 / 171 / 178 |
+  | claim_lexical | 74 / 82 / 86 / 87 / 87 | 147 / 160 / 169 / 171 / 175 |
+  | card_dense_template (A) | 73 / 83 / 87 / 87 / **98** | 161 / 178 / 191 / 195 / 201 |
+  | card_lexical_template (A) | 79 / 87 / 90 / 92 / 97 | **164** / 185 / **194** / **201** / **208** |
+  | card_dense_summary (B) | 74 / 82 / 87 / 90 / 97 | 147 / 177 / 189 / 199 / 206 |
+  | card_lexical_summary (B) | 75 / 86 / 89 / 92 / 97 | 153 / 174 / 183 / 185 / 205 |
+  | graph_retrieval (reference) | 84 / 90 / 92 / 92 / 93 | 160 / **187** / 190 / 191 / 191 |
+
+- **The pre-registered best per K never beats its runner-up beyond one sample's variation.** On every
+  dataset and pooled, every p ≥ 0.25. Pooled: evidence goes to chunk_lexical at 5 (7 / 5 against
+  graph_retrieval, p = 0.774), claim_dense at 10 and 15, chunk_dense at 20, and card_dense_template at 50.
+  Start nodes go to card_lexical_template at 5, 15, 20 and 50 (at 5: 18 / 15 against card_dense_template,
+  p = 0.728) and graph_retrieval at 10. Per dataset at K = 5, evidence goes to claim_dense (furniture),
+  chunk_dense (held-out) and chunk_lexical (generality); start nodes go to graph_retrieval (furniture),
+  card_lexical_summary (held-out) and card_lexical_template (generality). The runner-up is nearly always
+  the same kind of technique, so this rule cannot separate the kinds.
+- **Exploratory pairings across kinds** (chosen after the table was seen, so not pre-registered; the same
+  command on two systems, MLflow `6e5155a0`, `891bccb2`, `8e495d99`, `2eb479ab`; files
+  `tests/gold/r128/explore_*.md`). Pooled counts are questions only the first / only the second system
+  completes or finds every target of:
+  - **Start nodes: cards beat chunks clearly.** card_lexical_template over chunk_lexical, Seeds found@5 58 /
+    14, @10 50 / 13, @15 38 / 9, @20 25 / 4 (each p < 0.001), @50 11 / 3 (p = 0.057). card_dense_template
+    over chunk_dense: 51 / 12, 40 / 11, 36 / 10 (p < 0.001), 28 / 11 (p = 0.009), 21 / 9 (p = 0.043). The
+    p < 0.001 results would survive a Bonferroni correction over the 40 tests.
+  - **Start nodes: cards beat claims from K = 10.** card_lexical_template over claim_dense: @5 33 / 18
+    (p = 0.049, which would not survive a correction), @10 36 / 13 (p = 0.001), then 36 / 10, 35 / 6, 30 / 1
+    (p < 0.001).
+  - **Evidence: chunks lead cards only at K = 5, and not beyond variation.** chunk_lexical over
+    card_lexical_template, Complete@5 10 / 3 (p = 0.092); chunk_dense over card_dense_template 12 / 4
+    (p = 0.077). From K = 10 the pairs are level (p ≥ 0.07).
+- **What it answers:**
+  - Finding evidence is the text techniques' strength at a small budget: chunk_lexical, graph_retrieval,
+    claim_dense and chunk_dense complete 81-86 of 99 questions at K = 5, the cards 73-79. No technique is
+    shown better than another, and by K = 20 all but claim_lexical (87) complete 87-93.
+  - Finding start nodes is the node techniques' strength: the cards and the name linker find 147-164 of
+    213 targets at K = 5, the chunks 102-112, a gap far beyond variation up to K = 20. Claims start strong
+    (147-151 at K = 5, near the cards) but flatten (175-178 at 50): a claim names at most three nodes, and
+    the claims found concentrate on few of them. Chunks' seeds keep rising with K (188-200 at 50) as their
+    lists cover more of the corpus. The name linker is best at K = 10 (187) but stops at 191: it gives fewer
+    than 10 seeds on 113 of 141 questions.
+  - Dense against lexical and template against summary are not separated here. Template cards lead at
+    K = 5 (161 / 164 against the summaries' 147 / 153) and the summaries catch up deep down (199 / 206 at
+    20 / 50 dense), the pattern R122-R125 measured.
+- **Read with care:**
+  - The corpora are small: furniture has 70 chunks, held-out 81, generality 32. So K = 50 covers 62-71 % of
+    the chunks (all of generality's), and evidence there is close to trivially high; generality's lists are
+    all "short" at 50.
+  - A claim list stays short when its 50 claims share chunks (furniture: 33 of 33 claim lists hold fewer
+    than 50 chunks); every rate shows how many lists were short.
+  - The card systems' chunk lists here come from 50 cards in turn, so at K <= 20 they differ from
+    R121-R125's 20-card lists.
+  - Dense rankings move a little between builds (the approximate index, "Found along the way"): held-out
+    card_dense_template finds 53 targets at 5 here against 50 in R122, on the same graph digest.
+  - Furniture is the tuning set of B's prompt and cap. The gold chunks and targets come from the same model
+    family as this session; no answer was read or judged.
+- **Verified:** `test_r128_the_committed_table_holds_the_three_builds_and_the_choices_of_the_pre_registered_rule`
+  (`tests/test_retrieval_table.py`): the committed table's systems, budgets, the three graph digests, n
+  (160 gold chunks over 99 questions, 213 targets over 141), the headline counts, every recorded choice
+  re-derived from the recorded counts by the rule, and the committed markdown equal to the table's. 1053
+  passed (1052 + 1), ruff clean.
+- **Cost:** $0 logged. 3,053 LLM calls, every one a cache hit. 7,276 texts and 584,207 characters were
+  embedded, unpriced: about $0.02 at R119's list price.
+- **R128 done 2026-10-09; plan R126-R128 done.** The result document:
+  [docs/evaluation/results_2026-10-09_r128_techniques.md](docs/evaluation/results_2026-10-09_r128_techniques.md)
+  (local). The working Neo4j now holds furniture (`out/r128_furniture`, graph `392a170ecc10`, both index
+  layers). Next: the user's decision.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -8039,6 +8133,20 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **Dense rankings are approximate and move between builds (found in R128, 2026-10-09; open).** Neo4j's
+  vector index is approximate. On furniture's 737 template cards, using each card's own vector as the query,
+  its top 5 differs from an exact cosine search for 9 of 60 probe cards (summary cards 12 of 60), whether 20
+  or 50 neighbours are asked; 20 against 50 changes the top 5 for only 2 of 60. After held-out was reloaded
+  and re-indexed, card_dense_template's top-5 seeds differ from R122's on 19 of 68 questions (Seed
+  Recall@5 50 -> 53 of 65); lexical (BM25) top 5 never moved. So a dense technique's count can move by about
+  2-3 targets at K = 5 between two builds of one graph, and differences that small between dense systems
+  are not evidence. Direction: an exact re-ranking of the index's candidates (cosine over the returned
+  vectors), or one fixed index per measured build; a step of its own, measured.
+- **The Gemini embedder has no retry, so one transient error stops a whole `retrieve-eval` (found in R128,
+  2026-10-09; open).** A 503 UNAVAILABLE on one question's embedding stopped furniture's `claim_lexical`
+  run after three systems had finished; the rest were run again. R117 ranks questions one at a time for the
+  same reason. Direction: a retry Decorator around the `Embedder` port (as `llm/retry.py` does for
+  generation), with a test that a scripted transient failure is retried; a step of its own.
 - **LLM summaries give persons gendered pronouns no fact supports (found in R125, 2026-10-09; open).** On
   generality 4 of 28 judged summaries read gender off a name ("His role is PhD student", Samuel Osei; "She is
   affiliated with council.", Priya Nandakumar). The summary prompt (P1) has no rule on pronouns, and the

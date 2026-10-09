@@ -3,9 +3,11 @@ Neo4j or a model: each technique's rates and short lists at every budget, the be
 pre-registered rule (counts first, then the tie count, then the order given) and paired with the runner-up,
 only seeded techniques competing for start nodes, the pooled table re-scored over every dataset's questions,
 the refusals (a missing report, reports of other runs or questions, a dataset named like the pooled table, no
-shared budget), the markdown and metrics, and the stage reading report folders and writing both files."""
+shared budget), the markdown and metrics, and the stage reading report folders and writing both files.
+R128: the committed table of the three builds at the pre-registered budgets, its choices by the rule."""
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -179,3 +181,42 @@ def test_the_stage_reads_each_datasets_report_folder_and_writes_the_table(tmp_pa
     # a folder without reports: the first missing one is named before anything is read
     with pytest.raises(MissingInputError, match=r"d3.retrieval_a\.json"):
         RetrieveTableStage({"d1": folders["d1"], "d3": tmp_path / "d3"}, SYSTEMS).params(ctx, PipelineState())
+
+
+R128 = Path(__file__).resolve().parents[1] / "tests" / "gold" / "r128"
+R128_SYSTEMS = [
+    "chunk_dense", "chunk_lexical", "claim_dense", "claim_lexical", "card_dense_template",
+    "card_lexical_template", "card_dense_summary", "card_lexical_summary", "graph_retrieval",
+]  # fmt: skip
+
+
+def test_r128_the_committed_table_holds_the_three_builds_and_the_choices_of_the_pre_registered_rule():
+    table = RetrievalTable.model_validate_json((R128 / "retrieve_table.json").read_text(encoding="utf-8"))
+    assert (table.systems, table.budgets) == (R128_SYSTEMS, [5, 10, 15, 20, 50])
+    assert [(t.name, t.graph_digest) for t in table.tables] == [
+        ("furniture", "392a170ecc10"), ("heldout", "bc7c5a1efe3d"), ("generality", "f79f9411ea81"),
+        ("pooled", "392a170ecc10+bc7c5a1efe3d+f79f9411ea81"),
+    ]  # fmt: skip
+    pooled = table.tables[3]
+    chunk, card = pooled.score("chunk_lexical", 5), pooled.score("card_lexical_template", 5)
+    # n: 160 gold chunks over 99 questions, 213 targets over 141 questions; the headline counts at K = 5
+    assert (chunk.evidence_recall.n, chunk.complete.n, card.seed_recall.n, card.seed_found.n) == (
+        160,
+        99,
+        213,
+        141,
+    )
+    assert (chunk.complete.k, card.seed_recall.k) == (86, 164)
+    for t in table.tables:  # the rule applied again to the recorded counts gives every recorded choice
+        for b in t.best:
+
+            def counts(s: str, t=t, b=b) -> tuple[int, int]:
+                sc = t.score(s, b.k)
+                if b.measure == "evidence":
+                    return sc.complete.k, sc.evidence_recall.k
+                return sc.seed_recall.k, sc.seed_found.k
+
+            competing = [s for s in table.systems if b.measure == "evidence" or t.score(s, b.k).seed_recall]
+            ranked = sorted(competing, key=lambda s: (-counts(s)[0], -counts(s)[1], table.systems.index(s)))
+            assert (b.best, b.runner_up) == (ranked[0], ranked[1])
+    assert (R128 / "retrieve_table.md").read_text(encoding="utf-8") == table.markdown()
