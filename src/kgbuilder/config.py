@@ -236,6 +236,11 @@ class Settings(BaseSettings):
     hybrid_retrievers: list[str] = ["chunk_dense", "chunk_lexical", "claim_dense", "claim_lexical"]
     hybrid_rrf_k: int = Field(default=10, ge=0)
     hybrid_depth: int = Field(default=20, ge=1)
+    # the agent's seeding (R132, `card_fused`): both template-card lists read this deep and fused by RRF with
+    # this constant. Chosen by plan R130-R136's pre-registered rule on furniture and kept by the decision
+    # R131b (tests/gold/r131): pooled 203 of 213 targets at 15 seeds; change them only through a new step
+    seed_candidates: int = Field(default=25, ge=1)
+    seed_rrf_k: int = Field(default=60, ge=0)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

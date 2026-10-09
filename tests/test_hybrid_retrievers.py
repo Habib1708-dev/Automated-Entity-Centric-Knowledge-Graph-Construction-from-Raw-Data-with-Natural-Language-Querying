@@ -2,8 +2,11 @@
 question as a quoted Lucene query, each list's order and depth, a claim followed by its opposite-truth
 siblings' chunks (each chunk once), the claim filter passed to the store, a lexical retriever with no word
 asking nothing, cards taking turns so a hub cannot crowd out the next card, a card's node started as a
-thing or a kind, cards without a node left out of the seeds, and the name-linker route given the question's
-vector (nothing embedded again)."""
+thing or a kind, cards without a node left out of the seeds, the name-linker route given the question's
+vector (nothing embedded again), and R132's fused cards: each list read `candidates` deep, fused by RRF, no
+word search for a question without words, and no rerank setting."""
+
+import pytest
 
 from kgbuilder.hybrid.lucene import lucene_query
 from kgbuilder.hybrid.retrievers import (
@@ -11,9 +14,11 @@ from kgbuilder.hybrid.retrievers import (
     ChunkDense,
     ChunkLexical,
     ClaimRetriever,
+    FusedCardRetriever,
     SourceRetriever,
     round_robin,
 )
+from kgbuilder.hybrid.seed_fusion import SeedSetting
 from kgbuilder.hybrid.unit_store import CardStart, ClaimFilter
 from kgbuilder.query.answers import ClaimHit
 from kgbuilder.query.systems import build_graph_retrieval
@@ -161,3 +166,57 @@ def test_the_name_linker_route_ranks_from_the_given_vector_without_embedding_aga
     route = build_graph_retrieval(store, embedder, 90.0, neighbours=0)
     got = SourceRetriever(route).retrieve("Is the Quill Press stable?", VECTOR, 5)
     assert (got.chunks, got.seeds) == (["c1"], ["Press:P1"]) and embedder.batches == []
+
+
+class SplitUnitStore(FakeUnitStore):
+    """`UnitStore` whose card vector search and card word search give different lists."""
+
+    def __init__(self, dense, lexical, starts):
+        super().__init__(starts=starts)
+        self._dense, self._lexical = list(dense), list(lexical)
+
+    def nearest_cards(self, representation, vector, k):
+        self.calls.append(("nearest_cards", representation, k))
+        return self._dense[:k]
+
+    def search_cards(self, representation, query, k):
+        self.calls.append(("search_cards", representation, query, k))
+        return self._lexical[:k]
+
+
+def _fused_setup():
+    refs = ["Press:A", "Press:B", "Press:C", "Press:D"]
+    starts = {r: CardStart(kind="thing", node_id=f"4:{r[-1]}") for r in refs}
+    chunks = [chunk(f"x{r[-1]}", [1.0, 0.0]) for r in refs]
+    store = ReachStore({f"4:{r[-1]}": {f"x{r[-1]}"} for r in refs}, chunks)
+    units = SplitUnitStore(["Press:A", "Press:B", "Press:C"], ["Press:C", "Press:A", "Press:D"], starts)
+    return units, store
+
+
+def test_fused_cards_read_each_list_candidates_deep_and_fuse_them_by_rrf():
+    units, store = _fused_setup()
+    setting = SeedSetting(name="s", representation="template", method="rrf", candidates=2, rrf_k=60)
+    got = FusedCardRetriever(units, store, "template", setting).retrieve(QUESTION, VECTOR, 5)
+    # A is first in one list and second in the other; C first in one; B second in one; D is beyond 2 deep
+    assert got.seeds == ["Press:A", "Press:C", "Press:B"]
+    assert got.chunks == ["xA", "xC", "xB"]  # each fused node's chunks, the nodes in turn
+    assert units.calls == [
+        ("nearest_cards", "template", 2),
+        ("search_cards", "template", lucene_query(QUESTION), 2),
+    ]
+
+
+def test_fused_cards_ask_no_word_search_for_a_question_without_words():
+    units, store = _fused_setup()
+    setting = SeedSetting(name="s", representation="template", method="rrf", candidates=2, rrf_k=60)
+    got = FusedCardRetriever(units, store, "template", setting).retrieve("?!", VECTOR, 5)
+    assert got.seeds == ["Press:A", "Press:B"] and [c[0] for c in units.calls] == ["nearest_cards"]
+
+
+def test_live_card_fusion_refuses_a_rerank_setting():
+    units, store = _fused_setup()
+    setting = SeedSetting(
+        name="s", representation="template", method="rerank", candidates=2, rrf_k=60, pool=5
+    )
+    with pytest.raises(ValueError, match="by RRF"):
+        FusedCardRetriever(units, store, "template", setting)

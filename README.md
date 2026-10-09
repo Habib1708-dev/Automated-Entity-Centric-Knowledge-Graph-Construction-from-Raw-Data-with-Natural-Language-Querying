@@ -498,7 +498,10 @@ how they choose:
 - the single-technique systems (R126): `chunk_dense`, `chunk_lexical`, `claim_dense`, `claim_lexical`, each
   one retriever alone (fixed in code like the card systems), whose seeds are the nodes the ranked chunks
   concern (the records they are about, then what their mentions refer to, in reading order) or the ranked
-  claims join (subject, object, then the things a claim is attached to). Meant for `kg retrieve-eval`.
+  claims join (subject, object, then the things a claim is attached to). Meant for `kg retrieve-eval`;
+- the agent's seeding (R132): `card_fused_template`, both template-card lists read `SEED_CANDIDATES` (25)
+  deep and fused by RRF with `SEED_RRF_K` (60), the setting R131 chose and R131b kept; its seeds are the
+  fused nodes, best first, and they start the cards' traversal for its chunks. Meant for `kg retrieve-eval`.
 
 Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
 cites as evidence (otherwise the graph is not the build the gold was written on, and the run stops), and

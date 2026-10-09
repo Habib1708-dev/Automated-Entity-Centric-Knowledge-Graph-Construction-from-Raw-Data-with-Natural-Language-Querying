@@ -17,7 +17,7 @@ Not here: the retrievers (retrievers.py), their seeds (seeds.py), fusion (fusion
 
 from pydantic import BaseModel, Field, field_validator
 
-from ..core.errors import MissingInputError
+from ..core.errors import ConfigurationError, MissingInputError
 from ..graph.index_layer import CHUNK_FULLTEXT_INDEX, CLAIM_FULLTEXT_INDEX, CLAIM_VECTOR_INDEX, card_indexes
 from ..llm.base import Embedder
 from ..query.answers import ClaimHit, RetrievalTrace
@@ -29,10 +29,12 @@ from .retrievers import (
     ChunkDense,
     ChunkLexical,
     ClaimRetriever,
+    FusedCardRetriever,
     LinkedRoute,
     Retriever,
     SourceRetriever,
 )
+from .seed_fusion import SeedSetting
 from .seeds import with_node_seeds
 from .unit_store import UnitStore
 
@@ -44,6 +46,7 @@ RETRIEVERS = (
     "claim_lexical",
     "card_dense",
     "card_lexical",
+    "card_fused",
     "graph_route",
 )
 
@@ -57,6 +60,7 @@ class HybridSettings(BaseModel):
     depth: int = Field(ge=1)
     cards: str
     node_seeds: bool = False  # R126: the nodes the chunks concern and the claims join, as start nodes
+    seeding: SeedSetting | None = None  # R132: how `card_fused` fuses the two card lists; None without it
 
     @field_validator("retrievers")
     @classmethod
@@ -115,6 +119,7 @@ def build_hybrid(
         "claim_lexical": lambda: ClaimRetriever(units, "lexical"),
         "card_dense": lambda: CardRetriever(units, store, settings.cards, "dense"),
         "card_lexical": lambda: CardRetriever(units, store, settings.cards, "lexical"),
+        "card_fused": lambda: FusedCardRetriever(units, store, settings.cards, _seeding(settings)),
         "graph_route": lambda: SourceRetriever(_route(route)),
     }
     retrievers = [build[name]() for name in settings.retrievers]
@@ -142,6 +147,7 @@ def check_layer(settings: HybridSettings, units: UnitStore, card_version: str, e
         "claim_lexical": [CLAIM_FULLTEXT_INDEX],
         "card_dense": [names.vector],
         "card_lexical": [names.fulltext],
+        "card_fused": [names.vector, names.fulltext],
     }
     if offline := sorted(
         {i for n in settings.retrievers for i in needed.get(n, []) if i not in state.online}
@@ -151,6 +157,14 @@ def check_layer(settings: HybridSettings, units: UnitStore, card_version: str, e
         raise MissingInputError(
             f"the retrieval layer does not fit: {'; '.join(issues)}; run kg index --cards {settings.cards}"
         )
+
+
+def _seeding(settings: HybridSettings) -> SeedSetting:
+    if settings.seeding is None:
+        raise ConfigurationError(
+            "card_fused needs a seeding setting (seed_candidates, seed_rrf_k); none given"
+        )
+    return settings.seeding
 
 
 def _route(route: LinkedRoute | None) -> LinkedRoute:

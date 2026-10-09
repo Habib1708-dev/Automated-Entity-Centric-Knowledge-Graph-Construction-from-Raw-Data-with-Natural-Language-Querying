@@ -238,3 +238,23 @@ def test_only_the_plan_systems_replay_frozen_plans(ctx, tmp_path):
         "hybrid": None,
         "records_vector": earlier / "answers_records_vector.jsonl",
     }
+
+
+def test_the_fused_card_system_logs_its_seeding_and_searches_both_card_lists():
+    """R132: the agent's seeding as a system; earlier systems log no seeding params."""
+    s = Settings()
+    params = source_params(s, "card_fused_template")
+    assert params["hybrid_retrievers"] == ["card_fused"]
+    assert (params["seed_candidates"], params["seed_rrf_k"]) == (25, 60)
+    assert "seed_candidates" not in source_params(s, "card_seeds_template")
+    state = IndexState(
+        cards=1, card_versions=[card_representation(s, "template").version], claims=0, claim_versions=[],
+        embed_models=[s.embed_model], online=index_names(["template"]),
+    )  # fmt: skip
+    units = FakeUnitStore(state=state)
+    parts = SourceParts(settings=s, store=FakeStore(), embedder=FixedEmbedder(), plan=None, units=units)
+    check_source("card_fused_template")(parts, 50).ranked("Which press?")
+    assert units.calls == [
+        ("nearest_cards", "template", 25),
+        ("search_cards", "template", '"which" "press"', 25),
+    ]

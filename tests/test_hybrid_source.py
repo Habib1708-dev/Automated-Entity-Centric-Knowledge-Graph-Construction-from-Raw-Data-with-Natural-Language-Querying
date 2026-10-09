@@ -9,7 +9,7 @@ import pytest
 from pydantic import ValidationError
 
 from kgbuilder.config import Settings
-from kgbuilder.core.errors import MissingInputError
+from kgbuilder.core.errors import ConfigurationError, MissingInputError
 from kgbuilder.graph.index_layer import index_names
 from kgbuilder.hybrid.cards import TemplateCards
 from kgbuilder.hybrid.claims import CLAIM_VERSION
@@ -128,3 +128,10 @@ def test_the_hybrid_systems_reader_is_given_exactly_k_chunks():
     answer = SYSTEMS["hybrid"].build(parts).answer("Q1", "Which press?")
     assert answer.retrieved == ["c0", "c1", "c2"] and store.nearest_calls == [6]
     assert answer.trace.candidates == ids[:6]
+
+
+def test_card_fusion_without_a_seeding_setting_is_refused():
+    settings = HybridSettings(retrievers=["card_fused"], rrf_k=60, depth=5, cards="template")
+    with pytest.raises(ConfigurationError, match="seeding"):
+        build_hybrid(settings, FakeStore(), FakeUnitStore(state=FITTING), FixedEmbedder(), None,
+                     TemplateCards.version, MODEL)  # fmt: skip

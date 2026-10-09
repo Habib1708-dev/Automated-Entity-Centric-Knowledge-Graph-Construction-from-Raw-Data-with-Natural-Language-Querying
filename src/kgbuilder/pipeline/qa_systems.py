@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
+from ..hybrid.seed_fusion import SeedSetting
 from ..hybrid.source import HybridSettings, build_hybrid
 from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
 from ..llm.base import Embedder, LLMClient, prompt_version
@@ -137,6 +138,7 @@ def hybrid_spec(
             depth=max(depth, s.hybrid_depth),
             cards=cards,
             node_seeds=node_seeds,
+            seeding=_seeding(s, cards) if "card_fused" in listed(s) else None,
         )
         # the name-linker route embeds every node name once: built only when the settings list it
         route = _graph_retrieval(parts, depth) if "graph_route" in settings.retrievers else None
@@ -153,6 +155,12 @@ def hybrid_spec(
             **_graph_retrieval_params(s),  # the cards' traversal and the name-linker route, when listed
             # only where it is on, so every system registered before R126 logs the params it logged then
             **({"hybrid_node_seeds": True} if node_seeds else {}),
+            # only where card_fused is listed, so every earlier system logs the params it logged then
+            **(
+                {"seed_candidates": s.seed_candidates, "seed_rrf_k": s.seed_rrf_k}
+                if "card_fused" in listed(s)
+                else {}
+            ),
         }
 
     return reading(name, source, params)
@@ -239,6 +247,22 @@ CARD_SYSTEMS = tuple(
     for rep in ("template", "summary")
 )
 
+# The agent's seeding (R132): both template-card lists fused by RRF as R131 chose and R131b kept, so `kg
+# retrieve-eval` can confirm R131's offline counts on the live layer.
+FUSED_SYSTEMS = (hybrid_spec("card_fused_template", "template", ("card_fused",)),)
+
+
+def _seeding(s: Settings, cards: str) -> SeedSetting:
+    """The live seeding of the settings (`seed_candidates`, `seed_rrf_k`) over the cards `cards`."""
+    return SeedSetting(
+        name="card_fused",
+        representation=cards,
+        method="rrf",
+        candidates=s.seed_candidates,
+        rrf_k=s.seed_rrf_k,
+    )
+
+
 # Each chunk and claim retriever alone (plan R126-R128), with the nodes its chunks concern or its claims join
 # as seeds, so all four techniques are scored on evidence and on start nodes beside the card systems above.
 # One list each, fixed here like the card systems'; the cards they name are never searched.
@@ -272,6 +296,7 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         hybrid_spec("hybrid", "template"),
         *CARD_SYSTEMS,
         *SINGLE_SYSTEMS,
+        *FUSED_SYSTEMS,
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,

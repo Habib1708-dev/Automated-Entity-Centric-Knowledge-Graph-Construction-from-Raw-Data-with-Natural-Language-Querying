@@ -8355,6 +8355,24 @@ decision then. Also make graphs supporting this decision."
   and indexed). The full suite and ruff are green.
 - **R131b done 2026-10-09.** Next: R132, the chosen seeding live (`rrf60_c25_template`, K = 15).
 
+### R132. The chosen seeding as a live retriever (part a done 2026-10-09, $0; part b, the live check, awaits permission)
+- **Scope (part a, code):** `hybrid/retrievers.py` (`FusedCardRetriever`, `card_fused`: both card lists of
+  one representation read `candidates` deep, fused by `seed_fusion.fuse`, RRF only; the cards' traversal
+  extracted unchanged from `CardRetriever` into `from_cards`, which both use), `hybrid/source.py` (the
+  retriever listed, `HybridSettings.seeding`, the layer check asks for both card indexes, a missing seeding
+  refused), `config.py` (`seed_candidates` 25, `seed_rrf_k` 60, R131b's values), `pipeline/qa_systems.py`
+  (the system `card_fused_template`, logging `seed_candidates` and `seed_rrf_k` only where listed), README,
+  tests. Not changed: any earlier system's list, params or seeds.
+- **Verified (part a):** five tests: each list read 2 deep and fused by RRF (A, C, B; D beyond the depth),
+  the nodes' chunks in turn, no word search for a question without words, a rerank setting refused, a
+  source without a seeding refused, the system's params (25, 60) and its two store calls (25 each); no
+  earlier system logs the new params. 1087 passed (1082 + 5), ruff clean.
+- **Part b, the live check (asked first):** `kg retrieve-eval --system card_fused_template` at
+  `RETRIEVAL_BUDGETS=[5,10,15,20,25,30,50]` on the three builds (furniture as loaded now; held-out and
+  generality reloaded from the cache with R128's recipe, template index only). Accept: per dataset and
+  pooled, the live Seed Recall@K of `card_fused_template` within 3 targets of R131's offline
+  `rrf60_c25_template` at every K (the dense drift R128 measured), and pooled at K = 15 within 3 of 203.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

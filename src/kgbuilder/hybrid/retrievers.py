@@ -13,6 +13,8 @@ source) and a depth:
   traversal patterns (`GraphStore.reach`), its reached chunks are ranked by similarity to the question,
   and the cards then take turns (round-robin), so one hub's fifty chunks cannot crowd out the next card;
   the cards' nodes are the seeds;
+- `card_fused` (R132): both card lists read `candidates` deep and fused by RRF, R131's chosen seeding; its
+  fused nodes are the seeds and start the same traversal;
 - `graph_route`: the name-linker route of the graph system (`GraphRetrieval`), with its links as seeds.
 Not here: the queries (unit_store.py), fusion and the source (R120b).
 """
@@ -25,6 +27,7 @@ from ..query.answers import ClaimHit, RetrievalTrace
 from ..query.graph_store import GraphStore, StoredChunk
 from ..query.ranking import rank
 from .lucene import lucene_query
+from .seed_fusion import SeedSetting, fuse
 from .unit_store import ClaimFilter, UnitStore
 
 Mode = Literal["dense", "lexical"]
@@ -104,27 +107,57 @@ class CardRetriever:
         self._mode = mode
 
     def retrieve(self, question: str, vector: list[float], depth: int) -> Retrieved:
-        refs = self._cards(question, vector, depth)
-        starts = self._units.card_starts(refs)
-        seeds = [ref for ref in refs if ref in starts]
-        reached = {}
-        for ref in seeds:  # one traversal per card: the turns need each card's own chunks
-            start = starts[ref]
-            patterns = self._store.reach(
-                [start.node_id] if start.kind == "thing" else [],
-                [start.node_id] if start.kind == "kind" else [],
-            )
-            reached[ref] = set().union(*patterns.values())
-        stored = {c.chunk_id: c for c in self._store.chunks(sorted(set().union(*reached.values())))}
-        per_card = [[c.chunk_id for c in rank(vector, [stored[i] for i in reached[ref] if i in stored])]
-                    for ref in seeds]  # fmt: skip
-        return Retrieved(chunks=round_robin(per_card)[:depth], seeds=seeds)
+        return from_cards(self._cards(question, vector, depth), vector, depth, self._units, self._store)
 
     def _cards(self, question: str, vector: list[float], depth: int) -> list[str]:
         if self._mode == "dense":
             return self._units.nearest_cards(self._representation, vector, depth)
         query = lucene_query(question)
         return self._units.search_cards(self._representation, query, depth) if query else []
+
+
+class FusedCardRetriever:
+    """Both card lists of one representation, each read `candidates` deep and fused by RRF (R132: the
+    seeding R131 chose, `hybrid/seed_fusion.py`); the fused nodes are the seeds, best first, and start the
+    traversal as the cards of `CardRetriever` do."""
+
+    name = "card_fused"
+
+    def __init__(self, units: UnitStore, store: GraphStore, representation: str, setting: SeedSetting):
+        if setting.method != "rrf":  # a reranker would need a model: it is no part of the live seeding
+            raise ValueError(f"live card fusion is by RRF, not {setting.method}")
+        self._units = units
+        self._store = store
+        self._representation = representation
+        self._setting = setting
+
+    def retrieve(self, question: str, vector: list[float], depth: int) -> Retrieved:
+        k = self._setting.candidates
+        dense = self._units.nearest_cards(self._representation, vector, k)
+        query = lucene_query(question)
+        lexical = self._units.search_cards(self._representation, query, k) if query else []
+        return from_cards(fuse(dense, lexical, self._setting), vector, depth, self._units, self._store)
+
+
+def from_cards(
+    refs: list[str], vector: list[float], depth: int, units: UnitStore, store: GraphStore
+) -> Retrieved:
+    """Cards' nodes, best first, made seeds and chunks: a card without a node is left out; each node starts
+    the traversal, its reached chunks are ranked by similarity to the question, and the cards take turns."""
+    starts = units.card_starts(refs)
+    seeds = [ref for ref in refs if ref in starts]
+    reached = {}
+    for ref in seeds:  # one traversal per card: the turns need each card's own chunks
+        start = starts[ref]
+        patterns = store.reach(
+            [start.node_id] if start.kind == "thing" else [],
+            [start.node_id] if start.kind == "kind" else [],
+        )
+        reached[ref] = set().union(*patterns.values())
+    stored = {c.chunk_id: c for c in store.chunks(sorted(set().union(*reached.values())))}
+    per_card = [[c.chunk_id for c in rank(vector, [stored[i] for i in reached[ref] if i in stored])]
+                for ref in seeds]  # fmt: skip
+    return Retrieved(chunks=round_robin(per_card)[:depth], seeds=seeds)
 
 
 class LinkedRoute(Protocol):
