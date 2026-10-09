@@ -57,6 +57,8 @@ uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.j
 uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
 uv run kg index --cards template --out BUILD                      # the same units embedded into Neo4j with their indexes (R119; embeds only what changed)
 uv run kg index --cards summary --out BUILD                       # LLM node summaries checked by code, beside the cards (R123; a model writes them, cached)
+uv run kg summary-sheet UNITS --out BUILD                         # seeded stratified sample of the summaries in UNITS for the judge (R124b; no model)
+uv run kg summary-judged SHEET VERDICTS --out O                   # the judge's verdicts checked against the sheet and counted (R124b; no graph)
 uv run kg reset                                                   # clear Neo4j before a clean rerun
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db          # inspect runs, params, metrics, traces
 ```
@@ -301,7 +303,8 @@ src/kgbuilder/
                     -> claim_recall (R111: R77's reader claims matched to a claim sheet, recall and its causes)
                     qa_gold (question-answer gold file), qa_records (record answers computed by DuckDB)
                     -> qa (answer scoring, outcome rows) -> paired (McNemar comparison of two systems)
-                    retrieval_scores (R117: evidence and seed recall within budgets, latency, paired)
+                    retrieval_scores (R117: evidence and seed recall within budgets, latency, paired) ;
+                    summary_judging (R124b: the summaries' judging sample, verdicts, groundedness counts)
                     target_gold (anchor-graph targets: names, aliases, the records and mentions they reach)
   audit/            graph-correctness audit (R87): inputs -> snapshot (a build rebuilt offline) -> fidelity
                     (against its logged counts) ; scope -> checks (provenance, flags) ; reach (traversal) ;
@@ -325,7 +328,8 @@ src/kgbuilder/
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
-                    index_stages (R118: kg units, R119: kg index)
+                    index_stages (R118: kg units, R119: kg index) ; summary_stages (R124b: kg summary-sheet,
+                    kg summary-judged)
 ```
 
 | Stage (MLflow run) | Module | LLM? |
@@ -349,6 +353,8 @@ src/kgbuilder/
 | `retrieve_compare` | `validation/retrieval_scores.py`, `validation/paired.py` | no |
 | `units` | `pipeline/index_stages.py`, `hybrid/` | no |
 | `index` | `pipeline/index_stages.py`, `hybrid/unit_graph.py` | embeddings; with `--cards summary` also the summary model (R123) |
+| `summary_sheet` | `pipeline/summary_stages.py`, `validation/summary_judging.py` | no |
+| `summary_judged` | `pipeline/summary_stages.py`, `validation/summary_judging.py` | no |
 
 ## Experiment tracking
 
@@ -536,7 +542,16 @@ a node refused twice gets its template card, marked `fallback`. Only `kg index` 
 never calls a model); the replies are cached in `.cache/llm`, so a re-index costs nothing. The run logs the
 prompt (`prompts/summary.txt`), its version, the model's settings, `summaries_rejected` and
 `summaries_fallback`, and every unit keeps its evidence hash, so the summaries and the cards of one node
-provably come from the same evidence.
+provably come from the same evidence. The prompt (`INDEX_SUMMARY_PROMPT`: `p1` the description, `p2` with up to
+three questions) and the cap are sealed by R124a on furniture (`tests/gold/r124/tuning.json`).
+
+What code cannot check (a denied fact written as plain fact, a reversed relation) is judged (R124b): `kg
+summary-sheet UNITS --out BUILD` reads the loaded graph's evidence, refuses summaries written from other
+evidence, and writes a seeded sample (10 per stratum: records and individuals with or without a qualified
+claim, concepts) with each node's numbered facts as its prompt showed them; Claude judges it in the session
+(the `evaluation` skill: unsupported, polarity flip or identity confusion, each with a verbatim quote and the
+fact); `kg summary-judged SHEET VERDICTS` refuses a verdict file that does not answer the sheet and counts
+the grounded summaries and each fault with intervals.
 
 `kg index --cards template --out BUILD` (R119) writes the same units into Neo4j as an additive, deletable
 layer: each a `:RetrievalUnit` (a card also `:NodeCard:TemplateCard`, a claim sentence `:ClaimSentence`) with

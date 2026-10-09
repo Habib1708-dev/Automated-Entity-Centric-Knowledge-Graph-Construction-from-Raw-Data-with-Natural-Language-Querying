@@ -1,0 +1,688 @@
+{
+ "source": "out\\r124b\\units_p1_600.jsonl",
+ "source_hash": "1b1ef940cb8a",
+ "seed": 124,
+ "per_stratum": 10,
+ "population": {
+  "record_qualified": 4,
+  "record_plain": 178,
+  "individual_qualified": 15,
+  "individual_plain": 92,
+  "concept": 448
+ },
+ "rows": [
+  {
+   "ref": "Assembly:A-1012",
+   "kind": "record",
+   "qualified": true,
+   "title": "Frame",
+   "label": "Assembly",
+   "facts": [
+    "F1. assembly_id: A-1012",
+    "F2. assembly_name: uppsala_sofa_assembly",
+    "F3. quantity: 1",
+    "F4. Frame -PART_OF-> Product (1): Uppsala Sofa",
+    "F5. Component (6): Back Frame, Base Frame, Corner Brackets, Screws, Side Frames (+1 more) -PART_OF-> Frame",
+    "F6. Frame (Component) part of Uppsala Sofa (Product)",
+    "F7. Frame (Component) connects to corner blocks (Component)",
+    "F8. Frame (Component) exhibits creaks (QualityAspect) [conditional: whenever someone sits down]"
+   ],
+   "summary": "Frame is an assembly with assembly_id A-1012, named uppsala_sofa_assembly, and quantity 1. It is part of Uppsala Sofa, and 6 components are part of it, among them Back Frame, Base Frame, Corner Brackets, Screws and Side Frames. It connects to corner blocks. It exhibits creaks, but only whenever someone sits down.",
+   "fallback": false
+  },
+  {
+   "ref": "Assembly:A-1022",
+   "kind": "record",
+   "qualified": true,
+   "title": "Drawer Handle",
+   "label": "Assembly",
+   "facts": [
+    "F1. assembly_id: A-1022",
+    "F2. assembly_name: norrköping_nightstand_assembly",
+    "F3. quantity: 1",
+    "F4. Drawer Handle -PART_OF-> Product (1): Norrköping Nightstand",
+    "F5. pre-drilled holes for the drawer handle (Component) exhibits align properly (QualityAspect) [denied]",
+    "F6. pre-drilled holes for the drawer handle (Component) part of Norrköping Nightstand (Product)"
+   ],
+   "summary": "Drawer Handle is an assembly with assembly_id A-1022, assembly_name norrköping_nightstand_assembly, and quantity 1. It is part of Product (1): Norrköping Nightstand. Its pre-drilled holes for the drawer handle are part of Norrköping Nightstand (Product). That its pre-drilled holes for the drawer handle exhibit align properly is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "Assembly:A-1070",
+   "kind": "record",
+   "qualified": true,
+   "title": "Drawers",
+   "label": "Assembly",
+   "facts": [
+    "F1. Also called: drawer",
+    "F2. assembly_id: A-1070",
+    "F3. assembly_name: helsingborg_dresser_assembly",
+    "F4. quantity: 4",
+    "F5. Drawers -PART_OF-> Product (1): Helsingborg Dresser",
+    "F6. Component (6): Drawer Back, Drawer Bottom, Drawer Front, Drawer Rails, Drawer Sides (+1 more) -PART_OF-> Drawers",
+    "F7. Drawer Rails (Component) part of Helsingborg Dresser (Product)",
+    "F8. Drawer Rails (Component) exhibits defective (QualityAspect) [hedged]",
+    "F9. Drawer Rails (Component) made of metal (Material)"
+   ],
+   "summary": "Drawers, also called drawer, has assembly_id A-1070, assembly_name helsingborg_dresser_assembly, and quantity 4. It is part of Product (1): Helsingborg Dresser. 6 components are part of it, among them Drawer Back, Drawer Bottom, Drawer Front, Drawer Rails and Drawer Sides. Its Drawer Rails are part of Helsingborg Dresser, may exhibit defective, and are made of metal.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1085",
+   "kind": "record",
+   "qualified": true,
+   "title": "Drawer Rails",
+   "label": "Component",
+   "facts": [
+    "F1. Also called: metal rails, rails",
+    "F2. part_id: S-1085",
+    "F3. quantity: 2",
+    "F4. sub_assembly_name: drawers_subassembly",
+    "F5. Drawer Rails -PART_OF-> Assembly (1): Drawers",
+    "F6. Drawer Rails -SUPPLIED_BY-> Supplier (2): Korean Metal Works, Shanghai Metal Corp",
+    "F7. Drawer Rails (Component) part of Helsingborg Dresser (Product)",
+    "F8. Drawer Rails (Component) exhibits defective (QualityAspect) [hedged]",
+    "F9. Drawer Rails (Component) made of metal (Material)"
+   ],
+   "summary": "Drawer Rails, also called metal rails or rails, is a component with part_id S-1085, quantity 2, and sub_assembly_name drawers_subassembly. It is part of Assembly (1): Drawers, is supplied by Supplier (2): Korean Metal Works, Shanghai Metal Corp, and is part of Helsingborg Dresser (Product). It may exhibit defective. It is made of metal.",
+   "fallback": false
+  },
+  {
+   "ref": "Product:P-1008",
+   "kind": "record",
+   "qualified": false,
+   "title": "Jönköping Coffee Table",
+   "label": "Product",
+   "facts": [
+    "F1. Also called: coffee table, table",
+    "F2. description: Centerpiece for your living room with hidden storage",
+    "F3. price: $212",
+    "F4. product_id: P-1008",
+    "F5. Assembly (5): Allen Key, Legs, Screws, Support Beam, Table Top -PART_OF-> Jönköping Coffee Table",
+    "F6. Jönköping Coffee Table (Product) exhibits Assembly was straightforward (QualityAspect)",
+    "F7. lower shelf (Component) part of Jönköping Coffee Table (Product)",
+    "F8. Jönköping Coffee Table (Product) has measurement 30 minutes (Value)"
+   ],
+   "summary": "Jönköping Coffee Table, also called coffee table or table, is a product with description centerpiece for your living room with hidden storage, price $212, product ID P-1008, measurement 30 minutes, and exhibits assembly was straightforward. Allen Key, Legs, Screws, Support Beam, and Table Top are part of its assembly. Lower shelf is part of it.",
+   "fallback": false
+  },
+  {
+   "ref": "Assembly:A-1016",
+   "kind": "record",
+   "qualified": false,
+   "title": "Screws",
+   "label": "Assembly",
+   "facts": [
+    "F1. assembly_id: A-1016",
+    "F2. assembly_name: uppsala_sofa_assembly",
+    "F3. quantity: 24",
+    "F4. Screws -PART_OF-> Product (1): Uppsala Sofa"
+   ],
+   "summary": "Screws are part of Product (1): Uppsala Sofa. Their quantity is 24, with assembly id A-1016 and assembly name uppsala_sofa_assembly.",
+   "fallback": false
+  },
+  {
+   "ref": "Assembly:A-1044",
+   "kind": "record",
+   "qualified": false,
+   "title": "Back Panel",
+   "label": "Assembly",
+   "facts": [
+    "F1. assembly_id: A-1044",
+    "F2. assembly_name: västerås_bookshelf_assembly",
+    "F3. quantity: 1",
+    "F4. Back Panel -PART_OF-> Product (1): Västerås Bookshelf",
+    "F5. Back Panel (Component) exhibits extremely thin (QualityAspect)",
+    "F6. Back Panel (Component) part of Västerås Bookshelf (Product)",
+    "F7. Back Panel (Component) exhibits flimsy (QualityAspect)"
+   ],
+   "summary": "Back Panel is an assembly with assembly_id A-1044 and assembly_name västerås_bookshelf_assembly, with a quantity of 1. It is part of Västerås Bookshelf and exhibits extremely thin and flimsy qualities.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1074",
+   "kind": "record",
+   "qualified": false,
+   "title": "Drawer Front",
+   "label": "Component",
+   "facts": [
+    "F1. part_id: S-1074",
+    "F2. quantity: 1",
+    "F3. sub_assembly_name: drawer_unit_subassembly",
+    "F4. Drawer Front -PART_OF-> Assembly (1): Drawer Unit",
+    "F5. Drawer Front -SUPPLIED_BY-> Supplier (2): Canadian Timber Products, Nordic Wood Industries"
+   ],
+   "summary": "Drawer Front is a component with part id S-1074 and quantity 1, belonging to sub assembly name drawer_unit_subassembly. It is part of Assembly (1): Drawer Unit and supplied by Supplier (2): Canadian Timber Products, Nordic Wood Industries.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1082",
+   "kind": "record",
+   "qualified": false,
+   "title": "Drawer Bottom",
+   "label": "Component",
+   "facts": [
+    "F1. Also called: bottom, drawer bottoms",
+    "F2. part_id: S-1082",
+    "F3. quantity: 1",
+    "F4. sub_assembly_name: drawers_subassembly",
+    "F5. Drawer Bottom -PART_OF-> Assembly (1): Drawers",
+    "F6. Drawer Bottom -SUPPLIED_BY-> Supplier (2): Canadian Timber Products, Nordic Wood Industries",
+    "F7. Back Panel (Component) part of Helsingborg Dresser (Product)",
+    "F8. Drawer Bottom (Component) exhibits flimsy (QualityAspect)",
+    "F9. Drawer Bottom (Component) part of Helsingborg Dresser (Product)"
+   ],
+   "summary": "Drawer Bottom, also called bottom and drawer bottoms, is a component with part_id S-1082 and quantity 1, in sub_assembly_name drawers_subassembly. It is part of Assembly Drawers and Helsingborg Dresser. It is supplied by Canadian Timber Products and Nordic Wood Industries. It exhibits flimsy.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1084",
+   "kind": "record",
+   "qualified": false,
+   "title": "Drawer Back",
+   "label": "Component",
+   "facts": [
+    "F1. part_id: S-1084",
+    "F2. quantity: 1",
+    "F3. sub_assembly_name: drawers_subassembly",
+    "F4. Drawer Back -PART_OF-> Assembly (1): Drawers",
+    "F5. Drawer Back -SUPPLIED_BY-> Supplier (2): Canadian Timber Products, Nordic Wood Industries"
+   ],
+   "summary": "Drawer Back is a component with part_id S-1084 and quantity 1, belonging to the sub_assembly_name drawers_subassembly. It is part of Assembly (1): Drawers and supplied by Supplier (2): Canadian Timber Products, Nordic Wood Industries.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1097",
+   "kind": "record",
+   "qualified": false,
+   "title": "Foam Insert",
+   "label": "Component",
+   "facts": [
+    "F1. part_id: S-1097",
+    "F2. quantity: 1",
+    "F3. sub_assembly_name: seat_cushion_subassembly",
+    "F4. Foam Insert -PART_OF-> Assembly (1): Seat Cushion",
+    "F5. Foam Insert -SUPPLIED_BY-> Supplier (2): Brazilian Foam Solutions, UK Foam Manufacturers"
+   ],
+   "summary": "Foam Insert is a component with part_id S-1097, quantity 1, and sub_assembly_name seat_cushion_subassembly. Foam Insert is part of Assembly (1): Seat Cushion and is supplied by Supplier (2): Brazilian Foam Solutions, UK Foam Manufacturers.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1105",
+   "kind": "record",
+   "qualified": false,
+   "title": "Corner Brackets",
+   "label": "Component",
+   "facts": [
+    "F1. part_id: S-1105",
+    "F2. quantity: 4",
+    "F3. sub_assembly_name: frame_subassembly",
+    "F4. Corner Brackets -PART_OF-> Assembly (1): Frame",
+    "F5. Corner Brackets -SUPPLIED_BY-> Supplier (2): Korean Metal Works, Shanghai Metal Corp"
+   ],
+   "summary": "Corner Brackets is a component with part_id S-1105 and quantity 4, belonging to sub_assembly_name frame_subassembly. Corner Brackets is part of Assembly (1): Frame and is supplied by Supplier (2): Korean Metal Works, Shanghai Metal Corp.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1110",
+   "kind": "record",
+   "qualified": false,
+   "title": "Support Frame",
+   "label": "Component",
+   "facts": [
+    "F1. part_id: S-1110",
+    "F2. quantity: 1",
+    "F3. sub_assembly_name: back_rest_subassembly",
+    "F4. Support Frame -PART_OF-> Assembly (1): Back Rest",
+    "F5. Support Frame -SUPPLIED_BY-> Supplier (2): Korean Metal Works, Shanghai Metal Corp"
+   ],
+   "summary": "Support Frame is a component with part id S-1110 and quantity 1, belonging to sub assembly back_rest_subassembly. It is part of 1 Assembly, namely Back Rest, and is supplied by 2 Suppliers, namely Korean Metal Works and Shanghai Metal Corp.",
+   "fallback": false
+  },
+  {
+   "ref": "Component:S-1111",
+   "kind": "record",
+   "qualified": false,
+   "title": "Screws",
+   "label": "Component",
+   "facts": [
+    "F1. part_id: S-1111",
+    "F2. quantity: 6",
+    "F3. sub_assembly_name: back_rest_subassembly",
+    "F4. Screws -PART_OF-> Assembly (1): Back Rest",
+    "F5. Screws -SUPPLIED_BY-> Supplier (2): German Precision Fasteners, Taiwan Precision Parts"
+   ],
+   "summary": "Screws, part id S-1111, quantity 6, sub assembly name back_rest_subassembly, is a component. Screws is part of Assembly (1): Back Rest. Screws is supplied by Supplier (2): German Precision Fasteners, Taiwan Precision Parts.",
+   "fallback": false
+  },
+  {
+   "ref": "21b1e767eb14760a",
+   "kind": "individual",
+   "qualified": true,
+   "title": "parts",
+   "label": "Component",
+   "facts": [
+    "F1. parts -EXHIBITS-> QualityAspect (1): fitting together properly",
+    "F2. parts -PART_OF-> Product (1): Uppsala Sofa",
+    "F3. Uppsala Sofa (Product) exhibits pain to put together (QualityAspect)",
+    "F4. parts (Component) part of Uppsala Sofa (Product)",
+    "F5. parts (Component) exhibits fitting together properly (QualityAspect) [denied]"
+   ],
+   "summary": "parts is a component. It is part of Uppsala Sofa (Product 1). It exhibits fitting together properly (QualityAspect 1), but this is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "65e7c6a7c7e36f72",
+   "kind": "individual",
+   "qualified": true,
+   "title": "pre-drilled holes",
+   "label": "Component",
+   "facts": [
+    "F1. pre-drilled holes -EXHIBITS-> QualityAspect (1): align properly",
+    "F2. pre-drilled holes -PART_OF-> Product (1): Helsingborg Dresser",
+    "F3. instructions (Component) part of Helsingborg Dresser (Product)",
+    "F4. pre-drilled holes (Component) exhibits align properly (QualityAspect) [denied]",
+    "F5. pre-drilled holes (Component) part of Helsingborg Dresser (Product)"
+   ],
+   "summary": "pre-drilled holes is a component. It is part of Helsingborg Dresser. It exhibits align properly, but this claim is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "82ed63a727d84cee",
+   "kind": "individual",
+   "qualified": true,
+   "title": "pre-drilled holes for the drawer handle",
+   "label": "Component",
+   "facts": [
+    "F1. pre-drilled holes for the drawer handle -EXHIBITS-> QualityAspect (1): align properly",
+    "F2. pre-drilled holes for the drawer handle -PART_OF-> Product (1): Norrköping Nightstand",
+    "F3. pre-drilled holes for the drawer handle (Component) exhibits align properly (QualityAspect) [denied]",
+    "F4. pre-drilled holes for the drawer handle (Component) part of Norrköping Nightstand (Product)"
+   ],
+   "summary": "pre-drilled holes for the drawer handle is a component. It is part of the Norrköping Nightstand. Its proper alignment is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "85b29e845b251d8e",
+   "kind": "individual",
+   "qualified": true,
+   "title": "pre-drilled holes",
+   "label": "Component",
+   "facts": [
+    "F1. pre-drilled holes -EXHIBITS-> QualityAspect (1): align properly",
+    "F2. pre-drilled holes -PART_OF-> Product (1): Jönköping Coffee Table",
+    "F3. Jönköping Coffee Table (Product) exhibits Assembly was straightforward (QualityAspect)",
+    "F4. pre-drilled holes (Component) part of Jönköping Coffee Table (Product)",
+    "F5. pre-drilled holes (Component) exhibits align properly (QualityAspect) [denied]"
+   ],
+   "summary": "pre-drilled holes are a component part of Jönköping Coffee Table. They exhibit that they align properly. Jönköping Coffee Table exhibits that assembly was straightforward. That pre-drilled holes exhibit that they align properly is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "8b0e6fa485c16d2e",
+   "kind": "individual",
+   "qualified": true,
+   "title": "assembly instructions",
+   "label": "Component",
+   "facts": [
+    "F1. assembly instructions -EXHIBITS-> QualityAspect (1): clearer",
+    "F2. assembly instructions -PART_OF-> Product (1): Stockholm Chair",
+    "F3. assembly instructions (Component) exhibits clearer (QualityAspect) [hedged]",
+    "F4. assembly instructions (Component) part of Stockholm Chair (Product)"
+   ],
+   "summary": "assembly instructions is a component. It is part of Stockholm Chair (Product). It exhibits clearer (QualityAspect), but this is hedged.",
+   "fallback": false
+  },
+  {
+   "ref": "8e6405ea0acf4e02",
+   "kind": "individual",
+   "qualified": true,
+   "title": "parts",
+   "label": "Component",
+   "facts": [
+    "F1. parts -EXHIBITS-> QualityAspect (1): fitting together properly",
+    "F2. parts -PART_OF-> Product (1): Västerås Bookshelf",
+    "F3. parts (Component) exhibits fitting together properly (QualityAspect) [denied]",
+    "F4. parts (Component) part of Västerås Bookshelf (Product)"
+   ],
+   "summary": "parts is a component, which exhibits fitting together properly, but this is denied. It is part of Västerås Bookshelf.",
+   "fallback": false
+  },
+  {
+   "ref": "9c0b5df7b6f7c7af",
+   "kind": "individual",
+   "qualified": true,
+   "title": "dimmer function",
+   "label": "Component",
+   "facts": [
+    "F1. Also called: dimmer, dimmer switch",
+    "F2. dimmer function -EXHIBITS-> QualityAspect (7): finicky, flickers, mood lighting, reliable and smooth, smooth and responsive (+2 more)",
+    "F3. dimmer function -PART_OF-> Product (1): Örebro Lamp",
+    "F4. dimmer function (Component) part of Örebro Lamp (Product)",
+    "F5. LED driver (Component) exhibits flickering (QualityAspect) [denied]",
+    "F6. LED driver (Component) part of Örebro Lamp (Product)"
+   ],
+   "summary": "dimmer function, also called dimmer or dimmer switch, is a component. It exhibits quality aspects finicky, flickers, mood lighting, reliable and smooth, smooth and responsive, and 2 more. It is part of Örebro Lamp.",
+   "fallback": false
+  },
+  {
+   "ref": "af31b2d75703c8ad",
+   "kind": "individual",
+   "qualified": true,
+   "title": "LED driver",
+   "label": "Component",
+   "facts": [
+    "F1. LED driver -EXHIBITS-> QualityAspect (1): flickering",
+    "F2. LED driver -PART_OF-> Product (1): Örebro Lamp",
+    "F3. LED driver (Component) exhibits flickering (QualityAspect) [denied]",
+    "F4. LED driver (Component) part of Örebro Lamp (Product)"
+   ],
+   "summary": "LED driver is a component. It is part of Product (1): Örebro Lamp. Its flickering QualityAspect (1) is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "bb08751d2593189b",
+   "kind": "individual",
+   "qualified": true,
+   "title": "construction",
+   "label": "Component",
+   "facts": [
+    "F1. construction -EXHIBITS-> QualityAspect (3): loose parts, solid, wobbling",
+    "F2. construction -PART_OF-> Product (1): Jönköping Coffee Table",
+    "F3. Jönköping Coffee Table (Product) exhibits construction (QualityAspect)",
+    "F4. construction (Component) part of Jönköping Coffee Table (Product)",
+    "F5. construction (Component) exhibits loose parts (QualityAspect) [denied]"
+   ],
+   "summary": "construction is a component. It is part of Jönköping Coffee Table. It exhibits QualityAspect, among them loose parts, solid and wobbling. Loose parts is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "d71301dede469980",
+   "kind": "individual",
+   "qualified": true,
+   "title": "screws",
+   "label": "Component",
+   "facts": [
+    "F1. screws -EXHIBITS-> QualityAspect (1): fitting together properly",
+    "F2. screws -PART_OF-> Product (1): Helsingborg Dresser",
+    "F3. screws (Component) exhibits fitting together properly (QualityAspect) [denied]",
+    "F4. screws (Component) part of Helsingborg Dresser (Product)"
+   ],
+   "summary": "screws is a component. It is part of Helsingborg Dresser. Its fitting together properly is denied.",
+   "fallback": false
+  },
+  {
+   "ref": "31b4d59854070caf",
+   "kind": "individual",
+   "qualified": false,
+   "title": "hidden storage",
+   "label": "Component",
+   "facts": [
+    "F1. hidden storage -EXHIBITS-> QualityAspect (1): incredibly practical",
+    "F2. hidden storage -PART_OF-> Product (1): Linköping Bed",
+    "F3. hidden storage (Component) exhibits incredibly practical (QualityAspect)",
+    "F4. hidden storage (Component) part of Linköping Bed (Product)"
+   ],
+   "summary": "hidden storage is a component. It is part of Linköping Bed, and exhibits incredibly practical.",
+   "fallback": false
+  },
+  {
+   "ref": "3e6e6e1cc65bc061",
+   "kind": "individual",
+   "qualified": false,
+   "title": "storage compartments",
+   "label": "Component",
+   "facts": [
+    "F1. storage compartments -EXHIBITS-> QualityAspect (1): thoughtful design",
+    "F2. storage compartments -PART_OF-> Product (1): Malmö Desk",
+    "F3. storage compartments (Component) exhibits thoughtful design (QualityAspect)",
+    "F4. storage compartments (Component) part of Malmö Desk (Product)"
+   ],
+   "summary": "storage compartments is a component. It exhibits thoughtful design, and is part of Malmö Desk.",
+   "fallback": false
+  },
+  {
+   "ref": "4044ad68ce0d6de0",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Assembly instructions",
+   "label": "Component",
+   "facts": [
+    "F1. Assembly instructions -EXHIBITS-> QualityAspect (3): confusing, missing steps, tiny diagrams",
+    "F2. Assembly instructions -PART_OF-> Product (1): Helsingborg Dresser",
+    "F3. Assembly instructions (Component) exhibits confusing (QualityAspect)",
+    "F4. Assembly instructions (Component) part of Helsingborg Dresser (Product)",
+    "F5. Assembly instructions (Component) exhibits missing steps (QualityAspect)"
+   ],
+   "summary": "Assembly instructions is a component. It is part of Helsingborg Dresser. It exhibits confusing, missing steps, tiny diagrams.",
+   "fallback": false
+  },
+  {
+   "ref": "77874f3640b1db1f",
+   "kind": "individual",
+   "qualified": false,
+   "title": "finish",
+   "label": "Component",
+   "facts": [
+    "F1. finish -EXHIBITS-> QualityAspect (1): consistent",
+    "F2. finish -PART_OF-> Product (1): Västerås Bookshelf",
+    "F3. Västerås Bookshelf (Product) exhibits finish (QualityAspect)",
+    "F4. finish (Component) part of Västerås Bookshelf (Product)",
+    "F5. Västerås Bookshelf (Product) exhibits Clean lines (QualityAspect)"
+   ],
+   "summary": "finish is a component. It exhibits consistent quality aspect. It is part of Västerås Bookshelf product.",
+   "fallback": false
+  },
+  {
+   "ref": "87c2b9a6f80f1a5c",
+   "kind": "individual",
+   "qualified": false,
+   "title": "veneer",
+   "label": "Component",
+   "facts": [
+    "F1. veneer -EXHIBITS-> QualityAspect (2): chipped, extremely thin",
+    "F2. veneer -PART_OF-> Product (1): Västerås Bookshelf",
+    "F3. veneer (Component) exhibits extremely thin (QualityAspect)",
+    "F4. veneer (Component) part of Västerås Bookshelf (Product)"
+   ],
+   "summary": "veneer is a component. It exhibits chipped and extremely thin quality aspects, and is part of the Västerås Bookshelf product.",
+   "fallback": false
+  },
+  {
+   "ref": "9056382c27bd2b55",
+   "kind": "individual",
+   "qualified": false,
+   "title": "finish",
+   "label": "Component",
+   "facts": [
+    "F1. finish -EXHIBITS-> QualityAspect (1): resistant to scratches",
+    "F2. finish -PART_OF-> Product (1): Jönköping Coffee Table",
+    "F3. Jönköping Coffee Table (Product) exhibits finish (QualityAspect)",
+    "F4. finish (Component) part of Jönköping Coffee Table (Product)",
+    "F5. finish (Component) exhibits resistant to scratches (QualityAspect)"
+   ],
+   "summary": "finish is a component that is part of Jönköping Coffee Table, a product. It exhibits a quality aspect, specifically being resistant to scratches.",
+   "fallback": false
+  },
+  {
+   "ref": "9b4919b2d3f50cd3",
+   "kind": "individual",
+   "qualified": false,
+   "title": "frame",
+   "label": "Component",
+   "facts": [
+    "F1. frame -EXHIBITS-> QualityAspect (4): proper joinery techniques, solid, squeaking, wobbling",
+    "F2. frame -PART_OF-> Product (1): Linköping Bed",
+    "F3. frame (Component) part of Linköping Bed (Product)",
+    "F4. frame (Component) exhibits proper joinery techniques (QualityAspect)",
+    "F5. frame (Component) exhibits solid (QualityAspect)"
+   ],
+   "summary": "frame is a component that is part of Linköping Bed, and exhibits proper joinery techniques, solid, squeaking, wobbling.",
+   "fallback": false
+  },
+  {
+   "ref": "9e2fdd60b115ba7f",
+   "kind": "individual",
+   "qualified": false,
+   "title": "assembly instructions",
+   "label": "Component",
+   "facts": [
+    "F1. assembly instructions -EXHIBITS-> QualityAspect (1): clear",
+    "F2. assembly instructions -PART_OF-> Product (1): Västerås Bookshelf",
+    "F3. assembly instructions (Component) exhibits clear (QualityAspect)",
+    "F4. assembly instructions (Component) part of Västerås Bookshelf (Product)"
+   ],
+   "summary": "assembly instructions is a component that exhibits clear quality aspect and is part of Västerås Bookshelf.",
+   "fallback": false
+  },
+  {
+   "ref": "c65ccf89ebd0f2ea",
+   "kind": "individual",
+   "qualified": false,
+   "title": "panels",
+   "label": "Component",
+   "facts": [
+    "F1. panels -EXHIBITS-> QualityAspect (1): warped",
+    "F2. panels -PART_OF-> Product (1): Helsingborg Dresser",
+    "F3. Helsingborg Dresser (Product) has measurement 4 hours (Value)",
+    "F4. Helsingborg Dresser Reviews (Product) exhibits impossible to assemble correctly (QualityAspect)",
+    "F5. panels (Component) part of Helsingborg Dresser (Product)"
+   ],
+   "summary": "panels are a component. Panels exhibit warped. Panels are part of Helsingborg Dresser.",
+   "fallback": false
+  },
+  {
+   "ref": "eba748189a004669",
+   "kind": "individual",
+   "qualified": false,
+   "title": "cushions",
+   "label": "Component",
+   "facts": [
+    "F1. cushions -EXHIBITS-> QualityAspect (5): firmer, losing their shape, maintained their shape, maintained their shape well, proper back support",
+    "F2. cushions -PART_OF-> Product (1): Uppsala Sofa",
+    "F3. cushions (Component) part of Uppsala Sofa (Product)",
+    "F4. cushions (Component) exhibits firmer (QualityAspect)",
+    "F5. Cover (Component) part of Uppsala Sofa (Product)"
+   ],
+   "summary": "cushions is a component. It is part of Uppsala Sofa. It exhibits firmer, losing their shape, maintained their shape, maintained their shape well, proper back support.",
+   "fallback": false
+  },
+  {
+   "ref": "233d343b8a7e8229",
+   "kind": "concept",
+   "qualified": false,
+   "title": "home office",
+   "label": "Kind",
+   "facts": [],
+   "summary": "home office",
+   "fallback": false
+  },
+  {
+   "ref": "24182083c0838859",
+   "kind": "concept",
+   "qualified": false,
+   "title": "perfect for extra linens",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Component (1): storage drawers -EXHIBITS-> perfect for extra linens"
+   ],
+   "summary": "perfect for extra linens is a quality aspect, which storage drawers exhibits.",
+   "fallback": false
+  },
+  {
+   "ref": "3373376658dea54e",
+   "kind": "concept",
+   "qualified": false,
+   "title": "stability over time",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Component (1): leg attachment mechanism -EXHIBITS-> stability over time"
+   ],
+   "summary": "stability over time is a quality aspect exhibited by leg attachment mechanism.",
+   "fallback": false
+  },
+  {
+   "ref": "7135dc2436c7e5bf",
+   "kind": "concept",
+   "qualified": false,
+   "title": "magazines",
+   "label": "Kind",
+   "facts": [],
+   "summary": "magazines",
+   "fallback": false
+  },
+  {
+   "ref": "82fbdaaac040c036",
+   "kind": "concept",
+   "qualified": false,
+   "title": "6 -8 people",
+   "label": "Value",
+   "facts": [
+    "F1. Also called: 6-8 people",
+    "F2. Product (1): Gothenburg Table -HAS_MEASUREMENT-> 6 -8 people"
+   ],
+   "summary": "6 -8 people, also called 6-8 people, has measurement Gothenburg Table.",
+   "fallback": false
+  },
+  {
+   "ref": "9586891664fc79df",
+   "kind": "concept",
+   "qualified": false,
+   "title": "reliable and smooth",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Component (1): dimmer function -EXHIBITS-> reliable and smooth"
+   ],
+   "summary": "reliable and smooth is a quality aspect. Component (1) dimmer function exhibits it.",
+   "fallback": false
+  },
+  {
+   "ref": "bae3d8edeb4c2a19",
+   "kind": "concept",
+   "qualified": false,
+   "title": "time-consuming",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Product (2): Linköping Bed, Västerås Bookshelf -EXHIBITS-> time-consuming"
+   ],
+   "summary": "time-consuming is a quality aspect. Product (2): Linköping Bed, Västerås Bookshelf exhibits time-consuming.",
+   "fallback": false
+  },
+  {
+   "ref": "cde5a6dcd0b0603e",
+   "kind": "concept",
+   "qualified": false,
+   "title": "looks nice in my dining room",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Product (1): Stockholm Chair -EXHIBITS-> looks nice in my dining room"
+   ],
+   "summary": "looks nice in my dining room is a QualityAspect. It is exhibited by Stockholm Chair (Product 1).",
+   "fallback": false
+  },
+  {
+   "ref": "d58e26c52d6f7a52",
+   "kind": "concept",
+   "qualified": false,
+   "title": "rough",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Component (1): Drawer Rails -EXHIBITS-> rough"
+   ],
+   "summary": "rough is a quality aspect connected to Component (1): Drawer Rails.",
+   "fallback": false
+  },
+  {
+   "ref": "d7158dc8a1904723",
+   "kind": "concept",
+   "qualified": false,
+   "title": "looks ok",
+   "label": "QualityAspect",
+   "facts": [
+    "F1. Product (1): Helsingborg Dresser -EXHIBITS-> looks ok"
+   ],
+   "summary": "looks ok is a QualityAspect. Product (1): Helsingborg Dresser exhibits it.",
+   "fallback": false
+  }
+ ]
+}

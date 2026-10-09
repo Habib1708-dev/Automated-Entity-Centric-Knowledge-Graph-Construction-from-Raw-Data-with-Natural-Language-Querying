@@ -39,6 +39,7 @@ from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
 from .pipeline import retrieval_stages as rs
 from .pipeline import stages as st
+from .pipeline import summary_stages as sus
 from .pipeline.qa_systems import DEFAULT_SYSTEMS, SYSTEMS
 from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
@@ -47,6 +48,7 @@ from .tracking.mlflow_tracker import create_tracker
 from .validation.qa import QAReport
 from .validation.report import ValidationReport
 from .validation.retrieval_scores import RetrievalReport
+from .validation.summary_judging import Groundedness
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
@@ -884,6 +886,28 @@ def index_units(cards: str = UNIT_CARDS, out: Path = OUT):
     with session(out) as ctx:
         run_stages(ctx, PipelineState(), [ixs.IndexStage(cards)])
     typer.echo(f"Indexed the {cards} cards and the claim sentences; wrote {out / ixs.UNITS_FILE}")
+
+
+@app.command("summary-sheet")
+def summary_sheet(units: Path, out: Path = OUT):
+    """Draw the seeded, stratified judging sample of the LLM node summaries in UNITS (a units file of `kg
+    index --cards summary`) over the loaded graph, whose evidence they must have been written from; no model,
+    no write to the graph (R124b). OUT is the build folder; writes OUT/summary_sheet.json."""
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(), [sus.SummarySheetStage(units)])
+    typer.echo(f"Wrote {out / sus.SHEET_FILE}")
+
+
+@app.command("summary-judged")
+def summary_judged(sheet: Path, verdicts: Path, out: Path = OUT):
+    """Check the judge's verdict file against its summary sheet and count the grounded summaries and each
+    fault, with intervals; no graph, no model (R124b)."""
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(), [sus.SummaryJudgedStage(sheet, verdicts)])
+    report = Groundedness.model_validate_json((out / sus.REPORT_FILE).read_text(encoding="utf-8"))
+    faults = "  ".join(f"{fault} {p.k}/{p.n}" for fault, p in report.by_fault.items())
+    typer.echo(f"grounded {report.grounded.k}/{report.grounded.n}  {faults}")
+    typer.echo(f"Wrote {out / sus.REPORT_FILE}")
 
 
 @app.command()

@@ -263,8 +263,14 @@ def relation_fact(title: str, n: Neighbours) -> str:
 def summary_prompt(e: NodeEvidence, lines: list[str], max_chars: int, template: str = PROMPT) -> str:
     """The prompt `template` (a variant of `SUMMARY_PROMPTS`) for one node: its name and label, and its facts
     numbered F1..Fn."""
-    numbered = "\n".join(FACT.format(n=i, fact=line) for i, line in enumerate(lines, start=1))
+    numbered = "\n".join(numbered_facts(lines))
     return template.format(title=e.title, label=e.label, facts=numbered or "(none)", max_chars=max_chars)
+
+
+def numbered_facts(lines: list[str]) -> list[str]:
+    """`F1. ...`, `F2. ...`: the fact lines as the prompt shows them, and as the judging sheet shows them
+    (R124b)."""
+    return [FACT.format(n=i, fact=line) for i, line in enumerate(lines, start=1)]
 
 
 def summary_version(options: SummaryOptions, fallback_version: str) -> str:

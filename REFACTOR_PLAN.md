@@ -7670,6 +7670,64 @@ applied, the choice committed as the `config.py` defaults before any held-out or
   disk cache (a re-index with the defaults calls no model). R122 replaces the furniture graph anyway.
 - **R124a done 2026-10-09.** Next: R124b, the groundedness of the sealed summaries judged on furniture.
 
+### R124b. B's groundedness judged on furniture (done 2026-10-09; $0, no model)
+- **The design, fixed before any sample is drawn:**
+  - The judged set: the sealed summaries, MLflow `1a48e5a9`'s artifact `units.jsonl` (P1/600, 737 summaries,
+    0 fallbacks), copied to `out/r124b/units_p1_600.jsonl`; each summary's evidence hash is checked against
+    the evidence read from the working graph, so the facts the judge reads are the ones the model read.
+  - Strata: records with a qualified claim (a `denied`, `hedged`, `conditional` or disagreeing claim among
+    their facts: where a polarity flip can happen), other records, individuals with one, other individuals,
+    concepts (they hold no claims). 10 summaries per stratum, all of a smaller one, drawn with seed 124: at
+    most 50.
+  - The sheet shows each sampled node's title, label, numbered facts (exactly as in its prompt) and summary.
+  - The verdict per summary: no finding (grounded), or one or more findings, each one of `unsupported`
+    (a statement no fact makes), `polarity_flip` (a denied, hedged or conditional fact written as plain fact,
+    or a relation's direction reversed), `identity_confusion` (the node taken for another thing, or a fact of
+    another node stated of it), with a verbatim quote of the summary, the fact id it contradicts or lacks
+    (`polarity_flip` always names one), and a one-line reason. The judge: Claude Opus 5.5 in this session.
+  - Code refuses a verdict file that misses, repeats or adds a sampled node, quotes text the summary does not
+    hold or names a fact the node lacks, then counts: grounded summaries and summaries with each fault, k/n
+    with Wilson intervals, overall and per stratum.
+- **How:** `validation/summary_judging.py` (`Candidate`, `draw_sheet` with `SAMPLE_SEED` 124 and
+  `PER_STRATUM` 10, `Finding`/`SummaryVerdict`/`SummaryVerdicts`, `load_verdicts`, `score` -> `Groundedness`
+  with flat metrics); `pipeline/summary_stages.py` (`SummarySheetStage`: the evidence read as `kg units` reads
+  it, the summaries from a units file whose cards must all be a model's, every evidence hash equal to the
+  graph's; `SummaryJudgedStage`: no graph); `hybrid/summaries.numbered_facts` (the prompt and the sheet number
+  facts one way); CLI `kg summary-sheet UNITS`, `kg summary-judged SHEET VERDICTS` (no model: not guarded).
+- **The sample** (`uv run kg summary-sheet out/r124b/units_p1_600.jsonl --out out/r117_furniture`, MLflow
+  `78a6b736`, graph 392a170ecc10; source hash 1b1ef940cb8a; sheet `tests/gold/r124/summary_sheet.json`, hash
+  a1d83880f0c1): 44 summaries of 737. Population per stratum: qualified records 4, plain records 178,
+  qualified individuals 15, plain individuals 92, concepts 448; sampled 4, 10, 10, 10, 10. Every evidence hash
+  equal to the graph's.
+- **The verdicts** (Claude Opus 5.5, `tests/gold/r124/summary_verdicts.json`; scored by `uv run kg
+  summary-judged tests/gold/r124/summary_sheet.json tests/gold/r124/summary_verdicts.json --out out/r124b`,
+  MLflow `4fd4f499`): **grounded 42 of 44** (0.955, Wilson 0.849-0.987); polarity flip 2/44 (0.013-0.151);
+  unsupported 0/44 and identity confusion 0/44 (each 0-0.080). Per stratum grounded: qualified records 4/4,
+  plain records 10/10, qualified individuals 9/10, plain individuals 10/10, concepts 9/10.
+  - `85b29e845b251d8e` (pre-drilled holes of the Jönköping Coffee Table): "They exhibit that they align
+    properly." states F5's denied claim plainly; only the last sentence denies it. The plain sentence comes
+    from F1, the relation line `pre-drilled holes -EXHIBITS-> QualityAspect (1): align properly`, which carries
+    no truth: the shared-evidence gap recorded under "Found along the way" (a concept's or an individual's
+    relation lines ignore claim truth).
+  - `82fbdaaac040c036` ("6 -8 people", a Value): "has measurement Gothenburg Table" reverses F2 (the table has
+    the measurement): one direction flip left after R123's fix (3 of 256 EXHIBITS nodes by the word pattern).
+  - Kept right where it matters: every qualified claim of the 14 qualified nodes is written with its
+    qualifier, the denials as denied ("Its fitting together properly is denied"; once also plainly, above),
+    the hedges as "may", the condition as "but only whenever someone sits down". Nodes without facts get
+    their name alone ("home office").
+  - Next to the code check of the sealed set (MLflow `1a48e5a9`): 736 of 737 first replies passed (99.9 %), 1
+    retried and passed, 0 fallbacks.
+  - The gold and the verdicts come from the same model family as this session; the summaries from Gemini.
+- **Verified:** 15 new tests. `tests/test_summary_judging.py` (11, no Neo4j): the sample's strata, size and
+  seed, the counts per fault and stratum and the metrics, seven ways a verdict file is refused, the judged
+  stage's params, metrics and report, and R124b's committed sheet and verdicts counting 42/44.
+  `tests/test_summary_sheet.py` (4, Neo4j): the sheet's facts as the prompt numbers them, the qualified
+  stratum, the stage's params and metrics; summaries of other evidence, a missing node and template cards
+  refused before any sheet is written. 1024 passed (1009 + 15), ruff clean.
+- **R124b done 2026-10-09; R124 done** (R124a $1.046, R124b $0). Next: R122, A and B on held-out (asked first:
+  loading the held-out build, both index runs with the summary cost estimated from furniture's MLflow runs, the
+  retrieval runs, and the reader for `kg qa`).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -7702,9 +7760,11 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
-- **A concept's relation lines ignore the truth of the claims they come from (found in R123, 2026-10-08;
-  open).** `unit_sources` groups the claims a concept is an end of by predicate, direction and the other
-  end's type, counting every claim; their stated and denied counts are not kept. So the concept "wobbling"
+- **A concept's or an individual's relation lines ignore the truth of the claims they come from (found in
+  R123, 2026-10-08; open).** `unit_sources` groups the claims a concept or an individual is an end of by
+  predicate, direction and the other end's type, counting every claim; their stated and denied counts are not
+  kept (R124b: one of the two judged polarity flips starts there, `pre-drilled holes -EXHIBITS->
+  QualityAspect (1): align properly` beside the same claim tagged `[denied]`). So the concept "wobbling"
   (`fa88df0e28c761c8`) reads `EXHIBITS <- Component (3): Frame, construction, frame` although "construction
   exhibits wobbling" is denied ("The construction remains solid with no wobbling", R121's F26), and B's
   summary says "wobbling ... is exhibited by 3 components including Frame, construction, frame". Both A and B
