@@ -90,12 +90,19 @@ def condition(var: str, prop: PropertyInfo, operator: Operator, value: object, k
         }
     if operator in ("<", "<=", ">", ">="):
         # a text holding a number ('$246', '1,289'): compared as that number; a text with none drops out
-        clean = f"replace(toString({ref}), ',', '')"
-        number = f"toFloat(apoc.text.regreplace({clean}, ${key}_pattern, ''))"
-        return f"{number} {cmp} ${key}", {key: _number(value), f"{key}_pattern": _NON_NUMERIC}
+        number, extra = text_number(ref, f"{key}_pattern")
+        return f"{number} {cmp} ${key}", {key: _number(value), **extra}
     if prop.type.startswith("LIST"):
         return f"any(x IN {ref} WHERE toLower(toString(x)) {cmp} toLower(${key}))", {key: str(value)}
     return f"toLower(toString({ref})) {cmp} toLower(${key})", {key: str(value)}
+
+
+def text_number(ref: str, key: str) -> Fragment:
+    """The number a text property holds ('$1,289' -> 1289.0), null for a text without one; the pattern of
+    what is no part of a number is the parameter `$key`. Shared by R74's comparisons and R134's measures."""
+    return f"toFloat(apoc.text.regreplace(replace(toString({ref}), ',', ''), ${key}, ''))", {
+        key: _NON_NUMERIC
+    }
 
 
 def _number(value: object) -> float:

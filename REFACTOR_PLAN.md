@@ -8441,6 +8441,44 @@ decision then. Also make graphs supporting this decision."
   1113 passed (1087 + 26), ruff clean. No run: nothing here calls a model.
 - **R133 done 2026-10-09.** Next: R134, the structured tools ($0, code).
 
+### R134. The agent's structured tools: typed queries over the records and the source tables (done 2026-10-09; $0, code only)
+- **Scope:** in `agent/`, three tools behind R133's `Tool` protocol:
+  - `schema()`: the record layer (labels with their property types and examples, the relationships between
+    records), the claim patterns, and the source tables with their column types and examples;
+  - `query_records(query)` and `query_tables(query)`: one typed query model each (`StructuredQuery`: a
+    label or a table, conditions joined by AND, a measure of `rows`, `count`, `sum`, `average`, `min` or
+    `max` with its field, an optional group, an order; `query_records` also takes a record ref and a
+    relationship, the records related to that record). Code checks every name against the schema and every
+    value against its field's type (R74's rule, `value_issues`, made public), then compiles: records to one
+    parameterised Cypher read run by `CypherStore.run_read` (a read transaction with a timeout), with R74's
+    `plan_cypher.condition`; tables to one parameterised DuckDB SELECT over the build's staged tables (every
+    source, files or PostgreSQL, is staged as CSV), with the same comparison rules (a text holding a number
+    compared and summed as that number, a date by its year). A refused query is answered with its reasons, a
+    run's error with the error; nothing is guessed. Results are capped, keep the total, and carry an id
+    (from the compiled statement) the answer may cite, with the refs of the records listed.
+  - A `TableStore` protocol with its DuckDB adapter (`agent/tables.py`), built from the staging folder.
+- **Not here:** joins across tables (a query reads one table; the record layer holds the joins as
+  relationships), writing anything, the loop and settings (R135).
+- **Accept:** the checks, both compilers and the tools tested without Neo4j (the SQL run on DuckDB over test
+  CSVs); the records' Cypher run once on the shared hand-made graph (`@pytest.mark.neo4j`); descriptions free
+  of dataset words; earlier tests unchanged and green.
+- **Two small moves, behaviour unchanged:** `query.plan.value_issues` made public (it was `_value_issues`),
+  and R74's "number inside a text" Cypher pulled out of `plan_cypher.condition` as `text_number`; R74's tests
+  unchanged and green.
+- **Verified:** 30 new tests. Without Neo4j (`tests/test_agent_structured.py`, 27): ten refusals of the check
+  (unknown field, a value that does not fit its type, a measure without its field or on a date or a list, an
+  order on a measure, an unknown group), a text measured by its number and a date by its year accepted; the
+  records' Cypher as text (values as parameters, the related record, the three shapes); the SQL run by DuckDB
+  over a test CSV (types mapped, examples, text equal ignoring case, words contained, '$1,289' compared and
+  summed as 1289, date comparison and year, the year inside a text date, counts per group largest first,
+  rows cut with their total); the tools: refusals with their reasons and nothing run, a failed run reported,
+  records listed with their refs, a stable query id, the schema leaving the text layer out, descriptions free
+  of dataset words. On Neo4j (`tests/test_agent_structured_graph.py`, 3): parts related to a record listed by
+  key with the total past the cut, a count, a sum, a date's year, text equal ignoring case, counts per value.
+  1143 passed (1113 + 30), ruff clean. No run: nothing here calls a model.
+- **R134 done 2026-10-09.** Next: R135, the agent loop, its containment and its tracing ($0, code; one dev
+  run at most).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

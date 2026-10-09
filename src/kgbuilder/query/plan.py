@@ -203,7 +203,7 @@ def _input_label(step: PlanStep, ctx: _Context) -> str | None:
     return ctx.labels[step.input] if step.input is not None else None
 
 
-def _value_issues(where: str, prop: PropertyInfo, operator: Operator | None, value: object) -> list[str]:
+def value_issues(where: str, prop: PropertyInfo, operator: Operator | None, value: object) -> list[str]:
     """Whether `value` can be compared with a property of `prop.type` by `operator`."""
     if operator is None or value is None:
         return [f"{where} needs both an operator and a value"]
@@ -289,7 +289,7 @@ class _FilterRecords(_Rule):
         props = ctx.schema.label_properties(step.label)
         if step.property not in props:
             return [f"filter_records: {step.label} has no property {step.property!r}; it has {sorted(props)}"]
-        return _value_issues(f"filter_records {step.label}.{step.property}", props[step.property],
+        return value_issues(f"filter_records {step.label}.{step.property}", props[step.property],
                              step.operator, step.value)  # fmt: skip
 
 
@@ -317,7 +317,7 @@ class _Related(_Rule):
                     f"related: {step.relationship} has no property {step.property!r}; it has {sorted(props)}"
                 )
             else:
-                issues += _value_issues(f"related {step.relationship}.{step.property}", props[step.property],
+                issues += value_issues(f"related {step.relationship}.{step.property}", props[step.property],
                                         step.operator, step.value)  # fmt: skip
         return issues
 
