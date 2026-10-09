@@ -8261,6 +8261,65 @@ branch after `build-node-cards` was merged into `main` and pushed (`c83b526`).
   1080 passed (1055 + 25), ruff clean.
 - **R130 done 2026-10-09.** Next: R131, the grid on the three datasets (the reranker arm asked first).
 
+### R131. The seed grid on the three datasets, RRF and RRF then rerank in one table (done 2026-10-09; $0.530)
+The user, 2026-10-09, asked with the question and the estimate (282 flash-lite calls, about $0.5; the RRF
+arm $0): "yes".
+- **Scope:** one run and the record; no code change. `kg --preset quality seed-grid` over R128's card
+  reports of the three builds, `--rerank` with R128's template cards (furniture `204f4b1b`, held-out
+  `e5aa09d9`, generality R125's units) and the QA gold's wording, at `fe3cf95` (dirty only by the user's
+  `.claude/settings.json`). MLflow `12db9da4`; command, params with hashes and usage in
+  `tests/gold/r131/runs.json`; the grid, the choice, the markdown and every reranked order beside it.
+- **Cost:** 282 calls (2 pools x 141 questions with targets), 0 failures, 0 cache hits, 1,079,749 input
+  and 82,268 output tokens, `cost_usd` 0.530. The replies were close to the contract: 0 ids outside the
+  pool, 2 repeats, 166 pool nodes left out over 282 pools (0.6 per pool, appended in RRF order).
+- **Results, pooled over the three datasets** (Seed Recall@K of 213 targets, Seeds found@K of 141
+  questions in brackets; exact match against the R89 targets, no judge; every row per dataset in
+  `tests/gold/r131/seed_grid.md`):
+
+  | Setting | K = 5 | K = 10 | K = 15 | K = 20 | K = 50 |
+  |---|---|---|---|---|---|
+  | card_lexical_template (baseline, R128's best) | 164 (97) | 185 (115) | 194 (122) | 201 (129) | 208 (136) |
+  | card_dense_template (baseline) | 161 (94) | 178 (108) | 191 (119) | 195 (123) | 201 (129) |
+  | rrf60_c25_template (**chosen**) | 171 (101) | 194 (122) | 203 (131) | 205 (133) | 207 (135) |
+  | rrf10_c25_template | 172 (102) | 197 (125) | 204 (132) | 206 (134) | 207 (135) |
+  | rrf10_c50_template | 173 (103) | 195 (123) | 202 (130) | 206 (134) | 207 (135) |
+  | rerank_c25_template | **189 (118)** | **198 (126)** | 204 (132) | 206 (134) | 207 (135) |
+  | rerank_c50_template | 185 (114) | 196 (125) | 202 (130) | 202 (130) | 207 (135) |
+  | rrf10_c50_summary (record) | 164 (98) | 186 (116) | 195 (123) | 200 (128) | 208 (136) |
+
+- **The pre-registered choice: `rrf60_c25_template`, K = 15.** Step 1 on furniture: at K = 20 four
+  choice rows find all 86 targets and all 50 questions (`rrf60_c25`, `rrf10_c25`, `rrf10_c50` and
+  `rerank_c25`), so the grid's tie order decides: the first of them, free and 25 candidates deep. Step 2: its furniture recall is 81 at 10, 85 at 15, 86 at 50, so K = 15. Step 3 did not
+  apply: the best row at K = 20 is free. Against the baseline at K = 15 it finds every target of 11
+  questions the lexical cards miss and misses 2 they find (pooled, p = 0.022); per dataset 8 / 1
+  (furniture, p = 0.039), 2 / 0 and 1 / 1.
+- **Exploratory, not pre-registered** (chosen after the table was seen; `explore_rerank_vs_pool.json`,
+  computed from the saved orders, $0): the reranker against its own RRF pool. At K = 5 `rerank_c25` finds
+  189 targets against 171, every target of 22 questions its pool misses and misses 5 it finds (pooled,
+  p = 0.0015, which survives a Bonferroni correction over the 4 pooled tests); furniture 11 / 3
+  (p = 0.057), held-out 3 / 1, generality 8 / 1 (p = 0.039). At K = 10 the lead shrinks to 198 against 194
+  (9 / 5, p = 0.42), and from K = 15 the two are level (204 / 203). `rerank_c50` is weaker than `rerank_c25`
+  at every K: a pool from 50 candidates per list holds more wrong nodes for the model to rank up.
+- **What it answers:**
+  - Fusing the dense and lexical card lists helps: every RRF row at 25 or 50 candidates beats each list
+    alone from K = 10 (pooled at 15: 202-204 against 194 and 191), and K = 15 reaches 203 of 213 targets.
+  - The reranker's gain is real but only at a small K: it puts the right nodes first (K = 5: +18 targets
+    over its pool), not more of them in the list. Given 15 seeds, as the rule chose, it adds nothing and
+    costs a call per question (about $0.0019 and 1.3 s of model time, MLflow `llm_latency_s` 360 over 282 calls).
+  - Reading each list 10 deep is too shallow: those rows stop at 200 targets, and lists 25 deep reach 207.
+  - Summary cards stay behind template cards in fusion too (rrf10_c50_summary 195 at K = 15 against 202).
+- **Read with care:**
+  - The rule chose at K = 20, where furniture is at its ceiling (86 of 86 for four rows); the choice there
+    is the tie order, not a measured difference. The rule was fixed before the numbers and is kept; the
+    ceiling is recorded under "Found along the way".
+  - Dense ranks move by about 2-3 targets between builds (R128); these lists are R128's, read once.
+  - The targets come from the same model family as this session; no answer was read or judged.
+- **Verified:** `test_r131_the_committed_grid_reproduces_its_choice_by_the_pre_registered_rule` (step 1 and
+  the knee recomputed from the committed tables, the headline counts, the markdown equal to the record's).
+  1081 passed (1080 + 1), ruff clean.
+- **R131 done 2026-10-09.** The result document: [docs/evaluation/results_2026-10-09_r131_seed_grid.md](docs/evaluation/results_2026-10-09_r131_seed_grid.md) (local). Next: R132, the chosen seeding live (`rrf60_c25_template`, K = 15), unless the
+  user prefers the reranker at a small K (see "What it answers").
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -8293,6 +8352,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **The seed rule chose at a ceiling (found in R131, 2026-10-09; recorded, not changed).** Plan R130-R136's
+  rule picks the setting with the most furniture targets at K = 20, but at K = 20 four rows find all 86, so
+  the grid's tie order chose `rrf60_c25_template`, and the reranker's K = 5 lead (pooled 189 against 171,
+  p = 0.0015, exploratory) could not count. A future seeding rule should choose at the K the agent will
+  read, or on a dataset that is not at its ceiling there. Direction: decided with the agent's K in R133-R135,
+  not by re-choosing now.
 - **Dense rankings are approximate and move between builds (found in R128, 2026-10-09; open).** Neo4j's
   vector index is approximate. On furniture's 737 template cards, using each card's own vector as the query,
   its top 5 differs from an exact cosine search for 9 of 60 probe cards (summary cards 12 of 60), whether 20

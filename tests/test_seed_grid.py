@@ -5,7 +5,7 @@ code check of its reply (ids outside the pool dropped, repeats counted once, the
 the pre-registered grid and its tie order; fused seeds rescored at every budget; the stopping rule (K within
 2 targets of K = 50); the choice rule's three outcomes (a free setting wins; a reranker wins on the choice
 dataset but is not confirmed; a reranker confirmed on the other datasets); and the stage with and without
-`--rerank`."""
+`--rerank`. R131: the committed grid of the three builds reproduces its choice by the rule."""
 
 import json
 
@@ -18,8 +18,17 @@ from kgbuilder.hybrid.seed_rerank import PROMPT, RankedNodes, RerankOptions, See
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.seed_stages import SeedDataset, SeedGridStage, read_template_cards
 from kgbuilder.validation.retrieval_scores import RetrievalFingerprint, RetrievalOutcome, score_retrieval
-from kgbuilder.validation.seed_choice import choose, knee
-from kgbuilder.validation.seed_grid import BUDGETS, GRID, GridEntry, fused_seeds, seeded_report
+from kgbuilder.validation.seed_choice import SeedChoice, choose, knee
+from kgbuilder.validation.seed_grid import (
+    BASELINES,
+    BUDGETS,
+    GRID,
+    GridEntry,
+    SeedTable,
+    fused_seeds,
+    seeded_report,
+    tables_markdown,
+)
 
 from .evaluation_corpora import REPO, quoted_four_grams
 from .fakes import RecordingTracker, ScriptedLLM
@@ -284,3 +293,45 @@ def test_a_units_file_of_summary_cards_is_not_read_as_template_cards(tmp_path):
     )
     with pytest.raises(EvaluationError):
         read_template_cards(units)
+
+
+# R131: the committed record of the grid on the three builds
+
+R131 = REPO / "tests" / "gold" / "r131"
+
+
+def test_r131_the_committed_grid_reproduces_its_choice_by_the_pre_registered_rule():
+    grid = json.loads((R131 / "seed_grid.json").read_text(encoding="utf-8"))
+    entries = [GridEntry.model_validate(e) for e in grid["entries"]]
+    tables = [SeedTable.model_validate(t) for t in grid["tables"]]
+    choice = SeedChoice.model_validate_json((R131 / "seed_choice.json").read_text(encoding="utf-8"))
+    assert [t.name for t in tables] == ["furniture", "heldout", "generality", "pooled"]
+    assert [e.name for e in entries] == [e.name for e in [*BASELINES, *GRID]]
+    pooled = tables[3]
+    # n: 213 targets over 141 questions; the headline counts at K = 5
+    assert (
+        pooled.score("card_lexical_template", 5).seed_recall.n,
+        pooled.score("rrf60_c25_template", 5).seed_found.n,
+    ) == (213, 141)
+    assert [
+        pooled.score(s, 5).seed_recall.k
+        for s in ("card_lexical_template", "rrf60_c25_template", "rerank_c25_template")
+    ] == [164, 171, 189]
+    # step 1 again on furniture: most targets at 20, then most questions, then the grid's order
+    furniture = tables[0]
+    rows = [e.name for e in entries if e.role == "choice"]
+    best = min(
+        rows,
+        key=lambda r: (
+            -furniture.score(r, 20).seed_recall.k,
+            -furniture.score(r, 20).seed_found.k,
+            rows.index(r),
+        ),
+    )
+    assert (best, choice.best, choice.setting) == ("rrf60_c25_template", best, best)
+    # step 2 again: the smallest K within 2 targets of the chosen row's recall at 50
+    at_50 = furniture.score(best, 50).seed_recall.k
+    assert choice.k == next(k for k in BUDGETS if furniture.score(best, k).seed_recall.k >= at_50 - 2) == 15
+    assert (R131 / "seed_grid.md").read_text(encoding="utf-8") == tables_markdown(
+        tables, entries
+    ) + "\n" + choice.markdown()

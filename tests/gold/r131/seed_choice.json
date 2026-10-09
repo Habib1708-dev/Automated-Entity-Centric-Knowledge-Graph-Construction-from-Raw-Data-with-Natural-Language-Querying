@@ -1,0 +1,1191 @@
+{
+ "choose_on": "furniture",
+ "confirm_on": [
+  "heldout",
+  "generality"
+ ],
+ "best": "rrf60_c25_template",
+ "best_free": "rrf60_c25_template",
+ "setting": "rrf60_c25_template",
+ "k": 15,
+ "reason": "The best setting at K = 20 on the choice dataset is free.",
+ "rerank_confirmation": null,
+ "against_baseline": [
+  {
+   "dataset": "furniture",
+   "a": "card_dense_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 46,
+    "b_correct": 42,
+    "only_a": 7,
+    "only_b": 3,
+    "p_value": 0.34375
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "card_dense_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 43,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 5,
+    "p_value": 0.453125
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "card_dense_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 30,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 5,
+    "p_value": 0.21875
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf60_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 47,
+    "b_correct": 42,
+    "only_a": 5,
+    "only_b": 0,
+    "p_value": 0.0625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf60_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf60_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 32,
+    "b_correct": 34,
+    "only_a": 0,
+    "only_b": 2,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf10_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 47,
+    "b_correct": 42,
+    "only_a": 5,
+    "only_b": 0,
+    "p_value": 0.0625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf10_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf10_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 32,
+    "b_correct": 34,
+    "only_a": 0,
+    "only_b": 2,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "interleave_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 47,
+    "b_correct": 42,
+    "only_a": 5,
+    "only_b": 0,
+    "p_value": 0.0625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "interleave_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "interleave_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 32,
+    "b_correct": 34,
+    "only_a": 0,
+    "only_b": 2,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf60_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 49,
+    "b_correct": 42,
+    "only_a": 8,
+    "only_b": 1,
+    "p_value": 0.0390625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf60_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf60_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf10_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 49,
+    "b_correct": 42,
+    "only_a": 8,
+    "only_b": 1,
+    "p_value": 0.0390625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf10_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf10_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 35,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 0,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "interleave_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 47,
+    "b_correct": 42,
+    "only_a": 5,
+    "only_b": 0,
+    "p_value": 0.0625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "interleave_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "interleave_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 32,
+    "b_correct": 34,
+    "only_a": 0,
+    "only_b": 2,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf60_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 49,
+    "b_correct": 42,
+    "only_a": 8,
+    "only_b": 1,
+    "p_value": 0.0390625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf60_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 47,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf60_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 32,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 3,
+    "p_value": 0.625
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf10_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 49,
+    "b_correct": 42,
+    "only_a": 7,
+    "only_b": 0,
+    "p_value": 0.015625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf10_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf10_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 33,
+    "b_correct": 34,
+    "only_a": 0,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "interleave_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 47,
+    "b_correct": 42,
+    "only_a": 5,
+    "only_b": 0,
+    "p_value": 0.0625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "interleave_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "interleave_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 32,
+    "b_correct": 34,
+    "only_a": 0,
+    "only_b": 2,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rerank_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 49,
+    "b_correct": 42,
+    "only_a": 8,
+    "only_b": 1,
+    "p_value": 0.0390625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rerank_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rerank_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 35,
+    "b_correct": 34,
+    "only_a": 2,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rerank_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 49,
+    "b_correct": 42,
+    "only_a": 8,
+    "only_b": 1,
+    "p_value": 0.0390625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rerank_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rerank_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 33,
+    "b_correct": 34,
+    "only_a": 2,
+    "only_b": 3,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf60_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 43,
+    "b_correct": 42,
+    "only_a": 3,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf60_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf60_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf10_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 43,
+    "b_correct": 42,
+    "only_a": 3,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf10_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf10_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "interleave_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 43,
+    "b_correct": 42,
+    "only_a": 3,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "interleave_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "interleave_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf60_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 38,
+    "b_correct": 42,
+    "only_a": 2,
+    "only_b": 6,
+    "p_value": 0.2890625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf60_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf60_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf10_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 38,
+    "b_correct": 42,
+    "only_a": 2,
+    "only_b": 6,
+    "p_value": 0.2890625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf10_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf10_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 33,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "interleave_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 43,
+    "b_correct": 42,
+    "only_a": 3,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "interleave_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "interleave_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf60_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 37,
+    "b_correct": 42,
+    "only_a": 1,
+    "only_b": 6,
+    "p_value": 0.125
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf60_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf60_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 35,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 0,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "rrf10_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 40,
+    "b_correct": 42,
+    "only_a": 1,
+    "only_b": 3,
+    "p_value": 0.625
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "rrf10_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 48,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 0,
+    "p_value": 0.5
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "rrf10_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 35,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 0,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "furniture",
+   "a": "interleave_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 50,
+    "a_correct": 43,
+    "b_correct": 42,
+    "only_a": 3,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "heldout",
+   "a": "interleave_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 51,
+    "a_correct": 46,
+    "b_correct": 46,
+    "only_a": 2,
+    "only_b": 2,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "generality",
+   "a": "interleave_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 40,
+    "a_correct": 34,
+    "b_correct": 34,
+    "only_a": 1,
+    "only_b": 1,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "card_dense_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 119,
+    "b_correct": 122,
+    "only_a": 10,
+    "only_b": 13,
+    "p_value": 0.6776394844055176
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf60_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 127,
+    "b_correct": 122,
+    "only_a": 7,
+    "only_b": 2,
+    "p_value": 0.1796875
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf10_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 127,
+    "b_correct": 122,
+    "only_a": 7,
+    "only_b": 2,
+    "p_value": 0.1796875
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "interleave_c10_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 127,
+    "b_correct": 122,
+    "only_a": 7,
+    "only_b": 2,
+    "p_value": 0.1796875
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf60_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 131,
+    "b_correct": 122,
+    "only_a": 11,
+    "only_b": 2,
+    "p_value": 0.0224609375
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf10_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 132,
+    "b_correct": 122,
+    "only_a": 11,
+    "only_b": 1,
+    "p_value": 0.00634765625
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "interleave_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 127,
+    "b_correct": 122,
+    "only_a": 7,
+    "only_b": 2,
+    "p_value": 0.1796875
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf60_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 128,
+    "b_correct": 122,
+    "only_a": 11,
+    "only_b": 5,
+    "p_value": 0.210113525390625
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf10_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 130,
+    "b_correct": 122,
+    "only_a": 9,
+    "only_b": 1,
+    "p_value": 0.021484375
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "interleave_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 127,
+    "b_correct": 122,
+    "only_a": 7,
+    "only_b": 2,
+    "p_value": 0.1796875
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rerank_c25_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 132,
+    "b_correct": 122,
+    "only_a": 12,
+    "only_b": 2,
+    "p_value": 0.012939453125
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rerank_c50_template",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 130,
+    "b_correct": 122,
+    "only_a": 12,
+    "only_b": 4,
+    "p_value": 0.076812744140625
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf60_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 123,
+    "b_correct": 122,
+    "only_a": 6,
+    "only_b": 5,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf10_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 123,
+    "b_correct": 122,
+    "only_a": 6,
+    "only_b": 5,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "interleave_c10_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 123,
+    "b_correct": 122,
+    "only_a": 6,
+    "only_b": 5,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf60_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 118,
+    "b_correct": 122,
+    "only_a": 4,
+    "only_b": 8,
+    "p_value": 0.3876953125
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf10_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 117,
+    "b_correct": 122,
+    "only_a": 4,
+    "only_b": 9,
+    "p_value": 0.266845703125
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "interleave_c25_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 123,
+    "b_correct": 122,
+    "only_a": 6,
+    "only_b": 5,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf60_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 120,
+    "b_correct": 122,
+    "only_a": 4,
+    "only_b": 6,
+    "p_value": 0.75390625
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "rrf10_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 123,
+    "b_correct": 122,
+    "only_a": 4,
+    "only_b": 3,
+    "p_value": 1.0
+   }
+  },
+  {
+   "dataset": "pooled",
+   "a": "interleave_c50_summary",
+   "b": "card_lexical_template",
+   "k": 15,
+   "seed_found": {
+    "questions": 141,
+    "a_correct": 123,
+    "b_correct": 122,
+    "only_a": 6,
+    "only_b": 5,
+    "p_value": 1.0
+   }
+  }
+ ]
+}

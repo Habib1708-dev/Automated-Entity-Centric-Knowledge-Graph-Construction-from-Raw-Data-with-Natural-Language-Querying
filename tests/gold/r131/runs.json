@@ -1,0 +1,37 @@
+{
+ "step": "R131: the seed grid of plan R130-R136 on furniture, held-out and generality, both arms (RRF and RRF then rerank) in one table",
+ "approved": "the user, 2026-10-09, in this session: \"yes\" (asked with the question and the estimate: 282 flash-lite calls, about $0.5; the RRF arm $0)",
+ "git_sha": "fe3cf95-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "command": "kg --preset quality seed-grid --dataset furniture=out/r128/furniture --dataset heldout=out/r128/heldout --dataset generality=out/r128/generality --rerank --units furniture=mlruns/1/204f4b1b4a7a46a0bdc1c4afbf15971f/artifacts/units.jsonl --units heldout=mlruns/4/e5aa09d9a9914950ae33b6c8af4d08ce/artifacts/units.jsonl --units generality=out/r125_generality/index/units_template.jsonl --gold furniture=tests/gold/qa/furniture_qa.json --gold heldout=tests/gold/qa/heldout_qa.json --gold generality=tests/gold/qa/generality_qa.json --out out/r131",
+ "mlflow_run": "12db9da4a5ee4d478cc203356effdb92",
+ "params": {
+  "furniture_gold_hash": "d1a89e24fe7a",
+  "furniture_reports_hash": "a706b3c698c4+a447986b60b8+dd03216b9a68+f57cb330a14a",
+  "furniture_units_hash": "40e8b3864fdf",
+  "generality_gold_hash": "83ea728af164",
+  "generality_reports_hash": "b7d507206ff4+d3f2677e35cc+8116c5c7d554+8003da7f721b",
+  "generality_units_hash": "d86c25fc68d2",
+  "heldout_gold_hash": "37922573ddf6",
+  "heldout_reports_hash": "e21eec7cd923+7c1b15180210+7b27c592e723+b1bfe454b20b",
+  "heldout_units_hash": "150c321e6f51",
+  "rerank": "True",
+  "rerank_model": "gemini-3.5-flash-lite",
+  "rerank_temperature": "0.0",
+  "rerank_thinking": "",
+  "rerank_version": "ec56a144ebde"
+ },
+ "usage": {
+  "llm_calls": 282.0,
+  "llm_failures": 0.0,
+  "cache_hits": 0.0,
+  "prompt_tokens": 1079749.0,
+  "completion_tokens": 82268.0,
+  "thinking_tokens": 0.0,
+  "cost_usd": 0.529595,
+  "rerank_pools": 282.0,
+  "rerank_dropped": 0.0,
+  "rerank_repeated": 2.0,
+  "rerank_missing": 166.0
+ }
+}
