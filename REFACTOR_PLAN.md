@@ -8101,6 +8101,56 @@ miss; embeddings under $0.05) and the plan: "Yes, all three datasets".
   (local). The working Neo4j now holds furniture (`out/r128_furniture`, graph `392a170ecc10`, both index
   layers). Next: the user's decision.
 
+### R129. Figures of plan R126-R128 (done 2026-10-09; $0, no run)
+The user, 2026-10-09: "make a special folder for figures (graphs/diagrams) ... with appropriate namings, titles,
+and explanations for the recent changes tests ... pick the right kind of graphs ... nested folders with
+appropriate separation of concern (make that an agent rule ... inside the folder)".
+- **Scope:** `figures/` (new): `CLAUDE.md` (the agent rule), `README.md` (the index), `scripts/` (the drawing
+  code: one style module, the R128 data and charts, the R126-R128 diagrams, one build entry point),
+  `results/retrieval/r128_techniques/` and `diagrams/retrieval/r126_r128/` (SVG + PNG, a `README.md` of
+  captions each); the four exploratory tables' JSON committed beside their markdown in `tests/gold/r128/`;
+  matplotlib declared in the dev group (it was installed only through mlflow); a test. No pipeline code, no
+  run, no number changes: every figure is drawn from the committed R128 record.
+- **The figures and why each form** (the `dataviz` skill: the form follows the data's job, colour last):
+  - fig1, a scatter of evidence (Complete@K) against start nodes (Seed Recall@K) at K = 5 and 20 with 95 %
+    Wilson intervals: where each technique sits on both jobs at once;
+  - fig2, small multiples of recall against a log K axis, one family coloured per panel and the rest gray
+    (nine series never share one colour scheme);
+  - fig3, heatmaps of every technique x K per dataset with the count in each cell (one sequential blue
+    scale per measure);
+  - fig4, diverging bars of the discordant questions of the five exploratory card-against-text pairings,
+    with the exact McNemar p (bold where it survives Bonferroni over the 40 tests);
+  - fig5, lines of the share of lists shorter than K, which explains why claims and the name linker level
+    off;
+  - diag1, how chunk and claim retrieval name start nodes, with the test graph's worked example;
+  - diag2, the experiment end to end.
+- **Encoding:** colour is the family, at most three hues (text blue, node cards orange, name linker aqua;
+  the dataviz validator passed all pairs: worst CVD dE 9.2, normal-vision 24.0; aqua's low contrast on white
+  is relieved by labels and legends). Shape is what is searched; fill is dense or lexical. `style.py` holds
+  it once.
+- **Checked by eye** (every PNG rendered and looked at). The fixes made:
+  - fig1's crowded labels got leader lines, and its tick labels collided at the panel boundary;
+  - claims lexical and summaries dense have identical counts at K = 5, so they are drawn 0.7 points apart;
+  - fig3's colour bar covered a panel, and one scale left the evidence row uniformly dark, so each row got
+    its own scale;
+  - fig4's p-values crowded the next panel;
+  - diag2 lost a column off the canvas, and matplotlib read "$0 ... $0.02" as maths, so the dollars are
+    escaped.
+  A rebuild is byte-identical (no dates, LF line ends).
+- **The agent rule** `figures/CLAUDE.md`: the layout (`results/` against `diagrams/`, then topic, then step);
+  naming (`<step>_fig<N>_<what_it_shows>`); generated only, from committed records, never `out/`, MLflow or a
+  smoke/dev run; SVG and PNG; a caption section per figure (what, how to read, takeaway with k/n, source,
+  caveats); the form table; the style rules; the workflow for adding a figure. The root `CLAUDE.md` and
+  README name the build command.
+- **Verified:** `tests/test_figures.py` (2): the data functions return the committed counts (pooled
+  chunk_lexical Complete@K 86 ... 95 of 99, card_lexical_template Seed Recall@K 164 ... 208 of 213, the short
+  lists, 25 pairings with 58 / 14 at K = 5); the build draws all 14 files into a fresh folder, the committed
+  figures are exactly those, each is captioned in its folder's README and listed in the index, and every
+  caption link exists. While writing the captions, one sentence was wrong and was fixed before commit:
+  generality's claims lexical completes 35, not 38, of 38 questions at K = 15. 1055 passed (1053 + 2), ruff
+  clean.
+- **R129 done 2026-10-09.** Next: the user's decision.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -1,0 +1,1967 @@
+{
+ "systems": [
+  "card_lexical_template",
+  "claim_dense"
+ ],
+ "budgets": [
+  5,
+  10,
+  15,
+  20,
+  50
+ ],
+ "tables": [
+  {
+   "name": "furniture",
+   "graph_digest": "392a170ecc10",
+   "scores": [
+    {
+     "system": "card_lexical_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 46,
+      "n": 73,
+      "rate": 0.6301369863013698,
+      "low": 0.5154917299781843,
+      "high": 0.7317701698260883
+     },
+     "complete": {
+      "k": 22,
+      "n": 33,
+      "rate": 0.6666666666666666,
+      "low": 0.4960758179994997,
+      "high": 0.8024997053219629
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 64,
+      "n": 86,
+      "rate": 0.7441860465116279,
+      "low": 0.642918949392298,
+      "high": 0.8245704987030165
+     },
+     "seed_found": {
+      "k": 30,
+      "n": 50,
+      "rate": 0.6,
+      "low": 0.4618118910275937,
+      "high": 0.7239181021375425
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 53,
+      "n": 73,
+      "rate": 0.726027397260274,
+      "low": 0.6143679489221651,
+      "high": 0.815086929685256
+     },
+     "complete": {
+      "k": 26,
+      "n": 33,
+      "rate": 0.7878787878787878,
+      "low": 0.6224802241287064,
+      "high": 0.8932411343356381
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 74,
+      "n": 86,
+      "rate": 0.8604651162790697,
+      "low": 0.7717611386144382,
+      "high": 0.9183423323834069
+     },
+     "seed_found": {
+      "k": 39,
+      "n": 50,
+      "rate": 0.78,
+      "low": 0.6475818431054045,
+      "high": 0.8724621377569771
+     },
+     "short_seeds": 1
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 54,
+      "n": 73,
+      "rate": 0.7397260273972602,
+      "low": 0.6289029493194099,
+      "high": 0.8265794976884607
+     },
+     "complete": {
+      "k": 26,
+      "n": 33,
+      "rate": 0.7878787878787878,
+      "low": 0.6224802241287064,
+      "high": 0.8932411343356381
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 78,
+      "n": 86,
+      "rate": 0.9069767441860465,
+      "low": 0.8270407914425881,
+      "high": 0.9521082887162688
+     },
+     "seed_found": {
+      "k": 42,
+      "n": 50,
+      "rate": 0.84,
+      "low": 0.7148551903823401,
+      "high": 0.9166267863791231
+     },
+     "short_seeds": 1
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 58,
+      "n": 73,
+      "rate": 0.7945205479452054,
+      "low": 0.6882613165474036,
+      "high": 0.871331404062266
+     },
+     "complete": {
+      "k": 26,
+      "n": 33,
+      "rate": 0.7878787878787878,
+      "low": 0.6224802241287064,
+      "high": 0.8932411343356381
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 81,
+      "n": 86,
+      "rate": 0.9418604651162791,
+      "low": 0.8710198527204016,
+      "high": 0.9749134343092147
+     },
+     "seed_found": {
+      "k": 45,
+      "n": 50,
+      "rate": 0.9,
+      "low": 0.7863950966521162,
+      "high": 0.956524876008429
+     },
+     "short_seeds": 1
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 70,
+      "n": 73,
+      "rate": 0.958904109589041,
+      "low": 0.8859972266493555,
+      "high": 0.9859263147657112
+     },
+     "complete": {
+      "k": 31,
+      "n": 33,
+      "rate": 0.9393939393939394,
+      "low": 0.8039341828220181,
+      "high": 0.9832194695709291
+     },
+     "short_chunks": 23,
+     "seed_recall": {
+      "k": 86,
+      "n": 86,
+      "rate": 1.0,
+      "low": 0.9572402984808819,
+      "high": 1.0
+     },
+     "seed_found": {
+      "k": 50,
+      "n": 50,
+      "rate": 1.0,
+      "low": 0.9286499658256813,
+      "high": 1.0
+     },
+     "short_seeds": 5
+    },
+    {
+     "system": "claim_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 49,
+      "n": 73,
+      "rate": 0.6712328767123288,
+      "low": 0.5572879107339749,
+      "high": 0.768056694271647
+     },
+     "complete": {
+      "k": 26,
+      "n": 33,
+      "rate": 0.7878787878787878,
+      "low": 0.6224802241287064,
+      "high": 0.8932411343356381
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 65,
+      "n": 86,
+      "rate": 0.7558139534883721,
+      "low": 0.6553692879036903,
+      "high": 0.8343815624818771
+     },
+     "seed_found": {
+      "k": 31,
+      "n": 50,
+      "rate": 0.62,
+      "low": 0.4815019502239357,
+      "high": 0.7413740415742278
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 60,
+      "n": 73,
+      "rate": 0.821917808219178,
+      "low": 0.7187805780985462,
+      "high": 0.892867279312023
+     },
+     "complete": {
+      "k": 29,
+      "n": 33,
+      "rate": 0.8787878787878788,
+      "low": 0.7267415674973484,
+      "high": 0.9518391673241576
+     },
+     "short_chunks": 4,
+     "seed_recall": {
+      "k": 68,
+      "n": 86,
+      "rate": 0.7906976744186046,
+      "low": 0.6932321275872693,
+      "high": 0.8633029296690571
+     },
+     "seed_found": {
+      "k": 33,
+      "n": 50,
+      "rate": 0.66,
+      "low": 0.5215356854148285,
+      "high": 0.7756323036493895
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 61,
+      "n": 73,
+      "rate": 0.8356164383561644,
+      "low": 0.7342874444391131,
+      "high": 0.903387981371906
+     },
+     "complete": {
+      "k": 30,
+      "n": 33,
+      "rate": 0.9090909090909091,
+      "low": 0.7642705646564897,
+      "high": 0.968596628950737
+     },
+     "short_chunks": 10,
+     "seed_recall": {
+      "k": 70,
+      "n": 86,
+      "rate": 0.813953488372093,
+      "low": 0.7189479436715508,
+      "high": 0.8821099181652817
+     },
+     "seed_found": {
+      "k": 35,
+      "n": 50,
+      "rate": 0.7,
+      "low": 0.562493877226366,
+      "high": 0.8089661091039063
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 63,
+      "n": 73,
+      "rate": 0.863013698630137,
+      "low": 0.7658736406081267,
+      "high": 0.9238569220037919
+     },
+     "complete": {
+      "k": 30,
+      "n": 33,
+      "rate": 0.9090909090909091,
+      "low": 0.7642705646564897,
+      "high": 0.968596628950737
+     },
+     "short_chunks": 15,
+     "seed_recall": {
+      "k": 70,
+      "n": 86,
+      "rate": 0.813953488372093,
+      "low": 0.7189479436715508,
+      "high": 0.8821099181652817
+     },
+     "seed_found": {
+      "k": 35,
+      "n": 50,
+      "rate": 0.7,
+      "low": 0.562493877226366,
+      "high": 0.8089661091039063
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 65,
+      "n": 73,
+      "rate": 0.8904109589041096,
+      "low": 0.7983717410229372,
+      "high": 0.9434139583898808
+     },
+     "complete": {
+      "k": 30,
+      "n": 33,
+      "rate": 0.9090909090909091,
+      "low": 0.7642705646564897,
+      "high": 0.968596628950737
+     },
+     "short_chunks": 33,
+     "seed_recall": {
+      "k": 74,
+      "n": 86,
+      "rate": 0.8604651162790697,
+      "low": 0.7717611386144382,
+      "high": 0.9183423323834069
+     },
+     "seed_found": {
+      "k": 39,
+      "n": 50,
+      "rate": 0.78,
+      "low": 0.6475818431054045,
+      "high": 0.8724621377569771
+     },
+     "short_seeds": 25
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 26,
+      "b_correct": 22,
+      "only_a": 4,
+      "only_b": 0,
+      "p_value": 0.125
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 50,
+      "a_correct": 31,
+      "b_correct": 30,
+      "only_a": 11,
+      "only_b": 10,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 29,
+      "b_correct": 26,
+      "only_a": 4,
+      "only_b": 1,
+      "p_value": 0.375
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 39,
+      "b_correct": 33,
+      "only_a": 12,
+      "only_b": 6,
+      "p_value": 0.237884521484375
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 30,
+      "b_correct": 26,
+      "only_a": 5,
+      "only_b": 1,
+      "p_value": 0.21875
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 42,
+      "b_correct": 35,
+      "only_a": 12,
+      "only_b": 5,
+      "p_value": 0.143463134765625
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 30,
+      "b_correct": 26,
+      "only_a": 5,
+      "only_b": 1,
+      "p_value": 0.21875
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 45,
+      "b_correct": 35,
+      "only_a": 13,
+      "only_b": 3,
+      "p_value": 0.021270751953125
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 33,
+      "a_correct": 31,
+      "b_correct": 30,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 50,
+      "b_correct": 39,
+      "only_a": 11,
+      "only_b": 0,
+      "p_value": 0.0009765625
+     }
+    }
+   ]
+  },
+  {
+   "name": "heldout",
+   "graph_digest": "bc7c5a1efe3d",
+   "scores": [
+    {
+     "system": "card_lexical_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 33,
+      "n": 36,
+      "rate": 0.9166666666666666,
+      "low": 0.7817298972308114,
+      "high": 0.9712519107287082
+     },
+     "complete": {
+      "k": 25,
+      "n": 28,
+      "rate": 0.8928571428571429,
+      "low": 0.7280377463234293,
+      "high": 0.9628823079452005
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 55,
+      "n": 65,
+      "rate": 0.8461538461538461,
+      "low": 0.7394445429998054,
+      "high": 0.9142299793820102
+     },
+     "seed_found": {
+      "k": 41,
+      "n": 51,
+      "rate": 0.803921568627451,
+      "low": 0.6754165732550456,
+      "high": 0.8898477516370072
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 33,
+      "n": 36,
+      "rate": 0.9166666666666666,
+      "low": 0.7817298972308114,
+      "high": 0.9712519107287082
+     },
+     "complete": {
+      "k": 25,
+      "n": 28,
+      "rate": 0.8928571428571429,
+      "low": 0.7280377463234293,
+      "high": 0.9628823079452005
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 60,
+      "n": 65,
+      "rate": 0.9230769230769231,
+      "low": 0.8322385378144039,
+      "high": 0.9666969895411486
+     },
+     "seed_found": {
+      "k": 46,
+      "n": 51,
+      "rate": 0.9019607843137255,
+      "low": 0.7902151004554693,
+      "high": 0.957392555046923
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 35,
+      "n": 36,
+      "rate": 0.9722222222222222,
+      "low": 0.8582996626496918,
+      "high": 0.9950797197044302
+     },
+     "complete": {
+      "k": 27,
+      "n": 28,
+      "rate": 0.9642857142857143,
+      "low": 0.8228742388150135,
+      "high": 0.9936676435024582
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 60,
+      "n": 65,
+      "rate": 0.9230769230769231,
+      "low": 0.8322385378144039,
+      "high": 0.9666969895411486
+     },
+     "seed_found": {
+      "k": 46,
+      "n": 51,
+      "rate": 0.9019607843137255,
+      "low": 0.7902151004554693,
+      "high": 0.957392555046923
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 36,
+      "n": 36,
+      "rate": 1.0,
+      "low": 0.9035781695514236,
+      "high": 1.0
+     },
+     "complete": {
+      "k": 28,
+      "n": 28,
+      "rate": 1.0,
+      "low": 0.8793527963418923,
+      "high": 1.0
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 62,
+      "n": 65,
+      "rate": 0.9538461538461539,
+      "low": 0.8728594829309505,
+      "high": 0.9841804464140967
+     },
+     "seed_found": {
+      "k": 48,
+      "n": 51,
+      "rate": 0.9411764705882353,
+      "low": 0.8407512606105803,
+      "high": 0.9797937271359478
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 36,
+      "n": 36,
+      "rate": 1.0,
+      "low": 0.9035781695514236,
+      "high": 1.0
+     },
+     "complete": {
+      "k": 28,
+      "n": 28,
+      "rate": 1.0,
+      "low": 0.8793527963418923,
+      "high": 1.0
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 64,
+      "n": 65,
+      "rate": 0.9846153846153847,
+      "low": 0.9178652058620286,
+      "high": 0.9972791254725134
+     },
+     "seed_found": {
+      "k": 50,
+      "n": 51,
+      "rate": 0.9803921568627451,
+      "low": 0.8969519232441061,
+      "high": 0.9965303967465577
+     },
+     "short_seeds": 2
+    },
+    {
+     "system": "claim_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 31,
+      "n": 36,
+      "rate": 0.8611111111111112,
+      "low": 0.7134014871960681,
+      "high": 0.9391827463688489
+     },
+     "complete": {
+      "k": 23,
+      "n": 28,
+      "rate": 0.8214285714285714,
+      "low": 0.644082084514089,
+      "high": 0.9212161417056989
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 45,
+      "n": 65,
+      "rate": 0.6923076923076923,
+      "low": 0.5720212794770567,
+      "high": 0.7911312329572853
+     },
+     "seed_found": {
+      "k": 32,
+      "n": 51,
+      "rate": 0.6274509803921569,
+      "low": 0.4902496270033425,
+      "high": 0.746796702790099
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 32,
+      "n": 36,
+      "rate": 0.8888888888888888,
+      "low": 0.7468487098496367,
+      "high": 0.9559343109125816
+     },
+     "complete": {
+      "k": 24,
+      "n": 28,
+      "rate": 0.8571428571428571,
+      "low": 0.6850982695512267,
+      "high": 0.9430108706929821
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 51,
+      "n": 65,
+      "rate": 0.7846153846153846,
+      "low": 0.6703320947133157,
+      "high": 0.8671336236895105
+     },
+     "seed_found": {
+      "k": 38,
+      "n": 51,
+      "rate": 0.7450980392156863,
+      "low": 0.6113145589385128,
+      "high": 0.8445437675873361
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 32,
+      "n": 36,
+      "rate": 0.8888888888888888,
+      "low": 0.7468487098496367,
+      "high": 0.9559343109125816
+     },
+     "complete": {
+      "k": 24,
+      "n": 28,
+      "rate": 0.8571428571428571,
+      "low": 0.6850982695512267,
+      "high": 0.9430108706929821
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 53,
+      "n": 65,
+      "rate": 0.8153846153846154,
+      "low": 0.7044577741729509,
+      "high": 0.8911123462193701
+     },
+     "seed_found": {
+      "k": 39,
+      "n": 51,
+      "rate": 0.7647058823529411,
+      "low": 0.632375118636542,
+      "high": 0.8599518740113747
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 33,
+      "n": 36,
+      "rate": 0.9166666666666666,
+      "low": 0.7817298972308114,
+      "high": 0.9712519107287082
+     },
+     "complete": {
+      "k": 25,
+      "n": 28,
+      "rate": 0.8928571428571429,
+      "low": 0.7280377463234293,
+      "high": 0.9628823079452005
+     },
+     "short_chunks": 6,
+     "seed_recall": {
+      "k": 55,
+      "n": 65,
+      "rate": 0.8461538461538461,
+      "low": 0.7394445429998054,
+      "high": 0.9142299793820102
+     },
+     "seed_found": {
+      "k": 41,
+      "n": 51,
+      "rate": 0.803921568627451,
+      "low": 0.6754165732550456,
+      "high": 0.8898477516370072
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 35,
+      "n": 36,
+      "rate": 0.9722222222222222,
+      "low": 0.8582996626496918,
+      "high": 0.9950797197044302
+     },
+     "complete": {
+      "k": 27,
+      "n": 28,
+      "rate": 0.9642857142857143,
+      "low": 0.8228742388150135,
+      "high": 0.9936676435024582
+     },
+     "short_chunks": 28,
+     "seed_recall": {
+      "k": 57,
+      "n": 65,
+      "rate": 0.8769230769230769,
+      "low": 0.7754828388206837,
+      "high": 0.9362960855506267
+     },
+     "seed_found": {
+      "k": 43,
+      "n": 51,
+      "rate": 0.8431372549019608,
+      "low": 0.7198929160164018,
+      "high": 0.9183087411197868
+     },
+     "short_seeds": 0
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 28,
+      "a_correct": 25,
+      "b_correct": 23,
+      "only_a": 3,
+      "only_b": 1,
+      "p_value": 0.625
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 41,
+      "b_correct": 32,
+      "only_a": 13,
+      "only_b": 4,
+      "p_value": 0.049041748046875
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 28,
+      "a_correct": 25,
+      "b_correct": 24,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 46,
+      "b_correct": 38,
+      "only_a": 12,
+      "only_b": 4,
+      "p_value": 0.076812744140625
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 28,
+      "a_correct": 27,
+      "b_correct": 24,
+      "only_a": 3,
+      "only_b": 0,
+      "p_value": 0.25
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 46,
+      "b_correct": 39,
+      "only_a": 11,
+      "only_b": 4,
+      "p_value": 0.11846923828125
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 28,
+      "a_correct": 28,
+      "b_correct": 25,
+      "only_a": 3,
+      "only_b": 0,
+      "p_value": 0.25
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 48,
+      "b_correct": 41,
+      "only_a": 10,
+      "only_b": 3,
+      "p_value": 0.09228515625
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 28,
+      "a_correct": 28,
+      "b_correct": 27,
+      "only_a": 1,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 50,
+      "b_correct": 43,
+      "only_a": 8,
+      "only_b": 1,
+      "p_value": 0.0390625
+     }
+    }
+   ]
+  },
+  {
+   "name": "generality",
+   "graph_digest": "f79f9411ea81",
+   "scores": [
+    {
+     "system": "card_lexical_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 43,
+      "n": 51,
+      "rate": 0.8431372549019608,
+      "low": 0.7198929160164018,
+      "high": 0.9183087411197868
+     },
+     "complete": {
+      "k": 32,
+      "n": 38,
+      "rate": 0.8421052631578947,
+      "low": 0.6958287736272311,
+      "high": 0.9255623777627731
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 45,
+      "n": 62,
+      "rate": 0.7258064516129032,
+      "low": 0.6040722415667276,
+      "high": 0.8211908140090788
+     },
+     "seed_found": {
+      "k": 26,
+      "n": 40,
+      "rate": 0.65,
+      "low": 0.4950559699353738,
+      "high": 0.7786566682895086
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 49,
+      "n": 51,
+      "rate": 0.9607843137254902,
+      "low": 0.8678345101373474,
+      "high": 0.9891791437312488
+     },
+     "complete": {
+      "k": 36,
+      "n": 38,
+      "rate": 0.9473684210526315,
+      "low": 0.8271423311893115,
+      "high": 0.9854460975514631
+     },
+     "short_chunks": 8,
+     "seed_recall": {
+      "k": 51,
+      "n": 62,
+      "rate": 0.8225806451612904,
+      "low": 0.7095819851661977,
+      "high": 0.8979366656563825
+     },
+     "seed_found": {
+      "k": 30,
+      "n": 40,
+      "rate": 0.75,
+      "low": 0.598057409330299,
+      "high": 0.8581303210445048
+     },
+     "short_seeds": 2
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 50,
+      "n": 51,
+      "rate": 0.9803921568627451,
+      "low": 0.8969519232441061,
+      "high": 0.9965303967465577
+     },
+     "complete": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9736842105263158,
+      "low": 0.8650482156319974,
+      "high": 0.9953395324464698
+     },
+     "short_chunks": 14,
+     "seed_recall": {
+      "k": 56,
+      "n": 62,
+      "rate": 0.9032258064516129,
+      "low": 0.8045095713255586,
+      "high": 0.9548887422026668
+     },
+     "seed_found": {
+      "k": 34,
+      "n": 40,
+      "rate": 0.85,
+      "low": 0.7092737396097997,
+      "high": 0.9293890829149256
+     },
+     "short_seeds": 5
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 20,
+     "seed_recall": {
+      "k": 58,
+      "n": 62,
+      "rate": 0.9354838709677419,
+      "low": 0.8455226734181273,
+      "high": 0.974627505192356
+     },
+     "seed_found": {
+      "k": 36,
+      "n": 40,
+      "rate": 0.9,
+      "low": 0.7694792561952611,
+      "high": 0.9604211124044252
+     },
+     "short_seeds": 8
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 38,
+     "seed_recall": {
+      "k": 58,
+      "n": 62,
+      "rate": 0.9354838709677419,
+      "low": 0.8455226734181273,
+      "high": 0.974627505192356
+     },
+     "seed_found": {
+      "k": 36,
+      "n": 40,
+      "rate": 0.9,
+      "low": 0.7694792561952611,
+      "high": 0.9604211124044252
+     },
+     "short_seeds": 20
+    },
+    {
+     "system": "claim_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 44,
+      "n": 51,
+      "rate": 0.8627450980392157,
+      "low": 0.7427804765736837,
+      "high": 0.9318898466845728
+     },
+     "complete": {
+      "k": 33,
+      "n": 38,
+      "rate": 0.868421052631579,
+      "low": 0.7267282994850112,
+      "high": 0.9424621712426856
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 41,
+      "n": 62,
+      "rate": 0.6612903225806451,
+      "low": 0.5371746717131097,
+      "high": 0.7665846536981803
+     },
+     "seed_found": {
+      "k": 19,
+      "n": 40,
+      "rate": 0.475,
+      "low": 0.32935229550181694,
+      "high": 0.6250289314607027
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 50,
+      "n": 51,
+      "rate": 0.9803921568627451,
+      "low": 0.8969519232441061,
+      "high": 0.9965303967465577
+     },
+     "complete": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9736842105263158,
+      "low": 0.8650482156319974,
+      "high": 0.9953395324464698
+     },
+     "short_chunks": 5,
+     "seed_recall": {
+      "k": 43,
+      "n": 62,
+      "rate": 0.6935483870967742,
+      "low": 0.5703254906920545,
+      "high": 0.7941856998014938
+     },
+     "seed_found": {
+      "k": 21,
+      "n": 40,
+      "rate": 0.525,
+      "low": 0.37497106853929735,
+      "high": 0.6706477044981831
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 17,
+     "seed_recall": {
+      "k": 44,
+      "n": 62,
+      "rate": 0.7096774193548387,
+      "low": 0.5871211868886292,
+      "high": 0.8077659361460481
+     },
+     "seed_found": {
+      "k": 22,
+      "n": 40,
+      "rate": 0.55,
+      "low": 0.39828829888440775,
+      "high": 0.6929492471905531
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 35,
+     "seed_recall": {
+      "k": 46,
+      "n": 62,
+      "rate": 0.7419354838709677,
+      "low": 0.621186360610032,
+      "high": 0.8344526275069032
+     },
+     "seed_found": {
+      "k": 24,
+      "n": 40,
+      "rate": 0.6,
+      "low": 0.445956198273935,
+      "high": 0.7365188938759863
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 38,
+     "seed_recall": {
+      "k": 47,
+      "n": 62,
+      "rate": 0.7580645161290323,
+      "low": 0.6384725574675495,
+      "high": 0.8475423631905147
+     },
+     "seed_found": {
+      "k": 25,
+      "n": 40,
+      "rate": 0.625,
+      "low": 0.47032160054531913,
+      "high": 0.7577722646420829
+     },
+     "short_seeds": 15
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 33,
+      "b_correct": 32,
+      "only_a": 3,
+      "only_b": 2,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 26,
+      "b_correct": 19,
+      "only_a": 10,
+      "only_b": 3,
+      "p_value": 0.09228515625
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 37,
+      "b_correct": 36,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 30,
+      "b_correct": 21,
+      "only_a": 12,
+      "only_b": 3,
+      "p_value": 0.03515625
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 38,
+      "b_correct": 37,
+      "only_a": 1,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 34,
+      "b_correct": 22,
+      "only_a": 13,
+      "only_b": 1,
+      "p_value": 0.0018310546875
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 38,
+      "a_correct": 38,
+      "b_correct": 38,
+      "only_a": 0,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 36,
+      "b_correct": 24,
+      "only_a": 12,
+      "only_b": 0,
+      "p_value": 0.00048828125
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 38,
+      "a_correct": 38,
+      "b_correct": 38,
+      "only_a": 0,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 36,
+      "b_correct": 25,
+      "only_a": 11,
+      "only_b": 0,
+      "p_value": 0.0009765625
+     }
+    }
+   ]
+  },
+  {
+   "name": "pooled",
+   "graph_digest": "392a170ecc10+bc7c5a1efe3d+f79f9411ea81",
+   "scores": [
+    {
+     "system": "card_lexical_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 122,
+      "n": 160,
+      "rate": 0.7625,
+      "low": 0.6908929265121889,
+      "high": 0.8217973792465437
+     },
+     "complete": {
+      "k": 79,
+      "n": 99,
+      "rate": 0.797979797979798,
+      "low": 0.7084540803773877,
+      "high": 0.8652437228462105
+     },
+     "short_chunks": 1,
+     "seed_recall": {
+      "k": 164,
+      "n": 213,
+      "rate": 0.7699530516431925,
+      "low": 0.7089490547060298,
+      "high": 0.8213919868653292
+     },
+     "seed_found": {
+      "k": 97,
+      "n": 141,
+      "rate": 0.6879432624113475,
+      "low": 0.6073365009813823,
+      "high": 0.7585804731475974
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 135,
+      "n": 160,
+      "rate": 0.84375,
+      "low": 0.7795106867956354,
+      "high": 0.891869475507467
+     },
+     "complete": {
+      "k": 87,
+      "n": 99,
+      "rate": 0.8787878787878788,
+      "low": 0.7999916857455538,
+      "high": 0.9292851827590203
+     },
+     "short_chunks": 9,
+     "seed_recall": {
+      "k": 185,
+      "n": 213,
+      "rate": 0.8685446009389671,
+      "low": 0.8165690589697855,
+      "high": 0.9074617543058959
+     },
+     "seed_found": {
+      "k": 115,
+      "n": 141,
+      "rate": 0.8156028368794326,
+      "low": 0.7435222439209876,
+      "high": 0.8709421088616383
+     },
+     "short_seeds": 3
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 139,
+      "n": 160,
+      "rate": 0.86875,
+      "low": 0.807679992059104,
+      "high": 0.9125278184114969
+     },
+     "complete": {
+      "k": 90,
+      "n": 99,
+      "rate": 0.9090909090909091,
+      "low": 0.8361842304768151,
+      "high": 0.9514347875081247
+     },
+     "short_chunks": 15,
+     "seed_recall": {
+      "k": 194,
+      "n": 213,
+      "rate": 0.9107981220657277,
+      "low": 0.8648898856381501,
+      "high": 0.9421508297965268
+     },
+     "seed_found": {
+      "k": 122,
+      "n": 141,
+      "rate": 0.8652482269503546,
+      "low": 0.7991140974492768,
+      "high": 0.9120075692542118
+     },
+     "short_seeds": 6
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 145,
+      "n": 160,
+      "rate": 0.90625,
+      "low": 0.8510867768996389,
+      "high": 0.9423625058222096
+     },
+     "complete": {
+      "k": 92,
+      "n": 99,
+      "rate": 0.9292929292929293,
+      "low": 0.8611835734333936,
+      "high": 0.9653302108717904
+     },
+     "short_chunks": 21,
+     "seed_recall": {
+      "k": 201,
+      "n": 213,
+      "rate": 0.9436619718309859,
+      "low": 0.9041216745548035,
+      "high": 0.9674822981146474
+     },
+     "seed_found": {
+      "k": 129,
+      "n": 141,
+      "rate": 0.9148936170212766,
+      "low": 0.8571322383922675,
+      "high": 0.9506467422320835
+     },
+     "short_seeds": 9
+    },
+    {
+     "system": "card_lexical_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 157,
+      "n": 160,
+      "rate": 0.98125,
+      "low": 0.9463289621260206,
+      "high": 0.9936032650983228
+     },
+     "complete": {
+      "k": 97,
+      "n": 99,
+      "rate": 0.9797979797979798,
+      "low": 0.9293083037313168,
+      "high": 0.9944423963744768
+     },
+     "short_chunks": 62,
+     "seed_recall": {
+      "k": 208,
+      "n": 213,
+      "rate": 0.9765258215962441,
+      "low": 0.9462345682418408,
+      "high": 0.9899326616623841
+     },
+     "seed_found": {
+      "k": 136,
+      "n": 141,
+      "rate": 0.9645390070921985,
+      "low": 0.9196762460597111,
+      "high": 0.9847600484855022
+     },
+     "short_seeds": 27
+    },
+    {
+     "system": "claim_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 124,
+      "n": 160,
+      "rate": 0.775,
+      "low": 0.7042857994110268,
+      "high": 0.8328183304314551
+     },
+     "complete": {
+      "k": 82,
+      "n": 99,
+      "rate": 0.8282828282828283,
+      "low": 0.7421056528666339,
+      "high": 0.8899342998373303
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 151,
+      "n": 213,
+      "rate": 0.7089201877934272,
+      "low": 0.6446427724548518,
+      "high": 0.7657950771090696
+     },
+     "seed_found": {
+      "k": 82,
+      "n": 141,
+      "rate": 0.5815602836879432,
+      "low": 0.49902955087404866,
+      "high": 0.6597646077102254
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 142,
+      "n": 160,
+      "rate": 0.8875,
+      "low": 0.8291842977219646,
+      "high": 0.92764424887426
+     },
+     "complete": {
+      "k": 90,
+      "n": 99,
+      "rate": 0.9090909090909091,
+      "low": 0.8361842304768151,
+      "high": 0.9514347875081247
+     },
+     "short_chunks": 9,
+     "seed_recall": {
+      "k": 162,
+      "n": 213,
+      "rate": 0.7605633802816901,
+      "low": 0.6989600014529335,
+      "high": 0.8129343951942044
+     },
+     "seed_found": {
+      "k": 92,
+      "n": 141,
+      "rate": 0.6524822695035462,
+      "low": 0.5707825541896676,
+      "high": 0.7260934814244102
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 144,
+      "n": 160,
+      "rate": 0.9,
+      "low": 0.843736268117816,
+      "high": 0.9375061025621578
+     },
+     "complete": {
+      "k": 92,
+      "n": 99,
+      "rate": 0.9292929292929293,
+      "low": 0.8611835734333936,
+      "high": 0.9653302108717904
+     },
+     "short_chunks": 28,
+     "seed_recall": {
+      "k": 167,
+      "n": 213,
+      "rate": 0.784037558685446,
+      "low": 0.7240048806294016,
+      "high": 0.8340061283282892
+     },
+     "seed_found": {
+      "k": 96,
+      "n": 141,
+      "rate": 0.6808510638297872,
+      "low": 0.5999872071201119,
+      "high": 0.7521215793058872
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 147,
+      "n": 160,
+      "rate": 0.91875,
+      "low": 0.8659584624793817,
+      "high": 0.9519046443262158
+     },
+     "complete": {
+      "k": 93,
+      "n": 99,
+      "rate": 0.9393939393939394,
+      "low": 0.8740305823550434,
+      "high": 0.9719305851102626
+     },
+     "short_chunks": 56,
+     "seed_recall": {
+      "k": 171,
+      "n": 213,
+      "rate": 0.8028169014084507,
+      "low": 0.7442235628044204,
+      "high": 0.8506807360017129
+     },
+     "seed_found": {
+      "k": 100,
+      "n": 141,
+      "rate": 0.7092198581560284,
+      "low": 0.6295053831361012,
+      "high": 0.7778361541018194
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "claim_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 151,
+      "n": 160,
+      "rate": 0.94375,
+      "low": 0.8965627172808032,
+      "high": 0.9701280376922926
+     },
+     "complete": {
+      "k": 95,
+      "n": 99,
+      "rate": 0.9595959595959596,
+      "low": 0.9006783167602219,
+      "high": 0.9841776170253278
+     },
+     "short_chunks": 99,
+     "seed_recall": {
+      "k": 178,
+      "n": 213,
+      "rate": 0.8356807511737089,
+      "low": 0.7800535855822551,
+      "high": 0.879413970458652
+     },
+     "seed_found": {
+      "k": 107,
+      "n": 141,
+      "rate": 0.7588652482269503,
+      "low": 0.6819957944474541,
+      "high": 0.8220030567113291
+     },
+     "short_seeds": 40
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 82,
+      "b_correct": 79,
+      "only_a": 8,
+      "only_b": 5,
+      "p_value": 0.5810546875
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 97,
+      "b_correct": 82,
+      "only_a": 33,
+      "only_b": 18,
+      "p_value": 0.04887389231827033
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 90,
+      "b_correct": 87,
+      "only_a": 7,
+      "only_b": 4,
+      "p_value": 0.548828125
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 115,
+      "b_correct": 92,
+      "only_a": 36,
+      "only_b": 13,
+      "p_value": 0.001402688503695515
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 92,
+      "b_correct": 90,
+      "only_a": 6,
+      "only_b": 4,
+      "p_value": 0.75390625
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 122,
+      "b_correct": 96,
+      "only_a": 36,
+      "only_b": 10,
+      "p_value": 0.00015641720852954677
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "claim_dense",
+     "runner_up": "card_lexical_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 93,
+      "b_correct": 92,
+      "only_a": 5,
+      "only_b": 4,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 129,
+      "b_correct": 100,
+      "only_a": 35,
+      "only_b": 6,
+      "p_value": 4.873598300036974e-6
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 99,
+      "a_correct": 97,
+      "b_correct": 95,
+      "only_a": 3,
+      "only_b": 1,
+      "p_value": 0.625
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "card_lexical_template",
+     "runner_up": "claim_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 136,
+      "b_correct": 107,
+      "only_a": 30,
+      "only_b": 1,
+      "p_value": 2.9802322387695312e-8
+     }
+    }
+   ]
+  }
+ ]
+}

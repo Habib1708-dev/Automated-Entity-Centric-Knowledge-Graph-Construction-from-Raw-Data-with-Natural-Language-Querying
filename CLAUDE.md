@@ -130,7 +130,11 @@ uv run pytest -m "not neo4j and not postgres"  # fast unit tests only
 uv run ruff check . ; uv run ruff format . # lint and format
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 uv run kg --preset dev run --goal "..."   # whole pipeline on the preset's dataset: smoke / dev (subsets) / quality (data/)
+uv run python -m figures.scripts.build    # redraw every thesis figure from committed records ($0, no run)
 ```
+
+Figures (charts of results, diagrams of methods) live in `figures/`; its own `figures/CLAUDE.md` sets the
+folder layout, naming, captions and chart rules.
 
 ## 7. Skills
 

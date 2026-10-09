@@ -55,6 +55,7 @@ uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # pai
 uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --system graph_retrieval --out O  # retrieval without the reader (R117; embeds)
 uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
 uv run kg retrieve-table --dataset A=O1 --dataset B=O2 --system S1 --system S2 --out T  # technique x K tables per dataset and pooled (R127; no graph)
+uv run python -m figures.scripts.build                            # redraw the thesis figures in figures/ from committed records (R129)
 uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
 uv run kg index --cards template --out BUILD                      # the same units embedded into Neo4j with their indexes (R119; embeds only what changed)
 uv run kg index --cards summary --out BUILD                       # LLM node summaries checked by code, beside the cards (R123; a model writes them, cached)

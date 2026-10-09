@@ -1,0 +1,1967 @@
+{
+ "systems": [
+  "chunk_dense",
+  "card_dense_template"
+ ],
+ "budgets": [
+  5,
+  10,
+  15,
+  20,
+  50
+ ],
+ "tables": [
+  {
+   "name": "furniture",
+   "graph_digest": "392a170ecc10",
+   "scores": [
+    {
+     "system": "chunk_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 41,
+      "n": 73,
+      "rate": 0.5616438356164384,
+      "low": 0.44757571671811325,
+      "high": 0.6695483410839106
+     },
+     "complete": {
+      "k": 21,
+      "n": 33,
+      "rate": 0.6363636363636364,
+      "low": 0.46615872621534094,
+      "high": 0.7781303383204013
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 34,
+      "n": 86,
+      "rate": 0.3953488372093023,
+      "low": 0.29862264637556246,
+      "high": 0.5010247330121598
+     },
+     "seed_found": {
+      "k": 9,
+      "n": 50,
+      "rate": 0.18,
+      "low": 0.0977008273245379,
+      "high": 0.3079631945470261
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 53,
+      "n": 73,
+      "rate": 0.726027397260274,
+      "low": 0.6143679489221651,
+      "high": 0.815086929685256
+     },
+     "complete": {
+      "k": 26,
+      "n": 33,
+      "rate": 0.7878787878787878,
+      "low": 0.6224802241287064,
+      "high": 0.8932411343356381
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 46,
+      "n": 86,
+      "rate": 0.5348837209302325,
+      "low": 0.4302411599878987,
+      "high": 0.6365430468828602
+     },
+     "seed_found": {
+      "k": 17,
+      "n": 50,
+      "rate": 0.34,
+      "low": 0.2243676963506106,
+      "high": 0.47846431458517147
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 59,
+      "n": 73,
+      "rate": 0.8082191780821918,
+      "low": 0.7034428294648694,
+      "high": 0.8821774595452501
+     },
+     "complete": {
+      "k": 27,
+      "n": 33,
+      "rate": 0.8181818181818182,
+      "low": 0.656114329507048,
+      "high": 0.9138934877430174
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 54,
+      "n": 86,
+      "rate": 0.627906976744186,
+      "low": 0.5223363580204515,
+      "high": 0.7225390671723323
+     },
+     "seed_found": {
+      "k": 21,
+      "n": 50,
+      "rate": 0.42,
+      "low": 0.2937479723456693,
+      "high": 0.5576680331222217
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 62,
+      "n": 73,
+      "rate": 0.8493150684931506,
+      "low": 0.7499788763087365,
+      "high": 0.9137241179027322
+     },
+     "complete": {
+      "k": 28,
+      "n": 33,
+      "rate": 0.8484848484848485,
+      "low": 0.6907978686153953,
+      "high": 0.9334964074203904
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 60,
+      "n": 86,
+      "rate": 0.6976744186046512,
+      "low": 0.5938776628562396,
+      "high": 0.7845661760780623
+     },
+     "seed_found": {
+      "k": 27,
+      "n": 50,
+      "rate": 0.54,
+      "low": 0.40398634328388083,
+      "high": 0.6703056539821737
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 71,
+      "n": 73,
+      "rate": 0.9726027397260274,
+      "low": 0.9054967102680322,
+      "high": 0.9924543995474844
+     },
+     "complete": {
+      "k": 31,
+      "n": 33,
+      "rate": 0.9393939393939394,
+      "low": 0.8039341828220181,
+      "high": 0.9832194695709291
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 64,
+      "n": 86,
+      "rate": 0.7441860465116279,
+      "low": 0.642918949392298,
+      "high": 0.8245704987030165
+     },
+     "seed_found": {
+      "k": 29,
+      "n": 50,
+      "rate": 0.58,
+      "low": 0.4423319668777783,
+      "high": 0.7062520276543307
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 45,
+      "n": 73,
+      "rate": 0.6164383561643836,
+      "low": 0.5017387254305414,
+      "high": 0.7194956059732815
+     },
+     "complete": {
+      "k": 20,
+      "n": 33,
+      "rate": 0.6060606060606061,
+      "low": 0.4368314280651038,
+      "high": 0.7531711776849179
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 68,
+      "n": 86,
+      "rate": 0.7906976744186046,
+      "low": 0.6932321275872693,
+      "high": 0.8633029296690571
+     },
+     "seed_found": {
+      "k": 34,
+      "n": 50,
+      "rate": 0.68,
+      "low": 0.5418944286372394,
+      "high": 0.792419559060006
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 53,
+      "n": 73,
+      "rate": 0.726027397260274,
+      "low": 0.6143679489221651,
+      "high": 0.815086929685256
+     },
+     "complete": {
+      "k": 25,
+      "n": 33,
+      "rate": 0.7575757575757576,
+      "low": 0.5897505131450971,
+      "high": 0.8716843865335271
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 76,
+      "n": 86,
+      "rate": 0.8837209302325582,
+      "low": 0.799026040521777,
+      "high": 0.9356002350565743
+     },
+     "seed_found": {
+      "k": 42,
+      "n": 50,
+      "rate": 0.84,
+      "low": 0.7148551903823401,
+      "high": 0.9166267863791231
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 54,
+      "n": 73,
+      "rate": 0.7397260273972602,
+      "low": 0.6289029493194099,
+      "high": 0.8265794976884607
+     },
+     "complete": {
+      "k": 25,
+      "n": 33,
+      "rate": 0.7575757575757576,
+      "low": 0.5897505131450971,
+      "high": 0.8716843865335271
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 82,
+      "n": 86,
+      "rate": 0.9534883720930233,
+      "low": 0.8864283624928285,
+      "high": 0.9817663268270408
+     },
+     "seed_found": {
+      "k": 46,
+      "n": 50,
+      "rate": 0.92,
+      "low": 0.8116149745493629,
+      "high": 0.9684509967442093
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 57,
+      "n": 73,
+      "rate": 0.7808219178082192,
+      "low": 0.6732251787519996,
+      "high": 0.8603399734572204
+     },
+     "complete": {
+      "k": 25,
+      "n": 33,
+      "rate": 0.7575757575757576,
+      "low": 0.5897505131450971,
+      "high": 0.8716843865335271
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 84,
+      "n": 86,
+      "rate": 0.9767441860465116,
+      "low": 0.9191182859198535,
+      "high": 0.993599207980522
+     },
+     "seed_found": {
+      "k": 48,
+      "n": 50,
+      "rate": 0.96,
+      "low": 0.8653966212204534,
+      "high": 0.9889613473391734
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 70,
+      "n": 73,
+      "rate": 0.958904109589041,
+      "low": 0.8859972266493555,
+      "high": 0.9859263147657112
+     },
+     "complete": {
+      "k": 32,
+      "n": 33,
+      "rate": 0.9696969696969697,
+      "low": 0.8468093832683193,
+      "high": 0.9946307279103482
+     },
+     "short_chunks": 22,
+     "seed_recall": {
+      "k": 85,
+      "n": 86,
+      "rate": 0.9883720930232558,
+      "low": 0.9370344119330343,
+      "high": 0.9979444842575944
+     },
+     "seed_found": {
+      "k": 49,
+      "n": 50,
+      "rate": 0.98,
+      "low": 0.8950431352816304,
+      "high": 0.9964608319110235
+     },
+     "short_seeds": 0
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 21,
+      "b_correct": 20,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 34,
+      "b_correct": 9,
+      "only_a": 27,
+      "only_b": 2,
+      "p_value": 1.6242265701293945e-6
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 26,
+      "b_correct": 25,
+      "only_a": 3,
+      "only_b": 2,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 42,
+      "b_correct": 17,
+      "only_a": 26,
+      "only_b": 1,
+      "p_value": 4.172325134277344e-7
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 27,
+      "b_correct": 25,
+      "only_a": 3,
+      "only_b": 1,
+      "p_value": 0.625
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 46,
+      "b_correct": 21,
+      "only_a": 28,
+      "only_b": 3,
+      "p_value": 4.649162292480469e-6
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 33,
+      "a_correct": 28,
+      "b_correct": 25,
+      "only_a": 3,
+      "only_b": 0,
+      "p_value": 0.25
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 48,
+      "b_correct": 27,
+      "only_a": 23,
+      "only_b": 2,
+      "p_value": 0.000019431114196777344
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 33,
+      "a_correct": 32,
+      "b_correct": 31,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 50,
+      "a_correct": 49,
+      "b_correct": 29,
+      "only_a": 21,
+      "only_b": 1,
+      "p_value": 0.000010967254638671875
+     }
+    }
+   ]
+  },
+  {
+   "name": "heldout",
+   "graph_digest": "bc7c5a1efe3d",
+   "scores": [
+    {
+     "system": "chunk_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 34,
+      "n": 36,
+      "rate": 0.9444444444444444,
+      "low": 0.8185502589238878,
+      "high": 0.9846303362329332
+     },
+     "complete": {
+      "k": 26,
+      "n": 28,
+      "rate": 0.9285714285714286,
+      "low": 0.7735426157408214,
+      "high": 0.9801883525522292
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 41,
+      "n": 65,
+      "rate": 0.6307692307692307,
+      "low": 0.5092359303460251,
+      "high": 0.7377077781093274
+     },
+     "seed_found": {
+      "k": 30,
+      "n": 51,
+      "rate": 0.5882352941176471,
+      "low": 0.4516509274741746,
+      "high": 0.7124580700751311
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 34,
+      "n": 36,
+      "rate": 0.9444444444444444,
+      "low": 0.8185502589238878,
+      "high": 0.9846303362329332
+     },
+     "complete": {
+      "k": 26,
+      "n": 28,
+      "rate": 0.9285714285714286,
+      "low": 0.7735426157408214,
+      "high": 0.9801883525522292
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 48,
+      "n": 65,
+      "rate": 0.7384615384615385,
+      "low": 0.6204896660217755,
+      "high": 0.8298194493968086
+     },
+     "seed_found": {
+      "k": 37,
+      "n": 51,
+      "rate": 0.7254901960784313,
+      "low": 0.5905308805092127,
+      "high": 0.8288587798945684
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 34,
+      "n": 36,
+      "rate": 0.9444444444444444,
+      "low": 0.8185502589238878,
+      "high": 0.9846303362329332
+     },
+     "complete": {
+      "k": 26,
+      "n": 28,
+      "rate": 0.9285714285714286,
+      "low": 0.7735426157408214,
+      "high": 0.9801883525522292
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 57,
+      "n": 65,
+      "rate": 0.8769230769230769,
+      "low": 0.7754828388206837,
+      "high": 0.9362960855506267
+     },
+     "seed_found": {
+      "k": 43,
+      "n": 51,
+      "rate": 0.8431372549019608,
+      "low": 0.7198929160164018,
+      "high": 0.9183087411197868
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 35,
+      "n": 36,
+      "rate": 0.9722222222222222,
+      "low": 0.8582996626496918,
+      "high": 0.9950797197044302
+     },
+     "complete": {
+      "k": 27,
+      "n": 28,
+      "rate": 0.9642857142857143,
+      "low": 0.8228742388150135,
+      "high": 0.9936676435024582
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 59,
+      "n": 65,
+      "rate": 0.9076923076923077,
+      "low": 0.812877830498267,
+      "high": 0.9570054958625379
+     },
+     "seed_found": {
+      "k": 45,
+      "n": 51,
+      "rate": 0.8823529411764706,
+      "low": 0.766188977022052,
+      "high": 0.9449500123582724
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 36,
+      "n": 36,
+      "rate": 1.0,
+      "low": 0.9035781695514236,
+      "high": 1.0
+     },
+     "complete": {
+      "k": 28,
+      "n": 28,
+      "rate": 1.0,
+      "low": 0.8793527963418923,
+      "high": 1.0
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 65,
+      "n": 65,
+      "rate": 1.0,
+      "low": 0.9441965323292892,
+      "high": 0.9999999999999999
+     },
+     "seed_found": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 30,
+      "n": 36,
+      "rate": 0.8333333333333334,
+      "low": 0.6810888526532568,
+      "high": 0.9212965937143589
+     },
+     "complete": {
+      "k": 22,
+      "n": 28,
+      "rate": 0.7857142857142857,
+      "low": 0.6046105292072612,
+      "high": 0.8978767829881058
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 53,
+      "n": 65,
+      "rate": 0.8153846153846154,
+      "low": 0.7044577741729509,
+      "high": 0.8911123462193701
+     },
+     "seed_found": {
+      "k": 40,
+      "n": 51,
+      "rate": 0.7843137254901961,
+      "low": 0.6537337712118703,
+      "high": 0.8750618875581144
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 32,
+      "n": 36,
+      "rate": 0.8888888888888888,
+      "low": 0.7468487098496367,
+      "high": 0.9559343109125816
+     },
+     "complete": {
+      "k": 24,
+      "n": 28,
+      "rate": 0.8571428571428571,
+      "low": 0.6850982695512267,
+      "high": 0.9430108706929821
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 55,
+      "n": 65,
+      "rate": 0.8461538461538461,
+      "low": 0.7394445429998054,
+      "high": 0.9142299793820102
+     },
+     "seed_found": {
+      "k": 41,
+      "n": 51,
+      "rate": 0.803921568627451,
+      "low": 0.6754165732550456,
+      "high": 0.8898477516370072
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 33,
+      "n": 36,
+      "rate": 0.9166666666666666,
+      "low": 0.7817298972308114,
+      "high": 0.9712519107287082
+     },
+     "complete": {
+      "k": 25,
+      "n": 28,
+      "rate": 0.8928571428571429,
+      "low": 0.7280377463234293,
+      "high": 0.9628823079452005
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 57,
+      "n": 65,
+      "rate": 0.8769230769230769,
+      "low": 0.7754828388206837,
+      "high": 0.9362960855506267
+     },
+     "seed_found": {
+      "k": 43,
+      "n": 51,
+      "rate": 0.8431372549019608,
+      "low": 0.7198929160164018,
+      "high": 0.9183087411197868
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 33,
+      "n": 36,
+      "rate": 0.9166666666666666,
+      "low": 0.7817298972308114,
+      "high": 0.9712519107287082
+     },
+     "complete": {
+      "k": 25,
+      "n": 28,
+      "rate": 0.8928571428571429,
+      "low": 0.7280377463234293,
+      "high": 0.9628823079452005
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 58,
+      "n": 65,
+      "rate": 0.8923076923076924,
+      "low": 0.7939846696853139,
+      "high": 0.9468464556807439
+     },
+     "seed_found": {
+      "k": 44,
+      "n": 51,
+      "rate": 0.8627450980392157,
+      "low": 0.7427804765736837,
+      "high": 0.9318898466845728
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 36,
+      "n": 36,
+      "rate": 1.0,
+      "low": 0.9035781695514236,
+      "high": 1.0
+     },
+     "complete": {
+      "k": 28,
+      "n": 28,
+      "rate": 1.0,
+      "low": 0.8793527963418923,
+      "high": 1.0
+     },
+     "short_chunks": 6,
+     "seed_recall": {
+      "k": 62,
+      "n": 65,
+      "rate": 0.9538461538461539,
+      "low": 0.8728594829309505,
+      "high": 0.9841804464140967
+     },
+     "seed_found": {
+      "k": 48,
+      "n": 51,
+      "rate": 0.9411764705882353,
+      "low": 0.8407512606105803,
+      "high": 0.9797937271359478
+     },
+     "short_seeds": 0
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 28,
+      "a_correct": 26,
+      "b_correct": 22,
+      "only_a": 6,
+      "only_b": 2,
+      "p_value": 0.2890625
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 40,
+      "b_correct": 30,
+      "only_a": 11,
+      "only_b": 1,
+      "p_value": 0.00634765625
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 28,
+      "a_correct": 26,
+      "b_correct": 24,
+      "only_a": 4,
+      "only_b": 2,
+      "p_value": 0.6875
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 51,
+      "a_correct": 41,
+      "b_correct": 37,
+      "only_a": 8,
+      "only_b": 4,
+      "p_value": 0.3876953125
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 28,
+      "a_correct": 26,
+      "b_correct": 25,
+      "only_a": 3,
+      "only_b": 2,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 51,
+      "a_correct": 43,
+      "b_correct": 43,
+      "only_a": 6,
+      "only_b": 6,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 28,
+      "a_correct": 27,
+      "b_correct": 25,
+      "only_a": 3,
+      "only_b": 1,
+      "p_value": 0.625
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 51,
+      "a_correct": 45,
+      "b_correct": 44,
+      "only_a": 5,
+      "only_b": 4,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 28,
+      "a_correct": 28,
+      "b_correct": 28,
+      "only_a": 0,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 51,
+      "a_correct": 51,
+      "b_correct": 48,
+      "only_a": 3,
+      "only_b": 0,
+      "p_value": 0.25
+     }
+    }
+   ]
+  },
+  {
+   "name": "generality",
+   "graph_digest": "f79f9411ea81",
+   "scores": [
+    {
+     "system": "chunk_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 44,
+      "n": 51,
+      "rate": 0.8627450980392157,
+      "low": 0.7427804765736837,
+      "high": 0.9318898466845728
+     },
+     "complete": {
+      "k": 34,
+      "n": 38,
+      "rate": 0.8947368421052632,
+      "low": 0.7586916879980553,
+      "high": 0.9582981020673341
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 37,
+      "n": 62,
+      "rate": 0.5967741935483871,
+      "low": 0.4725024243632989,
+      "high": 0.7097531708834752
+     },
+     "seed_found": {
+      "k": 16,
+      "n": 40,
+      "rate": 0.4,
+      "low": 0.2634811061240136,
+      "high": 0.5540438017260649
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 49,
+      "n": 51,
+      "rate": 0.9607843137254902,
+      "low": 0.8678345101373474,
+      "high": 0.9891791437312488
+     },
+     "complete": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9736842105263158,
+      "low": 0.8650482156319974,
+      "high": 0.9953395324464698
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 46,
+      "n": 62,
+      "rate": 0.7419354838709677,
+      "low": 0.621186360610032,
+      "high": 0.8344526275069032
+     },
+     "seed_found": {
+      "k": 25,
+      "n": 40,
+      "rate": 0.625,
+      "low": 0.47032160054531913,
+      "high": 0.7577722646420829
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 50,
+      "n": 62,
+      "rate": 0.8064516129032258,
+      "low": 0.6914796824829172,
+      "high": 0.885663035798534
+     },
+     "seed_found": {
+      "k": 29,
+      "n": 40,
+      "rate": 0.725,
+      "low": 0.5716474916687543,
+      "high": 0.8389214656685692
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 55,
+      "n": 62,
+      "rate": 0.8870967741935484,
+      "low": 0.7848003079004455,
+      "high": 0.9442220730866508
+     },
+     "seed_found": {
+      "k": 34,
+      "n": 40,
+      "rate": 0.85,
+      "low": 0.7092737396097997,
+      "high": 0.9293890829149256
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 38,
+     "seed_recall": {
+      "k": 59,
+      "n": 62,
+      "rate": 0.9516129032258065,
+      "low": 0.8671174961524586,
+      "high": 0.9834086149991539
+     },
+     "seed_found": {
+      "k": 37,
+      "n": 40,
+      "rate": 0.925,
+      "low": 0.8013546984090248,
+      "high": 0.9741644432281419
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 40,
+      "n": 51,
+      "rate": 0.7843137254901961,
+      "low": 0.6537337712118703,
+      "high": 0.8750618875581144
+     },
+     "complete": {
+      "k": 31,
+      "n": 38,
+      "rate": 0.8157894736842105,
+      "low": 0.6658083165848865,
+      "high": 0.907783515467425
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 40,
+      "n": 62,
+      "rate": 0.6451612903225806,
+      "low": 0.5208089986340214,
+      "high": 0.7525743942361396
+     },
+     "seed_found": {
+      "k": 20,
+      "n": 40,
+      "rate": 0.5,
+      "low": 0.35199278797099753,
+      "high": 0.6480072120290025
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 47,
+      "n": 51,
+      "rate": 0.9215686274509803,
+      "low": 0.8149980177513917,
+      "high": 0.9690783038730685
+     },
+     "complete": {
+      "k": 34,
+      "n": 38,
+      "rate": 0.8947368421052632,
+      "low": 0.7586916879980553,
+      "high": 0.9582981020673341
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 47,
+      "n": 62,
+      "rate": 0.7580645161290323,
+      "low": 0.6384725574675495,
+      "high": 0.8475423631905147
+     },
+     "seed_found": {
+      "k": 25,
+      "n": 40,
+      "rate": 0.625,
+      "low": 0.47032160054531913,
+      "high": 0.7577722646420829
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 50,
+      "n": 51,
+      "rate": 0.9803921568627451,
+      "low": 0.8969519232441061,
+      "high": 0.9965303967465577
+     },
+     "complete": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9736842105263158,
+      "low": 0.8650482156319974,
+      "high": 0.9953395324464698
+     },
+     "short_chunks": 7,
+     "seed_recall": {
+      "k": 52,
+      "n": 62,
+      "rate": 0.8387096774193549,
+      "low": 0.7279343069043936,
+      "high": 0.9099602764593157
+     },
+     "seed_found": {
+      "k": 30,
+      "n": 40,
+      "rate": 0.75,
+      "low": 0.598057409330299,
+      "high": 0.8581303210445048
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 50,
+      "n": 51,
+      "rate": 0.9803921568627451,
+      "low": 0.8969519232441061,
+      "high": 0.9965303967465577
+     },
+     "complete": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9736842105263158,
+      "low": 0.8650482156319974,
+      "high": 0.9953395324464698
+     },
+     "short_chunks": 20,
+     "seed_recall": {
+      "k": 53,
+      "n": 62,
+      "rate": 0.8548387096774194,
+      "low": 0.7465637464683084,
+      "high": 0.92170676943653
+     },
+     "seed_found": {
+      "k": 31,
+      "n": 40,
+      "rate": 0.775,
+      "low": 0.6249660359590695,
+      "high": 0.8768404674532148
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 51,
+      "n": 51,
+      "rate": 1.0,
+      "low": 0.9299509861127319,
+      "high": 0.9999999999999999
+     },
+     "complete": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0,
+      "low": 0.90818706741616,
+      "high": 0.9999999999999999
+     },
+     "short_chunks": 38,
+     "seed_recall": {
+      "k": 54,
+      "n": 62,
+      "rate": 0.8709677419354839,
+      "low": 0.7655044310309549,
+      "high": 0.9331420174150125
+     },
+     "seed_found": {
+      "k": 32,
+      "n": 40,
+      "rate": 0.8,
+      "low": 0.6524239261814333,
+      "high": 0.8950013502683314
+     },
+     "short_seeds": 0
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 34,
+      "b_correct": 31,
+      "only_a": 4,
+      "only_b": 1,
+      "p_value": 0.375
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 20,
+      "b_correct": 16,
+      "only_a": 13,
+      "only_b": 9,
+      "p_value": 0.5234670639038086
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 37,
+      "b_correct": 34,
+      "only_a": 3,
+      "only_b": 0,
+      "p_value": 0.25
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 25,
+      "b_correct": 25,
+      "only_a": 6,
+      "only_b": 6,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 38,
+      "b_correct": 37,
+      "only_a": 1,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 40,
+      "a_correct": 30,
+      "b_correct": 29,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 38,
+      "b_correct": 37,
+      "only_a": 1,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 40,
+      "a_correct": 34,
+      "b_correct": 31,
+      "only_a": 4,
+      "only_b": 1,
+      "p_value": 0.375
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 38,
+      "a_correct": 38,
+      "b_correct": 38,
+      "only_a": 0,
+      "only_b": 0,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 40,
+      "a_correct": 37,
+      "b_correct": 32,
+      "only_a": 5,
+      "only_b": 0,
+      "p_value": 0.0625
+     }
+    }
+   ]
+  },
+  {
+   "name": "pooled",
+   "graph_digest": "392a170ecc10+bc7c5a1efe3d+f79f9411ea81",
+   "scores": [
+    {
+     "system": "chunk_dense",
+     "k": 5,
+     "evidence_recall": {
+      "k": 119,
+      "n": 160,
+      "rate": 0.74375,
+      "low": 0.6709427648280608,
+      "high": 0.8051268048050482
+     },
+     "complete": {
+      "k": 81,
+      "n": 99,
+      "rate": 0.8181818181818182,
+      "low": 0.7308102684012943,
+      "high": 0.8817823011425481
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 112,
+      "n": 213,
+      "rate": 0.5258215962441315,
+      "low": 0.4589003392442038,
+      "high": 0.5918279342974045
+     },
+     "seed_found": {
+      "k": 55,
+      "n": 141,
+      "rate": 0.3900709219858156,
+      "low": 0.31349641502575776,
+      "high": 0.47247667557804673
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 10,
+     "evidence_recall": {
+      "k": 136,
+      "n": 160,
+      "rate": 0.85,
+      "low": 0.7865048113324178,
+      "high": 0.8970822630125592
+     },
+     "complete": {
+      "k": 89,
+      "n": 99,
+      "rate": 0.898989898989899,
+      "low": 0.8239677083435178,
+      "high": 0.9442039264813001
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 140,
+      "n": 213,
+      "rate": 0.6572769953051644,
+      "low": 0.5912563619887682,
+      "high": 0.7177249404919367
+     },
+     "seed_found": {
+      "k": 79,
+      "n": 141,
+      "rate": 0.5602836879432624,
+      "low": 0.4778339400634833,
+      "high": 0.6395356554118499
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 15,
+     "evidence_recall": {
+      "k": 144,
+      "n": 160,
+      "rate": 0.9,
+      "low": 0.843736268117816,
+      "high": 0.9375061025621578
+     },
+     "complete": {
+      "k": 91,
+      "n": 99,
+      "rate": 0.9191919191919192,
+      "low": 0.8485803066346849,
+      "high": 0.958486094510377
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 161,
+      "n": 213,
+      "rate": 0.755868544600939,
+      "low": 0.6939793380419226,
+      "high": 0.8086917361431047
+     },
+     "seed_found": {
+      "k": 93,
+      "n": 141,
+      "rate": 0.6595744680851063,
+      "low": 0.5780554468943208,
+      "high": 0.7326287764227372
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 20,
+     "evidence_recall": {
+      "k": 148,
+      "n": 160,
+      "rate": 0.925,
+      "low": 0.8734905849508775,
+      "high": 0.9565794338965946
+     },
+     "complete": {
+      "k": 93,
+      "n": 99,
+      "rate": 0.9393939393939394,
+      "low": 0.8740305823550434,
+      "high": 0.9719305851102626
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 174,
+      "n": 213,
+      "rate": 0.8169014084507042,
+      "low": 0.7595050148815519,
+      "high": 0.863069251310913
+     },
+     "seed_found": {
+      "k": 106,
+      "n": 141,
+      "rate": 0.75177304964539,
+      "low": 0.6744269919511744,
+      "high": 0.8157636715046283
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "chunk_dense",
+     "k": 50,
+     "evidence_recall": {
+      "k": 158,
+      "n": 160,
+      "rate": 0.9875,
+      "low": 0.9555737384223193,
+      "high": 0.9965654008438989
+     },
+     "complete": {
+      "k": 97,
+      "n": 99,
+      "rate": 0.9797979797979798,
+      "low": 0.9293083037313168,
+      "high": 0.9944423963744768
+     },
+     "short_chunks": 38,
+     "seed_recall": {
+      "k": 188,
+      "n": 213,
+      "rate": 0.8826291079812206,
+      "low": 0.8324769448657352,
+      "high": 0.9192238357962779
+     },
+     "seed_found": {
+      "k": 117,
+      "n": 141,
+      "rate": 0.8297872340425532,
+      "low": 0.7592132388004841,
+      "high": 0.8828674893881027
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 5,
+     "evidence_recall": {
+      "k": 115,
+      "n": 160,
+      "rate": 0.71875,
+      "low": 0.644584094736341,
+      "high": 0.7826578267292696
+     },
+     "complete": {
+      "k": 73,
+      "n": 99,
+      "rate": 0.7373737373737373,
+      "low": 0.6429937858948775,
+      "high": 0.8140197183679887
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 161,
+      "n": 213,
+      "rate": 0.755868544600939,
+      "low": 0.6939793380419226,
+      "high": 0.8086917361431047
+     },
+     "seed_found": {
+      "k": 94,
+      "n": 141,
+      "rate": 0.6666666666666666,
+      "low": 0.585346994293644,
+      "high": 0.7391454167263944
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 10,
+     "evidence_recall": {
+      "k": 132,
+      "n": 160,
+      "rate": 0.825,
+      "low": 0.7587006308791613,
+      "high": 0.8760587952983172
+     },
+     "complete": {
+      "k": 83,
+      "n": 99,
+      "rate": 0.8383838383838383,
+      "low": 0.7534859492631247,
+      "high": 0.8980013866009613
+     },
+     "short_chunks": 0,
+     "seed_recall": {
+      "k": 178,
+      "n": 213,
+      "rate": 0.8356807511737089,
+      "low": 0.7800535855822551,
+      "high": 0.879413970458652
+     },
+     "seed_found": {
+      "k": 108,
+      "n": 141,
+      "rate": 0.7659574468085106,
+      "low": 0.6895897032677732,
+      "high": 0.8282173355939902
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 15,
+     "evidence_recall": {
+      "k": 137,
+      "n": 160,
+      "rate": 0.85625,
+      "low": 0.793529970004945,
+      "high": 0.9022640163819067
+     },
+     "complete": {
+      "k": 87,
+      "n": 99,
+      "rate": 0.8787878787878788,
+      "low": 0.7999916857455538,
+      "high": 0.9292851827590203
+     },
+     "short_chunks": 7,
+     "seed_recall": {
+      "k": 191,
+      "n": 213,
+      "rate": 0.8967136150234741,
+      "low": 0.8485728853648782,
+      "high": 0.9307978626834668
+     },
+     "seed_found": {
+      "k": 119,
+      "n": 141,
+      "rate": 0.8439716312056738,
+      "low": 0.7750502089511974,
+      "high": 0.89464689464335
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 20,
+     "evidence_recall": {
+      "k": 140,
+      "n": 160,
+      "rate": 0.875,
+      "low": 0.8148086246017668,
+      "high": 0.9176060979107085
+     },
+     "complete": {
+      "k": 87,
+      "n": 99,
+      "rate": 0.8787878787878788,
+      "low": 0.7999916857455538,
+      "high": 0.9292851827590203
+     },
+     "short_chunks": 20,
+     "seed_recall": {
+      "k": 195,
+      "n": 213,
+      "rate": 0.9154929577464789,
+      "low": 0.8703854345560619,
+      "high": 0.9458786033407255
+     },
+     "seed_found": {
+      "k": 123,
+      "n": 141,
+      "rate": 0.8723404255319149,
+      "low": 0.8072275308836183,
+      "high": 0.9177023235228505
+     },
+     "short_seeds": 0
+    },
+    {
+     "system": "card_dense_template",
+     "k": 50,
+     "evidence_recall": {
+      "k": 157,
+      "n": 160,
+      "rate": 0.98125,
+      "low": 0.9463289621260206,
+      "high": 0.9936032650983228
+     },
+     "complete": {
+      "k": 98,
+      "n": 99,
+      "rate": 0.98989898989899,
+      "low": 0.944983344585968,
+      "high": 0.9982147386799481
+     },
+     "short_chunks": 66,
+     "seed_recall": {
+      "k": 201,
+      "n": 213,
+      "rate": 0.9436619718309859,
+      "low": 0.9041216745548035,
+      "high": 0.9674822981146474
+     },
+     "seed_found": {
+      "k": 129,
+      "n": 141,
+      "rate": 0.9148936170212766,
+      "low": 0.8571322383922675,
+      "high": 0.9506467422320835
+     },
+     "short_seeds": 0
+    }
+   ],
+   "best": [
+    {
+     "k": 5,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 81,
+      "b_correct": 73,
+      "only_a": 12,
+      "only_b": 4,
+      "p_value": 0.076812744140625
+     }
+    },
+    {
+     "k": 5,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 94,
+      "b_correct": 55,
+      "only_a": 51,
+      "only_b": 12,
+      "p_value": 7.459722282164658e-7
+     }
+    },
+    {
+     "k": 10,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 89,
+      "b_correct": 83,
+      "only_a": 10,
+      "only_b": 4,
+      "p_value": 0.1795654296875
+     }
+    },
+    {
+     "k": 10,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 108,
+      "b_correct": 79,
+      "only_a": 40,
+      "only_b": 11,
+      "p_value": 0.00005703811637403078
+     }
+    },
+    {
+     "k": 15,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 91,
+      "b_correct": 87,
+      "only_a": 7,
+      "only_b": 3,
+      "p_value": 0.34375
+     }
+    },
+    {
+     "k": 15,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 119,
+      "b_correct": 93,
+      "only_a": 36,
+      "only_b": 10,
+      "p_value": 0.00015641720852954677
+     }
+    },
+    {
+     "k": 20,
+     "measure": "evidence",
+     "best": "chunk_dense",
+     "runner_up": "card_dense_template",
+     "paired": {
+      "questions": 99,
+      "a_correct": 93,
+      "b_correct": 87,
+      "only_a": 7,
+      "only_b": 1,
+      "p_value": 0.0703125
+     }
+    },
+    {
+     "k": 20,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 123,
+      "b_correct": 106,
+      "only_a": 28,
+      "only_b": 11,
+      "p_value": 0.009475304279476404
+     }
+    },
+    {
+     "k": 50,
+     "measure": "evidence",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 99,
+      "a_correct": 98,
+      "b_correct": 97,
+      "only_a": 2,
+      "only_b": 1,
+      "p_value": 1.0
+     }
+    },
+    {
+     "k": 50,
+     "measure": "seeds",
+     "best": "card_dense_template",
+     "runner_up": "chunk_dense",
+     "paired": {
+      "questions": 141,
+      "a_correct": 129,
+      "b_correct": 117,
+      "only_a": 21,
+      "only_b": 9,
+      "p_value": 0.04277394525706768
+     }
+    }
+   ]
+  }
+ ]
+}
