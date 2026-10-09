@@ -8174,6 +8174,63 @@ cards best at start nodes. Read from the code and R128's committed record; no ne
   rank the chunks within their reach. That is a step of its own, measured against R128's table on the same
   three builds, only if the user chooses it.
 
+### Plan R130-R136: an agentic query engine, seeding first (accepted 2026-10-09; branch `agentic-query-engine`)
+The user, 2026-10-09: "design a completely new agentic query engine ... The node-card retrieval needs to be
+used to find the starting point in the graph, but also, the retrieval should support multi hopping, and
+retrieving not only chunks, but also nodes' data and relationships found. ... a set of tools that allows it to
+search the graph in that way, and to also search the graph in a structured way, and the structured data, all
+separately, and in a controlled manner (containment of loop). But before that, we would need to establish the
+seeding part ... dense+lexical node-card retrieval ... decide based on experimental data, what k's value".
+The user's decisions, same day: seeding is decided offline on R128's saved lists first, then confirmed live;
+RRF and RRF followed by a reranker are run side by side in one experiment; the stopping rule below; a new
+branch after `build-node-cards` was merged into `main` and pushed (`c83b526`).
+- **Why offline first:** R128's reports keep every question's top 50 seeds per card retriever (dense: 50 on
+  every question; lexical: up to 50, fewer when few cards share the question's words), with the targets as
+  placed on each build. Fusion and its scores are arithmetic on those lists: no embedding, no Neo4j.
+- **Part 1, seeding (R130-R132).** Fixed before any number (pre-registered):
+  - Cards: template (A) for the choice; summary (B) scored in the same grid for the record only.
+  - Arm RRF (free, deterministic, `hybrid/fusion.py`): candidates per list 10, 25, 50; RRF k = 10 and 60;
+    plus plain interleaving (dense, lexical, dense, ...) as the no-score reference.
+  - Arm rerank: the RRF k = 60 list of 25 + 25 candidates and of 50 + 50, top 50 of each (two pools); a
+    listwise LLM reranker through the `LLMClient` port (the `index_summary_model`, temperature 0, cached)
+    reads the question and the pool's template card texts and returns the pool's refs best first. Code
+    checks it: refs outside the pool are dropped and counted, refs it leaves out follow in RRF order. The
+    prompt follows the `prompt-engineering` skill (domain-neutral, no example from the three datasets).
+  - Final K = 5, 10, 15, 20, 25, 30, 50. Measures: Seed Recall@K (of 213 targets) and Seeds found@K (of 141
+    questions), per dataset, per question type and pooled, with Wilson intervals; card_lexical_template
+    and card_dense_template alone as baselines.
+  - Choice on furniture only: the setting with the highest Seed Recall@20 (ties: Seeds found@20, then the
+    cheaper arm, then fewer candidates); its K is the smallest K whose Seed Recall is within 2 targets of its
+    own Seed Recall@50. The rerank arm is chosen over the best RRF setting only if it also beats it on
+    held-out and generality pooled, Seeds found at the chosen K, exact McNemar p < 0.05; otherwise RRF (free
+    and deterministic) is kept. Every setting is paired with card_lexical_template at the chosen K.
+  - Read with care: dense ranks move about 2-3 targets between builds (Found along the way), so smaller
+    differences between dense-fed settings are not evidence; the targets come from the same model family as
+    the session.
+- **Part 2, the engine (R133-R136, detailed once R132 is done).** The agent proposes the next tool call;
+  code runs it, caps it and checks the answer's citations. Tools, each its own class: seeding
+  (`find_nodes`, R132's setting); graph walk (`get_node`: properties with their source; `neighbours`:
+  relations with the other ends' names and ids, multi-hop by repeated calls; `node_evidence`: the node's
+  chunks ranked by the question, with their claims); text (`search_text`, `search_claims`); structured
+  (`schema`, `query_records` over the graph and `query_tables` over the source tables, each from a typed
+  plan code compiles to parameterised read-only queries); `answer(text, citations)`, whose citations must
+  be ids earlier tools returned, a text-extracted fact citing its chunk. Containment: caps on steps, tool
+  calls, tokens and cost per question, result caps per tool, an identical call refused, a timeout; at a
+  cap the agent answers from what it has or says the evidence is insufficient. Every step traced in MLflow.
+- **Steps, strictly one after another:**
+  - **R130** The seed grid: `kg seed-grid` fuses (and, when asked, reranks) R128's saved card lists and
+    scores them with `validation/retrieval_scores.py`; the reranker with a fake LLM in tests ($0, code).
+  - **R131** The grid on the three datasets, both arms in one table, the choice by the rule above. RRF
+    arm $0; rerank arm a whole-dataset LLM run, asked first (about $0.5 per pool, about $1 for both).
+  - **R132** The chosen seeding as a live seeder, confirmed with `kg retrieve-eval` on the three builds
+    (reloaded from the cache as in R128; embeddings only): its counts must match R131's within the dense
+    drift.
+  - **R133** The graph-walk and text tools, with fakes and tests ($0, code).
+  - **R134** The structured tools: typed plans to read-only Cypher and table queries ($0, code).
+  - **R135** The agent loop, its containment and its tracing ($0, code; one dev run at most).
+  - **R136** Answers measured with `kg qa` against the existing systems, exact match and the Claude judge
+    (a paid run, asked first with its estimate).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
