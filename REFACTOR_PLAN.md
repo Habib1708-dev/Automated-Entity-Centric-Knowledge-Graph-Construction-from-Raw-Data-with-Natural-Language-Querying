@@ -7816,6 +7816,94 @@ the rest $0 logged.
   units and 629 summaries indexed, 2,499 retrieval texts).
 - **R122 done 2026-10-09.** Next: R125, A and B on generality (asked first).
 
+### R125. A and B measured on generality (done 2026-10-09; $0.256; the regrouped step of the plan change after R121)
+The user, 2026-10-09: "yes" to R125 with the Gemini reader again (preset `generality_gemini`: the quality
+settings, `qa_model` gemini-3.8-flash at `qa_thinking` low), estimated at about $0.35 (summaries about $0.15
+for roughly 400 nodes at furniture's and held-out's $0.0004-0.0005 per node, three readers about $0.2).
+- **Fairness and steps:** as R122 (sealed defaults, no overrides; no card, summary or claim sentence opened
+  before the final runs), on R108's generality build: reload into `out/r125_generality` with R108's recipe
+  (`tests/gold/r108/runs.json`: plan, text schema and profile pinned from `out/r108_generality`, claims replayed
+  from `out/r103_generality`, the mention pass on an invalid key), logged counts against
+  `tests/gold/r108/generality_logged.json`, C0; both index runs; `kg retrieve-eval
+  tests/gold/qa/generality_qa.json --targets tests/gold/r89/generality_targets.json` for the nine systems; `kg qa`
+  for vector, graph_retrieval, hybrid; the judge, `qa-score`, `qa-compare`, `retrieve-compare`, and B's
+  groundedness sample.
+- **No code changed.** Every run at `00166ed` (dirty only by `.claude/settings.json` and this entry); ids,
+  commands, counts and costs in `tests/gold/r125/runs.json`.
+- **The load** (C0 `3e16764d`): all 27 logged counts equal R108's (`tests/gold/r125/generality_logged.json`),
+  every LLM call a cache hit (mention pass 32/32, resolve 354/354), `triples.jsonl`, `mentions.jsonl` and
+  `audit/code_checks.json` byte-identical to R108's; `graph_digest` f79f9411ea81. The working Neo4j now holds
+  generality.
+- **The index runs:** template `82684f38` (332 cards: 8 records, 104 individuals, 220 concepts; 216 claim
+  sentences; $0 logged); summary `5485f076` (`cb2853048d1f`: 334 calls, 269,492 input / 14,627 output / 0
+  thinking tokens, **$0.117415**; 2 first replies refused, 1 fallback). Evidence hashes equal for 332 of 332.
+- **Retrieval** (code-computed; chunks: 51 gold chunks over 38 questions; seeds: 62 targets over 40
+  questions):
+
+  | System | Evidence@5 | Complete@5 / 10 / 20 | Seed Recall@1 / 3 / 5 / 10 / 20 | Seeds found@5 |
+  |---|---|---|---|---|
+  | vector | 44 | 34 / 37 / 38 | - | - |
+  | graph_retrieval | 44 | 34 / 36 / 36 | 17 / 29 / 41 / 48 / 48 | 22 |
+  | hybrid (sealed) | 46 | 35 / 38 / 38 | - | - |
+  | `card_dense_template` (A) | 41 | 32 / 36 / 37 | **17 / 34 / 38 / 45 / 51** | 19 |
+  | `card_dense_summary` (B) | 41 | 31 / 36 / 37 | **17 / 30 / 39 / 51 / 55** | 21 |
+  | `card_lexical_template` | 43 | 32 / 38 / 38 | 18 / 34 / 45 / 51 / 58 | 26 |
+  | `card_lexical_summary` | 42 | 31 / 38 / 38 | 14 / 28 / 36 / 48 / 55 | 18 |
+  | `card_seeds_template` | 45 | 34 / 37 / 38 | 25 / 42 / 46 / 58 / 58 | 25 |
+  | `card_seeds_summary` | 43 | 32 / 37 / 38 | 24 / 41 / 47 / 53 / 58 | 26 |
+
+  - **Headline, A against B:** Seeds found@5 of `card_dense` **19 / 21 of 40, only A 2, only B 4, p = 0.688**;
+    at 20, 29 / 33, p = 0.125. `card_lexical` at 5: **26 / 18, only A 9, only B 1, p = 0.021**, the one paired
+    A-against-B difference beyond one sample's variation in R122 and R125 (as on furniture at 20 in R123, p =
+    0.039: A's cards keep the words and identifiers that word search matches; one of many tests, so read it
+    with care); `card_seeds` at 5: 25 / 26, p = 1.0.
+  - Chunks: hybrid against vector Complete@5 35 / 34, p = 1.0; against graph_retrieval 35 / 34, p = 1.0.
+- **Answers** (Gemini reader, MLflow `01f776bc`, `22e73c80`, `6cf367ea`: **$0.138196**). Correct of 41 (31 by
+  code, exact match; 10 free-text by the judge, Claude Opus 5.5, R71's rules,
+  `tests/gold/r125/generality_*_verdicts.json`): **vector 26 (0.634), graph_retrieval 27 (0.659), hybrid 26
+  (0.634)**; every pair p = 1.0. The judge: all three right on 9 of the 10 free-text questions; G18 ("who told
+  the inspector the east railing moved?", expected "Residents") wrong only for vector (rule 5). G08's and G33's
+  added details (a flow of 41 litres per second; "was dry") are the inspection reports' own words (rule 1).
+- **B's groundedness on generality** (sheet `132e1b89`, 28 of 332 summaries, 1 fallback; verdicts
+  `tests/gold/r125/summary_verdicts.json`, scored `2b3e0531`): **grounded 23 of 28** (0.821, Wilson
+  0.644-0.921); unsupported 4/28, polarity flip 1/28, identity confusion 0/28.
+  - All four unsupported findings are gendered pronouns no fact supports, read off the person's name: "His
+    role is PhD student" (Samuel Osei), "Her role is postdoctoral researcher" (Maria Lopez, S-104), "His role is
+    group leader" (Jonathan Pike), "She is affiliated with council." (Priya Nandakumar). Furniture and held-out
+    hold no persons, so tuning could not see it ("Found along the way").
+  - The polarity flip: "46 deck boards has measurement at Mill Lane footbridge." reverses F1 (as "6 -8
+    people" on furniture).
+  - Kept: the condition on Samuel Osei's pump servicing ("before any experiment runs above 60 litres per
+    second"); the two staff named Maria Lopez told apart by id and team.
+- **Verified:** `test_r125_the_measured_graph_is_the_frozen_generality_build` (`tests/test_audit.py`),
+  `test_r125_the_generality_verdicts_answer_their_sheet_and_count_23_grounded_of_28`
+  (`tests/test_summary_judging.py`). 1028 passed (1026 + 2), ruff clean.
+- **Cost:** **$0.255611** (summaries $0.117415, readers $0.138196; load all cache; embeddings unpriced).
+
+### Plan R116-R125: the A-against-B result on the three datasets (2026-10-09)
+Card retrieval alone (`card_dense`), code-computed Seed Recall@K and Seeds found@5 with exact McNemar; answers
+of the three reading systems with one reader each run (furniture: none run for A and B, the plan's choice);
+B's groundedness by Claude Opus 5.5 on seeded stratified samples (the summaries by Gemini 3.5 Flash-Lite; the
+gold, targets and verdicts by the same model family as the judge):
+
+| Dataset | targets / questions | A: Seed Recall@1 / 5 / 20 | B: Seed Recall@1 / 5 / 20 | Seeds found@5 A / B (p) | answers vector / graph_retrieval / hybrid | B grounded |
+|---|---|---|---|---|---|---|
+| furniture (tuning set) | 86 / 50 | 36 / 59 / 73 | 33 / 58 / 81 | 27 / 29 (0.774) | (R121: no reader run) | 42 / 44 |
+| held-out | 65 / 51 | 31 / 50 / 55 | 26 / 48 / 60 | 37 / 35 (0.625) | 26 / 31 / 27 of 68 | 39 / 42 |
+| generality | 62 / 40 | 17 / 38 / 51 | 17 / 39 / 55 | 19 / 21 (0.688) | 26 / 27 / 26 of 41 | 23 / 28 |
+
+- **The hypothesis that LLM summaries find the right start nodes better is not supported:** at the reader's
+  budget (K = 5) A and B are level on every dataset, and no difference is beyond one sample's variation. B
+  trails at the very top (K = 1) and leads deep down (K = 20) on every dataset, so summaries widen a node's
+  reach while costing the precision a card's leading identifier gives.
+- **The sealed hybrid answers like plain vector search** on both measured datasets (27 / 26 and 26 / 26), with
+  the same or more complete retrieval; the name-linker route answers as well or better (31 and 27).
+- **B costs money and groundedness that A does not:** $0.29 (furniture), $0.29 (held-out), $0.12 (generality)
+  per summary set; 5-18 % of judged summaries carry a finding (2/44, 3/42, 5/28), where A's cards are grounded
+  by construction.
+- **R125 done 2026-10-09; plan R116-R125 done.** Next: the user's decision on Part 2 (the open items: a
+  concept's or an individual's relation lines without truth; the gendered pronouns; one units file per build).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -7848,6 +7936,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **LLM summaries give persons gendered pronouns no fact supports (found in R125, 2026-10-09; open).** On
+  generality 4 of 28 judged summaries read gender off a name ("His role is PhD student", Samuel Osei; "She is
+  affiliated with council.", Priya Nandakumar). The summary prompt (P1) has no rule on pronouns, and the
+  grounding check checks only capitalised words. Furniture and held-out hold no persons, so the tuning set
+  could not show it. Direction: a prompt rule to refer to a node by its name or "it"; it changes P1 and its
+  version (every summary set re-written), so its own step with a measured comparison, on a dataset with persons.
 - **A concept's or an individual's relation lines ignore the truth of the claims they come from (found in
   R123, 2026-10-08; open).** `unit_sources` groups the claims a concept or an individual is an end of by
   predicate, direction and the other end's type, counting every claim; their stated and denied counts are not

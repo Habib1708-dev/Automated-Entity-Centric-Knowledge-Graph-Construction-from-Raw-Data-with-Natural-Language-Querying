@@ -1,0 +1,62 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-09",
+    "run_id": "6cf367ea362046f1afbebffd0381c24e",
+    "git_sha": "00166ed"
+  },
+  "gold": "tests/gold/qa/generality_qa.json",
+  "answers": "out/r125_generality/answers_hybrid.jsonl",
+  "verdicts": [
+    {
+      "question_id": "G08",
+      "correct": true,
+      "reason": "Ran quietly, no leaks, bearing temperature 48 °C: the expected findings; the added flow of 41 litres per second is in the same inspection report, so the extra detail is true (rule 1)."
+    },
+    {
+      "question_id": "G09",
+      "correct": true,
+      "reason": "It has leaked into the children's section since the autumn storms: the expected reason."
+    },
+    {
+      "question_id": "G11",
+      "correct": true,
+      "reason": "Ines Barros, Calder Pumps' service manager, says it ran dry; the utility does not agree because its log shows the suction valve open all night: both parts of the expected answer."
+    },
+    {
+      "question_id": "G16",
+      "correct": true,
+      "reason": "Replacing the seal of pump HP40-1183 after the March inspection, as the inspection had recommended: the expected answer in full."
+    },
+    {
+      "question_id": "G17",
+      "correct": true,
+      "reason": "By 30 June 2025: the expected date."
+    },
+    {
+      "question_id": "G18",
+      "correct": true,
+      "reason": "No text, but the entities field names 'residents', the expected answer (judged on content, rule 3)."
+    },
+    {
+      "question_id": "G19",
+      "correct": true,
+      "reason": "Before the library reopens on 1 September: the expected answer."
+    },
+    {
+      "question_id": "G20",
+      "correct": true,
+      "reason": "28 March: the expected date."
+    },
+    {
+      "question_id": "G33",
+      "correct": true,
+      "reason": "No leaks, bearing temperature 49 °C, 40 litres per second: the expected findings; 'was dry' is the report's own word for no leaks (rule 1)."
+    },
+    {
+      "question_id": "G38",
+      "correct": true,
+      "reason": "By 15 June 2025: the expected date."
+    }
+  ]
+}

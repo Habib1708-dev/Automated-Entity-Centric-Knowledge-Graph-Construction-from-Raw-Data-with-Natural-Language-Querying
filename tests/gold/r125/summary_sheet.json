@@ -1,0 +1,405 @@
+{
+ "source": "out\\r125_generality\\index\\units_summary.jsonl",
+ "source_hash": "f416bb15712f",
+ "seed": 124,
+ "per_stratum": 10,
+ "population": {
+  "record_qualified": 1,
+  "record_plain": 7,
+  "individual_qualified": 0,
+  "individual_plain": 104,
+  "concept": 220
+ },
+ "rows": [
+  {
+   "ref": "Staff:S-162",
+   "kind": "record",
+   "qualified": true,
+   "title": "Samuel Osei",
+   "label": "Staff",
+   "facts": [
+    "F1. Also called: S. Osei",
+    "F2. role: PhD student",
+    "F3. staff_id: S-162",
+    "F4. start_year: 2023",
+    "F5. team: Hydrology",
+    "F6. Aiko Tanaka (Person) participated in Minutes of the institute committee, 9 June 2025 (Event)",
+    "F7. Samuel Osei (Person) located at Brackwater fen (Place)",
+    "F8. Samuel Osei (Person) services flume pump (Pump) [conditional: before any experiment runs above 60 litres per second]"
+   ],
+   "summary": "Samuel Osei is a staff member, also called S. Osei. His role is PhD student, his staff id is S-162, his start year is 2023, and his team is Hydrology. Samuel Osei is located at Brackwater fen. Samuel Osei services flume pump, conditional upon before any experiment runs above 60 litres per second.",
+   "fallback": false
+  },
+  {
+   "ref": "Staff:S-104",
+   "kind": "record",
+   "qualified": false,
+   "title": "Maria Lopez",
+   "label": "Staff",
+   "facts": [
+    "F1. Also called: M. Lopez",
+    "F2. role: Postdoctoral researcher",
+    "F3. staff_id: S-104",
+    "F4. start_year: 2021",
+    "F5. team: Soil Ecology",
+    "F6. Maria Lopez (Person) affiliated with Soil Ecology (Organization)",
+    "F7. Maria Lopez (Person) participated in Aldmoor peat sampling campaign (Event)",
+    "F8. Aldmoor bog (Place) has measurement 240 cores (Value)"
+   ],
+   "summary": "Maria Lopez is a staff member, also called M. Lopez, with staff id S-104. Her role is postdoctoral researcher, starting in the year 2021 on the Soil Ecology team. Maria Lopez is affiliated with Soil Ecology. She participated in the Aldmoor peat sampling campaign. Aldmoor bog has a measurement of 240 cores.",
+   "fallback": false
+  },
+  {
+   "ref": "Staff:S-131",
+   "kind": "record",
+   "qualified": false,
+   "title": "Jonathan Pike",
+   "label": "Staff",
+   "facts": [
+    "F1. Also called: Dr. J. Pike, Dr. Jonathan Pike, J. Pike, Jon Pike, group leader",
+    "F2. role: Group leader",
+    "F3. staff_id: S-131",
+    "F4. start_year: 2009",
+    "F5. team: Soil Ecology",
+    "F6. Jonathan Pike (Person) affiliated with Soil Ecology (Organization)",
+    "F7. Aiko Tanaka (Person) participated in Minutes of the institute committee, 9 June 2025 (Event)",
+    "F8. Aldmoor bog (Place) has measurement 3.9 (Value)"
+   ],
+   "summary": "Jonathan Pike is a staff, also called Dr. J. Pike, Dr. Jonathan Pike, J. Pike, Jon Pike and group leader. His role is group leader, staff id is S-131, start year is 2009, and team is Soil Ecology. Jonathan Pike is affiliated with Soil Ecology.",
+   "fallback": false
+  },
+  {
+   "ref": "Staff:S-150",
+   "kind": "record",
+   "qualified": false,
+   "title": "Aiko Tanaka",
+   "label": "Staff",
+   "facts": [
+    "F1. role: Research engineer",
+    "F2. staff_id: S-150",
+    "F3. start_year: 2018",
+    "F4. team: Hydrology",
+    "F5. Aiko Tanaka (Person) affiliated with Hydrology (Organization)",
+    "F6. Aiko Tanaka (Person) located at room B12 (Place)",
+    "F7. Aiko Tanaka (Person) operates sediment flume (Equipment)"
+   ],
+   "summary": "Aiko Tanaka is a staff member with role research engineer, staff id S-150, start year 2018, and team Hydrology. Aiko Tanaka is affiliated with Hydrology, located at room B12, and operates sediment flume.",
+   "fallback": false
+  },
+  {
+   "ref": "Staff:S-219",
+   "kind": "record",
+   "qualified": false,
+   "title": "Maria Lopez",
+   "label": "Staff",
+   "facts": [
+    "F1. role: Grants accountant",
+    "F2. staff_id: S-219",
+    "F3. start_year: 2016",
+    "F4. team: Finance Office",
+    "F5. Maria Lopez (Person) affiliated with Finance Office (Organization)",
+    "F6. Aiko Tanaka (Person) participated in Minutes of the institute committee, 9 June 2025 (Event)",
+    "F7. European peat conference (Event) located at Utrecht (Place)"
+   ],
+   "summary": "Maria Lopez, a staff member with staff id S-219, is a grants accountant who started in the year 2016 in the Finance Office team. Maria Lopez is affiliated with the Finance Office organization.",
+   "fallback": false
+  },
+  {
+   "ref": "Pump:HP40-1183",
+   "kind": "record",
+   "qualified": false,
+   "title": "HP40-1183",
+   "label": "Pump",
+   "facts": [
+    "F1. Also called: pump",
+    "F2. install_year: 2012",
+    "F3. model: Hydra P-40",
+    "F4. rated_flow_lps: 42",
+    "F5. station: North Station",
+    "F6. HP40-1183 (Pump) located at North Station (Place)",
+    "F7. seal (Equipment) component of HP40-1183 (Pump)",
+    "F8. Rosa Delgado (Person) services HP40-1183 (Pump)"
+   ],
+   "summary": "HP40-1183 is a pump, also called pump, with model Hydra P-40 and rated flow lps 42, installed in 2012. It is located at North Station. A seal is a component of it. Rosa Delgado services it.",
+   "fallback": false
+  },
+  {
+   "ref": "Pump:HP40-2291",
+   "kind": "record",
+   "qualified": false,
+   "title": "HP40-2291",
+   "label": "Pump",
+   "facts": [
+    "F1. install_year: 2019",
+    "F2. model: Hydra P-40",
+    "F3. rated_flow_lps: 42",
+    "F4. station: North Station",
+    "F5. HP40-2291 (Pump) located at North Station (Place)",
+    "F6. HP40-2291 (Pump) has measurement 41 litres per second (Value)",
+    "F7. mechanical seal (Equipment) component of HP40-2291 (Pump)"
+   ],
+   "summary": "HP40-2291 is a pump installed in 2019, with model Hydra P-40 and rated flow 42 lps. It is located at North Station. It has a measured flow of 41 litres per second. Its mechanical seal is a component.",
+   "fallback": false
+  },
+  {
+   "ref": "Pump:KV12-0457",
+   "kind": "record",
+   "qualified": false,
+   "title": "KV12-0457",
+   "label": "Pump",
+   "facts": [
+    "F1. Also called: Kestrel V-12",
+    "F2. install_year: 2016",
+    "F3. model: Kestrel V-12",
+    "F4. rated_flow_lps: 18",
+    "F5. station: Harbour Station",
+    "F6. KV12-0457 (Pump) located at Harbour Station (Place)",
+    "F7. Rosa Delgado (Person) participated in open day (Event)",
+    "F8. intake screen (Equipment) component of KV12-0457 (Pump)"
+   ],
+   "summary": "KV12-0457 is a pump, also called Kestrel V-12, with model Kestrel V-12 and install year 2016. Its rated flow is 18 lps. It is located at Harbour Station. An intake screen is a component of it.",
+   "fallback": false
+  },
+  {
+   "ref": "066617e638968e83",
+   "kind": "individual",
+   "qualified": false,
+   "title": "pump",
+   "label": "Pump",
+   "facts": [
+    "F1. pump -LOCATED_AT-> Place (1): North Station",
+    "F2. pump (Pump) located at North Station (Place)"
+   ],
+   "summary": "pump is a pump located at North Station.",
+   "fallback": false
+  },
+  {
+   "ref": "07a722c4a267e219",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Tomasz Wren",
+   "label": "Person",
+   "facts": [
+    "F1. Tomasz Wren -LOCATED_AT-> Place (1): North Station",
+    "F2. Tomasz Wren (Person) located at North Station (Place)"
+   ],
+   "summary": "Tomasz Wren is a person located at North Station.",
+   "fallback": false
+  },
+  {
+   "ref": "3ec5a326cfbce96a",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Mill Lane footbridge",
+   "label": "Place",
+   "facts": [
+    "F1. Mill Lane footbridge -HAS_MEASUREMENT-> Value (1): 46 deck boards",
+    "F2. Equipment (2): east railing, railings -LOCATED_AT-> Mill Lane footbridge",
+    "F3. Event (3): Mill Lane footbridge east railing, repair the Mill Lane footbridge, repair works -LOCATED_AT-> Mill Lane footbridge",
+    "F4. repair the Mill Lane footbridge (Event) located at Mill Lane footbridge (Place)",
+    "F5. Mill Lane footbridge east railing (Event) has cost 15000 lb (Value)",
+    "F6. Riverton town council (Organization) responsible for repair the Mill Lane footbridge (Event)"
+   ],
+   "summary": "Mill Lane footbridge is a place. It has measurement 46 deck boards. Equipment, including east railing and railings, is located at it. Events located at it include repair the Mill Lane footbridge and Mill Lane footbridge east railing. Mill Lane footbridge east railing has cost 15000 lb. Riverton town council is responsible for repair the Mill Lane footbridge.",
+   "fallback": false
+  },
+  {
+   "ref": "6a477556e313ca6f",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Priya Nandakumar",
+   "label": "Person",
+   "facts": [
+    "F1. Priya Nandakumar -AFFILIATED_WITH-> Organization (1): council",
+    "F2. Priya Nandakumar -PARTICIPATED_IN-> Event (1): Public meeting on Station Road flooding",
+    "F3. Priya Nandakumar (Person) affiliated with council (Organization)",
+    "F4. Harbour Street resurfacing (Event) located at Harbour Street (Place)",
+    "F5. Priya Nandakumar (Person) participated in Public meeting on Station Road flooding (Event)"
+   ],
+   "summary": "Priya Nandakumar is a person. She is affiliated with council. She participated in Public meeting on Station Road flooding.",
+   "fallback": false
+  },
+  {
+   "ref": "6c5aa38a1c6c4106",
+   "kind": "individual",
+   "qualified": false,
+   "title": "drainage works",
+   "label": "Event",
+   "facts": [
+    "F1. drainage works -LOCATED_AT-> Place (1): Station Road",
+    "F2. Mayor Achterberg (Person) participated in Public meeting on Station Road flooding (Event)",
+    "F3. drainage works (Event) located at Station Road (Place)"
+   ],
+   "summary": "drainage works is an event. It is located at Station Road.",
+   "fallback": false
+  },
+  {
+   "ref": "8663690b1ca86f0b",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Core BF-4",
+   "label": "Particular",
+   "facts": [],
+   "summary": "Core BF-4 is a particular.",
+   "fallback": false
+  },
+  {
+   "ref": "8d35cfec65ddcfb7",
+   "kind": "individual",
+   "qualified": false,
+   "title": "North Station pump inspection",
+   "label": "Event",
+   "facts": [],
+   "summary": "North Station pump inspection is an event.",
+   "fallback": false
+  },
+  {
+   "ref": "9b9c39dabf0067c7",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Public meeting on Station Road flooding",
+   "label": "Event",
+   "facts": [
+    "F1. Public meeting on Station Road flooding -LOCATED_AT-> Place (1): town hall",
+    "F2. Person (4): Daniel Okafor, Jonathan Pike, Mayor Achterberg, Priya Nandakumar -PARTICIPATED_IN-> Public meeting on Station Road flooding"
+   ],
+   "summary": "Public meeting on Station Road flooding is an event. It is located at the town hall. Daniel Okafor, Jonathan Pike, Mayor Achterberg and Priya Nandakumar participated in it.",
+   "fallback": false
+  },
+  {
+   "ref": "a998c1cd51d6481a",
+   "kind": "individual",
+   "qualified": false,
+   "title": "council",
+   "label": "Organization",
+   "facts": [
+    "F1. Person (3): Daniel Okafor, Mayor Achterberg, Priya Nandakumar -AFFILIATED_WITH-> council",
+    "F2. council -RESPONSIBLE_FOR-> Event (1): works budget for 2026",
+    "F3. Daniel Okafor (Person) affiliated with council (Organization)",
+    "F4. Daniel Okafor (Person) participated in Public meeting on Station Road flooding (Event)",
+    "F5. Riverton town council (Organization) responsible for repair the Mill Lane footbridge (Event)"
+   ],
+   "summary": "council is an organization. Person Daniel Okafor, Mayor Achterberg, Priya Nandakumar are affiliated with it. It is responsible for Event works budget for 2026. Daniel Okafor is affiliated with it. Riverton town council is responsible for repair the Mill Lane footbridge.",
+   "fallback": false
+  },
+  {
+   "ref": "b46e6a729eb2cb4c",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Tomasz Wren",
+   "label": "Person",
+   "facts": [],
+   "summary": "Tomasz Wren is a person.",
+   "fallback": false
+  },
+  {
+   "ref": "0a2c5468be2668ca",
+   "kind": "concept",
+   "qualified": false,
+   "title": "47 °C",
+   "label": "Value",
+   "facts": [
+    "F1. Pump (1): HP40-2291 -HAS_MEASUREMENT-> 47 °C"
+   ],
+   "summary": "47 °C (Value)\nHAS_MEASUREMENT <- Pump (1): HP40-2291",
+   "fallback": true
+  },
+  {
+   "ref": "285d071de52dbcf1",
+   "kind": "concept",
+   "qualified": false,
+   "title": "60 litres per second",
+   "label": "Value",
+   "facts": [
+    "F1. Equipment (1): sediment flume -HAS_MEASUREMENT-> 60 litres per second",
+    "F2. Pump (1): flume pump -HAS_MEASUREMENT-> 60 litres per second"
+   ],
+   "summary": "60 litres per second is a value, measured for sediment flume and flume pump.",
+   "fallback": false
+  },
+  {
+   "ref": "325a1d4c6397137d",
+   "kind": "concept",
+   "qualified": false,
+   "title": "warranty",
+   "label": "Kind",
+   "facts": [],
+   "summary": "warranty is a kind.",
+   "fallback": false
+  },
+  {
+   "ref": "484bce6c955cc043",
+   "kind": "concept",
+   "qualified": false,
+   "title": "46 deck boards",
+   "label": "Value",
+   "facts": [
+    "F1. Place (1): Mill Lane footbridge -HAS_MEASUREMENT-> 46 deck boards"
+   ],
+   "summary": "46 deck boards has measurement at Mill Lane footbridge.",
+   "fallback": false
+  },
+  {
+   "ref": "4d28034c09faaa3e",
+   "kind": "concept",
+   "qualified": false,
+   "title": "Seminar",
+   "label": "Kind",
+   "facts": [],
+   "summary": "Seminar",
+   "fallback": false
+  },
+  {
+   "ref": "5089c062ce1dc870",
+   "kind": "concept",
+   "qualified": false,
+   "title": "budget",
+   "label": "Kind",
+   "facts": [],
+   "summary": "budget",
+   "fallback": false
+  },
+  {
+   "ref": "6a3ed74ed8d0ad7e",
+   "kind": "concept",
+   "qualified": false,
+   "title": "3.8",
+   "label": "Value",
+   "facts": [
+    "F1. Place (1): Core BF-1 -HAS_MEASUREMENT-> 3.8"
+   ],
+   "summary": "3.8 is a value, measured for Core BF-1.",
+   "fallback": false
+  },
+  {
+   "ref": "87d0909a45349844",
+   "kind": "concept",
+   "qualified": false,
+   "title": "reset",
+   "label": "Kind",
+   "facts": [],
+   "summary": "reset is a kind.",
+   "fallback": false
+  },
+  {
+   "ref": "91a4b7b05a77257d",
+   "kind": "concept",
+   "qualified": false,
+   "title": "bridge",
+   "label": "Kind",
+   "facts": [],
+   "summary": "bridge",
+   "fallback": false
+  },
+  {
+   "ref": "9747123a1418ef94",
+   "kind": "concept",
+   "qualified": false,
+   "title": "patience",
+   "label": "Kind",
+   "facts": [],
+   "summary": "patience",
+   "fallback": false
+  }
+ ]
+}

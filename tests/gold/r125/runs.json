@@ -1,0 +1,132 @@
+{
+ "step": "R125: representations A and B measured on generality next to vector, graph_retrieval and the sealed hybrid",
+ "approved": "the user, 2026-10-09, in this session: \"yes\" to R125 with the Gemini reader (preset generality_gemini)",
+ "git_sha": "00166ed-dirty",
+ "git_dirty_files": ".claude/settings.json, REFACTOR_PLAN.md (the R125 entry being written)",
+ "preset": "generality_gemini",
+ "build": "out/r125_generality",
+ "frozen_build": "out/r108_generality",
+ "pinned_from": "out/r108_generality: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+ "claims_from": "out/r103_generality (kg extract --from-build: replayed, no call)",
+ "load_commands": [
+  "kg --preset generality_gemini reset --out out/r125_generality",
+  "kg --preset generality_gemini build tests/fixtures/generality --out out/r125_generality",
+  "kg --preset generality_gemini ingest-text tests/fixtures/generality --out out/r125_generality",
+  "kg --preset generality_gemini extract --from-build out/r103_generality --out out/r125_generality",
+  "kg --preset generality_gemini link --out out/r125_generality",
+  "GEMINI_API_KEY=invalid kg --preset generality_gemini mention-pass --out out/r125_generality",
+  "kg --preset generality_gemini resolve --out out/r125_generality",
+  "kg --preset generality_gemini attach --out out/r125_generality",
+  "kg --preset generality_gemini audit-snapshot out/r125_generality --data tests/fixtures/generality --logged out/r125_generality/logged.json --out out/r125_generality/audit"
+ ],
+ "load_runs": {
+  "ingest_text": "1f4fc8a345994ce59294a5646ab2e20a",
+  "extract": "738a4619505846ccbe0bfaa56a29e97c",
+  "link": "b8675f98b73142b3875d4eabae305d05",
+  "mention_pass": "7144788d227543e694b2a3cf874c5abb",
+  "resolve": "04f7f5b47573492093b7db0730712c9a",
+  "attach": "00f56fb733734acbbdbbf586b4867c67"
+ },
+ "audit_snapshot_run": "3e16764d",
+ "load_checks": {
+  "logged_counts": "all 27 equal to tests/gold/r108/generality_logged.json",
+  "byte_identical_to_r108": [
+   "triples.jsonl",
+   "mentions.jsonl",
+   "audit/code_checks.json"
+  ],
+  "fidelity_passed": true,
+  "mention_pass_calls": 32,
+  "mention_pass_cache_hits": 32,
+  "resolve_calls": 354,
+  "resolve_cache_hits": 354
+ },
+ "graph_digest": "f79f9411ea81",
+ "index_runs": {
+  "template": {
+   "run": "82684f38",
+   "representation_version": "54d556f3ea08",
+   "cards": 332,
+   "claims": 216,
+   "embedded_texts": 548,
+   "cost_usd": 0.0
+  },
+  "summary": {
+   "run": "5485f076",
+   "representation_version": "cb2853048d1f",
+   "llm_calls": 334,
+   "cache_hits": 1,
+   "prompt_tokens": 269492,
+   "completion_tokens": 14627,
+   "thinking_tokens": 0,
+   "cost_usd": 0.117415,
+   "summaries_rejected": 2,
+   "summaries_fallback": 1
+  },
+  "evidence_hashes_equal": "332 of 332"
+ },
+ "retrieve_eval": {
+  "command": "kg --preset generality_gemini retrieve-eval tests/gold/qa/generality_qa.json --targets tests/gold/r89/generality_targets.json --build out/r125_generality --data tests/fixtures/generality --system <nine systems> --out out/r125_generality/retrieval",
+  "runs": {
+   "vector": "3654460a",
+   "graph_retrieval": "491392a4",
+   "hybrid": "ead430e4",
+   "card_dense_template": "911a49de",
+   "card_lexical_template": "cb318753",
+   "card_seeds_template": "e7004f4e",
+   "card_dense_summary": "1df2ba5e",
+   "card_lexical_summary": "077726bf",
+   "card_seeds_summary": "8e08fb66"
+  },
+  "compare_runs": {
+   "card_dense": "3053fa5d",
+   "card_lexical": "57617093",
+   "card_seeds": "2c93efdf",
+   "vector vs hybrid": "4b293170",
+   "graph_retrieval vs hybrid": "d8316a83",
+   "vector vs graph_retrieval": "96303304"
+  }
+ },
+ "qa": {
+  "command": "kg --preset generality_gemini qa tests/gold/qa/generality_qa.json --system vector --system graph_retrieval --system hybrid --out out/r125_generality",
+  "reader": "gemini-3.8-flash, thinking low",
+  "runs": {
+   "vector": "01f776bc",
+   "graph_retrieval": "22e73c80",
+   "hybrid": "6cf367ea"
+  },
+  "cost_usd": {
+   "vector": 0.052696,
+   "graph_retrieval": 0.029519,
+   "hybrid": 0.055981
+  },
+  "verdicts": {
+   "vector": "tests/gold/r125/generality_vector_verdicts.json",
+   "graph_retrieval": "tests/gold/r125/generality_graph_retrieval_verdicts.json",
+   "hybrid": "tests/gold/r125/generality_hybrid_verdicts.json"
+  },
+  "score_runs": {
+   "vector": "0138305d",
+   "graph_retrieval": "a5811cea",
+   "hybrid": "6b181d2b"
+  },
+  "compare_runs": {
+   "vector vs hybrid": "7b359d8a",
+   "graph_retrieval vs hybrid": "f5e5dbec",
+   "vector vs graph_retrieval": "af668e97"
+  },
+  "correct": {
+   "vector": "26/41",
+   "graph_retrieval": "27/41",
+   "hybrid": "26/41"
+  }
+ },
+ "groundedness": {
+  "sheet": "tests/gold/r125/summary_sheet.json",
+  "sheet_run": "132e1b89",
+  "verdicts": "tests/gold/r125/summary_verdicts.json",
+  "judged_run": "2b3e0531",
+  "grounded": "23/28"
+ },
+ "cost_usd": 0.255611
+}

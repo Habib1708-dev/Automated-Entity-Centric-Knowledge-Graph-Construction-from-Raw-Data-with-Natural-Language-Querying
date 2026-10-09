@@ -182,3 +182,14 @@ def test_r122_the_held_out_verdicts_answer_their_sheet_and_count_39_grounded_of_
     report = score(sheet, verdicts)
     assert (report.grounded.k, report.grounded.n) == (39, 42)
     assert report.findings == {"unsupported": 2, "polarity_flip": 0, "identity_confusion": 2}
+
+
+def test_r125_the_generality_verdicts_answer_their_sheet_and_count_23_grounded_of_28():
+    """R125's judged sample of the sealed summaries on generality, after its final runs: four gendered
+    pronouns no fact supports and one reversed measurement."""
+    gold = Path(__file__).parent / "gold" / "r125"
+    sheet = SummarySheet.model_validate_json((gold / "summary_sheet.json").read_text(encoding="utf-8"))
+    verdicts = load_verdicts(gold / "summary_verdicts.json", sheet, digest(gold / "summary_sheet.json"))
+    report = score(sheet, verdicts)
+    assert (report.grounded.k, report.grounded.n) == (23, 28)
+    assert report.findings == {"unsupported": 4, "polarity_flip": 1, "identity_confusion": 0}

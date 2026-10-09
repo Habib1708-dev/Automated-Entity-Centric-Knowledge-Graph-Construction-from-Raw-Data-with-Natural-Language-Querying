@@ -1,0 +1,157 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-09",
+  "sheet_hash": "48686f7aaadb"
+ },
+ "verdicts": [
+  {
+   "ref": "Staff:S-162",
+   "reason": "the condition of F8 is kept, but a gendered pronoun no fact supports",
+   "findings": [
+    {
+     "fault": "unsupported",
+     "quote": "His role is PhD student",
+     "reason": "no fact states the person's gender; the pronoun is inferred from the name (the facts give role, id, start year, team)"
+    }
+   ]
+  },
+  {
+   "ref": "Staff:S-104",
+   "reason": "every fact right, but gendered pronouns no fact supports",
+   "findings": [
+    {
+     "fault": "unsupported",
+     "quote": "Her role is postdoctoral researcher",
+     "reason": "no fact states the person's gender; the pronoun is inferred from the name (the facts give role, id, start year, team)"
+    }
+   ]
+  },
+  {
+   "ref": "Staff:S-131",
+   "reason": "every fact right, but a gendered pronoun no fact supports",
+   "findings": [
+    {
+     "fault": "unsupported",
+     "quote": "His role is group leader",
+     "reason": "no fact states the person's gender; the pronoun is inferred from the name (the facts give role, id, start year, team)"
+    }
+   ]
+  },
+  {
+   "ref": "Staff:S-150",
+   "reason": "every statement is a fact, no pronoun"
+  },
+  {
+   "ref": "Staff:S-219",
+   "reason": "every statement is a fact; told apart from the other Maria Lopez by staff id and team"
+  },
+  {
+   "ref": "Pump:HP40-1183",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Pump:HP40-2291",
+   "reason": "every statement is a fact; 'measured flow' paraphrases F6's measurement"
+  },
+  {
+   "ref": "Pump:KV12-0457",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "066617e638968e83",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "07a722c4a267e219",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "3ec5a326cfbce96a",
+   "reason": "every statement is a fact (F1-F6), relations in their directions"
+  },
+  {
+   "ref": "6a477556e313ca6f",
+   "reason": "every fact right, but gendered pronouns no fact supports",
+   "findings": [
+    {
+     "fault": "unsupported",
+     "quote": "She is affiliated with council.",
+     "reason": "no fact states the person's gender; the pronoun is inferred from the name (F1-F5 state none)"
+    }
+   ]
+  },
+  {
+   "ref": "6c5aa38a1c6c4106",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "8663690b1ca86f0b",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "8d35cfec65ddcfb7",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "9b9c39dabf0067c7",
+   "reason": "F1 and F2 in their directions"
+  },
+  {
+   "ref": "a998c1cd51d6481a",
+   "reason": "every statement is a fact (F1, F2, F3, F5)"
+  },
+  {
+   "ref": "b46e6a729eb2cb4c",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "0a2c5468be2668ca",
+   "reason": "the template card (fallback): grounded by construction"
+  },
+  {
+   "ref": "285d071de52dbcf1",
+   "reason": "F1 and F2 in their directions"
+  },
+  {
+   "ref": "325a1d4c6397137d",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "484bce6c955cc043",
+   "reason": "the measurement relation is reversed",
+   "findings": [
+    {
+     "fault": "polarity_flip",
+     "quote": "46 deck boards has measurement at Mill Lane footbridge.",
+     "fact": "F1",
+     "reason": "F1 says Mill Lane footbridge has the measurement 46 deck boards; the text makes the value the one that has a measurement"
+    }
+   ]
+  },
+  {
+   "ref": "4d28034c09faaa3e",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "5089c062ce1dc870",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "6a3ed74ed8d0ad7e",
+   "reason": "F1 in its direction: measured for Core BF-1"
+  },
+  {
+   "ref": "87d0909a45349844",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "91a4b7b05a77257d",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "9747123a1418ef94",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  }
+ ]
+}
