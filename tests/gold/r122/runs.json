@@ -1,0 +1,134 @@
+{
+ "step": "R122: representations A (template cards) and B (LLM summaries, sealed by R124a) measured on held-out next to vector, graph_retrieval and the sealed hybrid; retrieval and answers",
+ "approved": "the user, 2026-10-09, in this session: \"run with gemini\" (load, both index runs, retrieval, kg qa for three systems with the Gemini reader)",
+ "git_sha": "14e9c97-dirty",
+ "git_dirty_files": ".claude/settings.json, REFACTOR_PLAN.md (the R122 entry being written)",
+ "preset": "heldout",
+ "build": "out/r122_heldout",
+ "frozen_build": "out/r109_heldout",
+ "pinned_from": "out/r109_heldout: plan.json, text_schema.json, profile.json (profile copied back after kg build)",
+ "claims_from": "out/r103_heldout (kg extract --from-build: replayed, no call)",
+ "load_commands": [
+  "kg --preset heldout reset --out out/r122_heldout",
+  "kg --preset heldout build heldout/nhtsa/data --out out/r122_heldout",
+  "kg --preset heldout ingest-text heldout/nhtsa/data --out out/r122_heldout",
+  "kg --preset heldout extract --from-build out/r103_heldout --out out/r122_heldout",
+  "kg --preset heldout link --out out/r122_heldout",
+  "GEMINI_API_KEY=invalid kg --preset heldout mention-pass --out out/r122_heldout",
+  "kg --preset heldout resolve --out out/r122_heldout",
+  "kg --preset heldout attach --out out/r122_heldout",
+  "kg --preset heldout audit-snapshot out/r122_heldout --data heldout/nhtsa/data --logged out/r122_heldout/logged.json --out out/r122_heldout/audit"
+ ],
+ "load_runs": {
+  "ingest_text": "66a9764e6d6a46419fa2958b3f5c34f6",
+  "extract": "950460bc90dc4350a6dc753d195df1c7",
+  "link": "1da990bbbee34f5ea8c128b4fda8ae96",
+  "mention_pass": "47d6ca04e76d48d989dd9adf9cfd2189",
+  "resolve": "3405a332b8924c6993e7c493a39d4e56",
+  "attach": "fcbb9393eab3497095f3741f313ac8f0"
+ },
+ "audit_snapshot_run": "98113866",
+ "load_checks": {
+  "logged_counts": "all 27 equal to tests/gold/r109/heldout_logged.json",
+  "byte_identical_to_r109": [
+   "triples.jsonl",
+   "mentions.jsonl"
+  ],
+  "byte_identical_to_r113": [
+   "audit/code_checks.json"
+  ],
+  "fidelity_passed": true,
+  "mention_pass_calls": 81,
+  "mention_pass_cache_hits": 81,
+  "resolve_calls": 724,
+  "resolve_cache_hits": 724
+ },
+ "graph_digest": "bc7c5a1efe3d",
+ "index_runs": {
+  "template": {
+   "run": "a70d54bc",
+   "representation_version": "54d556f3ea08",
+   "cards": 629,
+   "claims": 568,
+   "embedded_texts": 1197,
+   "cost_usd": 0.0
+  },
+  "summary": {
+   "run": "f8a265f0",
+   "representation_version": "cb2853048d1f",
+   "llm_calls": 650,
+   "cache_hits": 1,
+   "prompt_tokens": 566872,
+   "completion_tokens": 49516,
+   "thinking_tokens": 0,
+   "cost_usd": 0.293852,
+   "summaries_rejected": 21,
+   "summaries_fallback": 13
+  },
+  "evidence_hashes_equal": "629 of 629"
+ },
+ "retrieve_eval": {
+  "command": "kg --preset heldout retrieve-eval tests/gold/qa/heldout_qa.json --targets tests/gold/r89/heldout_targets.json --build out/r122_heldout --data heldout/nhtsa/data --system <nine systems> --out out/r122_heldout/retrieval",
+  "runs": {
+   "vector": "a6fdd5f8",
+   "graph_retrieval": "df644978",
+   "hybrid": "11f782d2",
+   "card_dense_template": "15881a19",
+   "card_lexical_template": "06ebb462",
+   "card_seeds_template": "da71dd45",
+   "card_dense_summary": "b190f0ae",
+   "card_lexical_summary": "c4fb7667",
+   "card_seeds_summary": "6288e1aa"
+  },
+  "compare_runs": {
+   "card_dense": "0060d844",
+   "card_lexical": "aecef5dd",
+   "card_seeds": "4e796d09",
+   "vector vs hybrid": "9dd64a7b",
+   "graph_retrieval vs hybrid": "250983ed",
+   "vector vs graph_retrieval": "d71a518c"
+  }
+ },
+ "qa": {
+  "command": "kg --preset heldout qa tests/gold/qa/heldout_qa.json --system vector --system graph_retrieval --system hybrid --out out/r122_heldout",
+  "reader": "gemini-3.8-flash, thinking low",
+  "runs": {
+   "vector": "3e63e037",
+   "graph_retrieval": "48e8843f",
+   "hybrid": "e67d6e08"
+  },
+  "cost_usd": {
+   "vector": 0.093383,
+   "graph_retrieval": 0.056448,
+   "hybrid": 0.090475
+  },
+  "verdicts": {
+   "vector": "tests/gold/r122/heldout_vector_verdicts.json",
+   "graph_retrieval": "tests/gold/r122/heldout_graph_retrieval_verdicts.json",
+   "hybrid": "tests/gold/r122/heldout_hybrid_verdicts.json"
+  },
+  "score_runs": {
+   "vector": "1a103b07",
+   "graph_retrieval": "67c1d01a",
+   "hybrid": "e376f77f"
+  },
+  "compare_runs": {
+   "vector vs hybrid": "f16c00c8",
+   "graph_retrieval vs hybrid": "db1d22d2",
+   "vector vs graph_retrieval": "0df453e0"
+  },
+  "correct": {
+   "vector": "26/68",
+   "graph_retrieval": "31/68",
+   "hybrid": "27/68"
+  }
+ },
+ "groundedness": {
+  "sheet": "tests/gold/r122/summary_sheet.json",
+  "sheet_run": "762eb8f9",
+  "verdicts": "tests/gold/r122/summary_verdicts.json",
+  "judged_run": "3750e234",
+  "grounded": "39/42"
+ },
+ "cost_usd": 0.534158
+}

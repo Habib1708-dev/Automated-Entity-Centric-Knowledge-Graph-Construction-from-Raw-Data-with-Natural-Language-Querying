@@ -1,0 +1,206 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-09",
+  "sheet_hash": "511221bdf4ec"
+ },
+ "verdicts": [
+  {
+   "ref": "Complaint:10689793",
+   "reason": "every statement is a fact; the condition of F13 is kept"
+  },
+  {
+   "ref": "Complaint:10816192",
+   "reason": "every statement is a fact; both conditions (F12, F13) are kept"
+  },
+  {
+   "ref": "Complaint:11204698",
+   "reason": "every statement is a fact; the condition of F12 is kept"
+  },
+  {
+   "ref": "Complaint:11229137",
+   "reason": "the complaint's components field is written as the vehicle's type",
+   "findings": [
+    {
+     "fault": "unsupported",
+     "quote": "a 2019 Vehicle of type UNKNOWN OR OTHER",
+     "fact": "F1",
+     "reason": "UNKNOWN OR OTHER is the complaint's components (F1); the product type is Vehicle (F9)"
+    }
+   ]
+  },
+  {
+   "ref": "Recall:16V074000",
+   "reason": "every statement is a fact; the hedge of F11 is kept ('It may address')"
+  },
+  {
+   "ref": "Recall:16V244000",
+   "reason": "the problem the recall addresses is written as something the recall does",
+   "findings": [
+    {
+     "fault": "identity_confusion",
+     "quote": "It may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied.",
+     "fact": "F13",
+     "reason": "F13 says the recall addresses this problem (of the occupant classification); 'It' is the recall"
+    }
+   ]
+  },
+  {
+   "ref": "Recall:16V725000",
+   "reason": "the template card (fallback): grounded by construction"
+  },
+  {
+   "ref": "Recall:20V218000",
+   "reason": "the template card (fallback): grounded by construction"
+  },
+  {
+   "ref": "Recall:23V858000",
+   "reason": "every statement is a fact; the hedges of F12 and F13 are kept ('It may ...')"
+  },
+  {
+   "ref": "Vehicle:RAV4",
+   "reason": "every statement is a fact; the condition of F9 is kept"
+  },
+  {
+   "ref": "Complaint:10667633",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Complaint:10823637",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Complaint:10972343",
+   "reason": "every statement is a fact; 'equipped with forward collision avoidance' paraphrases F1"
+  },
+  {
+   "ref": "Complaint:11032133",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Complaint:11123359",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Complaint:11205702",
+   "reason": "every statement is a fact (F11-F13 in their directions)"
+  },
+  {
+   "ref": "Recall:16V643000",
+   "reason": "the template card (fallback): grounded by construction"
+  },
+  {
+   "ref": "Recall:17V663000",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Recall:22V875000",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "Recall:26V011000",
+   "reason": "every statement is a fact"
+  },
+  {
+   "ref": "b0dc38d1bebccb51",
+   "reason": "a kind from outside the facts, and a problem of another vehicle stated of the node",
+   "findings": [
+    {
+     "fault": "unsupported",
+     "quote": "Nissan is a vehicle manufacturer",
+     "reason": "no fact calls Nissan a manufacturer; its label is Particular (world knowledge)"
+    },
+    {
+     "fault": "identity_confusion",
+     "quote": "It may experience improper welds on vehicle ROGUE.",
+     "fact": "F3",
+     "reason": "F3 says improper welds may occur on the ROGUE; the text makes Nissan experience them"
+    }
+   ]
+  },
+  {
+   "ref": "d19b4986796abc0d",
+   "reason": "every statement is a fact; the hedge of F2 is kept ('may cause')"
+  },
+  {
+   "ref": "1ab031d05e93bad1",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "252bf49212397089",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "3472ff361ee70638",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "3a9ba4d1e1e0087b",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "3cf5a5bb6ed57f3d",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "5e3d024dd87d84c0",
+   "reason": "every statement is a fact (F1-F4)"
+  },
+  {
+   "ref": "6ed31dc043dcbc20",
+   "reason": "every statement is a fact (F1-F4)"
+  },
+  {
+   "ref": "74e56a9de563cd7b",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "cd1c675c392f0528",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "ed0a53c920c470a6",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "2de932b8c7b32e80",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "3038b3d97a8ecef5",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "442e9dec69aab4d9",
+   "reason": "F1 in its direction"
+  },
+  {
+   "ref": "80ba7eaba92e35a2",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "9b3fdafcc48c758b",
+   "reason": "F1 and F2 in their directions"
+  },
+  {
+   "ref": "aac21a297651be6a",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "ba8a626c840518d8",
+   "reason": "no facts, and the text is the name alone: nothing added"
+  },
+  {
+   "ref": "cde58222e1fb8d4d",
+   "reason": "F1 and F2 in their directions"
+  },
+  {
+   "ref": "d4cb87aab731c166",
+   "reason": "no facts, and the text is the name and label alone: nothing added"
+  },
+  {
+   "ref": "f0742541900509c2",
+   "reason": "F1 in its direction"
+  }
+ ]
+}

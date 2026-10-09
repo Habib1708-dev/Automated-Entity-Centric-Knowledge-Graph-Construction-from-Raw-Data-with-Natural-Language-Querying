@@ -1,0 +1,764 @@
+{
+ "source": "out\\r122_heldout\\index\\units_summary.jsonl",
+ "source_hash": "ce73d0b8976b",
+ "seed": 124,
+ "per_stratum": 10,
+ "population": {
+  "record_qualified": 28,
+  "record_plain": 31,
+  "individual_qualified": 2,
+  "individual_plain": 241,
+  "concept": 327
+ },
+ "rows": [
+  {
+   "ref": "Complaint:10689793",
+   "kind": "record",
+   "qualified": true,
+   "title": "10689793",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: FUEL/PROPULSION SYSTEM",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2015-02-22",
+    "F4. dateOfIncident: 2015-02-04",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2015",
+    "F9. product.type: Vehicle",
+    "F10. 10689793 -CONCERNS_VEHICLE-> Vehicle (1): ESCAPE",
+    "F11. ACCELERATOR (Component) installed in ESCAPE (Vehicle)",
+    "F12. ESCAPE (Vehicle) has mileage 800 + MILES (Value)",
+    "F13. HESITATING (Problem) affects component ACCELERATOR (Component) [conditional: AFTER INITIAL OR FIRST USE OF ACCELERATOR]"
+   ],
+   "summary": "10689793 is a complaint concerning the 2015 vehicle ESCAPE, filed on 2015-02-22 regarding an incident on 2015-02-04. Its components are the fuel/propulsion system and an accelerator installed in the Escape, which has 800+ miles. Hesitating affects the accelerator, conditional on after initial or first use of accelerator. The incident involved 0 deaths, 0 injuries, no fire, and no crash.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:10816192",
+   "kind": "record",
+   "qualified": true,
+   "title": "10816192",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: STEERING,VEHICLE SPEED CONTROL",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2015-12-25",
+    "F4. dateOfIncident: 2015-12-23",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2016",
+    "F9. product.type: Vehicle",
+    "F10. 10816192 -CONCERNS_VEHICLE-> Vehicle (1): CIVIC",
+    "F11. ADAPTIVE CRUISE CONTROL  (ACC) (Component) installed in CIVIC (Vehicle)",
+    "F12. BRAKE SUDDENLY (Problem) occurs on vehicle CIVIC (Vehicle) [conditional: WHEN APPROACHING EXIT RAMPS]",
+    "F13. REACT UNPREDICTABLY (Problem) affects component ADAPTIVE CRUISE CONTROL  (ACC) (Component) [conditional: WHEN THE ADAPTIVE CRUISE CONTROL  (ACC) AND THE VEHICLE LANE KEEPING ASSIST SYSTEM (LKAS) ARE ENGAGED SIMULTANEOUSLY]"
+   ],
+   "summary": "10816192 is a complaint filed on 2015-12-25 regarding a 2016 vehicle CIVIC, with date of incident 2015-12-23, involving steering and vehicle speed control components. It has 0 deaths, 0 injuries, no crash, and no fire. The vehicle is concerned with CIVIC. Adaptive cruise control (ACC) is installed in CIVIC. A brake suddenly problem occurs on vehicle CIVIC when approaching exit ramps. A react unpredictably problem affects component adaptive cruise control (ACC) when the adaptive cruise control (ACC) and the vehicle lane keeping assist system (LKAS) are engaged simultaneously.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:11204698",
+   "kind": "record",
+   "qualified": true,
+   "title": "11204698",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: POWER TRAIN",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2019-04-30",
+    "F4. dateOfIncident: 2019-04-28",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2019",
+    "F9. product.type: Vehicle",
+    "F10. 11204698 -CONCERNS_VEHICLE-> Vehicle (1): RAV4",
+    "F11. GEAR SHIFTER (Component) installed in RAV4 (Vehicle)",
+    "F12. GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX (Problem) affects component GEAR SHIFTER (Component) [conditional: WHEN THE CONTACT ATTEMPTED TO SHIFT THE VEHICLE IN REVERSE]",
+    "F13. GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX (Problem) occurs at mileage 5218 (Value)"
+   ],
+   "summary": "11204698 is a Complaint about a 2019 Vehicle, specifically a RAV4, involving the power train component. The date of incident is 2019-04-28 and the date complaint filed is 2019-04-30. There are 0 deaths, 0 injuries, no crash, and no fire. The gear shifter is installed in the RAV4. A problem occurred where the gear shifter came out of the transmission box affecting the gear shifter component, which occurs at mileage 5218, conditional: when the contact attempted to shift the vehicle in reverse.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:11229137",
+   "kind": "record",
+   "qualified": true,
+   "title": "11229137",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: UNKNOWN OR OTHER",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2019-07-03",
+    "F4. dateOfIncident: 2019-03-01",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2019",
+    "F9. product.type: Vehicle",
+    "F10. 11229137 -CONCERNS_VEHICLE-> Vehicle (1): RAV4",
+    "F11. HEAR WIND (Problem) occurs at speed 50 MILES PER HOUR (Value) [conditional: WHEN YOU GET UP TO 50 MILES PER HOUR]",
+    "F12. HEAR WIND (Problem) occurs on vehicle RAV4 (Vehicle) [conditional: WHEN DRIVING YOUR VEHICLE]",
+    "F13. SMELL FREON (Problem) occurs on vehicle RAV4 (Vehicle)"
+   ],
+   "summary": "11229137 is a complaint filed on 2019-07-03 regarding a 2019 Vehicle of type UNKNOWN OR OTHER, concerning a RAV4 vehicle. The incident date is 2019-03-01. It involves no crash, no fire, 0 deaths, and 0 injuries. The problems reported are: hear wind, which occurs when driving your vehicle and when you get up to 50 miles per hour, and smell freon on vehicle RAV4.",
+   "fallback": false
+  },
+  {
+   "ref": "Recall:16V074000",
+   "kind": "record",
+   "qualified": true,
+   "title": "16V074000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: ENGINE AND ENGINE COOLING:ENGINE",
+    "F2. Consequence: If a circlip is missing or incorrectly installed, the piston wrist pin may not be secure and may drift and damage the engine cylinder causing the engine to seize, and increasing the risk of a crash or a fire.",
+    "F3. Manufacturer: Honda (American Honda Motor Co.)",
+    "F4. ModelYear: 2016",
+    "F5. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+    "F6. ReportReceivedDate: 2016-02-09",
+    "F7. overTheAirUpdate: False",
+    "F8. parkIt: False",
+    "F9. parkOutSide: False",
+    "F10. 16V074000 -AFFECTS_VEHICLE-> Vehicle (1): CIVIC",
+    "F11. 16V074000 (Recall) addresses problem incorrectly installed piston wrist pin circlip (Problem) [hedged]",
+    "F12. 16V074000 (Recall) affects vehicle CIVIC (Vehicle)",
+    "F13. 16V074000 (Recall) covers component 2.0L engines (Component)"
+   ],
+   "summary": "16V074000 is a recall by Honda (American Honda Motor Co.) for the 2016 model year, affecting the CIVIC vehicle and 2.0L engines component under ENGINE AND ENGINE COOLING:ENGINE. It may address an incorrectly installed piston wrist pin circlip. A missing or incorrectly installed circlip may cause the piston wrist pin to drift and damage the engine cylinder, causing engine seizure and increasing crash or fire risk. Report received on 2016-02-09. Over-the-air update, park it, and park outside are false.",
+   "fallback": false
+  },
+  {
+   "ref": "Recall:16V244000",
+   "kind": "record",
+   "qualified": true,
+   "title": "16V244000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION",
+    "F2. Consequence: If the passenger frontal air bag does not deploy as intended in the event of a crash, the passenger is at an increased risk of injury.",
+    "F3. Manufacturer: Nissan North America, Inc.",
+    "F4. ModelYear: 2017",
+    "F5. NHTSAActionNumber: EA15004",
+    "F6. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+    "F7. ReportReceivedDate: 2016-04-26",
+    "F8. overTheAirUpdate: False",
+    "F9. parkIt: False",
+    "F10. parkOutSide: False",
+    "F11. 16V244000 -AFFECTS_VEHICLE-> Vehicle (1): ROGUE",
+    "F12. 16V244000 (Recall) affects vehicle 2013 Infiniti JX35 (Vehicle)",
+    "F13. 16V244000 (Recall) addresses problem incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied (Problem) [hedged]",
+    "F14. 16V244000 (Recall) covers component Air Bag Control Unit (ACU) (Component)"
+   ],
+   "summary": "16V244000 is a recall by Nissan North America, Inc. from 2016-04-26 with NHTSAActionNumber EA15004 concerning AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION. It covers component Air Bag Control Unit (ACU). It affects vehicle ROGUE and 2013 Infiniti JX35 for ModelYear 2017. It may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied. If the passenger frontal air bag does not deploy as intended in a crash, the passenger is at an increased risk of injury. OverTheAirUpdate is false, parkIt is false, parkOutSide is false.",
+   "fallback": false
+  },
+  {
+   "ref": "Recall:16V725000",
+   "kind": "record",
+   "qualified": true,
+   "title": "16V725000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: PARKING BRAKE",
+    "F2. Consequence: If the EPB is not applied, the vehicle may roll away, increasing the risk of a crash.",
+    "F3. Manufacturer: Honda (American Honda Motor Co.)",
+    "F4. ModelYear: 2016",
+    "F5. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+    "F6. ReportReceivedDate: 2016-10-11",
+    "F7. overTheAirUpdate: False",
+    "F8. parkIt: False",
+    "F9. parkOutSide: False",
+    "F10. 16V725000 -AFFECTS_VEHICLE-> Vehicle (1): CIVIC",
+    "F11. 16V725000 (Recall) covers component EPB (Component)",
+    "F12. 16V725000 (Recall) addresses problem not engage (Problem) [conditional: if it is applied immediately after turning the ignition off]",
+    "F13. 16V725000 (Recall) affects vehicle CIVIC (Vehicle)"
+   ],
+   "summary": "16V725000 (Recall)\nComponent: PARKING BRAKE\nConsequence: If the EPB is not applied, the vehicle may roll away, increasing the risk of a crash.\nManufacturer: Honda (American Honda Motor Co.)\nModelYear: 2016\nNotes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.\nReportReceivedDate: 2016-10-11\noverTheAirUpdate: False\nparkIt: False\nparkOutSide: False\nAFFECTS_VEHICLE -> Vehicle (1): CIVIC\nClaims (3 of 7):\n- 16V725000 (Recall) covers component EPB (Component)\n- 16V725000 (Recall) addresses problem not engage (Problem) [conditional: if it is applied immediately after turning the ignition off]\n- 16V725000 (Recall) affects vehicle CIVIC (Vehicle)",
+   "fallback": true
+  },
+  {
+   "ref": "Recall:20V218000",
+   "kind": "record",
+   "qualified": true,
+   "title": "20V218000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP",
+    "F2. Consequence: If the low pressure fuel pump fails, the engine may stall without the ability to restart the vehicle, increasing the risk of a crash.",
+    "F3. Manufacturer: Subaru of America, Inc.",
+    "F4. ModelYear: 2019",
+    "F5. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+    "F6. ReportReceivedDate: 2020-04-16",
+    "F7. overTheAirUpdate: False",
+    "F8. parkIt: False",
+    "F9. parkOutSide: False",
+    "F10. 20V218000 -AFFECTS_VEHICLE-> Vehicle (1): OUTBACK",
+    "F11. 20V218000 (Recall) addresses problem inoperative (Problem) [hedged]",
+    "F12. 20V218000 (Recall) affects vehicle 2019 Impreza (Vehicle)",
+    "F13. 20V218000 (Recall) covers component low-pressure fuel pump (Component)"
+   ],
+   "summary": "20V218000 (Recall)\nComponent: FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP\nConsequence: If the low pressure fuel pump fails, the engine may stall without the ability to restart the vehicle, increasing the risk of a crash.\nManufacturer: Subaru of America, Inc.\nModelYear: 2019\nNotes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.\nReportReceivedDate: 2020-04-16\noverTheAirUpdate: False\nparkIt: False\nparkOutSide: False\nAFFECTS_VEHICLE -> Vehicle (1): OUTBACK\nClaims (3 of 7):\n- 20V218000 (Recall) addresses problem inoperative (Problem) [hedged]\n- 20V218000 (Recall) affects vehicle 2019 Impreza (Vehicle)\n- 20V218000 (Recall) covers component low-pressure fuel pump (Component)",
+   "fallback": true
+  },
+  {
+   "ref": "Recall:23V858000",
+   "kind": "record",
+   "qualified": true,
+   "title": "23V858000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP",
+    "F2. Consequence: Fuel pump failure can cause an engine stall while driving, increasing the risk of a crash.",
+    "F3. Manufacturer: Honda (American Honda Motor Co.)",
+    "F4. ModelYear: 2016",
+    "F5. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+    "F6. ReportReceivedDate: 2023-12-18",
+    "F7. overTheAirUpdate: False",
+    "F8. parkIt: False",
+    "F9. parkOutSide: False",
+    "F10. 23V858000 -AFFECTS_VEHICLE-> Vehicle (1): CIVIC",
+    "F11. 23V858000 (Recall) affects vehicle CIVIC (Vehicle)",
+    "F12. 23V858000 (Recall) addresses problem FAILURE (Problem) [hedged]",
+    "F13. 23V858000 (Recall) covers component fuel pump (Component) [hedged]"
+   ],
+   "summary": "23V858000 is a recall from American Honda Motor Co. for the 2016 model year, reported on 2023-12-18. Its component is FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP. Fuel pump failure can cause an engine stall while driving, increasing the risk of a crash. It affects vehicle CIVIC. It may address problem FAILURE. It may cover component fuel pump. Over the air update is False, park it is False, and park outside is False. Owners may contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+   "fallback": false
+  },
+  {
+   "ref": "Vehicle:RAV4",
+   "kind": "record",
+   "qualified": true,
+   "title": "RAV4",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Also called: 2019 RAV4, 2019 TOYOTA RAV4, 2019-2020 RAV4, 2020 RAV4 Hybrid, RAV4 Hybrid",
+    "F2. make: TOYOTA",
+    "F3. manufacturer: Toyota Motor Corporation",
+    "F4. model_year: 2019",
+    "F5. Recall (7): 19V244000, 19V503000, 19V576000, 20V064000, 20V286000 (+2 more) -AFFECTS_VEHICLE-> RAV4",
+    "F6. Complaint (5): 11204698, 11205702, 11209676, 11221492, 11229137 -CONCERNS_VEHICLE-> RAV4",
+    "F7. 19V576000 (Recall) affects vehicle RAV4 (Vehicle)",
+    "F8. 19V503000 (Recall) covers component floor mats (Component)",
+    "F9. AUTO-SHUTOFF (Problem) affects component fuel tank (Component) [conditional: WHEN FILLING MY TANK]"
+   ],
+   "summary": "RAV4 is a vehicle, also called 2019 RAV4, 2019 TOYOTA RAV4, 2019-2020 RAV4, 2020 RAV4 Hybrid, and RAV4 Hybrid. Its make is TOYOTA and its manufacturer is Toyota Motor Corporation for model year 2019. 7 recalls affect it, among them 19V244000, 19V503000, 19V576000, 20V064000, and 20V286000. 5 complaints concern it, among them 11204698, 11205702, 11209676, 11221492, and 11229137. Recall 19V576000 affects vehicle RAV4. Recall 19V503000 covers component floor mats. AUTO-SHUTOFF problem affects component fuel tank, conditional on WHEN FILLING MY TANK.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:10667633",
+   "kind": "record",
+   "qualified": false,
+   "title": "10667633",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: STRUCTURE",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2014-12-22",
+    "F4. dateOfIncident: 2014-12-20",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2015",
+    "F9. product.type: Vehicle",
+    "F10. 10667633 -CONCERNS_VEHICLE-> Vehicle (1): ESCAPE",
+    "F11. REAR WHEEL WELLS (Component) installed in ESCAPE (Vehicle)",
+    "F12. RUSTED (Problem) affects component REAR WHEEL WELLS (Component)",
+    "F13. RUSTED (Problem) occurs at mileage 1800 (Value)"
+   ],
+   "summary": "10667633 is a complaint about a 2015 Vehicle, ESCAPE. It concerns a vehicle, has components structure, and was filed on 2014-12-22 for an incident on 2014-12-20. The crash is False, fire is False, number of deaths is 0, and number of injuries is 0. Rusted affects the rear wheel wells installed in ESCAPE and occurs at mileage 1800.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:10823637",
+   "kind": "record",
+   "qualified": false,
+   "title": "10823637",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: ENGINE",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2016-02-01",
+    "F4. dateOfIncident: 2016-01-30",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2016",
+    "F9. product.type: Vehicle",
+    "F10. 10823637 -CONCERNS_VEHICLE-> Vehicle (1): CIVIC",
+    "F11. ENGINE (Component) installed in CIVIC (Vehicle)",
+    "F12. ENGINE FAILURE (Problem) affects component ENGINE (Component)",
+    "F13. PART FAILURE (Problem) causes problem ENGINE FAILURE (Problem)"
+   ],
+   "summary": "10823637 is a complaint filed on 2016-02-01 about an incident on 2016-01-30 involving a 2016 Vehicle of type CIVIC. It concerns a vehicle of type CIVIC, and its components include ENGINE. The incident involved 0 deaths, 0 injuries, no crash, and no fire. An engine failure problem affects the engine component, and a part failure causes this engine failure.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:10972343",
+   "kind": "record",
+   "qualified": false,
+   "title": "10972343",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: FORWARD COLLISION AVOIDANCE",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2017-04-13",
+    "F4. dateOfIncident: 2017-04-06",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2017",
+    "F9. product.type: Vehicle",
+    "F10. 10972343 -CONCERNS_VEHICLE-> Vehicle (1): ROGUE",
+    "F11. BRAKED ON ITS OWN (Problem) occurs on vehicle ROGUE (Vehicle)",
+    "F12. BRAKE (Component) installed in ROGUE (Vehicle)",
+    "F13. BRAKED ON ITS OWN (Problem) affects component BRAKE (Component)"
+   ],
+   "summary": "10972343 is a complaint regarding a 2017 Vehicle, specifically a ROGUE, filed on 2017-04-13 for an incident on 2017-04-06. The complaint concerns a vehicle equipped with forward collision avoidance and brakes, involving a problem where the vehicle braked on its own affecting the brake component, with no crash, fire, injuries, or deaths reported.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:11032133",
+   "kind": "record",
+   "qualified": false,
+   "title": "11032133",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: FUEL/PROPULSION SYSTEM",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2017-10-06",
+    "F4. dateOfIncident: 2017-10-06",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2017",
+    "F9. product.type: Vehicle",
+    "F10. 11032133 -CONCERNS_VEHICLE-> Vehicle (1): ROGUE",
+    "F11. GAS GAUGE (Component) installed in ROGUE (Vehicle)",
+    "F12. NOT MOVEING (Problem) affects component GAS GAUGE (Component)",
+    "F13. NOT MOVEING (Problem) occurs on vehicle ROGUE (Vehicle)"
+   ],
+   "summary": "11032133 is a complaint filed on 2017-10-06 concerning a 2017 Vehicle, specifically ROGUE, involving the FUEL/PROPULSION SYSTEM and GAS GAUGE component. The incident date is 2017-10-06. The problem is NOT MOVEING affecting the GAS GAUGE component on the vehicle ROGUE. There was no crash, no fire, zero injuries, and zero deaths.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:11123359",
+   "kind": "record",
+   "qualified": false,
+   "title": "11123359",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: UNKNOWN OR OTHER",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2018-08-29",
+    "F4. dateOfIncident: 2018-08-28",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2019",
+    "F9. product.type: Vehicle",
+    "F10. 11123359 -CONCERNS_VEHICLE-> Vehicle (1): OUTBACK",
+    "F11. WINDSHIELD (Component) installed in OUTBACK (Vehicle)",
+    "F12. crack (Problem) affects component WINDSHIELD (Component)",
+    "F13. crack (Problem) occurs on vehicle OUTBACK (Vehicle)"
+   ],
+   "summary": "11123359 is a complaint filed on 2018-08-29 for a 2019 vehicle, specifically an OUTBACK, regarding an incident on 2018-08-28. The complaint concerns vehicle OUTBACK, where a crack affects the windshield component. The crash is False, the fire is False, number of deaths is 0, number of injuries is 0, and components is UNKNOWN OR OTHER.",
+   "fallback": false
+  },
+  {
+   "ref": "Complaint:11205702",
+   "kind": "record",
+   "qualified": false,
+   "title": "11205702",
+   "label": "Complaint",
+   "facts": [
+    "F1. components: VISIBILITY",
+    "F2. crash: False",
+    "F3. dateComplaintFiled: 2019-05-06",
+    "F4. dateOfIncident: 2019-04-24",
+    "F5. fire: False",
+    "F6. numberOfDeaths: 0",
+    "F7. numberOfInjuries: 0",
+    "F8. product.productYear: 2019",
+    "F9. product.type: Vehicle",
+    "F10. 11205702 -CONCERNS_VEHICLE-> Vehicle (1): RAV4",
+    "F11. DRIVER'S SIDE REARVIEW MIRROR (Component) installed in RAV4 (Vehicle)",
+    "F12. DRIVER'S SIDE REARVIEW MIRROR (Component) subcomponent of EXTERIOR REARVIEW MIRRORS (Component)",
+    "F13. RATTLED (Problem) affects component EXTERIOR REARVIEW MIRRORS (Component)"
+   ],
+   "summary": "11205702 is a Complaint filed on 2019-05-06 concerning a Vehicle, specifically a RAV4, with the date of incident on 2019-04-24. Its components include VISIBILITY. It involves no crash, no fire, zero deaths, and zero injuries. The product year is 2019. It concerns the driver's side rearview mirror installed in the RAV4, which is a subcomponent of exterior rearview mirrors, affected by the problem that they rattled.",
+   "fallback": false
+  },
+  {
+   "ref": "Recall:16V643000",
+   "kind": "record",
+   "qualified": false,
+   "title": "16V643000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: LATCHES/LOCKS/LINKAGES:DOORS:LATCH",
+    "F2. Consequence: A door that is not securely latched could open while the vehicle is in motion, increasing the risk of injury to a vehicle occupant.",
+    "F3. Manufacturer: Ford Motor Company",
+    "F4. ModelYear: 2015",
+    "F5. NHTSAActionNumber: PE16001",
+    "F6. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+    "F7. ReportReceivedDate: 2016-09-06",
+    "F8. overTheAirUpdate: False",
+    "F9. parkIt: False",
+    "F10. parkOutSide: False",
+    "F11. 16V643000 -AFFECTS_VEHICLE-> Vehicle (1): ESCAPE",
+    "F12. 16V643000 (Recall) covers component door latches (Component)",
+    "F13. 16V643000 (Recall) addresses problem break (Problem)",
+    "F14. 16V643000 (Recall) affects vehicle 2012-2015 Ford Focus (Vehicle)"
+   ],
+   "summary": "16V643000 (Recall)\nComponent: LATCHES/LOCKS/LINKAGES:DOORS:LATCH\nConsequence: A door that is not securely latched could open while the vehicle is in motion, increasing the risk of injury to a vehicle occupant.\nManufacturer: Ford Motor Company\nModelYear: 2015\nNHTSAActionNumber: PE16001\nNotes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.\nReportReceivedDate: 2016-09-06\noverTheAirUpdate: False\nparkIt: False\nparkOutSide: False\nAFFECTS_VEHICLE -> Vehicle (1): ESCAPE\nClaims (3 of 11):\n- 16V643000 (Recall) covers component door latches (Component)\n- 16V643000 (Recall) addresses problem break (Problem)\n- 16V643000 (Recall) affects vehicle 2012-2015 Ford Focus (Vehicle)",
+   "fallback": true
+  },
+  {
+   "ref": "Recall:17V663000",
+   "kind": "record",
+   "qualified": false,
+   "title": "17V663000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: SEATS",
+    "F2. Consequence: The insufficient welds can increase the risk of injury to the occupants in the event of a crash.",
+    "F3. Manufacturer: Nissan North America, Inc.",
+    "F4. ModelYear: 2017",
+    "F5. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+    "F6. ReportReceivedDate: 2017-10-18",
+    "F7. overTheAirUpdate: False",
+    "F8. parkIt: False",
+    "F9. parkOutSide: False",
+    "F10. 17V663000 -AFFECTS_VEHICLE-> Vehicle (1): ROGUE",
+    "F11. 17V663000 (Recall) addresses problem improper welds (Problem)",
+    "F12. 17V663000 (Recall) affects vehicle ROGUE (Vehicle)",
+    "F13. 17V663000 (Recall) covers component lower seat frame (Component)"
+   ],
+   "summary": "17V663000 is a recall by manufacturer Nissan North America, Inc. reported on 2017-10-18 for component SEATS, covering component lower seat frame. It addresses the problem of improper welds. The insufficient welds can increase the risk of injury to the occupants in the event of a crash. It affects vehicle ROGUE from model year 2017. Over the air update is false, park it is false, and park outside is false. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.safercar.gov.",
+   "fallback": false
+  },
+  {
+   "ref": "Recall:22V875000",
+   "kind": "record",
+   "qualified": false,
+   "title": "22V875000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: ELECTRICAL SYSTEM:WIRING",
+    "F2. Consequence: A corroded dash side harness connector increases the risk of a fire.",
+    "F3. Manufacturer: Nissan North America, Inc.",
+    "F4. ModelYear: 2017",
+    "F5. Notes: Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+    "F6. ReportReceivedDate: 2022-11-23",
+    "F7. overTheAirUpdate: False",
+    "F8. parkIt: False",
+    "F9. parkOutSide: False",
+    "F10. 22V875000 -AFFECTS_VEHICLE-> Vehicle (1): ROGUE",
+    "F11. 22V875000 (Recall) addresses problem RUSTED (Problem)",
+    "F12. 22V875000 (Recall) affects vehicle ROGUE (Vehicle)",
+    "F13. 22V875000 (Recall) covers component dash side harness connector (Component)"
+   ],
+   "summary": "22V875000 is a recall issued by Nissan North America, Inc. on 2022-11-23 for the 2017 model year, affecting the ROGUE vehicle. It covers the component electrical system wiring, specifically the dash side harness connector, addressing the rusted problem. A corroded dash side harness connector increases the risk of a fire. Over the air update, park it, and park outside are false. Owners may also contact the National Highway Traffic Safety Administration Vehicle Safety Hotline at 1-888-327-4236 (TTY 1-800-424-9153), or go to www.nhtsa.gov.",
+   "fallback": false
+  },
+  {
+   "ref": "Recall:26V011000",
+   "kind": "record",
+   "qualified": false,
+   "title": "26V011000",
+   "label": "Recall",
+   "facts": [
+    "F1. Component: EQUIPMENT:ELECTRICAL:ENGINE BLOCK HEATER",
+    "F2. Consequence: An electrical short circuit can increase the risk of a fire.",
+    "F3. Manufacturer: Ford Motor Company",
+    "F4. ModelYear: 2015",
+    "F5. ReportReceivedDate: 2026-01-15",
+    "F6. overTheAirUpdate: False",
+    "F7. parkIt: False",
+    "F8. parkOutSide: False",
+    "F9. 26V011000 -AFFECTS_VEHICLE-> Vehicle (1): ESCAPE",
+    "F10. 26V011000 (Recall) addresses problem coolant leak (Problem)",
+    "F11. 26V011000 (Recall) affects vehicle 2013-2018 Focus (Vehicle)",
+    "F12. 26V011000 (Recall) covers component block heater (Component)"
+   ],
+   "summary": "26V011000 is a recall issued by Ford Motor Company for model year 2015. It affects vehicles including ESCAPE and 2013-2018 Focus, and covers the component block heater, which is an equipment electrical engine block heater. It addresses the problem of a coolant leak. An electrical short circuit can increase the risk of a fire. The report received date is 2026-01-15, over-the-air update is false, park it is false, and park outside is false.",
+   "fallback": false
+  },
+  {
+   "ref": "b0dc38d1bebccb51",
+   "kind": "individual",
+   "qualified": true,
+   "title": "Nissan",
+   "label": "Particular",
+   "facts": [
+    "F1. 16V244000 (Recall) affects vehicle 2013 Infiniti JX35 (Vehicle)",
+    "F2. 23V093000 (Recall) covers component jackknife key (Component)",
+    "F3. improper welds (Problem) occurs on vehicle ROGUE (Vehicle) [hedged]"
+   ],
+   "summary": "Nissan is a vehicle manufacturer connected to recalls 16V244000 and 23V093000. Recall 16V244000 affects vehicle 2013 Infiniti JX35. Recall 23V093000 covers component jackknife key. It may experience improper welds on vehicle ROGUE.",
+   "fallback": false
+  },
+  {
+   "ref": "d19b4986796abc0d",
+   "kind": "individual",
+   "qualified": true,
+   "title": "Tire Selection and Rims",
+   "label": "Particular",
+   "facts": [
+    "F1. 19V503000 (Recall) addresses problem fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110 (Problem)",
+    "F2. inaccurate label (Problem) causes problem fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110 (Problem) [hedged]"
+   ],
+   "summary": "Tire Selection and Rims is a particular. 19V503000 (Recall) addresses problem fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110 (Problem). An inaccurate label (Problem) may cause problem fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 110 (Problem).",
+   "fallback": false
+  },
+  {
+   "ref": "1ab031d05e93bad1",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Q50 Hybrid",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 16V244000 -AFFECTS_VEHICLE-> Q50 Hybrid",
+    "F2. 16V244000 (Recall) affects vehicle Q50 Hybrid (Vehicle)"
+   ],
+   "summary": "Q50 Hybrid is a vehicle. 16V244000 recall affects it.",
+   "fallback": false
+  },
+  {
+   "ref": "252bf49212397089",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Toyota 86",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 21V587000 -AFFECTS_VEHICLE-> Toyota 86",
+    "F2. 21V587000 (Recall) affects vehicle 2018 Forester (Vehicle)",
+    "F3. 21V587000 (Recall) affects vehicle 2018-2019 BRZ (Vehicle)",
+    "F4. 21V587000 (Recall) affects vehicle 2018-2020 Impreza (Vehicle)"
+   ],
+   "summary": "Toyota 86 is a vehicle. Recall 21V587000 affects the Toyota 86.",
+   "fallback": false
+  },
+  {
+   "ref": "3472ff361ee70638",
+   "kind": "individual",
+   "qualified": false,
+   "title": "OOA",
+   "label": "Recall",
+   "facts": [],
+   "summary": "OOA (Recall)",
+   "fallback": false
+  },
+  {
+   "ref": "3a9ba4d1e1e0087b",
+   "kind": "individual",
+   "qualified": false,
+   "title": "2013-2021 Transit Connect",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 22V413000 -AFFECTS_VEHICLE-> 2013-2021 Transit Connect",
+    "F2. 22V413000 (Recall) affects vehicle 2013-2016 Fusion (Vehicle)",
+    "F3. 22V413000 (Recall) affects vehicle 2013-2018 C-Max (Vehicle)",
+    "F4. 22V413000 (Recall) affects vehicle 2013-2021 Transit Connect (Vehicle)"
+   ],
+   "summary": "2013-2021 Transit Connect is a vehicle. Recall 22V413000 affects vehicle 2013-2021 Transit Connect.",
+   "fallback": false
+  },
+  {
+   "ref": "3cf5a5bb6ed57f3d",
+   "kind": "individual",
+   "qualified": false,
+   "title": "TLX",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 23V858000 -AFFECTS_VEHICLE-> TLX",
+    "F2. 23V858000 (Recall) affects vehicle CIVIC (Vehicle)",
+    "F3. 23V858000 (Recall) affects vehicle 2013-2023 Honda Accord (Vehicle)",
+    "F4. 23V858000 (Recall) affects vehicle 2015-2020 Honda Accord Hybrid (Vehicle)"
+   ],
+   "summary": "TLX is a vehicle affected by recall 23V858000.",
+   "fallback": false
+  },
+  {
+   "ref": "5e3d024dd87d84c0",
+   "kind": "individual",
+   "qualified": false,
+   "title": "2018-2019 Lexus GX460",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 20V682000 -AFFECTS_VEHICLE-> 2018-2019 Lexus GX460",
+    "F2. 20V682000 (Recall) affects vehicle 2017 Lexus IS200t (Vehicle)",
+    "F3. 20V682000 (Recall) affects vehicle 2017 Lexus RC200t (Vehicle)",
+    "F4. 20V682000 (Recall) affects vehicle 2017 and 2019-2020 Lexus RX350 (Vehicle)"
+   ],
+   "summary": "2018-2019 Lexus GX460 is a vehicle. It is affected by recall 20V682000, which also affects 2017 Lexus IS200t, 2017 Lexus RC200t, and 2017 and 2019-2020 Lexus RX350.",
+   "fallback": false
+  },
+  {
+   "ref": "6ed31dc043dcbc20",
+   "kind": "individual",
+   "qualified": false,
+   "title": "2019-2020 Avalon",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 20V682000 -AFFECTS_VEHICLE-> 2019-2020 Avalon",
+    "F2. 20V682000 (Recall) affects vehicle 2017 Lexus GS200t (Vehicle)",
+    "F3. 20V682000 (Recall) affects vehicle 2017 Lexus IS200t (Vehicle)",
+    "F4. 20V682000 (Recall) affects vehicle 2017 Lexus RC200t (Vehicle)"
+   ],
+   "summary": "2019-2020 Avalon is a vehicle affected by recall 20V682000, which also affects vehicles 2017 Lexus GS200t, 2017 Lexus IS200t, and 2017 Lexus RC200t.",
+   "fallback": false
+  },
+  {
+   "ref": "74e56a9de563cd7b",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Seating Systems",
+   "label": "Particular",
+   "facts": [],
+   "summary": "Seating Systems.",
+   "fallback": false
+  },
+  {
+   "ref": "cd1c675c392f0528",
+   "kind": "individual",
+   "qualified": false,
+   "title": "2019 Lexus UX200",
+   "label": "Vehicle",
+   "facts": [
+    "F1. Recall (1): 20V682000 -AFFECTS_VEHICLE-> 2019 Lexus UX200",
+    "F2. 20V682000 (Recall) affects vehicle 2017 and 2019-2020 Lexus RX350 (Vehicle)",
+    "F3. 20V682000 (Recall) affects vehicle 2018-2019 Lexus NX300 (Vehicle)",
+    "F4. 20V682000 (Recall) affects vehicle 2018-2020 RX350L (Vehicle)"
+   ],
+   "summary": "2019 Lexus UX200 is a vehicle. Recall 20V682000 affects vehicle 2019 Lexus UX200.",
+   "fallback": false
+  },
+  {
+   "ref": "ed0a53c920c470a6",
+   "kind": "individual",
+   "qualified": false,
+   "title": "Ford customer service",
+   "label": "Particular",
+   "facts": [],
+   "summary": "Ford customer service",
+   "fallback": false
+  },
+  {
+   "ref": "2de932b8c7b32e80",
+   "kind": "concept",
+   "qualified": false,
+   "title": "engine components",
+   "label": "Component",
+   "facts": [
+    "F1. Recall (1): 16V074000 -COVERS_COMPONENT-> engine components"
+   ],
+   "summary": "engine components is a component covered by Recall (1): 16V074000.",
+   "fallback": false
+  },
+  {
+   "ref": "3038b3d97a8ecef5",
+   "kind": "concept",
+   "qualified": false,
+   "title": "insert",
+   "label": "Kind",
+   "facts": [],
+   "summary": "insert, a kind.",
+   "fallback": false
+  },
+  {
+   "ref": "442e9dec69aab4d9",
+   "kind": "concept",
+   "qualified": false,
+   "title": "power steering gear box",
+   "label": "Component",
+   "facts": [
+    "F1. Recall (1): 20V373000 -COVERS_COMPONENT-> power steering gear box"
+   ],
+   "summary": "power steering gear box is a component covered by recall 20V373000.",
+   "fallback": false
+  },
+  {
+   "ref": "80ba7eaba92e35a2",
+   "kind": "concept",
+   "qualified": false,
+   "title": "SCENE",
+   "label": "Kind",
+   "facts": [],
+   "summary": "SCENE",
+   "fallback": false
+  },
+  {
+   "ref": "9b3fdafcc48c758b",
+   "kind": "concept",
+   "qualified": false,
+   "title": "Water may enter through the steering gear box cover",
+   "label": "Problem",
+   "facts": [
+    "F1. Water may enter through the steering gear box cover -AFFECTS_COMPONENT-> Component (1): steering gear box cover",
+    "F2. Water may enter through the steering gear box cover -CAUSES_PROBLEM-> Problem (1): loss of electric power steering assist"
+   ],
+   "summary": "Water may enter through the steering gear box cover is a Problem. It affects component steering gear box cover and causes problem loss of electric power steering assist.",
+   "fallback": false
+  },
+  {
+   "ref": "aac21a297651be6a",
+   "kind": "concept",
+   "qualified": false,
+   "title": "WALL",
+   "label": "Kind",
+   "facts": [],
+   "summary": "WALL",
+   "fallback": false
+  },
+  {
+   "ref": "ba8a626c840518d8",
+   "kind": "concept",
+   "qualified": false,
+   "title": "grease",
+   "label": "Kind",
+   "facts": [],
+   "summary": "grease",
+   "fallback": false
+  },
+  {
+   "ref": "cde58222e1fb8d4d",
+   "kind": "concept",
+   "qualified": false,
+   "title": "doors",
+   "label": "Component",
+   "facts": [
+    "F1. Problem (1): difficult to latch -AFFECTS_COMPONENT-> doors",
+    "F2. Component (1): door latches -SUBCOMPONENT_OF-> doors"
+   ],
+   "summary": "doors, a component, is affected by a problem of difficult to latch. Door latches are a subcomponent of doors.",
+   "fallback": false
+  },
+  {
+   "ref": "d4cb87aab731c166",
+   "kind": "concept",
+   "qualified": false,
+   "title": "seat",
+   "label": "Component",
+   "facts": [],
+   "summary": "seat is a component.",
+   "fallback": false
+  },
+  {
+   "ref": "f0742541900509c2",
+   "kind": "concept",
+   "qualified": false,
+   "title": "seatbelt buckles",
+   "label": "Component",
+   "facts": [
+    "F1. Problem (1): Improperly manufactured bolts -AFFECTS_COMPONENT-> seatbelt buckles"
+   ],
+   "summary": "seatbelt buckles is a component. Improperly manufactured bolts affects component seatbelt buckles.",
+   "fallback": false
+  }
+ ]
+}

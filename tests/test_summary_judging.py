@@ -172,3 +172,13 @@ def test_r124b_the_committed_verdicts_answer_their_sheet_and_count_42_grounded_o
         "record_qualified": 4, "record_plain": 178, "individual_qualified": 15, "individual_plain": 92,
         "concept": 448,
     }  # fmt: skip
+
+
+def test_r122_the_held_out_verdicts_answer_their_sheet_and_count_39_grounded_of_42():
+    """R122's judged sample of the sealed summaries on held-out, after its final runs."""
+    gold = Path(__file__).parent / "gold" / "r122"
+    sheet = SummarySheet.model_validate_json((gold / "summary_sheet.json").read_text(encoding="utf-8"))
+    verdicts = load_verdicts(gold / "summary_verdicts.json", sheet, digest(gold / "summary_sheet.json"))
+    report = score(sheet, verdicts)
+    assert (report.grounded.k, report.grounded.n) == (39, 42)
+    assert report.findings == {"unsupported": 2, "polarity_flip": 0, "identity_confusion": 2}

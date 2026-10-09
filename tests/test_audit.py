@@ -811,3 +811,17 @@ def test_r117_the_working_graph_is_the_frozen_furniture_build():
     assert all(v == 0 for k, v in reload.usage.items() if k.endswith("cost_usd"))
     assert runs["mention_pass_cache_hits"] == runs["mention_pass_calls"]
     assert runs["resolve_cache_hits"] == runs["resolve_calls"]
+
+
+def test_r122_the_measured_graph_is_the_frozen_held_out_build():
+    """R122 reloaded R109's held-out build for A and B: every count its stages logged is R109's, and no load
+    stage paid (every LLM answer came from the cache)."""
+    runs = json.loads((GOLD / "r122" / "runs.json").read_text(encoding="utf-8"))
+    reload = LoggedCounts.model_validate_json((GOLD / "r122" / "heldout_logged.json").read_text("utf-8"))
+    frozen = LoggedCounts.model_validate_json((GOLD / "r109" / "heldout_logged.json").read_text("utf-8"))
+    assert reload.counts == frozen.counts
+    assert reload.runs == runs["load_runs"] and runs["frozen_build"] == frozen.build
+    assert all(v == 0 for k, v in reload.usage.items() if k.endswith("cost_usd"))
+    checks = runs["load_checks"]
+    assert checks["mention_pass_cache_hits"] == checks["mention_pass_calls"]
+    assert checks["resolve_cache_hits"] == checks["resolve_calls"]

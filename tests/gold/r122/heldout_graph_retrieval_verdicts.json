@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-09",
+    "run_id": "48e8843f791f4e59985284bdd27210fc",
+    "git_sha": "14e9c97"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r122_heldout/answers_graph_retrieval.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": true,
+      "reason": "The answer says dealers will inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge: the expected remedy in full."
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "The answer says the piston assemblies may have been made without a piston wrist pin circlip or with one installed incorrectly: the expected defect and the gold quote, which itself does not name the 2.0L engine (as R71 and R73 judged)."
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "The answer says 'Hall Nissan in Chesapeake, VA': the expected dealer."
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "The answer says dealers will install a harness protector cover, free of charge: the expected answer word for word."
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "The answer says Nissan engineering declared that the system worked as intended: the expected answer."
+    },
+    {
+      "question_id": "H38",
+      "correct": false,
+      "reason": "The answer says the provided chunks do not give the date, while the expected 'August 17, 2020' exists in the source: no answer is wrong (rule 5)."
+    }
+  ]
+}

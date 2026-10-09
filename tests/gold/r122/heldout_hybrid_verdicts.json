@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-09",
+    "run_id": "e67d6e08bd16486bb4fd6a2a8ff8b5bb",
+    "git_sha": "14e9c97"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r122_heldout/answers_hybrid.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": true,
+      "reason": "The answer says dealers will inspect and replace the piston assemblies and damaged engine components, as necessary, free of charge: the expected remedy in full."
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "The answer says the piston assemblies may have been made without a piston wrist pin circlip or with one installed incorrectly: the expected defect and the gold quote, which itself does not name the 2.0L engine (as R71 and R73 judged)."
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "No text, but the entities field names 'HALL NISSAN IN CHESAPEAKE, VA', the expected dealer (judged on content, rule 3)."
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "The answer says dealers will install a harness protector cover: the installed item the question asks for; it omits the 'free of charge' terms, as R71's and R73's judges accepted for the same answer."
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "The answer says Nissan engineering declared that the system worked as intended: the expected answer."
+    },
+    {
+      "question_id": "H38",
+      "correct": true,
+      "reason": "The answer says 'August 17, 2020': the expected date in full."
+    }
+  ]
+}

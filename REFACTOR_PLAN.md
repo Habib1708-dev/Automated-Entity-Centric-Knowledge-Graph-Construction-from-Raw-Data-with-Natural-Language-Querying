@@ -7728,6 +7728,94 @@ applied, the choice committed as the `config.py` defaults before any held-out or
   loading the held-out build, both index runs with the summary cost estimated from furniture's MLflow runs, the
   retrieval runs, and the reader for `kg qa`).
 
+### R122. A and B measured on held-out (done 2026-10-09; $0.534; the regrouped step of the plan change after R121)
+The user, 2026-10-09: "run with gemini" (steps 1-4 below, the reader Gemini, the builder's model: the quality
+settings of preset `heldout`, `qa_model` gemini-3.8-flash at `qa_thinking` low). Estimated before running:
+summaries about $0.25 (629 nodes at furniture's $0.291 per 737), the three readers about $0.45 (no Gemini
+reader run exists; from DeepSeek's held-out vector run `309616ed`, 63k input tokens, at Gemini's prices),
+the rest $0 logged.
+- **Fairness:** every setting is a default descended from R121's and R124a's seals; no `HYBRID_*`, `INDEX_*`
+  or `RETRIEVAL_*` override. No held-out card, summary or claim sentence is opened before its final run (the
+  retrieval and QA runs); the judging comes after them.
+- **Steps, one guarded command each:**
+  1. Load R109's held-out build into `out/r122_heldout`, R113's recipe (`tests/gold/r113/runs.json`): plan,
+     text schema and profile pinned from `out/r109_heldout`, claims replayed from `out/r103_heldout`, the
+     mention pass on an invalid key; every LLM answer from the cache. Logged counts against
+     `tests/gold/r109/heldout_logged.json`; C0 (`kg audit-snapshot`). This replaces furniture in the working
+     Neo4j.
+  2. `kg --preset heldout index --cards template`, then `--cards summary` (the sealed P1/600); the evidence
+     hashes of the two representations compared per node.
+  3. `kg --preset heldout retrieve-eval tests/gold/qa/heldout_qa.json --targets
+     tests/gold/r89/heldout_targets.json`: `vector`, `graph_retrieval`, `hybrid` and the six card systems.
+  4. `kg --preset heldout qa` for `vector`, `graph_retrieval`, `hybrid`.
+  5. ($0) The judge on the free-text answers, `kg qa-score`, `kg qa-compare`; B's groundedness on a held-out
+     sample (`kg summary-sheet`, the R124b design unchanged); `kg retrieve-compare` for the pairings.
+- **No code changed.** Every run at `14e9c97` (dirty only by the user's `.claude/settings.json` and this entry);
+  ids, commands, counts and costs in `tests/gold/r122/runs.json`.
+- **1. The load** (MLflow `66a9764e` ingest ... `fcbb9393` attach, C0 `98113866`): all 27 logged counts equal
+  R109's (`tests/gold/r122/heldout_logged.json`), every LLM call a cache hit (mention pass 81/81, resolve
+  724/724), `triples.jsonl` and `mentions.jsonl` byte-identical to R109's, `audit/code_checks.json` to R113's;
+  C0 passed; `graph_digest` bc7c5a1efe3d. The working Neo4j now holds held-out (furniture replaced).
+- **2. The index runs:** template `a70d54bc` (629 cards: 59 records, 243 individuals, 327 concepts; 568 claim
+  sentences; 1,197 units embedded, $0 logged); summary `f8a265f0` (the sealed `cb2853048d1f`: 650 calls, 1
+  cache hit, 566,872 input / 49,516 output / 0 thinking tokens, **$0.293852**; 21 first replies refused, **13
+  fallbacks**, against 1 and 0 on furniture). Evidence hashes equal for 629 of 629 nodes.
+- **3. Retrieval** (code-computed, no judge; chunks: 36 gold chunks over 28 questions; seeds: 65 targets over
+  51 questions; MLflow in `runs.json`):
+
+  | System | Evidence@5 | Complete@5 / 10 / 20 | Seed Recall@1 / 3 / 5 / 10 / 20 | Seeds found@5 |
+  |---|---|---|---|---|
+  | vector | 32 | 24 / 24 / 25 | - | - |
+  | graph_retrieval | 34 | 26 / 26 / 27 | 28 / 34 / 46 / 58 / 61 | 33 |
+  | hybrid (sealed) | 34 | 26 / 27 / 27 | - | - |
+  | `card_dense_template` (A) | 30 | 22 / 25 / 27 | **31 / 42 / 50 / 52 / 55** | 37 |
+  | `card_dense_summary` (B) | 30 | 22 / 26 / 28 | **26 / 41 / 48 / 54 / 60** | 35 |
+  | `card_lexical_template` | 33 | 25 / 25 / 28 | 26 / 50 / 55 / 60 / 62 | 41 |
+  | `card_lexical_summary` | 31 | 23 / 25 / 27 | 30 / 46 / 56 / 58 / 58 | 42 |
+  | `card_seeds_template` | 32 | 24 / 28 / 28 | 43 / 58 / 58 / 62 / 63 | 44 |
+  | `card_seeds_summary` | 33 | 25 / 27 / 28 | 41 / 58 / 60 / 61 / 62 | 46 |
+
+  - **Headline, A against B** (`kg retrieve-compare`): Seeds found@5 of `card_dense` **37 / 35 of 51, only A
+    3, only B 1, p = 0.625**; at 1, 22 / 18, p = 0.219; at 20, 41 / 46, only B 5, p = 0.062. `card_lexical` at
+    5: 41 / 42, p = 1.0; `card_seeds` at 5: 44 / 46, p = 0.5. No difference beyond one sample's variation.
+  - The furniture pattern holds: B trails A at the top (K = 1: furniture 33 / 36, held-out 26 / 31) and leads
+    deep down (K = 20: 81 / 73, 60 / 55). Where A wins, the question names an identifier the card starts with:
+    H68 ("Which complaints concern the vehicle affected by recall 21V839000?") ranks A's "21V839000 (Recall)"
+    card 1st, B's summary of it ("21V839000 is a recall by Nissan North America, Inc. from 2017-10-26 ...")
+    9th, behind "21V-215 is a recall."; H23 (Ford's number 22S25 -> `Recall:22V254000`) 3rd against 18th.
+  - On held-out the template cards alone find more targets at 5 than the name linker (50 against 46).
+  - Chunks: hybrid against vector Complete@5 26 / 24, only hybrid 4, only vector 2, p = 0.688; against
+    graph_retrieval 26 / 26, p = 1.0. H17 (the motivating question): only hybrid ranks the gold chunk
+    `complaints/subaru_outback_complaints.md#1` in its 5 (5th, by a claim sentence).
+- **4. Answers** (Gemini reader, MLflow `3e63e037`, `48e8843f`, `e67d6e08`: **$0.240306**; 26 of
+  graph_retrieval's 68 reader calls were cache hits of identical prompts). Correct of 68 (62 scored by code,
+  exact match; 6 free-text by the judge, Claude Opus 5.5, R71's rules, `tests/gold/r122/heldout_*_verdicts.json`):
+  **vector 26 (0.382), graph_retrieval 31 (0.456), hybrid 27 (0.397)**. Paired (`kg qa-compare`): hybrid
+  against vector only hybrid 5, only vector 4, p = 1.0; graph_retrieval against hybrid 5 and 1, p = 0.219;
+  graph_retrieval against vector 5 and 0, p = 0.062.
+  - All three answer H17 right now ("none"; R73b's DeepSeek vector system had named two camera recalls).
+  - Judge: H19, H20, H34, H35, H37 right in all three (H35 without "free of charge" as R71 and R73 judged); H38
+    right only for hybrid ("August 17, 2020"; the others say the chunks do not give it, rule 5).
+  - Hybrid's two negation misses against graph_retrieval: H30 (expected none) is an exact-match form miss, the
+    text says no owner reports it but the entity list is left empty (None), which code counts as wrong; H29 is
+    a retrieval miss (`ford_escape_complaints.md#2` not in hybrid's 5).
+- **5. B's groundedness on held-out** (sheet `762eb8f9`, 42 of 629 summaries, 3 of them fallbacks; verdicts
+  `tests/gold/r122/summary_verdicts.json`, scored `3750e234`): **grounded 39 of 42** (0.929, Wilson
+  0.810-0.975); unsupported 2/42, identity confusion 2/42, polarity flip 0/42. Per stratum: qualified records
+  8/10, plain records 10/10, qualified individuals 1/2, plain individuals 10/10, concepts 10/10.
+  - Unsupported: "a 2019 Vehicle of type UNKNOWN OR OTHER" (complaint 11229137: the components field written as
+    the vehicle's type); "Nissan is a vehicle manufacturer" (world knowledge; no fact says it).
+  - Identity confusion: "It may incorrectly classify an adult passenger as a child ..." (recall 16V244000: the
+    problem it addresses written as what the recall does); "It may experience improper welds on vehicle ROGUE."
+    (Nissan given the ROGUE's problem).
+  - Every hedge and condition of the 10 qualified records kept ("It may address ...", "but only ... ").
+- **Verified:** `test_r122_the_measured_graph_is_the_frozen_held_out_build` (`tests/test_audit.py`) and
+  `test_r122_the_held_out_verdicts_answer_their_sheet_and_count_39_grounded_of_42`
+  (`tests/test_summary_judging.py`). 1026 passed (1024 + 2), ruff clean.
+- **Cost:** **$0.534158** (summaries $0.293852, readers $0.240306; load all cache; embeddings unpriced: 1,197
+  units and 629 summaries indexed, 2,499 retrieval texts).
+- **R122 done 2026-10-09.** Next: R125, A and B on generality (asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
