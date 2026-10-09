@@ -1,0 +1,86 @@
+"""The agent's node reader against Neo4j (R133, agent/node_reader.py), on the shared hand-made graph with the
+claims of test_hybrid_units.py: nodes found by ref in the order asked (records by `Label:key`, kinds by
+canonical id, unknown refs left out), a node's other names and its plan columns with their source, where the
+traversal starts, the record relationships and the claims a node is an end of grouped per other node with
+the total kept past the limit, one relation type alone, the claims of given chunks a node holds or is an end
+of, and claims by id with their sentences and stored truth fields. Needs Neo4j."""
+
+from kgbuilder.agent import Neo4jNodeReader
+
+from .test_hybrid_units import RELATED_PLAN, load
+
+
+def reader(driver) -> Neo4jNodeReader:
+    load(driver)
+    return Neo4jNodeReader(driver, RELATED_PLAN)
+
+
+def test_nodes_are_found_by_ref_in_the_order_asked_and_unknown_refs_are_left_out(driver):
+    found = reader(driver).nodes(["k-wobble", "Press:NONE", "Ticket:T-1", "i-ada", "Press:P1", "nothing"])
+    assert [(n.ref, n.kind, n.label, n.title) for n in found] == [
+        ("k-wobble", "concept", "Condition", "wobbles"),
+        ("Ticket:T-1", "record", "Ticket", "T-1"),  # no name column: titled by its key
+        ("i-ada", "individual", "Person", "Ada Brook"),
+        ("Press:P1", "record", "Press", "Quill Press"),
+    ]
+
+
+def test_a_node_shows_its_other_names_and_its_plan_columns_with_their_source(driver):
+    nodes = reader(driver)
+    press = nodes.node("Press:P1")
+    # the plan imports the key and the name; the name is the title, and year and active are no plan columns
+    assert [(p.name, p.value, p.source) for p in press.properties] == [
+        ("press_id", "P1", "presses.csv row press_id=P1")
+    ]
+    concept = nodes.node("k-wobble")
+    assert (concept.aliases, concept.properties) == (["wobbling"], [])  # "wobbles" is its title
+    assert nodes.node("Press:NONE") is None
+
+
+def test_the_traversal_starts_from_a_record_by_element_id_and_from_a_kind_by_canonical_id(driver):
+    nodes = reader(driver)
+    press, _, _ = driver.execute_query("MATCH (p:Press {press_id: 'P1'}) RETURN elementId(p) AS id")
+    assert nodes.start("Press:P1").model_dump() == {"kind": "thing", "node_id": press[0]["id"]}
+    assert nodes.start("k-wobble").model_dump() == {"kind": "kind", "node_id": "k-wobble"}
+    assert nodes.start("Press:NONE") is None
+
+
+def test_relations_are_record_relationships_then_claims_grouped_per_other_node(driver):
+    page = reader(driver).relations("Part:S1", None, 10)
+    rows = [(r.via, r.type, r.outgoing, r.ref, r.name, r.label, r.count, r.claims) for r in page.relations]
+    assert rows == [
+        ("record", "MADE_BY", True, "Maker:M1", "Norcast", "Maker", 1, []),
+        ("record", "PART_OF", True, "Press:P1", "Quill Press", "Press", 1, []),
+        # o1, o2 (its denial) and o3 (under a condition) all join the spindle to the concept
+        ("claim", "HAS_CONDITION", True, "k-wobble", "wobbles", "Condition", 3, ["o1", "o2", "o3"]),
+        ("claim", "MADE_BY", True, "Maker:M1", "Norcast", "Maker", 1, ["o5"]),
+    ]
+    assert page.total == 4
+
+
+def test_relations_keep_the_total_past_the_limit_and_one_type_can_be_asked_alone(driver):
+    nodes = reader(driver)
+    press = nodes.relations("Press:P1", None, 2)
+    # four parts and a ticket: five record relationships, two shown
+    assert (len(press.relations), press.total) == (2, 5)
+    assert [r.ref for r in press.relations] == ["Ticket:T-1", "Part:S2"]  # CONCERNS, then PART_OF by name
+    concept = nodes.relations("k-wobble", "REPORTS", 10)
+    assert [(r.ref, r.outgoing, r.claims) for r in concept.relations] == [("i-ada", False, ["o4"])]
+    assert concept.total == 1
+
+
+def test_node_claims_are_those_of_the_given_chunks_it_holds_or_is_an_end_of(driver):
+    nodes = reader(driver)
+    held = nodes.node_claims("Press:P1", ["notes.md#0"])  # o2 is from notes.md#1
+    assert [c.id for c in held] == ["o1", "o3", "o5"]
+    assert held[0].sentence == "Spindle (Component) has condition wobbles (Condition)"
+    ends = nodes.node_claims("k-wobble", ["notes.md#1", "log.md#1"])
+    assert [(c.id, c.chunk_id) for c in ends] == [("o2", "notes.md#1"), ("o4", "log.md#1")]
+
+
+def test_claims_by_id_carry_their_stored_truth_fields(driver):
+    found = reader(driver).claims(["o2", "missing", "o4"])
+    assert [(c.id, c.truth, c.triple_truth, c.modality, c.hedge) for c in found] == [
+        ("o2", "negated", "negated", "actual", ""),
+        ("o4", "affirmed", "affirmed", "possible", "may"),
+    ]

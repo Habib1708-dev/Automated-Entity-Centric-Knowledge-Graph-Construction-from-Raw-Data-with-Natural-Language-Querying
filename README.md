@@ -329,6 +329,9 @@ src/kgbuilder/
                     (chunks, claims with their opposite-truth siblings, cards in turn, the name-linker route;
                     seeds, R126: the start nodes of chunks and claims)
                     -> fusion (R120b: reciprocal rank fusion) -> source (the hybrid chunk source)
+  agent/            R133: the agentic query engine's tools behind one Tool protocol: find_nodes (R132's
+                    fused card seeding), get_node, neighbours, node_evidence (graph_tools) ; search_text,
+                    search_claims (text_tools) ; node_reader (read-only Cypher) -> results (what each returns)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;

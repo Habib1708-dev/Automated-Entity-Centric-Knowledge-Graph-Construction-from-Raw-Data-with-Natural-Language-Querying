@@ -8400,6 +8400,47 @@ decision then. Also make graphs supporting this decision."
   cents at most).
 - **R132 done 2026-10-09.** Next: R133, the graph-walk and text tools ($0, code).
 
+### R133. The agent's seeding, graph-walk and text tools (done 2026-10-09; $0, code only)
+- **Scope:** a new package `agent/` (pipeline -> agent -> hybrid, query, graph, llm.base, core; nothing but the
+  pipeline will import it), each tool its own class behind one `Tool` protocol (a name, a domain-neutral
+  description and an arguments model the agent reads in R135, and `run`), each result a pydantic model that
+  lists the ids it offers for citation and says when a cap cut it:
+  - `find_nodes(query)`: R132's seeding (RRF k 60 over 25 dense + 25 lexical template cards), the first K
+    nodes (R131b: 15) with their ref, kind, label and title;
+  - `get_node(ref)`: a node's label, title, other names and properties, each property with its source (the
+    plan's table and the record's key); an unknown ref answered with a note, not an error;
+  - `neighbours(ref, relation?)`: the record relationships and the claims the node is an end of, grouped by
+    type, direction and other end, with the other ends' refs, names and labels and up to three claim ids per
+    group, capped, with the total; multi-hop is a repeated call;
+  - `node_evidence(ref, about)`: the chunks the fixed traversal (`GraphStore.reach`) reaches from the node,
+    ranked by similarity to `about`, capped, each with the claims from it that the node holds or is an end of;
+  - `search_text(query)`: chunks by vector and by words (the existing `chunk_dense` and `chunk_lexical`
+    retrievers), fused by RRF; `search_claims(query)`: claims the same way, with their sentences and truth
+    fields.
+  - A read-only repository `agent/node_reader.py` (`NodeReader` protocol, `Neo4jNodeReader`) for what the
+    tools read that no store reads yet. Two structural moves first, behaviour unchanged: the record-ref
+    Cypher expression from `query/graph_store.py` to `graph/canonical.py` (the reader needs it too), and the
+    fused card list out of `FusedCardRetriever` into a function `find_nodes` shares.
+- **Not here:** the structured tools (R134), `answer` and the citation check, the loop, containment beyond
+  the per-tool caps, settings, tracing and any CLI (R135). The caps and constants are constructor arguments
+  until R135 makes them settings.
+- **Accept:** each tool's contract tested on fakes without Neo4j; the reader's Cypher tested once on the
+  shared hand-made graph (`@pytest.mark.neo4j`); every description and field description free of dataset
+  words (`prompt-engineering`); the existing tests unchanged and green.
+- **Verified:** 26 new tests. On fakes (`tests/test_agent_tools.py`, 19): `find_nodes` reads both card lists
+  `candidates` deep, fuses them by RRF, leaves out a card whose node is gone, keeps the first k, and searches
+  by vector only for a query without a word; `get_node` cuts long values and extra names with a note;
+  `neighbours` passes the type and the limit and says when the total is larger; `node_evidence` starts a
+  record as a thing and a kind as a kind, ranks by `about`, caps, keeps the total, and reads claims only for
+  the chunks shown; `search_text` and `search_claims` fuse their lists, a claim followed by its opposite-truth
+  siblings; an unknown ref gets a note and no read; the ids each result offers; every description and
+  argument description free of dataset words. On Neo4j (`tests/test_agent_reader.py`, 7): lookup by ref in
+  order, a node's other names and plan columns with their source, the traversal start, record relationships
+  then claim groups per other node with the total past the limit, one type alone, a node's claims of given
+  chunks, claims by id with their stored truth fields. The two moves left every earlier test unchanged.
+  1113 passed (1087 + 26), ruff clean. No run: nothing here calls a model.
+- **R133 done 2026-10-09.** Next: R134, the structured tools ($0, code).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -54,3 +54,10 @@ def canonical_aliases(mention: str) -> str:
         f"THEN apoc.coll.sort(apoc.coll.toSet([({mention})-[:REFERS_TO]->()<-[:REFERS_TO]-({other}:Mention) "
         f"| {other}.name])) ELSE [{mention}.name] END"
     )
+
+
+def record_ref_of(node: str) -> str:
+    """Cypher for `core.identity.record_ref` of the record bound to `node`, read from a `$rules` parameter
+    that lists each record label with its key column (`[{label, key}]`, built from the plan by the caller);
+    null for a node of no listed label. A record's ref is the canonical id its mentions' edges carry."""
+    return f"head([r IN $rules WHERE r.label IN labels({node}) | r.label + ':' + toString({node}[r.key])])"

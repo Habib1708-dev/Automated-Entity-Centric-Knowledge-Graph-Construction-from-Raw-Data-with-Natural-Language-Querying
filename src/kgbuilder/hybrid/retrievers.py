@@ -132,11 +132,21 @@ class FusedCardRetriever:
         self._setting = setting
 
     def retrieve(self, question: str, vector: list[float], depth: int) -> Retrieved:
-        k = self._setting.candidates
-        dense = self._units.nearest_cards(self._representation, vector, k)
-        query = lucene_query(question)
-        lexical = self._units.search_cards(self._representation, query, k) if query else []
-        return from_cards(fuse(dense, lexical, self._setting), vector, depth, self._units, self._store)
+        refs = fused_cards(self._units, self._representation, self._setting, question, vector)
+        return from_cards(refs, vector, depth, self._units, self._store)
+
+
+def fused_cards(
+    units: UnitStore, representation: str, setting: SeedSetting, question: str, vector: list[float]
+) -> list[str]:
+    """The card refs of one representation nearest `vector` and scored highest by the question's words, each
+    list read `setting.candidates` deep and fused by `setting` (no word search without a word), best first:
+    the live seeding (R132), shared by `FusedCardRetriever` and the agent's `find_nodes` (R133)."""
+    k = setting.candidates
+    dense = units.nearest_cards(representation, vector, k)
+    query = lucene_query(question)
+    lexical = units.search_cards(representation, query, k) if query else []
+    return fuse(dense, lexical, setting)
 
 
 def from_cards(

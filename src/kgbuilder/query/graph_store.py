@@ -19,7 +19,7 @@ from pydantic import BaseModel
 
 from ..core.errors import MissingInputError
 from ..core.identity import record_ref
-from ..graph.canonical import canonical_id, canonical_kind, canonical_name
+from ..graph.canonical import canonical_id, canonical_kind, canonical_name, record_ref_of
 from ..resolution.linking import read_domain_nodes
 from ..structured.plan import ConstructionPlan
 from ..text.lexical import CHUNK_VECTOR_INDEX
@@ -249,15 +249,9 @@ class Neo4jGraphStore:
         return out
 
     def _key_rules(self) -> list[dict[str, str]]:
-        """Each record label with its key column, so a query can write a record's ref (`_record_ref`)."""
+        """Each record label with its key column, so a query can write a record's ref (`record_ref_of`)."""
         rules = self._plan.nodes if self._plan else []
         return [{"label": rule.label, "key": rule.unique_column} for rule in rules]
-
-
-def _record_ref(node: str) -> str:
-    """Cypher for `core.identity.record_ref` of the record bound to `node`, from the `$rules` parameter (label
-    and key column per record label); null for a node of no plan label."""
-    return f"head([r IN $rules WHERE r.label IN labels({node}) | r.label + ':' + toString({node}[r.key])])"
 
 
 def _resolved(mention: str) -> str:
@@ -280,7 +274,7 @@ _CHUNK_NODES = (
     "OPTIONAL MATCH (c)-[:MENTIONS]->(m:Mention) "
     f"WITH c, about, m, {_resolved('m')} AS ref "
     "WITH c, about, collect(CASE WHEN ref IS NULL THEN null ELSE {ref: ref, name: m.name} END) AS named "
-    f"RETURN c.chunk_id AS chunk_id, [t IN about | {_record_ref('t')}] AS about, named"
+    f"RETURN c.chunk_id AS chunk_id, [t IN about | {record_ref_of('t')}] AS about, named"
 )
 
 # R126, a claim's start nodes by arm B of the navigation contract: the entities at its two ends, then the
@@ -290,5 +284,5 @@ _CLAIM_NODES = (
     "OPTIONAL MATCH (o)-[:SUBJECT]->(s:Mention) OPTIONAL MATCH (o)-[:OBJECT]->(t:Mention) "
     f"RETURN o.id AS id, {_resolved('s')} AS subject, {_resolved('t')} AS object, "
     "[(h)-[:HAS_OBSERVATION]->(o) | "
-    f"CASE WHEN h:Individual OR h:Concept THEN h.id ELSE {_record_ref('h')} END] AS attached"
+    f"CASE WHEN h:Individual OR h:Concept THEN h.id ELSE {record_ref_of('h')} END] AS attached"
 )
