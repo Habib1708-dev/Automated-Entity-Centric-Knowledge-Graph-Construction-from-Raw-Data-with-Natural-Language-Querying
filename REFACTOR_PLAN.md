@@ -8355,7 +8355,7 @@ decision then. Also make graphs supporting this decision."
   and indexed). The full suite and ruff are green.
 - **R131b done 2026-10-09.** Next: R132, the chosen seeding live (`rrf60_c25_template`, K = 15).
 
-### R132. The chosen seeding as a live retriever (part a done 2026-10-09, $0; part b, the live check, awaits permission)
+### R132. The chosen seeding as a live retriever (done 2026-10-09; $0 logged, embeddings unpriced)
 - **Scope (part a, code):** `hybrid/retrievers.py` (`FusedCardRetriever`, `card_fused`: both card lists of
   one representation read `candidates` deep, fused by `seed_fusion.fuse`, RRF only; the cards' traversal
   extracted unchanged from `CardRetriever` into `from_cards`, which both use), `hybrid/source.py` (the
@@ -8372,6 +8372,33 @@ decision then. Also make graphs supporting this decision."
   generality reloaded from the cache with R128's recipe, template index only). Accept: per dataset and
   pooled, the live Seed Recall@K of `card_fused_template` within 3 targets of R131's offline
   `rrf60_c25_template` at every K (the dense drift R128 measured), and pooled at K = 15 within 3 of 203.
+- **Part b, done 2026-10-09** (the user: "Alright proceed with all three steps"; record, commands and run
+  ids in `tests/gold/r132/runs.json`). Furniture as loaded since R128 (graph `392a170ecc10`); held-out and
+  generality reloaded into `out/r132_heldout` and `out/r132_generality` (triples and mentions byte-identical
+  to the frozen builds, every LLM answer cached: 81/81 + 724/724 and 32/32 + 354/354, graphs `bc7c5a1efe3d`
+  and `f79f9411ea81`, the digests R128 measured), template index only. Seed Recall@K live against offline,
+  K = 5 / 10 / 15 / 20 / 25 / 30 / 50, exact match, no judge:
+
+  | Dataset | live | offline (R131) |
+  |---|---|---|
+  | furniture (of 86) | 71 / 81 / 85 / 86 / 86 / 86 / 86 | 73 / 81 / 85 / 86 / 86 / 86 / 86 |
+  | held-out (of 65) | 54 / 61 / 63 / 63 / 63 / 64 / 64 | 56 / 61 / 62 / 62 / 62 / 63 / 63 |
+  | generality (of 62) | 42 / 52 / 56 / 57 / 58 / 58 / 58 | 42 / 52 / 56 / 57 / 58 / 58 / 58 |
+  | pooled (of 213) | **167** / 194 / **204** / 206 / 207 / 208 / 208 | 171 / 194 / 203 / 205 / 206 / 207 / 207 |
+
+- **Acceptance:** per dataset within 3 at every K: met. Pooled at K = 15 within 3 of 203 (204): met. Pooled
+  within 3 at every K: **missed at K = 5 by one target** (167 against 171, 4). Recorded as a miss, the
+  tolerance not changed after the fact. Why: R131's fusion recomputed from R128's saved lists reproduces
+  R131 exactly, and live differs on four questions only, all at K = 5 (furniture F10, F17; held-out H26,
+  H35), each by one target pushed to rank 6 or lower. Furniture's graph and index were not reloaded and the
+  lexical lists are exact, so the cause is the approximate dense index asked for 25 neighbours live where
+  R128 asked for 50 (the drift in "Found along the way"). The tolerance of 3 was set per list; summed over
+  three datasets it can exceed 3. At the agent's K = 15 the live seeder matches the offline choice, so the
+  decision of R131b stands.
+- **Runs:** three `retrieve-eval` runs (`fda876ad`, `cf31145a`, `53594bd0`), two reloads and two template
+  index runs; `cost_usd` 0 on every run; unpriced: 177 question embeddings and the two index builds' (a few
+  cents at most).
+- **R132 done 2026-10-09.** Next: R133, the graph-walk and text tools ($0, code).
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

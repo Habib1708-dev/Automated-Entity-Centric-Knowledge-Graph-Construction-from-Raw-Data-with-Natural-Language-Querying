@@ -1,0 +1,164 @@
+{
+ "step": "R132 part b: the chosen seeding (card_fused_template: RRF k 60 over 25 dense + 25 lexical template cards) live with kg retrieve-eval on furniture, held-out and generality, against R131's offline rrf60_c25_template",
+ "approved": "the user, 2026-10-09, in this session: \"Alright proceed with all three steps\" (asked as the low-cost live check R132 part b; estimate: $0 logged, embeddings only)",
+ "git_sha": "caee26d-dirty",
+ "git_dirty_files": ".claude/settings.json",
+ "budgets": [
+  5,
+  10,
+  15,
+  20,
+  25,
+  30,
+  50
+ ],
+ "datasets": {
+  "furniture": {
+   "build": "out/r128_furniture (loaded since R128, not reloaded)",
+   "graph_digest": "392a170ecc10",
+   "command": "RETRIEVAL_BUDGETS='[5,10,15,20,25,30,50]' kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --targets tests/gold/r89/furniture_targets.json --build out/r128_furniture --data data --system card_fused_template --out out/r132/furniture",
+   "run": "fda876ad",
+   "seed_recall_live": [
+    71,
+    81,
+    85,
+    86,
+    86,
+    86,
+    86
+   ],
+   "seed_recall_offline_r131": [
+    73,
+    81,
+    85,
+    86,
+    86,
+    86,
+    86
+   ],
+   "n_targets": 86
+  },
+  "heldout": {
+   "build": "out/r132_heldout, reloaded with R128's recipe (tests/gold/r128/runs.json) into out/r132_heldout, template index only",
+   "load_runs": {
+    "ingest_text": "edbc9c56",
+    "extract": "749d7c2c",
+    "link": "5ec7fd4b",
+    "mention_pass": "59d5bc91",
+    "resolve": "38930eed",
+    "attach": "328744e0",
+    "index_template": "774eae9e"
+   },
+   "load_checks": {
+    "triples.jsonl": "byte-identical to out/r109_heldout",
+    "mentions.jsonl": "byte-identical to out/r109_heldout",
+    "mention_pass_cache_hits": "81 of 81",
+    "resolve_cache_hits": "724 of 724",
+    "cost_usd": 0
+   },
+   "graph_digest": "bc7c5a1efe3d",
+   "command": "RETRIEVAL_BUDGETS='[5,10,15,20,25,30,50]' kg --preset heldout retrieve-eval tests/gold/qa/heldout_qa.json --targets tests/gold/r89/heldout_targets.json --build out/r132_heldout --data heldout/nhtsa/data --system card_fused_template --out out/r132/heldout",
+   "run": "cf31145a",
+   "seed_recall_live": [
+    54,
+    61,
+    63,
+    63,
+    63,
+    64,
+    64
+   ],
+   "seed_recall_offline_r131": [
+    56,
+    61,
+    62,
+    62,
+    62,
+    63,
+    63
+   ],
+   "n_targets": 65
+  },
+  "generality": {
+   "build": "out/r132_generality, reloaded with R125's recipe (tests/gold/r125/runs.json), template index only",
+   "load_runs": {
+    "ingest_text": "38c0ab2b",
+    "extract": "ecfbfc78",
+    "link": "e62c2696",
+    "mention_pass": "fff2469d",
+    "resolve": "bca8599b",
+    "attach": "d9965c74",
+    "index_template": "e03afb0d"
+   },
+   "load_checks": {
+    "triples.jsonl": "byte-identical to out/r108_generality",
+    "mentions.jsonl": "byte-identical to out/r108_generality",
+    "mention_pass_cache_hits": "32 of 32",
+    "resolve_cache_hits": "354 of 354",
+    "cost_usd": 0
+   },
+   "graph_digest": "f79f9411ea81",
+   "command": "RETRIEVAL_BUDGETS='[5,10,15,20,25,30,50]' kg --preset generality_gemini retrieve-eval tests/gold/qa/generality_qa.json --targets tests/gold/r89/generality_targets.json --build out/r132_generality --data tests/fixtures/generality --system card_fused_template --out out/r132/generality",
+   "run": "53594bd0",
+   "seed_recall_live": [
+    42,
+    52,
+    56,
+    57,
+    58,
+    58,
+    58
+   ],
+   "seed_recall_offline_r131": [
+    42,
+    52,
+    56,
+    57,
+    58,
+    58,
+    58
+   ],
+   "n_targets": 62
+  }
+ },
+ "pooled": {
+  "seed_recall_live": [
+   167,
+   194,
+   204,
+   206,
+   207,
+   208,
+   208
+  ],
+  "seed_recall_offline_r131": [
+   171,
+   194,
+   203,
+   205,
+   206,
+   207,
+   207
+  ],
+  "n_targets": 213
+ },
+ "acceptance": {
+  "per_dataset_within_3_every_K": true,
+  "pooled_within_3_every_K": false,
+  "pooled_miss": "K = 5: 167 against 171 (4 targets)",
+  "pooled_K15_within_3_of_203": true
+ },
+ "differing_questions_K5": {
+  "note": "the offline fusion recomputed from R128's saved lists reproduces R131 exactly; live differs on 4 questions, all at K = 5, each by one target that sits at rank 6 or lower live; from K = 10 live equals offline on every dataset except +1 on held-out from K = 15",
+  "furniture": [
+   "F10",
+   "F17"
+  ],
+  "heldout": [
+   "H26",
+   "H35"
+  ]
+ },
+ "cost_usd_logged": 0,
+ "unpriced": "embeddings: 177 question embeddings (68 + 68 + 41 calls) and the two template index builds (12 + 6 batch calls); a few cents at most"
+}
