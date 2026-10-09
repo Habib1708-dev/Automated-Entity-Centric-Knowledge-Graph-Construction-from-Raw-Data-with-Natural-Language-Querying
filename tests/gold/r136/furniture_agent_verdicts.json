@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-09",
+    "run_id": "310ea86ba59e441c9d75d187a2abe733",
+    "git_sha": "6ff1d76"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r136_furniture/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "A partial refund: the expected offer."
+    },
+    {
+      "question_id": "F38",
+      "correct": true,
+      "reason": "Most find it comfortable, for long dinner parties too; one finds it less comfortable for extended work sessions: both parts of the expected answer (rule 2)."
+    }
+  ]
+}

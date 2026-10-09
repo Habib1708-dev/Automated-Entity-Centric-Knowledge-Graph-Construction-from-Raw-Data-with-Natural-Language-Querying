@@ -8537,6 +8537,62 @@ decision then. Also make graphs supporting this decision."
 - **R135 done 2026-10-09.** Next: R136, answers measured with `kg qa` against the existing systems (a paid
   run, asked first with its estimate).
 
+### R136. The agent's answers measured on the three builds (done 2026-10-09; $2.729)
+- **Asked and approved:** the user, 2026-10-09: "yes" to `kg qa --system agent` on the three builds (177
+  questions, gemini-3.8-flash at thinking low through each dataset's preset), estimated about $3.5 (worst
+  case about $15 if every question reaches the prompt cap), reloads from the cache $0, preceded by one dev
+  check (about $0.01) of R135's unmeasured format fixes on the same three generality questions.
+- **Scope:** runs and the record; no code change unless the dev check shows a defect (then its own commit,
+  with a test, before any paid run). Generality on `out/r132_generality` (loaded), held-out on
+  `out/r132_heldout` and furniture on `out/r136_furniture`, each reloaded with R128's recipe and checked
+  (triples and mentions byte-identical, graph digest as R128). Scores: exact match by `kg qa` (sets,
+  numbers, recall@k, citation faithfulness) and the Claude judge (Opus 5.5, this session) on the free-text
+  answers, by the `evaluation` skill, verdict files in `tests/gold/r136/`.
+- **Comparison:** against the systems already judged on the same graph digests: held-out R122 (`vector`,
+  `graph_retrieval`, `hybrid`; graph `bc7c5a1efe3d`) and generality R125 (the same three; `f79f9411ea81`),
+  paired by `kg qa-compare` (exact McNemar). Furniture has no judged answers on its current build (its last
+  ones are R73-R85's, on other graphs), so the agent's furniture scores stand alone; a furniture comparison
+  needs the baselines run on that build, a separate paid run to be asked for.
+- **Read with care:** the reader model is the same for every system, but the agent makes several calls per
+  question, so its cost per answer is not comparable to a reading system's; gold, targets and verdicts come
+  from one model family (Claude).
+- **Runs** (record, commands and run ids in `tests/gold/r136/runs.json`): the dev check `9d7760af`
+  ($0.0086; both format fixes of R135 work: G39 now names `HP40-1183`, `HP40-2291`), then the agent on the
+  three builds, every LLM answer of the reloads from the cache and both reloads byte-identical: generality
+  `ac4a860f` ($0.403), held-out `db48aee6` ($1.059), furniture `310ea86b` ($1.258). **$2.729 in all**, about
+  $0.015 a question (estimate $3.5). Per question 3.8 / 4.6 / 5.5 turns and 2.4 / 3.2 / 4.0 calls (generality /
+  held-out / furniture); 171 of 177 loops ended by an answer, furniture's other 6 at a cap (4 calls, 2 turns).
+- **Results** (correct of all questions: sets and numbers by code, exact match; free text by the judge,
+  Claude Opus 5.5, R71's rules, `tests/gold/r136/*_agent_verdicts.json`; paired by exact McNemar against R122's
+  and R125's answers on the same graph digests, re-scored with their own verdict files, `out/r136/`):
+
+  | Dataset | agent | vector | graph_retrieval | hybrid | agent vs best baseline |
+  |---|---|---|---|---|---|
+  | held-out (68) | **63 (0.926)** | 26 | 31 | 27 | only agent 32, only graph_retrieval 0, p < 0.001 |
+  | generality (41) | **34 (0.829)** | 26 | 27 | 26 | only agent 10, only graph_retrieval 3, p = 0.092 |
+  | furniture (68) | **58 (0.853)** | - | - | - | no judged baseline on this build |
+
+  - Held-out: the agent beats every reading system on every question type that has questions enough to
+    test (multi_hop 16/17 against at most 5; aggregation 15/16 against at most 6; structured_filter 16/17
+    against at most 4; each p <= 0.004); it lost no question a reading system answered but one (hybrid).
+  - Generality: ahead of vector and hybrid (p = 0.039 each), of graph_retrieval not beyond one sample's
+    variation (p = 0.092); 10/10 free-text answers right.
+  - Citation faithfulness 1.0 on all three (48/48, 34/34, 56/56 quotes in their chunks); no citation dropped.
+  - Wrong answers: generality 7 (four disambiguation: G03, G10, G22, G31; two multi_hop: G02, G29; one
+    aggregation: G05), held-out 5 (H11, H36, H38 empty although the recall's node was read, H40, H66),
+    furniture 10 (five multi_hop F59, F61, F62, F64, F65; three aggregation F08, F12, F13; negation F28; structured_filter F48). Not analysed further
+    here.
+- **What it answers:** the agentic engine answers far more questions than every reading system where the
+  questions need records and counts (held-out: 63 of 68 against at most 31), and more where they mostly need
+  text (generality: 34 against at most 27). The gain comes from the structured tools (held-out: 37
+  query_records and 25 query_tables calls) and the walk (34 neighbours calls), which no reading system has.
+- **Read with care:** the reading systems read 5 chunks once; the agent calls the model 3.8-5.5 times a
+  question, so the comparison is of systems, not of retrieval at a fixed budget; R122's and R125's answers
+  are from runs at other commits (the graph digests are equal); the judge, the gold and the targets come
+  from one model family; furniture's 58 has nothing on its build to be compared with.
+- **R136 done 2026-10-09; plan R130-R136 done.** Next: the user decides (a furniture baseline run, the
+  empty-tool replies below, or the next plan).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -8569,6 +8625,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **The agent's model sometimes leaves `tool` empty (found in R136, 2026-10-09; open).** 78 of 79 refused
+  calls in R136 are replies with `action` "call", the arguments filled and no tool named (generality 17,
+  held-out 22, furniture 39, against 834 calls run); the loop refuses each (`no tool ''`) and the next turn
+  names the tool, so each costs a turn, and probably some of furniture's 6 cap stops. Direction: make the
+  reply schema's `tool` an enumeration of the tool names, or let code accept a call whose arguments fit
+  exactly one tool; measured on a re-run of the agent (its own step, asked first).
 - **The seed rule chose at a ceiling (found in R131, 2026-10-09; recorded, not changed).** Plan R130-R136's
   rule picks the setting with the most furniture targets at K = 20, but at K = 20 four rows find all 86, so
   the grid's tie order chose `rrf60_c25_template`, and the reranker's K = 5 lead (pooled 189 against 171,

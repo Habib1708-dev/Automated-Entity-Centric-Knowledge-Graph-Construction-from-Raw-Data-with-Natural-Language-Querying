@@ -1,0 +1,45 @@
+{
+ "step": "R136: the agent's answers measured on furniture, held-out and generality, against the judged reading systems of R122 (held-out) and R125 (generality)",
+ "approved": "the user, 2026-10-09, in this session: \"yes\" (asked with the question, about $3.5 estimated, worst case about $15, reloads $0, one dev check of about $0.01 first)",
+ "git_sha": "6ff1d76-dirty",
+ "git_dirty_files": ".claude/settings.json, REFACTOR_PLAN.md (the R136 entry)",
+ "agent_prompt_version": "940f0aa26f94",
+ "dev_check": {
+  "command": "QA_MODEL=gemini-3.5-flash-lite kg --preset dev qa <G08, G28, G39 of tests/gold/qa/generality_qa.json> --system agent --out out/r132_generality",
+  "run": "9d7760af",
+  "cost_usd": 0.00856,
+  "result": "G39 listed names (HP40-1183, HP40-2291), exact match right; G28 gave a number (2025, the cleaning date's year instead of the installation year 2016: a reasoning slip of flash-lite, not a form error); G08 unchanged"
+ },
+ "datasets": {
+  "generality": {
+   "build": "out/r132_generality (loaded since R132)",
+   "graph_digest": "f79f9411ea81",
+   "command": "kg --preset generality_gemini qa tests/gold/qa/generality_qa.json --system agent --out out/r132_generality",
+   "run": "ac4a860f3929438b8a93b700199fc437",
+   "usage": {"llm_calls": 157, "cache_hits": 0, "prompt_tokens": 483017, "completion_tokens": 10507, "thinking_tokens": 460, "cost_usd": 0.403389},
+   "correct": "34/41 (exact match 24/31, judge 10/10)",
+   "baselines_r125": {"vector": "26/41", "graph_retrieval": "27/41", "hybrid": "26/41"}
+  },
+  "heldout": {
+   "build": "out/r132_heldout, reloaded with R128's recipe (triples and mentions byte-identical to out/r109_heldout); the template index run twice (the first stopped on an embedding ReadTimeout)",
+   "graph_digest": "bc7c5a1efe3d",
+   "command": "kg --preset heldout qa tests/gold/qa/heldout_qa.json --system agent --out out/r132_heldout",
+   "run": "db48aee6a1804627a83d6e2128f1b13a",
+   "usage": {"llm_calls": 310, "cache_hits": 0, "prompt_tokens": 1311320, "completion_tokens": 19652, "thinking_tokens": 547, "cost_usd": 1.059236},
+   "correct": "63/68 (exact match 58/62, judge 5/6)",
+   "baselines_r122": {"vector": "26/68", "graph_retrieval": "31/68", "hybrid": "27/68"}
+  },
+  "furniture": {
+   "build": "out/r136_furniture, reloaded with R128's recipe (triples and mentions byte-identical to out/r108_furniture)",
+   "graph_digest": "392a170ecc10",
+   "command": "kg --preset quality qa tests/gold/qa/furniture_qa.json --system agent --out out/r136_furniture",
+   "run": "310ea86ba59e441c9d75d187a2abe733",
+   "usage": {"llm_calls": 378, "cache_hits": 0, "prompt_tokens": 1567023, "completion_tokens": 21621, "thinking_tokens": 469, "cost_usd": 1.258105},
+   "correct": "58/68 (exact match 56/66, judge 2/2)",
+   "baselines": "none judged on this build"
+  }
+ },
+ "cost_usd_total": 2.72929,
+ "verdicts": "tests/gold/r136/<dataset>_agent_verdicts.json (Claude Opus 5.5, R71's rules tests/gold/r71/qa_judge_rules.md)",
+ "scoring": "kg qa-score into out/r136/<dataset> for the agent and, with their own verdict files, the R122 and R125 answers; kg qa-compare into out/r136/compare_<dataset>_<system>"
+}

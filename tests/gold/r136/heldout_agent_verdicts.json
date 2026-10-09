@@ -1,0 +1,42 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-09",
+    "run_id": "db48aee6a1804627a83d6e2128f1b13a",
+    "git_sha": "6ff1d76"
+  },
+  "gold": "tests/gold/qa/heldout_qa.json",
+  "answers": "out/r132_heldout/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "H19",
+      "correct": true,
+      "reason": "Dealers will inspect and replace the piston assemblies and damaged engine components as necessary, free of charge: the expected remedy word for word."
+    },
+    {
+      "question_id": "H20",
+      "correct": true,
+      "reason": "Piston assemblies that may have been made without a piston wrist pin circlip or with one installed incorrectly: the expected defect and the gold quote, which does not name the 2.0L engine (as R122 judged every system)."
+    },
+    {
+      "question_id": "H34",
+      "correct": true,
+      "reason": "Hall Nissan in Chesapeake, VA: the expected dealer."
+    },
+    {
+      "question_id": "H35",
+      "correct": true,
+      "reason": "Dealers will install a harness protector cover: the installed item asked for; it omits 'free of charge', which R122 accepted for the same answer (hybrid)."
+    },
+    {
+      "question_id": "H37",
+      "correct": true,
+      "reason": "Nissan engineering declared that the system worked as intended: the expected answer."
+    },
+    {
+      "question_id": "H38",
+      "correct": false,
+      "reason": "The answer is empty (no text, entities or number) although the agent read the recall's node; the expected 'August 17, 2020' exists in the source: no answer is wrong (rule 5)."
+    }
+  ]
+}
