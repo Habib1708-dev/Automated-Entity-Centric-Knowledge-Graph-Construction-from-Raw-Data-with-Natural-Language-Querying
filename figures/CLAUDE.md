@@ -15,6 +15,7 @@ figures/
     <step>_data.py                reads a committed record into what the charts draw (pure, no drawing)
     <step>_charts.py              draws one step's result charts from <step>_data
     <steps>_diagrams.py           draws method diagrams (boxes and arrows)
+    boxes.py                      the canvas, box and arrow every diagram draws with
     build.py                      the one entry point; a figure not built here does not exist
   results/<topic>/<step>_<subject>/   charts of measured numbers, plus README.md (the captions)
   diagrams/<topic>/<steps>/           diagrams of methods and designs, plus README.md (the captions)

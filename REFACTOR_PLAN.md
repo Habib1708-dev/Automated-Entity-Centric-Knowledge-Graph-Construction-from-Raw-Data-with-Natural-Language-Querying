@@ -8317,8 +8317,43 @@ arm $0): "yes".
 - **Verified:** `test_r131_the_committed_grid_reproduces_its_choice_by_the_pre_registered_rule` (step 1 and
   the knee recomputed from the committed tables, the headline counts, the markdown equal to the record's).
   1081 passed (1080 + 1), ruff clean.
-- **R131 done 2026-10-09.** The result document: [docs/evaluation/results_2026-10-09_r131_seed_grid.md](docs/evaluation/results_2026-10-09_r131_seed_grid.md) (local). Next: R132, the chosen seeding live (`rrf60_c25_template`, K = 15), unless the
-  user prefers the reranker at a small K (see "What it answers").
+- **R131 done 2026-10-09.** The result document:
+  [docs/evaluation/results_2026-10-09_r131_seed_grid.md](docs/evaluation/results_2026-10-09_r131_seed_grid.md)
+  (local). Next: R131b, the decision.
+
+### R131b. The seeding decision and its figures (done 2026-10-09; $0, no run)
+The user, 2026-10-09, asked which configuration a senior engineer would choose, then: "document this
+decision then. Also make graphs supporting this decision."
+- **The decision:** the agent's seeding is **RRF k = 60 over the top 25 dense and the top 25 lexical template
+  cards, and the agent is given the top 15 nodes; no separate reranker.** This is the pre-registered rule's
+  choice (R131), kept for three reasons:
+  1. It finds the most for the least: pooled 203 of 213 targets at K = 15 (every target of 131 of 141
+     questions), free, deterministic, and no call that can fail. No setting at any K up to 20 is shown better.
+  2. The agent is a model that reads the 15 cards anyway before it walks: it reorders them itself. A rerank
+     call would repeat that judgement one step earlier, for a call per question. Its proven gain is ordering
+     the top 5 (pooled 189 against 171, exploratory), which matters only if the agent can read 5 cards.
+  3. The rule was fixed before the numbers; picking K = 10 or the reranker now would tune on the test data.
+- **Considered and not chosen:** the reranker at K = 10 (198 of 213 against free RRF k = 10's 197 and the
+  chosen setting's 194 at 10; against its own pool 9 / 5 questions, p = 0.42: not shown better, and 5 targets
+  below the chosen setting at K = 15).
+- **When to revisit:** if the agent runs (R135-R136) show it starts from wrong nodes often, or that 15 cards
+  do not fit its context, the reranker at a small K becomes its own measured step, on questions not used to
+  choose it.
+- **Figures** (`figures/`, rules in `figures/CLAUDE.md`, all drawn from the committed R131 record):
+  - `results/retrieval/r131_seed_grid/r131_fig1_recall_by_k`: Seed Recall against K, pooled and per
+    dataset; the chosen fusion, the reranker and each card list alone on top of the other settings in gray,
+    the chosen K marked;
+  - `results/retrieval/r131_seed_grid/r131_fig2_paired_decision`: diverging bars, the fusion against the
+    lexical cards alone at K = 15 (pre-registered) and the reranker against its pool at K = 5 and 10
+    (exploratory), with McNemar p;
+  - `diagrams/retrieval/r130_r131/r131_diag1_seeding_decision`: the chosen path and the reranker left out.
+  Encoding within the three-hue cap: every row is node cards (orange), told apart by fill (hollow lexical,
+  filled dense, half-filled fused), the reranker in dark ink. The diagrams' box helpers moved to
+  `figures/scripts/boxes.py` unchanged (the R126-R128 diagrams rebuild byte-identical).
+- **Verified:** every PNG looked at (no collisions after the chosen-K line was darkened);
+  `test_the_r131_data_functions_return_the_committed_counts` and the build test (10 figures, each captioned
+  and indexed). The full suite and ruff are green.
+- **R131b done 2026-10-09.** Next: R132, the chosen seeding live (`rrf60_c25_template`, K = 15).
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

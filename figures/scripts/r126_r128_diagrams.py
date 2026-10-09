@@ -3,7 +3,7 @@ design of the technique experiment (R128).
 
 Role: `build.py` calls `draw_all`; the files land in `figures/diagrams/retrieval/r126_r128/`, whose README.md
 is their caption list.
-Design: boxes and arrows drawn with matplotlib in data coordinates, in the figures' one style (style.py):
+Design: boxes and arrows (boxes.py) in the figures' one style (style.py):
 neutral boxes for steps, family-tinted boxes for techniques (text blue, node cards orange, name linker aqua).
 The worked example of the first diagram is the hand-made graph of `tests/graphs.py` (invented words), whose
 start nodes `test_r126_the_store_reads_what_a_chunk_concerns_and_what_a_claim_joins` checks; the second
@@ -14,63 +14,15 @@ Must not: show a number no committed record or test holds.
 
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-
-from .style import INK, INK_MUTED, LINKER_AQUA, NODE_ORANGE, TEXT_BLUE, save, title
+from .boxes import NEUTRAL, TINT, arrow, box, canvas
+from .style import INK, LINKER_AQUA, NODE_ORANGE, TEXT_BLUE, save, title
 
 OUT = Path(__file__).resolve().parents[1] / "diagrams" / "retrieval" / "r126_r128"
-NEUTRAL = ("#f4f4f1", "#c3c2b7")  # face, edge
-TINT = {
-    TEXT_BLUE: ("#e8f1fc", TEXT_BLUE),
-    NODE_ORANGE: ("#fdeee7", NODE_ORANGE),
-    LINKER_AQUA: ("#e3f6ef", LINKER_AQUA),
-}
 
 
 def draw_all(out: Path = OUT) -> list[Path]:
     """Both diagrams into `out`; returns the files written."""
     return [*diag1_seed_derivation(out), *diag2_experiment_design(out)]
-
-
-def _canvas(width: float, height: float) -> tuple[plt.Figure, plt.Axes]:
-    """A figure whose lower 88 % is one axis in inches (x 0..width, y 0..0.88 height), the rest the title."""
-    fig = plt.figure(figsize=(width, height))
-    ax = fig.add_axes((0, 0, 1, 0.88))
-    ax.set_xlim(0, width)
-    ax.set_ylim(0, height * 0.88)
-    ax.axis("off")
-    return fig, ax
-
-
-def _box(
-    ax,
-    x: float,
-    y: float,
-    w: float,
-    h: float,
-    text: str,
-    colours=NEUTRAL,
-    size: float = 9.0,
-    align: str = "left",
-) -> None:
-    """A rounded box with (x, y) its lower left corner; its text left-aligned (or centred) and centred
-    vertically."""
-    face, edge = colours
-    ax.add_patch(
-        FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=0.08", fc=face, ec=edge, lw=1)
-    )
-    tx = x + 0.15 if align == "left" else x + w / 2
-    ax.text(tx, y + h / 2, text, ha=align, va="center", fontsize=size, color=INK, linespacing=1.4)
-
-
-def _arrow(ax, start: tuple[float, float], end: tuple[float, float]) -> None:
-    ax.annotate(
-        "",
-        xy=end,
-        xytext=start,
-        arrowprops={"arrowstyle": "-|>", "color": INK_MUTED, "lw": 1.2, "shrinkA": 0, "shrinkB": 0},
-    )
 
 
 # --- diag1: how chunk and claim retrieval name start nodes -----------------------------------------------
@@ -99,15 +51,15 @@ _LANES = (
 
 
 def diag1_seed_derivation(out: Path) -> list[Path]:
-    fig, ax = _canvas(12.4, 6.0)
+    fig, ax = canvas(12.4, 6.0)
     xs, ws, h = (0.2, 4.0, 8.95), (3.3, 4.45, 3.25), 1.75
     for lane, (name, source, rule, seeds) in enumerate(_LANES):
         y = 2.95 - lane * 2.6
         ax.text(0.2, y + h + 0.2, name, fontsize=10, fontweight="semibold", color=INK)
         for i, (x, w, text) in enumerate(zip(xs, ws, (source, rule, seeds), strict=True)):
-            _box(ax, x, y, w, h, text, TINT[TEXT_BLUE] if i == 0 else NEUTRAL)
+            box(ax, x, y, w, h, text, TINT[TEXT_BLUE] if i == 0 else NEUTRAL)
             if i:
-                _arrow(ax, (xs[i - 1] + ws[i - 1], y + h / 2), (x, y + h / 2))
+                arrow(ax, (xs[i - 1] + ws[i - 1], y + h / 2), (x, y + h / 2))
     title(
         fig,
         "How chunk and claim retrieval name start nodes (R126)",
@@ -125,7 +77,7 @@ _TOP, _BOTTOM = 4.0, 0.5  # the box area of every column
 
 
 def diag2_experiment_design(out: Path) -> list[Path]:
-    fig, ax = _canvas(14.1, 5.6)
+    fig, ax = canvas(14.1, 5.6)
     heads = (
         "1. Three frozen builds,\nreloaded from the cache",
         "2. Retrieval units\nin Neo4j",
@@ -180,7 +132,7 @@ def diag2_experiment_design(out: Path) -> list[Path]:
     )
     middle = (_TOP + _BOTTOM) / 2
     for left, right in zip(_COLUMN_X, _COLUMN_X[1:], strict=False):
-        _arrow(ax, (left + _COLUMN_W + 0.04, middle), (right - 0.06, middle))
+        arrow(ax, (left + _COLUMN_W + 0.04, middle), (right - 0.06, middle))
     title(
         fig,
         "The R128 experiment: each retrieval technique alone, at five budgets",
@@ -196,7 +148,7 @@ def _column(ax, index: int, texts: list[str], colours: list | None = None) -> No
     h = (_TOP - _BOTTOM - gap * (len(texts) - 1)) / len(texts)
     for i, text in enumerate(texts):
         y = _TOP - h - i * (h + gap)
-        _box(ax, _COLUMN_X[index], y, _COLUMN_W, h, text, colours[i] if colours else NEUTRAL, align="center")
+        box(ax, _COLUMN_X[index], y, _COLUMN_W, h, text, colours[i] if colours else NEUTRAL, align="center")
 
 
 __all__ = ["OUT", "draw_all"]
