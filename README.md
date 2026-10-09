@@ -55,6 +55,7 @@ uv run kg qa-compare A/qa_outcomes_graph.jsonl B/qa_outcomes_vector.jsonl  # pai
 uv run kg retrieve-eval GOLD --targets T --build B --data D --system vector --system graph_retrieval --out O  # retrieval without the reader (R117; embeds)
 uv run kg retrieve-compare O/retrieval_vector.json O/retrieval_graph_retrieval.json  # paired McNemar test of two retrievals (no graph)
 uv run kg retrieve-table --dataset A=O1 --dataset B=O2 --system S1 --system S2 --out T  # technique x K tables per dataset and pooled (R127; no graph)
+uv run kg seed-grid --dataset A=O1 --dataset B=O2 [--rerank --units A=U1 --gold A=G1 ...] --out T  # fused start-node grid and the choice of setting and K (R130; no graph)
 uv run python -m figures.scripts.build                            # redraw the thesis figures in figures/ from committed records (R129)
 uv run kg units --out BUILD                                       # every node's card and every claim's sentence -> BUILD/index/units.jsonl (R118; no model)
 uv run kg index --cards template --out BUILD                      # the same units embedded into Neo4j with their indexes (R119; embeds only what changed)
@@ -533,6 +534,15 @@ folder `kg retrieve-eval` wrote) and pooled over the datasets: each technique's 
 at every budget, the questions whose list is shorter than the budget, and the best technique per budget
 (evidence by Complete@K, start nodes by Seed Recall@K; ties by the other count, then the `--system` order)
 paired with the runner-up; `retrieve_table.json` and `retrieve_table.md`.
+`kg seed-grid --dataset NAME=FOLDER ...` (R130, plan R130-R136) reads the card reports of such folders
+(each question's top 50 seeds by card vector and by card words) and fuses the two lists with every setting of
+the pre-registered grid (`validation/seed_grid.py`: RRF k = 60 or 10 over 10, 25 or 50 candidates per list,
+interleaving as the reference, summary cards for the record), scores the start nodes at K = 5 to 50 per
+dataset and pooled, and chooses the setting and K by the plan's rule (`validation/seed_choice.py`; chosen on
+`--choose-on`, furniture by default). With `--rerank` (a model call per question and pool, paid) a model also
+orders the pool of 50 fused nodes by their template cards (`--units NAME=FILE`, the questions from `--gold
+NAME=FILE`), and code checks its order. Files: `seed_grid.json`, `seed_choice.json`, `seed_grid.md`,
+`seed_rerank.jsonl`.
 
 Hybrid retrieval (plan R116-R125) finds a question's start nodes by a text per node. `kg units --out BUILD`
 (R118, no model, nothing written to the graph) reads every record's, individual's and concept's evidence

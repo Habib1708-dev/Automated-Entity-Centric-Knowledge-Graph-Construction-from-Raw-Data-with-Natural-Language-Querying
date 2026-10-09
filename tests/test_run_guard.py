@@ -45,6 +45,8 @@ FLAGS = {"smoke": False, "dev": False, "quality": True}
         "uv run kg --preset quality retrieve-eval tests/gold/qa/furniture_qa.json --system vector",
         # indexing embeds every new or changed retrieval unit (R119)
         "uv run kg --preset quality index --cards template --out out/r117_furniture",
+        # the seed grid asks a model to order the seed pools only with --rerank (R130)
+        "uv run kg --preset quality seed-grid --dataset furniture=out/r128/furniture --rerank",
     ],
 )
 def test_comprehensive_runs_ask(command):
@@ -63,6 +65,7 @@ def test_comprehensive_runs_ask(command):
         "uv run kg --preset quality units --out out/r117_furniture",  # no model (R118)
         # the replay without --choose is offline code
         "uv run kg --preset quality audit-relink out/r77d_furniture --data data --logged l.json",
+        "uv run kg --preset quality seed-grid --dataset furniture=out/r128/furniture",  # offline (R130)
         "uv run kg reset",
         "uv run pytest -q",
         "git status",

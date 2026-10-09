@@ -11,6 +11,8 @@ R120a: unit_store.py searches that layer (and the chunks' full-text index) by ve
 claims with their opposite-truth siblings, cards taking turns, and the name-linker route.
 R120b: source.py embeds a question once, asks the retrievers the settings name, fuses their lists by rank
 (fusion.py) and returns the best chunks: the `hybrid` system's chunk source (pipeline/qa_systems.py).
+R130: seed_fusion.py fuses a question's dense and lexical card lists into one list of start nodes, and
+seed_rerank.py has a model order such a pool by its cards, checked by code (plan R130-R136's seed grid).
 Dependencies: pipeline -> hybrid -> query's public models, graph, llm.base, core; nothing imports hybrid but
 the pipeline.
 """

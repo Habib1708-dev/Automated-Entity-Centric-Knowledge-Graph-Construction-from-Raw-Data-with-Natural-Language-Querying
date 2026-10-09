@@ -159,7 +159,8 @@ def build_table(
     tables = [_table(name, reports, systems, budgets) for name, reports in datasets.items()]
     if len(datasets) > 1:
         pooled = {
-            s: _pooled(s, {name: reports[s] for name, reports in datasets.items()}, budgets) for s in systems
+            s: pool_reports(s, {name: reports[s] for name, reports in datasets.items()}, budgets)
+            for s in systems
         }
         tables.append(_table(POOLED, pooled, systems, budgets))
     return RetrievalTable(systems=list(systems), budgets=budgets, tables=tables)
@@ -186,7 +187,9 @@ def _check(datasets: Mapping[str, Mapping[str, RetrievalReport]], systems: Seque
         raise EvaluationError(issues)
 
 
-def _pooled(system: str, by_dataset: Mapping[str, RetrievalReport], budgets: list[int]) -> RetrievalReport:
+def pool_reports(
+    system: str, by_dataset: Mapping[str, RetrievalReport], budgets: Sequence[int]
+) -> RetrievalReport:
     """One report of `system` over every dataset's questions, each id prefixed by its dataset."""
     outcomes = [
         o.model_copy(update={"question_id": f"{name}/{o.question_id}"})

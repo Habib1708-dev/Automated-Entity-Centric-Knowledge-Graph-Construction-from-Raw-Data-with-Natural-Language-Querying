@@ -8221,7 +8221,8 @@ branch after `build-node-cards` was merged into `main` and pushed (`c83b526`).
   - **R130** The seed grid: `kg seed-grid` fuses (and, when asked, reranks) R128's saved card lists and
     scores them with `validation/retrieval_scores.py`; the reranker with a fake LLM in tests ($0, code).
   - **R131** The grid on the three datasets, both arms in one table, the choice by the rule above. RRF
-    arm $0; rerank arm a whole-dataset LLM run, asked first (about $0.5 per pool, about $1 for both).
+    arm $0; rerank arm a whole-dataset LLM run, asked first (estimate revised in R130: about $0.5 for both
+    pools, 282 calls).
   - **R132** The chosen seeding as a live seeder, confirmed with `kg retrieve-eval` on the three builds
     (reloaded from the cache as in R128; embeddings only): its counts must match R131's within the dense
     drift.
@@ -8230,6 +8231,35 @@ branch after `build-node-cards` was merged into `main` and pushed (`c83b526`).
   - **R135** The agent loop, its containment and its tracing ($0, code; one dev run at most).
   - **R136** Answers measured with `kg qa` against the existing systems, exact match and the Claude judge
     (a paid run, asked first with its estimate).
+
+### R130. The seed grid: fusion, the reranker, the rule and `kg seed-grid` (done 2026-10-09; $0, no run)
+- **Scope:** `hybrid/seed_fusion.py` (new: `SeedSetting`, RRF or turns over two card lists read
+  `candidates` deep, a rerank setting's pool), `hybrid/seed_rerank.py` (new: the listwise reranker over the
+  `LLMClient` port and the code check of its reply), `validation/seed_grid.py` (new: the pre-registered
+  `GRID`, the fused seeds rescored at K = 5, 10, 15, 20, 25, 30, 50, the tables), `validation/seed_choice.py`
+  (new: the plan's rule), `pipeline/seed_stages.py` + `kg seed-grid` (new), `retrieval_table.py`
+  (`_pooled` made public as `pool_reports`, unchanged), the run guard (`seed-grid --rerank` asks like the
+  other flagged model calls), README, tests. Not changed: any retriever, system, report or graph.
+- **The grid as built** (in the rule's tie order): for template cards, at 10, 25 and 50 candidates per list,
+  RRF k = 60 and k = 10 (*choice*) and interleaving (*reference*); then `rerank_c25_template` and
+  `rerank_c50_template` (*choice*: RRF k = 60, the top 50 ordered by the model); the same free rows over
+  summary cards (*record*); the two card lists alone (*baseline*). 22 rows with `--rerank`, 20 without.
+- **The reranker:** the question and the pool's template cards under short ids (N1 ... N50), so the model
+  copies two characters, not a record key; the reply is a `RankedNodes` order, and code drops ids outside the
+  pool, counts repeats once and appends what it left out in RRF order, each counted
+  (`rerank_dropped`/`repeated`/`missing`). No example in the prompt, and no four words of an evaluation
+  corpus (tested). The model is the summary model (flash-lite) at `llm_temperature`, cached. Only questions
+  with targets are reranked (141 of 177): the others score nothing.
+- **Inputs checked for R131 ($0, no score computed):** the template cards come from R128's index runs'
+  artifacts (furniture `204f4b1b`, held-out `e5aa09d9`) and `out/r125_generality/index/units_template.jsonl`;
+  every node in any template seed list has a card (580 / 537 / 259 nodes, 0 without), and every question with
+  targets is worded by its QA gold (50 / 51 / 40, 0 missing).
+- **Verified:** `tests/test_seed_grid.py` (23) and two run-guard cases: fusion and its depth, invalid
+  settings, the reply check, the prompt and its ids, the grid's order, the rescoring, the knee, the rule's
+  three outcomes (free wins; reranker best but not confirmed; reranker confirmed at p < 0.05), the stage with
+  and without `--rerank` (8 calls for 2 datasets x 2 pools x 2 targeted questions, its params and files).
+  1080 passed (1055 + 25), ruff clean.
+- **R130 done 2026-10-09.** Next: R131, the grid on the three datasets (the reranker arm asked first).
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

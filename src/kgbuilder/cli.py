@@ -38,6 +38,7 @@ from .pipeline import judging_stages as jus
 from .pipeline import mention_stages as mes
 from .pipeline import qa_stages as qs
 from .pipeline import retrieval_stages as rs
+from .pipeline import seed_stages as ses
 from .pipeline import stages as st
 from .pipeline import summary_stages as sus
 from .pipeline.qa_systems import DEFAULT_SYSTEMS, SYSTEMS
@@ -68,6 +69,13 @@ TABLE_DATASETS = typer.Option(
     ..., help="A dataset's name and the folder of its kg retrieve-eval reports, as NAME=FOLDER; repeat."
 )
 TABLE_SYSTEMS = typer.Option(..., help="The techniques in table order (also the tie order); repeat.")
+# the seed grid (R130): each dataset's template cards and QA gold, read only by --rerank
+SEED_UNITS = typer.Option([], help="A dataset's template units file, as NAME=FILE; repeat (for --rerank).")
+SEED_GOLD = typer.Option([], help="A dataset's QA gold file, as NAME=FILE; repeat (for --rerank).")
+SEED_RERANK = typer.Option(
+    False, "--rerank", help="Also order the rerank settings' pools with a model (paid)."
+)
+SEED_CHOOSE_ON = typer.Option("furniture", help="The dataset the rule chooses on; the others confirm.")
 # the retrieval units (R118): the node representation whose cards are rendered
 UNIT_CARDS = typer.Option("template", help=f"Node representation ({', '.join(REPRESENTATIONS)}).")
 FROZEN_PLANS = typer.Option(
@@ -878,12 +886,7 @@ def retrieve_table(dataset: list[str] = TABLE_DATASETS, system: list[str] = TABL
     """Lay the reports of kg retrieve-eval out as one table per dataset and pooled: each technique's evidence
     and start-node scores at every budget, the lists shorter than the budget, and the best technique per
     budget with its paired test against the runner-up; no graph, no model (R127)."""
-    folders = {}
-    for item in dataset:
-        name, sep, folder = item.partition("=")
-        if not (sep and name and folder):
-            raise typer.BadParameter(f"'{item}' is not NAME=FOLDER", param_hint="--dataset")
-        folders[name] = Path(folder)
+    folders = _named_paths(dataset, "--dataset")
     with session(out) as ctx:
         table = run_stages(ctx, PipelineState(), [rs.RetrieveTableStage(folders, system)]).retrieval_table
     for t in table.tables:
@@ -892,6 +895,43 @@ def retrieve_table(dataset: list[str] = TABLE_DATASETS, system: list[str] = TABL
     typer.echo(
         f"Wrote {out / rs.RetrieveTableStage.TABLE_FILE} and {out / rs.RetrieveTableStage.MARKDOWN_FILE}"
     )
+
+
+def _named_paths(items: list[str], hint: str) -> dict[str, Path]:
+    """`NAME=PATH` options as name -> path; `BadParameter` for an item of another form."""
+    named = {}
+    for item in items:
+        name, sep, path = item.partition("=")
+        if not (sep and name and path):
+            raise typer.BadParameter(f"'{item}' is not NAME=PATH", param_hint=hint)
+        named[name] = Path(path)
+    return named
+
+
+@app.command("seed-grid")
+def seed_grid(
+    dataset: list[str] = TABLE_DATASETS,
+    units: list[str] = SEED_UNITS,
+    gold: list[str] = SEED_GOLD,
+    rerank: bool = SEED_RERANK,
+    choose_on: str = SEED_CHOOSE_ON,
+    out: Path = OUT,
+):
+    """Fuse each question's dense and lexical card lists from saved kg retrieve-eval reports with every
+    setting of the pre-registered seed grid, score the start nodes at every budget, and choose the setting
+    and K by the plan's rule; with --rerank a model also orders the rerank settings' pools (R130). No
+    graph."""
+    reports, unit_files, gold_files = (_named_paths(dataset, "--dataset"), _named_paths(units, "--units"),
+                                       _named_paths(gold, "--gold"))  # fmt: skip
+    datasets = {
+        name: ses.SeedDataset(reports=folder, units=unit_files.get(name), gold=gold_files.get(name))
+        for name, folder in reports.items()
+    }
+    with session(out) as ctx:
+        stage = ses.SeedGridStage(datasets, rerank, choose_on)
+        choice = run_stages(ctx, PipelineState(), [stage]).seed_choice
+    typer.echo(f"Chosen: {choice.setting} with K = {choice.k} ({choice.reason})")
+    typer.echo(f"Wrote {out / ses.SeedGridStage.MARKDOWN_FILE} and {out / ses.SeedGridStage.CHOICE_FILE}")
 
 
 @app.command()

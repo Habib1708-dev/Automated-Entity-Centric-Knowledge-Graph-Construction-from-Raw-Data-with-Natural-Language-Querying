@@ -39,8 +39,9 @@ LLM_COMMANDS = {
     "index",
 }
 # kg commands that call an LLM only with a flag: `audit-relink --choose` asks the record chooser (R95b),
-# `--join` the individuals' adjudicator and the embedder (R98); without them the replay is offline code
-FLAG_LLM_COMMANDS = {"audit-relink": {"--choose", "--join"}}
+# `--join` the individuals' adjudicator and the embedder (R98); without them the replay is offline code;
+# `seed-grid --rerank` has a model order the seed pools (R130), without it the grid is offline arithmetic
+FLAG_LLM_COMMANDS = {"audit-relink": {"--choose", "--join"}, "seed-grid": {"--rerank"}}
 # kg options that take a value: the token after them is not the data directory
 VALUE_OPTIONS = {"--goal", "--out", "--gold", "--preset"}
 # a shell separates commands with these; each part is judged on its own

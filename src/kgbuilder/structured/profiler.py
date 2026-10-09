@@ -118,8 +118,7 @@ def _profile_file(con: duckdb.DuckDBPyConnection, data_dir: Path, path: Path, vi
                 samples=[s[0] for s in samples],
                 avg_chars=round(float(avg_chars), 1),
                 multi_sentence_ratio=round(float(sentence_ratio), 4),
-                is_prose=avg_chars >= _PROSE_MIN_AVG_CHARS
-                and sentence_ratio >= _PROSE_MIN_SENTENCE_RATIO,
+                is_prose=avg_chars >= _PROSE_MIN_AVG_CHARS and sentence_ratio >= _PROSE_MIN_SENTENCE_RATIO,
             )
         )
     return FileProfile(file=path.relative_to(data_dir).as_posix(), row_count=row_count, columns=columns)
