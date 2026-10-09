@@ -8151,6 +8151,29 @@ appropriate separation of concern (make that an agent rule ... inside the folder
   clean.
 - **R129 done 2026-10-09.** Next: the user's decision.
 
+### Observation after R128: do node cards lead to the evidence? (2026-10-09; analysis, no code, no run)
+The user asked whether the node architecture supports locating the evidence chunk, given that R128 found the
+cards best at start nodes. Read from the code and R128's committed record; no new number.
+- **Yes, by construction.** A card is only an entry point: `CARD_OF` ties it to its node, and
+  `CardRetriever` (`hybrid/retrievers.py`) hands that node to `GraphStore.reach`, whose fixed patterns
+  (`query/traversal.py`) lead to chunks: node -> `HAS_OBSERVATION` -> claim -> `FROM` -> Chunk; documents and
+  sections `ABOUT` the node; chunks whose mentions `REFERS_TO` it; and records within `hops`. Every claim on
+  a card also keeps its source chunk (`EvidenceClaim.chunk_id`), so each card fact traces to a sentence.
+  Only chunks reach the reader.
+- **Measured (R128, pooled, exact match, n = 99 questions):** Complete@5 is 73 (card_dense_template) and 79
+  (card_lexical_template) against 86 (chunk_lexical). The pairs are not separated beyond variation (p = 0.077
+  and 0.092). Cards and text are level from K = 10, and card_dense_template is the best at K = 50 (98).
+  So cards locate the evidence, but they need a slightly larger budget than text search to bring every
+  gold chunk.
+- **Probable causes of the K = 5 gap (a reading of the code, not tested):**
+  - the cards take turns (`round_robin`), so at K = 5 a node gives one or two chunks even when a question's
+    gold chunks all hang on it;
+  - a hub's reached chunks (dozens for a reviewed product) are ranked by vector similarity alone, so the
+    question's words, which make chunk_lexical strongest at K = 5, are not used inside a node's reach.
+- **Direction:** a combined system where cards choose the start nodes and the question's words and vector
+  rank the chunks within their reach. That is a step of its own, measured against R128's table on the same
+  three builds, only if the user chooses it.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
