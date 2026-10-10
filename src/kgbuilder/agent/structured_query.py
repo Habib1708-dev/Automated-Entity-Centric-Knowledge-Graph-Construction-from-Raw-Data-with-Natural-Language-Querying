@@ -9,7 +9,10 @@ measures, so a query is a choice among fields the schema lists, never a statemen
 types are R74's (`PropertyInfo.type`: INTEGER, FLOAT, STRING, DATE, BOOLEAN, LIST<...>), and values are
 checked by R74's own rule (`query.plan.value_issues`), so a year must be four digits and a date compared as
 YYYY-MM-DD in both tools. A text field may be measured: its number is read out of it ("$246"), the rule by
-which R74 compares such a field.
+which R74 compares such a field. A group over a field holding several values counts each value (R139): a
+list always, a text when the query gives the separator its values are joined by. The separator is the
+model's proposal, read from the schema's examples, because no source declares one and a comma inside one
+name ("Ash, Birch and Co") is as common as a comma between names; code checks it is punctuation.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -47,6 +50,11 @@ class StructuredQuery(BaseModel):
     field: str | None = Field(default=None, description="The field sum, average, min and max measure.")
     group_by: str | None = Field(
         default=None, description="Measure each value of this field separately (largest first)."
+    )
+    group_split: str | None = Field(
+        default=None,
+        description="With group_by, for a text field holding several values joined by a separator (as its "
+        "examples show): the separator; each value is then measured on its own. A list field needs none.",
     )
     order_by: str | None = Field(default=None, description="rows: the field to sort the entries by.")
     descending: bool = Field(default=False, description="rows: sort from the largest value down.")
@@ -99,6 +107,21 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
             issues.append(_unknown(name, value, fields))
     if query.order_by is not None and query.measure != "rows":
         issues.append("order_by sorts listed rows; a measure is ordered largest first")
+    return issues + _split_issues(query, fields)
+
+
+def _split_issues(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list[str]:
+    """Whether a separator comes with a group over a text field and is punctuation: a letter or a digit
+    would cut values apart inside their words."""
+    if query.group_split is None:
+        return []
+    if query.group_by is None:
+        return ["group_split needs group_by: it splits the grouped field's values"]
+    issues = []
+    if query.group_by in fields and fields[query.group_by].type != "STRING":
+        issues.append(f"group_split splits a text, {query.group_by} is {fields[query.group_by].type}")
+    if not query.group_split.strip() or any(ch.isalnum() for ch in query.group_split):
+        issues.append(f"group_split must be punctuation, no letter or digit, got {query.group_split!r}")
     return issues
 
 

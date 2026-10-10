@@ -7,7 +7,9 @@ record_query.py, with the same comparison rules written in SQL: a text equal ign
 words, a text holding a number ('$1,289') compared and measured as that number, a date compared as a date
 or by its year, and the year of a text that holds a date found as a whole number among its digits. Table
 and column names are quoted by `quote_ident`, every value is a named parameter. Rows without an order are
-sorted by every column, so the cut never depends on how the file was scanned; each list keeps its total.
+sorted by every column, so the cut never depends on how the file was scanned; each list keeps its total. A
+group over a text split at the query's separator counts each part (trimmed, the empty ones dropped, each
+once per row) as its own group (R139); a staged table holds no list column.
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -24,6 +26,7 @@ _AGGREGATES = {"count": "count", "sum": "sum", "average": "avg", "min": "min", "
 # what is no part of a number, removed from a text before it is read as one, as in R74's Cypher
 _NON_NUMERIC = r"[^0-9.\-]"
 _TOTAL = "__total"  # the window column that keeps a list's size before the cut; dropped from the rows
+_BUCKET = "__bucket"  # one part of a split text, the column a split group is grouped by (R139)
 
 
 def compile_table(query: TableQuery, fields: dict[str, PropertyInfo], limit: int) -> Compiled:
@@ -53,6 +56,13 @@ def compile_table(query: TableQuery, fields: dict[str, PropertyInfo], limit: int
         return Compiled(statement=statement, parameters=_used(statement, params), shape=shape)
     group = quote_ident(query.group_by or "")
     clause = f" WHERE {' AND '.join([*where, f'{group} IS NOT NULL'])}"
+    if query.group_split is not None:
+        params["group_split"] = query.group_split
+        # each row once per distinct part, the parts a column of their own the outer query groups by
+        split = f"string_split(CAST({group} AS VARCHAR), $group_split)"
+        parts = f"list_distinct(list_transform({split}, p -> trim(p)))"
+        table = f"(SELECT *, unnest({parts}) AS {_BUCKET} FROM {table}{clause}) WHERE {_BUCKET} <> ''"
+        group, clause = _BUCKET, ""
     statement = (
         f"SELECT {group} AS bucket, {measure} AS value, count(*) OVER () AS {_TOTAL} FROM {table}{clause} "
         f"GROUP BY {group} ORDER BY value DESC, bucket LIMIT $limit"

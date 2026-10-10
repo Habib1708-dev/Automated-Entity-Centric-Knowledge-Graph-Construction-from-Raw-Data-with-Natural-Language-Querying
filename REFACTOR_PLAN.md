@@ -8684,6 +8684,32 @@ any output for them is read, with R136's questions reported apart as "seen".
   number: flash-lite, three questions.
 - **R138 done 2026-10-10.** Next: R139, grouping on a multi-valued field ($0, code).
 
+### R139. A group over a field holding several values counts each value (done 2026-10-10; $0, code only)
+- **Scope:** cause E of plan R137-R143 (H11). Both compilers grouped by the whole stored value, so a
+  complaint's `"POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM"` was a group of its own and
+  `FUEL/PROPULSION SYSTEM` counted 3 instead of 5 (the held-out staged table, replayed). Now:
+  - `StructuredQuery.group_split`: with `group_by`, the separator of a text field holding several values;
+    the model proposes it from the schema's examples, code checks it (needs `group_by`, a STRING field,
+    punctuation only). Proposed, not guessed by code: no plan or profile declares a separator, and a comma
+    inside one name is as common as one between names.
+  - `record_query.py`: a LIST field is always unwound, a split text unwound at `$group_split`; values
+    trimmed, empty ones dropped, each record once per value (`WITH DISTINCT n, bucket`). A plain field's
+    Cypher is unchanged, byte for byte.
+  - `table_query.py`: a split column unnested in a subquery (`string_split`, trimmed, `list_distinct`),
+    grouped by the parts; a staged table has no list column.
+- **Not here:** a separator found by code (the profile), splitting in conditions (`contains` already finds
+  a value inside such a text).
+- **Verified:** 7 new tests, each failing before the change: the check's four refusals
+  (`tests/test_agent_structured.py`); the records' Cypher of a list and of a split text; the SQL on DuckDB
+  over a test CSV (`"steel, glass"`, `glass`, `"steel,copper,steel"`, empty: glass 2, steel 2, copper 1, a
+  value named twice in one row counted once, the empty value no group); on Neo4j
+  (`tests/test_agent_structured_graph.py`) a list and a `;`-joined text grouped per value. The earlier tests
+  unchanged. Replayed offline on `out/r132_heldout/staging` ($0): H11's grouping with `group_split` ","
+  gives `FUEL/PROPULSION SYSTEM` 5, `ENGINE` 4, `POWER TRAIN` 4 (gold: `FUEL/PROPULSION SYSTEM`; before:
+  a three-way tie at 3). 1167 passed (1160 + 7), ruff clean. No run: the tests and the replay show it;
+  whether the model gives the separator is measured in R143.
+- **R139 done 2026-10-10.** Next: R140, branching walks ($0, code).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

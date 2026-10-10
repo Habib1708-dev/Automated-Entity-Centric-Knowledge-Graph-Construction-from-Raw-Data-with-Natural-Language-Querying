@@ -6,7 +6,9 @@ the tables' SQL run by DuckDB over small CSVs (types mapped, text equal ignoring
 text holding a number compared and summed as that number, a date compared and taken by its year, the year
 inside a text date, counts per group largest first, lists cut with their total); and the tools: refusals
 with their reasons, a failed run reported, rows with refs, a stable query id, the schema's text, and every
-text the model reads free of the evaluated datasets' words."""
+text the model reads free of the evaluated datasets' words. R139: a group over a field holding several
+values counts each value (a list always; a text split at the separator the query gives), and the check
+refuses a separator without a group, on a field that is no text, or made of letters or digits."""
 
 import pytest
 
@@ -50,6 +52,10 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
         (TableQuery(table="t", measure="max", field="tags"), "cannot measure a list"),
         (TableQuery(table="t", measure="count", order_by="year"), "a measure is ordered largest first"),
         (TableQuery(table="t", group_by="colour", measure="count"), "group_by: no field 'colour'"),
+        (TableQuery(table="t", measure="count", group_split=","), "group_split needs group_by"),
+        (TableQuery(table="t", measure="count", group_by="year", group_split=","), "year is INTEGER"),
+        (TableQuery(table="t", measure="count", group_by="id", group_split="x"), "no letter or digit"),
+        (TableQuery(table="t", measure="count", group_by="id", group_split=""), "no letter or digit"),
     ],
 )
 def test_the_check_refuses_names_and_values_the_source_does_not_have(query, issue):
@@ -86,6 +92,23 @@ def test_a_record_query_compiles_to_parameterised_cypher_of_its_shape():
         RecordQuery(label="Kettle", measure="count", group_by="year"), FIELDS, "id", [], None, 5
     )
     assert groups.shape == "groups" and "WITH n.`year` AS bucket, count(n) AS value" in groups.statement
+
+
+def test_a_group_over_a_list_or_a_split_text_counts_each_value_once_per_record():
+    listed = compile_records(
+        RecordQuery(label="Kettle", measure="count", group_by="tags"), FIELDS, "id", [], None, 5
+    )
+    assert "UNWIND n.`tags` AS bucket" in listed.statement and "WITH DISTINCT n, bucket" in listed.statement
+    split = compile_records(
+        RecordQuery(label="Kettle", measure="count", group_by="id", group_split=";"),
+        FIELDS,
+        "id",
+        [],
+        None,
+        5,
+    )
+    assert "UNWIND split(n.`id`, $group_split) AS part" in split.statement
+    assert split.parameters["group_split"] == ";" and "WITH DISTINCT n, part AS bucket" in split.statement
 
 
 # --- the tables' SQL on DuckDB -----------------------------------------------------------------------
@@ -139,6 +162,24 @@ def test_table_measures_and_groups(tables):
     assert run_table(tables, measure="sum", field="price") == [[1628.0]]
     assert run_table(tables, measure="count") == [[3]]
     assert run_table(tables, measure="count", group_by="made") == [[2016, 2, 2], [2019, 1, 2]]
+
+
+def test_a_table_group_over_a_text_holding_several_values_counts_each_value(tmp_path):
+    (tmp_path / "pots.csv").write_text(
+        'id,metals\nK1,"steel, glass"\nK2,glass\nK3,"steel,copper,steel"\nK4,\n', encoding="utf-8"
+    )
+    store = DuckDBTables(tmp_path)
+    fields = {c.name: c for c in store.tables()[0].columns}
+    whole = compile_table(TableQuery(table="pots", measure="count", group_by="metals"), fields, 10)
+    each = compile_table(
+        TableQuery(table="pots", measure="count", group_by="metals", group_split=","), fields, 10
+    )
+    assert len(store.run(whole.statement, whole.parameters).rows) == 3  # each whole text its own group
+    read = store.run(each.statement, each.parameters)
+    store.close()
+    assert read.error is None, read.error
+    # K3 names steel twice and counts once; K4's empty value is no group
+    assert read.rows == [["glass", 2, 3], ["steel", 2, 3], ["copper", 1, 3]]
 
 
 def test_table_rows_are_cut_with_their_total(tables):

@@ -2,7 +2,8 @@
 hand-made graph with the claims of test_hybrid_units.py and the schema read from it: the records related to
 one record, by key and cut with their total; a count under an integer condition; a sum; the year of a date;
 counts per value, largest first; text equal ignoring case; and the schema's record layer leaving the text
-layer out. Needs Neo4j."""
+layer out. R139: counts per value of a list and of a text split at a separator, each value on its own.
+Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader
 from kgbuilder.agent.structured_query import Condition, RecordQuery
@@ -48,3 +49,18 @@ def test_counts_per_value_come_largest_first(driver):
     result = tool(driver).run(RecordQuery(label="Press", measure="count", group_by="active"))
     assert result.columns == ["group", "value"] and sorted(result.rows) == [["False", "1"], ["True", "1"]]
     assert result.total == 2
+
+
+def test_a_group_over_a_list_or_a_split_text_counts_each_value(driver):
+    load(driver)
+    driver.execute_query(
+        "MATCH (p:Press {press_id: 'P1'}) SET p.tags = ['oil', 'steel', 'oil'], p.notes = 'oil; steel' "
+        "WITH 1 AS one MATCH (p:Press {press_id: 'P2'}) SET p.tags = ['oil'], p.notes = 'oil'"
+    )
+    store = Neo4jGraphStore(driver, RELATED_PLAN, hops=2)
+    reader = Neo4jNodeReader(driver, RELATED_PLAN)
+    query = QueryRecords(store, read_graph_schema(driver), RELATED_PLAN, reader, limit=5, value_chars=60)
+    listed = query.run(RecordQuery(label="Press", measure="count", group_by="tags"))
+    split = query.run(RecordQuery(label="Press", measure="count", group_by="notes", group_split=";"))
+    assert listed.issues == [] and listed.rows == [["oil", "2"], ["steel", "1"]] and listed.total == 2
+    assert split.issues == [] and split.rows == [["oil", "2"], ["steel", "1"]]

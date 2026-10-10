@@ -7,7 +7,9 @@ tested as text and once against Neo4j. Labels, types and keys go through `cypher
 parameter, and every comparison is R74's own (`query.plan_cypher.condition`): a text equal ignoring case, a
 text holding a number compared as that number, a date by `date()` or its year. A text field is measured by
 the number it holds (`plan_cypher.text_number`). The matching records are made distinct before anything is
-counted, so a record related to the anchor twice counts once; lists keep their total before the cut.
+counted, so a record related to the anchor twice counts once; lists keep their total before the cut. A group
+over a list, or over a text split at the query's separator, unwinds the values (trimmed, the empty ones
+dropped) and keeps each record once per value, so a record naming a value twice counts once (R139).
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -57,12 +59,24 @@ def compile_records(
     if shape == "value":
         return Compiled(statement=f"{body} RETURN {measure} AS value", parameters=params, shape=shape)
     group = f"n.{cypher_ident(query.group_by or '')}"
+    unwind, bucket, extra = _buckets(group, fields[query.group_by or ""], query.group_split)
     statement = (
-        f"{body} WHERE {group} IS NOT NULL WITH {group} AS bucket, {measure} AS value "
+        f"{body} WHERE {group} IS NOT NULL {unwind}WITH {bucket} AS bucket, {measure} AS value "
         "ORDER BY value DESC, bucket WITH collect([bucket, value]) AS found UNWIND found[0..$limit] AS row "
         "RETURN size(found) AS total, row[0] AS bucket, row[1] AS value"
     )
-    return Compiled(statement=statement, parameters=params, shape=shape)
+    return Compiled(statement=statement, parameters=params | extra, shape=shape)
+
+
+def _buckets(group: str, field: PropertyInfo, split: str | None) -> tuple[str, str, dict[str, Any]]:
+    """What a record is grouped by: the field itself, or (after an unwinding clause that keeps each record
+    once per value) each element of a list or each part of a text split at `split`."""
+    if split is not None:
+        unwind = f"UNWIND split({group}, $group_split) AS part WITH n, trim(part) AS part WHERE part <> '' "
+        return f"{unwind}WITH DISTINCT n, part AS bucket ", "bucket", {"group_split": split}
+    if field.type.startswith("LIST"):
+        return f"UNWIND {group} AS bucket WITH DISTINCT n, bucket ", "bucket", {}
+    return "", group, {}
 
 
 def _conditions(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> tuple[list[str], dict[str, Any]]:
