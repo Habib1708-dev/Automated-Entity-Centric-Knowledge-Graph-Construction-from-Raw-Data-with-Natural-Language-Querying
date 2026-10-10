@@ -1,0 +1,117 @@
+{
+  "dataset": "heldout_nhtsa",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-10",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "HN01",
+      "type": "multi_hop",
+      "question": "A renter reports that the gear shifter came out of the transmission box when shifting into reverse. Which recall campaigns for that vehicle were filed by a company other than Toyota Motor Engineering & Manufacturing?",
+      "expected": {"entities": [{"name": "19V244000"}, {"name": "19V503000"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/toyota_rav4_complaints.md#0", "quote": "THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX."}
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11204698 AND r.Manufacturer <> 'Toyota Motor Engineering & Manufacturing'",
+      "note": "The complaint is 11204698 about the 2019 Toyota RAV4. 19V244000 was filed by Gulf States Toyota, Inc. and 19V503000 by Southeast Toyota Distributors, LLC; the other six RAV4 recalls were filed by Toyota Motor Engineering & Manufacturing."
+    },
+    {
+      "id": "HN02",
+      "type": "multi_hop",
+      "question": "How many owner complaints concern a vehicle that has a recall campaign for its back-up or rearview camera?",
+      "expected": {"number": 10},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(DISTINCT c.odiNumber) FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.Component LIKE 'BACK OVER PREVENTION%'",
+      "note": "Camera recalls: 19V576000 (2019 Toyota RAV4, back-up camera) and 25V695000 (2015 Ford Escape, rearview camera); each vehicle has five complaints."
+    },
+    {
+      "id": "HN03",
+      "type": "aggregation",
+      "question": "How many recall campaigns did NHTSA receive in the same calendar year as the model year of the vehicle they affect?",
+      "expected": {"number": 10},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r JOIN vehicles v ON v.model = r.Model WHERE year(strptime(r.ReportReceivedDate, '%d/%m/%Y')) = v.model_year",
+      "note": "Civic 2016: 16V526000, 16V725000, 16V074000; Rogue 2017: 17V663000; RAV4 2019: 19V576000, 19V244000, 19V503000; Escape 2015: 15V436000, 15V406000; Outback 2019: 19V493000. Recall dates are day/month/year."
+    },
+    {
+      "id": "HN04",
+      "type": "aggregation",
+      "question": "Which vehicle has the most owner complaints that list the power train among their components?",
+      "expected": {"entities": [{"name": "RAV4", "aliases": ["Toyota RAV4", "2019 Toyota RAV4"]}]},
+      "route": "exact",
+      "sql": "SELECT product.productModel FROM complaints WHERE components LIKE '%POWER TRAIN%' GROUP BY 1 ORDER BY count(*) DESC LIMIT 1",
+      "note": "RAV4 has two (11204698, 11209676); the Rogue (11030208) and the Escape (10692693) have one each."
+    },
+    {
+      "id": "HN05",
+      "type": "structured_filter",
+      "question": "Which complaints were filed on the same day as the incident they report?",
+      "expected": {"entities": [
+        {"name": "10809523", "aliases": ["Complaint 10809523"]},
+        {"name": "10825467", "aliases": ["Complaint 10825467"]},
+        {"name": "11032133", "aliases": ["Complaint 11032133"]},
+        {"name": "11176393", "aliases": ["Complaint 11176393"]}
+      ]},
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE dateOfIncident = dateComplaintFiled"
+    },
+    {
+      "id": "HN06",
+      "type": "structured_filter",
+      "question": "Which recall campaigns affecting the 2017 Nissan Rogue concern its electrical system?",
+      "expected": {"entities": [{"name": "22V875000"}, {"name": "23V093000"}]},
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Model = 'ROGUE' AND Component LIKE 'ELECTRICAL SYSTEM%'",
+      "note": "Judged by the recall's component field. 21V839000 describes a damaged engine harness and a blown fuse, but its component is ENGINE AND ENGINE COOLING:ENGINE:ENGINE CONTROL MODULE (ECU/ECM), so it does not count."
+    },
+    {
+      "id": "HN07",
+      "type": "disambiguation",
+      "question": "Which recall campaign warns that a cracked passenger seat sensor can make the air bags deploy unintentionally?",
+      "expected": {"entities": [{"name": "26V332000"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/26V332000#0", "quote": "The front passenger seat weight sensor may crack and short circuit, which can cause the air bags to deploy unintentionally during a crash."}
+      ],
+      "note": "16V244000 (2017 Nissan Rogue) has a similar occupant classification component but the opposite failure: the passenger air bag \"may be turned off and not deploy\"."
+    },
+    {
+      "id": "HN08",
+      "type": "negation_sensitive",
+      "question": "Which vehicles do owners report with a gas gauge stuck showing a full tank?",
+      "expected": {"entities": [{"name": "ROGUE", "aliases": ["Nissan Rogue", "2017 Nissan Rogue"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "complaints/nissan_rogue_complaints.md#4", "quote": "MY GAS GAUGE IS SHOWING FULL AFTER FILL UP BUT NOW IS NOT MOVEING AND SAYS I STILL HAVE A FULL TANK"}
+      ],
+      "note": "The 2019 Toyota RAV4 complaint 11221492 says the opposite: \"MY GAS GAUGE DOES NOT INDICATE FULL\"; that denied mention must not count."
+    },
+    {
+      "id": "HN09",
+      "type": "lookup",
+      "question": "What will dealers do under recall 23V093000?",
+      "expected": {"text": "Insert a spacer into the key slot of the jackknife key, free of charge."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "record/Recall/23V093000#1", "quote": "Dealers will insert a spacer into the key slot of the jackknife key, free of charge."}
+      ]
+    },
+    {
+      "id": "HN10",
+      "type": "lookup",
+      "question": "From what speed, in miles per hour, does the owner in complaint 11229137 say the wind noise can be heard well?",
+      "expected": {"number": 50},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "complaints/toyota_rav4_complaints.md#4", "quote": "WHEN YOU GET UP TO 50 MILES PER HOUR IS WHEN U CAN HEAR IT GOOD."}
+      ]
+    }
+  ]
+}

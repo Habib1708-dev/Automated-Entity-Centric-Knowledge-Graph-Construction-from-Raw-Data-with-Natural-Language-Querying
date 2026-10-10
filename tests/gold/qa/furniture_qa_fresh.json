@@ -1,0 +1,159 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-10",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FN01",
+      "type": "multi_hop",
+      "question": "Which suppliers provide the parts of the desk cable management system that a reviewer praises for its rubber grommets?",
+      "expected": {"entities": [
+        {"name": "American Hardware Inc"}, {"name": "Cape Town Adhesives"}, {"name": "Korean Metal Works"},
+        {"name": "Mexican Hardware Solutions"}, {"name": "Shanghai Metal Corp"}, {"name": "Singapore Adhesive Tech"}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#3", "quote": "The cable management system is particularly ingenious, with rubber grommets that prevent cable fraying."}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1064", "component_name": "Cable Management", "product_id": "P-1002"}},
+        {"file": "components.csv", "row": {"part_id": "S-1126", "part_name": "Cable Tray", "assembly_id": "A-1064"}},
+        {"file": "components.csv", "row": {"part_id": "S-1127", "part_name": "Cable Clips", "assembly_id": "A-1064"}},
+        {"file": "components.csv", "row": {"part_id": "S-1128", "part_name": "Zip Ties", "assembly_id": "A-1064"}},
+        {"file": "components.csv", "row": {"part_id": "S-1129", "part_name": "Adhesive Pads", "assembly_id": "A-1064"}}
+      ],
+      "sql": "SELECT DISTINCT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Cable Management'",
+      "note": "Text to records: the review is of the Malmö Desk; its Cable Management assembly (A-1064) has four parts (cable tray, cable clips, zip ties, adhesive pads), each with two suppliers, six suppliers in all."
+    },
+    {
+      "id": "FN02",
+      "type": "multi_hop",
+      "question": "One reviewer admits attaching a chair's back rest upside down. Which preferred suppliers provide the parts of that back rest?",
+      "expected": {"entities": [
+        {"name": "Bangalore Textiles Ltd"}, {"name": "Brazilian Foam Solutions"}, {"name": "German Precision Fasteners"},
+        {"name": "Nordic Wood Industries"}, {"name": "Shanghai Metal Corp"}
+      ]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#1", "quote": "I had attached the back rest upside down"}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1038", "component_name": "Back Rest", "product_id": "P-1000"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1107", "supplier_id": "SUP-001", "preferred_supplier": "yes"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1108", "supplier_id": "SUP-005", "preferred_supplier": "yes"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1109", "supplier_id": "SUP-003", "preferred_supplier": "yes"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1110", "supplier_id": "SUP-002", "preferred_supplier": "yes"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1111", "supplier_id": "SUP-004", "preferred_supplier": "yes"}}
+      ],
+      "sql": "SELECT DISTINCT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Stockholm Chair' AND a.component_name = 'Back Rest' AND m.preferred_supplier",
+      "note": "The review is of the Stockholm Chair; its Back Rest assembly (A-1038) has five parts, one preferred supplier each. The supplier table spells SUP-001 'Nordic Wood Industries'; the mapping file writes 'nordic Wood Industries', the same supplier."
+    },
+    {
+      "id": "FN03",
+      "type": "aggregation",
+      "question": "Which product's parts come from the largest number of different suppliers?",
+      "expected": {"entities": [{"name": "Uppsala Sofa"}]},
+      "route": "exact",
+      "sql": "SELECT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id GROUP BY p.product_name ORDER BY count(DISTINCT m.supplier_id) DESC LIMIT 1",
+      "note": "Uppsala Sofa 12 suppliers; Malmö Desk and Stockholm Chair 10; Linköping Bed and Helsingborg Dresser 8; Örebro Lamp and Gothenburg Table 6. The Linköping Bed has the most parts (35) but fewer suppliers. Three products have no parts in the records."
+    },
+    {
+      "id": "FN04",
+      "type": "aggregation",
+      "question": "What is the average star rating of the Örebro Lamp reviews?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#0", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#1", "quote": "## Rating: ★★★★☆ (4/5)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#2", "quote": "## Rating: ★★★☆☆ (3/5)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#3", "quote": "## Rating: ★★★★★ (5/5)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#4", "quote": "## Rating: ★★☆☆☆ (2/5)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#5", "quote": "## Rating: ★★★★☆ (4/5)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#6", "quote": "## Rating: ★★★★★ (5/5)"}
+      ],
+      "note": "Seven reviews: 5 + 4 + 3 + 5 + 2 + 4 + 5 = 28, and 28 / 7 = 4.0. An answer of 4 or 4.0 out of 5 is right."
+    },
+    {
+      "id": "FN05",
+      "type": "structured_filter",
+      "question": "Which parts of the Uppsala Sofa's frame take their preferred supplier more than 20 days to deliver?",
+      "expected": {"entities": [{"name": "Corner Brackets"}, {"name": "Screws"}]},
+      "route": "exact",
+      "records": [
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1105", "part_name": "Corner Brackets", "supplier_id": "SUP-002", "lead_time_days": "21", "preferred_supplier": "yes"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1106", "part_name": "Screws", "supplier_id": "SUP-004", "lead_time_days": "21", "preferred_supplier": "yes"}}
+      ],
+      "sql": "SELECT DISTINCT c.part_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Frame' AND m.preferred_supplier AND m.lead_time_days > 20",
+      "note": "Lead time is read as delivery time. Support Slats (preferred supplier, exactly 20 days) is on the boundary and does not count; the non-preferred supplier's 26 days for it is not asked for."
+    },
+    {
+      "id": "FN06",
+      "type": "structured_filter",
+      "question": "Which products under $300 do reviewers say have sharp edges?",
+      "expected": {"entities": [{"name": "Jönköping Coffee Table"}, {"name": "Malmö Desk"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#1", "quote": "the edges are a bit sharper than I'd prefer"},
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#1", "quote": "the edges of the desk are a bit sharp"}
+      ],
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1008", "product_name": "Jönköping Coffee Table", "price": "$212"}},
+        {"file": "products.csv", "row": {"product_id": "P-1002", "product_name": "Malmö Desk", "price": "$289"}}
+      ],
+      "note": "The Linköping Bed review also reports edges that were a bit sharp, but the bed costs $790."
+    },
+    {
+      "id": "FN07",
+      "type": "disambiguation",
+      "question": "Which products did @architect_amy review?",
+      "expected": {"entities": [{"name": "Malmö Desk"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#3", "quote": "- @architect_amy (Seattle)"}
+      ],
+      "note": "@architect_amy (Seattle) appears once. @woodworker_amy (Portland) is a different reviewer whose reviews (Gothenburg Table, Helsingborg Dresser, Linköping Bed, Norrköping Nightstand) must not be counted."
+    },
+    {
+      "id": "FN08",
+      "type": "negation_sensitive",
+      "question": "How many Jönköping Coffee Table reviews say its surface scratches easily?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2", "quote": "the surface scratches pretty easily"}
+      ],
+      "note": "Two other reviews mention scratches only to deny them: \"The surface is resistant to water rings and scratches\" (#0) and \"remarkably resistant to scratches and water marks\" (#6); they do not count. The chipping veneer in #4 is not a scratch."
+    },
+    {
+      "id": "FN09",
+      "type": "lookup",
+      "question": "How deep are the Västerås Bookshelf's shelves, in centimeters, according to a reviewer?",
+      "expected": {"number": 30},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3", "quote": "The shelf depth of 30cm accommodates larger art books"}
+      ],
+      "note": "Nearby numbers are not the depth: 30-35 books per shelf (#1) and about 20kg per shelf (#3)."
+    },
+    {
+      "id": "FN10",
+      "type": "lookup",
+      "question": "What did customer service tell the Helsingborg Dresser reviewer who found that several panels were warped?",
+      "expected": {"text": "To disassemble everything already assembled and return the entire dresser to the store."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4", "quote": "several of the panels were warped"},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4", "quote": "they told me I'd have to disassemble everything I'd already done and return the entire thing to the store"}
+      ],
+      "note": "Other Helsingborg reviewers got different replies (\"some issues with a supplier\", \"aware of issues with a recent batch of drawer hardware\"); those are not this reviewer's."
+    }
+  ]
+}

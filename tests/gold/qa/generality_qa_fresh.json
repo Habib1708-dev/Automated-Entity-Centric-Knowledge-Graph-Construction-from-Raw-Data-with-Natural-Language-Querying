@@ -1,0 +1,137 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-10",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GN01",
+      "type": "multi_hop",
+      "question": "In which year was the pump installed whose seal change the site engineer came to plan in the week of 9 June 2025?",
+      "expected": {"number": 2019},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/shift_notes_june.txt#0", "quote": "Wed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept."}
+      ],
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "HP40-2291", "install_year": "2019"}}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "The shift notes name the pump; only the pump record gives its installation year. The other Hydra P-40, HP40-1183, was installed in 2012."
+    },
+    {
+      "id": "GN02",
+      "type": "multi_hop",
+      "question": "In which year did the person who kept the Brackwater fen field log start at the institute?",
+      "expected": {"number": 2023},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/brackwater_fen_log.txt#0", "quote": "Brackwater fen field log, spring 2025, kept by S. Osei."}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-162", "name": "Samuel Osei", "start_year": "2023"}}
+      ],
+      "hard_case": "two_names",
+      "note": "The log names him S. Osei; the staff record of Samuel Osei, the only Osei in the corpus, gives the start year."
+    },
+    {
+      "id": "GN03",
+      "type": "aggregation",
+      "question": "How many times in total do the documents report pump KV12-0457 tripping on low suction pressure?",
+      "expected": {"number": 5},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/harbour_station_may_2025.md#0", "quote": "The station's only pump, KV12-0457, tripped three times in the first week of May on low suction pressure."},
+        {"chunk_id": "water/shift_notes.txt#0", "quote": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure"}
+      ],
+      "note": "Three trips in early May and two in the week of 7 April are different events. The June alarm after which KV12-0457 restarted on its own gives no cause, so it is not counted."
+    },
+    {
+      "id": "GN04",
+      "type": "aggregation",
+      "question": "How many projects in Riverton's 2025 and 2026 works budgets, taken together, cost less than 100,000 pounds?",
+      "expected": {"number": 3},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Harbour Street resurfacing: 95,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Town hall boiler: 60,000 pounds"},
+        {"chunk_id": "news/budget_2026.md#0", "quote": "Mill Lane footbridge east railing: 15,000 pounds"}
+      ],
+      "hard_case": "number_filter",
+      "note": "A project is counted once per budget line. In 2026 the carried-over Harbour Street resurfacing costs 110,000 pounds, so only its 2025 line counts."
+    },
+    {
+      "id": "GN05",
+      "type": "structured_filter",
+      "question": "Which pumps were installed after 2015?",
+      "expected": {"entities": [{"name": "HP40-2291"}, {"name": "KV12-0457"}]},
+      "route": "exact",
+      "sql": "SELECT serial_number FROM pumps WHERE install_year > 2015",
+      "hard_case": "number_filter",
+      "note": "HP40-1183 was installed in 2012."
+    },
+    {
+      "id": "GN06",
+      "type": "structured_filter",
+      "question": "Which institute teams have a member who started in 2020 or later?",
+      "expected": {"entities": [{"name": "Soil Ecology"}, {"name": "Hydrology"}]},
+      "route": "exact",
+      "sql": "SELECT DISTINCT team FROM staff WHERE start_year >= 2020",
+      "hard_case": "number_filter",
+      "note": "Maria Lopez (S-104, Soil Ecology) started in 2021 and Samuel Osei (Hydrology) in 2023; the Finance Office's Maria Lopez started in 2016."
+    },
+    {
+      "id": "GN07",
+      "type": "disambiguation",
+      "question": "Where did the Maria Lopez who runs a bakery train?",
+      "expected": {"entities": [{"name": "Valencia"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/bakery_opens.md#0", "quote": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office. She trained in Valencia"}
+      ],
+      "hard_case": "same_name",
+      "note": "The two institute staff called Maria Lopez (the Soil Ecology researcher and the grants accountant) are other people; Utrecht, where the researcher went to a conference, is a wrong answer."
+    },
+    {
+      "id": "GN08",
+      "type": "disambiguation",
+      "question": "What flow in litres per second did pump HP40-2291 deliver at the March 2025 inspection?",
+      "expected": {"number": 41},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "HP40-2291 delivered 41 litres per second"}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "The same report gives 38 for HP40-1183; the June inspection gives 39 for HP40-2291 and 40 for HP40-1183; the rated flow of both is 42."
+    },
+    {
+      "id": "GN09",
+      "type": "negation_sensitive",
+      "question": "Did the sediment flume run above 60 litres per second in May 2025?",
+      "expected": {"text": "No. No run went above 60 litres per second in May, because the committee had asked for a vibration measurement first."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/flume_commissioning.md#0", "quote": "No run went above 60 litres per second in May: the committee had asked for a vibration measurement first."}
+      ],
+      "hard_case": "negation",
+      "note": "The text denies such runs. The 9 June minutes allow experiments above 60 litres per second only from then on; the first run on 20 May was at 40 litres per second. The reason may be left out."
+    },
+    {
+      "id": "GN10",
+      "type": "lookup",
+      "question": "According to the mayor, by how many pounds did the Mill Lane footbridge works come in under budget?",
+      "expected": {"number": 12000},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/footbridge_reopens.md#0", "quote": "said the works had come in 12,000 pounds under budget"}
+      ],
+      "note": "The 2025 budget line of 180,000 pounds is the budget, not the saving."
+    }
+  ]
+}

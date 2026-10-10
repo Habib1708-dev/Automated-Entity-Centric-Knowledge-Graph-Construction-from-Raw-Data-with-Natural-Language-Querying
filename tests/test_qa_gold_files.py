@@ -3,7 +3,8 @@ quote verbatim in its chunk, every cited record in its staged file, every questi
 of a question with a query equals what DuckDB computes from the source files (R73), the two real
 datasets ask every question type at least five times and every record type at least ten times (R73), the
 earlier gold questions are carried over with their answers unchanged, and the generality corpus asks every
-hard case. No Neo4j, no LLM.
+hard case. R143a: the fresh files (ten questions per dataset) pass the same per-file checks. No Neo4j, no
+LLM.
 """
 
 import json
@@ -20,7 +21,10 @@ from .qa_corpus import REPO, rebuild_corpus
 
 QA_GOLD = REPO / "tests" / "gold" / "qa"
 REAL = ["furniture_qa.json", "heldout_qa.json"]
-GOLD_FILES = [*REAL, "generality_qa.json"]
+# R143a: ten fresh questions per dataset, written after R136's failures were analysed, for the agent's
+# re-measurement on questions its fixes were not shaped by; the per-file checks hold for them too
+FRESH = ["furniture_qa_fresh.json", "heldout_qa_fresh.json", "generality_qa_fresh.json"]
+GOLD_FILES = [*REAL, "generality_qa.json", *FRESH]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)

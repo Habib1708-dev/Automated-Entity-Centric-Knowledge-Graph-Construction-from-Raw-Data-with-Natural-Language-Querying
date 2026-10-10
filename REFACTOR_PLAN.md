@@ -8802,6 +8802,25 @@ any output for them is read, with R136's questions reported apart as "seen".
   were not kept), so R143 is the first measurement.
 - **R142 done 2026-10-10.** Next: R143, fresh gold questions and the re-measurement (paid, asked first).
 
+### R143a. Ten fresh gold questions per dataset (done 2026-10-10; $0, no run)
+- **Scope:** `tests/gold/qa/{furniture,heldout,generality}_qa_fresh.json`, ids FN/HN/GN01-10, written by
+  Claude Opus 5.5 (three subagents of this session, one per dataset) from the source files only (the
+  tables, the texts, the existing gold to avoid repeats, the gold code); no pipeline output opened by the
+  writers. Type mix per file: 2 multi_hop, 2 aggregation, 2 structured_filter, 1-2 disambiguation, 1
+  negation_sensitive, 1-2 lookup; 26 of 30 answers are sets or numbers (scored by code), 4 free text
+  (FN10, HN09, GN09; judged). Judgement calls are in each question's `note` (e.g. GN03 leaves out an alarm
+  with no stated cause; HN06 counts a recall by its filed component; FN05's 20 days is not "more than 20").
+- **Read with care:** the session that analysed R136's failures and built R138-R141 also commissioned the
+  questions; the writers were told not to read outputs, but the questions were written after the fixes,
+  and gold, judge and agent fixes come from one model family. Several questions exercise the new tools
+  (paths: FN01, FN02, HN02; grouping a multi-valued field: HN04; counting over text: FN04, FN08, GN03).
+- **Verified:** the fresh files added to `tests/test_qa_gold_files.py` (`FRESH`): every quote verbatim in
+  its rebuilt chunk, every cited record in its staged file, every `sql` answer equal to DuckDB's over the
+  source files (9 new test cases). Spot-checked by hand against the sources: FN07 (only `@architect_amy`'s
+  Malmö Desk review; `@woodworker_amy` is another reviewer), HN08 (the Rogue's stuck-full gauge; the RAV4
+  complaint denies it), GN03 (3 + 2 low-suction trips). 1199 passed (1190 + 9), ruff clean.
+- **R143a done 2026-10-10.** Next: R143b, the runs (approved within the user's budget, about $0.9).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
