@@ -6,13 +6,15 @@ prompt characters, wall-clock time) closing the tools and asking once more; cita
 returned sent back once and then dropped; a cited claim bringing its chunk; the answer as `kg qa` reads it
 (shown: chunks read, then cited chunks read from the store; citations with quotes; the trace); the agent's
 metrics; its registration with its params and prompt; and the prompt free of the evaluated datasets'
-words."""
+words. R138: the reply model asked for names one of the loop's tools and cannot leave the tool out; an
+empty answer is written back once with the tools open, and counted."""
 
-from pydantic import BaseModel
+import pytest
+from pydantic import BaseModel, ValidationError
 
 from kgbuilder.agent.citations import Ledger
 from kgbuilder.agent.loop import AgentLimits, AgentLoop
-from kgbuilder.agent.prompt import CLOSING, PROMPT, AgentCitation, AgentStep
+from kgbuilder.agent.prompt import CLOSING, EMPTY_ANSWER, PROMPT, AgentCitation, AgentStep, step_model
 from kgbuilder.agent.results import ChunksResult, ChunkText, ClaimsResult, NodeHit, NodesResult
 from kgbuilder.agent.system import AgentSystem
 from kgbuilder.config import Settings
@@ -74,9 +76,11 @@ class Script:
     def __init__(self, *steps: AgentStep):
         self._steps = list(steps)
         self.prompts: list[str] = []
+        self.schemas: list[type[BaseModel]] = []
 
     def __call__(self, prompt, schema):
         self.prompts.append(prompt)
+        self.schemas.append(schema)
         return self._steps.pop(0) if len(self._steps) > 1 else self._steps[0]
 
 
@@ -117,6 +121,45 @@ def test_a_call_identical_to_an_earlier_one_is_refused_and_not_run_again():
     run = loop(script, tools=[tool]).run("Which thing?")
     assert tool.asked == ["k1"]
     assert run.trace.calls[1].refused == "identical to the call of turn 1; its result is above"
+
+
+# --- the reply model and empty answers (R138) --------------------------------------------------------
+
+
+def test_the_reply_model_names_one_of_the_loops_tools_and_cannot_leave_the_tool_out():
+    script = Script(answer())
+    loop(script).run("Which thing?")
+    schema = script.schemas[0]
+    assert issubclass(schema, AgentStep) and schema.model_json_schema()["properties"]["tool"]["enum"] == [
+        "find",
+        "read",
+    ]
+    assert "tool" in schema.model_json_schema()["required"]
+    with pytest.raises(ValidationError):
+        schema.model_validate({"action": "call", "arguments": '{"ref": "k1"}'})  # R136's empty tool
+    with pytest.raises(ValidationError):
+        schema.model_validate({"action": "call", "tool": "nope"})
+    assert schema.model_validate({"action": "call", "tool": "find"}).tool == "find"
+    with pytest.raises(ValidationError):
+        step_model(["find"]).model_validate({"action": "lookup", "tool": "find"})
+
+
+def test_an_empty_answer_is_written_back_once_with_the_tools_open():
+    empty = AgentStep(action="answer")
+    script = Script(call("find", '{"ref": "k1"}'), empty, call("read", '{"ref": "x"}'), answer("k1"))
+    run = loop(script).run("Which thing?")
+    assert EMPTY_ANSWER in script.prompts[2] and "<tools>" in script.prompts[2]
+    assert (run.trace.emptied, run.trace.stopped, run.trace.turns) == (True, "answer", 4)
+    assert [c.tool for c in run.trace.calls] == ["find", "read"] and run.answer.text == "loose"
+
+
+def test_a_second_empty_answer_is_the_answer_and_none_is_not_empty():
+    empty = AgentStep(action="answer")
+    run = loop(Script(empty, empty)).run("Which thing?")
+    assert (run.trace.emptied, run.trace.stopped, run.trace.turns) == (True, "answer", 2)
+    assert run.answer.is_empty()
+    none = AgentStep(action="answer", entities=[])
+    assert not none.is_empty() and not loop(Script(none)).run("Which thing?").trace.emptied
 
 
 # --- the caps ----------------------------------------------------------------------------------------
@@ -203,6 +246,8 @@ def test_the_agents_metrics_count_turns_calls_refusals_and_stops():
     )
     assert metrics["agent_calls_find"] == 1 and metrics["agent_stopped_answer"] == 1
     assert metrics["agent_stopped_calls"] == 0 and _agent_metrics([]) == {}
+    emptied = one.model_copy(update={"agent": one.agent.model_copy(update={"emptied": True})})
+    assert _agent_metrics([one, emptied])["agent_answers_emptied"] == 1
 
 
 def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():
@@ -212,8 +257,8 @@ def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():
 
 
 def test_what_the_model_reads_of_the_agent_names_no_evaluated_dataset():
-    texts = [PROMPT, CLOSING] + [
-        f.description or "" for m in (AgentStep, AgentCitation) for f in m.model_fields.values()
+    texts = [PROMPT, CLOSING, EMPTY_ANSWER] + [
+        f.description or "" for m in (step_model(["t"]), AgentCitation) for f in m.model_fields.values()
     ]
     assert all(not DATASET_WORDS.search(text) for text in texts)
 

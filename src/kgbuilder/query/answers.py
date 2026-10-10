@@ -150,6 +150,7 @@ class AgentTrace(BaseModel):
     cited: list[str] = []
     dropped: list[str] = []
     retried: bool = False  # the answer was sent back once for citing ids no tool returned
+    emptied: bool = False  # an empty answer was written back once, the tools open (R138)
 
 
 class SystemAnswer(QAAnswer):

@@ -356,12 +356,18 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         *CARD_SYSTEMS,
         *SINGLE_SYSTEMS,
         *FUSED_SYSTEMS,
-        # the agentic query engine (plan R130-R136): its prompt, the closing prompt and the citation retry
+        # the agentic query engine (plan R130-R136): its prompt, the closing prompt, the citation retry and
+        # the text an empty answer is sent back with (R138)
         SystemSpec(
             AGENT,
             _agent,
             _agent_params,
-            {"agent": agent_prompt.PROMPT + agent_prompt.CLOSING + agent_prompt.CITATION_RETRY},
+            {
+                "agent": agent_prompt.PROMPT
+                + agent_prompt.CLOSING
+                + agent_prompt.CITATION_RETRY
+                + agent_prompt.EMPTY_ANSWER
+            },
         ),
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(

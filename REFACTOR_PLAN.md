@@ -8658,6 +8658,32 @@ any output for them is read, with R136's questions reported apart as "seen".
   (`6ff1d76`), on the same graph digest.
 - **R137 done 2026-10-10.** Next: R138, the reply model ($0, code).
 
+### R138. The reply model: a tool always named, an empty answer sent back (done 2026-10-10; one dev run, $0.035)
+- **Scope:** cause A of plan R137-R143, the part code can catch, and the empty `tool` of Found along the way.
+  In `agent/prompt.py`: `AgentStep.action` one of "call" and "answer"; `step_model(names)` builds the reply
+  model the loop asks for, `AgentStep` with `tool` required and one of the loop's tool names (an answer names
+  one too, unread: required because a model held to a schema may leave an optional field out, as R136's did
+  on 78 calls); `AgentStep.is_empty` (no entities, no number, no text; `entities` [] is the answer "none");
+  `EMPTY_ANSWER`, written back once as the turn's result of an empty answer, the tools open (`agent/loop.py`);
+  `AgentTrace.emptied` and the metric `agent_answers_emptied`; `EMPTY_ANSWER` in the agent's prompt version.
+  The loop still refuses an unknown tool, for a model that does not hold to the schema.
+- **Not here:** the answer's form (a "which" answered in `text`, six of the eight cause-A answers): a prompt
+  matter, unchanged, measured in R143; causes B-F (R139-R141).
+- **Verified:** 3 new tests (`tests/test_agent_loop.py`): the schema asked for lists the loop's tools as an
+  enumeration, requires `tool` and refuses a call without one (R136's reply), an unknown one and an unknown
+  action; an empty answer written back once with the tools open, then a call and the answer; a second empty
+  answer is the answer, and `entities` [] is not empty; plus the metric and the domain-word check over the
+  new text. 1160 passed (1157 + 3), ruff clean.
+- **The dev run** (the one this step allows: only the real API shows that Gemini takes an enumeration built
+  at run time): `QA_MODEL=gemini-3.5-flash-lite kg --preset dev qa <F01, F08, F65 of the furniture gold>
+  --system agent --out out/r138_dev` (a copy of `out/r136_furniture`'s build files, the graph loaded), MLflow
+  `95af7327` (`kgbuilder-dev`): 22 generate calls, 104 636 prompt / 1 463 output tokens, `cost_usd` 0.035048;
+  prompt version `940f0aa26f94` -> `687000fdc002`. The schema was accepted; 19 calls, none without a tool
+  and none refused (R136, gemini-3.8-flash: one empty-tool call on each of these three); no empty answer to
+  send back. F65 stopped at the calls cap walking one assembly per call (cause B, R140). Not a quality
+  number: flash-lite, three questions.
+- **R138 done 2026-10-10.** Next: R139, grouping on a multi-valued field ($0, code).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -8690,7 +8716,8 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
-- **The agent's model sometimes leaves `tool` empty (found in R136, 2026-10-09; open).** 78 of 79 refused
+- **The agent's model sometimes leaves `tool` empty (found in R136, 2026-10-09; fixed in R138 by a required
+  enumeration of the tool names, measured in R143).** 78 of 79 refused
   calls in R136 are replies with `action` "call", the arguments filled and no tool named (generality 17,
   held-out 22, furniture 39, against 834 calls run); the loop refuses each (`no tool ''`) and the next turn
   names the tool, so each costs a turn, and probably some of furniture's 6 cap stops. Direction: make the

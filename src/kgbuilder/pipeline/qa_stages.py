@@ -95,7 +95,8 @@ def _plan_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
 
 def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
-    each loop stopped, answers sent back for their citations, citations dropped, and prompt characters."""
+    each loop stopped, answers sent back for their citations or for being empty (R138), citations dropped,
+    and prompt characters."""
     traces = [a.agent for a in answers if a.agent is not None]
     if not traces:
         return {}
@@ -105,6 +106,7 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_calls_mean": sum(sum(not c.refused for c in t.calls) for t in traces) / len(traces),
         "agent_calls_refused": sum(bool(c.refused) for c in calls),
         "agent_answers_retried": sum(t.retried for t in traces),
+        "agent_answers_emptied": sum(t.emptied for t in traces),
         "agent_citations_dropped": sum(len(t.dropped) for t in traces),
         "agent_prompt_chars_mean": sum(t.prompt_chars for t in traces) / len(traces),
     }

@@ -1,11 +1,13 @@
 """The agent's prompt (R135): what the model reads each turn, the reply it gives, and how the tools and the
 earlier turns are written into the prompt.
 
-Role in the pipeline: the loop (loop.py) renders a prompt per turn with `turn_prompt` and parses the reply
-into `AgentStep`; with the tools closed at a cap it renders `closing_prompt` instead.
+Role in the pipeline: the loop (loop.py) renders `PROMPT` per turn and asks for the reply model
+`step_model` builds for its tools; with the tools closed at a cap it renders `CLOSING` instead.
 Design: one prompt, one structured reply per turn. The model proposes one call or the answer; code parses
 the call's arguments into the tool's own model (the arguments travel as a JSON object in text, so one reply
-schema serves every tool), runs it and writes the result back as JSON. The prompt is domain-neutral
+schema serves every tool), runs it and writes the result back as JSON. The reply's `action` is one of two
+values and its `tool` one of the tools' names (R138): a model held to the response schema cannot name no
+tool, which R136's model did on 78 calls when `tool` was an optional text. The prompt is domain-neutral
 (`prompt-engineering` skill): structural roles only, no example from a dataset under evaluation, and every
 rule has a code-side check (an unknown tool, unparseable arguments or a repeated call is refused by the
 loop; citations are checked by citations.py; the answer forms are scored by code as the reader's are).
@@ -13,8 +15,9 @@ Not here: the loop and its caps (loop.py), the citation check (citations.py).
 """
 
 import json
+from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 from .tool import Tool
 
@@ -80,6 +83,16 @@ CITATION_RETRY = (
     "Your answer cited ids no tool returned: {ids}. Answer again, citing only ids from the results above."
 )
 
+# Written back, once, as the result of an answer that names nothing, gives no number and no text (R138):
+# R136's model sent such answers after a tool had returned the answer (two held-out questions), and an empty
+# answer is never right. The tools stay open, so the model can answer from what it has or search again;
+# code decides what is empty (`AgentStep.is_empty`), so the rule needs no wording in PROMPT.
+EMPTY_ANSWER = (
+    "Your answer was empty: no entities, no number and no text. Answer again from the results above: the "
+    "things in `entities`, a number in `number`, otherwise a short `text`; if the results do not answer the "
+    "question, say so in `text`."
+)
+
 
 class AgentCitation(BaseModel):
     id: str = Field(description="An id exactly as a tool returned it: a chunk, a claim, a node or a query.")
@@ -87,9 +100,11 @@ class AgentCitation(BaseModel):
 
 
 class AgentStep(BaseModel):
-    """The model's reply to one turn: one tool call, or the answer."""
+    """The model's reply to one turn: one tool call, or the answer. The model is asked for the subclass
+    `step_model` builds, whose `tool` is one of the tools' names; this base keeps `tool` a text so the loop
+    still refuses an unknown name from a model that does not hold to the schema."""
 
-    action: str = Field(description='"call" to call a tool, "answer" to answer the question.')
+    action: Literal["call", "answer"] = Field(description='"call" to call a tool, "answer" to answer.')
     tool: str = Field(default="", description="call: the name of the tool.")
     arguments: str = Field(default="{}", description="call: the tool's arguments as a JSON object.")
     entities: list[str] | None = Field(
@@ -100,6 +115,22 @@ class AgentStep(BaseModel):
         default=None, description="answer: a short answer in words, for any other question."
     )
     citations: list[AgentCitation] = Field(default=[], description="answer: the ids the answer relies on.")
+
+    def is_empty(self) -> bool:
+        """An answer naming nothing, with no number and no text. `entities` [] is an answer ("none")."""
+        return self.entities is None and self.number is None and not (self.text or "").strip()
+
+
+def step_model(names: list[str]) -> type[AgentStep]:
+    """The reply model the model is asked for: `AgentStep` with `tool` required and one of `names`. Required
+    because a model held to a schema may leave an optional field out (R136: 78 calls with no tool); an
+    answer names a tool too, which code ignores."""
+    tool = Literal[tuple(names)]  # built at run time: the names are the tools this loop was given
+    return create_model(
+        "AgentStep",
+        __base__=AgentStep,
+        tool=(tool, Field(description='The tool to call with "call"; with "answer" any name, unread.')),
+    )
 
 
 def tool_list(tools: list[Tool]) -> str:
@@ -115,3 +146,8 @@ def turn_text(turn: int, tool: str, arguments: str, result: str) -> str:
     """One earlier call and what came back (a result as JSON, or code's refusal)."""
     head = f'<turn n="{turn}" tool="{tool}">'
     return f"{head}\n<arguments>{arguments}</arguments>\n<result>{result}</result>\n</turn>"
+
+
+def empty_answer_text(turn: int, message: str) -> str:
+    """An empty answer and code's reply to it, as an earlier turn (R138)."""
+    return f'<turn n="{turn}" action="answer">\n<result>{message}</result>\n</turn>'

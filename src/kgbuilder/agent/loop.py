@@ -11,7 +11,9 @@ its reason written back as that turn's result; it runs every other call and keep
 wall-clock time; at a cap the model is asked once more with the tools closed. The prompt-size cap stands in
 for token and cost caps: the LLM port reports usage to the tracker, not to the caller, and the prompt is
 what grows with every turn. An answer citing ids no tool returned is sent back once with the ids named;
-what it still cites wrongly is dropped and counted.
+what it still cites wrongly is dropped and counted. The model is asked for the reply model whose `tool` is
+one of this loop's tool names (`step_model`, R138), and an answer with nothing in it is written back once
+as that turn's result, with the tools still open (R138).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
 """
@@ -26,7 +28,17 @@ from pydantic import BaseModel, Field, ValidationError
 from ..llm.base import LLMClient
 from ..query.answers import AgentCall, AgentStop, AgentTrace
 from .citations import CheckedCitations, Ledger
-from .prompt import CITATION_RETRY, CLOSING, PROMPT, AgentStep, tool_list, turn_text
+from .prompt import (
+    CITATION_RETRY,
+    CLOSING,
+    EMPTY_ANSWER,
+    PROMPT,
+    AgentStep,
+    empty_answer_text,
+    step_model,
+    tool_list,
+    turn_text,
+)  # fmt: skip
 from .tool import Tool
 
 
@@ -61,6 +73,7 @@ class _State:
     seen: dict[str, int] = field(default_factory=dict)  # a run call's tool and arguments -> its turn
     prompt_chars: int = 0
     turn: int = 0
+    emptied: bool = False  # an empty answer was written back (once per question)
 
     def calls_run(self) -> int:
         return sum(not c.refused for c in self.calls)
@@ -75,6 +88,7 @@ class AgentLoop:
     ):  # fmt: skip
         self._tools = {tool.name: tool for tool in tools}
         self._tool_text = tool_list(tools)
+        self._step = step_model(list(self._tools))
         self._llm = llm
         self._model = model
         self._temperature = temperature
@@ -92,7 +106,11 @@ class AgentLoop:
                 return self._close(question, state, stop)
             state.turn += 1
             state.prompt_chars += len(prompt)
-            step = self._llm.generate(prompt, AgentStep, model=self._model, temperature=self._temperature)
+            step = self._llm.generate(prompt, self._step, model=self._model, temperature=self._temperature)
+            if step.action == "answer" and step.is_empty() and not state.emptied:
+                state.emptied = True
+                state.turns.append(empty_answer_text(state.turn, EMPTY_ANSWER))
+                continue
             if step.action == "answer":
                 return self._finish(question, state, step, "answer")
             self._call(step, state)
@@ -149,7 +167,7 @@ class AgentLoop:
             checked = state.ledger.check(step.citations)
         trace = AgentTrace(
             calls=state.calls, turns=state.turn, stopped=stop, prompt_chars=state.prompt_chars,
-            cited=checked.kept, dropped=checked.unknown, retried=retried,
+            cited=checked.kept, dropped=checked.unknown, retried=retried, emptied=state.emptied,
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)
 
@@ -157,7 +175,7 @@ class AgentLoop:
         """The model's answer with the tools closed; its prompt is not counted against the cap, which it
         ends."""
         prompt = CLOSING.format(question=question, turns=_turns(state)) + (f"\n\n{extra}" if extra else "")
-        return self._llm.generate(prompt, AgentStep, model=self._model, temperature=self._temperature)
+        return self._llm.generate(prompt, self._step, model=self._model, temperature=self._temperature)
 
 
 def _parse(tool: Tool, arguments: str) -> tuple[BaseModel | None, str]:
