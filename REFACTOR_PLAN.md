@@ -8593,6 +8593,39 @@ decision then. Also make graphs supporting this decision."
 - **R136 done 2026-10-09; plan R130-R136 done.** Next: the user decides (a furniture baseline run, the
   empty-tool replies below, or the next plan).
 
+### Plan R137-R143: the agent's failures by cause, a furniture baseline, then fresh questions (accepted 2026-10-10)
+The user, 2026-10-10, after a review of R136's 22 wrong answers (this session): "yes you may proceed" with
+the proposed order. The review read every trace of R136 and replayed three table queries offline ($0). The
+22 wrong answers group by cause:
+- **A. Reply form (8):** the right content in `text` where the gold scores `entities` or `number` (G02, G03,
+  G10, G22, G29, H36), or an answer with every field empty after a tool returned the answer (H38, H40; H40's
+  query, replayed, returns the four gold recalls). Same cause as the empty `tool` (Found along the way): the
+  reply model `AgentStep` leaves `action` a free text, `tool` empty by default and every answer field optional.
+- **B. Branching walks (5):** F48, F59, F61, F64, F65 walk one node per call (no "one of these values"
+  operator, `related_to` one hop only, `>=` on text ids refused) and stop at a cap or give up.
+- **C. Counting over text (5):** G05, F08, F12, F13, F28 count passages a top-5 `search_text` returns.
+- **D. Names (2):** H66 (the table's manufacturer name against the gold's), F62 (`United States` against
+  `USA`): gold alias or agent, to be read in R143; any gold change listed as a gold correction.
+- **E. Grouping on a multi-valued field (1):** H11; neither compiler splits a list or a comma-joined value,
+  so `FUEL/PROPULSION SYSTEM` (5 complaints) is grouped as 3.
+- **F. Over-answering (1):** G31 adds the speaker's company to the speaker.
+Rules for the plan: each fix is a general mechanism tied to a cause, never to a question; the 177 questions
+of R136 are now tuning data, so the reported re-measurement (R143) is on fresh gold questions written before
+any output for them is read, with R136's questions reported apart as "seen".
+- **Steps, strictly one after another:**
+  - **R137** Furniture baseline: `vector`, `graph_retrieval`, `hybrid` by `kg qa` on `out/r136_furniture`
+    (the agent's build), judged, paired with the agent by `kg qa-compare` (paid, about $0.5; approved
+    2026-10-10).
+  - **R138** The reply model: `tool` an enumeration of the tool names, a call or an answer, an empty answer
+    sent back once ($0, code).
+  - **R139** Grouping on a list or multi-valued field counts each value (a test failing first; $0, code).
+  - **R140** Branching walks: a "one of these values" operator and a multi-hop `related_to` ($0, code).
+  - **R141** Counting over text: reading every passage of one document ($0, code).
+  - **R142** Measures: model latency and wall-clock per question, cost per question per system, and a check
+    that node and query citations hold what the answer states ($0, code).
+  - **R143** Fresh gold questions on the three datasets, then the agent and the baselines re-measured (paid,
+    asked first with its estimate).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
