@@ -15,7 +15,7 @@ retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py
 """
 
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from pathlib import Path
 
 from ..agent import prompt as agent_prompt
@@ -463,14 +463,9 @@ def qa_parts(
     s = ctx.settings
     llm = with_thinking(ctx.require_llm(), s.qa_thinking)
     src = source_parts(ctx, state)
+    # every source part, by the dataclass's own fields: copying them by name dropped R141's text reader
     return QAParts(
-        settings=s,
-        store=src.store,
-        embedder=src.embedder,
-        plan=src.plan,
-        units=src.units,
-        nodes=src.nodes,
-        staging=src.staging,
+        **{f.name: getattr(src, f.name) for f in fields(SourceParts)},
         llm=llm,
         reader=Reader(llm, s.qa_model, s.llm_temperature),
         frozen=frozen,

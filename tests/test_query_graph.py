@@ -8,6 +8,7 @@ concerns and what a claim joins, the start nodes of chunk and claim retrieval. N
 
 import json
 import time
+from dataclasses import fields
 
 import pytest
 
@@ -16,6 +17,7 @@ from kgbuilder.core.errors import ConfigurationError, EvaluationError
 from kgbuilder.graph.digest import graph_digest
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAStage
+from kgbuilder.pipeline.qa_systems import SourceParts, qa_parts, source_parts
 from kgbuilder.pipeline.stage import PLAN_FILE
 from kgbuilder.query.answers import load_system_answers
 from kgbuilder.query.graph_store import ChunkNodes, NamedNode, Neo4jGraphStore
@@ -420,3 +422,12 @@ def test_kg_qa_asks_records_plus_vector_over_the_record_layer_only(driver, tmp_p
     assert "reads the records only" in answer.plan.attempts[0].issues[0]
     # the planner was never shown the text layer
     assert all(":Chunk" not in p and ":Observation" not in p and "Claim patterns" not in p for p in prompts)
+
+
+def test_the_qa_parts_carry_every_source_part(driver, tmp_path):
+    # R143b found `qa_parts` copying the source parts one by one and leaving out R141's text reader, so the
+    # agent refused to start; every part `source_parts` builds must reach the systems
+    ctx = qa_context(driver, tmp_path / "out", lambda prompt, schema: None, RecordingTracker())
+    source, parts = source_parts(ctx, PipelineState()), qa_parts(ctx, PipelineState())
+    assert [f.name for f in fields(SourceParts) if getattr(source, f.name) is None] == []
+    assert [f.name for f in fields(SourceParts) if getattr(parts, f.name) is None] == []

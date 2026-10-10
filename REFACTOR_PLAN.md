@@ -8853,6 +8853,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **`qa_parts` dropped R141's text reader (found in R143b, 2026-10-10; fixed in its own commit).** The first
+  R143b command stopped before any model call ($0): "the agent needs the node and text readers". `qa_parts`
+  copied the source parts field by field and left out `SourceParts.text`; R141's tests built the tools
+  directly, never through `qa_parts`. Fixed by copying every field of `SourceParts`; a Neo4j test
+  (`tests/test_query_graph.py`, failing before: `['text']`) checks every part `source_parts` builds reaches
+  the systems. 1200 passed.
 - **The agent's model sometimes leaves `tool` empty (found in R136, 2026-10-09; fixed in R138 by a required
   enumeration of the tool names, measured in R143).** 78 of 79 refused
   calls in R136 are replies with `action` "call", the arguments filled and no tool named (generality 17,
