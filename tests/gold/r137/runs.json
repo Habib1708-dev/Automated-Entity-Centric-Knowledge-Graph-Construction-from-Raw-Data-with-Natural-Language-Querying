@@ -1,0 +1,16 @@
+{
+ "step": "R137: the reading systems vector, graph_retrieval and hybrid on furniture's agent build, judged and paired with R136's agent",
+ "approved": "the user, 2026-10-10, in this session: \"yes you may proceed\" to the proposed order, whose step 1 was this run (about $0.5 estimated)",
+ "git_sha": "1567b27",
+ "build": "out/r136_furniture (R136's furniture reload, loaded in the working Neo4j), graph digest 392a170ecc10 checked before the run and logged by each run",
+ "command": "kg --preset quality qa tests/gold/qa/furniture_qa.json --system vector --system graph_retrieval --system hybrid --out out/r136_furniture",
+ "runs": {
+  "vector": {"run": "75c0e8c32ae040849163dfbe4107115c", "usage": {"llm_calls": 68, "cache_hits": 0, "prompt_tokens": 65807, "completion_tokens": 5079, "thinking_tokens": 453, "cost_usd": 0.070100}},
+  "graph_retrieval": {"run": "0f77bcef44a84b85936a2fd331df2a53", "usage": {"llm_calls": 68, "cache_hits": 18, "prompt_tokens": 48143, "completion_tokens": 3625, "thinking_tokens": 431, "cost_usd": 0.051317}},
+  "hybrid": {"run": "7934d28ecc4f493bb9b1768daaf8581b", "usage": {"llm_calls": 68, "cache_hits": 0, "prompt_tokens": 65734, "completion_tokens": 5790, "thinking_tokens": 225, "cost_usd": 0.071857}}
+ },
+ "cost_usd_total": 0.193274,
+ "verdicts": "tests/gold/r137/furniture_<system>_verdicts.json (Claude Opus 5.5, R71's rules tests/gold/r71/qa_judge_rules.md; F37 and F38, the two free-text questions)",
+ "correct": {"agent (R136, run 310ea86b)": "58/68", "vector": "13/68", "graph_retrieval": "18/68", "hybrid": "19/68"},
+ "scoring": "kg qa-score into out/r136/furniture with the verdicts; kg qa-compare of the agent against each into out/r136/compare_furniture_<system>"
+}

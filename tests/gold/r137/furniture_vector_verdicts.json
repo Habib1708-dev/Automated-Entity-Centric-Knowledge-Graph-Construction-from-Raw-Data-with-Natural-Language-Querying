@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-10",
+    "run_id": "75c0e8c32ae040849163dfbe4107115c",
+    "git_sha": "1567b27"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r136_furniture/answers_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": false,
+      "reason": "Says the passages hold nothing about the lamp; the expected partial refund is in the source (rule 5)."
+    },
+    {
+      "question_id": "F38",
+      "correct": false,
+      "reason": "Gives only the comfortable side; the expected answer's second part, less comfortable for extended work sessions, is missing (rule 2)."
+    }
+  ]
+}

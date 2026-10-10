@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-10",
+    "run_id": "0f77bcef44a84b85936a2fd331df2a53",
+    "git_sha": "1567b27"
+  },
+  "gold": "tests/gold/qa/furniture_qa.json",
+  "answers": "out/r136_furniture/answers_graph_retrieval.jsonl",
+  "verdicts": [
+    {
+      "question_id": "F37",
+      "correct": true,
+      "reason": "A partial refund: the expected offer."
+    },
+    {
+      "question_id": "F38",
+      "correct": false,
+      "reason": "Gives only the comfortable side; the expected answer's second part, less comfortable for extended work sessions, is missing (rule 2)."
+    }
+  ]
+}

@@ -8626,6 +8626,38 @@ any output for them is read, with R136's questions reported apart as "seen".
   - **R143** Fresh gold questions on the three datasets, then the agent and the baselines re-measured (paid,
     asked first with its estimate).
 
+### R137. Furniture baseline: the reading systems on the agent's build (done 2026-10-10; $0.193)
+- **Asked and approved:** the user, 2026-10-10: "yes you may proceed" to the plan's order, step 1 this run
+  (estimated about $0.5).
+- **Scope:** runs and the record; no code. `vector`, `graph_retrieval` and `hybrid` by `kg qa` on
+  `out/r136_furniture`, the build R136's agent answered on (digest `392a170ecc10`, checked before the run and
+  logged by each run), preset `quality` as R136's furniture run; the two free-text answers each (F37, F38)
+  judged by Claude Opus 5.5 with R71's rules; each system paired with the agent by `kg qa-compare`.
+- **Runs** (`tests/gold/r137/runs.json`): vector `75c0e8c3` ($0.0701), graph_retrieval `0f77bcef` ($0.0513,
+  18 of 68 answers from the cache), hybrid `7934d28e` ($0.0719); **$0.193 in all**, 204 calls.
+- **Results** (correct of 68: sets and numbers by code, exact match; F37, F38 by the judge,
+  `tests/gold/r137/furniture_<system>_verdicts.json`; paired by exact McNemar, `out/r136/compare_furniture_*`):
+
+  | System | correct | multi_hop (17) | aggregation (16) | structured_filter (16) | agent only / system only, p |
+  |---|---|---|---|---|---|
+  | agent (R136) | **58** | 12 | 13 | 15 | - |
+  | hybrid | 19 | 0 | 1 | 0 | 40 / 1, p < 0.001 |
+  | graph_retrieval | 18 | 0 | 1 | 0 | 40 / 0, p < 0.001 |
+  | vector | 13 | 0 | 1 | 0 | 45 / 0, p < 0.001 |
+
+  - The reading systems answer the text questions (disambiguation, negation, lookup: hybrid 18 of 19) and
+    almost none that need records, counts or walks (1 of 49); the agent answers 40 of those 49.
+  - The one question only hybrid answers is F28 (squeaking or creaking Uppsala Sofa reviews: hybrid 1, the
+    agent 0, its top-5 `search_text` missed the review): cause C of the plan.
+  - Judge: F37 right for graph_retrieval and hybrid, vector "no information" (rule 5); F38 right for hybrid
+    only (both sides), vector and graph_retrieval give the comfortable side alone (rule 2).
+  - Citation faithfulness 1.0 for each (33/33, 41/41, 46/46 quotes).
+- **Read with care:** as in R136, a comparison of systems, not of retrieval at a fixed budget (the agent
+  makes 5.5 model calls a question, $0.0185 against about $0.001 for a reading system); the gold, the targets
+  and the verdicts come from one model family; the agent's answers are from a run at another commit
+  (`6ff1d76`), on the same graph digest.
+- **R137 done 2026-10-10.** Next: R138, the reply model ($0, code).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
