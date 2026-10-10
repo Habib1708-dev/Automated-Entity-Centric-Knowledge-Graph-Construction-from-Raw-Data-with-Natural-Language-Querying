@@ -9,12 +9,18 @@ question's loop; a cited claim brings its chunk along (a fact read from text cit
 rule), computed here from the claim the tool returned, never asked of the model. A chunk citation keeps its
 quote, which `kg qa` checks against the shown text as it does for every system. An entity the answer names
 by a node's ref is given that node's name as a tool gave it (code knows the name; the model sometimes
-copies the ref, as in R135's dev run).
+copies the ref, as in R135's dev run). The ledger also says whether an answer is supported by what it cites
+(R142): every entity it names, and its number, must appear in the results that offered the cited ids. A
+chunk's quote is checked by `kg qa`; this check covers the node and query ids, which carry no quote. A
+number the model counted itself (passages read) appears in no result: that check is read with care.
 Not here: sending an answer back (loop.py), turning chunks into the answer's shown list (system.py).
 """
 
+import re
+
 from pydantic import BaseModel
 
+from ..core.text import norm
 from ..validation.qa import Citation
 from .prompt import AgentCitation
 from .results import (
@@ -38,6 +44,15 @@ class CheckedCitations(BaseModel):
     unknown: list[str]
 
 
+class Support(BaseModel):
+    """Whether an answer's entities and number appear in what its cited ids' results hold (None: the answer
+    names no entity, or gives no number), and the entities that do not."""
+
+    entities_grounded: bool | None
+    number_stated: bool | None
+    ungrounded: list[str]
+
+
 class Ledger:
     """The ids the tools returned in one question's loop, the claims' chunks, and the chunks read."""
 
@@ -46,10 +61,14 @@ class Ledger:
         self._claim_chunk: dict[str, str] = {}
         self._read: dict[str, ChunkText] = {}  # chunks whose text a tool returned, in the order first read
         self._names: dict[str, str] = {}  # node ref -> the display name a tool gave it
+        self._evidence: dict[str, list[str]] = {}  # id -> the results that offered it, as JSON (R142)
 
     def add(self, result: ToolResult) -> None:
         """Keep the ids `result` offers, the chunk of every claim in it, and the text of every chunk in it."""
         self._ids.update(dict.fromkeys(result.cites()))
+        shown = result.model_dump_json()
+        for i in result.cites():
+            self._evidence.setdefault(i, []).append(shown)
         if isinstance(result, ChunksResult):
             for chunk in result.chunks:
                 # the longer text wins, its place kept: find_passages shows a passage's sentences only, and
@@ -80,6 +99,18 @@ class Ledger:
         """The display name of the node `entity` is the ref of, as a tool gave it; `entity` itself when it
         is no ref a tool returned (then it is a name already)."""
         return self._names.get(entity, entity)
+
+    def support(self, entities: list[str] | None, number: float | None, cited: list[str]) -> Support:
+        """Whether each of `entities` (names, not refs) and `number` appear in the results that offered the
+        `cited` ids, compared by `norm`; a number as a whole token ("10" not inside "2010")."""
+        held = norm(" ".join(text for i in cited for text in self._evidence.get(i, [])))
+        missing = [e for e in entities or [] if norm(e) not in held]
+        stated = None
+        if number is not None:
+            token = str(int(number)) if float(number).is_integer() else str(number)
+            stated = re.search(rf"(?<![0-9.]){re.escape(token)}(?![0-9])", held) is not None
+        grounded = None if not entities else not missing
+        return Support(entities_grounded=grounded, number_stated=stated, ungrounded=missing)
 
     def read(self) -> list[ChunkText]:
         """The chunks whose text the agent read, in the order it first read them."""

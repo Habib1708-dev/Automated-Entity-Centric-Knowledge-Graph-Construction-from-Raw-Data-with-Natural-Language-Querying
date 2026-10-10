@@ -298,6 +298,11 @@ def test_kg_qa_answers_every_question_writes_the_answers_and_logs_what_code_can_
     assert metrics["citation_faithfulness"] == 1.0
     answers = load_system_answers(out / "answers_graph.jsonl")
     assert [a.question_id for a in answers] == ["Q1", "Q2", "Q3"]
+    # R142: every answer timed; the questions and the seconds per answer logged
+    assert all(a.latency_s is not None for a in answers) and metrics["questions"] == 3
+    assert (
+        metrics["answer_latency_s_p50"] <= metrics["answer_latency_s_p90"] <= metrics["answer_latency_s_max"]
+    )
     assert answers[0].retrieved[0] == "notes.md#0"
     refused, ran = answers[1].plan.attempts
     assert "unknown label 'Note'" in refused.issues[0] and [s.op for s in ran.steps] == [

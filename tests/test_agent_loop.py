@@ -8,7 +8,9 @@ returned sent back once and then dropped; a cited claim bringing its chunk; the 
 metrics; its registration with its params and prompt; and the prompt free of the evaluated datasets'
 words. R138: the reply model asked for names one of the loop's tools and cannot leave the tool out; an
 empty answer is written back once with the tools open, and counted. R141: a passage read in full after
-its excerpt keeps the full text in its first place."""
+its excerpt keeps the full text in its first place. R142: the model's time and the loop's time in the
+trace; whether the answer's names and number appear in what its citations' results hold; the metrics of
+both, and the seconds per answer every system logs."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -19,7 +21,7 @@ from kgbuilder.agent.prompt import CLOSING, EMPTY_ANSWER, PROMPT, AgentCitation,
 from kgbuilder.agent.results import ChunksResult, ChunkText, ClaimsResult, NodeHit, NodesResult
 from kgbuilder.agent.system import AgentSystem
 from kgbuilder.config import Settings
-from kgbuilder.pipeline.qa_stages import _agent_metrics
+from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
 from kgbuilder.pipeline.qa_systems import system_params
 
 from .fakes import ScriptedLLM
@@ -85,8 +87,10 @@ class Script:
         return self._steps.pop(0) if len(self._steps) > 1 else self._steps[0]
 
 
-def loop(script: Script, limits: AgentLimits = LIMITS, clock=None, tools=None) -> AgentLoop:
+def loop(script: Script, limits: AgentLimits = LIMITS, clock=None, tools=None, timer=None) -> AgentLoop:
     kwargs = {"clock": clock} if clock else {}
+    if timer:
+        kwargs["timer"] = timer
     return AgentLoop(tools or [FakeFind(), FakeRead()], ScriptedLLM(script), "m", 0.0, limits, **kwargs)
 
 
@@ -236,6 +240,60 @@ def test_a_passage_read_in_full_after_its_excerpt_keeps_the_full_text_and_its_pl
     ]
 
 
+# --- time and support (R142) ------------------------------------------------------------------------
+
+
+def test_the_trace_times_the_models_calls_and_the_whole_loop():
+    # the loop's start, then each reply's start and end, then the end of the loop
+    ticks = iter([0.0, 1.0, 3.0, 4.0, 7.0, 10.0])
+    run = loop(Script(call("find", '{"ref": "k1"}'), answer("k1")), timer=lambda: next(ticks)).run("Which?")
+    assert (run.trace.llm_ms, run.trace.wall_ms) == (5000.0, 10000.0)
+
+
+def test_an_answer_is_supported_when_its_cited_results_hold_its_names_and_number():
+    ledger = Ledger()
+    ledger.add(NodesResult(nodes=[NodeHit(ref="k1", kind="record", label="Thing", title="Lárk Kettle")]))
+    ledger.add(ChunksResult(chunks=[ChunkText(chunk_id="d.md#0", context="Doc",
+                                              text="12 pots were sold in 2010.")], total=1))  # fmt: skip
+    found = ledger.support(["lark kettle"], 12.0, ["k1", "d.md#0"])
+    assert (found.entities_grounded, found.number_stated, found.ungrounded) == (True, True, [])
+    one_missing = ledger.support(["Lark Kettle", "Quill Pot"], None, ["k1"])
+    assert (one_missing.entities_grounded, one_missing.number_stated, one_missing.ungrounded) == (
+        False,
+        None,
+        ["Quill Pot"],
+    )
+    assert ledger.support(["Lark Kettle"], None, ["d.md#0"]).entities_grounded is False  # held, not cited
+    assert ledger.support(None, 10.0, ["d.md#0"]).number_stated is False  # 10 is no token of 2010
+    assert ledger.support([], None, ["k1"]).entities_grounded is None  # "none" names nothing
+
+
+def test_the_agents_answer_carries_its_support():
+    reply = AgentStep(action="answer", entities=["k1", "Lark Kettle"], citations=[AgentCitation(id="k1")])
+    result = AgentSystem(loop(Script(call("find", '{"ref": "k1"}'), reply)), FakeStore()).answer(
+        "Q1", "Which?"
+    )
+    assert (result.agent.entities_grounded, result.agent.ungrounded) == (False, ["Lark Kettle"])
+
+
+def test_the_seconds_per_answer_and_the_questions_are_logged_for_every_system():
+    answers = [
+        AgentSystem(loop(Script(answer())), FakeStore())
+        .answer(f"Q{i}", "Which?")
+        .model_copy(update={"latency_s": s})
+        for i, s in enumerate([4.0, 1.0, 10.0, 2.0, 3.0])
+    ]
+    assert _latency_metrics(answers) == {
+        "questions": 5,
+        "answer_latency_s_mean": 4.0,
+        "answer_latency_s_p50": 3.0,
+        "answer_latency_s_p90": 10.0,
+        "answer_latency_s_max": 10.0,
+    }
+    untimed = [a.model_copy(update={"latency_s": None}) for a in answers]
+    assert _latency_metrics(untimed) == {"questions": 5}
+
+
 # --- the answer kg qa reads --------------------------------------------------------------------------
 
 
@@ -268,6 +326,13 @@ def test_the_agents_metrics_count_turns_calls_refusals_and_stops():
     assert metrics["agent_stopped_calls"] == 0 and _agent_metrics([]) == {}
     emptied = one.model_copy(update={"agent": one.agent.model_copy(update={"emptied": True})})
     assert _agent_metrics([one, emptied])["agent_answers_emptied"] == 1
+    timed = one.agent.model_copy(
+        update={"llm_ms": 3000.0, "wall_ms": 5000.0, "entities_grounded": True, "number_stated": False}
+    )
+    both = _agent_metrics([one, one.model_copy(update={"agent": timed})])
+    assert (both["agent_llm_s_mean"], both["agent_wall_s_mean"]) == (1.5, 2.5)
+    assert (both["agent_entity_answers"], both["agent_entity_answers_grounded"]) == (1, 1)
+    assert (both["agent_number_answers"], both["agent_number_answers_stated"]) == (1, 0)
 
 
 def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():

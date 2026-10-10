@@ -91,9 +91,11 @@ class AgentSystem:
         ]
         shown = read + cited
         step = run.answer
+        entities = None if step.entities is None else [run.ledger.name_of(e) for e in step.entities]
+        # R142: the named entities and the number checked against what the kept citations' results hold
+        support = run.ledger.support(entities, step.number, run.citations.kept)
         return SystemAnswer(
             question_id=question_id, system=self.name, retrieved=[c.chunk_id for c in shown],
-            entities=None if step.entities is None else [run.ledger.name_of(e) for e in step.entities],
-            number=step.number, text=step.text, citations=run.citations.chunks,
-            shown=shown, agent=run.trace,
+            entities=entities, number=step.number, text=step.text, citations=run.citations.chunks,
+            shown=shown, agent=run.trace.model_copy(update=support.model_dump()),
         )  # fmt: skip

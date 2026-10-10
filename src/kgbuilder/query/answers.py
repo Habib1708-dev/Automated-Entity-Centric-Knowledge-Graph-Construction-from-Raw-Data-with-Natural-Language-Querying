@@ -151,6 +151,14 @@ class AgentTrace(BaseModel):
     dropped: list[str] = []
     retried: bool = False  # the answer was sent back once for citing ids no tool returned
     emptied: bool = False  # an empty answer was written back once, the tools open (R138)
+    # R142: time in the model's calls and in the whole loop; whether every named entity, and the number,
+    # appear in what the cited results hold (None: the answer names none, or gives none), and the names
+    # that do not
+    llm_ms: float = 0.0
+    wall_ms: float = 0.0
+    entities_grounded: bool | None = None
+    number_stated: bool | None = None
+    ungrounded: list[str] = []
 
 
 class SystemAnswer(QAAnswer):
@@ -164,6 +172,7 @@ class SystemAnswer(QAAnswer):
     exact: ExactTrace | None = None
     plan: PlanTrace | None = None
     agent: AgentTrace | None = None
+    latency_s: float | None = None  # wall-clock of answering it in `kg qa` (R142); None before R142
 
 
 def shown_texts(answers: list[SystemAnswer]) -> dict[str, str]:

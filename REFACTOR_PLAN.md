@@ -8769,6 +8769,32 @@ any output for them is read, with R136's questions reported apart as "seen".
 - **R141 done 2026-10-10.** Next: R142, measures: latency, cost per question, node and query citations
   ($0, code).
 
+### R142. Measures: time per answer, cost per question, and whether the cited results hold the answer (done 2026-10-10; $0, code only)
+- **Scope:** what R136 could not report. Before: the trace timed tools only (median 8 ms), no run said its
+  cost per question, and citation faithfulness checked chunk quotes alone while most structured answers
+  cite node or query ids (H40 cited `q-b8a6eea2ae` and gave an empty answer).
+  - Every system: `kg qa` times each answer (`SystemAnswer.latency_s`, measured in its worker, rate-limit
+    waits included) and logs `questions` and `answer_latency_s_mean/_p50/_p90/_max` (nearest rank); a run's
+    cost per question is `cost_usd` / `questions` (the tracker sums usage per run, so no stage sees it per
+    answer).
+  - The agent: `AgentTrace.llm_ms` (the model's calls) and `wall_ms` (the loop), timed by an injected `timer`
+    kept apart from the timeout's `clock`; metrics `agent_llm_s_mean`, `agent_wall_s_mean`.
+  - Support (`Ledger.support`, `agent/citations.py`): whether every entity the answer names (after refs are
+    given names) and its number appear, by `norm`, in the results that offered its kept citations (a number
+    as a whole token: 10 is not in 2010); `AgentTrace.entities_grounded`, `number_stated`, `ungrounded`;
+    metrics `agent_entity_answers[_grounded]`, `agent_number_answers[_stated]`. A number the model counted
+    from passages is stated in no result, so `number_stated` is read with care; a chunk's quote stays
+    `kg qa`'s faithfulness check.
+- **Not here:** a cost per answer from the tracker, a judged support check (the judge reads the answers).
+- **Verified:** 4 new tests and new assertions in two (`tests/test_agent_loop.py`: model and loop time from
+  a fake timer, 5 s and 10 s exactly; support found, one name missing, a name held only by an uncited
+  result, 10 not stated by 2010, "none" naming nothing; the agent's answer carrying its support; the
+  latency metrics and the agent's new metrics; `tests/test_query_graph.py`: every answer of a real `kg qa`
+  timed and the questions and percentiles logged). Earlier tests unchanged. 1190 passed (1186 + 4), ruff
+  clean. No run: nothing here calls a model; R136's answers cannot be re-checked for support (their results
+  were not kept), so R143 is the first measurement.
+- **R142 done 2026-10-10.** Next: R143, fresh gold questions and the re-measurement (paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -13,7 +13,8 @@ for token and cost caps: the LLM port reports usage to the tracker, not to the c
 what grows with every turn. An answer citing ids no tool returned is sent back once with the ids named;
 what it still cites wrongly is dropped and counted. The model is asked for the reply model whose `tool` is
 one of this loop's tool names (`step_model`, R138), and an answer with nothing in it is written back once
-as that turn's result, with the tools still open (R138).
+as that turn's result, with the tools still open (R138). The trace times the model's calls and the whole
+loop with `timer`, kept apart from the timeout's `clock` (R142).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
 """
@@ -74,17 +75,20 @@ class _State:
     prompt_chars: int = 0
     turn: int = 0
     emptied: bool = False  # an empty answer was written back (once per question)
+    timed: float = 0.0  # the timer's reading when the loop began (R142)
+    llm_s: float = 0.0  # seconds spent in the model's calls (R142)
 
     def calls_run(self) -> int:
         return sum(not c.refused for c in self.calls)
 
 
 class AgentLoop:
-    """Answers one question by tool calls under `limits`; `clock` is injected so the timeout can be tested."""
+    """Answers one question by tool calls under `limits`; `clock` (the timeout's) and `timer` (the trace's
+    latencies) are injected so both can be tested."""
 
     def __init__(
         self, tools: list[Tool], llm: LLMClient, model: str, temperature: float, limits: AgentLimits,
-        clock: Callable[[], float] = time.monotonic,
+        clock: Callable[[], float] = time.monotonic, timer: Callable[[], float] = time.perf_counter,
     ):  # fmt: skip
         self._tools = {tool.name: tool for tool in tools}
         self._tool_text = tool_list(tools)
@@ -94,11 +98,12 @@ class AgentLoop:
         self._temperature = temperature
         self._limits = limits
         self._clock = clock
+        self._timer = timer
 
     def run(self, question: str) -> AgentRun:
         """The answer to `question`. Raises `LLMResponseError` when the model fails; a tool's database error
         propagates as for every system."""
-        state = _State(started=self._clock())
+        state = _State(started=self._clock(), timed=self._timer())
         while state.turn < self._limits.turns:
             prompt = PROMPT.format(question=question, tools=self._tool_text, turns=_turns(state),
                                    left=self._limits.calls - state.calls_run())  # fmt: skip
@@ -106,7 +111,7 @@ class AgentLoop:
                 return self._close(question, state, stop)
             state.turn += 1
             state.prompt_chars += len(prompt)
-            step = self._llm.generate(prompt, self._step, model=self._model, temperature=self._temperature)
+            step = self._generate(prompt, state)
             if step.action == "answer" and step.is_empty() and not state.emptied:
                 state.emptied = True
                 state.turns.append(empty_answer_text(state.turn, EMPTY_ANSWER))
@@ -168,6 +173,7 @@ class AgentLoop:
         trace = AgentTrace(
             calls=state.calls, turns=state.turn, stopped=stop, prompt_chars=state.prompt_chars,
             cited=checked.kept, dropped=checked.unknown, retried=retried, emptied=state.emptied,
+            llm_ms=round(state.llm_s * 1000, 1), wall_ms=round((self._timer() - state.timed) * 1000, 1),
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)
 
@@ -175,7 +181,14 @@ class AgentLoop:
         """The model's answer with the tools closed; its prompt is not counted against the cap, which it
         ends."""
         prompt = CLOSING.format(question=question, turns=_turns(state)) + (f"\n\n{extra}" if extra else "")
-        return self._llm.generate(prompt, self._step, model=self._model, temperature=self._temperature)
+        return self._generate(prompt, state)
+
+    def _generate(self, prompt: str, state: _State) -> AgentStep:
+        """One reply of the model, its time added to the loop's model time."""
+        started = self._timer()
+        step = self._llm.generate(prompt, self._step, model=self._model, temperature=self._temperature)
+        state.llm_s += self._timer() - started
+        return step
 
 
 def _parse(tool: Tool, arguments: str) -> tuple[BaseModel | None, str]:

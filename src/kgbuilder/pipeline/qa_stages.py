@@ -4,7 +4,9 @@ Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-scor
 need no graph and no model.
 Design: wiring and logging only, like stages.py (kept apart from it, which builds the graph). Each system
 answers in its own MLflow run (`qa_graph`, `qa_vector`, `qa_records_vector`, `qa_agent`), so its tokens and
-`cost_usd` are its own; the agent's runs add its loop's metrics (R135). `kg qa`
+`cost_usd` are its own; the agent's runs add its loop's metrics (R135). Every answer is timed and every run
+logs its number of questions and the seconds per answer, so systems are compared on time and on cost per
+question as well as on answers (R142). `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
 question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
@@ -15,12 +17,15 @@ scoring (validation/qa.py), the paired test (validation/paired.py).
 """
 
 import json
+import math
+import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from ..core.errors import ConfigurationError
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.frozen import load_frozen
+from ..query.systems import QASystem
 from ..tracking.base import Run
 from ..validation.paired import compare_outcomes
 from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
@@ -93,6 +98,34 @@ def _plan_metrics(answers: list[SystemAnswer]) -> dict[str, int]:
     return metrics
 
 
+def _timed(system: QASystem, question_id: str, question: str) -> SystemAnswer:
+    """The system's answer with the wall-clock it took (R142). Measured inside a worker, so it includes
+    waiting for the model's rate limit and the other workers' share of it, as a user of the system would."""
+    started = time.perf_counter()
+    answer = system.answer(question_id, question)
+    return answer.model_copy(update={"latency_s": round(time.perf_counter() - started, 3)})
+
+
+def _latency_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
+    """The questions answered (so a run's `cost_usd` / `questions` is its cost per question) and the
+    seconds per answer: mean, median, 90th percentile (nearest rank) and maximum (R142)."""
+    seconds = sorted(a.latency_s for a in answers if a.latency_s is not None)
+    if not seconds:
+        return {"questions": len(answers)}
+    return {
+        "questions": len(answers),
+        "answer_latency_s_mean": round(sum(seconds) / len(seconds), 3),
+        "answer_latency_s_p50": _rank(seconds, 0.5),
+        "answer_latency_s_p90": _rank(seconds, 0.9),
+        "answer_latency_s_max": seconds[-1],
+    }
+
+
+def _rank(ordered: list[float], share: float) -> float:
+    """The nearest-rank percentile of an ascending list."""
+    return ordered[max(math.ceil(share * len(ordered)) - 1, 0)]
+
+
 def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
     each loop stopped, answers sent back for their citations or for being empty (R138), citations dropped,
@@ -109,6 +142,14 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_answers_emptied": sum(t.emptied for t in traces),
         "agent_citations_dropped": sum(len(t.dropped) for t in traces),
         "agent_prompt_chars_mean": sum(t.prompt_chars for t in traces) / len(traces),
+        # R142: time in the model and in the loop, and the answers whose names and number the cited results
+        # hold (of those that name entities, or give a number)
+        "agent_llm_s_mean": round(sum(t.llm_ms for t in traces) / len(traces) / 1000, 3),
+        "agent_wall_s_mean": round(sum(t.wall_ms for t in traces) / len(traces) / 1000, 3),
+        "agent_entity_answers": sum(t.entities_grounded is not None for t in traces),
+        "agent_entity_answers_grounded": sum(t.entities_grounded is True for t in traces),
+        "agent_number_answers": sum(t.number_stated is not None for t in traces),
+        "agent_number_answers_stated": sum(t.number_stated is True for t in traces),
     }
     for tool in sorted({c.tool for c in calls if not c.refused}):
         metrics[f"agent_calls_{tool}"] = sum(c.tool == tool and not c.refused for c in calls)
@@ -173,12 +214,12 @@ class QAStage(BaseStage):
         system = build_system(ctx, state, self.system, frozen)
         # questions are independent; the pool keeps the model busy while each answer waits on the network
         with ThreadPoolExecutor(max_workers=s.qa_workers) as pool:
-            answers = list(pool.map(lambda q: system.answer(q.id, q.question), gold.questions))
+            answers = list(pool.map(lambda q: _timed(system, q.id, q.question), gold.questions))
         path = ctx.write(self.answers_file, "\n".join(a.model_dump_json() for a in answers) + "\n")
         report = score_qa(gold, answers, shown_texts(answers), s.qa_top_k, allow_unjudged=True)
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
-        run.metrics(**_retrieval_metrics(answers), **_agent_metrics(answers))
+        run.metrics(**_retrieval_metrics(answers), **_agent_metrics(answers), **_latency_metrics(answers))
         if self.spec.planned:
             run.metrics(**_plan_metrics(answers))
         run.artifact(path)
