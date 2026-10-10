@@ -52,7 +52,11 @@ class Ledger:
         self._ids.update(dict.fromkeys(result.cites()))
         if isinstance(result, ChunksResult):
             for chunk in result.chunks:
-                self._read.setdefault(chunk.chunk_id, chunk)
+                # the longer text wins, its place kept: find_passages shows a passage's sentences only, and
+                # a quote copied from a later full read must be checked against the text it came from (R141)
+                known = self._read.get(chunk.chunk_id)
+                if known is None or len(chunk.text) > len(known.text):
+                    self._read[chunk.chunk_id] = chunk
                 self._claim_chunk.update({c.id: c.chunk_id for c in chunk.claims})
         if isinstance(result, ClaimsResult):
             self._claim_chunk.update({c.id: c.chunk_id for c in result.claims})

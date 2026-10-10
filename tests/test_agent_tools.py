@@ -33,7 +33,7 @@ from kgbuilder.agent.graph_tools import (
     NeighboursArguments,
     NodeArguments,
 )
-from kgbuilder.agent.text_tools import SearchArguments
+from kgbuilder.agent.text_tools import FindPassages, ReadDocument, SearchArguments
 from kgbuilder.hybrid.seed_fusion import SeedSetting
 from kgbuilder.hybrid.unit_store import CardStart
 from kgbuilder.query.answers import ClaimHit
@@ -282,7 +282,7 @@ DATASET_WORDS = re.compile(
     r"review|engine)s?\b",
     re.IGNORECASE,
 )
-TOOLS = [FindNodes, GetNode, Neighbours, NodeEvidence, SearchText, SearchClaims]
+TOOLS = [FindNodes, GetNode, Neighbours, NodeEvidence, SearchText, SearchClaims, ReadDocument, FindPassages]
 
 
 @pytest.mark.parametrize("tool", TOOLS, ids=lambda t: t.name)

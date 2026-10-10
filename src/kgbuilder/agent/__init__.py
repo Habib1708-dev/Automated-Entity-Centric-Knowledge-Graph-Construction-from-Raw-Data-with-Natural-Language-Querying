@@ -30,7 +30,8 @@ from .results import (
 from .structured_query import Condition, RecordQuery, StructuredQuery, TableQuery
 from .structured_tools import QueryRecords, QueryResult, QueryTables, Schema, SchemaResult
 from .tables import DuckDBTables, TableInfo, TableStore
-from .text_tools import SearchClaims, SearchText
+from .text_reader import Neo4jTextReader, TextReader
+from .text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
 from .tool import Tool
 
 __all__ = [
@@ -41,9 +42,11 @@ __all__ = [
     "Condition",
     "DuckDBTables",
     "FindNodes",
+    "FindPassages",
     "GetNode",
     "Neighbours",
     "Neo4jNodeReader",
+    "Neo4jTextReader",
     "NodeEvidence",
     "NodeFacts",
     "NodeHit",
@@ -54,6 +57,7 @@ __all__ = [
     "QueryRecords",
     "QueryResult",
     "QueryTables",
+    "ReadDocument",
     "RecordQuery",
     "Relation",
     "RelationPage",
@@ -66,6 +70,7 @@ __all__ = [
     "TableInfo",
     "TableQuery",
     "TableStore",
+    "TextReader",
     "Tool",
     "ToolResult",
 ]

@@ -1,4 +1,5 @@
-"""The agent's text tools (R133): search every passage, and every claim, by meaning and by words.
+"""The agent's text tools: search every passage, and every claim, by meaning and by words (R133); read every
+passage of one document, and find every passage holding some words (R141).
 
 Role in the pipeline: the agent (R135) uses them when the question is about text no node leads to, or to
 check what the graph walk found against the passages themselves.
@@ -7,10 +8,17 @@ Design: Strategy, one class per tool (tool.py), built on the hybrid retrievers R
 the two fused by reciprocal rank fusion (`hybrid/fusion.py`). A claim comes with its opposite-truth
 siblings (the same triple stated and denied), as the claim retrievers read them, so a denial is never shown
 without the statement it denies; the truth fields are the stored ones, never read from a sentence.
-Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, hybrid/unit_store.py).
+The two exhaustive tools (R141) exist for counting and listing: a ranked search shows the best few passages,
+so a count over its results misses the rest (R136: five such counts wrong). They read through `TextReader`
+(text_reader.py), cut to a cap with the total said in a note; `find_passages` shows each passage as the
+sentences holding the words, so a list of thirty stays a few thousand characters.
+Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, text_reader.py,
+hybrid/unit_store.py).
 """
 
-from pydantic import BaseModel, Field
+import re
+
+from pydantic import BaseModel, Field, field_validator
 
 from ..hybrid.fusion import rrf
 from ..hybrid.retrievers import ChunkDense, ChunkLexical, ClaimRetriever
@@ -19,6 +27,10 @@ from ..llm.base import Embedder
 from ..query.graph_store import GraphStore
 from .node_reader import NodeReader
 from .results import ChunksResult, ChunkText, ClaimsResult
+from .text_reader import TextReader
+
+# a sentence ends at . ! or ? followed by space, or at a line break (a list item, a heading)
+_SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
 
 
 class SearchArguments(BaseModel):
@@ -77,3 +89,90 @@ class SearchClaims:
         ordered = list(dict.fromkeys(i for claim in fused for i in (claim, *siblings[claim])))
         claims = self._reader.claims(ordered[: self._limit])
         return ClaimsResult(claims=claims, note="" if claims else "No claim found.")
+
+
+class DocumentArguments(BaseModel):
+    document: str = Field(
+        description="The document: what a passage id has before '#', or a passage id of it."
+    )
+
+
+class ReadDocument:
+    """`read_document`: every passage of one document in order, at most `limit`."""
+
+    name = "read_document"
+    description = (
+        "Read every passage of one document, in order: use it to count or list what one document says, "
+        "which a search, showing only the best few passages, cannot."
+    )
+    arguments = DocumentArguments
+
+    def __init__(self, reader: TextReader, limit: int):
+        self._reader = reader
+        self._limit = limit
+
+    def run(self, arguments: DocumentArguments) -> ChunksResult:
+        # a passage id is the document's id, '#', and the passage's position: either names the document
+        doc_id = arguments.document.split("#", 1)[0].strip()
+        chunks, total = self._reader.document(doc_id, self._limit)
+        if not chunks:
+            note = f"No document {doc_id!r}; give what a passage id has before '#'."
+        else:
+            note = f"{len(chunks)} of {total} passages shown." if total > len(chunks) else ""
+        return ChunksResult(chunks=chunks, total=total, note=note)
+
+
+class PassageArguments(BaseModel):
+    words: list[str] = Field(
+        min_length=1,
+        max_length=5,
+        description="Words or short phrases every passage must contain, ignoring case: the fewest that pick "
+        "out what is counted.",
+    )
+
+    @field_validator("words")
+    @classmethod
+    def _no_blank(cls, words: list[str]) -> list[str]:
+        if any(not w.strip() for w in words):
+            raise ValueError("a word must not be blank")
+        return words
+
+
+class FindPassages:
+    """`find_passages`: every passage holding all the words, by document and position, at most `limit`, each
+    shown as its sentences that hold a word, cut at `chars`."""
+
+    name = "find_passages"
+    description = (
+        "Find every passage that contains all the given words, in every document, not only the best few: use "
+        "it to count or list everything the text says about something. Each passage shows its sentences "
+        "that hold the words."
+    )
+    arguments = PassageArguments
+
+    def __init__(self, reader: TextReader, limit: int, chars: int):
+        self._reader = reader
+        self._limit = limit
+        self._chars = chars
+
+    def run(self, arguments: PassageArguments) -> ChunksResult:
+        words = [w.strip().lower() for w in arguments.words]
+        chunks, total = self._reader.matching(words, self._limit)
+        shown = [c.model_copy(update={"text": excerpt(c.text, words, self._chars)}) for c in chunks]
+        if not shown:
+            note = "No passage holds all these words."
+        else:
+            note = (
+                f"{len(shown)} of {total} passages shown; add a word to narrow them."
+                if total > len(shown)
+                else ""
+            )
+        return ChunksResult(chunks=shown, total=total, note=note)
+
+
+def excerpt(text: str, words: list[str], chars: int) -> str:
+    """The sentences of `text` holding one of `words` (lowercase), in order, cut at `chars`; the text itself
+    when none does (a phrase across a sentence end)."""
+    sentences = [part.strip() for part in _SENTENCE_END.split(text) if part.strip()]
+    kept = [sentence for sentence in sentences if any(w in sentence.lower() for w in words)]
+    return (" ... ".join(kept) if kept else text)[:chars]

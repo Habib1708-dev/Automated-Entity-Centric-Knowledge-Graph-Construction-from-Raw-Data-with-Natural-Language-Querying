@@ -3,9 +3,10 @@ claims of test_hybrid_units.py: nodes found by ref in the order asked (records b
 canonical id, unknown refs left out), a node's other names and its plan columns with their source, where the
 traversal starts, the record relationships and the claims a node is an end of grouped per other node with
 the total kept past the limit, one relation type alone, the claims of given chunks a node holds or is an end
-of, and claims by id with their sentences and stored truth fields. Needs Neo4j."""
+of, and claims by id with their sentences and stored truth fields. R141: the text reader's passages of
+one document in order with the total, and every passage holding all given words. Needs Neo4j."""
 
-from kgbuilder.agent import Neo4jNodeReader
+from kgbuilder.agent import Neo4jNodeReader, Neo4jTextReader
 
 from .test_hybrid_units import RELATED_PLAN, load
 
@@ -84,3 +85,16 @@ def test_claims_by_id_carry_their_stored_truth_fields(driver):
         ("o2", "negated", "negated", "actual", ""),
         ("o4", "affirmed", "affirmed", "possible", "may"),
     ]
+
+
+def test_the_text_reader_reads_a_documents_passages_in_order_and_every_passage_holding_words(driver):
+    load(driver)
+    text = Neo4jTextReader(driver)
+    passages, total = text.document("log.md", 3)
+    assert [c.chunk_id for c in passages] == ["log.md#0", "log.md#1", "log.md#2"] and total == 5
+    assert (passages[1].context, passages[1].text) == ("Log", "Some wobbling seen.")
+    assert text.document("nothing.md", 3) == ([], 0)
+    wobbling, total = text.matching(["wobbl"], 5)
+    assert [c.chunk_id for c in wobbling] == ["log.md#1", "notes.md#0"] and total == 2  # by document
+    on_the, total = text.matching(["on the", "press"], 5)
+    assert [c.chunk_id for c in on_the] == ["log.md#4"] and total == 1  # every word in one passage

@@ -258,6 +258,11 @@ class Settings(BaseSettings):
     agent_rows: int = Field(default=20, ge=1)
     agent_value_chars: int = Field(default=300, ge=20)
     agent_names: int = Field(default=10, ge=1)
+    # the exhaustive text tools (R141): a document's passages (a page of reviews or a report is 5-15 of
+    # them), and the passages holding some words, each shown as its sentences holding them (about 300
+    # characters), so 30 stay near 10 000 characters
+    agent_document_chunks: int = Field(default=20, ge=1)
+    agent_matches: int = Field(default=30, ge=1)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

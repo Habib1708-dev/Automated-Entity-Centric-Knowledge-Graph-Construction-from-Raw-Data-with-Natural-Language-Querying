@@ -7,7 +7,8 @@ returned sent back once and then dropped; a cited claim bringing its chunk; the 
 (shown: chunks read, then cited chunks read from the store; citations with quotes; the trace); the agent's
 metrics; its registration with its params and prompt; and the prompt free of the evaluated datasets'
 words. R138: the reply model asked for names one of the loop's tools and cannot leave the tool out; an
-empty answer is written back once with the tools open, and counted."""
+empty answer is written back once with the tools open, and counted. R141: a passage read in full after
+its excerpt keeps the full text in its first place."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -214,6 +215,25 @@ def test_a_cited_claim_brings_its_chunk_and_a_chunk_citation_keeps_its_quote():
     assert checked.kept == ["o9", "d.md#0", "d.md#9"] and checked.unknown == []
     assert [(c.chunk_id, c.quote) for c in checked.chunks] == [("d.md#0", "lid is loose")]
     assert [c.chunk_id for c in ledger.read()] == ["d.md#0"]  # d.md#9 was named, never read
+
+
+def test_a_passage_read_in_full_after_its_excerpt_keeps_the_full_text_and_its_place():
+    ledger = Ledger()
+    ledger.add(
+        ChunksResult(
+            chunks=[
+                ChunkText(chunk_id="d.md#0", context="Doc", text="loose."),
+                ChunkText(chunk_id="d.md#1", context="Doc", text="Late."),
+            ],
+            total=2,
+        )
+    )
+    ledger.add(FakeRead().run(RefArguments(ref="x")))  # d.md#0 in full: "The lid is loose."
+    ledger.add(ChunksResult(chunks=[ChunkText(chunk_id="d.md#0", context="Doc", text="lid")], total=1))
+    assert [(c.chunk_id, c.text) for c in ledger.read()] == [
+        ("d.md#0", "The lid is loose."),
+        ("d.md#1", "Late."),
+    ]
 
 
 # --- the answer kg qa reads --------------------------------------------------------------------------

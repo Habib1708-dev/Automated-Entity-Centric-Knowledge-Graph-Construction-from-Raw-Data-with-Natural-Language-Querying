@@ -8620,7 +8620,8 @@ any output for them is read, with R136's questions reported apart as "seen".
     sent back once ($0, code).
   - **R139** Grouping on a list or multi-valued field counts each value (a test failing first; $0, code).
   - **R140** Branching walks: a "one of these values" operator and a multi-hop `related_to` ($0, code).
-  - **R141** Counting over text: reading every passage of one document ($0, code).
+  - **R141** Counting over text: reading every passage of one document, and finding every passage holding
+    some words (widened in R141: both are "a count needs every passage", one concern; $0, code).
   - **R142** Measures: model latency and wall-clock per question, cost per question per system, and a check
     that node and query citations hold what the answer states ($0, code).
   - **R143** Fresh gold questions on the three datasets, then the agent and the baselines re-measured (paid,
@@ -8735,6 +8736,38 @@ any output for them is read, with R136's questions reported apart as "seen".
   `[SUPPLIED_BY, PART_OF, PART_OF]`: the five gold products (R136: no answer). No run: whether the model
   writes such queries is measured in R143.
 - **R140 done 2026-10-10.** Next: R141, counting over text ($0, code).
+
+### R141. Counting over text: a whole document, and every passage holding some words (done 2026-10-10; $0, code only)
+- **Scope:** cause C of plan R137-R143 (G05, F08, F12, F13, F28: counts over a top-5 `search_text`). Widened
+  from the plan's one tool to two, one concern ("a count needs every passage"): F12 and F28 count inside one
+  document, G05, F08 and F13 across documents.
+  - `agent/text_reader.py`: `TextReader` protocol and `Neo4jTextReader` (Repository, read-only): a document's
+    passages (`Chunk` `PART_OF` its `Document`), and every passage holding all given words (substrings,
+    ignoring case), both ordered by document and position (the chunk id breaks ties), cut in the database
+    with the total.
+  - `agent/text_tools.py`: `read_document(document)` (a document id, or a passage id of it: what comes
+    before '#'), whole passages, note when cut or unknown; `find_passages(words)` (1-5 words, none blank),
+    each passage shown as its sentences holding a word (`excerpt`, cut at `agent_value_chars`), note when cut
+    or empty. Settings `agent_document_chunks` 20 and `agent_matches` 30 (logged as `agent_*` params with
+    the other caps); `SourceParts.text` built in `source_parts`; 11 tools.
+  - `agent/citations.py`: the ledger keeps a passage's longer text in its first place, so a quote copied
+    from a full read after an excerpt is checked against the full text.
+- **Not here:** counting itself in code (the model counts what it reads), a reviewer-handle parse (F13).
+- **Verified:** 10 new tests: the tools on a fake (`tests/test_agent_text_reading.py`, 6: a document by its
+  id or a passage id, in order, cut with its note; an unknown document; words trimmed and lowercase, excerpts,
+  citations; the cut and empty notes; the arguments' bounds; the excerpt rule); both new tools in the
+  domain-word check (2; it caught "part" in "the part of a passage id", reworded); the ledger keeping the
+  full text (`tests/test_agent_loop.py`); the reader on Neo4j (`tests/test_agent_reader.py`: a document in
+  order with its total, an unknown one, words across documents, every word in one passage). 1186 passed
+  (1176 + 10), ruff clean. Replayed offline on the furniture build ($0, the tools as the agent calls them):
+  F12 `find_passages(["removable covers"])` finds 4 passages (gold 4; R136 answered 3); F08
+  `["pre-drilled"]` finds passages in 6 documents, the six gold products (R136 named 5); F28
+  `read_document` of the Uppsala Sofa reviews shows all 7 passages, two naming squeaking or creaking, one of
+  them the denial "no squeaking or wobbling" (gold 1: the count now rests on reading the negation, not on
+  finding the passage). G05 (generality, not loaded) and F13 are left to R143. No run: whether the model
+  uses the tools is measured in R143.
+- **R141 done 2026-10-10.** Next: R142, measures: latency, cost per question, node and query citations
+  ($0, code).
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

@@ -23,6 +23,7 @@ from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
 from ..agent.system import AGENT, AgentSystem, ToolCaps, build_tools
 from ..agent.tables import DuckDBTables
+from ..agent.text_reader import Neo4jTextReader, TextReader
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..hybrid.seed_fusion import SeedSetting
@@ -62,9 +63,11 @@ class SourceParts:
     embedder: Embedder
     plan: ConstructionPlan | None  # the construction plan: the record labels and their name properties
     units: UnitStore  # the retrieval index layer (R119), which the hybrid sources search (R120b)
-    # R135, read by the agent alone: nodes by ref with their relations and claims, and the build's staged
-    # source tables; None where a caller builds the parts of another system, and the agent refuses None
+    # R135, read by the agent alone: nodes by ref with their relations and claims, passages read in full
+    # (R141), and the build's staged source tables; None where a caller builds the parts of another
+    # system, and the agent refuses None
     nodes: NodeReader | None = field(default=None, kw_only=True)
+    text: TextReader | None = field(default=None, kw_only=True)
     staging: Path | None = field(default=None, kw_only=True)
 
 
@@ -290,14 +293,16 @@ def _agent(parts: QAParts) -> QASystem:
     """The agent (R135) over the template cards' layer, refused like a hybrid source when the layer is
     missing or stale; its tables are the build's staged ones."""
     s = parts.settings
-    if parts.nodes is None or parts.staging is None:
-        raise ConfigurationError("the agent needs the node reader and the staged tables of the parts")
+    if parts.nodes is None or parts.text is None or parts.staging is None:
+        raise ConfigurationError(
+            "the agent needs the node and text readers and the staged tables of the parts"
+        )
     seeding = _seeding(s, "template")
     layer = HybridSettings(retrievers=list(AGENT_RETRIEVERS), rrf_k=s.hybrid_rrf_k, depth=s.agent_chunks,
                            cards="template", seeding=seeding)  # fmt: skip
     check_layer(layer, parts.units, card_representation(s, "template").version, s.embed_model)
     tools = build_tools(
-        parts.store, parts.units, parts.nodes, parts.embedder, DuckDBTables(parts.staging),
+        parts.store, parts.units, parts.nodes, parts.text, parts.embedder, DuckDBTables(parts.staging),
         parts.store.schema(), parts.plan, seeding, _tool_caps(s),
     )  # fmt: skip
     limits = AgentLimits(turns=s.agent_max_turns, calls=s.agent_max_calls,
@@ -309,6 +314,7 @@ def _tool_caps(s: Settings) -> ToolCaps:
     return ToolCaps(
         nodes=s.agent_nodes, relations=s.agent_relations, chunks=s.agent_chunks, claims=s.agent_claims,
         rows=s.agent_rows, value_chars=s.agent_value_chars, names=s.agent_names, text_rrf_k=s.hybrid_rrf_k,
+        document_chunks=s.agent_document_chunks, matches=s.agent_matches,
     )  # fmt: skip
 
 
@@ -446,7 +452,7 @@ def source_parts(ctx: PipelineContext, state: PipelineState) -> SourceParts:
     units = Neo4jUnitStore(ctx.driver)
     nodes = Neo4jNodeReader(ctx.driver, plan)
     return SourceParts(settings=s, store=store, embedder=ctx.embedder, plan=plan, units=units, nodes=nodes,
-                       staging=ctx.out / STAGING_DIR)  # fmt: skip
+                       text=Neo4jTextReader(ctx.driver), staging=ctx.out / STAGING_DIR)  # fmt: skip
 
 
 def qa_parts(

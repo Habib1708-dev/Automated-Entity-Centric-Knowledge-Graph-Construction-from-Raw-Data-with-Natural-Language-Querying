@@ -27,7 +27,8 @@ from .loop import AgentLoop
 from .node_reader import NodeReader
 from .structured_tools import QueryRecords, QueryTables, Schema
 from .tables import TableStore
-from .text_tools import SearchClaims, SearchText
+from .text_reader import TextReader
+from .text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
 from .tool import Tool
 
 AGENT = "agent"  # the system's name: its answers file and its MLflow run (`qa_agent`)
@@ -43,15 +44,18 @@ class ToolCaps(BaseModel):
     rows: int = Field(ge=1)  # query_records and query_tables: rows or groups
     value_chars: int = Field(ge=1)  # get_node and the queries: characters of one value
     names: int = Field(ge=1)  # get_node: other names
+    document_chunks: int = Field(ge=1)  # read_document: passages of one document (R141)
+    matches: int = Field(ge=1)  # find_passages: passages holding the words (R141)
     text_rrf_k: int = Field(ge=0)  # the fusion constant of search_text and search_claims
 
 
 def build_tools(
-    store: PlanStore, units: UnitStore, nodes: NodeReader, embedder: Embedder, tables: TableStore,
-    schema: GraphSchema, plan: ConstructionPlan | None, seeding: SeedSetting, caps: ToolCaps,
+    store: PlanStore, units: UnitStore, nodes: NodeReader, text: TextReader, embedder: Embedder,
+    tables: TableStore, schema: GraphSchema, plan: ConstructionPlan | None, seeding: SeedSetting,
+    caps: ToolCaps,
 ) -> list[Tool]:  # fmt: skip
-    """The agent's tools, in the order the model reads them: seeding, the graph walk, the text, the
-    structured queries."""
+    """The agent's tools, in the order the model reads them: seeding, the graph walk, the text (ranked,
+    then exhaustive), the structured queries."""
     return [
         FindNodes(units, nodes, embedder, seeding.representation, seeding, caps.nodes),
         GetNode(nodes, caps.value_chars, caps.names),
@@ -59,6 +63,8 @@ def build_tools(
         NodeEvidence(nodes, store, embedder, caps.chunks),
         SearchText(store, units, embedder, caps.text_rrf_k, caps.chunks),
         SearchClaims(units, nodes, embedder, caps.text_rrf_k, caps.claims),
+        ReadDocument(text, caps.document_chunks),
+        FindPassages(text, caps.matches, caps.value_chars),
         Schema(schema, plan, tables),
         QueryRecords(store, schema, plan, nodes, caps.rows, caps.value_chars),
         QueryTables(tables, caps.rows, caps.value_chars),
