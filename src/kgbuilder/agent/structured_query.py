@@ -13,6 +13,10 @@ which R74 compares such a field. A group over a field holding several values cou
 list always, a text when the query gives the separator its values are joined by. The separator is the
 model's proposal, read from the schema's examples, because no source declares one and a comma inside one
 name ("Ash, Birch and Co") is as common as a comma between names; code checks it is punctuation.
+Branching walks (R140): the operator `in` keeps the entries equal to one of a list of values, each value
+checked and compared as `=` checks and compares it, so one query reads what took one call per value; and
+`relationship` may be a path of up to `MAX_HOPS` relationship types from the related record, so the records
+several relationships away are one query. R74's shared operators are unchanged: `in` is the agent's own.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -21,21 +25,27 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 from ..query.graph_schema import PropertyInfo
-from ..query.plan import Operator, value_issues
+from ..query.plan import value_issues
 
 Measure = Literal["rows", "count", "sum", "average", "min", "max"]
 Shape = Literal["rows", "value", "groups"]
 # the field types a number can be read from: numbers, and texts that hold one
 _MEASURABLE = ("INTEGER", "FLOAT", "STRING")
+QueryOperator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "year", "in"]
+MAX_IN = 50  # values one `in` condition may list: enough for a node's neighbours, short enough to read
+MAX_HOPS = 3  # relationships a path may follow: a record, its parts, theirs, and what supplies those
 
 
 class Condition(BaseModel):
     field: str = Field(description="The property or column to compare, exactly as the schema names it.")
-    operator: Operator = Field(
+    operator: QueryOperator = Field(
         description="How to compare: = and != for equality (text ignoring case), < <= > >= for numbers and "
-        "dates (YYYY-MM-DD), contains for words inside a text, year for the year of a date."
+        "dates (YYYY-MM-DD), contains for words inside a text, year for the year of a date, in for one of "
+        "several values (each equal as = compares)."
     )
-    value: str | float | bool = Field(description="The value to compare with.")
+    value: str | float | bool | list[str | float] = Field(
+        description="The value to compare with; with in, the list of values."
+    )
 
 
 class StructuredQuery(BaseModel):
@@ -66,10 +76,18 @@ class RecordQuery(StructuredQuery):
         default=None,
         description="Only records related to this record: its ref, exactly as a tool returned it.",
     )
-    relationship: str | None = Field(
+    relationship: str | list[str] | None = Field(
         default=None,
-        description="With related_to: the relationship type joining the two, as the schema names it.",
+        description="With related_to: the relationship type joining the two, as the schema names it; or "
+        f"the types along a path of several relationships, in order from the related record (at most "
+        f"{MAX_HOPS}).",
     )
+
+    def path(self) -> list[str]:
+        """The relationship types from the related record to these records; [] without one."""
+        if self.relationship is None:
+            return []
+        return [self.relationship] if isinstance(self.relationship, str) else list(self.relationship)
 
 
 class TableQuery(StructuredQuery):
@@ -100,7 +118,7 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
         if c.field not in fields:
             issues.append(_unknown(f"condition {i}", c.field, fields))
         else:
-            issues += value_issues(f"condition {i} ({c.field})", fields[c.field], c.operator, c.value)
+            issues += _condition_issues(f"condition {i} ({c.field})", fields[c.field], c)
     issues += _measure_issues(query, fields)
     for name, value in (("group_by", query.group_by), ("order_by", query.order_by)):
         if value is not None and value not in fields:
@@ -108,6 +126,17 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
     if query.order_by is not None and query.measure != "rows":
         issues.append("order_by sorts listed rows; a measure is ordered largest first")
     return issues + _split_issues(query, fields)
+
+
+def _condition_issues(where: str, prop: PropertyInfo, c: Condition) -> list[str]:
+    """R74's check of a value against its field's type; for `in`, of each value as `=` takes it."""
+    if c.operator == "in":
+        if not isinstance(c.value, list) or not 1 <= len(c.value) <= MAX_IN:
+            return [f"{where}: in needs a list of 1 to {MAX_IN} values, got {c.value!r}"]
+        return [issue for v in c.value for issue in value_issues(where, prop, "=", v)]
+    if isinstance(c.value, list):
+        return [f"{where}: a list of values needs the operator in"]
+    return value_issues(where, prop, c.operator, c.value)
 
 
 def _split_issues(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list[str]:

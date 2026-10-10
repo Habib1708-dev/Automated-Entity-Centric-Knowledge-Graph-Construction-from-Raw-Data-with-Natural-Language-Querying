@@ -3,7 +3,7 @@ hand-made graph with the claims of test_hybrid_units.py and the schema read from
 one record, by key and cut with their total; a count under an integer condition; a sum; the year of a date;
 counts per value, largest first; text equal ignoring case; and the schema's record layer leaving the text
 layer out. R139: counts per value of a list and of a text split at a separator, each value on its own.
-Needs Neo4j."""
+R140: records one of several values, and the records two relationships away from one record. Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader
 from kgbuilder.agent.structured_query import Condition, RecordQuery
@@ -64,3 +64,13 @@ def test_a_group_over_a_list_or_a_split_text_counts_each_value(driver):
     split = query.run(RecordQuery(label="Press", measure="count", group_by="notes", group_split=";"))
     assert listed.issues == [] and listed.rows == [["oil", "2"], ["steel", "1"]] and listed.total == 2
     assert split.issues == [] and split.rows == [["oil", "2"], ["steel", "1"]]
+
+
+def test_records_one_of_several_values_and_two_relationships_away(driver):
+    query = tool(driver, limit=5)
+    some = query.run(
+        RecordQuery(label="Part", where=[Condition(field="part_id", operator="in", value=["s1", "S3", "S9"])])
+    )
+    assert some.issues == [] and some.refs == ["Part:S1", "Part:S3"]
+    makers = query.run(RecordQuery(label="Maker", related_to="Press:P1", relationship=["PART_OF", "MADE_BY"]))
+    assert makers.issues == [] and makers.refs == ["Maker:M1"] and makers.total == 1  # through S1 alone

@@ -8,7 +8,10 @@ inside a text date, counts per group largest first, lists cut with their total);
 with their reasons, a failed run reported, rows with refs, a stable query id, the schema's text, and every
 text the model reads free of the evaluated datasets' words. R139: a group over a field holding several
 values counts each value (a list always; a text split at the separator the query gives), and the check
-refuses a separator without a group, on a field that is no text, or made of letters or digits."""
+refuses a separator without a group, on a field that is no text, or made of letters or digits. R140: the
+operator `in` (one of a list of values, each compared as `=` compares it) in the check, both compilers and
+DuckDB; a path of relationships from the related record, compiled from the queried records' side, its types
+and length checked by query_records."""
 
 import pytest
 
@@ -56,6 +59,16 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
         (TableQuery(table="t", measure="count", group_by="year", group_split=","), "year is INTEGER"),
         (TableQuery(table="t", measure="count", group_by="id", group_split="x"), "no letter or digit"),
         (TableQuery(table="t", measure="count", group_by="id", group_split=""), "no letter or digit"),
+        (TableQuery(table="t", where=[Condition(field="id", operator="in", value="K1")]), "in needs a list"),
+        (TableQuery(table="t", where=[Condition(field="id", operator="in", value=[])]), "in needs a list"),
+        (
+            TableQuery(table="t", where=[Condition(field="id", operator="=", value=["K1"])]),
+            "needs the operator in",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="year", operator="in", value=[2016, "old"])]),
+            "give a number",
+        ),
     ],
 )
 def test_the_check_refuses_names_and_values_the_source_does_not_have(query, issue):
@@ -92,6 +105,16 @@ def test_a_record_query_compiles_to_parameterised_cypher_of_its_shape():
         RecordQuery(label="Kettle", measure="count", group_by="year"), FIELDS, "id", [], None, 5
     )
     assert groups.shape == "groups" and "WITH n.`year` AS bucket, count(n) AS value" in groups.statement
+
+
+def test_one_of_several_values_and_a_path_of_relationships_compile_to_cypher():
+    query = RecordQuery(label="Kettle", where=[Condition(field="id", operator="in", value=["K1", "K3"])],
+                        related_to="Shop:S1", relationship=["SOLD_AT", "MADE_BY"])  # fmt: skip
+    rows = compile_records(query, FIELDS, "id", [], "4:x:7", 5)
+    # the path runs from the related record (a) to the queried ones (n): written from n, its types reversed
+    assert rows.statement.startswith("MATCH (n:`Kettle`)-[:`MADE_BY`]-()-[:`SOLD_AT`]-(a) WHERE ")
+    one_of = "(toLower(toString(n.`id`)) = toLower($v0_0) OR toLower(toString(n.`id`)) = toLower($v0_1))"
+    assert one_of in rows.statement and (rows.parameters["v0_0"], rows.parameters["v0_1"]) == ("K1", "K3")
 
 
 def test_a_group_over_a_list_or_a_split_text_counts_each_value_once_per_record():
@@ -156,6 +179,8 @@ def test_table_conditions_follow_the_column_types(tables):
     assert ids({"field": "since", "operator": "year", "value": 2016}) == ["K1"]
     assert ids({"field": "noted", "operator": "year", "value": 2018}) == ["K2"]  # the year inside a text date
     assert ids({"field": "made", "operator": "!=", "value": 2016}) == ["K3"]
+    assert ids({"field": "id", "operator": "in", "value": ["k1", "K3"]}) == ["K1", "K3"]  # each ignoring case
+    assert ids({"field": "made", "operator": "in", "value": [2019, 2020]}) == ["K3"]
 
 
 def test_table_measures_and_groups(tables):
@@ -250,6 +275,15 @@ def query_records(result=None, reader=None):
             "no relationship 'MADE_BY'",
         ),
         (RecordQuery(label="Part", related_to="k-1", relationship="PART_OF"), "names no record"),
+        (
+            RecordQuery(label="Part", related_to="Press:P1", relationship=["PART_OF", "MADE_BY"]),
+            "no relationship 'MADE_BY'",
+        ),
+        (
+            RecordQuery(label="Part", related_to="Press:P1", relationship=["PART_OF"] * 4),
+            "at most 3 relationships",
+        ),
+        (RecordQuery(label="Part", related_to="Press:P1", relationship=[]), "related_to and relationship"),
     ],
 )
 def test_query_records_refuses_what_the_record_layer_does_not_hold(query, issue):

@@ -8710,6 +8710,32 @@ any output for them is read, with R136's questions reported apart as "seen".
   whether the model gives the separator is measured in R143.
 - **R139 done 2026-10-10.** Next: R140, branching walks ($0, code).
 
+### R140. Branching walks: one of several values, and a path of relationships (done 2026-10-10; $0, code only)
+- **Scope:** cause B of plan R137-R143 (F48, F59, F61, F64, F65: one node per call, then a cap or no answer;
+  `>=` on text ids refused). In `agent/structured_query.py`, the agent's own operators (R74's shared
+  `Operator` unchanged):
+  - `in`: the entries equal to one of a list of 1 to 50 values (`MAX_IN`), each value checked by R74's rule
+    for `=` and compared as `=` compares it (text ignoring case, a number as a number); compiled as R74's `=`
+    once per value joined by OR, in Cypher (`record_query.py`) and SQL (`table_query.py`); a list with any
+    other operator, and `in` without a list, refused.
+  - `relationship` may be a list: the types along a path from the related record, at most 3 (`MAX_HOPS`),
+    each checked by `query_records` against the record relationships; compiled from the queried records'
+    side, types reversed, through unnamed nodes (`(n:L)-[:T2]-()-[:T1]-(a)`). A single type compiles as
+    before.
+- **Not here:** a batch `neighbours` (the path covers the walks of R136's failures), joins across tables.
+- **Verified:** 9 new tests, each failing before the change: four refusals of the check, the Cypher of `in`
+  and of a two-type path (`tests/test_agent_structured.py`), `in` on DuckDB (ignoring case; a number), three
+  refusals of `query_records` (a path type that is no record relationship, four types, an empty path); on
+  Neo4j (`tests/test_agent_structured_graph.py`) parts by `in` and the maker two relationships from a
+  press. Earlier tests unchanged. 1176 passed (1167 + 9), ruff clean. Replayed offline on the furniture
+  build in the working Neo4j ($0, one query each, the tool as the agent calls it): F59 `Supplier` related to
+  `Assembly:A-1048` by `[PART_OF, SUPPLIED_BY]` names the six gold suppliers (R136: 12 turns, two wrong
+  names); F65 `Supplier` related to `Product:P-1000` by `[PART_OF, PART_OF, SUPPLIED_BY]`, `count`: 10 (gold
+  10; R136 stopped at the calls cap); F61 `Product` related to `Supplier:SUP-004` by
+  `[SUPPLIED_BY, PART_OF, PART_OF]`: the five gold products (R136: no answer). No run: whether the model
+  writes such queries is measured in R143.
+- **R140 done 2026-10-10.** Next: R141, counting over text ($0, code).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

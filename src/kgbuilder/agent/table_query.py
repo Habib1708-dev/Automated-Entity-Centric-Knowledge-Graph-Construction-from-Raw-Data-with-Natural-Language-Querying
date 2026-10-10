@@ -9,7 +9,8 @@ or by its year, and the year of a text that holds a date found as a whole number
 and column names are quoted by `quote_ident`, every value is a named parameter. Rows without an order are
 sorted by every column, so the cut never depends on how the file was scanned; each list keeps its total. A
 group over a text split at the query's separator counts each part (trimmed, the empty ones dropped, each
-once per row) as its own group (R139); a staged table holds no list column.
+once per row) as its own group (R139); a staged table holds no list column. An `in` condition is the `=`
+comparison once per value, joined by OR (R140).
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -34,7 +35,13 @@ def compile_table(query: TableQuery, fields: dict[str, PropertyInfo], limit: int
     where: list[str] = []
     params: dict[str, Any] = {"limit": limit, "number_pattern": _NON_NUMERIC}
     for i, c in enumerate(query.where):
-        text, value = _condition(quote_ident(c.field), fields[c.field], c.operator, c.value, f"v{i}")
+        col = quote_ident(c.field)
+        if c.operator == "in" and isinstance(c.value, list):
+            parts = [_condition(col, fields[c.field], "=", v, f"v{i}_{j}") for j, v in enumerate(c.value)]
+            where.append(f"({' OR '.join(text for text, _ in parts)})")
+            params |= {f"v{i}_{j}": value for j, (_, value) in enumerate(parts)}
+            continue
+        text, value = _condition(col, fields[c.field], c.operator, c.value, f"v{i}")
         where.append(text)
         params[f"v{i}"] = value
     table = quote_ident(query.table)

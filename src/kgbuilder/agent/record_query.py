@@ -9,7 +9,9 @@ text holding a number compared as that number, a date by `date()` or its year. A
 the number it holds (`plan_cypher.text_number`). The matching records are made distinct before anything is
 counted, so a record related to the anchor twice counts once; lists keep their total before the cut. A group
 over a list, or over a text split at the query's separator, unwinds the values (trimmed, the empty ones
-dropped) and keeps each record once per value, so a record naming a value twice counts once (R139).
+dropped) and keeps each record once per value, so a record naming a value twice counts once (R139). An `in`
+condition is R74's `=` once per value, joined by OR; a path of relationships from the related record is
+written from the queried records' side, its types reversed, through unnamed nodes of any label (R140).
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -33,8 +35,9 @@ def compile_records(
     `anchor`: the element id of the `related_to` record, when given)."""
     where, params = _conditions(query, fields)
     rel = ""
-    if anchor is not None and query.relationship is not None:
-        rel = f"-[:{cypher_ident(query.relationship)}]-(a)"
+    if anchor is not None and query.path():
+        hops = [f"-[:{cypher_ident(t)}]-" for t in reversed(query.path())]
+        rel = "()".join(hops) + "(a)"
         where.insert(0, "elementId(a) = $anchor")
         params["anchor"] = anchor
     clause = f" WHERE {' AND '.join(where)}" if where else ""
@@ -84,6 +87,12 @@ def _conditions(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> tupl
     where: list[str] = []
     params: dict[str, Any] = {}
     for i, c in enumerate(query.where):
+        if c.operator == "in" and isinstance(c.value, list):
+            parts = [condition("n", fields[c.field], "=", v, f"v{i}_{j}") for j, v in enumerate(c.value)]
+            where.append(f"({' OR '.join(text for text, _ in parts)})")
+            for _, extra in parts:
+                params |= extra
+            continue
         text, extra = condition("n", fields[c.field], c.operator, c.value, f"v{i}")
         where.append(text)
         params |= extra

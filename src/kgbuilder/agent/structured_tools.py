@@ -27,7 +27,7 @@ from ..structured.plan import ConstructionPlan, name_property
 from .node_reader import NodeReader
 from .record_query import compile_records
 from .results import ToolResult
-from .structured_query import Compiled, RecordQuery, TableQuery, check_query
+from .structured_query import MAX_HOPS, Compiled, RecordQuery, TableQuery, check_query
 from .table_query import compile_table, total_column
 from .tables import TableStore
 
@@ -123,17 +123,21 @@ class QueryRecords:
         return _result(compiled, read, sorted(fields), self._value_chars, self._names[arguments.label])
 
     def _anchor(self, query: RecordQuery) -> tuple[list[str], str | None]:
-        """Why `related_to` and `relationship` cannot be used, and the related record's element id."""
-        if (query.related_to is None) != (query.relationship is None):
+        """Why `related_to` and `relationship` (a type, or a path of types) cannot be used, and the related
+        record's element id."""
+        path = query.path()
+        if (query.related_to is None) != (not path):
             return ["related_to and relationship go together: give both or neither"], None
         if query.related_to is None:
             return [], None
         issues = []
-        if query.relationship not in self._relationships:
-            issues.append(
-                f"no relationship {query.relationship!r} between records; the relationships are "
-                f"{_listed(self._relationships)}"
-            )
+        if len(path) > MAX_HOPS:
+            issues.append(f"a path follows at most {MAX_HOPS} relationships, got {len(path)}")
+        issues += [
+            f"no relationship {t!r} between records; the relationships are {_listed(self._relationships)}"
+            for t in dict.fromkeys(path)
+            if t not in self._relationships
+        ]
         start = self._reader.start(query.related_to)
         if start is None or start.kind != "thing":
             issues.append(
