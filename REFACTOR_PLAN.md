@@ -8625,7 +8625,14 @@ any output for them is read, with R136's questions reported apart as "seen".
   - **R142** Measures: model latency and wall-clock per question, cost per question per system, and a check
     that node and query citations hold what the answer states ($0, code).
   - **R143** Fresh gold questions on the three datasets, then the agent and the baselines re-measured (paid,
-    asked first with its estimate).
+    asked first with its estimate). Split after R142, the user's budget of 2026-10-10 ("make the run cheaper.
+    5$ is way too expensive"; chosen: "~$0.9: 10 new + 22 failed"):
+    - **R143a** 10 fresh gold questions per dataset, written by Claude from the source files, checked by the
+      gold tests ($0).
+    - **R143b** The agent and the three reading systems on the 30 fresh questions, and the agent alone on
+      R136's 22 wrong ones (reported apart, "seen"); the 155 right ones are not re-run, a regression would
+      show on the fresh set. Estimate about $0.9 (agent about $0.015 a question at R136's rate, a reading
+      system about $0.001).
 
 ### R137. Furniture baseline: the reading systems on the agent's build (done 2026-10-10; $0.193)
 - **Asked and approved:** the user, 2026-10-10: "yes you may proceed" to the plan's order, step 1 this run
