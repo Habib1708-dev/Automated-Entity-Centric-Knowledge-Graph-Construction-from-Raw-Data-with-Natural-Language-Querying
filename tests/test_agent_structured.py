@@ -17,7 +17,8 @@ spelled as a field), compiled to Cypher with no parameter and run by DuckDB; a l
 statement unchanged at the first page, and the note naming the next offset; every argument described.
 R161: a cut or paged listing's note says how to count some of its entries (a group's does not), and the
 query it points to runs; a group of listed rows (group_by with measure rows) is refused with the measure that
-counts each group, and the query that refusal points to runs."""
+counts each group, and the query that refusal points to runs. R164: a table's examples show each shape of a
+text column (years and year-months), and the year operator is described for a text holding a date."""
 
 import pytest
 
@@ -293,6 +294,27 @@ def test_the_staged_tables_are_read_with_their_types_and_examples(tables):
     assert types == {"id": "STRING", "name": "STRING", "price": "STRING", "made": "INTEGER", "since": "DATE",
                      "noted": "STRING"}  # fmt: skip
     assert info.columns[0].examples == ["'K1'", "'K2'", "'K3'"]
+
+
+def test_a_tables_examples_show_each_shape_of_a_text_column(tmp_path):
+    """R164: a text column of years and year-months showed its three lowest years only, and the agent
+    compared with '=' a year and lost the month-dated rows; the examples now show both forms, and a column
+    of one form (the numbers here) still shows its lowest values."""
+    (tmp_path / "visits.csv").write_text(
+        "id,seen,count\nV1,2001,5\nV2,2002,7\nV3,2003,1\nV4,2004-06,9\nV5,2005,3\n", encoding="utf-8"
+    )
+    store = DuckDBTables(tmp_path)
+    columns = {c.name: c for c in store.tables()[0].columns}
+    store.close()
+    assert (columns["seen"].type, columns["seen"].examples) == ("STRING", ["'2001'", "'2002'", "'2004-06'"])
+    assert columns["count"].examples == ["1", "3", "5"]
+
+
+def test_the_year_operator_is_described_for_a_text_holding_a_date():
+    """R164: the year of a text that holds a date is read by both compilers (the `noted` condition above);
+    the operator's description says so, for a text column whose examples show several date forms."""
+    described = Condition.model_fields["operator"].description
+    assert "year for the year of a date or of a text holding one" in described
 
 
 def test_table_conditions_follow_the_column_types(tables):

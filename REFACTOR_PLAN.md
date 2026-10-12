@@ -9562,6 +9562,23 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   1525 passed (1522 + 3), ruff clean.
 - **R163 done 2026-10-12.** Next: R164, example values of different shapes in the table schema.
 
+### R164. Example values of different shapes in the schemas (done 2026-10-12; $0, code; unmeasured until R165)
+- **Scope:** `core/examples.py` (new; pure: `value_shape`, `varied_examples`, `EXAMPLE_COUNT` 3,
+  `EXAMPLE_SCAN` 1000): each distinct value is reduced to a shape (digit runs, letter runs, whitespace,
+  punctuation kept; a non-text value is its type), and the three examples are the first value of each shape
+  among the lowest 1,000, filled with the lowest values; deterministic, ascending. Used by the table schema
+  (`agent/tables.py`) and the record layer's schema (`query/graph_schema.py`, which the plan and text2cypher
+  systems read too: their prompts change and stay unmeasured here). LB09's column now shows `'1843', '1910',
+  '1990-11'` (was `'1843', '1910', '1920'`). The `operator` description now says `year` reads "the year of a
+  date or of a text holding one" (both compilers already did): `agent_tools_prompt_version` acac3cc26b90 ->
+  432c1d247df0. Table schema text on the five datasets 11,279 -> 11,373 characters.
+- **Verified:** new `tests/test_core_examples.py` and tests over DuckDB tables and the Neo4j schema (a column
+  of years and a year-month shows both; a number column still shows its lowest values; the operator
+  description). 1531 passed (1525 + 6), ruff clean.
+- **Found:** the agent's table store reads only CSVs at the top of the staging folder, so it shows generality
+  no table at all (its tables sit in subfolders): fixed in its own commit before R165.
+- **R164 done 2026-10-12.** Next: that fix, then R165 (paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

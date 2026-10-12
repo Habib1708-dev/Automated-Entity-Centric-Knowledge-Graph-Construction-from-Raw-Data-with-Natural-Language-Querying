@@ -4,7 +4,8 @@ must not pass through documents, the node names and chunks the store reads, the 
 file, R74; with `--plans`, an earlier run's plans replayed, R80), and the records-plus-vector system on
 the same graph: its schema cut to the record layer and its plans over records only (R73, R74).
 R117: `kg qa` logs the graph digest and refuses a gold whose evidence the graph lacks. R126: what a chunk
-concerns and what a claim joins, the start nodes of chunk and claim retrieval. Needs Neo4j."""
+concerns and what a claim joins, the start nodes of chunk and claim retrieval. R164: a property's examples
+show each of its shapes. Needs Neo4j."""
 
 import json
 import time
@@ -20,6 +21,7 @@ from kgbuilder.pipeline.qa_stages import QAStage
 from kgbuilder.pipeline.qa_systems import SourceParts, qa_parts, source_parts
 from kgbuilder.pipeline.stage import PLAN_FILE
 from kgbuilder.query.answers import load_system_answers
+from kgbuilder.query.graph_schema import read_graph_schema
 from kgbuilder.query.graph_store import ChunkNodes, NamedNode, Neo4jGraphStore
 from kgbuilder.query.plan import PlanStep, QueryPlan
 from kgbuilder.query.reader import ReaderAnswer, ReaderCitation
@@ -196,6 +198,21 @@ def test_the_schema_lists_labels_with_examples_relationships_and_claim_patterns(
         and "kind (STRING) e.g. 'concept'" in text
     )
     assert "reason" not in {p.name for r in schema.relationships for p in r.properties}  # audit fields hidden
+
+
+def test_the_schema_examples_show_each_shape_of_a_property(driver):
+    """R164: the record layer's examples follow the tables' rule, so a property of years and year-months
+    shows both forms, and an integer property still its lowest values."""
+    driver.execute_query(
+        "UNWIND $rows AS row CREATE (:Visit {seen: row.seen, tally: row.tally})",
+        rows=[{"seen": s, "tally": t} for s, t in [("2001", 5), ("2002", 7), ("2003", 1), ("2004-06", 9)]],
+    )
+    [visit] = read_graph_schema(driver).labels
+    examples = {p.name: (p.type, p.examples) for p in visit.properties}
+    assert examples == {
+        "seen": ("STRING", ["'2001'", "'2002'", "'2004-06'"]),
+        "tally": ("INTEGER", ["1", "5", "7"]),
+    }
 
 
 class AxisEmbedder:

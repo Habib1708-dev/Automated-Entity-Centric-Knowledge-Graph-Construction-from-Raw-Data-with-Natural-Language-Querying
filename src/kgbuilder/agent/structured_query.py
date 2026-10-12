@@ -58,10 +58,12 @@ _PAIRED = (*COMPARISONS, "year")  # the operators that may compare a field with 
 
 class Condition(BaseModel):
     field: str = Field(description="The property or column to compare, exactly as the schema names it.")
+    # year names a text holding a date too (R164), as both compilers read one: a text column whose examples
+    # show '2004' and '2004-06' is matched by its year, where '=' a year misses the month-dated rows
     operator: QueryOperator = Field(
         description="How to compare: = and != for equality (text ignoring case), < <= > >= for numbers and "
-        "dates (YYYY-MM-DD), contains for words inside a text, year for the year of a date, in for one of "
-        "several values (each equal as = compares)."
+        "dates (YYYY-MM-DD), contains for words inside a text, year for the year of a date or of a text "
+        "holding one, in for one of several values (each equal as = compares)."
     )
     value: str | float | bool | list[str | float] | None = Field(
         default=None,

@@ -9,7 +9,9 @@ from the dataset at hand, which the prompt-engineering rules allow; the fixed sh
 nodes is described in the prompts. Chunk texts, vectors and evidence quotes are left out: long, and never
 what a filter or count needs. `records_only` cuts the schema down to the plan's record layer, for the
 records-plus-vector system (R73). The retrieval index layer (R119, graph/index_layer.py) is left out: no plan
-queries it, and indexing a graph must not change the planner's prompt.
+queries it, and indexing a graph must not change the planner's prompt. The examples of a property show each
+shape its lowest values take (R164, core/examples.py), the rule the agent's source tables share (tables.py),
+so a text holding years and year-months shows both.
 Not here: checking a query (cypher_check.py).
 """
 
@@ -17,13 +19,13 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
+from ..core.examples import EXAMPLE_COUNT, EXAMPLE_SCAN, varied_examples
 from ..graph.index_layer import RETRIEVAL_UNIT
 
 # Properties never shown: text and vectors that no filter or count needs, and that would crowd out the rest
 # The identity edges' audit fields (R75: reason, score, by) and the attachments' route (R76: how, on
 # HAS_OBSERVATION and on a text ABOUT link) are left out for the same reason
 _HIDDEN_PROPERTIES = {"embedding", "text", "evidence", "context", "reason", "score", "by", "how"}
-_EXAMPLES = 3  # example values per property: enough to show a format ("2019", "POWER TRAIN:...")
 _EXAMPLE_CHARS = 60  # an example longer than this is cut: it shows the format, not the content
 
 
@@ -148,13 +150,15 @@ def _examples(driver: Driver, pattern: str, key: str) -> PropertyInfo:
     """The type and a few values of property `key` of the node or relationship bound to `x` in `pattern`."""
     prop = cypher_ident(key)
     # raw values, not toString(): a property may hold a list (aliases), which toString() refuses; the type
-    # is the first value's, as nodes of one label written by one import rule share their types
+    # is the first value's, as nodes of one label written by one import rule share their types. The lowest
+    # values are read, and the examples chosen among them by shape (R164)
     records, _, _ = driver.execute_query(
         f"MATCH {pattern} WHERE x.{prop} IS NOT NULL "
-        f"RETURN DISTINCT x.{prop} AS v, valueType(x.{prop}) AS t ORDER BY v LIMIT {_EXAMPLES}"
+        f"RETURN DISTINCT x.{prop} AS v, valueType(x.{prop}) AS t ORDER BY v LIMIT {EXAMPLE_SCAN}"
     )
     value_type = records[0]["t"].replace(" NOT NULL", "") if records else "ANY"
-    return PropertyInfo(name=key, type=value_type, examples=[cypher_literal(r["v"]) for r in records])
+    examples = varied_examples([r["v"] for r in records], EXAMPLE_COUNT)
+    return PropertyInfo(name=key, type=value_type, examples=[cypher_literal(v) for v in examples])
 
 
 def cypher_literal(value: object) -> str:

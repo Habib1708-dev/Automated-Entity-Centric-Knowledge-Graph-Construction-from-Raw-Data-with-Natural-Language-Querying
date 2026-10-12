@@ -9,7 +9,9 @@ profile and the plan use. Column types are mapped to R74's type names (INTEGER, 
 BOOLEAN), so one value check (structured_query.py) serves records and tables. Only statements compiled by
 code (table_query.py) are run, all of them SELECTs over views, so nothing can write; a failed run is
 reported, not raised, for the agent to read. The connection is in memory and lives as long as the system
-that reads it (one `kg qa` or `kg ask`); a lock lets the parallel questions of `kg qa` share it.
+that reads it (one `kg qa` or `kg ask`); a lock lets the parallel questions of `kg qa` share it. A column's
+examples show each shape its lowest values take (R164, core/examples.py, the graph schema's rule too), so a
+text column of years and year-months shows both forms, not only its three lowest years.
 Not here: compiling (table_query.py), the record layer (record_query.py).
 """
 
@@ -20,11 +22,11 @@ from typing import Any, Protocol
 import duckdb
 from pydantic import BaseModel
 
+from ..core.examples import EXAMPLE_COUNT, EXAMPLE_SCAN, varied_examples
 from ..query.graph_schema import PropertyInfo
 from ..query.graph_store import ReadResult
 from ..structured.profiler import quote_ident
 
-_EXAMPLES = 3  # example values per column: enough to show a format, as the graph schema shows
 _EXAMPLE_CHARS = 60  # an example longer than this is cut: it shows the format, not the content
 
 
@@ -81,10 +83,12 @@ class DuckDBTables:
         columns = []
         for column, kind, *_ in self._con.execute(f"DESCRIBE {name}").fetchall():
             col = quote_ident(column)
-            values = self._con.execute(
-                f"SELECT DISTINCT {col} FROM {name} WHERE {col} IS NOT NULL ORDER BY {col} LIMIT {_EXAMPLES}"
+            # the lowest values, and the examples chosen among them by shape, as the graph schema's (R164)
+            lowest = self._con.execute(
+                f"SELECT DISTINCT {col} FROM {name} WHERE {col} IS NOT NULL ORDER BY {col} "
+                f"LIMIT {EXAMPLE_SCAN}"
             ).fetchall()
-            examples = [_literal(v[0]) for v in values]
+            examples = [_literal(v) for v in varied_examples([v[0] for v in lowest], EXAMPLE_COUNT)]
             columns.append(PropertyInfo(name=column, type=_type_name(kind), examples=examples))
         return TableInfo(name=table, rows=rows, columns=columns)
 
