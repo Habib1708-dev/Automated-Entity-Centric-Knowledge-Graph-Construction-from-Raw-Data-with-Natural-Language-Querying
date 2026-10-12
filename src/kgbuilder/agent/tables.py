@@ -4,14 +4,15 @@ Role in the pipeline: `kg build` stages every structured source of a dataset as 
 folder (structured/staging.py: files, JSON flattened, PostgreSQL tables written out), so one reader serves
 every source. The composition root (R135) opens `DuckDBTables` on that folder; `schema` and `query_tables`
 (structured_tools.py) depend on the `TableStore` protocol and are tested with it on small CSVs.
-Design: Adapter over an in-memory DuckDB with one view per staged CSV, named by its file stem, the name the
-profile and the plan use. Column types are mapped to R74's type names (INTEGER, FLOAT, STRING, DATE,
-BOOLEAN), so one value check (structured_query.py) serves records and tables. Only statements compiled by
-code (table_query.py) are run, all of them SELECTs over views, so nothing can write; a failed run is
-reported, not raised, for the agent to read. The connection is in memory and lives as long as the system
-that reads it (one `kg qa` or `kg ask`); a lock lets the parallel questions of `kg qa` share it. A column's
-examples show each shape its lowest values take (R164, core/examples.py, the graph schema's rule too), so a
-text column of years and year-months shows both forms, not only its three lowest years.
+Design: Adapter over an in-memory DuckDB with one view per staged CSV, subfolders included, named by its path
+in the staging folder without `.csv` (a top-level file by its stem), as the profile and the plan name it.
+Column types are mapped to R74's type names (INTEGER, FLOAT, STRING, DATE, BOOLEAN), so one value check
+(structured_query.py) serves records and tables. Only statements compiled by code (table_query.py) are run,
+all of them SELECTs over views, so nothing can write; a failed run is reported, not raised, for the agent to
+read. The connection is in memory and lives as long as the system that reads it (one `kg qa` or `kg ask`); a
+lock lets the parallel questions of `kg qa` share it. A column's examples show each shape its lowest values
+take (R164, core/examples.py, the graph schema's rule too), so a text column of years and year-months shows
+both forms, not only its three lowest years.
 Not here: compiling (table_query.py), the record layer (record_query.py).
 """
 
@@ -28,6 +29,13 @@ from ..query.graph_store import ReadResult
 from ..structured.profiler import quote_ident
 
 _EXAMPLE_CHARS = 60  # an example longer than this is cut: it shows the format, not the content
+
+
+def _table_name(path: Path, staging: Path) -> str:
+    """A staged CSV's table name: its path inside the staging folder without `.csv` ("recalls",
+    "institute/staff"), so a file at the top keeps its stem and a nested one is named as the profile names
+    it."""
+    return path.relative_to(staging).with_suffix("").as_posix()
 
 
 class TableInfo(BaseModel):
@@ -56,9 +64,12 @@ class DuckDBTables:
     def __init__(self, staging: Path):
         self._con = duckdb.connect()
         self._lock = threading.Lock()  # `kg qa` answers questions in parallel; one connection runs one query
-        for path in sorted(Path(staging).glob("*.csv")):
-            self._con.read_csv(str(path), header=True).create_view(path.stem)
-        self._tables = [self._describe(path.stem) for path in sorted(Path(staging).glob("*.csv"))]
+        # every staged CSV, in subfolders too: a dataset whose files sit in folders is staged in folders, and
+        # reading the top level only left such a dataset with no table at all (found in R164)
+        names = [_table_name(path, Path(staging)) for path in sorted(Path(staging).rglob("*.csv"))]
+        for name in names:
+            self._con.read_csv(str(Path(staging) / f"{name}.csv"), header=True).create_view(name)
+        self._tables = [self._describe(name) for name in names]
 
     def tables(self) -> list[TableInfo]:
         return self._tables

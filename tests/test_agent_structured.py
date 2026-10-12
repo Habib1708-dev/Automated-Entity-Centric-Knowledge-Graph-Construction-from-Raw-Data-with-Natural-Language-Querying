@@ -287,6 +287,22 @@ def run_table(tables, **query) -> list[list]:
     return read.rows
 
 
+def test_a_table_staged_in_a_subfolder_is_read_and_named_by_its_path(tmp_path):
+    """A dataset whose files sit in folders stages them in folders (structured/staging.py); the store read
+    only the top level, so the agent saw no table of such a dataset (found in R164: generality)."""
+    (tmp_path / "shop").mkdir()
+    (tmp_path / "shop" / "kettles.csv").write_text("id,made\nK1,2016\nK2,2019\n", encoding="utf-8")
+    (tmp_path / "lids.csv").write_text("id\nL1\n", encoding="utf-8")
+    store = DuckDBTables(tmp_path)
+    try:
+        assert [t.name for t in store.tables()] == ["lids", "shop/kettles"]  # a top-level name is unchanged
+        fields = {c.name: c for c in store.tables()[1].columns}
+        compiled = compile_table(TableQuery(table="shop/kettles", measure="count"), fields, 2)
+        assert store.run(compiled.statement, compiled.parameters).rows == [[2]]
+    finally:
+        store.close()
+
+
 def test_the_staged_tables_are_read_with_their_types_and_examples(tables):
     [info] = tables.tables()
     types = {c.name: c.type for c in info.columns}

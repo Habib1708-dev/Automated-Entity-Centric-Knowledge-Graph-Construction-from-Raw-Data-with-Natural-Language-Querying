@@ -9611,6 +9611,13 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **The agent saw no table of a dataset whose files sit in folders (found in R164, 2026-10-12; fixed in its
+  own commit).** `DuckDBTables` read `staging/*.csv` only, so generality (staged as `institute/staff.csv`,
+  `water/pumps.csv`) offered `query_tables` nothing: R156's generality answers made 0 table calls, against
+  15-24 on the other datasets (its records were still reachable through `query_records`). Fixed: every staged
+  CSV, subfolders included, named by its path without `.csv` (`institute/staff`; a top-level file keeps its
+  stem, so the other four datasets' table names are unchanged). Test failing before
+  (`tests/test_agent_structured.py`). 1532 passed. R165 measures it with R161-R164.
 - **R155b and R157 were committed with a red gate (found 2026-10-12; fixed in its own commit).** R155b was
   committed without the full test run, and R157's commit was chained behind `pytest | tail`, which hid the
   exit code (against CLAUDE.md section 1). The 10 failures were one R155a test, "every saved plan loads,
