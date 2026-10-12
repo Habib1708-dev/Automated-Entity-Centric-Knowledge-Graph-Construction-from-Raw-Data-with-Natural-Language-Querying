@@ -4,7 +4,8 @@ canonical id, unknown refs left out), a node's other names and its plan columns 
 traversal starts, the record relationships and the claims a node is an end of grouped per other node with
 the total kept past the limit, one relation type alone, the claims of given chunks a node holds or is an end
 of, and claims by id with their sentences and stored truth fields. R141: the text reader's passages of
-one document in order with the total, and every passage holding all given words. Needs Neo4j."""
+one document in order with the total, and every passage holding all given words. R149: a word held by a
+passage's context (its document's title) counts for every passage of that document. Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader, Neo4jTextReader
 
@@ -98,3 +99,15 @@ def test_the_text_reader_reads_a_documents_passages_in_order_and_every_passage_h
     assert [c.chunk_id for c in wobbling] == ["log.md#1", "notes.md#0"] and total == 2  # by document
     on_the, total = text.matching(["on the", "press"], 5)
     assert [c.chunk_id for c in on_the] == ["log.md#4"] and total == 1  # every word in one passage
+
+
+def test_a_word_of_a_documents_title_counts_for_every_passage_of_it(driver):
+    # notes.md's passages carry the context 'Quill Press notes' and never name the press themselves
+    load(driver)
+    text = Neo4jTextReader(driver)
+    late, total = text.matching(["quill", "late"], 5)
+    assert [c.chunk_id for c in late] == ["notes.md#1"] and total == 1
+    whole, total = text.matching(["quill press"], 5)
+    assert [c.chunk_id for c in whole] == ["notes.md#0", "notes.md#1"] and total == 2
+    # each word is held by the text or by the title, so no phrase spans the two
+    assert text.matching(["notes the"], 5) == ([], 0)

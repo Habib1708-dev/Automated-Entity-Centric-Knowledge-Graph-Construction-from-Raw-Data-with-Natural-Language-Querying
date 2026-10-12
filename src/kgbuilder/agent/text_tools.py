@@ -11,7 +11,10 @@ without the statement it denies; the truth fields are the stored ones, never rea
 The two exhaustive tools (R141) exist for counting and listing: a ranked search shows the best few passages,
 so a count over its results misses the rest (R136: five such counts wrong). They read through `TextReader`
 (text_reader.py), cut to a cap with the total said in a note; `find_passages` shows each passage as the
-sentences holding the words, so a list of thirty stays a few thousand characters.
+sentences holding the words, so a list of thirty stays a few thousand characters. A word held by a
+passage's context (its document's first heading or file name) counts for it, and an uncut list of two or
+more passages from one document says how many of its passages they are and that `read_document` reads them
+all (R149: a passage rarely repeats what its document is about).
 Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, text_reader.py,
 hybrid/unit_store.py).
 """
@@ -20,6 +23,7 @@ import re
 
 from pydantic import BaseModel, Field, field_validator
 
+from ..core.identity import document_of
 from ..hybrid.fusion import rrf
 from ..hybrid.retrievers import ChunkDense, ChunkLexical, ClaimRetriever
 from ..hybrid.unit_store import UnitStore
@@ -126,8 +130,8 @@ class PassageArguments(BaseModel):
     words: list[str] = Field(
         min_length=1,
         max_length=5,
-        description="Words or short phrases every passage must contain, ignoring case: the fewest that pick "
-        "out what is counted.",
+        description="Words or short phrases every passage must contain, in its text or its context, ignoring "
+        "case: the fewest that pick out what is counted.",
     )
 
     @field_validator("words")
@@ -140,13 +144,18 @@ class PassageArguments(BaseModel):
 
 class FindPassages:
     """`find_passages`: every passage holding all the words, by document and position, at most `limit`, each
-    shown as its sentences that hold a word, cut at `chars`."""
+    shown as its sentences that hold a word, cut at `chars`. A word held by the passage's context (its
+    document's first heading or file name) counts (R149)."""
 
     name = "find_passages"
+    # The context sentence names the field the model sees (`context`) and says why a passage that never
+    # repeats the name is found: R145's F12 searched a document's name with a topic word before it had seen
+    # any document id, and the passages not naming it were missed.
     description = (
         "Find every passage that contains all the given words, in every document, not only the best few: use "
-        "it to count or list everything the text says about something. Each passage shows its sentences "
-        "that hold the words."
+        "it to count or list everything the text says about something. A word in a passage's context (its "
+        "document's title) counts for every passage of that document, even one that does not repeat it. "
+        "Each passage shows its sentences that hold the words."
     )
     arguments = PassageArguments
 
@@ -159,20 +168,36 @@ class FindPassages:
         words = [w.strip().lower() for w in arguments.words]
         chunks, total = self._reader.matching(words, self._limit)
         shown = [c.model_copy(update={"text": excerpt(c.text, words, self._chars)}) for c in chunks]
+        return ChunksResult(chunks=shown, total=total, note=self._note(shown, total))
+
+    def _note(self, shown: list[ChunkText], total: int) -> str:
+        """That nothing was found; how many of the total are shown when cut; or, when every match is one
+        document's and there are two or more, how many of its passages they are and that `read_document`
+        reads them all (R149). Code says the last because the excerpts hide every line holding no word:
+        R149's replay of FN04's search (a document's name and a topic word) found 3 of that document's 7
+        passages; an answer over them misses the other 4. Only an uncut list is known to be one document's
+        (the passages not shown may be another's), a single match is a lookup, not a count to finish, and a
+        list holding the whole document leaves nothing to read."""
         if not shown:
-            note = "No passage holds all these words."
-        else:
-            note = (
-                f"{len(shown)} of {total} passages shown; add a word to narrow them."
-                if total > len(shown)
-                else ""
-            )
-        return ChunksResult(chunks=shown, total=total, note=note)
+            return "No passage holds all these words."
+        if total > len(shown):
+            return f"{len(shown)} of {total} passages shown; add a word to narrow them."
+        documents = {document_of(c.chunk_id) for c in shown}
+        if len(shown) < 2 or len(documents) > 1:
+            return ""
+        doc_id = documents.pop()
+        _, passages = self._reader.document(doc_id, 1)  # only the document's total is needed
+        if passages <= len(shown):  # the whole document is shown: nothing more to read
+            return ""
+        return (
+            f"These are {len(shown)} of the {passages} passages of {doc_id}; "
+            f"{ReadDocument.name} reads all {passages}."
+        )
 
 
 def excerpt(text: str, words: list[str], chars: int) -> str:
     """The sentences of `text` holding one of `words` (lowercase), in order, cut at `chars`; the text itself
-    when none does (a phrase across a sentence end)."""
+    when none does (a phrase across a sentence end, or words held only by the passage's context)."""
     sentences = [part.strip() for part in _SENTENCE_END.split(text) if part.strip()]
     kept = [sentence for sentence in sentences if any(w in sentence.lower() for w in words)]
     return (" ... ".join(kept) if kept else text)[:chars]

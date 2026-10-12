@@ -9077,6 +9077,34 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
   (1226 + 20), ruff clean. Reviewed from three lenses; 10 findings applied, 1 left (below).
 - **R148 done 2026-10-12.** Next: R149, passage search scoped to a document (cause 3).
 
+### R149. Passage search reads a passage with its document's title (done 2026-10-12; $0, code)
+- **Scope:** `Neo4jTextReader.matching` (`agent/text_reader.py`) counts a word as held when the passage's text
+  or its `context` (the document's first heading or file name, `text/chunking.document_context`) holds it,
+  each word in one of the two (no phrase spans them); `find_passages`' description and `words` field say so,
+  naming the field the model sees. Code adds a note when an uncut list of two or more passages comes from one
+  document that holds more: "These are 3 of the 7 passages of <doc>; read_document reads all 7." (never on a
+  cut list, whose hidden passages may be another document's, on a single passage, a lookup, or when the whole
+  document is shown). This supersedes R145's direction (3), a `document` argument: F12's model searched
+  `["Uppsala", "covers"]` before it had seen any document id, and ids drop accents (orebro for Örebro).
+  Tool list 10992 -> 11150 characters; `agent_tools_prompt_version` 78fe77fc53ee -> 7c6e9dfabcbc.
+- **Offline replay** ($0, no model, no Neo4j load; the corpora rebuilt with the builds' own code,
+  `audit/inputs.read_corpus`, and the old rule reproducing every recorded result exactly). R143b made 16
+  `find_passages` calls (the plan said 21: furniture 6 fresh + 6 seen, generality 3 + 1, held-out 0):
+  F12 `["uppsala", "covers"]` 3 -> 4 (adds #2, which never names the sofa), FN08 `["jönköping",
+  "scratches"]` 2 -> 3, FN04 `["örebro", "star"]` 0 -> 3 and `["örebro"]` 3 -> 7; the other 11 unchanged
+  (GN10 too, against the design's guess). FN04 is the risk the note answers: R143b's model averaged all 7
+  ratings only because its searches came back empty and it read the document; now the search shows 3 of 7,
+  whose excerpts hide the rating lines, and the note says 4 more exist. Notes the replay would show: FN04 (3
+  of 7), FN08 (3 of 7), F12 (4 of 7).
+- **Verified:** 3 new tests (a Neo4j test on the shared graph, failing before: `["quill", "late"]` found
+  through the title, `["quill press"]` the whole document, no phrase across title and text; the fake's
+  context matching with the note and the document read it costs; no note on a cut list, a single passage or
+  a whole document). 1249 passed (1246 + 3), ruff clean. Reviewed from three lenses; the note's three
+  findings (cut list, single passage, a count the model can check) applied.
+- **For R151:** F12 (expected right) and FN04 (must stay right; its trace should show `read_document` after
+  the note) are the watch items.
+- **R149 done 2026-10-12.** Next: R150, counting text-derived things (cause 4).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

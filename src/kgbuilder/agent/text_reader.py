@@ -7,7 +7,9 @@ and are tested with a fake; `Neo4jTextReader` runs the Cypher over the lexical g
 Design: Repository, read-only. Both reads are exhaustive and ordered (by document, then position), cut to
 the limit in the database with the total kept, because a count needs every passage, not the best few the
 ranked searches return (R136: five counts over text missed passages a top 5 left out). Words are matched
-as substrings ignoring case, every word in the same passage.
+as substrings ignoring case, every word in the same passage, held by its text or by its context (the
+document's first heading or file name): a word naming what the document is about counts for every passage
+of it (R149).
 Not here: ranking passages (text_tools.py's searches), caps and notes for the agent (the tools).
 """
 
@@ -26,8 +28,8 @@ class TextReader(Protocol):
         ...
 
     def matching(self, words: list[str], limit: int) -> tuple[list[ChunkText], int]:
-        """The first `limit` passages holding every one of `words` (lowercase), by document and position, and
-        how many there are."""
+        """The first `limit` passages holding every one of `words` (lowercase) in their text or their context
+        (the document's first heading or file name), by document and position, and how many there are."""
         ...
 
 
@@ -43,9 +45,14 @@ class Neo4jTextReader:
         )
 
     def matching(self, words: list[str], limit: int) -> tuple[list[ChunkText], int]:
-        # every word a substring of the passage ignoring case; `words` arrive lowercase from the tool
+        # every word a substring of the passage's text or of its context (the document's first heading or file
+        # name, text/chunking.py `document_context`), ignoring case: a later passage rarely repeats what its
+        # document is about, so a search naming it missed those passages (R145, F12), and the extractor
+        # reads names the same way (text/extraction.py `verify`). Each word is held by one of the two, so
+        # no phrase spans them; `coalesce` keeps a chunk without a context; `words` arrive lowercase.
         where = (
-            "MATCH (c:Chunk)-[:PART_OF]->(d:Document) WHERE all(w IN $words WHERE toLower(c.text) CONTAINS w)"
+            "MATCH (c:Chunk)-[:PART_OF]->(d:Document) WHERE all(w IN $words WHERE "
+            "toLower(c.text) CONTAINS w OR toLower(coalesce(c.context, '')) CONTAINS w)"
         )
         return self._page(where, words=words, limit=limit)
 

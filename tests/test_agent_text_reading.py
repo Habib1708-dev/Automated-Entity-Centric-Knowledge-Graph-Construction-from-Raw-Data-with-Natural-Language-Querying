@@ -2,7 +2,10 @@
 `TextReader`, without Neo4j: a document named by its id or by a passage id of it, read in order with the
 total and a note when cut; an unknown document answered with a note; words passed lowercase, each passage
 shown as its sentences holding a word, a note when cut or when nothing matches, the passages offered for
-citation; a blank word refused by the arguments; and the excerpt rule itself."""
+citation; a blank word refused by the arguments; and the excerpt rule itself. R149: a word held by a
+passage's context counts (the fake mirrors the protocol's rule), and an uncut list of two or more passages
+from one document says how many of its passages they are and points to `read_document`; a cut list or a
+single passage points nowhere."""
 
 import pytest
 from pydantic import ValidationError
@@ -25,8 +28,9 @@ class FakeText:
 
     def matching(self, words, limit):
         self.asked.append(("matching", list(words), limit))
+        # the protocol's rule (R149): each word held by the passage's text or by its context
         found = [c for chunks in self._documents.values() for c in chunks
-                 if all(w in c.text.lower() for w in words)]  # fmt: skip
+                 if all(w in c.text.lower() or w in c.context.lower() for w in words)]  # fmt: skip
         return found[:limit], len(found)
 
 
@@ -85,6 +89,41 @@ def test_find_passages_says_when_it_cut_the_list_or_found_nothing():
         "1 of 2 passages shown; add a word to narrow them.",
     )
     assert (none.chunks, none.note) == ([], "No passage holds all these words.")
+
+
+def test_a_word_of_the_context_finds_passages_not_repeating_it_and_one_document_is_pointed_to_read():
+    log = [ChunkText(chunk_id="log.md#0", context="Service log", text="The kettle was descaled.")]
+    reader = FakeText({"notes.md": NOTES, "log.md": log})
+    # no passage's text says 'notes': the context 'Kettle notes' holds it for every passage of notes.md
+    named = FindPassages(reader, limit=5, chars=300).run(PassageArguments(words=["notes", "lid"]))
+    assert [c.chunk_id for c in named.chunks] == ["notes.md#0", "notes.md#1"]
+    assert named.note == "These are 2 of the 3 passages of notes.md; read_document reads all 3."
+    assert reader.asked[-1] == ("document", "notes.md", 1)  # the document's total, read by code
+    # held through the context alone, no sentence holds the word: each passage shows whole
+    whole = FindPassages(reader, limit=5, chars=300).run(PassageArguments(words=["kettle notes"]))
+    assert [c.text for c in whole.chunks] == [c.text for c in NOTES]
+    both = FindPassages(reader, limit=5, chars=300).run(PassageArguments(words=["kettle"]))
+    assert [c.chunk_id for c in both.chunks] == ["notes.md#0", "notes.md#1", "notes.md#2", "log.md#0"]
+    assert both.note == ""  # two documents: none pointed to
+
+
+def test_a_cut_list_a_single_passage_or_a_whole_document_points_to_no_document():
+    # the shown passages are all a.md's, but the cut hides b.md's: the list is not one document's
+    a = [passage(f"a.md#{i}", "The lid is loose.") for i in range(3)]
+    b = [passage(f"b.md#{i}", "The lid is new.") for i in range(2)]
+    cut = FindPassages(FakeText({"a.md": a, "b.md": b}), limit=3, chars=300).run(
+        PassageArguments(words=["lid"])
+    )
+    assert [c.chunk_id for c in cut.chunks] == ["a.md#0", "a.md#1", "a.md#2"] and cut.total == 5
+    assert cut.note == "3 of 5 passages shown; add a word to narrow them."
+    # one passage found is a lookup: reading its whole document is not asked for
+    reader = FakeText({"notes.md": NOTES})
+    single = FindPassages(reader, limit=5, chars=300).run(PassageArguments(words=["late"]))
+    assert [c.chunk_id for c in single.chunks] == ["notes.md#2"] and single.note == ""
+    assert reader.asked == [("matching", ["late"], 5)]
+    # every passage of the one document is shown: nothing is left for read_document
+    every = FindPassages(reader, limit=5, chars=300).run(PassageArguments(words=["kettle notes"]))
+    assert len(every.chunks) == 3 and every.note == ""
 
 
 def test_the_words_must_be_one_to_five_and_none_blank():
