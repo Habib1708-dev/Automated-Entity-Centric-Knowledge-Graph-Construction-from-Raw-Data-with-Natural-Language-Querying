@@ -139,8 +139,9 @@ class AgentCall(BaseModel):
 AgentStop = Literal["answer", "turns", "calls", "prompt_chars", "timeout"]
 
 # The form an agent's answer declares the question asks for (R147): one number, named things (or values that
-# are not numbers), or a statement in words. Here, not in agent/, so the trace can keep it (query must not
-# import agent).
+# are neither one number nor a date: several years, a month alone, a time of day, R163), or a statement in
+# words (a date, a day of a month with or without its year, among them). Here, not in agent/, so the trace
+# can keep it (query must not import agent).
 AnswerForm = Literal["things", "number", "statement"]
 
 

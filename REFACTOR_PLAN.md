@@ -9542,6 +9542,26 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   ruff clean.
 - **R162 done 2026-10-12.** Next: R163, the form rule.
 
+### R163. The form rule names several years, a month alone and a time of day (done 2026-10-12; $0, code; unmeasured until R165)
+- **Scope** (`query/reader.FORM_RULE` and `ANSWER_FIELDS`, `agent/prompt.ASKS`, the same wording in all three):
+  "values that are neither one number nor a date (... several years; a month alone or a time of day)" go
+  to `entities`; one number, a single year among them, to `number`; "a date: a day of a month, with or
+  without its year" stays `text`, and "when" left the text clause so the answer's shape decides. R157's
+  traces show LB39, GB05 and GB33 declared `asks` "statement", so R147's send-back could not catch them;
+  the rule is the fix. Versions: `agent_prompt_version` 8e4d8f3fad9d -> 8ef2474da8b7,
+  `agent_reply_prompt_version` 64c3861205bb -> 5b9a9720fb59; the shared rule also changes the reader's
+  `prompt_version` (37b8127d7a2e -> 1f4cad8e268c) and `reader_reply_version` (the reading systems are not
+  run in this plan).
+- **Review fixes:** the draft sent any value that is not a full date to `entities`, which would have moved
+  earlier text-gold dates without a year ("On 28 March", G20; G19) out of their field: a day of a month now
+  stays text; the LB06 rule (list only what is asked, not the things passed on the way) was outside this
+  step's planned scope and aimed at a declared-"things" answer that over-listed, so it is left out and LB06
+  stays a known exact-match miss; "a weekday" (no traced miss) left out.
+- **Verified:** 3 new test items (several years and a month or a time of day in the entities clause, the
+  fields and `asks` alike; a date stays text and one year a number) and one updated wording assertion.
+  1525 passed (1522 + 3), ruff clean.
+- **R163 done 2026-10-12.** Next: R164, example values of different shapes in the table schema.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

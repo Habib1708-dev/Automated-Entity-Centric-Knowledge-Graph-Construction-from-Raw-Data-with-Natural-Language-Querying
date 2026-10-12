@@ -18,7 +18,9 @@ the tools open while a turn is left, then stands; an empty answer is R138's, nev
 form; the metrics count the answers sent back, and the agent's prompt version covers the text they are sent
 back with. R150: a thing `rank_by_documents` counted is given its name, and its result supports its count.
 R161: the prompt asks for counts and sums of entries from a tool's measure, never by counting listed rows,
-and for one list less another by `!=` conditions."""
+and for one list less another by `!=` conditions. R163: the form rule, the `entities` field and `asks` list
+several years, a month alone or a time of day as things, keep a date (a day of a month, with or without
+its year) as text and a year alone as a number."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -26,6 +28,7 @@ from pydantic import BaseModel, ValidationError
 from kgbuilder.agent.citations import Ledger
 from kgbuilder.agent.loop import AgentLimits, AgentLoop
 from kgbuilder.agent.prompt import (
+    ASKS,
     CITATION_RETRY,
     CLOSING,
     EMPTY_ANSWER,
@@ -365,8 +368,49 @@ def test_the_form_rule_takes_one_number_before_named_things():
     """A measure asked with "what" or "how deep" is one number; a "values" clause before it would take it."""
     rule = FORM_RULE.format(source="the tools")
     assert rule.index("one number") < rule.index("named things") < rule.index("anything else")
-    assert "a value of a thing that is not a number" in rule
+    assert "values that are neither one number nor a date" in rule
     assert "it never replaces them" in rule
+
+
+def _flat(text: str) -> str:
+    """`text` with its line breaks and indents as single spaces: a prompt wraps where a phrase may fall."""
+    return " ".join(text.split())
+
+
+def _form_clauses() -> tuple[str, str, str]:
+    """The number, entities and text clauses of the agent's rendered form rule, each on one line."""
+    _, number, things, rest = FORM_RULE.format(source="the tools").split("\n  - ")
+    return _flat(number), _flat(things), _flat(rest.split("\n  `")[0])  # up to the closing `text` line
+
+
+def _asks_part(form: str) -> str:
+    """The words `asks` gives one form ("number", "things" or "statement"), on one line."""
+    after = ASKS.split(f'"{form}"')[1]
+    return _flat(after.split('"things"')[0].split('"statement"')[0])
+
+
+@pytest.mark.parametrize("case", ["several years", "a month alone or a time of day"])
+def test_the_form_rule_lists_several_years_a_month_and_a_time_of_day_as_things(case):
+    """R163: R157's agent declared "statement" and answered in `text` for two years (LB39), a month (GB05)
+    and a time of day (GB33), whose gold is a set scored as entities: R147's rule named a year alone and a
+    full date, and put "when" in `text`. The rule, the `entities` field and `asks` name the same cases."""
+    number, things, text = _form_clauses()
+    assert case in things and case not in number and case not in text
+    assert case in _flat(ANSWER_FIELDS["entities"])
+    assert case in _asks_part("things") and case not in _asks_part("statement")
+
+
+def test_a_date_with_or_without_its_year_stays_text_and_one_year_stays_a_number():
+    """R163 keeps a date in `text`, a year alone in `number`: a day of a month without its year is a date
+    too (earlier gold dated "On 28 March" is text), never a month alone listed in `entities`; "when" no
+    longer sends a month or a time to `text` (GB05, GB33)."""
+    date = "a day of a month, with or without its year"
+    number, things, text = _form_clauses()
+    assert date in text and date not in things and "when" not in text
+    assert "a year" in number and "nor a date" in things
+    assert date in _flat(ANSWER_FIELDS["text"]) and date not in _flat(ANSWER_FIELDS["entities"])
+    assert date in _asks_part("statement") and date not in _asks_part("things")
+    assert "a single year" in ANSWER_FIELDS["number"] and "a single year" in _asks_part("number")
 
 
 # --- the caps ----------------------------------------------------------------------------------------

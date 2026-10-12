@@ -25,33 +25,44 @@ from .answers import ShownChunk
 # - the number clause comes first and covers any one number: a measure asked with "what" or "how deep" is a
 #   number, which a clause on "values" before it would turn into entities; "a bound or an estimate", because
 #   a number stated with a qualifier was answered in text (R145, H36);
-# - the entities clause takes one thing as well as several, and a value that is not a number, by its name or
-#   value alone (an answer with a qualifier in brackets is not the name);
-# - one rule for dates, the same in `ANSWER_FIELDS` and the agent's `asks`: a year alone is a number, a
-#   full date is text, never an entity ("when" and "which year" would otherwise point to two fields);
+# - the entities clause takes one thing as well as several, and a value that is not one number, by its name
+#   or value alone (an answer with a qualifier in brackets is not the name);
+# - one rule for dates and times, the same in `ANSWER_FIELDS` and the agent's `asks`: a year alone is a
+#   number; a date, a day of a month with or without its year, is text (G19, G20 are dated without a year);
+#   several years, a month alone and a time of day are values listed in `entities` (R163). R147 named only a
+#   year alone and a full date and put "when" in `text`, and R157's agent declared a statement and answered
+#   in text for two years, a month and a time of day (LB39, GB05, GB33), each a value the gold scores as a
+#   set. "when" is gone from the text clause: the answer's shape, not the question word, decides the field.
+#   "several years", not "several numbers": one value written with several numbers (a size, an amount in old
+#   units) stays one answer. No code check: the reader has no loop, and the agent's `misses_form` compares a
+#   reply only with its own declaration; telling that a text is a month, a time or a list of years would
+#   need month names and time formats in the data's language, a word list a dataset-neutral pipeline keeps
+#   nowhere;
 # - `text` may add to the other forms, never replace them: the gold's form decides which field is scored
 #   (validation/qa.py), so an answer in both forms is right either way.
 FORM_RULE = """- Put the answer in the field its form calls for:
   - one number (a count, an amount, a measurement, a year; how many, how much, how far, which year): give
     it in `number`, also when it is stated as a bound or an estimate;
-  - one or several named things, or a value of a thing that is not a number or a date (who, which, where,
-    what is the name or the value of ...): list them in `entities`, each once, by its name or value
-    alone, as {source} or the question give it;
-  - anything else (what was said or done, why, whether, when, a full date): answer in a short `text`.
+  - one or several named things, or values that are neither one number nor a date (who, which, where,
+    what is the name or the value of ...; several years; a month alone or a time of day): list them in
+    `entities`, each once, by its name or value alone, as {source} or the question give it;
+  - anything else (what was said or done, why, whether, a date: a day of a month, with or without its
+    year): answer in a short `text`.
   `text` may add to `entities` or `number`; it never replaces them."""
 
 # The answer fields' descriptions, shared with the agent's reply model (R147): the response schema is prompt
 # text too, and before R147 its "the things that answer a question asking which things" kept the old form
-# rule alive next to the new one.
+# rule alive next to the new one. R163 names the same values and dates as `FORM_RULE`.
 ANSWER_FIELDS = {
     "entities": (
-        "the named things, or the values that are neither numbers nor dates, the question asks for, each "
-        "once by its name alone; [] if there are none"
+        "the named things, or the values that are neither one number nor a date (several years, a month "
+        "alone or a time of day among them), the question asks for, each once by its name or value alone; "
+        "[] if there are none"
     ),
-    "number": "the one number the question asks for: a count, an amount, a measurement or a year",
+    "number": "the one number the question asks for: a count, an amount, a measurement or a single year",
     "text": (
-        "a short answer in words: the whole answer to a question asking for anything else, or words added "
-        "to `entities` or `number`"
+        "a short answer in words: the whole answer to a question asking for anything else (a day of a "
+        "month, with or without its year, among them), or words added to `entities` or `number`"
     ),
 }
 

@@ -14,7 +14,8 @@ loop; citations are checked by citations.py; the answer forms are scored by code
 R147: the answer-form rule and the answer fields' descriptions are the reader's (query/reader.py), filled
 in here; the reply declares the form the question asks for (`asks`, required in `step_model`), and the
 loop sends an answer back once when it leaves that form's field empty (`AgentStep.misses_form`,
-`FORM_ANSWER`).
+`FORM_ANSWER`). R163: the shared rule, the fields and `asks` name several years, a month alone and a time of
+day as things, and a date, a day of a month with or without its year, as a statement.
 Not here: the loop and its caps (loop.py), the citation check (citations.py).
 """
 
@@ -138,11 +139,16 @@ FORM_ANSWER = (
 )
 
 # What `asks` means, as the reply schema writes it (R147); "call" replies carry it too, since it is required.
-# Dates as FORM_RULE puts them: a year alone is a number, a full date is a statement.
+# Dates and times as FORM_RULE puts them (R163): a year alone is a number; several years, a month alone or a
+# time of day are things; a date, a day of a month with or without its year, is a statement. R157's agent
+# declared "statement" for two years, a month and a time of day (LB39, GB05, GB33), then answered in text,
+# which `misses_form` cannot send back: the declaration itself has to name them. Why no code check catches a
+# wrong declaration: see FORM_RULE's intent comment (query/reader.py).
 ASKS = (
-    'answer: what the question asks for: "number" (one number, a year alone among them), "things" (one or '
-    'several named things, or a value that is neither a number nor a date), or "statement" (anything else, '
-    'a full date among them); with "call" any value, unread.'
+    'answer: what the question asks for: "number" (one number, a single year among them), "things" (one or '
+    "several named things, or values that are neither one number nor a date: several years, a month alone "
+    'or a time of day among them), or "statement" (anything else, a date among them: a day of a month, with '
+    'or without its year); with "call" any value, unread.'
 )
 
 
