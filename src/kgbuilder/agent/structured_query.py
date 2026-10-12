@@ -25,7 +25,8 @@ ordered by < <= > >=, is refused with its reason, never guessed. A literal spell
 (ignoring case, as a text is compared) is refused with the hint to give it as `other_field`, because
 compared as a literal it fails at run time (a date) or silently matches nothing (a text); `in` with that one
 value still matches a text that really is spelled so. Listed rows and groups page by `offset`, which a
-single measured value does not take.
+single measured value does not take. A group needs a measure (R161): `group_by` with `rows` is refused,
+since the listing it would otherwise run as is not what was asked; its field description says so first.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -88,7 +89,9 @@ class StructuredQuery(BaseModel):
     )
     field: str | None = Field(default=None, description="The field sum, average, min and max measure.")
     group_by: str | None = Field(
-        default=None, description="Measure each value of this field separately (largest first)."
+        default=None,
+        description="Measure each value of this field separately (largest first), with a measure other than "
+        "rows; count counts the entries of each value.",
     )
     group_split: str | None = Field(
         default=None,
@@ -159,6 +162,14 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
             issues.append(_unknown(name, value, fields))
     if query.order_by is not None and query.measure != "rows":
         issues.append("order_by sorts listed rows; a measure is ordered largest first")
+    if query.group_by is not None and query.measure == "rows":
+        # R161: both compilers read group_by only with a measure (`shape_of`), so a group of listed rows ran
+        # as the plain listing, group_by unread; LB11's agent got that listing and counted it by eye. order_by
+        # is named too: the corrected query would otherwise be refused again, for order_by with a measure
+        issues.append(
+            "group_by needs a measure: rows lists the entries without groups; give measure count to count "
+            "the entries of each value, without order_by (it sorts listed rows only)"
+        )
     return issues + _split_issues(query, fields)
 
 

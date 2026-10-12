@@ -16,7 +16,9 @@ reader share one answer-form rule (a number first) and the answer fields' descri
 declare the form it answers (`asks`); an answer that leaves its declared field empty is sent back once with
 the tools open while a turn is left, then stands; an empty answer is R138's, never also sent back for its
 form; the metrics count the answers sent back, and the agent's prompt version covers the text they are sent
-back with. R150: a thing `rank_by_documents` counted is given its name, and its result supports its count."""
+back with. R150: a thing `rank_by_documents` counted is given its name, and its result supports its count.
+R161: the prompt asks for counts and sums of entries from a tool's measure, never by counting listed rows,
+and for one list less another by `!=` conditions."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -340,6 +342,18 @@ def test_the_agent_and_the_reader_share_one_answer_form_rule():
     for key, description in ANSWER_FIELDS.items():
         assert fields[key].description == f"answer: {description}."
         assert ReaderAnswer.model_fields[key].description == f"{description[:1].upper()}{description[1:]}."
+
+
+def test_the_prompt_asks_for_counts_and_list_differences_from_the_tools():
+    """R161: LB11's agent counted 40 listed rows by eye (11 for 13) and FB10's subtracted one list from
+    another in its head and dropped one entry; the rule sends both to what a tool can do: a measure with
+    conditions, and `!=` conditions over the ids another result returned."""
+    rule = (
+        "- Take a count or a sum of entries from a tool's `measure`, with their conditions in `where`, "
+        "never by\n  counting listed rows yourself; to leave out the entries another result returned, add "
+        "one `!=` condition\n  per id it returned."
+    )
+    assert rule in PROMPT and rule not in CLOSING  # with no tool left, nothing could be asked of one
 
 
 def test_a_trace_from_before_the_answer_form_still_loads():

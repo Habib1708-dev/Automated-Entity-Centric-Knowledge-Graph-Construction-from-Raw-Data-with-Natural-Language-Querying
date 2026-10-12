@@ -14,7 +14,10 @@ DuckDB; a path of relationships from the related record, compiled from the queri
 and length checked by query_records. R148: a field compared with another field of the same entry (how each
 pair of types compares, the refusals of a pair that cannot, of a value given with it and of a literal
 spelled as a field), compiled to Cypher with no parameter and run by DuckDB; a later page by `offset`, its
-statement unchanged at the first page, and the note naming the next offset; every argument described."""
+statement unchanged at the first page, and the note naming the next offset; every argument described.
+R161: a cut or paged listing's note says how to count some of its entries (a group's does not), and the
+query it points to runs; a group of listed rows (group_by with measure rows) is refused with the measure that
+counts each group, and the query that refusal points to runs."""
 
 import pytest
 
@@ -29,6 +32,12 @@ from kgbuilder.query.graph_store import ReadResult
 
 from .graphs import PLAN
 from .test_agent_tools import DATASET_WORDS, FakeReader
+
+# R161: what a cut or paged listing's note adds, as the model reads it (structured_tools._note)
+COUNT_HINT = (
+    "to count only some of them, add their condition to where and give measure count, without order_by or "
+    "offset; a count covers every match, shown or not"
+)
 
 
 def prop(name: str, kind: str) -> PropertyInfo:
@@ -136,6 +145,12 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
         ),
         (TableQuery(table="t", offset=-1), "offset must be 0 or more"),
         (TableQuery(table="t", measure="count", offset=20), "offset pages listed rows or groups"),
+        # R161: a group of listed rows is refused, not answered with the listing it would silently be
+        (
+            TableQuery(table="t", group_by="year"),
+            "group_by needs a measure: rows lists the entries without groups; give measure count to count "
+            "the entries of each value, without order_by (it sorts listed rows only)",
+        ),
     ],
 )
 def test_the_check_refuses_names_and_values_the_source_does_not_have(query, issue):
@@ -361,7 +376,7 @@ def test_query_tables_answers_rows_with_their_total_and_a_stable_id(tables):
     result = tool.run(TableQuery(table="kettles", order_by="id"))
     assert result.columns == ["id", "name", "price", "made", "since", "noted"]
     assert result.rows[0][:3] == ["K1", "Meridi...", "$1,289"]  # a long value cut
-    assert (result.total, result.note) == (3, "1-2 of 3 shown; offset 2 shows the next ones")
+    assert (result.total, result.note) == (3, f"1-2 of 3 shown; offset 2 shows the next ones; {COUNT_HINT}")
     again = tool.run(TableQuery(table="kettles", order_by="id"))
     assert result.query_id == again.query_id and result.query_id.startswith("q-")
     assert result.cites() == [result.query_id]
@@ -374,15 +389,59 @@ def test_query_tables_pages_a_cut_list_by_offset(tables):
     assert check_query(TableQuery(table="t", measure="count", group_by="year", offset=5), FIELDS) == []
     tool = QueryTables(tables, limit=2, value_chars=60)
     first = tool.run(TableQuery(table="kettles", order_by="id"))
-    assert first.note == "1-2 of 3 shown; offset 2 shows the next ones"
+    assert first.note == f"1-2 of 3 shown; offset 2 shows the next ones; {COUNT_HINT}"
     last = tool.run(TableQuery(table="kettles", order_by="id", offset=2))
-    assert ([r[0] for r in last.rows], last.total, last.note) == (["K3"], 3, "3-3 of 3 shown")
+    assert ([r[0] for r in last.rows], last.total, last.note) == (["K3"], 3, f"3-3 of 3 shown; {COUNT_HINT}")
     assert last.query_id != first.query_id  # a page is a run of its own, cited by its own id
     past = tool.run(TableQuery(table="kettles", order_by="id", offset=5))
     assert (past.rows, past.note) == ([], "Nothing past the first 5.")
     assert run_table(tables, measure="count", group_by="made", offset=1) == [[2019, 1, 2]]
     whole = tool.run(TableQuery(table="kettles", measure="count", group_by="made"))
     assert whole.note == ""  # every group shown at once: nothing to say
+
+
+def test_a_cut_or_paged_listing_points_to_the_count_and_a_group_does_not(tables):
+    """R161: LB11's agent paged through 40 listed rows and counted them by eye (11 for 13); a listing cut or
+    paged says the count measures every match. Groups are a measure already, and a list shown whole needs
+    no count to be read."""
+    tool = QueryTables(tables, limit=1, value_chars=60)
+    cut = tool.run(TableQuery(table="kettles", order_by="id"))
+    assert cut.note == f"1-1 of 3 shown; offset 1 shows the next ones; {COUNT_HINT}"
+    groups = tool.run(TableQuery(table="kettles", measure="count", group_by="made"))
+    assert groups.note == "1-1 of 2 shown; offset 1 shows the next ones"
+    paged = tool.run(TableQuery(table="kettles", measure="count", group_by="made", offset=1))
+    assert paged.note == "2-2 of 2 shown"
+    whole = QueryTables(tables, limit=5, value_chars=60).run(TableQuery(table="kettles"))
+    assert (whole.total, whole.note) == (3, "")
+    assert not DATASET_WORDS.search(COUNT_HINT)
+
+
+def test_the_count_the_note_points_to_runs_from_an_ordered_paged_listing(tables):
+    """R161: the note's own total already counts every match, so the hint names the step that counts some of
+    them: their condition in `where` and measure count, with order_by and offset dropped, since the check
+    refuses both with a measure. Followed as worded from an ordered later page, the count runs."""
+    tool = QueryTables(tables, limit=1, value_chars=60)
+    page = tool.run(TableQuery(table="kettles", order_by="id", offset=1))
+    assert page.note == f"2-2 of 3 shown; offset 2 shows the next ones; {COUNT_HINT}"
+    some = [Condition(field="made", operator="=", value=2016)]
+    followed = TableQuery(table="kettles", where=some, measure="count")  # order_by and offset left out
+    counted = tool.run(followed)
+    assert (counted.issues, counted.rows) == ([], [["2"]])
+
+
+def test_a_group_of_listed_rows_is_refused_by_the_tool_not_answered_with_the_listing(tables):
+    """R161: LB11's agent asked for listed rows grouped by a column and got the plain listing back, group_by
+    unread by the compiler; refused, the reason names the measure that counts each group and that order_by
+    goes, so the query it points to runs at the next call instead of meeting the order_by refusal."""
+    tool = QueryTables(tables, limit=5, value_chars=60)
+    refused = tool.run(TableQuery(table="kettles", group_by="made", order_by="id"))
+    assert refused.rows == [] and refused.cites() == []
+    assert refused.issues == [
+        "group_by needs a measure: rows lists the entries without groups; give measure count to count "
+        "the entries of each value, without order_by (it sorts listed rows only)"
+    ]
+    followed = tool.run(TableQuery(table="kettles", group_by="made", measure="count"))
+    assert (followed.issues, followed.rows) == ([], [["2016", "2"], ["2019", "1"]])
 
 
 def test_query_tables_refuses_an_unknown_table_and_a_query_that_fails_the_check(tables):

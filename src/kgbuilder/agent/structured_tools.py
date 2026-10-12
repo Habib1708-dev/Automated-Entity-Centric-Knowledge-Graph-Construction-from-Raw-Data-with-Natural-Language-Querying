@@ -14,6 +14,8 @@ answered with their reasons, so the agent can correct its query; nothing is gues
 for a count or a measure; listed records are cited by their refs. A cut list is paged (R148): the note says
 which entries are shown of how many and the `offset` that shows the next ones, so the agent reads a long
 list to its end instead of guessing past the cut; a page past the end says so, since it carries no total.
+A cut or paged listing's note also says how to count some of its entries: their condition in `where` and
+`measure` count (R161), so a count is taken by the tool, not by reading the pages.
 Not here: the checks and compilers, the table reader (tables.py).
 """
 
@@ -32,6 +34,15 @@ from .results import ToolResult
 from .structured_query import MAX_HOPS, Compiled, RecordQuery, TableQuery, check_query
 from .table_query import compile_table, total_column
 from .tables import TableStore
+
+# R161: what a cut or paged listing's note adds. LB11's agent paged through 40 listed rows and counted the
+# 13 it wanted by eye (11): the count of every match is already the note's "of N", so the hint names the step
+# that counts a subset (its condition in `where`) and what to drop, since check_query refuses order_by and
+# offset with a count. A group is a measure already and a list shown whole needs no pointer.
+COUNT_HINT = (
+    "to count only some of them, add their condition to where and give measure count, without order_by or "
+    "offset; a count covers every match, shown or not"
+)
 
 
 class SchemaArguments(BaseModel):
@@ -207,7 +218,7 @@ def _result(
         value = rows[0]["value"] if rows else None
         return QueryResult(query_id=query_id, columns=["value"], rows=[[_text(value, value_chars)]], total=1)
     total = int(rows[0].get("total", rows[0].get(total_column(), 0))) if rows else 0
-    note = _note(len(rows), total, offset)
+    note = _note(len(rows), total, offset, listing=compiled.shape == "rows")
     if compiled.shape == "groups":
         values = [[_text(r["bucket"], value_chars), _text(r["value"], value_chars)] for r in rows]
         return QueryResult(query_id=query_id, columns=["group", "value"], rows=values, total=total, note=note)
@@ -222,16 +233,22 @@ def _result(
     return QueryResult(query_id=query_id, columns=columns, rows=values, total=total, note=note)
 
 
-def _note(shown: int, total: int, offset: int) -> str:
-    """What the agent is told of a list's cut: which entries it sees of how many, and the offset that shows
-    the next ones; nothing when the whole list is shown at once. A page past the end has no rows to read the
-    total from, so its note says only that nothing is left."""
+def _note(shown: int, total: int, offset: int, listing: bool) -> str:
+    """What the agent is told of a list's cut: which entries it sees of how many, the offset that shows the
+    next ones, and for listed entries (`listing`, not groups) `COUNT_HINT`; nothing when the whole list is
+    shown at once. A page past the end has no rows to read the total from, so its note says only that
+    nothing is left."""
     if shown == 0:
         return f"Nothing past the first {offset}." if offset > 0 else "Nothing matches."
     last = offset + shown
+    said = [f"{offset + 1}-{last} of {total} shown"]
     if total > last:
-        return f"{offset + 1}-{last} of {total} shown; offset {last} shows the next ones"
-    return f"{offset + 1}-{last} of {total} shown" if offset > 0 else ""
+        said.append(f"offset {last} shows the next ones")
+    elif offset == 0:
+        return ""
+    if listing:
+        said.append(COUNT_HINT)
+    return "; ".join(said)
 
 
 def _query_id(compiled: Compiled) -> str:

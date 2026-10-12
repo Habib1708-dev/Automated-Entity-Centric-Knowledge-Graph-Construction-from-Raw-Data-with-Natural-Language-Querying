@@ -9499,6 +9499,25 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   clean.
 - **R160 done 2026-10-12.** Next: R161, counting with the tool.
 
+### R161. Counting with the tool (done 2026-10-12; $0, code; unmeasured until R165)
+- **Scope:** `check_query` refuses `group_by` with the measure `rows` ("group_by needs a measure: ... give
+  measure count ..., without order_by"), where it silently returned the plain listing (LB11's grouped try);
+  the `group_by` description says a measure is needed; a cut or paged row listing's note adds "to count
+  only some of them, add their condition to where and give measure count, without order_by or offset; a
+  count covers every match, shown or not" (`structured_tools.COUNT_HINT`; groups' notes unchanged); one
+  PROMPT rule: "Take a count or a sum of entries from a tool's `measure`, with their conditions in `where`,
+  never by counting listed rows yourself; to leave out the entries another result returned, add one `!=`
+  condition per id it returned." (list subtraction, FB10, is expressible as `!=` conditions: replayed
+  offline). Versions: `agent_prompt_version` ba389c432cd6 -> 8e4d8f3fad9d, `agent_tools_prompt_version`
+  ccf077ef986c -> c5369140677e; the model reads 16,054 -> 16,429 characters of fixed text per turn.
+- **Review fixes:** the first hint ("the same query with measure count") pointed to a count equal to the
+  total the note already shows; replayed on LB11's staged table, only a count with the subset's condition in
+  `where` gives the gold 13 (40 without); a hint on the last page would have led to a refused query (offset
+  with a count); "comparisons" in the rule was narrowed to counts, sums and the `!=` difference.
+- **Verified:** 5 new or changed tests (the refusal and following it to a grouped count, the hint on cut and
+  paged listings and not on groups, the prompt rule). 1487 passed (1482 + 5), ruff clean.
+- **R161 done 2026-10-12.** Next: R162, word forms in `find_passages`.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

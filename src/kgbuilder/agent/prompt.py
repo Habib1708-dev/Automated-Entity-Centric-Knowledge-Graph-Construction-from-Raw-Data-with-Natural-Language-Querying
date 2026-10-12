@@ -36,6 +36,14 @@ _FORM_RULE = FORM_RULE.format(source="the tools")
 #   call is chosen, and a cap can stop between any two calls;
 # - where to start: the graph's start nodes come from find_nodes (R131/R132 measured them), while counting,
 #   ranking and filtering questions need the records or tables, which the schema names;
+# - counts and list differences from the tools (R161): R157's agent counted 40 listed rows by eye (LB11, 11
+#   for 13) and subtracted one list from another in its head, dropping an entry (FB10). Code cannot tell a
+#   number read off rows from one a tool measured, so the code side is the tools': a cut or paged listing's
+#   note says how to count some of its entries (structured_tools.COUNT_HINT), a group of listed rows is
+#   refused with that measure named (structured_query.check_query), and `agent_number_answers_stated` (R142)
+#   counts the numbers a cited result holds. One list less another is several `!=` conditions (all must
+#   hold) over the ids a tool returned, which the rule names; no single operator does it. The rule asks only
+#   what a tool can do: comparing values from two calls has no operator, so it is not forbidden;
 # - "only what the tools return": the answer is judged on grounded facts; the model's own knowledge would
 #   hide a failed search behind a lucky guess (the reader's rule);
 # - the answer-form rule is the reader's `FORM_RULE` (R147), because the same code scores both (sets and
@@ -54,6 +62,9 @@ Rules:
   arguments) or answer (`action` "answer").
 - Start from the nodes the question names (find_nodes) and walk from them; read the schema first when the
   question asks how many, which is largest or which records meet a condition.
+- Take a count or a sum of entries from a tool's `measure`, with their conditions in `where`, never by
+  counting listed rows yourself; to leave out the entries another result returned, add one `!=` condition
+  per id it returned.
 - Use only what the tools returned. When it does not answer the question, say so in `text` and leave
   `entities` and `number` empty.
 """

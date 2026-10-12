@@ -5,7 +5,7 @@ counts per value, largest first; text equal ignoring case; and the schema's reco
 layer out. R139: counts per value of a list and of a text split at a separator, each value on its own.
 R140: records one of several values, and the records two relationships away from one record. R148: the year
 of a date compared with another property of the same record, listed and counted, and a later page of a cut
-list by offset. Needs Neo4j."""
+list by offset. R161: that page's note points to measure count. Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader
 from kgbuilder.agent.structured_query import Condition, RecordQuery
@@ -13,6 +13,7 @@ from kgbuilder.agent.structured_tools import QueryRecords
 from kgbuilder.query.graph_schema import read_graph_schema
 from kgbuilder.query.graph_store import Neo4jGraphStore
 
+from .test_agent_structured import COUNT_HINT
 from .test_hybrid_units import RELATED_PLAN, load
 
 
@@ -90,4 +91,5 @@ def test_records_compared_field_to_field_and_paged(driver):
     assert query.run(RecordQuery(label="Press", where=paired, measure="count")).rows == [["1"]]
     page = query.run(RecordQuery(label="Part", related_to="Press:P1", relationship="PART_OF", offset=3))
     assert page.issues == [] and len(page.refs) == 1 and page.refs[0] not in ("Part:S1", "Part:S2", "Part:S3")
-    assert (page.total, page.note) == (4, "4-4 of 4 shown")
+    # R161: a paged listing of records points to the count as a table's does
+    assert (page.total, page.note) == (4, "4-4 of 4 shown; " + COUNT_HINT)
