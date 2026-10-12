@@ -1,15 +1,16 @@
 """What the agent's exhaustive text tools read (R141): every passage of one document, and every passage that
-contains given words.
+matches given patterns.
 
 Role in the pipeline: `read_document` and `find_passages` (text_tools.py) depend on the `TextReader` protocol
 and are tested with a fake; `Neo4jTextReader` runs the Cypher over the lexical graph (text/lexical.py): a
 `Chunk` with its `context`, `text` and `index`, `PART_OF` its `Document`; tested once against Neo4j.
 Design: Repository, read-only. Both reads are exhaustive and ordered (by document, then position), cut to
 the limit in the database with the total kept, because a count needs every passage, not the best few the
-ranked searches return (R136: five counts over text missed passages a top 5 left out). Words are matched
-as substrings ignoring case, every word in the same passage, held by its text or by its context (the
-document's first heading or file name): a word naming what the document is about counts for every passage
-of it (R149).
+ranked searches return (R136: five counts over text missed passages a top 5 left out). Every pattern must
+match the same passage, in its lowercased text or in its lowercased context (the document's first heading
+or file name): a word naming what the document is about counts for every passage of it (R149). The
+patterns are `find_passages`'s (R162: a word as written, or its other forms as whole words); the reader
+runs them and decides nothing about forms.
 Not here: ranking passages (text_tools.py's searches), caps and notes for the agent (the tools).
 """
 
@@ -27,9 +28,10 @@ class TextReader(Protocol):
         """The first `limit` passages of the document `doc_id`, in order, and how many it has (0: none)."""
         ...
 
-    def matching(self, words: list[str], limit: int) -> tuple[list[ChunkText], int]:
-        """The first `limit` passages holding every one of `words` (lowercase) in their text or their context
-        (the document's first heading or file name), by document and position, and how many there are."""
+    def matching(self, patterns: list[str], limit: int) -> tuple[list[ChunkText], int]:
+        """The first `limit` passages each of `patterns` (regular expressions searched anywhere in the
+        lowercased text, as `re.search` would) matches in their text or their context (the document's
+        first heading or file name), by document and position, and how many there are."""
         ...
 
 
@@ -44,17 +46,20 @@ class Neo4jTextReader:
             "MATCH (c:Chunk)-[:PART_OF]->(d:Document {doc_id: $doc_id})", doc_id=doc_id, limit=limit
         )
 
-    def matching(self, words: list[str], limit: int) -> tuple[list[ChunkText], int]:
-        # every word a substring of the passage's text or of its context (the document's first heading or file
-        # name, text/chunking.py `document_context`), ignoring case: a later passage rarely repeats what its
+    def matching(self, patterns: list[str], limit: int) -> tuple[list[ChunkText], int]:
+        # every pattern found in the passage's text or in its context (the document's first heading or file
+        # name, text/chunking.py `document_context`), lowercased: a later passage rarely repeats what its
         # document is about, so a search naming it missed those passages (R145, F12), and the extractor
-        # reads names the same way (text/extraction.py `verify`). Each word is held by one of the two, so
-        # no phrase spans them; `coalesce` keeps a chunk without a context; `words` arrive lowercase.
+        # reads names the same way (text/extraction.py `verify`). Each pattern matches one of the two, so
+        # no phrase spans them; `coalesce` keeps a chunk without a context. Cypher's `=~` matches the whole
+        # string, so each pattern is wrapped to be found anywhere, across line breaks (`(?s)`), as
+        # `re.search` finds it in the tool's excerpt (R162).
+        anywhere = [f"(?s).*(?:{p}).*" for p in patterns]
         where = (
-            "MATCH (c:Chunk)-[:PART_OF]->(d:Document) WHERE all(w IN $words WHERE "
-            "toLower(c.text) CONTAINS w OR toLower(coalesce(c.context, '')) CONTAINS w)"
+            "MATCH (c:Chunk)-[:PART_OF]->(d:Document) WHERE all(p IN $patterns WHERE "
+            "toLower(c.text) =~ p OR toLower(coalesce(c.context, '')) =~ p)"
         )
-        return self._page(where, words=words, limit=limit)
+        return self._page(where, patterns=anywhere, limit=limit)
 
     def _page(self, match: str, **params: object) -> tuple[list[ChunkText], int]:
         """The passages `match` binds as `c` (in the document `d`), by document and position, cut to `$limit`

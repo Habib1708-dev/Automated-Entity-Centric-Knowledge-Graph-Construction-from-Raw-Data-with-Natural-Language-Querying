@@ -8,9 +8,12 @@ one document in order with the total, and every passage holding all given words.
 passage's context (its document's title) counts for every passage of that document. R150: the things the
 mentions refer to, ranked by how many documents name them (a document writing a name two ways counted
 once), with their spellings sorted and cut, filtered by any spelling or by label, cut with the total and
-every label kept, and nothing on a graph without mentions. Needs Neo4j."""
+every label kept, and nothing on a graph without mentions. R162: the text reader runs the tool's patterns, so
+`find_passages` over the graph finds a word's other forms, across a passage's line breaks, and not a word
+that only holds its stem. Needs Neo4j."""
 
-from kgbuilder.agent import Neo4jNodeReader, Neo4jTextReader
+from kgbuilder.agent import FindPassages, Neo4jNodeReader, Neo4jTextReader
+from kgbuilder.agent.text_tools import PassageArguments
 
 from .test_hybrid_units import RELATED_PLAN, load
 
@@ -114,6 +117,27 @@ def test_a_word_of_a_documents_title_counts_for_every_passage_of_it(driver):
     assert [c.chunk_id for c in whole] == ["notes.md#0", "notes.md#1"] and total == 2
     # each word is held by the text or by the title, so no phrase spans the two
     assert text.matching(["notes the"], 5) == ([], 0)
+
+
+def test_find_passages_over_the_graph_finds_a_words_other_forms_and_not_a_word_holding_its_stem(driver):
+    # R157's FB38: the literal 'wobble' missed 'wobbling' (R162). Neo4j's regex engine must read the tool's
+    # pattern as Python does, also in a passage of several lines
+    load(driver)
+    driver.execute_query(
+        "CREATE (:Chunk {chunk_id: 'lines.md#0', index: 0, text: $text, context: 'Lines'})"
+        "-[:PART_OF]->(:Document {doc_id: 'lines.md'})",
+        text="Cold start.\nThe arm wobbled.",
+    )
+    tool = FindPassages(Neo4jTextReader(driver), limit=5, chars=300)
+    found = tool.run(PassageArguments(words=["wobble"]))
+    assert [(c.chunk_id, c.text) for c in found.chunks] == [
+        ("lines.md#0", "The arm wobbled."),
+        ("log.md#1", "Some wobbling seen."),
+        ("notes.md#0", "The spindle wobbles."),
+    ]
+    assert (found.total, found.note) == (3, "")
+    # 'livers' is searched as 'liver' with an ending, which 'Delivered late.' holds only inside a word
+    assert tool.run(PassageArguments(words=["livers"])).total == 0
 
 
 # every label among the shared graph's named things: two entity types and two record labels

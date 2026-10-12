@@ -14,7 +14,11 @@ so a count over its results misses the rest (R136: five such counts wrong). They
 sentences holding the words, so a list of thirty stays a few thousand characters. A word held by a
 passage's context (its document's first heading or file name) counts for it, and an uncut list of two or
 more passages from one document says how many of its passages they are and that `read_document` reads them
-all (R149: a passage rarely repeats what its document is about).
+all (R149: a passage rarely repeats what its document is about). A word is searched as written or as its
+other forms (R162: R157's FB38 searched "wobble" and never saw the passages saying "wobbling"): code cuts
+one inflectional ending (`stem`) and matches the stem only as a whole word with one such ending
+(`form_pattern`), so a cut word never matches inside an unrelated word ("signs" never finds "design"); a
+different wording of the same idea is left to the searches by meaning.
 Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, text_reader.py,
 hybrid/unit_store.py).
 """
@@ -35,6 +39,15 @@ from .text_reader import TextReader
 
 # a sentence ends at . ! or ? followed by space, or at a line break (a list item, a heading)
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
+# The inflectional endings a searched word loses, one at most, the longer first so "rattles" loses "es", not
+# "s": "rattle", "rattles", "rattled" and "rattling" all become "rattl". The same endings, or none, are what a
+# stem may be followed by when it is matched (`form_pattern`). "-ly" is none of them: it is no inflection,
+# and cut from a word that does not take it ("comply", "supply") it left a stem of many unrelated words.
+_ENDINGS = ("ing", "ed", "es", "s", "e")
+# The fewest letters a stem keeps: a shorter one is too often another word ("not" from "notes" would join
+# "not" and "noting"), so such a word is matched as written ("lids") or loses a shorter ending ("notes" only
+# "s").
+_MIN_STEM = 4
 
 
 class SearchArguments(BaseModel):
@@ -130,8 +143,15 @@ class PassageArguments(BaseModel):
     words: list[str] = Field(
         min_length=1,
         max_length=5,
+        # The forms rule as the code applies it (R162), stated once, here where the argument is defined: what
+        # joins (the endings, four letters kept) and what does not, so the model searches the forms the rule
+        # misses itself instead of taking one search as complete. The example is `form_pattern`'s own output
+        # (a test checks it and the limits), in words no evaluated dataset's text holds.
         description="Words or short phrases every passage must contain, in its text or its context, ignoring "
-        "case: the fewest that pick out what is counted.",
+        "case: the fewest that pick out what is counted. A word also finds itself with -s, -es, -ed, -ing "
+        "or -e added or removed when four letters stay ('brews' finds 'brew', 'brewed' and 'brewing'); a "
+        "shorter word, a doubled letter or a y turned to i is not joined, so search those forms too. A "
+        "phrase varies only its last word; a word with a digit or a sign is matched as written.",
     )
 
     @field_validator("words")
@@ -145,17 +165,22 @@ class PassageArguments(BaseModel):
 class FindPassages:
     """`find_passages`: every passage holding all the words, by document and position, at most `limit`, each
     shown as its sentences that hold a word, cut at `chars`. A word held by the passage's context (its
-    document's first heading or file name) counts (R149)."""
+    document's first heading or file name) counts (R149); each word is searched as its `form_pattern`
+    (R162)."""
 
     name = "find_passages"
     # The context sentence names the field the model sees (`context`) and says why a passage that never
     # repeats the name is found: R145's F12 searched a document's name with a topic word before it had seen
-    # any document id, and the passages not naming it were missed.
+    # any document id, and the passages not naming it were missed. The words sentence points elsewhere for
+    # what no form joins: R157's HB41 searched one wording ("notified") of an idea the text also words
+    # otherwise ("made aware"); the searches by meaning find that. Which forms a word finds is said once, in
+    # the `words` argument.
     description = (
         "Find every passage that contains all the given words, in every document, not only the best few: use "
         "it to count or list everything the text says about something. A word in a passage's context (its "
         "document's title) counts for every passage of that document, even one that does not repeat it. "
-        "Each passage shows its sentences that hold the words."
+        f"It finds the words, not other words for the same idea: {SearchText.name} searches by meaning. Each "
+        "passage shows its sentences that hold the words."
     )
     arguments = PassageArguments
 
@@ -165,9 +190,10 @@ class FindPassages:
         self._chars = chars
 
     def run(self, arguments: PassageArguments) -> ChunksResult:
-        words = [w.strip().lower() for w in arguments.words]
-        chunks, total = self._reader.matching(words, self._limit)
-        shown = [c.model_copy(update={"text": excerpt(c.text, words, self._chars)}) for c in chunks]
+        # the patterns both pick the passages and the sentences shown of them, so every form found is shown
+        patterns = [form_pattern(w.strip().lower()) for w in arguments.words]
+        chunks, total = self._reader.matching(patterns, self._limit)
+        shown = [c.model_copy(update={"text": excerpt(c.text, patterns, self._chars)}) for c in chunks]
         return ChunksResult(chunks=shown, total=total, note=self._note(shown, total))
 
     def _note(self, shown: list[ChunkText], total: int) -> str:
@@ -195,9 +221,47 @@ class FindPassages:
         )
 
 
-def excerpt(text: str, words: list[str], chars: int) -> str:
-    """The sentences of `text` holding one of `words` (lowercase), in order, cut at `chars`; the text itself
-    when none does (a phrase across a sentence end, or words held only by the passage's context)."""
+def stem(term: str) -> str:
+    """`term` (lowercase, a word or a phrase) with its last word cut to its stem: one ending of `_ENDINGS`
+    dropped when at least `_MIN_STEM` letters stay ("boiling" -> "boil", "notes" -> "note"), else the term as
+    given ("lids").
+
+    A word holding anything but ASCII letters (a digit or a sign: "@handle", "kv12-0457", "45cm") is an id or
+    a code and kept whole; so is a word of other letters, whose word edges `form_pattern` draws against ASCII
+    letters only. In a phrase only the last word is cut: an inner word cut ("boil water" for "boiling water")
+    would no longer be followed by the next word and the phrase would miss itself."""
+    head, space, last = term.rpartition(" ")
+    if not (last.isascii() and last.isalpha()):
+        return term
+    for ending in _ENDINGS:
+        # a double "s" is no plural ending: "press" stays whole, so it finds "presses" and "pressed"
+        if last.endswith(ending) and len(last) - len(ending) >= _MIN_STEM and not last.endswith("ss"):
+            return head + space + last[: -len(ending)]
+    return term
+
+
+def form_pattern(term: str) -> str:
+    """The regular expression a searched `term` (lowercase) is matched by: the term as written anywhere, as
+    before R162, or, when `stem` cuts it, the stem as a whole word followed by one of `_ENDINGS` or by
+    nothing ("wobble": "wobble" anywhere, or "wobbl", "wobbles", "wobbled", "wobbling" as whole words).
+
+    The stem is anchored at both word edges because, matched anywhere, a cut word met unrelated words that
+    hold its stem: R162's first replay found "sign" (from "signs") in "design", "vent" in "prevent", "star"
+    (from "stars") in "started". An edge is drawn against an ASCII letter, not with the word-boundary escape,
+    so Python (`excerpt`, the test fakes) and Neo4j's Java engine (text_reader.py), whose word characters
+    differ, split words alike; the pattern uses only what both engines read the same way: escaped literals, a
+    group, an alternation, fixed lookarounds."""
+    literal = re.escape(term)
+    cut = stem(term)
+    if cut == term:  # nothing cut: every form a stem would add holds the term, which the literal finds
+        return literal
+    return rf"{literal}|(?<![a-z]){re.escape(cut)}(?:{'|'.join(_ENDINGS)})?(?![a-z])"
+
+
+def excerpt(text: str, patterns: list[str], chars: int) -> str:
+    """The sentences of `text` matching one of `patterns` (`form_pattern`s), in order, cut at `chars`; the
+    text itself when none does (a phrase across a sentence end, or words held only by the passage's
+    context)."""
     sentences = [part.strip() for part in _SENTENCE_END.split(text) if part.strip()]
-    kept = [sentence for sentence in sentences if any(w in sentence.lower() for w in words)]
+    kept = [sentence for sentence in sentences if any(re.search(p, sentence.lower()) for p in patterns)]
     return (" ... ".join(kept) if kept else text)[:chars]

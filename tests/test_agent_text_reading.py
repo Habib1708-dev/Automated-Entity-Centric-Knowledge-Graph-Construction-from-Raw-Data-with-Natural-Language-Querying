@@ -5,13 +5,27 @@ shown as its sentences holding a word, a note when cut or when nothing matches, 
 citation; a blank word refused by the arguments; and the excerpt rule itself. R149: a word held by a
 passage's context counts (the fake mirrors the protocol's rule), and an uncut list of two or more passages
 from one document says how many of its passages they are and points to `read_document`; a cut list or a
-single passage points nowhere."""
+single passage points nowhere. R162: a word is searched as written or as its other forms, and the excerpt
+shows them; the stem rule itself (endings, the shortest stem, ids and phrases); a cut word's stem matched
+only as a whole word with an ending, so it never finds an unrelated word holding it ("signs" never finds
+"design") and nothing the word as written finds is lost; and the forms rule the model reads, its example and
+its limits, is what the code does."""
+
+import re
 
 import pytest
 from pydantic import ValidationError
 
 from kgbuilder.agent import ChunkText, FindPassages, ReadDocument
-from kgbuilder.agent.text_tools import DocumentArguments, PassageArguments, excerpt
+from kgbuilder.agent.text_tools import (
+    _ENDINGS,
+    _MIN_STEM,
+    DocumentArguments,
+    PassageArguments,
+    excerpt,
+    form_pattern,
+    stem,
+)
 
 
 class FakeText:
@@ -26,11 +40,12 @@ class FakeText:
         found = self._documents.get(doc_id, [])
         return found[:limit], len(found)
 
-    def matching(self, words, limit):
-        self.asked.append(("matching", list(words), limit))
-        # the protocol's rule (R149): each word held by the passage's text or by its context
+    def matching(self, patterns, limit):
+        self.asked.append(("matching", list(patterns), limit))
+        # the protocol's rule (R149, R162): each pattern found in the passage's lowercased text or context
         found = [c for chunks in self._documents.values() for c in chunks
-                 if all(w in c.text.lower() or w in c.context.lower() for w in words)]  # fmt: skip
+                 if all(re.search(p, c.text.lower()) or re.search(p, c.context.lower())
+                        for p in patterns)]  # fmt: skip
         return found[:limit], len(found)
 
 
@@ -137,4 +152,102 @@ def test_an_excerpt_keeps_the_sentences_holding_a_word_and_is_cut():
     assert excerpt(text, ["lid"], 300) == "The lid is loose! ... Is the lid new?"
     assert excerpt(text, ["lid"], 10) == "The lid is"
     # a phrase across a sentence end matches no single sentence: the passage is shown whole
-    assert excerpt("It is loose. Lid off.", ["loose. lid"], 300) == "It is loose. Lid off."
+    assert excerpt("It is loose. Lid off.", [form_pattern("loose. lid")], 300) == "It is loose. Lid off."
+
+
+def test_a_word_finds_its_other_forms_and_the_excerpt_shows_them():
+    log = [ChunkText(chunk_id="log.md#0", context="Service log", text="Descaled. It boiled dry once.")]
+    reader = FakeText({"notes.md": NOTES, "log.md": log})
+    # R157's FB38: 'wobble' never met 'wobbling'; here 'boiling' must meet 'boils' and 'boiled'
+    found = FindPassages(reader, limit=5, chars=300).run(PassageArguments(words=["Boiling"]))
+    assert reader.asked == [("matching", [form_pattern("boiling")], 5)]  # the reader runs the tool's pattern
+    assert [c.text for c in found.chunks] == [
+        "The Meridian Kettle boils fast.",
+        "The lid rattles when it boils.",
+        "It boiled dry once.",
+    ]
+
+
+@pytest.mark.parametrize(
+    ("word", "expected"),
+    [
+        ("boil", "boil"),
+        ("boils", "boil"),
+        ("boiled", "boil"),
+        ("boiling", "boil"),
+        ("rattle", "rattl"),  # '-e' too, so 'rattle' meets 'rattles' and 'rattling'
+        ("rattles", "rattl"),  # '-es' before '-s'
+        ("quickly", "quickly"),  # '-ly' is no inflection: cut, 'comply' and 'supply' left 'comp' and 'supp'
+        ("comply", "comply"),
+        ("supply", "supply"),
+        ("notes", "note"),  # '-es' would leave three letters: '-s' is the ending that keeps four
+        ("lids", "lids"),  # 'lid' is under four letters: matched as written
+        ("late", "late"),
+        ("press", "press"),  # a double 's' is no plural
+        ("presses", "press"),
+        ("@handle", "@handle"),  # a sign or a digit: an id, matched as written
+        ("kv12-0457", "kv12-0457"),
+        ("2025", "2025"),
+        ("rating:", "rating:"),
+        ("cafés", "cafés"),  # letters outside ASCII: the pattern's word edges are drawn against ASCII
+        ("loose handles", "loose handl"),  # a phrase: only its last word is cut
+        ("boiling water", "boiling water"),
+    ],
+)
+def test_a_word_loses_one_ending_when_four_letters_stay_and_an_id_or_short_word_is_kept(word, expected):
+    assert stem(word) == expected
+
+
+def found(word: str, text: str) -> bool:
+    return re.search(form_pattern(word), text) is not None
+
+
+@pytest.mark.parametrize(
+    ("word", "forms", "unrelated"),
+    [
+        # R162's first replay: the stem matched anywhere found 'design' for 'signs', 'prevent' for 'vents',
+        # 'started' for 'stars', 'notification' for 'notified', 'company' for 'comply'
+        ("signs", ["sign", "signed", "signing", "a sign."], ["design", "consigned"]),
+        ("vents", ["vent", "vented", "venting"], ["prevent", "eventual", "inventory"]),
+        ("stars", ["star", "a star."], ["started", "mustard"]),
+        ("notified", ["notifies"], ["notification"]),
+        ("comply", ["comply", "complying"], ["company", "completely"]),
+        ("wobble", ["wobbling", "wobbles", "wobbled"], []),
+        ("loose handles", ["loose handle", "loose handled"], ["loose handlebar", "noose handle"]),
+    ],
+)
+def test_a_cut_words_stem_is_matched_only_as_a_whole_word_with_an_ending(word, forms, unrelated):
+    assert all(found(word, form) for form in forms)
+    assert not any(found(word, text) for text in unrelated)
+
+
+@pytest.mark.parametrize(
+    ("word", "text"),
+    [
+        ("signs", "designs"),
+        ("vents", "prevents"),
+        ("loose handles", "loose handles2"),
+        ("kv12-0457", "a kv12-0457"),
+    ],
+)
+def test_whatever_the_word_as_written_found_before_it_still_finds(word, text):
+    # the pattern keeps the literal match (before R162 the only one): a stem adds forms, it never loses one
+    assert found(word, text)
+
+
+def test_the_forms_rule_the_model_reads_is_what_the_code_does():
+    words = PassageArguments.model_fields["words"].description or ""
+    # the example: the searched word is cut, and each form named is found
+    example = re.search(r"'(\w+)' finds '(\w+)', '(\w+)' and '(\w+)'", words)
+    assert example is not None
+    query, *forms = example.groups()
+    assert stem(query) != query and all(found(query, form) for form in forms)
+    # the endings and the shortest stem named are the code's
+    assert set(re.findall(r"-(\w+)", words)) == set(_ENDINGS)
+    assert f"{['', 'one', 'two', 'three', 'four', 'five'][_MIN_STEM]} letters stay" in words
+    # the limits named: a shorter word, a doubled letter and a y turned to i are not joined
+    assert not found("rate", "rating")
+    assert not found("stopped", "stop") and not found("stops", "stopped")
+    assert not found("carried", "carry")
+    # the rule is stated once: the tool's description only points to the search by meaning
+    assert "-ing" not in FindPassages.description

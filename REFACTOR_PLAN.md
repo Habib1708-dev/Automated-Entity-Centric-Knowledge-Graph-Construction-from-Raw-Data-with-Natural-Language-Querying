@@ -9518,6 +9518,30 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   paged listings and not on groups, the prompt rule). 1487 passed (1482 + 5), ruff clean.
 - **R161 done 2026-10-12.** Next: R162, word forms in `find_passages`.
 
+### R162. Word forms in `find_passages` (done 2026-10-12; $0, code; unmeasured until R165)
+- **Scope** (`agent/text_tools.py`, `agent/text_reader.py`): each searched word becomes a pattern
+  (`form_pattern`): the word as written anywhere (the match before R162, so nothing found before is lost),
+  or, when `stem` cuts one ending (-ing, -ed, -es, -s, -e; four letters must stay; a word with a digit, a
+  sign or a non-ASCII letter is kept whole; a phrase varies its last word), the stem as a whole word with
+  one of those endings or none ("wobble" finds "wobbling"). Edges are drawn against ASCII letters so Python
+  (`excerpt`, the fakes) and Neo4j's regex split words alike; the escaped patterns go to Cypher as a
+  parameter (`=~`). The `words` field states the rule and its limits (a doubled letter or y turned to i is
+  not joined: search those forms too); the description says other words for the same idea are not found
+  (`search_text` searches by meaning). `agent_tools_prompt_version` c5369140677e -> acac3cc26b90 (+414
+  characters of tool text).
+- **Review fixes:** the first draft matched a cut stem anywhere, and the replay showed it corrupting counts
+  ("signs" -> "sign" found "design": 3 -> 32 passages; "stars" found "started"; "vent" found "prevent");
+  the stem is now anchored at word edges, and "-ly" is no longer cut (comply, supply).
+- **Offline replay** ($0; every recorded `find_passages` call of R143b, R151 and R156, corpora rebuilt with
+  the builds' own code; the old rule reproduces each record): 0 passages lost; FB38 `["wobble"]` 6 -> 10, the
+  four new all "wobbling" (every gold chunk now found); FB13 6 -> 20 (all "star"); HB36 6 -> 12 ("repair",
+  "repairs"); HB41 5 -> 5 ("made aware" stays out of reach of a word search, as planned); LB36 5 -> 6.
+  Known: a cut word can still meet another word that is its stem plus an ending ("evening" and "even").
+- **Verified:** new tests (the stem rule and its limits, decoys that must not match, the literal match never
+  lost, the description's rule equal to the code's, a Neo4j test over the graph). 1522 passed (1487 + 35),
+  ruff clean.
+- **R162 done 2026-10-12.** Next: R163, the form rule.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
