@@ -8918,6 +8918,38 @@ could be within the system." No run: both steps read R143b's saved answers ($0).
   replaces the other.
 - **R144 done 2026-10-12.** Next: R145, the causes of the remaining failures ($0, analysis).
 
+### R145. The causes of the remaining failures (done 2026-10-12; $0, analysis, no code)
+- **Scope:** every answer R144 or exact match counts wrong on R143b, traced through its trace (calls, notes)
+  to the code it comes from. Fixes are later steps, each its own; nothing changed here.
+- **Causes, the agent** (52 answers: 3 wrong by meaning, 7 more wrong by exact match only):
+
+  | Cause (where in the system) | Questions | Evidence |
+  |---|---|---|
+  | **1. The answer-form rule keys on "which things"** (`agent/prompt.py` PROMPT and `query/reader.py`, the same wording): "Otherwise answer in a short `text`" sends who / where / what-role / one-thing questions to `text`; no code-side check of the form (the `prompt-engineering` skill asks one per rule) | GN07 (all four systems), G02, G03, G10, G31, H36 | "Where did ... train?" -> `text` "Valencia"; "Which team is the person ... in?" -> `text` "Soil Ecology"; "How many miles ..." -> "Over 440 miles to empty" |
+  | **2. The structured queries cannot page and cannot compare two fields of one row** (`agent/structured_query.py`: a condition compares a field with a literal; no offset; rows cut at `agent_rows` 20) | HN03 (8 for 10) | "20 of 29 shown" on all four listings; the agent sorted ascending and descending and counted received year against model year by eye |
+  | **3. `find_passages` has no document scope** (`agent/text_tools.py`: every word must be in one passage) | F12 (3 for 4) | `["Uppsala", "covers"]`: a review that does not repeat the product's name drops out; `["removable covers"]` or `read_document` find 4 (R141) |
+  | **4. Text-derived things cannot be aggregated** (`query_records` reads `records_only`, the plan's table records; mentions and individuals only by walking one node per call) | F13 | 70 passages hold '@', 30 shown; the graph holds the handles as mentions (`@scandi_lover` 8, `@angry_customer` 7), which no tool counts |
+  | **5. Two sources name one company differently; one table per query** (`query_tables` reads one table) | H66 (judged right by meaning, wrong by exact match) | the recall's filer "Toyota Motor Engineering & Manufacturing" against the vehicle table's "Toyota Motor Corporation", which the gold takes |
+
+- **Causes, the reading systems** (`vector`, `graph_retrieval`, `hybrid`: 17, 17, 16 wrong of 30 by
+  meaning): every failure is a question whose answer is in the tables or needs a join or a count over more
+  than the 5 passages read (`qa_top_k`): 13-14 answer "the passages do not hold it" (FN01-03, FN05-06, HN01,
+  HN03-06, GN01-02, GN05-06; HN09 for vector and graph_retrieval), 3 give a wrong value from the passages
+  they saw (FN04 average 4.4 or 3.8 for 4.0; HN02 count 1 or 0 for 10; HN05 an empty set). Cause 1 costs
+  them GN07 as it costs the agent. Their two unfaithful quotes (FN07, vector and graph_retrieval) join a
+  sentence and the signature line below it into one "quote", against the "ONE contiguous quote" rule; the
+  answers are right.
+- **What the counts say:** of the agent's 10 exact-match failures, 6 are cause 1 (one prompt rule, shared
+  with every reading system), 1 is a naming choice between two sources (cause 5), and 3 are tool limits
+  (causes 2-4), each on one question; none is a retrieval miss, a refused call or an empty answer.
+- **Directions, each its own step if chosen:** (1) the form rule rewritten for who / where / what / one
+  thing, in both prompts, with a code-side check (an answer giving only `text` while naming a node a tool
+  returned is sent back once, as R138 does for an empty one), measured on the 10 form questions and the
+  fresh 30 (about $0.15); (2) `offset` for listed rows and a field-to-field condition; (3) a `document`
+  argument for `find_passages`; (4) a query over mentions and individuals (count by name, per document);
+  (5) none in code: a question of which source's name the gold takes.
+- **R145 done 2026-10-12; plan R144-R145 done.** Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
