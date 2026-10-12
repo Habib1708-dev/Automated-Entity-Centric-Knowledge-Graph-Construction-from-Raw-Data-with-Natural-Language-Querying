@@ -9428,6 +9428,18 @@ any fix makes the 250 questions seen and its measurement is a paid run.
   rules: accuracy per dataset (both scores, 95% Wilson intervals), accuracy per question type, and the
   failures by cause; captions with k/n; a test that the data functions return the record's counts ($0).
 
+### R158. R157's per-question outcomes committed as a record (done 2026-10-12; $0)
+- **Scope:** `tests/gold/r157/outcomes.json`: the 250 benchmark answers of R156 (the three answer fields only,
+  no trace), each with its dataset, type, exact-match outcome, outcome by meaning and, for the 11 answers
+  wrong by either score, the cause classes R157 traced (`agent_reasoning`, `tool_limit`, `retrieval_miss`,
+  `graph_build`; `answer_form` for the four exact-only misses). Written once from `out/` by a scratch
+  script; the figures (R159) read only this record.
+- **Verified:** `tests/test_benchmark_record.py` (7 tests): every dataset holds its 50 gold questions once;
+  every exact-match outcome equals `validation/qa.is_correct` on the recorded answer, its gold question and
+  the free-text verdict; every outcome by meaning is the verdict; a cause exactly for the wrong answers;
+  239 and 243 right. 1461 passed (1454 + 7), ruff clean.
+- **R158 done 2026-10-12.** Next: R159, the figures.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

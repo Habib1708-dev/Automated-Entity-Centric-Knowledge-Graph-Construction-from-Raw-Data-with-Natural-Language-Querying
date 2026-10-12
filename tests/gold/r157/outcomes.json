@@ -1,0 +1,3213 @@
+{
+ "step": "R157 (record committed in R158): the frozen agent's answers to the 250 benchmark questions, scored",
+ "answers_from": {
+  "ntsb": "out/r156_ntsb/answers_agent.jsonl",
+  "lighthouses": "out/r156_lighthouses_qa/answers_agent.jsonl",
+  "furniture": "out/r156_furniture_qa/answers_agent.jsonl",
+  "heldout": "out/r156_heldout_qa/answers_agent.jsonl",
+  "generality": "out/r156_generality_qa/answers_agent.jsonl"
+ },
+ "verdicts": "tests/gold/r157/<dataset>_bench_agent_{meaning,verdicts}.json",
+ "runs": "tests/gold/r156/runs.json",
+ "cause_classes": "R157's tracing (REFACTOR_PLAN R157): agent_reasoning, tool_limit, retrieval_miss, graph_build; answer_form for the exact-only misses",
+ "questions": [
+  {
+   "dataset": "ntsb",
+   "question_id": "NB01",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 48.6,
+   "text": "According to the crew table, the pilot had 48.6 total flight hours.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB02",
+   "type": "multi_hop",
+   "entities": [
+    "BARR AIR PATROL LLC"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB03",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 2004.0,
+   "text": "The aircraft involved in the accident (accident number CEN22LA312), in which the pilot observed white smoke trailing the airplane, was built in 2004.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB04",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 11.0,
+   "text": "The events table records the accident CEN23LA344 at a distance of 11.0 statute miles from the nearest airport.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB05",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 53.0,
+   "text": "The pilot was 53 years old.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB06",
+   "type": "multi_hop",
+   "entities": [
+    "Aircraft-Aircraft systems-Navigation system-(general)-Malfunction"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB07",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 18.0,
+   "text": "The events table records a gust speed of 18 knots for the accident of the aircraft operated by Northwestern Michigan College.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB08",
+   "type": "multi_hop",
+   "entities": [
+    "Beech A36",
+    "Piper PA-28-181"
+   ],
+   "number": null,
+   "text": "The aircraft models involved in accidents whose defining event in the sequence of occurrences was fuel starvation are Beech A36 and Piper PA-28-181.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB09",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 19.0,
+   "text": "The pilot was 19 years old.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB10",
+   "type": "aggregation",
+   "entities": null,
+   "number": 4.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB11",
+   "type": "aggregation",
+   "entities": [
+    "R44 II"
+   ],
+   "number": null,
+   "text": "The R44 II model has the most accidents with at least one injured person, accounting for 3 of the 7 injury accidents.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB12",
+   "type": "aggregation",
+   "entities": [],
+   "number": 8.0,
+   "text": "Across all accidents, a total of 8 people had minor injuries.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB13",
+   "type": "aggregation",
+   "entities": [],
+   "number": 7.0,
+   "text": "There are 7 accidents that carry the finding 'Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot'.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB14",
+   "type": "aggregation",
+   "entities": [
+    "CEN22LA059",
+    "CEN21LA268"
+   ],
+   "number": null,
+   "text": "The narratives for accidents CEN22LA059 and CEN21LA268 both describe the aircraft striking a road sign.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB15",
+   "type": "aggregation",
+   "entities": [],
+   "number": 4.0,
+   "text": "The narrative describes an impact with a fence or a fence post in four accidents.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB16",
+   "type": "aggregation",
+   "entities": [
+    "CEN21FA299",
+    "CEN21LA280",
+    "CEN22LA310",
+    "CEN23LA017"
+   ],
+   "number": null,
+   "text": "The narrative uses the term 'go-around' or 'go around' in accidents CEN21FA299, CEN21LA280, CEN22LA310, and CEN23LA017.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB17",
+   "type": "aggregation",
+   "entities": [
+    "IL"
+   ],
+   "number": null,
+   "text": "Illinois (IL) had the most accidents, with a total of 4.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB18",
+   "type": "aggregation",
+   "entities": [
+    "A36"
+   ],
+   "number": null,
+   "text": "The A36 model's accident aircraft have the oldest average year of manufacture (1979.2).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB19",
+   "type": "structured_filter",
+   "entities": [
+    "CEN21LA232",
+    "CEN22LA244"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB20",
+   "type": "structured_filter",
+   "entities": [
+    "CEN21LA173",
+    "CEN21LA280",
+    "CEN23LA017"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB21",
+   "type": "structured_filter",
+   "entities": [
+    "ANC21LA027",
+    "CEN21LA221",
+    "CEN21LA382",
+    "CEN21LA383"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB22",
+   "type": "structured_filter",
+   "entities": [
+    "CEN21LA126",
+    "CEN21LA339",
+    "CEN21LA383",
+    "CEN23LA026"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB23",
+   "type": "structured_filter",
+   "entities": [
+    "ANC21LA079",
+    "ANC23LA032",
+    "CEN21LA339"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB24",
+   "type": "structured_filter",
+   "entities": [
+    "LUNKEN FLIGHT TRAINING CENTER LLC",
+    "ATP Flight School",
+    "Mcair",
+    "NORTHWESTERN MICHIGAN COLLEGE",
+    "KANSAS STATE UNIVERSITY - SALINA",
+    "Excite Aircraft, Inc."
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB25",
+   "type": "structured_filter",
+   "entities": [
+    "CEN21LA221",
+    "CEN21LA268",
+    "CEN21LA280",
+    "CEN21LA283",
+    "CEN23LA344"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB26",
+   "type": "structured_filter",
+   "entities": [
+    "CEN21LA414",
+    "CEN22LA194"
+   ],
+   "number": null,
+   "text": "The narratives for accidents CEN21LA414 and CEN22LA194 state that a flight instructor was on board during the flight.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB27",
+   "type": "structured_filter",
+   "entities": [
+    "CEN22LA059",
+    "CEN23LA344"
+   ],
+   "number": null,
+   "text": "In accident CEN22LA059, the pilot redirected the airplane toward a highway and landed on it (striking a road sign during the landing flare). In accident CEN23LA344, the pilot maneuvered the airplane for a forced landing to a road.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB28",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 58.0,
+   "text": "58",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB29",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 2008.0,
+   "text": "The aircraft involved in the accident at Reserve, Louisiana, on 2021-06-10 (NTSB accident CEN21LA284) was built in 2008.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB30",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 27100.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB31",
+   "type": "disambiguation",
+   "entities": [
+    "Willow Creek Aviation"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB32",
+   "type": "disambiguation",
+   "entities": [
+    "CEN21LA280"
+   ],
+   "number": null,
+   "text": "In accident CEN21LA280, the airplane veered left and impacted a drainage ditch during the attempted go-around after bouncing on the runway.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB33",
+   "type": "disambiguation",
+   "entities": null,
+   "number": 26.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB34",
+   "type": "disambiguation",
+   "entities": [
+    "CEN23LA026"
+   ],
+   "number": null,
+   "text": "In accident CEN23LA026 involving the Piper PA-28-181, the student pilot aborted the takeoff after the airplane began oscillating following rudder correction during a touch-and-go landing.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB35",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 51.0,
+   "text": "The pilot flying the airplane during takeoff was in the right seat and was 51 years old.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB36",
+   "type": "negation_sensitive",
+   "entities": [
+    "CEN21FA299"
+   ],
+   "number": null,
+   "text": "The narrative reports that a postimpact fire ensued in accident CEN21FA299.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB37",
+   "type": "negation_sensitive",
+   "entities": [
+    "CEN22LA249",
+    "CEN21LA339"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB38",
+   "type": "negation_sensitive",
+   "entities": [
+    "CEN23LA344"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB39",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No. Postaccident testing revealed that the directional gyro counterclockwise heading stability exceeded testing limits by about 3°, but this finding would not result in the instrument anomalies reported by the pilot.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB40",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No. The engine lost power due to fuel starvation caused by a blockage/inadequate venting of the left fuel tank (obstructed by what appeared to be insect debris), not because the airplane ran out of fuel.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB41",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, the pilot did not observe any obstructions when circling the field prior to conducting the aerial application pass.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB42",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No. Based on observations of the runway light's mounting (mounted on a concrete base protruding about 1 inch from the ground, with its small-pipe stanchion broken at the threads at its base), the runway light should not have resulted in complete separation of the landing gear.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB43",
+   "type": "lookup",
+   "entities": [],
+   "number": 12512.5,
+   "text": "The failed air-conditioning hose had accumulated 12,512.5 total hours.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB44",
+   "type": "lookup",
+   "entities": [],
+   "number": 2100.0,
+   "text": "The airstrip was 2,100 feet long.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB45",
+   "type": "lookup",
+   "entities": [],
+   "number": 150.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB46",
+   "type": "lookup",
+   "entities": [],
+   "number": 8000.0,
+   "text": "8,000 feet mean sea level",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB47",
+   "type": "lookup",
+   "entities": [],
+   "number": 3.0,
+   "text": "According to the narrative for accident CEN21LA173, there were three passengers onboard the helicopter.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB48",
+   "type": "lookup",
+   "entities": [],
+   "number": 25.0,
+   "text": "About 25% of the runway surface was covered by patchy compressed snow.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB49",
+   "type": "lookup",
+   "entities": [],
+   "number": 7.0,
+   "text": "About 7 months after accident CEN21LA353, the manufacturer issued a service bulletin requiring replacement of landing gear attachment hardware.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NB50",
+   "type": "lookup",
+   "entities": [
+    "IO-550-N"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB01",
+   "type": "multi_hop",
+   "entities": [
+    "Godrevy Lighthouse",
+    "Wolf Rock Lighthouse",
+    "Trevose Head Lighthouse",
+    "Bishop Rock Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB02",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 1846.0,
+   "text": "1846",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB03",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 9.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB04",
+   "type": "multi_hop",
+   "entities": [
+    "automatization",
+    "conversion to solar power",
+    "electrification"
+   ],
+   "number": null,
+   "text": "For Lundy North Lighthouse, the events file records automatization, conversion to solar power, and electrification.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB05",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 1972.0,
+   "text": "1972",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB06",
+   "type": "multi_hop",
+   "entities": [
+    "Peninnis Lighthouse",
+    "Fl W 20s"
+   ],
+   "number": null,
+   "text": "According to the St Agnes Lighthouse article, St Agnes Lighthouse was superseded by Peninnis Lighthouse in 1911, which has the light characteristic Fl W 20s recorded in the table.",
+   "exact": false,
+   "meaning": true,
+   "causes": [
+    "answer_form"
+   ]
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB07",
+   "type": "multi_hop",
+   "entities": null,
+   "number": 5.0,
+   "text": "The trials were held at St. Catherine's Lighthouse, which lies in the historic county of Hampshire. There are 5 lighthouses in the table in Hampshire (Egypt Point light, Hurst Point Lighthouse, Nab Tower, Needles Lighthouse, and St. Catherine's Lighthouse).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB08",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 8.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB09",
+   "type": "multi_hop",
+   "entities": [
+    "Cromer Lighthouse",
+    "Coquet Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ]
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB10",
+   "type": "aggregation",
+   "entities": [
+    "Cornwall",
+    "Devon"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB11",
+   "type": "aggregation",
+   "entities": [],
+   "number": 11.0,
+   "text": "There are 11 automation events in the events file dated in the 1990s.",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ]
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB12",
+   "type": "aggregation",
+   "entities": [
+    "James Nicholas Douglass"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB13",
+   "type": "aggregation",
+   "entities": [],
+   "number": 17.0,
+   "text": "There are 17 lighthouses that have an electrification event in the events file.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB14",
+   "type": "aggregation",
+   "entities": [
+    "Bishop Rock Lighthouse",
+    "Lundy North Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB15",
+   "type": "aggregation",
+   "entities": [],
+   "number": 18.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB16",
+   "type": "aggregation",
+   "entities": [
+    "Anvil Point Lighthouse",
+    "St Anthony's Lighthouse",
+    "Tater Du Lighthouse"
+   ],
+   "number": null,
+   "text": "Anvil Point Lighthouse, St Anthony's Lighthouse, and Tater Du Lighthouse each had a fog signal sounded through Tannoy emitters or units.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB17",
+   "type": "aggregation",
+   "entities": [
+    "Farne Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB18",
+   "type": "aggregation",
+   "entities": [
+    "Farne Lighthouse",
+    "Godrevy Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB19",
+   "type": "structured_filter",
+   "entities": [
+    "Farne Lighthouse",
+    "Brownsman Lighthouse",
+    "Longstone Lighthouse",
+    "St Mary's Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB20",
+   "type": "structured_filter",
+   "entities": [
+    "Old Higher Lighthouse",
+    "St Agnes Lighthouse"
+   ],
+   "number": null,
+   "text": "According to their respective articles, St Agnes Lighthouse first shone its light on 30 October 1680, and the Old Higher Lighthouse shone for the first time on 29 September 1716.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB21",
+   "type": "structured_filter",
+   "entities": [
+    "Bishop Rock Lighthouse",
+    "Eddystone Lighthouse",
+    "Longships Lighthouse",
+    "Pendeen Lighthouse",
+    "Peninnis Lighthouse",
+    "Round Island Lighthouse",
+    "St Anthony's Lighthouse",
+    "Tater Du Lighthouse",
+    "Trevose Head Lighthouse",
+    "Wolf Rock Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB22",
+   "type": "structured_filter",
+   "entities": [
+    "Hilbre Island Lighthouse",
+    "Souter Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB23",
+   "type": "structured_filter",
+   "entities": [
+    "Wolf Rock Lighthouse",
+    "Round Island Lighthouse",
+    "St Anthony's Lighthouse",
+    "Longships Lighthouse",
+    "Bishop Rock Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB24",
+   "type": "structured_filter",
+   "entities": [
+    "Casquets lighthouses",
+    "Orfordness Lighthouse",
+    "Lizard Lighthouse",
+    "North Foreland Lighthouse",
+    "St Agnes Lighthouse",
+    "Smeaton's Tower",
+    "Happisburgh Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB25",
+   "type": "structured_filter",
+   "entities": [
+    "Spurn Lighthouse",
+    "Egypt Point light",
+    "South Foreland Upper Lighthouse",
+    "Souter Lighthouse",
+    "St. Mary's Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB26",
+   "type": "structured_filter",
+   "entities": [
+    "South Foreland Lower Lighthouse",
+    "Dungeness Old Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB27",
+   "type": "structured_filter",
+   "entities": [
+    "Harwich High Lighthouse",
+    "Lundy Old Light",
+    "Harwich Low Lighthouse",
+    "St Agnes Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB28",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 1906.0,
+   "text": "According to the table, Portland Bill Lighthouse entered service in 1906.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB29",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 1904.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB30",
+   "type": "disambiguation",
+   "entities": [
+    "Grade II* listed building"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB31",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 1994.0,
+   "text": "1994",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB32",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 38.0,
+   "text": "38 metres",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB33",
+   "type": "disambiguation",
+   "entities": [
+    "Peninnis Lighthouse"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB34",
+   "type": "disambiguation",
+   "entities": null,
+   "number": 1832.0,
+   "text": "The table records the service retirement of Burnham-on-Sea Round Tower in 1832.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB35",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 20.5,
+   "text": "According to the Whitby Lighthouse article, the Whitby North Light was 20.5 metres tall.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB36",
+   "type": "negation_sensitive",
+   "entities": [
+    "Old Higher Lighthouse",
+    "St Agnes Lighthouse",
+    "St Mary's Lighthouse"
+   ],
+   "number": null,
+   "text": "St Agnes Lighthouse, St Mary's Lighthouse, and Old Higher Lighthouse are described as disused or decommissioned in their respective articles.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB37",
+   "type": "negation_sensitive",
+   "entities": [
+    "Farne Lighthouse"
+   ],
+   "number": null,
+   "text": "Farne Lighthouse (originally named Farne High Lighthouse) still functions as a lighthouse, whereas Farne Low Lighthouse was discontinued and demolished.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB38",
+   "type": "negation_sensitive",
+   "entities": [
+    "Lamorna Cove"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB39",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "Earlier petitions to build a lighthouse on St Agnes were submitted by private individuals and companies and refused in 1665 and 1679.",
+   "exact": false,
+   "meaning": true,
+   "causes": [
+    "answer_form"
+   ]
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB40",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": 2017.0,
+   "text": "A renovation plan for the St Mary's Lighthouse site was rejected by the local planning authority in 2017.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB41",
+   "type": "negation_sensitive",
+   "entities": [
+    "St Anthony's Lighthouse"
+   ],
+   "number": null,
+   "text": "St Anthony's Lighthouse still sounds a fog horn (fog signal) today, blasting once every 30 seconds.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB42",
+   "type": "negation_sensitive",
+   "entities": [
+    "Low Light"
+   ],
+   "number": null,
+   "text": "The Low Light never had a revolving light, having remained a fixed light throughout.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB43",
+   "type": "lookup",
+   "entities": [
+    "Joseph Chamberlain"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB44",
+   "type": "lookup",
+   "entities": [
+    "Thomas Matthews"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB45",
+   "type": "lookup",
+   "entities": [],
+   "number": null,
+   "text": "The construction of Godrevy Lighthouse cost £7,082 15s 12d.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB46",
+   "type": "lookup",
+   "entities": [
+    "Marie Stopes"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB47",
+   "type": "lookup",
+   "entities": [
+    "Juan Ferrer"
+   ],
+   "number": null,
+   "text": "The construction of Tater Du Lighthouse came out of the tragedy of losing the small Spanish coaster named the Juan Ferrer.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB48",
+   "type": "lookup",
+   "entities": [
+    "John Miller company"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB49",
+   "type": "lookup",
+   "entities": [],
+   "number": 35.0,
+   "text": "The experimental electric fog signal introduced at St Anthony's Lighthouse in 1954 sounded from 35 Tannoy emitters.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LB50",
+   "type": "lookup",
+   "entities": [],
+   "number": 132000.0,
+   "text": "Farne Island Lighthouse was sold to the National Trust for £132,000 on 6 June 2005.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB01",
+   "type": "multi_hop",
+   "entities": [
+    "Spanish Glass Industries"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB02",
+   "type": "multi_hop",
+   "entities": [
+    "USA"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB03",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 86.0,
+   "text": "The preferred supplier for the drawer bottom (part S-1082) of the Helsingborg Dresser is Nordic Wood Industries, which sets a minimum order quantity of 86.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB04",
+   "type": "multi_hop",
+   "entities": [
+    "Stockholm Chair",
+    "Uppsala Sofa",
+    "Örebro Lamp",
+    "Linköping Bed"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB05",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 222.0,
+   "text": "The price of the Västerås Bookshelf is $222.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB06",
+   "type": "multi_hop",
+   "entities": [
+    "Sweden",
+    "India",
+    "Canada",
+    "Italy"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB07",
+   "type": "multi_hop",
+   "entities": [
+    "@scandi_lover",
+    "@designer_dave",
+    "@entertainer_emma"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB08",
+   "type": "multi_hop",
+   "entities": [
+    "@designer_dave",
+    "@entertainer_emma",
+    "@interior_whiz",
+    "@petite_patty",
+    "@scandi_lover"
+   ],
+   "number": null,
+   "text": "The cheapest product is the Örebro Lamp ($111) and the most expensive product is the Uppsala Sofa ($1289). The reviewers who reviewed both products are @designer_dave, @entertainer_emma, @interior_whiz, @petite_patty, and @scandi_lover.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB09",
+   "type": "multi_hop",
+   "entities": null,
+   "number": 20.0,
+   "text": "The preferred supplier for the Seat Base of the Stockholm Chair (Nordic Wood Industries) quotes a lead time of 20 days.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB10",
+   "type": "aggregation",
+   "entities": [
+    "Jönköping Coffee Table",
+    "Västerås Bookshelf"
+   ],
+   "number": null,
+   "text": null,
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ]
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB11",
+   "type": "aggregation",
+   "entities": [],
+   "number": 26.0,
+   "text": "The Stockholm Chair requires 26 screws in total: 12 screws directly in its assembly components, 6 screws in the Back Rest sub-assembly, and 8 screws in the Seat sub-assembly.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB12",
+   "type": "aggregation",
+   "entities": [],
+   "number": 399.5,
+   "text": "The average price of all 10 products is $399.50.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB13",
+   "type": "aggregation",
+   "entities": [],
+   "number": 11.0,
+   "text": "Across all products, there are 11 reviews that give a rating of two stars out of five (2/5).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB14",
+   "type": "aggregation",
+   "entities": [],
+   "number": null,
+   "text": "The provided tool results do not contain the full set of reviews (specifically missing reviews for Västerås Bookshelf and incomplete search results for all products), so they do not answer the question.",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "graph_build",
+    "tool_limit"
+   ]
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB15",
+   "type": "aggregation",
+   "entities": [
+    "@designer_dave"
+   ],
+   "number": null,
+   "text": "@designer_dave wrote two separate reviews of the Stockholm Chair.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB16",
+   "type": "aggregation",
+   "entities": [
+    "nordic Wood Industries"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB17",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 4.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB18",
+   "type": "aggregation",
+   "entities": [
+    "Malmö Desk",
+    "Helsingborg Dresser",
+    "Linköping Bed",
+    "Norrköping Nightstand"
+   ],
+   "number": null,
+   "text": null,
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "retrieval_miss"
+   ]
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB19",
+   "type": "structured_filter",
+   "entities": [
+    "Tokyo Electronics Co",
+    "French Electronics SA"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB20",
+   "type": "structured_filter",
+   "entities": [
+    "Fabric Cover",
+    "Cushion Cover",
+    "Shade Fabric",
+    "Fabric Sleeve"
+   ],
+   "number": null,
+   "text": "The parts offered by Bangalore Textiles Ltd at a unit cost below $10 for at least one part id are Fabric Cover, Cushion Cover, Shade Fabric, and Fabric Sleeve.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB21",
+   "type": "structured_filter",
+   "entities": [
+    "Screws",
+    "Shelf Pins"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB22",
+   "type": "structured_filter",
+   "entities": [
+    "Linköping Bed",
+    "Jönköping Coffee Table"
+   ],
+   "number": null,
+   "text": "Linköping Bed and Jönköping Coffee Table both have product descriptions mentioning hidden storage.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB23",
+   "type": "structured_filter",
+   "entities": [
+    "Drawer Sides",
+    "Wooden Slat"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB24",
+   "type": "structured_filter",
+   "entities": [
+    "Drawer Bottom",
+    "Drawer Back",
+    "Screws"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB25",
+   "type": "structured_filter",
+   "entities": [
+    "Drawer Front",
+    "Drawer Sides",
+    "Screws"
+   ],
+   "number": null,
+   "text": "For the Malmö Desk's Drawer Unit assembly, the non-preferred suppliers offer a lower unit cost than the preferred suppliers on Drawer Front ($34.32 vs $42.73), Drawer Sides ($16.07 vs $19.51), and Screws ($24.58 vs $40.33).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB26",
+   "type": "structured_filter",
+   "entities": [
+    "Norrköping Nightstand"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB27",
+   "type": "structured_filter",
+   "entities": [
+    "Helsingborg Dresser"
+   ],
+   "number": null,
+   "text": "@home_chef rated the Helsingborg Dresser 2 out of 5 stars.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB28",
+   "type": "disambiguation",
+   "entities": [
+    "Nordic Wood Industries"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB29",
+   "type": "aggregation",
+   "entities": [
+    "@furniture_lover92",
+    "@architect_amy",
+    "@bookworm_betty"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB30",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 34.62,
+   "text": "$34.62",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB31",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 24.0,
+   "text": "The preferred supplier (Brazilian Foam Solutions) quotes a lead time of 24 days for the foam padding in the Stockholm Chair's back rest.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB32",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 100.0,
+   "text": "The preferred supplier for the drawer front (Nordic Wood Industries) sets a minimum order quantity of 100.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB33",
+   "type": "disambiguation",
+   "entities": [
+    "Helsingborg Dresser",
+    "Norrköping Nightstand",
+    "Västerås Bookshelf"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB34",
+   "type": "aggregation",
+   "entities": [
+    "Norrköping Nightstand",
+    "Stockholm Chair"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB35",
+   "type": "lookup",
+   "entities": [
+    "@home_chef"
+   ],
+   "number": null,
+   "text": "@home_chef mentioned that customer service admitted they were \"aware of issues with a recent batch of drawer hardware from their supplier.\"",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB36",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": 1.0,
+   "text": "Only one review mentions that the bed makes noise.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB37",
+   "type": "negation_sensitive",
+   "entities": [
+    "Gothenburg Table",
+    "Jönköping Coffee Table",
+    "Norrköping Nightstand"
+   ],
+   "number": null,
+   "text": "Reviewers report that the Gothenburg Table, Jönköping Coffee Table, and Norrköping Nightstand scratch easily.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB38",
+   "type": "negation_sensitive",
+   "entities": [
+    "Malmö Desk"
+   ],
+   "number": null,
+   "text": null,
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ]
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB39",
+   "type": "negation_sensitive",
+   "entities": null,
+   "number": 1.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB40",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": 1.0,
+   "text": "Only 1 review says that the storage drawers slide smoothly; another review notes that one drawer no longer opens smoothly.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB41",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": 0.0,
+   "text": "None of the Uppsala Sofa reviews state that the removable covers faded or shrank in the wash; on the contrary, one review explicitly notes that they were washed multiple times with no fading or shrinking.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB42",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": 0.0,
+   "text": "None of the Örebro Lamp reviews say its light is harsh; three reviews explicitly state that the light is not harsh.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB43",
+   "type": "lookup",
+   "entities": [
+    "110cm x 60cm"
+   ],
+   "number": null,
+   "text": "A reviewer gives the dimensions as 110cm x 60cm.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB44",
+   "type": "lookup",
+   "entities": null,
+   "number": 3000.0,
+   "text": "3000 K",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB45",
+   "type": "lookup",
+   "entities": [],
+   "number": 92.0,
+   "text": "According to reviewer @petite_patty, the Uppsala Sofa is 92 centimeters deep.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB46",
+   "type": "lookup",
+   "entities": [
+    "self-closing feature with dampened action"
+   ],
+   "number": null,
+   "text": "A reviewer singles out a self-closing feature with dampened action on the drawer slide mechanism.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB47",
+   "type": "lookup",
+   "entities": [
+    "info@tokyoelectronics.jp"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB48",
+   "type": "lookup",
+   "entities": [],
+   "number": 7.0,
+   "text": "nearly 7 hours",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB49",
+   "type": "disambiguation",
+   "entities": [
+    "American Hardware Inc"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FB50",
+   "type": "lookup",
+   "entities": [],
+   "number": null,
+   "text": "@woodworker_amy sanded down the drawer rails and applied a tiny bit of lubricant before installing them.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB01",
+   "type": "multi_hop",
+   "entities": [
+    "15V406000",
+    "15V436000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB02",
+   "type": "multi_hop",
+   "entities": null,
+   "number": 7.0,
+   "text": "7 recall campaigns affect the 2019 Toyota RAV4.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB03",
+   "type": "multi_hop",
+   "entities": [
+    "16V244000",
+    "17V663000"
+   ],
+   "number": null,
+   "text": "The vehicle reported by an owner whose speedometer failed without warning is the 2017 Nissan Rogue. The recall campaigns for that vehicle received by NHTSA in 2017 or earlier are 16V244000 and 17V663000.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB04",
+   "type": "multi_hop",
+   "entities": [
+    "23V858000",
+    "26V332000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB05",
+   "type": "multi_hop",
+   "entities": [
+    "ELECTRICAL SYSTEM",
+    "FORWARD COLLISION AVOIDANCE",
+    "SERVICE BRAKES",
+    "POWER TRAIN",
+    "FUEL/PROPULSION SYSTEM"
+   ],
+   "number": null,
+   "text": "The owner complaints for the 2017 Nissan Rogue list ELECTRICAL SYSTEM, FORWARD COLLISION AVOIDANCE, SERVICE BRAKES, POWER TRAIN, and FUEL/PROPULSION SYSTEM.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB06",
+   "type": "multi_hop",
+   "entities": [
+    "11166434",
+    "11180230"
+   ],
+   "number": null,
+   "text": "The complaints concerning the vehicle affected by recall 19V493000 (OUTBACK) that list VISIBILITY/WIPER among their components are ODI numbers 11166434 and 11180230.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB07",
+   "type": "multi_hop",
+   "entities": [
+    "20V286000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB08",
+   "type": "multi_hop",
+   "entities": [
+    "11204698",
+    "11205702",
+    "11209676",
+    "11221492",
+    "11229137"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB09",
+   "type": "multi_hop",
+   "entities": [],
+   "number": null,
+   "text": "Dealers will inspect the vehicles and repair or repurchase the vehicle, as necessary, free of charge.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB10",
+   "type": "aggregation",
+   "entities": [],
+   "number": 4.0,
+   "text": "There are 4 complaints that list the engine among their components.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB11",
+   "type": "aggregation",
+   "entities": [],
+   "number": 7.0,
+   "text": "There are 7 different companies named as the filer (Manufacturer field) of the recall campaigns.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB12",
+   "type": "aggregation",
+   "entities": [],
+   "number": 3.0,
+   "text": "NHTSA received 3 recall campaigns in 2022.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB13",
+   "type": "aggregation",
+   "entities": [
+    "10823637",
+    "10824361",
+    "11185059",
+    "11229137"
+   ],
+   "number": null,
+   "text": "Complaints 10823637 and 10824361 both report an incident on 2016-01-30, while complaints 11185059 and 11229137 both report an incident on 2019-03-01.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB14",
+   "type": "aggregation",
+   "entities": [],
+   "number": 4.0,
+   "text": "There are 4 recall campaigns that list a component under ELECTRICAL SYSTEM.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB15",
+   "type": "aggregation",
+   "entities": [],
+   "number": 13.0,
+   "text": "There are 13 distinct components across all complaints when counting each comma-separated component separately.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB16",
+   "type": "aggregation",
+   "entities": [
+    "26V332000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB17",
+   "type": "aggregation",
+   "entities": [
+    "15V406000"
+   ],
+   "number": null,
+   "text": "Recall campaign 15V406000 was received earliest by NHTSA on June 24, 2015.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB18",
+   "type": "aggregation",
+   "entities": [
+    "Complaint 11030208",
+    "Complaint 11209676"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB19",
+   "type": "structured_filter",
+   "entities": [
+    "10692693",
+    "10816192",
+    "11166434",
+    "11209676"
+   ],
+   "number": null,
+   "text": "The complaints listing more than one component are ODI numbers 10692693, 10816192, 11166434, and 11209676.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB20",
+   "type": "structured_filter",
+   "entities": [
+    "17V472000",
+    "17V663000"
+   ],
+   "number": null,
+   "text": "The recall campaigns that list seats or seat belts as their component are 17V472000 (SEAT BELTS) and 17V663000 (SEATS).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB21",
+   "type": "structured_filter",
+   "entities": [
+    "11123359",
+    "11209676"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB22",
+   "type": "structured_filter",
+   "entities": [
+    "10691672",
+    "10692693"
+   ],
+   "number": null,
+   "text": "The complaints filed in March 2015 regarding the 2015 Ford Escape are ODI numbers 10691672 and 10692693.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB23",
+   "type": "structured_filter",
+   "entities": [
+    "16V074000",
+    "20V064000",
+    "21V839000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB24",
+   "type": "structured_filter",
+   "entities": [
+    "10667633",
+    "10809523",
+    "10816192",
+    "11123359"
+   ],
+   "number": null,
+   "text": "The complaints filed in a calendar year earlier than the vehicle's model year are 10667633, 10809523, 10816192, and 11123359.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB25",
+   "type": "structured_filter",
+   "entities": [
+    "10957753"
+   ],
+   "number": null,
+   "text": "Complaint 10957753 had its incident on 2017-02-05 and was filed on 2017-03-01, which is 24 days later (more than 7 days).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB26",
+   "type": "structured_filter",
+   "entities": [
+    "10689793",
+    "10690483",
+    "10823637",
+    "10824361",
+    "10825467",
+    "11176393",
+    "11180230"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB27",
+   "type": "structured_filter",
+   "entities": [
+    "16V643000",
+    "16V244000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB28",
+   "type": "disambiguation",
+   "entities": [
+    "20V682000"
+   ],
+   "number": null,
+   "text": "Recall campaign 20V682000 is an expansion of recall 20V-012.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB29",
+   "type": "disambiguation",
+   "entities": [
+    "16V643000"
+   ],
+   "number": null,
+   "text": "Recall 16V643000 (Ford's recall number 16S30) began on January 27, 2017.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB30",
+   "type": "disambiguation",
+   "entities": [
+    "15V436000"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB31",
+   "type": "disambiguation",
+   "entities": [
+    "19V503000"
+   ],
+   "number": null,
+   "text": "19V503000 (also referenced as SET19A) is limited to vehicles equipped with factory-installed floor mats.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB32",
+   "type": "disambiguation",
+   "entities": [
+    "25V695000"
+   ],
+   "number": null,
+   "text": "NHTSA recall campaign 25V695000 (Ford recall 25SA9) is run as a phased campaign.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB33",
+   "type": "disambiguation",
+   "entities": [
+    "Complaint 10823637"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB34",
+   "type": "disambiguation",
+   "entities": [
+    "Complaint 11180230"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB35",
+   "type": "disambiguation",
+   "entities": [
+    "Complaint 11166434"
+   ],
+   "number": null,
+   "text": "Complaint 11166434 blames the dead battery on the navigation system staying on at night and draining it.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB36",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "None of the complaints report that a repair fixed the problem.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB37",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "The provided dataset does not contain any reports of vehicles where owners state that a check engine light came on (the only complaint mentioning a check engine light explicitly states that it does not set a check engine light).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB38",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, the Ford dealer and manufacturer did not deny that the hesitation was occurring; they explained it as the engine gearing down, the turbo spooling up, and operating as expected.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB39",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, the battery needed to be fully recharged because it would not take a jump.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB40",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "None of the complaints say a rock chip caused their cracked windshield; Complaint 11180230 specifically states that a rock chip could not be the cause.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB41",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "None of the complaints about the 2019 Toyota RAV4 state that the manufacturer was notified of the failure; the only complaint mentioning notification states that the contact was unsure if the rental company notified the dealer and manufacturer.",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ]
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB42",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, the owner stated that they had multiple Outbacks in the past and never had an issue like this.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB43",
+   "type": "lookup",
+   "entities": [],
+   "number": 5218.0,
+   "text": "Complaint 11204698 reports a failure mileage of 5,218.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB44",
+   "type": "lookup",
+   "entities": [
+    "KC6"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB45",
+   "type": "lookup",
+   "entities": [],
+   "number": null,
+   "text": "Dealers will replace the block heater free of charge, or provide an alternative option to replace the engine block heater element with a threaded plug and remove the block heater electrical cord.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB46",
+   "type": "lookup",
+   "entities": [],
+   "number": null,
+   "text": "September 27, 2019",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB47",
+   "type": "lookup",
+   "entities": [],
+   "number": 3200.0,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB48",
+   "type": "lookup",
+   "entities": [
+    "TOYOTA OF NORTH SCRANTON"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB49",
+   "type": "lookup",
+   "entities": [
+    "PE24030"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HB50",
+   "type": "lookup",
+   "entities": [],
+   "number": 12.0,
+   "text": "The vehicle in complaint 10692693 was in the Ford repair shop for 12 days.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB01",
+   "type": "multi_hop",
+   "entities": [
+    "research engineer"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB02",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 2009.0,
+   "text": "Jonathan Pike, who freed the jammed corer at Aldmoor bog, started at the institute in 2009.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB03",
+   "type": "multi_hop",
+   "entities": [
+    "PhD student"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB04",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 2012.0,
+   "text": "Pump HP40-1183, which was kept on duty for most of 2024 at North Station, was installed in 2012.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB05",
+   "type": "multi_hop",
+   "entities": [],
+   "number": null,
+   "text": "September",
+   "exact": false,
+   "meaning": true,
+   "causes": [
+    "answer_form"
+   ]
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB06",
+   "type": "multi_hop",
+   "entities": [
+    "group leader"
+   ],
+   "number": null,
+   "text": "Dr. Jonathan Pike is the group leader of the Soil Ecology team.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB07",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 168000.0,
+   "text": "168,000 pounds",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB08",
+   "type": "multi_hop",
+   "entities": null,
+   "number": 2300.0,
+   "text": "Pump HP40-2291 was on duty all week during the week of 7 April 2025 and ran for 2,300 hours in 2024.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB09",
+   "type": "multi_hop",
+   "entities": [],
+   "number": 15.0,
+   "text": "15 days",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB10",
+   "type": "aggregation",
+   "entities": [],
+   "number": 3.0,
+   "text": "The institute's staff records list 3 different teams: Hydrology, Soil Ecology, and Finance Office.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB11",
+   "type": "aggregation",
+   "entities": null,
+   "number": 2.0,
+   "text": "The seminar notices announce two seminars for room B12: one by Pike on 3 June 2025 and one by Aiko Tanaka on 7 October 2025.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB12",
+   "type": "aggregation",
+   "entities": [],
+   "number": 34.0,
+   "text": "The average rated flow of all pumps in the pump records is 34 litres per second.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB13",
+   "type": "aggregation",
+   "entities": [],
+   "number": 1015000.0,
+   "text": "The amounts listed in Riverton's 2025 works budget add up to 1,015,000 pounds.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB14",
+   "type": "aggregation",
+   "entities": [],
+   "number": 8400.0,
+   "text": "The two North Station pumps ran for a combined total of 8,400 hours in 2024 (HP40-1183 ran for 6,100 hours and HP40-2291 ran for 2,300 hours).",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB15",
+   "type": "aggregation",
+   "entities": null,
+   "number": 4.0,
+   "text": "Four different people attended the institute committee meetings of 2025: Jon Pike (J. Pike), Maria Lopez, Aiko Tanaka, and Samuel Osei.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB16",
+   "type": "aggregation",
+   "entities": [],
+   "number": 7.0,
+   "text": "Rosa Delgado appears in 7 documents.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB17",
+   "type": "aggregation",
+   "entities": [],
+   "number": 71.0,
+   "text": "The highest pump bearing temperature reported in the documents is 71 °C.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB18",
+   "type": "aggregation",
+   "entities": [
+    "Rosa Delgado",
+    "Marek Hollis"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB19",
+   "type": "structured_filter",
+   "entities": [
+    "S-131",
+    "S-219"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB20",
+   "type": "structured_filter",
+   "entities": [
+    "HP40-1183",
+    "HP40-2291"
+   ],
+   "number": null,
+   "text": "During the 14 March 2025 quarterly inspection, HP40-1183 delivered 38 litres per second, and during the 13 June 2025 quarterly inspection, HP40-2291 delivered 39 litres per second.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB21",
+   "type": "structured_filter",
+   "entities": [
+    "Hydra P-40"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB22",
+   "type": "structured_filter",
+   "entities": [
+    "Core AB-17",
+    "Core AB-19"
+   ],
+   "number": null,
+   "text": "Core AB-17 (depth 4.2 m) and Core AB-19 (depth 5.1 m) were deeper than 4 metres.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB23",
+   "type": "structured_filter",
+   "entities": [
+    "WO-318",
+    "WO-320"
+   ],
+   "number": null,
+   "text": "The North Station work orders from June 2025 dated 30 June are WO-318 and WO-320.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB24",
+   "type": "structured_filter",
+   "entities": [
+    "Aiko Tanaka"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB25",
+   "type": "structured_filter",
+   "entities": [
+    "Core AB-17",
+    "Core AB-18"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB26",
+   "type": "structured_filter",
+   "entities": [
+    "Mill Lane footbridge repair"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB27",
+   "type": "structured_filter",
+   "entities": [
+    "HP40-1183"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB28",
+   "type": "disambiguation",
+   "entities": [
+    "S-104"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB29",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 2016.0,
+   "text": "Maria Lopez, the grants accountant in the Finance Office who authored the memo, started at the institute in 2016.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB30",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 52.0,
+   "text": "52 °C",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB31",
+   "type": "disambiguation",
+   "entities": [
+    "HP40-1183"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB32",
+   "type": "disambiguation",
+   "entities": [
+    "HP40-2291"
+   ],
+   "number": null,
+   "text": "Pump HP40-2291 was switched to duty after the seal of HP40-1183 failed on 29 March 2025.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB33",
+   "type": "disambiguation",
+   "entities": [],
+   "number": null,
+   "text": "15:55",
+   "exact": false,
+   "meaning": true,
+   "causes": [
+    "answer_form"
+   ]
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB34",
+   "type": "disambiguation",
+   "entities": [
+    "HP40-2291"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB35",
+   "type": "disambiguation",
+   "entities": [],
+   "number": 110000.0,
+   "text": "Riverton's 2026 works budget sets aside 110,000 pounds for the Harbour Street resurfacing.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB36",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "None; the only pump that tripped on low suction pressure during the week of 7 April 2025 (Kestrel V-12 serial KV12-0457) had no damage found.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB37",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, the vote on Councillor Priya Nandakumar's motion was postponed.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB38",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "None of the pumps showed leaks at the test run after the seal change of 30 June 2025.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB39",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, according to Gareth Lowe's letter, no warning sign has been put up.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB40",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": 0.0,
+   "text": "KV12-0457 did not trip after its intake screen was cleaned on 6 May.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB41",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, according to Ines Barros, the pump had run dry and the warranty does not cover the seal.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB42",
+   "type": "negation_sensitive",
+   "entities": [],
+   "number": null,
+   "text": "No, the opening hours were unchanged when the Eastgate library reopened on 1 September.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB43",
+   "type": "lookup",
+   "entities": [
+    "suction valve"
+   ],
+   "number": null,
+   "text": "The suction valve is closed last when isolating a pump at North Station.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB44",
+   "type": "lookup",
+   "entities": [],
+   "number": 46.0,
+   "text": "46 deck boards were replaced.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB45",
+   "type": "lookup",
+   "entities": [],
+   "number": 18000.0,
+   "text": "18,000 euros",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB46",
+   "type": "lookup",
+   "entities": [],
+   "number": 12.0,
+   "text": "12 metres",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB47",
+   "type": "lookup",
+   "entities": [
+    "14 Harbour Street"
+   ],
+   "number": null,
+   "text": null,
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB48",
+   "type": "lookup",
+   "entities": null,
+   "number": 3.0,
+   "text": "3",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB49",
+   "type": "lookup",
+   "entities": [],
+   "number": 4.0,
+   "text": "The Eastgate library closes for four weeks while its roof is replaced.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GB50",
+   "type": "lookup",
+   "entities": [],
+   "number": null,
+   "text": "The peat bogs upstream hold back rain and slow the flow into the river.",
+   "exact": true,
+   "meaning": true,
+   "causes": []
+  }
+ ]
+}
