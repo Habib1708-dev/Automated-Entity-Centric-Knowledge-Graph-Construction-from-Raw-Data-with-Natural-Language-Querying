@@ -1,0 +1,208 @@
+{
+ "fetched": "2026-10-12",
+ "source": "https://data.ntsb.gov/avdata/FileDirectory/DownloadFile?fileID=C%3A%5Cavdata%5Cavall.zip",
+ "source_date": "2026-10-01",
+ "codes": {
+  "events.light_cond": {
+   "DAWN": "Dawn",
+   "DAYL": "Day",
+   "DUSK": "Dusk",
+   "NBRT": "Night/Bright",
+   "NDRK": "Night/Dark",
+   "NITE": "Night",
+   "NR": "Not Reported"
+  },
+  "events.wx_cond_basic": {
+   "IMC": "Instrument Meteorological Cond",
+   "UNK": "Unknown",
+   "VMC": "Visual Meteorological Cond"
+  },
+  "events.ev_highest_injury": {
+   "FATL": "Fatal",
+   "MINR": "Minor",
+   "NONE": "None",
+   "SERS": "Serious",
+   "UNK": "Unknown",
+   "UNKN": "Unknown"
+  },
+  "aircraft.acft_category": {
+   "AIR": "Airplane",
+   "BALL": "Balloon",
+   "BLIM": "Blimp",
+   "GLI": "Glider",
+   "GYRO": "Gyrocraft",
+   "HELI": "Helicopter",
+   "PLFT": "Powered-Lift",
+   "PPAR": "Powered Parachute",
+   "RCKT": "Rocket",
+   "ULTR": "Ultralight",
+   "UNK": "Unknown",
+   "WSFT": "Weight-Shift"
+  },
+  "aircraft.far_part": {
+   "091": "Part 91: General Aviation",
+   "091F": "Part 91F: Special Flt Ops.",
+   "091K": "Part 91 Subpart K: Fractional",
+   "103": "Part 103: Ultralight",
+   "105": "Part 105: Parachute Jumping",
+   "107": "Part 107: Small UAS",
+   "121": "Part 121: Air Carrier",
+   "125": "Part 125: 20+ Pax,6000+ lbs",
+   "127": "Part 127: Sched AirCar w/Heli.",
+   "129": "Part 129: Foreign",
+   "133": "Part 133: Rotorcraft Ext. Load",
+   "135": "Part 135: Air Taxi & Commuter",
+   "137": "Part 137: Agricultural",
+   "141": "Part 141: Pilot Schools",
+   "415": "Part 415: Commercial Space Flight",
+   "431": "Part 431: Commercial Space Flight",
+   "435": "Part 435: Commercial Space Flight",
+   "437": "Part 437: Commercial Space Flight",
+   "ARMF": "Armed Forces",
+   "NUSC": "Non-U.S., Commercial",
+   "NUSN": "Non-U.S., Non-Commercial",
+   "PUBF": "Public Use - Federal",
+   "PUBL": "Public Use - Local",
+   "PUBS": "Public Use - State",
+   "PUBU": "Public Use",
+   "UNK": "Unknown"
+  },
+  "aircraft.damage": {
+   "DEST": "Destroyed",
+   "MINR": "Minor",
+   "NONE": "None",
+   "SUBS": "Substantial",
+   "UNK": "Unknown"
+  },
+  "aircraft.type_fly": {
+   "AAPL": "Aerial Application",
+   "ADRP": "Air Drop",
+   "AIRM": "Air Medical",
+   "AOBV": "Aerial Observation",
+   "ASHO": "Air Race/Show",
+   "ATXA": "Air Taxi Non-Sched.(135A)",
+   "ATXC": "Air Taxi Commuter",
+   "ATXO": "Air Taxi Oper./Large Aircraft",
+   "ATXS": "Air Taxi Sched./Not Commuter",
+   "BANT": "Banner Tow",
+   "BUS": "Business",
+   "CRGO": "All Cargo Carriers",
+   "EXEC": "Executive/Corporate",
+   "EXLD": "External Load",
+   "FERY": "Ferry",
+   "FIRF": "Fire Fighting",
+   "FLTS": "Flight Test",
+   "GLDT": "Glider Tow",
+   "HIRE": "For Hire",
+   "ILGL": "Illegal Cargo/Operation",
+   "INDS": "Industrial Special",
+   "INST": "Instructional",
+   "OTH": "Other",
+   "OWRK": "Other Work Use",
+   "PERS": "Personal",
+   "POSI": "Positioning",
+   "PUBU": "Public Use",
+   "SCAC": "Scheduled Air Carrier",
+   "SCRH": "Sched. Air Carrier Helicopter",
+   "SITE": "Site Seeing",
+   "SKYD": "Skydiving",
+   "SUPP": "Supplemental/Commercial Oper.",
+   "TVLC": "Travel Club",
+   "UNK": "Unknown"
+  },
+  "engines.eng_type": {
+   "ELEC": "Electric",
+   "GTFN": "Geared Turbofan",
+   "HR": "Hybrid Rocket",
+   "LR": "Liquid Rocket",
+   "NONE": "None",
+   "REC": "Reciprocating",
+   "SR": "Solid Rocket",
+   "TF": "Turbo Fan",
+   "TJ": "Turbo Jet",
+   "TP": "Turbo Prop",
+   "TS": "Turbo Shaft",
+   "UNK": "Unknown"
+  },
+  "engines.hp_or_lbs": {
+   "HP": "Horsepower",
+   "LBS": "Pounds"
+  },
+  "engines.carb_fuel_injection": {
+   "CARB": "Carburetor",
+   "FINJ": "Fuel Injected"
+  },
+  "Flight_Crew.crew_category": {
+   "CABN": "Cabin Crew",
+   "CPLT": "Co-Pilot",
+   "DSTU": "Student Pilot",
+   "FENG": "Flight Engineer",
+   "FLTI": "Flight Instructor",
+   "KPLT": "Check Pilot",
+   "OTHR": "Other Flight Crew",
+   "PASS": "Passenger",
+   "PLT": "Pilot",
+   "PRPS": "Pilot-Rated Passenger"
+  },
+  "Flight_Crew.crew_sex": {
+   "F": "Female",
+   "M": "Male"
+  },
+  "Flight_Crew.med_certf": {
+   "BASC": "BasicMed",
+   "CL1": "Class 1",
+   "CL2": "Class 2",
+   "CL3": "Class 3",
+   "NONE": "None",
+   "SPRT": "Sport Pilot",
+   "UNK": "Unknown"
+  },
+  "Flight_Crew.med_crtf_vldty": {
+   "EXP": "Expired",
+   "NONE": "None",
+   "NV": "Invalid Medical for flight",
+   "UNK": "Unknown",
+   "VNOW": "Valid Medical--no waivers/lim.",
+   "VWW": "Valid Medical--w/ waivers/lim.",
+   "WOWL": "Without Waivers/Limitations",
+   "WTLS": "Waiver Time Limited Special",
+   "WWL": "With Waivers/Limitations"
+  },
+  "Flight_Crew.crew_inj_level": {
+   "FATL": "Fatal",
+   "MINR": "Minor",
+   "NONE": "None",
+   "SERS": "Serious",
+   "UNK": "Unknown"
+  },
+  "Flight_Crew.seat_occ_pic": {
+   "CTR": "Center",
+   "FRT": "Front",
+   "LEFT": "Left",
+   "NONE": "None",
+   "REAR": "Rear",
+   "RGT": "Right",
+   "SNGL": "Single",
+   "UNK": "Unknown"
+  },
+  "injury.inj_person_category": {
+   "ABRD": "Aboard",
+   "CABN": "Cabin Crew",
+   "CPLT": "Co-Pilot",
+   "DSTU": "Dual Student",
+   "FENG": "Flight Engineer",
+   "FLTI": "Flight Instructor",
+   "KPLT": "Check Pilot",
+   "OCRW": "Other Crew",
+   "PAX": "Passengers",
+   "PLT": "Pilot in Command"
+  },
+  "injury.injury_level": {
+   "FATL": "Fatal",
+   "MINR": "Minor",
+   "NONE": "None",
+   "SERS": "Serious",
+   "TOTL": "Total"
+  }
+ }
+}

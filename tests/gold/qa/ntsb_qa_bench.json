@@ -1,0 +1,1090 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-12",
+  "corpus": {
+    "data_dir": "heldout/ntsb/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "NB01",
+      "type": "multi_hop",
+      "question": "In the Cessna 172S accident in which the airplane's right wing was bent up at the tip, how many total flight hours did the pilot have, according to the crew table?",
+      "expected": {
+        "number": 48.6
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#0",
+          "quote": "The airplane’s right wing was bent up at the tip"
+        }
+      ],
+      "sql": "SELECT total_hours FROM crew WHERE ntsb_no = 'CEN21LA126' AND crew_no = 1",
+      "note": "The bent-up wing tip is CEN21LA126 (Urbana, OH), a solo student pilot; the crew table lists him as crew 1, category Pilot, with 48.6 total hours (5.4 as pilot in command). No finding or occurrence code names the wing damage, so the accident is found in the narrative (its snowbank is not used: it is the only Cessna 172S with a snow finding)."
+    },
+    {
+      "id": "NB02",
+      "type": "multi_hop",
+      "question": "Which operator does the aircraft record name for the accident in which the pilot opened his window to vent the cabin?",
+      "expected": {
+        "entities": [
+          {
+            "name": "BARR AIR PATROL LLC",
+            "aliases": [
+              "Barr Air Patrol"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#1",
+          "quote": "the pilot opened his window to vent the cabin"
+        }
+      ],
+      "sql": "SELECT operator FROM aircraft WHERE ntsb_no = 'CEN21LA268'",
+      "note": "The window is CEN21LA268 (Saint James, LA), a low-level pipeline patrol flight in a Cessna 172S; the narrative does not name the operator. The air conditioning hose is not used to identify it: it is the only event with an 'Air conditioning system' finding."
+    },
+    {
+      "id": "NB03",
+      "type": "multi_hop",
+      "question": "In what year was the aircraft built in the accident in which the pilot observed white smoke trailing the airplane?",
+      "expected": {
+        "number": 2004
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#4",
+          "quote": "observed white smoke trailing the airplane"
+        }
+      ],
+      "sql": "SELECT year_built FROM aircraft WHERE ntsb_no = 'CEN22LA312'",
+      "note": "The white smoke is CEN22LA312 (Decatur, IL), an Air Tractor AT-502B; its aircraft record gives year_built 2004. No code names the smoke; the turbine blade fracture is not used, as it is the only 'Turbine section-Failure' finding."
+    },
+    {
+      "id": "NB04",
+      "type": "multi_hop",
+      "question": "In the Beech A36 accident in which the engine lost power while the airplane was flying over a cloud layer, how far from the nearest airport, in statute miles, does the events table place the accident?",
+      "expected": {
+        "number": 11
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "while in cruise flight over a cloud layer"
+        }
+      ],
+      "sql": "SELECT airport_distance_sm FROM events WHERE ntsb_no = 'CEN23LA344'",
+      "note": "The cloud layer is CEN23LA344 (Oberlin, KS); airport OIN at 11 statute miles, the largest distance in the table. The events table records visual conditions and no code names the cloud layer; the question avoids 'cruise' (CEN23LA344 is the only 'Enroute-cruise' occurrence) and the vent blockage (the only Beech A36 'Fuel system' finding)."
+    },
+    {
+      "id": "NB05",
+      "type": "multi_hop",
+      "question": "How old was the pilot whose helicopter, according to the narrative, was found with a wire wrapped around it?",
+      "expected": {
+        "number": 53
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#4",
+          "quote": "the pilot observed the wire wrapped around the helicopter"
+        }
+      ],
+      "sql": "SELECT age FROM crew WHERE ntsb_no = 'CEN21LA339' AND category = 'Pilot'",
+      "note": "The wire is CEN21LA339 (West Liberty, IA), a Robinson R44 II; the crew table gives the pilot's age as 53. No finding or occurrence code names a wire, and the question avoids 'aerial application', the flight purpose of no other helicopter."
+    },
+    {
+      "id": "NB06",
+      "type": "multi_hop",
+      "question": "Which findings did the investigators code for the accident in which the pilot activated the Cirrus airframe parachute system?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Aircraft-Aircraft systems-Navigation system-(general)-Malfunction",
+            "aliases": [
+              "navigation system malfunction"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#1",
+          "quote": "he elected to activate the Cirrus airframe parachute system"
+        }
+      ],
+      "sql": "SELECT finding FROM findings WHERE ntsb_no = 'CEN21LA232'",
+      "note": "The parachute accident is CEN21LA232 (Whitewater, WI); it has one coded finding, a navigation system malfunction (the narrative speaks of a flight instrument malfunction)."
+    },
+    {
+      "id": "NB07",
+      "type": "multi_hop",
+      "question": "What gust speed, in knots, does the events table record for the accident of the aircraft operated by Northwestern Michigan College?",
+      "expected": {
+        "number": 18
+      },
+      "route": "exact",
+      "sql": "SELECT e.gust_kts FROM events e JOIN aircraft a ON a.ntsb_no = e.ntsb_no WHERE a.operator = 'NORTHWESTERN MICHIGAN COLLEGE'",
+      "note": "The operator's aircraft is in CEN22LA194 (Traverse City, MI); wind 11 kts gusting to 18."
+    },
+    {
+      "id": "NB08",
+      "type": "multi_hop",
+      "question": "Which models (by name) were involved in accidents whose defining event, in the sequence of occurrences, was a fuel starvation?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Piper PA-28-181",
+            "aliases": [
+              "PA-28-181"
+            ]
+          },
+          {
+            "name": "Beech A36",
+            "aliases": [
+              "A36"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT m.name FROM events_sequence s JOIN aircraft a ON a.ntsb_no = s.ntsb_no JOIN models m ON m.model = a.model WHERE s.defining_event AND s.occurrence LIKE '%Fuel starvation'",
+      "note": "Defining fuel starvation: CEN21LA383 (Piper PA-28-181), CEN22LA059 and CEN23LA344 (both Beech A36). CEN22LA194 (Cessna 172S) has an 'Approach Fuel starvation' occurrence that is not its defining event, so the Cessna 172S does not count."
+    },
+    {
+      "id": "NB09",
+      "type": "multi_hop",
+      "question": "How old was the pilot who said he \"just ran the left tank too long without switching\" fuel tanks?",
+      "expected": {
+        "number": 19
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#3",
+          "quote": "just ran the left tank too long without switching"
+        }
+      ],
+      "sql": "SELECT age FROM crew WHERE ntsb_no = 'CEN21LA383' AND crew_no = 1",
+      "note": "The quote is from CEN21LA383 (Gypsum, CO), a Piper PA-28-181; the crew table gives the pilot's age as 19 (sex not recorded)."
+    },
+    {
+      "id": "NB10",
+      "type": "aggregation",
+      "question": "In how many of the 30 accidents was the defining event a total loss of engine power?",
+      "expected": {
+        "number": 4
+      },
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT ntsb_no) FROM events_sequence WHERE defining_event AND occurrence LIKE '%Loss of engine power (total)'",
+      "note": "CEN21LA221 (enroute), CEN21LA382, CEN21LA284 and CEN22LA312 (takeoff). CEN21LA414 and CEN22LA059 also record a total loss of engine power, but not as the defining event (theirs are 'Unknown or undetermined' and a fuel starvation)."
+    },
+    {
+      "id": "NB11",
+      "type": "aggregation",
+      "question": "Which model has the most accidents in which at least one person was injured (minor, serious or fatal)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Robinson R44 II",
+            "aliases": [
+              "R44 II",
+              "Robinson R44"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT m.name FROM events e JOIN aircraft a ON a.ntsb_no = e.ntsb_no JOIN models m ON m.model = a.model WHERE e.highest_injury <> 'None' GROUP BY m.name ORDER BY count(*) DESC LIMIT 1",
+      "note": "Robinson R44 II has three (ANC23LA032 minor, CEN21LA173 serious, CEN21LA339 minor); every other model has one (Cessna 172S CEN21LA414, Cirrus SR22 CEN21FA299, Beech A36 CEN23LA344, Air Tractor AT-502B CEN21LA283) or none (Piper PA-28-181)."
+    },
+    {
+      "id": "NB12",
+      "type": "aggregation",
+      "question": "Counting the injury-level rows of the injuries table (not its 'Total' rows), how many people across all accidents had minor injuries?",
+      "expected": {
+        "number": 8
+      },
+      "route": "exact",
+      "sql": "SELECT sum(count) FROM injuries WHERE injury_level = 'Minor'",
+      "note": "CEN21LA414 2, CEN23LA344 1, ANC23LA032 2, CEN21LA173 2, CEN21LA339 1; it equals the sum of minor_injuries in events.csv. The 'Total' rows are excluded as the README advises."
+    },
+    {
+      "id": "NB13",
+      "type": "aggregation",
+      "question": "How many accidents carry the finding 'Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot'?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT ntsb_no) FROM findings WHERE finding = 'Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot'",
+      "note": "CEN22LA244, CEN21LA185, CEN22LA249, CEN21FA299, CEN21LA280, CEN22LA235 and CEN23LA017. CEN21LA126 carries the variant ending 'Student/instructed pilot' and does not count."
+    },
+    {
+      "id": "NB14",
+      "type": "aggregation",
+      "question": "In which accidents does the narrative say the aircraft struck a road sign?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA268",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA059",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#1",
+          "quote": "the left wing impacted a metal road sign"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#3",
+          "quote": "the right-wing tip struck a road sign"
+        }
+      ],
+      "note": "CEN21LA268 (Cessna 172S, emergency landing on a highway) and CEN22LA059 (Beech A36, landing flare on a highway). Only CEN21LA268 has a coded 'Sign/marker' finding, so the findings table alone misses CEN22LA059."
+    },
+    {
+      "id": "NB15",
+      "type": "aggregation",
+      "question": "In how many accidents does the narrative say the aircraft struck a fence or a fence post?",
+      "expected": {
+        "number": 4
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#4",
+          "quote": "the airplane struck an airport perimeter fence"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "the airplane impacted terrain and a perimeter fence"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#3",
+          "quote": "The airplane subsequently impacted a fence off the end of the runway"
+        },
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#3",
+          "quote": "the left wing separated from the airplane after impact with a fence post"
+        }
+      ],
+      "note": "CEN22LA312 (Air Tractor), CEN22LA194 (Cessna 172S), CEN22LA235 (Cirrus SR22) and CEN21LA383 (Piper, fence post). CEN21LA185 struck a windsock, not a fence."
+    },
+    {
+      "id": "NB16",
+      "type": "aggregation",
+      "question": "In which accidents does the narrative use the term 'go-around' or 'go around'?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21FA299",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA280",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA017",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA310",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+          "quote": "acute left bank during the attempted go-around"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+          "quote": "so the pilot elected to do a go-around"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "He initiated a go-around"
+        },
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#3",
+          "quote": "the airplane bounced and he elected to go around"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#2",
+          "quote": "The flight instructor told the student pilot to break off the maneuver and apply engine power"
+        }
+      ],
+      "note": "Exactly four sections use the term: three Cirrus SR22 accidents (CEN21FA299 'attempt to initiate a go-around', CEN21LA280 'elected to do a go-around', CEN23LA017 'initiated a go-around') and the Air Tractor CEN22LA310 ('elected to go around'). The narrative of CEN21LA414 says the instructor told the student to 'break off the maneuver and apply engine power', which is a go-around in practice, and its sequence table codes the 'Approach-VFR go-around' phase; but the narrative does not use the term, so it does not count. The aborted takeoffs (CEN21LA185, CEN22LA244, CEN23LA026) do not use it either. The sequence codes give a different set (CEN21FA299, CEN21LA414, CEN22LA310), so the question needs the text."
+    },
+    {
+      "id": "NB17",
+      "type": "aggregation",
+      "question": "Which state had the most accidents?",
+      "expected": {
+        "entities": [
+          {
+            "name": "IL",
+            "aliases": [
+              "Illinois"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT state FROM events GROUP BY state ORDER BY count(*) DESC LIMIT 1",
+      "note": "Illinois has four (CEN21LA185, CEN21LA221, CEN22LA310, CEN22LA312); Kansas, Colorado, Michigan and Texas have three each."
+    },
+    {
+      "id": "NB18",
+      "type": "aggregation",
+      "question": "Which model's accident aircraft have the oldest average year of manufacture?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Beech A36",
+            "aliases": [
+              "A36"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT m.name FROM aircraft a JOIN models m ON m.model = a.model GROUP BY m.name ORDER BY avg(a.year_built) LIMIT 1",
+      "note": "Beech A36: 1976, 1973, 1977, 1990, 1980, average 1979.2; next is the Piper PA-28-181 at 1993.6."
+    },
+    {
+      "id": "NB19",
+      "type": "structured_filter",
+      "question": "Which accidents does the events table record with the light condition Night?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN22LA244",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA232",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM events WHERE light_condition = 'Night'",
+      "note": "CEN22LA244 (Salina, KS) and CEN21LA232 (Whitewater, WI). Some events with late clock times (CEN22LA249 22:15, CEN23LA017 23:05) are recorded as Day; the question names the light condition field."
+    },
+    {
+      "id": "NB20",
+      "type": "structured_filter",
+      "question": "Which accidents does the events table record with wind gusts of 20 knots or more?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA280",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA017",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA173",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM events WHERE gust_kts >= 20",
+      "note": "CEN21LA280 21, CEN23LA017 31, CEN21LA173 21. CEN22LA194 and ANC23LA032 had gusts of 18."
+    },
+    {
+      "id": "NB21",
+      "type": "structured_filter",
+      "question": "Which accidents involved an aircraft built before 1978?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA383",
+            "aliases": []
+          },
+          {
+            "name": "ANC21LA027",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA221",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA382",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM aircraft WHERE year_built < 1978",
+      "note": "CEN21LA383 (1976, Piper), ANC21LA027 (1976, Beech), CEN21LA221 (1973, Beech), CEN21LA382 (1977, Beech). The two 1978 Pipers (CEN21LA185, CEN22LA249) are not before 1978."
+    },
+    {
+      "id": "NB22",
+      "type": "structured_filter",
+      "question": "In which accidents does the crew table list a crew member of category Pilot with fewer than 100 total flight hours?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA126",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA383",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA026",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA339",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM crew WHERE category = 'Pilot' AND total_hours < 100",
+      "note": "CEN21LA126 48.6, CEN21LA383 70.2, CEN23LA026 28, CEN21LA339 1 (as recorded). The student pilot of CEN21LA414 (66 hours) has the category Student Pilot and does not count; the narratives of CEN21LA126 and CEN23LA026 call their pilots student pilots, but the crew table's category is Pilot."
+    },
+    {
+      "id": "NB23",
+      "type": "structured_filter",
+      "question": "Which Robinson R44 II accidents were not flown under Part 91 (general aviation)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "ANC21LA079",
+            "aliases": []
+          },
+          {
+            "name": "ANC23LA032",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA339",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT a.ntsb_no FROM aircraft a JOIN models m ON m.model = a.model WHERE m.name = 'Robinson R44 II' AND a.regulation NOT LIKE 'Part 91%'",
+      "note": "ANC21LA079 Part 133 (rotorcraft external load), ANC23LA032 Part 135 (air taxi), CEN21LA339 Part 137 (agricultural). CEN21LA173 and CEN21LA284 were Part 91."
+    },
+    {
+      "id": "NB24",
+      "type": "structured_filter",
+      "question": "Which operators does the aircraft table name for the accidents whose flight purpose was Instructional?",
+      "expected": {
+        "entities": [
+          {
+            "name": "LUNKEN FLIGHT TRAINING CENTER LLC",
+            "aliases": [
+              "Lunken Flight Training Center"
+            ]
+          },
+          {
+            "name": "Mcair",
+            "aliases": [
+              "McAir"
+            ]
+          },
+          {
+            "name": "NORTHWESTERN MICHIGAN COLLEGE",
+            "aliases": [
+              "Northwestern Michigan College"
+            ]
+          },
+          {
+            "name": "KANSAS STATE UNIVERSITY - SALINA",
+            "aliases": [
+              "Kansas State University Salina",
+              "Kansas State University"
+            ]
+          },
+          {
+            "name": "ATP Flight School",
+            "aliases": []
+          },
+          {
+            "name": "Excite Aircraft, Inc.",
+            "aliases": [
+              "Thrust Flight",
+              "Excite Aircraft"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT operator FROM aircraft WHERE flight_purpose = 'Instructional'",
+      "note": "Six instructional flights: four Cessna 172S (CEN21LA126, CEN21LA414, CEN22LA194, CEN22LA244) and two Piper PA-28-181 (CEN21LA353, CEN23LA026, the latter doing business as Thrust Flight)."
+    },
+    {
+      "id": "NB25",
+      "type": "structured_filter",
+      "question": "In which accidents was a crew member aged 60 or older?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA268",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA280",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA221",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA344",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA283",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM crew WHERE age >= 60",
+      "note": "CEN21LA268 67, CEN21LA280 63, CEN21LA221 61, CEN23LA344 75, CEN21LA283 66 (all pilots). CEN21LA185 records age 0, a missing value, not a child."
+    },
+    {
+      "id": "NB26",
+      "type": "structured_filter",
+      "question": "Among the Cessna 172S accidents, in which does the narrative say a flight instructor was on board during the accident flight?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA414",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA194",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#2",
+          "quote": "The flight instructor and student pilot were conducting a simulated off-field emergency landing"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "The flight instructor took control of the airplane and made multiple attempts to restart the engine"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#4",
+          "quote": "A flight instructor, who flew the airplane earlier in the day"
+        }
+      ],
+      "records": [
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN21LA414",
+            "model": "172S"
+          }
+        },
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN22LA194",
+            "model": "172S"
+          }
+        }
+      ],
+      "note": "CEN21LA414 and CEN22LA194: in both the instructor took control. In CEN22LA244 a flight instructor is mentioned, but he flew the airplane earlier in the day; he was not on board. CEN21LA126 was a solo student flight. The crew table lists two crew members only for the two answer events, so a table reader can guess the answer; only the narrative says an instructor was on board."
+    },
+    {
+      "id": "NB27",
+      "type": "structured_filter",
+      "question": "Among the accidents whose flight purpose the aircraft table records as Personal, in which does the narrative say the pilot landed, or tried to land, on a road or highway?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN22LA059",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA344",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#3",
+          "quote": "redirected the airplane toward a nearby highway"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "the pilot maneuvered the airplane for a forced landing to a road"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#1",
+          "quote": "decided to conduct an off-airport emergency landing on an empty multi-lane highway"
+        }
+      ],
+      "records": [
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN22LA059",
+            "flight_purpose": "Personal"
+          }
+        },
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN23LA344",
+            "flight_purpose": "Personal"
+          }
+        }
+      ],
+      "note": "Twelve flights are Personal. CEN22LA059 (Beech A36, landing flare on a highway) and CEN23LA344 (Beech A36, forced landing to a road, impacted terrain). CEN21LA268 also landed on a highway, but its flight purpose is Aerial Observation; CEN21LA362 slid across a road after landing in a bean field (Aerial Application). No finding or occurrence code names a road or highway; the one related code, CEN21LA268's 'Sign/marker' finding, is outside the filter."
+    },
+    {
+      "id": "NB28",
+      "type": "disambiguation",
+      "question": "Two accidents happened on 2021-08-24. How old was the pilot in the one at Granbury, Texas (not the one at Gypsum, Colorado)?",
+      "expected": {
+        "number": 58
+      },
+      "route": "exact",
+      "sql": "SELECT c.age FROM crew c JOIN events e ON e.ntsb_no = c.ntsb_no WHERE e.city = 'Granbury' AND e.date = DATE '2021-08-24'",
+      "note": "Granbury is CEN21LA382 (Beech A36), pilot aged 58. Gypsum is CEN21LA383 (Piper PA-28-181), pilot aged 19; both were engine power losses near takeoff."
+    },
+    {
+      "id": "NB29",
+      "type": "disambiguation",
+      "question": "Two accidents happened in Louisiana on 2021-06-10. In what year was the aircraft built in the one at Reserve?",
+      "expected": {
+        "number": 2008
+      },
+      "route": "exact",
+      "sql": "SELECT a.year_built FROM aircraft a JOIN events e ON e.ntsb_no = a.ntsb_no WHERE e.city = 'Reserve' AND e.state = 'LA'",
+      "note": "Reserve is CEN21LA284, a Robinson R44 II built in 2008. The other, at Saint James (CEN21LA268), is a Cessna 172S built in 2001."
+    },
+    {
+      "id": "NB30",
+      "type": "disambiguation",
+      "question": "How many total flight hours did the pilot in accident CEN21LA283 have (not CEN21LA284 or CEN21LA280)?",
+      "expected": {
+        "number": 27100
+      },
+      "route": "exact",
+      "sql": "SELECT total_hours FROM crew WHERE ntsb_no = 'CEN21LA283'",
+      "note": "CEN21LA283 is the Air Tractor AT-502B at Edwardsburg, MI: 27,100 total hours. CEN21LA284 (Robinson, Reserve) has 1,000 and CEN21LA280 (Cirrus, Hayward) 418."
+    },
+    {
+      "id": "NB31",
+      "type": "disambiguation",
+      "question": "Two Robinson R44 II accidents happened in Alaska. Which operator flew the one at Skwentna (not the one at Pelican)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Willow Creek Aviation",
+            "aliases": [
+              "Remote Alaska Air"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT a.operator FROM aircraft a JOIN events e ON e.ntsb_no = a.ntsb_no WHERE e.city = 'Skwentna'",
+      "note": "Skwentna is ANC23LA032, operator Willow Creek Aviation doing business as Remote Alaska Air. Pelican is ANC21LA079, operator HELICOPTER AIR ALASKA LLC."
+    },
+    {
+      "id": "NB32",
+      "type": "disambiguation",
+      "question": "Two Cirrus SR22 accidents involve a go-around attempted after the airplane bounced on landing. In which one did the airplane impact a drainage ditch?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA280",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+          "quote": "the airplane veered left and impacted a drainage ditch"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+          "quote": "witnesses observed the airplane bounce on the runway"
+        }
+      ],
+      "note": "CEN21LA280 (Hayward, WI). The other, CEN21FA299 (Lamoni, IA), cartwheeled and burned; it was the fatal accident. CEN21LA221 and CEN22LA059 (Beech A36) also ended in ditches but had no go-around."
+    },
+    {
+      "id": "NB33",
+      "type": "disambiguation",
+      "question": "How many gallons of fuel were recovered from the left-wing fuel tanks of the Beech A36 that made a forced landing on a highway near Cleveland, Texas?",
+      "expected": {
+        "number": 26
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#3",
+          "quote": "22 gallons of fuel were recovered from the right-wing fuel tanks, and 26 gallons were recovered from the left-wing fuel tanks"
+        }
+      ],
+      "note": "26 gallons from the left-wing tanks; 22 from the right-wing tanks (CEN22LA059). Confusing the sides gives 22."
+    },
+    {
+      "id": "NB34",
+      "type": "disambiguation",
+      "question": "Two solo student pilots lost directional control during a touch-and-go, one in a Cessna 172S and one in a Piper PA-28-181. In which accident did the student pilot abort the takeoff?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN23LA026",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#5",
+          "quote": "the student pilot aborted the takeoff"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#0",
+          "quote": "He decided to change to a full stop landing"
+        }
+      ],
+      "note": "CEN23LA026 (Piper, Mesquite, TX) aborted the takeoff and left the runway. In CEN21LA126 (Cessna, Urbana, OH) the student changed to a full stop landing and struck a snowbank."
+    },
+    {
+      "id": "NB35",
+      "type": "disambiguation",
+      "question": "In accident CEN22LA249 two pilots were on board. How old was the pilot who was flying the airplane during the takeoff?",
+      "expected": {
+        "number": 51
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#4",
+          "quote": "The pilot in the right seat was flying"
+        }
+      ],
+      "sql": "SELECT age FROM crew WHERE ntsb_no = 'CEN22LA249' AND seat = 'Right'",
+      "note": "The narrative says the pilot in the right seat was flying. The crew table lists the right-seat pilot (crew 2) as 51 and the left-seat pilot (crew 1), who made the report, as 31; no table says who was flying, and crew 1 is the wrong guess."
+    },
+    {
+      "id": "NB36",
+      "type": "negation_sensitive",
+      "question": "In which accidents does the narrative say there was a fire?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21FA299",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+          "quote": "A postimpact fire ensued"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#1",
+          "quote": "After not seeing any flames"
+        }
+      ],
+      "note": "Only CEN21FA299 (postimpact fire). In CEN21LA268 the pilot saw no flames after the loud pop, so it does not count."
+    },
+    {
+      "id": "NB37",
+      "type": "negation_sensitive",
+      "question": "In which accidents does the narrative say that a pilot's NTSB Pilot/Operator Aircraft Accident/Incident Report was not submitted or not received?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN22LA249",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA339",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#4",
+          "quote": "A National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report was not received from the right seat pilot"
+        },
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#4",
+          "quote": "The pilot did not submit the National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report Form 6120.1"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#0",
+          "quote": "In the recommendation section of the NTSB Accident/Incident Reporting Form 6120.1, the pilot stated"
+        }
+      ],
+      "note": "CEN22LA249 (none received from the right-seat pilot) and CEN21LA339 (not submitted). In ANC21LA027 the pilot did fill in the form's recommendation section, so it does not count."
+    },
+    {
+      "id": "NB38",
+      "type": "negation_sensitive",
+      "question": "In which accidents does the narrative say the pilot switched fuel tanks during the accident flight?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN23LA344",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "The pilot attempted to restore engine power by switching to the right fuel tank"
+        },
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#3",
+          "quote": "just ran the left tank too long without switching"
+        }
+      ],
+      "note": "Only CEN23LA344: the pilot switched to the right tank and then back to the left. CEN21LA383's pilot says he ran the left tank too long without switching, a negated mention that does not count; CEN22LA059's pilot was not changing any controls when the power was lost. No finding or occurrence code records a tank switch (CEN21LA383's 'Fuel-Fluid management' finding points a code reader to the wrong accident)."
+    },
+    {
+      "id": "NB39",
+      "type": "negation_sensitive",
+      "question": "In accident CEN21LA232, did the out-of-limits heading stability of the directional gyro explain the instrument anomalies the pilot reported?",
+      "expected": {
+        "text": "No. The heading stability finding, although outside the testing limits, would not result in the reported anomalies; the reason for the instrument disagreement could not be determined."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#1",
+          "quote": "The heading stability finding, although outside the testing limits, would not result in the instrument anomalies reported by the pilot."
+        }
+      ]
+    },
+    {
+      "id": "NB40",
+      "type": "negation_sensitive",
+      "question": "In accident CEN23LA344, did the engine lose power because the airplane ran out of fuel?",
+      "expected": {
+        "text": "No. The engine lost power as if it were out of fuel, but the cause was an interruption of fuel flow from the left tank because its vent was obstructed (inadequate venting)."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "the engine lost power as if it were out of fuel"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "consistent with an interruption of fuel flow from the left fuel tank due to inadequate venting of the fuel tank"
+        }
+      ],
+      "note": "'As if it were out of fuel' is the pilot's impression, not a finding; the probable cause (chunk #5, which has no event heading) names the blocked left tank vent."
+    },
+    {
+      "id": "NB41",
+      "type": "negation_sensitive",
+      "question": "In accident CEN21LA339, did the pilot see any obstructions when he circled the field before the aerial application pass?",
+      "expected": {
+        "text": "No. He circled the field and did not observe any obstructions; he then struck a wire during the pass."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#4",
+          "quote": "he circled the field and did not observe any obstructions"
+        }
+      ]
+    },
+    {
+      "id": "NB42",
+      "type": "negation_sensitive",
+      "question": "In accident CEN21LA353, could impact with the runway light by itself account for the complete separation of the right main landing gear?",
+      "expected": {
+        "text": "No. The runway light (a small pipe stanchion that broke at its base) should not have resulted in complete separation of the landing gear; the gear attachment hardware failed for reasons that could not be determined."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#1",
+          "quote": "the runway light should not have resulted in complete separation of the landing gear"
+        }
+      ],
+      "note": "The probable cause (chunk #2, without the event heading) blames failure of the landing gear attachment hardware."
+    },
+    {
+      "id": "NB43",
+      "type": "lookup",
+      "question": "How many total hours had the failed air-conditioning hose accumulated in accident CEN21LA268?",
+      "expected": {
+        "number": 12512.5
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#1",
+          "quote": "accumulating 12,512.5 total hours"
+        }
+      ],
+      "note": "12,512.5 hours over about 20 years in service."
+    },
+    {
+      "id": "NB44",
+      "type": "lookup",
+      "question": "How long, in feet, was the airstrip the pilot departed from in accident CEN23LA223?",
+      "expected": {
+        "number": 2100
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#5",
+          "quote": "The runway used for takeoff was 2,100 ft long."
+        }
+      ],
+      "note": "2,100 ft; the estimated takeoff distance required was 1,418 to 2,156 ft."
+    },
+    {
+      "id": "NB45",
+      "type": "lookup",
+      "question": "How many gallons of fuel did the pilot of CEN21LA362 have on board before the aerial application flight?",
+      "expected": {
+        "number": 150
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+          "quote": "for a total of 150 gallons of fuel onboard"
+        }
+      ],
+      "note": "150 gallons of Jet A. The 9 and 5 gallons of diesel were added after the accident."
+    },
+    {
+      "id": "NB46",
+      "type": "lookup",
+      "question": "At what altitude, in feet above mean sea level, did the pilot of CEN21LA221 notice the engine oil pressure fluctuating?",
+      "expected": {
+        "number": 8000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#1",
+          "quote": "While at an altitude of 8,000 ft mean sea level, the pilot noticed the engine oil pressure began to fluctuate."
+        }
+      ]
+    },
+    {
+      "id": "NB47",
+      "type": "lookup",
+      "question": "How many passengers were on board the Robinson R44 II in accident CEN21LA173, according to its narrative?",
+      "expected": {
+        "number": 3
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#2",
+          "quote": "with three passengers onboard"
+        }
+      ],
+      "note": "Three passengers; the crew table lists only the pilot, and the injuries table's 'Pass' rows count three (two minor, one serious)."
+    },
+    {
+      "id": "NB48",
+      "type": "lookup",
+      "question": "According to the airport manager, about what percentage of the runway surface was covered by patchy compressed snow in accident CEN21LA126?",
+      "expected": {
+        "number": 25
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#0",
+          "quote": "patchy compressed snow covering about 25% of the runway surface"
+        }
+      ]
+    },
+    {
+      "id": "NB49",
+      "type": "lookup",
+      "question": "How many months after accident CEN21LA353 did the manufacturer issue a service bulletin requiring replacement of landing gear attachment hardware?",
+      "expected": {
+        "number": 7
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#1",
+          "quote": "About 7 months after this accident, the manufacturer issued a service bulletin"
+        }
+      ],
+      "note": "About 7 months."
+    },
+    {
+      "id": "NB50",
+      "type": "lookup",
+      "question": "What engine model does the aircraft record give for the Cirrus SR22 in the fatal accident CEN21FA299?",
+      "expected": {
+        "entities": [
+          {
+            "name": "IO-550-N",
+            "aliases": [
+              "IO-550N",
+              "Continental IO-550-N"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT engine.model FROM aircraft WHERE ntsb_no = 'CEN21FA299'",
+      "note": "Continental IO-550-N, 310 horsepower. The other SR22 records spell the engine IO550, IO-550 or IO-550 SERIES (CEN23LA017 also has IO-550-N)."
+    }
+  ]
+}

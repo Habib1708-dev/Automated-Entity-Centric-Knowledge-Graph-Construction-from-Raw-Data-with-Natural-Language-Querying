@@ -101,6 +101,15 @@ lighthouses:
   data_dir: heldout/lighthouses/data
   mlflow_experiment: kgbuilder-lighthouses
 
+# The NTSB aviation benchmark dataset (REFACTOR_PLAN R154): the quality settings, merged in with `<<` like
+# heldout, on 30 accidents of six aircraft models (seven tables) and six documents of investigators'
+# narratives. A run is a full LLM run on a dataset, so it asks for permission like quality (inherited).
+ntsb:
+  <<: *quality
+  description: the quality settings on the NTSB aviation accidents dataset (heldout/ntsb/data)
+  data_dir: heldout/ntsb/data
+  mlflow_experiment: kgbuilder-ntsb
+
 # DeepSeek-V4.1-Flash as the builder model (R69, the user's choice for R66's runs): the quality settings
 # with DeepSeek generating and Gemini embedding (DeepSeek has no embedding model, so GEMINI_API_KEY is
 # still needed; the paid key, as in quality). Thinking mirrors quality: DeepSeek has no "medium", so schema

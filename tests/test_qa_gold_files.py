@@ -32,6 +32,7 @@ BENCH = [
     "heldout_qa_bench.json",
     "generality_qa_bench.json",
     "lighthouses_qa_bench.json",
+    "ntsb_qa_bench.json",
 ]
 GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH]
 

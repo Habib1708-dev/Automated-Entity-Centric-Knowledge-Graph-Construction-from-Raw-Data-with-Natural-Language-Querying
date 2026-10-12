@@ -1,0 +1,31 @@
+ntsb_no,date,time,city,state,country,airport_id,airport_name,airport_distance_sm,light_condition,weather_condition,wind_speed_kts,gust_kts,highest_injury,fatal_injuries,serious_injuries,minor_injuries,uninjured,latitude,longitude
+CEN21LA126,2021-02-07,20:00,Urbana,OH,USA,I74,GRIMES FLD,0,Day,Visual Meteorological Cond,7,0,None,0,0,0,1,40.130746,-83.754296
+CEN21LA268,2021-06-10,15:08,Saint James,LA,USA,,,0,Day,Visual Meteorological Cond,5,0,None,0,0,0,2,30.038001,-90.927146
+CEN21LA414,2021-09-10,17:00,LaSalle,CO,USA,,,0,Day,Visual Meteorological Cond,4,0,Minor,0,0,2,0,40.353333,-104.69194
+CEN22LA194,2022-05-10,21:26,Traverse City,MI,USA,TVC,,1,Day,Visual Meteorological Cond,11,18,None,0,0,0,2,44.760815,-85.592531
+CEN22LA244,2022-06-09,02:30,Salina,KS,USA,SLN,Salina Regional Airport,0,Night,Visual Meteorological Cond,,0,None,0,0,0,1,38.790611,-97.652222
+CEN21LA185,2021-04-07,15:15,Schaumburg,IL,USA,06C,SCHAUMBURG RGNL,0.5,Day,Visual Meteorological Cond,10,0,None,0,0,0,3,41.989442,-88.101544
+CEN21LA353,2021-08-03,15:15,Jeffersonville,IN,USA,JVY,CLARK RGNL,0,Day,Visual Meteorological Cond,,0,None,0,0,0,2,38.366618,-85.738145
+CEN21LA383,2021-08-24,15:33,Gypsum,CO,USA,EGE,Eagle County Regional,0.5,Day,Visual Meteorological Cond,,0,None,0,0,0,1,39.623148,-106.93823
+CEN22LA249,2022-06-14,22:15,Eaton Rapids,MI,USA,60G,Skyway Estates Airport,2,Day,Visual Meteorological Cond,10,0,None,0,0,0,2,42.467812,-84.71279
+CEN23LA026,2022-11-05,08:12,Mesquite,TX,USA,HQZ,HQZ,0,Day,Visual Meteorological Cond,,0,None,0,0,0,1,32.746963,-96.530417
+CEN21FA299,2021-07-01,12:55,Lamoni,IA,USA,LWD,LAMONI MUNI,0.2,Day,Visual Meteorological Cond,7,0,Fatal,2,0,0,0,40.630195,-93.902882
+CEN21LA232,2021-05-16,02:15,Whitewater,WI,USA,n/a,,0,Night,Instrument Meteorological Cond,5,0,None,0,0,0,3,42.787917,-88.684086
+CEN21LA280,2021-06-18,17:20,Hayward,WI,USA,HYR,Sawyer County,0.5,Day,Visual Meteorological Cond,10,21,None,0,0,0,1,46.028601,-91.445696
+CEN22LA235,2022-06-06,12:40,Nashville,AR,USA,M77,Howard County Airport,0.3,Day,Visual Meteorological Cond,8,0,None,0,0,0,2,33.997161,-93.83951
+CEN23LA017,2022-10-23,23:05,Loveland,CO,USA,FNL,Northern Colorado Regional,0.5,Day,Visual Meteorological Cond,23,31,None,0,0,0,6,40.451816,-105.01132
+ANC21LA027,2021-03-20,00:15,Port Alsworth,AK,USA,TPO,PORT ALSWORTH,0,Day,Visual Meteorological Cond,6,0,None,0,0,0,2,60.204333,-154.31887
+CEN21LA221,2021-05-14,20:00,Pinckneyville,IL,USA,PJY,,0,Day,Visual Meteorological Cond,6,0,None,0,0,0,2,38.076674,-89.402136
+CEN21LA382,2021-08-24,15:30,Granbury,TX,USA,0TX1,Pecan Plantation,2,Day,Visual Meteorological Cond,7,0,None,0,0,0,1,32.340946,-97.646717
+CEN22LA059,2021-12-02,20:15,Cleveland,TX,USA,6R3,CLEVELAND MUNI,0,Day,Visual Meteorological Cond,,0,None,0,0,0,3,30.401525,-95.053575
+CEN23LA344,2023-07-20,17:36,Oberlin,KS,USA,OIN,,11,Day,Visual Meteorological Cond,4,0,Minor,0,0,1,1,39.671297,-100.64721
+ANC21LA079,2021-08-30,21:15,Pelican,AK,USA,,,0,Day,Visual Meteorological Cond,,0,None,0,0,0,1,58.0903,-136.41332
+ANC23LA032,2023-05-09,20:00,Skwentna,AK,USA,,,0,Day,Unknown,9,18,Minor,0,0,2,1,61.774586,-151.7413
+CEN21LA173,2021-03-26,20:15,Dustin,OK,USA,,,0,Day,Visual Meteorological Cond,14,21,Serious,0,2,2,0,35.2707,-96.0308
+CEN21LA284,2021-06-10,20:15,Reserve,LA,USA,APS,Port of South Louisiana Exec,0,Day,Visual Meteorological Cond,9,0,None,0,0,0,1,30.08747,-90.58283
+CEN21LA339,2021-07-20,22:20,West Liberty,IA,USA,,,0,Day,Visual Meteorological Cond,5,0,Minor,0,0,1,0,41.57,-91.2638
+CEN21LA283,2021-06-20,17:37,Edwardsburg,MI,USA,,,0,Day,Visual Meteorological Cond,8,0,Serious,0,1,0,0,41.7956,-86.0808
+CEN21LA362,2021-08-06,13:48,Topeka,KS,USA,,,0,Day,Visual Meteorological Cond,5,0,None,0,0,0,1,39.216972,-95.76119
+CEN22LA310,2022-07-10,23:05,Wyoming,IL,USA,N/A,Unnamed Farm Strip,0,Day,Visual Meteorological Cond,4,0,None,0,0,0,1,41.063611,-89.774167
+CEN22LA312,2022-07-11,11:30,Decatur,IL,USA,DEC,Decatur Airport,1,Day,Visual Meteorological Cond,8,0,None,0,0,0,1,39.83,-88.85
+CEN23LA223,2023-06-03,16:58,Lake Village,AR,USA,,,0,Day,Visual Meteorological Cond,4,0,None,0,0,0,1,33.322807,-91.299856

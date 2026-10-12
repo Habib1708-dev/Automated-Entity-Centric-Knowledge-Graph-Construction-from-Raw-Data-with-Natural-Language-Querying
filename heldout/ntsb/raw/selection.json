@@ -1,0 +1,1997 @@
+{
+ "fetched": "2026-10-12",
+ "source": "https://data.ntsb.gov/avdata/FileDirectory/DownloadFile?fileID=C%3A%5Cavdata%5Cavall.zip",
+ "source_date": "2026-10-01",
+ "candidates": [
+  {
+   "ev_id": "20210325102805",
+   "ntsb_no": "ANC21LA027",
+   "ev_date": "2021-03-20 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 168,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210831103782",
+   "ntsb_no": "ANC21LA079",
+   "ev_date": "2021-08-30 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 171,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210831103783",
+   "ntsb_no": "ANC21LA080",
+   "ev_date": "2021-08-31 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 97,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230511139291",
+   "ntsb_no": "ANC23LA032",
+   "ev_date": "2023-05-09 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 102,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210424102974",
+   "ntsb_no": "CEN21FA199",
+   "ev_date": "2021-04-24 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 307,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210701103396",
+   "ntsb_no": "CEN21FA299",
+   "ev_date": "2021-07-01 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 133,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210111102510",
+   "ntsb_no": "CEN21LA109",
+   "ev_date": "2021-01-09 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 510,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210211102623",
+   "ntsb_no": "CEN21LA126",
+   "ev_date": "2021-02-07 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 158,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210401102855",
+   "ntsb_no": "CEN21LA173",
+   "ev_date": "2021-03-26 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 101,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210408102894",
+   "ntsb_no": "CEN21LA185",
+   "ev_date": "2021-04-07 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 158,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210517103093",
+   "ntsb_no": "CEN21LA221",
+   "ev_date": "2021-05-14 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 179,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210524103136",
+   "ntsb_no": "CEN21LA232",
+   "ev_date": "2021-05-16 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 158,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210615103265",
+   "ntsb_no": "CEN21LA268",
+   "ev_date": "2021-06-10 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 185,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210621103297",
+   "ntsb_no": "CEN21LA280",
+   "ev_date": "2021-06-18 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 168,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210621103306",
+   "ntsb_no": "CEN21LA283",
+   "ev_date": "2021-06-20 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 103,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210622103308",
+   "ntsb_no": "CEN21LA284",
+   "ev_date": "2021-06-10 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 120,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210727103560",
+   "ntsb_no": "CEN21LA339",
+   "ev_date": "2021-07-20 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 165,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210802103607",
+   "ntsb_no": "CEN21LA349",
+   "ev_date": "2021-07-31 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 134,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210804103628",
+   "ntsb_no": "CEN21LA353",
+   "ev_date": "2021-08-03 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 241,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210809103654",
+   "ntsb_no": "CEN21LA362",
+   "ev_date": "2021-08-06 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 238,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210811103682",
+   "ntsb_no": "CEN21LA369",
+   "ev_date": "2021-08-11 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 136,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210821103735",
+   "ntsb_no": "CEN21LA378",
+   "ev_date": "2021-08-21 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 84,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210824103747",
+   "ntsb_no": "CEN21LA382",
+   "ev_date": "2021-08-24 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 177,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210824103748",
+   "ntsb_no": "CEN21LA383",
+   "ev_date": "2021-08-24 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 133,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210825103751",
+   "ntsb_no": "CEN21LA385",
+   "ev_date": "2021-08-20 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 121,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210913103843",
+   "ntsb_no": "CEN21LA414",
+   "ev_date": "2021-09-10 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 164,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211019104122",
+   "ntsb_no": "CEN22FA017",
+   "ev_date": "2021-10-19 00:00:00",
+   "acft_make": "PIPER AIRCRAFT INC",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 87,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220201104579",
+   "ntsb_no": "CEN22FA111",
+   "ev_date": "2022-01-31 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 756,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220626105354",
+   "ntsb_no": "CEN22FA288",
+   "ev_date": "2022-06-26 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 199,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220902105849",
+   "ntsb_no": "CEN22FA405",
+   "ev_date": "2022-09-01 00:00:00",
+   "acft_make": "Cirrus Aircraft",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 1998,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211116104251",
+   "ntsb_no": "CEN22LA034",
+   "ev_date": "2021-11-10 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 105,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211206104356",
+   "ntsb_no": "CEN22LA059",
+   "ev_date": "2021-12-02 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 206,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220106104498",
+   "ntsb_no": "CEN22LA095",
+   "ev_date": "2022-01-05 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 87,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220314104768",
+   "ntsb_no": "CEN22LA140",
+   "ev_date": "2022-03-12 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 272,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220411104929",
+   "ntsb_no": "CEN22LA171",
+   "ev_date": "2022-04-08 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 91,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220414104945",
+   "ntsb_no": "CEN22LA176",
+   "ev_date": "2022-04-13 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 827,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220511105062",
+   "ntsb_no": "CEN22LA194",
+   "ev_date": "2022-05-10 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 198,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220606105201",
+   "ntsb_no": "CEN22LA233",
+   "ev_date": "2022-06-04 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 251,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220607105209",
+   "ntsb_no": "CEN22LA235",
+   "ev_date": "2022-06-06 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 107,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220613105248",
+   "ntsb_no": "CEN22LA244",
+   "ev_date": "2022-06-09 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 147,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220615105264",
+   "ntsb_no": "CEN22LA249",
+   "ev_date": "2022-06-14 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 189,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220624105342",
+   "ntsb_no": "CEN22LA281",
+   "ev_date": "2022-06-19 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 58,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220711105442",
+   "ntsb_no": "CEN22LA310",
+   "ev_date": "2022-07-10 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B ",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 110,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220711105448",
+   "ntsb_no": "CEN22LA312",
+   "ev_date": "2022-07-11 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 145,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220725105560",
+   "ntsb_no": "CEN22LA333",
+   "ev_date": "2022-07-22 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 200,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220725105563",
+   "ntsb_no": "CEN22LA336",
+   "ev_date": "2022-07-24 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 293,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220729105620",
+   "ntsb_no": "CEN22LA345",
+   "ev_date": "2022-07-28 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 122,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220801105634",
+   "ntsb_no": "CEN22LA350",
+   "ev_date": "2022-07-31 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 101,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220803105659",
+   "ntsb_no": "CEN22LA359",
+   "ev_date": "2022-08-03 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 82,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220804105662",
+   "ntsb_no": "CEN22LA360",
+   "ev_date": "2022-07-22 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 76,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220808105687",
+   "ntsb_no": "CEN22LA366",
+   "ev_date": "2022-08-05 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 61,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220829105816",
+   "ntsb_no": "CEN22LA400",
+   "ev_date": "2022-08-21 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 106,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220901105845",
+   "ntsb_no": "CEN22LA403",
+   "ev_date": "2022-08-31 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 360,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230326106956",
+   "ntsb_no": "CEN23FA142",
+   "ev_date": "2023-03-26 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 575,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230707192556",
+   "ntsb_no": "CEN23FA283",
+   "ev_date": "2023-07-07 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 429,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230919193099",
+   "ntsb_no": "CEN23FA412",
+   "ev_date": "2023-09-19 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 383,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221024106178",
+   "ntsb_no": "CEN23LA017",
+   "ev_date": "2022-10-23 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 215,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221107106254",
+   "ntsb_no": "CEN23LA026",
+   "ev_date": "2022-11-05 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 134,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221220106479",
+   "ntsb_no": "CEN23LA066",
+   "ev_date": "2022-12-19 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 267,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230207106688",
+   "ntsb_no": "CEN23LA102",
+   "ev_date": "2023-02-01 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 101,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230227106790",
+   "ntsb_no": "CEN23LA122",
+   "ev_date": "2023-02-25 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 86,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230419107086",
+   "ntsb_no": "CEN23LA159",
+   "ev_date": "2023-04-17 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 111,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230420107095",
+   "ntsb_no": "CEN23LA161",
+   "ev_date": "2023-04-20 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 187,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230508114702",
+   "ntsb_no": "CEN23LA175",
+   "ev_date": "2023-05-04 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 103,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230515174535",
+   "ntsb_no": "CEN23LA185",
+   "ev_date": "2023-05-09 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 156,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230522192224",
+   "ntsb_no": "CEN23LA196",
+   "ev_date": "2023-05-22 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 131,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230601192285",
+   "ntsb_no": "CEN23LA217",
+   "ev_date": "2023-06-01 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 194,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230605192306",
+   "ntsb_no": "CEN23LA223",
+   "ev_date": "2023-06-03 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 194,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230605192311",
+   "ntsb_no": "CEN23LA224",
+   "ev_date": "2023-06-04 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 253,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230608192337",
+   "ntsb_no": "CEN23LA234",
+   "ev_date": "2023-05-28 00:00:00",
+   "acft_make": "PIPER AIRCRAFT INC",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 154,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230626192460",
+   "ntsb_no": "CEN23LA266",
+   "ev_date": "2023-06-24 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 193,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230712192609",
+   "ntsb_no": "CEN23LA297",
+   "ev_date": "2023-07-12 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 457,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230717192630",
+   "ntsb_no": "CEN23LA306",
+   "ev_date": "2023-07-14 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 163,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230726192720",
+   "ntsb_no": "CEN23LA326",
+   "ev_date": "2023-07-26 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 172,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230801192767",
+   "ntsb_no": "CEN23LA341",
+   "ev_date": "2023-07-31 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 105,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230802192781",
+   "ntsb_no": "CEN23LA344",
+   "ev_date": "2023-07-20 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 210,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230803192784",
+   "ntsb_no": "CEN23LA345",
+   "ev_date": "2023-08-02 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 171,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230804192793",
+   "ntsb_no": "CEN23LA354",
+   "ev_date": "2023-08-02 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 155,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230809192831",
+   "ntsb_no": "CEN23LA355",
+   "ev_date": "2023-08-07 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 103,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230925193124",
+   "ntsb_no": "CEN23LA419",
+   "ev_date": "2023-09-23 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 190,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230926193143",
+   "ntsb_no": "CEN23LA421",
+   "ev_date": "2023-09-22 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 81,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230929193162",
+   "ntsb_no": "CEN23LA423",
+   "ev_date": "2023-09-29 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 235,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20240301193866",
+   "ntsb_no": "CEN23LA430",
+   "ev_date": "2023-09-13 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 89,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231024193292",
+   "ntsb_no": "CEN24FA021",
+   "ev_date": "2023-10-24 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 324,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231227193570",
+   "ntsb_no": "CEN24FA073",
+   "ev_date": "2023-12-27 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 192,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231016193240",
+   "ntsb_no": "CEN24LA011",
+   "ev_date": "2023-10-15 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 196,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231016193247",
+   "ntsb_no": "CEN24LA014",
+   "ev_date": "2023-10-06 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 249,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231024193294",
+   "ntsb_no": "CEN24LA022",
+   "ev_date": "2023-10-22 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 140,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231130193454",
+   "ntsb_no": "CEN24LA050",
+   "ev_date": "2023-11-28 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 254,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210621103304",
+   "ntsb_no": "ERA21FA263",
+   "ev_date": "2021-06-21 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 365,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210226102680",
+   "ntsb_no": "ERA21LA139",
+   "ev_date": "2021-02-22 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 141,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210407102884",
+   "ntsb_no": "ERA21LA174",
+   "ev_date": "2021-04-06 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 82,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210408102897",
+   "ntsb_no": "ERA21LA180",
+   "ev_date": "2021-04-06 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 127,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210419102934",
+   "ntsb_no": "ERA21LA187",
+   "ev_date": "2021-04-17 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 250,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210502103010",
+   "ntsb_no": "ERA21LA201",
+   "ev_date": "2021-05-01 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 448,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210503103014",
+   "ntsb_no": "ERA21LA202",
+   "ev_date": "2021-05-02 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 108,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210615103264",
+   "ntsb_no": "ERA21LA252",
+   "ev_date": "2021-06-14 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 161,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210710103449",
+   "ntsb_no": "ERA21LA282",
+   "ev_date": "2021-06-25 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 153,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210716103493",
+   "ntsb_no": "ERA21LA292",
+   "ev_date": "2021-07-16 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 172,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210721103522",
+   "ntsb_no": "ERA21LA295",
+   "ev_date": "2021-07-19 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 752,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210803103614",
+   "ntsb_no": "ERA21LA314",
+   "ev_date": "2021-06-17 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 154,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210915103865",
+   "ntsb_no": "ERA21LA359",
+   "ev_date": "2021-09-09 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 171,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210929103995",
+   "ntsb_no": "ERA21LA387",
+   "ev_date": "2021-09-28 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 371,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211001104017",
+   "ntsb_no": "ERA21LA389",
+   "ev_date": "2021-08-26 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 100,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211010104078",
+   "ntsb_no": "ERA22FA010",
+   "ev_date": "2021-10-10 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 586,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211229104453",
+   "ntsb_no": "ERA22FA096",
+   "ev_date": "2021-12-29 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 297,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211231104462",
+   "ntsb_no": "ERA22FA098",
+   "ev_date": "2021-12-31 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 255,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211115104241",
+   "ntsb_no": "ERA22LA059",
+   "ev_date": "2021-11-14 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 162,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211118104269",
+   "ntsb_no": "ERA22LA065",
+   "ev_date": "2021-11-14 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 109,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211123104311",
+   "ntsb_no": "ERA22LA073",
+   "ev_date": "2021-10-11 00:00:00",
+   "acft_make": "PIPER AIRCRAFT INC",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 48,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211209104375",
+   "ntsb_no": "ERA22LA084",
+   "ev_date": "2021-12-03 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 100,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211216104410",
+   "ntsb_no": "ERA22LA087",
+   "ev_date": "2021-12-12 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 56,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211216104416",
+   "ntsb_no": "ERA22LA089",
+   "ev_date": "2021-12-16 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 219,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220113104526",
+   "ntsb_no": "ERA22LA109",
+   "ev_date": "2022-01-13 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 329,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220216104648",
+   "ntsb_no": "ERA22LA125",
+   "ev_date": "2022-02-09 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 413,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220224104694",
+   "ntsb_no": "ERA22LA135",
+   "ev_date": "2022-02-17 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 92,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220310104757",
+   "ntsb_no": "ERA22LA151",
+   "ev_date": "2022-03-01 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 146,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220413104936",
+   "ntsb_no": "ERA22LA188",
+   "ev_date": "2022-04-12 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 93,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220506105047",
+   "ntsb_no": "ERA22LA220",
+   "ev_date": "2022-05-06 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 142,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220524105122",
+   "ntsb_no": "ERA22LA236",
+   "ev_date": "2022-05-23 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 105,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220601105170",
+   "ntsb_no": "ERA22LA254",
+   "ev_date": "2022-06-01 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 252,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220621105282",
+   "ntsb_no": "ERA22LA275",
+   "ev_date": "2022-06-15 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 608,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220711105439",
+   "ntsb_no": "ERA22LA302",
+   "ev_date": "2022-07-08 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 160,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221002106032",
+   "ntsb_no": "ERA23FA001",
+   "ev_date": "2022-10-02 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 645,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221005106070",
+   "ntsb_no": "ERA23FA006",
+   "ev_date": "2022-10-05 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 662,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221103106244",
+   "ntsb_no": "ERA23FA048",
+   "ev_date": "2022-11-03 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 984,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230120106608",
+   "ntsb_no": "ERA23FA113",
+   "ev_date": "2023-01-19 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 495,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230225106783",
+   "ntsb_no": "ERA23FA130",
+   "ev_date": "2023-02-24 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 323,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230406107019",
+   "ntsb_no": "ERA23FA182",
+   "ev_date": "2023-04-06 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 333,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230606192324",
+   "ntsb_no": "ERA23FA258",
+   "ev_date": "2023-06-06 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 353,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221017106133",
+   "ntsb_no": "ERA23LA022",
+   "ev_date": "2022-10-17 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 458,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221026106199",
+   "ntsb_no": "ERA23LA039",
+   "ev_date": "2022-10-15 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 75,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221118106314",
+   "ntsb_no": "ERA23LA065",
+   "ev_date": "2022-11-18 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 204,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221213106447",
+   "ntsb_no": "ERA23LA086",
+   "ev_date": "2022-12-08 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 570,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20221215106463",
+   "ntsb_no": "ERA23LA090",
+   "ev_date": "2022-12-14 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 87,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230217106743",
+   "ntsb_no": "ERA23LA127",
+   "ev_date": "2023-02-16 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 176,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230313106875",
+   "ntsb_no": "ERA23LA150",
+   "ev_date": "2023-02-17 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 110,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230320106912",
+   "ntsb_no": "ERA23LA155",
+   "ev_date": "2023-03-19 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 119,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230413107051",
+   "ntsb_no": "ERA23LA193",
+   "ev_date": "2023-04-10 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 95,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230512149067",
+   "ntsb_no": "ERA23LA228",
+   "ev_date": "2023-05-11 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 139,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230712192615",
+   "ntsb_no": "ERA23LA296",
+   "ev_date": "2023-06-10 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 199,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230905193003",
+   "ntsb_no": "ERA23LA363",
+   "ev_date": "2023-09-04 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 166,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230913193055",
+   "ntsb_no": "ERA23LA368",
+   "ev_date": "2023-07-15 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 104,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231012193235",
+   "ntsb_no": "ERA24LA007",
+   "ev_date": "2023-10-12 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 425,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231113193370",
+   "ntsb_no": "ERA24LA033",
+   "ev_date": "2023-11-10 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 137,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231120193401",
+   "ntsb_no": "ERA24LA042",
+   "ev_date": "2023-11-18 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 120,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231127193428",
+   "ntsb_no": "ERA24LA049",
+   "ev_date": "2023-11-26 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 169,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231213193518",
+   "ntsb_no": "ERA24LA064",
+   "ev_date": "2023-12-12 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 184,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210219102646",
+   "ntsb_no": "GAA21WA022",
+   "ev_date": "2021-02-13 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20210316102759",
+   "ntsb_no": "GAA21WA047",
+   "ev_date": "2021-03-13 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20210427102983",
+   "ntsb_no": "GAA21WA090",
+   "ev_date": "2021-04-26 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20210913103840",
+   "ntsb_no": "GAA21WA224",
+   "ev_date": "2021-09-10 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20211223104439",
+   "ntsb_no": "GAA22WA054",
+   "ev_date": "2021-12-21 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20220315104780",
+   "ntsb_no": "GAA22WA120",
+   "ev_date": "2022-03-12 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20220321104808",
+   "ntsb_no": "GAA22WA125",
+   "ev_date": "2022-03-20 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20220322104812",
+   "ntsb_no": "GAA22WA127",
+   "ev_date": "2022-03-11 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20220426105005",
+   "ntsb_no": "GAA22WA164",
+   "ev_date": "2022-04-17 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20220429105017",
+   "ntsb_no": "GAA22WA169",
+   "ev_date": "2022-04-27 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20221005106062",
+   "ntsb_no": "GAA22WA294",
+   "ev_date": "2022-09-30 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20221213106449",
+   "ntsb_no": "GAA22WA311",
+   "ev_date": "2022-12-11 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20221202106399",
+   "ntsb_no": "GAA23WA034",
+   "ev_date": "2022-11-16 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20230404107005",
+   "ntsb_no": "GAA23WA116",
+   "ev_date": "2023-03-29 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR-22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20230425107118",
+   "ntsb_no": "GAA23WA131",
+   "ev_date": "2023-04-17 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20230505109774",
+   "ntsb_no": "GAA23WA145",
+   "ev_date": "2023-04-28 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20230526192248",
+   "ntsb_no": "GAA23WA154",
+   "ev_date": "2023-05-26 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20230616192377",
+   "ntsb_no": "GAA23WA166",
+   "ev_date": "2023-06-11 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20231010193216",
+   "ntsb_no": "GAA24WA006",
+   "ev_date": "2023-10-06 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20231018193259",
+   "ntsb_no": "GAA24WA012",
+   "ev_date": "2023-10-05 00:00:00",
+   "acft_make": "CIRRUS",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 0,
+   "has_probable_cause": false
+  },
+  {
+   "ev_id": "20210323102799",
+   "ntsb_no": "WPR21LA140",
+   "ev_date": "2021-03-23 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 105,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210329102822",
+   "ntsb_no": "WPR21LA145",
+   "ev_date": "2021-03-28 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 297,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210602103194",
+   "ntsb_no": "WPR21LA218",
+   "ev_date": "2021-05-28 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 122,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210803103621",
+   "ntsb_no": "WPR21LA303",
+   "ev_date": "2021-06-11 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 215,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20210927103970",
+   "ntsb_no": "WPR21LA355",
+   "ev_date": "2021-09-25 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 88,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211004104030",
+   "ntsb_no": "WPR21LA359",
+   "ev_date": "2021-09-30 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 101,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220811105713",
+   "ntsb_no": "WPR22FA298",
+   "ev_date": "2022-08-10 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 711,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20211213104397",
+   "ntsb_no": "WPR22LA064",
+   "ev_date": "2021-11-24 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 251,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220315104781",
+   "ntsb_no": "WPR22LA123",
+   "ev_date": "2022-03-07 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 146,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220328104844",
+   "ntsb_no": "WPR22LA132",
+   "ev_date": "2022-03-22 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 144,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220418104961",
+   "ntsb_no": "WPR22LA157",
+   "ev_date": "2022-04-16 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 86,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220429105019",
+   "ntsb_no": "WPR22LA168",
+   "ev_date": "2022-04-28 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 79,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220621105294",
+   "ntsb_no": "WPR22LA220",
+   "ev_date": "2022-06-18 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 139,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220725105568",
+   "ntsb_no": "WPR22LA267",
+   "ev_date": "2022-07-25 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 128,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220805105674",
+   "ntsb_no": "WPR22LA292",
+   "ev_date": "2022-07-27 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 81,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20220811105721",
+   "ntsb_no": "WPR22LA299",
+   "ev_date": "2022-08-11 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 140,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230402106989",
+   "ntsb_no": "WPR23FA141",
+   "ev_date": "2023-04-02 00:00:00",
+   "acft_make": "CIRRUS DESIGN CORP",
+   "acft_model": "SR22",
+   "model": "Cirrus SR22",
+   "narr_accf_words": 464,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230430107167",
+   "ntsb_no": "WPR23FA172",
+   "ev_date": "2023-04-30 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 685,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230501107201",
+   "ntsb_no": "WPR23FA173",
+   "ev_date": "2023-05-01 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 439,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230403106998",
+   "ntsb_no": "WPR23LA145",
+   "ev_date": "2023-04-01 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 132,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230425107121",
+   "ntsb_no": "WPR23LA164",
+   "ev_date": "2023-04-22 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 150,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230429107165",
+   "ntsb_no": "WPR23LA170",
+   "ev_date": "2023-04-28 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 61,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230524192231",
+   "ntsb_no": "WPR23LA199",
+   "ev_date": "2023-05-24 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 258,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230530192265",
+   "ntsb_no": "WPR23LA203",
+   "ev_date": "2023-05-29 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 342,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230606192320",
+   "ntsb_no": "WPR23LA217",
+   "ev_date": "2023-06-05 00:00:00",
+   "acft_make": "AIR TRACTOR INC",
+   "acft_model": "AT-502B",
+   "model": "Air Tractor AT-502B",
+   "narr_accf_words": 229,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230626192447",
+   "ntsb_no": "WPR23LA238",
+   "ev_date": "2023-06-17 00:00:00",
+   "acft_make": "PIPER",
+   "acft_model": "PA-28-181",
+   "model": "Piper PA-28-181",
+   "narr_accf_words": 64,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230705192525",
+   "ntsb_no": "WPR23LA253",
+   "ev_date": "2023-06-30 00:00:00",
+   "acft_make": "CESSNA",
+   "acft_model": "172S",
+   "model": "Cessna 172S",
+   "narr_accf_words": 84,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20230710192581",
+   "ntsb_no": "WPR23LA263",
+   "ev_date": "2023-07-09 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 174,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231021193276",
+   "ntsb_no": "WPR24FA018",
+   "ev_date": "2023-10-21 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 515,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20231211193502",
+   "ntsb_no": "WPR24FA054",
+   "ev_date": "2023-12-10 00:00:00",
+   "acft_make": "BEECH",
+   "acft_model": "A36",
+   "model": "Beech A36",
+   "narr_accf_words": 524,
+   "has_probable_cause": true
+  },
+  {
+   "ev_id": "20240221193822",
+   "ntsb_no": "WPR24LA092",
+   "ev_date": "2023-12-06 00:00:00",
+   "acft_make": "ROBINSON HELICOPTER COMPANY",
+   "acft_model": "R44 II",
+   "model": "Robinson R44 II",
+   "narr_accf_words": 71,
+   "has_probable_cause": true
+  }
+ ]
+}

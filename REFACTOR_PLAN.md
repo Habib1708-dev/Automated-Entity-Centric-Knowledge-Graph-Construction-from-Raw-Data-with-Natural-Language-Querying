@@ -9266,6 +9266,41 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   R152 on the new file; the preset and run-guard tests. 1287 passed (1271 + 16), ruff clean.
 - **R153 done 2026-10-12.** Next: R154, the NTSB aviation dataset.
 
+### R154. New dataset B: NTSB aviation accidents, with 50 gold questions (done 2026-10-12; $0, no run)
+- **Dataset** (`heldout/ntsb/`, like `heldout/nhtsa/`): `build.py fetch` downloads NTSB's public `avall.zip`
+  (2008-present export of 2026-10-01, 97 MB, cached outside the repo) and reads the Access database with
+  `uv run --with access-parser==0.0.6` (not a project dependency; one text-decoding step of the library is
+  replaced, tested, so curly quotes survive); `build.py build` is offline and standard-library only. Rule
+  fixed before any narrative was read: accidents (ACC) of 2021-2023 with one aircraft, of six fixed models
+  (Cessna 172S, Piper PA-28-181, Cirrus SR22, Beech A36, Robinson R44 II, Air Tractor AT-502B; eligible
+  per model 22 / 19 / 15 / 11 / 29 / 7, counted before freezing), a factual narrative of 100-250 words and a
+  probable cause, the 5 lowest NTSB numbers per model: 30 events. `data/`: models 6, events 30, aircraft 30
+  (engine nested), findings 67, events_sequence 72, crew 38, injuries 143 rows (386), codes decoded through
+  the export's own code tables, and 6 documents (one per model, a section per event: narrative, then
+  "Probable cause: ..."), 5,513 words. Public domain (US federal work), with the 49 U.S.C. 1154(b) caveat
+  in the README. Personal data left out: owner and operator addresses, crew home city and state, staff
+  ids, and the operator name and registration where NTSB marks the operator a private individual (10).
+  Preset `ntsb` (the quality settings, experiment `kgbuilder-ntsb`; the run guard asks for it).
+- **Known properties, in the README (kept, not changed after the gold was written):** "lowest NTSB number"
+  sorts by office, so the 30 are 27 Central and 3 Alaska, mostly 2021 (by date they would be 18 / 9 / 2 / 1
+  across four regions); model matching reads `acft_model` only, so 56 accidents whose model is split over
+  model and series or filed under a successor make were not candidates (16 eligible; 3 kept events would
+  change); at the preset's 1,500-character chunks four chunks hold no section heading (three are a probable
+  cause alone) and link to no event; injury "Total" rows are not totals (5 of 10 counted ones disagree with
+  the level rows, which match the events); the Findings cause flags are empty since 2021 and the air
+  temperature's unit is unknown, so both are dropped. None of these makes a gold answer wrong: the questions
+  are about the files as built.
+- **Gold** (`tests/gold/qa/ntsb_qa_bench.json`, NB01-50, from `data/` and `raw/` only): multi_hop 9,
+  aggregation 9, structured_filter 9, disambiguation 8, negation 7, lookup 8; 46 scored by code; 30 need the
+  narratives (22 by retrieval, 8 with a text step before a table join). Reviews (5 findings) removed table
+  shortcuts from text questions (e.g. NB35 asks the age of "the pilot who was flying", which only the
+  narrative settles) and fixed one judgement-call set (NB16).
+- **Verified:** `tests/test_ntsb.py` (18 tests: `data/` equals `build(raw/)`, the rule on `raw/`, the keys the
+  profiler finds, linking as the pipeline links (all 6 documents by the default name column), the four
+  headless chunks, nothing personal kept, the injury rows, the access-parser version pin); the gold checks
+  on the new file; preset and run-guard tests. 1310 passed (1287 + 23), ruff clean.
+- **R154 done 2026-10-12.** Next: R155, the two new graphs built (paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
