@@ -176,8 +176,14 @@ class SystemAnswer(QAAnswer):
 
 
 def shown_texts(answers: list[SystemAnswer]) -> dict[str, str]:
-    """Chunk id -> text of every chunk shown to the reader, for checking citations without a graph."""
-    return {c.chunk_id: c.text for a in answers for c in a.shown}
+    """Chunk id -> text of every chunk shown to the reader, for checking citations without a graph. A chunk
+    shown several times keeps its longest text: the agent's `find_passages` shows only a passage's sentences
+    (R141), so one answer's excerpt must not replace the whole text another answer quoted from (R143b)."""
+    texts: dict[str, str] = {}
+    for c in (c for a in answers for c in a.shown):
+        if len(c.text) > len(texts.get(c.chunk_id, "")):
+            texts[c.chunk_id] = c.text
+    return texts
 
 
 def load_system_answers(path: Path) -> list[SystemAnswer]:

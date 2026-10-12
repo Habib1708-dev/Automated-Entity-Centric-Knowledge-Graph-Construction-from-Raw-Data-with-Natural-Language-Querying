@@ -8853,6 +8853,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **An excerpt replaced a passage's whole text in the faithfulness check (found in R143b, 2026-10-12; fixed in
+  its own commit).** The agent's furniture "seen" run scored citation faithfulness 13/16, yet every quote was
+  in the passage its own answer was shown: `shown_texts` keeps one text per chunk across all answers, and
+  F08's three passages (404, 136 and 88 characters shown) were overwritten by another answer's
+  `find_passages` excerpt (30 and 28 characters). Fixed: a chunk keeps its longest shown text (an excerpt is
+  made of the passage's own sentences). Test in `tests/test_query.py`, failing before. 1201 passed.
 - **`qa_parts` dropped R141's text reader (found in R143b, 2026-10-10; fixed in its own commit).** The first
   R143b command stopped before any model call ($0): "the agent needs the node and text readers". `qa_parts`
   copied the source parts field by field and left out `SourceParts.text`; R141's tests built the tools

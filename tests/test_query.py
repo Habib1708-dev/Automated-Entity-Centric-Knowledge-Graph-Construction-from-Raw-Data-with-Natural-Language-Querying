@@ -11,7 +11,7 @@ from kgbuilder.core.text import words
 from kgbuilder.graph.connection import open_driver
 from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
 from kgbuilder.pipeline.qa_stages import QAScoreStage, QAStage
-from kgbuilder.query.answers import SystemAnswer, load_system_answers, shown_texts
+from kgbuilder.query.answers import ShownChunk, SystemAnswer, load_system_answers, shown_texts
 from kgbuilder.query.graph_store import StoredChunk
 from kgbuilder.query.names import NameLinker, NodeName, spans
 from kgbuilder.query.ranking import rank
@@ -291,3 +291,15 @@ def test_qa_score_scores_an_answers_file_with_the_judges_verdicts_and_reads_no_g
 def test_an_unknown_system_is_refused_before_anything_runs():
     with pytest.raises(ConfigurationError, match="unknown system 'oracle'"):
         QAStage("oracle")
+
+
+def test_a_passage_shown_whole_to_one_answer_and_as_an_excerpt_to_another_keeps_its_whole_text():
+    # R143b: the agent's find_passages shows a passage's sentences only; a later answer's excerpt must not
+    # replace the whole text an earlier answer quoted from, or a verbatim quote is scored unfaithful
+    def shown(question_id: str, text: str) -> SystemAnswer:
+        return SystemAnswer(question_id=question_id, system="agent",
+                            shown=[ShownChunk(chunk_id="c1", context="Doc", text=text)])  # fmt: skip
+
+    whole = "The lid is loose. The rails are rough."
+    assert shown_texts([shown("Q1", whole), shown("Q2", "The rails are rough.")]) == {"c1": whole}
+    assert shown_texts([shown("Q1", "The lid is loose."), shown("Q2", whole)]) == {"c1": whole}
