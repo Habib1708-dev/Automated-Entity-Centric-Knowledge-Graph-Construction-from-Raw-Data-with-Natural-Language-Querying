@@ -9142,6 +9142,53 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
   counts that must stay with `find_passages`).
 - **R150 done 2026-10-12.** Next: R151, the re-measurement (paid, asked first).
 
+### R151. The engine re-measured after R146-R150, and frozen (done 2026-10-12; $1.028)
+- **Asked and approved:** the user, 2026-10-12, "Full re-run, ~$1.05" (asked with the cheaper watch-list
+  option, about $0.40).
+- **Runs** (`tests/gold/r151/runs.json`, git 3461d5d, `agent_prompt_version` ba389c432cd6,
+  `agent_tools_prompt_version` ccf077ef986c): the same three graphs as R143b, generality as loaded
+  (`f79f9411ea81`), held-out and furniture reloaded by R128's recipe into `out/r151_heldout` and
+  `out/r151_furniture` ($0, every model answer from the cache; digests `bc7c5a1efe3d` and `392a170ecc10`,
+  triples and mentions byte-identical to R143b's builds). Agent on the fresh 30 $0.508 ($0.0169 a question,
+  R143b $0.0157), on the seen 22 $0.414 ($0.0188); the reading systems on the fresh 30 $0.105 ($0.0012).
+  **$1.028 in all.**
+- **Judge:** Claude Opus 5.5, workflow subagents of this session: two blind judges per answers file with R71's
+  rules, scope "all" (R144), a lead judge for disagreements; the two agreed on all 142 answers. Free-text
+  verdicts for exact match are taken from the same files. Scored by `kg qa-score` into `out/r151/exact` and
+  `out/r151/meaning`, paired by `kg qa-compare` on the fresh 30 pooled.
+- **Results** (exact match by code / judge by meaning; n per cell):
+
+  | | agent | vector | graph_retrieval | hybrid |
+  |---|---|---|---|---|
+  | fresh furniture (10) | 10 / 10 | 4 / 4 | 4 / 4 | 4 / 4 |
+  | fresh held-out (10) | 10 / 10 | 3 / 3 | 3 / 3 | 4 / 4 |
+  | fresh generality (10) | 10 / 10 | 6 / 6 | 6 / 6 | 6 / 6 |
+  | **fresh pooled (30)** | **30 / 30** (R144: 28 / 29) | 13 / 13 (12 / 13) | 13 / 13 (12 / 13) | 14 / 14 (13 / 14) |
+  | seen, R136's wrong (22) | **18 / 19** (R144: 14 / 20) | - | - | - |
+
+  - Agent against each reading system on the fresh 30, both scores: 17, 17 and 16 questions only the agent
+    answers, none the other way, p < 0.001.
+  - **Exact match now equals the judge on every fresh cell:** R147's form rule fixed all six R144 form
+    failures (GN07 for all four systems, G02, G03, G10, H36 as `entities` or `number`; G31 still adds the
+    speaker's company, right by meaning, wrong by exact match). `agent_answers_reformed` is 0 in all six
+    runs: the rewritten rule did the work, the send-back never fired.
+  - **The fixes at work:** HN03 right (10, one `query_records` call with `other_field`, R148; R143b 8 by eye);
+    HN05 in one call; H40 paged with `offset`; F12 right (4, `find_passages` then `read_document`, R149);
+    FN04 kept (it searched the name alone and read the document); held-out fresh 10/10 (R143b 9).
+  - **Still wrong (seen, by meaning, 3):** F13 (the agent never called `rank_by_documents`: it searched
+    passages for "@" and named two handles from the 30 shown); G05 (it did call `rank_by_documents` and
+    answered 9 for 8, the identity join R150 predicted: "group leader" joined to Jonathan Pike); H66 (the
+    same answer as R143b, the recall's filer name for Toyota: R144's judge accepted it as a judgement call,
+    R151's blind judges followed the gold's note and did not; the verdict is kept, so seen is 19/22 by this
+    judge and would be 20/22 with R144's ruling on H66).
+- **Read with care:** the fresh 30 shaped this plan (R145 traced GN07, HN03 and the others), so they are now
+  seen as well; 30 / 30 is a ceiling on 30 questions, not an error rate of zero; gold, verdicts and the fixes
+  come from one model family; one run per system, no repeat to measure run-to-run variation; the agent costs
+  about 14 times a reading system per question.
+- **Frozen:** the query engine is tagged `query-engine-r151` at this step's commit; later changes reopen it.
+- **R151 done 2026-10-12; plan R146-R151 done.** Next: the user decides (F13's tool choice, G05's identity
+  join, the open items under Found along the way).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

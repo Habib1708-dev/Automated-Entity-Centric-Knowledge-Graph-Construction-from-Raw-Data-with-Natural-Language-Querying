@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "02c3293063644a189df0cb95df569c9c",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/furniture_qa_fresh.json",
+  "answers": "out/r151_furniture_fresh/answers_hybrid.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "FN01",
+      "correct": false,
+      "reason": "No answer: says the chunks do not mention the suppliers, but gold names six (American Hardware Inc, Cape Town Adhesives, Korean Metal Works, Mexican Hardware Solutions, Shanghai Metal Corp, Singapore Adhesive Tech)."
+    },
+    {
+      "question_id": "FN02",
+      "correct": false,
+      "reason": "No answer: says the preferred suppliers are not stated, while gold lists five preferred suppliers of the Stockholm Chair back rest parts."
+    },
+    {
+      "question_id": "FN03",
+      "correct": false,
+      "reason": "No answer given; gold is Uppsala Sofa (12 suppliers)."
+    },
+    {
+      "question_id": "FN04",
+      "correct": false,
+      "reason": "Answers 3.8, but the gold average over all seven reviews is 4.0 (28/7); it left out the 4/5 review (#1) and one 5/5 review (#3)."
+    },
+    {
+      "question_id": "FN05",
+      "correct": false,
+      "reason": "No answer given; gold is Corner Brackets and Screws (preferred supplier lead time 21 days each)."
+    },
+    {
+      "question_id": "FN06",
+      "correct": false,
+      "reason": "No answer: says prices are not available, while gold is the Jönköping Coffee Table and the Malmö Desk."
+    },
+    {
+      "question_id": "FN07",
+      "correct": true,
+      "reason": "Answers Malmö Desk only, matching gold and the cited '@architect_amy (Seattle)' line, without woodworker_amy's products."
+    },
+    {
+      "question_id": "FN08",
+      "correct": true,
+      "reason": "Answers 1, which matches the gold count; it cites the one review saying 'the surface scratches pretty easily'."
+    },
+    {
+      "question_id": "FN09",
+      "correct": true,
+      "reason": "Answers 30 (cm), which matches the gold shelf depth of 30cm from the cited review."
+    },
+    {
+      "question_id": "FN10",
+      "correct": true,
+      "reason": "Says the reviewer was told to disassemble what was already done and return the entire dresser to the store, matching the gold text and quote."
+    }
+  ]
+}

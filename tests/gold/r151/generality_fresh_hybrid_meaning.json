@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "584df5ef44c04ec2b0a13bef327fbb23",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/generality_qa_fresh.json",
+  "answers": "out/r151_generality_fresh/answers_hybrid.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GN01",
+      "correct": false,
+      "reason": "No answer: says the chunks do not state the install year; gold is 2019 (HP40-2291, from the pump record); rule 5."
+    },
+    {
+      "question_id": "GN02",
+      "correct": false,
+      "reason": "No answer: names S. Osei but says the start year is not stated; gold is 2023 from Samuel Osei's staff record; rule 5."
+    },
+    {
+      "question_id": "GN03",
+      "correct": true,
+      "reason": "Number 5 matches gold 5 (three trips in early May plus two in the week of 7 April)."
+    },
+    {
+      "question_id": "GN04",
+      "correct": true,
+      "reason": "Number 3 matches gold 3; citations are the three gold budget lines (95,000, 60,000, 15,000)."
+    },
+    {
+      "question_id": "GN05",
+      "correct": false,
+      "reason": "No answer: says no install dates are given and names no pumps; gold set is HP40-2291 and KV12-0457."
+    },
+    {
+      "question_id": "GN06",
+      "correct": false,
+      "reason": "No answer: says start years are not in the text and names no teams; gold set is Soil Ecology and Hydrology."
+    },
+    {
+      "question_id": "GN07",
+      "correct": true,
+      "reason": "Entity Valencia matches the gold place where the baker Maria Lopez trained; citation is the gold evidence."
+    },
+    {
+      "question_id": "GN08",
+      "correct": true,
+      "reason": "Number 41 matches gold 41, HP40-2291's flow at the March 2025 inspection."
+    },
+    {
+      "question_id": "GN09",
+      "correct": true,
+      "reason": "Says No, no run above 60 l/s in May 2025, matching gold; the gold note allows the reason to be left out."
+    },
+    {
+      "question_id": "GN10",
+      "correct": true,
+      "reason": "Number 12000 matches the mayor's stated saving of 12,000 pounds."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "6e04252748754164befcb9aa2740435f",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/generality_qa_fresh.json",
+  "answers": "out/r151_generality_fresh/answers_graph_retrieval.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GN01",
+      "correct": false,
+      "reason": "Answer says the chunks do not give HP40-2291's installation year; gold is 2019 from the pump record, so no answer counts as wrong (rule 5)."
+    },
+    {
+      "question_id": "GN02",
+      "correct": false,
+      "reason": "It identifies S. Osei as Samuel Osei but says his start year is not stated; gold is 2023 from the staff record, so no answer counts as wrong (rule 5)."
+    },
+    {
+      "question_id": "GN03",
+      "correct": true,
+      "reason": "Number 5 matches the gold total of 3 trips in early May plus 2 in the week of 7 April."
+    },
+    {
+      "question_id": "GN04",
+      "correct": true,
+      "reason": "Number 3 matches the gold count: Harbour Street 2025 (95,000), Town hall boiler (60,000) and Mill Lane east railing (15,000)."
+    },
+    {
+      "question_id": "GN05",
+      "correct": false,
+      "reason": "Answer says no installation dates are mentioned and names no pumps; gold is HP40-2291 and KV12-0457 (rule 5)."
+    },
+    {
+      "question_id": "GN06",
+      "correct": false,
+      "reason": "Answer says there is no start-date information and names no teams; gold is Soil Ecology and Hydrology (rule 5)."
+    },
+    {
+      "question_id": "GN07",
+      "correct": true,
+      "reason": "Entity Valencia matches the gold, matching the bakery owner's evidence quote."
+    },
+    {
+      "question_id": "GN08",
+      "correct": true,
+      "reason": "Number 41 matches the gold flow of HP40-2291 at the 14 March 2025 inspection."
+    },
+    {
+      "question_id": "GN09",
+      "correct": true,
+      "reason": "It says No, no run went above 60 l/s in May because a vibration measurement was asked for first; this matches the gold text and evidence."
+    },
+    {
+      "question_id": "GN10",
+      "correct": true,
+      "reason": "Number 12000 matches the mayor's '12,000 pounds under budget' in the gold evidence."
+    }
+  ]
+}

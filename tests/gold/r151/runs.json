@@ -1,0 +1,119 @@
+{
+ "step": "R151: the agent and the reading systems re-measured after R146-R150 (fresh 30, the agent on R136's 22 seen), judged by meaning",
+ "approved": "the user, 2026-10-12, in this session: 'Full re-run, ~$1.05'",
+ "git_sha": "3461d5d",
+ "versions": {
+  "agent_prompt_version": "ba389c432cd6",
+  "agent_tools_prompt_version": "ccf077ef986c"
+ },
+ "builds": {
+  "furniture": {
+   "graph": "out/r151_furniture, R128's recipe from out/r108_furniture (claims out/r103_furniture), template index; triples, mentions and resolve.json byte-identical to out/r136_furniture",
+   "graph_digest": "392a170ecc10",
+   "folders": [
+    "out/r151_furniture_fresh",
+    "out/r151_furniture_seen"
+   ]
+  },
+  "heldout": {
+   "graph": "out/r151_heldout, R128's recipe from out/r109_heldout (claims out/r103_heldout), template index; triples and mentions byte-identical to out/r109_heldout",
+   "graph_digest": "bc7c5a1efe3d",
+   "folders": [
+    "out/r151_heldout_fresh",
+    "out/r151_heldout_seen"
+   ]
+  },
+  "generality": {
+   "graph": "out/r143_generality, loaded since R143b (not reloaded)",
+   "graph_digest": "f79f9411ea81",
+   "folders": [
+    "out/r151_generality_fresh",
+    "out/r151_generality_seen"
+   ]
+  }
+ },
+ "commands": [
+  "kg --preset <quality|heldout|generality_gemini> qa tests/gold/qa/<dataset>_qa_fresh.json --system agent --system vector --system graph_retrieval --system hybrid --out out/r151_<dataset>_fresh",
+  "kg --preset <same> qa tests/gold/r143/<dataset>_seen_failed.json --system agent --out out/r151_<dataset>_seen",
+  "kg --preset <same> qa-score <gold> <answers> --verdicts tests/gold/r151/<name>_verdicts.json --out out/r151/exact/<dataset>_<kind>  (free-text verdicts only; none for the seen furniture and generality files)",
+  "kg --preset <same> qa-score <gold> <answers> --verdicts tests/gold/r151/<name>_meaning.json --out out/r151/meaning/<dataset>_<kind>",
+  "kg qa-compare out/r151/<score>/pooled_fresh/qa_outcomes_agent.jsonl out/r151/<score>/pooled_fresh/qa_outcomes_<system>.jsonl --out out/r151/<score>/compare_fresh_<system>"
+ ],
+ "runs": {
+  "generality_fresh": {
+   "agent": [
+    "f6f4cf18",
+    0.102089
+   ],
+   "vector": [
+    "617f8e38",
+    0.01534
+   ],
+   "graph_retrieval": [
+    "6e042527",
+    0.008664
+   ],
+   "hybrid": [
+    "584df5ef",
+    0.013189
+   ]
+  },
+  "generality_seen": {
+   "agent": [
+    "d310cffc",
+    0.067291
+   ]
+  },
+  "heldout_fresh": {
+   "agent": [
+    "3f66b396",
+    0.139392
+   ],
+   "vector": [
+    "0331c471",
+    0.01238
+   ],
+   "graph_retrieval": [
+    "6705a6bf",
+    0.01151
+   ],
+   "hybrid": [
+    "a9234ca0",
+    0.015283
+   ]
+  },
+  "heldout_seen": {
+   "agent": [
+    "373430b0",
+    0.086408
+   ]
+  },
+  "furniture_fresh": {
+   "agent": [
+    "113dc54c",
+    0.266633
+   ],
+   "vector": [
+    "484ec34e",
+    0.01277
+   ],
+   "graph_retrieval": [
+    "647e45fa",
+    0.004457
+   ],
+   "hybrid": [
+    "02c32930",
+    0.011732
+   ]
+  },
+  "furniture_seen": {
+   "agent": [
+    "1c01084a",
+    0.260672
+   ]
+  }
+ },
+ "reload_cost_usd": 0,
+ "cost_usd": 1.0278,
+ "judge": "Claude Opus 5.5 (workflow subagents of this session): two blind judges per answers file with R71's rules, scope all; a lead judge settled disagreements (none: 142/142 agreed) and wrote tests/gold/r151/*_meaning.json; the *_verdicts.json (free-text questions only) are derived from them for exact match"
+}

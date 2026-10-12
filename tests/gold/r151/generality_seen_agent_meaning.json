@@ -1,0 +1,48 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "d310cffc5cc447a18118f4e99e0596f7",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/r143/generality_seen_failed.json",
+  "answers": "out/r151_generality_seen/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "G02",
+      "correct": true,
+      "reason": "Answer 'grants accountant' matches the gold role of the Finance Office Maria Lopez who presented the grants budget."
+    },
+    {
+      "question_id": "G03",
+      "correct": true,
+      "reason": "Answer 'Soil Ecology' matches the gold team of the Maria Lopez who ran the Aldmoor campaign and kept the log."
+    },
+    {
+      "question_id": "G05",
+      "correct": false,
+      "reason": "States 9 documents but the gold count is 8, so the number is wrong."
+    },
+    {
+      "question_id": "G10",
+      "correct": true,
+      "reason": "Names Mayor Helen Achterberg, matching the gold entity and the evidence quote that she called the footbridge safe to use."
+    },
+    {
+      "question_id": "G22",
+      "correct": true,
+      "reason": "Answer 'Soil Ecology' matches the gold team of the Maria Lopez who presented the Utrecht poster."
+    },
+    {
+      "question_id": "G29",
+      "correct": true,
+      "reason": "Answer 'Hydrology' matches the gold team of Aiko Tanaka, chair of the 9 June 2025 meeting."
+    },
+    {
+      "question_id": "G31",
+      "correct": true,
+      "reason": "Names Ines Barros as the gold does; the extra 'Calder Pumps' is her company, whose letter makes the claim per the gold note, so it is true detail and not a wrong item."
+    }
+  ]
+}

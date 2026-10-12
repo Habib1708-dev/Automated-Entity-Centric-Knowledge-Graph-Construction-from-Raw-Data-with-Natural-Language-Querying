@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "f6f4cf18098d440f9e7e536989f05fd3",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/generality_qa_fresh.json",
+  "answers": "out/r151_generality_fresh/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GN01",
+      "correct": true,
+      "reason": "2019, the installation year of HP40-2291, the pump named in the shift notes of the week of 9 June 2025; matches the gold number."
+    },
+    {
+      "question_id": "GN02",
+      "correct": true,
+      "reason": "2023, the start year of Samuel Osei (S. Osei, keeper of the field log); matches the gold number."
+    },
+    {
+      "question_id": "GN03",
+      "correct": true,
+      "reason": "5 (three trips in early May plus two in the April shift notes), leaving out the uncaused June alarm as the gold note requires."
+    },
+    {
+      "question_id": "GN04",
+      "correct": true,
+      "reason": "3, naming exactly the gold lines: Harbour Street 95,000 and town hall boiler 60,000 (2025) and east railing 15,000 (2026); the 110,000 carry-over left out."
+    },
+    {
+      "question_id": "GN05",
+      "correct": true,
+      "reason": "Set {HP40-2291, KV12-0457} equals the gold set, with no wrong pump."
+    },
+    {
+      "question_id": "GN06",
+      "correct": true,
+      "reason": "Set {Soil Ecology, Hydrology} equals the gold set, without the Finance Office."
+    },
+    {
+      "question_id": "GN07",
+      "correct": true,
+      "reason": "Valencia, as the bakery article states; not the researcher's Utrecht."
+    },
+    {
+      "question_id": "GN08",
+      "correct": true,
+      "reason": "41 litres per second from the 14 March inspection, not the 38, 39, 40 or 42 distractors."
+    },
+    {
+      "question_id": "GN09",
+      "correct": true,
+      "reason": "Answers No, no run above 60 l/s in May, and gives the gold reason (vibration measurement first)."
+    },
+    {
+      "question_id": "GN10",
+      "correct": true,
+      "reason": "12,000 pounds, the mayor's stated saving, not the 180,000 budget line."
+    }
+  ]
+}

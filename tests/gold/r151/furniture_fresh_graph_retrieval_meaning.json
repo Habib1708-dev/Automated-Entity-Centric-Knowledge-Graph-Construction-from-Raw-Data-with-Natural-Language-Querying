@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "647e45fa47254f6abdb614eda6158de0",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/furniture_qa_fresh.json",
+  "answers": "out/r151_furniture_fresh/answers_graph_retrieval.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "FN01",
+      "correct": false,
+      "reason": "Says the chunks do not name the suppliers; gold lists six suppliers of the Malmö Desk cable management parts (American Hardware Inc, Cape Town Adhesives, ...), so no answer is wrong (rule 5)."
+    },
+    {
+      "question_id": "FN02",
+      "correct": false,
+      "reason": "Identifies the Stockholm Chair but names no suppliers; gold expects five preferred suppliers of the back rest parts (rule 5)."
+    },
+    {
+      "question_id": "FN03",
+      "correct": false,
+      "reason": "Says the information is not available; gold answer is Uppsala Sofa (12 suppliers) (rule 5)."
+    },
+    {
+      "question_id": "FN04",
+      "correct": false,
+      "reason": "Says the average is not stated; gold is 4.0 (28/7) from the seven Örebro Lamp review ratings (rule 5)."
+    },
+    {
+      "question_id": "FN05",
+      "correct": false,
+      "reason": "Says delivery times are not available; gold expects Corner Brackets and Screws (preferred supplier, 21 days) (rule 5)."
+    },
+    {
+      "question_id": "FN06",
+      "correct": false,
+      "reason": "Says prices are unknown and names no products; gold expects Jönköping Coffee Table and Malmö Desk (rule 5)."
+    },
+    {
+      "question_id": "FN07",
+      "correct": true,
+      "reason": "Answers Malmö Desk only, matching the gold set exactly with no @woodworker_amy products mixed in."
+    },
+    {
+      "question_id": "FN08",
+      "correct": true,
+      "reason": "Answers 1, matching the gold count of one review saying the surface scratches easily."
+    },
+    {
+      "question_id": "FN09",
+      "correct": true,
+      "reason": "Answers 30, matching the gold shelf depth of 30 cm."
+    },
+    {
+      "question_id": "FN10",
+      "correct": true,
+      "reason": "States the reviewer was told to disassemble everything already done and return the entire dresser to the store, same as gold."
+    }
+  ]
+}

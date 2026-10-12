@@ -1,0 +1,17 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "02c3293063644a189df0cb95df569c9c",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/furniture_qa_fresh.json",
+  "answers": "out/r151_furniture_fresh/answers_hybrid.jsonl",
+  "verdicts": [
+    {
+      "question_id": "FN10",
+      "correct": true,
+      "reason": "Says the reviewer was told to disassemble what was already done and return the entire dresser to the store, matching the gold text and quote."
+    }
+  ]
+}

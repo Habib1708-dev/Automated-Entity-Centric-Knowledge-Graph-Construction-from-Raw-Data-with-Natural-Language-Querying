@@ -1,0 +1,17 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "0331c47147884ef281233977e4a71aab",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/heldout_qa_fresh.json",
+  "answers": "out/r151_heldout_fresh/answers_vector.jsonl",
+  "verdicts": [
+    {
+      "question_id": "HN09",
+      "correct": false,
+      "reason": "No answer: says the chunks do not cover 23V093000, while gold expects a spacer inserted into the jackknife key slot, free of charge."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "617f8e38b5cb4b4fa7c942bd0d522f42",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/generality_qa_fresh.json",
+  "answers": "out/r151_generality_fresh/answers_vector.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GN01",
+      "correct": false,
+      "reason": "Says the chunks do not give the installation year of HP40-2291; the gold is 2019, so no answer is wrong (rule 5)."
+    },
+    {
+      "question_id": "GN02",
+      "correct": false,
+      "reason": "Says the start year of S. Osei / Samuel Osei is not given; the gold is 2023, so no answer is wrong (rule 5)."
+    },
+    {
+      "question_id": "GN03",
+      "correct": true,
+      "reason": "Gives 5, matching the gold total of three trips in the first week of May plus two in the week of 7 April."
+    },
+    {
+      "question_id": "GN04",
+      "correct": true,
+      "reason": "Gives 3, matching the gold count (Harbour Street 95,000 and town hall boiler 60,000 in 2025, Mill Lane railing 15,000 in 2026)."
+    },
+    {
+      "question_id": "GN05",
+      "correct": false,
+      "reason": "Says no installation dates are given and names no pumps; the gold set is HP40-2291 and KV12-0457."
+    },
+    {
+      "question_id": "GN06",
+      "correct": false,
+      "reason": "Says start dates are not given and names no teams; the gold set is Soil Ecology and Hydrology."
+    },
+    {
+      "question_id": "GN07",
+      "correct": true,
+      "reason": "Answers Valencia, where the bakery owner Maria Lopez trained per the gold quote."
+    },
+    {
+      "question_id": "GN08",
+      "correct": true,
+      "reason": "Gives 41 litres per second, matching the gold March 2025 inspection value for HP40-2291."
+    },
+    {
+      "question_id": "GN09",
+      "correct": true,
+      "reason": "Says no run went above 60 litres per second in May 2025, matching the gold denial; the gold note allows leaving out the reason."
+    },
+    {
+      "question_id": "GN10",
+      "correct": true,
+      "reason": "Gives 12,000 pounds, matching the under-budget amount the mayor stated in the gold quote."
+    }
+  ]
+}

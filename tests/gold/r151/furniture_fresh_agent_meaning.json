@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "113dc54ceda548c89920a311dcd37f68",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/furniture_qa_fresh.json",
+  "answers": "out/r151_furniture_fresh/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "FN01",
+      "correct": true,
+      "reason": "Lists exactly the six gold suppliers of the Malmö Desk cable management parts, with no extra and none missing."
+    },
+    {
+      "question_id": "FN02",
+      "correct": true,
+      "reason": "Lists exactly the five gold preferred suppliers of the Stockholm Chair back rest parts (Nordic Wood, Brazilian Foam, Bangalore Textiles, Shanghai Metal, German Precision Fasteners)."
+    },
+    {
+      "question_id": "FN03",
+      "correct": true,
+      "reason": "Answers Uppsala Sofa, the gold product with the most distinct suppliers (12)."
+    },
+    {
+      "question_id": "FN04",
+      "correct": true,
+      "reason": "Gives 4.0 out of 5 from the seven ratings 5,4,3,5,2,4,5, matching the gold average of 4."
+    },
+    {
+      "question_id": "FN05",
+      "correct": true,
+      "reason": "Gives Corner Brackets and Screws, exactly the gold set; correctly leaves out Support Slats at exactly 20 days."
+    },
+    {
+      "question_id": "FN06",
+      "correct": true,
+      "reason": "Gives Jönköping Coffee Table and Malmö Desk, exactly the gold set; correctly excludes the $790 Linköping Bed."
+    },
+    {
+      "question_id": "FN07",
+      "correct": true,
+      "reason": "Says @architect_amy reviewed only the Malmö Desk, matching gold and not mixing in @woodworker_amy's reviews."
+    },
+    {
+      "question_id": "FN08",
+      "correct": true,
+      "reason": "Gives 1 review saying the surface scratches easily (#2), matching gold; the two reviews denying scratches are not counted."
+    },
+    {
+      "question_id": "FN09",
+      "correct": true,
+      "reason": "Gives a shelf depth of 30 cm, matching the gold number and evidence quote."
+    },
+    {
+      "question_id": "FN10",
+      "correct": true,
+      "reason": "States customer service said to disassemble everything already done and return the entire dresser to the store, matching the gold text by meaning."
+    }
+  ]
+}

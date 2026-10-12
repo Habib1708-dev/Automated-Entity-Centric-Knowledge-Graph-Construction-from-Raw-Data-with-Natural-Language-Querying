@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "484ec34e10aa4ec880bbb4742c157a9e",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/furniture_qa_fresh.json",
+  "answers": "out/r151_furniture_fresh/answers_vector.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "FN01",
+      "correct": false,
+      "reason": "No answer given (says the chunks do not mention suppliers); gold lists six suppliers of the Malmö Desk cable management parts (American Hardware Inc, Cape Town Adhesives, etc.)."
+    },
+    {
+      "question_id": "FN02",
+      "correct": false,
+      "reason": "No answer: says the chunks hold no such information, but gold names five preferred suppliers of the Stockholm Chair back rest parts."
+    },
+    {
+      "question_id": "FN03",
+      "correct": false,
+      "reason": "No answer: says the chunks hold no supplier information, but gold answer is Uppsala Sofa."
+    },
+    {
+      "question_id": "FN04",
+      "correct": false,
+      "reason": "No number given: says the average is not stated, but the gold average of the seven Örebro Lamp ratings is 4."
+    },
+    {
+      "question_id": "FN05",
+      "correct": false,
+      "reason": "No answer: says delivery times are not given, but gold parts are Corner Brackets and Screws."
+    },
+    {
+      "question_id": "FN06",
+      "correct": false,
+      "reason": "No products named: says prices are unknown so it cannot decide, but gold is Jönköping Coffee Table and Malmö Desk."
+    },
+    {
+      "question_id": "FN07",
+      "correct": true,
+      "reason": "Answers Malmö Desk, exactly the gold set, with no extra items (@woodworker_amy not counted)."
+    },
+    {
+      "question_id": "FN08",
+      "correct": true,
+      "reason": "Answers 1, matching the gold count of one review saying the surface scratches easily."
+    },
+    {
+      "question_id": "FN09",
+      "correct": true,
+      "reason": "Answers 30, matching gold quote 'The shelf depth of 30cm'."
+    },
+    {
+      "question_id": "FN10",
+      "correct": true,
+      "reason": "States customer service said to disassemble everything already done and return the entire dresser to the store, same meaning as the gold and its evidence."
+    }
+  ]
+}

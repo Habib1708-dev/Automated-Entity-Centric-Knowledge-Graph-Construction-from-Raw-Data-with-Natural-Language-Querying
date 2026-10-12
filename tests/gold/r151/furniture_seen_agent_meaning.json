@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "1c01084af3aa42dab3b92eb4a65b312b",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/r143/furniture_seen_failed.json",
+  "answers": "out/r151_furniture_seen/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "F08",
+      "correct": true,
+      "reason": "Lists exactly the six gold products (Gothenburg Table, Helsingborg Dresser, Jönköping Coffee Table, Malmö Desk, Norrköping Nightstand, Västerås Bookshelf), with none missing and none extra."
+    },
+    {
+      "question_id": "F12",
+      "correct": true,
+      "reason": "Gives 4 reviews mentioning the removable covers, which matches the gold number 4."
+    },
+    {
+      "question_id": "F13",
+      "correct": false,
+      "reason": "Names @home_chef and @familyfirst with 7 products each, but the gold is @scandi_lover, who reviews 8 products."
+    },
+    {
+      "question_id": "F28",
+      "correct": true,
+      "reason": "Gives 1 review reporting creaking (the frame creaks when someone sits) and rightly leaves out the 'no squeaking' review, as the gold note says to."
+    },
+    {
+      "question_id": "F48",
+      "correct": true,
+      "reason": "Gives Drawer Front and Drawer Rails, exactly the gold set."
+    },
+    {
+      "question_id": "F59",
+      "correct": true,
+      "reason": "Lists all six gold suppliers for the headboard parts and no extra ones."
+    },
+    {
+      "question_id": "F61",
+      "correct": true,
+      "reason": "Lists the five gold products (Stockholm Chair, Malmö Desk, Uppsala Sofa, Linköping Bed, Helsingborg Dresser), with none missing and none extra."
+    },
+    {
+      "question_id": "F62",
+      "correct": true,
+      "reason": "Lists the six gold countries (Brazil, India, Italy, Mexico, USA, United Kingdom) and no others."
+    },
+    {
+      "question_id": "F64",
+      "correct": true,
+      "reason": "Lists all eight gold suppliers shared by both products, in a different order, with no extra ones."
+    },
+    {
+      "question_id": "F65",
+      "correct": true,
+      "reason": "Gives 10 different suppliers, which matches the gold number 10."
+    }
+  ]
+}

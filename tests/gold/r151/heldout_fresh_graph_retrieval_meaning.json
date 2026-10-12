@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "6705a6bfd5f34b678a2bbb955a2f1e93",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/heldout_qa_fresh.json",
+  "answers": "out/r151_heldout_fresh/answers_graph_retrieval.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "HN01",
+      "correct": false,
+      "reason": "Says no such recalls are mentioned; gold is 19V244000 and 19V503000 (rule 5, no answer)."
+    },
+    {
+      "question_id": "HN02",
+      "correct": false,
+      "reason": "Answers 0; gold count is 10 (five complaints each for the 2019 RAV4 and the 2015 Escape)."
+    },
+    {
+      "question_id": "HN03",
+      "correct": false,
+      "reason": "Says the chunks do not give receipt dates; gold count is 10 (rule 5, no answer)."
+    },
+    {
+      "question_id": "HN04",
+      "correct": false,
+      "reason": "Gives no vehicle; gold is the RAV4 with two power train complaints (rule 5, no answer)."
+    },
+    {
+      "question_id": "HN05",
+      "correct": false,
+      "reason": "Names no complaint; gold set is 10809523, 10825467, 11032133 and 11176393 (rule 5, no answer)."
+    },
+    {
+      "question_id": "HN06",
+      "correct": false,
+      "reason": "Names no campaign; gold is 22V875000 and 23V093000 (rule 5, no answer)."
+    },
+    {
+      "question_id": "HN07",
+      "correct": true,
+      "reason": "Names 26V332000, matching the gold, with the gold evidence quote cited."
+    },
+    {
+      "question_id": "HN08",
+      "correct": true,
+      "reason": "Names the 2017 Nissan Rogue (a gold alias) only, with no wrong extra vehicle such as the RAV4."
+    },
+    {
+      "question_id": "HN09",
+      "correct": false,
+      "reason": "Says the chunks do not state the remedy; gold is that dealers insert a spacer into the jackknife key slot, free of charge (rule 5)."
+    },
+    {
+      "question_id": "HN10",
+      "correct": true,
+      "reason": "Gives 50, matching the gold speed of 50 miles per hour and its evidence quote."
+    }
+  ]
+}

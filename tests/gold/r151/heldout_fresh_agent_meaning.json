@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "3f66b396574b4ed4939fcbdd2aa536ae",
+    "git_sha": "3461d5d"
+  },
+  "gold": "tests/gold/qa/heldout_qa_fresh.json",
+  "answers": "out/r151_heldout_fresh/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "HN01",
+      "correct": true,
+      "reason": "Gives exactly the gold set 19V244000 and 19V503000, the two RAV4 recalls not filed by Toyota Motor Engineering & Manufacturing; no extra items."
+    },
+    {
+      "question_id": "HN02",
+      "correct": true,
+      "reason": "Number 10 equals the gold count (five complaints each for the RAV4 and the Escape)."
+    },
+    {
+      "question_id": "HN03",
+      "correct": true,
+      "reason": "Number 10 equals the gold count of recalls received in the vehicle's model year."
+    },
+    {
+      "question_id": "HN04",
+      "correct": true,
+      "reason": "Names RAV4, the gold vehicle with the most power-train complaints."
+    },
+    {
+      "question_id": "HN05",
+      "correct": true,
+      "reason": "Lists exactly the four gold complaints 10809523, 10825467, 11032133, 11176393 and no others."
+    },
+    {
+      "question_id": "HN06",
+      "correct": true,
+      "reason": "Gives exactly 22V875000 and 23V093000 and leaves out 21V839000, as the gold note requires."
+    },
+    {
+      "question_id": "HN07",
+      "correct": true,
+      "reason": "Names 26V332000, the gold recall; does not confuse it with 16V244000."
+    },
+    {
+      "question_id": "HN08",
+      "correct": true,
+      "reason": "Names the 2017 Nissan Rogue (a gold alias) and does not add the RAV4, whose complaint denies the full reading."
+    },
+    {
+      "question_id": "HN09",
+      "correct": true,
+      "reason": "States that dealers insert a spacer into the jackknife key slot free of charge, the gold answer word for word."
+    },
+    {
+      "question_id": "HN10",
+      "correct": true,
+      "reason": "Gives 50 mph, matching the gold number and the evidence quote."
+    }
+  ]
+}
