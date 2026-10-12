@@ -1,0 +1,648 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-12",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GB01",
+      "type": "multi_hop",
+      "question": "What role at the institute does the person who was at the controls of the sediment flume's first run hold?",
+      "expected": {"entities": [{"name": "Research engineer"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/flume_commissioning.md#0", "quote": "The sediment flume ran for the first time on 20 May 2025, at 40 litres per second, with Aiko Tanaka at the controls."}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-150", "name": "Aiko Tanaka", "role": "Research engineer"}}
+      ],
+      "sql": "SELECT role FROM staff WHERE name = 'Aiko Tanaka'",
+      "note": "The flume notes name the person, Aiko Tanaka; her staff record gives the role."
+    },
+    {
+      "id": "GB02",
+      "type": "multi_hop",
+      "question": "In which year did the person who freed the jammed corer at Aldmoor bog start at the institute?",
+      "expected": {"number": 2009},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "the corer jammed at 5 m and was freed by J. Pike."}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-131", "name": "Jonathan Pike", "start_year": "2009"}}
+      ],
+      "sql": "SELECT start_year FROM staff WHERE name = 'Jonathan Pike'",
+      "hard_case": "two_names",
+      "note": "The log writes J. Pike; Jonathan Pike is the only Pike on the staff list. Judith Pike, who writes to the newspaper from Mill Lane, is not institute staff."
+    },
+    {
+      "id": "GB03",
+      "type": "multi_hop",
+      "question": "What role at the institute does the person who measured the flume pump vibration hold?",
+      "expected": {"entities": [{"name": "PhD student"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-06-09.md#0", "quote": "Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit."}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-162", "name": "Samuel Osei", "role": "PhD student"}}
+      ],
+      "sql": "SELECT role FROM staff WHERE name = 'Samuel Osei'",
+      "note": "The 9 June minutes name Samuel Osei as the one who measured; the 12 May minutes say he would. His staff record gives the role."
+    },
+    {
+      "id": "GB04",
+      "type": "multi_hop",
+      "question": "In which year was the pump installed that North Station kept on duty for most of 2024?",
+      "expected": {"number": 2012},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/north_station_2024_summary.md#0", "quote": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year."}
+      ],
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "HP40-1183", "install_year": "2012"}}
+      ],
+      "sql": "SELECT install_year FROM pumps WHERE serial_number = 'HP40-1183'",
+      "hard_case": "serial_numbers",
+      "note": "The 2024 summary names HP40-1183 as the pump kept on duty; the other Hydra P-40 at North Station, HP40-2291, ran 2,300 hours and was installed in 2019."
+    },
+    {
+      "id": "GB05",
+      "type": "multi_hop",
+      "question": "From which month do the council notices announce lane closures on the road whose culvert the council's structural inspector called too narrow for heavy storms?",
+      "expected": {"entities": [{"name": "September"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/flood_meeting.md#0", "quote": "The council's structural inspector, Daniel Okafor, said the culvert under Station Road is too narrow for heavy storms."},
+        {"chunk_id": "news/council_notices.md#0", "quote": "Station Road: lane closures from September while the drainage is rebuilt."}
+      ],
+      "note": "The flooding meeting names the road (Station Road); the council notices give the month the lane closures start. The mayor's statement that the drainage works start in September agrees."
+    },
+    {
+      "id": "GB06",
+      "type": "multi_hop",
+      "question": "What role at the institute does the speaker of the 3 June 2025 seminar on peat as a carbon archive hold?",
+      "expected": {"entities": [{"name": "Group leader"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/seminar_notice.md#0", "quote": "Dr. J. Pike (Soil Ecology) speaks on \"Peat as a carbon archive\" on 3 June 2025 at 14:00 in room B12."}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-131", "name": "Jonathan Pike", "team": "Soil Ecology", "role": "Group leader"}}
+      ],
+      "sql": "SELECT role FROM staff WHERE name = 'Jonathan Pike'",
+      "hard_case": "two_names",
+      "note": "The notice names Dr. J. Pike of Soil Ecology; the staff record of Jonathan Pike, the only Pike on staff, gives the role."
+    },
+    {
+      "id": "GB07",
+      "type": "multi_hop",
+      "question": "The mayor said the Mill Lane footbridge works came in under budget. Measured against the footbridge's line in Riverton's 2025 works budget, what did the works cost in pounds?",
+      "expected": {"number": 168000},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/footbridge_reopens.md#0", "quote": "the works had come in 12,000 pounds under budget"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Mill Lane footbridge repair: 180,000 pounds"}
+      ],
+      "note": "Two documents: the 2025 budget line of 180,000 pounds less the 12,000 pounds the mayor gave as the saving is 168,000. The 15,000 pounds for the east railing in the 2026 budget is a later, separate project."
+    },
+    {
+      "id": "GB08",
+      "type": "multi_hop",
+      "question": "How many hours did the pump that was on duty all week in the week of 7 April 2025 run in 2024?",
+      "expected": {"number": 2300},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/shift_notes.txt#0", "quote": "Mon: HP40-2291 on duty all week, flow steady at 41 l/s."},
+        {"chunk_id": "water/north_station_2024_summary.md#0", "quote": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours"}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "The shift notes name HP40-2291; the 2024 summary gives its hours. The other Hydra P-40, HP40-1183, ran 6,100 hours, so picking the wrong pump gives a wrong answer."
+    },
+    {
+      "id": "GB09",
+      "type": "multi_hop",
+      "question": "How many days after its March 2025 inspection did the mechanical seal of pump HP40-1183 fail?",
+      "expected": {"number": 15},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "North Station pump inspection, 14 March 2025"},
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "On 29 March 2025 the mechanical seal of pump HP40-1183 failed during the night shift."}
+      ],
+      "note": "Inspection on 14 March, failure on 29 March: 15 days."
+    },
+    {
+      "id": "GB10",
+      "type": "aggregation",
+      "question": "How many different teams do the institute's staff records list?",
+      "expected": {"number": 3},
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT team) FROM staff",
+      "note": "Soil Ecology, Finance Office and Hydrology."
+    },
+    {
+      "id": "GB11",
+      "type": "aggregation",
+      "question": "How many seminars do the institute's seminar notices announce for room B12?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/seminar_notice.md#0", "quote": "on 3 June 2025 at 14:00 in room B12"},
+        {"chunk_id": "institute/seminar_notice_autumn.md#0", "quote": "on 7 October 2025 at 14:00 in room B12"}
+      ],
+      "note": "Jonathan Pike's talk on 3 June and Aiko Tanaka's on 7 October. The Utrecht conference session is not an institute seminar."
+    },
+    {
+      "id": "GB12",
+      "type": "aggregation",
+      "question": "What is the average rated flow in litres per second of all the pumps in the pump records?",
+      "expected": {"number": 34},
+      "route": "exact",
+      "sql": "SELECT avg(rated_flow_lps) FROM pumps",
+      "note": "(42 + 42 + 18) / 3 = 34."
+    },
+    {
+      "id": "GB13",
+      "type": "aggregation",
+      "question": "What do the amounts listed in Riverton's 2025 works budget add up to, in pounds?",
+      "expected": {"number": 1015000},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Mill Lane footbridge repair: 180,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Eastgate library roof: 420,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Harbour Street resurfacing: 95,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Station Road drainage: 260,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Town hall boiler: 60,000 pounds"}
+      ],
+      "note": "180,000 + 420,000 + 95,000 + 260,000 + 60,000 = 1,015,000. The budget lines are added, not the money finally spent (the footbridge came in under budget, the resurfacing was carried over to 2026). The 2026 budget is a different document and is not added."
+    },
+    {
+      "id": "GB14",
+      "type": "aggregation",
+      "question": "How many hours did the two North Station pumps run in total in 2024?",
+      "expected": {"number": 8400},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/north_station_2024_summary.md#0", "quote": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours"}
+      ],
+      "note": "6,100 + 2,300 = 8,400 hours."
+    },
+    {
+      "id": "GB15",
+      "type": "aggregation",
+      "question": "How many different people attended the institute committee meetings of 2025, chairs included?",
+      "expected": {"number": 4},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "Present: Jon Pike (chair), Maria Lopez (Finance Office), Aiko Tanaka, Samuel Osei."},
+        {"chunk_id": "institute/minutes_2025-06-09.md#0", "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."}
+      ],
+      "hard_case": "two_names",
+      "note": "Jonathan Pike (Jon Pike, J. Pike), the Finance Office's Maria Lopez, Aiko Tanaka and Samuel Osei attended both meetings. Counting Jon Pike and J. Pike as two people gives 5, which is wrong."
+    },
+    {
+      "id": "GB16",
+      "type": "aggregation",
+      "question": "In how many documents does Rosa Delgado appear?",
+      "expected": {"number": 7},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/harbour_open_day.md#0", "quote": "Technician Rosa Delgado showed them the station's Kestrel V-12 pump"},
+        {"chunk_id": "water/harbour_station_may_2025.md#0", "quote": "On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it."},
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "The seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado."},
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "Technician Rosa Delgado inspected both Hydra P-40 pumps at North Station during the quarterly round."},
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "Technician Rosa Delgado carried out the summer quarterly round on the two Hydra P-40 pumps at North Station."},
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado."},
+        {"chunk_id": "water/shift_notes_june.txt#0", "quote": "Fri: quarterly inspection by Rosa Delgado."}
+      ],
+      "note": "One document per evidence line; no other document names her. She is not in the staff or pump records."
+    },
+    {
+      "id": "GB17",
+      "type": "aggregation",
+      "question": "What is the highest pump bearing temperature in degrees Celsius that the documents report?",
+      "expected": {"number": 71},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "Pump HP40-1183 showed a slow drip from the mechanical seal and a bearing temperature of 71 °C, above the 65 °C alarm limit."},
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "its bearing temperature has risen to 52 °C"},
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "no leaks, bearing temperature 47 °C"}
+      ],
+      "note": "Reported bearing temperatures are 71, 48 (March), 52, 49 (June) and 47 (test run of 30 June). The 65 °C alarm limit is a limit, not a reported temperature."
+    },
+    {
+      "id": "GB18",
+      "type": "aggregation",
+      "question": "Which people do the documents call technicians?",
+      "expected": {"entities": [{"name": "Rosa Delgado", "aliases": ["technician Rosa Delgado", "Delgado"]}, {"name": "Marek Hollis", "aliases": ["technician Marek Hollis"]}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "Technician Rosa Delgado inspected both Hydra P-40 pumps"},
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "Mechanical seal of HP40-2291 replaced by technician Marek Hollis"}
+      ],
+      "note": "Tomasz Wren is the site engineer, Daniel Okafor the structural inspector and Aiko Tanaka a research engineer; none is called a technician."
+    },
+    {
+      "id": "GB19",
+      "type": "structured_filter",
+      "question": "What are the staff ids of the institute staff who started before 2017?",
+      "expected": {"entities": [{"name": "S-131"}, {"name": "S-219"}]},
+      "route": "exact",
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-131", "start_year": "2009"}},
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-219", "start_year": "2016"}}
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE start_year < 2017",
+      "hard_case": "number_filter",
+      "note": "Jonathan Pike (2009) and the Finance Office's Maria Lopez (2016); the others started in 2018, 2021 and 2023."
+    },
+    {
+      "id": "GB20",
+      "type": "structured_filter",
+      "question": "Which pumps delivered less than 40 litres per second at a 2025 quarterly inspection?",
+      "expected": {"entities": [{"name": "HP40-1183"}, {"name": "HP40-2291"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-03-14.md#0", "quote": "Measured flow: HP40-1183 delivered 38 litres per second, HP40-2291 delivered 41 litres per second."},
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "Measured flow: HP40-1183 delivered 40 litres per second, HP40-2291 delivered 39 litres per second."}
+      ],
+      "hard_case": "number_filter",
+      "note": "HP40-1183 delivered 38 in March and HP40-2291 39 in June. 40 is not less than 40. Shift-note and work-order flows are not quarterly inspections; KV12-0457 was not inspected."
+    },
+    {
+      "id": "GB21",
+      "type": "structured_filter",
+      "question": "Which pump models are installed at North Station?",
+      "expected": {"entities": [{"name": "Hydra P-40"}]},
+      "route": "exact",
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "HP40-1183", "model": "Hydra P-40", "station": "North Station"}},
+        {"file": "water/pumps.csv", "row": {"serial_number": "HP40-2291", "model": "Hydra P-40", "station": "North Station"}}
+      ],
+      "sql": "SELECT DISTINCT model FROM pumps WHERE station = 'North Station'",
+      "note": "Both North Station pumps are Hydra P-40s; the Kestrel V-12 is at Harbour Station."
+    },
+    {
+      "id": "GB22",
+      "type": "structured_filter",
+      "question": "Which Aldmoor bog cores were deeper than 4 metres?",
+      "expected": {"entities": [{"name": "AB-17", "aliases": ["Core AB-17"]}, {"name": "AB-19", "aliases": ["Core AB-19"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-17, 3 December: depth 4.2 m"},
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-18, 3 December: depth 3.8 m"},
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-19, 10 December: depth 5.1 m"}
+      ],
+      "hard_case": "number_filter",
+      "note": "AB-17 (4.2 m) and AB-19 (5.1 m); AB-18 was 3.8 m and AB-20 was not taken."
+    },
+    {
+      "id": "GB23",
+      "type": "structured_filter",
+      "question": "Which North Station work orders of June 2025 are dated 30 June?",
+      "expected": {"entities": [{"name": "WO-318"}, {"name": "WO-320"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-311, 2 June."},
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-318, 30 June."},
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-320, 30 June."}
+      ],
+      "note": "WO-318 (the seal change of HP40-2291) and WO-320 (its test run); WO-311 is dated 2 June."
+    },
+    {
+      "id": "GB24",
+      "type": "structured_filter",
+      "question": "Which Hydrology staff members started at the institute before 2020?",
+      "expected": {"entities": [{"name": "Aiko Tanaka"}]},
+      "route": "exact",
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-150", "name": "Aiko Tanaka", "team": "Hydrology", "start_year": "2018"}}
+      ],
+      "sql": "SELECT name FROM staff WHERE team = 'Hydrology' AND start_year < 2020",
+      "hard_case": "number_filter",
+      "note": "Aiko Tanaka started in 2018; the other Hydrology member, Samuel Osei, in 2023."
+    },
+    {
+      "id": "GB25",
+      "type": "structured_filter",
+      "question": "Which Aldmoor bog cores were taken on 3 December?",
+      "expected": {"entities": [{"name": "AB-17", "aliases": ["Core AB-17"]}, {"name": "AB-18", "aliases": ["Core AB-18"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-17, 3 December: depth 4.2 m, pH 4.1, water table 12 cm below surface."},
+        {"chunk_id": "institute/fieldwork_log.txt#0", "quote": "Core AB-18, 3 December: depth 3.8 m, pH 4.6."}
+      ],
+      "note": "AB-19 and AB-20 are dated 10 December."
+    },
+    {
+      "id": "GB26",
+      "type": "structured_filter",
+      "question": "Which projects in Riverton's 2025 works budget cost between 100,000 and 250,000 pounds?",
+      "expected": {"entities": [{"name": "Mill Lane footbridge repair", "aliases": ["Mill Lane footbridge"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Mill Lane footbridge repair: 180,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Station Road drainage: 260,000 pounds"},
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Harbour Street resurfacing: 95,000 pounds"}
+      ],
+      "hard_case": "number_filter",
+      "note": "Only the footbridge repair (180,000) lies in the range; the drainage (260,000) and the library roof (420,000) are above it, the resurfacing (95,000) and the boiler (60,000) below."
+    },
+    {
+      "id": "GB27",
+      "type": "structured_filter",
+      "question": "Which pumps installed before 2018 have a rated flow above 30 litres per second?",
+      "expected": {"entities": [{"name": "HP40-1183"}]},
+      "route": "exact",
+      "records": [
+        {"file": "water/pumps.csv", "row": {"serial_number": "HP40-1183", "install_year": "2012", "rated_flow_lps": "42"}}
+      ],
+      "sql": "SELECT serial_number FROM pumps WHERE install_year < 2018 AND rated_flow_lps > 30",
+      "hard_case": "number_filter",
+      "note": "Both conditions matter: HP40-2291 is rated at 42 but was installed in 2019; KV12-0457 was installed in 2016 but is rated at 18."
+    },
+    {
+      "id": "GB28",
+      "type": "disambiguation",
+      "question": "What is the staff id of the Maria Lopez whose trip to the Utrecht peat conference is charged to the Aldmoor peat project?",
+      "expected": {"entities": [{"name": "S-104"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/travel_claims_memo.md#0", "quote": "The trip of Maria Lopez (Soil Ecology) to the peat conference in Utrecht is charged to the Aldmoor peat project"}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-104", "name": "Maria Lopez", "team": "Soil Ecology"}}
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE name = 'Maria Lopez' AND team = 'Soil Ecology'",
+      "hard_case": "same_name",
+      "note": "The memo marks this Maria Lopez as Soil Ecology; the memo's author, the grants accountant Maria Lopez, is S-219."
+    },
+    {
+      "id": "GB29",
+      "type": "disambiguation",
+      "question": "In which year did the Maria Lopez who wrote the Finance Office memo on travel claims start at the institute?",
+      "expected": {"number": 2016},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "institute/travel_claims_memo.md#0", "quote": "From: Maria Lopez, grants accountant"}
+      ],
+      "records": [
+        {"file": "institute/staff.csv", "row": {"staff_id": "S-219", "name": "Maria Lopez", "role": "Grants accountant", "start_year": "2016"}}
+      ],
+      "sql": "SELECT start_year FROM staff WHERE name = 'Maria Lopez' AND role = 'Grants accountant'",
+      "hard_case": "same_name",
+      "note": "The memo's author is the grants accountant (S-219, 2016). The Soil Ecology Maria Lopez named later in the memo started in 2021."
+    },
+    {
+      "id": "GB30",
+      "type": "disambiguation",
+      "question": "What bearing temperature in degrees Celsius did pump HP40-2291 have at the June 2025 inspection?",
+      "expected": {"number": 52},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/inspection_2025-06-13.md#0", "quote": "Pump HP40-2291 now shows a slow drip from its mechanical seal, and its bearing temperature has risen to 52 °C."}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "The same report gives 49 °C for HP40-1183; HP40-2291 had 48 °C in March and 47 °C at the test run of 30 June. Overlap: G33's note states this value, but no earlier question asks it."
+    },
+    {
+      "id": "GB31",
+      "type": "disambiguation",
+      "question": "Which pump had its bearings regreased on 2 June 2025?",
+      "expected": {"entities": [{"name": "HP40-1183"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado."}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "The other June work orders (WO-318, WO-320) concern the other Hydra P-40, HP40-2291."
+    },
+    {
+      "id": "GB32",
+      "type": "disambiguation",
+      "question": "Which pump was switched to duty after the seal failure at North Station on 29 March 2025?",
+      "expected": {"entities": [{"name": "HP40-2291"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/incident_2025-03-29.md#0", "quote": "Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty."}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "HP40-1183 is the pump whose seal failed; HP40-2291 took over."
+    },
+    {
+      "id": "GB33",
+      "type": "disambiguation",
+      "question": "At what time did the institute committee meeting chaired by Aiko Tanaka close?",
+      "expected": {"entities": [{"name": "15:55", "aliases": ["15.55", "3:55 pm", "3.55 pm"]}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-06-09.md#0", "quote": "Aiko Tanaka closed the meeting at 15:55."}
+      ],
+      "note": "Aiko Tanaka chaired the meeting of 9 June 2025. The meeting of 12 May, chaired by Jon Pike, closed at 16:40; that is a wrong answer here."
+    },
+    {
+      "id": "GB34",
+      "type": "disambiguation",
+      "question": "Which pump was on standby at North Station in the week of 9 June 2025?",
+      "expected": {"entities": [{"name": "HP40-2291"}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/shift_notes_june.txt#0", "quote": "Mon: HP40-1183 on duty, flow steady at 40 l/s; HP40-2291 on standby."}
+      ],
+      "hard_case": "serial_numbers",
+      "note": "HP40-1183, the other Hydra P-40, was on duty that week; in the week of 7 April the roles were the other way round."
+    },
+    {
+      "id": "GB35",
+      "type": "disambiguation",
+      "question": "How many pounds does Riverton's 2026 works budget set aside for the Harbour Street resurfacing?",
+      "expected": {"number": 110000},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/budget_2026.md#0", "quote": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds"}
+      ],
+      "note": "The 2025 budget's line for the same project, 95,000 pounds, is a wrong answer here."
+    },
+    {
+      "id": "GB36",
+      "type": "negation_sensitive",
+      "question": "Which pumps were found damaged after tripping on low suction pressure in the week of 7 April 2025?",
+      "expected": {"entities": []},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/shift_notes.txt#0", "quote": "Wed: the Kestrel V-12 at Harbour Station (serial KV12-0457) tripped twice on low suction pressure; reset both times, no damage found."}
+      ],
+      "hard_case": "negation",
+      "note": "KV12-0457 tripped twice that week, but \"no damage found\" means it does not count; no other pump tripped that week."
+    },
+    {
+      "id": "GB37",
+      "type": "negation_sensitive",
+      "question": "Did the council vote on Councillor Priya Nandakumar's motion to move the drainage project ahead of the Harbour Street resurfacing?",
+      "expected": {"text": "No. The vote on her motion was postponed."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/budget_2025.md#0", "quote": "Councillor Priya Nandakumar asked for the drainage project to be moved ahead of the resurfacing; the vote on her motion was postponed."},
+        {"chunk_id": "news/flood_meeting.md#0", "quote": "Councillor Priya Nandakumar repeated her call to move them ahead of the Harbour Street resurfacing."}
+      ],
+      "hard_case": "negation",
+      "note": "The vote was postponed, and at the flooding meeting she repeated her call; no document reports a vote on it. The council's 7 to 2 vote was on the footbridge and library repairs, not on her motion."
+    },
+    {
+      "id": "GB38",
+      "type": "negation_sensitive",
+      "question": "Which pumps showed leaks at the test run after the seal change of 30 June 2025?",
+      "expected": {"entities": []},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "water/work_orders_2025-06.md#0", "quote": "WO-320, 30 June. Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."}
+      ],
+      "hard_case": "negation",
+      "note": "The only pump tested, HP40-2291, showed no leaks; its drip at the June inspection came before the seal change."
+    },
+    {
+      "id": "GB39",
+      "type": "negation_sensitive",
+      "question": "According to Gareth Lowe's letter, has a warning sign been put up at the Mill Lane footbridge?",
+      "expected": {"text": "No. He writes that no warning sign has been put up."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/letter_to_the_editor.md#0", "quote": "Nobody has fixed it, and no warning sign has been put up."}
+      ],
+      "hard_case": "negation",
+      "note": "The letter denies that a sign was put up."
+    },
+    {
+      "id": "GB40",
+      "type": "negation_sensitive",
+      "question": "According to the Harbour Station report for May 2025, how many times did KV12-0457 trip after its intake screen was cleaned on 6 May?",
+      "expected": {"number": 0},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/harbour_station_may_2025.md#0", "quote": "On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it. No trip has occurred since."}
+      ],
+      "hard_case": "negation",
+      "note": "The three trips in the report came in the first week of May, before the cleaning. The question asks what the May report says, so the June alarm in the shift notes is out of scope."
+    },
+    {
+      "id": "GB41",
+      "type": "negation_sensitive",
+      "question": "According to Ines Barros, does the warranty cover the seal returned from pump HP40-1183?",
+      "expected": {"text": "No. She said the warranty does not cover the seal."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/shift_notes.txt#0", "quote": "Their service manager, Ines Barros, said the pump had run dry and that the warranty does not cover the seal."}
+      ],
+      "hard_case": "reported_claim",
+      "note": "The claim is hers, as reported in the utility's shift notes; the question asks what she said, not whether the utility agrees."
+    },
+    {
+      "id": "GB42",
+      "type": "negation_sensitive",
+      "question": "Did the Eastgate library's opening hours change when it reopened on 1 September?",
+      "expected": {"text": "No. Its opening hours are unchanged."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/library_reopened.md#0", "quote": "Opening hours are unchanged."}
+      ],
+      "hard_case": "negation",
+      "note": "The new roof, carpets and reading corner are changes, but the opening hours are not."
+    },
+    {
+      "id": "GB43",
+      "type": "lookup",
+      "question": "Which valve is closed last when isolating a pump at North Station?",
+      "expected": {"entities": [{"name": "suction valve", "aliases": ["the suction valve", "its suction valve"]}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "water/isolation_procedure.md#0", "quote": "close its discharge valve, and close its suction valve last"}
+      ],
+      "note": "The discharge valve is closed before the suction valve."
+    },
+    {
+      "id": "GB44",
+      "type": "lookup",
+      "question": "How many deck boards of the Mill Lane footbridge were replaced?",
+      "expected": {"number": 46},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/footbridge_reopens.md#0", "quote": "Both railings and all 46 deck boards were replaced."}
+      ],
+      "note": "All 46 deck boards."
+    },
+    {
+      "id": "GB45",
+      "type": "lookup",
+      "question": "By how many euros was the Aldmoor peat project over its equipment line, according to the committee minutes of 12 May 2025?",
+      "expected": {"number": 18000},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/minutes_2025-05-12.md#0", "quote": "The Aldmoor peat project is 18,000 euros over its equipment line"}
+      ],
+      "note": "18,000 euros."
+    },
+    {
+      "id": "GB46",
+      "type": "lookup",
+      "question": "How long in metres is the sediment flume that the Hydrology team built?",
+      "expected": {"number": 12},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "institute/newsletter_spring_2025.md#0", "quote": "has finished building a 12-metre sediment flume in the basement laboratory"}
+      ],
+      "note": "12 metres; the 40 and 60 litres per second in other documents are flow rates."
+    },
+    {
+      "id": "GB47",
+      "type": "lookup",
+      "question": "At what address has Maria Lopez opened her bakery?",
+      "expected": {"text": "At 14 Harbour Street, in the former post office."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/bakery_opens.md#0", "quote": "Maria Lopez has opened a bakery at 14 Harbour Street, in the former post office."}
+      ],
+      "note": "14 Harbour Street is the answer; the former post office may be left out. The baker is neither of the institute's two staff called Maria Lopez."
+    },
+    {
+      "id": "GB48",
+      "type": "lookup",
+      "question": "According to Judith Pike's letter, how many winters have her neighbours on Harbour Street waited?",
+      "expected": {"number": 3},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/letter_harbour_street.md#0", "quote": "My neighbours on Harbour Street have waited three winters."}
+      ],
+      "note": "Three winters."
+    },
+    {
+      "id": "GB49",
+      "type": "lookup",
+      "question": "For how many weeks does the Eastgate library close while its roof is replaced?",
+      "expected": {"number": 4},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/mill_lane_and_eastgate.md#0", "quote": "will be replaced over the summer, when the library closes for four weeks."}
+      ],
+      "hard_case": "two_things",
+      "note": "The same article is also about the Mill Lane footbridge, which closed for about eight weeks; that is a wrong answer here."
+    },
+    {
+      "id": "GB50",
+      "type": "lookup",
+      "question": "According to Dr Jonathan Pike at the public meeting on Station Road flooding, what do the peat bogs upstream do?",
+      "expected": {"text": "They hold back rain and slow the flow into the river."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "news/flood_meeting.md#0", "quote": "Dr Jonathan Pike of the environmental institute explained how the peat bogs upstream hold back rain and slow the flow into the river."}
+      ],
+      "hard_case": "reported_claim",
+      "note": "The answer is his explanation at the meeting; the culvert remark is the structural inspector's, not his."
+    }
+  ]
+}

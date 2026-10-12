@@ -3,8 +3,9 @@ quote verbatim in its chunk, every cited record in its staged file, every questi
 of a question with a query equals what DuckDB computes from the source files (R73), the two real
 datasets ask every question type at least five times and every record type at least ten times (R73), the
 earlier gold questions are carried over with their answers unchanged, and the generality corpus asks every
-hard case. R143a: the fresh files (ten questions per dataset) pass the same per-file checks. No Neo4j, no
-LLM.
+hard case. R143a: the fresh files (ten questions per dataset) pass the same per-file checks. R152: so do the
+benchmark files, with 50 questions each, every type at least six times, and none asked before. No Neo4j,
+no LLM.
 """
 
 import json
@@ -24,7 +25,10 @@ REAL = ["furniture_qa.json", "heldout_qa.json"]
 # R143a: ten fresh questions per dataset, written after R136's failures were analysed, for the agent's
 # re-measurement on questions its fixes were not shaped by; the per-file checks hold for them too
 FRESH = ["furniture_qa_fresh.json", "heldout_qa_fresh.json", "generality_qa_fresh.json"]
-GOLD_FILES = [*REAL, "generality_qa.json", *FRESH]
+# R152: the benchmark's 50 unseen questions per dataset (plan R152-R157), written after R151's freeze from the
+# source files only; the per-file checks hold for them, and below their size, type mix and novelty
+BENCH = ["furniture_qa_bench.json", "heldout_qa_bench.json", "generality_qa_bench.json"]
+GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)
@@ -89,3 +93,24 @@ def test_the_generality_corpus_spans_at_least_three_domains_in_about_30_document
     # one folder per domain: the folders are the unrelated domains the corpus claims to cover
     assert len({p.parent for p in documents}) >= 3
     assert any(p.suffix == ".csv" for p in Path(corpus).rglob("*"))
+
+
+@pytest.mark.parametrize("name", BENCH)
+def test_a_benchmark_file_asks_fifty_questions_of_every_type_none_asked_before(name):
+    """R152: 50 questions, every type at least six times, about four in five scored by code, and no question
+    an earlier gold file of its dataset already asks (compared after normalising case and spacing)."""
+    gold = load_qa_gold(QA_GOLD / name)
+    counts = Counter(q.type for q in gold.questions)
+    assert len(gold.questions) == 50
+    assert {t: counts[t] for t in QuestionType if counts[t] < 6} == {}
+    by_code = [q for q in gold.questions if q.expected.entities is not None or q.expected.number is not None]
+    assert len(by_code) >= 35
+    dataset = name.removesuffix("_qa_bench.json")
+    earlier = {
+        norm(q.question)
+        for other in QA_GOLD.glob(f"{dataset}_qa*.json")
+        if other.name != name
+        for q in load_qa_gold(other).questions
+    }
+    asked = [norm(q.question) for q in gold.questions]
+    assert len(set(asked)) == len(asked) and not set(asked) & earlier

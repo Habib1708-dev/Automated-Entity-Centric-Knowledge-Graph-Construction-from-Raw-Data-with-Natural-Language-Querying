@@ -9216,6 +9216,27 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   - **R157** Every answer judged by meaning (R144, two blind judges) next to exact match; per dataset, per
     type and pooled, with intervals; failures traced to their cause as in R145 ($0).
 
+### R152. 50 unseen gold questions on each thesis dataset (done 2026-10-12; $0, no run)
+- **Scope:** `tests/gold/qa/{furniture,heldout,generality}_qa_bench.json`, ids FB/HB/GB01-50, written by Claude
+  Opus 5.5 (one writer per dataset, workflow subagents of this session) from the source files and the earlier
+  gold files only (no `out/`, MLflow, verdicts, traces or roadmap opened), after R151's freeze. Per file:
+  multi_hop 9, aggregation 9-10, structured_filter 9, disambiguation 7-8, negation_sensitive 7, lookup 8;
+  scored by code 45 / 43 / 44 of 50 (the rest short text, judged). Each file then had two adversarial reviews
+  (every answer re-derived from the sources, every SQL re-run; repeats of earlier questions by fact, not only
+  wording; type labels; coverage) and a fix pass: 13 / 15 / 13 findings, each applied or answered with a
+  reason (e.g. FB06's "slat parts" reworded to one reading; FB29 relabelled aggregation and a real
+  same-name question added; HB13 and GB07/GB08 rewritten so their hop does work; questions on facts earlier
+  gold already asked replaced by unused facts).
+- **Gold correction:** a reviewer fixed HN01's note in `heldout_qa_fresh.json` ("the other six RAV4 recalls"
+  -> "five": the RAV4 has 7, 2 of them the answer); the note only, answer and every R143b/R151 score unchanged.
+- **Verified:** `tests/test_qa_gold_files.py` runs every per-file check on the three files (quotes verbatim in
+  their chunks, records in their staged files, every SQL answer equal to DuckDB's) and a new test: 50
+  questions, every type at least six times, at least 35 scored by code, no question asked before by its
+  wording (novelty of the fact was checked by the reviewers, not by code). 1271 passed (1259 + 12), ruff
+  clean.
+- **R152 done 2026-10-12.** Next: R153, the lighthouses dataset (the user chose lighthouses and NTSB aviation,
+  2026-10-12, from five scouted candidates).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

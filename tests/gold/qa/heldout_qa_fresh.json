@@ -20,7 +20,7 @@
         {"chunk_id": "complaints/toyota_rav4_complaints.md#0", "quote": "THE GEAR SHIFTER CAME OUT OF THE TRANSMISSION BOX."}
       ],
       "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11204698 AND r.Manufacturer <> 'Toyota Motor Engineering & Manufacturing'",
-      "note": "The complaint is 11204698 about the 2019 Toyota RAV4. 19V244000 was filed by Gulf States Toyota, Inc. and 19V503000 by Southeast Toyota Distributors, LLC; the other six RAV4 recalls were filed by Toyota Motor Engineering & Manufacturing."
+      "note": "The complaint is 11204698 about the 2019 Toyota RAV4. 19V244000 was filed by Gulf States Toyota, Inc. and 19V503000 by Southeast Toyota Distributors, LLC; the other five RAV4 recalls were filed by Toyota Motor Engineering & Manufacturing."
     },
     {
       "id": "HN02",

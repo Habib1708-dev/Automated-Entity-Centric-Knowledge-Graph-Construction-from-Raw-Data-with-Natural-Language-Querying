@@ -1,0 +1,1079 @@
+{
+  "dataset": "heldout_nhtsa",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-12",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "HB01",
+      "type": "multi_hop",
+      "question": "An owner reports that the rear wheel wells of their vehicle were found rusted. Which recall campaigns for that vehicle did NHTSA receive in 2015?",
+      "expected": {
+        "entities": [
+          {
+            "name": "15V406000"
+          },
+          {
+            "name": "15V436000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#0",
+          "quote": "IT WAS DISCOVERED THAT THE REAR WHEEL WELLS WERE RUSTED."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 10667633 AND r.ReportReceivedDate LIKE '%/2015'",
+      "note": "The complaint is 10667633 about the 2015 Ford Escape. Of its nine recalls, 15V406000 (24/06/2015) and 15V436000 (08/07/2015) were received in 2015; recall dates are day/month/year."
+    },
+    {
+      "id": "HB02",
+      "type": "multi_hop",
+      "question": "An owner reports that the exterior rearview mirrors of their vehicle shook and rattled. How many recall campaigns affect that vehicle?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+          "quote": "THE EXTERIOR REARVIEW MIRRORS SHOOK AND RATTLED."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11205702",
+      "note": "The complaint is 11205702 about the 2019 Toyota RAV4, which has seven recall campaigns in the data: 20V682000, 20V064000, 20V373000, 20V286000, 19V503000, 19V576000 and 19V244000."
+    },
+    {
+      "id": "HB03",
+      "type": "multi_hop",
+      "question": "An owner reports that the speedometer of their vehicle failed without warning. Which recall campaigns for that vehicle did NHTSA receive in 2017 or earlier?",
+      "expected": {
+        "entities": [
+          {
+            "name": "16V244000"
+          },
+          {
+            "name": "17V663000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#0",
+          "quote": "THE CONTACT STATED THAT THE SPEEDOMETER FAILED WITHOUT WARNING."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 10957753 AND CAST(right(r.ReportReceivedDate, 4) AS INTEGER) <= 2017",
+      "note": "The complaint is 10957753 about the 2017 Nissan Rogue. 16V244000 (26/04/2016) and 17V663000 (18/10/2017) qualify; 21V839000 (2021), 22V875000 (2022) and 23V093000 (2023) do not. The cut at 2017 keeps out 21V839000, whose summary speaks only of Rogue Hybrid vehicles."
+    },
+    {
+      "id": "HB04",
+      "type": "multi_hop",
+      "question": "An owner reports that, with adaptive cruise control and lane keeping assist engaged together, their car reacts unpredictably. Which recall campaigns for that car did NHTSA receive after 2020?",
+      "expected": {
+        "entities": [
+          {
+            "name": "23V858000"
+          },
+          {
+            "name": "26V332000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/honda_civic_complaints.md#1",
+          "quote": "THE VEHICLE WILL REACT UNPREDICTABLY UNDER CERTAIN CONDITIONS."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 10816192 AND CAST(right(r.ReportReceivedDate, 4) AS INTEGER) > 2020",
+      "note": "The complaint is 10816192 about the 2016 Honda Civic. 23V858000 was received 18/12/2023 and 26V332000 on 21/05/2026; the other three Civic recalls are from 2016."
+    },
+    {
+      "id": "HB05",
+      "type": "multi_hop",
+      "question": "A recall campaign warns that water may leak into and corrode the dash side harness connector. Which components do the owner complaints about that vehicle list?",
+      "expected": {
+        "entities": [
+          {
+            "name": "ELECTRICAL SYSTEM"
+          },
+          {
+            "name": "FORWARD COLLISION AVOIDANCE"
+          },
+          {
+            "name": "SERVICE BRAKES"
+          },
+          {
+            "name": "POWER TRAIN"
+          },
+          {
+            "name": "FUEL/PROPULSION SYSTEM"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/22V875000#0",
+          "quote": "Water may leak into and corrode the dash side harness connector."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT trim(x) FROM (SELECT unnest(string_split(c.components, ',')) AS x FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.NHTSACampaignNumber = '22V875000')",
+      "note": "The recall is 22V875000 for the 2017 Nissan Rogue. Its five complaints list ELECTRICAL SYSTEM (10957753), FORWARD COLLISION AVOIDANCE (10972343), SERVICE BRAKES (11010220), POWER TRAIN (11030208) and FUEL/PROPULSION SYSTEM (11032133)."
+    },
+    {
+      "id": "HB06",
+      "type": "multi_hop",
+      "question": "Which complaints about the vehicle affected by recall 19V493000 list visibility/wiper among their components?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11166434",
+            "aliases": [
+              "Complaint 11166434"
+            ]
+          },
+          {
+            "name": "11180230",
+            "aliases": [
+              "Complaint 11180230"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.NHTSACampaignNumber = '19V493000' AND c.components LIKE '%VISIBILITY/WIPER%'",
+      "note": "19V493000 affects the 2019 Subaru Outback. 11180230 lists VISIBILITY/WIPER alone and 11166434 lists it with ELECTRICAL SYSTEM and VEHICLE SPEED CONTROL. The RAV4 complaint 11205702 lists VISIBILITY (no wiper) and is about another vehicle."
+    },
+    {
+      "id": "HB07",
+      "type": "multi_hop",
+      "question": "An owner reports that they can smell freon in their vehicle. Which recall campaign for that vehicle concerns its suspension?",
+      "expected": {
+        "entities": [
+          {
+            "name": "20V286000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#4",
+          "quote": "ALSO YOU CAN SMELL FREON."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11229137 AND r.Component LIKE 'SUSPENSION%'",
+      "note": "The complaint is 11229137 about the 2019 Toyota RAV4. Its only suspension recall is 20V286000 (component SUSPENSION:FRONT:CONTROL ARM:LOWER ARM, cracked front lower suspension arms)."
+    },
+    {
+      "id": "HB08",
+      "type": "multi_hop",
+      "question": "Which complaints concern a vehicle that has a steering recall campaign?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11204698",
+            "aliases": [
+              "Complaint 11204698"
+            ]
+          },
+          {
+            "name": "11205702",
+            "aliases": [
+              "Complaint 11205702"
+            ]
+          },
+          {
+            "name": "11209676",
+            "aliases": [
+              "Complaint 11209676"
+            ]
+          },
+          {
+            "name": "11221492",
+            "aliases": [
+              "Complaint 11221492"
+            ]
+          },
+          {
+            "name": "11229137",
+            "aliases": [
+              "Complaint 11229137"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.Component LIKE 'STEERING%'",
+      "note": "The only recall whose component is steering is 20V373000 (STEERING:ELECTRIC POWER ASSIST SYSTEM), for the 2019 Toyota RAV4; its five complaints are the answer. Complaints that list STEERING themselves (10816192, 11176393) do not count: the question asks about the vehicle's recalls."
+    },
+    {
+      "id": "HB09",
+      "type": "multi_hop",
+      "question": "An owner says that at highway speeds their car feels like driving on ice. What will dealers do under that vehicle's recall for its body structure?",
+      "expected": {
+        "text": "Inspect the vehicles and repair or repurchase the vehicle, as necessary, free of charge."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#2",
+          "quote": "IT FEELS LIKE DRIVING ON ICE."
+        },
+        {
+          "chunk_id": "record/Recall/19V493000#1",
+          "quote": "dealers will inspect the vehicles and repair or repurchase the vehicle, as necessary, free of charge."
+        }
+      ],
+      "records": [
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "19V493000",
+            "Component": "STRUCTURE"
+          }
+        }
+      ],
+      "note": "The complaint is 11176393 about the 2019 Subaru Outback; its structure recall is 19V493000 (improperly applied spot welds below the cowl panel)."
+    },
+    {
+      "id": "HB10",
+      "type": "aggregation",
+      "question": "How many complaints list the engine among their components?",
+      "expected": {
+        "number": 4
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM complaints WHERE components LIKE '%ENGINE%'",
+      "note": "10823637, 10824361 and 10825467 (2016 Honda Civic) list ENGINE, and 11209676 (2019 Toyota RAV4) lists POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM."
+    },
+    {
+      "id": "HB11",
+      "type": "aggregation",
+      "question": "How many different companies are named as the filer (the Manufacturer field) of the recall campaigns?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(DISTINCT Manufacturer) FROM r",
+      "note": "Honda (American Honda Motor Co.); Nissan North America, Inc.; Toyota Motor Engineering & Manufacturing; Southeast Toyota Distributors, LLC; Gulf States Toyota, Inc.; Ford Motor Company; Subaru of America, Inc. The two distributors are named as filers in their own right, so the three Toyota names count separately."
+    },
+    {
+      "id": "HB12",
+      "type": "aggregation",
+      "question": "How many recall campaigns did NHTSA receive in 2022?",
+      "expected": {
+        "number": 3
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE ReportReceivedDate LIKE '%/2022'",
+      "note": "22V875000 (23/11/2022), 22V254000 (14/04/2022) and 22V413000 (10/06/2022)."
+    },
+    {
+      "id": "HB13",
+      "type": "aggregation",
+      "question": "Which complaints report an incident on the same date as another complaint's incident?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10823637",
+            "aliases": [
+              "Complaint 10823637"
+            ]
+          },
+          {
+            "name": "10824361",
+            "aliases": [
+              "Complaint 10824361"
+            ]
+          },
+          {
+            "name": "11185059",
+            "aliases": [
+              "Complaint 11185059"
+            ]
+          },
+          {
+            "name": "11229137",
+            "aliases": [
+              "Complaint 11229137"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE dateOfIncident IN (SELECT dateOfIncident FROM complaints GROUP BY dateOfIncident HAVING count(*) > 1)",
+      "note": "10823637 and 10824361 (2016 Honda Civic) both give 01/30/2016; 11185059 (2019 Subaru Outback) and 11229137 (2019 Toyota RAV4) both give 03/01/2019. 10667633 (12/20/2014) and 11209676 (12/20/2018) share only day and month."
+    },
+    {
+      "id": "HB14",
+      "type": "aggregation",
+      "question": "How many recall campaigns list a component under ELECTRICAL SYSTEM?",
+      "expected": {
+        "number": 4
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE Component LIKE 'ELECTRICAL SYSTEM%'",
+      "note": "22V875000 (ELECTRICAL SYSTEM:WIRING), 23V093000 (ELECTRICAL SYSTEM:IGNITION:...), 15V406000 (ELECTRICAL SYSTEM: INSTRUMENT CLUSTER/PANEL) and 15V436000 (ELECTRICAL SYSTEM:IGNITION). 26V011000 (EQUIPMENT:ELECTRICAL:ENGINE BLOCK HEATER) is under EQUIPMENT and does not count."
+    },
+    {
+      "id": "HB15",
+      "type": "aggregation",
+      "question": "Counting each comma-separated component of a complaint separately, how many distinct components appear across all complaints?",
+      "expected": {
+        "number": 13
+      },
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT trim(x)) FROM (SELECT unnest(string_split(components, ',')) AS x FROM complaints)",
+      "note": "UNKNOWN OR OTHER, STEERING, VEHICLE SPEED CONTROL, ENGINE, ELECTRICAL SYSTEM, FORWARD COLLISION AVOIDANCE, SERVICE BRAKES, POWER TRAIN, FUEL/PROPULSION SYSTEM, VISIBILITY, STRUCTURE, AIR BAGS, VISIBILITY/WIPER. VISIBILITY and VISIBILITY/WIPER are different values."
+    },
+    {
+      "id": "HB16",
+      "type": "aggregation",
+      "question": "Which recall campaign did NHTSA receive most recently?",
+      "expected": {
+        "entities": [
+          {
+            "name": "26V332000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r ORDER BY strptime(ReportReceivedDate, '%d/%m/%Y') DESC LIMIT 1",
+      "note": "26V332000 was received 21/05/2026, after 26V011000 (15/01/2026); recall dates are day/month/year."
+    },
+    {
+      "id": "HB17",
+      "type": "aggregation",
+      "question": "Which recall campaign did NHTSA receive earliest?",
+      "expected": {
+        "entities": [
+          {
+            "name": "15V406000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r ORDER BY strptime(ReportReceivedDate, '%d/%m/%Y') ASC LIMIT 1",
+      "note": "15V406000 was received 24/06/2015, before 15V436000 (08/07/2015); recall dates are day/month/year."
+    },
+    {
+      "id": "HB18",
+      "type": "aggregation",
+      "question": "Which complaints say that the dealer could not duplicate the failure, using the word 'duplicate'?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11030208",
+            "aliases": [
+              "Complaint 11030208"
+            ]
+          },
+          {
+            "name": "11209676",
+            "aliases": [
+              "Complaint 11209676"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#3",
+          "quote": "THE VEHICLE WAS TAKEN TO HALL NISSAN IN CHESAPEAKE, VA, BUT THE FAILURE COULD NOT BE DUPLICATED."
+        },
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#2",
+          "quote": "THE TOYOTA DEALER COULD NOT DUPLICATE THIS AT THE 5000 MILE INSPECTION"
+        }
+      ],
+      "note": "11030208 (2017 Nissan Rogue) and 11209676 (2019 Toyota RAV4). Not counted: 10690483, whose first visit found 'NO PROBLEM FOUND' before a later visit diagnosed the left rear brake, and 11176393, where the dealer said nothing is wrong; neither uses the word."
+    },
+    {
+      "id": "HB19",
+      "type": "structured_filter",
+      "question": "Which complaints list more than one component?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10692693",
+            "aliases": [
+              "Complaint 10692693"
+            ]
+          },
+          {
+            "name": "10816192",
+            "aliases": [
+              "Complaint 10816192"
+            ]
+          },
+          {
+            "name": "11166434",
+            "aliases": [
+              "Complaint 11166434"
+            ]
+          },
+          {
+            "name": "11209676",
+            "aliases": [
+              "Complaint 11209676"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE components LIKE '%,%'",
+      "note": "Components are comma-separated in the complaint records: 10692693 (POWER TRAIN,FUEL/PROPULSION SYSTEM), 10816192 (STEERING,VEHICLE SPEED CONTROL), 11166434 (three components), 11209676 (three components)."
+    },
+    {
+      "id": "HB20",
+      "type": "structured_filter",
+      "question": "Which recall campaigns list seats or seat belts as their component?",
+      "expected": {
+        "entities": [
+          {
+            "name": "17V472000"
+          },
+          {
+            "name": "17V663000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Component LIKE 'SEAT%'",
+      "note": "17V663000 (SEATS, 2017 Nissan Rogue) and 17V472000 (SEAT BELTS, 2015 Ford Escape). 16V244000 and 26V332000 concern passenger seat sensors but their component is AIR BAGS."
+    },
+    {
+      "id": "HB21",
+      "type": "structured_filter",
+      "question": "Which complaints report an incident that happened in 2018?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11123359",
+            "aliases": [
+              "Complaint 11123359"
+            ]
+          },
+          {
+            "name": "11209676",
+            "aliases": [
+              "Complaint 11209676"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE dateOfIncident LIKE '%/2018'",
+      "note": "By the incident date, not the filing date: 11123359 (incident 08/28/2018) and 11209676 (incident 12/20/2018, filed 05/24/2019)."
+    },
+    {
+      "id": "HB22",
+      "type": "structured_filter",
+      "question": "Which complaints about the 2015 Ford Escape were filed in March 2015?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10691672",
+            "aliases": [
+              "Complaint 10691672"
+            ]
+          },
+          {
+            "name": "10692693",
+            "aliases": [
+              "Complaint 10692693"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE product.productModel = 'ESCAPE' AND dateComplaintFiled LIKE '03/%/2015'",
+      "note": "Complaint dates are month/day/year: 10691672 was filed 03/02/2015 and 10692693 on 03/07/2015."
+    },
+    {
+      "id": "HB23",
+      "type": "structured_filter",
+      "question": "Which recall campaigns list a component under ENGINE AND ENGINE COOLING?",
+      "expected": {
+        "entities": [
+          {
+            "name": "16V074000"
+          },
+          {
+            "name": "20V064000"
+          },
+          {
+            "name": "21V839000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Component LIKE 'ENGINE AND ENGINE COOLING%'",
+      "note": "16V074000 (2016 Honda Civic), 20V064000 (2019 Toyota RAV4) and 21V839000 (2017 Nissan Rogue, ...:ENGINE CONTROL MODULE). 26V011000's engine block heater is under EQUIPMENT."
+    },
+    {
+      "id": "HB24",
+      "type": "structured_filter",
+      "question": "Which complaints were filed in a calendar year earlier than the model year of the vehicle they concern?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10667633",
+            "aliases": [
+              "Complaint 10667633"
+            ]
+          },
+          {
+            "name": "10809523",
+            "aliases": [
+              "Complaint 10809523"
+            ]
+          },
+          {
+            "name": "10816192",
+            "aliases": [
+              "Complaint 10816192"
+            ]
+          },
+          {
+            "name": "11123359",
+            "aliases": [
+              "Complaint 11123359"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT c.odiNumber FROM complaints c JOIN vehicles v ON v.model = c.product.productModel WHERE CAST(right(c.dateComplaintFiled, 4) AS INTEGER) < v.model_year",
+      "note": "10667633 (filed 2014, 2015 Ford Escape), 10809523 and 10816192 (filed 2015, 2016 Honda Civic), 11123359 (filed 2018, 2019 Subaru Outback)."
+    },
+    {
+      "id": "HB25",
+      "type": "structured_filter",
+      "question": "Which complaints about the 2017 Nissan Rogue were filed more than 7 days after the incident?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10957753",
+            "aliases": [
+              "Complaint 10957753"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE product.productModel = 'ROGUE' AND date_diff('day', strptime(dateOfIncident, '%m/%d/%Y'), strptime(dateComplaintFiled, '%m/%d/%Y')) > 7",
+      "note": "10957753: incident 02/05/2017, filed 03/01/2017 (24 days). 10972343 was filed exactly 7 days after (04/06 to 04/13/2017), which is not more than 7; the others within 6 days."
+    },
+    {
+      "id": "HB26",
+      "type": "structured_filter",
+      "question": "Which complaints were filed in February of any year?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10689793",
+            "aliases": [
+              "Complaint 10689793"
+            ]
+          },
+          {
+            "name": "10690483",
+            "aliases": [
+              "Complaint 10690483"
+            ]
+          },
+          {
+            "name": "10823637",
+            "aliases": [
+              "Complaint 10823637"
+            ]
+          },
+          {
+            "name": "10824361",
+            "aliases": [
+              "Complaint 10824361"
+            ]
+          },
+          {
+            "name": "10825467",
+            "aliases": [
+              "Complaint 10825467"
+            ]
+          },
+          {
+            "name": "11176393",
+            "aliases": [
+              "Complaint 11176393"
+            ]
+          },
+          {
+            "name": "11180230",
+            "aliases": [
+              "Complaint 11180230"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE dateComplaintFiled LIKE '02/%'",
+      "note": "Complaint dates are month/day/year: two in February 2015 (Ford Escape), three in February 2016 (Honda Civic), two in February 2019 (Subaru Outback)."
+    },
+    {
+      "id": "HB27",
+      "type": "structured_filter",
+      "question": "Which recall campaigns affecting the 2017 Nissan Rogue or the 2015 Ford Escape did NHTSA receive in 2016?",
+      "expected": {
+        "entities": [
+          {
+            "name": "16V244000"
+          },
+          {
+            "name": "16V643000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Model IN ('ROGUE', 'ESCAPE') AND ReportReceivedDate LIKE '%/2016'",
+      "note": "16V244000 (Rogue, 26/04/2016) and 16V643000 (Escape, 06/09/2016); recall dates are day/month/year."
+    },
+    {
+      "id": "HB28",
+      "type": "disambiguation",
+      "question": "Two fuel pump recall campaigns in the data say they are expansions of earlier recalls. Which one expands recall 20V-012?",
+      "expected": {
+        "entities": [
+          {
+            "name": "20V682000"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/20V682000#1",
+          "quote": "Note: This recall is an expansion of recall 20V-012."
+        }
+      ],
+      "note": "20V682000 (Toyota, 2019 Toyota RAV4). The other expansion, 23V858000 (Honda, 2016 Honda Civic), expands NHTSA recall numbers 21V-215 and 20V-314. The Subaru fuel pump recalls name no earlier recall."
+    },
+    {
+      "id": "HB29",
+      "type": "disambiguation",
+      "question": "Of the two Ford door latch recalls, which one began on January 27, 2017?",
+      "expected": {
+        "entities": [
+          {
+            "name": "16V643000"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/16V643000#1",
+          "quote": "The recall began on January 27, 2017."
+        }
+      ],
+      "note": "The other door latch recall, 20V331000, re-inspects earlier repairs; its owner letters were mailed July 27, 2020. The pair 16V643000/20V331000 was used before (H24), with a different distinguishing detail."
+    },
+    {
+      "id": "HB30",
+      "type": "disambiguation",
+      "question": "Two recall campaigns concern the ignition system. Which one warns that the engine may continue to run after the key or the START/STOP button is turned off?",
+      "expected": {
+        "entities": [
+          {
+            "name": "15V436000"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/15V436000#0",
+          "quote": "the engine may continue to run after the key or the START/STOP engine button is turned to off."
+        }
+      ],
+      "note": "15V436000 (2015 Ford Escape, component ELECTRICAL SYSTEM:IGNITION). The other ignition recall, 23V093000 (2017 Nissan Rogue), is about a jackknife key that may collapse and shut the vehicle off."
+    },
+    {
+      "id": "HB31",
+      "type": "disambiguation",
+      "question": "Of the two load label recalls affecting the 2019 Toyota RAV4, which one is limited to vehicles equipped with factory-installed floor mats?",
+      "expected": {
+        "entities": [
+          {
+            "name": "19V503000"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/19V503000#0",
+          "quote": "Yaris iA vehicles equipped with factory-installed floor mats."
+        }
+      ],
+      "note": "19V244000 (Gulf States Toyota) concerns load capacity label text that may become illegible and has no floor mat condition. The pair 19V244000/19V503000 was used before (H26), with a different distinguishing detail."
+    },
+    {
+      "id": "HB32",
+      "type": "disambiguation",
+      "question": "Of the two recall campaigns about a back-up or rearview camera, which one is run as a phased campaign?",
+      "expected": {
+        "entities": [
+          {
+            "name": "25V695000"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/25V695000#1",
+          "quote": "This will be a phased campaign, with the remedy becoming available in different phases based on model and model years."
+        }
+      ],
+      "note": "The camera recalls are 19V576000 (2019 Toyota RAV4) and 25V695000 (2015 Ford Escape); only the Ford one is phased."
+    },
+    {
+      "id": "HB33",
+      "type": "disambiguation",
+      "question": "Two 2016 Honda Civic owners complain about a piston ring recall. Which complaint says Honda customer service told them there would be no fix until mid-March?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10823637",
+            "aliases": [
+              "Complaint 10823637"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/honda_civic_complaints.md#2",
+          "quote": "PISTON CLIP RING RECALL FROM HONDA WITH NO FIX UNTIL MID-MARCH AS TOLD BY HONDA CUSTOMER SERVICE."
+        }
+      ],
+      "note": "10825467 (piston snap ring recall) says only that Honda currently has no fix, with no date."
+    },
+    {
+      "id": "HB34",
+      "type": "disambiguation",
+      "question": "Two 2019 Subaru Outback owners report a cracked windshield. Which complaint says the windshield cracked while driving on the highway?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11180230",
+            "aliases": [
+              "Complaint 11180230"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#3",
+          "quote": "UNDER THE WIPER BLADE WHILE DRIVING ON THE HIGHWAY."
+        }
+      ],
+      "note": "In 11123359 the crack appeared overnight on the 4th day of ownership."
+    },
+    {
+      "id": "HB35",
+      "type": "disambiguation",
+      "question": "Two 2019 Subaru Outback owners report a dead battery. Which complaint blames the drain on the navigation system staying on at night?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11166434",
+            "aliases": [
+              "Complaint 11166434"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#1",
+          "quote": "SYSTEMS STAYS ON AT NIGHT DRAINING BATTERY."
+        }
+      ],
+      "note": "11185059 describes a parasitic drain with nothing left on and names no cause."
+    },
+    {
+      "id": "HB36",
+      "type": "negation_sensitive",
+      "question": "Which complaints report that a repair fixed the problem?",
+      "expected": {
+        "entities": []
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#2",
+          "quote": "NO CHANGE. SQUEAL RETURNED IN TWO DAYS."
+        },
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#4",
+          "quote": "THE VEHICLE IS AGAIN STALLING AT TRAFFIC LIGHTS UPON ACCELERATION."
+        }
+      ],
+      "note": "The two complaints with repair work say the problem came back: 10690483 (pads changed, rotors machined, squeal returned) and 10692693 (transmission parts replaced, stalling again). 10689793 says no repairs were needed or made; the others were not repaired or only await a repair."
+    },
+    {
+      "id": "HB37",
+      "type": "negation_sensitive",
+      "question": "Which vehicles do owners report with a check engine light coming on?",
+      "expected": {
+        "entities": []
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#2",
+          "quote": "THERE ARE NO CODES SET NOR DOES IT SET A CHECK ENGINE LIGHT WHEN IT HAPPENS."
+        }
+      ],
+      "note": "The only mention of a check engine light (11209676, 2019 Toyota RAV4) says the light does not come on, so no vehicle qualifies."
+    },
+    {
+      "id": "HB38",
+      "type": "negation_sensitive",
+      "question": "In complaint 10689793, did the Ford dealer and manufacturer deny that the accelerator hesitation was occurring?",
+      "expected": {
+        "text": "No. They explained the hesitation but did not deny that it was occurring."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#1",
+          "quote": "FORD DEALER AND FORD MANUFACTURER EXPLAIN HESITATION BUT DO NOT DENY IT IS OCCURRING."
+        }
+      ]
+    },
+    {
+      "id": "HB39",
+      "type": "negation_sensitive",
+      "question": "In complaint 11185059, could the dead battery be revived with a jump start?",
+      "expected": {
+        "text": "No. The battery would not take a jump and had to be fully recharged each time."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#4",
+          "quote": "NEEDING TO BE FULLY RECHARGED AS IT WOULDN'T TAKE A JUMP."
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "HB40",
+      "type": "negation_sensitive",
+      "question": "Which complaints say a rock chip caused their cracked windshield?",
+      "expected": {
+        "entities": []
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#3",
+          "quote": "I WAS NOT FOLLOWING ANY VEHICLES SO A ROCK CHIP COULD NOT BE THE CAUSE."
+        },
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#0",
+          "quote": "NO VISIBLE CHIP DAMAGE APPARENT."
+        }
+      ],
+      "note": "Both windshield complaints rule a chip out: 11180230 says a rock chip could not be the cause and 11123359 says no chip damage is visible."
+    },
+    {
+      "id": "HB41",
+      "type": "negation_sensitive",
+      "question": "Which complaints about the 2019 Toyota RAV4 say that the manufacturer was notified of the failure?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11205702",
+            "aliases": [
+              "Complaint 11205702"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+          "quote": "THE MANUFACTURER WAS MADE AWARE OF THE FAILURE AND NO ASSISTANCE WAS PROVIDED."
+        },
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+          "quote": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER."
+        }
+      ],
+      "note": "Only 11205702. 11204698 does not count: the contact was unsure whether the rental company notified the manufacturer (merely possible). 11229137 reported to the dealership and 11209676 names only the dealer."
+    },
+    {
+      "id": "HB42",
+      "type": "negation_sensitive",
+      "question": "Did the owner in complaint 11176393 have an issue like this with their earlier Outbacks?",
+      "expected": {
+        "text": "No. They had multiple Outbacks in the past and never had an issue like this."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#2",
+          "quote": "HAD MULTIPLE OUTBACKS IN THE PAST AND NEVER HAD AN ISSUE LIKE THIS."
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "HB43",
+      "type": "lookup",
+      "question": "What failure mileage does complaint 11204698 report?",
+      "expected": {
+        "number": 5218
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+          "quote": "THE FAILURE MILEAGE WAS 5,218."
+        }
+      ]
+    },
+    {
+      "id": "HB44",
+      "type": "lookup",
+      "question": "What is Honda's own number for recall 16V725000?",
+      "expected": {
+        "entities": [
+          {
+            "name": "KC6"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/16V725000#1",
+          "quote": "Honda's number for this recall is KC6."
+        }
+      ]
+    },
+    {
+      "id": "HB45",
+      "type": "lookup",
+      "question": "What will dealers do under recall 26V011000?",
+      "expected": {
+        "text": "Replace the engine block heater, free of charge."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/26V011000#1",
+          "quote": "Dealers will replace the block heater, free of charge."
+        }
+      ],
+      "note": "The alternative of a threaded plug in place of the heater element is an option offered to owners, not the dealers' remedy; an answer may mention it."
+    },
+    {
+      "id": "HB46",
+      "type": "lookup",
+      "question": "On what date did recall 19V576000 begin?",
+      "expected": {
+        "text": "September 27, 2019."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/19V576000#1",
+          "quote": "The recall began September 27, 2019."
+        }
+      ]
+    },
+    {
+      "id": "HB47",
+      "type": "lookup",
+      "question": "How many miles does the owner in complaint 11166434 say are on their 2019 Outback?",
+      "expected": {
+        "number": 3200
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#1",
+          "quote": "I HAVE 3200 MILES ON MY 2019 OUTBACK"
+        }
+      ]
+    },
+    {
+      "id": "HB48",
+      "type": "lookup",
+      "question": "Which dealership did the owner in complaint 11205702 take the vehicle to?",
+      "expected": {
+        "text": "Toyota of North Scranton, 3400 N Main Ave, Scranton, PA."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+          "quote": "THE VEHICLE WAS TAKEN TO TOYOTA OF NORTH SCRANTON (3400 N MAIN AVE, SCRANTON, PA 18508, (570) 489-7584)"
+        }
+      ],
+      "note": "Naming Toyota of North Scranton is enough; the address is optional."
+    },
+    {
+      "id": "HB49",
+      "type": "lookup",
+      "question": "What is the NHTSA action number of recall campaign 25V695000?",
+      "expected": {
+        "entities": [
+          {
+            "name": "PE24030"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSAActionNumber FROM r WHERE NHTSACampaignNumber = '25V695000'"
+    },
+    {
+      "id": "HB50",
+      "type": "lookup",
+      "question": "For how many days was the vehicle in complaint 10692693 in the Ford repair shop?",
+      "expected": {
+        "number": 12
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#4",
+          "quote": "VEHICLE WAS IN FORD REPAIR SHOP FOR 12 DAYS"
+        }
+      ]
+    }
+  ]
+}
