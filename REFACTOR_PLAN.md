@@ -9210,7 +9210,18 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
     any build ($0).
   - **R154** New dataset B, the same way ($0).
   - **R155** The two new graphs built with the frozen pipeline (paid, asked first with an estimate from
-    the R103 rebuilds: about $1-3).
+    the R103 rebuilds: about $1-3). Split on 2026-10-12, after the first build stopped at the plan
+    ($0.200, plan run `a20a4606`, out/r155_lighthouses/plan_rounds.json): the plan language needs one
+    unique column per node and a relationship joins two nodes, so a table of detail rows without a single
+    unique column (lighthouse events: lighthouse, event, date; NTSB findings, crew, sequence, injuries)
+    cannot be planned; in three rounds the model left `events.csv` out and the critic refused, or named the
+    non-unique `event` and code refused. The three thesis datasets never hit it (their one keyless table
+    links two things). The user chose the general fix over adding ids to the data:
+    - **R155a** Composite keys: a node may be keyed by several columns together; the model proposes the
+      columns, code checks the combination is unique and computes the key; old plans unchanged ($0, code;
+      it reopens the Part 1 build pipeline, whose three saved plans and builds are not affected).
+    - **R155b** The two builds (the user's yes of 2026-10-12, ~$1.3-2.4, covers them; the failed plan's
+      $0.200 counts toward it).
   - **R156** The agent on the 250 questions, one dataset at a time (paid, asked first: about $4.5 at
     R151's $0.017-0.019 a question), the three thesis datasets on their R151 graphs reloaded from the cache.
   - **R157** Every answer judged by meaning (R144, two blind judges) next to exact match; per dataset, per
