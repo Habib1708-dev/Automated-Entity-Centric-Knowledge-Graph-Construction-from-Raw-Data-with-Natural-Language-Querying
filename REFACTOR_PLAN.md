@@ -8872,6 +8872,18 @@ any output for them is read, with R136's questions reported apart as "seen".
 - **R143b done 2026-10-12; plan R137-R143 done.** Next: the user decides (the answer-form prompt rule, a
   field-to-field comparison in the query language, or the next plan).
 
+### Plan R144-R145: every answer judged by meaning, then the causes of the failures (accepted 2026-10-12)
+The user, 2026-10-12: "use claude opus 5.5 as the llm-as-the judge to check whether the answers are valid. And
+then report the results again and run a check and analysis of what the underlying cause for these failures
+could be within the system." No run: both steps read R143b's saved answers ($0).
+- **R144** A verdict file may judge every answer (`scope` "all"), not only the free-text ones; code scores it
+  as the judged accuracy, reported next to exact match. Then Claude Opus 5.5 (this session) judges all 142
+  answers of R143b (30 fresh x 4 systems, 22 seen x agent) by meaning, R71's rules, and the two scores are
+  reported side by side ($0, code and judging).
+- **R145** The failures that remain by meaning, traced to their cause in the system (the prompt, a tool, the
+  query language, the data, or the gold), each with its trace and the code it comes from ($0, analysis;
+  any fix is its own later step).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
