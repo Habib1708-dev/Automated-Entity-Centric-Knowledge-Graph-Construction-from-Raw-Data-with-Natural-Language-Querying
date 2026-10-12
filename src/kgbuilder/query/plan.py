@@ -211,11 +211,12 @@ def value_issues(where: str, prop: PropertyInfo, operator: Operator | None, valu
         return (
             [] if _is_year(value) else [f"{where}: a year comparison needs a four-digit year, got {value!r}"]
         )
+    # a date property compared by any comparison, = and != too: both compilers cast the value to a date, so
+    # a value in another form failed at run time instead of being refused here (found in R148)
+    is_date = prop.type.startswith("DATE") or prop.type.startswith("LOCAL") or prop.type.startswith("ZONED")
+    if is_date and operator in ("=", "!=", "<", "<=", ">", ">="):
+        return [] if _is_iso_date(value) else [f"{where}: compare a date with 'YYYY-MM-DD', got {value!r}"]
     if operator in ("<", "<=", ">", ">="):
-        if prop.type.startswith("DATE") or prop.type.startswith("LOCAL") or prop.type.startswith("ZONED"):
-            return (
-                [] if _is_iso_date(value) else [f"{where}: compare a date with 'YYYY-MM-DD', got {value!r}"]
-            )
         # a number, or a text holding one ('$246'): compared as the number in it (plan_cypher.py)
         return [] if as_number(value) is not None else [f"{where}: {operator} needs a number, got {value!r}"]
     if operator == "contains" and prop.type not in ("STRING", "LIST<STRING>"):

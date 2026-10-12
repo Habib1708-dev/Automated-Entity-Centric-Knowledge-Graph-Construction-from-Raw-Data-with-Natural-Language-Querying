@@ -83,6 +83,8 @@ def test_unknown_labels_properties_relationships_and_predicates_are_refused_with
     [
         ("year", "=", "many", "give a number"),
         ("since", "<", "June 2015", "compare a date with 'YYYY-MM-DD'"),
+        ("since", "=", "June 2015", "compare a date with 'YYYY-MM-DD'"),  # R148: failed at run time
+        ("since", "!=", "2015/06/01", "compare a date with 'YYYY-MM-DD'"),
         ("year", "year", "15", "four-digit year"),
         ("year", "contains", "20", "contains needs a text property"),
         ("active", "=", "maybe", "give true or false"),

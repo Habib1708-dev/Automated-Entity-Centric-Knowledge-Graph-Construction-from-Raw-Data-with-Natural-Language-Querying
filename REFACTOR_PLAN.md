@@ -9083,6 +9083,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **A date literal compared by = or != was not checked (found by R148's design critic, 2026-10-12; fixed in
+  its own commit).** `query/plan.value_issues` checked 'YYYY-MM-DD' only for < <= > >=; both compilers cast
+  the value to a date (`date($v)`, `CAST($v AS DATE)`), so `since = 'May'` failed at run time ("The query
+  failed to run.") instead of being refused with a reason. Fixed for every comparison of a date property
+  (`in` checks each value as =); the plan systems (R74) share the check. 4 tests failing before
+  (`tests/test_query_plan.py`, `tests/test_agent_structured.py`). 1226 passed.
 - **R138's empty-answer send-back fires on the last allowed turn (found in R147, 2026-10-12; open).** The
   loop then leaves through `_close`: the CLOSING prompt is sent (one more call) and the trace reads
   `stopped` "turns" for a question the model answered. R147's form send-back waits for a turn to be left,

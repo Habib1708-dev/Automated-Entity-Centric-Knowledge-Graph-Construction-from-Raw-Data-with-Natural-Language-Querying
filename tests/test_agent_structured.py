@@ -49,6 +49,13 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
         (TableQuery(table="t", where=[Condition(field="year", operator="=", value="old")]), "give a number"),
         (TableQuery(table="t", where=[Condition(field="since", operator="year", value="16")]), "four-digit"),
         (TableQuery(table="t", where=[Condition(field="since", operator=">", value="May")]), "YYYY-MM-DD"),
+        (TableQuery(table="t", where=[Condition(field="since", operator="=", value="May")]), "YYYY-MM-DD"),
+        (
+            TableQuery(
+                table="t", where=[Condition(field="since", operator="in", value=["2015-06-01", "May"])]
+            ),
+            "YYYY-MM-DD",
+        ),
         (TableQuery(table="t", measure="sum"), "needs the field it measures"),
         (TableQuery(table="t", measure="count", field="year"), "takes no field"),
         (TableQuery(table="t", measure="sum", field="since"), "sum needs a number, since is DATE"),
