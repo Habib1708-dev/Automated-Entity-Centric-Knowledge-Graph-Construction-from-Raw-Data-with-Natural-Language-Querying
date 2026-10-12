@@ -9364,6 +9364,19 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   ($0.31, alike names of lighthouses and lights), as on held-out.
 - **R155b done 2026-10-12.** Next: R156, the agent on the 250 questions (paid, asked first).
 
+### R156. The frozen agent on the 250 benchmark questions (done 2026-10-12; $3.870)
+- **Asked and approved:** the user, 2026-10-12, "All five, stop if over $5.5" (estimate $4.3-4.8).
+- **Runs** (`tests/gold/r156/runs.json`, git c17ecf5; the agent's code and its three versions as tagged at
+  `query-engine-r151`): NTSB on its R155b graph; lighthouses reloaded from its pinned plan and claims; the
+  three thesis datasets reloaded by R128's recipe; every reload $0 and its digest equal to the build's
+  (lighthouses `62573881a3c6`, furniture `392a170ecc10`, held-out `bc7c5a1efe3d`, generality
+  `f79f9411ea81`: R155a's pipeline change leaves the thesis graphs identical).
+- **Cost and exact match on the questions code scores** (sets and numbers; 23 free-text answers wait for the
+  judge, R157): NTSB 46/46 ($0.830), held-out 42/43 ($0.789), generality 42/44 ($0.515), lighthouses 45/49
+  ($0.670), furniture 41/45 ($1.066): **216/227**, $0.0155 a question. R147's form send-back fired for the
+  first time (held-out 4, generality 2). Mean seconds per answer 7.6-12.9.
+- **R156 done 2026-10-12.** Next: R157, every answer judged by meaning and the failures traced ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

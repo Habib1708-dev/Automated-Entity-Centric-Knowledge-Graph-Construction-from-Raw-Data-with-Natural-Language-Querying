@@ -1,0 +1,53 @@
+{
+ "step": "R156: the frozen agent (query-engine-r151) on the 250 benchmark questions of R152-R154",
+ "approved": "the user, 2026-10-12: 'All five, stop if over $5.5'",
+ "git_sha": "c17ecf5",
+ "versions": {
+  "agent_prompt_version": "ba389c432cd6",
+  "agent_tools_prompt_version": "ccf077ef986c",
+  "agent_reply_prompt_version": "64c3861205bb"
+ },
+ "commands": [
+  "kg --preset <ntsb|lighthouses|quality|heldout|generality_gemini> qa tests/gold/qa/<dataset>_qa_bench.json --system agent --out out/r156_<dataset>[_qa]",
+  "graphs: ntsb as built in R155b (out/r155b_ntsb); lighthouses reloaded from tests/gold/r155/lighthouses with extract --from-build out/r155b_lighthouses into out/r156_lighthouses; the three thesis datasets reloaded by R128's recipe into out/r156_<dataset> (pinned out/r108_furniture, out/r109_heldout, out/r108_generality; claims out/r103_<dataset>); mention-pass with an invalid key (cache only); $0"
+ ],
+ "runs": {
+  "ntsb": {
+   "run": "fbf2339f",
+   "graph_digest": "c7f20fa9c187",
+   "answers": "out/r156_ntsb/answers_agent.jsonl",
+   "cost_usd": 0.829916,
+   "exact_code_scored": "46/46"
+  },
+  "lighthouses": {
+   "run": "975671c2",
+   "graph_digest": "62573881a3c6",
+   "answers": "out/r156_lighthouses_qa/answers_agent.jsonl",
+   "cost_usd": 0.670321,
+   "exact_code_scored": "45/49"
+  },
+  "furniture": {
+   "run": "fb74f46a",
+   "graph_digest": "392a170ecc10",
+   "answers": "out/r156_furniture_qa/answers_agent.jsonl",
+   "cost_usd": 1.065989,
+   "exact_code_scored": "41/45"
+  },
+  "heldout": {
+   "run": "ab12ca9d",
+   "graph_digest": "bc7c5a1efe3d",
+   "answers": "out/r156_heldout_qa/answers_agent.jsonl",
+   "cost_usd": 0.789049,
+   "exact_code_scored": "42/43"
+  },
+  "generality": {
+   "run": "61432a24",
+   "graph_digest": "f79f9411ea81",
+   "answers": "out/r156_generality_qa/answers_agent.jsonl",
+   "cost_usd": 0.515023,
+   "exact_code_scored": "42/44"
+  }
+ },
+ "cost_usd": 3.870298,
+ "unjudged_free_text": 23
+}
