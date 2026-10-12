@@ -8950,6 +8950,51 @@ could be within the system." No run: both steps read R143b's saved answers ($0).
   (5) none in code: a question of which source's name the gold takes.
 - **R145 done 2026-10-12; plan R144-R145 done.** Next: the user decides.
 
+### Plan R146-R151: R145's causes fixed one by one, then the engine re-measured and frozen (accepted 2026-10-12)
+The user, 2026-10-12, chose R145's targeted fixes over architectural change, in this order: the answer form
+(cause 1), table querying with paging and comparisons (cause 2), passage search scoped to a document
+(cause 3), counting text-derived things (cause 4), then the complete evaluation re-run and the query engine
+frozen. Cause 5 (two sources name one company differently, H66) gets no code: it is a question of which
+source's name the gold takes, recorded in H66's verdict. A read-only design pass ($0; four mappers, each
+design checked by a critic against the code and R143b's saved traces) set the details below and found that
+the tool text the agent's model reads is not versioned, so that gap is closed first.
+- **Steps, strictly one after another:**
+  - **R146** Every text the agent's model reads is versioned: the tool list (each tool's name, description
+    and argument schema) and the reply schemas' field descriptions join the prompt version hashes, with a
+    test that the hashed tool list is the list `build_tools` builds ($0, code). Without it, R148-R150 change
+    only tool text and `agent_prompt_version` would not move.
+  - **R147** The answer form (cause 1): one form rule shared by the agent's prompts and the reader's, a
+    number first ("one number: a count, an amount, a measurement, a year"), then named things or values that
+    are not numbers (who, which, where, what is the name or value of), then text for anything else; `text`
+    may add to `entities` or `number`, never replace them. The agent's reply declares the form it answers
+    (`asks`: things, number, statement); an answer that leaves its declared field empty while giving text is
+    sent back once, as R138 does for an empty one ($0, code). R145's proposed check (an answer naming a node
+    a tool returned) would catch 2 of the 6 form failures and fire on free-text answers; the declared form
+    is the check code can make.
+  - **R148** Table querying (cause 2): a condition compares a field with another field of the same entry
+    (`other_field`: numbers with numbers, dates with dates, texts by = / !=, and the year of a date with a
+    year), and listed rows and groups page by `offset`, the "N of M shown" note naming the next offset. A
+    literal spelled as a field name is refused with the hint to use `other_field`. Offline on the staged
+    held-out tables, one count with `other_field` gives HN03's 10 ($0, code; replay $0, DuckDB). A bug found
+    by the critic, a date literal under = / != not checked and failing at run time, is fixed in its own
+    commit first, with a failing test.
+  - **R149** Passage search scoped to a document (cause 3): `find_passages` counts a word as held when the
+    passage's text or its `context` (its document's title) holds it. This supersedes R145's direction (3), a
+    `document` argument: in F12 the model searched `["Uppsala", "covers"]` before it had seen any document id,
+    and ids drop accents. The 21 recorded `find_passages` calls of R143b are replayed offline over the saved
+    chunks before and after ($0); the replay predicts F12 3 -> 4 and FN04 0 -> 3 passages (a partial set where
+    the empty result had sent the model to `read_document`), so FN04 is watched in R151 ($0, code).
+  - **R150** Counting text-derived things (cause 4): a tool `count_mentions` ranks the records, individuals
+    and concepts the text names by the number of documents whose mentions refer to them, filtered by a part
+    of a name or a label. From the saved build, names holding "@" rank @scandi_lover 8, @designer_dave 7,
+    @angry_customer 7 (F13's gold and note); counting mentions instead of documents would tie the top two.
+    Known risk: on generality the same count gives Staff:S-131 9 documents where G05's gold is 8 (one wrong
+    identity join), so G05 is watched in R151 ($0, code).
+  - **R151** The complete evaluation re-run and the engine frozen (paid, asked first with its estimate: the
+    agent on the fresh 30 and the seen 22, the reading systems on the fresh 30, about $0.95 at R143b's
+    rates), judged by meaning as R144, both scores reported against R143b/R144; then a tag. Read with care:
+    the fresh 30 shaped this plan (GN07, HN03) and are now seen too.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
