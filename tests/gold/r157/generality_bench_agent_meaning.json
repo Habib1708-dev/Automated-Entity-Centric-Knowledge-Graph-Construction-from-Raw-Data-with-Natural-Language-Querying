@@ -1,0 +1,263 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "61432a245b3544bd98e0aa31981e516d",
+    "git_sha": "e422755"
+  },
+  "gold": "tests/gold/qa/generality_qa_bench.json",
+  "answers": "out/r156_generality_qa/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GB01",
+      "correct": true,
+      "reason": "Gives 'research engineer', the gold role of Aiko Tanaka, who was at the flume controls."
+    },
+    {
+      "question_id": "GB02",
+      "correct": true,
+      "reason": "Names Jonathan Pike (the log's J. Pike) and gives 2009, matching the gold start year."
+    },
+    {
+      "question_id": "GB03",
+      "correct": true,
+      "reason": "Gives 'PhD student', Samuel Osei's gold role."
+    },
+    {
+      "question_id": "GB04",
+      "correct": true,
+      "reason": "Identifies HP40-1183 as the pump kept on duty and gives install year 2012, as in the gold."
+    },
+    {
+      "question_id": "GB05",
+      "correct": true,
+      "reason": "Answers September, the month the council notices give for the Station Road lane closures."
+    },
+    {
+      "question_id": "GB06",
+      "correct": true,
+      "reason": "Gives 'group leader' for Dr. J. Pike (Jonathan Pike), matching the gold."
+    },
+    {
+      "question_id": "GB07",
+      "correct": true,
+      "reason": "Gives 168,000 pounds, the 180,000 budget line less the 12,000 saving, as in the gold."
+    },
+    {
+      "question_id": "GB08",
+      "correct": true,
+      "reason": "Identifies HP40-2291 and gives 2,300 hours, not the other pump's 6,100."
+    },
+    {
+      "question_id": "GB09",
+      "correct": true,
+      "reason": "Gives 15 days, from 14 March to 29 March, as in the gold."
+    },
+    {
+      "question_id": "GB10",
+      "correct": true,
+      "reason": "Gives 3 teams and names Hydrology, Soil Ecology and Finance Office, as in the gold note."
+    },
+    {
+      "question_id": "GB11",
+      "correct": true,
+      "reason": "Gives 2 seminars, Pike on 3 June and Tanaka on 7 October, as in the gold note."
+    },
+    {
+      "question_id": "GB12",
+      "correct": true,
+      "reason": "Gives 34 litres per second, the gold average."
+    },
+    {
+      "question_id": "GB13",
+      "correct": true,
+      "reason": "Gives 1,015,000 pounds, the gold sum of the 2025 budget lines."
+    },
+    {
+      "question_id": "GB14",
+      "correct": true,
+      "reason": "Gives 8,400 hours with the correct split of 6,100 and 2,300."
+    },
+    {
+      "question_id": "GB15",
+      "correct": true,
+      "reason": "Gives 4 people, treating Jon Pike and J. Pike as one person as the gold requires."
+    },
+    {
+      "question_id": "GB16",
+      "correct": true,
+      "reason": "Gives 7 documents, matching the gold count."
+    },
+    {
+      "question_id": "GB17",
+      "correct": true,
+      "reason": "Gives 71 °C, the highest reported bearing temperature; does not take the 65 °C alarm limit."
+    },
+    {
+      "question_id": "GB18",
+      "correct": true,
+      "reason": "Lists Rosa Delgado and Marek Hollis, exactly the gold set, with no wrong extra name."
+    },
+    {
+      "question_id": "GB19",
+      "correct": true,
+      "reason": "Lists S-131 and S-219, exactly the gold set."
+    },
+    {
+      "question_id": "GB20",
+      "correct": true,
+      "reason": "Lists HP40-1183 (38 in March) and HP40-2291 (39 in June), exactly the gold set."
+    },
+    {
+      "question_id": "GB21",
+      "correct": true,
+      "reason": "Lists Hydra P-40 only, the gold model at North Station."
+    },
+    {
+      "question_id": "GB22",
+      "correct": true,
+      "reason": "Lists cores AB-17 (4.2 m) and AB-19 (5.1 m), exactly the gold set."
+    },
+    {
+      "question_id": "GB23",
+      "correct": true,
+      "reason": "Lists WO-318 and WO-320, exactly the gold set."
+    },
+    {
+      "question_id": "GB24",
+      "correct": true,
+      "reason": "Lists Aiko Tanaka only, matching the gold."
+    },
+    {
+      "question_id": "GB25",
+      "correct": true,
+      "reason": "Lists cores AB-17 and AB-18, exactly the gold set."
+    },
+    {
+      "question_id": "GB26",
+      "correct": true,
+      "reason": "Lists only the Mill Lane footbridge repair, matching the gold."
+    },
+    {
+      "question_id": "GB27",
+      "correct": true,
+      "reason": "Lists HP40-1183 only, matching the gold."
+    },
+    {
+      "question_id": "GB28",
+      "correct": true,
+      "reason": "Gives S-104, the Soil Ecology Maria Lopez, as in the gold."
+    },
+    {
+      "question_id": "GB29",
+      "correct": true,
+      "reason": "Gives 2016 for the grants accountant Maria Lopez who wrote the memo, matching the gold."
+    },
+    {
+      "question_id": "GB30",
+      "correct": true,
+      "reason": "Gives 52 °C for HP40-2291 at the June inspection, matching the gold."
+    },
+    {
+      "question_id": "GB31",
+      "correct": true,
+      "reason": "Gives HP40-1183, matching the gold."
+    },
+    {
+      "question_id": "GB32",
+      "correct": true,
+      "reason": "Gives HP40-2291 as the pump switched to duty after HP40-1183's seal failed, matching the gold."
+    },
+    {
+      "question_id": "GB33",
+      "correct": true,
+      "reason": "Gives 15:55, the close of the 9 June meeting Tanaka chaired, not the 16:40 of the other meeting."
+    },
+    {
+      "question_id": "GB34",
+      "correct": true,
+      "reason": "Gives HP40-2291 as the standby pump that week, matching the gold."
+    },
+    {
+      "question_id": "GB35",
+      "correct": true,
+      "reason": "Gives 110,000 pounds from the 2026 budget, not the 2025 figure of 95,000."
+    },
+    {
+      "question_id": "GB36",
+      "correct": true,
+      "reason": "Says no pump was found damaged (KV12-0457 tripped but had no damage), matching the empty gold set."
+    },
+    {
+      "question_id": "GB37",
+      "correct": true,
+      "reason": "Says no, the vote on her motion was postponed, matching the gold."
+    },
+    {
+      "question_id": "GB38",
+      "correct": true,
+      "reason": "Says no pump showed leaks at the test run, matching the empty gold set."
+    },
+    {
+      "question_id": "GB39",
+      "correct": true,
+      "reason": "Says no warning sign has been put up, per the letter, matching the gold."
+    },
+    {
+      "question_id": "GB40",
+      "correct": true,
+      "reason": "Gives 0 trips after the 6 May cleaning, matching the gold."
+    },
+    {
+      "question_id": "GB41",
+      "correct": true,
+      "reason": "Says no, she said the warranty does not cover the seal, matching the gold."
+    },
+    {
+      "question_id": "GB42",
+      "correct": true,
+      "reason": "Says the opening hours were unchanged, matching the gold."
+    },
+    {
+      "question_id": "GB43",
+      "correct": true,
+      "reason": "Gives the suction valve, matching the gold."
+    },
+    {
+      "question_id": "GB44",
+      "correct": true,
+      "reason": "Gives 46 deck boards, matching the gold."
+    },
+    {
+      "question_id": "GB45",
+      "correct": true,
+      "reason": "Gives 18,000 euros, matching the gold."
+    },
+    {
+      "question_id": "GB46",
+      "correct": true,
+      "reason": "Gives 12 metres, matching the gold."
+    },
+    {
+      "question_id": "GB47",
+      "correct": true,
+      "reason": "Gives 14 Harbour Street; the gold note says the former post office may be left out."
+    },
+    {
+      "question_id": "GB48",
+      "correct": true,
+      "reason": "Gives 3 winters, matching the gold."
+    },
+    {
+      "question_id": "GB49",
+      "correct": true,
+      "reason": "Gives four weeks, matching the gold, not the footbridge's eight."
+    },
+    {
+      "question_id": "GB50",
+      "correct": true,
+      "reason": "Says the bogs hold back rain and slow the flow into the river, matching the gold."
+    }
+  ]
+}

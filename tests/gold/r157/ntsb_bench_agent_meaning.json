@@ -1,0 +1,263 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "fbf2339fe3be462d9ab256ded129d5d8",
+    "git_sha": "e422755"
+  },
+  "gold": "tests/gold/qa/ntsb_qa_bench.json",
+  "answers": "out/r156_ntsb/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "NB01",
+      "correct": true,
+      "reason": "Gives 48.6 total hours, matching the gold number."
+    },
+    {
+      "question_id": "NB02",
+      "correct": true,
+      "reason": "Names BARR AIR PATROL LLC, the gold operator."
+    },
+    {
+      "question_id": "NB03",
+      "correct": true,
+      "reason": "Year built 2004 for CEN22LA312, matching gold."
+    },
+    {
+      "question_id": "NB04",
+      "correct": true,
+      "reason": "11 statute miles for CEN23LA344, matching gold."
+    },
+    {
+      "question_id": "NB05",
+      "correct": true,
+      "reason": "Pilot aged 53, matching gold."
+    },
+    {
+      "question_id": "NB06",
+      "correct": true,
+      "reason": "Lists the single gold finding, navigation system malfunction, and nothing else."
+    },
+    {
+      "question_id": "NB07",
+      "correct": true,
+      "reason": "Gust 18 knots, matching gold."
+    },
+    {
+      "question_id": "NB08",
+      "correct": true,
+      "reason": "Beech A36 and Piper PA-28-181, exactly the gold set; Cessna 172S correctly left out."
+    },
+    {
+      "question_id": "NB09",
+      "correct": true,
+      "reason": "Pilot aged 19, matching gold."
+    },
+    {
+      "question_id": "NB10",
+      "correct": true,
+      "reason": "Count 4, matching gold."
+    },
+    {
+      "question_id": "NB11",
+      "correct": true,
+      "reason": "R44 II (a gold alias of Robinson R44 II) with 3 injury accidents, matching gold."
+    },
+    {
+      "question_id": "NB12",
+      "correct": true,
+      "reason": "8 minor injuries, matching gold."
+    },
+    {
+      "question_id": "NB13",
+      "correct": true,
+      "reason": "7 accidents, matching gold."
+    },
+    {
+      "question_id": "NB14",
+      "correct": true,
+      "reason": "CEN22LA059 and CEN21LA268, exactly the gold set."
+    },
+    {
+      "question_id": "NB15",
+      "correct": true,
+      "reason": "Four accidents, matching gold."
+    },
+    {
+      "question_id": "NB16",
+      "correct": true,
+      "reason": "CEN21FA299, CEN21LA280, CEN22LA310, CEN23LA017: exactly the gold four, CEN21LA414 correctly left out."
+    },
+    {
+      "question_id": "NB17",
+      "correct": true,
+      "reason": "Illinois (IL) with 4 accidents, matching gold."
+    },
+    {
+      "question_id": "NB18",
+      "correct": true,
+      "reason": "A36 (gold alias of Beech A36) with average 1979.2, matching gold."
+    },
+    {
+      "question_id": "NB19",
+      "correct": true,
+      "reason": "CEN21LA232 and CEN22LA244, exactly the gold set."
+    },
+    {
+      "question_id": "NB20",
+      "correct": true,
+      "reason": "CEN21LA173, CEN21LA280, CEN23LA017, exactly the gold set."
+    },
+    {
+      "question_id": "NB21",
+      "correct": true,
+      "reason": "The four gold accidents, no extras; the 1978 aircraft correctly excluded."
+    },
+    {
+      "question_id": "NB22",
+      "correct": true,
+      "reason": "CEN21LA126, CEN21LA339, CEN21LA383, CEN23LA026: exactly the gold set; CEN21LA414 (Student Pilot category) correctly excluded."
+    },
+    {
+      "question_id": "NB23",
+      "correct": true,
+      "reason": "ANC21LA079, ANC23LA032, CEN21LA339, exactly the gold set."
+    },
+    {
+      "question_id": "NB24",
+      "correct": true,
+      "reason": "All six gold operators listed, no wrong extra."
+    },
+    {
+      "question_id": "NB25",
+      "correct": true,
+      "reason": "The five gold accidents, no extras (CEN21LA185 age 0 excluded)."
+    },
+    {
+      "question_id": "NB26",
+      "correct": true,
+      "reason": "CEN21LA414 and CEN22LA194, exactly the gold set; CEN22LA244 correctly left out."
+    },
+    {
+      "question_id": "NB27",
+      "correct": true,
+      "reason": "CEN22LA059 and CEN23LA344, exactly the gold set; CEN21LA268 correctly left out."
+    },
+    {
+      "question_id": "NB28",
+      "correct": true,
+      "reason": "Pilot aged 58, matching gold for Granbury."
+    },
+    {
+      "question_id": "NB29",
+      "correct": true,
+      "reason": "Built 2008 (CEN21LA284 at Reserve), matching gold."
+    },
+    {
+      "question_id": "NB30",
+      "correct": true,
+      "reason": "27100 total hours, matching gold."
+    },
+    {
+      "question_id": "NB31",
+      "correct": true,
+      "reason": "Willow Creek Aviation, the gold operator for Skwentna."
+    },
+    {
+      "question_id": "NB32",
+      "correct": true,
+      "reason": "CEN21LA280, the gold accident with the drainage ditch."
+    },
+    {
+      "question_id": "NB33",
+      "correct": true,
+      "reason": "26 gallons from the left-wing tanks, matching gold (not the 22 of the right)."
+    },
+    {
+      "question_id": "NB34",
+      "correct": true,
+      "reason": "CEN23LA026, the gold accident where the student aborted the takeoff."
+    },
+    {
+      "question_id": "NB35",
+      "correct": true,
+      "reason": "Right-seat pilot (the one flying) aged 51, matching gold."
+    },
+    {
+      "question_id": "NB36",
+      "correct": true,
+      "reason": "Only CEN21FA299 (postimpact fire), exactly the gold set; CEN21LA268 correctly excluded."
+    },
+    {
+      "question_id": "NB37",
+      "correct": true,
+      "reason": "CEN22LA249 and CEN21LA339, exactly the gold set; ANC21LA027 correctly left out."
+    },
+    {
+      "question_id": "NB38",
+      "correct": true,
+      "reason": "Only CEN23LA344, exactly the gold set; the negated CEN21LA383 mention correctly excluded."
+    },
+    {
+      "question_id": "NB39",
+      "correct": true,
+      "reason": "Says No: the out-of-limits heading stability would not result in the reported anomalies, the gold's core answer; it omits only the side note that the cause was undetermined, which the question does not ask."
+    },
+    {
+      "question_id": "NB40",
+      "correct": true,
+      "reason": "Says No and gives the gold cause: fuel flow interruption from the left tank due to inadequate (blocked) venting."
+    },
+    {
+      "question_id": "NB41",
+      "correct": true,
+      "reason": "Says No, he observed no obstructions while circling, matching the gold answer to the question asked."
+    },
+    {
+      "question_id": "NB42",
+      "correct": true,
+      "reason": "Says No, the runway light (small pipe stanchion broken at its base) should not have caused complete gear separation, matching gold's answer to the question."
+    },
+    {
+      "question_id": "NB43",
+      "correct": true,
+      "reason": "12,512.5 hours, matching gold."
+    },
+    {
+      "question_id": "NB44",
+      "correct": true,
+      "reason": "2,100 ft, matching gold."
+    },
+    {
+      "question_id": "NB45",
+      "correct": true,
+      "reason": "150 gallons, matching gold."
+    },
+    {
+      "question_id": "NB46",
+      "correct": true,
+      "reason": "8,000 ft MSL, matching gold."
+    },
+    {
+      "question_id": "NB47",
+      "correct": true,
+      "reason": "Three passengers, matching gold."
+    },
+    {
+      "question_id": "NB48",
+      "correct": true,
+      "reason": "About 25%, matching gold."
+    },
+    {
+      "question_id": "NB49",
+      "correct": true,
+      "reason": "About 7 months, matching gold."
+    },
+    {
+      "question_id": "NB50",
+      "correct": true,
+      "reason": "IO-550-N, the gold engine model."
+    }
+  ]
+}

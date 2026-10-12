@@ -1,0 +1,263 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "ab12ca9d2a34447ca93d3655affbc736",
+    "git_sha": "e422755"
+  },
+  "gold": "tests/gold/qa/heldout_qa_bench.json",
+  "answers": "out/r156_heldout_qa/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "HB01",
+      "correct": true,
+      "reason": "Lists exactly 15V406000 and 15V436000, the two 2015 Escape recalls received in 2015; no extra items."
+    },
+    {
+      "question_id": "HB02",
+      "correct": true,
+      "reason": "Number 7 matches the gold count of 2019 RAV4 recall campaigns."
+    },
+    {
+      "question_id": "HB03",
+      "correct": true,
+      "reason": "Names the 2017 Nissan Rogue and exactly 16V244000 and 17V663000, the gold set with nothing extra."
+    },
+    {
+      "question_id": "HB04",
+      "correct": true,
+      "reason": "Lists exactly 23V858000 and 26V332000, the Civic recalls received after 2020."
+    },
+    {
+      "question_id": "HB05",
+      "correct": true,
+      "reason": "Lists all five gold components (electrical, forward collision avoidance, service brakes, power train, fuel/propulsion) and no extra."
+    },
+    {
+      "question_id": "HB06",
+      "correct": true,
+      "reason": "Names complaints 11166434 and 11180230 for the Outback, matching the gold set exactly."
+    },
+    {
+      "question_id": "HB07",
+      "correct": true,
+      "reason": "Gives 20V286000, the RAV4's only suspension recall."
+    },
+    {
+      "question_id": "HB08",
+      "correct": true,
+      "reason": "Lists all five gold RAV4 complaints (11204698, 11205702, 11209676, 11221492, 11229137) and no extra."
+    },
+    {
+      "question_id": "HB09",
+      "correct": true,
+      "reason": "States the gold remedy word for word: inspect and repair or repurchase the vehicle, as necessary, free of charge."
+    },
+    {
+      "question_id": "HB10",
+      "correct": true,
+      "reason": "Number 4 matches the gold count of complaints listing the engine."
+    },
+    {
+      "question_id": "HB11",
+      "correct": true,
+      "reason": "Number 7 matches the gold count of distinct filer companies."
+    },
+    {
+      "question_id": "HB12",
+      "correct": true,
+      "reason": "Number 3 matches the gold count of recalls received in 2022."
+    },
+    {
+      "question_id": "HB13",
+      "correct": true,
+      "reason": "Names the two same-date pairs 10823637/10824361 (2016-01-30) and 11185059/11229137 (2019-03-01), the gold set; no extra."
+    },
+    {
+      "question_id": "HB14",
+      "correct": true,
+      "reason": "Number 4 matches the gold count of recalls under ELECTRICAL SYSTEM."
+    },
+    {
+      "question_id": "HB15",
+      "correct": true,
+      "reason": "Number 13 matches the gold count of distinct components."
+    },
+    {
+      "question_id": "HB16",
+      "correct": true,
+      "reason": "Gives 26V332000, the most recently received recall in the gold."
+    },
+    {
+      "question_id": "HB17",
+      "correct": true,
+      "reason": "Gives 15V406000 received June 24, 2015, the earliest recall in the gold."
+    },
+    {
+      "question_id": "HB18",
+      "correct": true,
+      "reason": "Names complaints 11030208 and 11209676, exactly the gold set."
+    },
+    {
+      "question_id": "HB19",
+      "correct": true,
+      "reason": "Lists exactly the four multi-component complaints 10692693, 10816192, 11166434, 11209676."
+    },
+    {
+      "question_id": "HB20",
+      "correct": true,
+      "reason": "Lists 17V472000 (seat belts) and 17V663000 (seats), exactly the gold set."
+    },
+    {
+      "question_id": "HB21",
+      "correct": true,
+      "reason": "Lists 11123359 and 11209676, the two complaints with 2018 incident dates."
+    },
+    {
+      "question_id": "HB22",
+      "correct": true,
+      "reason": "Lists 10691672 and 10692693, the Escape complaints filed in March 2015."
+    },
+    {
+      "question_id": "HB23",
+      "correct": true,
+      "reason": "Lists 16V074000, 20V064000 and 21V839000, exactly the gold set."
+    },
+    {
+      "question_id": "HB24",
+      "correct": true,
+      "reason": "Lists all four gold complaints 10667633, 10809523, 10816192, 11123359 and no extra."
+    },
+    {
+      "question_id": "HB25",
+      "correct": true,
+      "reason": "Names only 10957753 (filed 24 days after the incident), matching the gold."
+    },
+    {
+      "question_id": "HB26",
+      "correct": true,
+      "reason": "Lists all seven February-filed complaints in the gold and no extra."
+    },
+    {
+      "question_id": "HB27",
+      "correct": true,
+      "reason": "Gives 16V643000 and 16V244000, the gold set (order does not matter)."
+    },
+    {
+      "question_id": "HB28",
+      "correct": true,
+      "reason": "Names 20V682000 as the expansion of 20V-012, matching the gold."
+    },
+    {
+      "question_id": "HB29",
+      "correct": true,
+      "reason": "Names 16V643000 as the door latch recall that began January 27, 2017."
+    },
+    {
+      "question_id": "HB30",
+      "correct": true,
+      "reason": "Names 15V436000, the ignition recall where the engine may keep running."
+    },
+    {
+      "question_id": "HB31",
+      "correct": true,
+      "reason": "Names 19V503000 as limited to vehicles with factory-installed floor mats."
+    },
+    {
+      "question_id": "HB32",
+      "correct": true,
+      "reason": "Names 25V695000 as the phased camera campaign, matching the gold."
+    },
+    {
+      "question_id": "HB33",
+      "correct": true,
+      "reason": "Names complaint 10823637, the one citing no fix until mid-March."
+    },
+    {
+      "question_id": "HB34",
+      "correct": true,
+      "reason": "Names complaint 11180230, cracked while driving on the highway."
+    },
+    {
+      "question_id": "HB35",
+      "correct": true,
+      "reason": "Names complaint 11166434, which blames the navigation system staying on at night."
+    },
+    {
+      "question_id": "HB36",
+      "correct": true,
+      "reason": "Says no complaint reports a repair that fixed the problem, matching the empty gold set."
+    },
+    {
+      "question_id": "HB37",
+      "correct": true,
+      "reason": "Says no vehicle qualifies since the only mention says the light does not come on, matching the empty gold set."
+    },
+    {
+      "question_id": "HB38",
+      "correct": true,
+      "reason": "Says no, they explained the hesitation and did not deny it; the added explanation (engine gearing down, turbo spooling) is true of the source."
+    },
+    {
+      "question_id": "HB39",
+      "correct": true,
+      "reason": "Says no: it would not take a jump and needed full recharging, matching the gold."
+    },
+    {
+      "question_id": "HB40",
+      "correct": true,
+      "reason": "Says no complaint attributes the crack to a rock chip, matching the empty gold set."
+    },
+    {
+      "question_id": "HB41",
+      "correct": false,
+      "reason": "Says no RAV4 complaint states the manufacturer was notified, but the gold is 11205702 ('THE MANUFACTURER WAS MADE AWARE OF THE FAILURE')."
+    },
+    {
+      "question_id": "HB42",
+      "correct": true,
+      "reason": "Says no: they had multiple Outbacks in the past and never had an issue like this, matching the gold."
+    },
+    {
+      "question_id": "HB43",
+      "correct": true,
+      "reason": "Failure mileage 5,218 matches the gold number."
+    },
+    {
+      "question_id": "HB44",
+      "correct": true,
+      "reason": "Gives KC6, Honda's recall number in the gold."
+    },
+    {
+      "question_id": "HB45",
+      "correct": true,
+      "reason": "States dealers replace the block heater free of charge; the gold note allows mentioning the threaded-plug option."
+    },
+    {
+      "question_id": "HB46",
+      "correct": true,
+      "reason": "September 27, 2019 matches the gold date."
+    },
+    {
+      "question_id": "HB47",
+      "correct": true,
+      "reason": "Number 3200 matches the gold mileage."
+    },
+    {
+      "question_id": "HB48",
+      "correct": true,
+      "reason": "Names Toyota of North Scranton, which the gold note says is enough."
+    },
+    {
+      "question_id": "HB49",
+      "correct": true,
+      "reason": "Gives PE24030, matching the gold action number."
+    },
+    {
+      "question_id": "HB50",
+      "correct": true,
+      "reason": "Number 12 matches the gold days in the repair shop."
+    }
+  ]
+}

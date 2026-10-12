@@ -1,0 +1,47 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "ab12ca9d2a34447ca93d3655affbc736",
+    "git_sha": "e422755"
+  },
+  "gold": "tests/gold/qa/heldout_qa_bench.json",
+  "answers": "out/r156_heldout_qa/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "HB09",
+      "correct": true,
+      "reason": "States the gold remedy word for word: inspect and repair or repurchase the vehicle, as necessary, free of charge."
+    },
+    {
+      "question_id": "HB38",
+      "correct": true,
+      "reason": "Says no, they explained the hesitation and did not deny it; the added explanation (engine gearing down, turbo spooling) is true of the source."
+    },
+    {
+      "question_id": "HB39",
+      "correct": true,
+      "reason": "Says no: it would not take a jump and needed full recharging, matching the gold."
+    },
+    {
+      "question_id": "HB42",
+      "correct": true,
+      "reason": "Says no: they had multiple Outbacks in the past and never had an issue like this, matching the gold."
+    },
+    {
+      "question_id": "HB45",
+      "correct": true,
+      "reason": "States dealers replace the block heater free of charge; the gold note allows mentioning the threaded-plug option."
+    },
+    {
+      "question_id": "HB46",
+      "correct": true,
+      "reason": "September 27, 2019 matches the gold date."
+    },
+    {
+      "question_id": "HB48",
+      "correct": true,
+      "reason": "Names Toyota of North Scranton, which the gold note says is enough."
+    }
+  ]
+}

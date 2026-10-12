@@ -1,0 +1,263 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "975671c2c919468cb0021854f9b9ea59",
+    "git_sha": "e422755"
+  },
+  "gold": "tests/gold/qa/lighthouses_qa_bench.json",
+  "answers": "out/r156_lighthouses_qa/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "LB01",
+      "correct": true,
+      "reason": "Lists exactly the four gold lighthouses (Trevose Head, Godrevy, Wolf Rock, Bishop Rock), no extras."
+    },
+    {
+      "question_id": "LB02",
+      "correct": true,
+      "reason": "Gives 1846, the gold death year of Daniel Asher Alexander."
+    },
+    {
+      "question_id": "LB03",
+      "correct": true,
+      "reason": "Gives 9, matching the gold count of lighthouses naming James Walker as architect."
+    },
+    {
+      "question_id": "LB04",
+      "correct": true,
+      "reason": "Names automatization, electrification and conversion to solar power for Lundy North, the full gold set."
+    },
+    {
+      "question_id": "LB05",
+      "correct": true,
+      "reason": "Gives 1972, the gold service retirement year of Withernsea."
+    },
+    {
+      "question_id": "LB06",
+      "correct": true,
+      "reason": "Gives Fl W 20s for Peninnis; naming Peninnis too is a true intermediate step, not a wrong extra answer."
+    },
+    {
+      "question_id": "LB07",
+      "correct": true,
+      "reason": "Gives 5, naming St. Catherine's in Hampshire and the same five Hampshire rows as the gold."
+    },
+    {
+      "question_id": "LB08",
+      "correct": true,
+      "reason": "Gives 8, the gold count of Devon lighthouse events."
+    },
+    {
+      "question_id": "LB09",
+      "correct": false,
+      "reason": "Gives Cromer and Coquet but misses the gold item Casquets lighthouses (automated 1990-11)."
+    },
+    {
+      "question_id": "LB10",
+      "correct": true,
+      "reason": "Gives the tie Cornwall and Devon, as in the gold."
+    },
+    {
+      "question_id": "LB11",
+      "correct": false,
+      "reason": "Says 11 automation events in the 1990s; gold is 13."
+    },
+    {
+      "question_id": "LB12",
+      "correct": true,
+      "reason": "Names James Nicholas Douglass, the gold answer."
+    },
+    {
+      "question_id": "LB13",
+      "correct": true,
+      "reason": "Gives 17, the gold count."
+    },
+    {
+      "question_id": "LB14",
+      "correct": true,
+      "reason": "Names Bishop Rock and Lundy North, the gold pair with three events each."
+    },
+    {
+      "question_id": "LB15",
+      "correct": true,
+      "reason": "Gives 18, the gold count of rows with material 'stone'."
+    },
+    {
+      "question_id": "LB16",
+      "correct": true,
+      "reason": "Names Anvil Point, St Anthony's and Tater Du, exactly the gold set."
+    },
+    {
+      "question_id": "LB17",
+      "correct": true,
+      "reason": "Names Farne Lighthouse (automated 1910), the gold answer."
+    },
+    {
+      "question_id": "LB18",
+      "correct": true,
+      "reason": "Names Farne and Godrevy, exactly the gold set."
+    },
+    {
+      "question_id": "LB19",
+      "correct": true,
+      "reason": "Names Farne, Brownsman, Longstone and St Mary's, the gold set without Coquet."
+    },
+    {
+      "question_id": "LB20",
+      "correct": true,
+      "reason": "Names St Agnes (1680) and Old Higher Lighthouse (1716), exactly the gold set."
+    },
+    {
+      "question_id": "LB21",
+      "correct": true,
+      "reason": "Lists all ten gold Cornish lighthouses without retirement and no extra."
+    },
+    {
+      "question_id": "LB22",
+      "correct": true,
+      "reason": "Names Souter and Hilbre Island, exactly the gold set."
+    },
+    {
+      "question_id": "LB23",
+      "correct": true,
+      "reason": "Names the five gold Cornish granite lighthouses and no extra."
+    },
+    {
+      "question_id": "LB24",
+      "correct": true,
+      "reason": "Lists all seven gold lighthouses with inception before 1800 and no extra."
+    },
+    {
+      "question_id": "LB25",
+      "correct": true,
+      "reason": "Lists the five gold lighthouses retired in the 1980s and no extra."
+    },
+    {
+      "question_id": "LB26",
+      "correct": true,
+      "reason": "Names South Foreland Lower and Dungeness Old, exactly the gold set."
+    },
+    {
+      "question_id": "LB27",
+      "correct": true,
+      "reason": "Names the four gold scheduled-monument lighthouses and no extra."
+    },
+    {
+      "question_id": "LB28",
+      "correct": true,
+      "reason": "Gives 1906, the gold service entry year."
+    },
+    {
+      "question_id": "LB29",
+      "correct": true,
+      "reason": "Gives 1904, the gold retirement year."
+    },
+    {
+      "question_id": "LB30",
+      "correct": true,
+      "reason": "Gives Grade II* listed building, the gold designation."
+    },
+    {
+      "question_id": "LB31",
+      "correct": true,
+      "reason": "Gives 1994, the gold year."
+    },
+    {
+      "question_id": "LB32",
+      "correct": true,
+      "reason": "Gives 38 metres, the gold focal height."
+    },
+    {
+      "question_id": "LB33",
+      "correct": true,
+      "reason": "Names Peninnis Lighthouse, the gold answer."
+    },
+    {
+      "question_id": "LB34",
+      "correct": true,
+      "reason": "Gives 1832, the gold retirement year of the Round Tower."
+    },
+    {
+      "question_id": "LB35",
+      "correct": true,
+      "reason": "Gives 20.5 metres, the gold height of the North Light."
+    },
+    {
+      "question_id": "LB36",
+      "correct": true,
+      "reason": "Names Old Higher, St Agnes and St Mary's, exactly the gold set, without Godrevy."
+    },
+    {
+      "question_id": "LB37",
+      "correct": true,
+      "reason": "Names Farne Lighthouse (Farne High), the gold answer."
+    },
+    {
+      "question_id": "LB38",
+      "correct": true,
+      "reason": "Names Lamorna Cove, the gold answer."
+    },
+    {
+      "question_id": "LB39",
+      "correct": true,
+      "reason": "States the petitions of 1665 and 1679 were refused, both gold years and no wrong one."
+    },
+    {
+      "question_id": "LB40",
+      "correct": true,
+      "reason": "Gives 2017, the gold year of the rejected plan."
+    },
+    {
+      "question_id": "LB41",
+      "correct": true,
+      "reason": "Names only St Anthony's Lighthouse, the gold answer."
+    },
+    {
+      "question_id": "LB42",
+      "correct": true,
+      "reason": "Names the Low Light, a gold alias of Portland Bill Low Light."
+    },
+    {
+      "question_id": "LB43",
+      "correct": true,
+      "reason": "Names Joseph Chamberlain, the gold answer."
+    },
+    {
+      "question_id": "LB44",
+      "correct": true,
+      "reason": "Names Thomas Matthews, the gold answer."
+    },
+    {
+      "question_id": "LB45",
+      "correct": true,
+      "reason": "Gives the cost £7,082 15s 12d as in the gold; the year-long construction is context, not the asked cost."
+    },
+    {
+      "question_id": "LB46",
+      "correct": true,
+      "reason": "Names Marie Stopes, the gold answer."
+    },
+    {
+      "question_id": "LB47",
+      "correct": true,
+      "reason": "Names the Juan Ferrer, the gold answer."
+    },
+    {
+      "question_id": "LB48",
+      "correct": true,
+      "reason": "Names the John Miller company, the gold answer."
+    },
+    {
+      "question_id": "LB49",
+      "correct": true,
+      "reason": "Gives 35 Tannoy emitters, the gold number."
+    },
+    {
+      "question_id": "LB50",
+      "correct": true,
+      "reason": "Gives £132,000, the gold sale price."
+    }
+  ]
+}

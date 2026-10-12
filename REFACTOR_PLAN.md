@@ -9377,6 +9377,44 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   first time (held-out 4, generality 2). Mean seconds per answer 7.6-12.9.
 - **R156 done 2026-10-12.** Next: R157, every answer judged by meaning and the failures traced ($0).
 
+### R157. The benchmark judged by meaning, and its failures traced (done 2026-10-12; $0, judging and analysis)
+- **Judge:** Claude Opus 5.5, workflow subagents of this session: two blind judges per answers file with R71's
+  rules, scope "all" (R144), a lead judge for disagreements (none: the judges agreed on all 250);
+  `tests/gold/r157/<dataset>_bench_agent_meaning.json`, with the free-text verdicts for exact match taken
+  from them (`*_verdicts.json`); scored by `kg qa-score` into `out/r157/{exact,meaning}/<dataset>`.
+- **Results** (the frozen agent, `query-engine-r151`; exact match by code / judge by meaning; n = 50 each; 95%
+  Wilson intervals by meaning):
+
+  | dataset | exact | meaning | interval |
+  |---|---|---|---|
+  | NTSB (new) | 50 | 50 | 92.9-100 |
+  | lighthouses (new) | 46 | 48 | 86.5-98.9 |
+  | furniture | 46 | 46 | 81.2-96.8 |
+  | held-out | 49 | 49 | 89.5-99.6 |
+  | generality | 48 | 50 | 92.9-100 |
+  | **pooled (250)** | **239 (95.6%, 92.3-97.5)** | **243 (97.2%, 94.3-98.6)** | |
+
+  By type (meaning): lookup 40/40, structured_filter 45/45, disambiguation 39/39, multi_hop 44/45,
+  negation_sensitive 33/35, aggregation 42/46 (the weakest, 79.7-96.6).
+- **Causes of the 7 failures by meaning** (each traced through its trace to the code; some have two causes):
+
+  | Cause (where) | Questions | Evidence |
+  |---|---|---|
+  | **Counting or comparing lists by eye** (the agent; `query_tables` reads one table and has no anti-join, and the agent did not ask for `measure` count) | LB11 (11 for 13), FB10 (2 of 3) | LB11 listed 40 rows in two pages and counted 1990s dates by eye; FB10 had every row and dropped one product subtracting lists |
+  | **`find_passages` matches literal substrings** (`agent/text_reader.py`; the description does not warn that other wordings are missed) | FB38 ("wobble" misses "wobbling"), HB41 ("notified" misses "made aware"), FB18 (one word "damaged" for damage on arrival) | each answered after one literal search; FB18's `search_text` top 5 also ranked later-wear passages first |
+  | **A text column mixing date precisions** (`agent/tables.py`: the schema shows the three lowest values, all bare years) | LB09 | `date = '1990'` instead of `year`, so "1990-11" dropped out |
+  | **Call budget spent reading documents one by one** (10 calls; `find_passages` has no offset; `rank_by_documents` not chosen) | FB14 (no answer) | five `read_document` calls, then the cap; one handle stored without its "@" by the mention pass (a build detail) |
+
+  Exact-only misses (4, right by meaning): a year list, a month and a time given in `text` (LB39, GB05,
+  GB33: R147's rule names a year and a full date but not a month, a time or several years), and an
+  intermediate answer listed with the asked one (LB06). No failure is a graph-build gap or a gold error;
+  NTSB, the dataset with the most tables (and the composite keys of R155a), is 50/50.
+- **Read with care:** gold, judges and the agent's fixes are one model family; one run, no repeat; the new
+  datasets' questions were written before any build, the thesis datasets' after R151's freeze, none shaped
+  by output; lighthouses' text is Wikipedia, which the model may have read (its two failures are table
+  counts, not text recall); 50 questions per dataset give the intervals above, not finer.
+- **Plan R152-R157 done 2026-10-12** ($5.399: builds $1.529, agent $3.870). Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
