@@ -21,7 +21,7 @@ from pathlib import Path
 from ..agent import prompt as agent_prompt
 from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
-from ..agent.system import AGENT, AgentSystem, ToolCaps, build_tools
+from ..agent.system import AGENT, AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from ..agent.tables import DuckDBTables
 from ..agent.text_reader import Neo4jTextReader, TextReader
 from ..config import Settings
@@ -29,14 +29,14 @@ from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..hybrid.seed_fusion import SeedSetting
 from ..hybrid.source import HybridSettings, build_hybrid, check_layer
 from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
-from ..llm.base import Embedder, LLMClient, prompt_version
+from ..llm.base import Embedder, LLMClient, prompt_version, schema_text
 from ..llm.thinking import with_thinking
 from ..query import exact, planner, read_check
 from ..query.frozen import FrozenQuery
 from ..query.graph_store import Neo4jGraphStore
 from ..query.plan_run import ChunkSource, PlanStore
 from ..query.reader import PROMPT as READER_PROMPT
-from ..query.reader import Reader
+from ..query.reader import Reader, ReaderAnswer
 from ..query.systems import (
     RECORDS_VECTOR,
     QASettings,
@@ -336,6 +336,9 @@ def _agent_params(s: Settings) -> dict[str, object]:
     }
 
 
+# the reader's reply schema as the model reads it (R146)
+READER_REPLY = schema_text(ReaderAnswer)
+
 # the prompts both plan systems send; read_check with the parts a claim candidate adds (R85), so a change to
 # either is a new version
 _PLAN_PROMPTS = {
@@ -363,7 +366,8 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         *SINGLE_SYSTEMS,
         *FUSED_SYSTEMS,
         # the agentic query engine (plan R130-R136): its prompt, the closing prompt, the citation retry and
-        # the text an empty answer is sent back with (R138)
+        # the text an empty answer is sent back with (R138); then what the model reads besides (R146): the
+        # tool list rendered into every turn, and the reply schema with its field descriptions
         SystemSpec(
             AGENT,
             _agent,
@@ -372,7 +376,9 @@ SYSTEMS: Mapping[str, SystemSpec] = {
                 "agent": agent_prompt.PROMPT
                 + agent_prompt.CLOSING
                 + agent_prompt.CITATION_RETRY
-                + agent_prompt.EMPTY_ANSWER
+                + agent_prompt.EMPTY_ANSWER,
+                "agent_tools": agent_prompt.tool_list(AGENT_TOOL_TYPES),
+                "agent_reply": schema_text(agent_prompt.step_model([t.name for t in AGENT_TOOL_TYPES])),
             },
         ),
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
@@ -427,6 +433,8 @@ def system_params(settings: Settings, name: str) -> dict[str, object]:
         "thinking": settings.qa_thinking,
         "temperature": settings.llm_temperature,
         "prompt_version": prompt_version(READER_PROMPT),
+        # the reader's reply schema: its field descriptions are prompt text the template's hash misses (R146)
+        "reader_reply_version": prompt_version(READER_REPLY),
         "qa_top_k": settings.qa_top_k,
         "embed_model": settings.embed_model,
         **{f"{key}_prompt_version": prompt_version(text) for key, text in spec.prompts.items()},
@@ -435,8 +443,9 @@ def system_params(settings: Settings, name: str) -> dict[str, object]:
 
 
 def log_prompts(run: Run, name: str) -> None:
-    """Log the reader's prompt and the system's own prompts as text artifacts of `run`."""
+    """Log the reader's prompt, its reply schema and the system's own prompts as text artifacts of `run`."""
     run.text(READER_PROMPT, "prompts/qa_reader.txt")
+    run.text(READER_REPLY, "prompts/qa_reader_reply.json")
     for key, text in check_system(name).prompts.items():
         run.text(text, f"prompts/qa_{key}.txt")
 

@@ -15,6 +15,7 @@ Not here: the loop and its caps (loop.py), the citation check (citations.py).
 """
 
 import json
+from collections.abc import Sequence
 from typing import Literal
 
 from pydantic import BaseModel, Field, create_model
@@ -133,8 +134,9 @@ def step_model(names: list[str]) -> type[AgentStep]:
     )
 
 
-def tool_list(tools: list[Tool]) -> str:
-    """Each tool as the model reads it: its name, what it does, and its arguments' JSON schema."""
+def tool_list(tools: Sequence[Tool] | Sequence[type[Tool]]) -> str:
+    """Each tool as the model reads it: its name, what it does, and its arguments' JSON schema. Reads class
+    attributes only, so the tool classes give the same text as the built tools: R146 versions it from them."""
     lines = []
     for tool in tools:
         schema = json.dumps(tool.arguments.model_json_schema(), separators=(",", ":"))

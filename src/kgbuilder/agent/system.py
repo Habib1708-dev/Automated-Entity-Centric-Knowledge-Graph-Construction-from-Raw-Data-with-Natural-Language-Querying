@@ -1,5 +1,5 @@
-"""The agent as a question-answering system (R135): its nine tools built from the shared stores, and its
-loop's run turned into the answer `kg qa` scores.
+"""The agent as a question-answering system (R135): its tools built from the shared stores, and its loop's
+run turned into the answer `kg qa` scores.
 
 Role in the pipeline: `kg ask` and `kg qa` build it by name (`agent`, pipeline/qa_systems.py) like every
 other system and ask it the questions; its answers are scored by the same code (sets and numbers, recall@k,
@@ -10,6 +10,8 @@ graph so the judge and the faithfulness check see their text; `retrieved` follow
 forms are the model's, but an entity written as a node's ref is given that node's name; its citations are
 the checked ones (citations.py). `build_tools` is a Factory over
 injected stores: the composition root (pipeline/qa_systems.py) opens the adapters and passes them in.
+`AGENT_TOOL_TYPES` names the same tools by class, so what the model reads of them can be versioned without
+building them (R146).
 Not here: the loop (loop.py), the tools, opening any database.
 """
 
@@ -32,6 +34,15 @@ from .text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
 from .tool import Tool
 
 AGENT = "agent"  # the system's name: its answers file and its MLflow run (`qa_agent`)
+
+# The agent's tools by class, in `build_tools`' order. What the model reads of a tool (its name, description
+# and arguments' schema) is set by its class, so the composition root versions that text from here (R146):
+# before, a changed tool description reached the model with no change to any logged prompt version. A test
+# holds this tuple equal to the classes `build_tools` builds, so a new tool cannot be left out.
+AGENT_TOOL_TYPES: tuple[type[Tool], ...] = (
+    FindNodes, GetNode, Neighbours, NodeEvidence, SearchText, SearchClaims, ReadDocument, FindPassages,
+    Schema, QueryRecords, QueryTables,
+)  # fmt: skip
 
 
 class ToolCaps(BaseModel):

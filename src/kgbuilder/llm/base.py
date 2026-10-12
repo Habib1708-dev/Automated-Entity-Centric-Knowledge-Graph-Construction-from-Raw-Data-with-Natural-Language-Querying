@@ -9,6 +9,7 @@ Not here: any provider SDK (llm/gemini.py) or caching (llm/cache.py).
 """
 
 import hashlib
+import json
 from collections.abc import Callable
 from typing import Literal, Protocol, TypeVar
 
@@ -80,3 +81,10 @@ def prompt_version(template: str) -> str:
     confused with each other.
     """
     return hashlib.sha256(template.encode("utf-8")).hexdigest()[:12]
+
+
+def schema_text(model: type[BaseModel]) -> str:
+    """A response schema as the text the model reads of it: its JSON schema, keys sorted so the text is
+    stable. Its field descriptions are prompt text too (R146), so a stage versions this with
+    `prompt_version` next to its template."""
+    return json.dumps(model.model_json_schema(), sort_keys=True, separators=(",", ":"))

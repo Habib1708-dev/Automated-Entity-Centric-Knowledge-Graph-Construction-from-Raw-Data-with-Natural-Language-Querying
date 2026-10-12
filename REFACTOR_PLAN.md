@@ -8995,6 +8995,26 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
     rates), judged by meaning as R144, both scores reported against R143b/R144; then a tag. Read with care:
     the fresh 30 shaped this plan (GN07, HN03) and are now seen too.
 
+### R146. Every text the agent's model reads is versioned (done 2026-10-12; $0, code)
+- **Scope:** `llm/base.schema_text` (a response schema as the model reads it: its JSON schema, keys sorted);
+  `agent/system.AGENT_TOOL_TYPES`, the agent's tool classes in `build_tools`' order; `agent/prompt.tool_list`
+  reads classes as well as built tools (it reads class attributes only); the agent's spec in
+  `pipeline/qa_systems.py` adds the prompts `agent_tools` (the tool list rendered into every turn: names,
+  descriptions, argument schemas) and `agent_reply` (the reply schema `step_model` builds, field descriptions
+  included); every system logs `reader_reply_version` (the reader's `ReaderAnswer` schema) and the artifact
+  `prompts/qa_reader_reply.json`. Earlier params keep their names and values: `agent_prompt_version` and
+  `prompt_version` hash the same text as before.
+- **Why:** R139-R141 changed tool descriptions and argument fields that reached the model with no change to
+  any logged version; R147-R150 change tool and schema text, which `agent_tools_prompt_version`,
+  `agent_reply_prompt_version` and `reader_reply_version` now record.
+- **Verified:** 2 new tests, 2 updated: the registration test asserts the two new agent versions from the
+  text the model reads (failing before: no such params); a drift guard builds the tools with stand-ins and
+  holds their classes and their rendered list equal to `AGENT_TOOL_TYPES`; a schema's text holds its field
+  descriptions and a changed description changes its version (`tests/test_llm.py`); every system's params and
+  logged prompts include the reader's reply schema (`tests/test_qa_systems.py`). 1204 passed (1202 + 2), ruff
+  clean. No run: the tests prove the params ($0).
+- **R146 done 2026-10-12.** Next: R147, the answer form (cause 1).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -9027,6 +9047,13 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **Response schemas are not versioned outside the QA systems (found in R146, 2026-10-12; open).** A
+  stage's `prompt_version` hashes its template only; the field descriptions of its response schema reach the
+  model too (the `prompt-engineering` skill counts them as prompt text) and change no logged version. R146
+  closed the gap for the agent and the reader (`schema_text`); extraction, the text schema, the planner,
+  read_check and the resolver's adjudication still miss it. The LLM disk cache keys on the schema, so no
+  stale reply is served. Direction: each stage logs `prompt_version(schema_text(<its reply model>))`, one
+  commit, $0.
 - **An excerpt replaced a passage's whole text in the faithfulness check (found in R143b, 2026-10-12; fixed in
   its own commit).** The agent's furniture "seen" run scored citation faithfulness 13/16, yet every quote was
   in the passage its own answer was shown: `shown_texts` keeps one text per chunk across all answers, and

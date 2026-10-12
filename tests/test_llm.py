@@ -1,9 +1,10 @@
 """The LLM port's decorators and helpers: disk cache behaviour, thinking levels, call reporting, prompt
-versioning, and the provider adapters with their SDK or HTTP client swapped out. No network."""
+versioning (and a response schema's text, R146), and the provider adapters with their SDK or HTTP client
+swapped out. No network."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from kgbuilder.llm.base import LLMCallRecord, prompt_version
+from kgbuilder.llm.base import LLMCallRecord, prompt_version, schema_text
 from kgbuilder.llm.cache import CachedLLM
 from kgbuilder.llm.thinking import ThinkingLLM, with_thinking
 
@@ -77,6 +78,19 @@ def test_prompt_version_is_stable_and_changes_with_the_text():
     assert prompt_version("a {x}") == prompt_version("a {x}")
     assert prompt_version("a {x}") != prompt_version("a {x}.")
     assert len(prompt_version("a")) == 12
+
+
+def test_a_response_schemas_text_is_stable_and_holds_its_field_descriptions():
+    """R146: a field description is prompt text, so a change to it changes the schema's text."""
+
+    class Before(BaseModel):
+        answer: str = Field(description="The answer in words.")
+
+    class After(BaseModel):
+        answer: str = Field(description="The answer in one word.")
+
+    assert schema_text(Before) == schema_text(Before) and "The answer in words." in schema_text(Before)
+    assert prompt_version(schema_text(Before)) != prompt_version(schema_text(After))
 
 
 class _FlakyModels:

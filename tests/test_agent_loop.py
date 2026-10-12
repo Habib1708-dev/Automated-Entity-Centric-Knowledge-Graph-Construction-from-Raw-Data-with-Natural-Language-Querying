@@ -10,22 +10,33 @@ words. R138: the reply model asked for names one of the loop's tools and cannot 
 empty answer is written back once with the tools open, and counted. R141: a passage read in full after
 its excerpt keeps the full text in its first place. R142: the model's time and the loop's time in the
 trace; whether the answer's names and number appear in what its citations' results hold; the metrics of
-both, and the seconds per answer every system logs."""
+both, and the seconds per answer every system logs. R146: the tool list and the reply schema the model reads
+are versioned, from a tuple of tool classes held equal to what `build_tools` builds."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
 from kgbuilder.agent.citations import Ledger
 from kgbuilder.agent.loop import AgentLimits, AgentLoop
-from kgbuilder.agent.prompt import CLOSING, EMPTY_ANSWER, PROMPT, AgentCitation, AgentStep, step_model
+from kgbuilder.agent.prompt import (
+    CLOSING,
+    EMPTY_ANSWER,
+    PROMPT,
+    AgentCitation,
+    AgentStep,
+    step_model,
+    tool_list,
+)
 from kgbuilder.agent.results import ChunksResult, ChunkText, ClaimsResult, NodeHit, NodesResult
-from kgbuilder.agent.system import AgentSystem
+from kgbuilder.agent.system import AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from kgbuilder.config import Settings
+from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
 from kgbuilder.pipeline.qa_systems import system_params
+from kgbuilder.query.graph_schema import GraphSchema
 
 from .fakes import ScriptedLLM
-from .test_agent_tools import DATASET_WORDS, fact
+from .test_agent_tools import DATASET_WORDS, SETTING, fact
 from .test_query import FakeStore, chunk
 
 LIMITS = AgentLimits(turns=6, calls=3, prompt_chars=100_000, timeout_s=60)
@@ -339,6 +350,32 @@ def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():
     params = system_params(Settings(), "agent")
     assert (params["agent_max_calls"], params["agent_nodes"], params["seed_candidates"]) == (10, 15, 25)
     assert "agent_prompt_version" in params and "agent_text_rrf_k" not in params
+    # R146: the tool list and the reply schema are versioned too, from the same text the model reads
+    names = [t.name for t in AGENT_TOOL_TYPES]
+    assert params["agent_tools_prompt_version"] == prompt_version(tool_list(AGENT_TOOL_TYPES))
+    assert params["agent_reply_prompt_version"] == prompt_version(schema_text(step_model(names)))
+
+
+class NoTables:
+    """A table store with no table: the schema tool reads the tables when it is built."""
+
+    def tables(self) -> list:
+        return []
+
+
+def test_the_versioned_tool_list_is_the_list_the_agent_is_built_with():
+    """R146: a tool added to `build_tools` and not to `AGENT_TOOL_TYPES` would reach the model unversioned."""
+    caps = ToolCaps(
+        nodes=1, relations=1, chunks=1, claims=1, rows=1, value_chars=1, names=1, document_chunks=1,
+        matches=1, text_rrf_k=0,
+    )  # fmt: skip
+    stand_in = object()  # the constructors keep their stores; only Schema reads its schema and tables
+    schema = GraphSchema(labels=[], relationships=[], claims=[])
+    tools = build_tools(
+        stand_in, stand_in, stand_in, stand_in, stand_in, NoTables(), schema, None, SETTING, caps
+    )  # fmt: skip
+    assert [type(t) for t in tools] == list(AGENT_TOOL_TYPES)
+    assert tool_list(tools) == tool_list(AGENT_TOOL_TYPES)
 
 
 def test_what_the_model_reads_of_the_agent_names_no_evaluated_dataset():

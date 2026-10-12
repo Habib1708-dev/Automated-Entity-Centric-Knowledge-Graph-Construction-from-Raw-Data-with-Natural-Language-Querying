@@ -18,7 +18,7 @@ from kgbuilder.graph.connection import open_driver
 from kgbuilder.graph.index_layer import index_names
 from kgbuilder.hybrid.cards import CARD_TEMPLATE
 from kgbuilder.hybrid.unit_store import IndexState
-from kgbuilder.llm.base import prompt_version
+from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline import PipelineContext, PipelineState
 from kgbuilder.pipeline.index_stages import card_representation
 from kgbuilder.pipeline.qa_stages import AskStage, QAStage
@@ -59,6 +59,7 @@ def expected_params(s: Settings, system: str) -> dict[str, object]:
         "thinking": s.qa_thinking,
         "temperature": s.llm_temperature,
         "prompt_version": prompt_version(reader.PROMPT),
+        "reader_reply_version": prompt_version(schema_text(reader.ReaderAnswer)),
         "qa_top_k": s.qa_top_k,
         "embed_model": s.embed_model,
     }
@@ -109,7 +110,10 @@ class TextRun:
 def test_each_system_logs_the_reader_prompt_and_a_plan_system_its_own_prompts(system):
     run = TextRun()
     log_prompts(run, system)
-    expected = {"prompts/qa_reader.txt": reader.PROMPT}
+    expected = {
+        "prompts/qa_reader.txt": reader.PROMPT,
+        "prompts/qa_reader_reply.json": schema_text(reader.ReaderAnswer),
+    }
     if system in PLANNED:
         expected.update(
             {
