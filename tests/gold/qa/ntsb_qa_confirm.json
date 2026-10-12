@@ -1,0 +1,436 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-12",
+  "corpus": {
+    "data_dir": "heldout/ntsb/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "NC01",
+      "type": "multi_hop",
+      "question": "How many total flight hours does the crew table give for the pilot whose airplane exited the runway and struck a windsock with its right wing?",
+      "expected": {
+        "number": 317
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#0",
+          "quote": "the airplane exited the runway striking a windsock with its right wing"
+        }
+      ],
+      "sql": "SELECT total_hours FROM crew WHERE ntsb_no = 'CEN21LA185' AND crew_no = 1",
+      "note": "The windsock is CEN21LA185 (Schaumburg, IL), a Piper PA-28-181; the crew table lists one pilot with 317 total hours (133 in the make and model). No finding or occurrence code names the windsock."
+    },
+    {
+      "id": "NC02",
+      "type": "multi_hop",
+      "question": "Which operator does the aircraft record name for the accident after which the property owner helped the pilot add automotive diesel fuel to the fuel tanks?",
+      "expected": {
+        "entities": [
+          {
+            "name": "McElwain Sprayers, LLC",
+            "aliases": [
+              "McElwain Sprayers"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+          "quote": "he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank"
+        }
+      ],
+      "sql": "SELECT operator FROM aircraft WHERE ntsb_no = 'CEN21LA362'",
+      "note": "The diesel fuel is CEN21LA362 (Topeka, KS), an Air Tractor AT-502B on an aerial application flight; the aircraft record names the operator McElwain Sprayers, LLC (also its doing-business-as name). The narrative does not name the operator."
+    },
+    {
+      "id": "NC03",
+      "type": "multi_hop",
+      "question": "In the accident in which the helicopter pilot encountered flat light and whiteout conditions over snow-covered mountainous terrain, which occurrence does the sequence of events mark as the defining event?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Maneuvering VFR encounter with IMC",
+            "aliases": [
+              "VFR encounter with IMC"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#1",
+          "quote": "he encountered flat light and whiteout conditions"
+        }
+      ],
+      "sql": "SELECT occurrence FROM events_sequence WHERE ntsb_no = 'ANC23LA032' AND defining_event",
+      "note": "The whiteout is ANC23LA032 (Skwentna, AK), a Robinson R44 II; events_sequence.ndjson lists three occurrences (Loss of visual reference, VFR encounter with IMC, Controlled flight into terr/obj (CFIT)) and marks only 'Maneuvering VFR encounter with IMC' as the defining event. The narrative ends in a dynamic rollover, which is not an occurrence code here."
+    },
+    {
+      "id": "NC04",
+      "type": "multi_hop",
+      "question": "According to the events table, how many people were uninjured in the accident in which ADS-B data showed the airplane drifting toward the left side of the runway?",
+      "expected": {
+        "number": 6
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "ADS-B data revealed that, about 3 seconds after crossing the runway threshold, the airplane began drifting toward the left side of the runway"
+        }
+      ],
+      "sql": "SELECT uninjured FROM events WHERE ntsb_no = 'CEN23LA017'",
+      "note": "The ADS-B data is CEN23LA017 (Loveland, CO), a Cirrus SR22; events.csv records 6 uninjured and no injuries (the injuries table's level rows: 1 flight crew and 5 passengers with no injury). The narrative does not say how many were on board."
+    },
+    {
+      "id": "NC05",
+      "type": "aggregation",
+      "question": "In how many different US states did the 30 accidents happen?",
+      "expected": {
+        "number": 13
+      },
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT state) FROM events",
+      "note": "OH, LA, CO, MI, KS, IL, IN, TX, IA, WI, AR, AK and OK, from the events table's state column."
+    },
+    {
+      "id": "NC06",
+      "type": "aggregation",
+      "question": "Which flight purpose does the aircraft table record most often?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Personal",
+            "aliases": [
+              "personal flight"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT flight_purpose FROM aircraft GROUP BY flight_purpose ORDER BY count(*) DESC LIMIT 1",
+      "note": "Personal 12; Instructional and Aerial Application 6 each; Aerial Observation and Business 2 each; Other Work Use and External Load 1 each."
+    },
+    {
+      "id": "NC07",
+      "type": "aggregation",
+      "question": "In which accidents does the narrative say the nose landing gear or nosewheel collapsed?",
+      "expected": {
+        "entities": [
+          {
+            "name": "ANC21LA027",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA221",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA280",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#0",
+          "quote": "impacted a snow berm, and the nosewheel collapsed"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#1",
+          "quote": "The nose landing gear collapsed, and the airplane came to rest upright."
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+          "quote": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+        }
+      ],
+      "note": "ANC21LA027 (Beech A36, snow berm), CEN21LA221 (Beech A36, ditch) and CEN21LA280 (Cirrus SR22, drainage ditch). CEN21LA284's right landing skid collapsed (a helicopter skid, not a nose gear); CEN21LA353 mentions landing gear collapses on similar airplanes, not on the accident airplane; CEN21LA414 nosed over. No finding or occurrence code names a gear collapse."
+    },
+    {
+      "id": "NC08",
+      "type": "aggregation",
+      "question": "In how many accidents does the narrative say the aircraft came to rest upright?",
+      "expected": {
+        "number": 3
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+          "quote": "slid across a road, and then came to rest upright"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#1",
+          "quote": "the airplane came to rest upright"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "The airplane impacted the terrain and came to rest upright"
+        }
+      ],
+      "note": "CEN21LA362 (Air Tractor AT-502B), CEN21LA221 (Beech A36) and CEN23LA017 (Cirrus SR22). Other resting positions are not upright: CEN21LA414 came to rest inverted, CEN22LA059 nose down in a ditch, CEN21LA339 on its left side, ANC21LA079 on top of the cargo."
+    },
+    {
+      "id": "NC09",
+      "type": "structured_filter",
+      "question": "Which accidents does the events table date in the year 2023?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN23LA344",
+            "aliases": []
+          },
+          {
+            "name": "ANC23LA032",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA223",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM events WHERE year(date) = 2023",
+      "note": "CEN23LA344 (2023-07-20), ANC23LA032 (2023-05-09) and CEN23LA223 (2023-06-03). CEN23LA017 (2022-10-23) and CEN23LA026 (2022-11-05) carry 23 in their NTSB numbers but are dated 2022 in the events table, so they do not count."
+    },
+    {
+      "id": "NC10",
+      "type": "structured_filter",
+      "question": "In which accidents does the crew table list a crew member whose medical validity is With Waivers/Limitations and who had more than 1,000 total flight hours?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA268",
+            "aliases": []
+          },
+          {
+            "name": "ANC23LA032",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA283",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA310",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM crew WHERE medical_validity = 'With Waivers/Limitations' AND total_hours > 1000",
+      "note": "CEN21LA268 7,433, ANC23LA032 10,570, CEN21LA283 27,100 and CEN22LA310 3,695 hours, all pilots. The other pilots with waivers/limitations have fewer hours (CEN22LA312 760, CEN23LA017 591, CEN22LA235 486, CEN21LA221 403, CEN21LA339 1). The waiver is in the crew column medical_validity; medical_certificate holds the class (Class 1/2/3 or BasicMed). CEN23LA344 (3,500 hours, BasicMed) has no medical validity, so it does not count."
+    },
+    {
+      "id": "NC11",
+      "type": "structured_filter",
+      "question": "Among the Air Tractor AT-502B accidents, in which does the narrative say the pilot made a forced landing?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA362",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA312",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA223",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+          "quote": "The pilot performed a forced landing to a bean field."
+        },
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#4",
+          "quote": "The pilot made a forced landing"
+        },
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#5",
+          "quote": "completed a forced landing to a field"
+        }
+      ],
+      "records": [
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN21LA362",
+            "model": "AT-502B"
+          }
+        },
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN22LA312",
+            "model": "AT-502B"
+          }
+        },
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN23LA223",
+            "model": "AT-502B"
+          }
+        }
+      ],
+      "note": "Five accidents are Air Tractor AT-502B. CEN21LA362 (fuel exhaustion, bean field), CEN22LA312 (turbine failure, perimeter fence) and CEN23LA223 (loss of thrust, field). CEN21LA283 struck trees during an application pass and CEN22LA310 bounced on landing and spun into corn: neither was a forced landing. Only CEN21LA362 and CEN23LA223 have an 'Off-field or emergency landing' occurrence, so the codes alone miss CEN22LA312."
+    },
+    {
+      "id": "NC12",
+      "type": "disambiguation",
+      "question": "Two Air Tractor AT-502B accidents happened in Illinois on consecutive days in July 2022. How old was the pilot in the one at Wyoming, Illinois (not the one at Decatur)?",
+      "expected": {
+        "number": 37
+      },
+      "route": "exact",
+      "sql": "SELECT c.age FROM crew c JOIN events e ON e.ntsb_no = c.ntsb_no WHERE e.city = 'Wyoming' AND e.state = 'IL'",
+      "note": "Wyoming, IL is CEN22LA310 (2022-07-10), pilot aged 37. Decatur is CEN22LA312 (2022-07-11), pilot aged 23. Wyoming is the city here, not the state."
+    },
+    {
+      "id": "NC13",
+      "type": "disambiguation",
+      "question": "In two Robinson R44 II accidents the low rotor rpm warning came on. In the one during external sling load operations, at about what height above the ground, in feet, was the helicopter hovering?",
+      "expected": {
+        "number": 20
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#0",
+          "quote": "while in a hover about 20 ft above the ground"
+        },
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#2",
+          "quote": "the low rotor rpm warning annunciated"
+        }
+      ],
+      "note": "ANC21LA079 (Pelican, AK) hovered about 20 ft above the drop-off site. The other low rotor rpm accident, CEN21LA173 (Dustin, OK), was maneuvering low and slow with passengers and gives no height. CEN21LA284 (about 10 ft above the runway) was a takeoff power loss with no rotor rpm warning."
+    },
+    {
+      "id": "NC14",
+      "type": "disambiguation",
+      "question": "Two Cessna 172S instructional flights ended in an off-airport landing after the engine lost power, one at LaSalle, Colorado and one at Traverse City, Michigan. In the one at Traverse City, how many total flight hours does the crew table give for the pilot in the right seat?",
+      "expected": {
+        "number": 490
+      },
+      "route": "exact",
+      "sql": "SELECT c.total_hours FROM crew c JOIN events e ON e.ntsb_no = c.ntsb_no WHERE e.city = 'Traverse City' AND c.seat = 'Right'",
+      "note": "Traverse City, MI is CEN22LA194: right seat 490 total hours (the left-seat pilot had 194). LaSalle, CO is CEN21LA414: its right-seat pilot had 938 and the left-seat student 66, so mixing the two accidents or the two seats gives a wrong number. Both are Instructional in the aircraft table."
+    },
+    {
+      "id": "NC15",
+      "type": "negation_sensitive",
+      "question": "In accident CEN22LA194, was there visible impact damage to the 'B' nut on the fuel line or to its fitting?",
+      "expected": {
+        "text": "No. There was no visible impact damage to the B nut or the fitting."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "There was no visible impact damage to the"
+        }
+      ],
+      "note": "The quote continues with the curly-quoted B nut. Not asked, so not part of the expected answer: given this evidence, the nut was likely not properly tightened during the engine installation and loosened with normal engine vibration."
+    },
+    {
+      "id": "NC16",
+      "type": "negation_sensitive",
+      "question": "In accident CEN22LA312, did the investigation determine that the compressor turbine blades were exposed to temperatures beyond the engine operating limits before the event?",
+      "expected": {
+        "text": "No. The metallurgy showed exposure to temperature in excess of the engine operating limits, but it was not determined whether that exposure occurred before or during the event."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#4",
+          "quote": "It was not determined if the exposure to elevated temperatures occurred before or during the event."
+        }
+      ],
+      "note": "Not asked, so not part of the expected answer: the probable cause is fracture of the compressor turbine (CT) blades due to creep."
+    },
+    {
+      "id": "NC17",
+      "type": "negation_sensitive",
+      "question": "In accident CEN23LA017 the pilot said the engine made a coughing sound and lost power during the go-around. Did the postaccident examination find an anomaly that would have kept the engine from producing rated power?",
+      "expected": {
+        "text": "No. The postaccident examination did not reveal any anomalies consistent with an inability of the engine to produce rated power."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "Postaccident airplane examination did not reveal any anomalies consistent with an inability of the engine to produce rated power."
+        }
+      ],
+      "note": "The coughing engine is the pilot's report. Not asked, so not part of the expected answer: the probable cause (chunk #5, which has no event heading) is loss of control in windshear and a strong gusting crosswind, and does not mention the engine."
+    },
+    {
+      "id": "NC18",
+      "type": "lookup",
+      "question": "About how many quarts of oil were in the engine of the Beech A36 in accident CEN21LA382 after it lost power?",
+      "expected": {
+        "number": 8
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#2",
+          "quote": "the engine had about 8 quarts of oil in it"
+        }
+      ],
+      "note": "About 8 quarts, noted at the initial inspection, together with fuel in the tanks."
+    },
+    {
+      "id": "NC19",
+      "type": "lookup",
+      "question": "How many bolts secured the landing gear to the wing spar of the Piper PA-28-181 in accident CEN21LA353?",
+      "expected": {
+        "number": 8
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#1",
+          "quote": "Examination of remnants of three of the eight bolts that secured the landing gear to the wing spar"
+        }
+      ],
+      "note": "Eight bolts; remnants of three were examined (overstress), the other five were not recovered."
+    },
+    {
+      "id": "NC20",
+      "type": "lookup",
+      "question": "What was the density altitude, in feet, at the time of accident CEN22LA249?",
+      "expected": {
+        "number": 2805
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#4",
+          "quote": "the density altitude was 2,805 ft"
+        }
+      ],
+      "note": "2,805 ft, taking off on runway 08 with wind from 140 degrees at 10 kts."
+    }
+  ]
+}

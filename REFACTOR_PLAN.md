@@ -9484,6 +9484,21 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
     graphs and the two new ones reloaded from cache ($0).
   - **R166** Judged by meaning (two blind judges), both scores, compared with R157, failures traced ($0).
 
+### R160. 20 new gold questions on each of the five datasets (done 2026-10-12; $0, no run)
+- **Scope:** `tests/gold/qa/<dataset>_qa_confirm.json` for furniture, held-out, generality, lighthouses and
+  NTSB, ids FC/HC/GC/LC/NC01-20, written by Claude Opus 5.5 (one writer per dataset) before any of R161-R164's
+  fixes exists, from the source files and the earlier gold only: the writers opened no output, verdict,
+  outcome record, figure or roadmap, so R157's failure analysis could not shape them. Type mix per file:
+  multi_hop 3-4, aggregation 3-4, structured_filter 3-4, disambiguation 3, negation 3, lookup 3-4; scored by
+  code 19 / 17 / 17 / 18 / 17 of 20 (88 of 100). Two adversarial reviews per file (every answer re-derived,
+  every SQL re-run; repeats of any earlier question by fact; labels) and a fix pass: 5 / 11 / 13 / 11 / 8
+  findings, each applied or answered (e.g. FC11's price filter widened so its text condition does work, a
+  repeat of F14's answer otherwise; generality's four repeats replaced).
+- **Verified:** the gold checks of R152 on the five files and a new test: 20 questions, every type at least
+  three times, at least 14 by code, no question asked before by its wording. 1482 passed (1462 + 20), ruff
+  clean.
+- **R160 done 2026-10-12.** Next: R161, counting with the tool.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

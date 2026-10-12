@@ -1,0 +1,379 @@
+{
+  "dataset": "lighthouses",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-12",
+  "corpus": {
+    "data_dir": "heldout/lighthouses/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "LC01",
+      "type": "negation_sensitive",
+      "question": "The St Mary's Lighthouse article names other lighthouses near the River Tyne and on the Farne Islands. Which of them does it say is now decommissioned?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Souter Lighthouse"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_mary_s_lighthouse.md#3",
+          "quote": "Souter Lighthouse is also now decommissioned"
+        }
+      ],
+      "note": "Only Souter is called decommissioned. The two Farne Islands lighthouses are named as operational and the pierhead lighthouses at Tynemouth and South Shields are said to mark the Tyne entrance, so neither counts. St Mary's itself is decommissioned too, but the question asks for the other lighthouses. The table agrees: Souter's service_retirement is 1988."
+    },
+    {
+      "id": "LC02",
+      "type": "multi_hop",
+      "question": "The St Agnes Lighthouse article names the lighthouse whose completion in 1858 cost St Agnes its status as a landfall light. In what year does the table record that lighthouse's service entry?",
+      "expected": {
+        "number": 1887
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_agnes_lighthouse.md#1",
+          "quote": "After the completion of Bishop Rock Lighthouse in 1858, St Agnes's lost its status as a landfall light"
+        }
+      ],
+      "sql": "SELECT CAST(service_entry AS INTEGER) FROM lighthouses WHERE name = 'Bishop Rock Lighthouse'",
+      "note": "The lighthouse is Bishop Rock Lighthouse. Its table row has inception 1858 but service_entry 1887; the question asks for the service entry, not the article's completion year."
+    },
+    {
+      "id": "LC03",
+      "type": "multi_hop",
+      "question": "The Anvil Point Lighthouse article names the man who specially designed its lamp. In what year was he born, according to the engineers file?",
+      "expected": {
+        "number": 1826
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/anvil_point_lighthouse.md#1",
+          "quote": "The lamp was also specially designed for Anvil Point by James Douglass"
+        }
+      ],
+      "sql": "SELECT year(birth) FROM engineers WHERE name = 'James Nicholas Douglass'",
+      "note": "memorisable: The article says James Douglass; the engineers file holds him as James Nicholas Douglass, born 1826-10-16."
+    },
+    {
+      "id": "LC04",
+      "type": "multi_hop",
+      "question": "The Farne Lighthouse article says another lighthouse was established in 1910 with a sector light that worked in conjunction with the Inner Farne light. In what year does the events file date that lighthouse's electrification?",
+      "expected": {
+        "number": 1964
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/farne_lighthouse.md#1",
+          "quote": "That same year saw the nearby Bamburgh Lighthouse established, with a sector light that worked in conjunction with the Inner Farne light."
+        }
+      ],
+      "sql": "SELECT CAST(date AS INTEGER) FROM events WHERE lighthouse.name = 'Bamburgh Lighthouse' AND event = 'electrification'",
+      "note": "The other lighthouse is Bamburgh Lighthouse; its only event is electrification, dated 1964."
+    },
+    {
+      "id": "LC05",
+      "type": "aggregation",
+      "question": "How many events in the events file have no date?",
+      "expected": {
+        "number": 9
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM events WHERE date IS NULL",
+      "note": "Null dates: Lizard (automation, electrification), Start Point (electrification), Longships (automation), Peninnis (electrification), Wolf Rock (electrification), Round Island (automatization, electrification) and Bishop Rock (stiffening)."
+    },
+    {
+      "id": "LC06",
+      "type": "aggregation",
+      "question": "How many distinct historic counties does the table name, not counting rows with no historic county?",
+      "expected": {
+        "number": 17
+      },
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT historic_county) FROM lighthouses",
+      "note": "Seventeen distinct non-empty historic_county values; three rows (Europa Point, Casquets, Helgoland) have none, and an empty cell is not a county."
+    },
+    {
+      "id": "LC07",
+      "type": "aggregation",
+      "question": "In which decade does the table record the most lighthouse inceptions?",
+      "expected": {
+        "entities": [
+          {
+            "name": "1860s",
+            "aliases": [
+              "1860-1869",
+              "1860 to 1869",
+              "the 1860s"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH c AS (SELECT left(inception, 3) || '0s' AS decade, count(*) AS n FROM lighthouses WHERE inception IS NOT NULL GROUP BY 1) SELECT decade FROM c WHERE n = (SELECT max(n) FROM c)",
+      "note": "Decade of the inception cell's first four digits. 1860s: 9 (Smalls 1861, Trinity Buoy Wharf 1863, Dovercourt High and Low 1863, Hurst Point 1867, Winterton 1867, Portland Bill High and Low 1869, Wolf Rock 1869); next is the 1830s with 8. Godrevy's inception 1859-03-01 counts in the 1850s."
+    },
+    {
+      "id": "LC08",
+      "type": "aggregation",
+      "question": "Of the lighthouses the ten articles are about, which does its own article say was provided with a fog bell?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Godrevy Lighthouse"
+          },
+          {
+            "name": "St Anthony's Lighthouse",
+            "aliases": [
+              "St. Anthony's Lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#2",
+          "quote": "A fog bell was also provided"
+        },
+        {
+          "chunk_id": "articles/st_anthony_s_lighthouse.md#1",
+          "quote": "A fog-bell was installed in 1865"
+        }
+      ],
+      "note": "Only these two articles mention a bell. The other fog signals in the corpus are an explosive signal and Tannoy emitters (Anvil Point), Tannoy units and an electric emitter (Tater Du), sirens through Rayleigh trumpets (Whitby), and St Anthony's own 1954 electric Tannoy signal and present-day fog horn (which replaced its bell): none is a bell."
+    },
+    {
+      "id": "LC09",
+      "type": "structured_filter",
+      "question": "Which lighthouses in historic county Kent have an automation event (labelled automatization or automation) in the events file?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Dungeness Lighthouse"
+          },
+          {
+            "name": "North Foreland Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT DISTINCT l.name FROM lighthouses l JOIN events e ON e.lighthouse.qid = l.qid WHERE l.historic_county = 'Kent' AND e.event IN ('automatization', 'automation')",
+      "note": "Kent has five lighthouses in the table. Dungeness (1961) and North Foreland (1998) have automatization events; South Foreland Upper has only a renovation event (1843), and Dungeness Old and South Foreland Lower have no events."
+    },
+    {
+      "id": "LC10",
+      "type": "structured_filter",
+      "question": "Which lighthouses in historic county Devon does the table record as built of brick?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Hartland Point Lighthouse"
+          },
+          {
+            "name": "Lynmouth Foreland Lighthouse"
+          },
+          {
+            "name": "Lundy North Lighthouse"
+          },
+          {
+            "name": "Lundy South Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT name FROM lighthouses WHERE historic_county = 'Devon' AND list_contains(string_split(material, '; '), 'brick')",
+      "note": "Reads the material cell. Other Devon materials: granite (Start Point), stone (Smeaton's Tower, Lundy Old Light, Plymouth Breakwater); the rest have none."
+    },
+    {
+      "id": "LC11",
+      "type": "structured_filter",
+      "question": "Which lighthouses does the table record with concrete as a material, alone or alongside another material?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Tater Du Lighthouse"
+          },
+          {
+            "name": "Dungeness Lighthouse"
+          },
+          {
+            "name": "Wolf Rock Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT name FROM lighthouses WHERE list_contains(string_split(material, '; '), 'concrete')",
+      "note": "Wolf Rock's cell is 'granite; concrete'; Tater Du and Dungeness are concrete alone."
+    },
+    {
+      "id": "LC12",
+      "type": "disambiguation",
+      "question": "What height, in metres, does the table give Harwich Low Lighthouse, as opposed to Harwich High Lighthouse?",
+      "expected": {
+        "number": 9
+      },
+      "route": "exact",
+      "sql": "SELECT CAST(height_m AS DOUBLE) FROM lighthouses WHERE name = 'Harwich Low Lighthouse'",
+      "note": "Harwich Low is 9 m and Harwich High 21 m. Both are in Essex with inception 1818 and service retirement 1863, so the name is what keeps them apart. Dovercourt High and Low Light (14 m and 8 m) are a further similar pair."
+    },
+    {
+      "id": "LC13",
+      "type": "disambiguation",
+      "question": "In what year does the table record the service retirement of Spurn Point Low Light, as opposed to Spurn Lighthouse?",
+      "expected": {
+        "number": 1895
+      },
+      "route": "exact",
+      "sql": "SELECT CAST(service_retirement AS INTEGER) FROM lighthouses WHERE name = 'Spurn Point Low Light'",
+      "note": "Spurn Point Low Light retired 1895 (the inception year of Spurn Lighthouse); Spurn Lighthouse itself retired 1985."
+    },
+    {
+      "id": "LC14",
+      "type": "disambiguation",
+      "question": "According to the Farne Lighthouse article, how tall was the Farne Low Lighthouse, in metres?",
+      "expected": {
+        "number": 8
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/farne_lighthouse.md#2",
+          "quote": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall"
+        }
+      ],
+      "note": "The surviving Farne (High) Lighthouse is 13 m; the Low Lighthouse, since demolished, was 8 m."
+    },
+    {
+      "id": "LC15",
+      "type": "structured_filter",
+      "question": "Which lighthouses in historic county Northumberland have no event at all in the events file?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Heugh Hill Lighthouse"
+          },
+          {
+            "name": "Guile Point East Lighthouse"
+          },
+          {
+            "name": "Brownsman Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT name FROM lighthouses WHERE historic_county = 'Northumberland' AND qid NOT IN (SELECT lighthouse.qid FROM events)",
+      "note": "Northumberland has eight lighthouses; Longstone, Bamburgh, Coquet, Farne and St. Mary's have events, the other three none."
+    },
+    {
+      "id": "LC16",
+      "type": "negation_sensitive",
+      "question": "According to the Berry Head Lighthouse article, which shore-based mains-powered lighthouses is Trinity House's 'simple lighthouse scheme' not intended to be extended to?",
+      "expected": {
+        "text": "Those with more complex display requirements, such as the provision of a sector light."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/berry_head_lighthouse.md#1",
+          "quote": "except those with more complex display requirements (e.g. provision of a sector light)"
+        }
+      ],
+      "note": "The scheme is 'intended to be extended to all other shore-based mains-powered lighthouses, except those with more complex display requirements'. An answer that drops the exception ('all other shore-based mains-powered lighthouses') is wrong. The extension is only intended: the article names no other lighthouse already converted."
+    },
+    {
+      "id": "LC17",
+      "type": "negation_sensitive",
+      "question": "According to the Anvil Point Lighthouse article, what remains in place in the tower although it is no longer in use?",
+      "expected": {
+        "text": "The old lens (the rotating Fresnel lens)."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/anvil_point_lighthouse.md#2",
+          "quote": "(The old lens, though no longer in use, remains in place in the tower.)"
+        }
+      ],
+      "note": "'The old lens' alone is correct. The lens left in the tower is the rotating Fresnel lens above which an LED lamp was installed in 2012 as the main light; linking the two is an inference from adjacent sentences. Not the original first-order optic of 1881: that lens array was removed in 1960 and donated to the Science Museum, so an answer naming it is wrong."
+    },
+    {
+      "id": "LC18",
+      "type": "lookup",
+      "question": "Which local builder carried out the construction of Whitby Lighthouse, according to its article?",
+      "expected": {
+        "entities": [
+          {
+            "name": "William Falkingbridge",
+            "aliases": [
+              "Falkingbridge",
+              "William Falkingbridge of Well Close Square"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/whitby_lighthouse.md#1",
+          "quote": "construction carried out by local builder William Falkingbridge of Well Close Square, Whitby"
+        }
+      ],
+      "note": "Not James Walker (the designer) nor Henry Norris (Superintendent of the Works for Trinity House)."
+    },
+    {
+      "id": "LC19",
+      "type": "lookup",
+      "question": "Who designed the Argand lamps installed in the higher Portland lighthouse in 1788, according to the Old Higher Lighthouse article?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Thomas Rogers"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/old_higher_lighthouse.md#1",
+          "quote": "The lamps were designed by Thomas Rogers."
+        }
+      ],
+      "note": "memorisable: James Chance designed the 1869 first-order optics, not the 1788 lamps."
+    },
+    {
+      "id": "LC20",
+      "type": "lookup",
+      "question": "When Berry Head Lighthouse was first lit, from whom was the oil gas that fuelled its lamp purchased, according to its article?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Great Western Railway",
+            "aliases": [
+              "Great Western Railway at Exeter",
+              "GWR"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/berry_head_lighthouse.md#1",
+          "quote": "fuelled by oil gas (which was purchased from the Great Western Railway at Exeter"
+        }
+      ],
+      "note": "The gas was stored in large external tanks on site. The AGA company converted the light to acetylene in 1921; that is a later fuel, not the first."
+    }
+  ]
+}

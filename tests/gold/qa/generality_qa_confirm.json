@@ -1,0 +1,551 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-12",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GC01",
+      "type": "multi_hop",
+      "question": "What role at the institute does the person who collected 240 cores on the Aldmoor bog over two winters hold?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Postdoctoral researcher",
+            "aliases": [
+              "Postdoc"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/newsletter_spring_2025.md#0",
+          "quote": "Maria Lopez of the Soil Ecology team received this year's Hensley Field-Work Award for her peat sampling campaign on the Aldmoor bog, where she collected 240 cores over two winters."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-104",
+            "name": "Maria Lopez",
+            "team": "Soil Ecology",
+            "role": "Postdoctoral researcher"
+          }
+        }
+      ],
+      "sql": "SELECT role FROM staff WHERE name = 'Maria Lopez' AND team = 'Soil Ecology'",
+      "hard_case": "same_name",
+      "note": "The newsletter names Maria Lopez of the Soil Ecology team; her staff record (S-104) gives the role. The other Maria Lopez on the staff list (S-219, Finance Office) is a grants accountant, a wrong answer here."
+    },
+    {
+      "id": "GC02",
+      "type": "multi_hop",
+      "question": "Which institute team does the person who joined the Aldmoor bog trip of 10 December to learn the coring method belong to?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Hydrology",
+            "aliases": [
+              "Hydrology team"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Samuel Osei joined the trip on 10 December to learn the coring method."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-162",
+            "name": "Samuel Osei",
+            "team": "Hydrology"
+          }
+        }
+      ],
+      "sql": "SELECT team FROM staff WHERE name = 'Samuel Osei'",
+      "note": "The Aldmoor field log names Samuel Osei; his staff record gives his team. The Aldmoor bog is a Soil Ecology site, but Osei himself is in Hydrology."
+    },
+    {
+      "id": "GC03",
+      "type": "multi_hop",
+      "question": "What is the staff id of the person who, according to the institute's spring 2025 newsletter, leads the Hydrology team?",
+      "expected": {
+        "entities": [
+          {
+            "name": "S-150"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/newsletter_spring_2025.md#0",
+          "quote": "The Hydrology team, led by research engineer Aiko Tanaka, has finished building a 12-metre sediment flume in the basement laboratory."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-150",
+            "name": "Aiko Tanaka",
+            "team": "Hydrology"
+          }
+        }
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE name = 'Aiko Tanaka'",
+      "note": "The newsletter names Aiko Tanaka as the team's lead; the staff records have no leader field, so the newsletter decides who leads and the staff record gives the id."
+    },
+    {
+      "id": "GC04",
+      "type": "multi_hop",
+      "question": "By how many litres per second did the average flow of Harbour Station's pump in May 2025 fall short of that pump's rated flow?",
+      "expected": {
+        "number": 1
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/harbour_station_may_2025.md#0",
+          "quote": "The station's only pump, KV12-0457"
+        },
+        {
+          "chunk_id": "water/harbour_station_may_2025.md#0",
+          "quote": "Average flow for the month was 17 litres per second."
+        }
+      ],
+      "records": [
+        {
+          "file": "water/pumps.csv",
+          "row": {
+            "serial_number": "KV12-0457",
+            "station": "Harbour Station",
+            "rated_flow_lps": "18"
+          }
+        }
+      ],
+      "note": "The May report gives the station's average flow, 17 l/s; KV12-0457 is the station's only pump, so it is the pump's flow. Its rated flow in the pump records is 18 l/s: 18 - 17 = 1."
+    },
+    {
+      "id": "GC05",
+      "type": "aggregation",
+      "question": "In how many years has the Hensley Field-Work Award gone to a member of the Soil Ecology team?",
+      "expected": {
+        "number": 2
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+        },
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+        },
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2022: Aiko Tanaka (Hydrology), for the river gauging survey."
+        },
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2024: not awarded."
+        }
+      ],
+      "note": "2023 (Jonathan Pike) and 2025 (Maria Lopez). The 2022 award went to Hydrology, and in 2024 the award was not given."
+    },
+    {
+      "id": "GC06",
+      "type": "aggregation",
+      "question": "Which Brackwater fen core was the deepest?",
+      "expected": {
+        "entities": [
+          {
+            "name": "BF-2",
+            "aliases": [
+              "Core BF-2"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-1, 14 April: depth 2.1 m"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-2, 14 April: depth 2.6 m"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-3, 22 April: depth 1.9 m"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-4, 22 April: not taken"
+        }
+      ],
+      "note": "BF-2 at 2.6 m, against 2.1 m (BF-1) and 1.9 m (BF-3); BF-4 was not taken and has no depth. The deeper Aldmoor cores are in another log and do not count."
+    },
+    {
+      "id": "GC07",
+      "type": "lookup",
+      "question": "What would the reconditioned seal kits that Calder Pumps recommends keeping in stock cost altogether, in euros?",
+      "expected": {
+        "number": 1280
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/calder_quotation.md#0",
+          "quote": "We therefore recommend keeping two reconditioned seal kits in stock, at 640 euros each, delivery within ten working days."
+        }
+      ],
+      "note": "Two kits at 640 euros each: 2 x 640 = 1,280 euros."
+    },
+    {
+      "id": "GC08",
+      "type": "aggregation",
+      "question": "What is the total, in pounds, of the projects in Riverton's 2026 works budget?",
+      "expected": {
+        "number": 805000
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Station Road drainage, second phase: 310,000 pounds"
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Riverside path lighting: 230,000 pounds"
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Eastgate library heating: 140,000 pounds"
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Mill Lane footbridge east railing: 15,000 pounds"
+        }
+      ],
+      "note": "310,000 + 230,000 + 140,000 + 110,000 + 15,000 = 805,000 pounds. The 2025 budget is a different document and does not count."
+    },
+    {
+      "id": "GC09",
+      "type": "structured_filter",
+      "question": "What are the staff ids of the institute's Soil Ecology staff?",
+      "expected": {
+        "entities": [
+          {
+            "name": "S-104"
+          },
+          {
+            "name": "S-131"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-104",
+            "team": "Soil Ecology"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-131",
+            "team": "Soil Ecology"
+          }
+        }
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE team = 'Soil Ecology'",
+      "note": "Maria Lopez (S-104) and Jonathan Pike (S-131). The other Maria Lopez (S-219) is in the Finance Office."
+    },
+    {
+      "id": "GC10",
+      "type": "structured_filter",
+      "question": "Which stations have a pump installed after 2017?",
+      "expected": {
+        "entities": [
+          {
+            "name": "North Station"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "water/pumps.csv",
+          "row": {
+            "serial_number": "HP40-2291",
+            "station": "North Station",
+            "install_year": "2019"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT station FROM pumps WHERE install_year > 2017",
+      "hard_case": "number_filter",
+      "note": "HP40-2291 (2019) is at North Station. Harbour Station's only pump, KV12-0457, was installed in 2016, too early, so Harbour Station is a wrong answer; North Station's other pump, HP40-1183 (2012), does not change the answer."
+    },
+    {
+      "id": "GC11",
+      "type": "structured_filter",
+      "question": "Which cores in the Aldmoor bog and Brackwater fen field logs had a pH above 4.2?",
+      "expected": {
+        "entities": [
+          {
+            "name": "AB-18",
+            "aliases": [
+              "Core AB-18"
+            ]
+          },
+          {
+            "name": "BF-2",
+            "aliases": [
+              "Core BF-2"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-17, 3 December: depth 4.2 m, pH 4.1"
+        },
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-18, 3 December: depth 3.8 m, pH 4.6."
+        },
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-1, 14 April: depth 2.1 m, pH 3.8."
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-2, 14 April: depth 2.6 m, pH 4.3."
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-3, 22 April: depth 1.9 m, pH 3.7"
+        }
+      ],
+      "hard_case": "number_filter",
+      "note": "AB-18 (pH 4.6) and BF-2 (pH 4.3). AB-17 has pH 4.1, below the threshold (its 4.2 is a depth in metres, not a pH); AB-20 and BF-4 were not taken."
+    },
+    {
+      "id": "GC12",
+      "type": "disambiguation",
+      "question": "What is the staff id of the Maria Lopez who reported in June 2025 how much of the 2025 travel budget had been spent?",
+      "expected": {
+        "entities": [
+          {
+            "name": "S-219"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "Present: Aiko Tanaka (chair), Maria Lopez (Finance Office), J. Pike, Samuel Osei."
+        },
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "Maria Lopez reported that 60 percent of the 2025 travel budget has been spent."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-219",
+            "name": "Maria Lopez",
+            "team": "Finance Office"
+          }
+        }
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE name = 'Maria Lopez' AND team = 'Finance Office'",
+      "hard_case": "same_name",
+      "note": "The 9 June minutes list Maria Lopez of the Finance Office as present; she is S-219. The Soil Ecology Maria Lopez (S-104) is a wrong answer here."
+    },
+    {
+      "id": "GC13",
+      "type": "disambiguation",
+      "question": "How many pounds does Riverton's 2026 works budget set aside for the Eastgate library?",
+      "expected": {
+        "number": 140000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Eastgate library heating: 140,000 pounds"
+        }
+      ],
+      "note": "The 2026 line is the library heating. The 2025 budget's 420,000 pounds for the library roof is a different project in a different year, a wrong answer here."
+    },
+    {
+      "id": "GC14",
+      "type": "disambiguation",
+      "question": "Which pump did technician Rosa Delgado tag in March 2025 for a seal replacement within two weeks?",
+      "expected": {
+        "entities": [
+          {
+            "name": "HP40-1183"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/inspection_2025-03-14.md#0",
+          "quote": "Pump HP40-1183 showed a slow drip from the mechanical seal"
+        },
+        {
+          "chunk_id": "water/inspection_2025-03-14.md#0",
+          "quote": "Delgado tagged it for a seal replacement within two weeks."
+        }
+      ],
+      "hard_case": "serial_numbers",
+      "note": "In the March inspection \"it\" is HP40-1183. At the June inspection the same technician tagged the other Hydra P-40 at North Station, HP40-2291, for a seal change before the end of the month; that is a wrong answer here. No earlier question asks about either tag."
+    },
+    {
+      "id": "GC15",
+      "type": "negation_sensitive",
+      "question": "Which North Station pumps had their mechanical seal replaced between the inspection of 14 March 2025 and the flooding of the dry well on 29 March?",
+      "expected": {
+        "entities": []
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "water/incident_2025-03-29.md#0",
+          "quote": "Site engineer Tomasz Wren wrote that the flooding would have been avoided had the seal been replaced after the March inspection, as the inspection had recommended."
+        },
+        {
+          "chunk_id": "water/incident_2025-03-29.md#0",
+          "quote": "The seal of HP40-1183 was replaced on 31 March 2025 by technician Rosa Delgado."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The site engineer's sentence is a counterfactual: the seal was not replaced before the failure, and the inspection only recommended it. HP40-1183's seal was replaced on 31 March, after the flooding, and HP40-2291's on 30 June. G16 asks what the counterfactual says would have avoided the flooding; this question asks the replacement it denies."
+    },
+    {
+      "id": "GC16",
+      "type": "negation_sensitive",
+      "question": "According to the news item on the new Harbour Street bakery, have the bakery's customers stopped coming?",
+      "expected": {
+        "text": "No. The baker, Maria Lopez, only fears they will stop coming if the resurfacing does not start before winter."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/bakery_opens.md#0",
+          "quote": "\"I hope the resurfacing starts before winter, or my customers will stop coming.\""
+        }
+      ],
+      "hard_case": "reported_claim",
+      "note": "A merely possible event inside a quoted claim: the item reports the baker's words, and her customers stopping is only what she fears may happen. The item never says that they have stopped. The answer must also not attribute the words to the institute's two staff called Maria Lopez."
+    },
+    {
+      "id": "GC17",
+      "type": "negation_sensitive",
+      "question": "Is Harbour Street closed to traffic while its resurfacing is postponed?",
+      "expected": {
+        "text": "No. The street stays open to traffic."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/council_notices.md#0",
+          "quote": "Harbour Street: resurfacing postponed to 2026. The street stays open to traffic."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The council notice says the resurfacing is postponed to 2026 and the street stays open; the lane closures in the same notices are on Station Road."
+    },
+    {
+      "id": "GC18",
+      "type": "lookup",
+      "question": "About how many litres of water flooded the North Station dry well when the seal of HP40-1183 failed on 29 March 2025?",
+      "expected": {
+        "number": 3000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/incident_2025-03-29.md#0",
+          "quote": "About 3,000 litres of water flooded the dry well before the operator isolated the pump."
+        }
+      ],
+      "note": "The incident report gives about 3,000 litres."
+    },
+    {
+      "id": "GC19",
+      "type": "lookup",
+      "question": "According to the Finance Office memo, when are travel claims for May paid if they reach the Finance Office after the deadline?",
+      "expected": {
+        "text": "In August."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/travel_claims_memo.md#0",
+          "quote": "Travel claims for May must reach the Finance Office by 15 June 2025; later claims are paid in August."
+        }
+      ],
+      "hard_case": "nuance_control",
+      "note": "Claims that arrive after 15 June 2025 are paid in August; the deadline itself (15 June) is not the answer. The gold reads \"later claims\" as claims arriving after 15 June, the natural reading of the memo's sentence; read as claims for later months, the memo would not say when late May claims are paid. The same sentence gives G38's deadline, so G38's evidence also answers this question."
+    },
+    {
+      "id": "GC20",
+      "type": "lookup",
+      "question": "Where will the European peat conference be held the year after the 2025 conference in Utrecht?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Tartu"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/utrecht_conference_2025.md#0",
+          "quote": "Next year's conference will be held in Tartu."
+        }
+      ],
+      "note": "The Utrecht report names Tartu for next year's conference."
+    }
+  ]
+}

@@ -4,8 +4,8 @@ of a question with a query equals what DuckDB computes from the source files (R7
 datasets ask every question type at least five times and every record type at least ten times (R73), the
 earlier gold questions are carried over with their answers unchanged, and the generality corpus asks every
 hard case. R143a: the fresh files (ten questions per dataset) pass the same per-file checks. R152: so do the
-benchmark files, with 50 questions each, every type at least six times, and none asked before. No Neo4j,
-no LLM.
+benchmark files, with 50 questions each, every type at least six times, and none asked before; R160: so do
+the confirmation files, 20 questions each, every type at least three times. No Neo4j, no LLM.
 """
 
 import json
@@ -34,7 +34,10 @@ BENCH = [
     "lighthouses_qa_bench.json",
     "ntsb_qa_bench.json",
 ]
-GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH]
+# R160: 20 more unseen questions per dataset, written before R161-R164's fixes, to measure them
+CONFIRM_DATASETS = ("furniture", "heldout", "generality", "lighthouses", "ntsb")
+CONFIRM = [f"{name}_qa_confirm.json" for name in CONFIRM_DATASETS]
+GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)
@@ -112,6 +115,27 @@ def test_a_benchmark_file_asks_fifty_questions_of_every_type_none_asked_before(n
     by_code = [q for q in gold.questions if q.expected.entities is not None or q.expected.number is not None]
     assert len(by_code) >= 35
     dataset = name.removesuffix("_qa_bench.json")
+    earlier = {
+        norm(q.question)
+        for other in QA_GOLD.glob(f"{dataset}_qa*.json")
+        if other.name != name
+        for q in load_qa_gold(other).questions
+    }
+    asked = [norm(q.question) for q in gold.questions]
+    assert len(set(asked)) == len(asked) and not set(asked) & earlier
+
+
+@pytest.mark.parametrize("name", CONFIRM)
+def test_a_confirmation_file_asks_twenty_questions_of_every_type_none_asked_before(name):
+    """R160: 20 questions, every type at least three times, at least 14 scored by code, and no question an
+    earlier gold file of its dataset already asks (compared after normalising case and spacing)."""
+    gold = load_qa_gold(QA_GOLD / name)
+    counts = Counter(q.type for q in gold.questions)
+    assert len(gold.questions) == 20
+    assert {t: counts[t] for t in QuestionType if counts[t] < 3} == {}
+    by_code = [q for q in gold.questions if q.expected.entities is not None or q.expected.number is not None]
+    assert len(by_code) >= 14
+    dataset = name.removesuffix("_qa_confirm.json")
     earlier = {
         norm(q.question)
         for other in QA_GOLD.glob(f"{dataset}_qa*.json")
