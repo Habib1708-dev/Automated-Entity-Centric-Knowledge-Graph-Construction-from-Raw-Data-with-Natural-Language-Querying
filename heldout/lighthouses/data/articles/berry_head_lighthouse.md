@@ -1,0 +1,19 @@
+# Berry Head Lighthouse
+
+Berry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon, which has been in operation since 4 May 1906. Berry Head is reputedly the shortest lighthouse in Great Britain, but also one of the highest, being only 5 metres (16 ft) tall, but 58 metres (190 ft) above mean sea level. It was also said to be the deepest because the optic was originally turned by a weight falling down a 45 metres (148 ft) deep shaft.
+
+## History
+
+The lighthouse was designed and built for Trinity House by its chief engineer Thomas Matthews. When first lit, the incandescent lamp was fuelled by oil gas (which was purchased from the Great Western Railway at Exeter and stored in large external tanks on site). The lamp was placed within a revolving third-order dioptric optic, which gave a double white flash every 15 seconds. It had a range of 20 nautical miles (37 km; 23 mi). Berry Head was classed as an unwatched light; it was managed by an attendant, who brought it into service each evening. In addition, the clockwork mechanism  which turned the optic required regular winding.
+In 1921 the lighthouse was converted by the AGA company to run on acetylene. A triple-cluster open-flame burner was installed, along with an acetylene-powered drive to turn the lens, and a Dalen sun valve (which automatically brought the light into operation when required). Since 1994 the lighthouse has run on mains electricity.
+In 2019 the optic and lamp were removed and replaced with a pair of self-contained LED lanterns (one serving as the main light, the other as a standby); the old characteristic was retained. The installation was the first application by Trinity House of its so-called 'simple lighthouse scheme', intended to be extended to all other shore-based mains-powered lighthouses, except those with more complex display requirements (e.g. provision of a sector light). 
+
+## See also
+
+List of lighthouses in England
+
+## Further reading
+Pike, John. "Berry Head; Forts, Lighthouse and House". Torbytes. Torbay Council. Archived from the original on 12 October 2006. Retrieved 4 May 2010.
+
+## External links
+Trinity House

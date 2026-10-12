@@ -1,0 +1,21 @@
+# Whitby Lighthouse
+
+Whitby Lighthouse is a lighthouse operated by Trinity House. It is on Ling Hill, on the coast to the southeast of Whitby, beyond Saltwick Bay. To distinguish it from the two lighthouses in Whitby itself (which protect the town's harbour) it is sometimes known as Whitby High lighthouse (and is referred to as such on Admiralty charts).
+
+## History
+
+The lighthouse, a white octagonal brick tower, was designed by James Walker of civil engineers Messrs. Walker, Burgess & Cooper.  Foundations were laid on 12 April 1857 with construction carried out by local builder William Falkingbridge of Well Close Square, Whitby. Supervising the construction Henry Norris of James Walker's firm was engaged as Superintendent of the Works on behalf of Trinity House. The light, a 1st Order assembly manufactured by Chance Brothers of Smethwick, was first lit on 1 October 1858 with costs of construction having run to about £8,000.
+Originally, it was one of a pair of towers aligned north-south and known as the twin lights of Whitby South (the present lighthouse) and Whitby North (since demolished); together they were sometimes referred to as the High Whitby lights. The North Light was of a similar octagonal design to the surviving South Light, but taller at 20.5 m (67 ft) (so that, although the North tower was on lower ground, the two lights were on the same focal plane). Their purpose was to show a fixed pair of lights which, when in transit, lined up with Whitby Rock (an offshore hazard to shipping). Each was equipped with a paraffin lamp and a large (first-order) fixed optic designed by Chance Brothers. A pair of single-storey keepers' cottages was attached to each tower.
+In 1890, a more efficient lamp (a powerful eight-wick mineral-oil burner) was installed in the South Light, allowing the North Light to be deactivated: an occulting mechanism was also installed, which eclipsed the light once every thirty seconds, and a red sector was added marking Whitby Rock. The North Lighthouse was then demolished (but its lantern and optic both went on to be re-used at a new lighthouse then being built at Withernsea). 
+
+On the site of the demolished North Light, buildings were erected to house new fog signalling apparatus (including a compressed air plant powered by two Hornsby horizontal 25-horsepower oil engines). Following trials of different types of signal (conducted at St. Catherine's Lighthouse in 1901) Trinity House decided to use sirens at Whitby, sounded through a pair of 'Rayleigh trumpets' (named after the scientific adviser at the trials). Over the next decade or more Trinity House went on to install similar equipment in several other lighthouse locations. Whitby Fog Signal (known locally as the 'Hawsker Bull') was operational from 1903 and continued in use until 1987, the equipment having been updated in 1955. The building, which retains the twin roof-mounted 20-ft trumpets, is now a private dwelling, part of which is also used as holiday accommodation.
+Whitby High lighthouse was electrified in 1976 (after which the 'Hood' paraffin vapour burner, which had been the active light source up until that point, was donated to the Whitby Museum). The light was automated in 1992; the former lighthouse keepers' cottages are now available to hire by holidaymakers.
+
+## See also
+
+List of lighthouses in England
+Listed buildings in Hawsker-cum-Stainsacre
+
+## External links
+
+Trinity House

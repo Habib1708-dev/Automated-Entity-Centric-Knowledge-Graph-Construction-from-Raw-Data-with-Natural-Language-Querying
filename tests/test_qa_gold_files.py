@@ -27,7 +27,12 @@ REAL = ["furniture_qa.json", "heldout_qa.json"]
 FRESH = ["furniture_qa_fresh.json", "heldout_qa_fresh.json", "generality_qa_fresh.json"]
 # R152: the benchmark's 50 unseen questions per dataset (plan R152-R157), written after R151's freeze from the
 # source files only; the per-file checks hold for them, and below their size, type mix and novelty
-BENCH = ["furniture_qa_bench.json", "heldout_qa_bench.json", "generality_qa_bench.json"]
+BENCH = [
+    "furniture_qa_bench.json",
+    "heldout_qa_bench.json",
+    "generality_qa_bench.json",
+    "lighthouses_qa_bench.json",
+]
 GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH]
 
 

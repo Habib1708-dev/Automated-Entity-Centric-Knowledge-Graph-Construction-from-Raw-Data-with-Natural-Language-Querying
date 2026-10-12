@@ -9237,6 +9237,35 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
 - **R152 done 2026-10-12.** Next: R153, the lighthouses dataset (the user chose lighthouses and NTSB aviation,
   2026-10-12, from five scouted candidates).
 
+### R153. New dataset A: Trinity House lighthouses (Wikidata and Wikipedia), with 50 gold questions (done 2026-10-12; $0, no run)
+- **Chosen:** the user, 2026-10-12, "Lighthouses + NTSB aviation", from five scouted public sources (each
+  checked with real requests: ClinicalTrials.gov, openFDA, NOAA storm events, NTSB, Wikidata/Wikipedia).
+- **Dataset** (`heldout/lighthouses/`, like `heldout/nhtsa/`): `build.py fetch` (the only network part:
+  one SPARQL query for every item with P31 lighthouse and P137 Trinity House, claims by `wbgetentities`,
+  articles as TextExtracts with revids; fetched 2026-10-12) and `build.py build` (offline, deterministic).
+  Rule fixed before any article was read: every such item (80 rows in `lighthouses.csv`, 74 with an English
+  article), every significant-event statement (62 rows in `events.ndjson`), every architect or structural
+  engineer (4 people in `engineers.json`: Smeaton, Walker, Douglass, Alexander), and the first 10 articles
+  by Q-id whose title holds "Lighthouse", is the item's own and whose wikitext is 6,000-10,000 bytes (13
+  qualified): 10 documents, 5,729 words (NHTSA: 1,974). Licence: Wikidata CC0, article text CC BY-SA 4.0,
+  `ATTRIBUTION.md` (per article title, URL, revid, written by `build` from `raw/`) and `LICENSE.md`. Preset
+  `lighthouses` (the quality settings, experiment `kgbuilder-lighthouses`; the run guard asks for it).
+- **Known properties, in the README:** 9 of 10 articles link to their row by the default name column; "Old
+  Higher Lighthouse" is labelled "Portland Bill High Light" in Wikidata and links only if the plan names the
+  `enwiki_article` column; multi-valued cells (one value per light or sector, the colour qualifier dropped)
+  make the measurement columns text; the only key the profiler finds into `engineers` carries one person;
+  "automatization" and "automation" are two Wikidata event labels; the model may know Wikipedia
+  (memorisation), so the gold leans on this selection's counts, filters and joins.
+- **Gold** (`tests/gold/qa/lighthouses_qa_bench.json`, LB01-50, written from `data/` and `raw/` only after the
+  build was reviewed): multi_hop 9, aggregation 9, structured_filter 9, disambiguation 8, negation 7, lookup
+  8; 49 scored by code. Reviews moved several table-only aggregations to the articles (e.g. LB16 the article
+  lighthouses with Tannoy fog signals, LB18 those converted to solar power) and fixed two incomplete answers.
+- **Verified:** `tests/test_lighthouses.py` (13 tests: `data/` equals `build(raw/)`, the rule holds on `raw/`,
+  staging and profiling find the keys, linking as the pipeline does it: 9 of 10 by default, 10 with
+  `enwiki_article`; attribution equals what `raw/` gives; no repeated value in a cell); the gold checks of
+  R152 on the new file; the preset and run-guard tests. 1287 passed (1271 + 16), ruff clean.
+- **R153 done 2026-10-12.** Next: R154, the NTSB aviation dataset.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

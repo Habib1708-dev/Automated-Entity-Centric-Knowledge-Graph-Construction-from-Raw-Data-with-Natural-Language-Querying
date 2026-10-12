@@ -1,0 +1,18 @@
+# Old Higher Lighthouse
+
+The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England. It is located at Branscombe Hill on the west side of Portland, overlooking Portland Bill. The lighthouse is Grade II Listed.
+
+## History
+The surrounding coast of Portland, namely Portland Bill and Chesil Beach, have been notorious for the many vessels that became shipwrecked in the area over the centuries. After years of local petitions to Trinity House, the organisation agreed for a lighthouse to be built at Portland Bill. George I granted the patent in 1716. That year, it was announced that Trinity House had 'caus'd to be erected two round Light-Houses of Stone upon Portland, in the County of Dorset, distant about two Thirds of a Mile from the Bill of Portland'. This one was built at Branscombe Hill, and the other, the Old Lower Lighthouse, on lower land. Designed as leading lights to guide ships between Portland Race and the Shambles sandbank, they shone out for the first time on 29 September 1716. Initially, both were fire lights.
+Although they had been privately built, Trinity House took over responsibility for the lights on finding them poorly maintained, in 1752. In 1788 Trinity House had Argand lamps installed within the higher lighthouse, which was the first in England to be fitted with them. It was fitted with fourteen lamps arranged in two rows of seven, with a polished spherical reflector set behind each lamp. The lamps were designed by Thomas Rogers.
+In 1824 Portland High Light was improved by Trinity House: a three-sided revolving apparatus was installed (with Argand lamps and reflectors), 'each face exhibiting its greatest light every two minutes'; however in 1835, following the establishment of Start Point Lighthouse with its revolving Fresnel lenses, Portland High was again made a fixed light (matching the Low Light, which had remained fixed throughout).
+Both Portland lighthouses were rebuilt in 1869, and provided with large (first-order) fixed optics designed and built by James Chance. At the turn of the 20th century, Trinity House made plans to build a new lighthouse at Bill Point to replace both current lighthouses. The new lighthouse was completed in 1905, and the original two lighthouses were then auctioned. In 1923 the lighthouse was purchased by the palaeobotanist, campaigner for eugenics, pioneer of birth control and Portland Museum founder Marie Stopes as a summer residence.
+During World War II, the Royal Observer Corps used the tower as a lookout. During the early 1960s the lighthouse was run as a restaurant. The lighthouse and its cottages were refurbished in 1981. With a total of four cottages within its grounds, both the Branscombe Lodge Cottage and Stopes Cottage are now available as holiday lets.
+
+## See also
+
+List of lighthouses in England
+
+## External links
+Old Higher Lighthouse official website
+Archive pictures of the Lighthouse when owned by Marie Stopes

@@ -92,6 +92,15 @@ heldout:
   data_dir: heldout/nhtsa/data
   mlflow_experiment: kgbuilder-heldout
 
+# The lighthouses benchmark dataset (REFACTOR_PLAN R153): the quality settings, merged in with `<<` like
+# heldout, on Trinity House lighthouses from Wikidata (three tables) and ten Wikipedia articles. A run is a
+# full LLM run on a dataset, so it asks for permission like quality (inherited).
+lighthouses:
+  <<: *quality
+  description: the quality settings on the lighthouses dataset (heldout/lighthouses/data)
+  data_dir: heldout/lighthouses/data
+  mlflow_experiment: kgbuilder-lighthouses
+
 # DeepSeek-V4.1-Flash as the builder model (R69, the user's choice for R66's runs): the quality settings
 # with DeepSeek generating and Gemini embedding (DeepSeek has no embedding model, so GEMINI_API_KEY is
 # still needed; the paid key, as in quality). Thinking mirrors quality: DeepSeek has no "medium", so schema
