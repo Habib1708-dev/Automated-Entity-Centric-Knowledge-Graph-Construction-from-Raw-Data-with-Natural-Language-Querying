@@ -9415,6 +9415,19 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   counts, not text recall); 50 questions per dataset give the intervals above, not finer.
 - **Plan R152-R157 done 2026-10-12** ($5.399: builds $1.529, agent $3.870). Next: the user decides.
 
+### Plan R158-R159: the benchmark in thesis form (accepted 2026-10-12)
+The user, 2026-10-12, after R157: "proceed as you see fitting". The benchmark is the cleanest result of the
+thesis (a frozen engine, 250 questions written before any output, five datasets), so it is put into thesis
+form before anything changes the engine; the fixes R157 points to come after, as their own plan, because
+any fix makes the 250 questions seen and its measurement is a paid run.
+- **R158** R157's per-question outcomes committed as a record (`tests/gold/r157/outcomes.json`: per question
+  its dataset, type, the agent's answer in its three fields, exact match, judged by meaning, and the cause
+  class of a failure), with a test that re-scores every exact-match outcome from the gold by
+  `validation/qa.py` and reads every meaning outcome from the verdict files ($0).
+- **R159** The benchmark's figures in `figures/results/evaluation/r157_benchmark/`, by the `figures/CLAUDE.md`
+  rules: accuracy per dataset (both scores, 95% Wilson intervals), accuracy per question type, and the
+  failures by cause; captions with k/n; a test that the data functions return the record's counts ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
