@@ -17,6 +17,15 @@ Branching walks (R140): the operator `in` keeps the entries equal to one of a li
 checked and compared as `=` checks and compares it, so one query reads what took one call per value; and
 `relationship` may be a path of up to `MAX_HOPS` relationship types from the related record, so the records
 several relationships away are one query. R74's shared operators are unchanged: `in` is the agent's own.
+Two fields of one entry (R148): a condition may name `other_field` instead of a value, and `pair_kind` is the
+one place that decides how the two compare (both compilers render its answer): numbers with numbers, dates
+with dates of the same type, booleans and texts (ignoring case) by = or != only, and with `year` the year of
+a date against a year or another date's year (a time of day has no year). A text against a number, or texts
+ordered by < <= > >=, is refused with its reason, never guessed. A literal spelled as another field's name
+(ignoring case, as a text is compared) is refused with the hint to give it as `other_field`, because
+compared as a literal it fails at run time (a date) or silently matches nothing (a text); `in` with that one
+value still matches a text that really is spelled so. Listed rows and groups page by `offset`, which a
+single measured value does not take.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -34,6 +43,16 @@ _MEASURABLE = ("INTEGER", "FLOAT", "STRING")
 QueryOperator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "year", "in"]
 MAX_IN = 50  # values one `in` condition may list: enough for a node's neighbours, short enough to read
 MAX_HOPS = 3  # relationships a path may follow: a record, its parts, theirs, and what supplies those
+# the comparison operators as both compilers write them (SQL and Cypher share the symbols)
+COMPARISONS = {"=": "=", "!=": "<>", "<": "<", "<=": "<=", ">": ">", ">=": ">="}
+# how two fields of one entry compare: the year of a date with a year; the years of two dates; two values of
+# one kind as they are; two texts ignoring case
+PairKind = Literal["year", "years", "value", "text"]
+_NUMBERS = ("INTEGER", "FLOAT")
+# the types that have a year, by name: a time of day ("LOCAL TIME", "ZONED TIME") has none, so the prefixes
+# R74 tests would let `year` through to fail at run time
+_DATES = ("DATE", "LOCAL DATETIME", "ZONED DATETIME")
+_PAIRED = (*COMPARISONS, "year")  # the operators that may compare a field with another field
 
 
 class Condition(BaseModel):
@@ -43,8 +62,18 @@ class Condition(BaseModel):
         "dates (YYYY-MM-DD), contains for words inside a text, year for the year of a date, in for one of "
         "several values (each equal as = compares)."
     )
-    value: str | float | bool | list[str | float] = Field(
-        description="The value to compare with; with in, the list of values."
+    value: str | float | bool | list[str | float] | None = Field(
+        default=None,
+        description="The value to compare with; with in, the list of values. Leave it out when comparing "
+        "with other_field.",
+    )
+    other_field: str | None = Field(
+        default=None,
+        description="Instead of value: another property or column of the same entry, exactly as the schema "
+        "names it; keeps the entries where the two compare as the operator says. A number compares with a "
+        "number, a date with a date of the same type, a text with a text and a true/false with a true/false "
+        "by = or != only; with year, field must be a date and its year is compared with other_field (a "
+        "year, or the year of a date).",
     )
 
 
@@ -68,6 +97,11 @@ class StructuredQuery(BaseModel):
     )
     order_by: str | None = Field(default=None, description="rows: the field to sort the entries by.")
     descending: bool = Field(default=False, description="rows: sort from the largest value down.")
+    offset: int = Field(
+        default=0,
+        description="rows and groups: how many entries to skip, to read the ones after those a cut list "
+        "showed.",
+    )
 
 
 class RecordQuery(StructuredQuery):
@@ -118,8 +152,8 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
         if c.field not in fields:
             issues.append(_unknown(f"condition {i}", c.field, fields))
         else:
-            issues += _condition_issues(f"condition {i} ({c.field})", fields[c.field], c)
-    issues += _measure_issues(query, fields)
+            issues += _condition_issues(f"condition {i} ({c.field})", c, fields)
+    issues += _measure_issues(query, fields) + _page_issues(query)
     for name, value in (("group_by", query.group_by), ("order_by", query.order_by)):
         if value is not None and value not in fields:
             issues.append(_unknown(name, value, fields))
@@ -128,8 +162,48 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
     return issues + _split_issues(query, fields)
 
 
-def _condition_issues(where: str, prop: PropertyInfo, c: Condition) -> list[str]:
-    """R74's check of a value against its field's type; for `in`, of each value as `=` takes it."""
+def pair_kind(operator: QueryOperator, left: PropertyInfo, right: PropertyInfo) -> PairKind | None:
+    """How field `left` compares with field `right` of the same entry by `operator`: by the year of `left` (a
+    date) against `right` (`year`: a year; `years`: a date whose year is taken), as two values of one kind,
+    or as two texts ignoring case; None when they cannot be compared (contains, in, a list, a text against a
+    number, texts ordered by < <= > >=, dates of different types, a time of day with year). The compilers
+    render this answer and decide nothing themselves."""
+    left_date, right_date = left.type in _DATES, right.type in _DATES
+    if operator == "year":
+        if not left_date:
+            return None
+        return "years" if right_date else ("year" if right.type in _NUMBERS else None)
+    if operator not in COMPARISONS:
+        return None
+    if left.type in _NUMBERS and right.type in _NUMBERS:
+        return "value"
+    if left_date and left.type == right.type:
+        return "value"
+    # a boolean or a text has no order: only equality
+    if left.type == right.type and left.type in ("BOOLEAN", "STRING") and operator in ("=", "!="):
+        return "text" if left.type == "STRING" else "value"
+    return None
+
+
+def _condition_issues(where: str, c: Condition, fields: dict[str, PropertyInfo]) -> list[str]:
+    """R74's check of a value against its field's type (`fields[c.field]`); for `in`, of each value as `=`
+    takes it; for another field, whether the two can be compared."""
+    prop = fields[c.field]
+    if c.other_field is not None:
+        return _pair_issues(where, prop, c, fields)
+    if c.value is None:
+        return [f"{where}: give value or other_field"]
+    # by its name ignoring case, as = and != compare a text
+    named = {name.lower(): name for name in fields}
+    other = named.get(c.value.lower()) if isinstance(c.value, str) else None
+    if c.operator in _PAIRED and other is not None and other != c.field:
+        # compared as a literal, a field's name fails at run time (a date) or matches nothing (a text); only
+        # for the operators other_field takes: a word searched for by contains may be spelled as a field.
+        # `in` stays the way to match a text that really is spelled as a field.
+        return [
+            f"{where}: {c.value!r} is the field {other!r}; to compare with that field, give it as "
+            "other_field; to match the text itself, use in with that one value"
+        ]
     if c.operator == "in":
         if not isinstance(c.value, list) or not 1 <= len(c.value) <= MAX_IN:
             return [f"{where}: in needs a list of 1 to {MAX_IN} values, got {c.value!r}"]
@@ -137,6 +211,42 @@ def _condition_issues(where: str, prop: PropertyInfo, c: Condition) -> list[str]
     if isinstance(c.value, list):
         return [f"{where}: a list of values needs the operator in"]
     return value_issues(where, prop, c.operator, c.value)
+
+
+def _pair_issues(where: str, left: PropertyInfo, c: Condition, fields: dict[str, PropertyInfo]) -> list[str]:
+    """Whether field `left` can be compared with `c.other_field` by `c.operator`, with no value given."""
+    if c.value is not None:
+        return [f"{where}: give value or other_field, not both"]
+    if c.other_field not in fields:
+        return [_unknown(f"{where} other_field", c.other_field or "", fields)]
+    right = fields[c.other_field]
+    if pair_kind(c.operator, left, right) is not None:
+        return []
+    issue = f"{where}: {left.name} ({left.type}) cannot be compared with {right.name} ({right.type})"
+    kinds = {_family(left), _family(right)}
+    # a date against a number is most likely the year of the date against a year, asked the wrong way
+    hint = (
+        "; to compare the year of a date with a year, use the operator year with the date as field and the "
+        "year as other_field"
+    )
+    return [f"{issue} by {c.operator}{hint if kinds == {'date', 'number'} else ''}"]
+
+
+def _family(prop: PropertyInfo) -> str:
+    """A field's kind, for a refusal's hint: a date, a number or anything else (its own type)."""
+    if prop.type in _DATES:
+        return "date"
+    return "number" if prop.type in _NUMBERS else prop.type
+
+
+def _page_issues(query: StructuredQuery) -> list[str]:
+    """Whether `offset` skips entries of a list: never fewer than none, and only of listed rows or groups. A
+    code check rather than a pydantic bound, so the refusal carries its reason."""
+    if query.offset < 0:
+        return ["offset must be 0 or more"]
+    if query.offset > 0 and shape_of(query) == "value":
+        return ["offset pages listed rows or groups; a single measured value has none"]
+    return []
 
 
 def _split_issues(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list[str]:

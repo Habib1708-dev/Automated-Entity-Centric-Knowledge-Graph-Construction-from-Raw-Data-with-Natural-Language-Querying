@@ -9051,6 +9051,32 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
   watched there; the 6 form failures (GN07, G02, G03, G10, G31, H36) are the targets.
 - **R147 done 2026-10-12.** Next: R148, table querying (cause 2).
 
+### R148. Table querying: two fields of one entry compared, and cut lists paged (done 2026-10-12; $0, code)
+- **Scope:** `agent/structured_query.py`: `Condition.other_field` (instead of `value`) and `pair_kind`, the one
+  place that decides how two fields compare (`year`: a date's year against a year; `years`: two dates' years;
+  `value`: numbers, dates of one type, booleans by = / !=; `text`: texts by = / != ignoring case); anything
+  else (a text against a number, texts by < <= > >=, dates of different types, a time of day with year) is
+  refused with its reason, a date against a number with the hint "use the operator year with the date as
+  field and the year as other_field". A literal spelled as another field's name (ignoring case) is refused
+  for the operators `other_field` takes, with the way out `in` for a text that really is spelled so; a
+  condition with neither value nor other_field is told to give one. `StructuredQuery.offset` pages listed
+  rows and groups (refused below 0 and on a single measured value). Both compilers (`table_query.py`,
+  `record_query.py`) only render `pair_kind`'s answer, share `COMPARISONS`, and add `OFFSET` /
+  `found[$offset..]` only when offset > 0, so every earlier statement and query id is unchanged; the note
+  says "1-20 of 29 shown; offset 20 shows the next ones" (`structured_tools._note`). The tool list grows from
+  9488 to 10992 characters per turn; `agent_tools_prompt_version` 38d9b156db5b -> 78fe77fc53ee.
+- **Offline replay** ($0, DuckDB over `out/r143_heldout/staging`, no model): HN03 as one call (`recalls`,
+  count, `ReportReceivedDate` year other_field `ModelYear`) gives 10, the gold (R143b's agent: 8 by eye over
+  four listings of 20 of 29); HN05 (`dateComplaintFiled` = other_field `dateOfIncident`) gives exactly the
+  four gold ids in one call (R143b needed two listings); recalls at offset 20: 9 rows, "21-29 of 29 shown";
+  the field name given as a value is refused with the hint. The record-layer count for HN03 is not replayed
+  (the working Neo4j holds another build); whether the model writes `other_field` is measured in R151.
+- **Verified:** 20 new tests (refusals of every kind, `pair_kind` cases, DuckDB pairs on its own CSV, paging
+  and notes, Cypher for each kind and offset, a Neo4j test comparing and paging records), the paging note of
+  one existing test updated (an intended change), and every argument's description checked. 1246 passed
+  (1226 + 20), ruff clean. Reviewed from three lenses; 10 findings applied, 1 left (below).
+- **R148 done 2026-10-12.** Next: R149, passage search scoped to a document (cause 3).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -9083,6 +9109,11 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **Two copies of the comparison table and R74's date test by prefix (found in R148, 2026-10-12; open).**
+  `query/plan_cypher._COMPARISONS` and `agent/structured_query.COMPARISONS` are the same table; R74's value
+  path (`plan.value_issues`, `plan_cypher.condition`, `table_query._condition`) counts a type as a date by
+  the prefixes DATE / LOCAL / ZONED, so a time of day ("LOCAL TIME") passes `year` and fails at run time
+  (R148's `pair_kind` uses the exact names). A structural merge of R74's modules, its own commit.
 - **A date literal compared by = or != was not checked (found by R148's design critic, 2026-10-12; fixed in
   its own commit).** `query/plan.value_issues` checked 'YYYY-MM-DD' only for < <= > >=; both compilers cast
   the value to a date (`date($v)`, `CAST($v AS DATE)`), so `since = 'May'` failed at run time ("The query

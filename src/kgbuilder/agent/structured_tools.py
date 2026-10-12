@@ -11,7 +11,9 @@ schema (a record label, a relationship between records, a table) and every value
 transaction with a timeout, or a SELECT over in-memory views). A refused query and a failed run are both
 answered with their reasons, so the agent can correct its query; nothing is guessed. Each result is cut to
 `limit` entries, keeps the total, and carries an id made from the statement it ran, the id an answer cites
-for a count or a measure; listed records are cited by their refs.
+for a count or a measure; listed records are cited by their refs. A cut list is paged (R148): the note says
+which entries are shown of how many and the `offset` that shows the next ones, so the agent reads a long
+list to its end instead of guessing past the cut; a page past the end says so, since it carries no total.
 Not here: the checks and compilers, the table reader (tables.py).
 """
 
@@ -120,7 +122,8 @@ class QueryRecords:
         rules = [{"label": label, "key": key} for label, key in self._keys.items()]
         compiled = compile_records(arguments, fields, self._keys[arguments.label], rules, anchor, self._limit)
         read = self._store.run_read(compiled.statement, compiled.parameters)
-        return _result(compiled, read, sorted(fields), self._value_chars, self._names[arguments.label])
+        name = self._names[arguments.label]
+        return _result(compiled, read, sorted(fields), self._value_chars, arguments.offset, name)
 
     def _anchor(self, query: RecordQuery) -> tuple[list[str], str | None]:
         """Why `related_to` and `relationship` (a type, or a path of types) cannot be used, and the related
@@ -173,7 +176,7 @@ class QueryTables:
             return _refused(issues)
         compiled = compile_table(arguments, fields, self._limit)
         read = self._tables.run(compiled.statement, compiled.parameters)
-        return _result(compiled, read, list(fields), self._value_chars)
+        return _result(compiled, read, list(fields), self._value_chars, arguments.offset)
 
 
 def _listed(names) -> str:
@@ -186,10 +189,16 @@ def _refused(issues: list[str]) -> QueryResult:
 
 
 def _result(
-    compiled: Compiled, read: ReadResult, columns: list[str], value_chars: int, name_column: str = ""
+    compiled: Compiled,
+    read: ReadResult,
+    columns: list[str],
+    value_chars: int,
+    offset: int,
+    name_column: str = "",
 ) -> QueryResult:
-    """A run's rows as the agent reads them: values as text and cut, the total, and the statement's id;
-    listed records with their refs and their names (`name_column`, else the key the ref ends in)."""
+    """A run's rows as the agent reads them: values as text and cut, the total, the paging note (`offset`:
+    the entries the page skipped) and the statement's id; listed records with their refs and their names
+    (`name_column`, else the key the ref ends in)."""
     if read.error is not None:
         return QueryResult(issues=[read.error], note="The query failed to run.")
     query_id = _query_id(compiled)
@@ -198,7 +207,7 @@ def _result(
         value = rows[0]["value"] if rows else None
         return QueryResult(query_id=query_id, columns=["value"], rows=[[_text(value, value_chars)]], total=1)
     total = int(rows[0].get("total", rows[0].get(total_column(), 0))) if rows else 0
-    note = f"{len(rows)} of {total} shown" if total > len(rows) else ("" if rows else "Nothing matches.")
+    note = _note(len(rows), total, offset)
     if compiled.shape == "groups":
         values = [[_text(r["bucket"], value_chars), _text(r["value"], value_chars)] for r in rows]
         return QueryResult(query_id=query_id, columns=["group", "value"], rows=values, total=total, note=note)
@@ -211,6 +220,18 @@ def _result(
         )
     values = [[_text(r[c], value_chars) for c in columns] for r in rows]
     return QueryResult(query_id=query_id, columns=columns, rows=values, total=total, note=note)
+
+
+def _note(shown: int, total: int, offset: int) -> str:
+    """What the agent is told of a list's cut: which entries it sees of how many, and the offset that shows
+    the next ones; nothing when the whole list is shown at once. A page past the end has no rows to read the
+    total from, so its note says only that nothing is left."""
+    if shown == 0:
+        return f"Nothing past the first {offset}." if offset > 0 else "Nothing matches."
+    last = offset + shown
+    if total > last:
+        return f"{offset + 1}-{last} of {total} shown; offset {last} shows the next ones"
+    return f"{offset + 1}-{last} of {total} shown" if offset > 0 else ""
 
 
 def _query_id(compiled: Compiled) -> str:

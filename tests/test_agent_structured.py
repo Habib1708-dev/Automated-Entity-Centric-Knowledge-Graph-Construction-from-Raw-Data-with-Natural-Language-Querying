@@ -11,12 +11,15 @@ values counts each value (a list always; a text split at the separator the query
 refuses a separator without a group, on a field that is no text, or made of letters or digits. R140: the
 operator `in` (one of a list of values, each compared as `=` compares it) in the check, both compilers and
 DuckDB; a path of relationships from the related record, compiled from the queried records' side, its types
-and length checked by query_records."""
+and length checked by query_records. R148: a field compared with another field of the same entry (how each
+pair of types compares, the refusals of a pair that cannot, of a value given with it and of a literal
+spelled as a field), compiled to Cypher with no parameter and run by DuckDB; a later page by `offset`, its
+statement unchanged at the first page, and the note naming the next offset; every argument described."""
 
 import pytest
 
 from kgbuilder.agent.record_query import compile_records
-from kgbuilder.agent.structured_query import Condition, RecordQuery, TableQuery, check_query
+from kgbuilder.agent.structured_query import Condition, RecordQuery, TableQuery, check_query, pair_kind
 from kgbuilder.agent.structured_tools import QueryRecords, QueryTables, Schema
 from kgbuilder.agent.table_query import compile_table
 from kgbuilder.agent.tables import DuckDBTables
@@ -33,7 +36,8 @@ def prop(name: str, kind: str) -> PropertyInfo:
 
 
 FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), prop("year", "INTEGER"),
-                              prop("since", "DATE"), prop("tags", "LIST<STRING>")]}  # fmt: skip
+                              prop("since", "DATE"), prop("tags", "LIST<STRING>"),
+                              prop("at", "LOCAL TIME")]}  # fmt: skip
 
 
 # --- the check ---------------------------------------------------------------------------------------
@@ -76,6 +80,62 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
             TableQuery(table="t", where=[Condition(field="year", operator="in", value=[2016, "old"])]),
             "give a number",
         ),
+        # R148: a field compared with another field
+        (
+            TableQuery(table="t", where=[Condition(field="since", operator="=", other_field="year")]),
+            "since (DATE) cannot be compared with year (INTEGER) by =; to compare the year of a date with a "
+            "year, use the operator year with the date as field and the year as other_field",
+        ),
+        (  # a time of day has no year: refused here, not failed at run time
+            TableQuery(table="t", where=[Condition(field="at", operator="year", other_field="year")]),
+            "at (LOCAL TIME) cannot be compared with year (INTEGER) by year",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="since", operator="year", other_field="at")]),
+            "cannot be compared",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="year", operator="year", other_field="since")]),
+            "year (INTEGER) cannot be compared with since (DATE) by year",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="id", operator="contains", other_field="price")]),
+            "cannot be compared",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="tags", operator="=", other_field="id")]),
+            "cannot be compared",
+        ),
+        (  # a text against a number is refused, not read as the number the text holds
+            TableQuery(table="t", where=[Condition(field="price", operator=">", other_field="year")]),
+            "cannot be compared",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="since", operator="year", other_field="colour")]),
+            "other_field: no field 'colour'",
+        ),
+        (
+            TableQuery(
+                table="t", where=[Condition(field="year", operator="=", value=2016, other_field="year")]
+            ),
+            "give value or other_field, not both",
+        ),
+        (TableQuery(table="t", where=[Condition(field="year", operator="=")]), "give value or other_field"),
+        (
+            TableQuery(table="t", where=[Condition(field="since", operator="year", value="year")]),
+            "'year' is the field 'year'; to compare with that field, give it as other_field; to match the "
+            "text itself, use in with that one value",
+        ),
+        (
+            TableQuery(table="t", where=[Condition(field="since", operator="=", value="year")]),
+            "'year' is the field 'year'",
+        ),
+        (  # ignoring case, as = compares a text
+            TableQuery(table="t", where=[Condition(field="id", operator="=", value="PRICE")]),
+            "'PRICE' is the field 'price'",
+        ),
+        (TableQuery(table="t", offset=-1), "offset must be 0 or more"),
+        (TableQuery(table="t", measure="count", offset=20), "offset pages listed rows or groups"),
     ],
 )
 def test_the_check_refuses_names_and_values_the_source_does_not_have(query, issue):
@@ -87,6 +147,26 @@ def test_the_check_accepts_a_text_measured_by_its_number_and_a_date_by_its_year(
     query = TableQuery(table="t", where=[Condition(field="since", operator="year", value=2016.0)],
                        measure="sum", field="price", group_by="year")  # fmt: skip
     assert check_query(query, FIELDS) == []
+
+
+def test_the_check_accepts_a_field_compared_with_another_field():
+    pairs = [("since", "year", "year", "year"), ("since", "year", "since", "years"),
+             ("id", "=", "price", "text"), ("year", "<", "year", "value")]  # fmt: skip
+    for field, operator, other, kind in pairs:
+        query = TableQuery(table="t", where=[Condition(field=field, operator=operator, other_field=other)])
+        assert check_query(query, FIELDS) == [], (field, operator, other)
+        assert pair_kind(operator, FIELDS[field], FIELDS[other]) == kind
+    assert pair_kind("=", FIELDS["since"], FIELDS["year"]) is None
+    assert pair_kind("=", FIELDS["since"], prop("seen", "LOCAL DATETIME")) is None  # dates of two types
+    assert pair_kind("year", prop("seen", "LOCAL DATETIME"), FIELDS["since"]) == "years"
+    flag, other_flag = prop("open", "BOOLEAN"), prop("shut", "BOOLEAN")
+    assert pair_kind("=", flag, other_flag) == "value" and pair_kind("<", flag, other_flag) is None
+    # a word searched for by contains may be spelled as a field: it is still a word
+    words = TableQuery(table="t", where=[Condition(field="id", operator="contains", value="price")])
+    assert check_query(words, FIELDS) == []
+    # the way out for a text that really is spelled as a field: in with that one value
+    spelled = TableQuery(table="t", where=[Condition(field="id", operator="in", value=["Price"])])
+    assert check_query(spelled, FIELDS) == []
 
 
 # --- the records' Cypher -----------------------------------------------------------------------------
@@ -139,6 +219,31 @@ def test_a_group_over_a_list_or_a_split_text_counts_each_value_once_per_record()
     )
     assert "UNWIND split(n.`id`, $group_split) AS part" in split.statement
     assert split.parameters["group_split"] == ";" and "WITH DISTINCT n, part AS bucket" in split.statement
+
+
+def test_a_field_compared_with_another_field_and_a_later_page_compile_to_cypher():
+    paired = [Condition(field="since", operator="year", other_field="year")]
+    count = compile_records(
+        RecordQuery(label="Kettle", where=paired, measure="count"), FIELDS, "id", [], None, 5
+    )
+    assert "WHERE n.`since`.year = n.`year` WITH DISTINCT n" in count.statement
+    assert "$v0" not in count.statement and "v0" not in count.parameters  # two names, no value
+    years = [Condition(field="since", operator="year", other_field="since")]
+    both = compile_records(RecordQuery(label="Kettle", where=years), FIELDS, "id", [], None, 5)
+    assert "WHERE n.`since`.year = n.`since`.year WITH DISTINCT n" in both.statement
+    texts = [Condition(field="id", operator="!=", other_field="price")]
+    differ = compile_records(RecordQuery(label="Kettle", where=texts), FIELDS, "id", [], None, 5)
+    assert "toLower(toString(n.`id`)) <> toLower(toString(n.`price`))" in differ.statement
+    first = compile_records(RecordQuery(label="Kettle"), FIELDS, "id", [], None, 5)
+    later = compile_records(RecordQuery(label="Kettle", offset=20), FIELDS, "id", [], None, 5)
+    assert "UNWIND found[$offset..$offset + $limit] AS n" in later.statement
+    assert later.parameters["offset"] == 20
+    # the first page is the statement it always was: its id, and every recorded one, unchanged
+    assert "UNWIND found[0..$limit] AS n" in first.statement and "offset" not in first.parameters
+    groups = compile_records(
+        RecordQuery(label="Kettle", measure="count", group_by="year", offset=5), FIELDS, "id", [], None, 5
+    )
+    assert "UNWIND found[$offset..$offset + $limit] AS row" in groups.statement
 
 
 # --- the tables' SQL on DuckDB -----------------------------------------------------------------------
@@ -219,6 +324,35 @@ def test_table_rows_are_cut_with_their_total(tables):
     assert [r[0] for r in rows] == ["K3", "K1"] and rows[0][-1] == 3  # the window total before the cut
 
 
+def test_table_conditions_compare_two_columns_of_one_row(tmp_path):
+    (tmp_path / "trips.csv").write_text(
+        "id,opened,closed,made,label,alias\n"
+        "T1,2016-05-01,2016-05-01,2016,Quill,quill\n"
+        "T2,2017-02-03,2017-03-01,2016,Lark,Wren\n"
+        "T3,2019-01-01,2019-01-09,2019,Fen,FEN\n",
+        encoding="utf-8",
+    )
+    store = DuckDBTables(tmp_path)
+    fields = {c.name: c for c in store.tables()[0].columns}
+
+    def rows(field, operator, other, measure="rows"):
+        paired = Condition(field=field, operator=operator, other_field=other)
+        query = TableQuery(table="trips", where=[paired], measure=measure)
+        assert check_query(query, fields) == []
+        compiled = compile_table(query, fields, 10)
+        read = store.run(compiled.statement, compiled.parameters)
+        assert read.error is None, read.error
+        return [row[0] for row in read.rows] if measure == "rows" else read.rows
+
+    assert rows("opened", "=", "closed") == ["T1"]
+    assert rows("opened", "year", "made") == ["T1", "T3"]
+    assert rows("opened", "year", "made", measure="count") == [[2]]  # how many in one call, no listing
+    assert rows("opened", "year", "closed") == ["T1", "T2", "T3"]  # the year of another date
+    assert rows("label", "=", "alias") == ["T1", "T3"]  # ignoring case
+    assert rows("closed", ">", "opened") == ["T2", "T3"]
+    store.close()
+
+
 # --- the tools ---------------------------------------------------------------------------------------
 
 
@@ -227,12 +361,28 @@ def test_query_tables_answers_rows_with_their_total_and_a_stable_id(tables):
     result = tool.run(TableQuery(table="kettles", order_by="id"))
     assert result.columns == ["id", "name", "price", "made", "since", "noted"]
     assert result.rows[0][:3] == ["K1", "Meridi...", "$1,289"]  # a long value cut
-    assert (result.total, result.note) == (3, "2 of 3 shown")
+    assert (result.total, result.note) == (3, "1-2 of 3 shown; offset 2 shows the next ones")
     again = tool.run(TableQuery(table="kettles", order_by="id"))
     assert result.query_id == again.query_id and result.query_id.startswith("q-")
     assert result.cites() == [result.query_id]
     value = tool.run(TableQuery(table="kettles", measure="average", field="made"))
     assert (value.rows, value.total) == ([["2017.0"]], 1)
+
+
+def test_query_tables_pages_a_cut_list_by_offset(tables):
+    assert check_query(TableQuery(table="t", offset=20), FIELDS) == []
+    assert check_query(TableQuery(table="t", measure="count", group_by="year", offset=5), FIELDS) == []
+    tool = QueryTables(tables, limit=2, value_chars=60)
+    first = tool.run(TableQuery(table="kettles", order_by="id"))
+    assert first.note == "1-2 of 3 shown; offset 2 shows the next ones"
+    last = tool.run(TableQuery(table="kettles", order_by="id", offset=2))
+    assert ([r[0] for r in last.rows], last.total, last.note) == (["K3"], 3, "3-3 of 3 shown")
+    assert last.query_id != first.query_id  # a page is a run of its own, cited by its own id
+    past = tool.run(TableQuery(table="kettles", order_by="id", offset=5))
+    assert (past.rows, past.note) == ([], "Nothing past the first 5.")
+    assert run_table(tables, measure="count", group_by="made", offset=1) == [[2019, 1, 2]]
+    whole = tool.run(TableQuery(table="kettles", measure="count", group_by="made"))
+    assert whole.note == ""  # every group shown at once: nothing to say
 
 
 def test_query_tables_refuses_an_unknown_table_and_a_query_that_fails_the_check(tables):
@@ -328,3 +478,4 @@ def test_what_the_model_reads_of_a_structured_tool_names_no_evaluated_dataset(to
     models = [tool.arguments, Condition]
     texts = [tool.description] + [f.description or "" for m in models for f in m.model_fields.values()]
     assert all(not DATASET_WORDS.search(text) for text in texts), texts
+    assert all(f.description for m in models for f in m.model_fields.values())  # every argument explained
