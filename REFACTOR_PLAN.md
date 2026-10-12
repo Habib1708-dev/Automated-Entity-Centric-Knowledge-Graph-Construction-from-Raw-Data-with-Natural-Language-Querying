@@ -9015,6 +9015,42 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
   clean. No run: the tests prove the params ($0).
 - **R146 done 2026-10-12.** Next: R147, the answer form (cause 1).
 
+### R147. The answer form: one rule for the agent and the reader, and the declared form checked (done 2026-10-12; $0, code)
+- **Scope:** `query/reader.py` holds `FORM_RULE` (filled with "the chunks" / "the tools") and `ANSWER_FIELDS`,
+  rendered into the reader's PROMPT and the agent's PROMPT and CLOSING, and into both reply schemas, so the
+  agent and the reader cannot drift. The rule: one number first (a count, an amount, a measurement, a year
+  alone; "also when it is stated as a bound or an estimate"), then one or several named things or values that
+  are neither numbers nor dates (who, which, where, what is the name or the value of) in `entities` by the
+  name alone, then anything else in `text` (what was said or done, why, whether, when, a full date); `text`
+  may add to the other fields, never replace them. The agent's reply declares the form (`asks`: things,
+  number, statement; `query/answers.AnswerForm`, required in `step_model`); `AgentStep.misses_form` (things
+  with no entity and no number beside text, entities [] included; number with no number) sends the answer
+  back once with `FORM_ANSWER`, after R138's empty check, only while a turn is left; the trace keeps `asks`
+  and `reformed`, the metric `agent_answers_reformed` counts it. `empty_answer_text` renamed `sent_back_text`
+  (both send-backs). Prompt sizes: agent PROMPT 1294 -> 1728 characters, CLOSING 538 -> 1074, reader 739 ->
+  1192 (about +430 per agent turn).
+- **Versions:** `prompt_version` (reader) 5ec368762409 -> 37b8127d7a2e, `reader_reply_version` f99ed5aa5237 ->
+  d56df947901d, `agent_prompt_version` 687000fdc002 -> ba389c432cd6, `agent_reply_prompt_version` 1fe10f7f3fd1
+  -> da72e2e42102; `agent_tools_prompt_version` unchanged (38d9b156db5b).
+- **Design choices** (a read-only design pass, then three reviewers and a fix pass): R145's proposed check
+  (an answer naming a node a tool returned) would catch GN07 and H36 only and fire on free-text answers, so
+  the check is the model's own declaration against the fields it filled. A true "none" or "not found" beside
+  an empty field is sent back once by design (`FORM_ANSWER` names that way out: send the same answer again);
+  it costs a turn and shows in `agent_answers_reformed`. A "things" answer that carries a number is not sent
+  back (it could move a right number into `entities`); a "number" answer needs no text to miss. The reader
+  has no loop: the rule is prompt only there, its form checked by exact-match scoring.
+- **Verified:** 18 new tests (`tests/test_agent_loop.py`): `asks` required; a things answer in text sent back
+  once and the second reply the answer; [] beside text sent back; a number in words sent back once, then it
+  stands; never sent back for statement, none without text, filled forms, things with a number, undeclared;
+  an empty answer handled by R138 only, and both send-backs in one question; none sent back on the last turn
+  or with the tools closed; a "none" sent back with its way out, then standing; the shared rule and field
+  descriptions in all three prompts and both schemas, "one number" before "named things"; an old trace loads;
+  the metric and the registered version. 1222 passed (1204 + 18), ruff clean. No run ($0): measured in R151.
+- **For R151:** the judge reads the whole answer (`entities`, `number` and `text`) for free-text gold; the
+  rule sends some text-gold questions to `entities` (G11, G18, H34, and possibly H20, H35, F37, G08, G33),
+  watched there; the 6 form failures (GN07, G02, G03, G10, G31, H36) are the targets.
+- **R147 done 2026-10-12.** Next: R148, table querying (cause 2).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -9047,6 +9083,14 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **R138's empty-answer send-back fires on the last allowed turn (found in R147, 2026-10-12; open).** The
+  loop then leaves through `_close`: the CLOSING prompt is sent (one more call) and the trace reads
+  `stopped` "turns" for a question the model answered. R147's form send-back waits for a turn to be left;
+  R138's should too, in its own commit with a test (`AgentLimits(turns=1)`, an empty answer: stopped
+  "answer"). Rare: R143b had no empty answer.
+- **`query/exact.py` (RECORDS_PROMPT) and `query/planner.py` still key the answer form on "which things"
+  (found in R147, 2026-10-12; open).** The graph, records_vector and plan systems, not in the R143b
+  comparison; R147's `FORM_RULE` could replace their wording, measured on those systems.
 - **Response schemas are not versioned outside the QA systems (found in R146, 2026-10-12; open).** A
   stage's `prompt_version` hashes its template only; the field descriptions of its response schema reach the
   model too (the `prompt-engineering` skill counts them as prompt text) and change no logged version. R146

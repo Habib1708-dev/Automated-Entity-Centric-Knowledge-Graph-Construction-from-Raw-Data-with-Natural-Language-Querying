@@ -13,8 +13,11 @@ for token and cost caps: the LLM port reports usage to the tracker, not to the c
 what grows with every turn. An answer citing ids no tool returned is sent back once with the ids named;
 what it still cites wrongly is dropped and counted. The model is asked for the reply model whose `tool` is
 one of this loop's tool names (`step_model`, R138), and an answer with nothing in it is written back once
-as that turn's result, with the tools still open (R138). The trace times the model's calls and the whole
-loop with `timer`, kept apart from the timeout's `clock` (R142).
+as that turn's result, with the tools still open (R138). An answer that is not empty but leaves out the
+form its reply declares (`asks`: things, or a number) is written back once the same way (R147), and only
+while a turn is left (on the last turn it stands as the answer); neither send-back happens with the tools
+closed, and each uses a turn, so the loop cannot spin. The trace times the model's calls and the whole loop
+with `timer`, kept apart from the timeout's `clock` (R142).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
 """
@@ -35,7 +38,8 @@ from .prompt import (
     EMPTY_ANSWER,
     PROMPT,
     AgentStep,
-    empty_answer_text,
+    form_answer,
+    sent_back_text,
     step_model,
     tool_list,
     turn_text,
@@ -75,6 +79,7 @@ class _State:
     prompt_chars: int = 0
     turn: int = 0
     emptied: bool = False  # an empty answer was written back (once per question)
+    reformed: bool = False  # an answer missing its declared form was written back (once per question, R147)
     timed: float = 0.0  # the timer's reading when the loop began (R142)
     llm_s: float = 0.0  # seconds spent in the model's calls (R142)
 
@@ -114,7 +119,15 @@ class AgentLoop:
             step = self._generate(prompt, state)
             if step.action == "answer" and step.is_empty() and not state.emptied:
                 state.emptied = True
-                state.turns.append(empty_answer_text(state.turn, EMPTY_ANSWER))
+                state.turns.append(sent_back_text(state.turn, EMPTY_ANSWER))
+                continue
+            # R147, after R138's check: an empty answer is sent back as empty, never also for its form; and
+            # only while a turn is left, so the reply comes with the tools open (an answer on the last turn
+            # stands, rather than ending as a "turns" stop). An answer runs no call, so the calls cap holds.
+            resend = not state.reformed and state.turn < self._limits.turns
+            if step.action == "answer" and not step.is_empty() and step.misses_form() and resend:
+                state.reformed = True
+                state.turns.append(sent_back_text(state.turn, form_answer(step)))
                 continue
             if step.action == "answer":
                 return self._finish(question, state, step, "answer")
@@ -173,6 +186,7 @@ class AgentLoop:
         trace = AgentTrace(
             calls=state.calls, turns=state.turn, stopped=stop, prompt_chars=state.prompt_chars,
             cited=checked.kept, dropped=checked.unknown, retried=retried, emptied=state.emptied,
+            reformed=state.reformed, asks=step.asks,
             llm_ms=round(state.llm_s * 1000, 1), wall_ms=round((self._timer() - state.timed) * 1000, 1),
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)

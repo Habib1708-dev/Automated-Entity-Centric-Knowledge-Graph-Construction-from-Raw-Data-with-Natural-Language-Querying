@@ -4,7 +4,8 @@ Role in the pipeline: they run on a finished graph, after `kg link`; `kg qa-scor
 need no graph and no model.
 Design: wiring and logging only, like stages.py (kept apart from it, which builds the graph). Each system
 answers in its own MLflow run (`qa_graph`, `qa_vector`, `qa_records_vector`, `qa_agent`), so its tokens and
-`cost_usd` are its own; the agent's runs add its loop's metrics (R135). Every answer is timed and every run
+`cost_usd` are its own; the agent's runs add its loop's metrics (R135), among them the answers sent back
+for leaving out their declared form (R147). Every answer is timed and every run
 logs its number of questions and the seconds per answer, so systems are compared on time and on cost per
 question as well as on answers (R142). `kg qa`
 logs what code can score at once (sets, numbers, recall@k, citation faithfulness); free-text answers wait
@@ -128,8 +129,8 @@ def _rank(ordered: list[float], share: float) -> float:
 
 def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
-    each loop stopped, answers sent back for their citations or for being empty (R138), citations dropped,
-    and prompt characters."""
+    each loop stopped, answers sent back for their citations, for being empty (R138) or for leaving out the
+    form they declared (R147), citations dropped, and prompt characters."""
     traces = [a.agent for a in answers if a.agent is not None]
     if not traces:
         return {}
@@ -140,6 +141,7 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_calls_refused": sum(bool(c.refused) for c in calls),
         "agent_answers_retried": sum(t.retried for t in traces),
         "agent_answers_emptied": sum(t.emptied for t in traces),
+        "agent_answers_reformed": sum(t.reformed for t in traces),
         "agent_citations_dropped": sum(len(t.dropped) for t in traces),
         "agent_prompt_chars_mean": sum(t.prompt_chars for t in traces) / len(traces),
         # R142: time in the model and in the loop, and the answers whose names and number the cited results

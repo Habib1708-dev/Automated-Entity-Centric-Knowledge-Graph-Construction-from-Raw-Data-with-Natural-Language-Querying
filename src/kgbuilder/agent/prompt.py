@@ -11,6 +11,10 @@ tool, which R136's model did on 78 calls when `tool` was an optional text. The p
 (`prompt-engineering` skill): structural roles only, no example from a dataset under evaluation, and every
 rule has a code-side check (an unknown tool, unparseable arguments or a repeated call is refused by the
 loop; citations are checked by citations.py; the answer forms are scored by code as the reader's are).
+R147: the answer-form rule and the answer fields' descriptions are the reader's (query/reader.py), filled
+in here; the reply declares the form the question asks for (`asks`, required in `step_model`), and the
+loop sends an answer back once when it leaves that form's field empty (`AgentStep.misses_form`,
+`FORM_ANSWER`).
 Not here: the loop and its caps (loop.py), the citation check (citations.py).
 """
 
@@ -20,7 +24,12 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, create_model
 
+from ..query.answers import AnswerForm
+from ..query.reader import ANSWER_FIELDS, FORM_RULE
 from .tool import Tool
+
+# The reader's answer-form rule as the agent reads it (R147), in PROMPT and CLOSING alike
+_FORM_RULE = FORM_RULE.format(source="the tools")
 
 # The agent's prompt. Rule by rule:
 # - one call per turn: the loop runs and checks one call at a time, so each result is seen before the next
@@ -29,13 +38,15 @@ from .tool import Tool
 #   ranking and filtering questions need the records or tables, which the schema names;
 # - "only what the tools return": the answer is judged on grounded facts; the model's own knowledge would
 #   hide a failed search behind a lucky guess (the reader's rule);
-# - the answer forms are the reader's, because the same code scores them (sets and numbers by code); R135's
-#   dev run added "never by a ref" (an answer listed refs; code maps a ref to its name as well) and "which
-#   year" (a year was given in words where the gold scores a number);
+# - the answer-form rule is the reader's `FORM_RULE` (R147), because the same code scores both (sets and
+#   numbers by code); the loop checks it against the form the reply declares (`asks`);
+# - "never by a ref": R135's dev run listed refs as the answer (code maps a ref to its name as well);
 # - the citation rule keeps the reader's verbatim wording for passages ("ONE contiguous quote copied
 #   verbatim"), which `kg qa` checks, and lets a node, a claim or a query result be cited by id alone;
 # - no repeated call: the loop refuses one anyway, and saying so saves the turn.
-PROMPT = """You answer a question about one dataset. Tools search its knowledge graph, the text it was read \
+# Built at import: the versions hash this module string; the rendered rule holds no braces for `.format`.
+PROMPT = (
+    """You answer a question about one dataset. Tools search its knowledge graph, the text it was read \
 from and its source tables; you call them one at a time, then answer from what they returned.
 
 Rules:
@@ -45,9 +56,10 @@ Rules:
   question asks how many, which is largest or which records meet a condition.
 - Use only what the tools returned. When it does not answer the question, say so in `text` and leave
   `entities` and `number` empty.
-- When the question asks which things, list them in `entities`, each once, by the names the tools or the
-  question give them, never by a ref. When the answer is a number (how many, how much, which year), give it
-  in `number`. Otherwise answer in a short `text`.
+"""
+    + _FORM_RULE
+    + """
+- Write an entity by its name, never by a ref.
 - Cite every id your answer relies on, exactly as a tool returned it: a passage by its chunk id with ONE
   contiguous quote copied verbatim from its text; a node, a claim or a query result by its id alone.
 - Never repeat a call: its result is already below.
@@ -63,21 +75,27 @@ Rules:
 </turns>
 
 Tool calls left: {left}."""
+)
 
 # Sent instead of PROMPT when a cap is reached: the same turns, no tool left, so the model answers from what
-# it has or says that the turns do not answer the question (the plan's containment rule).
-CLOSING = """You answer a question about one dataset from the tool results below. No tool can be called any \
+# it has or says that the turns do not answer the question (the plan's containment rule). The answer-form
+# rule is PROMPT's (R147): the closing answer is scored as any other, though no code check follows it.
+CLOSING = (
+    """You answer a question about one dataset from the tool results below. No tool can be called any \
 more: answer now (`action` "answer") from these results alone, or say in `text` that they do not answer the \
-question. List things in `entities` by name, give a number (a count, an amount, a year) in `number`, \
-otherwise a short `text`. Cite \
-every id your answer relies on exactly as a tool returned it; a passage by its chunk id with ONE contiguous \
-quote copied verbatim from its text.
+question.
+"""
+    + _FORM_RULE
+    + """
+- Cite every id your answer relies on exactly as a tool returned it; a passage by its chunk id with ONE \
+contiguous quote copied verbatim from its text.
 
 <question>{question}</question>
 
 <turns>
 {turns}
 </turns>"""
+)
 
 # The text an answer citing ids no tool returned is sent back with, once (citations.py).
 CITATION_RETRY = (
@@ -87,11 +105,33 @@ CITATION_RETRY = (
 # Written back, once, as the result of an answer that names nothing, gives no number and no text (R138):
 # R136's model sent such answers after a tool had returned the answer (two held-out questions), and an empty
 # answer is never right. The tools stay open, so the model can answer from what it has or search again;
-# code decides what is empty (`AgentStep.is_empty`), so the rule needs no wording in PROMPT.
+# code decides what is empty (`AgentStep.is_empty`), so the rule needs no wording in PROMPT. R147 points to
+# PROMPT's form rule instead of restating an older one, so the two cannot disagree.
 EMPTY_ANSWER = (
-    "Your answer was empty: no entities, no number and no text. Answer again from the results above: the "
-    "things in `entities`, a number in `number`, otherwise a short `text`; if the results do not answer the "
-    "question, say so in `text`."
+    "Your answer was empty: no entities, no number and no text. Answer again from the results above, in the "
+    "field the rules call for; if the results do not answer the question, say so in `text`."
+)
+
+# Written back, once, as the result of an answer that declares a form (`asks`) and leaves that form's field
+# empty (R147): R145 found a number given only in words with its qualifier ("over" a number, H36) and named
+# things given only as a sentence. Code checks the reply against its own declaration
+# (`AgentStep.misses_form`), never against the gold; the tools stay open. When the results do not give the
+# field, or the answer is that there are none (`entities` []), the model sends the same answer again, which
+# then stands (once per question). So a true "none" or "not found" written in `text` beside an empty field,
+# as PROMPT's rule asks, is sent back once by design: it costs one turn, counted in
+# `agent_answers_reformed`, and is never forced into a made-up value.
+FORM_ANSWER = (
+    "Your answer says the question asks for {asks} but leaves `{field}` empty; its text was "
+    '"{text}"; answer again with the answer in `{field}`, keeping `text` only to add to it. If the results '
+    "above do not give it, or the answer is that there are none (`entities` []), send the same answer again."
+)
+
+# What `asks` means, as the reply schema writes it (R147); "call" replies carry it too, since it is required.
+# Dates as FORM_RULE puts them: a year alone is a number, a full date is a statement.
+ASKS = (
+    'answer: what the question asks for: "number" (one number, a year alone among them), "things" (one or '
+    'several named things, or a value that is neither a number nor a date), or "statement" (anything else, '
+    'a full date among them); with "call" any value, unread.'
 )
 
 
@@ -108,29 +148,41 @@ class AgentStep(BaseModel):
     action: Literal["call", "answer"] = Field(description='"call" to call a tool, "answer" to answer.')
     tool: str = Field(default="", description="call: the name of the tool.")
     arguments: str = Field(default="{}", description="call: the tool's arguments as a JSON object.")
-    entities: list[str] | None = Field(
-        default=None, description="answer: the things that answer a question asking which things; [] if none."
-    )
-    number: float | None = Field(default=None, description="answer: a count or an amount the question asks.")
-    text: str | None = Field(
-        default=None, description="answer: a short answer in words, for any other question."
-    )
+    # before the answer fields, so a model writing fields in order declares the form before it answers;
+    # optional here (a test or an older reply may leave it out), required in `step_model`
+    asks: AnswerForm | None = Field(default=None, description=ASKS)
+    entities: list[str] | None = Field(default=None, description=f"answer: {ANSWER_FIELDS['entities']}.")
+    number: float | None = Field(default=None, description=f"answer: {ANSWER_FIELDS['number']}.")
+    text: str | None = Field(default=None, description=f"answer: {ANSWER_FIELDS['text']}.")
     citations: list[AgentCitation] = Field(default=[], description="answer: the ids the answer relies on.")
 
     def is_empty(self) -> bool:
         """An answer naming nothing, with no number and no text. `entities` [] is an answer ("none")."""
         return self.entities is None and self.number is None and not (self.text or "").strip()
 
+    def misses_form(self) -> bool:
+        """The answer leaves out the form it declares (R147): "things" with no entity named while it gives
+        text and no number, or "number" with no number. Entities [] next to a text count as missing: R143b's
+        model wrote [] beside text answers (the field said "[] if none"). A "things" answer carrying a number
+        stands: sending it back could move a right number into `entities`. "number" needs no text to miss
+        (the loop asks only for an answer that is not empty), so a number listed as an entity is sent back
+        too. "statement" and no declaration never miss."""
+        if self.asks == "things":
+            return not self.entities and self.number is None and bool((self.text or "").strip())
+        return self.asks == "number" and self.number is None
+
 
 def step_model(names: list[str]) -> type[AgentStep]:
-    """The reply model the model is asked for: `AgentStep` with `tool` required and one of `names`. Required
-    because a model held to a schema may leave an optional field out (R136: 78 calls with no tool); an
-    answer names a tool too, which code ignores."""
+    """The reply model the model is asked for: `AgentStep` with `tool` required and one of `names`, and
+    `asks` required (R147). Required because a model held to a schema may leave an optional field out
+    (R136: 78 calls with no tool), and an answer whose form is not declared cannot be checked; an answer
+    names a tool too, and a call declares a form, which code ignores."""
     tool = Literal[tuple(names)]  # built at run time: the names are the tools this loop was given
     return create_model(
         "AgentStep",
         __base__=AgentStep,
         tool=(tool, Field(description='The tool to call with "call"; with "answer" any name, unread.')),
+        asks=(AnswerForm, Field(description=ASKS)),
     )
 
 
@@ -150,6 +202,19 @@ def turn_text(turn: int, tool: str, arguments: str, result: str) -> str:
     return f"{head}\n<arguments>{arguments}</arguments>\n<result>{result}</result>\n</turn>"
 
 
-def empty_answer_text(turn: int, message: str) -> str:
-    """An empty answer and code's reply to it, as an earlier turn (R138)."""
+def sent_back_text(turn: int, message: str) -> str:
+    """An answer code sent back with the tools open and code's reply to it, as an earlier turn: an empty
+    answer (R138) or one that leaves out its declared form (R147)."""
     return f'<turn n="{turn}" action="answer">\n<result>{message}</result>\n</turn>'
+
+
+def form_answer(step: AgentStep) -> str:
+    """`FORM_ANSWER` for an answer that leaves out its declared form: the form, its field and the answer's
+    text, so the model sees what it wrote (R147). Only for a step whose `misses_form()` is true, so `asks`
+    is "things" or "number": any form but "things" is written as a number."""
+    things = step.asks == "things"
+    return FORM_ANSWER.format(
+        asks="things" if things else "a number",
+        field="entities" if things else "number",
+        text=step.text or "",
+    )

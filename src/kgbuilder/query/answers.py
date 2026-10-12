@@ -7,7 +7,8 @@ the answer: the exact chunk texts the model was shown (the judge reads them, and
 checked against them without a graph) and a trace of the retrieval (which node each name linked to, which
 chunks the traversal reached), from which failures are grouped by cause; for a plan system (R74), the
 plans tried, why they were refused, the steps they ran and the fallback that answered, if any; for the
-agent (R135), its tool calls and why its loop stopped.
+agent (R135), its tool calls and why its loop stopped, and (R147) the answer form it declared and whether
+an answer was sent back for leaving that form out.
 Not here: producing answers (systems.py), scoring them (validation/qa.py).
 """
 
@@ -137,6 +138,11 @@ class AgentCall(BaseModel):
 
 AgentStop = Literal["answer", "turns", "calls", "prompt_chars", "timeout"]
 
+# The form an agent's answer declares the question asks for (R147): one number, named things (or values that
+# are not numbers), or a statement in words. Here, not in agent/, so the trace can keep it (query must not
+# import agent).
+AnswerForm = Literal["things", "number", "statement"]
+
 
 class AgentTrace(BaseModel):
     """How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model
@@ -151,6 +157,10 @@ class AgentTrace(BaseModel):
     dropped: list[str] = []
     retried: bool = False  # the answer was sent back once for citing ids no tool returned
     emptied: bool = False  # an empty answer was written back once, the tools open (R138)
+    # R147: an answer that left out the form it declared was sent back once, the tools open; and the form
+    # the final answer declared (None: a model off the schema, or a file from before R147)
+    reformed: bool = False
+    asks: AnswerForm | None = None
     # R142: time in the model's calls and in the whole loop; whether every named entity, and the number,
     # appear in what the cited results hold (None: the answer names none, or gives none), and the names
     # that do not

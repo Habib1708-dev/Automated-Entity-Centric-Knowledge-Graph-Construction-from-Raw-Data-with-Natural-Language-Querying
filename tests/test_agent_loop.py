@@ -11,7 +11,12 @@ empty answer is written back once with the tools open, and counted. R141: a pass
 its excerpt keeps the full text in its first place. R142: the model's time and the loop's time in the
 trace; whether the answer's names and number appear in what its citations' results hold; the metrics of
 both, and the seconds per answer every system logs. R146: the tool list and the reply schema the model reads
-are versioned, from a tuple of tool classes held equal to what `build_tools` builds."""
+are versioned, from a tuple of tool classes held equal to what `build_tools` builds. R147: the agent and the
+reader share one answer-form rule (a number first) and the answer fields' descriptions; the reply must
+declare the form it answers (`asks`); an answer that leaves its declared field empty is sent back once with
+the tools open while a turn is left, then stands; an empty answer is R138's, never also sent back for its
+form; the metrics count the answers sent back, and the agent's prompt version covers the text they are sent
+back with."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -19,11 +24,14 @@ from pydantic import BaseModel, ValidationError
 from kgbuilder.agent.citations import Ledger
 from kgbuilder.agent.loop import AgentLimits, AgentLoop
 from kgbuilder.agent.prompt import (
+    CITATION_RETRY,
     CLOSING,
     EMPTY_ANSWER,
+    FORM_ANSWER,
     PROMPT,
     AgentCitation,
     AgentStep,
+    form_answer,
     step_model,
     tool_list,
 )
@@ -33,7 +41,10 @@ from kgbuilder.config import Settings
 from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
 from kgbuilder.pipeline.qa_systems import system_params
+from kgbuilder.query import reader
+from kgbuilder.query.answers import AgentTrace
 from kgbuilder.query.graph_schema import GraphSchema
+from kgbuilder.query.reader import ANSWER_FIELDS, FORM_RULE, ReaderAnswer
 
 from .fakes import ScriptedLLM
 from .test_agent_tools import DATASET_WORDS, SETTING, fact
@@ -151,13 +162,26 @@ def test_the_reply_model_names_one_of_the_loops_tools_and_cannot_leave_the_tool_
         "read",
     ]
     assert "tool" in schema.model_json_schema()["required"]
+    with pytest.raises(ValidationError):  # R136's empty tool
+        schema.model_validate({"action": "call", "arguments": '{"ref": "k1"}', "asks": "statement"})
     with pytest.raises(ValidationError):
-        schema.model_validate({"action": "call", "arguments": '{"ref": "k1"}'})  # R136's empty tool
+        schema.model_validate({"action": "call", "tool": "nope", "asks": "statement"})
+    assert schema.model_validate({"action": "call", "tool": "find", "asks": "statement"}).tool == "find"
     with pytest.raises(ValidationError):
-        schema.model_validate({"action": "call", "tool": "nope"})
-    assert schema.model_validate({"action": "call", "tool": "find"}).tool == "find"
+        step_model(["find"]).model_validate({"action": "lookup", "tool": "find", "asks": "statement"})
+
+
+def test_the_reply_must_declare_the_form_it_answers():
+    """R147: `asks` is required, as `tool` is (a model held to a schema leaves an optional field out)."""
+    schema = step_model(["find"])
+    asks = schema.model_json_schema()["properties"]["asks"]
+    assert "asks" in schema.model_json_schema()["required"]
+    assert asks["enum"] == ["things", "number", "statement"]
     with pytest.raises(ValidationError):
-        step_model(["find"]).model_validate({"action": "lookup", "tool": "find"})
+        schema.model_validate({"action": "answer", "tool": "find", "text": "It."})
+    with pytest.raises(ValidationError):
+        schema.model_validate({"action": "answer", "tool": "find", "asks": "list", "text": "It."})
+    assert AgentStep(action="answer", text="It.").asks is None  # the base stays optional
 
 
 def test_an_empty_answer_is_written_back_once_with_the_tools_open():
@@ -176,6 +200,151 @@ def test_a_second_empty_answer_is_the_answer_and_none_is_not_empty():
     assert run.answer.is_empty()
     none = AgentStep(action="answer", entities=[])
     assert not none.is_empty() and not loop(Script(none)).run("Which thing?").trace.emptied
+
+
+# --- the answer form (R147) --------------------------------------------------------------------------
+
+
+def test_an_answer_leaving_out_the_form_it_declares_is_sent_back_once_with_the_tools_open():
+    worded = AgentStep(
+        action="answer", asks="things", text="It is the one.", citations=[AgentCitation(id="k1")]
+    )
+    named = AgentStep(action="answer", asks="things", entities=["It"], citations=[AgentCitation(id="k1")])
+    script = Script(call("find", '{"ref": "k1"}'), worded, named)
+    run = loop(script).run("Which thing?")
+    assert form_answer(worded) in script.prompts[2] and "<tools>" in script.prompts[2]
+    sent = 'asks for things but leaves `entities` empty; its text was "It is the one."; answer'
+    assert sent in script.prompts[2]
+    assert (run.trace.reformed, run.trace.emptied, run.trace.stopped, run.trace.turns) == (
+        True,
+        False,
+        "answer",
+        3,
+    )
+    assert run.answer.entities == ["It"] and run.trace.asks == "things"
+
+
+def test_entities_left_empty_beside_a_text_are_sent_back_for_a_things_question():
+    """R143b's model wrote [] beside its text answers; declared "things", [] with text is no answer form."""
+    beside = AgentStep(action="answer", asks="things", entities=[], text="It is the one.")
+    script = Script(beside, AgentStep(action="answer", asks="things", entities=["It"]))
+    run = loop(script).run("Which thing?")
+    assert (run.trace.reformed, run.trace.turns, run.answer.entities) == (True, 2, ["It"])
+    assert "leaves `entities` empty" in script.prompts[1]
+
+
+def test_a_none_answer_is_sent_back_once_with_a_way_out_and_then_stands():
+    """PROMPT asks for [] and a `text` when nothing answers; the send-back names that exit."""
+    none = AgentStep(action="answer", asks="things", entities=[], text="No result names any such thing.")
+    script = Script(none, none)
+    run = loop(script).run("Which thing?")
+    exit_ = "the answer is that there are none (`entities` []), send the same answer again"
+    assert exit_ in script.prompts[1]
+    assert (run.trace.reformed, run.trace.stopped, run.answer.entities) == (True, "answer", [])
+
+
+def test_an_answer_on_the_last_turn_is_not_sent_back_for_its_form():
+    """A send-back with no turn left would end as a "turns" stop through the closing prompt."""
+    limits = AgentLimits(turns=2, calls=10, prompt_chars=100_000, timeout_s=60)
+    worded = AgentStep(action="answer", asks="number", text="Over 40")
+    script = Script(call("find", '{"ref": "a"}'), worded)
+    run = loop(script, limits).run("How many?")
+    assert (run.trace.stopped, run.trace.reformed, run.trace.turns, len(script.prompts)) == (
+        "answer",
+        False,
+        2,
+        2,
+    )
+
+
+def test_one_question_can_be_sent_back_as_empty_and_then_for_its_form():
+    empty = AgentStep(action="answer", asks="number")
+    worded = AgentStep(action="answer", asks="number", text="Over 40")
+    counted = AgentStep(action="answer", asks="number", number=40.0, text="over 40")
+    script = Script(empty, worded, counted)
+    run = loop(script).run("How many?")
+    assert EMPTY_ANSWER in script.prompts[1] and "leaves `number` empty" in script.prompts[2]
+    assert (run.trace.emptied, run.trace.reformed, run.trace.turns, run.trace.stopped) == (
+        True,
+        True,
+        3,
+        "answer",
+    )
+    assert run.answer.number == 40.0
+
+
+def test_a_number_given_in_words_is_sent_back_once_then_the_second_reply_is_the_answer():
+    worded = AgentStep(action="answer", asks="number", text="Over 40")
+    script = Script(worded, worded)
+    run = loop(script).run("How many?")
+    assert "asks for a number but leaves `number` empty" in script.prompts[1]
+    assert (run.trace.reformed, run.trace.turns, run.trace.stopped) == (True, 2, "answer")
+    assert run.answer.number is None and run.answer.text == "Over 40"  # once: the second reply stands
+
+
+@pytest.mark.parametrize(
+    "step",
+    [
+        AgentStep(action="answer", asks="statement", text="It was loose."),
+        AgentStep(action="answer", asks="things", entities=[]),  # "none"
+        AgentStep(action="answer", asks="things", entities=["It"], text="It, the first one."),
+        AgentStep(action="answer", asks="number", number=3.0, text="about 3"),
+        # declared "things" for a number: sending it back could move a right number into `entities`
+        AgentStep(action="answer", asks="things", number=2019.0, text="It is 2019."),
+        AgentStep(action="answer", text="It was loose."),  # a model off the schema declares nothing
+    ],
+    ids=["statement", "none", "things", "number", "things-with-number", "undeclared"],
+)
+def test_an_answer_in_its_declared_form_or_a_statement_is_never_sent_back(step):
+    run = loop(Script(step)).run("Which thing?")
+    assert (run.trace.reformed, run.trace.emptied, run.trace.turns) == (False, False, 1)
+    assert run.answer == step and run.trace.asks == step.asks
+
+
+def test_an_empty_answer_is_sent_back_as_empty_and_not_again_for_its_form():
+    empty = AgentStep(action="answer", asks="things")
+    script = Script(empty, empty)
+    run = loop(script).run("Which thing?")
+    assert (run.trace.emptied, run.trace.reformed, run.trace.turns) == (True, False, 2)
+    assert EMPTY_ANSWER in script.prompts[1] and "leaves `entities` empty" not in "".join(script.prompts)
+
+
+def test_a_closing_answer_is_never_sent_back_for_its_form():
+    limits = AgentLimits(turns=1, calls=10, prompt_chars=100_000, timeout_s=60)
+    worded = AgentStep(action="answer", asks="number", text="Over 40")
+    script = Script(call("find", '{"ref": "a"}'), worded)
+    run = loop(script, limits).run("How many?")
+    assert (run.trace.stopped, run.trace.reformed, len(script.prompts)) == ("turns", False, 2)
+    assert run.answer.text == "Over 40"
+
+
+def test_the_agent_and_the_reader_share_one_answer_form_rule():
+    for prompt in (PROMPT, CLOSING):
+        assert FORM_RULE.format(source="the tools") in prompt
+    assert FORM_RULE.format(source="the chunks") in reader.PROMPT
+    assert (
+        "never by a ref" in PROMPT and "An empty `entities` list means the chunks name none." in reader.PROMPT
+    )
+    # the rule before R147 sent everything but "which things" to text
+    assert all("which things" not in p and "Otherwise answer in a short" not in p
+               for p in (PROMPT, CLOSING, EMPTY_ANSWER, reader.PROMPT))  # fmt: skip
+    fields = step_model(["t"]).model_fields
+    for key, description in ANSWER_FIELDS.items():
+        assert fields[key].description == f"answer: {description}."
+        assert ReaderAnswer.model_fields[key].description == f"{description[:1].upper()}{description[1:]}."
+
+
+def test_a_trace_from_before_the_answer_form_still_loads():
+    old = AgentTrace.model_validate({"calls": [], "turns": 1, "stopped": "answer", "prompt_chars": 10})
+    assert (old.reformed, old.asks) == (False, None)
+
+
+def test_the_form_rule_takes_one_number_before_named_things():
+    """A measure asked with "what" or "how deep" is one number; a "values" clause before it would take it."""
+    rule = FORM_RULE.format(source="the tools")
+    assert rule.index("one number") < rule.index("named things") < rule.index("anything else")
+    assert "a value of a thing that is not a number" in rule
+    assert "it never replaces them" in rule
 
 
 # --- the caps ----------------------------------------------------------------------------------------
@@ -337,6 +506,9 @@ def test_the_agents_metrics_count_turns_calls_refusals_and_stops():
     assert metrics["agent_stopped_calls"] == 0 and _agent_metrics([]) == {}
     emptied = one.model_copy(update={"agent": one.agent.model_copy(update={"emptied": True})})
     assert _agent_metrics([one, emptied])["agent_answers_emptied"] == 1
+    reformed = one.model_copy(update={"agent": one.agent.model_copy(update={"reformed": True})})
+    assert _agent_metrics([one, reformed])["agent_answers_reformed"] == 1
+    assert metrics["agent_answers_reformed"] == 0
     timed = one.agent.model_copy(
         update={"llm_ms": 3000.0, "wall_ms": 5000.0, "entities_grounded": True, "number_stated": False}
     )
@@ -349,7 +521,11 @@ def test_the_agents_metrics_count_turns_calls_refusals_and_stops():
 def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():
     params = system_params(Settings(), "agent")
     assert (params["agent_max_calls"], params["agent_nodes"], params["seed_candidates"]) == (10, 15, 25)
-    assert "agent_prompt_version" in params and "agent_text_rrf_k" not in params
+    assert "agent_text_rrf_k" not in params
+    # R147: the text a form send-back writes is versioned with the prompts
+    assert params["agent_prompt_version"] == prompt_version(
+        PROMPT + CLOSING + CITATION_RETRY + EMPTY_ANSWER + FORM_ANSWER
+    )
     # R146: the tool list and the reply schema are versioned too, from the same text the model reads
     names = [t.name for t in AGENT_TOOL_TYPES]
     assert params["agent_tools_prompt_version"] == prompt_version(tool_list(AGENT_TOOL_TYPES))
@@ -379,7 +555,7 @@ def test_the_versioned_tool_list_is_the_list_the_agent_is_built_with():
 
 
 def test_what_the_model_reads_of_the_agent_names_no_evaluated_dataset():
-    texts = [PROMPT, CLOSING, EMPTY_ANSWER] + [
+    texts = [PROMPT, CLOSING, EMPTY_ANSWER, FORM_ANSWER] + [
         f.description or "" for m in (step_model(["t"]), AgentCitation) for f in m.model_fields.values()
     ]
     assert all(not DATASET_WORDS.search(text) for text in texts)

@@ -365,9 +365,10 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         *CARD_SYSTEMS,
         *SINGLE_SYSTEMS,
         *FUSED_SYSTEMS,
-        # the agentic query engine (plan R130-R136): its prompt, the closing prompt, the citation retry and
-        # the text an empty answer is sent back with (R138); then what the model reads besides (R146): the
-        # tool list rendered into every turn, and the reply schema with its field descriptions
+        # the agentic query engine (plan R130-R136): its prompt, the closing prompt, the citation retry, the
+        # text an empty answer is sent back with (R138) and the text an answer leaving out its declared form
+        # is sent back with (R147); then what the model reads besides (R146): the tool list rendered into
+        # every turn, and the reply schema with its field descriptions
         SystemSpec(
             AGENT,
             _agent,
@@ -376,7 +377,8 @@ SYSTEMS: Mapping[str, SystemSpec] = {
                 "agent": agent_prompt.PROMPT
                 + agent_prompt.CLOSING
                 + agent_prompt.CITATION_RETRY
-                + agent_prompt.EMPTY_ANSWER,
+                + agent_prompt.EMPTY_ANSWER
+                + agent_prompt.FORM_ANSWER,
                 "agent_tools": agent_prompt.tool_list(AGENT_TOOL_TYPES),
                 "agent_reply": schema_text(agent_prompt.step_model([t.name for t in AGENT_TOOL_TYPES])),
             },
