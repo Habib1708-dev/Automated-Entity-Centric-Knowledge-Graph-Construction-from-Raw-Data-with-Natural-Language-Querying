@@ -9,6 +9,8 @@ cards orange, the name linker aqua; validator run 2026-10-09: worst all-pairs CV
 24.0; aqua is below 3:1 on white, so its marks always carry a direct label or a legend entry). Marker shape
 encodes what is searched (circle chunk, triangle claim, square template card, diamond summary, pentagon name
 linker) and fill encodes the mode (filled dense, hollow lexical): hue x shape x fill, never a fourth hue.
+The evaluation figures (R159) reuse the blue and the orange for the two accuracy scores (`Score`: exact match
+a blue square, by meaning an orange circle); no figure shows techniques and scores together.
 Must not: load data or decide what a figure shows.
 """
 
@@ -31,6 +33,8 @@ INK_MUTED = "#898781"
 GRID = "#e1e0d9"
 AXIS = "#c3c2b7"
 CONTEXT = "#d3d2cb"  # de-emphasis gray of the emphasis form: the techniques a panel is not about
+# a surface tint, not a hue: the face of a neutral diagram box and a chart's background band for a group
+SURFACE_TINT = "#f4f4f1"
 
 # the three family hues (categorical slots 1-3, validated all-pairs)
 TEXT_BLUE = "#2a78d6"
@@ -82,6 +86,22 @@ TECHNIQUES = (
     Technique("graph_retrieval", "Name linker (reference)", "linker", "p", True),
 )
 BY_SYSTEM = {t.system: t for t in TECHNIQUES}
+
+
+@dataclass(frozen=True)
+class Score:
+    """How one accuracy score is named and drawn in the evaluation figures (R159): two of the three
+    validated hues, each with its own shape, so the scores stay apart without colour."""
+
+    label: str
+    color: str
+    marker: str
+
+
+# the evaluation rules' two accuracy scores, always both named: exact match (computed by code, except for the
+# free-text answers, whose exact-match outcome is the judges' verdict), and the judges' verdict by meaning
+EXACT = Score("Exact match (by code; free-text answers by the judges' verdict)", TEXT_BLUE, "s")
+MEANING = Score("By meaning, two blind judges", NODE_ORANGE, "o")
 
 
 def apply_style() -> None:

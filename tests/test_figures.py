@@ -1,17 +1,18 @@
-"""The thesis figures (R129, figures/): the R128 and R131 data functions return the committed counts (so a
-chart can only show a committed number), the build draws every figure into a fresh folder, and every committed
-figure is built, captioned in its folder's README.md and listed in the index, with no caption naming a missing
-file. No Neo4j, no network: the figures read committed records only."""
+"""The thesis figures (R129, figures/): the R128, R131 and R157 data functions return the committed counts (so
+a chart can only show a committed number), the build draws every figure into a fresh folder, and every
+committed figure is built, captioned in its folder's README.md and listed in the index, with no caption naming
+a missing file. No Neo4j, no network: the figures read committed records only."""
 
 import re
 from pathlib import Path
 
 import pytest
-from figures.scripts import r128_data, r131_data
+from figures.scripts import r128_data, r131_data, r157_data
 from figures.scripts.build import build
 
 ROOT = Path(__file__).resolve().parents[1]
 FIGURES = ROOT / "figures"
+TYPES_HARDEST = ("aggregation", "negation_sensitive")  # by meaning, the two fig2's title names
 
 
 def test_the_r128_data_functions_return_the_committed_counts():
@@ -45,10 +46,63 @@ def test_the_r131_data_functions_return_the_committed_counts():
     assert (pool[("pooled", 10)].only_a, pool[("pooled", 10)].only_b) == (9, 5)
 
 
+def test_the_r157_data_functions_return_the_committed_counts():
+    outcomes = r157_data.load_outcomes()
+    by_dataset = {a.group: a for a in r157_data.by_dataset(outcomes)}
+    pooled = by_dataset["pooled"]
+    assert (pooled.exact.k, pooled.meaning.k, pooled.exact.n) == (239, 243, 250)
+    per_dataset = {d: (a.exact.k, a.meaning.k, a.meaning.n) for d, a in by_dataset.items() if d != "pooled"}
+    assert per_dataset == {
+        "ntsb": (50, 50, 50),
+        "lighthouses": (46, 48, 50),
+        "furniture": (46, 46, 50),
+        "heldout": (49, 49, 50),
+        "generality": (48, 50, 50),
+    }
+    # the intervals the captions quote: pooled exact 92.3-97.5, by meaning 94.3-98.6, furniture 81.2-96.8
+    assert (round(pooled.exact.low, 3), round(pooled.exact.high, 3)) == (0.923, 0.975)
+    assert (round(pooled.meaning.low, 3), round(pooled.meaning.high, 3)) == (0.943, 0.986)
+    furniture = by_dataset["furniture"].meaning
+    assert (round(furniture.low, 3), round(furniture.high, 3)) == (0.812, 0.968)
+    split = r157_data.exact_split(outcomes)  # exact match: code-scored answers plus the judged free text
+    assert (split.code.k, split.code.n, split.free_text.k, split.free_text.n) == (216, 227, 23, 23)
+    assert split.code.n + split.free_text.n == len(outcomes)
+    by_type = r157_data.by_type(outcomes)
+    per_type = {a.group: (a.exact.k, a.meaning.k, a.meaning.n) for a in by_type}
+    assert per_type == {
+        "lookup": (40, 40, 40),
+        "structured_filter": (45, 45, 45),
+        "disambiguation": (38, 39, 39),
+        "multi_hop": (42, 44, 45),
+        "negation_sensitive": (32, 33, 35),
+        "aggregation": (42, 42, 46),
+    }
+    # fig2's title: the two hardest types by meaning, aggregation 79.7-96.6, and their intervals overlap
+    hardest = sorted(by_type, key=lambda a: (a.meaning.rate, a.exact.rate))[:2]
+    assert tuple(a.group for a in hardest) == TYPES_HARDEST
+    aggregation, negation = (a.meaning for a in hardest)
+    assert (round(aggregation.low, 3), round(aggregation.high, 3)) == (0.797, 0.966)
+    assert aggregation.high > negation.low and negation.high > aggregation.low
+    assert len(r157_data.wrong(outcomes)) == 11
+    causes = {c.cause: (c.both, c.exact_only) for c in r157_data.by_cause(outcomes)}
+    assert causes == {  # the ids fig3 prints at each bar
+        "agent_reasoning": (("LB09", "LB11", "FB10", "FB14", "FB18", "FB38", "HB41"), ()),
+        "tool_limit": (("LB09", "LB11", "FB10", "FB14", "FB38", "HB41"), ()),
+        "retrieval_miss": (("FB18",), ()),
+        "graph_build": (("FB14",), ()),
+        "answer_form": ((), ("LB06", "LB39", "GB05", "GB33")),
+    }
+    costs = r157_data.load_costs()
+    assert (round(costs.builds, 3), round(costs.agent, 3)) == (1.529, 3.870)
+    # R155's sum is the two builds plus the refused first plan, as the captions say
+    assert (round(costs.builds - costs.refused_plan, 3), round(costs.refused_plan, 3)) == (1.329, 0.200)
+    assert costs.agent_runs["ntsb"] == "fbf2339f"
+
+
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):
     built = build(results=tmp_path / "results", diagrams=tmp_path / "diagrams")
     names = sorted(p.name for p in built)
-    assert all(p.stat().st_size > 0 for p in built) and len(names) == 20  # ten figures, SVG and PNG
+    assert all(p.stat().st_size > 0 for p in built) and len(names) == 28  # fourteen figures, SVG and PNG
     committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png"))
     assert sorted(p.name for p in committed) == names  # nothing committed that the build does not make
     index = (FIGURES / "README.md").read_text(encoding="utf-8")

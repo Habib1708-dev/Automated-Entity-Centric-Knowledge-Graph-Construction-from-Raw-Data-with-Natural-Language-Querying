@@ -7,7 +7,17 @@ Must not: read `out/` or MLflow, or call a model or a database.
 
 from pathlib import Path
 
-from . import r126_r128_diagrams, r128_charts, r128_data, r130_r131_diagrams, r131_charts, r131_data
+from . import (
+    r126_r128_diagrams,
+    r128_charts,
+    r128_data,
+    r130_r131_diagrams,
+    r131_charts,
+    r131_data,
+    r152_r157_diagrams,
+    r157_charts,
+    r157_data,
+)
 from .style import apply_style
 
 FIGURES = Path(__file__).resolve().parents[1]
@@ -33,8 +43,14 @@ def build(results: Path | None = None, diagrams: Path | None = None) -> list[Pat
         r131_data.reranker_against_pool(),
         place(r131_charts.OUT, results, "results"),
     )
+    outcomes, costs = r157_data.load_outcomes(), r157_data.load_costs()
+    split = r157_data.exact_split(outcomes)
+    files += r157_charts.draw_all(outcomes, split, place(r157_charts.OUT, results, "results"))
     files += r126_r128_diagrams.draw_all(place(r126_r128_diagrams.OUT, diagrams, "diagrams"))
     files += r130_r131_diagrams.draw_all(tables, choice, place(r130_r131_diagrams.OUT, diagrams, "diagrams"))
+    files += r152_r157_diagrams.draw_all(
+        outcomes, costs, split, place(r152_r157_diagrams.OUT, diagrams, "diagrams")
+    )
     return files
 
 

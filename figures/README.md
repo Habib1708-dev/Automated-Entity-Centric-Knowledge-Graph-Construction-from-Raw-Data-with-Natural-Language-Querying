@@ -23,6 +23,14 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 | [r131_fig1_recall_by_k](results/retrieval/r131_seed_grid/r131_fig1_recall_by_k.png) | Seed Recall against K for the chosen fusion, the reranker and each card list alone (small multiples) |
 | [r131_fig2_paired_decision](results/retrieval/r131_seed_grid/r131_fig2_paired_decision.png) | fusion against one card list at K = 15, reranker against its pool at K = 5 and 10 (diverging bars) |
 
+### Evaluation: [r157_benchmark](results/evaluation/r157_benchmark/README.md), the frozen agent on 250 questions written before any output
+
+| Figure | Shows |
+|---|---|
+| [r157_fig1_accuracy_by_dataset](results/evaluation/r157_benchmark/r157_fig1_accuracy_by_dataset.png) | exact match and by meaning per dataset and pooled, 239/250 and 243/250 (dots, Wilson intervals) |
+| [r157_fig2_accuracy_by_type](results/evaluation/r157_benchmark/r157_fig2_accuracy_by_type.png) | both scores per question type, aggregation and negation-sensitive hardest, 42/46 and 33/35 by meaning (dots, Wilson intervals) |
+| [r157_fig3_failures_by_cause](results/evaluation/r157_benchmark/r157_fig3_failures_by_cause.png) | the 11 wrong answers by cause, with their ids, exact-only misses apart (bars) |
+
 ## Diagrams (how methods work)
 
 ### Retrieval: [r126_r128](diagrams/retrieval/r126_r128/README.md)
@@ -37,3 +45,9 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 | Diagram | Shows |
 |---|---|
 | [r131_diag1_seeding_decision](diagrams/retrieval/r130_r131/r131_diag1_seeding_decision.png) | the chosen seeding path and the reranker left out |
+
+### Evaluation: [r152_r157](diagrams/evaluation/r152_r157/README.md)
+
+| Diagram | Shows |
+|---|---|
+| [r157_diag1_benchmark_protocol](diagrams/evaluation/r152_r157/r157_diag1_benchmark_protocol.png) | the benchmark from datasets and gold to the two scores and the outcomes record |

@@ -9407,7 +9407,7 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
 
   Exact-only misses (4, right by meaning): a year list, a month and a time given in `text` (LB39, GB05,
   GB33: R147's rule names a year and a full date but not a month, a time or several years), and an
-  intermediate answer listed with the asked one (LB06). No failure is a graph-build gap or a gold error;
+  intermediate answer listed with the asked one (LB06). No failure is caused by a graph-build gap (FB14 has a contributing build detail, a handle stored without its "@", R159) and none by a gold error;
   NTSB, the dataset with the most tables (and the composite keys of R155a), is 50/50.
 - **Read with care:** gold, judges and the agent's fixes are one model family; one run, no repeat; the new
   datasets' questions were written before any build, the thesis datasets' after R151's freeze, none shaped
@@ -9439,6 +9439,27 @@ any fix makes the 250 questions seen and its measurement is a paid run.
   the free-text verdict; every outcome by meaning is the verdict; a cause exactly for the wrong answers;
   239 and 243 right. 1461 passed (1454 + 7), ruff clean.
 - **R158 done 2026-10-12.** Next: R159, the figures.
+
+### R159. The benchmark's figures (done 2026-10-12; $0)
+- **Scope** (by `figures/CLAUDE.md`; data only from `tests/gold/r157/outcomes.json` and the R155/R156 run
+  records): `figures/results/evaluation/r157_benchmark/` with r157_fig1 (accuracy per dataset, exact match and
+  by meaning, 95% Wilson intervals, the two new datasets banded apart, pooled 239/250 and 243/250), r157_fig2
+  (per question type: aggregation 42/46 and negation 33/35 by meaning the hardest, intervals overlapping),
+  r157_fig3 (the 11 answers wrong by either score by cause class, with their ids; 7 involve the agent's
+  reasoning, 6 with a tool limit; 4 miss exact match only by their form); `figures/diagrams/evaluation/
+  r152_r157/` with r157_diag1 (the protocol: datasets, gold before any output, builds, the frozen agent,
+  the two scores, the record). New `figures/scripts/r157_data.py`, `r157_charts.py`, `r152_r157_diagrams.py`;
+  `style.py` gains a score encoding (exact match blue square, by meaning orange circle: two of the three
+  validated hues, no new hue); captions in each folder's README and one line each in `figures/README.md`.
+- **Review fixes** (two lenses, 13 findings): the exact-match score is named as it is: code scored 216/227 and
+  the 23 free-text answers have their judges' verdict as exact-match outcome (23/23), never "all by code";
+  $1.529 includes the refused first plan ($1.329 for the two builds); the diagram's arrows give the gold
+  answers to both scores and the questions only to the agent; titles state findings that hold by both
+  scores; the caveat names the model families correctly (gold and judges Claude Opus 5.5, the agent Gemini).
+- **Verified:** the build rebuilds R128's and R131's figures byte-identical; a new test checks the data
+  functions return the record's counts (pooled, per dataset, per type, Wilson bound, the 11 failures and
+  their ids, the costs). 1462 passed (1461 + 1), ruff clean. Every PNG looked at.
+- **R159 done 2026-10-12; plan R158-R159 done.** Next: the user decides on the fixes R157 points to.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

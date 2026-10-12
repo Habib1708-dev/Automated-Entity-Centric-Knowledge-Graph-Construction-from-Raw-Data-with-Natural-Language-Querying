@@ -10,9 +10,9 @@ Must not: draw a whole diagram or hold any number.
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
-from .style import INK, INK_MUTED, LINKER_AQUA, NODE_ORANGE, TEXT_BLUE
+from .style import AXIS, INK, INK_MUTED, LINKER_AQUA, NODE_ORANGE, SURFACE_TINT, TEXT_BLUE
 
-NEUTRAL = ("#f4f4f1", "#c3c2b7")  # face, edge
+NEUTRAL = (SURFACE_TINT, AXIS)  # face, edge
 TINT = {
     TEXT_BLUE: ("#e8f1fc", TEXT_BLUE),
     NODE_ORANGE: ("#fdeee7", NODE_ORANGE),
