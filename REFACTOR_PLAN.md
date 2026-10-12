@@ -8821,6 +8821,57 @@ any output for them is read, with R136's questions reported apart as "seen".
   complaint denies it), GN03 (3 + 2 low-suction trips). 1199 passed (1190 + 9), ruff clean.
 - **R143a done 2026-10-10.** Next: R143b, the runs (approved within the user's budget, about $0.9).
 
+### R143b. The agent and the reading systems on fresh questions, and the agent on R136's wrong ones (done 2026-10-12; $0.940)
+- **Asked and approved:** the user, 2026-10-10, "~$0.9: 10 new + 22 failed"; on 2026-10-12, after furniture cost
+  $0.469 (the agent about $0.02 a question, not R136's $0.015) and the rest was projected at $0.68, "Finish
+  all, ~$0.68 more".
+- **Runs** (`tests/gold/r143/runs.json`): furniture on its R136 graph (`392a170ecc10`); held-out and generality
+  reloaded into `out/r143_heldout` and `out/r143_generality` by R128's and R125's recipes ($0: every resolve
+  and mention-pass answer from the cache, triples and mentions byte-identical, digests `bc7c5a1efe3d` and
+  `f79f9411ea81` as R136's). Agent on the fresh 30 $0.472 ($0.0157 a question), on the seen 22 $0.378
+  ($0.0172); the three reading systems on the fresh 30 $0.090 ($0.0010 a question). **$0.940 in all.**
+  Two bugs of R141 found on the way, each fixed in its own commit before any affected number was kept
+  (Found along the way): `qa_parts` dropped the text reader (the first command stopped before any call,
+  $0), and the faithfulness check took another answer's excerpt (rescored, $0).
+- **Results** (correct: sets and numbers by code, exact match; FN10, HN09, GN09, H38 by the judge, Claude Opus
+  5.5, `tests/gold/r143/*_verdicts.json`; paired by exact McNemar on the 30 fresh questions pooled,
+  `out/r143/compare_fresh_*`):
+
+  | Fresh (10 each) | agent | vector | graph_retrieval | hybrid |
+  |---|---|---|---|---|
+  | furniture | **10** | 4 | 4 | 4 |
+  | held-out | **9** | 3 | 3 | 4 |
+  | generality | **9** | 5 | 5 | 5 |
+  | pooled (30) | **28** | 12 | 12 | 13 |
+  | only agent / only the system, p | - | 16 / 0, p < 0.001 | 16 / 0, p < 0.001 | 15 / 0, p < 0.001 |
+
+  - By type (pooled, agent against hybrid): multi_hop 6/6 against 0/6 and structured_filter 6/6 against 0/6
+    (each p = 0.031); aggregation 5/6 against 2/6; disambiguation 3/4, negation 3/3, lookup 5/5, as hybrid.
+  - **Seen** (R136's 22 wrong answers, agent alone): **14/22 now right**: furniture 8/10, held-out 3/5,
+    generality 3/7. Read with care: these questions shaped the fixes.
+  - **The fixes at work:** 0 refused calls in all six agent runs (R136: 79 refused, 78 of them an empty
+    tool); no empty answer (H38, empty in R136, now "August 17, 2020"); F59, F61, F64, F65, F48 (branching
+    walks) all right; H11 right (grouping); F08 right (`find_passages`).
+  - **Still wrong (10):** six give the right content in `text` where the gold scores a set or a number
+    (GN07 "Maria Lopez trained in Valencia.", H36 "Over 440 miles to empty", G02, G03, G10, G31): the
+    answer-form part of cause A, which R138 left to the prompt; HN03 compares two fields of one row (a
+    recall's received year with its model year), which the query language cannot (8 counted by hand of
+    10); H66 names the recall's manufacturer where the gold asks for the vehicle record's (gold
+    unchanged: its note says so); F12 searched `["Uppsala", "covers"]`, missing a review that does not name
+    the sofa (the tool finds 4 with `["removable covers"]`); F13 needs a tally of reviewer handles past
+    `find_passages`'s 30.
+  - **Time and support (R142's measures):** median seconds per answer: agent 7.6-14.8, reading systems
+    2.3-6.8 (thread workers, rate-limit waits included); the agent's model time is about 95% of its wall
+    time. Fresh entity answers whose names are all in the cited results: 12 of 14; numbers stated in them:
+    10 of 12 (a count the model made by reading is stated nowhere). Citation faithfulness 1.0 for the agent
+    on every run (after the fix).
+- **Read with care:** 10 questions per dataset (the per-dataset numbers are small; the pooled test carries
+  the claim); gold, verdicts and the agent's fixes come from one model family and one session; the fresh
+  questions were written after the fixes, though not from any output; the agent makes 3-6 model calls per
+  question, so this is a comparison of systems at about 16 times a reading system's cost per question.
+- **R143b done 2026-10-12; plan R137-R143 done.** Next: the user decides (the answer-form prompt rule, a
+  field-to-field comparison in the query language, or the next plan).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

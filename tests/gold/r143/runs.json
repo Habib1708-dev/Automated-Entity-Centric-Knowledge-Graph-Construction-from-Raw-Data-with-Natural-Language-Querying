@@ -1,0 +1,121 @@
+{
+ "step": "R143b: the agent and the reading systems on 30 fresh questions, and the agent on R136's 22 wrong ones",
+ "approved": "the user, 2026-10-10: '~$0.9: 10 new + 22 failed'; 2026-10-12, after furniture cost $0.469 and the rest was projected at $0.68: 'Finish all, ~$0.68 more'",
+ "git_sha": "90e2f38 (furniture fresh), 29de02f (the rest; the faithfulness fix changes scoring only)",
+ "builds": {
+  "furniture": {
+   "graph": "out/r136_furniture loaded since R136",
+   "graph_digest": "392a170ecc10",
+   "folders": [
+    "out/r143_furniture_fresh",
+    "out/r143_furniture_seen"
+   ]
+  },
+  "heldout": {
+   "graph": "reloaded into out/r143_heldout with R128's recipe (tests/gold/r128/runs.json), template index only; triples and mentions byte-identical to out/r109_heldout; resolve 724/724 and mention-pass 81/81 cache hits; $0",
+   "graph_digest": "bc7c5a1efe3d",
+   "folders": [
+    "out/r143_heldout",
+    "out/r143_heldout_seen"
+   ]
+  },
+  "generality": {
+   "graph": "reloaded into out/r143_generality with R125's recipe (tests/gold/r125/runs.json), template index only; triples and mentions byte-identical to out/r108_generality; resolve 354/354 and mention-pass 32/32 cache hits; $0",
+   "graph_digest": "f79f9411ea81",
+   "folders": [
+    "out/r143_generality",
+    "out/r143_generality_seen"
+   ]
+  }
+ },
+ "commands": [
+  "kg --preset <quality|heldout|generality_gemini> qa tests/gold/qa/<dataset>_qa_fresh.json --system agent --system vector --system graph_retrieval --system hybrid --out <fresh folder>",
+  "kg --preset <same> qa tests/gold/r143/<dataset>_seen_failed.json --system agent --out <seen folder>"
+ ],
+ "runs": {
+  "furniture_fresh": {
+   "agent": [
+    "4327fa57",
+    0.199446
+   ],
+   "vector": [
+    "3f7a3c78",
+    0.0107
+   ],
+   "graph_retrieval": [
+    "8bdb6fe7",
+    0.004271
+   ],
+   "hybrid": [
+    "455eb0d2",
+    0.011136
+   ]
+  },
+  "furniture_seen": {
+   "agent": [
+    "fc768ef0",
+    0.243191
+   ]
+  },
+  "heldout_fresh": {
+   "agent": [
+    "fedf5091",
+    0.186361
+   ],
+   "vector": [
+    "c59cdefd",
+    0.011113
+   ],
+   "graph_retrieval": [
+    "17eef468",
+    0.010491
+   ],
+   "hybrid": [
+    "d4c3c506",
+    0.012044
+   ]
+  },
+  "heldout_seen": {
+   "agent": [
+    "c77c5b7b",
+    0.050967
+   ]
+  },
+  "generality_fresh": {
+   "agent": [
+    "2f27d3bc",
+    0.085952
+   ],
+   "vector": [
+    "528bed7a",
+    0.012622
+   ],
+   "graph_retrieval": [
+    "467a07f4",
+    0.006153
+   ],
+   "hybrid": [
+    "ac3ab74e",
+    0.011265
+   ]
+  },
+  "generality_seen": {
+   "agent": [
+    "14d00526",
+    0.083804
+   ]
+  }
+ },
+ "cost_usd_total": 0.9395,
+ "verdicts": "tests/gold/r143/<dataset>_<fresh|seen>_<system>_verdicts.json (Claude Opus 5.5, R71's rules): FN10, HN09, GN09, H38",
+ "correct": {
+  "fresh": {
+   "agent": "28/30",
+   "vector": "12/30",
+   "graph_retrieval": "12/30",
+   "hybrid": "13/30"
+  },
+  "seen_failed_agent": "14/22 (furniture 8/10, held-out 3/5, generality 3/7)"
+ },
+ "scoring": "kg qa-score into out/r143/<dataset>_<fresh|seen>; the fresh outcomes pooled into out/r143/pooled_fresh and compared by kg qa-compare into out/r143/compare_fresh_<system>"
+}

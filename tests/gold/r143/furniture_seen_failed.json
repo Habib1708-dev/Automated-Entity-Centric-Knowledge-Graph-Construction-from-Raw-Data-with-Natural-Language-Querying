@@ -1,0 +1,312 @@
+{
+ "dataset": "furniture",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-09-30",
+ "corpus": {
+  "data_dir": "data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "F08",
+   "type": "aggregation",
+   "question": "Which products are reported with misaligned pre-drilled holes?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Gothenburg Table"
+     },
+     {
+      "name": "Helsingborg Dresser"
+     },
+     {
+      "name": "Jönköping Coffee Table"
+     },
+     {
+      "name": "Malmö Desk"
+     },
+     {
+      "name": "Norrköping Nightstand"
+     },
+     {
+      "name": "Västerås Bookshelf"
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#1",
+     "quote": "some of the pre-drilled holes didn't line up properly and I had to drill new ones"
+    },
+    {
+     "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+     "quote": "many of the pre-drilled holes didn't line up correctly"
+    },
+    {
+     "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#4",
+     "quote": "some of the pre-drilled holes weren't aligned properly"
+    },
+    {
+     "chunk_id": "product_reviews/malmo_desk_reviews.md#4",
+     "quote": "some of the pre-drilled holes didn't align properly"
+    },
+    {
+     "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#4",
+     "quote": "the pre-drilled holes for the drawer handle weren't aligned correctly"
+    },
+    {
+     "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1",
+     "quote": "some of the pre-drilled holes weren't perfectly aligned"
+    }
+   ],
+   "origin": "tests/gold/r65/furniture_gold.json#3",
+   "note": "Collects every matching review over the corpus; six products, one review each."
+  },
+  {
+   "id": "F12",
+   "type": "aggregation",
+   "question": "How many Uppsala Sofa reviews mention its removable covers?",
+   "expected": {
+    "number": 4
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+     "quote": "The removable covers are a game-changer"
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#2",
+     "quote": "the removable covers are clutch though"
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#3",
+     "quote": "The removable covers feature quality YKK zippers"
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+     "quote": "the removable covers have been washed multiple times with no fading or shrinking"
+    }
+   ]
+  },
+  {
+   "id": "F13",
+   "type": "aggregation",
+   "question": "Which reviewer handle appears on reviews of the most different products?",
+   "expected": {
+    "entities": [
+     {
+      "name": "@scandi_lover",
+      "aliases": [
+       "scandi_lover"
+      ]
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/malmo_desk_reviews.md#6",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/orebro_lamp_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/stockholm_chair_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    },
+    {
+     "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#0",
+     "quote": "- @scandi_lover (Minneapolis)"
+    }
+   ],
+   "note": "@scandi_lover reviews 8 products; @designer_dave and @angry_customer 7 each."
+  },
+  {
+   "id": "F28",
+   "type": "negation_sensitive",
+   "question": "How many Uppsala Sofa reviews report squeaking or creaking?",
+   "expected": {
+    "number": 1
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#4",
+     "quote": "the frame creaks whenever someone sits down"
+    }
+   ],
+   "note": "Review 6 says \"no squeaking or wobbling\": it does not count."
+  },
+  {
+   "id": "F48",
+   "type": "structured_filter",
+   "question": "For which parts of the Helsingborg Dresser's drawers does the other supplier quote a shorter lead time than the preferred supplier?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Drawer Front"
+     },
+     {
+      "name": "Drawer Rails"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "SELECT DISTINCT c.part_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping pref ON pref.part_id = c.part_id AND pref.preferred_supplier JOIN part_supplier_mapping other ON other.part_id = c.part_id AND NOT other.preferred_supplier WHERE p.product_name = 'Helsingborg Dresser' AND a.component_name = 'Drawers' AND other.lead_time_days < pref.lead_time_days",
+   "note": "Every part has exactly two suppliers, one of them preferred."
+  },
+  {
+   "id": "F59",
+   "type": "multi_hop",
+   "question": "Which suppliers provide the parts of the Linköping Bed's headboard?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Canadian Timber Products"
+     },
+     {
+      "name": "German Precision Fasteners"
+     },
+     {
+      "name": "Korean Metal Works"
+     },
+     {
+      "name": "Nordic Wood Industries"
+     },
+     {
+      "name": "Shanghai Metal Corp"
+     },
+     {
+      "name": "Taiwan Precision Parts"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "SELECT DISTINCT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Linköping Bed' AND a.component_name = 'Headboard'"
+  },
+  {
+   "id": "F61",
+   "type": "multi_hop",
+   "question": "Which products contain a part supplied by German Precision Fasteners?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Helsingborg Dresser"
+     },
+     {
+      "name": "Linköping Bed"
+     },
+     {
+      "name": "Malmö Desk"
+     },
+     {
+      "name": "Stockholm Chair"
+     },
+     {
+      "name": "Uppsala Sofa"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "SELECT DISTINCT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE m.supplier_id = 'SUP-004'"
+  },
+  {
+   "id": "F62",
+   "type": "multi_hop",
+   "question": "In which countries are the suppliers of the Uppsala Sofa's seat cushion parts based?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Brazil"
+     },
+     {
+      "name": "India"
+     },
+     {
+      "name": "Italy"
+     },
+     {
+      "name": "Mexico"
+     },
+     {
+      "name": "USA"
+     },
+     {
+      "name": "United Kingdom"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "SELECT DISTINCT s.country FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Seat Cushion'"
+  },
+  {
+   "id": "F64",
+   "type": "multi_hop",
+   "question": "Which suppliers supply parts to both the Malmö Desk and the Helsingborg Dresser?",
+   "expected": {
+    "entities": [
+     {
+      "name": "American Hardware Inc"
+     },
+     {
+      "name": "Canadian Timber Products"
+     },
+     {
+      "name": "German Precision Fasteners"
+     },
+     {
+      "name": "Korean Metal Works"
+     },
+     {
+      "name": "Mexican Hardware Solutions"
+     },
+     {
+      "name": "Nordic Wood Industries"
+     },
+     {
+      "name": "Shanghai Metal Corp"
+     },
+     {
+      "name": "Taiwan Precision Parts"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "SELECT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name IN ('Malmö Desk', 'Helsingborg Dresser') GROUP BY s.name HAVING count(DISTINCT p.product_name) = 2"
+  },
+  {
+   "id": "F65",
+   "type": "multi_hop",
+   "question": "How many different suppliers provide parts of the Stockholm Chair?",
+   "expected": {
+    "number": 10
+   },
+   "route": "exact",
+   "sql": "SELECT count(DISTINCT m.supplier_id) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Stockholm Chair'",
+   "note": "Parts of the seat and the back rest."
+  }
+ ]
+}

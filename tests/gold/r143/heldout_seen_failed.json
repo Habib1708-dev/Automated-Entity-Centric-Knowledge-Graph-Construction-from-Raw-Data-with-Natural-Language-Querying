@@ -1,0 +1,140 @@
+{
+ "dataset": "heldout_nhtsa",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-09-30",
+ "corpus": {
+  "data_dir": "heldout/nhtsa/data",
+  "plan": "tests/gold/heldout_nhtsa_plan.json",
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "H11",
+   "type": "aggregation",
+   "question": "Which complaint component category appears in the most complaints?",
+   "expected": {
+    "entities": [
+     {
+      "name": "FUEL/PROPULSION SYSTEM"
+     }
+    ]
+   },
+   "route": "exact",
+   "records": [
+    {
+     "file": "complaints.csv",
+     "row": {
+      "odiNumber": "11032133",
+      "components": "FUEL/PROPULSION SYSTEM"
+     }
+    },
+    {
+     "file": "complaints.csv",
+     "row": {
+      "odiNumber": "11209676",
+      "components": "POWER TRAIN,ENGINE,FUEL/PROPULSION SYSTEM"
+     }
+    },
+    {
+     "file": "complaints.csv",
+     "row": {
+      "odiNumber": "11221492",
+      "components": "FUEL/PROPULSION SYSTEM"
+     }
+    },
+    {
+     "file": "complaints.csv",
+     "row": {
+      "odiNumber": "10689793",
+      "components": "FUEL/PROPULSION SYSTEM"
+     }
+    },
+    {
+     "file": "complaints.csv",
+     "row": {
+      "odiNumber": "10692693",
+      "components": "POWER TRAIN,FUEL/PROPULSION SYSTEM"
+     }
+    }
+   ],
+   "note": "A complaint can list several categories: FUEL/PROPULSION SYSTEM is in 5 complaints, ENGINE and POWER TRAIN in 4 each."
+  },
+  {
+   "id": "H36",
+   "type": "lookup",
+   "question": "How many miles to empty does the owner in complaint 11032133 normally see after filling up?",
+   "expected": {
+    "number": 440
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "complaints/nissan_rogue_complaints.md#4",
+     "quote": "OVER 440 MILES TO EMPTY"
+    }
+   ],
+   "note": "The owner writes \"over 440\"; 440 is the number stated."
+  },
+  {
+   "id": "H38",
+   "type": "lookup",
+   "question": "When did recall 20V373000 begin?",
+   "expected": {
+    "text": "August 17, 2020."
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "record/Recall/20V373000#1",
+     "quote": "The recall began August 17, 2020."
+    }
+   ]
+  },
+  {
+   "id": "H40",
+   "type": "structured_filter",
+   "question": "Which recall campaigns carry an NHTSA action number?",
+   "expected": {
+    "entities": [
+     {
+      "name": "16V244000"
+     },
+     {
+      "name": "16V643000"
+     },
+     {
+      "name": "20V331000"
+     },
+     {
+      "name": "25V695000"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE NHTSAActionNumber IS NOT NULL"
+  },
+  {
+   "id": "H66",
+   "type": "multi_hop",
+   "question": "Which vehicle manufacturers have a vehicle with a fuel pump recall?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Honda (American Honda Motor Co.)"
+     },
+     {
+      "name": "Subaru of America, Inc."
+     },
+     {
+      "name": "Toyota Motor Corporation"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT DISTINCT v.manufacturer FROM r JOIN vehicles v ON v.model = r.Model WHERE r.Component LIKE '%FUEL PUMP%'",
+   "note": "The vehicle record's manufacturer, not the recall's."
+  }
+ ]
+}
