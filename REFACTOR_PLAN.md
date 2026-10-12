@@ -9085,9 +9085,10 @@ with its evidence and the direction a later step would take:
 ## Found along the way
 - **R138's empty-answer send-back fires on the last allowed turn (found in R147, 2026-10-12; open).** The
   loop then leaves through `_close`: the CLOSING prompt is sent (one more call) and the trace reads
-  `stopped` "turns" for a question the model answered. R147's form send-back waits for a turn to be left;
-  R138's should too, in its own commit with a test (`AgentLimits(turns=1)`, an empty answer: stopped
-  "answer"). Rare: R143b had no empty answer.
+  `stopped` "turns" for a question the model answered. R147's form send-back waits for a turn to be left,
+  since its answer is worth keeping; R138's is left as is, since an empty answer kept would never be right
+  and the closing prompt gives the model one more chance. The cost is the stop label only. Rare: R143b had
+  no empty answer.
 - **`query/exact.py` (RECORDS_PROMPT) and `query/planner.py` still key the answer form on "which things"
   (found in R147, 2026-10-12; open).** The graph, records_vector and plan systems, not in the R143b
   comparison; R147's `FORM_RULE` could replace their wording, measured on those systems.
