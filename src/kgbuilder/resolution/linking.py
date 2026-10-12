@@ -18,7 +18,7 @@ from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
 from ..core.text import norm, squash
-from ..structured.plan import ConstructionPlan, name_property
+from ..structured.plan import ConstructionPlan, NodeRule, name_property
 
 # Names shorter than this, once squashed, are too likely to occur inside an unrelated file name ("bed"
 # in "embedded_notes") to be trusted for document linking.
@@ -100,6 +100,25 @@ def match_chunk_records(text: str, records: list[RecordKey]) -> list[RecordKey]:
     ]
 
 
+def key_matched(rule: NodeRule) -> bool:
+    """Whether a section heading may name `rule`'s records by their key (`match_chunk_records`).
+
+    Not a key built from key_columns (R155a): `squash` drops its separator, so "P-10|00" would match an
+    unrelated heading token "P-1000", and a heading never cites a built key as one token. The live linker
+    and the audit snapshot both ask this, so the snapshot replays the same links.
+    """
+    return rule.key_columns is None
+
+
+def name_matched(rule: NodeRule) -> bool:
+    """Whether a file document's title may name `rule`'s records by their display name (`match_document`).
+
+    Not when that name falls back to a key built from key_columns (R155a, no name column): the same
+    `squash` makes "P-10|00" a name inside the title "p1000_reviews".
+    """
+    return rule.key_columns is None or name_property(rule) != rule.unique_column
+
+
 def read_domain_nodes(driver: Driver, plan: ConstructionPlan) -> list[DomainNode]:
     """Element id, label, display name and key of every domain node that has a name."""
     nodes: list[DomainNode] = []
@@ -136,12 +155,14 @@ def link_graphs(driver: Driver, plan: ConstructionPlan) -> LinkReport:
     # the record's display name and could match a different, similarly named node
     file_docs = [d for d in documents if d["record_label"] is None]
     record_docs = [d for d in documents if d["record_label"] is not None]
+    named = {rule.label for rule in plan.nodes if name_matched(rule)}
+    titles = [n for n in domain if n.label in named]
     document_rows = [
         # the thing's display name travels on the link, so a reader of the text graph can name what a
         # document is about without knowing which property the plan names each label by
         {"src": d["id"], "dst": node.element_id, "props": {"name": node.name}}
         for d in file_docs
-        if (node := match_document(d["title"], domain))
+        if (node := match_document(d["title"], titles))
     ]
     _write_links(driver, "(src:Document {doc_id: r.src})", "ABOUT", document_rows)
     records_linked = _link_record_documents(driver, record_docs)
@@ -195,6 +216,8 @@ def read_record_keys(driver: Driver, plan: ConstructionPlan) -> list[RecordKey]:
     """Element id, key (as text) and display name of every domain node, for section matching."""
     keys: list[RecordKey] = []
     for rule in plan.nodes:
+        if not key_matched(rule):
+            continue
         label, key = cypher_ident(rule.label), cypher_ident(rule.unique_column)
         name = cypher_ident(name_property(rule))
         records, _, _ = driver.execute_query(

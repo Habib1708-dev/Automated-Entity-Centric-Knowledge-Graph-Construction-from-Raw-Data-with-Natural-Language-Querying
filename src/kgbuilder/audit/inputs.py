@@ -6,19 +6,20 @@ dataset through the build's own loaders and chunker, so the snapshot holds what 
 Design: a record is named by its `record_ref` (`<label>:<key>`), the id resolve.json and the verdict files
 use, never by a Neo4j element id (they died with the graph). The importer's rules are followed where they
 change the result: one record per key, the later row's non-empty properties winning (`SET n += props`), and
-a relationship only when both its ends exist.
+a relationship only when both its ends exist. A key built from several columns (R155a) is computed by
+the plan's own `key_value`, the importer's rule, from the same staged text.
 Must not: talk to Neo4j, or decide anything the build did not decide.
 """
 
-import csv
 from collections import defaultdict, deque
 from pathlib import Path
 
 from pydantic import BaseModel
 
 from ..core.identity import record_ref
-from ..structured.plan import ConstructionPlan, name_property
+from ..structured.plan import ConstructionPlan, column_value, key_value, name_property
 from ..structured.profiler import DataProfile
+from ..structured.staging import read_text_rows
 from ..text.chunking import Chunk, chunk_document
 from ..text.documents import Document, load_documents
 from ..text.record_documents import record_documents
@@ -58,10 +59,11 @@ def read_records(staged_dir: Path, plan: ConstructionPlan) -> list[Record]:
     records: dict[str, Record] = {}
     for rule in plan.nodes:
         name_col = name_property(rule)
-        for row in _rows(staged_dir / rule.source_file):
-            key = row.get(rule.unique_column)
+        for row in read_text_rows(staged_dir / rule.source_file):
+            key = key_value(rule, row)
             if key is None:  # the importer skips a row with a null key
                 continue
+            key = str(key)  # text already: a text row's cell, or a key joined from its cells
             ref = record_ref(rule.label, key)
             props = {p: row[p] for p in rule.properties if row.get(p) is not None}
             if ref in records:  # MERGE on the key: the later row's properties are added over the earlier's
@@ -84,8 +86,9 @@ def read_relations(staged_dir: Path, plan: ConstructionPlan, records: list[Recor
         from_node, to_node = plan.node(rule.from_label), plan.node(rule.to_label)
         if from_node is None or to_node is None:
             continue
-        for row in _rows(staged_dir / rule.source_file):
-            a, b = row.get(rule.from_column), row.get(rule.to_column)
+        for row in read_text_rows(staged_dir / rule.source_file):
+            a = column_value(plan, rule.source_file, rule.from_column, row)
+            b = column_value(plan, rule.source_file, rule.to_column, row)
             if a is None or b is None:
                 continue
             source, target = record_ref(from_node.label, a), record_ref(to_node.label, b)
@@ -134,12 +137,3 @@ def read_corpus(
         docs = [*docs, *record_documents(staged_dir, plan, profile)]
     chunks = [c for d in docs for c in chunk_document(d, *chunking)]
     return Corpus(documents=docs, chunks=chunks)
-
-
-def _rows(path: Path) -> list[dict[str, str | None]]:
-    """The rows of a staged CSV, every cell stripped; an empty cell is None, as DuckDB reads it."""
-    with path.open(encoding="utf-8", newline="") as f:
-        return [
-            {k: ((v or "").strip() or None) for k, v in row.items() if k is not None}
-            for row in csv.DictReader(f)
-        ]

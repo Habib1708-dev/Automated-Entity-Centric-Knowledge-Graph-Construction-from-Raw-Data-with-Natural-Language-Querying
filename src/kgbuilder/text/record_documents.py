@@ -5,13 +5,14 @@ has prose columns (`ColumnProfile.is_prose`) becomes one synthetic document carr
 that linking ties it to its record by key (never by name) and its claims become observations with the
 record as their thing. On a table whose text is tagline-length (the furniture `description`) no column
 is prose and nothing here fires, so that graph stays unchanged.
+A record keyed by several columns (R155a) gets the key code built from them, as its node holds it.
 Not here: the prose rule itself (structured/profiler.py) and the ABOUT link (resolution/linking.py).
 """
 
 import csv
 from pathlib import Path
 
-from ..structured.plan import ConstructionPlan, name_property
+from ..structured.plan import ConstructionPlan, key_value, name_property
 from ..structured.profiler import DataProfile
 from .documents import Document, RecordRef
 
@@ -48,7 +49,8 @@ def record_documents(staged_dir: Path, plan: ConstructionPlan, profile: DataProf
         name_col = name_property(rule)
         with (Path(staged_dir) / rule.source_file).open(encoding="utf-8", newline="") as f:
             for row in csv.DictReader(f):
-                key = (row.get(rule.unique_column) or "").strip()
+                # the importer's key (R155a): the key cell, or the key built from key_columns' cells
+                key = str(key_value(rule, row) or "").strip()
                 sections = [(c, (row.get(c) or "").strip()) for c in columns]
                 sections = [(c, text) for c, text in sections if text]
                 if not key or not sections:

@@ -38,7 +38,8 @@ class ConfigurationError(KgBuilderError):
 
 
 class DataSourceError(KgBuilderError):
-    """A database the tables come from cannot be read (R114): unreachable, a missing schema, or no tables."""
+    """The tables cannot be read: a source database that is unreachable, has a missing schema or no tables
+    (R114), or a staged CSV whose typed and text reads count different rows (R155a)."""
 
 
 class MissingInputError(KgBuilderError):

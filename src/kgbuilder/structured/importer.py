@@ -4,6 +4,8 @@ Role in the pipeline: `kg build`. Executes the reviewed plan against the staged 
 Design: every write is a batched, parameterised `MERGE`, so the import is idempotent and safe to rerun.
 Every rule reports rows read / skipped / written, so silent data loss (dangling foreign keys, null
 keys) shows up as numbers instead of as a smaller graph.
+A rule keyed by `key_columns` (R155a) takes its key from the csv text of the row (`plan.key_value`), and
+its typed properties from DuckDB as every other rule: the two reads of one file are zipped row by row.
 Not here: deciding what to import (proposer.py, plan.py).
 """
 
@@ -18,8 +20,10 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
-from .plan import ConstructionPlan, NodeRule, RelationshipRule
+from ..core.errors import DataSourceError
+from .plan import ConstructionPlan, NodeRule, RelationshipRule, built_ends, key_value
 from .profiler import quote_ident, read_csv
+from .staging import read_text_rows
 
 # Rows per UNWIND. Large enough to amortise the round trip, small enough to keep transactions light.
 BATCH_SIZE = 1000
@@ -66,12 +70,44 @@ def _to_neo4j(value: object) -> object:
 
 
 def _read_rows(data_dir: Path, source_file: str, columns: list[str]) -> list[dict]:
-    """Read the given columns with DuckDB's type inference, the same one the profiler used."""
+    """Read the given columns with DuckDB's type inference, the same one the profiler used.
+
+    With no columns (a rule whose every value is a built key) one empty row per row of the file.
+    """
     con = duckdb.connect()
+    source = read_csv(con, data_dir / source_file)
+    if not columns:  # SQL has no empty select list; the row count still decides rows_read
+        (count,) = source.query("src", "SELECT count(*) FROM src").fetchone()
+        return [{} for _ in range(count)]
     select = ", ".join(quote_ident(c) for c in dict.fromkeys(columns))  # dedupe, keep order
-    relation = read_csv(con, data_dir / source_file).query("src", f"SELECT {select} FROM src")
+    relation = source.query("src", f"SELECT {select} FROM src")
     names = relation.columns
     return [{n: _to_neo4j(v) for n, v in zip(names, row, strict=True)} for row in relation.fetchall()]
+
+
+def _text_rows(data_dir: Path, source_file: str, expected: int) -> list[dict[str, str | None]]:
+    """The csv text of the rows `_read_rows` read from the same file, in the same order.
+
+    Raises `DataSourceError` when the two reads count different rows: zipping them would then give one
+    row's key to another row's properties.
+    """
+    rows = read_text_rows(data_dir / source_file)
+    if len(rows) != expected:
+        raise DataSourceError(
+            f"'{source_file}' reads as {expected} rows typed and {len(rows)} rows as text; built keys "
+            "cannot be matched to their rows"
+        )
+    return rows
+
+
+def _node_keys(data_dir: Path, rule: NodeRule) -> tuple[list[dict], list[object]]:
+    """The typed rows of a node rule and the key of each: its key cell, or the key built from its text."""
+    if rule.key_columns is None:
+        rows = _read_rows(data_dir, rule.source_file, [rule.unique_column, *rule.properties])
+        return rows, [r[rule.unique_column] for r in rows]
+    rows = _read_rows(data_dir, rule.source_file, rule.properties)
+    texts = _text_rows(data_dir, rule.source_file, len(rows))
+    return rows, [key_value(rule, t) for t in texts]
 
 
 def _batches(rows: list[dict]) -> Iterator[list[dict]]:
@@ -94,12 +130,12 @@ def import_nodes(driver: Driver, data_dir: Path, rule: NodeRule) -> RuleReport:
     # the constraint doubles as the index that makes MERGE and the relationship MATCHes fast
     driver.execute_query(f"CREATE CONSTRAINT IF NOT EXISTS FOR (n:{label}) REQUIRE n.{key} IS UNIQUE")
 
-    rows = _read_rows(data_dir, rule.source_file, [rule.unique_column, *rule.properties])
+    rows, keys = _node_keys(data_dir, rule)
     payload = [
         # null properties are left out: SET n += {p: null} would delete a value from an earlier run
-        {"key": r[rule.unique_column], "props": {p: r[p] for p in rule.properties if r[p] is not None}}
-        for r in rows
-        if r[rule.unique_column] is not None
+        {"key": k, "props": {p: r[p] for p in rule.properties if r[p] is not None}}
+        for r, k in zip(rows, keys, strict=True)
+        if k is not None
     ]
     query = (
         f"UNWIND $rows AS row MERGE (n:{label} {{{key}: row.key}}) SET n += row.props RETURN count(n) AS c"
@@ -126,7 +162,7 @@ def import_relationships(
         f"MERGE (a)-[r:{cypher_ident(rule.relationship_type)}]->(b) "
         "SET r += row.props RETURN count(r) AS c"
     )
-    rows = _read_rows(data_dir, rule.source_file, [rule.from_column, rule.to_column, *rule.properties])
+    rows = _relationship_rows(data_dir, rule, plan)
     payload = [
         {
             "from": r[rule.from_column],
@@ -143,6 +179,24 @@ def import_relationships(
         rows_skipped_null_key=len(rows) - len(payload),
         rows_written=_write(driver, query, payload),
     )
+
+
+def _relationship_rows(data_dir: Path, rule: RelationshipRule, plan: ConstructionPlan) -> list[dict]:
+    """The typed rows of a relationship rule, with each end that is a built key filled from the row's text.
+
+    Real ends stay DuckDB-typed: the other node was merged on its typed key, and a BIGINT 7 never matches
+    the text "7".
+    """
+    built = built_ends(plan, rule)
+    real = [c for c in (rule.from_column, rule.to_column) if c not in built]
+    rows = _read_rows(data_dir, rule.source_file, [*real, *rule.properties])
+    if not built:
+        return rows
+    texts = _text_rows(data_dir, rule.source_file, len(rows))
+    return [
+        {**row, **{column: key_value(node, text) for column, node in built.items()}}
+        for row, text in zip(rows, texts, strict=True)
+    ]
 
 
 def construct_domain_graph(driver: Driver, data_dir: Path, plan: ConstructionPlan) -> ImportReport:

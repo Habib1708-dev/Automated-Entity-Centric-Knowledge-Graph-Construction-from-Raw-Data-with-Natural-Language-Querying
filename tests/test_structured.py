@@ -1,5 +1,6 @@
-"""Structured path: the refinement loop, the plan proposer, staging (JSON conversion, skipped files, the
-wipe guard), and reconciliation of the real `data/` set against the gold expectations (needs Neo4j)."""
+"""Structured path: the refinement loop, the plan proposer (also with key_columns checked on the staged rows,
+R155a), staging (JSON conversion, skipped files, the wipe guard), and reconciliation of the real `data/` set
+against the gold expectations (needs Neo4j)."""
 
 import json
 from pathlib import Path
@@ -7,16 +8,19 @@ from pathlib import Path
 import pytest
 from pydantic import BaseModel
 
+from kgbuilder.config import Settings
 from kgbuilder.core.errors import KgBuilderError
 from kgbuilder.llm.refine import Critique, refine
+from kgbuilder.pipeline import PipelineContext, PipelineState, run_stages
+from kgbuilder.pipeline import stages as st
 from kgbuilder.structured.importer import construct_domain_graph
 from kgbuilder.structured.plan import ConstructionPlan
 from kgbuilder.structured.profiler import profile_directory
 from kgbuilder.structured.proposer import propose_plan
 from kgbuilder.structured.staging import json_to_csv, stage_structured
 
-from .fakes import ScriptedLLM
-from .sample_plans import GOOD_PLAN, node
+from .fakes import RecordingTracker, ScriptedLLM
+from .sample_plans import FRAME_FILES, FRAME_PLAN, FRAME_RULE, GOOD_PLAN, node, write_files
 
 ROOT = Path(__file__).parent.parent
 GOLD = Path(__file__).parent / "gold"
@@ -73,6 +77,48 @@ def test_propose_plan_retries_an_invalid_plan(data_dir):
     assert result.accepted and result.value == GOOD_PLAN and result.rounds == 2
     # the critic was consulted once: only for the plan that passed code validation
     assert [name for name, _ in llm.calls] == ["ConstructionPlan", "ConstructionPlan", "Critique"]
+
+
+def test_propose_plan_checks_key_columns_on_the_staged_rows_and_feeds_the_issue_back(tmp_path):
+    frames = "hive_id,frame_no,note\n1,1,honey\n1,2,honey\n2,1,honey\n"
+    staged = write_files(tmp_path / "staging", {**FRAME_FILES, "frames.csv": frames})
+    # hive and note repeat together ("1", "honey"): refused from the rows; hive and frame number pass
+    hive_only = FRAME_RULE.model_copy(update={"key_columns": ["hive_id", "note"]})
+    plans = iter([FRAME_PLAN.model_copy(update={"nodes": [FRAME_PLAN.nodes[0], hive_only]}), FRAME_PLAN])
+    prompts: list[str] = []
+
+    def script(prompt, schema):
+        if schema is Critique:
+            return Critique(verdict="valid", issues=[])
+        prompts.append(prompt)
+        return next(plans)
+
+    result = propose_plan(
+        "goal", profile_directory(staged), ScriptedLLM(script), model="m", staged_dir=staged
+    )
+    assert result.accepted and result.value == FRAME_PLAN and result.rounds == 2
+    assert "key_columns [hive_id, note] do not identify every row of 'frames.csv'" in prompts[1]
+
+
+def test_the_plan_stage_checks_key_columns_on_the_rows_it_staged(tmp_path):
+    def script(prompt, schema):
+        return Critique(verdict="valid", issues=[]) if schema is Critique else FRAME_PLAN
+
+    tracker = RecordingTracker()
+    ctx = PipelineContext(
+        settings=Settings(_env_file=None),
+        driver=None,
+        out=tmp_path / "out",
+        llm=ScriptedLLM(script),
+        tracker=tracker,
+    )
+    data = write_files(tmp_path / "data", FRAME_FILES)
+    # without the staged rows the Frame rule would be refused every round and the stage would raise
+    state = run_stages(ctx, PipelineState(data_dir=data, goal="g"), [st.ProfileStage(), st.PlanStage()])
+    assert state.plan == FRAME_PLAN
+    run = tracker.run("plan")
+    assert run.logged_metrics["composite_key_nodes"] == 1 and run.logged_metrics["rounds"] == 1
+    assert len(run.logged_params["plan_schema_version"]) == 12
 
 
 def test_json_is_flattened_to_csv(tmp_path):

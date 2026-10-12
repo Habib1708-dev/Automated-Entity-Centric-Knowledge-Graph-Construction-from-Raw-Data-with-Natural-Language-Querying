@@ -6,6 +6,7 @@ Design: nothing is dropped silently; every file that looked structured but could
 reported in `StagingReport.skipped` with the reason. A database is a `TableSource` (R114), a port that the
 composition root fills with an adapter (structured/postgres.py), so this module never talks to a database;
 the keys it declares are staged next to its tables as `DECLARED_KEYS_FILE` (R115).
+`read_text_rows` reads a staged CSV back as text, for the readers that build keys from its cells (R155a).
 Not here: text documents (text/documents.py) and profiling (profiler.py).
 """
 
@@ -150,6 +151,20 @@ def json_to_csv(src: Path, dest: Path) -> int:
         writer.writeheader()
         writer.writerows(rows)
     return len(rows)
+
+
+def read_text_rows(path: Path) -> list[dict[str, str | None]]:
+    """The rows of a staged CSV as text, every cell stripped; an empty cell is None, as DuckDB reads it.
+
+    Readers that need a cell exactly as written (a built key, a record ref) read rows here rather than
+    through DuckDB, whose typed values print differently ("1.50" -> 1.5, "007" -> 7). Moved from
+    audit/inputs.py (R155a): staging owns the staged-CSV format. Raises `OSError` when the file is missing.
+    """
+    with path.open(encoding="utf-8", newline="") as f:
+        return [
+            {k: ((v or "").strip() or None) for k, v in row.items() if k is not None}
+            for row in csv.DictReader(f)
+        ]
 
 
 def _reset_dir(staging: Path) -> None:

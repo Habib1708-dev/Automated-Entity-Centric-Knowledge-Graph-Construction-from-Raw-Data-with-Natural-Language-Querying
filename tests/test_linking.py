@@ -21,7 +21,7 @@ from kgbuilder.text.documents import Document, RecordRef
 from kgbuilder.text.lexical import write_lexical_graph
 from kgbuilder.text.schema import EntityType, TextSchema
 
-from .sample_plans import node, rel
+from .sample_plans import UNIT_PLAN, node, rel
 
 SETTINGS = IdentitySettings(auto_merge=92, borderline=80, link_threshold=90)
 
@@ -272,3 +272,22 @@ def test_a_complaint_section_reaches_its_record_and_the_claim_hangs_on_both_thin
     link_graphs(driver, plan)
     records, _, _ = driver.execute_query("MATCH (:Chunk)-[l:ABOUT]->() RETURN count(l) AS n")
     assert records[0]["n"] == 1
+
+
+@pytest.mark.neo4j
+def test_no_title_or_heading_is_linked_to_a_built_key(driver):
+    """R155a: "P-10|00" (a Unit keyed by key_columns, no name column) squashes to the title's and heading's
+    "p1000"; only the Model's plain key may be named. test_built_keys replays the same graph offline."""
+    driver.execute_query(
+        "CREATE (:Model {model_id: 'P-1000', model_name: 'Linden'}), "
+        "(:Unit {unit_key: 'P-10|00', note: 'x'}), "
+        "(:Document {doc_id: 'p1000_reviews.md', title: 'p1000_reviews'})"
+        "<-[:PART_OF]-(:Chunk {chunk_id: 'p1000_reviews.md#0', text: $text})",
+        text="# Notes P-1000\nThe unit hums.",
+    )
+
+    report = link_graphs(driver, UNIT_PLAN)
+
+    assert (report.documents_linked, report.chunks_linked) == (0, 1)
+    records, _, _ = driver.execute_query("MATCH (c:Chunk)-[:ABOUT]->(n) RETURN labels(n) AS labels")
+    assert [r["labels"] for r in records] == [["Model"]]

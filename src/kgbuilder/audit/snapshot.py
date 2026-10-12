@@ -29,7 +29,14 @@ from ..core.text import split_sentences
 from ..resolution.attachment import TEXT_ABOUT, ClaimSource, Particular, Thing, attach, dominant_record
 from ..resolution.derivation import Candidate, DerivationSource, derive_rows
 from ..resolution.identity_graph import Assignment
-from ..resolution.linking import DomainNode, RecordKey, match_chunk_records, match_document
+from ..resolution.linking import (
+    DomainNode,
+    RecordKey,
+    key_matched,
+    match_chunk_records,
+    match_document,
+    name_matched,
+)
 from ..structured.plan import ConstructionPlan
 from ..structured.profiler import DataProfile
 from ..text.chunking import Chunk
@@ -128,7 +135,7 @@ def build_snapshot(
     claims = {r.id: SnapshotClaim(**r.model_dump(), derived=False) for r in rows}
     derived_mentions: set[str] = set()
 
-    documents_about, sections_about = _link(corpus.documents, corpus.chunks, records)
+    documents_about, sections_about = _link(corpus.documents, corpus.chunks, records, plan)
     by_doc = defaultdict(list)
     for link in documents_about:
         by_doc[link.source].append(link.thing)
@@ -168,7 +175,7 @@ def build_snapshot(
     resolved = json.loads(_read(out_dir / "resolve.json"))
     references = [Assignment.model_validate(a) for a in resolved["assignments"]]
     snapshot_mentions = _mentions(mentions, mentioned_in, derived_mentions, passed)
-    particulars = _particulars(references, snapshot_mentions, records)
+    particulars = _particulars(references, snapshot_mentions, records, plan)
     documents_about += _text_links(corpus.documents, corpus.chunks, documents_about, particulars)
     attachments = _attach(
         list(claims.values()),
@@ -197,11 +204,20 @@ def build_snapshot(
     )
 
 
-def _link(documents, chunks: list[Chunk], records: list[Record]) -> tuple[list[AboutLink], list[AboutLink]]:
+def _link(
+    documents, chunks: list[Chunk], records: list[Record], plan: ConstructionPlan
+) -> tuple[list[AboutLink], list[AboutLink]]:
     """`linking.link_graphs`: a file document ABOUT the node its file name names, a record's document ABOUT
-    its record, a chunk ABOUT each record its headings name by key."""
+    its record, a chunk ABOUT each record its headings name by key. Labels are matched by name and by key
+    only where `name_matched` and `key_matched` allow, as the live linker does (R155a)."""
     by_ref = {r.id: r for r in records}
-    domain = [DomainNode(element_id=r.id, label=r.label, name=r.name) for r in records if r.name is not None]
+    named = {rule.label for rule in plan.nodes if name_matched(rule)}
+    keyed = {rule.label for rule in plan.nodes if key_matched(rule)}
+    domain = [
+        DomainNode(element_id=r.id, label=r.label, name=r.name)
+        for r in records
+        if r.name is not None and r.label in named
+    ]
     docs: list[AboutLink] = []
     for d in documents:
         if d.record is None:
@@ -211,7 +227,7 @@ def _link(documents, chunks: list[Chunk], records: list[Record]) -> tuple[list[A
         elif (ref := f"{d.record.label}:{d.record.key}") in by_ref:
             docs.append(AboutLink(source=d.doc_id, thing=ref, name=d.title, how="record"))
     # coalesce(name, key) as `read_record_keys` reads it
-    keys = [RecordKey(element_id=r.id, key=r.key, name=r.name or r.key) for r in records]
+    keys = [RecordKey(element_id=r.id, key=r.key, name=r.name or r.key) for r in records if r.label in keyed]
     sections = [
         AboutLink(source=c.chunk_id, thing=k.element_id, name=k.name, how="heading", evidence=k.key)
         for c in chunks
@@ -276,13 +292,18 @@ def _mentions(
 
 
 def _particulars(
-    references: list[Assignment], mentions: list[SnapshotMention], records: list[Record]
+    references: list[Assignment],
+    mentions: list[SnapshotMention],
+    records: list[Record],
+    plan: ConstructionPlan,
 ) -> list[Particular]:
     """`attachment.read_particulars`: every mention referring to a record or an individual, with its names
     (the mention's, the record's key, the canonical name), ordered by mention id. An individual's kind is
-    the type of the first assignment that created it (`write_identity`: ON CREATE SET n.type)."""
+    the type of the first assignment that created it (`write_identity`: ON CREATE SET n.type). A record's
+    key is a name only where `key_matched` allows: the live read takes keys from `read_record_keys`."""
     by_id = {m.id: m for m in mentions}
-    keys = {r.id: r.key for r in records}
+    keyed = {rule.label for rule in plan.nodes if key_matched(rule)}
+    keys = {r.id: r.key for r in records if r.label in keyed}
     founder_type: dict[str, str] = {}
     for a in references:
         founder_type.setdefault(a.canonical, a.type)

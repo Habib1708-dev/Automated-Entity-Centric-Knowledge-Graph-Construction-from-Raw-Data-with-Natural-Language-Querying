@@ -22,7 +22,7 @@ from kgbuilder.text.schema import (
     validate_text_schema,
 )
 
-from .evaluation_corpora import quoted_four_grams
+from .evaluation_corpora import REPO, quoted_four_grams, words
 from .fakes import ScriptedLLM
 from .sample_plans import node
 
@@ -131,3 +131,41 @@ def test_schema_and_plan_prompts_and_their_field_descriptions_speak_no_corpus_la
     words = set(text.lower().replace("_", " ").replace('"', " ").split())
     assert not [w for w in _BANNED if w in words or f"{w}s" in words]
     assert quoted_four_grams(text) == []
+
+
+def test_the_plan_prompt_and_its_critic_name_key_columns():
+    assert "key_columns" in proposer.PROPOSER_PROMPT
+    assert "key_columns" in proposer.CRITIC_PROMPT
+
+
+# The two datasets of the R152-R157 benchmark, not yet in EVALUATION_CORPORA: the key_columns text (R155a) was
+# written while they were under evaluation, so it is checked against their documents here.
+_BENCH_CORPORA = (
+    REPO / "heldout" / "lighthouses" / "data" / "articles",
+    REPO / "heldout" / "ntsb" / "data" / "documents",
+)
+_BENCH_WORDS = ("lighthouse", "aircraft", "accident", "finding", "crew", "injury", "occurrence")
+
+
+def test_the_key_columns_rule_and_its_field_descriptions_speak_no_benchmark_language():
+    prompt = proposer.PROPOSER_PROMPT
+    rule = prompt[prompt.index("- A file with no unique column") : prompt.index("- Do not import")]
+    fields = ConstructionPlan.model_json_schema()["$defs"]
+    text = " ".join(
+        [
+            rule,
+            fields["NodeRule"]["properties"]["unique_column"]["description"],
+            fields["NodeRule"]["properties"]["key_columns"]["description"],
+            fields["RelationshipRule"]["properties"]["from_column"]["description"],
+            fields["RelationshipRule"]["properties"]["to_column"]["description"],
+        ]
+    )
+    paths = sorted(p for d in _BENCH_CORPORA for p in d.rglob("*.md"))
+    assert paths  # the corpora are checked in: an empty list would pass any text
+    corpus = words(" ".join(p.read_text(encoding="utf-8") for p in paths))
+    seen = {tuple(corpus[i : i + 4]) for i in range(len(corpus) - 3)}
+    rule_words = words(text)
+    assert [
+        rule_words[i : i + 4] for i in range(len(rule_words) - 3) if tuple(rule_words[i : i + 4]) in seen
+    ] == []
+    assert not [w for w in _BENCH_WORDS if w in rule_words or f"{w}s" in rule_words]

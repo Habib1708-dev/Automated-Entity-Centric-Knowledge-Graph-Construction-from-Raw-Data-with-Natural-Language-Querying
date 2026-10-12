@@ -9312,6 +9312,35 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   on the new file; preset and run-guard tests. 1310 passed (1287 + 23), ruff clean.
 - **R154 done 2026-10-12.** Next: R155, the two new graphs built (paid, asked first).
 
+### R155a. Composite keys: a node keyed by several columns together (done 2026-10-12; $0, code)
+- **Scope:** `structured/plan.py`: `NodeRule.key_columns` (optional, left out of the JSON when unset, so every
+  earlier plan loads and dumps byte-identically: checked on the three gold plans and two R151 builds);
+  `unique_column` then names the key code builds by joining those columns' stripped text with "|"
+  (`joined_key`, `key_value`), and a relationship from the same file may use that built key as an end
+  (`built_ends`). `validate_plan` reads the staged rows only for such rules and refuses, each with a reason the
+  model can act on: fewer than two columns, a missing column, a built name that is a real column, a
+  combination that does not tell every row apart or has an empty part ("52 distinct combinations, 9 rows with
+  an empty column, 62 rows"), a column the others do not need (the fewest columns), a built key used as the
+  name column. The importer, the offline audit readers, record documents, anchor targets and linking read
+  keys through the same helper (`staging.read_text_rows`); section linking skips built keys (a code, never
+  a heading). The planner prompt gains one bullet (an invented example, frames listed per hive) and the critic
+  names the check; plan-stage versions: `prompt_version` 03a4eb7cce93 -> 054f7a804be2, `critic_prompt_version`
+  047eba32472d -> 188d80eb64f9, new `plan_schema_version` 3d98b00f7f30 (the reply schema's text, as R146 did
+  for the agent).
+- **Real-data check ($0, no model):** hand-written rules validate on the real profiles and read every row
+  once: lighthouse events keyed by (lighthouse.qid, event) 62 of 62 with `EVENT_OF` 62; NTSB findings
+  (ntsb_no, finding_no) 67/67, crew 38/38, sequence 72/72, injuries 143/143, each related to its event.
+- **Read with care:** it reopens the Part 1 build pipeline (frozen at `part1-final`); the three thesis builds
+  keep their saved plans and are reloaded from them, so their graphs and every earlier number are unchanged.
+  The plan-stage LLM cache no longer matches (the prompt and schema changed): an old dataset's plan would be
+  proposed afresh, never silently replayed. R155b's two plan runs are the first measurement of the new text.
+- **Verified:** new `tests/test_built_keys.py` and cases in the plan, profiler, importer (Neo4j: composite
+  nodes and their relationships written idempotently, the graph's keys equal the offline readers'), linking
+  and identity tests. 1448 passed (1310 + 138, many parametrized), ruff clean. Reviewed from two lenses;
+  the findings applied (the offline snapshot skips built keys as the live linker does, one helper decides
+  which relationship ends are built, prompt wording).
+- **R155a done 2026-10-12.** Next: R155b, the two builds.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

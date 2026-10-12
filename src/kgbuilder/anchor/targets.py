@@ -3,15 +3,15 @@
 Role in the pipeline: between the target gold (`validation/target_gold.py`) and the criteria
 (`anchor/criteria.py`). The gold names what a target reaches without any graph id; this module finds those
 nodes in one build, so the criteria can ask whether the walks get there.
-Design: a record ref picks staged rows by their cells (`qa_gold.rows_matching`, as the gold's own check);
-the build's plan says which node rule a file feeds, and the rule's label and key column give the
-`record_ref`. A mention ref (a document and its names) finds the snapshot's mentions of that document
-whose name equals one of the names after `norm`, and follows their REFERS_TO. Only when the document has no
-such mention, it takes the mentions whose name holds one of the names as whole words: the extractor often
-writes a longer name for the thing the gold names ("low-pressure fuel pump", "institute committee, 12 May
-2025"), and the graph does hold that thing. A target placed this way is marked `loose`. What does not
-resolve is kept as text (`missing`): a file without a node rule, a row the importer did not keep, a name the
-extractor never wrote. The criteria count it; nothing is guessed.
+Design: a record ref picks staged rows by their cells (`qa_gold.rows_matching`, as the gold's own check); the
+build's plan says which node rule a file feeds, and the rule's label and key (its key column, or the key built
+from its `key_columns`, R155a) give the `record_ref`. A mention ref (a document and its names) finds the
+snapshot's mentions of that document whose name equals one of the names after `norm`, and follows their
+REFERS_TO. Only when the document has no such mention, it takes the mentions whose name holds one of the names
+as whole words: the extractor often writes a longer name for the thing the gold names ("low-pressure fuel
+pump", "institute committee, 12 May 2025"), and the graph does hold that thing. A target placed this way is
+marked `loose`. What does not resolve is kept as text (`missing`): a file without a node rule, a row the
+importer did not keep, a name the extractor never wrote. The criteria count it; nothing is guessed.
 Must not: decide what a target should reach (the gold's), or look a name up by similarity (that is W1's,
 and it is what C2 measures).
 """
@@ -26,7 +26,7 @@ from pydantic import BaseModel
 from ..audit.snapshot import GraphSnapshot
 from ..core.identity import record_ref
 from ..core.text import contains_words, norm
-from ..structured.plan import ConstructionPlan
+from ..structured.plan import ConstructionPlan, key_value
 from ..validation.gold import MentionRef
 from ..validation.qa_gold import RecordEvidence, rows_matching
 from ..validation.target_gold import TargetGold
@@ -64,7 +64,8 @@ def record_nodes(ref: RecordEvidence, plan: ConstructionPlan, rows: Rows, known:
         if rule.source_file != ref.file:
             continue
         for row in rows_matching(ref, table):
-            key = (row.get(rule.unique_column) or "").strip()
+            # the importer's key (R155a): the key cell, or the key built from key_columns' cells
+            key = str(key_value(rule, row) or "").strip()
             if key and record_ref(rule.label, key) in known:
                 out.add(record_ref(rule.label, key))
     return sorted(out)

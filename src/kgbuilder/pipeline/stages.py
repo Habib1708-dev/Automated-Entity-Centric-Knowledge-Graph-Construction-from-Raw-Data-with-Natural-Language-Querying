@@ -16,7 +16,7 @@ from typing import get_args
 from ..audit.inputs import read_corpus
 from ..core.errors import InvalidPlanError, ProposalRejectedError
 from ..core.text import norm
-from ..llm.base import prompt_version
+from ..llm.base import prompt_version, schema_text
 from ..llm.refine import Refinement
 from ..llm.thinking import with_thinking
 from ..resolution import concepts, individuals, record_choice
@@ -205,6 +205,9 @@ class PlanStage(BaseStage):
             # the extra rule for keys a database declares (R115): sent only when the profile has some
             "declared_keys": bool(state.profile and state.profile.has_declared_keys()),
             "declared_keys_rule_version": prompt_version(proposer.DECLARED_KEYS_RULE),
+            # the plan's field descriptions are prompt text the template's hash misses (R146), and they
+            # changed with key_columns (R155a)
+            "plan_schema_version": prompt_version(schema_text(ConstructionPlan)),
         }
 
     def run(self, ctx, state, run):
@@ -219,8 +222,12 @@ class PlanStage(BaseStage):
             with_thinking(ctx.require_llm(), s.schema_thinking),
             s.schema_model,
             s.llm_temperature,
+            # key_columns are checked on the staged rows (R155a)
+            staged_dir=state.need("staged_dir", "run the profile stage first"),
         )
         _log_refinement(ctx, run, result, "plan_rounds.json")
+        # node rules keyed by several columns (R155a): how often the model needs them, per dataset
+        run.metrics(composite_key_nodes=sum(n.key_columns is not None for n in result.value.nodes))
         run.artifact(ctx.write(PLAN_FILE, result.value.model_dump_json(indent=2)))
         if not result.accepted:
             raise ProposalRejectedError("plan", result.open_issues)
@@ -246,10 +253,11 @@ class BuildStage(BaseStage):
         plan = state.load_plan(ctx)
         profile = state.need("profile", "run the profile stage first")
         # validated again here because a human may have edited out/plan.json since it was proposed
-        issues = validate_plan(plan, profile)
+        staged_dir = state.need("staged_dir", "run the profile stage")
+        issues = validate_plan(plan, profile, staged_dir)
         if issues:
             raise InvalidPlanError(issues)
-        report = construct_domain_graph(ctx.driver, state.need("staged_dir", "run the profile stage"), plan)
+        report = construct_domain_graph(ctx.driver, staged_dir, plan)
         state.expected_counts = {n.label: profile.file(n.source_file).row_count for n in plan.nodes}
         run.metrics(
             rules=len(report.rules),

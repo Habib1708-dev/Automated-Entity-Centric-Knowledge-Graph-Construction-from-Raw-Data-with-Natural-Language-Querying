@@ -7,6 +7,8 @@ and the three steps. The LLM never sees raw data, only the profile computed by D
 Not here: plan validation rules (plan.py) and execution (importer.py).
 """
 
+from pathlib import Path
+
 from ..llm.base import LLMClient
 from ..llm.refine import Critique, Refinement, refine
 from .plan import ConstructionPlan, validate_plan
@@ -18,6 +20,12 @@ from .profiler import DataProfile
 # Tables no key joins may stay apart (R72): unrelated record sets have nothing to relate by.
 # The `name_column` example is from an invented domain (beekeeping); until R75 it quoted the furniture
 # data ("Drawer Rails"), which steered every other dataset (prompt-engineering skill).
+# A table of detail rows with no unique column (several rows per parent) is a node keyed by several
+# columns (R155a): before that rule, the model either left such a table out or named a non-unique key.
+# Its example (frames per hive) is invented too, and names a per-parent number rather than a date: a part
+# with empty cells can never key a row, and code refuses it (plan.py). Which column such a node's
+# relationships use is left to the from_column/to_column field descriptions and to `validate_plan`'s
+# issue, so the rule here stays one concern.
 PROPOSER_PROMPT = """You are an expert at knowledge graph modeling with property graphs.
 Design construction rules that turn the CSV files below into a graph serving the user's goal.
 
@@ -39,6 +47,10 @@ Modeling rules:
   (source_file is that same file, from_column is its own key, to_column is the foreign key column).
 - A file with no unique identifier and two foreign keys is a relationship file; its other columns
   are relationship properties.
+- A file with no unique column whose rows describe things of their own, not only a link between two other
+  files, is a node with `key_columns` (e.g. frames listed per hive, keyed by hive_id and frame_no): the
+  fewest columns that together tell its rows apart and are never empty. Its `unique_column` is a new name
+  for the key that code builds from them.
 - Do not import foreign key columns as node properties.
 - Set `name_column` to the column holding the name a person would write in a document
   (e.g. hive_name "Linden Hive", not a code like "hive_unit_07"); text is linked to nodes by it.
@@ -59,8 +71,8 @@ DECLARED_KEYS_RULE = """
 # The critic is told what code already guarantees, so it spends its judgement on modeling only, and it
 # must answer "valid" unless a problem would change the plan; otherwise critics nitpick forever.
 CRITIC_PROMPT = """You are reviewing a proposed knowledge graph construction plan.
-The plan already passed mechanical checks (columns exist, keys are unique, tables the keys join are
-connected),
+The plan already passed mechanical checks (columns exist, keys are unique, whether one column or the
+columns in key_columns, tables the keys join are connected),
 so judge only the modeling:
 - Could any node really be a relationship, or the reverse?
 - Are relationship directions and types natural for the goal?
@@ -91,8 +103,13 @@ def propose_plan(
     temperature: float = 0.0,
     max_rounds: int = 3,
     use_critic: bool = True,
+    staged_dir: Path | None = None,
 ) -> Refinement[ConstructionPlan]:
-    """Ask `llm` for a plan until it passes `validate_plan` and the critic, or `max_rounds` is used up."""
+    """Ask `llm` for a plan until it passes `validate_plan` and the critic, or `max_rounds` is used up.
+
+    `staged_dir` holds the staged CSVs `validate_plan` reads to check a rule's `key_columns`; without it
+    such a rule is refused.
+    """
     profile_json = profile.model_dump_json(indent=1)
     declared_rule = DECLARED_KEYS_RULE if profile.has_declared_keys() else ""
 
@@ -109,7 +126,7 @@ def propose_plan(
 
     return refine(
         propose,
-        validate=lambda plan: validate_plan(plan, profile),
+        validate=lambda plan: validate_plan(plan, profile, staged_dir),
         critique=critique if use_critic else None,
         max_rounds=max_rounds,
     )
