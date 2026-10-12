@@ -9461,6 +9461,29 @@ any fix makes the 250 questions seen and its measurement is a paid run.
   their ids, the costs). 1462 passed (1461 + 1), ruff clean. Every PNG looked at.
 - **R159 done 2026-10-12; plan R158-R159 done.** Next: the user decides on the fixes R157 points to.
 
+### Plan R160-R166: R157's fixes, measured on 100 new unseen questions (accepted 2026-10-12)
+The user, 2026-10-12: the fixes R157 points to, measured on about 100 new questions ($0 to write) with one
+paid run of about $1.7-2.0; asked whether to pay for a paired before/after run (~$3.4-4.0), the user chose
+"After only". So the fixed engine is run once on the new questions and compared with R157's numbers on the
+250; the question sets differ, so a difference is not proven to come from the fixes (said in R166's report).
+R157's 250 questions stay the frozen engine's headline result; after these fixes they count as seen.
+- **Steps, strictly one after another:**
+  - **R160** 20 new gold questions on each of the five datasets (`tests/gold/qa/<dataset>_qa_confirm.json`),
+    written before any fix, from the sources and earlier gold only (the writers do not read R157's failure
+    analysis), the benchmark's type mix, no repeat of any earlier question ($0).
+  - **R161** Counting with the tool: a cut or paged list's note says that `measure` count counts every
+    matching entry, and the prompt asks for counts and comparisons from the tools, never by reading rows
+    (LB11, FB10; $0, code).
+  - **R162** `find_passages` matches word forms: each word is reduced to a stem in code before the substring
+    match, so "wobble" also finds "wobbling" (FB38; $0, code). A paraphrase ("made aware" for "notified",
+    HB41) stays out of reach of a word search, and the description says so.
+  - **R163** The form rule names several years, a month and a time of day (LB39, GB05, GB33; $0, code).
+  - **R164** The table schema shows example values of different shapes, not the three lowest, so a column
+    mixing "1990" and "1990-11" shows both (LB09; $0, code).
+  - **R165** The fixed agent on the 100 questions (paid, asked first: about $1.7-2.0); the three thesis
+    graphs and the two new ones reloaded from cache ($0).
+  - **R166** Judged by meaning (two blind judges), both scores, compared with R157, failures traced ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
