@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "fc768ef01a4d4cc88f51002b85d70417",
+    "git_sha": "db3bfaa"
+  },
+  "gold": "tests/gold/r143/furniture_seen_failed.json",
+  "answers": "out/r143_furniture_seen/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "F08",
+      "correct": true,
+      "reason": "The six products."
+    },
+    {
+      "question_id": "F12",
+      "correct": false,
+      "reason": "3, not 4: one review mentioning the removable covers is missing."
+    },
+    {
+      "question_id": "F13",
+      "correct": false,
+      "reason": "@familyfirst, not @scandi_lover (8 products)."
+    },
+    {
+      "question_id": "F28",
+      "correct": true,
+      "reason": "1, the creaking frame; review 6 denies it."
+    },
+    {
+      "question_id": "F48",
+      "correct": true,
+      "reason": "Drawer Front and Drawer Rails."
+    },
+    {
+      "question_id": "F59",
+      "correct": true,
+      "reason": "The six suppliers."
+    },
+    {
+      "question_id": "F61",
+      "correct": true,
+      "reason": "The five products."
+    },
+    {
+      "question_id": "F62",
+      "correct": true,
+      "reason": "The six countries."
+    },
+    {
+      "question_id": "F64",
+      "correct": true,
+      "reason": "The eight suppliers; 'nordic Wood Industries' is Nordic Wood Industries."
+    },
+    {
+      "question_id": "F65",
+      "correct": true,
+      "reason": "10 suppliers."
+    }
+  ]
+}

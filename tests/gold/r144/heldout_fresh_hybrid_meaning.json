@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "d4c3c506c31e4ef597ec5962dd512844",
+    "git_sha": "db3bfaa"
+  },
+  "gold": "tests/gold/qa/heldout_qa_fresh.json",
+  "answers": "out/r143_heldout/answers_hybrid.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "HN01",
+      "correct": false,
+      "reason": "No campaign named, or none; two qualify."
+    },
+    {
+      "question_id": "HN02",
+      "correct": false,
+      "reason": "A count other than 10 (vector 1, the others 0)."
+    },
+    {
+      "question_id": "HN03",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "HN04",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "HN05",
+      "correct": false,
+      "reason": "No complaint named; four qualify."
+    },
+    {
+      "question_id": "HN06",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "HN07",
+      "correct": true,
+      "reason": "26V332000, the recall with unintended deployment."
+    },
+    {
+      "question_id": "HN08",
+      "correct": true,
+      "reason": "The 2017 Nissan Rogue; the RAV4 complaint denies it."
+    },
+    {
+      "question_id": "HN09",
+      "correct": true,
+      "reason": "Insert a spacer into the jackknife key's key slot, free of charge: the expected remedy."
+    },
+    {
+      "question_id": "HN10",
+      "correct": true,
+      "reason": "50 mph, the stated speed."
+    }
+  ]
+}

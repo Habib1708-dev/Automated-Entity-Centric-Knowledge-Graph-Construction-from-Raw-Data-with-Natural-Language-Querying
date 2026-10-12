@@ -1,7 +1,8 @@
 """Question-answer benchmark (R70): the gold file's own checks and its fit to a corpus (quotes verbatim,
 records present), and the scoring of hand-made answers (sets, numbers, free text through a verdict file,
 citation faithfulness, recall@k, per type with n and interval), the outcome rows (R73) and a question's
-query field. Pure: no Neo4j, no LLM."""
+query field. R144: a verdict file judging every answer by meaning decides every question and must cover
+them all. Pure: no Neo4j, no LLM."""
 
 import json
 
@@ -248,6 +249,22 @@ def test_free_text_answers_need_a_verdict_file_that_covers_exactly_them(tmp_path
     path.write_text(verdicts().model_dump_json().replace("says the shade is fine", ""), encoding="utf-8")
     with pytest.raises(EvaluationError, match=r"verdicts\.0\.reason"):
         load_qa_verdicts(path)
+
+
+def test_a_verdict_file_judging_every_answer_decides_every_question_whatever_its_form():
+    def every(**correct: bool) -> QAVerdicts:
+        return verdicts().model_copy(update={"scope": "all", "verdicts": [
+            AnswerVerdict(question_id=q, correct=c, reason="by meaning") for q, c in correct.items()
+        ]})  # fmt: skip
+
+    # Q1 answered in words: wrong by exact match (the form is part of it), right by meaning
+    worded = [a if a.question_id != "Q1" else answer("Q1", text="The desk lamp.") for a in right_answers()]
+    exact = score_qa(GOLD, worded, CHUNKS, k=5, verdicts=verdicts()).overall.correct.k
+    meaning = score_qa(GOLD, worded, CHUNKS, k=5, verdicts=every(Q1=True, Q2=True, Q3=True, Q4=False))
+    assert (exact, meaning.overall.correct.k, meaning.overall.correct.n) == (3, 3, 4)  # Q4 judged wrong
+    with pytest.raises(EvaluationError, match="verdict"):
+        score_qa(GOLD, worded, CHUNKS, k=5, verdicts=every(Q3=True))  # every question needs its verdict
+    assert verdicts().scope == "text"  # earlier verdict files keep their meaning
 
 
 def test_before_the_judge_free_text_answers_count_as_unjudged_not_as_wrong():

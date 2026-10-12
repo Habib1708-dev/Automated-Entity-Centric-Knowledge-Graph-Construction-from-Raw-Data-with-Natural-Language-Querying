@@ -8884,6 +8884,40 @@ could be within the system." No run: both steps read R143b's saved answers ($0).
   query language, the data, or the gold), each with its trace and the code it comes from ($0, analysis;
   any fix is its own later step).
 
+### R144. Every answer judged by meaning, next to exact match (done 2026-10-12; $0, code and judging)
+- **Scope:** `QAVerdicts.scope` (`validation/qa.py`): "text" (the default, every earlier file unchanged: the
+  judge decides free-text answers, code the sets and numbers) or "all" (every question needs a verdict and
+  the verdict decides it, whatever the gold's form); `kg qa-score` logs `judge_scope`, so a run's
+  `answer_accuracy` says which score it is. Then Claude Opus 5.5 (this session) judged all 142 answers of
+  R143b by meaning with R71's rules (rule 3: content, not form), `tests/gold/r144/*_meaning.json` (15
+  files), scored into `out/r144/`.
+- **Verified:** 1 new test (`tests/test_qa.py`: an answer in words is wrong by exact match and right by a
+  verdict of scope "all"; such a file must cover every question; scope "text" by default). 1202 passed,
+  ruff clean.
+- **Results** (exact match by code / judge by meaning, Claude Opus 5.5; n per cell):
+
+  | | agent | vector | graph_retrieval | hybrid |
+  |---|---|---|---|---|
+  | fresh furniture (10) | 10 / 10 | 4 / 4 | 4 / 4 | 4 / 4 |
+  | fresh held-out (10) | 9 / 9 | 3 / 3 | 3 / 3 | 4 / 4 |
+  | fresh generality (10) | 9 / **10** | 5 / **6** | 5 / **6** | 5 / **6** |
+  | **fresh pooled (30)** | 28 / **29** | 12 / **13** | 12 / **13** | 13 / **14** |
+  | seen, R136's wrong (22) | 14 / **20** | - | - | - |
+
+  - By meaning, agent against each reading system on the fresh 30: 16, 16 and 15 questions only the agent
+    answers, none the other way, p < 0.001 (`out/r144/compare_fresh_*`); multi_hop and structured_filter
+    6/6 against 0/6 each.
+  - The judge changes 7 verdicts, all from wrong to right, all form: a set or a number given in words (GN07
+    "Valencia" for all four systems; H36 "Over 440 miles to empty"; G02, G03, G10, G31) and one name (H66,
+    Toyota named by the recall's filer where the gold takes the vehicle table's name: a judgement call,
+    recorded in its verdict). No exact-match "right" was judged wrong.
+  - Wrong by meaning: the agent 3 (HN03 8 for 10; F12 3 for 4; F13 the wrong reviewer); the reading
+    systems 16-17 each, nearly all "the passages do not hold it" on record, join or count questions.
+- **Read with care:** gold, verdicts and the fixes come from one model family; a judge by meaning is
+  lenient by design toward form, which exact match is strict about: both scores are reported, neither
+  replaces the other.
+- **R144 done 2026-10-12.** Next: R145, the causes of the remaining failures ($0, analysis).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

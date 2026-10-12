@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "ac3ab74e99b745058c681d1edaa2b6b2",
+    "git_sha": "db3bfaa"
+  },
+  "gold": "tests/gold/qa/generality_qa_fresh.json",
+  "answers": "out/r143_generality/answers_hybrid.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GN01",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "GN02",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "GN03",
+      "correct": true,
+      "reason": "5 trips on low suction pressure."
+    },
+    {
+      "question_id": "GN04",
+      "correct": true,
+      "reason": "3 projects under 100,000 pounds."
+    },
+    {
+      "question_id": "GN05",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "GN06",
+      "correct": false,
+      "reason": "Says the passages do not hold it; the answer is in the sources (rule 5)."
+    },
+    {
+      "question_id": "GN07",
+      "correct": true,
+      "reason": "Valencia, given in words where the gold scores a set: the right content (rule 3)."
+    },
+    {
+      "question_id": "GN08",
+      "correct": true,
+      "reason": "41 litres per second, HP40-2291 in March."
+    },
+    {
+      "question_id": "GN09",
+      "correct": true,
+      "reason": "No run above 60 litres per second in May: the expected denial; the reason may be left out."
+    },
+    {
+      "question_id": "GN10",
+      "correct": true,
+      "reason": "12,000 pounds under budget."
+    }
+  ]
+}

@@ -16,6 +16,7 @@ import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -64,11 +65,14 @@ class AnswerVerdict(BaseModel):
 
 
 class QAVerdicts(BaseModel):
-    """The judge's verdict file for the free-text answers of one answers file."""
+    """The judge's verdict file for one answers file: the free-text answers only (`scope` "text", code scores
+    sets and numbers: exact match), or every answer by meaning (`scope` "all", R144: the judged accuracy,
+    reported next to exact match and never in its place; the `evaluation` skill's two scores)."""
 
     judge: JudgeMeta
     gold: str  # the gold file the questions come from
     answers: str  # the answers file judged
+    scope: Literal["text", "all"] = "text"
     verdicts: list[AnswerVerdict]
 
 
@@ -271,8 +275,10 @@ def score_qa(
     answer_of = {a.question_id: a for a in answers}
     verdict_of = {v.question_id: v for v in verdicts.verdicts} if verdicts else {}
     judged = verdicts is not None or not allow_unjudged
+    by_meaning = verdicts is not None and verdicts.scope == "all"
     scores = [
-        _score(q, answer_of[q.id], verdict_of.get(q.id), chunk_texts, k, judged) for q in gold.questions
+        _score(q, answer_of[q.id], verdict_of.get(q.id), chunk_texts, k, judged, by_meaning)
+        for q in gold.questions
     ]
     return QAReport(
         k=k,
@@ -303,14 +309,16 @@ def _score(
     chunk_texts: Mapping[str, str],
     k: int,
     judged: bool,
+    by_meaning: bool = False,
 ) -> _QuestionScore:
+    """One question's score; `by_meaning`: its correctness is the judge's verdict whatever the gold's form."""
     evidence = {c.chunk_id for c in question.chunks}
     needed = evidence if question.route == Route.RETRIEVAL else set()
     top_k = set(answer.retrieved[:k])
     return _QuestionScore(
         type=question.type,
         judged=judged or question.expected.kind != "text",
-        correct=is_correct(question.expected, answer, verdict),
+        correct=verdict.correct if by_meaning and verdict else is_correct(question.expected, answer, verdict),
         hits=len(needed & top_k),
         needed=len(needed),
         hits_all=len(evidence & top_k),
@@ -342,11 +350,13 @@ def _check(
     verdicts: QAVerdicts | None,
     allow_unjudged: bool,
 ) -> None:
-    """The answers cover every gold question once; the verdicts cover exactly the free-text ones."""
+    """The answers cover every gold question once; the verdicts cover exactly the free-text ones, or every
+    question when they judge every answer (scope "all")."""
     issues = _coverage_issues("answer", [a.question_id for a in answers], {q.id for q in gold.questions})
     text_ids = {q.id for q in gold.questions if q.expected.kind == "text"}
     if verdicts is not None:
-        issues += _coverage_issues("verdict", [v.question_id for v in verdicts.verdicts], text_ids)
+        judged_ids = {q.id for q in gold.questions} if verdicts.scope == "all" else text_ids
+        issues += _coverage_issues("verdict", [v.question_id for v in verdicts.verdicts], judged_ids)
     elif text_ids and not allow_unjudged:
         issues.append(f"{len(text_ids)} free-text answers need the judge's verdict file")
     cited = {c.chunk_id for a in answers for c in a.citations if c.chunk_id in a.retrieved}

@@ -1,0 +1,63 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "4327fa5772354c2cb8dcf37cb42fb209",
+    "git_sha": "db3bfaa"
+  },
+  "gold": "tests/gold/qa/furniture_qa_fresh.json",
+  "answers": "out/r143_furniture_fresh/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "FN01",
+      "correct": true,
+      "reason": "The six suppliers of the Malmö Desk's cable management parts."
+    },
+    {
+      "question_id": "FN02",
+      "correct": true,
+      "reason": "The five preferred suppliers; 'nordic Wood Industries' is Nordic Wood Industries as the mapping file spells it."
+    },
+    {
+      "question_id": "FN03",
+      "correct": true,
+      "reason": "Uppsala Sofa, 12 suppliers."
+    },
+    {
+      "question_id": "FN04",
+      "correct": true,
+      "reason": "4, the average of the seven ratings."
+    },
+    {
+      "question_id": "FN05",
+      "correct": true,
+      "reason": "Corner Brackets and Screws, 21 days each."
+    },
+    {
+      "question_id": "FN06",
+      "correct": true,
+      "reason": "Jönköping Coffee Table and Malmö Desk; the bed costs $790."
+    },
+    {
+      "question_id": "FN07",
+      "correct": true,
+      "reason": "Malmö Desk, the only product @architect_amy reviewed."
+    },
+    {
+      "question_id": "FN08",
+      "correct": true,
+      "reason": "1: only one review says the surface scratches; two deny it."
+    },
+    {
+      "question_id": "FN09",
+      "correct": true,
+      "reason": "30 cm, the stated shelf depth."
+    },
+    {
+      "question_id": "FN10",
+      "correct": true,
+      "reason": "Disassemble everything already assembled and return the dresser: the expected instruction."
+    }
+  ]
+}

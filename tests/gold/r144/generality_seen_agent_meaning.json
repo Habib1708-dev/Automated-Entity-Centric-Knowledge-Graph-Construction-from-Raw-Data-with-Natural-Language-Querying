@@ -1,0 +1,48 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-12",
+    "run_id": "14d0052629ad4515a7dcf55dc4ff9a71",
+    "git_sha": "db3bfaa"
+  },
+  "gold": "tests/gold/r143/generality_seen_failed.json",
+  "answers": "out/r143_generality_seen/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "G02",
+      "correct": true,
+      "reason": "'her role is Grants accountant', given in words (rule 3)."
+    },
+    {
+      "question_id": "G03",
+      "correct": true,
+      "reason": "'Soil Ecology', given in words (rule 3)."
+    },
+    {
+      "question_id": "G05",
+      "correct": true,
+      "reason": "8 documents."
+    },
+    {
+      "question_id": "G10",
+      "correct": true,
+      "reason": "'Mayor Helen Achterberg', given in words (rule 3)."
+    },
+    {
+      "question_id": "G22",
+      "correct": true,
+      "reason": "Soil Ecology."
+    },
+    {
+      "question_id": "G29",
+      "correct": true,
+      "reason": "Hydrology."
+    },
+    {
+      "question_id": "G31",
+      "correct": true,
+      "reason": "'Ines Barros (Service Manager at Calder Pumps)': one person, her post described, given in words (rule 3)."
+    }
+  ]
+}

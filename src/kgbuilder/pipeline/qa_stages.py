@@ -247,8 +247,10 @@ class QAScoreStage(BaseStage):
         }
         if state.verdicts:
             verdicts = input_file(state.verdicts, "verdict file")
+            loaded = load_qa_verdicts(verdicts)
+            # judge_scope "all": `answer_accuracy` is the judge's by meaning (R144), not exact match
             params.update(
-                judge_model=load_qa_verdicts(verdicts).judge.model, judge_verdicts_hash=digest(verdicts)
+                judge_model=loaded.judge.model, judge_verdicts_hash=digest(verdicts), judge_scope=loaded.scope
             )
         return params
 
