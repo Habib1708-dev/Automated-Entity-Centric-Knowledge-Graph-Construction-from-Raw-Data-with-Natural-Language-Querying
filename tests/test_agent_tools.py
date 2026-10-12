@@ -6,21 +6,27 @@ the total is larger; `node_evidence` starting a record as a thing and a kind as 
 chunks by `about`, keeping the cap and the total, and giving each chunk its own claims; `search_text` and
 `search_claims` fusing their two lists, a claim followed by its opposite-truth siblings; an unknown ref
 answered with a note; the ids each result offers for citation; and every text the model reads free of the
-evaluated datasets' words."""
+evaluated datasets' words. R150: `rank_by_documents` passing its filters trimmed and lowercase with its
+caps, offering the counted refs, saying when more exist, when a label is unknown (with the labels there
+are, never an empty one) and when nothing matches, and refusing a blank text to look for."""
 
 import re
 
 import pytest
+from pydantic import ValidationError
 
 from kgbuilder.agent import (
     ClaimFact,
     FindNodes,
     GetNode,
+    MentionCount,
+    MentionPage,
     Neighbours,
     NodeEvidence,
     NodeFacts,
     NodeHit,
     Property,
+    RankByDocuments,
     Relation,
     RelationPage,
     RelationsResult,
@@ -32,6 +38,7 @@ from kgbuilder.agent.graph_tools import (
     FindNodesArguments,
     NeighboursArguments,
     NodeArguments,
+    RankArguments,
 )
 from kgbuilder.agent.text_tools import FindPassages, ReadDocument, SearchArguments
 from kgbuilder.hybrid.seed_fusion import SeedSetting
@@ -82,12 +89,13 @@ def fact(claim_id: str, chunk_id: str = "d.md#0") -> ClaimFact:
 class FakeReader:
     """`NodeReader` with fixed nodes, relations and claims; records what it is asked."""
 
-    def __init__(self, nodes=(), facts=None, starts=None, page=None, claims=()):
+    def __init__(self, nodes=(), facts=None, starts=None, page=None, claims=(), mentioned=None):
         self._nodes = {n.ref: n for n in nodes}
         self._facts = facts or {}
         self._starts = starts or {}
         self._page = page or RelationPage(relations=[], total=0)
         self._claims = {c.id: c for c in claims}
+        self._mentioned = mentioned or MentionPage(things=[], total=0, labels=[])
         self.asked: list[tuple] = []
 
     def nodes(self, refs):
@@ -110,6 +118,10 @@ class FakeReader:
     def claims(self, claim_ids):
         self.asked.append(("claims", list(claim_ids)))
         return [self._claims[i] for i in claim_ids if i in self._claims]
+
+    def mentioned(self, label, contains, limit, names):
+        self.asked.append(("mentioned", label, contains, limit, names))
+        return self._mentioned
 
 
 # --- find_nodes --------------------------------------------------------------------------------------
@@ -273,6 +285,56 @@ def test_search_claims_says_when_nothing_was_found():
     assert (result.claims, result.note) == ([], "No claim found.")
 
 
+# --- rank_by_documents (R150) ------------------------------------------------------------------------
+
+
+def counted(ref: str, documents: int) -> MentionCount:
+    return MentionCount(ref=ref, kind="individual", label="Person", name=ref.title(), documents=documents,
+                        spellings=[ref])  # fmt: skip
+
+
+def test_rank_by_documents_passes_the_filters_trimmed_and_lowercase_with_its_caps_and_offers_the_refs():
+    page = MentionPage(things=[counted("i-ab", 3), counted("i-abe", 1)], total=2, labels=["Person"])
+    reader = FakeReader(mentioned=page)
+    result = RankByDocuments(reader, 2, 3).run(RankArguments(contains=" @Ab ", label="Person"))
+    assert reader.asked == [("mentioned", "Person", "@ab", 2, 3)]
+    assert [t.documents for t in result.things] == [3, 1] and result.total == 2
+    assert result.cites() == ["i-ab", "i-abe"] and result.note == ""  # all shown: nothing to say
+    RankByDocuments(reader, 2, 3).run(RankArguments())
+    assert reader.asked[-1] == ("mentioned", None, None, 2, 3)  # no filter asks for everything
+
+
+def test_rank_by_documents_says_when_more_exist_when_a_label_is_unknown_and_when_nothing_matches():
+    cut = MentionPage(things=[counted("i-a", 4), counted("i-b", 2)], total=5, labels=["Person"])
+    assert (
+        RankByDocuments(FakeReader(mentioned=cut), 2, 3).run(RankArguments()).note
+        == "2 of 5 shown; give a label or some characters of the name to narrow them."
+    )
+    empty = MentionPage(things=[], total=0, labels=["", "Condition", "Person"])  # "": a record, no plan
+    unknown = RankByDocuments(FakeReader(mentioned=empty), 2, 3).run(RankArguments(label="Nope"))
+    assert unknown.note == (
+        "No label 'Nope' among the things the text names; the labels are Condition, Person."
+    )
+    known = RankByDocuments(FakeReader(mentioned=empty), 2, 3).run(RankArguments(label="Person"))
+    assert known.note == "No named thing matches."  # a known label with no match is no unknown label
+    assert RankByDocuments(FakeReader(mentioned=empty), 2, 3).run(RankArguments()).note == (
+        "No named thing matches."
+    )
+
+
+def test_rank_by_documents_lists_no_labels_when_the_text_names_nothing():
+    """A graph with no REFERS_TO edges (text never resolved) has no labels: the note is no broken list."""
+    nothing = MentionPage(things=[], total=0, labels=[])
+    result = RankByDocuments(FakeReader(mentioned=nothing), 2, 3).run(RankArguments(label="Person"))
+    assert result.note == "No named thing matches."
+
+
+def test_rank_by_documents_refuses_a_blank_text_to_look_for():
+    with pytest.raises(ValidationError):
+        RankArguments(contains="  ")
+    assert RankArguments().model_dump() == {"contains": None, "label": None}
+
+
 # --- what the model reads ----------------------------------------------------------------------------
 
 # words of the evaluated datasets (furniture reviews, vehicle complaints and recalls, the generality set's
@@ -282,7 +344,10 @@ DATASET_WORDS = re.compile(
     r"review|engine)s?\b",
     re.IGNORECASE,
 )
-TOOLS = [FindNodes, GetNode, Neighbours, NodeEvidence, SearchText, SearchClaims, ReadDocument, FindPassages]
+TOOLS = [
+    FindNodes, GetNode, Neighbours, NodeEvidence, SearchText, SearchClaims, ReadDocument, FindPassages,
+    RankByDocuments,
+]  # fmt: skip
 
 
 @pytest.mark.parametrize("tool", TOOLS, ids=lambda t: t.name)

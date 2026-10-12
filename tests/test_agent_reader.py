@@ -5,7 +5,10 @@ traversal starts, the record relationships and the claims a node is an end of gr
 the total kept past the limit, one relation type alone, the claims of given chunks a node holds or is an end
 of, and claims by id with their sentences and stored truth fields. R141: the text reader's passages of
 one document in order with the total, and every passage holding all given words. R149: a word held by a
-passage's context (its document's title) counts for every passage of that document. Needs Neo4j."""
+passage's context (its document's title) counts for every passage of that document. R150: the things the
+mentions refer to, ranked by how many documents name them (a document writing a name two ways counted
+once), with their spellings sorted and cut, filtered by any spelling or by label, cut with the total and
+every label kept, and nothing on a graph without mentions. Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader, Neo4jTextReader
 
@@ -111,3 +114,52 @@ def test_a_word_of_a_documents_title_counts_for_every_passage_of_it(driver):
     assert [c.chunk_id for c in whole] == ["notes.md#0", "notes.md#1"] and total == 2
     # each word is held by the text or by the title, so no phrase spans the two
     assert text.matching(["notes the"], 5) == ([], 0)
+
+
+# every label among the shared graph's named things: two entity types and two record labels
+NAMED_LABELS = ["Condition", "Maker", "Part", "Person"]
+
+
+def counted(thing) -> tuple:
+    return (thing.ref, thing.kind, thing.label, thing.name, thing.documents, thing.spellings)
+
+
+def test_things_the_text_names_are_ranked_by_documents_with_their_spellings(driver):
+    page = reader(driver).mentioned(None, None, 10, 5)
+    assert [counted(t) for t in page.things] == [
+        ("k-wobble", "concept", "Condition", "wobbles", 2, ["wobbles", "wobbling"]),  # notes.md and log.md
+        ("i-ada", "individual", "Person", "Ada Brook", 1, ["Ada"]),  # then one document each, by name
+        ("Maker:M1", "record", "Maker", "Norcast", 1, ["Norcast"]),
+        ("Part:S1", "record", "Part", "Spindle", 1, ["spindle"]),
+    ]
+    assert (page.total, page.labels) == (4, NAMED_LABELS)
+
+
+def test_mentioned_filters_by_a_part_of_any_spelling_and_by_label_and_cuts_with_the_total(driver):
+    nodes = reader(driver)
+    # 'ling' is held by the spelling 'wobbling' alone, not by the name 'wobbles'
+    assert [t.ref for t in nodes.mentioned(None, "ling", 10, 5).things] == ["k-wobble"]
+    by_label = nodes.mentioned("Part", None, 10, 5)
+    assert ([t.ref for t in by_label.things], by_label.total) == (["Part:S1"], 1)
+    cut = nodes.mentioned(None, None, 1, 1)
+    assert ([counted(t)[0] for t in cut.things], cut.total) == (["k-wobble"], 4)
+    assert cut.things[0].spellings == ["wobbles"]  # the spellings cut to the first, sorted
+    nothing = nodes.mentioned("Nope", None, 10, 5)  # an unknown label matches nothing, the labels stay
+    assert (nothing.things, nothing.total, nothing.labels) == ([], 0, NAMED_LABELS)
+
+
+def test_a_document_writing_a_name_two_ways_counts_once_and_the_spellings_come_sorted(driver):
+    nodes = reader(driver)
+    # a second mention of the concept in notes.md, written another way and created last
+    driver.execute_query(
+        "MATCH (k:Concept {id: 'k-wobble'}) "
+        "CREATE (:Mention {id: 'm-aaa', name: 'Aaa wobble', type: 'Condition', doc_id: 'notes.md'})"
+        "-[:REFERS_TO {canonical: 'k-wobble', name: 'wobbles', kind: 'concept'}]->(k)"
+    )
+    first = nodes.mentioned(None, None, 1, 5).things[0]
+    assert (first.documents, first.spellings) == (2, ["Aaa wobble", "wobbles", "wobbling"])
+
+
+def test_a_graph_without_mentions_ranks_nothing(driver):
+    page = Neo4jNodeReader(driver, RELATED_PLAN).mentioned(None, None, 10, 5)
+    assert (page.things, page.total, page.labels) == ([], 0, [])

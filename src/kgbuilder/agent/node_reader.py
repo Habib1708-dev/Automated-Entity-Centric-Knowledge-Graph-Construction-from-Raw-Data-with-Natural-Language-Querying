@@ -9,6 +9,9 @@ use: a record by `Label:key` (a label of the plan), an individual or a concept b
 relation is either a record relationship of the plan (between two records) or the claims of one predicate
 and direction joining the node to one other node through their mentions; both lists are sorted and cut to
 the limit in the database, so a hub's thousand neighbours never leave it, and the total comes along.
+R150: the things the text names, ranked by how many documents name them (through their mentions'
+REFERS_TO edges), filtered and cut in the database, so a count over text-derived things needs no passage
+list (R145 cause 4).
 Not here: caps and notes for the agent (the tools), ranking chunks (query/ranking.py).
 """
 
@@ -24,7 +27,7 @@ from ..graph.canonical import canonical_id, canonical_name, record_ref_of
 from ..hybrid.claims import claim_text
 from ..hybrid.unit_store import CardStart
 from ..structured.plan import ConstructionPlan, NodeRule, name_property
-from .results import ClaimFact, NodeFacts, NodeHit, Property, Relation
+from .results import ClaimFact, MentionCount, NodeFacts, NodeHit, Property, Relation
 
 
 class RelationPage(BaseModel):
@@ -32,6 +35,15 @@ class RelationPage(BaseModel):
 
     relations: list[Relation]
     total: int
+
+
+class MentionPage(BaseModel):
+    """The named things that match, most documents first, cut to a limit; how many matched; and every label
+    among all the named things (matching or not), sorted, so an unknown label can be answered with them."""
+
+    things: list[MentionCount]
+    total: int
+    labels: list[str]
 
 
 class NodeReader(Protocol):
@@ -59,6 +71,13 @@ class NodeReader(Protocol):
 
     def claims(self, claim_ids: list[str]) -> list[ClaimFact]:
         """The claims with these ids, in the order given; unknown ids are left out."""
+        ...
+
+    def mentioned(self, label: str | None, contains: str | None, limit: int, names: int) -> MentionPage:
+        """The things the mentions refer to (records, individuals, concepts), most documents first, those of
+        `label` and with a name or spelling holding `contains` (lowercase), at most `limit`, each with at
+        most `names` spellings; the total and every label kept. A mention that refers to nothing is not
+        counted."""
         ...
 
 
@@ -132,6 +151,31 @@ _CLAIMS = (
     f"MATCH (o)-[:SUBJECT]->(s:Mention), (o)-[:OBJECT]->(t:Mention) RETURN {_CLAIM_FIELDS}"
 )
 
+# Every thing the text names, through its mentions' REFERS_TO edges (the edge carries the canonical ref, name
+# and kind, graph/canonical.py). A mention is one name of one type in one document (core/identity.py
+# `mention_id`), so distinct doc_ids count documents, not occurrences: one document writing a name two ways
+# holds two mentions of it (R150's replay: @designer_dave, 8 mentions in 7 documents). The mentions are
+# sorted by name before they are collected, so the spellings come sorted and are cut to the first `$names`.
+# A record's label is its plan label, an individual's or a concept's its type. Every row is ranked, then the
+# labels of all of them are kept before the filters, so the tool can list them when a label matches
+# nothing; the matching rows are cut to `$limit` in the database with their total.
+_MENTIONED = (
+    "MATCH (m:Mention)-[e:REFERS_TO]->(n) "
+    "WITH n, e, m ORDER BY m.name "
+    "WITH n, e.canonical AS ref, min(e.kind) AS kind, min(e.name) AS name, "
+    "count(DISTINCT m.doc_id) AS documents, collect(DISTINCT m.name) AS spellings "
+    "WITH ref, kind, name, documents, spellings, "
+    "CASE WHEN n:Individual OR n:Concept THEN coalesce(n.type, '') "
+    "ELSE coalesce(head([l IN labels(n) WHERE l IN $labels]), '') END AS label "
+    "ORDER BY documents DESC, name, ref "
+    "WITH collect({ref: ref, kind: kind, name: name, label: label, documents: documents, "
+    "spellings: spellings}) AS every, collect(DISTINCT label) AS labels "
+    "WITH labels, [r IN every WHERE ($label IS NULL OR r.label = $label) AND ($contains IS NULL OR "
+    "any(s IN r.spellings + [r.name] WHERE toLower(s) CONTAINS $contains))] AS found "
+    "RETURN labels, size(found) AS total, [r IN found[0..$limit] | {ref: r.ref, kind: r.kind, name: r.name, "
+    "label: r.label, documents: r.documents, spellings: r.spellings[0..$names]}] AS rows"
+)
+
 
 class Neo4jNodeReader:
     """`NodeReader` over the pipeline's Neo4j graph. `plan` gives the record labels, keys and names (None for
@@ -189,6 +233,15 @@ class Neo4jNodeReader:
         rows, _, _ = self._driver.execute_query(_CLAIMS, ids=claim_ids)
         found = {r["id"]: _claim(r) for r in rows}
         return [found[i] for i in claim_ids if i in found]
+
+    def mentioned(self, label: str | None, contains: str | None, limit: int, names: int) -> MentionPage:
+        rows, _, _ = self._driver.execute_query(
+            _MENTIONED, label=label, contains=contains, limit=limit, names=names, labels=list(self._rules)
+        )
+        # collect() without a grouping key returns one row even when nothing is matched
+        row = rows[0]
+        things = [MentionCount(**r) for r in row["rows"]]
+        return MentionPage(things=things, total=row["total"], labels=sorted(row["labels"]))
 
     def _locate(self, ref: str) -> _Located | None:
         """The node `ref` names, or None."""

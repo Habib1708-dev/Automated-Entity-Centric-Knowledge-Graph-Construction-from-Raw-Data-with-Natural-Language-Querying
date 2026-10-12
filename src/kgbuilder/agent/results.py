@@ -1,5 +1,5 @@
 """What the agent's tools return (R133): nodes, their properties and relations, chunks and claims, each with
-the id the agent may cite.
+the id the agent may cite; R150: the things the text names with how many documents name them.
 
 Role in the pipeline: the tools (graph_tools.py, text_tools.py) build these from the node reader
 (node_reader.py) and the stores; the agent loop (R135) shows them to the model and collects every id a
@@ -135,6 +135,29 @@ class ClaimsResult(ToolResult):
 
     def cites(self) -> list[str]:
         return _unique(i for c in self.claims for i in (c.id, c.chunk_id))
+
+
+class MentionCount(BaseModel):
+    """A thing the text names, with how many documents name it and the names its mentions write. No count of
+    mentions: one mention is one name of one type in one document, so it reads like an occurrence count
+    but is not one (a document writing a name two ways holds two)."""
+
+    ref: str
+    kind: NodeKind
+    label: str  # a record's label, an individual's or a concept's entity type
+    name: str  # its display name
+    documents: int  # the documents with a mention of it
+    spellings: list[str]  # the names its mentions write, sorted, cut
+
+
+class MentionCountsResult(ToolResult):
+    """`rank_by_documents` (R150): the named things, most documents first, capped, and how many matched."""
+
+    things: list[MentionCount]
+    total: int
+
+    def cites(self) -> list[str]:
+        return [t.ref for t in self.things]
 
 
 def _unique(ids) -> list[str]:

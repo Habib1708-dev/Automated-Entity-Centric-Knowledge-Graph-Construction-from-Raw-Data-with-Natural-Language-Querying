@@ -13,6 +13,8 @@ copies the ref, as in R135's dev run). The ledger also says whether an answer is
 (R142): every entity it names, and its number, must appear in the results that offered the cited ids. A
 chunk's quote is checked by `kg qa`; this check covers the node and query ids, which carry no quote. A
 number the model counted itself (passages read) appears in no result: that check is read with care.
+A thing `rank_by_documents` counted (R150) is named like any other node, so its name and its document count
+are found in the result its ref cites.
 Not here: sending an answer back (loop.py), turning chunks into the answer's shown list (system.py).
 """
 
@@ -27,6 +29,7 @@ from .results import (
     ChunksResult,
     ChunkText,
     ClaimsResult,
+    MentionCountsResult,
     NodeResult,
     NodesResult,
     RelationsResult,
@@ -118,7 +121,7 @@ class Ledger:
 
 
 def _names(result: ToolResult) -> dict[str, str]:
-    """Ref -> display name of every node a result names: found, read, related or listed by a query."""
+    """Ref -> display name of every node a result names: found, read, related, listed or counted."""
     if isinstance(result, NodesResult):
         return {n.ref: n.title for n in result.nodes}
     if isinstance(result, NodeResult) and result.node is not None:
@@ -127,4 +130,6 @@ def _names(result: ToolResult) -> dict[str, str]:
         return {r.ref: r.name for r in result.relations}
     if isinstance(result, QueryResult):
         return dict(zip(result.refs, result.names, strict=False))
+    if isinstance(result, MentionCountsResult):
+        return {t.ref: t.name for t in result.things}
     return {}

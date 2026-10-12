@@ -6,18 +6,21 @@ each behind the `Tool` protocol (tool.py) and returning the models of results.py
 no existing store reads. R134: the structured tools `schema`, `query_records` and `query_tables`
 (structured_tools.py), whose typed queries (structured_query.py) code checks and compiles to read-only
 Cypher (record_query.py) or SQL over the staged source tables (table_query.py, tables.py). R135 adds the
-loop, its containment and its tracing.
+loop, its containment and its tracing. R150: `rank_by_documents` (graph_tools.py) ranks the things the
+text names by how many documents mention them.
 Dependencies: pipeline -> agent -> hybrid, query, structured's plan model and identifier quoting, graph,
 llm.base, core; nothing imports agent but the pipeline.
 """
 
-from .graph_tools import FindNodes, GetNode, Neighbours, NodeEvidence
-from .node_reader import Neo4jNodeReader, NodeReader, RelationPage
+from .graph_tools import FindNodes, GetNode, Neighbours, NodeEvidence, RankByDocuments
+from .node_reader import MentionPage, Neo4jNodeReader, NodeReader, RelationPage
 from .results import (
     ChunksResult,
     ChunkText,
     ClaimFact,
     ClaimsResult,
+    MentionCount,
+    MentionCountsResult,
     NodeFacts,
     NodeHit,
     NodeResult,
@@ -44,6 +47,9 @@ __all__ = [
     "FindNodes",
     "FindPassages",
     "GetNode",
+    "MentionCount",
+    "MentionCountsResult",
+    "MentionPage",
     "Neighbours",
     "Neo4jNodeReader",
     "Neo4jTextReader",
@@ -57,6 +63,7 @@ __all__ = [
     "QueryRecords",
     "QueryResult",
     "QueryTables",
+    "RankByDocuments",
     "ReadDocument",
     "RecordQuery",
     "Relation",

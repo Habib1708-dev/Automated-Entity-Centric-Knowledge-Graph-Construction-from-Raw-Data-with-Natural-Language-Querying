@@ -9105,6 +9105,43 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
   the note) are the watch items.
 - **R149 done 2026-10-12.** Next: R150, counting text-derived things (cause 4).
 
+### R150. Counting text-derived things: a tool ranks what the text names by documents (done 2026-10-12; $0, code)
+- **Scope:** a new agent tool, `rank_by_documents` (`agent/graph_tools.RankByDocuments`; planned as
+  `count_mentions`, renamed by review because "count" pulled passage and occurrence counts toward a tool
+  that counts documents): it ranks the records, individuals and concepts the text names by how many documents
+  hold a mention referring to them (`count(DISTINCT m.doc_id)` over `(:Mention)-[:REFERS_TO]->(n)`), most
+  first, each with its label and the words it is written with, filtered by `contains` (any spelling, inside a
+  word too) and `label`, cut at `agent_rows` (20) with the total and `agent_names` (10) spellings. One plain
+  parameterised Cypher read (`NodeReader.mentioned`, `_MENTIONED`), no APOC; a counted ref is given its name
+  in the citation ledger. Its description says a document is what a passage id has before '#', and that it
+  "counts documents, never passages or how often something is said: to count passages, statements or
+  occurrences, use find_passages". Registered after `find_passages` in `build_tools` and `AGENT_TOOL_TYPES`.
+  Tool list 11150 -> 12089 characters; `agent_tools_prompt_version` 7c6e9dfabcbc -> ccf077ef986c,
+  `agent_reply_prompt_version` da72e2e42102 -> 64c3861205bb (the reply schema lists the tool names).
+- **Offline replay** ($0, from the saved builds, not the Cypher: mention ids recomputed with
+  `core.identity.mention_id` and mapped through `resolve.json`, 0 of 1015 / 524 unmapped, the real tool run on
+  a replay reader). Furniture (`out/r136_furniture`), `contains` "@": @scandi_lover 8, @angry_customer 7,
+  @designer_dave 7 (8 mentions: "@designer_dave", "designer_dave"), @home_chef 6, ... 17 handles: F13's gold
+  and its note; @familyfirst 3 where the files hold 6 (mention recall, the counts are lower bounds). With no
+  filter the list starts Portland 10, "looks nice" 9, then @scandi_lover 8. Generality (`out/r143_generality`),
+  `contains` "pike": Staff:S-131 (Jonathan Pike) 9 documents, spellings including "group leader"; G05's gold
+  is 8 (an identity join made "group leader" in `institute/travel_claims_memo.md` Pike).
+- **Read with care:** F13 is a document count only because each furniture document is one product's review
+  page (the data's layout). The tool is wrong for counts of reviews or passages (F12 would get 1 document for
+  4). Its counts follow the identity layer: G05 goes from right (8, R143b by `find_passages(["Pike"])`) to
+  wrong (9) if the model picks this tool, a cost of R75's join, not of the tool. Filtering mentions by their
+  class (a role word against a name) would need `mention_class` on the Mention nodes, which the loader does
+  not store (Found along the way).
+- **Verified:** 10 new tests (the tool's filters, notes, an unknown or empty label, a blank `contains`
+  refused; the domain-word check over its texts; the ledger naming a counted ref and supporting its count;
+  four Neo4j tests: ranking with spellings, filters and the cut, a document counted once with spellings
+  sorted, an empty graph). The R146 drift guard holds. 1259 passed (1249 + 10), ruff clean. Reviewed from
+  three lenses; 6 of 7 findings applied, the seventh is not R150's (an allow rule in the local
+  `.claude/settings.json`, reported to the user).
+- **For R151:** F13 (expected right) and G05 (at risk) are the watch items, with F12, FN08, GN03 (passage
+  counts that must stay with `find_passages`).
+- **R150 done 2026-10-12.** Next: R151, the re-measurement (paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -9137,6 +9174,10 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **Mention nodes do not keep their class (found in R150, 2026-10-12; open).** `mention_class` (a name, a
+  role word, a kind) exists in the mention pass's output but is not written to `:Mention` nodes, so
+  `rank_by_documents` cannot count only documents that name a thing (G05: "group leader" counted for Jonathan
+  Pike). Direction: store the class on the node (loader change and a reload), then filter or show it.
 - **Two copies of the comparison table and R74's date test by prefix (found in R148, 2026-10-12; open).**
   `query/plan_cypher._COMPARISONS` and `agent/structured_query.COMPARISONS` are the same table; R74's value
   path (`plan.value_issues`, `plan_cypher.condition`, `table_query._condition`) counts a type as a date by

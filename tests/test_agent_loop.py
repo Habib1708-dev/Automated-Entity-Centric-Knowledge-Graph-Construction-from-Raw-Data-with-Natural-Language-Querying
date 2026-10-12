@@ -16,7 +16,7 @@ reader share one answer-form rule (a number first) and the answer fields' descri
 declare the form it answers (`asks`); an answer that leaves its declared field empty is sent back once with
 the tools open while a turn is left, then stands; an empty answer is R138's, never also sent back for its
 form; the metrics count the answers sent back, and the agent's prompt version covers the text they are sent
-back with."""
+back with. R150: a thing `rank_by_documents` counted is given its name, and its result supports its count."""
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -35,7 +35,15 @@ from kgbuilder.agent.prompt import (
     step_model,
     tool_list,
 )
-from kgbuilder.agent.results import ChunksResult, ChunkText, ClaimsResult, NodeHit, NodesResult
+from kgbuilder.agent.results import (
+    ChunksResult,
+    ChunkText,
+    ClaimsResult,
+    MentionCount,
+    MentionCountsResult,
+    NodeHit,
+    NodesResult,
+)
 from kgbuilder.agent.system import AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from kgbuilder.config import Settings
 from kgbuilder.llm.base import prompt_version, schema_text
@@ -566,3 +574,14 @@ def test_an_entity_written_as_a_ref_a_tool_returned_is_given_that_nodes_name():
     script = Script(call("find", '{"ref": "k1"}'), reply)
     result = AgentSystem(loop(script), FakeStore()).answer("Q1", "Which thing?")
     assert result.entities == ["It", "Lark Kettle"]  # FakeFind titles every node "It"; a name stays
+
+
+def test_a_counted_things_ref_is_given_its_name_and_supports_its_count():
+    """R150: a thing `rank_by_documents` returned is named like any node, and its result holds its count."""
+    ledger = Ledger()
+    thing = MentionCount(ref="i-x", kind="individual", label="Person", name="Ada Brook", documents=4,
+                         spellings=["Ada", "Ada Brook"])  # fmt: skip
+    ledger.add(MentionCountsResult(things=[thing], total=1))
+    assert ledger.name_of("i-x") == "Ada Brook"
+    found = ledger.support(["Ada Brook"], 4.0, ["i-x"])
+    assert (found.entities_grounded, found.number_stated) == (True, True)

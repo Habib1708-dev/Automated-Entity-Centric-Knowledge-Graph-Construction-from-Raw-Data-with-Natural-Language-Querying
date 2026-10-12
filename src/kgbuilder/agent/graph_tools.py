@@ -8,10 +8,13 @@ Design: Strategy, one class per tool (tool.py). `find_nodes` is R132's live seed
 of `hybrid.retrievers.fused_cards`, so the agent starts where retrieve-eval measured it; `node_evidence`
 reaches chunks by the fixed traversal patterns every graph system uses (`GraphStore.reach`) and ranks them
 by `query.ranking.rank`. Every tool cuts its result to its cap and says so in the note.
+`rank_by_documents` (R150) ranks every thing the text names by how many documents mention it: a passage
+search shows thirty passages, and a count or a ranking over text-derived things needs all of them (R145
+cause 4).
 Not here: the Cypher (node_reader.py), the text search tools (text_tools.py).
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from ..hybrid.retrievers import fused_cards
 from ..hybrid.seed_fusion import SeedSetting
@@ -19,8 +22,16 @@ from ..hybrid.unit_store import UnitStore
 from ..llm.base import Embedder
 from ..query.graph_store import GraphStore
 from ..query.ranking import rank
-from .node_reader import NodeReader
-from .results import ChunksResult, ChunkText, NodeFacts, NodeResult, NodesResult, RelationsResult
+from .node_reader import MentionPage, NodeReader
+from .results import (
+    ChunksResult,
+    ChunkText,
+    MentionCountsResult,
+    NodeFacts,
+    NodeResult,
+    NodesResult,
+    RelationsResult,
+)
 
 
 class FindNodesArguments(BaseModel):
@@ -41,6 +52,29 @@ class NeighboursArguments(NodeArguments):
 
 class EvidenceArguments(NodeArguments):
     about: str = Field(description="What the passages should say: the passages closest to it come first.")
+
+
+class RankArguments(BaseModel):
+    # "a few characters": a part of a name is how R143b's F13 asked for handles (find_passages(['@'])); the
+    # word "part" itself is a word of an evaluated dataset and is kept out of what the model reads. "Even
+    # inside a word": the match is a substring (node_reader.py), and R150's review replay found a word hit
+    # inside unrelated words ("rating" in "frustrating"), so the model is told rather than left to guess
+    contains: str | None = Field(
+        default=None,
+        min_length=1,
+        description="Only things with a name containing this text anywhere, even inside a word, ignoring "
+        "case: a word, or a few characters the wanted names share.",
+    )
+    label: str | None = Field(
+        default=None, min_length=1, description="Only things of this label, exactly as a tool returned it."
+    )
+
+    @field_validator("contains")
+    @classmethod
+    def _no_blank(cls, contains: str | None) -> str | None:
+        if contains is not None and not contains.strip():
+            raise ValueError("the text a name holds must not be blank")
+        return contains
 
 
 class FindNodes:
@@ -179,6 +213,59 @@ class NodeEvidence:
             for c in ranked
         ]  # fmt: skip
         return ChunksResult(chunks=chunks, total=len(reached), note=_shown(len(chunks), len(reached)))
+
+
+class RankByDocuments:
+    """`rank_by_documents` (R150): the things the text names, most documents first, those of a label and
+    with a name holding some text, at most `limit`, each with at most `names` of its spellings. It counts
+    documents, not passages or occurrences, so it cannot answer how many passages say something
+    (`find_passages` does), and its counts are as good as the identity stage's joins and the mention pass's
+    recall: lower bounds where a mention was missed. A document that refers to a thing only by a word for it
+    (a role, a kind) is counted too, since the graph's mentions do not keep how they name a thing."""
+
+    # The name says what is counted: R150's review found "count_mentions" matched questions about how many
+    # passages mention something or how many times, which only find_passages answers
+    name = "rank_by_documents"
+    # The document sentence says what is counted in the unit the model sees (a passage id's prefix): R150's
+    # review found that a count of passages (how many passages of one document say something) is not a
+    # document count, and a model taking one for the other would answer 1. "By name or by a word for them"
+    # is what the count holds (class docstring), so a count of the documents that write one name is not
+    # promised. The last sentence sends passage and occurrence counts to the other tool by name, without
+    # saying a passage search is incomplete, which find_passages' own text contradicts.
+    description = (
+        "Rank the things the text names (records, named individuals and kinds of thing) by how many "
+        "documents mention them, by name or by a word for them, most first, each with that number and the "
+        "words it is written with. A document is what a passage id has before '#', not one passage. It "
+        "counts documents, never passages or how often something is said: to count passages, statements "
+        "or occurrences, use find_passages."
+    )
+    arguments = RankArguments
+
+    def __init__(self, reader: NodeReader, limit: int, names: int):
+        self._reader = reader
+        self._limit = limit
+        self._names = names
+
+    def run(self, arguments: RankArguments) -> MentionCountsResult:
+        contains = arguments.contains.strip().lower() if arguments.contains else None
+        page = self._reader.mentioned(arguments.label, contains, self._limit, self._names)
+        return MentionCountsResult(things=page.things, total=page.total, note=_counted(page, arguments.label))
+
+
+def _counted(page: MentionPage, label: str | None) -> str:
+    """The note for a ranking: an unknown label with the labels there are, nothing matching, or how many of
+    how many are shown when cut."""
+    if not page.things:
+        # a record of a reader without a plan has the empty label, and a graph with no REFERS_TO edges (text
+        # never resolved) has none: neither gives a label worth listing, so the note stays a sentence
+        labels = [known for known in page.labels if known]
+        if label is not None and labels and label not in labels:
+            return f"No label {label!r} among the things the text names; the labels are {', '.join(labels)}."
+        return "No named thing matches."
+    if page.total > len(page.things):
+        shown = f"{len(page.things)} of {page.total} shown"
+        return f"{shown}; give a label or some characters of the name to narrow them."
+    return ""
 
 
 def _unknown(ref: str) -> str:

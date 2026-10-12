@@ -250,7 +250,8 @@ class Settings(BaseSettings):
     agent_max_prompt_chars: int = Field(default=400_000, ge=1000)
     agent_timeout_s: float = Field(default=180.0, gt=0)
     # what each tool returns at most: R131b's 15 start nodes; 5 passages, the k every reading system reads;
-    # 10 claims, 20 relation groups and 20 rows keep one result within a few thousand characters
+    # 10 claims, 20 relation groups and 20 rows keep one result within a few thousand characters. R150:
+    # agent_rows and agent_names also cap rank_by_documents (20 named things, 10 spellings each)
     agent_nodes: int = Field(default=15, ge=1)
     agent_relations: int = Field(default=20, ge=1)
     agent_chunks: int = Field(default=5, ge=1)
