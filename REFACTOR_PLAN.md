@@ -9189,6 +9189,33 @@ the tool text the agent's model reads is not versioned, so that gap is closed fi
 - **R151 done 2026-10-12; plan R146-R151 done.** Next: the user decides (F13's tool choice, G05's identity
   join, the open items under Found along the way).
 
+### Plan R152-R157: a benchmark of 250 unseen questions on five datasets, the frozen agent only (accepted 2026-10-12)
+The user, 2026-10-12, after R151: experiment on more data, the agent alone (no reading systems), at the size
+proposed as "recommended": 50 new questions on each of five datasets, the three of the thesis and two new
+ones, about $5.5-7.5 in all. Why this size: 50 questions per dataset gives about 8 per question type, so a
+per-type number rests on more than one or two questions, and a 95% interval of about +-8 points per
+dataset (+-4 pooled over 250); the three datasets are small (32-81 passages), so more than about 50 would
+reword the same facts; two new domains test generalisation better than more questions on the same three.
+Rules: the engine stays frozen at `query-engine-r151` (no change between the first and the last run); every
+gold question is written before any output for it exists, by Claude from the source files only, and checked
+by code; the old 207 questions are tuning data and are not re-run; the new datasets are real public data
+mixing tables and text, from domains not used yet, staged by a fetch-then-build script like
+`heldout/nhtsa/build.py`, so a test proves the input was not edited by hand.
+- **Steps, strictly one after another:**
+  - **R152** 50 new gold questions on each of furniture, held-out and generality
+    (`tests/gold/qa/<dataset>_qa_bench.json`), the type mix of R143a, about four in five scored by code;
+    no repeat of the 207 earlier questions; checked by the gold tests ($0).
+  - **R153** New dataset A: chosen from checked candidates, fetched once, built into a data directory with
+    its README, licence and test, its preset in `presets.yaml`, and its 50 gold questions written before
+    any build ($0).
+  - **R154** New dataset B, the same way ($0).
+  - **R155** The two new graphs built with the frozen pipeline (paid, asked first with an estimate from
+    the R103 rebuilds: about $1-3).
+  - **R156** The agent on the 250 questions, one dataset at a time (paid, asked first: about $4.5 at
+    R151's $0.017-0.019 a question), the three thesis datasets on their R151 graphs reloaded from the cache.
+  - **R157** Every answer judged by meaning (R144, two blind judges) next to exact match; per dataset, per
+    type and pooled, with intervals; failures traced to their cause as in R145 ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
