@@ -1,0 +1,209 @@
+{
+  "nodes": [
+    {
+      "source_file": "events.csv",
+      "label": "Accident",
+      "unique_column": "ntsb_no",
+      "properties": [
+        "date",
+        "time",
+        "city",
+        "state",
+        "country",
+        "airport_id",
+        "airport_name",
+        "airport_distance_sm",
+        "light_condition",
+        "weather_condition",
+        "wind_speed_kts",
+        "gust_kts",
+        "highest_injury",
+        "fatal_injuries",
+        "serious_injuries",
+        "minor_injuries",
+        "uninjured",
+        "latitude",
+        "longitude"
+      ],
+      "description": "An aviation accident or incident event investigated by the NTSB.",
+      "name_column": null
+    },
+    {
+      "source_file": "aircraft.csv",
+      "label": "Aircraft",
+      "unique_column": "ntsb_no",
+      "properties": [
+        "registration",
+        "reported_make",
+        "reported_model",
+        "series",
+        "year_built",
+        "category",
+        "regulation",
+        "damage",
+        "engines",
+        "seats",
+        "operator",
+        "operator_dba",
+        "flight_purpose",
+        "departure_airport",
+        "destination_airport",
+        "engine.manufacturer",
+        "engine.model",
+        "engine.type",
+        "engine.power",
+        "engine.power_unit",
+        "engine.fuel_system"
+      ],
+      "description": "An aircraft involved in an accident investigation.",
+      "name_column": "registration"
+    },
+    {
+      "source_file": "models.csv",
+      "label": "AircraftModel",
+      "unique_column": "model",
+      "properties": [
+        "name",
+        "make",
+        "manufacturer",
+        "category",
+        "engine_type"
+      ],
+      "description": "A standardized aircraft model specification.",
+      "name_column": "name"
+    },
+    {
+      "source_file": "crew.csv",
+      "label": "CrewMember",
+      "unique_column": "crew_id",
+      "key_columns": [
+        "ntsb_no",
+        "crew_no"
+      ],
+      "properties": [
+        "crew_no",
+        "category",
+        "age",
+        "sex",
+        "medical_certificate",
+        "medical_validity",
+        "injury",
+        "seat",
+        "total_hours",
+        "pilot_in_command_hours",
+        "make_model_hours",
+        "last_90_days_hours",
+        "last_30_days_hours",
+        "last_24_hours_hours"
+      ],
+      "description": "A pilot, crew member, or occupant on board an aircraft during an accident.",
+      "name_column": null
+    },
+    {
+      "source_file": "events_sequence.csv",
+      "label": "Occurrence",
+      "unique_column": "occurrence_id",
+      "key_columns": [
+        "ntsb_no",
+        "occurrence_no"
+      ],
+      "properties": [
+        "occurrence_no",
+        "occurrence_code",
+        "occurrence",
+        "defining_event"
+      ],
+      "description": "A sequential event or occurrence that took place during the accident sequence.",
+      "name_column": "occurrence"
+    },
+    {
+      "source_file": "findings.csv",
+      "label": "Finding",
+      "unique_column": "finding_id",
+      "key_columns": [
+        "ntsb_no",
+        "finding_no"
+      ],
+      "properties": [
+        "finding_no",
+        "finding_code",
+        "finding"
+      ],
+      "description": "An investigative finding or causal factor determined by the NTSB.",
+      "name_column": "finding"
+    },
+    {
+      "source_file": "injuries.csv",
+      "label": "Injury",
+      "unique_column": "injury_id",
+      "key_columns": [
+        "ntsb_no",
+        "person_category",
+        "injury_level"
+      ],
+      "properties": [
+        "person_category",
+        "injury_level",
+        "count"
+      ],
+      "description": "An injury tally categorized by occupant type and injury severity.",
+      "name_column": null
+    }
+  ],
+  "relationships": [
+    {
+      "source_file": "aircraft.csv",
+      "relationship_type": "INVOLVED_IN",
+      "from_label": "Aircraft",
+      "from_column": "ntsb_no",
+      "to_label": "Accident",
+      "to_column": "ntsb_no",
+      "properties": []
+    },
+    {
+      "source_file": "aircraft.csv",
+      "relationship_type": "OF_MODEL",
+      "from_label": "Aircraft",
+      "from_column": "ntsb_no",
+      "to_label": "AircraftModel",
+      "to_column": "model",
+      "properties": []
+    },
+    {
+      "source_file": "crew.csv",
+      "relationship_type": "INVOLVED_IN",
+      "from_label": "CrewMember",
+      "from_column": "crew_id",
+      "to_label": "Accident",
+      "to_column": "ntsb_no",
+      "properties": []
+    },
+    {
+      "source_file": "events_sequence.csv",
+      "relationship_type": "OCCURRED_IN",
+      "from_label": "Occurrence",
+      "from_column": "occurrence_id",
+      "to_label": "Accident",
+      "to_column": "ntsb_no",
+      "properties": []
+    },
+    {
+      "source_file": "findings.csv",
+      "relationship_type": "FOUND_FOR",
+      "from_label": "Finding",
+      "from_column": "finding_id",
+      "to_label": "Accident",
+      "to_column": "ntsb_no",
+      "properties": []
+    },
+    {
+      "source_file": "injuries.csv",
+      "relationship_type": "RECORDED_FOR",
+      "from_label": "Injury",
+      "from_column": "injury_id",
+      "to_label": "Accident",
+      "to_column": "ntsb_no",
+      "properties": []
+    }
+  ]
+}

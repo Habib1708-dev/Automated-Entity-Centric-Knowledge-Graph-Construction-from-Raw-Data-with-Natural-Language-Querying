@@ -1,0 +1,217 @@
+{
+  "entity_types": [
+    {
+      "name": "Accident",
+      "description": "An aviation accident or incident event investigated by the NTSB.",
+      "identity": "keyed",
+      "record_labels": [
+        "Accident"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Aircraft",
+      "description": "A specific physical aircraft involved in an accident investigation.",
+      "identity": "keyed",
+      "record_labels": [
+        "Aircraft"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "AircraftModel",
+      "description": "A standardized aircraft make and model specification, but not an individual physical airframe.",
+      "identity": "keyed",
+      "record_labels": [
+        "AircraftModel"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "CrewMember",
+      "description": "A pilot, flight instructor, student pilot, or occupant on board an aircraft during an accident.",
+      "identity": "keyed",
+      "record_labels": [
+        "CrewMember"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Occurrence",
+      "description": "A sequential operational event, mechanical failure, or collision that took place during the accident sequence.",
+      "identity": "keyed",
+      "record_labels": [
+        "Occurrence"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Finding",
+      "description": "An investigative causal factor, finding, or probable cause officially determined by the NTSB.",
+      "identity": "keyed",
+      "record_labels": [
+        "Finding"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "AircraftComponent",
+      "description": "A physical system, structural assembly, or mechanical part of an aircraft, but not the entire aircraft itself.",
+      "identity": "concept",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Location",
+      "description": "A named geographic town, city, or state where an accident occurred.",
+      "identity": "individual",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "EnvironmentalCondition",
+      "description": "A weather phenomenon, terrain feature, or surface condition encountered during the accident sequence.",
+      "identity": "concept",
+      "record_labels": [],
+      "key_attributes": []
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "INVOLVED_IN",
+      "subject_type": "Aircraft",
+      "object_type": "Accident",
+      "description": "The aircraft was involved in the accident event.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OF_MODEL",
+      "subject_type": "Aircraft",
+      "object_type": "AircraftModel",
+      "description": "The aircraft is of the specified standardized aircraft model.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "INVOLVED_IN",
+      "subject_type": "CrewMember",
+      "object_type": "Accident",
+      "description": "The crew member or occupant was involved in the accident.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "ON_BOARD",
+      "subject_type": "CrewMember",
+      "object_type": "Aircraft",
+      "description": "The crew member or occupant was on board the aircraft during the flight.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "COMPONENT_OF",
+      "subject_type": "AircraftComponent",
+      "object_type": "Aircraft",
+      "description": "The component is a physical part or subsystem of the aircraft.",
+      "derived": false,
+      "part_of": true
+    },
+    {
+      "predicate": "OCCURRED_AT",
+      "subject_type": "Accident",
+      "object_type": "Location",
+      "description": "The accident took place at the specified geographic location.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OCCURRED_IN",
+      "subject_type": "Occurrence",
+      "object_type": "Accident",
+      "description": "The sequence event or occurrence took place during the accident.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "AFFECTED_COMPONENT",
+      "subject_type": "Occurrence",
+      "object_type": "AircraftComponent",
+      "description": "The operational event or mechanical failure affected, damaged, or involved the aircraft component.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "INVOLVED_CREW",
+      "subject_type": "Occurrence",
+      "object_type": "CrewMember",
+      "description": "The operational maneuver or event was conducted by or involved the crew member.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "ENCOUNTERED_CONDITION",
+      "subject_type": "Occurrence",
+      "object_type": "EnvironmentalCondition",
+      "description": "The event or maneuver encountered the environmental or terrain condition.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "FOUND_FOR",
+      "subject_type": "Finding",
+      "object_type": "Accident",
+      "description": "The investigative finding or probable cause was determined for the accident.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "CITED_CREW",
+      "subject_type": "Finding",
+      "object_type": "CrewMember",
+      "description": "The finding cited the actions, decisions, or performance of the crew member.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "CITED_COMPONENT",
+      "subject_type": "Finding",
+      "object_type": "AircraftComponent",
+      "description": "The finding cited the failure, damage, or condition of the aircraft component.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "CITED_CONDITION",
+      "subject_type": "Finding",
+      "object_type": "EnvironmentalCondition",
+      "description": "The finding cited the environmental, weather, or terrain condition as a causal or contributing factor.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "ENCOUNTERED_CONDITION",
+      "subject_type": "Accident",
+      "object_type": "EnvironmentalCondition",
+      "description": "The accident flight sequence occurred under or encountered the environmental condition.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAD_MEASUREMENT",
+      "subject_type": "Aircraft",
+      "object_type": "Value",
+      "description": "The aircraft operated with or recorded a quantitative metric, such as weight or fuel quantity.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAD_SERVICE_TIME",
+      "subject_type": "AircraftComponent",
+      "object_type": "Value",
+      "description": "The aircraft component had accumulated an operating or inspection time value.",
+      "derived": false,
+      "part_of": false
+    }
+  ]
+}

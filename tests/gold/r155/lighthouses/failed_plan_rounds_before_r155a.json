@@ -1,0 +1,23 @@
+[
+  {
+    "round": 1,
+    "source": "critic",
+    "issues": [
+      "The entire 'events.csv' dataset is omitted from the plan. The stated goal explicitly requires answering questions about 'the events and people connected with them', and events such as automation, renovation, and relocation are vital historical records linked to lighthouses via lighthouse.qid."
+    ]
+  },
+  {
+    "round": 2,
+    "source": "code",
+    "issues": [
+      "node Event: 'event' is not unique in 'events.csv' (7 distinct values, 0 nulls, 62 rows)"
+    ]
+  },
+  {
+    "round": 3,
+    "source": "critic",
+    "issues": [
+      "The entire 'events.csv' dataset is omitted from the plan. The stated goal explicitly requires answering questions about 'the events and people connected with them', and events such as automation, renovation, and relocation are vital historical records linked to lighthouses via lighthouse.qid."
+    ]
+  }
+]

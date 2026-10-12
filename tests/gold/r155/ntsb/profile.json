@@ -1,0 +1,1386 @@
+{
+  "files": [
+    {
+      "file": "aircraft.csv",
+      "row_count": 30,
+      "columns": [
+        {
+          "name": "ntsb_no",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": true,
+          "samples": [
+            "CEN21LA185",
+            "CEN21LA383",
+            "CEN22LA249",
+            "CEN21FA299",
+            "CEN23LA017"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "registration",
+          "dtype": "VARCHAR",
+          "null_count": 10,
+          "distinct_count": 20,
+          "is_unique": false,
+          "samples": [
+            "N184NW",
+            "N704T",
+            "N67CW",
+            "N509HB",
+            "N8523Z"
+          ],
+          "avg_chars": 5.8,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "model",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": false,
+          "samples": [
+            "SR22",
+            "PA-28-181",
+            "172S",
+            "A36",
+            "AT-502B"
+          ],
+          "avg_chars": 5.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "reported_make",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 7,
+          "is_unique": false,
+          "samples": [
+            "ROBINSON HELICOPTER COMPANY",
+            "PIPER",
+            "ROBINSON HELICOPTER",
+            "AIR TRACTOR INC",
+            "CESSNA"
+          ],
+          "avg_chars": 12.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "reported_model",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": false,
+          "samples": [
+            "AT-502B",
+            "SR22",
+            "PA-28-181",
+            "A36",
+            "172S"
+          ],
+          "avg_chars": 5.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "series",
+          "dtype": "VARCHAR",
+          "null_count": 28,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "1051",
+            "NO SERIES"
+          ],
+          "avg_chars": 6.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "year_built",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 18,
+          "is_unique": false,
+          "samples": [
+            "1978",
+            "1973",
+            "2004",
+            "2006",
+            "1977"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "category",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Helicopter",
+            "Airplane"
+          ],
+          "avg_chars": 8.3,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "regulation",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "Part 137: Agricultural",
+            "Part 133: Rotorcraft Ext. Load",
+            "Part 91: General Aviation",
+            "Part 135: Air Taxi & Commuter"
+          ],
+          "avg_chars": 24.7,
+          "multi_sentence_ratio": 0.0333,
+          "is_prose": false
+        },
+        {
+          "name": "damage",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Substantial",
+            "Destroyed"
+          ],
+          "avg_chars": 10.9,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engines",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 1,
+          "is_unique": false,
+          "samples": [
+            "1"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "seats",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 3,
+          "is_unique": false,
+          "samples": [
+            "6",
+            "4",
+            "1"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "operator",
+          "dtype": "VARCHAR",
+          "null_count": 10,
+          "distinct_count": 20,
+          "is_unique": false,
+          "samples": [
+            "ITECHNOLOGY DESIGN INC",
+            "NORTHWESTERN MICHIGAN COLLEGE",
+            "State Machinery & Equipment Acquisition LLC",
+            "ADAMS AERIAL SOLUTIONS LLC",
+            "LUNKEN FLIGHT TRAINING CENTER LLC"
+          ],
+          "avg_chars": 22.6,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "operator_dba",
+          "dtype": "VARCHAR",
+          "null_count": 23,
+          "distinct_count": 7,
+          "is_unique": false,
+          "samples": [
+            "Remote Alaska Air",
+            "Crop Doctor",
+            "BARR AIR PATROL LLC",
+            "Digger Doug's Crop Dusting Services Inc.",
+            "N/A"
+          ],
+          "avg_chars": 17.9,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "flight_purpose",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 7,
+          "is_unique": false,
+          "samples": [
+            "Instructional",
+            "External Load",
+            "Business",
+            "Personal",
+            "Aerial Application"
+          ],
+          "avg_chars": 12.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "departure_airport",
+          "dtype": "VARCHAR",
+          "null_count": 9,
+          "distinct_count": 21,
+          "is_unique": false,
+          "samples": [
+            "KSBM",
+            "GCC",
+            "N/A",
+            "REG",
+            "GGP"
+          ],
+          "avg_chars": 3.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "destination_airport",
+          "dtype": "VARCHAR",
+          "null_count": 14,
+          "distinct_count": 16,
+          "is_unique": false,
+          "samples": [
+            "KBUU",
+            "SLN",
+            "42A",
+            "KBAZ",
+            "M77"
+          ],
+          "avg_chars": 3.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine.manufacturer",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 8,
+          "is_unique": false,
+          "samples": [
+            "CONT MOTOR",
+            "Lycoming Engines",
+            "Pratt & Whitney Canada",
+            "Lycoming",
+            "LYCOMING"
+          ],
+          "avg_chars": 10.7,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine.model",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 15,
+          "is_unique": false,
+          "samples": [
+            "IO-360-L2A",
+            "IO-550",
+            "IO-360-B4A",
+            "IO550",
+            "IO-540-AE1A%"
+          ],
+          "avg_chars": 9.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine.type",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Turbo Prop",
+            "Reciprocating"
+          ],
+          "avg_chars": 12.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine.power",
+          "dtype": "BIGINT",
+          "null_count": 2,
+          "distinct_count": 12,
+          "is_unique": false,
+          "samples": [
+            "200",
+            "180",
+            "375",
+            "300",
+            "750"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine.power_unit",
+          "dtype": "VARCHAR",
+          "null_count": 8,
+          "distinct_count": 1,
+          "is_unique": false,
+          "samples": [
+            "Horsepower"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine.fuel_system",
+          "dtype": "VARCHAR",
+          "null_count": 5,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Fuel Injected",
+            "Carburetor"
+          ],
+          "avg_chars": 12.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "crew.csv",
+      "row_count": 38,
+      "columns": [
+        {
+          "name": "ntsb_no",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": false,
+          "samples": [
+            "CEN21LA268",
+            "CEN23LA026",
+            "CEN21LA283",
+            "CEN21LA280",
+            "CEN22LA059"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "crew_no",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 3,
+          "is_unique": false,
+          "samples": [
+            "3",
+            "1",
+            "2"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "category",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "Passenger",
+            "Flight Instructor",
+            "Pilot",
+            "Student Pilot"
+          ],
+          "avg_chars": 6.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "age",
+          "dtype": "BIGINT",
+          "null_count": 4,
+          "distinct_count": 30,
+          "is_unique": false,
+          "samples": [
+            "41",
+            "20",
+            "15",
+            "0",
+            "48"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "sex",
+          "dtype": "VARCHAR",
+          "null_count": 9,
+          "distinct_count": 1,
+          "is_unique": false,
+          "samples": [
+            "Male"
+          ],
+          "avg_chars": 4.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "medical_certificate",
+          "dtype": "VARCHAR",
+          "null_count": 5,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "Class 2",
+            "Class 1",
+            "Class 3",
+            "BasicMed"
+          ],
+          "avg_chars": 7.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "medical_validity",
+          "dtype": "VARCHAR",
+          "null_count": 6,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "With Waivers/Limitations",
+            "Without Waivers/Limitations"
+          ],
+          "avg_chars": 26.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "injury",
+          "dtype": "VARCHAR",
+          "null_count": 1,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "Minor",
+            "None",
+            "Fatal",
+            "Serious"
+          ],
+          "avg_chars": 4.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "seat",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": false,
+          "samples": [
+            "Left",
+            "Right",
+            "Single",
+            "Unknown",
+            "Front"
+          ],
+          "avg_chars": 4.6,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "total_hours",
+          "dtype": "DOUBLE",
+          "null_count": 7,
+          "distinct_count": 31,
+          "is_unique": false,
+          "samples": [
+            "66.0",
+            "28.0",
+            "166.0",
+            "403.0",
+            "3500.0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "pilot_in_command_hours",
+          "dtype": "DOUBLE",
+          "null_count": 16,
+          "distinct_count": 22,
+          "is_unique": false,
+          "samples": [
+            "329.0",
+            "403.0",
+            "511.0",
+            "491.1",
+            "684.0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "make_model_hours",
+          "dtype": "DOUBLE",
+          "null_count": 7,
+          "distinct_count": 30,
+          "is_unique": false,
+          "samples": [
+            "42.6",
+            "473.0",
+            "117.0",
+            "67.5",
+            "900.0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "last_90_days_hours",
+          "dtype": "DOUBLE",
+          "null_count": 13,
+          "distinct_count": 24,
+          "is_unique": false,
+          "samples": [
+            "5.0",
+            "23.0",
+            "11.5",
+            "15.8",
+            "50.0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "last_30_days_hours",
+          "dtype": "DOUBLE",
+          "null_count": 15,
+          "distinct_count": 22,
+          "is_unique": false,
+          "samples": [
+            "30.0",
+            "17.3",
+            "9.5",
+            "82.0",
+            "24.0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "last_24_hours_hours",
+          "dtype": "DOUBLE",
+          "null_count": 19,
+          "distinct_count": 13,
+          "is_unique": false,
+          "samples": [
+            "6.0",
+            "1.0",
+            "0.0",
+            "11.5",
+            "3.0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "events.csv",
+      "row_count": 30,
+      "columns": [
+        {
+          "name": "ntsb_no",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": true,
+          "samples": [
+            "CEN22LA244",
+            "CEN23LA344",
+            "CEN21LA268",
+            "CEN23LA026",
+            "CEN21LA283"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "date",
+          "dtype": "DATE",
+          "null_count": 0,
+          "distinct_count": 28,
+          "is_unique": false,
+          "samples": [
+            "2021-04-07",
+            "2023-06-03",
+            "2021-12-02",
+            "2022-06-09",
+            "2023-05-09"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "time",
+          "dtype": "TIME",
+          "null_count": 0,
+          "distinct_count": 24,
+          "is_unique": false,
+          "samples": [
+            "15:15:00",
+            "00:15:00",
+            "20:15:00",
+            "17:36:00",
+            "20:00:00"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "city",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": true,
+          "samples": [
+            "Whitewater",
+            "Port Alsworth",
+            "Salina",
+            "Loveland",
+            "Cleveland"
+          ],
+          "avg_chars": 8.9,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "state",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 13,
+          "is_unique": false,
+          "samples": [
+            "CO",
+            "LA",
+            "AR",
+            "IL",
+            "IN"
+          ],
+          "avg_chars": 2.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "country",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 1,
+          "is_unique": false,
+          "samples": [
+            "USA"
+          ],
+          "avg_chars": 3.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "airport_id",
+          "dtype": "VARCHAR",
+          "null_count": 9,
+          "distinct_count": 21,
+          "is_unique": false,
+          "samples": [
+            "I74",
+            "JVY",
+            "n/a",
+            "TVC",
+            "N/A"
+          ],
+          "avg_chars": 3.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "airport_name",
+          "dtype": "VARCHAR",
+          "null_count": 13,
+          "distinct_count": 17,
+          "is_unique": false,
+          "samples": [
+            "Salina Regional Airport",
+            "CLEVELAND MUNI",
+            "PORT ALSWORTH",
+            "CLARK RGNL",
+            "Skyway Estates Airport"
+          ],
+          "avg_chars": 16.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "airport_distance_sm",
+          "dtype": "DOUBLE",
+          "null_count": 0,
+          "distinct_count": 7,
+          "is_unique": false,
+          "samples": [
+            "0.0",
+            "1.0",
+            "0.3",
+            "2.0",
+            "0.2"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "light_condition",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Night",
+            "Day"
+          ],
+          "avg_chars": 3.1,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "weather_condition",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 3,
+          "is_unique": false,
+          "samples": [
+            "Unknown",
+            "Instrument Meteorological Cond",
+            "Visual Meteorological Cond"
+          ],
+          "avg_chars": 25.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "wind_speed_kts",
+          "dtype": "BIGINT",
+          "null_count": 6,
+          "distinct_count": 10,
+          "is_unique": false,
+          "samples": [
+            "7",
+            "5",
+            "9",
+            "6",
+            "23"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "gust_kts",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "0",
+            "21",
+            "18",
+            "31"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "highest_injury",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "None",
+            "Minor",
+            "Fatal",
+            "Serious"
+          ],
+          "avg_chars": 4.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "fatal_injuries",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "0",
+            "2"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "serious_injuries",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 3,
+          "is_unique": false,
+          "samples": [
+            "2",
+            "0",
+            "1"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "minor_injuries",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 3,
+          "is_unique": false,
+          "samples": [
+            "2",
+            "1",
+            "0"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "uninjured",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 5,
+          "is_unique": false,
+          "samples": [
+            "0",
+            "6",
+            "2",
+            "1",
+            "3"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "latitude",
+          "dtype": "DOUBLE",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": true,
+          "samples": [
+            "32.746963",
+            "41.063611",
+            "40.130746",
+            "46.028601",
+            "35.2707"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "longitude",
+          "dtype": "DOUBLE",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": true,
+          "samples": [
+            "-90.927146",
+            "-91.445696",
+            "-88.684086",
+            "-97.652222",
+            "-154.31887"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "events_sequence.csv",
+      "row_count": 72,
+      "columns": [
+        {
+          "name": "ntsb_no",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": false,
+          "samples": [
+            "CEN21LA221",
+            "CEN21LA268",
+            "CEN23LA026",
+            "CEN21LA283",
+            "CEN21LA280"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "occurrence_no",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 8,
+          "is_unique": false,
+          "samples": [
+            "1",
+            "2",
+            "5",
+            "7",
+            "8"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "occurrence_code",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 59,
+          "is_unique": false,
+          "samples": [
+            "552096",
+            "990000",
+            "600440",
+            "500330",
+            "650060"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "occurrence",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 59,
+          "is_unique": false,
+          "samples": [
+            "Landing External load event (Rotorcraft)",
+            "Landing Loss of control in flight",
+            "Landing Landing area undershoot",
+            "Maneuvering-low-alt flying Part(s) separation from AC",
+            "Maneuvering-low-alt flying Low altitude operation/event"
+          ],
+          "avg_chars": 42.8,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "defining_event",
+          "dtype": "BOOLEAN",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "false",
+            "true"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "findings.csv",
+      "row_count": 67,
+      "columns": [
+        {
+          "name": "ntsb_no",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": false,
+          "samples": [
+            "CEN22LA244",
+            "CEN23LA344",
+            "CEN21LA268",
+            "CEN23LA026",
+            "CEN21LA283"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "finding_no",
+          "dtype": "BIGINT",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": false,
+          "samples": [
+            "2",
+            "3",
+            "4",
+            "1",
+            "6"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "finding_code",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 50,
+          "is_unique": false,
+          "samples": [
+            "0302301587",
+            "0301703591",
+            "0302301091",
+            "0204151044",
+            "0107101000"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "finding",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 50,
+          "is_unique": false,
+          "samples": [
+            "Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Directional control-Not attained/maintained",
+            "Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Landing flare-Capability exceeded",
+            "Personnel issues-Action/decision-Info processing/decision-Identification/recognition-Pilot",
+            "Personnel issues-Task performance-Planning/preparation-Performance calculations-Pilot",
+            "Personnel issues-Psychological-Attention/monitoring-Monitoring environment-Pilot"
+          ],
+          "avg_chars": 87.3,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "injuries.csv",
+      "row_count": 143,
+      "columns": [
+        {
+          "name": "ntsb_no",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 30,
+          "is_unique": false,
+          "samples": [
+            "CEN21LA221",
+            "CEN22LA244",
+            "CEN23LA344",
+            "CEN21LA284",
+            "CEN21LA339"
+          ],
+          "avg_chars": 10.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "person_category",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "Flig",
+            "LapC",
+            "Pass",
+            "Cabi"
+          ],
+          "avg_chars": 4.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "injury_level",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 5,
+          "is_unique": false,
+          "samples": [
+            "Total",
+            "Fatal",
+            "Serious",
+            "None",
+            "Minor"
+          ],
+          "avg_chars": 4.9,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "count",
+          "dtype": "BIGINT",
+          "null_count": 44,
+          "distinct_count": 4,
+          "is_unique": false,
+          "samples": [
+            "0",
+            "2",
+            "5",
+            "1"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "models.csv",
+      "row_count": 6,
+      "columns": [
+        {
+          "name": "name",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": true,
+          "samples": [
+            "Robinson R44 II",
+            "Cirrus SR22",
+            "Beech A36",
+            "Piper PA-28-181",
+            "Cessna 172S"
+          ],
+          "avg_chars": 13.3,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "make",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": true,
+          "samples": [
+            "Robinson",
+            "Cessna",
+            "Cirrus",
+            "Beech",
+            "Piper"
+          ],
+          "avg_chars": 6.8,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "model",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": true,
+          "samples": [
+            "SR22",
+            "R44 II",
+            "AT-502B",
+            "PA-28-181",
+            "A36"
+          ],
+          "avg_chars": 5.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "manufacturer",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 6,
+          "is_unique": true,
+          "samples": [
+            "PIPER",
+            "BEECH",
+            "CESSNA",
+            "ROBINSON HELICOPTER COMPANY",
+            "AIR TRACTOR INC"
+          ],
+          "avg_chars": 12.7,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "category",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Helicopter",
+            "Airplane"
+          ],
+          "avg_chars": 8.3,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "engine_type",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 2,
+          "is_unique": false,
+          "samples": [
+            "Turbo Prop",
+            "Reciprocating"
+          ],
+          "avg_chars": 12.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "from_file": "crew.csv",
+      "from_column": "ntsb_no",
+      "to_file": "aircraft.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "events.csv",
+      "from_column": "ntsb_no",
+      "to_file": "aircraft.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "events_sequence.csv",
+      "from_column": "ntsb_no",
+      "to_file": "aircraft.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "findings.csv",
+      "from_column": "ntsb_no",
+      "to_file": "aircraft.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "injuries.csv",
+      "from_column": "ntsb_no",
+      "to_file": "aircraft.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "aircraft.csv",
+      "from_column": "ntsb_no",
+      "to_file": "events.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "crew.csv",
+      "from_column": "ntsb_no",
+      "to_file": "events.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "events_sequence.csv",
+      "from_column": "ntsb_no",
+      "to_file": "events.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "findings.csv",
+      "from_column": "ntsb_no",
+      "to_file": "events.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "injuries.csv",
+      "from_column": "ntsb_no",
+      "to_file": "events.csv",
+      "to_column": "ntsb_no",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "aircraft.csv",
+      "from_column": "model",
+      "to_file": "models.csv",
+      "to_column": "model",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "aircraft.csv",
+      "from_column": "reported_model",
+      "to_file": "models.csv",
+      "to_column": "model",
+      "inclusion": 1.0,
+      "name_match": true
+    }
+  ]
+}

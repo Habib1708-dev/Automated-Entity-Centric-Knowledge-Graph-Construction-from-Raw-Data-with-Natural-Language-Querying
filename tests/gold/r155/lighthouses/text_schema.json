@@ -1,0 +1,220 @@
+{
+  "entity_types": [
+    {
+      "name": "Engineer",
+      "description": "A civil, structural, or mechanical engineer associated with lighthouse design, architecture, and construction.",
+      "identity": "keyed",
+      "record_labels": [
+        "Engineer"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Lighthouse",
+      "description": "A marine navigational light tower or structure providing navigational aid, along with its physical and operational characteristics.",
+      "identity": "keyed",
+      "record_labels": [
+        "Lighthouse"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Event",
+      "description": "A notable historical occurrence, operational milestone, accident, or alteration in the history of a lighthouse.",
+      "identity": "keyed",
+      "record_labels": [
+        "Event"
+      ],
+      "key_attributes": []
+    },
+    {
+      "name": "Organization",
+      "description": "A named public authority, corporation, governing board, trust, or commercial firm associated with lighthouse management, manufacturing, or construction.",
+      "identity": "individual",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Person",
+      "description": "A named individual, such as a lighthouse keeper, official, owner, petitioner, or notable visitor, who is not classified as an Engineer.",
+      "identity": "individual",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Location",
+      "description": "A named geographic place, island, headland, waterway, or marine hazard such as a reef or rock group.",
+      "identity": "individual",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Vessel",
+      "description": "A named ship, steamer, boat, or watercraft associated with navigation or maritime incidents near a lighthouse.",
+      "identity": "individual",
+      "record_labels": [],
+      "key_attributes": []
+    },
+    {
+      "name": "Apparatus",
+      "description": "A specific lighting, optical, illuminant, or acoustic fog-signalling mechanism installed at or associated with a lighthouse.",
+      "identity": "individual",
+      "record_labels": [],
+      "key_attributes": []
+    }
+  ],
+  "fact_types": [
+    {
+      "predicate": "ENGINEERED_BY",
+      "subject_type": "Lighthouse",
+      "object_type": "Engineer",
+      "description": "The lighthouse was designed, engineered, or architecturally planned by the engineer.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OCCURRED_AT",
+      "subject_type": "Event",
+      "object_type": "Lighthouse",
+      "description": "The historical event or operational milestone took place at or directly involved the lighthouse.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Lighthouse",
+      "object_type": "Location",
+      "description": "The lighthouse is physically situated on or overlooks the geographic feature or place.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "WARNS_OF",
+      "subject_type": "Lighthouse",
+      "object_type": "Location",
+      "description": "The lighthouse beam or danger sector warns vessels against the maritime hazard, reef, or rock formation.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OPERATED_BY",
+      "subject_type": "Lighthouse",
+      "object_type": "Organization",
+      "description": "The lighthouse is managed, maintained, or monitored by the authority or organization.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "OWNED_BY",
+      "subject_type": "Lighthouse",
+      "object_type": "Organization",
+      "description": "The lighthouse property is owned or leased by the organization.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "CONSTRUCTED_BY",
+      "subject_type": "Lighthouse",
+      "object_type": "Organization",
+      "description": "The lighthouse tower or facility was physically constructed by the building firm or company.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "REPLACED",
+      "subject_type": "Lighthouse",
+      "object_type": "Lighthouse",
+      "description": "The lighthouse replaced, superseded, or succeeded an earlier lighthouse structure.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "COMPONENT_OF",
+      "subject_type": "Apparatus",
+      "object_type": "Lighthouse",
+      "description": "The optical, illuminant, or acoustic apparatus forms part of the lighthouse equipment.",
+      "derived": false,
+      "part_of": true
+    },
+    {
+      "predicate": "MANUFACTURED_BY",
+      "subject_type": "Apparatus",
+      "object_type": "Organization",
+      "description": "The optical lens, burner, or signalling equipment was manufactured or supplied by the company.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "TRANSFERRED_TO",
+      "subject_type": "Apparatus",
+      "object_type": "Organization",
+      "description": "The removed or decommissioned apparatus was donated, transferred, or preserved by the museum or organization.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "ASSOCIATED_WITH",
+      "subject_type": "Person",
+      "object_type": "Lighthouse",
+      "description": "The individual lived at, acquired, visited, inspected, or advocated for the lighthouse.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "INVOLVED_IN",
+      "subject_type": "Person",
+      "object_type": "Event",
+      "description": "The person officiated, witnessed, or participated in the historical event.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "INVOLVED_IN",
+      "subject_type": "Vessel",
+      "object_type": "Event",
+      "description": "The vessel was central to the maritime accident, wreck, or incident event.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "WRECKED_AT",
+      "subject_type": "Vessel",
+      "object_type": "Location",
+      "description": "The vessel was wrecked, grounded, or sunk at the geographic feature or reef.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "LOCATED_AT",
+      "subject_type": "Event",
+      "object_type": "Location",
+      "description": "The historical occurrence or disaster took place at or near the geographic location.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_HEIGHT",
+      "subject_type": "Lighthouse",
+      "object_type": "Value",
+      "description": "The physical height of the lighthouse tower above ground.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_FOCAL_HEIGHT",
+      "subject_type": "Lighthouse",
+      "object_type": "Value",
+      "description": "The elevation of the lighthouse light beam above sea level or high-water mark.",
+      "derived": false,
+      "part_of": false
+    },
+    {
+      "predicate": "HAS_RANGE",
+      "subject_type": "Lighthouse",
+      "object_type": "Value",
+      "description": "The operational nautical distance at which the lighthouse beam is visible.",
+      "derived": false,
+      "part_of": false
+    }
+  ]
+}

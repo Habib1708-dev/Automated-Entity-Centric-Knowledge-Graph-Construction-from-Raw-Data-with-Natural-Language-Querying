@@ -1,0 +1,76 @@
+{
+  "nodes": [
+    {
+      "source_file": "engineers.csv",
+      "label": "Engineer",
+      "unique_column": "name",
+      "properties": [
+        "qid",
+        "birth",
+        "death",
+        "father",
+        "sibling"
+      ],
+      "description": "A civil or structural engineer associated with lighthouse construction and design.",
+      "name_column": "name"
+    },
+    {
+      "source_file": "lighthouses.csv",
+      "label": "Lighthouse",
+      "unique_column": "qid",
+      "properties": [
+        "name",
+        "enwiki_article",
+        "inception",
+        "height_m",
+        "focal_height_m",
+        "range_nmi",
+        "light_characteristic",
+        "historic_county",
+        "located_in",
+        "heritage_designation",
+        "material",
+        "service_entry",
+        "service_retirement",
+        "architect"
+      ],
+      "description": "A lighthouse providing navigational aid, along with its physical and historical characteristics.",
+      "name_column": "name"
+    },
+    {
+      "source_file": "events.csv",
+      "label": "Event",
+      "unique_column": "event_id",
+      "key_columns": [
+        "lighthouse.qid",
+        "event"
+      ],
+      "properties": [
+        "event",
+        "date"
+      ],
+      "description": "A notable historical event or operational milestone in the lifespan of a lighthouse.",
+      "name_column": "event"
+    }
+  ],
+  "relationships": [
+    {
+      "source_file": "lighthouses.csv",
+      "relationship_type": "ENGINEERED_BY",
+      "from_label": "Lighthouse",
+      "from_column": "qid",
+      "to_label": "Engineer",
+      "to_column": "structural_engineer",
+      "properties": []
+    },
+    {
+      "source_file": "events.csv",
+      "relationship_type": "OCCURRED_AT",
+      "from_label": "Event",
+      "from_column": "event_id",
+      "to_label": "Lighthouse",
+      "to_column": "lighthouse.qid",
+      "properties": []
+    }
+  ]
+}

@@ -1,0 +1,472 @@
+{
+  "files": [
+    {
+      "file": "engineers.csv",
+      "row_count": 4,
+      "columns": [
+        {
+          "name": "qid",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": true,
+          "samples": [
+            "Q460922",
+            "Q3806692",
+            "Q5216439",
+            "Q2407666"
+          ],
+          "avg_chars": 7.8,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "name",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": true,
+          "samples": [
+            "John Smeaton",
+            "James Walker",
+            "James Nicholas Douglass",
+            "Daniel Asher Alexander"
+          ],
+          "avg_chars": 17.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "birth",
+          "dtype": "DATE",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": true,
+          "samples": [
+            "1724-06-08",
+            "1826-10-16",
+            "1768-05-06",
+            "1781-09-14"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "death",
+          "dtype": "DATE",
+          "null_count": 0,
+          "distinct_count": 4,
+          "is_unique": true,
+          "samples": [
+            "1862-10-08",
+            "1898-06-19",
+            "1792-10-28",
+            "1846-03-02"
+          ],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "father",
+          "dtype": "VARCHAR",
+          "null_count": 4,
+          "distinct_count": 0,
+          "is_unique": false,
+          "samples": [],
+          "avg_chars": 0.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "sibling",
+          "dtype": "VARCHAR",
+          "null_count": 3,
+          "distinct_count": 1,
+          "is_unique": false,
+          "samples": [
+            "William Douglass"
+          ],
+          "avg_chars": 16.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "events.csv",
+      "row_count": 62,
+      "columns": [
+        {
+          "name": "lighthouse.qid",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 46,
+          "is_unique": false,
+          "samples": [
+            "Q1866643",
+            "Q21061715",
+            "Q59082596",
+            "Q2752623",
+            "Q15543901"
+          ],
+          "avg_chars": 8.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "lighthouse.name",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 46,
+          "is_unique": false,
+          "samples": [
+            "Bamburgh Lighthouse",
+            "Europa Point Lighthouse",
+            "Longstone Lighthouse",
+            "Belle Tout lighthouse",
+            "Peninnis Lighthouse"
+          ],
+          "avg_chars": 20.8,
+          "multi_sentence_ratio": 0.0323,
+          "is_prose": false
+        },
+        {
+          "name": "event",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 7,
+          "is_unique": false,
+          "samples": [
+            "renovation",
+            "electrification",
+            "conversion to solar power",
+            "stiffening",
+            "structure relocation"
+          ],
+          "avg_chars": 14.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "date",
+          "dtype": "VARCHAR",
+          "null_count": 9,
+          "distinct_count": 38,
+          "is_unique": false,
+          "samples": [
+            "1843",
+            "1923",
+            "1964",
+            "1994-08",
+            "1990-11"
+          ],
+          "avg_chars": 4.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    },
+    {
+      "file": "lighthouses.csv",
+      "row_count": 80,
+      "columns": [
+        {
+          "name": "qid",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 80,
+          "is_unique": true,
+          "samples": [
+            "Q3739799",
+            "Q4999732",
+            "Q7084211",
+            "Q15543901",
+            "Q26527913"
+          ],
+          "avg_chars": 8.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "name",
+          "dtype": "VARCHAR",
+          "null_count": 0,
+          "distinct_count": 80,
+          "is_unique": true,
+          "samples": [
+            "Portland Bill Lighthouse",
+            "Heugh Hill Lighthouse",
+            "Pendeen Lighthouse",
+            "Hartland Point Lighthouse",
+            "Helgoland lighthouse"
+          ],
+          "avg_chars": 21.7,
+          "multi_sentence_ratio": 0.025,
+          "is_prose": false
+        },
+        {
+          "name": "enwiki_article",
+          "dtype": "VARCHAR",
+          "null_count": 6,
+          "distinct_count": 74,
+          "is_unique": false,
+          "samples": [
+            "Portland Bill Lighthouse",
+            "Heugh Hill Lighthouse",
+            "St Anthony's Lighthouse",
+            "Casquets lighthouses",
+            "Pakefield Lighthouse"
+          ],
+          "avg_chars": 21.3,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "inception",
+          "dtype": "VARCHAR",
+          "null_count": 1,
+          "distinct_count": 58,
+          "is_unique": false,
+          "samples": [
+            "1910",
+            "1882",
+            "1875",
+            "1881",
+            "1724"
+          ],
+          "avg_chars": 4.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "height_m",
+          "dtype": "VARCHAR",
+          "null_count": 2,
+          "distinct_count": 39,
+          "is_unique": false,
+          "samples": [
+            "19",
+            "26",
+            "23",
+            "13",
+            "38"
+          ],
+          "avg_chars": 2.1,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "focal_height_m",
+          "dtype": "VARCHAR",
+          "null_count": 25,
+          "distinct_count": 47,
+          "is_unique": false,
+          "samples": [
+            "41; 35",
+            "48",
+            "44",
+            "58",
+            "53"
+          ],
+          "avg_chars": 2.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "range_nmi",
+          "dtype": "VARCHAR",
+          "null_count": 24,
+          "distinct_count": 32,
+          "is_unique": false,
+          "samples": [
+            "19; 16; 15",
+            "20",
+            "26",
+            "23",
+            "19"
+          ],
+          "avg_chars": 3.1,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "light_characteristic",
+          "dtype": "VARCHAR",
+          "null_count": 22,
+          "distinct_count": 41,
+          "is_unique": false,
+          "samples": [
+            "Fl W 3s",
+            "Fl W 7.5s",
+            "Fl W 15s",
+            "Iso WR 15s",
+            "Fl R 3s"
+          ],
+          "avg_chars": 10.5,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "historic_county",
+          "dtype": "VARCHAR",
+          "null_count": 3,
+          "distinct_count": 17,
+          "is_unique": false,
+          "samples": [
+            "Essex",
+            "Kent",
+            "Devon",
+            "Somerset",
+            "Cheshire"
+          ],
+          "avg_chars": 7.7,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "located_in",
+          "dtype": "VARCHAR",
+          "null_count": 4,
+          "distinct_count": 64,
+          "is_unique": false,
+          "samples": [
+            "Gibraltar",
+            "Flamborough",
+            "St Margaret's at Cliffe",
+            "Eastbourne",
+            "London Borough of Tower Hamlets"
+          ],
+          "avg_chars": 13.8,
+          "multi_sentence_ratio": 0.0263,
+          "is_prose": false
+        },
+        {
+          "name": "heritage_designation",
+          "dtype": "VARCHAR",
+          "null_count": 28,
+          "distinct_count": 7,
+          "is_unique": false,
+          "samples": [
+            "Grade II* listed building",
+            "Grade I listed building",
+            "scheduled monument; Grade II listed building",
+            "Grade II listed building",
+            "Grade II* listed building; scheduled monument"
+          ],
+          "avg_chars": 26.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "material",
+          "dtype": "VARCHAR",
+          "null_count": 37,
+          "distinct_count": 9,
+          "is_unique": false,
+          "samples": [
+            "granite",
+            "granite; concrete",
+            "stone",
+            "cast iron",
+            "brick"
+          ],
+          "avg_chars": 6.4,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "service_entry",
+          "dtype": "VARCHAR",
+          "null_count": 47,
+          "distinct_count": 29,
+          "is_unique": false,
+          "samples": [
+            "1843",
+            "1838",
+            "1882",
+            "1847-12-01",
+            "1875"
+          ],
+          "avg_chars": 5.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "service_retirement",
+          "dtype": "VARCHAR",
+          "null_count": 48,
+          "distinct_count": 27,
+          "is_unique": false,
+          "samples": [
+            "2022-03-21",
+            "1984",
+            "2013",
+            "1863",
+            "1877"
+          ],
+          "avg_chars": 4.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "architect",
+          "dtype": "VARCHAR",
+          "null_count": 60,
+          "distinct_count": 5,
+          "is_unique": false,
+          "samples": [
+            "James Walker",
+            "James Nicholas Douglass; John Smeaton",
+            "James Nicholas Douglass",
+            "James Nicholas Douglass; James Walker",
+            "Daniel Asher Alexander"
+          ],
+          "avg_chars": 21.2,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        },
+        {
+          "name": "structural_engineer",
+          "dtype": "VARCHAR",
+          "null_count": 71,
+          "distinct_count": 1,
+          "is_unique": false,
+          "samples": [
+            "James Walker"
+          ],
+          "avg_chars": 12.0,
+          "multi_sentence_ratio": 0.0,
+          "is_prose": false
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "from_file": "lighthouses.csv",
+      "from_column": "structural_engineer",
+      "to_file": "engineers.csv",
+      "to_column": "name",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "events.csv",
+      "from_column": "lighthouse.qid",
+      "to_file": "lighthouses.csv",
+      "to_column": "qid",
+      "inclusion": 1.0,
+      "name_match": true
+    },
+    {
+      "from_file": "events.csv",
+      "from_column": "lighthouse.name",
+      "to_file": "lighthouses.csv",
+      "to_column": "name",
+      "inclusion": 1.0,
+      "name_match": true
+    }
+  ]
+}

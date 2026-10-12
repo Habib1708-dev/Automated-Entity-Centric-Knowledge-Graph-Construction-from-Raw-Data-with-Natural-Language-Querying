@@ -1,0 +1,87 @@
+{
+ "step": "R155: the two new benchmark graphs built with the pipeline as at R155a (composite keys)",
+ "approved": "the user, 2026-10-12: 'Yes, build both (~$1.3-2.4)'; then 'Fix the pipeline: composite keys' after the first plan was refused",
+ "git_sha": {
+  "failed_plan": "452c339",
+  "builds": "2ee7fd3"
+ },
+ "goals": {
+  "lighthouses": "answer questions about the lighthouses, their history, and the events and people connected with them, as the records and articles describe them",
+  "ntsb": "answer questions about the aircraft accidents, the aircraft, the people on board and what happened, as the records and investigation reports describe them"
+ },
+ "commands": "kg --preset <lighthouses|ntsb> <reset | profile | plan --goal G | build | ingest-text | text-schema --goal G | extract | link | mention-pass | resolve | attach | index --cards template> --out out/r155b_<dataset>",
+ "failed_plan": {
+  "run": "a20a4606",
+  "cost_usd": 0.200239,
+  "out": "out/r155_lighthouses",
+  "rounds": "tests/gold/r155/lighthouses/failed_plan_rounds_before_r155a.json"
+ },
+ "lighthouses": {
+  "out": "out/r155b_lighthouses",
+  "graph_digest": "62573881a3c6",
+  "claims": 160,
+  "mentions": 609,
+  "runs": {
+   "plan": [
+    "9018879e",
+    0.048608
+   ],
+   "text_schema": [
+    "3299ab78",
+    0.080201
+   ],
+   "extract": [
+    "f0a4817c",
+    0.142283
+   ],
+   "mention_pass": [
+    "4c40d8ee",
+    0.103828
+   ],
+   "resolve": [
+    "4e1f0046",
+    0.313727
+   ],
+   "index": [
+    "810a58df",
+    0.0
+   ]
+  },
+  "cost_usd": 0.688647
+ },
+ "ntsb": {
+  "out": "out/r155b_ntsb",
+  "graph_digest": "c7f20fa9c187",
+  "claims": 292,
+  "mentions": 559,
+  "runs": {
+   "plan": [
+    "e9dc2412",
+    0.093212
+   ],
+   "text_schema": [
+    "9d212712",
+    0.082925
+   ],
+   "extract": [
+    "54a0a7c6",
+    0.209839
+   ],
+   "mention_pass": [
+    "bc3f0c32",
+    0.104145
+   ],
+   "resolve": [
+    "8a863c2a",
+    0.149869
+   ],
+   "index": [
+    "5365c9df",
+    0.0
+   ]
+  },
+  "cost_usd": 0.63999
+ },
+ "cost_usd": 1.528876,
+ "pinned": "tests/gold/r155/<dataset>/{plan,text_schema,profile}.json: the proposals as they came, no hand fix; R156 reloads from them"
+}

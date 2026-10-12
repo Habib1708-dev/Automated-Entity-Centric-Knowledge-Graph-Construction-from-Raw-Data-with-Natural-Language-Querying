@@ -9341,6 +9341,29 @@ mixing tables and text, from domains not used yet, staged by a fetch-then-build 
   which relationship ends are built, prompt wording).
 - **R155a done 2026-10-12.** Next: R155b, the two builds.
 
+### R155b. The two new graphs built (done 2026-10-12; $1.529 with the refused first plan)
+- **Asked and approved:** the user, 2026-10-12, "Yes, build both (~$1.3-2.4)"; the composite-key fix
+  (R155a) in between, also the user's choice.
+- **Runs** (`tests/gold/r155/runs.json`, git 2ee7fd3): `kg --preset <lighthouses|ntsb>` reset, profile,
+  plan, build, ingest-text, text-schema, extract, link, mention-pass, resolve, attach, index (template
+  cards), each with the goal recorded there; plans and text schemas kept as the model proposed them, no hand
+  fix, pinned in `tests/gold/r155/<dataset>/`.
+  - **Lighthouses** (`out/r155b_lighthouses`, digest `62573881a3c6`): $0.689 (plan 0.049, text schema 0.080,
+    extract 0.142, mention pass 0.104, resolve 0.314). Plan accepted in its first round: Lighthouse (qid),
+    Engineer (name), and Event keyed by the composite (lighthouse.qid, event) with `OCCURRED_AT` to its
+    lighthouse; `ENGINEERED_BY` from the structural-engineer column (9 of 80 rows hold one), the architect
+    column not used. 160 claims, 609 mentions.
+  - **NTSB** (`out/r155b_ntsb`, digest `c7f20fa9c187`): $0.640 (plan 0.093, text schema 0.083, extract 0.210,
+    mention pass 0.104, resolve 0.150). Plan: Accident, Aircraft (ntsb_no), AircraftModel (model), and the
+    four detail tables keyed by composites (crew: ntsb_no + crew_no; occurrence: + occurrence_no; finding:
+    + finding_no; injury: + person_category + injury_level), each related to its accident; every one of 386
+    rows and 380 relationship rows written. 292 claims, 559 mentions.
+  - The refused first plan (before R155a, $0.200) counts toward the approval.
+- **Read with care:** both graphs are built by the pipeline as changed in R155a, the three thesis graphs by
+  the pipeline before it (their saved plans); the identity step was the costliest stage on lighthouses
+  ($0.31, alike names of lighthouses and lights), as on held-out.
+- **R155b done 2026-10-12.** Next: R156, the agent on the 250 questions (paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
