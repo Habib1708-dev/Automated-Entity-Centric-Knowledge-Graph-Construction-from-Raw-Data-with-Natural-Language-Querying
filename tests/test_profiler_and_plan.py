@@ -322,9 +322,16 @@ def test_column_value_gives_the_built_key_only_in_its_own_file():
     assert column_value(FRAME_PLAN, "hives.csv", "frame_key", row) is None
 
 
-# Every plan saved before R155a: the gold plans and, where the local checkout has them, the build plans.
-# Compared as JSON, not bytes: some files were written by an older dump and differ in whitespace only.
-SAVED_PLANS = sorted(REPO.glob("tests/gold/**/*plan*.json")) + sorted(REPO.glob("out/*/plan.json"))
+# Every saved plan that uses no composite key, which is every plan from before R155a: the gold plans and,
+# where the local checkout has them, the build plans. Only files named *plan.json (a plan's rounds log is
+# no plan), and none with key_columns: R155b's plans use them, so they cannot behave "as before" (found
+# when R155b saved them next to the gold plans). Compared as JSON, not bytes: some files were written by an
+# older dump and differ in whitespace only.
+SAVED_PLANS = [
+    path
+    for path in sorted(REPO.glob("tests/gold/**/*plan.json")) + sorted(REPO.glob("out/*/plan.json"))
+    if '"key_columns"' not in path.read_text(encoding="utf-8")
+]
 
 
 @pytest.mark.parametrize("path", SAVED_PLANS, ids=lambda p: p.relative_to(REPO).as_posix())

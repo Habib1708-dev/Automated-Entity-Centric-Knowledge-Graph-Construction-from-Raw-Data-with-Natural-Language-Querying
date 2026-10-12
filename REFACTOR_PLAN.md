@@ -9447,6 +9447,12 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **R155b and R157 were committed with a red gate (found 2026-10-12; fixed in its own commit).** R155b was
+  committed without the full test run, and R157's commit was chained behind `pytest | tail`, which hid the
+  exit code (against CLAUDE.md section 1). The 10 failures were one R155a test, "every saved plan loads,
+  dumps and validates as before", whose file search took in R155b's new composite-key plans, their rounds
+  logs (no plan) and local `out/` copies. Fixed: it covers files named `*plan.json` with no `key_columns`,
+  the invariant it means. No code or result changed; 1454 passed, exit codes read unmasked.
 - **Mention nodes do not keep their class (found in R150, 2026-10-12; open).** `mention_class` (a name, a
   role word, a kind) exists in the mention pass's output but is not written to `:Mention` nodes, so
   `rank_by_documents` cannot count only documents that name a thing (G05: "group leader" counted for Jonathan
