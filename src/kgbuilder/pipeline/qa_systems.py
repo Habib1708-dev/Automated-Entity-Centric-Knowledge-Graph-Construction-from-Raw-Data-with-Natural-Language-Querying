@@ -297,6 +297,15 @@ def _agent(parts: QAParts) -> QASystem:
         raise ConfigurationError(
             "the agent needs the node and text readers and the staged tables of the parts"
         )
+    # Found in R172: `kg qa --out` on a fresh folder ran the agent over no plan (no record label) and no
+    # staged table, so every structured query was refused and the agent answered that the dataset has no
+    # tables; 20 questions and $0.50 wasted. Refused here, before any model call, like a stale index layer.
+    if parts.plan is None or not any(parts.staging.rglob("*.csv")):
+        raise ConfigurationError(
+            f"the agent reads the build's plan and staged tables from the --out folder "
+            f"({parts.staging.parent}), which has no plan.json or no staging/*.csv: give the build's folder, "
+            "or copy its plan.json, profile.json, text_schema.json and staging into it"
+        )
     seeding = _seeding(s, "template")
     layer = HybridSettings(retrievers=list(AGENT_RETRIEVERS), rrf_k=s.hybrid_rrf_k, depth=s.agent_chunks,
                            cards="template", seeding=seeding)  # fmt: skip

@@ -9821,6 +9821,14 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **`kg qa` ran the agent over an empty schema when `--out` was a fresh folder (found in R172, 2026-10-13;
+  fixed in its own commit).** The agent's tables come from `--out/staging` and its record labels from
+  `--out/plan.json`; R172's first NTSB command named a new folder, so the schema listed no table and no
+  record label, every structured query was refused, the agent answered that the dataset has no tables
+  (5/17 by exact match) and $0.500 was spent (MLflow b18014f5). Fixed: `_agent` refuses, before any model
+  call, an out folder with no plan or no staged CSV, naming what to copy from the build. Two tests failing
+  before (`tests/test_qa_systems.py`). The R165 folders had been seeded with the build's plan, profile,
+  schema and staging (byte-identical to `out/r165_<dataset>_build`'s), which R172 now does explicitly.
 - **The agent saw no table of a dataset whose files sit in folders (found in R164, 2026-10-12; fixed in its
   own commit).** `DuckDBTables` read `staging/*.csv` only, so generality (staged as `institute/staff.csv`,
   `water/pumps.csv`) offered `query_tables` nothing: R156's generality answers made 0 table calls, against

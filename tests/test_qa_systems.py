@@ -7,6 +7,8 @@ reading system has a source for `kg retrieve-eval`.
 R123: the card systems of the A-against-B comparison keep their fixed retriever lists whatever the hybrid
 settings, and search only their own representation's cards. R126: so do the four single-technique chunk and
 claim systems, which alone log node seeds as on.
+Found in R172: the agent is refused, before any model call, over an --out folder without the build's plan
+or staged tables, which it ran over as an empty schema.
 Answering end to end is tested in test_query.py (fake store) and test_query_graph.py (Neo4j)."""
 
 import pytest
@@ -35,6 +37,9 @@ from kgbuilder.pipeline.retrieval_stages import RetrieveEvalStage
 from kgbuilder.query import exact, planner, read_check, reader
 
 from .fakes import ScriptedLLM
+from .graphs import PLAN
+from .test_agent_text_reading import FakeText
+from .test_agent_tools import FakeReader
 from .test_hybrid_retrievers import FakeUnitStore
 from .test_query import FakeStore, FixedEmbedder, chunk, citing_reader
 
@@ -140,6 +145,21 @@ def test_kg_qa_reads_the_k_nearest_chunks_of_the_vector_system_and_searches_no_d
     )
     answer = SYSTEMS["vector"].build(parts).answer("Q1", "Which press?")
     assert answer.retrieved == ["c0", "c1", "c2"] and store.nearest_calls == [3]
+
+
+@pytest.mark.parametrize("missing", ["plan", "tables"])
+def test_the_agent_is_refused_over_an_out_folder_without_the_plan_or_the_staged_tables(tmp_path, missing):
+    """Found in R172: a fresh --out folder has neither, and the agent ran over an empty schema for $0.50."""
+    staging = tmp_path / "out" / "staging"
+    staging.mkdir(parents=True)
+    if missing == "plan":
+        (staging / "kettles.csv").write_text("id\nK1\n", encoding="utf-8")
+    reader, _ = citing_reader()
+    parts = QAParts(settings=Settings(), store=FakeStore(), embedder=FixedEmbedder(), llm=None, reader=reader,
+                    plan=None if missing == "plan" else PLAN, units=FakeUnitStore(), nodes=FakeReader(),
+                    text=FakeText({}), staging=staging)  # fmt: skip
+    with pytest.raises(ConfigurationError, match="no plan.json or no staging"):
+        SYSTEMS["agent"].build(parts)
 
 
 def test_a_source_ranks_as_deep_as_it_is_asked_so_a_budget_beyond_k_is_not_cut_short():
