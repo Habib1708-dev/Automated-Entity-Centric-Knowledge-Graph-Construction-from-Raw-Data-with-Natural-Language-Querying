@@ -9707,6 +9707,27 @@ describe the engine before this plan.
   inside a text through APOC with the record without one dropped). 1557 passed (1545 + 12), ruff clean.
 - **R168 done 2026-10-13.** Next: R169, a space or a hyphen in a searched phrase matches either.
 
+### R169. A space or a hyphen in a searched phrase matches either (done 2026-10-13; $0, code; unmeasured until a later confirmation run)
+- **Scope** (`agent/text_tools.py`): `form_pattern` escapes a term through `_phrase`, which turns each space
+  and each hyphen into the class `[ -]`, in the word as written and in its stem form alike, so "lid seal"
+  finds "lid-seal" and the other way round (R166's LC08 searched "fog bell" and never saw the passage
+  saying "fog-bell"); the class is read alike by Python (`excerpt`) and by Neo4j's engine
+  (`text_reader.py`). The `words` description adds the rule and its example in a sentence; the test that
+  holds the description to the code reads the example both ways and now reads an ending only after a
+  space, so the example's hyphen is none. `agent_tools_prompt_version` 59f10dd543a9 -> d8227c2c4d3d (+78
+  characters).
+- **Offline replay** ($0; every recorded `find_passages` call of R156 and R165, 109 calls, over the five
+  corpora rebuilt with `audit/inputs.read_corpus` from the data files and `out/r165_<dataset>` plans and
+  profiles; R165's calls are reproduced by the old rule, R156's differ only where R162's word forms
+  already gained): 0 calls lose a passage; 3 gain: LC08 `["fog bell"]` 2 -> 3, the new one
+  `articles/st_anthony_s_lighthouse.md#1` ("A fog-bell was installed in 1865"), and NB16's `["go-around"]`
+  3 -> 4 and `["go around"]` 1 -> 4, each now finding the other's passages (NB16 was right already).
+- **Verified:** 5 new or changed tests (three phrase pairs in the forms table, hyphenated in the literal
+  and in the stem form, with the joined and the underscored forms not found; the excerpt showing the
+  hyphenated sentence; the description's example both ways; a Neo4j search for "lid seal" finding "A
+  lid-seal was fitted."). 1562 passed (1557 + 5), ruff clean.
+- **R169 done 2026-10-13.** Next: R170, a passage's heading lines stay in its excerpt.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

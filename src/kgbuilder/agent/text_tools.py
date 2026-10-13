@@ -18,7 +18,9 @@ all (R149: a passage rarely repeats what its document is about). A word is searc
 other forms (R162: R157's FB38 searched "wobble" and never saw the passages saying "wobbling"): code cuts
 one inflectional ending (`stem`) and matches the stem only as a whole word with one such ending
 (`form_pattern`), so a cut word never matches inside an unrelated word ("signs" never finds "design"); a
-different wording of the same idea is left to the searches by meaning.
+different wording of the same idea is left to the searches by meaning. A space or a hyphen in a phrase
+matches either (R169: R166's LC08 searched "fog bell" and never saw the passage saying "fog-bell"), in
+the word as written and in its stem form alike, since the two are one phrase written two ways.
 Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, text_reader.py,
 hybrid/unit_store.py).
 """
@@ -151,7 +153,8 @@ class PassageArguments(BaseModel):
         "case: the fewest that pick out what is counted. A word also finds itself with -s, -es, -ed, -ing "
         "or -e added or removed when four letters stay ('brews' finds 'brew', 'brewed' and 'brewing'); a "
         "shorter word, a doubled letter or a y turned to i is not joined, so search those forms too. A "
-        "phrase varies only its last word; a word with a digit or a sign is matched as written.",
+        "phrase varies only its last word; a word with a digit or a sign is matched as written; a space "
+        "or a hyphen in a phrase matches either ('lid-seal' finds 'lid seal').",
     )
 
     @field_validator("words")
@@ -251,11 +254,18 @@ def form_pattern(term: str) -> str:
     so Python (`excerpt`, the test fakes) and Neo4j's Java engine (text_reader.py), whose word characters
     differ, split words alike; the pattern uses only what both engines read the same way: escaped literals, a
     group, an alternation, fixed lookarounds."""
-    literal = re.escape(term)
+    literal = _phrase(term)
     cut = stem(term)
     if cut == term:  # nothing cut: every form a stem would add holds the term, which the literal finds
         return literal
-    return rf"{literal}|(?<![a-z]){re.escape(cut)}(?:{'|'.join(_ENDINGS)})?(?![a-z])"
+    return rf"{literal}|(?<![a-z]){_phrase(cut)}(?:{'|'.join(_ENDINGS)})?(?![a-z])"
+
+
+def _phrase(text: str) -> str:
+    """`text` escaped for a regular expression, each space or hyphen in it matching either (R169): "lid seal"
+    and "lid-seal" are one phrase written two ways, so a search for one finds the other. The class holds
+    only the two characters, read alike by Python and by Neo4j's engine."""
+    return re.escape(text).replace("\\ ", "[ -]").replace("\\-", "[ -]")
 
 
 def excerpt(text: str, patterns: list[str], chars: int) -> str:

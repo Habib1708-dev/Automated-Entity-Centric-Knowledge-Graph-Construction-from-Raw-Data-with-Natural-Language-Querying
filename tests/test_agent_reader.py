@@ -140,6 +140,20 @@ def test_find_passages_over_the_graph_finds_a_words_other_forms_and_not_a_word_h
     assert tool.run(PassageArguments(words=["livers"])).total == 0
 
 
+def test_find_passages_over_the_graph_reads_a_space_in_a_phrase_as_a_hyphen_too(driver):
+    # R166's LC08: "fog bell" never found the passage saying "fog-bell" (R169); the class `[ -]` must be
+    # read by Neo4j's engine as Python reads it
+    load(driver)
+    driver.execute_query(
+        "CREATE (:Chunk {chunk_id: 'lines.md#0', index: 0, text: $text, context: 'Lines'})"
+        "-[:PART_OF]->(:Document {doc_id: 'lines.md'})",
+        text="Cold start.\nA lid-seal was fitted.",
+    )
+    tool = FindPassages(Neo4jTextReader(driver), limit=5, chars=300)
+    found = tool.run(PassageArguments(words=["lid seal"]))
+    assert [(c.chunk_id, c.text) for c in found.chunks] == [("lines.md#0", "A lid-seal was fitted.")]
+
+
 # every label among the shared graph's named things: two entity types and two record labels
 NAMED_LABELS = ["Condition", "Maker", "Part", "Person"]
 

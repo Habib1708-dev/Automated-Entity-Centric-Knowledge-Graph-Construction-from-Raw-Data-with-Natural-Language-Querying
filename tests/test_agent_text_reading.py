@@ -9,7 +9,8 @@ single passage points nowhere. R162: a word is searched as written or as its oth
 shows them; the stem rule itself (endings, the shortest stem, ids and phrases); a cut word's stem matched
 only as a whole word with an ending, so it never finds an unrelated word holding it ("signs" never finds
 "design") and nothing the word as written finds is lost; and the forms rule the model reads, its example and
-its limits, is what the code does."""
+its limits, is what the code does. R169: a space or a hyphen in a phrase matches either, in the literal and
+in the stem form, the excerpt shows the sentence found so, and the rule's example is what the code does."""
 
 import re
 
@@ -214,6 +215,10 @@ def found(word: str, text: str) -> bool:
         ("comply", ["comply", "complying"], ["company", "completely"]),
         ("wobble", ["wobbling", "wobbles", "wobbled"], []),
         ("loose handles", ["loose handle", "loose handled"], ["loose handlebar", "noose handle"]),
+        # R169: a space or a hyphen in a phrase is either, in the stem form too ("loose-handled")
+        ("loose handles", ["loose-handle", "loose-handled"], ["loosehandle", "loose_handle"]),
+        ("lid seal", ["lid-seal", "lid seal", "lid seals"], ["lidseal"]),
+        ("lid-seal", ["lid seal", "lid-seal"], ["lid_seal"]),
     ],
 )
 def test_a_cut_words_stem_is_matched_only_as_a_whole_word_with_an_ending(word, forms, unrelated):
@@ -235,15 +240,27 @@ def test_whatever_the_word_as_written_found_before_it_still_finds(word, text):
     assert found(word, text)
 
 
+def test_a_phrase_found_by_its_hyphenated_form_is_shown_by_the_excerpt():
+    assert excerpt("Cold start. A lid-seal was fitted. Nothing else.", [form_pattern("lid seal")], 300) == (
+        "A lid-seal was fitted."
+    )
+
+
 def test_the_forms_rule_the_model_reads_is_what_the_code_does():
     words = PassageArguments.model_fields["words"].description or ""
+    # R169: the space-or-hyphen rule and its example, both ways
+    assert "a space or a hyphen in a phrase matches either" in words
+    hyphen = re.search(r"\('([\w-]+)' finds '([\w ]+)'\)", words)
+    assert hyphen is not None and found(hyphen.group(1), hyphen.group(2))
+    assert found(hyphen.group(2), hyphen.group(1))
     # the example: the searched word is cut, and each form named is found
     example = re.search(r"'(\w+)' finds '(\w+)', '(\w+)' and '(\w+)'", words)
     assert example is not None
     query, *forms = example.groups()
     assert stem(query) != query and all(found(query, form) for form in forms)
-    # the endings and the shortest stem named are the code's
-    assert set(re.findall(r"-(\w+)", words)) == set(_ENDINGS)
+    # the endings and the shortest stem named are the code's (an ending is written after a space, so a
+    # hyphen inside the example phrase is none)
+    assert set(re.findall(r"(?<![\w'])-(\w+)", words)) == set(_ENDINGS)
     assert f"{['', 'one', 'two', 'three', 'four', 'five'][_MIN_STEM]} letters stay" in words
     # the limits named: a shorter word, a doubled letter and a y turned to i are not joined
     assert not found("rate", "rating")
