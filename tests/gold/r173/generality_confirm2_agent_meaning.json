@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-13",
+  "run_id": "2e7fa12171c24270b17bead56df96f67",
+  "git_sha": "815ef16"
+ },
+ "gold": "tests/gold/qa/generality_qa_confirm2.json",
+ "answers": "out/r172_generality/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "GD01",
+   "correct": true,
+   "reason": "Names S-131 (Jonathan Pike, the J. Pike who explained the overrun), the only expected id, no extras."
+  },
+  {
+   "question_id": "GD02",
+   "correct": true,
+   "reason": "Names S-162 (Samuel Osei, nominated in 2024 when not awarded), no winner ids."
+  },
+  {
+   "question_id": "GD03",
+   "correct": true,
+   "reason": "Names AB-19 (alias Core AB-19), the core taken when the corer jammed at 5 m on 10 December."
+  },
+  {
+   "question_id": "GD04",
+   "correct": true,
+   "reason": "Names WO-318, the seal replacement on HP40-2291; not WO-320 or WO-311."
+  },
+  {
+   "question_id": "GD05",
+   "correct": true,
+   "reason": "Names Finance Office only, the team with one member."
+  },
+  {
+   "question_id": "GD06",
+   "correct": true,
+   "reason": "Names Jonathan Pike (start 2009), the expected earliest starter."
+  },
+  {
+   "question_id": "GD07",
+   "correct": true,
+   "reason": "Number 2 (41 in March to 39 in June for HP40-2291) equals the expected 2."
+  },
+  {
+   "question_id": "GD08",
+   "correct": true,
+   "reason": "Number 2 (AB-20 and BF-4 not taken) equals the expected 2."
+  },
+  {
+   "question_id": "GD09",
+   "correct": true,
+   "reason": "Names exactly S-150 and S-219, the two staff starting 2015-2020."
+  },
+  {
+   "question_id": "GD10",
+   "correct": true,
+   "reason": "Names the model Kestrel V-12 only, not a serial number."
+  },
+  {
+   "question_id": "GD11",
+   "correct": true,
+   "reason": "Names Core BF-1 and Core BF-3 (gold aliases), no BF-2 or BF-4."
+  },
+  {
+   "question_id": "GD12",
+   "correct": true,
+   "reason": "Names Aiko Tanaka, the 7 October 2025 speaker, not J. Pike."
+  },
+  {
+   "question_id": "GD13",
+   "correct": true,
+   "reason": "Number 6100 equals the expected 6,100 hours for HP40-1183."
+  },
+  {
+   "question_id": "GD14",
+   "correct": true,
+   "reason": "Number 2021, the start year of the Soil Ecology Maria Lopez, equals the expected 2021."
+  },
+  {
+   "question_id": "GD15",
+   "correct": true,
+   "reason": "Names BF-3 only; BF-4 (not taken) correctly left out."
+  },
+  {
+   "question_id": "GD16",
+   "correct": true,
+   "reason": "Says no, not closed at once; mayor said safe to use until works began; closure from 3 February - matches every part of the expected answer."
+  },
+  {
+   "question_id": "GD17",
+   "correct": true,
+   "reason": "Says no one restarted it and KV12-0457 restarted on its own, the decisive content of the expected 'Nobody'; omits only that the alarm was cleared remotely, context not asked for."
+  },
+  {
+   "question_id": "GD18",
+   "correct": true,
+   "reason": "Number 40 litres per second equals the expected 40, not the 60 limit."
+  },
+  {
+   "question_id": "GD19",
+   "correct": true,
+   "reason": "Number 80 (about eighty residents) equals the expected 80."
+  },
+  {
+   "question_id": "GD20",
+   "correct": true,
+   "reason": "Names Tomasz Wren, the procedure's author."
+  }
+ ]
+}

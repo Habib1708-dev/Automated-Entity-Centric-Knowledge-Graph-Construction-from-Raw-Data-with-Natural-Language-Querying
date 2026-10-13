@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-13",
+  "run_id": "35afadc85489475a95ecef7e26336714",
+  "git_sha": "815ef16"
+ },
+ "gold": "tests/gold/qa/furniture_qa_confirm2.json",
+ "answers": "out/r172_furniture/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "FD01",
+   "correct": true,
+   "reason": "Number 5 equals the expected 5 shelves of the Västerås Bookshelf assembly (not 20 shelf pins or 2 side panels)."
+  },
+  {
+   "question_id": "FD02",
+   "correct": true,
+   "reason": "Number 6.63 ($6.63) equals the preferred supplier's diffuser unit cost; not the non-preferred 43.01."
+  },
+  {
+   "question_id": "FD03",
+   "correct": true,
+   "reason": "Names exactly @wfh_warrior and @scandi_lover, the expected set, with no extra reviewer such as @architect_amy."
+  },
+  {
+   "question_id": "FD04",
+   "correct": true,
+   "reason": "Names Bangalore, the expected city of the preferred cushion cover supplier; not Milan."
+  },
+  {
+   "question_id": "FD05",
+   "correct": true,
+   "reason": "Number 18 equals the expected count of four-star reviews (not 20)."
+  },
+  {
+   "question_id": "FD06",
+   "correct": true,
+   "reason": "Number 5 equals the expected shortest lead time over any supplier (not 8 for preferred only)."
+  },
+  {
+   "question_id": "FD07",
+   "correct": true,
+   "reason": "Number 6 equals the expected distinct cities; the text lists the six cities with Portland once."
+  },
+  {
+   "question_id": "FD08",
+   "correct": true,
+   "reason": "Names exactly Helsingborg Dresser, Linköping Bed, Västerås Bookshelf and Örebro Lamp, the expected four products without legs."
+  },
+  {
+   "question_id": "FD09",
+   "correct": true,
+   "reason": "Names exactly German Precision Fasteners and Taiwan Precision Parts, no hardware supplier added."
+  },
+  {
+   "question_id": "FD10",
+   "correct": true,
+   "reason": "Names exactly Linköping Bed and Malmö Desk; the cheaper Västerås Bookshelf is not included."
+  },
+  {
+   "question_id": "FD11",
+   "correct": true,
+   "reason": "Names exactly Batting and Foam Insert; the 18-day Cushion Cover and Zipper are correctly excluded."
+  },
+  {
+   "question_id": "FD12",
+   "correct": true,
+   "reason": "Number 27.97 equals the preferred price of the headboard's screws S-1091 (not 29.78 or other screws)."
+  },
+  {
+   "question_id": "FD13",
+   "correct": true,
+   "reason": "Number 1.61 equals the preferred price of the seat's fabric cover S-1094 (not 11.49 or 8.64)."
+  },
+  {
+   "question_id": "FD14",
+   "correct": true,
+   "reason": "Names @designer_dave, the expected reviewer; not @petite_patty of the nightstand."
+  },
+  {
+   "question_id": "FD15",
+   "correct": true,
+   "reason": "Number 1 equals the expected single review calling the instructions confusing."
+  },
+  {
+   "question_id": "FD16",
+   "correct": true,
+   "reason": "Number 1 equals the expected single review saying the drawer does not open smoothly."
+  },
+  {
+   "question_id": "FD17",
+   "correct": true,
+   "reason": "Number 3 equals the expected count of sticking-drawer reviews (not 4 or 5)."
+  },
+  {
+   "question_id": "FD18",
+   "correct": true,
+   "reason": "Number 3.2 (3.2 kg) equals the expected base weight."
+  },
+  {
+   "question_id": "FD19",
+   "correct": true,
+   "reason": "Number 250 (pounds) equals the expected 'over 250 lbs' figure."
+  },
+  {
+   "question_id": "FD20",
+   "correct": true,
+   "reason": "Text says the desk is the right height for @tallguy87 because he is tall, matching both parts of the expected answer."
+  }
+ ]
+}

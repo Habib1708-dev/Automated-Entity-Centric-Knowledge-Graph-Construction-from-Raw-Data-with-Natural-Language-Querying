@@ -9804,6 +9804,51 @@ traced. After the run the questions count as seen.
   substring, so "installed" counted: 7 for 6; the question asks for the word).
 - **R172 done 2026-10-13.** Next: R173, judged by meaning and compared with R157 and R166 ($0).
 
+### R173. The second confirmation set judged, compared with R157 and R166, and its failures traced (done 2026-10-13; $0)
+- **Judge:** Claude Opus 5.5 (subagents of this session, the judge model of R157 and R166 kept so the three
+  measurements share one judge), two blind judges per file with R71's rules, scope "all", a lead judge for
+  disagreements (none: the two judges agreed on all 100; five close calls, HD15, HD20, GD17, ND15, ND16,
+  a trailing clause of a text answer left out, both judges and the lead read as a qualifier, not a part);
+  `tests/gold/r173/<dataset>_confirm2_agent_{meaning,verdicts}.json`, scored by `kg qa-score` into
+  `out/r173/{exact,meaning}`.
+- **Results** (the fixed agent of R167-R170; n = 20 per dataset; 95% Wilson intervals):
+
+  | | generality | held-out | furniture | NTSB | lighthouses | **pooled (100)** |
+  |---|---|---|---|---|---|---|
+  | exact match | 20 | 19 | 20 | 19 | 20 | **98 (93.0-99.4)** |
+  | by meaning | 20 | 19 | 20 | 19 | 20 | **98 (93.0-99.4)** |
+  | R166 by meaning (the engine before, other questions) | 20 | 19 | 19 | 19 | 17 | 94 (87.5-97.2) |
+  | R157 by meaning (the frozen engine, other questions) | 50/50 | 49/50 | 46/50 | 50/50 | 48/50 | 243/250 (94.3-98.6) |
+
+  By type (both scores): multi_hop 21/21, aggregation 17/18 (74.2-99.0), structured_filter 15/16,
+  disambiguation 15/15, negation 15/15, lookup 15/15. Exact match equals meaning again: every free-text
+  answer (10) was judged right, and every set and number right by code was right by meaning.
+- **Compared with R166 and R157** (the question sets differ, one run each): 98% against 94% is not a
+  significant difference (two-proportion z = 1.44, p = 0.15), nor against R157's 97.2% (z = 0.43); the
+  numbers are not attributed to the fixes. What the traces do show: the new operations were used where a
+  question called for them and were right each time. `distinct` on 3 questions (HD07 the 7 different
+  components of the Escape's recalls, LD06 the 7 event labels, ND05 the 3 years of manufacture: R166's
+  HC05 kind of question, counted by eye then), the empty-cell test on 3 (HD08 the recalls with no notes,
+  ND08 the 10 aircraft without a registration, LD10 `focal_height_m != ''` to list the filled rows: R166's
+  LC05 kind, answered 0 then); `period` was not needed by any question, no searched phrase held a hyphen,
+  and the heading lines reached every `find_passages` excerpt. Aggregation, the weakest type in R157
+  (42/46) and R166 (14/19), is 17/18 here.
+- **Causes of the 2 failures** (both by exact match and by meaning):
+
+  | Question | Cause |
+  |---|---|
+  | HD05 (recalls whose consequence uses the word "stall": 7 for 6) | `contains` is a substring match, so "installed" (16V074000) counted; the question asks for the word and the tools have no whole-word condition (`tool_limit`); the gold's note names this very trap |
+  | ND11 (R44 II accidents that rolled over: 1 of 2) | `find_passages ["R44", "rolled"]` found "rolled over" (CEN21LA339) and not "dynamic rollover" (ANC23LA032): "rollover" is no inflection R162 joins; the agent took the one search as complete (`agent_reasoning`, `tool_limit`) |
+
+  No failure is caused by a graph-build gap or a gold error; none by the new operations.
+- **Read with care:** gold (Claude Fable 5.1), judges (Opus 5.5) and the fixes are one model family; one run,
+  no repeat; 100 questions give the interval above, not finer; the set was written blind, so it asked for a
+  distinct count and an empty cell by chance of the type mix, not by design.
+- **R173 done 2026-10-13; plan R171-R173 done** ($1.627, plus the wasted $0.501 of R172's first command;
+  the gold $0, the judging $0). The thesis numbers: R157's 243/250 (97.2%) on the frozen engine, R166's
+  94/100 before the R167-R170 fixes, R173's 98/100 after them, each on its own unseen questions. Next: the
+  user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

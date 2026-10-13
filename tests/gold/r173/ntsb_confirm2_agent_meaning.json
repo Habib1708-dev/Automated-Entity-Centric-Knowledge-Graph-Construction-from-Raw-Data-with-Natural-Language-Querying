@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-13",
+  "run_id": "ec1a6518d115421c93d846129649617a",
+  "git_sha": "815ef16"
+ },
+ "gold": "tests/gold/qa/ntsb_qa_confirm2.json",
+ "answers": "out/r172_ntsb/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "ND01",
+   "correct": true,
+   "reason": "Names LIT, the expected departure airport, and nothing else (not the wrong M77)."
+  },
+  {
+   "question_id": "ND02",
+   "correct": true,
+   "reason": "Number 183 equals the expected 183 total hours."
+  },
+  {
+   "question_id": "ND03",
+   "correct": true,
+   "reason": "Names Lake Clark Air, the expected operator, with no extra entity."
+  },
+  {
+   "question_id": "ND04",
+   "correct": true,
+   "reason": "Number 424 equals the expected make-and-model hours (not 792 or 275)."
+  },
+  {
+   "question_id": "ND05",
+   "correct": true,
+   "reason": "Number 3 equals the expected count of distinct years of manufacture (not 5 helicopters)."
+  },
+  {
+   "question_id": "ND06",
+   "correct": true,
+   "reason": "Names CEN21LA173, the expected accident with the most make-and-model hours (not CEN21LA283)."
+  },
+  {
+   "question_id": "ND07",
+   "correct": true,
+   "reason": "Number 2 equals the expected count; citations are the two Beech A36 test-run passages."
+  },
+  {
+   "question_id": "ND08",
+   "correct": true,
+   "reason": "Number 10 equals the expected count of accidents without a registration (not 20)."
+  },
+  {
+   "question_id": "ND09",
+   "correct": true,
+   "reason": "Names exactly the four expected carburetor accidents (CEN21LA185, CEN21LA353, CEN21LA383, CEN22LA249), no extra."
+  },
+  {
+   "question_id": "ND10",
+   "correct": true,
+   "reason": "Names exactly the three expected accidents CEN21LA221, CEN21LA268, CEN21LA414, no extra."
+  },
+  {
+   "question_id": "ND11",
+   "correct": false,
+   "reason": "Names only CEN21LA339; misses ANC23LA032 (the dynamic rollover at Skwentna), so the set is incomplete."
+  },
+  {
+   "question_id": "ND12",
+   "correct": true,
+   "reason": "Names JCT, the expected destination for the Cleveland, TX accident (not KBAZ)."
+  },
+  {
+   "question_id": "ND13",
+   "correct": true,
+   "reason": "Number 285 equals the expected horsepower for ANC21LA027 (not 260)."
+  },
+  {
+   "question_id": "ND14",
+   "correct": true,
+   "reason": "Number 23 equals the expected 23 miles to the weather station for Hayward."
+  },
+  {
+   "question_id": "ND15",
+   "correct": true,
+   "reason": "Says No: the engine and propeller examination revealed no evidence of mechanical malfunction or failure, which is the expected content; the unexplained loss of thrust follows directly and nothing contradicts it."
+  },
+  {
+   "question_id": "ND16",
+   "correct": true,
+   "reason": "Says No: the engine monitor data showed no abnormalities in cylinder head or exhaust gas temperatures, as expected; omitting the evident power loss caveat contradicts nothing."
+  },
+  {
+   "question_id": "ND17",
+   "correct": true,
+   "reason": "Says No: the cones had been removed due to ongoing snow removal operations on the accident day, as expected."
+  },
+  {
+   "question_id": "ND18",
+   "correct": true,
+   "reason": "Number 300 equals the expected 300 ft off the side of the runway."
+  },
+  {
+   "question_id": "ND19",
+   "correct": true,
+   "reason": "Number 2.7 equals the expected 2.7 hours since engine installation."
+  },
+  {
+   "question_id": "ND20",
+   "correct": true,
+   "reason": "Number 150 equals the expected 150 yards flown after the first tug."
+  }
+ ]
+}

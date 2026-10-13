@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-13",
+  "run_id": "e4899ff3aaf446b3872eeda9dd2f0c19",
+  "git_sha": "815ef16"
+ },
+ "gold": "tests/gold/qa/heldout_qa_confirm2.json",
+ "answers": "out/r172_heldout/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "HD01",
+   "correct": true,
+   "reason": "Names exactly 21V587000, the only recall received in 2021 for the dead-battery complaint's 2019 Outback."
+  },
+  {
+   "question_id": "HD02",
+   "correct": true,
+   "reason": "Names exactly 15V406000 and 15V436000, both expected software-update recalls, and no extra one."
+  },
+  {
+   "question_id": "HD03",
+   "correct": true,
+   "reason": "Names exactly 11205702 and 11209676, the two RAV4 complaints filed in May 2019."
+  },
+  {
+   "question_id": "HD04",
+   "correct": true,
+   "reason": "Names exactly 22V875000, the only Rogue recall whose consequence warns of fire."
+  },
+  {
+   "question_id": "HD05",
+   "correct": false,
+   "reason": "Answers 7, expected 6; the gold note says 7 comes from counting 16V074000 via the substring in 'installed', which does not use the word 'stall'."
+  },
+  {
+   "question_id": "HD06",
+   "correct": true,
+   "reason": "Names Complaint 10957753 (130 miles), an alias of the expected 10957753."
+  },
+  {
+   "question_id": "HD07",
+   "correct": true,
+   "reason": "Answers 7, equal to the expected 7 distinct components."
+  },
+  {
+   "question_id": "HD08",
+   "correct": true,
+   "reason": "Names exactly 25V695000, 26V011000 and 26V332000, the three recalls with a null Notes field."
+  },
+  {
+   "question_id": "HD09",
+   "correct": true,
+   "reason": "Names exactly the six expected complaints filed in 2015 (10689793, 10690483, 10691672, 10692693, 10809523, 10816192)."
+  },
+  {
+   "question_id": "HD10",
+   "correct": true,
+   "reason": "Names exactly the five expected January-incident complaints (10690483, 10823637, 10824361, 11166434, 11180230)."
+  },
+  {
+   "question_id": "HD11",
+   "correct": true,
+   "reason": "Names exactly 19V244000, 19V503000 and 26V011000, the recalls with an EQUIPMENT component."
+  },
+  {
+   "question_id": "HD12",
+   "correct": true,
+   "reason": "Names 20V064000, the campaign Toyota numbers 20TA04."
+  },
+  {
+   "question_id": "HD13",
+   "correct": true,
+   "reason": "Names Complaint 10689793, which quotes the turbo spooling up explanation."
+  },
+  {
+   "question_id": "HD14",
+   "correct": true,
+   "reason": "Names Complaint 10972343, taken to the dealer on both occasions."
+  },
+  {
+   "question_id": "HD15",
+   "correct": true,
+   "reason": "Says no, no problem was found on the first visit, keeping the negation; the second-visit diagnosis in the expected answer is context for the 'No' that the question does not ask about."
+  },
+  {
+   "question_id": "HD16",
+   "correct": true,
+   "reason": "Gives no complaint and says none says the owner feels safe, matching the expected empty set."
+  },
+  {
+   "question_id": "HD17",
+   "correct": true,
+   "reason": "Says no: the owner says it may not be a driving safety issue but is a safety issue nonetheless, both parts of the expected answer."
+  },
+  {
+   "question_id": "HD18",
+   "correct": true,
+   "reason": "Names WRG-21, Subaru's number for 21V587000."
+  },
+  {
+   "question_id": "HD19",
+   "correct": true,
+   "reason": "Answers 2 gallons, equal to the expected number 2."
+  },
+  {
+   "question_id": "HD20",
+   "correct": true,
+   "reason": "Names the power steering gear box, the part the expected answer says dealers replace (free of charge is an omitted detail, not the asked content)."
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-13",
+  "run_id": "ec1a6518d115421c93d846129649617a",
+  "git_sha": "815ef16"
+ },
+ "gold": "tests/gold/qa/ntsb_qa_confirm2.json",
+ "answers": "out/r172_ntsb/answers_agent.jsonl",
+ "verdicts": [
+  {
+   "question_id": "ND15",
+   "correct": true,
+   "reason": "Says No: the engine and propeller examination revealed no evidence of mechanical malfunction or failure, which is the expected content; the unexplained loss of thrust follows directly and nothing contradicts it."
+  },
+  {
+   "question_id": "ND16",
+   "correct": true,
+   "reason": "Says No: the engine monitor data showed no abnormalities in cylinder head or exhaust gas temperatures, as expected; omitting the evident power loss caveat contradicts nothing."
+  },
+  {
+   "question_id": "ND17",
+   "correct": true,
+   "reason": "Says No: the cones had been removed due to ongoing snow removal operations on the accident day, as expected."
+  }
+ ]
+}

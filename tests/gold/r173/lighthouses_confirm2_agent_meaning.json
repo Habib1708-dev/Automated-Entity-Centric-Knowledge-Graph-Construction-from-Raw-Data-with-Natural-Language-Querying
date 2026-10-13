@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-13",
+  "run_id": "78bff118cfa34ac8ad38196999d7e0d8",
+  "git_sha": "815ef16"
+ },
+ "gold": "tests/gold/qa/lighthouses_qa_confirm2.json",
+ "answers": "out/r172_lighthouses/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LD01",
+   "correct": true,
+   "reason": "Answers 1903, the Lizard Lighthouse service retirement the gold expects (not 1751, 1619 or 1911)."
+  },
+  {
+   "question_id": "LD02",
+   "correct": true,
+   "reason": "Answers 1958, Cromer's electrification date in the events file, as expected."
+  },
+  {
+   "question_id": "LD03",
+   "correct": true,
+   "reason": "Answers 1826, the Brownsman Lighthouse service retirement the gold expects."
+  },
+  {
+   "question_id": "LD04",
+   "correct": true,
+   "reason": "Answers 1862, James Walker's death year, as expected."
+  },
+  {
+   "question_id": "LD05",
+   "correct": true,
+   "reason": "Names both tied lighthouses, Eddystone and Bishop Rock, and no other."
+  },
+  {
+   "question_id": "LD06",
+   "correct": true,
+   "reason": "Answers 7 distinct event values, counting the two automation spellings separately, as expected."
+  },
+  {
+   "question_id": "LD07",
+   "correct": true,
+   "reason": "Names exactly Anvil Point, St Anthony's and Tater Du, with the reduction quotes; no Godrevy, Farne, Berry Head or St Mary's."
+  },
+  {
+   "question_id": "LD08",
+   "correct": true,
+   "reason": "Names Yorkshire, the expected county with more lighthouses."
+  },
+  {
+   "question_id": "LD09",
+   "correct": true,
+   "reason": "Names all five expected lighthouses (North Foreland, Longstone, Casquets lighthouses, St Anthony's, Cromer) and no extra."
+  },
+  {
+   "question_id": "LD10",
+   "correct": true,
+   "reason": "Names exactly Lundy Old Light and St Bees Lighthouse, as expected."
+  },
+  {
+   "question_id": "LD11",
+   "correct": true,
+   "reason": "Names exactly Heugh Hill, Bamburgh and Guile Point East, as expected."
+  },
+  {
+   "question_id": "LD12",
+   "correct": true,
+   "reason": "Answers 1897, Lundy Old Light's service retirement, as expected."
+  },
+  {
+   "question_id": "LD13",
+   "correct": true,
+   "reason": "Answers 44 metres for Dungeness Old Lighthouse, not the 43 of Dungeness Lighthouse."
+  },
+  {
+   "question_id": "LD14",
+   "correct": true,
+   "reason": "Gives 'Whitby High lighthouse' (entity 'Whitby High', a gold alias), the Admiralty chart name."
+  },
+  {
+   "question_id": "LD15",
+   "correct": true,
+   "reason": "Answers 1977, quoting 'not electrified until 1977', as expected."
+  },
+  {
+   "question_id": "LD16",
+   "correct": true,
+   "reason": "Answers 1752, not 1716 or 1788, as expected."
+  },
+  {
+   "question_id": "LD17",
+   "correct": true,
+   "reason": "Says it was not watched (classed as unwatched) and an attendant brought it into service each evening: both parts of the expected answer."
+  },
+  {
+   "question_id": "LD18",
+   "correct": true,
+   "reason": "Names Michael H. Crisp as designer, as expected."
+  },
+  {
+   "question_id": "LD19",
+   "correct": true,
+   "reason": "Names SS Nile, the 1854 wreck, as expected."
+  },
+  {
+   "question_id": "LD20",
+   "correct": true,
+   "reason": "Names Olver of Falmouth as builder, as expected."
+  }
+ ]
+}
