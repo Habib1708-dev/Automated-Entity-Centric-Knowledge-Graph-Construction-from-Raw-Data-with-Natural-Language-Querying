@@ -9579,6 +9579,16 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   no table at all (its tables sit in subfolders): fixed in its own commit before R165.
 - **R164 done 2026-10-12.** Next: that fix, then R165 (paid, asked first).
 
+### R165. The fixed agent on the 100 confirmation questions (done 2026-10-13; $1.603)
+- **Asked and approved:** the user, "After only (~$1.7-2.0)", then "Yes, run it, stop if over $2.5".
+- **Runs** (`tests/gold/r165/runs.json`, git 22b096c; agent versions 8ef2474da8b7 / 432c1d247df0 /
+  5b9a9720fb59): the five graphs reloaded from cache ($0), each digest equal to R156's; Gemini's embedding
+  quota answered 429 twice during reload indexing (held-out, lighthouses), retried after five minutes, no cost.
+- **Exact match on the code-scored questions** (12 free-text answers wait for R166's judge): generality 17/17
+  ($0.258), held-out 16/17 ($0.299), furniture 18/19 ($0.437), lighthouses 15/18 ($0.289), NTSB 16/17
+  ($0.320): **82/88**, $0.0160 a question.
+- **R165 done 2026-10-13.** Next: R166, judged by meaning and compared with R157 ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

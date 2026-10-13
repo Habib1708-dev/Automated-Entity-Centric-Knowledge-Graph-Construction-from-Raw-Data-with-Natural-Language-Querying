@@ -1,0 +1,53 @@
+{
+ "step": "R165: the fixed agent (R161-R164 and the nested-tables fix) on the 100 confirmation questions of R160",
+ "approved": "the user, 2026-10-12/13: 'After only (~$1.7-2.0)', then 'Yes, run it, stop if over $2.5'",
+ "git_sha": "22b096c",
+ "versions": {
+  "agent_prompt_version": "8ef2474da8b7",
+  "agent_tools_prompt_version": "432c1d247df0",
+  "agent_reply_prompt_version": "5b9a9720fb59"
+ },
+ "commands": [
+  "kg --preset <generality_gemini|heldout|quality|lighthouses|ntsb> qa tests/gold/qa/<dataset>_qa_confirm.json --system agent --out out/r165_<dataset>",
+  "graphs reloaded from cache ($0) as in R156 into out/r165_<dataset>_build (generality as loaded); digests equal to R156's; the index of held-out and lighthouses retried after Gemini embedding 429s (rate limit, no cost)"
+ ],
+ "runs": {
+  "generality": {
+   "run": "80eb7c27",
+   "graph_digest": "f79f9411ea81",
+   "answers": "out/r165_generality/answers_agent.jsonl",
+   "cost_usd": 0.257586,
+   "exact_code_scored": "17/17"
+  },
+  "heldout": {
+   "run": "94ba4784",
+   "graph_digest": "bc7c5a1efe3d",
+   "answers": "out/r165_heldout/answers_agent.jsonl",
+   "cost_usd": 0.299222,
+   "exact_code_scored": "16/17"
+  },
+  "furniture": {
+   "run": "2f56dbd5",
+   "graph_digest": "392a170ecc10",
+   "answers": "out/r165_furniture/answers_agent.jsonl",
+   "cost_usd": 0.437227,
+   "exact_code_scored": "18/19"
+  },
+  "lighthouses": {
+   "run": "5200996f",
+   "graph_digest": "62573881a3c6",
+   "answers": "out/r165_lighthouses/answers_agent.jsonl",
+   "cost_usd": 0.289282,
+   "exact_code_scored": "15/18"
+  },
+  "ntsb": {
+   "run": "00372eb4",
+   "graph_digest": "c7f20fa9c187",
+   "answers": "out/r165_ntsb/answers_agent.jsonl",
+   "cost_usd": 0.319609,
+   "exact_code_scored": "16/17"
+  }
+ },
+ "cost_usd": 1.602926,
+ "unjudged_free_text": 12
+}
