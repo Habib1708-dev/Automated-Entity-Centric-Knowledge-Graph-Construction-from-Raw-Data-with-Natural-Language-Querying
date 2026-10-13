@@ -18,7 +18,10 @@ statement unchanged at the first page, and the note naming the next offset; ever
 R161: a cut or paged listing's note says how to count some of its entries (a group's does not), and the
 query it points to runs; a group of listed rows (group_by with measure rows) is refused with the measure that
 counts each group, and the query that refusal points to runs. R164: a table's examples show each shape of a
-text column (years and year-months), and the year operator is described for a text holding a date."""
+text column (years and year-months), and the year operator is described for a text holding a date. R167:
+`= ''` and `!= ''` test for an empty cell on a field of any type (the check, both compilers as text, DuckDB
+over a CSV with empty cells), a null value's refusal points to `''`, and `''` compared otherwise is still
+refused."""
 
 import pytest
 
@@ -130,7 +133,11 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
             ),
             "give value or other_field, not both",
         ),
-        (TableQuery(table="t", where=[Condition(field="year", operator="=")]), "give value or other_field"),
+        (  # R167: the hint for an empty cell, which LC05's agent asked for as null first
+            TableQuery(table="t", where=[Condition(field="year", operator="=")]),
+            "give value or other_field; to match an empty cell, compare with ''",
+        ),
+        (TableQuery(table="t", where=[Condition(field="price", operator="<", value="")]), "needs a number"),
         (
             TableQuery(table="t", where=[Condition(field="since", operator="year", value="year")]),
             "'year' is the field 'year'; to compare with that field, give it as other_field; to match the "
@@ -163,6 +170,17 @@ def test_the_check_accepts_a_text_measured_by_its_number_and_a_date_by_its_year(
     query = TableQuery(table="t", where=[Condition(field="since", operator="year", value=2016.0)],
                        measure="sum", field="price", group_by="year")  # fmt: skip
     assert check_query(query, FIELDS) == []
+
+
+@pytest.mark.parametrize("field", ["id", "since", "year", "tags"])
+def test_the_check_accepts_the_empty_cell_test_on_a_field_of_any_type(field):
+    """R167: LC05's `date = ''` was refused as no date before, and matched nothing on a text; the empty-cell
+    test is its own comparison, so a date, a number or a list field takes it like a text."""
+    for operator in ("=", "!="):
+        assert check_query(TableQuery(table="t", where=[Condition(field=field, operator=operator, value="")]),
+                           FIELDS) == []  # fmt: skip
+    some = TableQuery(table="t", where=[Condition(field=field, operator="in", value=[""])])
+    assert check_query(some, FIELDS) == []  # '' among in's values, compared as = compares it
 
 
 def test_the_check_accepts_a_field_compared_with_another_field():
@@ -235,6 +253,29 @@ def test_a_group_over_a_list_or_a_split_text_counts_each_value_once_per_record()
     )
     assert "UNWIND split(n.`id`, $group_split) AS part" in split.statement
     assert split.parameters["group_split"] == ";" and "WITH DISTINCT n, part AS bucket" in split.statement
+
+
+def test_the_empty_cell_test_compiles_to_null_or_blank_with_no_parameter():
+    """R167: a record's missing property is null, an empty text may be stored as '': both are empty."""
+    empty = compile_records(
+        RecordQuery(label="Kettle", where=[Condition(field="since", operator="=", value="")]),
+        FIELDS, "id", [], None, 5,
+    )  # fmt: skip
+    assert "WHERE (n.`since` IS NULL OR toString(n.`since`) = '') WITH DISTINCT n" in empty.statement
+    assert "v0" not in empty.parameters
+    filled = compile_records(
+        RecordQuery(label="Kettle", where=[Condition(field="year", operator="!=", value="")]),
+        FIELDS, "id", [], None, 5,
+    )  # fmt: skip
+    assert "WHERE (n.`year` IS NOT NULL AND toString(n.`year`) <> '') WITH DISTINCT n" in filled.statement
+    either = compile_records(
+        RecordQuery(label="Kettle", where=[Condition(field="id", operator="in", value=["", "K1"])]),
+        FIELDS, "id", [], None, 5,
+    )  # fmt: skip
+    assert "((n.`id` IS NULL OR toString(n.`id`) = '') OR toLower(toString(n.`id`)) = toLower($v0_1))" in (
+        either.statement
+    )
+    assert either.parameters["v0_1"] == "K1" and "v0_0" not in either.parameters
 
 
 def test_a_field_compared_with_another_field_and_a_later_page_compile_to_cypher():
@@ -352,6 +393,34 @@ def test_table_measures_and_groups(tables):
     assert run_table(tables, measure="sum", field="price") == [[1628.0]]
     assert run_table(tables, measure="count") == [[3]]
     assert run_table(tables, measure="count", group_by="made") == [[2016, 2, 2], [2019, 1, 2]]
+
+
+def test_a_table_empty_cell_is_matched_by_the_empty_text_on_a_text_and_on_a_date_column(tmp_path):
+    """R167: DuckDB reads an empty CSV cell as NULL, which `= ''` compared as a text never matched; LC05's
+    count of the undated entries came back 0 for 9. Both cells here are NULL (a date column takes no blank
+    text), and the test names both NULL and the blank so a stored '' counts too."""
+    (tmp_path / "pots.csv").write_text(
+        "id,since,note\nK1,2016-05-01,seen\nK2,,\nK3,2019-03-04,\n", encoding="utf-8"
+    )
+    store = DuckDBTables(tmp_path)
+    fields = {c.name: c for c in store.tables()[0].columns}
+    assert (fields["since"].type, fields["note"].type) == ("DATE", "STRING")
+
+    def count(field, operator, value):
+        condition = Condition(field=field, operator=operator, value=value)
+        query = TableQuery(table="pots", measure="count", where=[condition])
+        compiled = compile_table(query, fields, 5)
+        assert "v0" not in compiled.parameters or operator == "in"  # the empty test names no parameter
+        read = store.run(compiled.statement, compiled.parameters)
+        assert read.error is None, read.error
+        return read.rows[0][0]
+
+    try:
+        assert (count("since", "=", ""), count("since", "!=", "")) == (1, 2)
+        assert (count("note", "=", ""), count("note", "!=", "")) == (2, 1)
+        assert count("note", "in", ["", "SEEN"]) == 3  # the empty ones, or a text as = compares it
+    finally:
+        store.close()
 
 
 def test_a_table_group_over_a_text_holding_several_values_counts_each_value(tmp_path):

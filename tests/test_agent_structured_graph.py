@@ -5,7 +5,8 @@ counts per value, largest first; text equal ignoring case; and the schema's reco
 layer out. R139: counts per value of a list and of a text split at a separator, each value on its own.
 R140: records one of several values, and the records two relationships away from one record. R148: the year
 of a date compared with another property of the same record, listed and counted, and a later page of a cut
-list by offset. R161: that page's note points to measure count. Needs Neo4j."""
+list by offset. R161: that page's note points to measure count. R167: `= ''` finds the record without a
+property and `!= ''` the one with it. Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader
 from kgbuilder.agent.structured_query import Condition, RecordQuery
@@ -93,3 +94,17 @@ def test_records_compared_field_to_field_and_paged(driver):
     assert page.issues == [] and len(page.refs) == 1 and page.refs[0] not in ("Part:S1", "Part:S2", "Part:S3")
     # R161: a paged listing of records points to the count as a table's does
     assert (page.total, page.note) == (4, "4-4 of 4 shown; " + COUNT_HINT)
+
+
+def test_the_empty_cell_test_finds_the_record_without_the_property(driver):
+    """R167: a record's missing property is null to Cypher; `= ''`, the text the tool shows for it, finds
+    the record, and `!= ''` the records holding a value."""
+    load(driver)
+    driver.execute_query("MATCH (p:Press {press_id: 'P2'}) SET p.made = 2015")
+    store = Neo4jGraphStore(driver, RELATED_PLAN, hops=2)
+    reader = Neo4jNodeReader(driver, RELATED_PLAN)
+    query = QueryRecords(store, read_graph_schema(driver), RELATED_PLAN, reader, limit=3, value_chars=60)
+    empty = query.run(RecordQuery(label="Press", where=[Condition(field="made", operator="=", value="")]))
+    filled = query.run(RecordQuery(label="Press", where=[Condition(field="made", operator="!=", value="")]))
+    assert (empty.issues, empty.refs) == ([], ["Press:P1"])
+    assert (filled.issues, filled.refs) == ([], ["Press:P2"])

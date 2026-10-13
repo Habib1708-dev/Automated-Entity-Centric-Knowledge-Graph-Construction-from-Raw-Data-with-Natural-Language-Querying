@@ -27,6 +27,11 @@ compared as a literal it fails at run time (a date) or silently matches nothing 
 value still matches a text that really is spelled so. Listed rows and groups page by `offset`, which a
 single measured value does not take. A group needs a measure (R161): `group_by` with `rows` is refused,
 since the listing it would otherwise run as is not what was asked; its field description says so first.
+An empty cell is `''` (R167): the tools print an empty or missing value as `''`, so `= ''` and `!= ''`
+(and `''` among `in`'s values) test for one, on a field of any type; `is_empty_test` is the one place that
+says so, and both compilers render it as "null or blank", because R166's LC05 asked `date = ''` as the
+tool had shown it and was answered 0 (the cell is null to DuckDB, and a date field refused `''` as no date).
+The value check (R74's `value_issues`) is asked only for other values, so the plan systems are unchanged.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -67,8 +72,9 @@ class Condition(BaseModel):
     )
     value: str | float | bool | list[str | float] | None = Field(
         default=None,
-        description="The value to compare with; with in, the list of values. Leave it out when comparing "
-        "with other_field.",
+        description="The value to compare with; with in, the list of values; '' with = or != tests for an "
+        "empty cell (= '' keeps the empty ones, != '' the filled). Leave it out when comparing with "
+        "other_field.",
     )
     other_field: str | None = Field(
         default=None,
@@ -175,6 +181,13 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
     return issues + _split_issues(query, fields)
 
 
+def is_empty_test(operator: QueryOperator, value: object) -> bool:
+    """Whether a condition tests for an empty cell: `=` or `!=` with the value `''`, the text the tools print
+    an empty or missing value as (R167). Both compilers ask this and render "null or blank" for it; no other
+    comparison reads `''` specially (a `contains` of '' is every text, `<` '' no number)."""
+    return operator in ("=", "!=") and value == ""
+
+
 def pair_kind(operator: QueryOperator, left: PropertyInfo, right: PropertyInfo) -> PairKind | None:
     """How field `left` compares with field `right` of the same entry by `operator`: by the year of `left` (a
     date) against `right` (`year`: a year; `years`: a date whose year is taken), as two values of one kind,
@@ -205,7 +218,8 @@ def _condition_issues(where: str, c: Condition, fields: dict[str, PropertyInfo])
     if c.other_field is not None:
         return _pair_issues(where, prop, c, fields)
     if c.value is None:
-        return [f"{where}: give value or other_field"]
+        # LC05's agent sent `= null` for an empty cell before trying `= ''` (R167): the hint names the way
+        return [f"{where}: give value or other_field; to match an empty cell, compare with ''"]
     # by its name ignoring case, as = and != compare a text
     named = {name.lower(): name for name in fields}
     other = named.get(c.value.lower()) if isinstance(c.value, str) else None
@@ -220,10 +234,16 @@ def _condition_issues(where: str, c: Condition, fields: dict[str, PropertyInfo])
     if c.operator == "in":
         if not isinstance(c.value, list) or not 1 <= len(c.value) <= MAX_IN:
             return [f"{where}: in needs a list of 1 to {MAX_IN} values, got {c.value!r}"]
-        return [issue for v in c.value for issue in value_issues(where, prop, "=", v)]
+        return [issue for v in c.value for issue in _value_issues(where, prop, "=", v)]
     if isinstance(c.value, list):
         return [f"{where}: a list of values needs the operator in"]
-    return value_issues(where, prop, c.operator, c.value)
+    return _value_issues(where, prop, c.operator, c.value)
+
+
+def _value_issues(where: str, prop: PropertyInfo, operator: QueryOperator, value: object) -> list[str]:
+    """R74's check of a value against its field's type, except the empty-cell test, which any field type
+    takes (R167: a date or a number field refused `''` as no date and no number)."""
+    return [] if is_empty_test(operator, value) else value_issues(where, prop, operator, value)
 
 
 def _pair_issues(where: str, left: PropertyInfo, c: Condition, fields: dict[str, PropertyInfo]) -> list[str]:

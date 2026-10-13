@@ -15,7 +15,9 @@ written from the queried records' side, its types reversed, through unnamed node
 property compared with another property of the same record (R148) is written as `pair_kind` decides, both
 names through `cypher_ident` and no parameter: the year of a date (`.year`) against a year or another date's
 year, two values of one kind as they are, two texts lowered. A later page slices the collected list from
-`$offset`, and only then, so a first page's statement and its id are what they were.
+`$offset`, and only then, so a first page's statement and its id are what they were. The empty-cell test
+(R167, `is_empty_test`) is the agent's own, rendered here before R74's `condition` is asked: a record's
+missing property is null (the loader writes no empty property), so `= ''` is "null or blank".
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -31,6 +33,7 @@ from .structured_query import (
     QueryOperator,
     RecordQuery,
     StructuredQuery,
+    is_empty_test,
     pair_kind,
     shape_of,
 )
@@ -119,15 +122,28 @@ def _conditions(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> tupl
             where.append(_pair(fields[c.field], c.operator, fields[c.other_field]))
             continue
         if c.operator == "in" and isinstance(c.value, list):
-            parts = [condition("n", fields[c.field], "=", v, f"v{i}_{j}") for j, v in enumerate(c.value)]
+            parts = [_condition(fields[c.field], "=", v, f"v{i}_{j}") for j, v in enumerate(c.value)]
             where.append(f"({' OR '.join(text for text, _ in parts)})")
             for _, extra in parts:
                 params |= extra
             continue
-        text, extra = condition("n", fields[c.field], c.operator, c.value, f"v{i}")
+        text, extra = _condition(fields[c.field], c.operator, c.value, f"v{i}")
         where.append(text)
         params |= extra
     return where, params
+
+
+def _condition(
+    prop: PropertyInfo, operator: QueryOperator, value: object, key: str
+) -> tuple[str, dict[str, Any]]:
+    """One condition on `n.prop`: the empty-cell test (R167), with no parameter, or R74's comparison with the
+    value as `$key`."""
+    if is_empty_test(operator, value):
+        ref = f"n.{cypher_ident(prop.name)}"
+        if operator == "=":
+            return f"({ref} IS NULL OR toString({ref}) = '')", {}
+        return f"({ref} IS NOT NULL AND toString({ref}) <> '')", {}
+    return condition("n", prop, operator, value, key)
 
 
 def _pair(left: PropertyInfo, operator: QueryOperator, right: PropertyInfo) -> str:

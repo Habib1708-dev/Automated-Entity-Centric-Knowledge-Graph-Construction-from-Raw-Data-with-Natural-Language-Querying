@@ -14,6 +14,8 @@ comparison once per value, joined by OR (R140). A column compared with another c
 (R148) is written as `pair_kind` decides, with no parameter: the year of a date (`year()`) against a year or
 another date's year, two values of one kind as they are, two texts lowered. A later page adds
 ` OFFSET $offset` to the cut, and only then, so a first page's statement and its id are what they were.
+An empty cell (R167, `is_empty_test`) is a NULL or a blank text: DuckDB reads an empty CSV cell as NULL, so
+`= ''` compared as a text matched nothing (LC05 was answered 0 for 9); the test names both, no parameter.
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -23,7 +25,15 @@ from typing import Any
 from ..query.graph_schema import PropertyInfo
 from ..query.plan import Operator, as_number
 from ..structured.profiler import quote_ident
-from .structured_query import COMPARISONS, Compiled, QueryOperator, TableQuery, pair_kind, shape_of
+from .structured_query import (
+    COMPARISONS,
+    Compiled,
+    QueryOperator,
+    TableQuery,
+    is_empty_test,
+    pair_kind,
+    shape_of,
+)
 
 _AGGREGATES = {"count": "count", "sum": "sum", "average": "avg", "min": "min", "max": "max"}
 # what is no part of a number, removed from a text before it is read as one, as in R74's Cypher
@@ -117,7 +127,13 @@ def _pair(
 
 
 def _condition(col: str, field: PropertyInfo, operator: Operator, value: object, key: str) -> tuple[str, Any]:
-    """One condition and the value of its parameter `$key`, compared as the column's type demands."""
+    """One condition and the value of its parameter `$key`, compared as the column's type demands; the
+    empty-cell test names no parameter (`_used` drops the unread one)."""
+    if is_empty_test(operator, value):
+        text = f"CAST({col} AS VARCHAR)"
+        if operator == "=":
+            return f"({col} IS NULL OR {text} = '')", ""
+        return f"({col} IS NOT NULL AND {text} <> '')", ""
     temporal = field.type.startswith(("DATE", "LOCAL", "ZONED"))
     if operator == "year":
         year = int(float(str(value)))

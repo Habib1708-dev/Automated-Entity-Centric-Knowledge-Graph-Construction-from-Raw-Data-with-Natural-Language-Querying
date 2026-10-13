@@ -9628,6 +9628,56 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   care: 100 questions, one run, one model family for gold and judges.
 - **R166 done 2026-10-13; plan R160-R166 done** ($1.603). Next: the user decides.
 
+### Plan R167-R170: the confirm set's tool gaps closed, proven by offline replay (accepted 2026-10-13)
+The user, 2026-10-13: fix the gaps R166's failures point to, at the least cost. Traced again in this session,
+the six failures are three tool gaps, one display gap, and one model slip; R166's causes table is corrected
+here on two points: LC08's search did return St Anthony's "was decommissioned" passage (the agent dropped
+it) and the hyphen hid only the "A fog-bell was installed in 1865" passage; FC05's agent never saw the
+rating form because `find_passages` excerpts cut the heading lines (`## Rating: ... (3/5)`), so it never
+searched it (a `3/5` search over the chunked files finds exactly the gold 10). NC11 is the model's reading:
+the three passages were returned and read, each saying "forced landing", and the agent kept the one using
+the question's verb; no code can tell that apart from a careful answer, so it stays a known limitation. A
+code guard on "a number no cited result states" was checked and rejected: across R156 and R165, 22 of the
+23 such numbers were right (sums and differences). Every step is code and tests, each proven by an offline
+replay of the recorded failing calls on the staged tables or the rebuilt chunk corpus (the R149/R161/R162
+method; $0, no model, no Neo4j load); no paid run. A later confirmation run on a fresh question set
+(about $1.6) is a separate decision of the user. The tool text changes, so R157's and R166's numbers
+describe the engine before this plan.
+- **Steps, strictly one after another:**
+  - **R167** An empty cell is `''`: the tool prints an empty cell as `''`, so `= ''` and `!= ''` (and `''`
+    among `in`'s values) test for an empty or missing value in both agent compilers, on any field type;
+    the refusal of a null value points to it (LC05; $0, code). Agent-side only: the R74 plan systems keep
+    their check and compilers.
+  - **R168** Distinct counts, and groups by year or decade: the measure `distinct` counts the different
+    values of `field`; a `period` of year or decade makes each group the year or decade of the grouped
+    field, or what `distinct` counts, read from a date or from the four-digit year inside a text
+    (HC05, LC07, R157's LB11; $0, code).
+  - **R169** A space or a hyphen in a searched phrase matches either (LC08's hidden passage; $0, code).
+  - **R170** A passage's heading lines stay in its `find_passages` excerpt, with the sentences holding the
+    words (FC05; $0, code).
+
+### R167. An empty cell is `''` (done 2026-10-13; $0, code; unmeasured until a later confirmation run)
+- **Scope** (`agent/structured_query.py`, `table_query.py`, `record_query.py`): `is_empty_test` (a `=` or `!=`
+  condition with the value `''`, the text the tools print an empty or missing value as) is the one place
+  that says what an empty cell is; `_value_issues` accepts it on a field of any type before R74's
+  `value_issues` is asked (a date field refused `''` as no date, a number field as no number), for `in`'s
+  values too; the tables' compiler renders `(col IS NULL OR CAST(col AS VARCHAR) = '')` and its negation
+  (DuckDB reads an empty CSV cell as NULL, which `= ''` compared as a text never matched), the records'
+  compiler `(n.f IS NULL OR toString(n.f) = '')` before `plan_cypher.condition` is called (a record's
+  missing property is null), neither with a parameter, so every other statement and its id are unchanged;
+  the refusal of a null value adds "to match an empty cell, compare with ''" (LC05's agent sent `= null`
+  first); `Condition.value` says `''` tests for an empty cell. The R74 plan systems (`value_issues`,
+  `plan_cypher.condition`) are untouched. `agent_tools_prompt_version` 432c1d247df0 -> 715f8af88d9b (+87
+  characters).
+- **Offline replay** ($0; `DuckDBTables` over `out/r165_lighthouses/staging`): LC05's recorded turn 2
+  (`date = null`) is refused with the hint; its turn 3 (`date = ''`, measure count) returns 9, the gold
+  (was 0); `date != ''` 53, and 9 + 53 = the table's 62 rows.
+- **Verified:** 8 new or changed tests (the check accepts the test on a text, a date, a number and a list
+  field, `''` among `in`'s values, and still refuses `''` where a number is needed; the null hint; the
+  Cypher text with no parameter for `=`, `!=` and `in`; DuckDB over a CSV with empty cells in a date and a
+  text column; a Neo4j test finding the record without the property). 1545 passed (1537 + 8), ruff clean.
+- **R167 done 2026-10-13.** Next: R168, distinct counts and groups by year or decade.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
