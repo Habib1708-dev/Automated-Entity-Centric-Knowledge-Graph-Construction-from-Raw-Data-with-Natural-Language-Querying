@@ -1,0 +1,113 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "00372eb4e1b9489ba3f82305ad923a88",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/ntsb_qa_confirm.json",
+  "answers": "out/r165_ntsb/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "NC01",
+      "correct": true,
+      "reason": "Number 317 matches the crew table's total hours for the pilot of CEN21LA185, the windsock accident."
+    },
+    {
+      "question_id": "NC02",
+      "correct": true,
+      "reason": "Names McElwain Sprayers, LLC, exactly the operator the gold gives for CEN21LA362."
+    },
+    {
+      "question_id": "NC03",
+      "correct": true,
+      "reason": "Gives 'Maneuvering VFR encounter with IMC', the gold defining event for ANC23LA032."
+    },
+    {
+      "question_id": "NC04",
+      "correct": true,
+      "reason": "Says 6 people were uninjured in CEN23LA017, matching the gold number 6."
+    },
+    {
+      "question_id": "NC05",
+      "correct": true,
+      "reason": "Answers 13 states, matching the gold count of 13."
+    },
+    {
+      "question_id": "NC06",
+      "correct": true,
+      "reason": "Names Personal, the gold's most frequent flight purpose."
+    },
+    {
+      "question_id": "NC07",
+      "correct": true,
+      "reason": "Lists exactly ANC21LA027, CEN21LA221 and CEN21LA280, the full gold set with no extra item."
+    },
+    {
+      "question_id": "NC08",
+      "correct": true,
+      "reason": "Answers 3, matching the gold count; its citations are the three upright accidents the gold names."
+    },
+    {
+      "question_id": "NC09",
+      "correct": true,
+      "reason": "Lists exactly ANC23LA032, CEN23LA223 and CEN23LA344, the gold set; the 2022-dated CEN23 numbers are correctly left out."
+    },
+    {
+      "question_id": "NC10",
+      "correct": true,
+      "reason": "Lists exactly the four gold accidents (ANC23LA032, CEN21LA268, CEN21LA283, CEN22LA310) and no extra one."
+    },
+    {
+      "question_id": "NC11",
+      "correct": false,
+      "reason": "Gives only CEN22LA312; it misses CEN21LA362 and CEN23LA223, which the gold set includes as forced landings."
+    },
+    {
+      "question_id": "NC12",
+      "correct": true,
+      "reason": "Answers 37, the gold age of the pilot at Wyoming, IL (CEN22LA310)."
+    },
+    {
+      "question_id": "NC13",
+      "correct": true,
+      "reason": "Says about 20 ft above the ground, matching the gold number and its evidence quote."
+    },
+    {
+      "question_id": "NC14",
+      "correct": true,
+      "reason": "Answers 490 total hours for the right-seat pilot of CEN22LA194 at Traverse City, matching the gold."
+    },
+    {
+      "question_id": "NC15",
+      "correct": true,
+      "reason": "Says there was no visible impact damage to the B nut or its fitting, the same as the gold."
+    },
+    {
+      "question_id": "NC16",
+      "correct": true,
+      "reason": "Says no and gives both gold parts: temperatures beyond the operating limits shown by metallurgy, and not determined whether before or during the event."
+    },
+    {
+      "question_id": "NC17",
+      "correct": true,
+      "reason": "Says no anomaly preventing rated power was found, matching the gold text almost word for word."
+    },
+    {
+      "question_id": "NC18",
+      "correct": true,
+      "reason": "Says about 8 quarts of oil, matching the gold number 8."
+    },
+    {
+      "question_id": "NC19",
+      "correct": true,
+      "reason": "Answers 8 bolts, matching the gold number 8."
+    },
+    {
+      "question_id": "NC20",
+      "correct": true,
+      "reason": "Gives a density altitude of 2,805 ft, matching the gold 2805."
+    }
+  ]
+}

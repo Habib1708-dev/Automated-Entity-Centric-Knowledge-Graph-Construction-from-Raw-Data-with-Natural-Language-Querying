@@ -1,0 +1,113 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "5200996f8d7b46598cae1faeb60c80f4",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/lighthouses_qa_confirm.json",
+  "answers": "out/r165_lighthouses/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "LC01",
+      "correct": true,
+      "reason": "Names Souter Lighthouse only, matching the gold set exactly; the cited quote says it is now decommissioned."
+    },
+    {
+      "question_id": "LC02",
+      "correct": true,
+      "reason": "Gives 1887, the gold service-entry year of Bishop Rock Lighthouse."
+    },
+    {
+      "question_id": "LC03",
+      "correct": true,
+      "reason": "Gives 1826, the gold birth year of James Nicholas Douglass."
+    },
+    {
+      "question_id": "LC04",
+      "correct": true,
+      "reason": "Gives 1964, the gold electrification year of Bamburgh Lighthouse."
+    },
+    {
+      "question_id": "LC05",
+      "correct": false,
+      "reason": "Says 0 events lack a date (every event dated); gold is 9 undated events."
+    },
+    {
+      "question_id": "LC06",
+      "correct": true,
+      "reason": "Gives 17 distinct historic counties, matching the gold number."
+    },
+    {
+      "question_id": "LC07",
+      "correct": false,
+      "reason": "Names 1820s and 1860s tied at 8; gold is the 1860s alone with 9, so 1820s is a wrong extra item."
+    },
+    {
+      "question_id": "LC08",
+      "correct": false,
+      "reason": "Names only Godrevy Lighthouse; misses St Anthony's Lighthouse, which the gold set also holds."
+    },
+    {
+      "question_id": "LC09",
+      "correct": true,
+      "reason": "Names Dungeness and North Foreland, exactly the gold set."
+    },
+    {
+      "question_id": "LC10",
+      "correct": true,
+      "reason": "Names Hartland Point, Lynmouth Foreland, Lundy North and Lundy South, exactly the gold set."
+    },
+    {
+      "question_id": "LC11",
+      "correct": true,
+      "reason": "Names Wolf Rock, Tater Du and Dungeness, exactly the gold set."
+    },
+    {
+      "question_id": "LC12",
+      "correct": true,
+      "reason": "Gives 9 m for Harwich Low Lighthouse, matching the gold."
+    },
+    {
+      "question_id": "LC13",
+      "correct": true,
+      "reason": "Gives 1895 for Spurn Point Low Light, matching the gold."
+    },
+    {
+      "question_id": "LC14",
+      "correct": true,
+      "reason": "Gives 8 metres for Farne Low Lighthouse, matching the gold and its evidence quote."
+    },
+    {
+      "question_id": "LC15",
+      "correct": true,
+      "reason": "Names Heugh Hill, Guile Point East and Brownsman, exactly the gold set."
+    },
+    {
+      "question_id": "LC16",
+      "correct": true,
+      "reason": "States the exception: lighthouses with more complex display requirements such as a sector light, as the gold says."
+    },
+    {
+      "question_id": "LC17",
+      "correct": true,
+      "reason": "Says the old rotating Fresnel lens remains in the tower, matching the gold 'old lens (the rotating Fresnel lens)'."
+    },
+    {
+      "question_id": "LC18",
+      "correct": true,
+      "reason": "Names William Falkingbridge, the local builder in the gold."
+    },
+    {
+      "question_id": "LC19",
+      "correct": true,
+      "reason": "Names Thomas Rogers, the gold designer of the 1788 lamps."
+    },
+    {
+      "question_id": "LC20",
+      "correct": true,
+      "reason": "Names the Great Western Railway, the gold supplier of the oil gas."
+    }
+  ]
+}

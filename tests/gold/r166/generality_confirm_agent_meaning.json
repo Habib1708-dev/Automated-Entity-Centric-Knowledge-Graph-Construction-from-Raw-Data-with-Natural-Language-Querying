@@ -1,0 +1,113 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "80eb7c27fb2548c69c3c21175545809a",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/generality_qa_confirm.json",
+  "answers": "out/r165_generality/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "GC01",
+      "correct": true,
+      "reason": "Gives 'Postdoctoral researcher', the role of the Soil Ecology Maria Lopez (S-104), not the Finance Office namesake's."
+    },
+    {
+      "question_id": "GC02",
+      "correct": true,
+      "reason": "Gives Hydrology, Samuel Osei's team per his staff record."
+    },
+    {
+      "question_id": "GC03",
+      "correct": true,
+      "reason": "Gives S-150, the staff id of Aiko Tanaka, whom the newsletter names as Hydrology lead."
+    },
+    {
+      "question_id": "GC04",
+      "correct": true,
+      "reason": "Gives 1 litre per second (18 rated - 17 average), matching gold number 1."
+    },
+    {
+      "question_id": "GC05",
+      "correct": true,
+      "reason": "Gives 2 years (2023 Pike, 2025 Lopez), matching the gold number and its note."
+    },
+    {
+      "question_id": "GC06",
+      "correct": true,
+      "reason": "Names Core BF-2 (2.6 m), a gold alias for the deepest Brackwater fen core."
+    },
+    {
+      "question_id": "GC07",
+      "correct": true,
+      "reason": "Gives 1,280 euros (2 x 640), matching gold."
+    },
+    {
+      "question_id": "GC08",
+      "correct": true,
+      "reason": "Gives 805,000 pounds, the gold total of the five 2026 projects."
+    },
+    {
+      "question_id": "GC09",
+      "correct": true,
+      "reason": "Lists exactly S-104 and S-131, the full gold set with no wrong extra (no S-219)."
+    },
+    {
+      "question_id": "GC10",
+      "correct": true,
+      "reason": "Lists only North Station, the gold set; Harbour Station correctly excluded."
+    },
+    {
+      "question_id": "GC11",
+      "correct": true,
+      "reason": "Lists Core AB-18 and Core BF-2, exactly the gold set (aliases), no AB-17."
+    },
+    {
+      "question_id": "GC12",
+      "correct": true,
+      "reason": "Gives S-219, the Finance Office Maria Lopez present at the 9 June minutes, not S-104."
+    },
+    {
+      "question_id": "GC13",
+      "correct": true,
+      "reason": "Gives 140,000 pounds for the 2026 library heating, not the 2025 roof's 420,000."
+    },
+    {
+      "question_id": "GC14",
+      "correct": true,
+      "reason": "Names HP40-1183, the pump tagged at the March inspection, not HP40-2291 from June."
+    },
+    {
+      "question_id": "GC15",
+      "correct": true,
+      "reason": "States no pump had its seal replaced in that window (HP40-1183 only on 31 March), matching the empty gold set."
+    },
+    {
+      "question_id": "GC16",
+      "correct": true,
+      "reason": "Says No: the baker only fears customers will stop coming if resurfacing does not start before winter; matches gold, no misattribution to institute staff."
+    },
+    {
+      "question_id": "GC17",
+      "correct": true,
+      "reason": "Says No, Harbour Street stays open to traffic, matching gold."
+    },
+    {
+      "question_id": "GC18",
+      "correct": true,
+      "reason": "Gives about 3,000 litres, matching gold."
+    },
+    {
+      "question_id": "GC19",
+      "correct": true,
+      "reason": "Says late May claims (after the 15 June deadline) are paid in August, matching gold."
+    },
+    {
+      "question_id": "GC20",
+      "correct": true,
+      "reason": "Names Tartu as next year's conference location, matching gold."
+    }
+  ]
+}

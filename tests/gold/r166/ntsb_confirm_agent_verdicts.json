@@ -1,0 +1,27 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "00372eb4e1b9489ba3f82305ad923a88",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/ntsb_qa_confirm.json",
+  "answers": "out/r165_ntsb/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "NC15",
+      "correct": true,
+      "reason": "Says there was no visible impact damage to the B nut or its fitting, the same as the gold."
+    },
+    {
+      "question_id": "NC16",
+      "correct": true,
+      "reason": "Says no and gives both gold parts: temperatures beyond the operating limits shown by metallurgy, and not determined whether before or during the event."
+    },
+    {
+      "question_id": "NC17",
+      "correct": true,
+      "reason": "Says no anomaly preventing rated power was found, matching the gold text almost word for word."
+    }
+  ]
+}

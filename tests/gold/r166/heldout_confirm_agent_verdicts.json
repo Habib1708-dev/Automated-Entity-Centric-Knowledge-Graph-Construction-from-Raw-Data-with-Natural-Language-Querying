@@ -1,0 +1,27 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "94ba4784806e4e23a77ff07c1c2e316a",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/heldout_qa_confirm.json",
+  "answers": "out/r165_heldout/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "HC16",
+      "correct": true,
+      "reason": "Says no, the recall had not been publicly released by Honda at that time, matching the gold."
+    },
+    {
+      "question_id": "HC17",
+      "correct": true,
+      "reason": "Says no, because no windshield for a 2019 Outback is in stock or available to order, matching the gold."
+    },
+    {
+      "question_id": "HC20",
+      "correct": true,
+      "reason": "Says dealers will replace both front lower suspension arms free of charge, matching the gold."
+    }
+  ]
+}

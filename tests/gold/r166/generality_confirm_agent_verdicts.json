@@ -1,0 +1,27 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "80eb7c27fb2548c69c3c21175545809a",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/generality_qa_confirm.json",
+  "answers": "out/r165_generality/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "GC16",
+      "correct": true,
+      "reason": "Says No: the baker only fears customers will stop coming if resurfacing does not start before winter; matches gold, no misattribution to institute staff."
+    },
+    {
+      "question_id": "GC17",
+      "correct": true,
+      "reason": "Says No, Harbour Street stays open to traffic, matching gold."
+    },
+    {
+      "question_id": "GC19",
+      "correct": true,
+      "reason": "Says late May claims (after the 15 June deadline) are paid in August, matching gold."
+    }
+  ]
+}

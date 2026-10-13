@@ -1,0 +1,22 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "5200996f8d7b46598cae1faeb60c80f4",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/lighthouses_qa_confirm.json",
+  "answers": "out/r165_lighthouses/answers_agent.jsonl",
+  "verdicts": [
+    {
+      "question_id": "LC16",
+      "correct": true,
+      "reason": "States the exception: lighthouses with more complex display requirements such as a sector light, as the gold says."
+    },
+    {
+      "question_id": "LC17",
+      "correct": true,
+      "reason": "Says the old rotating Fresnel lens remains in the tower, matching the gold 'old lens (the rotating Fresnel lens)'."
+    }
+  ]
+}

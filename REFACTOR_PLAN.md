@@ -9589,6 +9589,45 @@ R157's 250 questions stay the frozen engine's headline result; after these fixes
   ($0.320): **82/88**, $0.0160 a question.
 - **R165 done 2026-10-13.** Next: R166, judged by meaning and compared with R157 ($0).
 
+### R166. The confirmation set judged, compared with R157, and its failures traced (done 2026-10-13; $0)
+- **Judge:** Claude Opus 5.5 (workflow subagents), two blind judges per file with R71's rules, scope "all",
+  a lead judge (no disagreement on any of the 100); `tests/gold/r166/<dataset>_confirm_agent_{meaning,
+  verdicts}.json`, scored into `out/r166/{exact,meaning}`.
+- **Results** (the fixed agent of R161-R164 and the nested-tables fix; n = 20 per dataset):
+
+  | | generality | held-out | furniture | NTSB | lighthouses | **pooled (100)** |
+  |---|---|---|---|---|---|---|
+  | exact match | 20 | 19 | 19 | 19 | 17 | **94 (87.5-97.2)** |
+  | by meaning | 20 | 19 | 19 | 19 | 17 | **94 (87.5-97.2)** |
+  | R157 by meaning (other questions, frozen engine) | 50/50 | 49/50 | 46/50 | 50/50 | 48/50 | 243/250 (94.3-98.6) |
+
+  By type (both scores): multi_hop 19/19, lookup 16/16, disambiguation 15/15, negation 15/15,
+  structured_filter 15/16, **aggregation 14/19**.
+- **Compared with R157** (the user chose a single run, so the question sets differ): 94% against 97.2% by
+  meaning is not a significant difference (two-proportion z = -1.4) and is not attributed to the fixes either
+  way. One change is clear: exact match now equals meaning (0 answers right in meaning but wrong in form,
+  against R157's 4), the effect R163's form rule aimed at (GC19: a month alone given as `entities`).
+- **The fixes at work** (from all 100 traces): rarely triggered. The count hint appeared on 3 questions and
+  was followed once, partly (LC07); no grouped listing was refused; word forms widened 6 searches without
+  changing an answer; the varied examples and generality's tables (now offered; still 0 `query_tables` calls,
+  the records answered through `query_records`) changed no answer. No fix caused a failure.
+- **Causes of the 6 failures** (5 of them aggregations):
+
+  | Question | Cause |
+  |---|---|
+  | HC05 (distinct years: 8 for 10) | no count of distinct values or grouping by a date's year (`tool_limit`); the agent listed the right ten years in its text and wrote 8 in `number` (`agent_reasoning`; R142's `number_stated` flag was false but only counted) |
+  | LC05 (events with no date) | no condition for an empty cell: `= ''` silently matches nothing (DuckDB reads an empty cell as NULL) and `= null` is refused (`tool_limit`) |
+  | LC07 (decade with most inceptions) | grouped by the exact year and summed decades by eye over three pages (`agent_reasoning`; no grouping by a derived value) |
+  | FC05 (reviews rated three of five) | searched the prose "3 stars"; the ratings are headings "★★★☆☆ (3/5)" (`agent_reasoning`) |
+  | LC08 (articles naming a fog bell) | one search for "fog bell" missed "fog-bell" (`agent_reasoning`; a hyphen is not a word form R162 joins) |
+  | NC11 (forced landings) | all three passages retrieved; the agent kept only the one using the question's verb (`agent_reasoning`) |
+
+- **What it says:** the remaining errors are aggregations whose operation the tools cannot express (a
+  distinct count, a group by a derived value such as a year or decade, a test for an empty cell), so the
+  agent falls back to counting by eye; R161's rule cannot help where no tool operation exists. Read with
+  care: 100 questions, one run, one model family for gold and judges.
+- **R166 done 2026-10-13; plan R160-R166 done** ($1.603). Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

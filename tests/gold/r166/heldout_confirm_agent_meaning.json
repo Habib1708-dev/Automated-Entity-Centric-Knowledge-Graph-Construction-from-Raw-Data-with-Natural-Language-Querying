@@ -1,0 +1,113 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "94ba4784806e4e23a77ff07c1c2e316a",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/heldout_qa_confirm.json",
+  "answers": "out/r165_heldout/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "HC01",
+      "correct": true,
+      "reason": "Gives exactly the two gold door latch recalls 16V643000 and 20V331000, with no extra items."
+    },
+    {
+      "question_id": "HC02",
+      "correct": true,
+      "reason": "Gives exactly 23V858000 and 26V332000, the two Civic recalls whose remedy expands an earlier recall."
+    },
+    {
+      "question_id": "HC03",
+      "correct": true,
+      "reason": "Names 23V093000, the jackknife ignition key recall for the 2017 Rogue."
+    },
+    {
+      "question_id": "HC04",
+      "correct": true,
+      "reason": "Gives KB8, Honda's number for the side marker light recall 16V526000."
+    },
+    {
+      "question_id": "HC05",
+      "correct": false,
+      "reason": "The number given is 8, but the gold is 10; the text contradicts itself (8 years, then 10), so the answer is wrong."
+    },
+    {
+      "question_id": "HC06",
+      "correct": true,
+      "reason": "Names the RAV4, matching the gold."
+    },
+    {
+      "question_id": "HC07",
+      "correct": true,
+      "reason": "Gives 2, matching the gold count of service brake complaints."
+    },
+    {
+      "question_id": "HC08",
+      "correct": true,
+      "reason": "Gives 6 and cites exactly the six gold campaigns that point to Toyota customer service."
+    },
+    {
+      "question_id": "HC09",
+      "correct": true,
+      "reason": "Lists exactly the six June recalls in the gold, with correct dates and no extras."
+    },
+    {
+      "question_id": "HC10",
+      "correct": true,
+      "reason": "Gives exactly the two 2019 fuel/propulsion complaints, 11209676 and 11221492."
+    },
+    {
+      "question_id": "HC11",
+      "correct": true,
+      "reason": "Gives exactly 11123359 and 11229137, the model year 2019 UNKNOWN OR OTHER complaints."
+    },
+    {
+      "question_id": "HC12",
+      "correct": true,
+      "reason": "Names 22V413000, the shifter bushing recall that covers Edge vehicles."
+    },
+    {
+      "question_id": "HC13",
+      "correct": true,
+      "reason": "Names Complaint 11010220, the parking structure crash, which matches a gold alias."
+    },
+    {
+      "question_id": "HC14",
+      "correct": true,
+      "reason": "Names 17V663000, the recall about improper welds on the rear seat recliner joints."
+    },
+    {
+      "question_id": "HC15",
+      "correct": true,
+      "reason": "Gives exactly 16V244000 and 23V093000 and leaves out the 26V332000 trap."
+    },
+    {
+      "question_id": "HC16",
+      "correct": true,
+      "reason": "Says no, the recall had not been publicly released by Honda at that time, matching the gold."
+    },
+    {
+      "question_id": "HC17",
+      "correct": true,
+      "reason": "Says no, because no windshield for a 2019 Outback is in stock or available to order, matching the gold."
+    },
+    {
+      "question_id": "HC18",
+      "correct": true,
+      "reason": "Gives PC934, matching the gold."
+    },
+    {
+      "question_id": "HC19",
+      "correct": true,
+      "reason": "Gives 1921 miles, matching the gold."
+    },
+    {
+      "question_id": "HC20",
+      "correct": true,
+      "reason": "Says dealers will replace both front lower suspension arms free of charge, matching the gold."
+    }
+  ]
+}

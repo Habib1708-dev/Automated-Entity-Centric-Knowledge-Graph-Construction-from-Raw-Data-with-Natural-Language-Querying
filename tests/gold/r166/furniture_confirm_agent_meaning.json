@@ -1,0 +1,113 @@
+{
+  "judge": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-13",
+    "run_id": "2f56dbd512b24f5d9988990e71a8ca1e",
+    "git_sha": "4b70dfb"
+  },
+  "gold": "tests/gold/qa/furniture_qa_confirm.json",
+  "answers": "out/r165_furniture/answers_agent.jsonl",
+  "scope": "all",
+  "verdicts": [
+    {
+      "question_id": "FC01",
+      "correct": true,
+      "reason": "Answers $135, the Norrköping Nightstand's price, matching gold 135."
+    },
+    {
+      "question_id": "FC02",
+      "correct": true,
+      "reason": "Answers $43.62, the preferred supplier's unit cost for the Linköping Bed's headboard panel, matching gold."
+    },
+    {
+      "question_id": "FC03",
+      "correct": true,
+      "reason": "Names the Uppsala Sofa and 12 support slats, matching gold 12."
+    },
+    {
+      "question_id": "FC04",
+      "correct": true,
+      "reason": "Number 7 matches the preferred supplier's 7-day lead time for the Gothenburg Table's reinforcement strips; no contradicting text."
+    },
+    {
+      "question_id": "FC05",
+      "correct": false,
+      "reason": "Says 3 three-star reviews; gold is 10 (one per product), so the number is wrong."
+    },
+    {
+      "question_id": "FC06",
+      "correct": true,
+      "reason": "Names Canadian Timber Products at $49.27 for Wooden Slat S-1152, exactly the gold supplier and offer."
+    },
+    {
+      "question_id": "FC07",
+      "correct": true,
+      "reason": "Answers 44 pieces, matching the gold sum of the bed's assembly component quantities."
+    },
+    {
+      "question_id": "FC08",
+      "correct": true,
+      "reason": "Number 7 matches the gold count of products @angry_customer reviewed."
+    },
+    {
+      "question_id": "FC09",
+      "correct": true,
+      "reason": "Lists exactly Dubai Packaging Solutions and Polish Packaging Group, the full gold set with nothing extra."
+    },
+    {
+      "question_id": "FC10",
+      "correct": true,
+      "reason": "Lists Wood Panel, Shelf Support Holes and Mounting Brackets, exactly the gold set; Edge Banding correctly excluded."
+    },
+    {
+      "question_id": "FC11",
+      "correct": true,
+      "reason": "Names Stockholm Chair, Norrköping Nightstand and Örebro Lamp, exactly the gold set; the stated prices and times agree with the gold evidence."
+    },
+    {
+      "question_id": "FC12",
+      "correct": true,
+      "reason": "Answers $9.71, Korean Metal Works' quote for the chair seat's mounting brackets S-1095, matching gold."
+    },
+    {
+      "question_id": "FC13",
+      "correct": true,
+      "reason": "Answers 4 out of 5 stars, @designer_dave's Gothenburg Table rating, kept apart from the coffee table's 5."
+    },
+    {
+      "question_id": "FC14",
+      "correct": true,
+      "reason": "Answers 18 days, Canadian Timber Products' lead time for the table top's edge banding S-1121, matching gold."
+    },
+    {
+      "question_id": "FC15",
+      "correct": true,
+      "reason": "Number 1 matches the single review (@wfh_warrior) reporting the drawer sticks."
+    },
+    {
+      "question_id": "FC16",
+      "correct": true,
+      "reason": "Says only one review complains the sofa is too firm, matching gold 1."
+    },
+    {
+      "question_id": "FC17",
+      "correct": true,
+      "reason": "Says no review calls the instructions unclear or confusing, matching gold 0."
+    },
+    {
+      "question_id": "FC18",
+      "correct": true,
+      "reason": "Answers 20 kg, matching the evidence 'approximately 20kg of books' per shelf."
+    },
+    {
+      "question_id": "FC19",
+      "correct": true,
+      "reason": "Answers Seoul, matching the gold city for Korean Metal Works."
+    },
+    {
+      "question_id": "FC20",
+      "correct": true,
+      "reason": "States the color is slightly darker than in the online photos but still looks nice, both parts of the gold answer."
+    }
+  ]
+}
