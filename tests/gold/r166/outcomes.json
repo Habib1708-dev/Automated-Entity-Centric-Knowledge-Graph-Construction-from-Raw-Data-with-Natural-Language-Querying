@@ -1,0 +1,939 @@
+{
+ "step": "R166 (record committed in R174): the engine before the R167-R170 fixes (R161-R164 applied) on the 100 confirmation questions of R160, scored",
+ "answers_from": {
+  "ntsb": "out/r165_ntsb/answers_agent.jsonl",
+  "lighthouses": "out/r165_lighthouses/answers_agent.jsonl",
+  "furniture": "out/r165_furniture/answers_agent.jsonl",
+  "heldout": "out/r165_heldout/answers_agent.jsonl",
+  "generality": "out/r165_generality/answers_agent.jsonl"
+ },
+ "verdicts": "tests/gold/r166/<dataset>_confirm_agent_{meaning,verdicts}.json (scope all; two blind judges, no disagreement)",
+ "runs": {
+  "ntsb": "00372eb4",
+  "lighthouses": "5200996f",
+  "furniture": "2f56dbd5",
+  "heldout": "94ba4784",
+  "generality": "80eb7c27"
+ },
+ "cost_usd": 1.602926,
+ "cause_classes": "R166's tracing as corrected by plan R167-R170: agent_reasoning, tool_limit (the excerpt hiding a heading line counts as a tool limit); no retrieval_miss, graph_build or answer_form this time",
+ "operations": "none: the R167-R170 operations did not exist",
+ "questions": [
+  {
+   "dataset": "ntsb",
+   "question_id": "NC01",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC02",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC03",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC04",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC05",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC06",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC07",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC08",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC09",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC10",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC11",
+   "type": "structured_filter",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning"
+   ],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC12",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC13",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC14",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC15",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC16",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC17",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC18",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC19",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "ntsb",
+   "question_id": "NC20",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC01",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC02",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC03",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC04",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC05",
+   "type": "aggregation",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "tool_limit"
+   ],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC06",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC07",
+   "type": "aggregation",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC08",
+   "type": "aggregation",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC09",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC10",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC11",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC12",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC13",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC14",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC15",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC16",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC17",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC18",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC19",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "lighthouses",
+   "question_id": "LC20",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC01",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC02",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC03",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC04",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC05",
+   "type": "aggregation",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC06",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC07",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC08",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC09",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC10",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC11",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC12",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC13",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC14",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC15",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC16",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC17",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC18",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC19",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "furniture",
+   "question_id": "FC20",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC01",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC02",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC03",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC04",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC05",
+   "type": "aggregation",
+   "exact": false,
+   "meaning": false,
+   "causes": [
+    "agent_reasoning",
+    "tool_limit"
+   ],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC06",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC07",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC08",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC09",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC10",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC11",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC12",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC13",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC14",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC15",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC16",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC17",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC18",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC19",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "heldout",
+   "question_id": "HC20",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC01",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC02",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC03",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC04",
+   "type": "multi_hop",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC05",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC06",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC07",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC08",
+   "type": "aggregation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC09",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC10",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC11",
+   "type": "structured_filter",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC12",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC13",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC14",
+   "type": "disambiguation",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC15",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC16",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC17",
+   "type": "negation_sensitive",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC18",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC19",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  },
+  {
+   "dataset": "generality",
+   "question_id": "GC20",
+   "type": "lookup",
+   "exact": true,
+   "meaning": true,
+   "causes": [],
+   "operations": []
+  }
+ ]
+}

@@ -31,6 +31,15 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 | [r157_fig2_accuracy_by_type](results/evaluation/r157_benchmark/r157_fig2_accuracy_by_type.png) | both scores per question type, aggregation and negation-sensitive hardest, 42/46 and 33/35 by meaning (dots, Wilson intervals) |
 | [r157_fig3_failures_by_cause](results/evaluation/r157_benchmark/r157_fig3_failures_by_cause.png) | the 11 wrong answers by cause, with their ids, exact-only misses apart (bars) |
 
+### Evaluation: [r173_confirmation](results/evaluation/r173_confirmation/README.md), the agent measured three times on unseen questions (R157, R166, R173)
+
+| Figure | Shows |
+|---|---|
+| [r173_fig1_accuracy_by_dataset_three_measurements](results/evaluation/r173_confirmation/r173_fig1_accuracy_by_dataset_three_measurements.png) | both scores per dataset and pooled for the three measurements, 243/250, 94/100, 98/100 by meaning (dots, Wilson intervals, one panel each) |
+| [r173_fig2_accuracy_by_type_three_measurements](results/evaluation/r173_confirmation/r173_fig2_accuracy_by_type_three_measurements.png) | both scores per question type across the three, aggregation 42/46, 14/19, 17/18 by meaning (dots, Wilson intervals) |
+| [r173_fig3_failures_by_cause_three_measurements](results/evaluation/r173_confirmation/r173_fig3_failures_by_cause_three_measurements.png) | the 11, 6 and 2 wrong answers by cause, with their ids (bars, one scale) |
+| [r173_fig4_cost_per_run](results/evaluation/r173_confirmation/r173_fig4_cost_per_run.png) | what each agent run cost and the cents a question, the wasted command apart (bars) |
+
 ## Diagrams (how methods work)
 
 ### Retrieval: [r126_r128](diagrams/retrieval/r126_r128/README.md)
@@ -51,3 +60,10 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 | Diagram | Shows |
 |---|---|
 | [r157_diag1_benchmark_protocol](diagrams/evaluation/r152_r157/r157_diag1_benchmark_protocol.png) | the benchmark from datasets and gold to the two scores and the outcomes record |
+
+### Evaluation: [r160_r173](diagrams/evaluation/r160_r173/README.md)
+
+| Diagram | Shows |
+|---|---|
+| [r173_diag1_fix_and_confirm_protocol](diagrams/evaluation/r160_r173/r173_diag1_fix_and_confirm_protocol.png) | measure, fix, measure again: three blind question sets, the engine fixed between them from its traced failures |
+| [r173_diag2_agent_loop](diagrams/evaluation/r160_r173/r173_diag2_agent_loop.png) | the agent loop: one typed call per turn, checked and run by code, observed, until the answer (ReAct in shape) |

@@ -17,6 +17,9 @@ from . import (
     r152_r157_diagrams,
     r157_charts,
     r157_data,
+    r160_r173_diagrams,
+    r173_charts,
+    r173_data,
 )
 from .style import apply_style
 
@@ -50,6 +53,11 @@ def build(results: Path | None = None, diagrams: Path | None = None) -> list[Pat
     files += r130_r131_diagrams.draw_all(tables, choice, place(r130_r131_diagrams.OUT, diagrams, "diagrams"))
     files += r152_r157_diagrams.draw_all(
         outcomes, costs, split, place(r152_r157_diagrams.OUT, diagrams, "diagrams")
+    )
+    measurements, run_costs = r173_data.measurements(), r173_data.run_costs()
+    files += r173_charts.draw_all(measurements, run_costs, place(r173_charts.OUT, results, "results"))
+    files += r160_r173_diagrams.draw_all(
+        measurements, run_costs, place(r160_r173_diagrams.OUT, diagrams, "diagrams")
     )
     return files
 

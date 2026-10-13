@@ -9848,6 +9848,43 @@ traced. After the run the questions count as seen.
   the gold $0, the judging $0). The thesis numbers: R157's 243/250 (97.2%) on the frozen engine, R166's
   94/100 before the R167-R170 fixes, R173's 98/100 after them, each on its own unseen questions. Next: the
   user decides.
+### Plan R174: the confirmation experiments in thesis form (accepted 2026-10-13)
+The user, 2026-10-13: "create the suitable graphs and diagrams for the latest experiments and results". One
+step, by `figures/CLAUDE.md`: first the per-question records of R166 and R173 committed as R158 committed
+R157's (`tests/gold/r166/outcomes.json`, `tests/gold/r173/outcomes.json`: dataset, id, type, both scores,
+the traced causes, and the R167-R170 operation a trace used), then the charts and diagrams drawn from them
+and from R157's record and the run records.
+- **R174** Charts in `figures/results/evaluation/r173_confirmation/`: accuracy per dataset and per type
+  across the three measurements (R157 frozen, R166 before the fixes, R173 after), the wrong answers by
+  cause across the three, the cost per run and per question; diagrams in
+  `figures/diagrams/evaluation/r160_r173/`: the fix-and-confirm protocol, and the agent loop (the
+  ReAct-style turn the user asked about). Tests, captions, index ($0).
+
+### R174. The confirmation experiments' figures (done 2026-10-13; $0)
+- **Records first** (`figures/CLAUDE.md`: a chart reads committed records only): `tests/gold/r166/outcomes.json`
+  and `tests/gold/r173/outcomes.json`, per question the dataset, id, type, both scores (from
+  `out/r166` and `out/r173`'s `qa-score` outcomes), the causes the steps traced (R166's as plan R167-R170
+  corrected them), and the R167-R170 operation the R172 trace used (`distinct`: ND05, LD06, HD07;
+  `empty_cell`: ND08, LD10, HD08), the shape of R158's record.
+- **Charts** (`figures/results/evaluation/r173_confirmation/`, `figures/scripts/r173_data.py` and
+  `r173_charts.py`): the three measurements as small multiples in time order, one panel each, never a fourth
+  hue: fig1 accuracy per dataset and pooled by both scores (243/250, 94/100, 98/100 by meaning; every
+  interval overlaps the others; z = 1.44, p = 0.15 between R173 and R166), fig2 per type (aggregation
+  42/46, 14/19, 17/18; this chart's axis starts at 50 %, since R166's aggregation lies below 75 %), fig3 the
+  wrong answers by cause on one scale (11, 6, 2; the answer-form misses gone after R163, agent reasoning 7,
+  5, 1), fig4 the cost of each run and the cents a question (1.5-1.6 ¢; the wasted $0.501 as a gray
+  segment). **Diagrams** (`figures/diagrams/evaluation/r160_r173/`, `r160_r173_diagrams.py`): diag1 the
+  measure-fix-measure protocol (three columns: the blind question set, the engine, the run and its scores;
+  a column's failures feed only the next column's fixes), diag2 the agent loop (one typed call per turn,
+  code checks and runs it, the result observed, until the answer; the caps, the send-backs, the two
+  scores; the ReAct comparison the user asked about in its footnote). `r157_charts._dot` clamps a Wilson
+  bar's length at 0 (k = n at a small n put the upper bound a hair below 1 in floating point); the R157,
+  R128 and R131 figures rebuild byte-identical.
+- **Verified:** a new test (`tests/test_figures.py`: the three measurements' pooled counts and R173's
+  interval, the wrong answers and causes, the operations used, the comparison, the costs); the build makes
+  40 files (20 figures); every figure captioned in its folder's README and listed in `figures/README.md`;
+  every PNG looked at (label overflow and a cut-off marker fixed before committing). Gate green, ruff clean.
+- **R174 done 2026-10-13; plan R174 done.** Next: the user decides.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

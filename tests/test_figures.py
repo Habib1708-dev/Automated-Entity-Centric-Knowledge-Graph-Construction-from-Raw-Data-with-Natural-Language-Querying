@@ -1,13 +1,15 @@
 """The thesis figures (R129, figures/): the R128, R131 and R157 data functions return the committed counts (so
 a chart can only show a committed number), the build draws every figure into a fresh folder, and every
 committed figure is built, captioned in its folder's README.md and listed in the index, with no caption naming
-a missing file. No Neo4j, no network: the figures read committed records only."""
+a missing file. R174: the r173 data functions return the three measurements' committed counts, the
+wrong answers by cause, the operations used and the costs. No Neo4j, no network: the figures read committed
+records only."""
 
 import re
 from pathlib import Path
 
 import pytest
-from figures.scripts import r128_data, r131_data, r157_data
+from figures.scripts import r128_data, r131_data, r157_data, r173_data
 from figures.scripts.build import build
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -99,10 +101,37 @@ def test_the_r157_data_functions_return_the_committed_counts():
     assert costs.agent_runs["ntsb"] == "fbf2339f"
 
 
+def test_the_r173_data_functions_return_the_committed_counts():
+    measurements = {m.key: m for m in r173_data.measurements()}
+    pooled = {k: (m.pooled.exact.k, m.pooled.meaning.k, m.n) for k, m in measurements.items()}
+    assert pooled == {"r157": (239, 243, 250), "r166": (94, 94, 100), "r173": (98, 98, 100)}
+    r173 = measurements["r173"]
+    assert (round(r173.pooled.meaning.low, 3), round(r173.pooled.meaning.high, 3)) == (0.930, 0.994)
+    wrong = {k: tuple(o.question_id for o in m.outcomes if o.wrong) for k, m in measurements.items()}
+    assert wrong["r166"] == ("NC11", "LC05", "LC07", "LC08", "FC05", "HC05") and wrong["r173"] == (
+        "ND11",
+        "HD05",
+    )
+    causes = {c.cause: c.both for c in r157_data.by_cause(list(r173.outcomes))}
+    assert (causes["tool_limit"], causes["agent_reasoning"]) == (("ND11", "HD05"), ("ND11",))
+    by_type = {a.group: (a.meaning.k, a.meaning.n) for a in r157_data.by_type(list(r173.outcomes))}
+    assert by_type["aggregation"] == (17, 18) and by_type["multi_hop"] == (21, 21)
+    used = {u.operation: (u.question_ids, u.right) for u in r173_data.operations_used(r173.outcomes)}
+    assert used == {
+        "distinct": (("ND05", "LD06", "HD07"), 3),
+        "empty_cell": (("ND08", "LD10", "HD08"), 3),
+    }
+    assert not any(o.operations for o in measurements["r166"].outcomes)
+    against = r173_data.compare(r173, measurements["r166"])
+    assert (round(against.z, 2), round(against.p, 2)) == (1.44, 0.15)
+    costs = {c.key: (round(c.cost, 3), c.questions, round(c.wasted, 3)) for c in r173_data.run_costs()}
+    assert costs == {"r157": (3.870, 250, 0.0), "r166": (1.603, 100, 0.0), "r173": (1.627, 100, 0.501)}
+
+
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):
     built = build(results=tmp_path / "results", diagrams=tmp_path / "diagrams")
     names = sorted(p.name for p in built)
-    assert all(p.stat().st_size > 0 for p in built) and len(names) == 28  # fourteen figures, SVG and PNG
+    assert all(p.stat().st_size > 0 for p in built) and len(names) == 40  # twenty figures, SVG and PNG
     committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png"))
     assert sorted(p.name for p in committed) == names  # nothing committed that the build does not make
     index = (FIGURES / "README.md").read_text(encoding="utf-8")

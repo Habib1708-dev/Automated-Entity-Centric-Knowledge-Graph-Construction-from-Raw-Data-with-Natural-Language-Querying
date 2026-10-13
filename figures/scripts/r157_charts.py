@@ -45,11 +45,13 @@ def draw_all(outcomes: list[data.Outcome], split: data.ExactSplit, out: Path = O
 
 
 def _dot(ax, y: float, p, score: Score, size: float) -> None:
-    """One score's rate with its Wilson interval, the marker ringed in the surface colour."""
+    """One score's rate with its Wilson interval, the marker ringed in the surface colour. A rate of 1 has
+    an upper bound of 1 that floating point can put a hair below it (k = n at a small n); the bar's length is
+    never negative."""
     ax.errorbar(
         p.rate,
         y,
-        xerr=[[p.rate - p.low], [p.high - p.rate]],
+        xerr=[[max(0.0, p.rate - p.low)], [max(0.0, p.high - p.rate)]],
         fmt="none",
         ecolor=score.color,
         elinewidth=1.6,
