@@ -5,7 +5,8 @@ datasets ask every question type at least five times and every record type at le
 earlier gold questions are carried over with their answers unchanged, and the generality corpus asks every
 hard case. R143a: the fresh files (ten questions per dataset) pass the same per-file checks. R152: so do the
 benchmark files, with 50 questions each, every type at least six times, and none asked before; R160: so do
-the confirmation files, 20 questions each, every type at least three times. No Neo4j, no LLM.
+the confirmation files, 20 questions each, every type at least three times; R171: a second confirmation set
+(`_qa_confirm2.json`), written blind after plan R167-R170, passes the same checks. No Neo4j, no LLM.
 """
 
 import json
@@ -37,6 +38,8 @@ BENCH = [
 # R160: 20 more unseen questions per dataset, written before R161-R164's fixes, to measure them
 CONFIRM_DATASETS = ("furniture", "heldout", "generality", "lighthouses", "ntsb")
 CONFIRM = [f"{name}_qa_confirm.json" for name in CONFIRM_DATASETS]
+# R171: the second confirmation set, 20 more per dataset written blind after R167-R170, to measure them
+CONFIRM += [f"{name}_qa_confirm2.json" for name in CONFIRM_DATASETS]
 GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM]
 
 
@@ -135,7 +138,7 @@ def test_a_confirmation_file_asks_twenty_questions_of_every_type_none_asked_befo
     assert {t: counts[t] for t in QuestionType if counts[t] < 3} == {}
     by_code = [q for q in gold.questions if q.expected.entities is not None or q.expected.number is not None]
     assert len(by_code) >= 14
-    dataset = name.removesuffix("_qa_confirm.json")
+    dataset = name.removesuffix("_qa_confirm.json").removesuffix("_qa_confirm2.json")
     earlier = {
         norm(q.question)
         for other in QA_GOLD.glob(f"{dataset}_qa*.json")

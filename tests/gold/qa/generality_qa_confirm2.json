@@ -1,0 +1,517 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-13",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GD01",
+      "type": "multi_hop",
+      "question": "What is the staff id of the person who explained the equipment overrun of the Aldmoor peat project to the institute committee on 9 June 2025?",
+      "expected": {
+        "entities": [
+          {
+            "name": "S-131"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "J. Pike explained the equipment overrun of the Aldmoor peat project: a second corer had to be bought after the first one jammed in December."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-131",
+            "name": "Jonathan Pike",
+            "team": "Soil Ecology"
+          }
+        }
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE name = 'Jonathan Pike'",
+      "hard_case": "two_names",
+      "note": "The minutes name the explainer as J. Pike; the staff records have one Pike, Jonathan Pike, S-131. The Finance Office Maria Lopez (S-219), who had asked for the explanation in May, is a wrong answer, and so is any id of a meeting attendee who did not give the explanation."
+    },
+    {
+      "id": "GD02",
+      "type": "multi_hop",
+      "question": "What is the staff id of the person who was nominated for the Hensley Field-Work Award in the year it was not awarded?",
+      "expected": {
+        "entities": [
+          {
+            "name": "S-162"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2024: not awarded. Samuel Osei was nominated, but the committee found that no entry met the standard."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-162",
+            "name": "Samuel Osei",
+            "team": "Hydrology"
+          }
+        }
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE name = 'Samuel Osei'",
+      "note": "The award page says 2024 was not awarded and that Samuel Osei was nominated; his staff record is S-162. The ids of the three winners (S-150, S-131, S-104) are wrong answers."
+    },
+    {
+      "id": "GD03",
+      "type": "multi_hop",
+      "question": "According to the committee minutes of 9 June 2025, the Aldmoor peat project had to buy a second corer after the first one jammed in December. Which Aldmoor bog core was being taken when that corer jammed?",
+      "expected": {
+        "entities": [
+          {
+            "name": "AB-19",
+            "aliases": [
+              "Core AB-19"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "a second corer had to be bought after the first one jammed in December"
+        },
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9; the corer jammed at 5 m and was freed by J. Pike."
+        }
+      ],
+      "note": "Two documents: the minutes say the first corer jammed in December; the Aldmoor field log of winter 2024-25 records one jam, at 5 m while core AB-19 was taken on 10 December. AB-20, the other core of that day, was not taken because the site was flooded, not because of the jam."
+    },
+    {
+      "id": "GD04",
+      "type": "multi_hop",
+      "question": "Which work order records the seal change that Tomasz Wren visited North Station to plan in the week of 9 June 2025?",
+      "expected": {
+        "entities": [
+          {
+            "name": "WO-318"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/shift_notes_june.txt#0",
+          "quote": "Wed: Tomasz Wren visited to plan the seal change on HP40-2291 and asked for the old seal to be kept."
+        },
+        {
+          "chunk_id": "water/work_orders_2025-06.md#0",
+          "quote": "WO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection."
+        }
+      ],
+      "hard_case": "serial_numbers",
+      "note": "The shift notes say the planned seal change is on HP40-2291; WO-318 is the work order that replaced that pump's seal. WO-320 is only the test run after the change, and WO-311 is a bearing regrease on the other Hydra P-40, HP40-1183."
+    },
+    {
+      "id": "GD05",
+      "type": "aggregation",
+      "question": "Which institute team has only one member in the staff records?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Finance Office"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-219",
+            "team": "Finance Office"
+          }
+        }
+      ],
+      "sql": "SELECT team FROM staff GROUP BY team HAVING count(*) = 1",
+      "note": "The staff records list two Soil Ecology members (S-104, S-131), two Hydrology members (S-150, S-162) and one Finance Office member (Maria Lopez, S-219). The two staff called Maria Lopez are different people in different teams, so the Soil Ecology count stays at two; naming Soil Ecology or Hydrology is the error."
+    },
+    {
+      "id": "GD06",
+      "type": "aggregation",
+      "question": "Who has been at the institute the longest, going by the start years in the staff records?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Jonathan Pike",
+            "aliases": [
+              "Jon Pike",
+              "J. Pike",
+              "Dr. Jonathan Pike",
+              "Dr Jonathan Pike"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-131",
+            "name": "Jonathan Pike",
+            "start_year": "2009"
+          }
+        }
+      ],
+      "sql": "SELECT name FROM staff WHERE start_year = (SELECT min(start_year) FROM staff)",
+      "note": "Jonathan Pike started in 2009, earlier than the Finance Office Maria Lopez (2016), Aiko Tanaka (2018), the Soil Ecology Maria Lopez (2021) and Samuel Osei (2023). The award page's \"ten years of bog monitoring\" is not a start year."
+    },
+    {
+      "id": "GD07",
+      "type": "multi_hop",
+      "question": "By how many litres per second was pump HP40-2291's measured flow at the June 2025 inspection lower than its measured flow at the March 2025 inspection?",
+      "expected": {
+        "number": 2
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/inspection_2025-03-14.md#0",
+          "quote": "HP40-2291 delivered 41 litres per second."
+        },
+        {
+          "chunk_id": "water/inspection_2025-06-13.md#0",
+          "quote": "HP40-2291 delivered 39 litres per second."
+        }
+      ],
+      "hard_case": "serial_numbers",
+      "note": "Two documents, one reading each: 41 in March, 39 in June, a drop of 2. Mixing in the other Hydra P-40, HP40-1183 (38 in March, 40 in June), gives a rise of 2 or some other number; the 41 of WO-320 is a test run after the seal change, not an inspection."
+    },
+    {
+      "id": "GD08",
+      "type": "aggregation",
+      "question": "How many of the cores listed in the Aldmoor bog and Brackwater fen field logs were not taken?",
+      "expected": {
+        "number": 2
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-20, 10 December: not taken, the site was flooded."
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "AB-20 (site flooded) and BF-4 (corer lent out). The other six listed cores (AB-17 to AB-19, BF-1 to BF-3) were taken. The newsletter's 240 cores are a campaign total, not entries of these logs."
+    },
+    {
+      "id": "GD09",
+      "type": "structured_filter",
+      "question": "What are the staff ids of the institute staff who started between 2015 and 2020, both years included?",
+      "expected": {
+        "entities": [
+          {
+            "name": "S-150"
+          },
+          {
+            "name": "S-219"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-150",
+            "start_year": "2018"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-219",
+            "start_year": "2016"
+          }
+        }
+      ],
+      "sql": "SELECT staff_id FROM staff WHERE start_year BETWEEN 2015 AND 2020",
+      "hard_case": "number_filter",
+      "note": "Aiko Tanaka (S-150, 2018) and the Finance Office Maria Lopez (S-219, 2016). Jonathan Pike (2009) is too early; the Soil Ecology Maria Lopez (2021) and Samuel Osei (2023) are too late."
+    },
+    {
+      "id": "GD10",
+      "type": "structured_filter",
+      "question": "Which pump models in the pump records have a rated flow below 20 litres per second?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Kestrel V-12"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "water/pumps.csv",
+          "row": {
+            "serial_number": "KV12-0457",
+            "model": "Kestrel V-12",
+            "rated_flow_lps": "18"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT model FROM pumps WHERE rated_flow_lps < 20",
+      "hard_case": "number_filter",
+      "note": "The Kestrel V-12 (KV12-0457) is rated at 18 l/s; both Hydra P-40 pumps are rated at 42. The answer is the model, not the serial number; Harbour Station's measured average of 17 l/s in May is not a rated flow."
+    },
+    {
+      "id": "GD11",
+      "type": "structured_filter",
+      "question": "Which Brackwater fen cores were shallower than 2.5 metres?",
+      "expected": {
+        "entities": [
+          {
+            "name": "BF-1",
+            "aliases": [
+              "Core BF-1"
+            ]
+          },
+          {
+            "name": "BF-3",
+            "aliases": [
+              "Core BF-3"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-1, 14 April: depth 2.1 m"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-2, 14 April: depth 2.6 m"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-3, 22 April: depth 1.9 m"
+        }
+      ],
+      "hard_case": "number_filter",
+      "note": "BF-1 (2.1 m) and BF-3 (1.9 m). BF-2 is 2.6 m, deeper than the threshold; BF-4 was not taken and has no depth. The Aldmoor cores that were taken (AB-17 to AB-19) are all deeper than 2.5 m and belong to another log."
+    },
+    {
+      "id": "GD12",
+      "type": "disambiguation",
+      "question": "Who gives the seminar in room B12 on 7 October 2025?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Aiko Tanaka"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/seminar_notice_autumn.md#0",
+          "quote": "Aiko Tanaka (Hydrology) speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12."
+        }
+      ],
+      "note": "Two seminar notices use the same room and the same time of day. The 7 October talk is Aiko Tanaka's; Dr. J. Pike's talk in room B12 was on 3 June 2025, a wrong answer here."
+    },
+    {
+      "id": "GD13",
+      "type": "disambiguation",
+      "question": "How many hours did pump HP40-1183 run in 2024?",
+      "expected": {
+        "number": 6100
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/north_station_2024_summary.md#0",
+          "quote": "HP40-1183 ran for 6,100 hours and HP40-2291 for 2,300 hours, as HP40-1183 was kept on duty for most of the year."
+        }
+      ],
+      "hard_case": "serial_numbers",
+      "note": "6,100 hours. The 2024 summary gives the hours of both Hydra P-40 pumps in one sentence; the 2,300 hours of the other serial number, HP40-2291, and the 8,400 of both together are wrong answers here."
+    },
+    {
+      "id": "GD14",
+      "type": "disambiguation",
+      "question": "In which year did the Maria Lopez who received the Hensley Field-Work Award start at the institute?",
+      "expected": {
+        "number": 2021
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2025: Maria Lopez (Soil Ecology), for the Aldmoor peat sampling campaign."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-104",
+            "name": "Maria Lopez",
+            "team": "Soil Ecology",
+            "start_year": "2021"
+          }
+        }
+      ],
+      "sql": "SELECT start_year FROM staff WHERE name = 'Maria Lopez' AND team = 'Soil Ecology'",
+      "hard_case": "same_name",
+      "note": "The award page says the 2025 winner is the Maria Lopez of Soil Ecology; her staff record (S-104) gives 2021. The other Maria Lopez, the Finance Office grants accountant (S-219), started in 2016 and is the wrong answer; the bakery's Maria Lopez is not institute staff at all."
+    },
+    {
+      "id": "GD15",
+      "type": "negation_sensitive",
+      "question": "Which Brackwater fen cores were taken on 22 April?",
+      "expected": {
+        "entities": [
+          {
+            "name": "BF-3",
+            "aliases": [
+              "Core BF-3"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface."
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-4, 22 April: not taken, the corer had been lent to the Aldmoor team."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "Only BF-3. BF-4 is also dated 22 April in the log but was not taken, because the corer had been lent out; listing it is the error. BF-1 and BF-2 are dated 14 April."
+    },
+    {
+      "id": "GD16",
+      "type": "negation_sensitive",
+      "question": "Was the Mill Lane footbridge closed at once, as the council's structural inspector recommended?",
+      "expected": {
+        "text": "No. The inspector only recommended closing it at once; the mayor said it was safe to use until the works began, and it was closed from 3 February for the repair works."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/mill_lane_and_eastgate.md#0",
+          "quote": "he recommended closing the bridge at once."
+        },
+        {
+          "chunk_id": "news/mill_lane_and_eastgate.md#0",
+          "quote": "Mayor Helen Achterberg said the footbridge \"is safe to use until the works begin\"."
+        },
+        {
+          "chunk_id": "news/council_notices.md#0",
+          "quote": "Mill Lane footbridge: closed to all users from 3 February for repair works, for about eight weeks."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "A recommendation is not an action: Daniel Okafor recommended closing the bridge at once, but the mayor said it was safe until the works began, and the council notice closes it only from 3 February, when the works started. Answering yes because the report mentions closing it at once is the error."
+    },
+    {
+      "id": "GD17",
+      "type": "negation_sensitive",
+      "question": "Who restarted pump KV12-0457 after the alarm from Harbour Station at 03:10 in the week of 9 June 2025?",
+      "expected": {
+        "text": "Nobody. The alarm was cleared remotely and the pump restarted on its own."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/shift_notes_june.txt#0",
+          "quote": "Tue: alarm from Harbour Station at 03:10, cleared remotely; KV12-0457 restarted on its own."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The shift notes say the pump restarted on its own after the alarm was cleared remotely, so no person restarted it. Naming Rosa Delgado (who cleaned its intake screen in May and inspected North Station that Friday) or the North Station operator is the error."
+    },
+    {
+      "id": "GD18",
+      "type": "lookup",
+      "question": "At what flow in litres per second did the sediment flume run for the first time?",
+      "expected": {
+        "number": 40
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/flume_commissioning.md#0",
+          "quote": "The sediment flume ran for the first time on 20 May 2025, at 40 litres per second, with Aiko Tanaka at the controls."
+        }
+      ],
+      "note": "The commissioning notes give 40 litres per second for the first run on 20 May 2025. The 60 litres per second in the same notes and the minutes is the limit above which no run was allowed before the vibration measurement, not the first run's flow."
+    },
+    {
+      "id": "GD19",
+      "type": "lookup",
+      "question": "About how many residents came to the public meeting on the flooding of Station Road?",
+      "expected": {
+        "number": 80
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/flood_meeting.md#0",
+          "quote": "About eighty residents came to the town hall on Thursday to discuss the flooding of Station Road."
+        }
+      ],
+      "note": "The news item says about eighty residents. The \"some sixty visitors\" of the Harbour Station open day are a different event."
+    },
+    {
+      "id": "GD20",
+      "type": "lookup",
+      "question": "Who wrote the procedure for isolating a pump at North Station?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Tomasz Wren",
+            "aliases": [
+              "Site engineer Tomasz Wren",
+              "Wren"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/isolation_procedure.md#0",
+          "quote": "Written by Tomasz Wren for new operators."
+        }
+      ],
+      "note": "The procedure says it was written by Tomasz Wren, the site engineer. Rosa Delgado and Marek Hollis are technicians who do the work orders and inspections, not the authors of the procedure."
+    }
+  ]
+}

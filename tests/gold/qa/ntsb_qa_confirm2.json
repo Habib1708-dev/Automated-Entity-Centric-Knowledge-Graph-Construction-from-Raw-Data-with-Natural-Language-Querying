@@ -1,0 +1,386 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-13",
+  "corpus": {
+    "data_dir": "heldout/ntsb/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "ND01",
+      "type": "multi_hop",
+      "question": "Which departure airport does the aircraft record give for the accident in which the airplane began to hydroplane on a wet runway?",
+      "expected": {
+        "entities": [
+          {
+            "name": "LIT",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#3",
+          "quote": "the airplane began to hydroplane"
+        }
+      ],
+      "sql": "SELECT departure_airport FROM aircraft WHERE ntsb_no = 'CEN22LA235'",
+      "note": "The hydroplaning is CEN22LA235 (Nashville, AR), a Cirrus SR22; its aircraft record gives departure_airport LIT and destination_airport M77 (the accident airport, Howard County). M77 is the wrong airport: it is where the airplane landed, not where it departed. The narrative names neither airport."
+    },
+    {
+      "id": "ND02",
+      "type": "multi_hop",
+      "question": "How many total flight hours does the crew table give for the pilot who heard a slight noise from the front of the airplane while taxiing for a night flight?",
+      "expected": {
+        "number": 183
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#4",
+          "quote": "he heard a slight noise that originated from the front of the airplane"
+        }
+      ],
+      "sql": "SELECT total_hours FROM crew WHERE ntsb_no = 'CEN22LA244'",
+      "note": "The noise is CEN22LA244 (Salina, KS), a Cessna 172S; the crew table lists one pilot, aged 23, with 183 total hours (101 as pilot in command). The flight instructor who heard the noise earlier in the day is not in the crew table. No finding or occurrence code names the noise."
+    },
+    {
+      "id": "ND03",
+      "type": "multi_hop",
+      "question": "Which operator does the aircraft record name for the accident in which a pilot-rated passenger in the right front seat recommended adding power on short final?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Lake Clark Air",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#0",
+          "quote": "On short final a pilot-rated passenger seated in the right front seat recommended adding power."
+        }
+      ],
+      "sql": "SELECT operator FROM aircraft WHERE ntsb_no = 'ANC21LA027'",
+      "note": "The pilot-rated passenger is ANC21LA027 (Port Alsworth, AK), a Beech A36 on a Business flight; the aircraft record names the operator Lake Clark Air. The narrative mentions 'the operator' (who said cones normally mark the threshold) but never names it."
+    },
+    {
+      "id": "ND04",
+      "type": "multi_hop",
+      "question": "According to the crew table, how many flight hours in the make and model did the pilot have who started to jettison fertilizer before a forced landing?",
+      "expected": {
+        "number": 424
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#5",
+          "quote": "the pilot started to jettison fertilizer"
+        }
+      ],
+      "sql": "SELECT make_model_hours FROM crew WHERE ntsb_no = 'CEN23LA223'",
+      "note": "The fertilizer is CEN23LA223 (Lake Village, AR), an Air Tractor AT-502B; the crew table gives 424 hours in the make and model (column make_model_hours), against 792 total hours and 275 in the last 90 days, which are the wrong columns. The narrative gives no hours."
+    },
+    {
+      "id": "ND05",
+      "type": "aggregation",
+      "question": "How many different years of manufacture do the five Robinson R44 II accident helicopters have in the aircraft table?",
+      "expected": {
+        "number": 3
+      },
+      "route": "exact",
+      "sql": "SELECT count(DISTINCT year_built) FROM aircraft WHERE model = 'R44 II'",
+      "note": "2004 (ANC21LA079, ANC23LA032 and CEN21LA339), 2007 (CEN21LA173) and 2008 (CEN21LA284): three distinct years. Counting helicopters instead of distinct years gives 5."
+    },
+    {
+      "id": "ND06",
+      "type": "aggregation",
+      "question": "In which accident did a crew member have the most flight hours in the make and model of the accident aircraft, according to the crew table?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA173",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM crew ORDER BY make_model_hours DESC NULLS LAST LIMIT 1",
+      "note": "CEN21LA173 (Dustin, OK, Robinson R44 II): 1,447 hours in the make and model. Next are CEN21LA283 with 950 and CEN23LA344 with 900. Ranking by total hours instead gives CEN21LA283 (27,100), the wrong column."
+    },
+    {
+      "id": "ND07",
+      "type": "aggregation",
+      "question": "In how many accidents does the narrative say that an engine test run was performed after the accident?",
+      "expected": {
+        "number": 2
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#2",
+          "quote": "A test run of the engine was subsequently conducted and the engine ran at various power settings and no anomalies were noted."
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#3",
+          "quote": "Postaccident examination of the airplane and an engine test run were performed. The engine ran normally"
+        }
+      ],
+      "note": "CEN21LA382 (Granbury, TX) and CEN22LA059 (Cleveland, TX), both Beech A36. Other narratives report postaccident examinations of the engine (CEN21LA414, CEN21LA284, CEN23LA223, CEN21LA221), metallurgical analysis (CEN22LA312) or instrument testing (CEN21LA232), but no test run of the engine. No finding or occurrence code records a test run."
+    },
+    {
+      "id": "ND08",
+      "type": "aggregation",
+      "question": "For how many of the 30 accidents does the aircraft table give no registration number?",
+      "expected": {
+        "number": 10
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM aircraft WHERE registration IS NULL",
+      "note": "CEN21LA185, CEN22LA249, CEN21LA232, CEN21LA280, CEN22LA235, CEN23LA017, CEN21LA221, CEN23LA344, CEN21LA339 and CEN22LA310 have a null registration. The other 20 have one (N348RM and so on). Counting those with a registration gives 20."
+    },
+    {
+      "id": "ND09",
+      "type": "structured_filter",
+      "question": "Which accidents does the aircraft table record with an engine fuel system of Carburetor?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA185",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA353",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA383",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA249",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM aircraft WHERE engine.fuel_system = 'Carburetor'",
+      "note": "Four Piper PA-28-181 with the Lycoming O-360-A4M. The fifth Piper, CEN23LA026, has a fuel-injected IO-360-B4A and does not count; every other record is Fuel Injected or null (four of the five Air Tractors and ANC21LA027 have no fuel system recorded; CEN22LA310 is Fuel Injected). The fuel system is the nested engine.fuel_system field of aircraft.json."
+    },
+    {
+      "id": "ND10",
+      "type": "structured_filter",
+      "question": "Which accidents have an occurrence in the 'Emergency descent' phase in their sequence of events?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA268",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA414",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA221",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT DISTINCT ntsb_no FROM events_sequence WHERE occurrence LIKE 'Emergency descent%'",
+      "note": "CEN21LA268 and CEN21LA414 ('Emergency descent Off-field or emergency landing') and CEN21LA221 ('Emergency descent Loss of engine power (total)'), from events_sequence.ndjson; none of the three is the accident's defining event. Other forced landings (CEN21LA382, CEN21LA362, CEN23LA223) are coded in the 'Landing' phases, not 'Emergency descent'."
+    },
+    {
+      "id": "ND11",
+      "type": "structured_filter",
+      "question": "Among the Robinson R44 II accidents, in which does the narrative say the helicopter rolled over?",
+      "expected": {
+        "entities": [
+          {
+            "name": "ANC23LA032",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA339",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#1",
+          "quote": "the helicopter entered a dynamic rollover to the right"
+        },
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#4",
+          "quote": "rolled over coming to rest on its left side"
+        }
+      ],
+      "records": [
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "ANC23LA032",
+            "model": "R44 II"
+          }
+        },
+        {
+          "file": "aircraft.csv",
+          "row": {
+            "ntsb_no": "CEN21LA339",
+            "model": "R44 II"
+          }
+        }
+      ],
+      "note": "Five accidents are Robinson R44 II. ANC23LA032 (Skwentna, AK) entered a dynamic rollover; CEN21LA339 (West Liberty, IA) rolled over onto its left side. ANC21LA079 came to rest on top of its cargo, CEN21LA284 touched down hard and slid off the runway, CEN21LA173 impacted a tree and terrain: none rolled over. No finding or occurrence code names a rollover."
+    },
+    {
+      "id": "ND12",
+      "type": "disambiguation",
+      "question": "Two Beech A36 accidents happened in Texas, one at Granbury and one at Cleveland. For the one at Cleveland, which destination airport does the aircraft record give?",
+      "expected": {
+        "entities": [
+          {
+            "name": "JCT",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT a.destination_airport FROM aircraft a JOIN events e ON e.ntsb_no = a.ntsb_no WHERE e.city = 'Cleveland' AND e.state = 'TX'",
+      "note": "Cleveland, TX is CEN22LA059: departure 3R7, destination JCT. Granbury is CEN21LA382, whose destination is KBAZ; its departure airport is not recorded. Cleveland, TX is the city here, not Cleveland, Ohio."
+    },
+    {
+      "id": "ND13",
+      "type": "disambiguation",
+      "question": "What rated engine power, in horsepower, does the aircraft record give for ANC21LA027 (not ANC21LA079)?",
+      "expected": {
+        "number": 285
+      },
+      "route": "exact",
+      "sql": "SELECT engine.power FROM aircraft WHERE ntsb_no = 'ANC21LA027'",
+      "note": "ANC21LA027 is the Beech A36 at Port Alsworth, AK: Continental IO-550B, 285 horsepower. ANC21LA079 is the Robinson R44 II at Pelican, AK: Lycoming IO-540-AE1A% (as recorded), 260 horsepower; ANC23LA032, the other Alaska helicopter, also has 260. Both are Alaska accidents of 2021 with ids that differ only in their last digits."
+    },
+    {
+      "id": "ND14",
+      "type": "disambiguation",
+      "question": "Two Cirrus SR22 accidents happened during a landing in gusting wind, one at Hayward, Wisconsin and one at Loveland, Colorado. In the one at Hayward, how many miles from the accident site was the automated weather station that reported the gusts?",
+      "expected": {
+        "number": 23
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+          "quote": "the automated weather reporting station located 23 miles northwest of the accident site reported, wind from 290"
+        }
+      ],
+      "note": "Hayward, WI is CEN21LA280: the destination airport's own station was out of service, and the gusts (10 kts gusting to 21) came from a station 23 miles northwest. Loveland, CO is CEN23LA017, where the pilot encountered a 90-degree crosswind gusting to 31 knots and no distant station is mentioned. The 30 to 50 ft of CEN21LA280 is the height at which the gust hit, not a distance."
+    },
+    {
+      "id": "ND15",
+      "type": "negation_sensitive",
+      "question": "In accident CEN23LA223, did the postaccident examination of the engine and propeller find a mechanical malfunction that explained the loss of thrust the pilot reported?",
+      "expected": {
+        "text": "No. The examination did not reveal any evidence of a mechanical malfunction or failure, and the reason for the loss of thrust could not be determined."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#5",
+          "quote": "A postaccident engine and propeller examination did not reveal any evidence of a mechanical malfunction or failure consistent with an inability to produce rated engine power."
+        }
+      ],
+      "note": "The pilot reported the airplane lost thrust while the engine kept running; the examination found no anomaly, so the probable cause is a reported loss of thrust for reasons that could not be determined. Not asked, so not part of the expected answer: the airplane was estimated to be at or above 8,000 lbs. A yes that names the propeller damage is wrong: that damage was consistent with impact at low power, not with a malfunction."
+    },
+    {
+      "id": "ND16",
+      "type": "negation_sensitive",
+      "question": "In accident CEN21LA382, did the data from the onboard engine monitor show any abnormality in the cylinder head or exhaust gas temperatures?",
+      "expected": {
+        "text": "No. The engine monitor data showed no abnormalities in the cylinder head or exhaust gas temperatures, although the total loss of power was evident in it."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#2",
+          "quote": "The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident."
+        }
+      ],
+      "note": "The data does show the loss of power, which is not a temperature abnormality. Not asked, so not part of the expected answer: the engine test run made rated power and the reason for the power loss could not be determined."
+    },
+    {
+      "id": "ND17",
+      "type": "negation_sensitive",
+      "question": "In accident ANC21LA027, were the cones that normally identify the runway threshold in place on the day of the accident?",
+      "expected": {
+        "text": "No. The cones are normally used, but they had been removed because of ongoing snow removal operations that day."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#0",
+          "quote": "cones are normally used to identify the runway threshold; however, they had been removed due to ongoing snow removal operations on the day of the accident"
+        }
+      ],
+      "note": "The operator's statement: 'normally used' describes the usual practice, not the accident day. A yes based on 'cones are normally used' is wrong. Not asked, so not part of the expected answer: the pilot said clear threshold markings might have prevented the accident, and the lack of markings is a contributing factor in the probable cause."
+    },
+    {
+      "id": "ND18",
+      "type": "lookup",
+      "question": "About how many feet off the side of the runway did the airplane come to rest in accident CEN23LA017?",
+      "expected": {
+        "number": 300
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "came to rest upright about 300 ft off the side of the runway"
+        }
+      ],
+      "note": "About 300 ft off the side and about 1,000 ft from the approach threshold; the 10 ft is where the last ADS-B point was recorded, not the resting place."
+    },
+    {
+      "id": "ND19",
+      "type": "lookup",
+      "question": "About how many hours had the airplane flown after its engine was installed and before accident CEN22LA194?",
+      "expected": {
+        "number": 2.7
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "the airplane had flown about 2.7 hours after the installation and before the accident"
+        }
+      ],
+      "note": "About 2.7 hours since the recent engine installation by maintenance personnel. The crew table's pilot hours (490 and 194 total) are a different thing."
+    },
+    {
+      "id": "ND20",
+      "type": "lookup",
+      "question": "About how many yards did the helicopter fly after the pilot felt the first tug of the wire in accident CEN21LA339?",
+      "expected": {
+        "number": 150
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#4",
+          "quote": "The helicopter flew about 150 yards when the pilot felt another"
+        }
+      ],
+      "note": "About 150 yards between the first 'big tug' and the second 'huge jerk', after which the helicopter spun 2-3 times and rolled over. The 2-3 rotations are not a distance."
+    }
+  ]
+}

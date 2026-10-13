@@ -1,0 +1,469 @@
+{
+  "dataset": "heldout_nhtsa",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-13",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "HD01",
+      "type": "multi_hop",
+      "question": "An owner reports a parasitic battery drain that leaves the battery dead after the car sits parked for two days. Which recall campaign for that vehicle did NHTSA receive in 2021?",
+      "expected": {
+        "entities": [
+          {
+            "name": "21V587000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/subaru_outback_complaints.md#4",
+          "quote": "DEAD BATTERY IF THE CARS SITS PARKED 2 DAYS. NOTHING LEFT ON, IT IS A PARASITIC BATTERY DRAIN."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11185059 AND r.ReportReceivedDate LIKE '%/2021'",
+      "note": "The complaint is 11185059 about the 2019 Subaru Outback. Of its three recalls, only 21V587000 (fuel pump) was received in 2021 (29/07/2021); 19V493000 was received in 2019 and 20V218000 in 2020. Recall dates are day/month/year. The other dead-battery complaint, 11166434, is about the same vehicle, so it leads to the same answer."
+    },
+    {
+      "id": "HD02",
+      "type": "multi_hop",
+      "question": "An owner's vehicle slid on black ice down an embankment while getting out of the way of an ambulance. Which recall campaigns for that vehicle have a remedy in which dealers update software?",
+      "expected": {
+        "entities": [
+          {
+            "name": "15V406000"
+          },
+          {
+            "name": "15V436000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#3",
+          "quote": "WHILE ATTEMPTING TO GET OUT OF THE WAY OF AN AMBULANCE, THE VEHICLE DROVE OVER A PATCH OF BLACK ICE."
+        },
+        {
+          "chunk_id": "record/Recall/15V406000#1",
+          "quote": "dealers will update the instrument panel software, free of charge."
+        },
+        {
+          "chunk_id": "record/Recall/15V436000#1",
+          "quote": "dealers will update the body control module software, free of charge."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 10691672 AND r.Remedy LIKE '%software%'",
+      "note": "The complaint is 10691672 about the 2015 Ford Escape. Of its nine recalls, 15V406000 (instrument panel software) and 15V436000 (body control module software) are remedied by a software update; the other seven replace or inspect parts (latches, bolts, bushings, camera, block heater). 16V725000 (Civic) and 16V244000 (Rogue, a reprogramming) are software remedies too, but for other vehicles."
+    },
+    {
+      "id": "HD03",
+      "type": "multi_hop",
+      "question": "A recall campaign says the text on the load capacity label may become illegible. Which complaints about the vehicle it affects were filed in May 2019?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11205702",
+            "aliases": [
+              "Complaint 11205702"
+            ]
+          },
+          {
+            "name": "11209676",
+            "aliases": [
+              "Complaint 11209676"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/19V244000#0",
+          "quote": "The text on the load capacity label may become illegible."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.NHTSACampaignNumber = '19V244000' AND c.dateComplaintFiled LIKE '05/__/2019'",
+      "note": "The recall is 19V244000 (Gulf States Toyota) for the 2019 Toyota RAV4. Complaint dates are month/day/year: 11205702 was filed 05/06/2019 and 11209676 on 05/24/2019. 11204698 (04/30/2019), 11221492 (06/20/2019) and 11229137 (07/03/2019) are the RAV4's other complaints. The other label recall, 19V503000, says the label may be incorrect, not illegible, but affects the same vehicle."
+    },
+    {
+      "id": "HD04",
+      "type": "multi_hop",
+      "question": "An owner reports that, while the vehicle was parked with the engine on, the transmission switched to reverse by itself and the vehicle moved backwards. Which recall campaign for that vehicle warns in its consequence of an increased risk of a fire?",
+      "expected": {
+        "entities": [
+          {
+            "name": "22V875000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#3",
+          "quote": "THE TRANSMISSION ERRONEOUSLY SWITCHED TO REVERSE AND THE VEHICLE MOVED BACKWARDS."
+        },
+        {
+          "chunk_id": "record/Recall/22V875000#0",
+          "quote": "Water may leak into and corrode the dash side harness connector."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11030208 AND r.Consequence LIKE '%fire%'",
+      "note": "The complaint is 11030208 about the 2017 Nissan Rogue. Of its five recalls only 22V875000 (a corroded dash side harness connector) names a fire in its consequence; 17V663000 and 16V244000 warn of injury, 21V839000 and 23V093000 of a crash. The other fire warnings (16V074000, 20V064000, 26V011000) belong to the Civic, the RAV4 and the Escape."
+    },
+    {
+      "id": "HD05",
+      "type": "aggregation",
+      "question": "How many recall campaigns warn in their consequence, using the word 'stall', that the engine or the vehicle may stall?",
+      "expected": {
+        "number": 6
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE regexp_matches(Consequence, '\\bstall\\b')",
+      "note": "Counted by the word 'stall' in the Consequence field: 23V858000, 21V839000, 20V682000, 21V587000 and 20V218000 say an engine stall, and 20V064000 says a vehicle stall from overheating; the question names both so that 20V064000 counts under one reading only. Not counted: 16V074000, whose consequence says the engine may seize (its word 'installed' contains 'stall', so a plain substring match gives 7), and 23V093000, which says the vehicle may shut off; neither uses the word, which the question asks for."
+    },
+    {
+      "id": "HD06",
+      "type": "aggregation",
+      "question": "Which complaint reports the lowest failure mileage?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10957753",
+            "aliases": [
+              "Complaint 10957753"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#0",
+          "quote": "THE FAILURE MILEAGE WAS 130."
+        }
+      ],
+      "note": "Six complaints state a failure mileage: 10957753 (130, 2017 Nissan Rogue, speedometer), 11030208 (400), 10667633 (1,800), 11205702 (1,921), 10691672 (2,361) and 11204698 (5,218). Other mileages in the complaints (800+ miles before the hesitation began, 3 miles at purchase, 350 miles on delivery, 3200 miles, less than 400 or 2000 miles on the car) are odometer readings, not a stated failure mileage, and none is below 130 except the 3 miles at purchase in 10692693, which is not a failure."
+    },
+    {
+      "id": "HD07",
+      "type": "aggregation",
+      "question": "How many different components (as the recall records name them) do the 2015 Ford Escape's recall campaigns list?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(DISTINCT Component) FROM r WHERE Model = 'ESCAPE'",
+      "note": "Nine Escape recalls, seven distinct components: the two door latch recalls (16V643000, 20V331000) share LATCHES/LOCKS/LINKAGES:DOORS:LATCH and the two shifter bushing recalls (22V254000, 22V413000) share POWER TRAIN:AUTOMATIC TRANSMISSION:GEAR POSITION INDICATION (PRNDL); the others are SEAT BELTS, ELECTRICAL SYSTEM: INSTRUMENT CLUSTER/PANEL, ELECTRICAL SYSTEM:IGNITION, BACK OVER PREVENTION: SENSING SYSTEM: CAMERA and EQUIPMENT:ELECTRICAL:ENGINE BLOCK HEATER. Counting the recalls instead of the distinct components gives 9."
+    },
+    {
+      "id": "HD08",
+      "type": "structured_filter",
+      "question": "Which recall campaigns have no notes text (an empty Notes field)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "25V695000"
+          },
+          {
+            "name": "26V011000"
+          },
+          {
+            "name": "26V332000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Notes IS NULL",
+      "note": "The three most recent recalls (25V695000, 26V011000, 26V332000) have a null Notes field; the other 26 carry the standard NHTSA hotline note (pointing to www.safercar.gov or www.nhtsa.gov). A wrong answer would list recalls whose note differs in its web address, or none at all."
+    },
+    {
+      "id": "HD09",
+      "type": "structured_filter",
+      "question": "Which complaints were filed in 2015?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10689793",
+            "aliases": [
+              "Complaint 10689793"
+            ]
+          },
+          {
+            "name": "10690483",
+            "aliases": [
+              "Complaint 10690483"
+            ]
+          },
+          {
+            "name": "10691672",
+            "aliases": [
+              "Complaint 10691672"
+            ]
+          },
+          {
+            "name": "10692693",
+            "aliases": [
+              "Complaint 10692693"
+            ]
+          },
+          {
+            "name": "10809523",
+            "aliases": [
+              "Complaint 10809523"
+            ]
+          },
+          {
+            "name": "10816192",
+            "aliases": [
+              "Complaint 10816192"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE dateComplaintFiled LIKE '%/2015'",
+      "note": "By the filing date (month/day/year): four 2015 Ford Escape complaints filed February and March 2015 and two 2016 Honda Civic complaints filed December 2015. 10667633 (Escape) was filed 12/22/2014 and the three other Civic complaints in February 2016; they do not count."
+    },
+    {
+      "id": "HD10",
+      "type": "structured_filter",
+      "question": "Which complaints report an incident that happened in January of any year?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10690483",
+            "aliases": [
+              "Complaint 10690483"
+            ]
+          },
+          {
+            "name": "10823637",
+            "aliases": [
+              "Complaint 10823637"
+            ]
+          },
+          {
+            "name": "10824361",
+            "aliases": [
+              "Complaint 10824361"
+            ]
+          },
+          {
+            "name": "11166434",
+            "aliases": [
+              "Complaint 11166434"
+            ]
+          },
+          {
+            "name": "11180230",
+            "aliases": [
+              "Complaint 11180230"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE substr(dateOfIncident, 1, 2) = '01'",
+      "note": "By the incident date, not the filing date; complaint dates are month/day/year: 10690483 (01/28/2015), 10823637 and 10824361 (01/30/2016), 11166434 (01/02/2019) and 11180230 (01/11/2019). 11176393 was filed in February 2019 after an incident on 02/11/2019; 10957753's incident (02/05/2017) is in February, not January."
+    },
+    {
+      "id": "HD11",
+      "type": "structured_filter",
+      "question": "Which recall campaigns list a component under EQUIPMENT?",
+      "expected": {
+        "entities": [
+          {
+            "name": "19V244000"
+          },
+          {
+            "name": "19V503000"
+          },
+          {
+            "name": "26V011000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE Component LIKE 'EQUIPMENT%'",
+      "note": "Judged by the recall's Component field: 19V244000 and 19V503000 (EQUIPMENT:OTHER:LABELS, 2019 Toyota RAV4) and 26V011000 (EQUIPMENT:ELECTRICAL:ENGINE BLOCK HEATER, 2015 Ford Escape). 16V526000's taillight circuit board and 23V093000's ignition key are equipment in a plain sense but their components are EXTERIOR LIGHTING and ELECTRICAL SYSTEM, so they do not count."
+    },
+    {
+      "id": "HD12",
+      "type": "disambiguation",
+      "question": "Which NHTSA recall campaign does Toyota number 20TA04?",
+      "expected": {
+        "entities": [
+          {
+            "name": "20V064000"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/20V064000#1",
+          "quote": "Toyota's number for this recall is 20TA04."
+        }
+      ],
+      "note": "20V064000 (engine castings that may crack and leak coolant). Toyota's other 2020 numbers are 20TA02 (20V682000, fuel pump), 20TB11 / 20TA11 (20V373000, power steering) and the interim 20TB08 / 20TA08 (20V286000, suspension arms); the Lexus number of 20V064000 is 20LA02."
+    },
+    {
+      "id": "HD13",
+      "type": "disambiguation",
+      "question": "Two 2015 Ford Escape owners complain of hesitation on acceleration. Which complaint says the dealer explained the hesitation as the turbo spooling up?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10689793",
+            "aliases": [
+              "Complaint 10689793"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#1",
+          "quote": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\""
+        }
+      ],
+      "note": "10689793 quotes the dealer's and manufacturer's explanations (engine gearing down, turbo spooling up, operates as expected). The other hesitation complaint, 10692693, says the Ford repair shop replaced transmission parts and gives no such explanation."
+    },
+    {
+      "id": "HD14",
+      "type": "disambiguation",
+      "question": "Two 2017 Nissan Rogue owners say their failure occurred on two separate occasions. Which complaint says the vehicle was taken to the dealer on both occasions?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10972343",
+            "aliases": [
+              "Complaint 10972343"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+          "quote": "THE CAR DID THIS ON TWO SEPARATE OCCASIONS AND WAS TAKEN TO THE DEALER ON BOTH OCCASIONS."
+        }
+      ],
+      "note": "10972343 (the front camera braked for a bridge) says the car was taken to the dealer on both occasions. The other, 11030208 (transmission switched to reverse), was taken to Hall Nissan once, where the failure could not be duplicated."
+    },
+    {
+      "id": "HD15",
+      "type": "negation_sensitive",
+      "question": "According to complaint 10690483, did the technician find a problem on the first of the three service visits for the brake squeal?",
+      "expected": {
+        "text": "No. The first time no problem was found; the left rear brake was diagnosed only on the second visit, with video evidence of the squeal."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#2",
+          "quote": "1ST TIME, NO PROBLEM FOUND."
+        }
+      ],
+      "note": "The owner lists three visits: first no problem found, second the left rear brake diagnosed (with video evidence) and deglazed, third pads changed and rotors machined. A reader that drops the negation, or that sees 'TECH DIAGNOSED LEFT REAR BRAKE' without its 'SECOND TIME', would answer yes. HC01 uses this complaint only as the hook for the door latch recalls, and H29 only as a complaint where repair work was done."
+    },
+    {
+      "id": "HD16",
+      "type": "negation_sensitive",
+      "question": "Which complaints say that the owner feels safe driving the vehicle?",
+      "expected": {
+        "entities": []
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#2",
+          "quote": "I NO LONGER FEEL SAFE DRIVING THIS VEHICLE."
+        },
+        {
+          "chunk_id": "complaints/honda_civic_complaints.md#4",
+          "quote": "I DO NOT FEEL SAFE DRIVING BRAND NEW CAR ANY LONGER."
+        }
+      ],
+      "note": "No complaint says so. The two that speak of feeling safe say the opposite: 11010220 ('I NO LONGER FEEL SAFE DRIVING THIS VEHICLE') and 10825467 ('I DO NOT FEEL SAFE DRIVING BRAND NEW CAR ANY LONGER'); 10689793 and 10823637 call the vehicle unsafe to drive. A reader that drops the negation would list 11010220 and 10825467."
+    },
+    {
+      "id": "HD17",
+      "type": "negation_sensitive",
+      "question": "According to complaint 10809523, does the owner consider the trunk that does not lock a driving safety issue?",
+      "expected": {
+        "text": "No. The owner says it may not be a driving safety issue but is a safety issue nonetheless."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/honda_civic_complaints.md#0",
+          "quote": "THIS MAY NOT BE A DRIVING SAFETY ISSUE BUT IT IS A SAFETY ISSUE NON THE LESS."
+        }
+      ],
+      "note": "The owner concedes it is not a driving safety issue and insists it is still a safety issue (valet parking). An answer of 'yes, a safety issue' without the distinction, or one that drops the 'may not', is wrong."
+    },
+    {
+      "id": "HD18",
+      "type": "lookup",
+      "question": "What is Subaru's own number for recall 21V587000?",
+      "expected": {
+        "entities": [
+          {
+            "name": "WRG-21"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/21V587000#1",
+          "quote": "Subaru's number for this recall is WRG-21."
+        }
+      ],
+      "note": "Subaru's other numbers are WRD-20 (20V218000, the other Outback fuel pump recall) and WUH-93 (19V493000)."
+    },
+    {
+      "id": "HD19",
+      "type": "lookup",
+      "question": "According to complaint 11221492, at least how many gallons short of full is the tank when the pump's auto-shutoff triggers?",
+      "expected": {
+        "number": 2
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+          "quote": "AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL."
+        }
+      ],
+      "note": "The owner writes 'at least 2 gallons shy' and later that they can add 2-2.5 gallons more; 2 is the number stated for the shortfall."
+    },
+    {
+      "id": "HD20",
+      "type": "lookup",
+      "question": "What will dealers replace under recall 20V373000?",
+      "expected": {
+        "text": "The power steering gear box, free of charge."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/20V373000#1",
+          "quote": "dealers will replace the power steering gear box, free of charge."
+        }
+      ],
+      "note": "20V373000 is the 2019 Toyota RAV4's electric power steering recall (water may enter through the steering gear box cover). 20V286000, another RAV4 recall, replaces the front lower suspension arms; that is a different recall."
+    }
+  ]
+}

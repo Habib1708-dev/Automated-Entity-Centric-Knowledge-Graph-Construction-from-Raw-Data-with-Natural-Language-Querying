@@ -9752,6 +9752,42 @@ describe the engine before this plan.
   +1,382 characters), so R157's 243/250 and R166's 94/100 describe the engine before this plan; a
   confirmation run would need a fresh question set (about $1.6) and is the user's decision.
   Next: the user decides.
+### Plan R171-R173: the fixed engine confirmed on a second fresh question set (accepted 2026-10-13)
+The user, 2026-10-13, after plan R167-R170: "yes im willing to pay 1.6$ for a confirmation run". The
+protocol is R160-R166's: a new set of 100 questions written blind ($0), one run of the fixed agent on the
+five graphs reloaded from cache (about $1.6, asked at each command), then both scores, compared with R157
+and R166 (question sets differ, one run each: a difference is not attributed to the fixes), and the failures
+traced. After the run the questions count as seen.
+- **Steps, strictly one after another:**
+  - **R171** 20 new gold questions per dataset (`tests/gold/qa/<dataset>_qa_confirm2.json`, ids
+    FD/HD/GD/LD/ND01-20), written from the sources and the earlier gold only, the confirm type mix, no
+    repeat of any earlier question by fact; one adversarial review per file; the gold-file tests extended
+    to the second set ($0).
+  - **R172** The fixed agent (R167-R170, git 6037852) on the 100 questions, the five graphs reloaded from
+    cache as in R165 ($0), the run about $1.6 (asked; stop if over $2.5).
+  - **R173** Judged by meaning (two blind judges, a lead judge for disagreements), both scores, compared
+    with R157 and R166, failures traced; whether the new operations (R167-R170) were used ($0).
+
+### R171. 20 new gold questions on each of the five datasets, the second confirmation set (done 2026-10-13; $0, no run)
+- **Scope:** `tests/gold/qa/<dataset>_qa_confirm2.json`, ids FD/HD/GD/LD/ND01-20, written by Claude Fable 5.1
+  (one writer per dataset, subagents of this session) after plan R167-R170, from the source files and the
+  earlier gold only: the writers and the reviewers opened no `out/`, MLflow, verdict, outcome record, figure,
+  roadmap, agent or query code, so neither R166's failure analysis nor the new operations could shape the
+  questions. Type mix per file as R160's (every type at least three times; pooled: multi_hop 21,
+  aggregation 18, structured_filter 16, disambiguation 15, negation 15, lookup 15); scored by code 19 / 17 /
+  18 / 19 / 17 of 20 (90 of 100; 49 with SQL); routes 59 exact, 41 retrieval. Each writer re-derived its
+  answers once; then one independent adversarial review per file (every answer re-derived, every SQL re-run
+  with companion queries, every chunk quote checked, labels against `qa_gold.py`'s definitions, novelty by
+  fact against every earlier question of the dataset): lighthouses 0 changes; NTSB 1 note; furniture 2
+  replaced (FD16 repeated F30's fact from the same sentence; FD18 was a filter mislabelled lookup) and 1
+  note; held-out 1 wording made precise (HD05 "using the word 'stall'": 23V093000's "shut off" admitted a
+  second count), 1 relabel (HD08 structured_filter), 1 replaced (HD15 had no negated mention); generality 1
+  wording, 1 relabel (GD07 multi_hop), 1 note, and 2 replaced on the lead's request (GD13, GD14 mirrored
+  GN08 and GB35 with the other serial or year: a different fact, but a weak confirmation question).
+- **Verified:** `tests/test_qa_gold_files.py` extended to the second set (the per-file checks and the
+  20-question check: every type at least three times, at least 14 by code, no question asked before by
+  wording). 1583 passed (1563 + 20), ruff clean.
+- **R171 done 2026-10-13.** Next: R172, the fixed agent on the 100 questions (paid, about $1.6, asked).
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
