@@ -16,6 +16,10 @@ another date's year, two values of one kind as they are, two texts lowered. A la
 ` OFFSET $offset` to the cut, and only then, so a first page's statement and its id are what they were.
 An empty cell (R167, `is_empty_test`) is a NULL or a blank text: DuckDB reads an empty CSV cell as NULL, so
 `= ''` compared as a text matched nothing (LC05 was answered 0 for 9); the test names both, no parameter.
+A period (R168, `period_kind`) is the year of a date column (`year()`) or of a text column (the first
+four-digit run, `regexp_extract` with `$year_pattern`, NULL without one, so such a row is in no group and no
+distinct count), or that year's decade as the text '1850s'; it is what a group is grouped by, or what
+`distinct` counts when there is no group; `distinct` counts the different values of a column as they are.
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -27,11 +31,14 @@ from ..query.plan import Operator, as_number
 from ..structured.profiler import quote_ident
 from .structured_query import (
     COMPARISONS,
+    YEAR_IN_TEXT,
     Compiled,
+    Period,
     QueryOperator,
     TableQuery,
     is_empty_test,
     pair_kind,
+    period_kind,
     shape_of,
 )
 
@@ -45,7 +52,9 @@ _BUCKET = "__bucket"  # one part of a split text, the column a split group is gr
 def compile_table(query: TableQuery, fields: dict[str, PropertyInfo], limit: int) -> Compiled:
     """The SQL of a checked query over `query.table` (`fields`: its columns, in the table's order)."""
     where, params = _conditions(query, fields)
-    params |= {"limit": limit, "number_pattern": _NON_NUMERIC, "offset": query.offset}
+    params |= {
+        "limit": limit, "number_pattern": _NON_NUMERIC, "offset": query.offset, "year_pattern": YEAR_IN_TEXT
+    }  # fmt: skip
     # the start of the cut, written only for a later page: a first page's statement keeps its old text
     page = " OFFSET $offset" if query.offset > 0 else ""
     table = quote_ident(query.table)
@@ -66,6 +75,8 @@ def compile_table(query: TableQuery, fields: dict[str, PropertyInfo], limit: int
         statement = f"SELECT {measure} AS value FROM {table}{clause}"
         return Compiled(statement=statement, parameters=_used(statement, params), shape=shape)
     group = quote_ident(query.group_by or "")
+    if query.period is not None:
+        group = _period(group, fields[query.group_by or ""], query.period)
     clause = f" WHERE {' AND '.join([*where, f'{group} IS NOT NULL'])}"
     if query.group_split is not None:
         params["group_split"] = query.group_split
@@ -160,8 +171,28 @@ def _measure(query: TableQuery, fields: dict[str, PropertyInfo]) -> str:
     if query.measure == "count":
         return "count(*)"
     col = quote_ident(query.field or "")
+    if query.measure == "distinct":
+        # the values as they are, never read as numbers; the years or decades when a period names them
+        if query.period is not None and query.group_by is None:
+            col = _period(col, fields[query.field or ""], query.period)
+        return f"count(DISTINCT {col})"
     expression = _text_number(col) if fields[query.field or ""].type == "STRING" else col
     return f"{_AGGREGATES[query.measure]}({expression})"
+
+
+def _period(col: str, field: PropertyInfo, period: Period) -> str:
+    """The year of column `col`, or its decade as text ('1850s'), read as `period_kind` says. Raises
+    `ValueError` for a column the check would have refused: compiling an unchecked query is a bug."""
+    kind = period_kind(field)
+    if kind is None:
+        raise ValueError(f"{field.name} holds no year; check the query")
+    if kind == "date":
+        year = f"year({col})"
+    else:
+        year = f"TRY_CAST(regexp_extract(CAST({col} AS VARCHAR), $year_pattern, 2) AS INTEGER)"
+    if period == "year":
+        return year
+    return f"CAST(({year} // 10) * 10 AS VARCHAR) || 's'"
 
 
 def _text_number(col: str) -> str:

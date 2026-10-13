@@ -17,7 +17,11 @@ names through `cypher_ident` and no parameter: the year of a date (`.year`) agai
 year, two values of one kind as they are, two texts lowered. A later page slices the collected list from
 `$offset`, and only then, so a first page's statement and its id are what they were. The empty-cell test
 (R167, `is_empty_test`) is the agent's own, rendered here before R74's `condition` is asked: a record's
-missing property is null (the loader writes no empty property), so `= ''` is "null or blank".
+missing property is null (the loader writes no empty property), so `= ''` is "null or blank". A period
+(R168, `period_kind`) is the year of a date property (`.year`) or of a text one (the first four-digit run,
+`apoc.text.regexGroups` with `$year_pattern`, null without one, so such a record is in no group and no
+distinct count), or that year's decade as the text '1850s'; it is what a group is grouped by, or what
+`distinct` counts when there is no group; `distinct` counts the different values of a property as they are.
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
 """
 
@@ -29,12 +33,15 @@ from ..query.graph_schema import PropertyInfo
 from ..query.plan_cypher import condition, text_number
 from .structured_query import (
     COMPARISONS,
+    YEAR_IN_TEXT,
     Compiled,
+    Period,
     QueryOperator,
     RecordQuery,
     StructuredQuery,
     is_empty_test,
     pair_kind,
+    period_kind,
     shape_of,
 )
 
@@ -73,7 +80,7 @@ def compile_records(
     if shape == "value":
         return Compiled(statement=f"{body} RETURN {measure} AS value", parameters=params, shape=shape)
     group = f"n.{cypher_ident(query.group_by or '')}"
-    unwind, bucket, extra = _buckets(group, fields[query.group_by or ""], query.group_split)
+    unwind, bucket, extra = _buckets(group, fields[query.group_by or ""], query.group_split, query.period)
     statement = (
         f"{body} WHERE {group} IS NOT NULL {unwind}WITH {bucket} AS bucket, {measure} AS value "
         f"ORDER BY value DESC, bucket WITH collect([bucket, value]) AS found UNWIND {page} AS row "
@@ -101,9 +108,15 @@ def _page(offset: int) -> tuple[str, dict[str, Any]]:
     return "found[0..$limit]", {}
 
 
-def _buckets(group: str, field: PropertyInfo, split: str | None) -> tuple[str, str, dict[str, Any]]:
-    """What a record is grouped by: the field itself, or (after an unwinding clause that keeps each record
-    once per value) each element of a list or each part of a text split at `split`."""
+def _buckets(
+    group: str, field: PropertyInfo, split: str | None, period: Period | None
+) -> tuple[str, str, dict[str, Any]]:
+    """What a record is grouped by: the field itself, its year or decade (`period`, R168), or (after an
+    unwinding clause that keeps each record once per value) each element of a list or each part of a text
+    split at `split`."""
+    if period is not None:
+        bucket, extra = _period(group, field, period)
+        return "", bucket, extra
     if split is not None:
         unwind = f"UNWIND split({group}, $group_split) AS part WITH n, trim(part) AS part WHERE part <> '' "
         return f"{unwind}WITH DISTINCT n, part AS bucket ", "bucket", {"group_split": split}
@@ -163,12 +176,35 @@ def _pair(left: PropertyInfo, operator: QueryOperator, right: PropertyInfo) -> s
     return f"{left_ref} {cmp} {right_ref}"
 
 
+def _period(ref: str, field: PropertyInfo, period: Period) -> tuple[str, dict[str, Any]]:
+    """The year of property `ref`, or its decade as text ('1850s'), read as `period_kind` says, with the
+    pattern parameter a text needs. Raises `ValueError` for a property the check would have refused:
+    compiling an unchecked query is a bug."""
+    kind = period_kind(field)
+    if kind is None:
+        raise ValueError(f"{field.name} holds no year; check the query")
+    if kind == "date":
+        year, extra = f"{ref}.year", {}
+    else:
+        year = f"toInteger(apoc.text.regexGroups(toString({ref}), $year_pattern)[0][2])"
+        extra = {"year_pattern": YEAR_IN_TEXT}
+    if period == "year":
+        return year, extra
+    return f"toString(({year} / 10) * 10) + 's'", extra
+
+
 def _measure(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> tuple[str, dict[str, Any]]:
     """The aggregate expression of a measure: a count of records, or the measured field (a text field by the
     number it holds)."""
     if query.measure == "count":
         return "count(n)", {}
     ref = f"n.{cypher_ident(query.field or '')}"
+    if query.measure == "distinct":
+        # the values as they are, never read as numbers; the years or decades when a period names them
+        if query.period is not None and query.group_by is None:
+            counted, extra = _period(ref, fields[query.field or ""], query.period)
+            return f"count(DISTINCT {counted})", extra
+        return f"count(DISTINCT {ref})", {}
     if fields[query.field or ""].type == "STRING":
         number, extra = text_number(ref, "measure_pattern")
         return f"{_AGGREGATES[query.measure]}({number})", extra

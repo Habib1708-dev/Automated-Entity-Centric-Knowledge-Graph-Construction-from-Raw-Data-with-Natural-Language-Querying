@@ -21,12 +21,24 @@ counts each group, and the query that refusal points to runs. R164: a table's ex
 text column (years and year-months), and the year operator is described for a text holding a date. R167:
 `= ''` and `!= ''` test for an empty cell on a field of any type (the check, both compilers as text, DuckDB
 over a CSV with empty cells), a null value's refusal points to `''`, and `''` compared otherwise is still
-refused."""
+refused. R168: the measure `distinct` and a `period` (year or decade) of the grouped or the counted field:
+the refusals (no field, a list, a period with nothing to read or on a number or a time of day, with a split),
+the Cypher as text (a date's year, its decade, a text's year through APOC with the pattern parameter, and a
+grouped count unchanged with no such parameter), DuckDB over a CSV with a text column of mixed date shapes
+and a date column, and the descriptions naming distinct and decade."""
 
 import pytest
 
 from kgbuilder.agent.record_query import compile_records
-from kgbuilder.agent.structured_query import Condition, RecordQuery, TableQuery, check_query, pair_kind
+from kgbuilder.agent.structured_query import (
+    YEAR_IN_TEXT,
+    Condition,
+    RecordQuery,
+    StructuredQuery,
+    TableQuery,
+    check_query,
+    pair_kind,
+)
 from kgbuilder.agent.structured_tools import QueryRecords, QueryTables, Schema
 from kgbuilder.agent.table_query import compile_table
 from kgbuilder.agent.tables import DuckDBTables
@@ -138,6 +150,27 @@ FIELDS = {p.name: p for p in [prop("id", "STRING"), prop("price", "STRING"), pro
             "give value or other_field; to match an empty cell, compare with ''",
         ),
         (TableQuery(table="t", where=[Condition(field="price", operator="<", value="")]), "needs a number"),
+        # R168: distinct needs a field it can count, a period a date or a text to read a year from
+        (TableQuery(table="t", measure="distinct"), "distinct needs the field it measures"),
+        (TableQuery(table="t", measure="distinct", field="tags"), "distinct cannot measure a list"),
+        (
+            TableQuery(table="t", measure="count", period="year"),
+            "period needs group_by or measure distinct: it is the year or decade of the grouped field, or of "
+            "the field distinct counts",
+        ),
+        (
+            TableQuery(table="t", measure="count", group_by="year", period="decade"),
+            "period decade needs a date or a text holding one, year is INTEGER",
+        ),
+        (TableQuery(table="t", measure="distinct", field="at", period="year"), "at is LOCAL TIME"),
+        (
+            TableQuery(table="t", measure="count", group_by="id", group_split=",", period="year"),
+            "period and group_split do not go together: a date holds one value",
+        ),
+        (
+            TableQuery(table="t", measure="distinct", field="id", offset=5),
+            "offset pages listed rows or groups",
+        ),
         (
             TableQuery(table="t", where=[Condition(field="since", operator="year", value="year")]),
             "'year' is the field 'year'; to compare with that field, give it as other_field; to match the "
@@ -181,6 +214,18 @@ def test_the_check_accepts_the_empty_cell_test_on_a_field_of_any_type(field):
                            FIELDS) == []  # fmt: skip
     some = TableQuery(table="t", where=[Condition(field=field, operator="in", value=[""])])
     assert check_query(some, FIELDS) == []  # '' among in's values, compared as = compares it
+
+
+def test_the_check_accepts_distinct_counts_and_periods_of_a_date_or_a_text():
+    """R168: the different values of any field but a list; the year or decade of a date or of a text (the
+    schema's examples tell the model whether a text holds one), grouped or distinct-counted."""
+    accepted = [
+        TableQuery(table="t", measure="distinct", field="since", period="decade"),
+        TableQuery(table="t", measure="distinct", field="price"),  # a text's values as they are
+        TableQuery(table="t", measure="count", group_by="id", period="year"),
+        TableQuery(table="t", measure="distinct", field="id", group_by="since", period="decade"),
+    ]
+    assert [check_query(q, FIELDS) for q in accepted] == [[], [], [], []]
 
 
 def test_the_check_accepts_a_field_compared_with_another_field():
@@ -253,6 +298,47 @@ def test_a_group_over_a_list_or_a_split_text_counts_each_value_once_per_record()
     )
     assert "UNWIND split(n.`id`, $group_split) AS part" in split.statement
     assert split.parameters["group_split"] == ";" and "WITH DISTINCT n, part AS bucket" in split.statement
+
+
+def test_distinct_counts_and_periods_compile_to_cypher_and_leave_other_statements_unchanged():
+    """R168: a date's year by `.year`, a text's by APOC with the pattern parameter, a decade as text; the
+    grouped count every recorded query ran keeps its statement and parameters, so its id (HC05's, among
+    them) is what it was."""
+    years = compile_records(
+        RecordQuery(label="Kettle", measure="distinct", field="since", period="year"),
+        FIELDS,
+        "id",
+        [],
+        None,
+        5,
+    )
+    assert years.shape == "value" and "RETURN count(DISTINCT n.`since`.year) AS value" in years.statement
+    assert "year_pattern" not in years.parameters
+    decades = compile_records(
+        RecordQuery(label="Kettle", measure="count", group_by="since", period="decade"),
+        FIELDS,
+        "id",
+        [],
+        None,
+        5,
+    )
+    assert "WITH toString((n.`since`.year / 10) * 10) + 's' AS bucket, count(n) AS value" in decades.statement
+    text = compile_records(
+        RecordQuery(label="Kettle", measure="count", group_by="id", period="year"), FIELDS, "id", [], None, 5
+    )
+    assert "WITH toInteger(apoc.text.regexGroups(toString(n.`id`), $year_pattern)[0][2]) AS bucket" in (
+        text.statement
+    )
+    assert text.parameters["year_pattern"] == YEAR_IN_TEXT
+    plain = compile_records(
+        RecordQuery(label="Kettle", measure="distinct", field="price"), FIELDS, "id", [], None, 5
+    )
+    assert "RETURN count(DISTINCT n.`price`) AS value" in plain.statement  # as they are, not as numbers
+    groups = compile_records(
+        RecordQuery(label="Kettle", measure="count", group_by="year"), FIELDS, "id", [], None, 5
+    )
+    assert "WITH n.`year` AS bucket, count(n) AS value" in groups.statement
+    assert "year_pattern" not in groups.parameters and "$year_pattern" not in groups.statement
 
 
 def test_the_empty_cell_test_compiles_to_null_or_blank_with_no_parameter():
@@ -393,6 +479,39 @@ def test_table_measures_and_groups(tables):
     assert run_table(tables, measure="sum", field="price") == [[1628.0]]
     assert run_table(tables, measure="count") == [[3]]
     assert run_table(tables, measure="count", group_by="made") == [[2016, 2, 2], [2019, 1, 2]]
+
+
+def test_a_table_counts_distinct_values_and_groups_by_the_year_or_decade_of_a_date_or_a_text(tmp_path):
+    """R168: HC05 asked how many different years a date column holds (the agent grouped 29 dates and
+    counted by eye); LC07 which decade a text column of mixed shapes names most. A text without a year is in
+    no group and no count; a year read from a text is a number, a decade a text in both columns."""
+    rows = ["id,founded,since", "K1,1680,2016-05-01", "K2,1859-03-01,2018-01-02", "K3,,2019-03-04",
+            "K4,none,2019-07-07", "K5,seen 11/07/2016,"]  # fmt: skip
+    (tmp_path / "pots.csv").write_text("\n".join(rows) + "\n", encoding="utf-8")
+    store = DuckDBTables(tmp_path)
+    fields = {c.name: c for c in store.tables()[0].columns}
+    assert (fields["founded"].type, fields["since"].type) == ("STRING", "DATE")
+
+    def run(**query):
+        compiled = compile_table(TableQuery(table="pots", **query), fields, 5)
+        read = store.run(compiled.statement, compiled.parameters)
+        assert read.error is None, read.error
+        return read.rows
+
+    try:
+        assert run(measure="distinct", field="founded") == [[4]]  # '' is NULL; 'none' is a value
+        assert run(measure="distinct", field="founded", period="year") == [[3]]  # 1680, 1859, 2016
+        assert run(measure="distinct", field="since", period="year") == [[3]]  # 2016, 2018, 2019
+        assert run(measure="count", group_by="founded", period="decade") == [
+            ["1680s", 1, 3], ["1850s", 1, 3], ["2010s", 1, 3]
+        ]  # fmt: skip
+        assert run(measure="count", group_by="since", period="year") == [
+            [2019, 2, 3],
+            [2016, 1, 3],
+            [2018, 1, 3],
+        ]
+    finally:
+        store.close()
 
 
 def test_a_table_empty_cell_is_matched_by_the_empty_text_on_a_text_and_on_a_date_column(tmp_path):
@@ -637,6 +756,17 @@ def test_the_schema_shows_the_record_layer_the_claim_patterns_and_the_tables(tab
     assert "Chunk" not in text and "Document" not in text  # the text layer is the text tools'
     assert "- Component HAS_CONDITION Condition (3)" in text
     assert "- kettles (3): id (STRING) e.g. 'K1', 'K2', 'K3'" in text
+
+
+def test_the_measure_and_the_period_are_described_with_distinct_and_decade():
+    """R168: the model learns the two from their descriptions alone (no example in PROMPT)."""
+    fields = StructuredQuery.model_fields
+    assert "distinct counts the different values of `field`" in (fields["measure"].description or "")
+    assert "whose different values distinct counts" in (fields["field"].description or "")
+    assert "the year or the decade of the grouped field" in (fields["period"].description or "")
+    assert "A decade is named by its first year, as 1740s" in (fields["period"].description or "")
+    assert all("different values" in t.description for t in (QueryRecords, QueryTables))
+    assert all("year or decade" in t.description for t in (QueryRecords, QueryTables))
 
 
 @pytest.mark.parametrize("tool", [Schema, QueryRecords, QueryTables], ids=lambda t: t.name)

@@ -32,6 +32,12 @@ An empty cell is `''` (R167): the tools print an empty or missing value as `''`,
 says so, and both compilers render it as "null or blank", because R166's LC05 asked `date = ''` as the
 tool had shown it and was answered 0 (the cell is null to DuckDB, and a date field refused `''` as no date).
 The value check (R74's `value_issues`) is asked only for other values, so the plan systems are unchanged.
+Distinct counts and periods (R168): the measure `distinct` counts the different values of `field`; `period`
+(year or decade) makes each group the year or the decade of the grouped field, or, with `distinct` and no
+group, what is counted. `period_kind` is the one place that says how a field's year is read (a date by its
+year; a text by the first four-digit run in it, `YEAR_IN_TEXT`; a number, a boolean, a list or a time of
+day not at all), and both compilers render its answer. R166's HC05 grouped 29 dates and counted the years
+by eye (8 for 10); LC07 grouped 58 inception texts over three pages and summed the decades by eye.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -42,8 +48,15 @@ from pydantic import BaseModel, Field
 from ..query.graph_schema import PropertyInfo
 from ..query.plan import value_issues
 
-Measure = Literal["rows", "count", "sum", "average", "min", "max"]
+Measure = Literal["rows", "count", "distinct", "sum", "average", "min", "max"]
 Shape = Literal["rows", "value", "groups"]
+Period = Literal["year", "decade"]
+# how a field's year is read: a date by its year, a text by the four digits in it (R168)
+PeriodKind = Literal["date", "text"]
+# The year inside a text ('1859-03-01', 'seen 11/07/2016'): the first four-digit run bounded by non-digits,
+# as group 2. RE2 (DuckDB) has no look-behind and Java (APOC) reads this pattern alike, so both compilers
+# pass it as the parameter $year_pattern; a five-digit number is no year, a text without one gives null.
+YEAR_IN_TEXT = r"(^|[^0-9])([0-9]{4})([^0-9]|$)"
 # the field types a number can be read from: numbers, and texts that hold one
 _MEASURABLE = ("INTEGER", "FLOAT", "STRING")
 QueryOperator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "year", "in"]
@@ -92,10 +105,13 @@ class StructuredQuery(BaseModel):
     where: list[Condition] = Field(default=[], description="Conditions every result must meet (all of them).")
     measure: Measure = Field(
         default="rows",
-        description="rows lists the matching entries; count counts them; sum, average, min and max measure "
-        "`field` over them.",
+        description="rows lists the matching entries; count counts them; distinct counts the different "
+        "values of `field` among them; sum, average, min and max measure `field` over them.",
     )
-    field: str | None = Field(default=None, description="The field sum, average, min and max measure.")
+    field: str | None = Field(
+        default=None,
+        description="The field sum, average, min and max measure, or whose different values distinct counts.",
+    )
     group_by: str | None = Field(
         default=None,
         description="Measure each value of this field separately (largest first), with a measure other than "
@@ -105,6 +121,14 @@ class StructuredQuery(BaseModel):
         default=None,
         description="With group_by, for a text field holding several values joined by a separator (as its "
         "examples show): the separator; each value is then measured on its own. A list field needs none.",
+    )
+    # R168: the example years are of no evaluated dataset (prompt-engineering skill)
+    period: Period | None = Field(
+        default=None,
+        description="year or decade: with group_by, each group is the year or the decade of the grouped "
+        "field; without group_by, distinct counts the different years or decades of `field`. The field "
+        "must be a date or a text holding one (its examples show a year, as '1740' or '1740-05-02'). A "
+        "decade is named by its first year, as 1740s.",
     )
     order_by: str | None = Field(default=None, description="rows: the field to sort the entries by.")
     descending: bool = Field(default=False, description="rows: sort from the largest value down.")
@@ -178,7 +202,16 @@ def check_query(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list
             "group_by needs a measure: rows lists the entries without groups; give measure count to count "
             "the entries of each value, without order_by (it sorts listed rows only)"
         )
-    return issues + _split_issues(query, fields)
+    return issues + _split_issues(query, fields) + _period_issues(query, fields)
+
+
+def period_kind(field: PropertyInfo) -> PeriodKind | None:
+    """How a field's year, and so its decade, is read (R168): from a date (its year), from a text (the first
+    four-digit run in it, `YEAR_IN_TEXT`), or not at all (a number, a boolean, a list, a time of day: None).
+    The compilers render this answer and decide nothing themselves."""
+    if field.type in _DATES:
+        return "date"
+    return "text" if field.type == "STRING" else None
 
 
 def is_empty_test(operator: QueryOperator, value: object) -> bool:
@@ -295,6 +328,28 @@ def _split_issues(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> li
     if not query.group_split.strip() or any(ch.isalnum() for ch in query.group_split):
         issues.append(f"group_split must be punctuation, no letter or digit, got {query.group_split!r}")
     return issues
+
+
+def _period_issues(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list[str]:
+    """Whether a period has a field to read (the grouped one, else the one distinct counts), is not asked
+    of a split text, and reads a field that holds a year (`period_kind`). A missing or unknown field is
+    reported by the group or measure check, not twice."""
+    if query.period is None:
+        return []
+    if query.group_by is None and query.measure != "distinct":
+        return [
+            "period needs group_by or measure distinct: it is the year or decade of the grouped field, or "
+            "of the field distinct counts"
+        ]
+    if query.group_split is not None:
+        return ["period and group_split do not go together: a date holds one value"]
+    target = query.group_by if query.group_by is not None else query.field
+    if target is None or target not in fields:
+        return []
+    if period_kind(fields[target]) is None:
+        kind = fields[target].type
+        return [f"period {query.period} needs a date or a text holding one, {target} is {kind}"]
+    return []
 
 
 def _measure_issues(query: StructuredQuery, fields: dict[str, PropertyInfo]) -> list[str]:

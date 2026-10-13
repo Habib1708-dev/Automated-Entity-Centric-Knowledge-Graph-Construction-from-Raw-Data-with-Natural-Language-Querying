@@ -6,7 +6,9 @@ layer out. R139: counts per value of a list and of a text split at a separator, 
 R140: records one of several values, and the records two relationships away from one record. R148: the year
 of a date compared with another property of the same record, listed and counted, and a later page of a cut
 list by offset. R161: that page's note points to measure count. R167: `= ''` finds the record without a
-property and `!= ''` the one with it. Needs Neo4j."""
+property and `!= ''` the one with it. R168: the different years of a date property counted, the records
+grouped by its decade, and by the year inside a text property (APOC), a record without one dropped. Needs
+Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader
 from kgbuilder.agent.structured_query import Condition, RecordQuery
@@ -94,6 +96,22 @@ def test_records_compared_field_to_field_and_paged(driver):
     assert page.issues == [] and len(page.refs) == 1 and page.refs[0] not in ("Part:S1", "Part:S2", "Part:S3")
     # R161: a paged listing of records points to the count as a table's does
     assert (page.total, page.note) == (4, "4-4 of 4 shown; " + COUNT_HINT)
+
+
+def test_distinct_years_and_groups_by_decade_or_by_the_year_inside_a_text(driver):
+    """R168: P1's `since` is in 2020, P2's in 2015; only P1 gets a text holding a date, so P2 is in no
+    group of its year (a null bucket is dropped, as a record without the property is)."""
+    load(driver)
+    driver.execute_query("MATCH (p:Press {press_id: 'P1'}) SET p.noted = 'seen 11/07/2016'")
+    store = Neo4jGraphStore(driver, RELATED_PLAN, hops=2)
+    reader = Neo4jNodeReader(driver, RELATED_PLAN)
+    query = QueryRecords(store, read_graph_schema(driver), RELATED_PLAN, reader, limit=3, value_chars=60)
+    years = query.run(RecordQuery(label="Press", measure="distinct", field="since", period="year"))
+    assert (years.issues, years.rows) == ([], [["2"]])
+    decades = query.run(RecordQuery(label="Press", measure="count", group_by="since", period="decade"))
+    assert (decades.issues, sorted(decades.rows)) == ([], [["2010s", "1"], ["2020s", "1"]])
+    noted = query.run(RecordQuery(label="Press", measure="count", group_by="noted", period="year"))
+    assert (noted.issues, noted.rows, noted.total) == ([], [["2016", "1"]], 1)
 
 
 def test_the_empty_cell_test_finds_the_record_without_the_property(driver):

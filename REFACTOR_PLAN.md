@@ -9678,6 +9678,35 @@ describe the engine before this plan.
   text column; a Neo4j test finding the record without the property). 1545 passed (1537 + 8), ruff clean.
 - **R167 done 2026-10-13.** Next: R168, distinct counts and groups by year or decade.
 
+### R168. Distinct counts, and groups by year or decade (done 2026-10-13; $0, code; unmeasured until a later confirmation run)
+- **Scope** (`agent/structured_query.py`, `table_query.py`, `record_query.py`, `structured_tools.py`): the
+  measure `distinct` counts the different values of `field` as they are (any type but a list; `count`
+  still takes no field; a lone distinct value takes no offset, as a count does); a flat `period` of
+  `year` or `decade` makes each group the year or the decade of the grouped field, or, with `distinct` and
+  no group, what is counted. `period_kind` is the one place that says how a field's year is read (a date
+  by its year; a text by the first four-digit run in it, `YEAR_IN_TEXT`, one pattern RE2 and Java read
+  alike, passed as `$year_pattern` only when rendered; a number, a boolean, a list or a time of day
+  refused with the type named), and both compilers render it: DuckDB `year(col)` or
+  `TRY_CAST(regexp_extract(..., 2) AS INTEGER)`, Cypher `.year` or `toInteger(apoc.text.regexGroups(...)
+  [0][2])` (APOC is already required by `text_number`); a decade is the text '1850s' in both, so the
+  agent writes the bucket as the answer; a text without a year is null and so in no group and no count.
+  `_period_issues` refuses a period with nothing to read (no group, no distinct), with `group_split`, or on
+  a field that holds no year. Every other statement is byte-identical (the tests hold a grouped count's
+  text and parameters to today's), so recorded query ids are what they were. The two tools' descriptions
+  name "their different values" and "per value, year or decade". `agent_tools_prompt_version` 715f8af88d9b
+  -> 59f10dd543a9 (+1,200 characters: the new field, the measure and the descriptions).
+- **Offline replay** ($0; `DuckDBTables` over `out/r165_{heldout,lighthouses}/staging`): HC05 `distinct`
+  of `recalls.ReportReceivedDate` with period year -> 10, the gold (the agent wrote 8); the same as groups
+  by year is 10 groups shown whole; LC07 `count` by `lighthouses.inception` with period decade -> 1860s 9,
+  1830s 8, 1820s 7 first (the agent tied 1820s and 1860s at 8); R157's LB11, `events` with `event contains
+  automat` by `date` with period decade -> 1990s 13, the gold (the agent counted 11 by eye).
+- **Verified:** 12 new or changed tests (seven refusals; the accepted shapes; the Cypher text of a date's
+  year, a decade and a text's year with the pattern parameter, a plain distinct count as values, and a
+  grouped count unchanged with no pattern parameter; DuckDB over a CSV with a text column of mixed date
+  shapes and a date column; the descriptions; a Neo4j test of distinct years, decade groups and the year
+  inside a text through APOC with the record without one dropped). 1557 passed (1545 + 12), ruff clean.
+- **R168 done 2026-10-13.** Next: R169, a space or a hyphen in a searched phrase matches either.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

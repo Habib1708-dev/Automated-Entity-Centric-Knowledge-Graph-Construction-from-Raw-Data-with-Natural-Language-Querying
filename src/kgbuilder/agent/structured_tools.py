@@ -101,9 +101,10 @@ class QueryRecords:
 
     name = "query_records"
     description = (
-        "Query the records of one label: list them, count them, or measure a property (sum, average, min, "
-        "max), optionally per value of a property, for the records that meet every condition. Read the "
-        "schema first: names must be written exactly as it gives them."
+        "Query the records of one label: list them, count them or their different values, or measure a "
+        "property (sum, average, min, max), optionally per value, year or decade of a property, for the "
+        "records that meet every condition. Read the schema first: names must be written exactly as it "
+        "gives them."
     )
     arguments = RecordQuery
 
@@ -167,9 +168,9 @@ class QueryTables:
 
     name = "query_tables"
     description = (
-        "Query one source table: list its rows, count them, or measure a column (sum, average, min, max), "
-        "optionally per value of a column, for the rows that meet every condition. Read the schema first: "
-        "names must be written exactly as it gives them."
+        "Query one source table: list its rows, count them or their different values, or measure a column "
+        "(sum, average, min, max), optionally per value, year or decade of a column, for the rows that "
+        "meet every condition. Read the schema first: names must be written exactly as it gives them."
     )
     arguments = TableQuery
 
