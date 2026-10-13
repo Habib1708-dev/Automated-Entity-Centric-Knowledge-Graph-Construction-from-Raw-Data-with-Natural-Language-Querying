@@ -20,7 +20,11 @@ one inflectional ending (`stem`) and matches the stem only as a whole word with 
 (`form_pattern`), so a cut word never matches inside an unrelated word ("signs" never finds "design"); a
 different wording of the same idea is left to the searches by meaning. A space or a hyphen in a phrase
 matches either (R169: R166's LC08 searched "fog bell" and never saw the passage saying "fog-bell"), in
-the word as written and in its stem form alike, since the two are one phrase written two ways.
+the word as written and in its stem form alike, since the two are one phrase written two ways. A passage's
+heading lines stay in its excerpt with the sentences holding the words (R170): a heading says what the
+sentences under it are about, and cut away it hid what a passage was rated or titled (R166's FC05 saw
+twenty passages holding "stars" and none of their "## Rating: ... (3/5)" lines, so it never searched the
+form the ratings take); a heading is a markdown one, as the chunker reads a document's (`text/chunking`).
 Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, text_reader.py,
 hybrid/unit_store.py).
 """
@@ -41,6 +45,8 @@ from .text_reader import TextReader
 
 # a sentence ends at . ! or ? followed by space, or at a line break (a list item, a heading)
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
+# a markdown heading, its own part after the split at line breaks: '#' marks, a space, then its text (R170)
+_HEADING = re.compile(r"#+\s")
 # The inflectional endings a searched word loses, one at most, the longer first so "rattles" loses "es", not
 # "s": "rattle", "rattles", "rattled" and "rattling" all become "rattl". The same endings, or none, are what a
 # stem may be followed by when it is matched (`form_pattern`). "-ly" is none of them: it is no inflection,
@@ -183,7 +189,7 @@ class FindPassages:
         "it to count or list everything the text says about something. A word in a passage's context (its "
         "document's title) counts for every passage of that document, even one that does not repeat it. "
         f"It finds the words, not other words for the same idea: {SearchText.name} searches by meaning. Each "
-        "passage shows its sentences that hold the words."
+        "passage shows its headings and its sentences that hold the words."
     )
     arguments = PassageArguments
 
@@ -269,9 +275,12 @@ def _phrase(text: str) -> str:
 
 
 def excerpt(text: str, patterns: list[str], chars: int) -> str:
-    """The sentences of `text` matching one of `patterns` (`form_pattern`s), in order, cut at `chars`; the
-    text itself when none does (a phrase across a sentence end, or words held only by the passage's
-    context)."""
+    """The sentences of `text` matching one of `patterns` (`form_pattern`s) and every heading line of `text`
+    (R170), in order, cut at `chars`; the text itself when no sentence matches (a phrase across a sentence
+    end, or words held only by the passage's context)."""
     sentences = [part.strip() for part in _SENTENCE_END.split(text) if part.strip()]
-    kept = [sentence for sentence in sentences if any(re.search(p, sentence.lower()) for p in patterns)]
-    return (" ... ".join(kept) if kept else text)[:chars]
+    matched = [sentence for sentence in sentences if any(re.search(p, sentence.lower()) for p in patterns)]
+    if not matched:
+        return text[:chars]
+    kept = [s for s in sentences if s in matched or _HEADING.match(s)]
+    return " ... ".join(kept)[:chars]

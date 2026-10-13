@@ -9728,6 +9728,31 @@ describe the engine before this plan.
   lid-seal was fitted."). 1562 passed (1557 + 5), ruff clean.
 - **R169 done 2026-10-13.** Next: R170, a passage's heading lines stay in its excerpt.
 
+### R170. A passage's heading lines stay in its excerpt (done 2026-10-13; $0, code; unmeasured until a later confirmation run)
+- **Scope** (`agent/text_tools.py`): `excerpt` keeps every markdown heading line of a passage (`_HEADING`,
+  '#' marks and a space, as the chunker reads a document's first heading) in order with the sentences
+  holding the words; a heading holding a word is shown once; a passage with no matching sentence is still
+  shown whole, as before; the cut at `chars` is unchanged. Why every heading and not the first line: a
+  passage may hold several (an id and date before each narrative), and a document's first passage opens
+  with the title. The citation check is unaffected (`validation/qa.citation_is_faithful` reads a quote
+  against the longest text shown, and a quoted heading is in the full passage). The `find_passages`
+  description says "its headings and its sentences". `agent_tools_prompt_version` d8227c2c4d3d ->
+  06f048477f90 (+17 characters).
+- **Offline replay** ($0; the five corpora rebuilt as in R169): FC05's recorded `["stars"]` search shows the
+  same 20 passages, every excerpt now opening with its "## Rating: ... (n/5)" line (before: "took off a
+  star because ..." alone); a `["3/5"]` search, which that line makes askable, finds exactly the gold 10
+  (one review per product). Over R165's 107 passages shown by `find_passages`, 92 excerpts now carry a
+  heading line they did not.
+- **Verified:** 1 new test (the headings kept in order with the matching sentences, the cut, a heading
+  holding the word once, no match shown whole, the description). 1563 passed (1562 + 1), ruff clean.
+- **R170 done 2026-10-13; plan R167-R170 done** ($0: no run). What the plan covers, by replay: R166's HC05,
+  LC05, LC07 (R167, R168), LC08's hidden passage (R169) and FC05's rating form (R170), and R157's LB11
+  (R168); out of reach still: NC11 (the model's reading of three passages that all answer), HB41's
+  paraphrase, FB14's call budget. The agent's tool text changed four times (432c1d247df0 -> 06f048477f90,
+  +1,382 characters), so R157's 243/250 and R166's 94/100 describe the engine before this plan; a
+  confirmation run would need a fresh question set (about $1.6) and is the user's decision.
+  Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

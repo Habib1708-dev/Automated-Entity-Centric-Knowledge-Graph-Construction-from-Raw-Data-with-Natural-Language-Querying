@@ -10,7 +10,9 @@ shows them; the stem rule itself (endings, the shortest stem, ids and phrases); 
 only as a whole word with an ending, so it never finds an unrelated word holding it ("signs" never finds
 "design") and nothing the word as written finds is lost; and the forms rule the model reads, its example and
 its limits, is what the code does. R169: a space or a hyphen in a phrase matches either, in the literal and
-in the stem form, the excerpt shows the sentence found so, and the rule's example is what the code does."""
+in the stem form, the excerpt shows the sentence found so, and the rule's example is what the code does.
+R170: a passage's heading lines stay in the excerpt, in order with the matching sentences, once when a
+heading itself holds the word, and a passage with no matching sentence is still shown whole."""
 
 import re
 
@@ -238,6 +240,22 @@ def test_a_cut_words_stem_is_matched_only_as_a_whole_word_with_an_ending(word, f
 def test_whatever_the_word_as_written_found_before_it_still_finds(word, text):
     # the pattern keeps the literal match (before R162 the only one): a stem adds forms, it never loses one
     assert found(word, text)
+
+
+def test_the_excerpt_keeps_every_heading_line_with_the_matching_sentences():
+    """R170: FC05's agent saw twenty passages holding "stars" and none of their rating headings, which the
+    excerpt had cut as sentences holding no word."""
+    text = "## Rating: 3 of 5\nThe lid is loose! Nothing else.\n## Notes\nIs the lid new? Yes."
+    assert (
+        excerpt(text, ["lid"], 300)
+        == "## Rating: 3 of 5 ... The lid is loose! ... ## Notes ... Is the lid new?"
+    )
+    assert excerpt(text, ["lid"], 20) == "## Rating: 3 of 5 .."  # the cut is the same
+    assert (
+        excerpt("## Lid notes\nAll fine.", ["lid"], 300) == "## Lid notes"
+    )  # a heading holding the word, once
+    assert excerpt("## Rating\nNothing here.", ["lid"], 300) == "## Rating\nNothing here."  # no match: whole
+    assert "shows its headings and its sentences" in FindPassages.description
 
 
 def test_a_phrase_found_by_its_hyphenated_form_is_shown_by_the_excerpt():
