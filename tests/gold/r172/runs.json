@@ -1,0 +1,67 @@
+{
+ "step": "R172: the fixed agent (R167-R170, git 6037852; the guard 815ef16) on the 100 questions of the second confirmation set (R171)",
+ "approved": "the user, 2026-10-13: 'yes im willing to pay 1.6$ for a confirmation run'; after the wasted first NTSB run, 'Continue (Recommended)' (the guard first, then about $1.6 more)",
+ "git_sha": "815ef16",
+ "versions": {
+  "agent_prompt_version": "8ef2474da8b7",
+  "agent_tools_prompt_version": "06f048477f90",
+  "agent_reply_prompt_version": "5b9a9720fb59"
+ },
+ "commands": [
+  "kg --preset <ntsb|lighthouses|quality|heldout|generality_gemini> qa tests/gold/qa/<dataset>_qa_confirm2.json --system agent --out out/r172_<dataset>",
+  "reloads ($0, every LLM answer from the cache): kg --preset P reset | build DATA | (pinned profile copied back) | ingest-text DATA | extract --from-build BUILD | link | GEMINI_API_KEY=invalid mention-pass | resolve | attach | index --cards template, each --out out/r172_<dataset>, with plan.json, text_schema.json and profile.json copied from BUILD first; every digest equal to R156's and R165's, triples.jsonl and mentions.jsonl byte-identical to BUILD's"
+ ],
+ "wasted_run": {
+  "ntsb_first": {
+   "run": "b18014f530c8425a863ecc0d6f84dc6c",
+   "cost_usd": 0.5006,
+   "exact_code_scored": "5/17",
+   "cause": "--out out/r172_ntsb was a fresh folder with no plan.json and no staging, so the agent saw no table and no record label (fixed by the guard 815ef16); its outputs kept in out/r172_ntsb_failed, not scored"
+  }
+ },
+ "runs": {
+  "ntsb": {
+   "run": "ec1a6518d115421c93d846129649617a",
+   "graph_digest": "c7f20fa9c187",
+   "answers": "out/r172_ntsb/answers_agent.jsonl",
+   "cost_usd": 0.2142,
+   "exact_code_scored": "16/17",
+   "graph": "as loaded (R165's graph); out/r172_ntsb seeded from out/r165_ntsb_build"
+  },
+  "lighthouses": {
+   "run": "78bff118cfa34ac8ad38196999d7e0d8",
+   "graph_digest": "62573881a3c6",
+   "answers": "out/r172_lighthouses/answers_agent.jsonl",
+   "cost_usd": 0.2996,
+   "exact_code_scored": "19/19",
+   "graph": "reloaded by R113's recipe from out/r165_lighthouses_build into out/r172_lighthouses"
+  },
+  "furniture": {
+   "run": "35afadc85489475a95ecef7e26336714",
+   "graph_digest": "392a170ecc10",
+   "answers": "out/r172_furniture/answers_agent.jsonl",
+   "cost_usd": 0.5047,
+   "exact_code_scored": "19/19",
+   "graph": "reloaded by R113's recipe from out/r165_furniture_build into out/r172_furniture"
+  },
+  "heldout": {
+   "run": "e4899ff3aaf446b3872eeda9dd2f0c19",
+   "graph_digest": "bc7c5a1efe3d",
+   "answers": "out/r172_heldout/answers_agent.jsonl",
+   "cost_usd": 0.3352,
+   "exact_code_scored": "16/17",
+   "graph": "reloaded by R113's recipe from out/r165_heldout_build into out/r172_heldout"
+  },
+  "generality": {
+   "run": "2e7fa12171c24270b17bead56df96f67",
+   "graph_digest": "f79f9411ea81",
+   "answers": "out/r172_generality/answers_agent.jsonl",
+   "cost_usd": 0.2733,
+   "exact_code_scored": "18/18",
+   "graph": "reloaded by R113's recipe from out/r156_generality into out/r172_generality"
+  }
+ },
+ "cost_usd": 1.627,
+ "cost_usd_with_wasted_run": 2.1276,
+ "unjudged_free_text": 10
+}

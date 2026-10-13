@@ -9789,6 +9789,21 @@ traced. After the run the questions count as seen.
   wording). 1583 passed (1563 + 20), ruff clean.
 - **R171 done 2026-10-13.** Next: R172, the fixed agent on the 100 questions (paid, about $1.6, asked).
 
+### R172. The fixed agent on the 100 questions of the second confirmation set (done 2026-10-13; $1.627, plus a wasted $0.501)
+- **Asked and approved:** the user, "yes im willing to pay 1.6$ for a confirmation run"; after the first NTSB
+  command was wasted, "Continue (Recommended)": the guard first (815ef16, see Found along the way), then the
+  rest.
+- **Runs** (`tests/gold/r172/runs.json`, git 815ef16; agent versions 8ef2474da8b7 / 06f048477f90 /
+  5b9a9720fb59): NTSB on the graph as loaded; the other four reloaded from cache by R113's recipe
+  ($0: every digest equal to R156's and R165's, triples and mentions byte-identical to the pinned builds);
+  each `--out` folder seeded with the build's plan, schema, profile and staging.
+- **Exact match on the code-scored questions** (10 free-text answers wait for R173's judge): NTSB 16/17
+  ($0.214), lighthouses 19/19 ($0.300), furniture 19/19 ($0.505), held-out 16/17 ($0.335), generality
+  18/18 ($0.273): **88/90**, $0.0163 a question. The two misses: ND11 (`["R44", "rolled"]` found "rolled
+  over" and not "dynamic rollover": "rollover" is no form R162 joins) and HD05 (`contains 'stall'` is a
+  substring, so "installed" counted: 7 for 6; the question asks for the word).
+- **R172 done 2026-10-13.** Next: R173, judged by meaning and compared with R157 and R166 ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
