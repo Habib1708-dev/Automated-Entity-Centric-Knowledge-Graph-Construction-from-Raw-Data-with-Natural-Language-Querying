@@ -7,7 +7,8 @@ hard case. R143a: the fresh files (ten questions per dataset) pass the same per-
 benchmark files, with 50 questions each, every type at least six times, and none asked before; R160: so do
 the confirmation files, 20 questions each, every type at least three times; R171: a second confirmation set
 (`_qa_confirm2.json`), written blind after plan R167-R170, passes the same checks; R177: so does a third
-(`_qa_confirm3.json`), written blind after plan R175-R176. No Neo4j, no LLM.
+(`_qa_confirm3.json`), written blind after plan R175-R176. R180: the failure set (`tests/gold/r180/`) is the
+20 questions judged wrong by meaning across R157-R179, copied unchanged. No Neo4j, no LLM.
 """
 
 import json
@@ -150,3 +151,26 @@ def test_a_confirmation_file_asks_twenty_questions_of_every_type_none_asked_befo
     }
     asked = [norm(q.question) for q in gold.questions]
     assert len(set(asked)) == len(asked) and not set(asked) & earlier
+
+
+# R180: the 20 questions the agent answered wrong by meaning in R157, R166, R173 and R179, one file per
+# dataset, for the thinking-level test of plan R180-R182; each record maps to the gold file it judged
+FAILURE_SET = REPO / "tests" / "gold" / "r180"
+FAILURE_SOURCES = {"r157": "bench", "r166": "confirm", "r173": "confirm2", "r179": "confirm3"}
+
+
+@pytest.mark.parametrize("dataset", ["furniture", "heldout", "lighthouses", "ntsb"])
+def test_the_failure_set_holds_every_failure_by_meaning_copied_unchanged(dataset):
+    """R180: a failure-set file asks exactly the questions its dataset's outcome records judge wrong by
+    meaning, each equal field by field to the question in its gold file, over the same corpus, so the run
+    on it answers the very questions that failed."""
+    subset = load_qa_gold(FAILURE_SET / f"{dataset}_failures.json")
+    expected = []
+    for record, suffix in FAILURE_SOURCES.items():
+        path = REPO / "tests" / "gold" / record / "outcomes.json"
+        outcomes = json.loads(path.read_text(encoding="utf-8"))["questions"]
+        failed = {q["question_id"] for q in outcomes if q["dataset"] == dataset and not q["meaning"]}
+        source = load_qa_gold(QA_GOLD / f"{dataset}_qa_{suffix}.json")
+        assert subset.corpus == source.corpus
+        expected += [q for q in source.questions if q.id in failed]
+    assert subset.questions == expected

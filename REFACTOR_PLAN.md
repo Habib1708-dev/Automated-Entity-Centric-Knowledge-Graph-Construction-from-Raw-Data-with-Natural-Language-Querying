@@ -10086,6 +10086,41 @@ traced, with whether `word` and the recheck were used. After the run the questio
   95/100 after R175-R176, each on its own unseen questions. Next: the user decides (candidates: the
   recheck for counted numbers; the figures of R174 extended with R179; or stop here).
 
+### Plan R180-R182: the agent's thinking level tested on its 20 failures (accepted 2026-10-14)
+The user, 2026-10-14, after an analysis of the 20 answers judged wrong by meaning across R157, R166, R173
+and R179 (550 questions): the four measurements do not differ significantly, the fixes rarely fire on fresh
+questions, and the failures fall in two recurring families (every passage saying an idea in any wording; an
+operation the closed query language lacks) plus model carelessness. The agent answers with `qa_model` at
+`qa_thinking` low, the level chosen for the one-shot reader ("a small task per question", `presets.yaml`),
+and R178 logged 0 thinking tokens; no thinking level was ever measured for the agent. The user chose to
+test medium thinking on the 20 failures first, before any new tool. Paired: the same engine (git e5da1c2's
+agent, unchanged since) answers the same 20 questions at low and at medium, so a difference is the
+thinking level's, not R161-R176's fixes' (several of the 20 failed on an older engine). No code: the
+level is set for the run by the environment variable `QA_THINKING` (environment beats preset), which the
+qa run logs as its `thinking` param, and the LLM cache keys on the level, so medium never reads low's
+answers. Read with care: 20 questions chosen because they failed, so a gain here is regression to the mean
+as much as the level's, and the questions answered right before are not re-asked (no regression check).
+- **Steps, strictly one after another:**
+  - **R180** The failure set: `tests/gold/r180/<dataset>_failures.json`, the 20 questions copied unchanged
+    from their gold files (furniture 7, held-out 6, lighthouses 5, NTSB 2; generality has none), with a test
+    that each file holds exactly its dataset's failures by meaning in the four outcome records ($0).
+  - **R181** The run: per dataset, the graph reloaded from cache by R178's recipe ($0), then `kg qa` with
+    `--system agent` on the failure file at `QA_THINKING=low` and at `QA_THINKING=medium` (paid, asked
+    first with its estimate; R179's five low answers expected from the cache).
+  - **R182** Both arms scored by exact match and judged by meaning (R179's judge), paired by `kg qa-compare`
+    (McNemar), with turns, calls, thinking tokens and cost per arm ($0).
+
+### R180. The failure set: the 20 questions the agent answered wrong by meaning (done 2026-10-14; $0, no run)
+- **Scope:** `tests/gold/r180/{furniture,heldout,lighthouses,ntsb}_failures.json`: FB10, FB14, FB18, FB38,
+  FC05, FE12, FE16; HB41, HC05, HD05, HE04, HE06, HE07; LB09, LB11, LC05, LC07, LC08; NC11, ND11, each
+  question copied field by field from `tests/gold/qa/<dataset>_qa_{bench,confirm,confirm2,confirm3}.json`,
+  the corpus of the source files (equal across them); `written_by` names the source files' writers. The
+  six answers wrong by exact match only (LB06, LB39, GB05, GB33, HE05, HE18) are not in the set.
+- **Verified:** a new test in `tests/test_qa_gold_files.py`, parametrised over the four datasets: the file's
+  questions equal, in order, the questions the outcome records of R157, R166, R173 and R179 judge wrong by
+  meaning, read from their gold files, over the same corpus.
+- **R180 done 2026-10-14.** Next: R181, the paired run (paid, asked).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

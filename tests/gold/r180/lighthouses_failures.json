@@ -1,0 +1,117 @@
+{
+  "dataset": "lighthouses",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/lighthouses/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "LB09",
+      "type": "multi_hop",
+      "question": "The Farne Lighthouse article says the 1811 light on Brownsman Island was later moved to another island and renamed. Which other lighthouses does the events file record as automated in the same year as that renamed lighthouse?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Cromer Lighthouse"
+          },
+          {
+            "name": "Coquet Lighthouse"
+          },
+          {
+            "name": "Casquets lighthouses",
+            "aliases": [
+              "Casquets Lighthouse",
+              "Casquets"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/farne_lighthouse.md#3",
+          "quote": "named Longstone Lighthouse, it too remains active as an aid to navigation for Trinity House"
+        }
+      ],
+      "sql": "SELECT lighthouse.name FROM events WHERE event = 'automatization' AND left(date, 4) = (SELECT left(date, 4) FROM events WHERE lighthouse.name = 'Longstone Lighthouse' AND event = 'automatization') AND lighthouse.name <> 'Longstone Lighthouse'",
+      "note": "The renamed light is Longstone Lighthouse, automatization 1990. The other automatization events dated 1990 are Cromer (1990), Coquet (1990) and the Casquets (1990-11). The two 'automation' rows have no date."
+    },
+    {
+      "id": "LB11",
+      "type": "aggregation",
+      "question": "How many automation events in the events file are dated in the 1990s?",
+      "expected": {
+        "number": 13
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM events WHERE event IN ('automatization', 'automation') AND date LIKE '199%'",
+      "note": "13 'automatization' events have a date from 1990 to 1999 (1990-11, 1994-02 and 1994-08 included). The two 'automation' rows (Lizard, Longships) have no date, so both labels give 13."
+    },
+    {
+      "id": "LC05",
+      "type": "aggregation",
+      "question": "How many events in the events file have no date?",
+      "expected": {
+        "number": 9
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM events WHERE date IS NULL",
+      "note": "Null dates: Lizard (automation, electrification), Start Point (electrification), Longships (automation), Peninnis (electrification), Wolf Rock (electrification), Round Island (automatization, electrification) and Bishop Rock (stiffening)."
+    },
+    {
+      "id": "LC07",
+      "type": "aggregation",
+      "question": "In which decade does the table record the most lighthouse inceptions?",
+      "expected": {
+        "entities": [
+          {
+            "name": "1860s",
+            "aliases": [
+              "1860-1869",
+              "1860 to 1869",
+              "the 1860s"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH c AS (SELECT left(inception, 3) || '0s' AS decade, count(*) AS n FROM lighthouses WHERE inception IS NOT NULL GROUP BY 1) SELECT decade FROM c WHERE n = (SELECT max(n) FROM c)",
+      "note": "Decade of the inception cell's first four digits. 1860s: 9 (Smalls 1861, Trinity Buoy Wharf 1863, Dovercourt High and Low 1863, Hurst Point 1867, Winterton 1867, Portland Bill High and Low 1869, Wolf Rock 1869); next is the 1830s with 8. Godrevy's inception 1859-03-01 counts in the 1850s."
+    },
+    {
+      "id": "LC08",
+      "type": "aggregation",
+      "question": "Of the lighthouses the ten articles are about, which does its own article say was provided with a fog bell?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Godrevy Lighthouse"
+          },
+          {
+            "name": "St Anthony's Lighthouse",
+            "aliases": [
+              "St. Anthony's Lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#2",
+          "quote": "A fog bell was also provided"
+        },
+        {
+          "chunk_id": "articles/st_anthony_s_lighthouse.md#1",
+          "quote": "A fog-bell was installed in 1865"
+        }
+      ],
+      "note": "Only these two articles mention a bell. The other fog signals in the corpus are an explosive signal and Tannoy emitters (Anvil Point), Tannoy units and an electric emitter (Tater Du), sirens through Rayleigh trumpets (Whitby), and St Anthony's own 1954 electric Tannoy signal and present-day fog horn (which replaced its bell): none is a bell."
+    }
+  ]
+}

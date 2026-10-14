@@ -1,0 +1,143 @@
+{
+  "dataset": "heldout",
+  "written_by": "claude-opus-5-5, claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "HB41",
+      "type": "negation_sensitive",
+      "question": "Which complaints about the 2019 Toyota RAV4 say that the manufacturer was notified of the failure?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11205702",
+            "aliases": [
+              "Complaint 11205702"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+          "quote": "THE MANUFACTURER WAS MADE AWARE OF THE FAILURE AND NO ASSISTANCE WAS PROVIDED."
+        },
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+          "quote": "THE CONTACT WAS UNSURE IF THE RENTAL COMPANY NOTIFIED THE DEALER AND MANUFACTURER."
+        }
+      ],
+      "note": "Only 11205702. 11204698 does not count: the contact was unsure whether the rental company notified the manufacturer (merely possible). 11229137 reported to the dealership and 11209676 names only the dealer."
+    },
+    {
+      "id": "HC05",
+      "type": "aggregation",
+      "question": "In how many different calendar years did NHTSA receive the recall campaigns in the data?",
+      "expected": {
+        "number": 10
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(DISTINCT right(ReportReceivedDate, 4)) FROM r",
+      "note": "2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2025 and 2026; none in 2018 or 2024. Recall dates are day/month/year, so the year is the last four characters."
+    },
+    {
+      "id": "HD05",
+      "type": "aggregation",
+      "question": "How many recall campaigns warn in their consequence, using the word 'stall', that the engine or the vehicle may stall?",
+      "expected": {
+        "number": 6
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE regexp_matches(Consequence, '\\bstall\\b')",
+      "note": "Counted by the word 'stall' in the Consequence field: 23V858000, 21V839000, 20V682000, 21V587000 and 20V218000 say an engine stall, and 20V064000 says a vehicle stall from overheating; the question names both so that 20V064000 counts under one reading only. Not counted: 16V074000, whose consequence says the engine may seize (its word 'installed' contains 'stall', so a plain substring match gives 7), and 23V093000, which says the vehicle may shut off; neither uses the word, which the question asks for."
+    },
+    {
+      "id": "HE04",
+      "type": "multi_hop",
+      "question": "Which recall campaigns did NHTSA receive before the earliest complaint in the data about the vehicle they affect was filed?",
+      "expected": {
+        "entities": [
+          {
+            "name": "16V244000"
+          },
+          {
+            "name": "19V244000"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "16V244000",
+            "ReportReceivedDate": "26/04/2016"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "19V244000",
+            "ReportReceivedDate": "27/03/2019"
+          }
+        },
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "10957753",
+            "dateComplaintFiled": "03/01/2017"
+          }
+        },
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "11204698",
+            "dateComplaintFiled": "04/30/2019"
+          }
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r WHERE strptime(r.ReportReceivedDate, '%d/%m/%Y') < (SELECT min(strptime(c.dateComplaintFiled, '%m/%d/%Y')) FROM complaints c WHERE c.product.productModel = r.Model)",
+      "note": "Recall dates are day/month/year, complaint dates month/day/year. 16V244000 (Rogue air bag sensor) was received 26 April 2016, before the first Rogue complaint of 1 March 2017; 19V244000 (RAV4 load label) was received 27 March 2019, before the first RAV4 complaint of 30 April 2019. For the Escape (first complaint 22 December 2014, first recall 24 June 2015), the Civic (10 December 2015 versus 9 February 2016) and the Outback (29 August 2018 versus 26 June 2019) every recall came after the earliest complaint. The answer does not depend on the date order: the ten recall dates that could also be read month-first (11/07/2016, 09/02/2016, 06/08/2019, ...) all fall after their vehicle's first complaint under either reading, and the two answers have a day above 12."
+    },
+    {
+      "id": "HE06",
+      "type": "aggregation",
+      "question": "How many different telephone numbers do the recall remedies give owners to call customer service?",
+      "expected": {
+        "number": 10
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(DISTINCT p) FROM (SELECT unnest(regexp_extract_all(Remedy, '1-[0-9]{3}-[0-9]{3}-[0-9]{4}')) AS p FROM r)",
+      "note": "Ten distinct numbers in the Remedy fields: Honda 1-888-234-2138, Nissan 1-800-867-7669 and (in 17V663000 only) 1-800-647-7261, Infiniti 1-888-833-3216 and Chevrolet 1-800-222-1020 (both in 16V244000), Toyota 1-888-270-9371, Lexus 1-800-255-3987, GST 1-800-444-1074, Ford 1-866-436-7332 and Subaru 1-844-373-6614. Counting one number per filer gives 7; adding the NHTSA hotline 1-888-327-4236 and its TTY line 1-800-424-9153, which sit in the Notes field and are not customer service, gives 12."
+    },
+    {
+      "id": "HE07",
+      "type": "aggregation",
+      "question": "How many recall campaigns say in their remedy that an interim notice or interim letters were, or will be, sent to owners?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/16V074000#1",
+          "quote": "Owners were mailed an interim notification beginning March 31, 2016"
+        },
+        {
+          "chunk_id": "record/Recall/20V286000#1",
+          "quote": "Toyota's interim numbers for this recall are 20TB08 / 20TA08."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE regexp_matches(Remedy, '[Ii]nterim (owner )?(notification|notices|letters)')",
+      "note": "Seven: 16V074000 (an interim notification, lower-case), 16V244000 and 17V472000 (interim notices), 22V413000 (interim owner notification letters), 23V093000 (interim notification letters), 25V695000 and 26V011000 (interim letters). The word 'interim' also appears in 20V286000, but there it names Toyota's interim recall numbers (20TB08 / 20TA08), not a notice to owners, so a plain match on the word gives 8; matching only the capitalised 'Interim' misses 16V074000 and gives 6."
+    }
+  ]
+}

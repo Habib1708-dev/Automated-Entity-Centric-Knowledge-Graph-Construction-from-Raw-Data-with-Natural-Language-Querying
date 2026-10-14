@@ -1,0 +1,316 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-opus-5-5, claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FB10",
+      "type": "aggregation",
+      "question": "Which products have no parts listed under any of their assembly components?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Jönköping Coffee Table"
+          },
+          {
+            "name": "Norrköping Nightstand"
+          },
+          {
+            "name": "Västerås Bookshelf"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT p.product_name FROM products p WHERE NOT EXISTS (SELECT 1 FROM assemblies a JOIN components c ON c.assembly_id = a.assembly_id WHERE a.product_id = p.product_id)",
+      "note": "These three products have assembly components (legs, panels, screws and so on) but no component of theirs is broken down into parts in components.csv, so none of their components has a supplier in the data."
+    },
+    {
+      "id": "FB14",
+      "type": "aggregation",
+      "question": "Which reviewer handles appear on reviews of only one product?",
+      "expected": {
+        "entities": [
+          {
+            "name": "@akollegger",
+            "aliases": [
+              "akollegger"
+            ]
+          },
+          {
+            "name": "@artsy_andy",
+            "aliases": [
+              "artsy_andy"
+            ]
+          },
+          {
+            "name": "@tallguy87",
+            "aliases": [
+              "tallguy87"
+            ]
+          },
+          {
+            "name": "@architect_amy",
+            "aliases": [
+              "architect_amy"
+            ]
+          },
+          {
+            "name": "@bookworm_betty",
+            "aliases": [
+              "bookworm_betty"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+          "quote": "- @akollegger (Cambridge)"
+        },
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2",
+          "quote": "- @artsy_andy (Austin)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#2",
+          "quote": "- @tallguy87 (Denver)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#3",
+          "quote": "- @architect_amy (Seattle)"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+          "quote": "- @bookworm_betty (Seattle)"
+        }
+      ],
+      "note": "Each of these five handles signs exactly one review. Every other handle signs reviews of at least two products; @designer_dave signs two reviews of one product (the Stockholm Chair) but also reviews six other products."
+    },
+    {
+      "id": "FB18",
+      "type": "aggregation",
+      "question": "Which products have a review saying the product or one of its parts arrived damaged or was already scratched out of the box?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Gothenburg Table"
+          },
+          {
+            "name": "Helsingborg Dresser"
+          },
+          {
+            "name": "Linköping Bed"
+          },
+          {
+            "name": "Malmö Desk"
+          },
+          {
+            "name": "Norrköping Nightstand"
+          },
+          {
+            "name": "Uppsala Sofa"
+          },
+          {
+            "name": "Örebro Lamp"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#4",
+          "quote": "The table arrived with a small dent on one edge"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+          "quote": "One of the drawer handles was scratched right out of the box."
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#5",
+          "quote": "one of the drawer pulls arrived damaged"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#4",
+          "quote": "there were several scratches right out of the box"
+        },
+        {
+          "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#5",
+          "quote": "one corner arrived slightly damaged"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+          "quote": "one of the legs arrived with a small chip"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#5",
+          "quote": "the shade arrived with a small dent"
+        }
+      ],
+      "note": "Damage present on delivery only. Damage that came later does not count: the Västerås Bookshelf veneer 'chipped in several places during assembly' and the Jönköping Coffee Table veneer is 'chipping at the corners after just a few weeks'. 'Arrived on time' (Stockholm Chair) is not damage. The Helsingborg Dresser reviewer who found warped panels after 4 hours of assembly (#4) does not say they arrived so; the dresser counts anyway through the handle scratched out of the box (#5). Overlap: the Helsingborg, Gothenburg, Uppsala and Örebro chunks were already asked one at a time in F21, F22, F24 and F37."
+    },
+    {
+      "id": "FB38",
+      "type": "negation_sensitive",
+      "question": "Which products have at least one review stating that the product does not wobble?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Jönköping Coffee Table"
+          },
+          {
+            "name": "Linköping Bed"
+          },
+          {
+            "name": "Malmö Desk"
+          },
+          {
+            "name": "Uppsala Sofa"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#6",
+          "quote": "The construction remains solid with no wobbling or loose parts."
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+          "quote": "no squeaking or wobbling despite daily use"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#0",
+          "quote": "The desk feels solid and doesn't wobble at all."
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#6",
+          "quote": "the desk is rock solid with no wobbling"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+          "quote": "no squeaking or wobbling"
+        }
+      ],
+      "note": "The question asks for the denials. The Jönköping Coffee Table and Malmö Desk also have a review saying they do wobble; they still count because another review states they do not. The Gothenburg Table, Örebro Lamp and Västerås Bookshelf are only reported as wobbling."
+    },
+    {
+      "id": "FC05",
+      "type": "aggregation",
+      "question": "How many reviews across all products give a rating of three stars out of five?",
+      "expected": {
+        "number": 10
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#1",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#3",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#2",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        }
+      ],
+      "note": "Every product has exactly one three-star review, so ten in all out of 70 reviews."
+    },
+    {
+      "id": "FE12",
+      "type": "disambiguation",
+      "question": "What lead time in days does Canadian Timber Products quote for the drawer back of the Malmö Desk's drawer unit?",
+      "expected": {
+        "number": 10
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1062",
+            "component_name": "Drawer Unit",
+            "product_id": "P-1002"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "sub_assembly_name": "drawer_unit_subassembly",
+            "part_name": "Drawer Back",
+            "part_id": "S-1077",
+            "assembly_id": "A-1062"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1077",
+            "supplier_id": "SUP-011",
+            "lead_time_days": "10",
+            "preferred_supplier": "no"
+          }
+        }
+      ],
+      "sql": "SELECT m.lead_time_days FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Drawer Unit' AND c.part_name = 'Drawer Back' AND s.name = 'Canadian Timber Products'",
+      "note": "Two parts are named Drawer Back, and Canadian Timber Products offers both: the desk's S-1077 in 10 days and the Helsingborg Dresser's S-1084 in 21 days. Only the desk's counts. The question names the supplier, which is not the preferred one: Nordic Wood Industries, preferred, quotes 9 days for S-1077, so 9 is wrong."
+    },
+    {
+      "id": "FE16",
+      "type": "negation_sensitive",
+      "question": "How many Örebro Lamp reviews say the dimmer is smooth?",
+      "expected": {
+        "number": 2
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#0",
+          "quote": "the dimmer function is smooth and responsive"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#6",
+          "quote": "The dimmer function has been reliable and smooth."
+        }
+      ],
+      "note": "@scandi_lover (#0) and @entertainer_emma (#6) call the dimmer smooth. Three other reviews mention the dimmer without saying it is smooth and do not count: @petite_patty (#5) says it 'works well though it's a bit stiff to turn', the opposite; @angry_customer (#4) calls the dimmer switch finicky; @interior_whiz (#2) says it is perfect for mood lighting. Counting every dimmer mention gives 5, which is wrong."
+    }
+  ]
+}
