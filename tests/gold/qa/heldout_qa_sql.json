@@ -1,0 +1,170 @@
+{
+  "dataset": "heldout",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "HQ01",
+      "type": "multi_hop",
+      "question": "For how many recall campaigns does the filing company's name in the recall record (its Manufacturer field) differ, as a name, from the manufacturer name recorded for the affected vehicle in the vehicles list?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "vehicles.csv",
+          "row": {
+            "make": "TOYOTA",
+            "model": "RAV4",
+            "model_year": "2019",
+            "manufacturer": "Toyota Motor Corporation"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "20V682000",
+            "Manufacturer": "Toyota Motor Engineering & Manufacturing"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "20V064000",
+            "Manufacturer": "Toyota Motor Engineering & Manufacturing"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "20V373000",
+            "Manufacturer": "Toyota Motor Engineering & Manufacturing"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "20V286000",
+            "Manufacturer": "Toyota Motor Engineering & Manufacturing"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "19V576000",
+            "Manufacturer": "Toyota Motor Engineering & Manufacturing"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "19V503000",
+            "Manufacturer": "Southeast Toyota Distributors, LLC"
+          }
+        },
+        {
+          "file": "recalls.csv",
+          "row": {
+            "NHTSACampaignNumber": "19V244000",
+            "Manufacturer": "Gulf States Toyota, Inc."
+          }
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r JOIN vehicles v ON v.make = r.Make AND v.model = r.Model AND CAST(v.model_year AS VARCHAR) = r.ModelYear WHERE r.Manufacturer <> v.manufacturer",
+      "note": "Seven, all for the 2019 Toyota RAV4: the vehicles list records its manufacturer as 'Toyota Motor Corporation', but none of its seven recalls was filed under that name. Five were filed by 'Toyota Motor Engineering & Manufacturing' (19V576000, 20V064000, 20V286000, 20V373000, 20V682000), one by 'Southeast Toyota Distributors, LLC' (19V503000) and one by 'Gulf States Toyota, Inc.' (19V244000). For the other four vehicles the filer string equals the vehicles-list manufacturer exactly (Honda (American Honda Motor Co.), Nissan North America, Inc., Ford Motor Company, Subaru of America, Inc.), so all 22 of their recalls match. The trap is to treat 'Toyota Motor Engineering & Manufacturing' as the same company as 'Toyota Motor Corporation' because both are Toyota (it is a Toyota subsidiary), which counts only the two distributors and gives 2; the question therefore asks explicitly whether the names differ, and the two strings differ. The comparison is exact and case does not matter: no filer name equals a vehicles-list name under case folding either (reviewer check, same 7). Re-derived in Python by comparing each recall's Manufacturer with the vehicles.csv row of its make and model: the same 7. HN01 asks which RAV4 recalls were filed by a company other than Toyota Motor Engineering & Manufacturing (2); this question joins the vehicles table and its answer is 7."
+    },
+    {
+      "id": "HQ02",
+      "type": "multi_hop",
+      "question": "Which complaints describe an incident that happened in a calendar year in which NHTSA received none of the recall campaigns in the data for the vehicle the complaint concerns?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10809523",
+            "aliases": [
+              "Complaint 10809523"
+            ]
+          },
+          {
+            "name": "10816192",
+            "aliases": [
+              "Complaint 10816192"
+            ]
+          },
+          {
+            "name": "11209676",
+            "aliases": [
+              "Complaint 11209676"
+            ]
+          },
+          {
+            "name": "10667633",
+            "aliases": [
+              "Complaint 10667633"
+            ]
+          },
+          {
+            "name": "11123359",
+            "aliases": [
+              "Complaint 11123359"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "10809523",
+            "dateOfIncident": "12/10/2015",
+            "product.productModel": "CIVIC"
+          }
+        },
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "10816192",
+            "dateOfIncident": "12/23/2015",
+            "product.productModel": "CIVIC"
+          }
+        },
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "11209676",
+            "dateOfIncident": "12/20/2018",
+            "dateComplaintFiled": "05/24/2019",
+            "product.productModel": "RAV4"
+          }
+        },
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "10667633",
+            "dateOfIncident": "12/20/2014",
+            "product.productModel": "ESCAPE"
+          }
+        },
+        {
+          "file": "complaints.csv",
+          "row": {
+            "odiNumber": "11123359",
+            "dateOfIncident": "08/28/2018",
+            "product.productModel": "OUTBACK"
+          }
+        }
+      ],
+      "sql": "SELECT c.odiNumber FROM complaints c WHERE NOT EXISTS (SELECT 1 FROM (SELECT unnest(results, recursive := true) FROM recalls) r WHERE r.Model = c.product.productModel AND substr(r.ReportReceivedDate, 7, 4) = substr(c.dateOfIncident, 7, 4))",
+      "note": "Five complaints, found by an anti-join of complaints against the recall years of their vehicle (the year is the last four characters of either date, so the day-first recall dates and month-first complaint dates do not matter). Civic recalls were received in 2016, 2023 and 2026, so the two Civic incidents of December 2015 (10809523, 10816192) qualify while the three 2016 incidents do not. RAV4 recalls were received in 2019 and 2020, so 11209676 (incident 12/20/2018) qualifies and the four 2019 incidents do not. Escape recalls were received in 2015, 2016, 2017, 2020, 2022, 2025 and 2026, so 10667633 (incident 12/20/2014) qualifies and the four 2015 incidents do not. Outback recalls were received in 2019, 2020 and 2021, so 11123359 (incident 08/28/2018) qualifies and the four 2019 incidents do not. Rogue recalls cover 2016, 2017, 2021, 2022 and 2023 and all five Rogue incidents are in 2017, so none qualifies. The trap is to use the filing date instead of the incident date: 11209676 was filed on 05/24/2019, a year with RAV4 recalls, so a filed-date reading drops it and gives four. Re-derived in Python per vehicle (set of recall years, then each complaint's incident year tested against it): the same five. Reviewer checks: every date string in both files is exactly 10 characters with the year in positions 7-10, so the year extraction is right for all 29 recalls and 25 complaints whichever of the two day/month orders a row uses; matching the vehicle on make, model and model year instead of model alone gives the same five, because each model occurs with one make and one model year in the data. HE04 compares recall dates with each vehicle's earliest complaint; HN03 counts recalls received in the model year; neither asks about complaint incidents in years without a recall."
+    }
+  ]
+}

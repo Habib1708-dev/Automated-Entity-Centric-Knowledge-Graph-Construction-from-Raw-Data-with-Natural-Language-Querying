@@ -11,7 +11,8 @@ the confirmation files, 20 questions each, every type at least three times; R171
 20 questions judged wrong by meaning across R157-R179, copied unchanged. R185: experiment A's targeted
 files (`_qa_semantic.json`) pass the per-file checks and ask 2 retrieval questions each over every passage
 of an idea; its run files (`tests/gold/r185/`) are those questions, the experiment's old failures and the 10
-seeded controls, copied unchanged. No Neo4j, no LLM.
+seeded controls, copied unchanged. R189: so do experiment B's (`_qa_sql.json`, 2 questions each answered by
+a query over the tables; run files in `tests/gold/r189/`, with the same controls). No Neo4j, no LLM.
 """
 
 import json
@@ -51,7 +52,9 @@ CONFIRM += [f"{name}_qa_confirm3.json" for name in CONFIRM_DATASETS]
 # R185: experiment A's targeted questions (plan R183-R191), 2 per dataset written blind on ideas worded
 # differently across passages
 SEMANTIC = [f"{name}_qa_semantic.json" for name in CONFIRM_DATASETS]
-GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM, *SEMANTIC]
+# R189: experiment B's targeted questions, 2 per dataset written blind on table operations
+TABLE_OPS = [f"{name}_qa_sql.json" for name in CONFIRM_DATASETS]
+GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM, *SEMANTIC, *TABLE_OPS]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)
@@ -231,6 +234,45 @@ def test_a_run_file_of_experiment_a_is_its_questions_copied_unchanged(dataset):
     if dataset in FAILURES_A:
         failed = load_qa_gold(FAILURE_SET / f"{dataset}_failures.json").questions
         failures = [q for q in failed if q.id in FAILURES_A[dataset]]
+    third = load_qa_gold(QA_GOLD / f"{dataset}_qa_confirm3.json")
+    assert run.corpus == third.corpus
+    assert run.questions == [*targeted, *failures, *(q for q in third.questions if q.id in controls)]
+
+
+@pytest.mark.parametrize("name", TABLE_OPS)
+def test_a_table_operations_file_asks_two_questions_answered_by_a_query(name):
+    """R189: 2 questions, each a set or a number that its query computes from the tables (the per-file check
+    runs every query), none asked before by wording."""
+    gold = load_qa_gold(QA_GOLD / name)
+    assert len(gold.questions) == 2
+    assert all(q.sql and q.expected.kind in ("entities", "number") for q in gold.questions)
+    dataset = name.removesuffix("_qa_sql.json")
+    earlier = {
+        norm(q.question)
+        for other in QA_GOLD.glob(f"{dataset}_qa*.json")
+        if other.name != name
+        for q in load_qa_gold(other).questions
+    }
+    assert not {norm(q.question) for q in gold.questions} & earlier
+
+
+# R189: experiment B's old failures (R182: wrong at both thinking levels, a count the typed query could
+# not take)
+RUNS_B = REPO / "tests" / "gold" / "r189"
+FAILURES_B = {"heldout": ["HE06"], "lighthouses": ["LB11"]}
+
+
+@pytest.mark.parametrize("dataset", CONFIRM_DATASETS)
+def test_a_run_file_of_experiment_b_is_its_questions_copied_unchanged(dataset):
+    """R189: the targeted questions, then the old failures (from R180's files), then R185's controls, each
+    equal field by field to its source, over the same corpus."""
+    run = load_qa_gold(RUNS_B / f"{dataset}_expB.json")
+    controls = json.loads((RUNS_A / "controls.json").read_text(encoding="utf-8"))["controls"][dataset]
+    targeted = load_qa_gold(QA_GOLD / f"{dataset}_qa_sql.json").questions
+    failures = []
+    if dataset in FAILURES_B:
+        failed = load_qa_gold(FAILURE_SET / f"{dataset}_failures.json").questions
+        failures = [q for q in failed if q.id in FAILURES_B[dataset]]
     third = load_qa_gold(QA_GOLD / f"{dataset}_qa_confirm3.json")
     assert run.corpus == third.corpus
     assert run.questions == [*targeted, *failures, *(q for q in third.questions if q.id in controls)]

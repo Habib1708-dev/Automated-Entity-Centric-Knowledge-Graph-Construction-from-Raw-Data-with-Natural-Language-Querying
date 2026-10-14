@@ -1,0 +1,124 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-fable-5-1, claude-opus-5-5",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GQ01",
+      "type": "aggregation",
+      "question": "How many different names appear in the institute's staff records, counting each name once no matter how many staff ids carry it?",
+      "expected": {
+        "number": 4
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-104",
+            "name": "Maria Lopez"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-219",
+            "name": "Maria Lopez"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-131",
+            "name": "Jonathan Pike"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-150",
+            "name": "Aiko Tanaka"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-162",
+            "name": "Samuel Osei"
+          }
+        }
+      ],
+      "sql": "SELECT count(DISTINCT name) FROM staff",
+      "note": "The staff records have five rows but only four different names: Maria Lopez appears twice (S-104, the Soil Ecology postdoctoral researcher, and S-219, the grants accountant in the Finance Office), beside Jonathan Pike, Aiko Tanaka and Samuel Osei. The text documents show the two Maria Lopez rows are two different people, so the question states the counting rule outright: distinct name strings, each counted once however many staff ids carry it. Counting rows, staff ids or people gives 5, which is wrong under that rule."
+    },
+    {
+      "id": "GQ02",
+      "type": "aggregation",
+      "question": "What is the total rated flow, in litres per second, of the pumps in the pump records that were installed in 2016 or earlier?",
+      "expected": {
+        "number": 60
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "water/pumps.csv",
+          "row": {
+            "serial_number": "HP40-1183",
+            "install_year": "2012",
+            "rated_flow_lps": "42"
+          }
+        },
+        {
+          "file": "water/pumps.csv",
+          "row": {
+            "serial_number": "KV12-0457",
+            "install_year": "2016",
+            "rated_flow_lps": "18"
+          }
+        }
+      ],
+      "sql": "SELECT sum(rated_flow_lps) FROM pumps WHERE install_year <= 2016",
+      "note": "Two pumps qualify: HP40-1183 (installed 2012, 42 l/s) and KV12-0457 (installed 2016, 18 l/s), so 42 + 18 = 60. The boundary is the trap: reading '2016 or earlier' as 'before 2016' drops KV12-0457, installed in 2016 itself, and gives 42; summing all three pumps gives 102; and the two North Station pumps together give 84. HP40-2291 (2019, 42 l/s) is excluded by its install year even though it shares HP40-1183's model and rated flow."
+    },
+    {
+      "id": "GE16",
+      "type": "negation_sensitive",
+      "question": "According to the committee minutes of 12 May 2025, will a project that has no data management plan receive second-year funding?",
+      "expected": {
+        "text": "No. Projects without a data management plan will not receive second-year funding."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-05-12.md#0",
+          "quote": "Projects without a plan will not receive second-year funding."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The minutes make second-year funding conditional on the plan: projects without one will not receive it. Answering yes, or answering with the deadline of 30 June 2025 by which the plan is due, misses the negation. The 18,000 euro overrun of the Aldmoor peat project in the same minutes is a separate item."
+    },
+    {
+      "id": "GE19",
+      "type": "lookup",
+      "question": "How many cubic metres of water did North Station pump in 2024?",
+      "expected": {
+        "number": 1900000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/north_station_2024_summary.md#0",
+          "quote": "North Station pumped 1.9 million cubic metres in 2024."
+        }
+      ],
+      "note": "The 2024 summary says 1.9 million cubic metres, that is 1,900,000. The 6,100 and 2,300 hours in the next sentence are running hours of the two pumps, not volumes."
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "dataset": "lighthouses",
+  "written_by": "claude-fable-5-1, claude-opus-5-5",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/lighthouses/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "LQ01",
+      "type": "aggregation",
+      "question": "How many lighthouses in the table have no event at all in the events file, counting an undated event as an event?",
+      "expected": {
+        "number": 34
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM lighthouses l WHERE NOT EXISTS (SELECT 1 FROM events e WHERE e.lighthouse.qid = l.qid)",
+      "note": "The table has 80 lighthouses; the events file has 62 events, but they belong to only 46 distinct lighthouses (many have two or three events, e.g. Bishop Rock three, Lundy North three), so 80 - 46 = 34 lighthouses have no event. The tempting wrong answer is 80 - 62 = 18, which subtracts event rows instead of distinct lighthouses. Every event's lighthouse is a row of the table, so no event is lost on the join; undated events (Lizard, Start Point, Peninnis, ...) still count as events, so their lighthouses are not among the 34. Re-derived by (SELECT count(*) FROM lighthouses) - (SELECT count(DISTINCT lighthouse.qid) FROM events) and by a NOT IN on the name column: 34 each time."
+    },
+    {
+      "id": "LQ02",
+      "type": "structured_filter",
+      "question": "Which lighthouses does the table record as entering service in a later year than their inception year, comparing only the year even where a cell gives a month or a full date?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Hartland Point Lighthouse"
+          },
+          {
+            "name": "Bull Point Lighthouse"
+          },
+          {
+            "name": "Portland Bill Lighthouse"
+          },
+          {
+            "name": "St Bees Lighthouse"
+          },
+          {
+            "name": "Belle Tout lighthouse",
+            "aliases": [
+              "Belle Tout Lighthouse"
+            ]
+          },
+          {
+            "name": "Europa Point Lighthouse"
+          },
+          {
+            "name": "Helgoland lighthouse",
+            "aliases": [
+              "Helgoland Lighthouse",
+              "Heligoland Lighthouse"
+            ]
+          },
+          {
+            "name": "Bishop Rock Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Hartland Point Lighthouse",
+            "inception": "1874",
+            "service_entry": "2012"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Bull Point Lighthouse",
+            "inception": "1879",
+            "service_entry": "1974"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Portland Bill Lighthouse",
+            "inception": "1903",
+            "service_entry": "1906"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "St Bees Lighthouse",
+            "inception": "1822",
+            "service_entry": "1867"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Belle Tout lighthouse",
+            "inception": "1832",
+            "service_entry": "1834"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Europa Point Lighthouse",
+            "inception": "1838",
+            "service_entry": "1841-08-01"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Helgoland lighthouse",
+            "inception": "1810",
+            "service_entry": "1811-02"
+          }
+        },
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Bishop Rock Lighthouse",
+            "inception": "1858",
+            "service_entry": "1887"
+          }
+        }
+      ],
+      "sql": "SELECT name FROM lighthouses WHERE CAST(substr(service_entry, 1, 4) AS INTEGER) > CAST(substr(inception, 1, 4) AS INTEGER)",
+      "note": "Eight rows, found by comparing the first four characters of two mixed-precision columns: Hartland Point (1874 to 2012), Bull Point (1879 to 1974), Portland Bill (1903 to 1906), St Bees (1822 to 1867), Belle Tout (1832 to 1834), Europa Point (1838 to 1841-08-01), Helgoland (1810 to 1811-02) and Bishop Rock (1858 to 1887). Two traps. First, a plain string comparison of the cells gives 12: it adds Pendeen (1900 vs 1900-10-03), Trevose Head (1847 vs 1847-12-01), Flamborough Head (1806 vs 1806-12-01) and Souter (1871 vs 1871-01-11), where a full date sorts after the same bare year although the year is equal; Godrevy (inception 1859-03-01, service entry 1859) and Royal Sovereign (both 1971-09-06) are equal years too. Second, counting every row whose two cells differ gives 10: Winterton (1867 to 1840) and Orfordness (1793 to 1792) entered service in an earlier year, not a later one. Rows with an empty inception or service entry cell (48 of the 80) cannot be compared and are out. Re-derived by padding each cell to a full date, casting it to DATE and comparing year(): the same eight names."
+    },
+    {
+      "id": "LB11",
+      "type": "aggregation",
+      "question": "How many automation events in the events file are dated in the 1990s?",
+      "expected": {
+        "number": 13
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM events WHERE event IN ('automatization', 'automation') AND date LIKE '199%'",
+      "note": "13 'automatization' events have a date from 1990 to 1999 (1990-11, 1994-02 and 1994-08 included). The two 'automation' rows (Lizard, Longships) have no date, so both labels give 13."
+    },
+    {
+      "id": "LE13",
+      "type": "disambiguation",
+      "question": "In what year does the events file date the automation of Pendeen Lighthouse, as opposed to the similarly named Peninnis Lighthouse?",
+      "expected": {
+        "number": 1995
+      },
+      "route": "exact",
+      "sql": "SELECT CAST(date AS INTEGER) FROM events WHERE lighthouse.name = 'Pendeen Lighthouse' AND event = 'automatization'",
+      "note": "Pendeen Lighthouse's only event is an automatization dated 1995. Peninnis Lighthouse, the lookalike name (both are Cornish rows), has only an undated electrification, so reading its row gives no year; the St Agnes article's 1911 (when Peninnis superseded St Agnes) and Pendeen's table cells (inception 1900, service entry 1900-10-03) are not events. Trevose Head and Hilbre Island are the other 1995 events."
+    },
+    {
+      "id": "LE16",
+      "type": "negation_sensitive",
+      "question": "According to the St Mary's Lighthouse article, which light was converted to become 'the first major lighthouse to be run using solar power'?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Inner Dowsing light platform",
+            "aliases": [
+              "Inner Dowsing",
+              "the Inner Dowsing light platform",
+              "Inner Dowsing lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_mary_s_lighthouse.md#2",
+          "quote": "on the Inner Dowsing light platform in the North Sea, as part of its conversion to become 'the first major lighthouse to be run using solar power'"
+        }
+      ],
+      "note": "The Inner Dowsing light platform in the North Sea. The tempting wrong answer is St Mary's itself: the phrase sits in its article because its revolving sealed beam array was reused there in 1986, but St Mary's had been decommissioned in 1984 and never ran on solar power. Godrevy (1995) and Farne (1996) say in their own articles that they were converted to solar power, and the events file has solar conversions for Lundy North and Lundy South; none is the light this article calls the first major one."
+    }
+  ]
+}

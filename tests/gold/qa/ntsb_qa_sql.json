@@ -1,0 +1,169 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/ntsb/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "NQ01",
+      "type": "aggregation",
+      "question": "Which accidents have no finding in the 'Personnel issues' category in the findings table?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA221",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA232",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA284",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA353",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA382",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA414",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA059",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA312",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA026",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA223",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM events e WHERE NOT EXISTS (SELECT 1 FROM findings f WHERE f.ntsb_no = e.ntsb_no AND f.finding LIKE 'Personnel issues%') ORDER BY ntsb_no",
+      "note": "An anti-join: 20 of the 30 accidents have at least one of the 23 'Personnel issues' findings (finding text starting 'Personnel issues-', finding_code starting '02'), so the other 10 are the answer. Their findings are only 'Aircraft' findings (CEN21LA221, CEN21LA232, CEN21LA284, CEN21LA353, CEN21LA382, CEN22LA059, CEN22LA312, CEN23LA026, CEN23LA223) or only 'Not determined' (CEN21LA414, whose single finding is 'Not determined-Not determined-(general)-(general)-Unknown/Not determined'). Trap: CEN22LA194 must not be listed; its finding 'Personnel issues-Task performance-Maintenance-Installation-Maintenance personnel' is a Personnel issues finding even though it blames maintenance personnel rather than the pilot, and its second finding is an Aircraft finding. Every accident has at least one finding row, so the answer cannot be read off a list of accidents missing from the findings table. Re-derived with a second query grouping the 67 finding rows by ntsb_no and keeping the groups with no finding_code starting '02': the same 10."
+    },
+    {
+      "id": "NQ02",
+      "type": "multi_hop",
+      "question": "In how many accidents does the events table count more people on board (fatal, serious, minor and uninjured together) than the number of people (rows of any category) the crew table lists for that accident?",
+      "expected": {
+        "number": 9
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "ANC21LA027",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "2"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN21LA173",
+            "fatal_injuries": "0",
+            "serious_injuries": "2",
+            "minor_injuries": "2",
+            "uninjured": "0"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN21LA185",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "3"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN21LA221",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "2"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN21LA232",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "3"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN21LA268",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "2"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN22LA059",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "3"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN23LA017",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "0",
+            "uninjured": "6"
+          }
+        },
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN23LA344",
+            "fatal_injuries": "0",
+            "serious_injuries": "0",
+            "minor_injuries": "1",
+            "uninjured": "1"
+          }
+        }
+      ],
+      "sql": "SELECT count(*) FROM events e WHERE e.fatal_injuries + e.serious_injuries + e.minor_injuries + e.uninjured > (SELECT count(*) FROM crew c WHERE c.ntsb_no = e.ntsb_no)",
+      "note": "A per-accident comparison across two tables: the events table's four injury columns sum to the people on board, and the crew table lists one row per person it records. Nine accidents have more people on board than crew rows, each with exactly one crew row: ANC21LA027 (2 on board), CEN21LA173 (4: the pilot and three passengers), CEN21LA185 (3), CEN21LA221 (2), CEN21LA232 (3), CEN21LA268 (2), CEN22LA059 (3), CEN23LA017 (6: the pilot and five passengers) and CEN23LA344 (2). The other 21 accidents match exactly (including the seven with more than one crew row, such as ANC23LA032 with 3 and 3); none has fewer on board than crew rows. Traps: the totals over all 30 accidents (56 on board against 38 crew rows) say nothing about how many accidents differ; joining crew rows to events and summing the injury columns multiplies them for the multi-row accidents; and the injuries table's per-accident sums (ignoring its 'Total' rows) agree with the events table, so it is not an independent count of crew rows. Counting only the crew table's non-Passenger rows (Pilot, Student Pilot, Flight Instructor) would give 12, which is why the question says rows of any category; CEN22LA194's two rows are numbered crew_no 1 and 3, so max(crew_no) (3) is not its row count (2), but either way its 2 on board are not more. Every injury cell in the events table is filled (no empty cells), so the four-column sum is defined for all 30 rows. Re-derived with a second query that groups the crew table by ntsb_no first and joins the counts to events: the same 9 accidents."
+    }
+  ]
+}

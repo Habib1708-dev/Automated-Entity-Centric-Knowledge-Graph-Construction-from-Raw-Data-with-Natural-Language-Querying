@@ -1,0 +1,190 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-fable-5-1, claude-opus-5-5",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FQ01",
+      "type": "aggregation",
+      "question": "Counting each part id separately, for how many parts is the preferred supplier's unit cost higher than the other supplier's unit cost for the same part?",
+      "expected": {
+        "number": 42
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM part_supplier_mapping p JOIN part_supplier_mapping o ON o.part_id = p.part_id AND NOT o.preferred_supplier WHERE p.preferred_supplier AND CAST(replace(p.unit_cost, '$', '') AS DOUBLE) > CAST(replace(o.unit_cost, '$', '') AS DOUBLE)",
+      "note": "Every one of the 88 part ids in part_supplier_mapping.csv has exactly two offers, one preferred (yes) and one not (no), so the question is a per-part comparison of two unit costs over 176 rows. The preferred offer is the dearer one for 42 parts and the cheaper one for the other 46; no pair is equal, so 46 is the tempting wrong answer if the comparison is turned round. The unit_cost column is text with a dollar sign and a variable number of decimals ('$42.73', '$9.4', '$14.0'), so the values must be parsed to numbers before comparing: comparing the raw strings misorders 23 of the 88 pairs (for example '$6.35' sorts above '$36.78' for Drawer Sides S-1083, and '$39.89' below '$9.71' for Mounting Brackets S-1095) and gives 39 instead of 42. Examples that count: Drawer Front S-1074 (preferred Nordic Wood Industries $42.73 vs Canadian Timber Products $34.32), Zipper S-1114 (American Hardware Inc $23.78 vs Mexican Hardware Solutions $3.16). Examples that do not count: Drawer Handle S-1079 (preferred Shanghai Metal Corp $2.22 vs Korean Metal Works $39.15), Drawer Bottom S-1082 (preferred $0.57 vs $10.57). The question says 'counting each part id separately' because the count differs by part name: the Linköping Bed's slats list 15 separate Wooden Slat parts (S-1124 in slats_subassembly plus S-1134 .. S-1160 in bed_slat_1 .. bed_slat_14) and 15 Fabric Sleeve parts, of which 7 and 10 count respectively; counting distinct part names whose preferred offer is dearer for at least one id would give 24 of the 41 names."
+    },
+    {
+      "id": "FQ02",
+      "type": "aggregation",
+      "question": "Which suppliers offer at least one part but are not the preferred supplier for any part?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Canadian Timber Products"
+          },
+          {
+            "name": "Korean Metal Works"
+          },
+          {
+            "name": "Italian Textile Design"
+          },
+          {
+            "name": "Taiwan Precision Parts"
+          },
+          {
+            "name": "UK Foam Manufacturers"
+          },
+          {
+            "name": "Mexican Hardware Solutions"
+          },
+          {
+            "name": "Spanish Glass Industries"
+          },
+          {
+            "name": "Singapore Adhesive Tech"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-011",
+            "name": "Canadian Timber Products"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-012",
+            "name": "Korean Metal Works"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-013",
+            "name": "Italian Textile Design"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-014",
+            "name": "Taiwan Precision Parts"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-015",
+            "name": "UK Foam Manufacturers"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-016",
+            "name": "Mexican Hardware Solutions"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-018",
+            "name": "Spanish Glass Industries"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-019",
+            "name": "Singapore Adhesive Tech"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT s.name FROM suppliers s JOIN part_supplier_mapping m ON m.supplier_id = s.supplier_id WHERE s.supplier_id NOT IN (SELECT supplier_id FROM part_supplier_mapping WHERE preferred_supplier)",
+      "note": "Of the 20 suppliers, 16 appear in part_supplier_mapping.csv (176 offer rows). Eight of those are preferred for at least one part (Nordic Wood Industries, Shanghai Metal Corp, Bangalore Textiles Ltd, German Precision Fasteners, Brazilian Foam Solutions, American Hardware Inc, Sydney Glass Works, Cape Town Adhesives) and the other eight are always the 'no' offer: Canadian Timber Products (32 offers), Italian Textile Design (22), Korean Metal Works (15), Taiwan Precision Parts (6), Mexican Hardware Solutions (6), UK Foam Manufacturers (4), Singapore Adhesive Tech (2) and Spanish Glass Industries (1 offer, the diffuser S-1132). The trap is the anti-join's second condition: a plain 'suppliers with no preferred row' also returns the four suppliers that supply no part at all (Tokyo Electronics Co, Dubai Packaging Solutions, French Electronics SA, Polish Packaging Group), giving 12 names; the question excludes them because they offer nothing. Spanish Glass Industries is the near miss in the other direction: it has only one offer row and is easy to overlook when scanning the 176 rows."
+    },
+    {
+      "id": "FE04",
+      "type": "multi_hop",
+      "question": "A reviewer who is an interior designer says a chair's back angle provides excellent lumbar support. What lead time in days does the preferred supplier quote for the support frame in that chair's back rest?",
+      "expected": {
+        "number": 20
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#4",
+          "quote": "the back angle provides excellent lumbar support"
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1038",
+            "component_name": "Back Rest",
+            "product_id": "P-1000"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1110",
+            "part_name": "Support Frame",
+            "assembly_id": "A-1038"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1110",
+            "supplier_id": "SUP-002",
+            "lead_time_days": "20",
+            "preferred_supplier": "yes"
+          }
+        }
+      ],
+      "sql": "SELECT m.lead_time_days FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Stockholm Chair' AND a.component_name = 'Back Rest' AND c.part_name = 'Support Frame' AND m.preferred_supplier",
+      "note": "The chair is the Stockholm Chair (@designer_dave's second review, #4). Its back rest's support frame S-1110 is preferred from Shanghai Metal Corp at 20 days; Korean Metal Works quotes 11 days but is not preferred, so 11 is wrong. The Uppsala Sofa's frame parts (base frame, back frame, side frames) are differently named parts of another product."
+    },
+    {
+      "id": "FE05",
+      "type": "aggregation",
+      "question": "Which products have a review complaining that the surface shows fingerprints easily?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Gothenburg Table"
+          },
+          {
+            "name": "Jönköping Coffee Table"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#1",
+          "quote": "The table top also shows fingerprints very easily which is annoying for daily use."
+        },
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#5",
+          "quote": "the surface shows fingerprints easily and requires frequent cleaning"
+        }
+      ],
+      "note": "Fingerprints are mentioned in exactly two reviews across the corpus: @furniture_lover92 on the Gothenburg Table (#1) and @home_chef on the Jönköping Coffee Table (#5). Reviews that praise a surface for cleaning easily (Gothenburg #0, #5) or for resisting scratches and water rings (Jönköping #0, #6) are not fingerprint complaints; the Malmö Desk's finish inconsistencies and scratches (#4) are not fingerprints either."
+    }
+  ]
+}

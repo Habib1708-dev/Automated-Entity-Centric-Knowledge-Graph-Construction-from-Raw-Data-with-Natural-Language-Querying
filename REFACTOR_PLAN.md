@@ -10384,6 +10384,34 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   it writes valid DuckDB SQL.
 - **R188 done 2026-10-14.** Next: R189, suite B.
 
+### R189. Suite B: 10 blind questions on table operations, and experiment B's run files (done 2026-10-14; $0, no run)
+- **Scope:** `tests/gold/qa/<dataset>_qa_sql.json`, ids FQ/HQ/GQ/LQ/NQ01-02, written by Claude Fable 5.1 (one
+  writer per dataset) from the source files, the earlier questions and the gold format only (no output,
+  roadmap, figure or code read; the code-side check `qa_records.connect` was run, not read), each answer a set
+  or a number its `sql` computes over the source files (checked by the gold-file tests), and re-derived by a
+  second query. Asked for operations awkward by listing rows: FQ01 a per-part comparison of two offers' text
+  prices (42), FQ02 suppliers offering parts but never preferred (8; the plain anti-join gives 12), HQ01 recall
+  filers whose name differs from the vehicles list's manufacturer (7), HQ02 complaints whose incident year has
+  no recall of their vehicle, day-first against month-first dates (5), GQ01 distinct names over 5 staff rows
+  (4), GQ02 a sum with a year boundary (60), LQ01 lighthouses with no event (34; 80 - 62 event rows gives 18),
+  LQ02 service entry later than inception by year over mixed precisions (8; a text comparison gives 12), NQ01
+  accidents with no "Personnel issues" finding (10), NQ02 accidents whose injury columns count more people than
+  the crew table lists (9). One adversarial review per file (Fable 5.1), every answer re-derived by its own
+  query, fixing in place; no answer changed, six questions reworded to close a second reading: FQ01 ("counting
+  each part id separately"; by name 24), HQ01 ("differ, as a name": the filer is a subsidiary, so "a different
+  company" could give 2), HQ02 ("the recall campaigns in the data"), GQ01 ("counting each name once no matter
+  how many staff ids carry it": the text shows two people), LQ01 ("counting an undated event as an event"),
+  NQ02 ("rows of any category": pilots alone give 12); GQ02's boundary turned to "2016 or earlier" (the old
+  filter set was GN05's answer; the total stays 60); FQ01's note corrected (a text comparison of the prices
+  gives 39, not 42 as the writer wrote); NQ02's number cells written as text (the gold model's type). Logs in
+  `tests/gold/r189/reviews/`.
+- **Run files** (`tests/gold/r189/<dataset>_expB.json`, 22 questions): the 10 targeted, experiment B's two old
+  failures (HE06, LB11) and R185's 10 controls.
+- **Verified:** the per-file gold checks (every query's answer computed from the source files) extended to
+  the five files; new tests: a targeted file asks 2 questions each answered by a query, sets or numbers, none
+  asked before by wording; each run file is its questions copied unchanged.
+- **R189 done 2026-10-14.** Next: R190, the paired run (paid, asked).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
