@@ -38,6 +38,7 @@ from kgbuilder.agent.structured_query import (
     TableQuery,
     check_query,
     pair_kind,
+    word_pattern,
 )
 from kgbuilder.agent.structured_tools import QueryRecords, QueryTables, Schema
 from kgbuilder.agent.table_query import compile_table
@@ -228,6 +229,17 @@ def test_the_check_accepts_distinct_counts_and_periods_of_a_date_or_a_text():
     assert [check_query(q, FIELDS) for q in accepted] == [[], [], [], []]
 
 
+def test_the_check_refuses_word_on_a_field_that_is_no_text_and_a_blank_word():
+    """R175: `word` searches a text (or a list of texts) for a word that is not blank; a number field and a
+    blank value are refused with their reason, and a word spelled as a field's name is a word."""
+    number = TableQuery(table="t", where=[Condition(field="year", operator="word", value="2016")])
+    assert check_query(number, FIELDS) == ["condition 0 (year): word needs a text field, year is INTEGER"]
+    blank = TableQuery(table="t", where=[Condition(field="id", operator="word", value=" ")])
+    assert check_query(blank, FIELDS) == ["condition 0 (id): word needs a word or phrase, got ' '"]
+    listed = TableQuery(table="t", where=[Condition(field="tags", operator="word", value="price")])
+    assert check_query(listed, FIELDS) == []
+
+
 def test_the_check_accepts_a_field_compared_with_another_field():
     pairs = [("since", "year", "year", "year"), ("since", "year", "since", "years"),
              ("id", "=", "price", "text"), ("year", "<", "year", "value")]  # fmt: skip
@@ -281,6 +293,24 @@ def test_one_of_several_values_and_a_path_of_relationships_compile_to_cypher():
     assert rows.statement.startswith("MATCH (n:`Kettle`)-[:`MADE_BY`]-()-[:`SOLD_AT`]-(a) WHERE ")
     one_of = "(toLower(toString(n.`id`)) = toLower($v0_0) OR toLower(toString(n.`id`)) = toLower($v0_1))"
     assert one_of in rows.statement and (rows.parameters["v0_0"], rows.parameters["v0_1"]) == ("K1", "K3")
+
+
+def test_a_whole_word_compiles_to_one_bounded_pattern_for_both_compilers():
+    """R175: `word_pattern` builds one pattern (lower-cased, regex characters escaped, a non-letter non-digit
+    boundary either side); the table compiler searches with it as it is, the record compiler wraps it for
+    Java's whole-string `=~`, and a list property matches on any element."""
+    pattern = word_pattern("Stall (v2)")
+    assert pattern == r"(^|[^\p{L}\p{N}])stall \(v2\)([^\p{L}\p{N}]|$)"
+    where = [Condition(field="id", operator="word", value="Stall (v2)")]
+    table = compile_table(TableQuery(table="kettles", where=where), FIELDS, 5)
+    assert 'regexp_matches(lower(CAST("id" AS VARCHAR)), $v0)' in table.statement
+    assert table.parameters["v0"] == pattern
+    records = compile_records(RecordQuery(label="Kettle", where=where), FIELDS, "id", [], None, 5)
+    assert "toLower(toString(n.`id`)) =~ $v0" in records.statement
+    assert records.parameters["v0"] == f"(?s).*{pattern}.*"
+    tags = RecordQuery(label="Kettle", where=[Condition(field="tags", operator="word", value="new")])
+    listed = compile_records(tags, FIELDS, "id", [], None, 5)
+    assert "any(x IN n.`tags` WHERE toLower(toString(x)) =~ $v0)" in listed.statement
 
 
 def test_a_group_over_a_list_or_a_split_text_counts_each_value_once_per_record():
@@ -460,12 +490,27 @@ def test_the_year_operator_is_described_for_a_text_holding_a_date():
     assert "year for the year of a date or of a text holding one" in described
 
 
+def test_contains_is_described_as_matching_inside_words_and_word_as_a_whole_word():
+    """R175: HD05's agent asked `contains` for a word and counted "installed"; the description now says what
+    each matches, with an example word of no evaluated dataset."""
+    described = Condition.model_fields["operator"].description
+    assert "contains for text inside a text, inside words too ('ice' is in 'spice')" in described
+    assert "word for a whole word or phrase of a text ('ice' is not in 'spice')" in described
+    assert not DATASET_WORDS.search(described)
+
+
 def test_table_conditions_follow_the_column_types(tables):
     def ids(*conditions):
         return [row[0] for row in run_table(tables, where=[Condition(**c) for c in conditions])]
 
     assert ids({"field": "name", "operator": "=", "value": "meridian kettle"}) == ["K1"]
     assert ids({"field": "name", "operator": "contains", "value": "KETTLE"}) == ["K1", "K2"]
+    # R175: a whole word, where contains also matches inside a word ("ill" in "Quill")
+    assert ids({"field": "name", "operator": "contains", "value": "ill"}) == ["K3"]
+    assert ids({"field": "name", "operator": "word", "value": "ill"}) == []
+    assert ids({"field": "name", "operator": "word", "value": "KETTLE"}) == ["K1", "K2"]
+    assert ids({"field": "name", "operator": "word", "value": "lark kettle"}) == ["K2"]  # a phrase
+    assert ids({"field": "price", "operator": "word", "value": "1,289"}) == ["K1"]  # bounded by '$'
     assert ids({"field": "price", "operator": ">", "value": 200}) == ["K1", "K2"]  # '$1,289' is 1289
     assert ids({"field": "since", "operator": ">=", "value": "2018-01-02"}) == ["K2", "K3"]
     assert ids({"field": "since", "operator": "year", "value": 2016}) == ["K1"]

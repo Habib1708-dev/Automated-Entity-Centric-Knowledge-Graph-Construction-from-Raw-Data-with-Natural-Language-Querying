@@ -38,6 +38,13 @@ group, what is counted. `period_kind` is the one place that says how a field's y
 year; a text by the first four-digit run in it, `YEAR_IN_TEXT`; a number, a boolean, a list or a time of
 day not at all), and both compilers render its answer. R166's HC05 grouped 29 dates and counted the years
 by eye (8 for 10); LC07 grouped 58 inception texts over three pages and summed the decades by eye.
+A whole word (R175): the operator `word` keeps the entries whose text holds the value as a whole word or
+phrase, ignoring case, bounded on each side by the text's start or end or by anything that is no letter and
+no digit (`word_pattern` is the one place that builds the pattern; both compilers run it, RE2 and Java read
+it alike). R173's HD05 asked how many consequences use the word "stall" and `contains`, a substring match,
+counted "installed" too (7 for 6); the operator's description says what `contains` matches inside words.
+Refused on a field that is no text and for a blank value; a value spelled as a field's name is a word, as
+for `contains`.
 Not here: compiling (record_query.py, table_query.py), running (the tools).
 """
 
@@ -59,7 +66,7 @@ PeriodKind = Literal["date", "text"]
 YEAR_IN_TEXT = r"(^|[^0-9])([0-9]{4})([^0-9]|$)"
 # the field types a number can be read from: numbers, and texts that hold one
 _MEASURABLE = ("INTEGER", "FLOAT", "STRING")
-QueryOperator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "year", "in"]
+QueryOperator = Literal["=", "!=", "<", "<=", ">", ">=", "contains", "word", "year", "in"]
 MAX_IN = 50  # values one `in` condition may list: enough for a node's neighbours, short enough to read
 MAX_HOPS = 3  # relationships a path may follow: a record, its parts, theirs, and what supplies those
 # the comparison operators as both compilers write them (SQL and Cypher share the symbols)
@@ -72,6 +79,13 @@ _NUMBERS = ("INTEGER", "FLOAT")
 # R74 tests would let `year` through to fail at run time
 _DATES = ("DATE", "LOCAL DATETIME", "ZONED DATETIME")
 _PAIRED = (*COMPARISONS, "year")  # the operators that may compare a field with another field
+# the field types `word` searches: a text, or a list of texts (any element may hold the word)
+_TEXTS = ("STRING", "LIST<STRING>")
+# What `word` escapes in the value: the characters RE2 and Java both read specially. Nothing else is escaped,
+# because an escaped letter or space means different things to the two engines.
+_REGEX_SPECIAL = set(r"\.^$|?*+()[]{}")
+# a boundary either side of the word: no letter and no digit, in RE2's and Java's shared classes
+_NOT_WORD = r"[^\p{L}\p{N}]"
 
 
 class Condition(BaseModel):
@@ -79,9 +93,12 @@ class Condition(BaseModel):
     # year names a text holding a date too (R164), as both compilers read one: a text column whose examples
     # show '2004' and '2004-06' is matched by its year, where '=' a year misses the month-dated rows
     operator: QueryOperator = Field(
+        # R175: contains is named as a substring match, with an example of no evaluated dataset, so a question
+        # about a word is asked with word; the example word is one neither R160's nor R171's gold holds
         description="How to compare: = and != for equality (text ignoring case), < <= > >= for numbers and "
-        "dates (YYYY-MM-DD), contains for words inside a text, year for the year of a date or of a text "
-        "holding one, in for one of several values (each equal as = compares)."
+        "dates (YYYY-MM-DD), contains for text inside a text, inside words too ('ice' is in 'spice'), word "
+        "for a whole word or phrase of a text ('ice' is not in 'spice'), year for the year of a date or of "
+        "a text holding one, in for one of several values (each equal as = compares)."
     )
     value: str | float | bool | list[str | float] | None = Field(
         default=None,
@@ -221,6 +238,15 @@ def is_empty_test(operator: QueryOperator, value: object) -> bool:
     return operator in ("=", "!=") and value == ""
 
 
+def word_pattern(value: str) -> str:
+    """The pattern that matches `value` as a whole word or phrase of a lower-cased text (R175): the value
+    lower-cased, its regex characters escaped, with a boundary either side that is the text's start or end or
+    a character that is no letter and no digit. Unanchored: DuckDB's `regexp_matches` searches as it is, and
+    the Cypher compiler wraps it for Java's whole-string `=~`."""
+    escaped = "".join(f"\\{ch}" if ch in _REGEX_SPECIAL else ch for ch in value.lower())
+    return f"(^|{_NOT_WORD}){escaped}({_NOT_WORD}|$)"
+
+
 def pair_kind(operator: QueryOperator, left: PropertyInfo, right: PropertyInfo) -> PairKind | None:
     """How field `left` compares with field `right` of the same entry by `operator`: by the year of `left` (a
     date) against `right` (`year`: a year; `years`: a date whose year is taken), as two values of one kind,
@@ -268,9 +294,21 @@ def _condition_issues(where: str, c: Condition, fields: dict[str, PropertyInfo])
         if not isinstance(c.value, list) or not 1 <= len(c.value) <= MAX_IN:
             return [f"{where}: in needs a list of 1 to {MAX_IN} values, got {c.value!r}"]
         return [issue for v in c.value for issue in _value_issues(where, prop, "=", v)]
+    if c.operator == "word":
+        return _word_issues(where, prop, c.value)
     if isinstance(c.value, list):
         return [f"{where}: a list of values needs the operator in"]
     return _value_issues(where, prop, c.operator, c.value)
+
+
+def _word_issues(where: str, prop: PropertyInfo, value: object) -> list[str]:
+    """Whether `word` can search `prop` for `value` (R175): a text field, and a word or phrase that is not
+    blank (a blank pattern would match every text)."""
+    if prop.type not in _TEXTS:
+        return [f"{where}: word needs a text field, {prop.name} is {prop.type}"]
+    if not isinstance(value, str) or not value.strip():
+        return [f"{where}: word needs a word or phrase, got {value!r}"]
+    return []
 
 
 def _value_issues(where: str, prop: PropertyInfo, operator: QueryOperator, value: object) -> list[str]:

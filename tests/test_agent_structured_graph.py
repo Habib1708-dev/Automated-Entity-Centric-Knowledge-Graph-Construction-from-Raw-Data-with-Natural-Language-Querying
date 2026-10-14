@@ -7,8 +7,8 @@ R140: records one of several values, and the records two relationships away from
 of a date compared with another property of the same record, listed and counted, and a later page of a cut
 list by offset. R161: that page's note points to measure count. R167: `= ''` finds the record without a
 property and `!= ''` the one with it. R168: the different years of a date property counted, the records
-grouped by its decade, and by the year inside a text property (APOC), a record without one dropped. Needs
-Neo4j."""
+grouped by its decade, and by the year inside a text property (APOC), a record without one dropped. R175:
+`word` finds a whole word of a text property where `contains` also finds it inside a word. Needs Neo4j."""
 
 from kgbuilder.agent import Neo4jNodeReader
 from kgbuilder.agent.structured_query import Condition, RecordQuery
@@ -47,6 +47,23 @@ def test_counts_sums_and_dates_run_on_the_records(driver):
     assert since.refs == ["Press:P1"]
     named = query.run(
         RecordQuery(label="Press", where=[Condition(field="name", operator="=", value="lark press")])
+    )
+    assert named.refs == ["Press:P2"]
+
+
+def test_a_whole_word_matches_a_name_and_not_a_word_holding_it(driver):
+    """R175: 'ark' is inside 'Lark Press' for contains and no whole word of it for word; 'lark' is one."""
+    query = tool(driver)
+    inside = query.run(
+        RecordQuery(label="Press", where=[Condition(field="name", operator="contains", value="ark")])
+    )
+    assert inside.refs == ["Press:P2"]
+    whole = query.run(
+        RecordQuery(label="Press", where=[Condition(field="name", operator="word", value="ark")])
+    )
+    assert whole.refs == [] and whole.issues == []
+    named = query.run(
+        RecordQuery(label="Press", where=[Condition(field="name", operator="word", value="LARK")])
     )
     assert named.refs == ["Press:P2"]
 

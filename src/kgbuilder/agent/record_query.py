@@ -23,6 +23,8 @@ missing property is null (the loader writes no empty property), so `= ''` is "nu
 distinct count), or that year's decade as the text '1850s'; it is what a group is grouped by, or what
 `distinct` counts when there is no group; `distinct` counts the different values of a property as they are.
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
+A whole word (R175, `word_pattern`): the shared pattern wrapped in `(?s).*` either side for Java's
+whole-string `=~`, over the lower-cased property, or over each element of a list property.
 """
 
 from typing import Any
@@ -43,6 +45,7 @@ from .structured_query import (
     pair_kind,
     period_kind,
     shape_of,
+    word_pattern,
 )
 
 _AGGREGATES = {"count": "count", "sum": "sum", "average": "avg", "min": "min", "max": "max"}
@@ -151,11 +154,18 @@ def _condition(
 ) -> tuple[str, dict[str, Any]]:
     """One condition on `n.prop`: the empty-cell test (R167), with no parameter, or R74's comparison with the
     value as `$key`."""
+    ref = f"n.{cypher_ident(prop.name)}"
     if is_empty_test(operator, value):
-        ref = f"n.{cypher_ident(prop.name)}"
         if operator == "=":
             return f"({ref} IS NULL OR toString({ref}) = '')", {}
         return f"({ref} IS NOT NULL AND toString({ref}) <> '')", {}
+    if operator == "word":
+        # R175: Java's =~ matches the whole string, so the unanchored pattern is wrapped in `.*` either side,
+        # with (?s) so the dot crosses a line break; a list property matches when any element holds the word
+        pattern = {key: f"(?s).*{word_pattern(str(value))}.*"}
+        if prop.type.startswith("LIST"):
+            return f"any(x IN {ref} WHERE toLower(toString(x)) =~ ${key})", pattern
+        return f"toLower(toString({ref})) =~ ${key}", pattern
     return condition("n", prop, operator, value, key)
 
 

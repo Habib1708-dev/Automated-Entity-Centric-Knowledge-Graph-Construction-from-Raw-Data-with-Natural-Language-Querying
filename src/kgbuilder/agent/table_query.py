@@ -21,6 +21,8 @@ four-digit run, `regexp_extract` with `$year_pattern`, NULL without one, so such
 distinct count), or that year's decade as the text '1850s'; it is what a group is grouped by, or what
 `distinct` counts when there is no group; `distinct` counts the different values of a column as they are.
 Not here: the check (structured_query.py), running and capping (structured_tools.py).
+A whole word (R175, `word_pattern`): `regexp_matches` over the lower-cased column with the shared pattern, an
+unanchored search.
 """
 
 import re
@@ -40,6 +42,7 @@ from .structured_query import (
     pair_kind,
     period_kind,
     shape_of,
+    word_pattern,
 )
 
 _AGGREGATES = {"count": "count", "sum": "sum", "average": "avg", "min": "min", "max": "max"}
@@ -154,6 +157,9 @@ def _condition(col: str, field: PropertyInfo, operator: Operator, value: object,
         return f"regexp_matches(CAST({col} AS VARCHAR), ${key})", f"(^|[^0-9]){year}([^0-9]|$)"
     if operator == "contains":
         return f"contains(lower(CAST({col} AS VARCHAR)), lower(${key}))", str(value)
+    if operator == "word":
+        # R175: the pattern is lower-cased by `word_pattern`, so the column is lower-cased to match it
+        return f"regexp_matches(lower(CAST({col} AS VARCHAR)), ${key})", word_pattern(str(value))
     cmp = COMPARISONS[operator]
     if temporal:
         return f"{col} {cmp} CAST(${key} AS DATE)", str(value)

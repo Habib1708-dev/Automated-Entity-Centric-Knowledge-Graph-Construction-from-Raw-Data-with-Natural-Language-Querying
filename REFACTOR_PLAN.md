@@ -9886,6 +9886,53 @@ and from R157's record and the run records.
   every PNG looked at (label overflow and a cut-off marker fixed before committing). Gate green, ruff clean.
 - **R174 done 2026-10-13; plan R174 done.** Next: the user decides.
 
+### Plan R175-R176: the two open confirmation failures closed in code, no wider loop (accepted 2026-10-14)
+The user, 2026-10-14, after an analysis of R157, R166 and R173's failures and of the hypothesis that a
+wider loop (more turns and calls, a ReAct thought per turn) would fix them: "apply this fixes and check if
+they work". The analysis, from the 450 traces: one answer of 450 ended at a cap (R157's FB14); every failing
+answer stopped by the model's choice with 6 to 9 of its 10 calls unused; the causes are an operation the
+tools cannot express (R173's HD05: `contains` is a substring match, so "installed" counted for the word
+"stall"), one literal search taken as complete (R173's ND11 "rolled" for "dynamic rollover", R166's LC08,
+R157's FB38, HB41, FB18), and the model misreading evidence it held (R166's NC11 with the whole document
+read, HC05 with the right years listed). The loop's caps are not widened and no thought field is added: the
+budget was never the limit, a visible thought is the same model reasoning once more, and the reply schema
+would change under the three comparable measurements. The fixes follow R167-R170's form: a named gap closed
+in code, proven by tests and an offline replay ($0), measured only by a later confirmation run the user may
+choose (about $1.6; not part of this plan).
+- **Steps, strictly one after another:**
+  - **R175** The operator `word` beside `contains` in both structured tools: a whole word or phrase inside a
+    text, ignoring case, bounded by anything that is no letter or digit; refused on a field that is no text
+    or with a blank value; the operator's description says what `contains` matches inside words. Replayed
+    offline on HD05's query over `out/r172_heldout/staging` ($0).
+  - **R176** A set answer resting on one `find_passages` call is sent back once, with the tools open, as
+    R138 and R147 send back an empty answer and a missing form: the text may word the idea otherwise, so
+    search by meaning or read the document, then answer; the same answer sent again stands. Code decides
+    when it fires (every cited id came from that one call and no other text tool ran), it costs one turn,
+    and it cannot loop. Measured only by a later confirmation run.
+
+### R175. The operator `word`: a whole word or phrase of a text (done 2026-10-14; $0, code and an offline replay)
+- **Scope:** in `agent/structured_query.py`: `word` among `QueryOperator`; `word_pattern(value)`, the one
+  place that builds the pattern (the value lower-cased, its regex characters escaped, a boundary either side
+  that is the text's start or end or anything that is no letter and no digit, `[^\p{L}\p{N}]`, which RE2
+  and Java read alike); `_word_issues` refuses a field that is no text or list of texts and a blank value;
+  the operator's description names `contains` as matching inside words and `word` as a whole word, with an
+  example word of no evaluated dataset ('ice' in 'spice'). `agent/table_query.py` renders it as
+  `regexp_matches` over the lower-cased column; `agent/record_query.py` wraps the pattern in `(?s).*` either
+  side for Java's whole-string `=~`, over each element of a list property. The tool text's version changes
+  with the description (R146).
+- **Not here:** a space in a phrase matching a hyphen (R169's rule for `find_passages`): no question asked
+  it; the loop and its prompt (R176).
+- **Verified:** 4 new tests (`tests/test_agent_structured.py`: the check's refusals and a word spelled as a
+  field's name accepted; the pattern and both compilers' text, a list property among them; DuckDB finds
+  "ill" inside "Quill" by `contains` and not by `word`, a phrase, and a number bounded by '$'; the
+  description's two sentences, free of dataset words) and one on Neo4j (`tests/test_agent_structured_graph.py`:
+  'ark' inside 'Lark Press' by `contains`, not by `word`; 'LARK' by `word`), skipped in this session (Docker
+  down), to run with the next Neo4j session. **Offline replay of HD05** over `out/r172_heldout/staging`
+  (DuckDB, $0): `Consequence contains 'stall'` counts 7 (16V074000 among them, "installed"); `Consequence
+  word 'stall'` counts 6, the gold's six campaigns exactly (20V064000, 20V218000, 20V682000, 21V587000,
+  21V839000, 23V858000). Whether the agent chooses `word` is unmeasured until a confirmation run.
+- **R175 done 2026-10-14.** Next: R176, the single-search send-back.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
