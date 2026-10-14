@@ -1,0 +1,33 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "911a38d196e04faba449df4c65e833ab",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r185/heldout_expA.json",
+ "answers": "out/r186_heldout/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "HS01",
+   "correct": false,
+   "reason": "names only 10690483; missing 10689793, 10972343, 11176393 (judge B agreed: Names only 10690483; misses 10689793, 10972343 and 11176393.)"
+  },
+  {
+   "question_id": "HS02",
+   "correct": false,
+   "reason": "names 20V064000, 22V875000, 26V011000; missing 20V373000 (water entering the gear box) (judge B agreed: Has 20V064000, 22V875000, 26V011000; misses 20V373000 (water entering the steering gear box).)"
+  },
+  {
+   "question_id": "HE03",
+   "correct": true,
+   "reason": "21V839000, the Rogue Hybrid-only recall, matches (judge B agreed: 21V839000, the Rogue-Hybrid-only recall, matches.)"
+  },
+  {
+   "question_id": "HE09",
+   "correct": true,
+   "reason": "empty set / 'none flagged' matches the empty expected set (judge B agreed: Empty set / none flagged, matching the empty expected set.)"
+  }
+ ]
+}

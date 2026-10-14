@@ -1,0 +1,43 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "ab04a98d",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r185/ntsb_expA.json",
+ "answers": "out/r186_ntsb/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "NS01",
+   "correct": true,
+   "reason": "all four accidents CEN21LA414, CEN22LA059, CEN22LA194, CEN23LA344 match (judge B agreed: CEN21LA414, CEN22LA059, CEN22LA194, CEN23LA344: exactly the expected four.)"
+  },
+  {
+   "question_id": "NS02",
+   "correct": true,
+   "reason": "Lead judge (Opus 5.5, the arm known): judges split (A correct, B wrong). The entity list names 3 of 4, but the text names the fourth, CEN23LA017, as one where the pilot reported the engine made a 'coughing' sound; by rule 3 (content in whichever field, text first) and the R173/R179 reading of a trailing clause as part of the answer, all four members are given."
+  },
+  {
+   "question_id": "NC11",
+   "correct": false,
+   "reason": "names only CEN22LA312; missing CEN21LA362 and CEN23LA223 (judge B agreed: CEN22LA312 only; misses CEN21LA362 and CEN23LA223.)"
+  },
+  {
+   "question_id": "ND11",
+   "correct": false,
+   "reason": "names only CEN21LA339; missing ANC23LA032 (dynamic rollover) (judge B agreed: CEN21LA339 only; misses ANC23LA032 (dynamic rollover).)"
+  },
+  {
+   "question_id": "NE01",
+   "correct": true,
+   "reason": "N202SM matches (judge B agreed: N202SM matches.)"
+  },
+  {
+   "question_id": "NE06",
+   "correct": true,
+   "reason": "CEN21FA299 and CEN21LA383 match exactly (judge B agreed: CEN21FA299 and CEN21LA383: exact match.)"
+  }
+ ]
+}

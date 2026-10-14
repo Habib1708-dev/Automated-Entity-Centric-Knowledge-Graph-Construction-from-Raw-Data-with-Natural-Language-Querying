@@ -1,0 +1,38 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "ece73e3a",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r185/lighthouses_expA.json",
+ "answers": "out/r186_lighthouses/answers_agent_semfilter.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LS01",
+   "correct": false,
+   "reason": "names Berry Head and Godrevy; missing St Anthony's Lighthouse (judge B agreed: Berry Head and Godrevy only; misses St Anthony's (descending weights drove the optic).)"
+  },
+  {
+   "question_id": "LS02",
+   "correct": true,
+   "reason": "Old Higher and Whitby lighthouses match exactly (judge B agreed: Old Higher and Whitby: exact match.)"
+  },
+  {
+   "question_id": "LC08",
+   "correct": false,
+   "reason": "names only Godrevy; missing St Anthony's Lighthouse (judge B agreed: Godrevy only; misses St Anthony's (fog-bell installed 1865).)"
+  },
+  {
+   "question_id": "LE13",
+   "correct": true,
+   "reason": "1995 matches (judge B agreed: 1995 matches.)"
+  },
+  {
+   "question_id": "LE16",
+   "correct": true,
+   "reason": "Inner Dowsing light platform matches (judge B agreed: Inner Dowsing light platform matches.)"
+  }
+ ]
+}

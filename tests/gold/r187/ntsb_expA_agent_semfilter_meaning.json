@@ -1,0 +1,43 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "58799dab",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r185/ntsb_expA.json",
+ "answers": "out/r186_ntsb/answers_agent_semfilter.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "NS01",
+   "correct": true,
+   "reason": "all four accidents CEN21LA414, CEN22LA059, CEN22LA194, CEN23LA344 match (judge B agreed: CEN21LA414, CEN22LA059, CEN22LA194, CEN23LA344: exactly the expected four.)"
+  },
+  {
+   "question_id": "NS02",
+   "correct": true,
+   "reason": "all four accidents CEN21LA268, CEN22LA244, CEN22LA312, CEN23LA017 match (judge B agreed: CEN21LA268, CEN22LA244, CEN22LA312, CEN23LA017: exactly the expected four.)"
+  },
+  {
+   "question_id": "NC11",
+   "correct": false,
+   "reason": "names only CEN22LA312; missing CEN21LA362 and CEN23LA223 (judge B agreed: CEN22LA312 only; misses CEN21LA362 and CEN23LA223.)"
+  },
+  {
+   "question_id": "ND11",
+   "correct": false,
+   "reason": "names only CEN21LA339; missing ANC23LA032 (dynamic rollover) (judge B agreed: CEN21LA339 only; misses ANC23LA032 (dynamic rollover).)"
+  },
+  {
+   "question_id": "NE01",
+   "correct": true,
+   "reason": "N202SM matches (judge B agreed: N202SM matches.)"
+  },
+  {
+   "question_id": "NE06",
+   "correct": true,
+   "reason": "CEN21FA299 and CEN21LA383 match exactly (judge B agreed: CEN21FA299 and CEN21LA383: exact match.)"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "a8121ff6",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r185/generality_expA.json",
+ "answers": "out/r186_generality/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "GS01",
+   "correct": true,
+   "reason": "3 matches the expected count (judge B agreed: 3 matches; names the budget item, council notices and letter.)"
+  },
+  {
+   "question_id": "GS02",
+   "correct": true,
+   "reason": "corer and intake screen match the two expected items (aliases) (judge B agreed: corer and intake screen: both expected entities (aliases), no extra.)"
+  },
+  {
+   "question_id": "GE16",
+   "correct": true,
+   "reason": "'No, projects without a plan will not receive second-year funding' matches (judge B agreed: No, projects without a plan will not receive second-year funding: matches.)"
+  },
+  {
+   "question_id": "GE19",
+   "correct": true,
+   "reason": "1,900,000 (1.9 million cubic metres) matches (judge B agreed: 1,900,000 cubic metres matches.)"
+  }
+ ]
+}

@@ -10312,6 +10312,43 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   LC08, NC11, ND11). The controls: every code-scored control right in both arms.
 - **R186 done 2026-10-14.** Next: R187, judged by meaning and decided ($0).
 
+### R187. Experiment A judged, paired and decided (done 2026-10-14; $0, judging and analysis)
+- **Judge:** Claude Opus 5.5, two subagents blind to the arm (one sheet, each question's two answers labelled A
+  and B in a seeded random order, R71's rules at scope "all"); they agreed on 47 of 48. The split, NS02 of
+  `agent` (entities name 3 of 4 accidents, the text adds "in CEN23LA017, the pilot reported that the engine
+  made a 'coughing' sound"), was settled by this session as lead judge, knowing the arm: correct, by rule 3
+  (content in whichever field) and R173/R179's reading of a trailing clause; ruled the other way it would be
+  15 against 16, one discordant pair, and nothing below would change.
+  `tests/gold/r187/<dataset>_expA_<arm>_meaning.json`, scored by `kg qa-score` into
+  `out/r187/meaning/<dataset>_<arm>`, paired by `kg qa-compare` over the pooled outcomes (`out/r187/compare`).
+- **Results** (by meaning; every answer's verdict equals exact match but NS02's text, and GE16's free text is
+  right in both):
+
+  | | targeted (10) | old failures (4) | controls (10) | **all (24)** | cost |
+  |---|---|---|---|---|---|
+  | `agent` | 6 | 0 | 10 | **16** | $0.879 |
+  | `agent_semfilter` | 6 | 0 | 10 | **16** | $1.034 |
+
+  **Paired: no question differs (McNemar p = 1.0).** Right in both: FS01, LS02, NS01, NS02, GS01, GS02 and every
+  control; wrong in both, each missing members and naming none too many: HS01 (3 of 4 verdicts worded
+  otherwise), HS02 (20V373000 "water may enter"), FS02 (the roommate reviews), FB18, LS01 (St Anthony's
+  weights), LC08, NC11, ND11.
+- **Why the filter changed nothing:** `filter_passages` was called on 3 of 24 answers, and on none of the 8
+  failing questions. Where it ran it chose well: FS01 kept exactly the gold's 6 reviews of 60 read, GS01
+  exactly the 3 documents, HS01 3 of the 4 gold passages (the fourth, "nothing is wrong with it", among the 13
+  candidates past the cap or judged no). HS01 still failed: the filter was its 9th of 10 calls, the 10th went
+  to another search, and the closing answer named one complaint. So the tool does what it was built for when
+  asked; the agent seldom asks for it, and the failures are answers resting on word searches and ranked
+  searches it took as complete. The variant's furniture faithfulness 10/13 is the open finding of R182 again
+  (the three quotes are verbatim in their chunks; the ledger kept a longer excerpt view of each).
+- **Decision (experiment A): no gain as tested** — the tool works when called, but offered beside the other
+  tools it is not chosen, so it does not reach the family it targets. Not adopted. A follow-up that makes the
+  choice for the model (the R176 recheck pointing a set or count answer resting on word searches to the
+  filter, or a prompt rule) would be a new experiment with its own measurement, not part of this plan.
+- **Read with care:** 14 targeted and old questions, 10 controls, one run per arm; gold (Fable 5.1), judges and
+  lead (Opus 5.5) are one model family; the lead knew the arm for the one split.
+- **R187 done 2026-10-14; experiment A done** ($1.913 in all). Next: R188, `query_sql` and `agent_sql`.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
