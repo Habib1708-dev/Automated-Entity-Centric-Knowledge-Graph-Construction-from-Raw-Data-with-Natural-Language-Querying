@@ -1,0 +1,27 @@
+{
+ "step": "R185: the 10 controls of plan R183-R191, 2 per dataset drawn with random.Random(185) from R179's questions right by exact match and by meaning (tests/gold/r179/outcomes.json), in sorted order per dataset",
+ "source": "tests/gold/qa/<dataset>_qa_confirm3.json",
+ "seed": 185,
+ "controls": {
+  "furniture": [
+   "FE04",
+   "FE05"
+  ],
+  "heldout": [
+   "HE03",
+   "HE09"
+  ],
+  "generality": [
+   "GE16",
+   "GE19"
+  ],
+  "lighthouses": [
+   "LE13",
+   "LE16"
+  ],
+  "ntsb": [
+   "NE01",
+   "NE06"
+  ]
+ }
+}

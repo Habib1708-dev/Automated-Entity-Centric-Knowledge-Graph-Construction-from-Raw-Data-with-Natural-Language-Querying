@@ -10266,6 +10266,34 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   checks the filter's calls and notes before the rest.
 - **R184 done 2026-10-14.** Next: R185, suite A.
 
+### R185. Suite A: 10 blind questions on ideas worded differently, and experiment A's run files (done 2026-10-14; $0, no run)
+- **Scope:** `tests/gold/qa/<dataset>_qa_semantic.json`, ids FS/HS/GS/LS/NS01-02, written by Claude Fable 5.1
+  (one writer per dataset, subagents of this session) from the corpus as the pipeline chunks it, the staged
+  tables and the earlier questions only: no output, roadmap, figure or code was opened, and the writers did
+  not know the tool under test. Asked for questions whose answer needs every passage stating one idea, with at
+  least one qualifying passage sharing no key word with the question and at least one lookalike that must not
+  count; sets or numbers, route retrieval, every qualifying passage cited with a verbatim quote. Then one
+  independent adversarial review per file (Fable 5.1), every answer re-derived from every chunk, fixing in
+  place; no answer set changed, five questions reworded to close a loophole: HS01 ("the behaviour they
+  complained about was normal", so "could not duplicate" is no verdict), LS01 (clockwork glossed as "a
+  gravity-run movement rather than by gas, electricity or batteries", so St Anthony's weights count by the
+  question's own criterion), NS01 ("stopped producing power", so partial losses are out), NS02 ("an unusual
+  noise ... (a warning horn does not count)", "aircraft" so the "coughing" passage shares no word), FS02 ("put
+  together", so the roommate passages share neither "took" nor "assembly"); notes corrected where a writer
+  overstated the wording gap (GS01, FS01); aliases added. The logs, with the doubts left standing (HS02's
+  "water may enter" as a leak, FS01's "Would not recommend." as a warning, which decides no member), are in
+  `tests/gold/r185/reviews/`.
+- **Run files** (`tests/gold/r185/<dataset>_expA.json`, 24 questions): the 10 targeted, experiment A's four old
+  failures (FB18, LC08, NC11, ND11, wrong at both levels in R182) and the 10 controls
+  (`tests/gold/r185/controls.json`: FE04, FE05, HE03, HE09, GE16, GE19, LE13, LE16, NE01, NE06, drawn 2 per
+  dataset by `random.Random(185)` from R179's questions right by both scores).
+- **Verified:** the per-file gold checks extended to the five files (quotes verbatim in their chunks); new
+  tests: a targeted file asks 2 retrieval questions, sets or numbers, counting or negation-sensitive, each
+  over at least two cited passages and with a note, none asked before by wording; the controls are the
+  seeded draw; each run file is its questions copied unchanged from their sources over the same corpus.
+  1672 passed, ruff clean.
+- **R185 done 2026-10-14.** Next: R186, the paired run (paid, asked).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

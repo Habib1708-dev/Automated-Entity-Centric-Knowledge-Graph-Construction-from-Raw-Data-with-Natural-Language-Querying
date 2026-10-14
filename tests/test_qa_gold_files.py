@@ -8,10 +8,14 @@ benchmark files, with 50 questions each, every type at least six times, and none
 the confirmation files, 20 questions each, every type at least three times; R171: a second confirmation set
 (`_qa_confirm2.json`), written blind after plan R167-R170, passes the same checks; R177: so does a third
 (`_qa_confirm3.json`), written blind after plan R175-R176. R180: the failure set (`tests/gold/r180/`) is the
-20 questions judged wrong by meaning across R157-R179, copied unchanged. No Neo4j, no LLM.
+20 questions judged wrong by meaning across R157-R179, copied unchanged. R185: experiment A's targeted
+files (`_qa_semantic.json`) pass the per-file checks and ask 2 retrieval questions each over every passage
+of an idea; its run files (`tests/gold/r185/`) are those questions, the experiment's old failures and the 10
+seeded controls, copied unchanged. No Neo4j, no LLM.
 """
 
 import json
+import random
 from collections import Counter
 from pathlib import Path
 
@@ -44,7 +48,10 @@ CONFIRM = [f"{name}_qa_confirm.json" for name in CONFIRM_DATASETS]
 CONFIRM += [f"{name}_qa_confirm2.json" for name in CONFIRM_DATASETS]
 # R177: the third confirmation set, 20 more per dataset written blind after R175-R176, to measure them
 CONFIRM += [f"{name}_qa_confirm3.json" for name in CONFIRM_DATASETS]
-GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM]
+# R185: experiment A's targeted questions (plan R183-R191), 2 per dataset written blind on ideas worded
+# differently across passages
+SEMANTIC = [f"{name}_qa_semantic.json" for name in CONFIRM_DATASETS]
+GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM, *SEMANTIC]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)
@@ -174,3 +181,56 @@ def test_the_failure_set_holds_every_failure_by_meaning_copied_unchanged(dataset
         assert subset.corpus == source.corpus
         expected += [q for q in source.questions if q.id in failed]
     assert subset.questions == expected
+
+
+@pytest.mark.parametrize("name", SEMANTIC)
+def test_a_targeted_file_asks_two_retrieval_questions_over_every_passage_of_an_idea(name):
+    """R185: 2 questions, each answered from the text by a set or a number over at least two cited passages
+    (the idea is stated more than once), counting or negation-sensitive, none asked before by wording."""
+    gold = load_qa_gold(QA_GOLD / name)
+    assert len(gold.questions) == 2
+    for q in gold.questions:
+        assert q.route.value == "retrieval" and q.expected.kind in ("entities", "number")
+        assert q.type in (QuestionType.AGGREGATION, QuestionType.NEGATION_SENSITIVE)
+        assert len(q.chunks) >= 2 and q.note
+    dataset = name.removesuffix("_qa_semantic.json")
+    earlier = {
+        norm(q.question)
+        for other in QA_GOLD.glob(f"{dataset}_qa*.json")
+        if other.name != name
+        for q in load_qa_gold(other).questions
+    }
+    assert not {norm(q.question) for q in gold.questions} & earlier
+
+
+# R185: the 10 controls drawn by code, and experiment A's old failures (R182: wrong at both thinking levels,
+# an idea worded otherwise than any searched word)
+RUNS_A = REPO / "tests" / "gold" / "r185"
+FAILURES_A = {"furniture": ["FB18"], "lighthouses": ["LC08"], "ntsb": ["NC11", "ND11"]}
+
+
+def test_the_controls_are_the_seeded_draw_from_the_third_sets_right_answers():
+    """R185: 2 per dataset by `random.Random(185)`, in dataset order, from R179's right answers, sorted."""
+    controls = json.loads((RUNS_A / "controls.json").read_text(encoding="utf-8"))["controls"]
+    outcomes = json.loads((REPO / "tests/gold/r179/outcomes.json").read_text(encoding="utf-8"))["questions"]
+    draw = random.Random(185)
+    for dataset in ["furniture", "heldout", "generality", "lighthouses", "ntsb"]:
+        mine = [q for q in outcomes if q["dataset"] == dataset]
+        right = sorted(q["question_id"] for q in mine if q["exact"] and q["meaning"])
+        assert controls[dataset] == sorted(draw.sample(right, 2))
+
+
+@pytest.mark.parametrize("dataset", CONFIRM_DATASETS)
+def test_a_run_file_of_experiment_a_is_its_questions_copied_unchanged(dataset):
+    """R185: the targeted questions, then the old failures (from R180's files), then the controls (from the
+    third confirmation set), each equal field by field to its source, over the same corpus."""
+    run = load_qa_gold(RUNS_A / f"{dataset}_expA.json")
+    controls = json.loads((RUNS_A / "controls.json").read_text(encoding="utf-8"))["controls"][dataset]
+    targeted = load_qa_gold(QA_GOLD / f"{dataset}_qa_semantic.json").questions
+    failures = []
+    if dataset in FAILURES_A:
+        failed = load_qa_gold(FAILURE_SET / f"{dataset}_failures.json").questions
+        failures = [q for q in failed if q.id in FAILURES_A[dataset]]
+    third = load_qa_gold(QA_GOLD / f"{dataset}_qa_confirm3.json")
+    assert run.corpus == third.corpus
+    assert run.questions == [*targeted, *failures, *(q for q in third.questions if q.id in controls)]

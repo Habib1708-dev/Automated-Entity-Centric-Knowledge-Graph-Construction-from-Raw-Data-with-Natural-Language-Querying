@@ -1,0 +1,104 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/ntsb/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "NS01",
+      "type": "aggregation",
+      "question": "In which accidents does the narrative say the pilot or flight instructor tried to get the engine running again after it stopped producing power in flight, but could not?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA414",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA194",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA059",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA344",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#2",
+          "quote": "attempted to restart the engine with no success"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "made multiple attempts to restart the engine, which were unsuccessful"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#3",
+          "quote": "attempts to restore fuel flow and restart the engine were unsuccessful"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "attempted to restore engine power by switching to the right fuel tank and activating the starter but was unsuccessful"
+        }
+      ],
+      "note": "Four accidents, each worded differently and none with the question's idea words 'tried', 'running again', 'stopped producing' or 'could not' (the noun 'engine' is shared by every passage as the thing restarted, not as a wording of the idea): CEN21LA414 (LaSalle, CO: the flight instructor 'attempted to restart the engine with no success'), CEN22LA194 (Traverse City, MI: 'multiple attempts to restart the engine, which were unsuccessful'), CEN22LA059 (Cleveland, TX: 'attempts to restore fuel flow and restart the engine were unsuccessful') and CEN23LA344 (Oberlin, KS: the restart is described, not named: the pilot 'attempted to restore engine power by switching to the right fuel tank and activating the starter but was unsuccessful'). All four are total losses of engine power, which is why the question says 'stopped producing power' rather than 'lost power'. Lookalikes that must not count: CEN21LA362 (Topeka, KS), where the engine only partly lost power and kept running and the pilot 'tried to advance the power forward with no change', not a restart; CEN21LA173 (Dustin, OK), where the helicopter pilot 'attempted to regain rotor rpm but was unsuccessful' with an engine that never stopped; CEN23LA223 (Lake Village, AR), where the airplane 'lost thrust, but the engine remained operating' and no attempt is described; CEN21LA383 (Gypsum, CO), where the engine 'regained power briefly' on its own after the pilot leveled off, before going to idle, and no restart attempt is described; and the post-accident engine test runs of CEN21LA382 and CEN22LA059, made on the ground after the accident and successful. The other power-loss accidents (CEN21LA221, CEN21LA382, CEN21LA284, CEN23LA017, CEN22LA312) describe no attempt to restart. The events_sequence and findings tables code the loss of power, not the restart attempt."
+    },
+    {
+      "id": "NS02",
+      "type": "aggregation",
+      "question": "In which accidents does the narrative describe an unusual noise that the pilot heard from the aircraft before the accident (a warning horn does not count)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA268",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA312",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA244",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA017",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#1",
+          "quote": "a “very loud pop” noise emitted from behind the instrument panel"
+        },
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#4",
+          "quote": "the pilot heard a “pop” and observed white smoke trailing the airplane"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#4",
+          "quote": "he heard a slight noise that originated from the front of the airplane"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "the engine made a “coughing” sound and lost power"
+        }
+      ],
+      "note": "Four accidents: CEN21LA268 (Saint James, LA: a 'very loud pop' noise from behind the instrument panel, the failed air-conditioning hose), CEN22LA312 (Decatur, IL: the pilot heard a 'pop' during climbout, the fractured turbine blades), CEN22LA244 (Salina, KS: a slight noise from the front of the airplane while taxiing, then a louder one on the takeoff roll) and CEN23LA017 (Loveland, CO), whose passage shares no key word with the question (not 'heard', 'noise', 'unusual', 'pilot' or 'aircraft'): the engine 'made a coughing sound and lost power' during the go-around. The question says 'aircraft' on purpose: 'airplane' and 'engine' appear in the qualifying passages. Lookalikes that must not count: the warning horns, excluded by name in the question, of ANC21LA079 (Pelican, AK: the low rotor rpm 'horn sounded') and CEN21LA185 (Schaumburg, IL: 'the stall warning horn came on'), plus the stall warning of CEN22LA249; CEN21FA299 (Lamoni, IA), where witnesses, not the pilot, 'heard an increase in engine power', the normal sound of a go-around; CEN22LA310 (Wyoming, IL), where the pilot 'heard the engine spool up' (normal) and 'heard it contact the corn' (the accident itself, not a sound before it); CEN21LA383 (Gypsum, CO), where the engine 'ran rough', a behaviour, with no noise described; CEN21LA221 (Pinckneyville, IL), where the engine 'began to shake', felt, not heard; and CEN21LA339 (West Liberty, IA), where the pilot felt a 'big tug' and a 'huge jerk'. CEN21LA268 does not use the verb 'heard' but the pilot reported the noise himself. No finding or occurrence code records a noise."
+    }
+  ]
+}

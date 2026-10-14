@@ -1,0 +1,122 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FS01",
+      "type": "aggregation",
+      "question": "Which products have a review in which the reviewer says they would not buy it again or warns other people against buying it?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Helsingborg Dresser"
+          },
+          {
+            "name": "Malmö Desk",
+            "aliases": [
+              "Malmo Desk"
+            ]
+          },
+          {
+            "name": "Västerås Bookshelf",
+            "aliases": [
+              "Vasteras Bookshelf"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1",
+          "quote": "AVOID THIS PRODUCT!!!"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3",
+          "quote": "Would not recommend."
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4",
+          "quote": "DO NOT BUY!"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+          "quote": "I wouldn't buy it again or recommend it to anyone else."
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#2",
+          "quote": "probably wouldn't buy again but it works for now."
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#2",
+          "quote": "probably wouldn't buy again but it works for what i need."
+        }
+      ],
+      "note": "Six reviews advise against the purchase, worded six ways: @angry_customer 'AVOID THIS PRODUCT!!!' (Helsingborg #1), @home_chef 'Would not recommend.' (Helsingborg #3), @diydan 'DO NOT BUY!' (Helsingborg #4, which also opens 'This dresser should come with a warning label!'), @familyfirst 'I wouldn't buy it again or recommend it to anyone else.' (Helsingborg #5), @tallguy87 'probably wouldn't buy again' (Malmö Desk #2) and @college_student 'probably wouldn't buy again' (Västerås Bookshelf #2). 'Would not recommend.' shares no content word with the question (only the function words 'would' and 'not'), and 'AVOID THIS PRODUCT!!!' shares only the question's generic head noun 'product(s)'; neither contains 'buy', 'again' or 'warn'. 'Would not recommend' is read as a warning to other people; even a reader who excludes it keeps the Helsingborg Dresser in the set through #1, #4 and #5, so the answer is the same three products either way. Three products, so the answer is the set, not a count. Lookalikes that do not count: the eight 2-star reviews that open 'Disappointed with this purchase' and end 'I expected (much) better quality' without saying the reviewer would not buy again or telling anyone else to stay away (Gothenburg #4, Jönköping #4, Linköping #4, Malmö #4, Norrköping #4, Örebro #4, Uppsala #4, Västerås #4; Helsingborg #3 also opens that way but counts for its 'Would not recommend'); the 3-star complaints that only say the reviewer 'expected better quality control' or 'expected much better quality hardware' (Gothenburg #1, Helsingborg #0); @college_student's 'too exhausted to return it' (Helsingborg #2), which is about returning, not buying again (the dresser counts anyway); @interior_whiz's 'mixed feelings overall' (Uppsala #2) and 'worried it might break eventually' (Örebro #2); @angry_customer's 'I don't trust putting anything heavy on the upper shelves' (Västerås #4), a complaint, not a warning to buyers; and the opposite-polarity 'Highly recommend!' / '10/10 would recommend!!' reviews (Gothenburg #0, Malmö #6, Örebro #0, Stockholm #2, Västerås #0), which share the word 'recommend' with the Helsingborg quotes but praise the product. Counting the 'Disappointed' reviews would wrongly add six more products."
+    },
+    {
+      "id": "FS02",
+      "type": "aggregation",
+      "question": "Which products do reviewers say needed two people to put together?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Gothenburg Table"
+          },
+          {
+            "name": "Helsingborg Dresser"
+          },
+          {
+            "name": "Linköping Bed",
+            "aliases": [
+              "Linkoping Bed"
+            ]
+          },
+          {
+            "name": "Uppsala Sofa"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+          "quote": "Assembly took about an hour with two people."
+        },
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#6",
+          "quote": "Assembly was straightforward but definitely needs two people."
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+          "quote": "took me and my roommate like 6 hours"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+          "quote": "Assembly took about 2 hours with two people"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#2",
+          "quote": "took me and my roommate like 4 hours"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+          "quote": "Assembly was straightforward and took about 45 minutes with two people."
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+          "quote": "Assembly was straightforward though it definitely requires two people."
+        }
+      ],
+      "note": "Seven reviews across four products say the assembly was a two-person job: 'with two people' (Gothenburg #0, Linköping #0, Uppsala #0), 'definitely needs two people' (Gothenburg #6), 'definitely requires two people' (Uppsala #5) and, worded without 'two', 'people', 'need', 'put' or 'together', 'took me and my roommate like 6 hours' (Helsingborg Dresser #2, @college_student) and 'took me and my roommate like 4 hours' (Linköping Bed #2, @college_student); those two chunks share no key word with the question, and the Helsingborg Dresser is in the answer only through the roommate wording, so a word match on 'two people' misses it. The question says 'needed two people', so the two reviews that state the need ('needs' / 'requires two people') count as well as the four that report two people at work; both products also have a 'with two people' review, so the set does not depend on that reading. Lookalikes that do not count: @college_student's Malmö Desk review (#5) says the opposite, 'Assembly took about 90 minutes by myself'; @petite_patty bought two Norrköping Nightstands and @wfh_warrior two Västerås Bookshelves and give a time 'per unit' (Norrköping #1, Västerås #1), which is two units, not two people; @entertainer_emma's six Stockholm Chairs (#6) are six units; 'put together' appears without any helper in Gothenburg #2, Stockholm #5 and Västerås #2; 'two' appears in 'daily use with two kids' (Gothenburg #0, which counts for its other sentence), 'Two of the drawers' (Helsingborg #3) and 'after just two months' (Linköping #4, Uppsala #4); 'people' appears in 'seating 6-8 people' (Gothenburg #3) and 'seating 3-4 people' (Uppsala #6), about the finished product, not its assembly; the other Helsingborg reviews (#0, #1, #4, #5, #6) describe a single reviewer struggling alone ('I spent 3 hours', 'Took me about 3 hours total'). No Jönköping Coffee Table, Malmö Desk, Norrköping Nightstand, Örebro Lamp, Stockholm Chair or Västerås Bookshelf review mentions a helper."
+    }
+  ]
+}

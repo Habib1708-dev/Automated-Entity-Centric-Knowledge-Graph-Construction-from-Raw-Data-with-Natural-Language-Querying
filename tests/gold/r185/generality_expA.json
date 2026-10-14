@@ -1,0 +1,123 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-fable-5-1, claude-opus-5-5",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GS01",
+      "type": "aggregation",
+      "question": "How many documents report that the Harbour Street resurfacing was pushed back to a later year?",
+      "expected": {
+        "number": 3
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/council_notices.md#0",
+          "quote": "Harbour Street: resurfacing postponed to 2026."
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Councillor Priya Nandakumar welcomed the second drainage phase but asked why the resurfacing had slipped by a year."
+        },
+        {
+          "chunk_id": "news/letter_harbour_street.md#0",
+          "quote": "the resurfacing of Harbour Street was promised for this year and has now been moved to next year's budget"
+        }
+      ],
+      "note": "Three documents say the same thing in three different ways, none of them with the question's 'pushed back' or 'later': the council notices say the resurfacing was 'postponed to 2026' (no word of the question's predicate, only the project name); the 2026 budget item lists it as 'carried over from 2025' and has the councillor ask why it 'had slipped by a year'; Judith Pike's letter says it 'has now been moved to next year's budget'. The project name 'Harbour Street resurfacing' is shared with every mention, qualifying or not, so finding the mentions is easy and the work is judging each one. Three lookalikes must not count: the 2025 budget item says 'the vote on her motion was postponed', which is a delayed vote, not a delayed resurfacing (the resurfacing itself is listed there as a 2025 project); the flooding-meeting item has Councillor Nandakumar call for the drainage works to be moved ahead of the resurfacing, a request, not a report that the resurfacing moved; and the bakery item has Maria Lopez hope the resurfacing 'starts before winter', a worry that it might be late, not a statement that it was. Counting any of these gives 4 to 6, which is wrong; the water documents name only Harbour Station."
+    },
+    {
+      "id": "GS02",
+      "type": "aggregation",
+      "question": "Which pieces of equipment do the documents report as having got stuck or clogged?",
+      "expected": {
+        "entities": [
+          {
+            "name": "corer",
+            "aliases": [
+              "the corer",
+              "Aldmoor corer",
+              "the Aldmoor peat project's first corer",
+              "the first corer",
+              "peat corer",
+              "the Aldmoor team's corer"
+            ]
+          },
+          {
+            "name": "intake screen of pump KV12-0457",
+            "aliases": [
+              "intake screen",
+              "KV12-0457 intake screen",
+              "Harbour Station intake screen",
+              "Kestrel V-12 intake screen",
+              "intake screen of the Harbour Station pump",
+              "KV12-0457",
+              "pump KV12-0457",
+              "Kestrel V-12",
+              "the Kestrel V-12 pump",
+              "the Harbour Station pump",
+              "the pump at Harbour Station"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "the corer jammed at 5 m and was freed by J. Pike"
+        },
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "a second corer had to be bought after the first one jammed in December"
+        },
+        {
+          "chunk_id": "water/harbour_station_may_2025.md#0",
+          "quote": "On 6 May Rosa Delgado found the intake screen half blocked with leaves and cleaned it."
+        }
+      ],
+      "note": "Two pieces of equipment, described in three passages that use neither 'stuck' nor 'clogged': the Aldmoor field log says the corer 'jammed at 5 m' while core AB-19 was taken, and the 9 June minutes repeat it as 'the first one jammed in December', which is why a second corer was bought (the same corer, so one entity); the Harbour Station report for May 2025 says the pump's intake screen was 'half blocked with leaves', that is clogged. Lookalikes that must not count: the flooding-meeting item says the culvert under Station Road is 'too narrow for heavy storms', which is undersized, not blocked; the Brackwater fen log says core BF-4 was not taken because 'the corer had been lent to the Aldmoor team', which is unavailable, not stuck; the April shift notes say KV12-0457 'tripped twice on low suction pressure; reset both times, no damage found', a symptom with no cause given, so they do not say anything was clogged; and the seal that failed on HP40-1183, the flooded Aldmoor site AB-20 and the vibrating flume pump are breakdowns or faults of another kind; the Mill Lane footbridge was closed and its east railing moves, neither of which is stuck, and neither is equipment. Naming the pump KV12-0457 (the Kestrel V-12 at Harbour Station) for its screen is accepted; the corer of the field log and the 'first' corer of the minutes are one entity, so listing them twice is a surplus member."
+    },
+    {
+      "id": "GE16",
+      "type": "negation_sensitive",
+      "question": "According to the committee minutes of 12 May 2025, will a project that has no data management plan receive second-year funding?",
+      "expected": {
+        "text": "No. Projects without a data management plan will not receive second-year funding."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-05-12.md#0",
+          "quote": "Projects without a plan will not receive second-year funding."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The minutes make second-year funding conditional on the plan: projects without one will not receive it. Answering yes, or answering with the deadline of 30 June 2025 by which the plan is due, misses the negation. The 18,000 euro overrun of the Aldmoor peat project in the same minutes is a separate item."
+    },
+    {
+      "id": "GE19",
+      "type": "lookup",
+      "question": "How many cubic metres of water did North Station pump in 2024?",
+      "expected": {
+        "number": 1900000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/north_station_2024_summary.md#0",
+          "quote": "North Station pumped 1.9 million cubic metres in 2024."
+        }
+      ],
+      "note": "The 2024 summary says 1.9 million cubic metres, that is 1,900,000. The 6,100 and 2,300 hours in the next sentence are running hours of the two pumps, not volumes."
+    }
+  ]
+}
