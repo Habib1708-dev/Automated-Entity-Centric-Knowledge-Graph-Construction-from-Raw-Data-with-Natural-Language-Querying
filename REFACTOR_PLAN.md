@@ -10230,6 +10230,42 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   clean.
 - **R183 done 2026-10-14.** Next: R184, `filter_passages` and `agent_semfilter`.
 
+### R184. The semantic filter `filter_passages` and the variant `agent_semfilter` (done 2026-10-14; one dev run, $0.0082)
+- **Scope:** `agent/semantic_filter.py` (new): `FilterPassages` (`statement`, optional `words` up to 5); the
+  candidates are the chunks nearest the statement (`GraphStore.nearest_chunks`), those its words score
+  highest (`ChunkLexical`) and every passage holding a given word in its forms (`TextReader.matching` with
+  R162's `form_pattern`, one search per word), fused by `rrf` with `hybrid_rrf_k` and cut at
+  `agent_filter_candidates` (60; the five corpora hold 32-81 passages); `PassageJudge` asks the QA model in
+  batches of `agent_filter_batch` (15) under short ids P1..Pn at `agent_filter_thinking` (low, sent with each
+  call whatever the agent's level), reply `FilterReply` (a verdict per passage: `states`, a quote); `verify`
+  keeps a yes only when its quote is in the passage under `norm` (read_check's rule), ignores an unknown id,
+  keeps a repeated id's first verdict and counts a passage given none. `agent/results.py`: `FilteredResult`
+  (a `ChunksResult`, so the ledger reads it): the kept passages shown as their verified quotes (a citation
+  of one is checked against that quote), `total`, `documents` and `document_count` (a question often counts
+  documents), `considered`, `unverified`; the note says how the candidates were chosen, how many lay past
+  the cap unread, the display cut (`agent_matches`) and what was left out. `config.py`: the three settings,
+  logged by the variant only. `pipeline/qa_systems.py`: the variant `agent_semfilter` (the agent's tools with
+  `filter_passages` after `find_passages`; the recheck's wider tools gain it; prompts `agent_filter` and
+  `agent_filter_reply` versioned; its params). The prompt is read_check's rules for a batch, domain-neutral.
+- **Not here:** any change to `agent` (its params and version hashes byte-identical to R183's); the filter
+  over a table's text column (HE06's kind, left to R188's SQL).
+- **Verified:** 8 tests (`tests/test_agent_semantic_filter.py`, `ScriptedLLM` and fakes): the three candidate
+  lists, the word in its forms, the cap and its note; batches with ids from P1 each and the filter's own
+  level and model; a yes without its quote in the passage dropped and counted; an unknown id ignored, a
+  repeated id's first verdict, a passage given none counted; the counts, documents, quotes shown and the
+  display cut; the ledger reads the kept passages, their quotes pass the citation comparison, the count
+  supports a number answer and another number does not; no dataset word in what the model reads. The
+  variant test of R183 now covers `agent_semfilter`. 1646 passed, ruff clean.
+- **The dev run** (R135's form): `QA_MODEL=gemini-3.5-flash-lite kg --preset dev qa <HB41> --system
+  agent_semfilter --out out/r184_dev_heldout` on the held-out graph as loaded (digest bc7c5a1efe3d), MLflow
+  `ab2deccb` (`kgbuilder-dev`): 4 calls, 24 457 prompt / 346 output tokens, $0.008202; the run, its name
+  `qa_agent_semfilter` and its answers file `answers_agent_semfilter.jsonl` as designed. The model went
+  schema -> query_tables and answered that no complaint says so (wrong; R182's medium agent answered it
+  right); it never called `filter_passages`, so the tool has not yet met the real model's reply. Its graph
+  reads are the calls `search_text` and `find_passages` already make; R186 starts with one dataset and
+  checks the filter's calls and notes before the rest.
+- **R184 done 2026-10-14.** Next: R185, suite A.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

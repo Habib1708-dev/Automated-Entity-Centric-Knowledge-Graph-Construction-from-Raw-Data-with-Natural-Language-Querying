@@ -21,9 +21,11 @@ from functools import partial
 from pathlib import Path
 
 from ..agent import prompt as agent_prompt
+from ..agent import semantic_filter
 from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
 from ..agent.recheck import SingleSearchRecheck
+from ..agent.semantic_filter import FilterOptions, FilterPassages, PassageJudge
 from ..agent.system import AGENT, AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from ..agent.tables import DuckDBTables
 from ..agent.text_reader import Neo4jTextReader, TextReader
@@ -321,8 +323,52 @@ class AgentVariant:
 # R176: the tools that look further than the word search's words (by meaning, or a whole document)
 _WIDER = (SearchText.name, SearchClaims.name, ReadDocument.name)
 
-# the agent itself; an experiment's variant is registered beside it, never in its place
-AGENT_VARIANTS = (AgentVariant(AGENT, _same_tools, AGENT_TOOL_TYPES, _WIDER),)
+
+def _after(types: tuple[type[Tool], ...], anchor: type[Tool], added: type[Tool]) -> tuple[type[Tool], ...]:
+    """`types` with `added` right after `anchor`, so a new tool sits beside the tools it is read with."""
+    at = types.index(anchor) + 1
+    return (*types[:at], added, *types[at:])
+
+
+def _with_filter(tools: list[Tool], parts: QAParts) -> list[Tool]:
+    """The agent's tools and `filter_passages` after `find_passages` (R184), judging with the QA model."""
+    s = parts.settings
+    if parts.text is None:
+        raise ConfigurationError("the semantic filter needs the text reader of the parts")
+    options = FilterOptions(model=s.qa_model, temperature=s.llm_temperature, thinking=s.agent_filter_thinking,
+                            batch=s.agent_filter_batch)  # fmt: skip
+    tool = FilterPassages(
+        PassageJudge(parts.llm, options), parts.store, parts.units, parts.text, parts.embedder,
+        s.hybrid_rrf_k, s.agent_filter_candidates, s.agent_matches,
+    )  # fmt: skip
+    at = [type(t) for t in tools].index(FindPassages) + 1
+    return [*tools[:at], tool, *tools[at:]]
+
+
+def _filter_params(s: Settings) -> dict[str, object]:
+    return {
+        "agent_filter_candidates": s.agent_filter_candidates,
+        "agent_filter_batch": s.agent_filter_batch,
+        "agent_filter_thinking": s.agent_filter_thinking,
+    }
+
+
+# the agent itself; an experiment's variant is registered beside it, never in its place. Experiment A of plan
+# R183-R191: the agent with the semantic filter, which the recheck names among the wider tools
+AGENT_VARIANTS = (
+    AgentVariant(AGENT, _same_tools, AGENT_TOOL_TYPES, _WIDER),
+    AgentVariant(
+        "agent_semfilter",
+        _with_filter,
+        _after(AGENT_TOOL_TYPES, FindPassages, FilterPassages),
+        (*_WIDER, FilterPassages.name),
+        {
+            "agent_filter": semantic_filter.PROMPT,
+            "agent_filter_reply": schema_text(semantic_filter.FilterReply),
+        },
+        _filter_params,
+    ),
+)
 
 
 def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:

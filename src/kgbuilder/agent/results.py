@@ -1,5 +1,6 @@
 """What the agent's tools return (R133): nodes, their properties and relations, chunks and claims, each with
-the id the agent may cite; R150: the things the text names with how many documents name them.
+the id the agent may cite; R150: the things the text names with how many documents name them; R184: the
+passages the semantic filter kept, with their documents.
 
 Role in the pipeline: the tools (graph_tools.py, text_tools.py) build these from the node reader
 (node_reader.py) and the stores; the agent loop (R135) shows them to the model and collects every id a
@@ -126,6 +127,17 @@ class ChunksResult(ToolResult):
 
     def cites(self) -> list[str]:
         return _unique(i for c in self.chunks for i in (c.chunk_id, *(f.id for f in c.claims)))
+
+
+class FilteredResult(ChunksResult):
+    """`filter_passages` (R184): the passages stating a statement, each shown as its verified quote, so a
+    citation of it is checked against that quote; `total` counts them all, and their documents are counted
+    by code, since a question often counts documents, not passages."""
+
+    documents: list[str]  # the documents of the kept passages, each once, in the order found
+    document_count: int  # how many documents: a number the answer's support check can find (R142)
+    considered: int  # the candidate passages read
+    unverified: int  # yeses left out because their quote is not in the passage
 
 
 class ClaimsResult(ToolResult):

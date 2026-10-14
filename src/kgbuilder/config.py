@@ -264,6 +264,13 @@ class Settings(BaseSettings):
     # characters), so 30 stay near 10 000 characters
     agent_document_chunks: int = Field(default=20, ge=1)
     agent_matches: int = Field(default=30, ge=1)
+    # the semantic filter of the variant agent_semfilter (R184): the candidate passages it reads per call (the
+    # five evaluated corpora hold 32-81 passages, so 60 reads all of three and most of two while bounding a
+    # larger corpus), 15 a model call (about 6 000 tokens of passages), at low thinking: a yes or no per
+    # passage with a quote is a small reading task, and the agent's own level is set apart
+    agent_filter_candidates: int = Field(default=60, ge=1)
+    agent_filter_batch: int = Field(default=15, ge=1)
+    agent_filter_thinking: ThinkingLevel = "low"
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

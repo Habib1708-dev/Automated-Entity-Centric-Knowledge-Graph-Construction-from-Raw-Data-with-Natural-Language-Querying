@@ -23,6 +23,8 @@ and for one list less another by `!=` conditions. R163: the form rule, the `enti
 several years, a month alone or a time of day as things, keep a date (a day of a month, with or without
 its year) as text and a year alone as a number."""
 
+from types import SimpleNamespace
+
 import pytest
 from pydantic import BaseModel, ValidationError
 
@@ -693,8 +695,11 @@ CAPS = ToolCaps(
     nodes=1, relations=1, chunks=1, claims=1, rows=1, value_chars=1, names=1, document_chunks=1, matches=1,
     text_rrf_k=0,
 )  # fmt: skip
-# what a variant reads of the parts besides the agent's tools: the agent itself reads nothing more
-VARIANT_PARTS = object()
+# what a variant reads of the parts besides the agent's tools (R184: the semantic filter's model, stores and
+# settings); the constructors keep them, so stand-ins do
+VARIANT_PARTS = SimpleNamespace(
+    settings=Settings(), llm=object(), store=object(), units=object(), text=object(), embedder=object()
+)
 
 
 def base_tools() -> list:
