@@ -1,0 +1,126 @@
+{
+ "step": "R190: agent and agent_sql (git 1fc22fd) at QA_THINKING=medium on experiment B's run files (R189), paired per dataset",
+ "approved": "the user, 2026-10-14: 'Yes, run it (~$1.5, stop at $2.5)' to the question naming the reloads, the qa commands and the estimate",
+ "git_sha": "1fc22fd (only .claude/settings.json differed)",
+ "commands": [
+  "QA_THINKING=medium kg --preset <generality_gemini|heldout|quality|lighthouses|ntsb> qa tests/gold/r189/<dataset>_expB.json --system agent --system agent_sql --out out/r190_<dataset>",
+  "reloads ($0, from the cache): R178's recipe into out/r190_<dataset> from out/r165_<dataset>_build; generality as loaded (R186's reload of out/r156_generality), its out folder a copy of out/r186_generality"
+ ],
+ "runs": {
+  "generality": {
+   "agent_sql": {
+    "run": "f09cda42e8d9495285f5cd86dcc3439a",
+    "cost_usd": 0.0451,
+    "query_sql_calls": 1.0,
+    "query_tables_calls": null,
+    "digest": "f79f9411ea81",
+    "thinking": "medium",
+    "exact": "3/3"
+   },
+   "agent": {
+    "run": "1ef490acb1c94f7db9bb98fe1819f612",
+    "cost_usd": 0.0288,
+    "query_sql_calls": null,
+    "query_tables_calls": 1.0,
+    "digest": "f79f9411ea81",
+    "thinking": "medium",
+    "exact": "3/3"
+   }
+  },
+  "heldout": {
+   "agent_sql": {
+    "run": "1a02010d84f64e2cac8f8d934cca1141",
+    "cost_usd": 0.1797,
+    "query_sql_calls": 17.0,
+    "query_tables_calls": null,
+    "digest": "bc7c5a1efe3d",
+    "thinking": "medium",
+    "exact": "5/5"
+   },
+   "agent": {
+    "run": "c9d607ff4b9c4dcdb31c97ebe7232606",
+    "cost_usd": 0.1744,
+    "query_sql_calls": null,
+    "query_tables_calls": 14.0,
+    "digest": "bc7c5a1efe3d",
+    "thinking": "medium",
+    "exact": "4/5"
+   }
+  },
+  "furniture": {
+   "agent_sql": {
+    "run": "742d550300cb407ea720cf68c39351c1",
+    "cost_usd": 0.0708,
+    "query_sql_calls": 4.0,
+    "query_tables_calls": null,
+    "digest": "392a170ecc10",
+    "thinking": "medium",
+    "exact": "4/4"
+   },
+   "agent": {
+    "run": "b28d2c8a2d61419083e17f32219e8546",
+    "cost_usd": 0.1407,
+    "query_sql_calls": null,
+    "query_tables_calls": 5.0,
+    "digest": "392a170ecc10",
+    "thinking": "medium",
+    "exact": "3/4"
+   }
+  },
+  "lighthouses": {
+   "agent_sql": {
+    "run": "71b25c8be6f64b3bbbef1375198147e4",
+    "cost_usd": 0.1006,
+    "query_sql_calls": 11.0,
+    "query_tables_calls": null,
+    "digest": "62573881a3c6",
+    "thinking": "medium",
+    "exact": "5/5"
+   },
+   "agent": {
+    "run": "5e0d2421ee6b491d83d2be464291c7cb",
+    "cost_usd": 0.0729,
+    "query_sql_calls": null,
+    "query_tables_calls": 15.0,
+    "digest": "62573881a3c6",
+    "thinking": "medium",
+    "exact": "4/5"
+   }
+  },
+  "ntsb": {
+   "agent_sql": {
+    "run": "e5b03c1b596a4ab1bd74d918eece7730",
+    "cost_usd": 0.1152,
+    "query_sql_calls": 6.0,
+    "query_tables_calls": null,
+    "digest": "c7f20fa9c187",
+    "thinking": "medium",
+    "exact": "4/4"
+   },
+   "agent": {
+    "run": "5f9661e237b744ffb2faa14c4a7c3f3e",
+    "cost_usd": 0.14,
+    "query_sql_calls": null,
+    "query_tables_calls": 12.0,
+    "digest": "c7f20fa9c187",
+    "thinking": "medium",
+    "exact": "4/4"
+   }
+  }
+ },
+ "exact_pooled": {
+  "agent": "18/21",
+  "agent_sql": "21/21",
+  "unjudged_free_text_each": 1
+ },
+ "cost_usd": {
+  "agent": 0.5568,
+  "agent_sql": 0.5114,
+  "total": 1.0681
+ },
+ "only_agent_sql_right_by_exact": [
+  "HE06",
+  "FQ01",
+  "LB11"
+ ]
+}

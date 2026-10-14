@@ -10412,6 +10412,21 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   asked before by wording; each run file is its questions copied unchanged.
 - **R189 done 2026-10-14.** Next: R190, the paired run (paid, asked).
 
+### R190. `agent` and `agent_sql` at medium on experiment B's questions (done 2026-10-14; $1.068)
+- **Asked and approved:** the user, "Yes, run it (~$1.5, stop at $2.5)", to the question naming the reloads, the
+  `kg qa` commands and the estimate.
+- **Runs** (`tests/gold/r190/runs.json`, git 1fc22fd): `QA_THINKING=medium kg --preset P qa
+  tests/gold/r189/<dataset>_expB.json --system agent --system agent_sql --out out/r190_<dataset>`, one command
+  per dataset; graphs reloaded from cache by R178's recipe ($0; triples and mentions byte-identical, every
+  digest equal to R178's; generality as loaded from R186's reload).
+- **Exact match** (21 code-scored; GE16 free text, judged in R191): **agent 18/21 ($0.557), agent_sql 21/21
+  ($0.511)**. Only `agent_sql` right: HE06 (10 phone numbers in the remedies, for 8: a regular expression over
+  the text column), FQ01 (42 parts; the agent gave no number), LB11 (13, for 10: R182's old failure, counted
+  by the statement). Only `agent` right: none. `query_sql` was called 39 times over 22 answers (heldout 17,
+  lighthouses 11, NTSB 6, furniture 4, generality 1), against `query_tables` 47 times in the agent's answers;
+  every control right in both arms by exact match.
+- **R190 done 2026-10-14.** Next: R191, judged by meaning and decided ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
