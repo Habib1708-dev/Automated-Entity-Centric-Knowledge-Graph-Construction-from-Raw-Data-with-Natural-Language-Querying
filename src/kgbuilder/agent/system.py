@@ -12,7 +12,8 @@ the checked ones (citations.py). `build_tools` is a Factory over
 injected stores: the composition root (pipeline/qa_systems.py) opens the adapters and passes them in.
 `AGENT_TOOL_TYPES` names the same tools by class, so what the model reads of them can be versioned without
 building them (R146). R150 adds `rank_by_documents` after `find_passages`, reading the node reader with
-the `rows` and `names` caps.
+the `rows` and `names` caps. R183: the system takes its name, so a variant of the agent with other tools
+(pipeline/qa_systems.py's `AgentVariant`) writes its own answers file and MLflow run.
 Not here: the loop (loop.py), the tools, opening any database.
 """
 
@@ -34,7 +35,7 @@ from .text_reader import TextReader
 from .text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
 from .tool import Tool
 
-AGENT = "agent"  # the system's name: its answers file and its MLflow run (`qa_agent`)
+AGENT = "agent"  # the agent's name: its answers file and its MLflow run (`qa_agent`); a variant has its own
 
 # The agent's tools by class, in `build_tools`' order. What the model reads of a tool (its name, description
 # and arguments' schema) is set by its class, so the composition root versions that text from here (R146):
@@ -85,11 +86,11 @@ def build_tools(
 
 
 class AgentSystem:
-    """A `QASystem` answering each question with one run of the agent loop."""
+    """A `QASystem` answering each question with one run of the agent loop; `name` is the system's, `agent`
+    or a variant's (R183), and is written into every answer."""
 
-    name = AGENT
-
-    def __init__(self, loop: AgentLoop, store: PlanStore):
+    def __init__(self, loop: AgentLoop, store: PlanStore, name: str = AGENT):
+        self.name = name
         self._loop = loop
         self._store = store
 

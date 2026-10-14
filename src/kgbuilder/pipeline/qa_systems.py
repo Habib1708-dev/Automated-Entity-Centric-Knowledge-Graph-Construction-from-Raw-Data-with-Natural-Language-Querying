@@ -9,13 +9,15 @@ frozen-plan replay, plan metrics), and for a reading system its chunk source. Th
 (the reader with its model, temperature and prompt; k; the embedder; the graph store) are built once, by
 `qa_parts`, so two systems differ only in what their spec builds on top of them: a fair comparison is a
 property of the construction, not a promise. A new approach is one more spec here, not one more branch in
-the stages.
+the stages. R183: the agent's spec is built from an `AgentVariant`, so an experiment's variant of the agent
+(other tools, the same loop) is one more variant, registered beside `agent` under its own name.
 Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py,
 retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py).
 """
 
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field, fields
+from functools import partial
 from pathlib import Path
 
 from ..agent import prompt as agent_prompt
@@ -26,6 +28,7 @@ from ..agent.system import AGENT, AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build
 from ..agent.tables import DuckDBTables
 from ..agent.text_reader import Neo4jTextReader, TextReader
 from ..agent.text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
+from ..agent.tool import Tool
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..hybrid.seed_fusion import SeedSetting
@@ -291,9 +294,40 @@ SINGLE_SYSTEMS = tuple(
 AGENT_RETRIEVERS = ("chunk_lexical", "claim_dense", "claim_lexical", "card_fused")
 
 
-def _agent(parts: QAParts) -> QASystem:
-    """The agent (R135) over the template cards' layer, refused like a hybrid source when the layer is
-    missing or stale; its tables are the build's staged ones."""
+# A variant's tools made from the agent's own, built over the same parts (R183): the agent keeps them as they
+# are; an experiment adds a tool or swaps one, so a paired run against `agent` measures that tool alone
+ToolsFromBase = Callable[[list[Tool], QAParts], list[Tool]]
+
+
+def _same_tools(tools: list[Tool], parts: QAParts) -> list[Tool]:
+    return tools
+
+
+@dataclass(frozen=True)
+class AgentVariant:
+    """One agent system by its tools (R183): its name, how its tools are made from the agent's, their
+    classes in that order (versioned as `AGENT_TOOL_TYPES` is, R146; a test holds the two equal), the tools
+    the R176 recheck names as looking further than the word search, and the prompts and params its own
+    tools add. The loop, its prompt, caps and checks are the agent's, so two variants differ in tools only."""
+
+    name: str
+    tools: ToolsFromBase
+    tool_types: tuple[type[Tool], ...]
+    wider: tuple[str, ...]
+    prompts: Mapping[str, str] = field(default_factory=dict)
+    params: Callable[[Settings], dict[str, object]] = _no_params
+
+
+# R176: the tools that look further than the word search's words (by meaning, or a whole document)
+_WIDER = (SearchText.name, SearchClaims.name, ReadDocument.name)
+
+# the agent itself; an experiment's variant is registered beside it, never in its place
+AGENT_VARIANTS = (AgentVariant(AGENT, _same_tools, AGENT_TOOL_TYPES, _WIDER),)
+
+
+def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
+    """The agent (R135), or one of its variants (R183), over the template cards' layer, refused like a hybrid
+    source when the layer is missing or stale; its tables are the build's staged ones."""
     s = parts.settings
     if parts.nodes is None or parts.text is None or parts.staging is None:
         raise ConfigurationError(
@@ -318,10 +352,36 @@ def _agent(parts: QAParts) -> QASystem:
     )  # fmt: skip
     limits = AgentLimits(turns=s.agent_max_turns, calls=s.agent_max_calls,
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
-    # R176: the word search, and the tools that look further than its words (by meaning, or a whole document)
-    recheck = SingleSearchRecheck(FindPassages.name, (SearchText.name, SearchClaims.name, ReadDocument.name))
-    loop = AgentLoop(tools, parts.llm, s.qa_model, s.llm_temperature, limits, recheck=recheck)
-    return AgentSystem(loop, parts.store)
+    recheck = SingleSearchRecheck(FindPassages.name, variant.wider)
+    loop = AgentLoop(variant.tools(tools, parts), parts.llm, s.qa_model, s.llm_temperature, limits,
+                     recheck=recheck)  # fmt: skip
+    return AgentSystem(loop, parts.store, variant.name)
+
+
+def agent_spec(variant: AgentVariant) -> SystemSpec:
+    """The spec of the agent or a variant: the agent's params and prompts, the tool list and reply schema
+    from the variant's own tool classes (R146), and what its own tools add."""
+    names = [t.name for t in variant.tool_types]
+    return SystemSpec(
+        variant.name,
+        partial(_agent, variant),
+        lambda s: {**_agent_params(s), **variant.params(s)},
+        {
+            # the agent's prompt, the closing prompt, the citation retry, the text an empty answer is sent
+            # back with (R138), the text an answer leaving out its declared form is sent back with (R147)
+            # and the recheck's (R176); then what the model reads besides (R146): the tool list rendered
+            # into every turn, and the reply schema with its field descriptions
+            "agent": agent_prompt.PROMPT
+            + agent_prompt.CLOSING
+            + agent_prompt.CITATION_RETRY
+            + agent_prompt.EMPTY_ANSWER
+            + agent_prompt.FORM_ANSWER
+            + agent_prompt.RECHECK_ANSWER,
+            "agent_tools": agent_prompt.tool_list(variant.tool_types),
+            "agent_reply": schema_text(agent_prompt.step_model(names)),
+            **variant.prompts,
+        },
+    )
 
 
 def _tool_caps(s: Settings) -> ToolCaps:
@@ -379,25 +439,8 @@ SYSTEMS: Mapping[str, SystemSpec] = {
         *CARD_SYSTEMS,
         *SINGLE_SYSTEMS,
         *FUSED_SYSTEMS,
-        # the agentic query engine (plan R130-R136): its prompt, the closing prompt, the citation retry, the
-        # text an empty answer is sent back with (R138) and the text an answer leaving out its declared form
-        # is sent back with (R147); then what the model reads besides (R146): the tool list rendered into
-        # every turn, and the reply schema with its field descriptions
-        SystemSpec(
-            AGENT,
-            _agent,
-            _agent_params,
-            {
-                "agent": agent_prompt.PROMPT
-                + agent_prompt.CLOSING
-                + agent_prompt.CITATION_RETRY
-                + agent_prompt.EMPTY_ANSWER
-                + agent_prompt.FORM_ANSWER
-                + agent_prompt.RECHECK_ANSWER,
-                "agent_tools": agent_prompt.tool_list(AGENT_TOOL_TYPES),
-                "agent_reply": schema_text(agent_prompt.step_model([t.name for t in AGENT_TOOL_TYPES])),
-            },
-        ),
+        # the agentic query engine (plan R130-R136) and its experimental variants (R183)
+        *(agent_spec(variant) for variant in AGENT_VARIANTS),
         # its text2cypher fallback sees the record layer only (R73), so it has its own prompt
         SystemSpec(
             RECORDS_VECTOR,

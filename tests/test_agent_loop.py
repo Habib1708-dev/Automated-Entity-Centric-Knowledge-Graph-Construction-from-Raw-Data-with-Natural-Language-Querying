@@ -11,7 +11,8 @@ empty answer is written back once with the tools open, and counted. R141: a pass
 its excerpt keeps the full text in its first place. R142: the model's time and the loop's time in the
 trace; whether the answer's names and number appear in what its citations' results hold; the metrics of
 both, and the seconds per answer every system logs. R146: the tool list and the reply schema the model reads
-are versioned, from a tuple of tool classes held equal to what `build_tools` builds. R147: the agent and the
+are versioned, from a tuple of tool classes held equal to what `build_tools` builds; R183: so are every
+agent variant's, and a variant writes its own name into its answers. R147: the agent and the
 reader share one answer-form rule (a number first) and the answer fields' descriptions; the reply must
 declare the form it answers (`asks`); an answer that leaves its declared field empty is sent back once with
 the tools open while a turn is left, then stands; an empty answer is R138's, never also sent back for its
@@ -55,7 +56,7 @@ from kgbuilder.agent.system import AGENT_TOOL_TYPES, AgentSystem, ToolCaps, buil
 from kgbuilder.config import Settings
 from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
-from kgbuilder.pipeline.qa_systems import system_params
+from kgbuilder.pipeline.qa_systems import AGENT_VARIANTS, system_params
 from kgbuilder.query import reader
 from kgbuilder.query.answers import AgentTrace
 from kgbuilder.query.graph_schema import GraphSchema
@@ -688,19 +689,47 @@ class NoTables:
         return []
 
 
-def test_the_versioned_tool_list_is_the_list_the_agent_is_built_with():
-    """R146: a tool added to `build_tools` and not to `AGENT_TOOL_TYPES` would reach the model unversioned."""
-    caps = ToolCaps(
-        nodes=1, relations=1, chunks=1, claims=1, rows=1, value_chars=1, names=1, document_chunks=1,
-        matches=1, text_rrf_k=0,
-    )  # fmt: skip
+CAPS = ToolCaps(
+    nodes=1, relations=1, chunks=1, claims=1, rows=1, value_chars=1, names=1, document_chunks=1, matches=1,
+    text_rrf_k=0,
+)  # fmt: skip
+# what a variant reads of the parts besides the agent's tools: the agent itself reads nothing more
+VARIANT_PARTS = object()
+
+
+def base_tools() -> list:
     stand_in = object()  # the constructors keep their stores; only Schema reads its schema and tables
     schema = GraphSchema(labels=[], relationships=[], claims=[])
-    tools = build_tools(
-        stand_in, stand_in, stand_in, stand_in, stand_in, NoTables(), schema, None, SETTING, caps
-    )  # fmt: skip
+    return build_tools(
+        stand_in, stand_in, stand_in, stand_in, stand_in, NoTables(), schema, None, SETTING, CAPS
+    )
+
+
+def test_the_versioned_tool_list_is_the_list_the_agent_is_built_with():
+    """R146: a tool added to `build_tools` and not to `AGENT_TOOL_TYPES` would reach the model unversioned."""
+    tools = base_tools()
     assert [type(t) for t in tools] == list(AGENT_TOOL_TYPES)
     assert tool_list(tools) == tool_list(AGENT_TOOL_TYPES)
+
+
+@pytest.mark.parametrize("variant", AGENT_VARIANTS, ids=lambda v: v.name)
+def test_every_agent_variant_is_registered_with_the_tool_list_it_is_built_with(variant):
+    """R183: a variant's tools, made from the agent's, are the classes its spec versions, in order; its
+    params are the agent's and its own, and its prompt the agent's."""
+    tools = variant.tools(base_tools(), VARIANT_PARTS)
+    assert [type(t) for t in tools] == list(variant.tool_types)
+    params = system_params(Settings(), variant.name)
+    assert params["agent_tools_prompt_version"] == prompt_version(tool_list(variant.tool_types))
+    agent = system_params(Settings(), "agent")
+    assert params["agent_prompt_version"] == agent["agent_prompt_version"]
+    assert params["agent_max_calls"] == agent["agent_max_calls"]
+
+
+def test_the_agent_system_writes_its_name_into_every_answer():
+    """R183: a variant's answers carry its name, so `kg qa-score` names its outcome file after it."""
+    one = AgentSystem(loop(Script(answer())), FakeStore(), "agent_variant").answer("Q1", "Which?")
+    assert one.system == "agent_variant"
+    assert AgentSystem(loop(Script(answer())), FakeStore()).answer("Q1", "Which?").system == "agent"
 
 
 def test_what_the_model_reads_of_the_agent_names_no_evaluated_dataset():

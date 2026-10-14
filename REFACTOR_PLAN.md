@@ -10176,6 +10176,60 @@ as much as the level's, and the questions answered right before are not re-asked
   agent's level, measured on a fresh or a control set for regressions; the "filter by meaning" tool for the
   wording family; the computing tool for counts).
 
+### Plan R183-R191: two independent experiments, semantic filtering and validated read-only SQL (accepted 2026-10-14)
+The user, 2026-10-14, after R182: "experiment with semantic filtering and validated read-only SQL, but treat
+them as two independent research experiments rather than immediately integrating both." R182 left two
+families medium thinking does not reach: (A) every passage stating an idea in any wording (NC11, ND11, LC08,
+FB18) and (B) an operation the closed table language lacks, counted by eye (LB11, HE06). Each experiment is
+an opt-in variant of the agent (`--system agent_semfilter`, `--system agent_sql`), run paired against the
+unchanged `agent` on the same questions, and ends in its own recorded decision; the default agent is not
+changed and the two tools are never combined here (adoption would be a later plan). The user's choices:
+both arms at medium thinking (`QA_THINKING=medium`, as R181); per experiment 10 blind targeted questions (2 per
+dataset) plus the old failures of its family, and 10 shared controls (questions answered right before); the
+SQL tool replaces `query_tables` (same number of tools as the base, so the result reads "closed language
+against SQL"); the semantic filter first. Checked in this session ($0, in memory): DuckDB's own parser,
+`json_serialize_sql`, serialises only SELECT (COPY and ATTACH refused), shows the statement count and marks
+table functions (`read_csv`), and `enable_external_access=false` with `lock_configuration=true` blocks file
+reads over tables loaded before and cannot be undone by a query, so the SQL check needs no new dependency.
+- **Steps, strictly one after another:**
+  - **R183** Agent variants as systems: `AgentSystem` takes its name; the agent's spec is built from an
+    `AgentVariant` (its tools from the agent's own, their classes, the recheck's wider tools, its extra
+    prompts and params), so a variant has its own answers file, MLflow run and versioned tool list (R146);
+    only `agent` registered, every version hash unchanged ($0, structural).
+  - **R184** `filter_passages` (candidates by meaning and by words, each judged by the model in batches with
+    a verbatim quote that code verifies; the matching passages and their documents counted by code) and the
+    variant `agent_semfilter` (the agent's tools and it); tests, one `dev` run ($0 code, cents).
+  - **R185** Suite A: 2 blind questions per dataset on ideas worded differently across documents (Fable 5.1
+    writers, one adversarial review per file), and the run files with NC11, ND11, LC08, FB18 and the 10
+    controls chosen by code from R179's right answers ($0).
+  - **R186** The paired run, `agent` and `agent_semfilter` at medium on the run files (paid, asked, about $2,
+    stop at $3).
+  - **R187** Judged blind (R182's method), paired, controls read one by one; the decision recorded ($0).
+  - **R188** `query_sql` (one SELECT over the staged tables loaded into a locked DuckDB, checked by DuckDB's
+    parser, row cap and timeout) and the variant `agent_sql` (`query_tables` replaced); tests, one `dev` run.
+  - **R189** Suite B: 2 blind questions per dataset needing a count, a distinct count, rows with no match in
+    another table, a comparison across tables, dates in different formats or values inside a text field;
+    the run files with LB11, HE06 and the same controls ($0).
+  - **R190** The paired run, `agent` and `agent_sql` at medium (paid, asked, about $1.5, stop at $2.5).
+  - **R191** Judged blind, paired, controls read one by one; the decision recorded ($0).
+
+### R183. Agent variants as systems (done 2026-10-14; $0, structural)
+- **Scope:** `agent/system.py`: `AgentSystem(loop, store, name=AGENT)` writes its name into every answer
+  (it was a class attribute, so a variant would have written `answers_agent` and `qa_outcomes_agent`).
+  `pipeline/qa_systems.py`: `AgentVariant` (name; `tools`, how its tools are made from the agent's, built
+  over the same parts; `tool_types`, their classes; `wider`, the tools R176's recheck names; its own prompts
+  and params), `AGENT_VARIANTS` holding only `agent`, `_agent(variant, parts)` and `agent_spec(variant)`,
+  which versions the tool list and reply schema from the variant's own classes (R146) under the agent's
+  prompt keys, so `agent_tools_prompt_version` compares across variants run by run. Strategy for the tools,
+  Factory for the specs; the loop, prompt, caps and checks stay the agent's.
+- **Not here:** any variant (R184, R188); any change to what `agent` sends or logs.
+- **Verified:** `system_params(Settings(), "agent")` (every param and version hash) and the registered system
+  names byte-identical before and after; tests (`tests/test_agent_loop.py`): every registered variant's
+  tools, made from the agent's, are its versioned classes in order, with the agent's prompt version and
+  caps; a variant's name is written into its answers, the agent's default stays `agent`. 1636 passed, ruff
+  clean.
+- **R183 done 2026-10-14.** Next: R184, `filter_passages` and `agent_semfilter`.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
