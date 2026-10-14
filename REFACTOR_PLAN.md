@@ -10459,6 +10459,47 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   $2.993). Next: the user decides (candidates: adopt `query_sql` in `agent` and measure on fresh questions;
   make the semantic filter reach the agent by a send-back, as a new experiment; or stop here).
 
+### R192. Why experiment A's 8 failures failed: diagnosis from the saved answers (done 2026-10-14; $0, no run)
+- **Asked:** the user, 2026-10-14, proposed a prompt rule sending the agent to `filter_passages` "if the
+  question requires serious semantic matching", measured on the failures only; this session suggested a
+  $0 check first that the failures are filtering failures, and the user said "proceed".
+- **Method:** for HS01, HS02, FS02, FB18, LS01, LC08, NC11, ND11, both arms of R186
+  (`out/r186_<dataset>/answers_<arm>.jsonl`): every tool call and what it returned, the `shown` passages
+  against the gold's cited chunks, the final answer and how the loop stopped. No code changed, no model call.
+- **Finding: the failures are mostly passages the agent read and left out, not passages it never found.**
+  Of the 14 failing answers outside HS02 (answered from table rows, below), every one had at least one
+  missing member's gold passage in front of the model, and in 10 every missing member's passage was shown. In both arms all gold passages were shown and members
+  still dropped on LS01, LC08, NC11 and ND11; code dropped nothing (`dropped` [] and `ungrounded` [] in all 16).
+  The pattern is a literal reading of the question's words:
+  - NC11: one `find_passages` returned exactly the 3 gold passages; the answer kept "made a forced landing"
+    (CEN22LA312) and left out "performed a forced landing" (CEN21LA362) and "completed a forced landing"
+    (CEN23LA223), though each passage opens with its accident's heading.
+  - ND11: "rolled over" kept, "entered a dynamic rollover" (ANC23LA032, read in full with `read_document`)
+    left out, also after R176's recheck sent the answer back.
+  - LC08: "fog bell" returned St Anthony's "A fog-bell was installed in 1865"; only Godrevy answered.
+  - LS01: St Anthony's "A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic" read
+    in full; only the two articles using the word "clockwork" kept.
+  - FS02: Linköping's "Assembly took about 2 hours with two people" returned by "two people"; the answer kept
+    only "definitely needs/requires two people".
+  - FB18 (`agent`): all 7 gold passages shown; "dent" and "chip" left out, "damaged" and "scratched" kept.
+  - HS01 (`agent_semfilter`): all 4 gold passages shown and `filter_passages` itself kept 3 of them, then the
+    call cap was reached and the closing answer named 1 ("THIS IS NORMAL").
+  - HS02: answered through `query_tables` (the rows are not kept in the answer record, so what they showed is
+    not checked here); both arms left out 20V373000 "Water may enter", the doubt R185's review left standing.
+- **Never found:** only FS02's Helsingborg "me and my roommate" (both arms), FB18's Uppsala and Örebro
+  passages (`agent_semfilter` only) and two HS01 passages (`agent` only).
+- **Consequence for the proposed experiment:** a rule sending the agent to the filter targets finding
+  passages, which caused at most 3 of the 8 failures in either arm; and HS01 shows the filter's own kept
+  passages dropped by the answer. The failure to target is the agent leaving out passages it has read that
+  state the asked idea in other words. Candidates for the user: (a) a domain-neutral rule in the answer
+  prompt that a passage counts when it states the idea in other words, and that every returned passage is
+  checked before a set is answered; (b) a code send-back (as R176) that, before a set answer stands, runs
+  the filter over the passages the agent was shown and names the ones it left out; both as a variant, on the
+  8 failures and about 5 controls (about $0.50 at R186's $0.043 an answer), a seen-question test only.
+- **Read with care:** one run per arm; "literal reading" is this session's reading of the traces, not a
+  measured cause; the gold (Fable 5.1) and this diagnosis (Opus 5.5) are one model family.
+- **R192 done 2026-10-14** ($0). Next: the user chooses (a), (b) or neither.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
