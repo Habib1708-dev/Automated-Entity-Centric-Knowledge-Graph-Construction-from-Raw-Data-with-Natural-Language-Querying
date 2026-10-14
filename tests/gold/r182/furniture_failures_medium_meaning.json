@@ -1,0 +1,48 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "f688b6299be04298a40cd2f2f90d6ece",
+  "git_sha": "f763197"
+ },
+ "gold": "tests/gold/r180/furniture_failures.json",
+ "answers": "out/r181_furniture_medium/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "FB10",
+   "correct": true,
+   "reason": "Jönköping Coffee Table, Norrköping Nightstand, Västerås Bookshelf: same set. (judge B agreed: Jonkoping Coffee Table, Norrkoping Nightstand, Vasteras Bookshelf: same three as expected.)"
+  },
+  {
+   "question_id": "FB14",
+   "correct": true,
+   "reason": "All five handles, same set as expected. (judge B agreed: All five expected handles, nothing extra.)"
+  },
+  {
+   "question_id": "FB18",
+   "correct": false,
+   "reason": "Four of seven; misses Gothenburg Table, Uppsala Sofa, Örebro Lamp. (judge B agreed: Four of seven; missing Gothenburg Table, Uppsala Sofa and Orebro Lamp.)"
+  },
+  {
+   "question_id": "FB38",
+   "correct": true,
+   "reason": "Jönköping Coffee Table, Linköping Bed, Malmö Desk, Uppsala Sofa: same set. (judge B agreed: Jonkoping Coffee Table, Linkoping Bed, Malmo Desk, Uppsala Sofa: same four as expected.)"
+  },
+  {
+   "question_id": "FC05",
+   "correct": true,
+   "reason": "Says 10, equals expected 10. (judge B agreed: Says 10, equals expected 10.)"
+  },
+  {
+   "question_id": "FE12",
+   "correct": true,
+   "reason": "Says 10 days, equals expected (desk's S-1077 from Canadian Timber). (judge B agreed: Says 10 days, equals expected 10 (S-1077 from Canadian Timber Products).)"
+  },
+  {
+   "question_id": "FE16",
+   "correct": true,
+   "reason": "Says 2, equals expected; cites both smooth-dimmer reviews. (judge B agreed: Says 2, equals expected 2, citing reviews #0 and #6.)"
+  }
+ ]
+}

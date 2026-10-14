@@ -10139,6 +10139,43 @@ as much as the level's, and the questions answered right before are not re-asked
   low 0. Medium's furniture citations: 20 of 23 quotes faithful (low 17/17), traced in R182.
 - **R181 done 2026-10-14.** Next: R182, judged by meaning and paired ($0).
 
+### R182. The two levels judged by meaning and paired (done 2026-10-14; $0, judging and scoring)
+- **Judge:** Claude Opus 5.5 (the judge model of R157-R179), two subagents of this session, each blind to
+  the level: one sheet of the 20 questions with each question's two answers labelled A and B in a seeded
+  random order, R71's rules at scope "all"; they agreed on all 40 verdicts, so no lead judge was needed.
+  `tests/gold/r182/<dataset>_failures_<low|medium>_meaning.json` (judge A's reason with judge B's), scored by
+  `kg qa-score` into `out/r182/meaning/<dataset>_<level>`, paired by `kg qa-compare` over the pooled
+  outcomes (`out/r182/compare`).
+- **Results** (n = 20, the questions chosen because they failed; by meaning equal to exact match on every
+  question):
+
+  | | NTSB | lighthouses | furniture | held-out | **pooled** | cost | a question |
+  |---|---|---|---|---|---|---|---|
+  | low | 0/2 | 3/5 | 2/7 | 3/6 | **8/20** | $0.335 (5 from cache) | about $0.022 fresh |
+  | medium | 0/2 | 3/5 | 6/7 | 5/6 | **14/20** | $0.908 | about $0.045 |
+
+  **Paired: medium right where low is wrong on 6, the reverse on 0, exact McNemar p = 0.031.** By type
+  (only medium right): negation 2 (FB38, FE16), aggregation 2 (FB14, HE07), multi_hop 1 (HE04),
+  disambiguation 1 (FE12); none significant alone.
+- **What medium fixed, by the families of the analysis:** carelessness with evidence it could reach (FE12
+  checked which Drawer Back belongs to the desk; HE04 compared both date orders and found both recalls;
+  HE07 read the remedies and left out the "interim numbers" one, though its citations still list that
+  remedy among 8), one search taken as complete (FE16 and FB38 searched again and found 2 and 4), and a
+  budget spent reading one by one (FB14 named all 5 handles for low's 1). It ran about 2 turns and 2 calls
+  longer a question on furniture and held-out. **What it did not fix (6):** an idea worded otherwise (NC11 "performed a forced
+  landing", ND11 "dynamic rollover", LC08 "fog-bell", FB18 damage on arrival), a count of 13 rows (LB11: 10)
+  and values inside a text field (HE06: 8 for 10): the two families the tools cannot reach.
+- **Citations:** medium's furniture faithfulness 20/23 is a false negative of the offline check (the three
+  quotes are verbatim in their chunks; Found along the way).
+- **Read with care:** 20 questions selected for failing, so part of any gain is regression to the mean; the
+  pairing removes engine differences but not the model's run-to-run variation (one run per level), and the
+  questions answered right before were not re-asked, so a loss elsewhere is unmeasured. Gold (Opus 5.5 and
+  Fable 5.1), judges (Opus 5.5) and the analysis are one model family. 8 of the 15 older failures are right
+  at both levels on the current engine (R161-R176's fixes at work, or chance).
+- **R182 done 2026-10-14; plan R180-R182 done** ($1.243). Next: the user decides (candidates: medium as the
+  agent's level, measured on a fresh or a control set for regressions; the "filter by meaning" tool for the
+  wording family; the computing tool for counts).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -10171,6 +10208,14 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **An agent's quote can fail the offline citation check while being verbatim in its chunk (found in R182,
+  2026-10-14; open).** `kg qa`/`kg qa-score` check a quote against `shown_texts`, built from the answer's
+  `shown` record, which keeps one view of each chunk the agent read (`agent/system.py`, the ledger's
+  `read`), and a view may be a 300-character cut. R181's medium furniture answers cited three sentences the
+  agent read in another view of the same chunk (FB14's `- @artsy_andy (Austin)`, FB18's drawer-pull
+  sentence, FB38's "The construction remains solid with no wobbling or loose parts."): each is verbatim in
+  the rebuilt corpus chunk, so faithfulness 20/23 is a false negative of the record, not a made-up quote.
+  A fix (keep every view, or the longest, per chunk in the ledger) is its own step with a failing test.
 - **`kg qa` ran the agent over an empty schema when `--out` was a fresh folder (found in R172, 2026-10-13;
   fixed in its own commit).** The agent's tables come from `--out/staging` and its record labels from
   `--out/plan.json`; R172's first NTSB command named a new folder, so the schema listed no table and no

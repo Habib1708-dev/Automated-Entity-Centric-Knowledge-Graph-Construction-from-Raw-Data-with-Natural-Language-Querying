@@ -1,0 +1,38 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "4e682edf7ba643be97b7387942fa98ef",
+  "git_sha": "f763197"
+ },
+ "gold": "tests/gold/r180/lighthouses_failures.json",
+ "answers": "out/r181_lighthouses_medium/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LB09",
+   "correct": true,
+   "reason": "Cromer, Coquet and Casquets lighthouses: same set as expected. (judge B agreed: Cromer, Coquet and Casquets lighthouses: same three as expected, nothing extra.)"
+  },
+  {
+   "question_id": "LB11",
+   "correct": false,
+   "reason": "Says 10; expected 13. (judge B agreed: Says 10; expected 13.)"
+  },
+  {
+   "question_id": "LC05",
+   "correct": true,
+   "reason": "Says 9, equals expected 9. (judge B agreed: Says 9, equals expected 9.)"
+  },
+  {
+   "question_id": "LC07",
+   "correct": true,
+   "reason": "1860s, matches expected. (judge B agreed: Names the 1860s, as expected.)"
+  },
+  {
+   "question_id": "LC08",
+   "correct": false,
+   "reason": "Names only Godrevy Lighthouse; misses St Anthony's Lighthouse. (judge B agreed: Names only Godrevy Lighthouse; missing St Anthony's Lighthouse.)"
+  }
+ ]
+}

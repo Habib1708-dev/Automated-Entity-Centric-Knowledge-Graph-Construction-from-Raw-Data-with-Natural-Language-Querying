@@ -1,0 +1,48 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "a8e251bd77ce47db9cbd88b1a31f28a1",
+  "git_sha": "f763197"
+ },
+ "gold": "tests/gold/r180/furniture_failures.json",
+ "answers": "out/r181_furniture_low/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "FB10",
+   "correct": true,
+   "reason": "Jönköping Coffee Table, Norrköping Nightstand, Västerås Bookshelf: same set. (judge B agreed: Jonkoping Coffee Table, Norrkoping Nightstand, Vasteras Bookshelf: same three as expected.)"
+  },
+  {
+   "question_id": "FB14",
+   "correct": false,
+   "reason": "Names only @akollegger; misses @artsy_andy, @tallguy87, @architect_amy, @bookworm_betty. (judge B agreed: Names only @akollegger; missing @artsy_andy, @tallguy87, @architect_amy, @bookworm_betty.)"
+  },
+  {
+   "question_id": "FB18",
+   "correct": false,
+   "reason": "Four of seven; misses Gothenburg Table, Uppsala Sofa, Örebro Lamp. (judge B agreed: Four of seven; missing Gothenburg Table, Uppsala Sofa and Orebro Lamp.)"
+  },
+  {
+   "question_id": "FB38",
+   "correct": false,
+   "reason": "Names only Malmö Desk; misses Jönköping Coffee Table, Linköping Bed, Uppsala Sofa. (judge B agreed: Names only Malmo Desk; missing Jonkoping Coffee Table, Linkoping Bed, Uppsala Sofa.)"
+  },
+  {
+   "question_id": "FC05",
+   "correct": true,
+   "reason": "Says 10, equals expected 10. (judge B agreed: Says 10, equals expected 10.)"
+  },
+  {
+   "question_id": "FE12",
+   "correct": false,
+   "reason": "Says 21, the Helsingborg Dresser's drawer back; expected 10. (judge B agreed: Says 21 days, the Helsingborg Dresser's drawer back; expected 10.)"
+  },
+  {
+   "question_id": "FE16",
+   "correct": false,
+   "reason": "Says 1; expected 2 (misses review #6). (judge B agreed: Says 1; expected 2 (misses review #6).)"
+  }
+ ]
+}
