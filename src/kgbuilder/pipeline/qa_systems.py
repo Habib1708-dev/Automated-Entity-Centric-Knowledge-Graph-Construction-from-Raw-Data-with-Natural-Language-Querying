@@ -10,7 +10,8 @@ frozen-plan replay, plan metrics), and for a reading system its chunk source. Th
 `qa_parts`, so two systems differ only in what their spec builds on top of them: a fair comparison is a
 property of the construction, not a promise. A new approach is one more spec here, not one more branch in
 the stages. R183: the agent's spec is built from an `AgentVariant`, so an experiment's variant of the agent
-(other tools, the same loop) is one more variant, registered beside `agent` under its own name.
+(other tools, the same loop) is one more variant, registered beside `agent` under its own name; R193: a
+variant may also give the loop an evidence ledger (agent/evidence.py), its tools the agent's.
 Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py,
 retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py).
 """
@@ -20,8 +21,9 @@ from dataclasses import dataclass, field, fields
 from functools import partial
 from pathlib import Path
 
+from ..agent import evidence, semantic_filter
 from ..agent import prompt as agent_prompt
-from ..agent import semantic_filter
+from ..agent.evidence import EvidenceLedger
 from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
 from ..agent.recheck import SingleSearchRecheck
@@ -308,12 +310,17 @@ def _same_tools(tools: list[Tool], parts: QAParts) -> list[Tool]:
     return tools
 
 
+def _no_ledger(parts: QAParts) -> EvidenceLedger | None:
+    return None
+
+
 @dataclass(frozen=True)
 class AgentVariant:
     """One agent system by its tools (R183): its name, how its tools are made from the agent's, their
     classes in that order (versioned as `AGENT_TOOL_TYPES` is, R146; a test holds the two equal), the tools
-    the R176 recheck names as looking further than the word search, and the prompts and params its own
-    tools add. The loop, its prompt, caps and checks are the agent's, so two variants differ in tools only."""
+    the R176 recheck names as looking further than the word search, the prompts and params its own tools or
+    ledger add, and the evidence ledger its loop holds (R193; none for the agent). The loop, its prompt and
+    caps are the agent's, so two variants differ in tools, or in the ledger only."""
 
     name: str
     tools: ToolsFromBase
@@ -321,6 +328,7 @@ class AgentVariant:
     wider: tuple[str, ...]
     prompts: Mapping[str, str] = field(default_factory=dict)
     params: Callable[[Settings], dict[str, object]] = _no_params
+    evidence: Callable[[QAParts], EvidenceLedger | None] = _no_ledger
 
 
 # R176: the tools that look further than the word search's words (by meaning, or a whole document)
@@ -356,6 +364,19 @@ def _filter_params(s: Settings) -> dict[str, object]:
     }
 
 
+def _evidence_ledger(parts: QAParts) -> EvidenceLedger:
+    """The evidence ledger (R193), judging with the QA model at the semantic filter's level and batch: the
+    same per-passage judgement, so the two experiments' judges differ in their criterion only."""
+    s = parts.settings
+    options = FilterOptions(model=s.qa_model, temperature=s.llm_temperature, thinking=s.agent_filter_thinking,
+                            batch=s.agent_filter_batch)  # fmt: skip
+    return EvidenceLedger(parts.llm, options, parts.store)
+
+
+def _evidence_params(s: Settings) -> dict[str, object]:
+    return {"agent_filter_batch": s.agent_filter_batch, "agent_filter_thinking": s.agent_filter_thinking}
+
+
 def _swapped(types: tuple[type[Tool], ...], old: type[Tool], new: type[Tool]) -> tuple[type[Tool], ...]:
     """`types` with `new` in the place of `old`, so the variant has as many tools as the agent."""
     return tuple(new if t is old else t for t in types)
@@ -373,7 +394,8 @@ def _with_sql(tools: list[Tool], parts: QAParts) -> list[Tool]:
 
 # the agent itself; an experiment's variant is registered beside it, never in its place. Experiment A of plan
 # R183-R191: the agent with the semantic filter, which the recheck names among the wider tools; experiment B:
-# the agent with SQL in the place of the typed table query
+# the agent with SQL in the place of the typed table query; plan R193-R195: the agent's tools, its loop given
+# the evidence ledger
 AGENT_VARIANTS = (
     AgentVariant(AGENT, _same_tools, AGENT_TOOL_TYPES, _WIDER),
     AgentVariant(
@@ -388,6 +410,18 @@ AGENT_VARIANTS = (
         _filter_params,
     ),
     AgentVariant("agent_sql", _with_sql, _swapped(AGENT_TOOL_TYPES, QueryTables, QuerySql), _WIDER),
+    AgentVariant(
+        "agent_evidence",
+        _same_tools,
+        AGENT_TOOL_TYPES,
+        _WIDER,
+        {
+            "agent_evidence": evidence.PROMPT + evidence.SEND_BACK,
+            "agent_evidence_reply": schema_text(evidence.EvidenceReply),
+        },
+        _evidence_params,
+        _evidence_ledger,
+    ),
 )
 
 
@@ -420,7 +454,7 @@ def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
     recheck = SingleSearchRecheck(FindPassages.name, variant.wider)
     loop = AgentLoop(variant.tools(tools, parts), parts.llm, s.qa_model, s.llm_temperature, limits,
-                     recheck=recheck)  # fmt: skip
+                     recheck=recheck, evidence=variant.evidence(parts))  # fmt: skip
     return AgentSystem(loop, parts.store, variant.name)
 
 

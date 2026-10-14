@@ -163,6 +163,11 @@ class AgentTrace(BaseModel):
     reformed: bool = False
     asks: AnswerForm | None = None
     rechecked: bool = False  # R176: a set answer resting on one search was sent back once, the tools open
+    # R193 (variant `agent_evidence` only): the passages the evidence ledger judged whole, the verified rows,
+    # and the passages sent back once, tools closed, as stating members the answer left out
+    evidence_read: int = 0
+    evidence_rows: int = 0
+    evidence_sent: list[str] = []
     # R142: time in the model's calls and in the whole loop; whether every named entity, and the number,
     # appear in what the cited results hold (None: the answer names none, or gives none), and the names
     # that do not

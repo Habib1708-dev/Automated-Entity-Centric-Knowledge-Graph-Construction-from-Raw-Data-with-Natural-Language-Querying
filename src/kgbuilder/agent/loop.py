@@ -18,7 +18,11 @@ form its reply declares (`asks`: things, or a number) is written back once the s
 while a turn is left (on the last turn it stands as the answer); neither send-back happens with the tools
 closed, and each uses a turn, so the loop cannot spin. A set answer resting on one word search is written
 back once the same way when the loop holds a `recheck` rule (R176, recheck.py), after the form check, so an
-answer may be sent back for its form and then for its search, two turns at most. The trace times the
+answer may be sent back for its form and then for its search, two turns at most. When the loop holds an
+evidence ledger (R193, evidence.py; the variant `agent_evidence` only), the answer it is about to finish
+with, whether given with the tools open or at a cap, is reviewed once against every passage read; when the
+ledger finds members it leaves out, they go back with the tools closed (no turn, no call), and the reply is
+the answer, before the citation check as every answer is. The trace times the
 model's calls and the whole loop with `timer`, kept apart from the timeout's `clock` (R142).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
@@ -34,6 +38,7 @@ from pydantic import BaseModel, Field, ValidationError
 from ..llm.base import LLMClient
 from ..query.answers import AgentCall, AgentStop, AgentTrace
 from .citations import CheckedCitations, Ledger
+from .evidence import EvidenceLedger, EvidenceReview
 from .prompt import (
     CITATION_RETRY,
     CLOSING,
@@ -84,6 +89,7 @@ class _State:
     emptied: bool = False  # an empty answer was written back (once per question)
     reformed: bool = False  # an answer missing its declared form was written back (once per question, R147)
     rechecked: bool = False  # a set answer resting on one search was written back (once per question, R176)
+    evidence: EvidenceReview | None = None  # the evidence ledger's review of the answer (R193)
     timed: float = 0.0  # the timer's reading when the loop began (R142)
     llm_s: float = 0.0  # seconds spent in the model's calls (R142)
 
@@ -94,12 +100,13 @@ class _State:
 class AgentLoop:
     """Answers one question by tool calls under `limits`; `clock` (the timeout's) and `timer` (the trace's
     latencies) are injected so both can be tested; `recheck` (R176) is the rule that sends a set answer
-    resting on one search back, or None for a loop that never does."""
+    resting on one search back, or None for a loop that never does; `evidence` (R193) the ledger reviewing
+    a set answer against the passages read, or None for a loop that never does."""
 
     def __init__(
         self, tools: list[Tool], llm: LLMClient, model: str, temperature: float, limits: AgentLimits,
         clock: Callable[[], float] = time.monotonic, timer: Callable[[], float] = time.perf_counter,
-        recheck: SingleSearchRecheck | None = None,
+        recheck: SingleSearchRecheck | None = None, evidence: EvidenceLedger | None = None,
     ):  # fmt: skip
         self._tools = {tool.name: tool for tool in tools}
         self._tool_text = tool_list(tools)
@@ -111,6 +118,7 @@ class AgentLoop:
         self._clock = clock
         self._timer = timer
         self._recheck = recheck
+        self._evidence = evidence
 
     def run(self, question: str) -> AgentRun:
         """The answer to `question`. Raises `LLMResponseError` when the model fails; a tool's database error
@@ -192,7 +200,9 @@ class AgentLoop:
         return self._finish(question, state, step, stop)
 
     def _finish(self, question: str, state: _State, step: AgentStep, stop: AgentStop) -> AgentRun:
-        """Check the answer's citations, sending it back once (tools closed) when it cites unknown ids."""
+        """Review the answer against the passages read (R193, when the loop holds an evidence ledger), then
+        check its citations, sending it back once (tools closed) when it cites unknown ids."""
+        step = self._reviewed(question, state, step)
         checked = state.ledger.check(step.citations)
         retried = bool(checked.unknown)
         if retried:
@@ -202,9 +212,25 @@ class AgentLoop:
             calls=state.calls, turns=state.turn, stopped=stop, prompt_chars=state.prompt_chars,
             cited=checked.kept, dropped=checked.unknown, retried=retried, emptied=state.emptied,
             reformed=state.reformed, rechecked=state.rechecked, asks=step.asks,
+            evidence_read=state.evidence.read if state.evidence else 0,
+            evidence_rows=len(state.evidence.rows) if state.evidence else 0,
+            evidence_sent=[r.chunk_id for r in state.evidence.left_out] if state.evidence else [],
             llm_ms=round(state.llm_s * 1000, 1), wall_ms=round((self._timer() - state.timed) * 1000, 1),
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)
+
+    def _reviewed(self, question: str, state: _State, step: AgentStep) -> AgentStep:
+        """`step`, or the model's reply to the passages the evidence ledger finds it leaves out (once, tools
+        closed). An empty answer is not reviewed: it names no set to complete."""
+        rule = self._evidence
+        if rule is None or not rule.applies(step) or step.is_empty():
+            return step
+        names = [state.ledger.name_of(e) for e in step.entities or []]
+        read = [c.chunk_id for c in state.ledger.read()]
+        state.evidence = rule.review(question, step, read, names)
+        if not state.evidence.left_out:
+            return step
+        return self._closing_reply(question, state, rule.message(state.evidence))
 
     def _closing_reply(self, question: str, state: _State, extra: str) -> AgentStep:
         """The model's answer with the tools closed; its prompt is not counted against the cap, which it

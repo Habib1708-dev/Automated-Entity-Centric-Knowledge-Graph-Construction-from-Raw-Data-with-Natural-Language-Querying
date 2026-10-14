@@ -10500,6 +10500,61 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   measured cause; the gold (Fable 5.1) and this diagnosis (Opus 5.5) are one model family.
 - **R192 done 2026-10-14** ($0). Next: the user chooses (a), (b) or neither.
 
+### Plan R193-R195: the answer-time evidence ledger, as a variant (accepted 2026-10-14)
+The user, 2026-10-14, after R192, chose the small form of an evidence ledger: "Implement the small version as
+a separate variant, not the full ledger", tested on the 8 earlier failures and 5 controls, with the criteria:
+corrects at least 2 earlier failures; no control lost; entity-to-evidence associations preserved; latency
+and cost acceptable; "If it fails, stop experimenting and document the result". And: "Make sure that the
+ledger gives back entire query results, and not compacted or cut results." So the ledger judges every
+passage the agent read, each in its full stored text (never the excerpt a tool showed, never cut at a
+candidate cap), and what it sends back holds each left-out passage whole.
+- **Steps, strictly one after another:**
+  - **R193** `EvidenceLedger` (agent/evidence.py): before a set answer ("things") stands, every passage the
+    agent read is fetched whole from the store and judged by the model in batches against the question
+    (states it, about which thing, with a verbatim quote code verifies, the thing checked against the passage
+    and its document's name); a verified yes the answer neither cites nor names is sent back once, whole,
+    with the tools closed, and the reply is the answer. The variant `agent_evidence` (the agent's tools, the
+    loop given the ledger); trace fields and metrics; tests, one `dev` run ($0 code, cents).
+  - **R194** The run file (the 8 failures HS01, HS02, FS02, FB18, LS01, LC08, NC11, ND11 and 5 controls drawn
+    by a fixed seed from R185's 10) and `agent_evidence` at medium on the five graphs, compared with R186's
+    `agent` answers on the same graphs (paid, asked first).
+  - **R195** Judged blind by meaning, paired against R186's `agent`, the added entities' passages read one
+    by one, latency and cost; the decision recorded against the user's four criteria ($0).
+
+### R193. The evidence ledger and the variant `agent_evidence` (done 2026-10-14; one dev run, $0.0104)
+- **Scope:** `agent/evidence.py` (new: `EvidenceLedger`, its judge prompt `PROMPT`, the send-back `SEND_BACK`,
+  `verify`, `covered`, `whole`); `agent/loop.py` (an optional `evidence` ledger, reviewed in `_finish`, so an
+  answer given with the tools open and one given at a cap are both reviewed); `query/answers.py`
+  (`AgentTrace.evidence_read`, `evidence_rows`, `evidence_sent`); `pipeline/qa_stages.py` (metrics
+  `agent_evidence_read`, `agent_evidence_rows`, `agent_answers_evidenced`, `agent_evidence_sent`);
+  `pipeline/qa_systems.py` (`AgentVariant.evidence`, the variant `agent_evidence`: the agent's tools, its
+  loop given the ledger, judging with the QA model at `agent_filter_thinking` and `agent_filter_batch`, both
+  logged; prompts `agent_evidence` and `agent_evidence_reply` versioned).
+- **How it works:** before an answer declaring "things" stands (an empty one aside; an answer of "none",
+  `entities` [], is reviewed), every chunk the loop's ledger read is fetched whole from the store, never the
+  excerpt a tool showed and never cut at a cap, as the user asked; the model judges them in batches against
+  the question (states it in any wording, the thing it is about, a quote); code keeps a yes only with its
+  quote verbatim in the passage and its thing only when the passage or its document's name writes it; a
+  row is covered when the answer cites its passage or names its thing as whole words. Uncovered rows go back
+  once, each passage whole with its thing, as the closing prompt's extra text (tools closed, no turn or call
+  used), and the reply is the answer; code adds no member itself.
+- **Not here:** table rows (HS02's evidence came from `query_tables`, whose rows are no passages, so the
+  ledger cannot reach it); number answers; any change to `agent` (its four prompt-version hashes equal
+  R190's logged run 5f9661e2; only `thinking` differs, set by `QA_THINKING` at run time).
+- **Verified:** `tests/test_agent_evidence.py` (13 tests: judged whole and uncut, in batches at the
+  judge's level; the quote and thing checks; unknown and silent verdicts; coverage by citation or whole-word
+  name; the send-back whole, once, tools closed, the reply as the answer; a covered set, a number answer and
+  an empty answer not sent back; an answer of "none" reviewed; an answer at the call cap reviewed; metrics;
+  registration; no evaluated dataset's words); R183's variant test now covers `agent_evidence`. 1734 passed,
+  ruff clean.
+- **The dev run** (R135's form): `QA_MODEL=gemini-3.5-flash-lite kg --preset dev qa <NC11> --system
+  agent_evidence --out out/r193_dev_ntsb` on the NTSB graph as loaded (from `out/r190_ntsb`), MLflow
+  `1ea41290` (`kgbuilder-dev`): $0.010438, 4 calls; the run `qa_agent_evidence`, its params and prompt
+  versions and the four metrics as designed. The flash-lite agent answered from `query_tables` and read no
+  passage, so the ledger judged none (`evidence_read` 0): the live judge call is not yet exercised; R194
+  checks it on the first dataset before the rest.
+- **R193 done 2026-10-14.** Next: R194, the run file and the paid run (asked).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

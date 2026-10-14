@@ -130,8 +130,8 @@ def _rank(ordered: list[float], share: float) -> float:
 def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
     each loop stopped, answers sent back for their citations, for being empty (R138), for leaving out the
-    form they declared (R147) or for resting on one search (R176), citations dropped, and prompt
-    characters."""
+    form they declared (R147), for resting on one search (R176) or for leaving out read members (R193),
+    citations dropped, and prompt characters."""
     traces = [a.agent for a in answers if a.agent is not None]
     if not traces:
         return {}
@@ -144,6 +144,12 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_answers_emptied": sum(t.emptied for t in traces),
         "agent_answers_reformed": sum(t.reformed for t in traces),
         "agent_answers_rechecked": sum(t.rechecked for t in traces),
+        # R193 (variant agent_evidence): passages judged whole, verified rows, and the answers sent back
+        # with the passages stating members they left out, with those passages' count
+        "agent_evidence_read": sum(t.evidence_read for t in traces),
+        "agent_evidence_rows": sum(t.evidence_rows for t in traces),
+        "agent_answers_evidenced": sum(bool(t.evidence_sent) for t in traces),
+        "agent_evidence_sent": sum(len(t.evidence_sent) for t in traces),
         "agent_citations_dropped": sum(len(t.dropped) for t in traces),
         "agent_prompt_chars_mean": sum(t.prompt_chars for t in traces) / len(traces),
         # R142: time in the model and in the loop, and the answers whose names and number the cited results
