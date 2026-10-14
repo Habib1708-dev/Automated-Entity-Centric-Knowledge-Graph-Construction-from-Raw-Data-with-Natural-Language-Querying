@@ -10007,6 +10007,26 @@ traced, with whether `word` and the recheck were used. After the run the questio
   wording). 104 passed in the gold-file tests, ruff clean.
 - **R177 done 2026-10-14.** Next: R178, the fixed agent on the 100 questions (paid, about $1.6, asked).
 
+### R178. The fixed agent on the 100 questions of the third confirmation set (done 2026-10-14; $1.674)
+- **Asked and approved:** the user, "Yes, run it (~$1.6, stop if over $2.5)", to the question naming the five
+  `kg qa` commands, the cache reloads and the estimate; Docker Desktop started by the user first.
+- **Runs** (`tests/gold/r178/runs.json`, agent e5da1c2, gold f1cd9f2; agent prompt version 8ab0533e6e8b):
+  generality on the graph as loaded (digest equal to R172's); held-out, furniture, lighthouses and NTSB
+  reloaded from cache by R172's recipe ($0: triples and mentions byte-identical to the pinned builds,
+  every digest equal to R172's); each `--out` folder seeded with the build's plan, schema, profile and
+  staging before any model call (the R172 guard).
+- **Exact match on the code-scored questions** (13 free-text answers wait for R179's judge): generality
+  16/16 ($0.244), held-out 11/16 ($0.392), furniture 16/18 ($0.374), lighthouses 19/19 ($0.300), NTSB 18/18
+  ($0.364): **80/87**, $0.0167 a question. The seven misses, traced in R179: HE04 (recall and complaint
+  dates in different orders, one of two found), HE05 (the complaint id given as a number), HE06 (phone
+  numbers inside remedies counted by eye, 7 for 10), HE07 (`contains 'interim'` counted "interim numbers"),
+  HE18 ("6th floor" as an entity for the number 6), FE12 (the wrong of two parts named Drawer Back), FE16
+  (a count from one search, 1 for 2).
+- **The fixes at work:** the recheck fired on 9 of 100 answers (GE11; HE12, HE14; FE05; LE07, LE16; NE06,
+  NE14, NE15), every one of them right by exact match afterwards; `word` was asked by no query (no
+  question of this set turned on a word inside a longer word, by chance of the blind writing).
+- **R178 done 2026-10-14.** Next: R179, judged by meaning and compared with R157, R166 and R173 ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

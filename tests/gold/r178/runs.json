@@ -1,0 +1,83 @@
+{
+ "step": "R178: the fixed agent (R175 word operator, R176 single-search recheck; git e5da1c2, gold f1cd9f2) on the 100 questions of the third confirmation set (R177)",
+ "approved": "the user, 2026-10-14: 'Yes, run it (~$1.6, stop if over $2.5)' to the question naming the five kg qa commands and the cache reloads",
+ "git_sha": "f1cd9f2",
+ "versions": {
+  "agent_prompt_version": "8ab0533e6e8b"
+ },
+ "commands": [
+  "kg --preset <generality_gemini|heldout|quality|lighthouses|ntsb> qa tests/gold/qa/<dataset>_qa_confirm3.json --system agent --out out/r178_<dataset>",
+  "reloads ($0, every LLM answer from the cache): kg --preset P reset | build DATA | (pinned profile copied back) | ingest-text DATA | extract --from-build BUILD | link | GEMINI_API_KEY=invalid mention-pass | resolve | attach | index --cards template, each --out out/r178_<dataset>, with plan.json, text_schema.json, profile.json and staging copied from BUILD first; triples.jsonl and mentions.jsonl byte-identical to BUILD's, every graph digest equal to R172's"
+ ],
+ "runs": {
+  "generality": {
+   "run": "c344c8d54dd84af0a27407bc96dcd9ba",
+   "graph_digest": "f79f9411ea81",
+   "answers": "out/r178_generality/answers_agent.jsonl",
+   "cost_usd": 0.2441,
+   "exact_code_scored": "16/16",
+   "unjudged_free_text": 4,
+   "rechecked": [
+    "GE11"
+   ],
+   "graph": "as loaded (R172's generality graph, digest equal); out/r178_generality seeded from out/r156_generality"
+  },
+  "heldout": {
+   "run": "dd99ba2a39b54d7084d7013f1c594b57",
+   "graph_digest": "bc7c5a1efe3d",
+   "answers": "out/r178_heldout/answers_agent.jsonl",
+   "cost_usd": 0.3917,
+   "exact_code_scored": "11/16",
+   "unjudged_free_text": 4,
+   "rechecked": [
+    "HE12",
+    "HE14"
+   ],
+   "graph": "reloaded from out/r165_heldout_build into out/r178_heldout"
+  },
+  "furniture": {
+   "run": "0fdf90bee56e414088e871ada1abfe39",
+   "graph_digest": "392a170ecc10",
+   "answers": "out/r178_furniture/answers_agent.jsonl",
+   "cost_usd": 0.3737,
+   "exact_code_scored": "16/18",
+   "unjudged_free_text": 2,
+   "rechecked": [
+    "FE05"
+   ],
+   "graph": "reloaded from out/r165_furniture_build into out/r178_furniture"
+  },
+  "lighthouses": {
+   "run": "36c2bc7a6f1e4659b5c820b43fdc87d1",
+   "graph_digest": "62573881a3c6",
+   "answers": "out/r178_lighthouses/answers_agent.jsonl",
+   "cost_usd": 0.3002,
+   "exact_code_scored": "19/19",
+   "unjudged_free_text": 1,
+   "rechecked": [
+    "LE07",
+    "LE16"
+   ],
+   "graph": "reloaded from out/r165_lighthouses_build into out/r178_lighthouses"
+  },
+  "ntsb": {
+   "run": "544e71e05e614f779458f9fd3b0df468",
+   "graph_digest": "c7f20fa9c187",
+   "answers": "out/r178_ntsb/answers_agent.jsonl",
+   "cost_usd": 0.3644,
+   "exact_code_scored": "18/18",
+   "unjudged_free_text": 2,
+   "rechecked": [
+    "NE06",
+    "NE14",
+    "NE15"
+   ],
+   "graph": "reloaded from out/r165_ntsb_build into out/r178_ntsb"
+  }
+ },
+ "cost_usd": 1.674,
+ "exact_code_scored_pooled": "80/87",
+ "unjudged_free_text": 13,
+ "word_operator_used": 0,
+ "rechecked_total": 9
+}
