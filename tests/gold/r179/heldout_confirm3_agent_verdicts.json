@@ -1,0 +1,32 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "dd99ba2a39b54d7084d7013f1c594b57",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/heldout_qa_confirm3.json",
+ "answers": "out/r178_heldout/answers_agent.jsonl",
+ "verdicts": [
+  {
+   "question_id": "HE15",
+   "correct": true,
+   "reason": "Answer says No, parts were only expected in summer 2016 while interim notices went out from March 31, 2016; matches the expected No and reason, though it does not repeat the second-notice detail."
+  },
+  {
+   "question_id": "HE16",
+   "correct": true,
+   "reason": "Answer says No, it sporadically works and works less and less every day; matches the expected No with its qualification, without the freezing and since-day-one details."
+  },
+  {
+   "question_id": "HE17",
+   "correct": true,
+   "reason": "Answer says No, owners are advised not to plug in the block heater until the vehicle is remedied, as expected."
+  },
+  {
+   "question_id": "HE20",
+   "correct": true,
+   "reason": "Answer says American Honda provided the owner with a case number, as expected."
+  }
+ ]
+}

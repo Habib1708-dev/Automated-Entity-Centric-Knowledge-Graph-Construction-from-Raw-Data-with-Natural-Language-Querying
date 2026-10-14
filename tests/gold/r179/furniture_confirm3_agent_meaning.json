@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "0fdf90bee56e414088e871ada1abfe39",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/furniture_qa_confirm3.json",
+ "answers": "out/r178_furniture/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "FE01",
+   "correct": true,
+   "reason": "Answer 5 zip ties equals the expected 5."
+  },
+  {
+   "question_id": "FE02",
+   "correct": true,
+   "reason": "Names exactly Nordic Wood Industries and Canadian Timber Products, both expected suppliers, nothing extra."
+  },
+  {
+   "question_id": "FE03",
+   "correct": true,
+   "reason": "Names American Hardware Inc, the expected single supplier in Chicago."
+  },
+  {
+   "question_id": "FE04",
+   "correct": true,
+   "reason": "Answer 20 days (Shanghai Metal Corp, preferred) equals the expected 20."
+  },
+  {
+   "question_id": "FE05",
+   "correct": true,
+   "reason": "Names exactly Gothenburg Table and Jönköping Coffee Table, the two expected products."
+  },
+  {
+   "question_id": "FE06",
+   "correct": true,
+   "reason": "Answer 12 Portland-signed reviews equals the expected 12."
+  },
+  {
+   "question_id": "FE07",
+   "correct": true,
+   "reason": "Answer 5 reviews equals the expected 5 (the 'for the past year' review not counted)."
+  },
+  {
+   "question_id": "FE08",
+   "correct": true,
+   "reason": "Answer 1 review equals the expected 1 (Stockholm Chair #2)."
+  },
+  {
+   "question_id": "FE09",
+   "correct": true,
+   "reason": "Names exactly Taiwan Precision Parts, Singapore Adhesive Tech and Canadian Timber Products, the three expected suppliers."
+  },
+  {
+   "question_id": "FE10",
+   "correct": true,
+   "reason": "Names exactly the four expected suppliers (Shanghai Metal Corp, Brazilian Foam Solutions, Cape Town Adhesives, Canadian Timber Products)."
+  },
+  {
+   "question_id": "FE11",
+   "correct": true,
+   "reason": "Names only @familyfirst, the expected single reviewer."
+  },
+  {
+   "question_id": "FE12",
+   "correct": false,
+   "reason": "Answer 21 days is the Helsingborg Dresser's drawer back (S-1084); expected 10 days for the Malmö Desk's S-1077."
+  },
+  {
+   "question_id": "FE13",
+   "correct": true,
+   "reason": "Names @woodworker_amy, the expected handle."
+  },
+  {
+   "question_id": "FE14",
+   "correct": true,
+   "reason": "Answer $10.57 equals the expected 10.57."
+  },
+  {
+   "question_id": "FE15",
+   "correct": true,
+   "reason": "Answer 1 review equals the expected 1 (@akollegger #0)."
+  },
+  {
+   "question_id": "FE16",
+   "correct": false,
+   "reason": "Answer 1 counts only @scandi_lover (#0); expected 2, missing @entertainer_emma (#6) 'reliable and smooth'."
+  },
+  {
+   "question_id": "FE17",
+   "correct": true,
+   "reason": "Answer 0 equals the expected 0; the one screws mention is correctly read as a denial."
+  },
+  {
+   "question_id": "FE18",
+   "correct": true,
+   "reason": "Answer 8 mm equals the expected 8."
+  },
+  {
+   "question_id": "FE19",
+   "correct": true,
+   "reason": "Text says the table seats 6-8 people comfortably, same as the expected 'Six to eight people'."
+  },
+  {
+   "question_id": "FE20",
+   "correct": true,
+   "reason": "Text says the marks came from setting down a laptop, as expected."
+  }
+ ]
+}

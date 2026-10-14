@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "36c2bc7a6f1e4659b5c820b43fdc87d1",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/lighthouses_qa_confirm3.json",
+ "answers": "out/r178_lighthouses/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LE01",
+   "correct": true,
+   "reason": "Names Cromer Lighthouse (focal height 84 against Flamborough Head's 65), the expected answer."
+  },
+  {
+   "question_id": "LE02",
+   "correct": true,
+   "reason": "Names William Douglass, the expected sibling of James Nicholas Douglass."
+  },
+  {
+   "question_id": "LE03",
+   "correct": true,
+   "reason": "Gives 2 lighthouses located in Harwich, equal to the expected 2."
+  },
+  {
+   "question_id": "LE04",
+   "correct": true,
+   "reason": "Names only Farne Lighthouse, the one row with Daniel Asher Alexander as architect; no Brownsman added."
+  },
+  {
+   "question_id": "LE05",
+   "correct": true,
+   "reason": "Names Essex, the expected county with the most retired lighthouses."
+  },
+  {
+   "question_id": "LE06",
+   "correct": true,
+   "reason": "Names James Walker (81 years), the expected longest-lived engineer."
+  },
+  {
+   "question_id": "LE07",
+   "correct": true,
+   "reason": "Names exactly the six expected: Anvil Point, Godrevy, Old Higher, St Anthony's, St Mary's, Whitby; nothing missing or extra."
+  },
+  {
+   "question_id": "LE08",
+   "correct": true,
+   "reason": "Names exactly Berry Head, Farne and Godrevy, the three expected sun-valve lighthouses."
+  },
+  {
+   "question_id": "LE09",
+   "correct": true,
+   "reason": "Names exactly Lizard, Souter, St. Catherine's and Start Point, the four expected with range >= 25."
+  },
+  {
+   "question_id": "LE10",
+   "correct": true,
+   "reason": "Names exactly the six expected full-date service entries (Pendeen, Trevose Head, Europa Point, Flamborough Head, Royal Sovereign, Souter); no Godrevy or Helgoland."
+  },
+  {
+   "question_id": "LE11",
+   "correct": true,
+   "reason": "Names exactly Casquets lighthouses, Europa Point and Royal Sovereign, the three expected month-dated events."
+  },
+  {
+   "question_id": "LE12",
+   "correct": true,
+   "reason": "Names Staple Island, the expected original site of Blackett's 1778 light."
+  },
+  {
+   "question_id": "LE13",
+   "correct": true,
+   "reason": "Gives 1995, equal to the expected automation year of Pendeen."
+  },
+  {
+   "question_id": "LE14",
+   "correct": true,
+   "reason": "States a two-ton bell, 5 feet (1.5 m) in diameter, reputedly the heaviest in Cornwall (hedge kept); only the word 'larger' is dropped, the size facts all match."
+  },
+  {
+   "question_id": "LE15",
+   "correct": true,
+   "reason": "Names the Hebrides, the expected location Woolf gives the lighthouse."
+  },
+  {
+   "question_id": "LE16",
+   "correct": true,
+   "reason": "Names the Inner Dowsing light platform, the expected light, not St Mary's."
+  },
+  {
+   "question_id": "LE17",
+   "correct": true,
+   "reason": "Gives 1991, equal to the expected full-automation year (not 1981)."
+  },
+  {
+   "question_id": "LE18",
+   "correct": true,
+   "reason": "Gives 1933, equal to the expected article year (not the events file's 1939)."
+  },
+  {
+   "question_id": "LE19",
+   "correct": true,
+   "reason": "Gives 750000 bricks, equal to the expected number (not the 645 stone blocks)."
+  },
+  {
+   "question_id": "LE20",
+   "correct": true,
+   "reason": "Names the Royal Observer Corps, the expected organisation."
+  }
+ ]
+}

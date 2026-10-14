@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "dd99ba2a39b54d7084d7013f1c594b57",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/heldout_qa_confirm3.json",
+ "answers": "out/r178_heldout/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "HE01",
+   "correct": true,
+   "reason": "Answer names 20V218000, exactly the expected single campaign."
+  },
+  {
+   "question_id": "HE02",
+   "correct": true,
+   "reason": "Answer names 16V643000, 17V472000, 20V331000, 26V011000: the four expected members, none extra (no 25V695000)."
+  },
+  {
+   "question_id": "HE03",
+   "correct": true,
+   "reason": "Answer names 21V839000, the expected Rogue Hybrid-only campaign; 16V244000 not included."
+  },
+  {
+   "question_id": "HE04",
+   "correct": false,
+   "reason": "Answer names only 19V244000; expected 16V244000 and 19V244000, so 16V244000 (Rogue, received 26 April 2016) is missing."
+  },
+  {
+   "question_id": "HE05",
+   "correct": true,
+   "reason": "Answer gives complaint 11209676 (as a number and in text: 155 days, incident 12/20/2018, filed 05/24/2019), the expected complaint; judged on content."
+  },
+  {
+   "question_id": "HE06",
+   "correct": false,
+   "reason": "Answer says 7 distinct numbers against the expected 10; it omits Infiniti 1-888-833-3216, Chevrolet 1-800-222-1020 and Lexus 1-800-255-3987."
+  },
+  {
+   "question_id": "HE07",
+   "correct": false,
+   "reason": "Answer says 8 against the expected 7 (the gold note says 8 comes from counting 20V286000's interim recall numbers, which are not a notice to owners)."
+  },
+  {
+   "question_id": "HE08",
+   "correct": true,
+   "reason": "Answer names complaints 10957753, 11030208 and 11204698, exactly the expected three (both wordings found)."
+  },
+  {
+   "question_id": "HE09",
+   "correct": true,
+   "reason": "Answer says no recall is flagged as an over-the-air update; expected the empty set."
+  },
+  {
+   "question_id": "HE10",
+   "correct": true,
+   "reason": "Answer names 22V254000, 22V413000, 23V858000, 25V695000, 26V011000, 26V332000: the six expected members in another order, no 23V093000."
+  },
+  {
+   "question_id": "HE11",
+   "correct": true,
+   "reason": "Answer names 11030208 and 11204698, exactly the expected two; 10692693 and 11209676 correctly excluded."
+  },
+  {
+   "question_id": "HE12",
+   "correct": true,
+   "reason": "Answer names 20V064000, the expected campaign; the lookalike 26V011000 is not included."
+  },
+  {
+   "question_id": "HE13",
+   "correct": true,
+   "reason": "Answer names 20V286000 (interim numbers 20TB08 / 20TA08), the expected campaign."
+  },
+  {
+   "question_id": "HE14",
+   "correct": true,
+   "reason": "Answer names 20V331000, the expected door latch self-inspection campaign; 26V011000 not included."
+  },
+  {
+   "question_id": "HE15",
+   "correct": true,
+   "reason": "Answer says No, parts were only expected in summer 2016 while interim notices went out from March 31, 2016; matches the expected No and reason, though it does not repeat the second-notice detail."
+  },
+  {
+   "question_id": "HE16",
+   "correct": true,
+   "reason": "Answer says No, it sporadically works and works less and less every day; matches the expected No with its qualification, without the freezing and since-day-one details."
+  },
+  {
+   "question_id": "HE17",
+   "correct": true,
+   "reason": "Answer says No, owners are advised not to plug in the block heater until the vehicle is remedied, as expected."
+  },
+  {
+   "question_id": "HE18",
+   "correct": true,
+   "reason": "Answer gives '6th floor' (as an entity), which is the expected number 6; judged on content."
+  },
+  {
+   "question_id": "HE19",
+   "correct": true,
+   "reason": "Answer names I-275, the expected interstate."
+  },
+  {
+   "question_id": "HE20",
+   "correct": true,
+   "reason": "Answer says American Honda provided the owner with a case number, as expected."
+  }
+ ]
+}

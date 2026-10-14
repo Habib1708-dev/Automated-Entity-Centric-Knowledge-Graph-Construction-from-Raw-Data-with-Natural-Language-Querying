@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "544e71e05e614f779458f9fd3b0df468",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/ntsb_qa_confirm3.json",
+ "answers": "out/r178_ntsb/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "NE01",
+   "correct": true,
+   "reason": "Answer N202SM equals the expected registration N202SM."
+  },
+  {
+   "question_id": "NE02",
+   "correct": true,
+   "reason": "Answer 99 equals the expected 99 hours in the last 90 days."
+  },
+  {
+   "question_id": "NE03",
+   "correct": true,
+   "reason": "Answer BasicMed equals the expected medical certificate BasicMed."
+  },
+  {
+   "question_id": "NE04",
+   "correct": true,
+   "reason": "Answer Eagle County Regional equals the expected airport name."
+  },
+  {
+   "question_id": "NE05",
+   "correct": true,
+   "reason": "Answer 5 equals the expected 5 accidents with a bounce."
+  },
+  {
+   "question_id": "NE06",
+   "correct": true,
+   "reason": "Answer {CEN21FA299, CEN21LA383} is exactly the expected set."
+  },
+  {
+   "question_id": "NE07",
+   "correct": true,
+   "reason": "Answer CEN21LA268 equals the expected accident with the most findings (five)."
+  },
+  {
+   "question_id": "NE08",
+   "correct": true,
+   "reason": "Answer 7 equals the expected 7 accidents with more than one crew row."
+  },
+  {
+   "question_id": "NE09",
+   "correct": true,
+   "reason": "Answer {ANC23LA032, CEN21LA232} is exactly the expected set (Unknown and IMC)."
+  },
+  {
+   "question_id": "NE10",
+   "correct": true,
+   "reason": "Answer lists all six expected Part 137 accidents (including helicopter CEN21LA339), no extras."
+  },
+  {
+   "question_id": "NE11",
+   "correct": true,
+   "reason": "Answer CEN22LA194 equals the expected single accident; CEN21LA414 (Minor) correctly excluded."
+  },
+  {
+   "question_id": "NE12",
+   "correct": true,
+   "reason": "Answer CEN22LA244 (IO-360-LTA) equals the expected accident."
+  },
+  {
+   "question_id": "NE13",
+   "correct": true,
+   "reason": "Answer BAYLEE COMPANY INC equals the expected operator, not the dba Crop Doctor."
+  },
+  {
+   "question_id": "NE14",
+   "correct": true,
+   "reason": "Answer CEN21LA126 (Urbana, OH Cessna 172S) equals the expected accident."
+  },
+  {
+   "question_id": "NE15",
+   "correct": true,
+   "reason": "Answer {CEN21LA280, CEN22LA249} is exactly the expected set; CEN21LA185 correctly excluded."
+  },
+  {
+   "question_id": "NE16",
+   "correct": true,
+   "reason": "Answer says No, only three of the eight bolts were examined and the five others were not recovered, the expected core; omits only the overstress aside and the undetermined failure mode."
+  },
+  {
+   "question_id": "NE17",
+   "correct": true,
+   "reason": "Answers the yes/no question as asked ('No, the engine did not respond when power was added'), which matches the gold evidence quote; the instructor's failed restart is a later event the question does not ask about, so it qualifies the answer rather than being a part of it (lead judge; judge A read it as a missing part, judge B as a qualifier)."
+  },
+  {
+   "question_id": "NE18",
+   "correct": true,
+   "reason": "Answer about five minutes equals the expected 5."
+  },
+  {
+   "question_id": "NE19",
+   "correct": true,
+   "reason": "Answer 20 knots equals the expected handbook limit of 20."
+  },
+  {
+   "question_id": "NE20",
+   "correct": true,
+   "reason": "Answer about 1 mile equals the expected 1."
+  }
+ ]
+}

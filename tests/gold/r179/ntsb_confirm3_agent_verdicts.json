@@ -1,0 +1,22 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "544e71e05e614f779458f9fd3b0df468",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/ntsb_qa_confirm3.json",
+ "answers": "out/r178_ntsb/answers_agent.jsonl",
+ "verdicts": [
+  {
+   "question_id": "NE16",
+   "correct": true,
+   "reason": "Answer says No, only three of the eight bolts were examined and the five others were not recovered, the expected core; omits only the overstress aside and the undetermined failure mode."
+  },
+  {
+   "question_id": "NE17",
+   "correct": true,
+   "reason": "Answers the yes/no question as asked ('No, the engine did not respond when power was added'), which matches the gold evidence quote; the instructor's failed restart is a later event the question does not ask about, so it qualifies the answer rather than being a part of it (lead judge; judge A read it as a missing part, judge B as a qualifier)."
+  }
+ ]
+}

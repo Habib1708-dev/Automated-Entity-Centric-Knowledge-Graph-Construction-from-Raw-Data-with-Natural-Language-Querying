@@ -10027,6 +10027,65 @@ traced, with whether `word` and the recheck were used. After the run the questio
   question of this set turned on a word inside a longer word, by chance of the blind writing).
 - **R178 done 2026-10-14.** Next: R179, judged by meaning and compared with R157, R166 and R173 ($0).
 
+### R179. The third confirmation set judged, compared with R157, R166 and R173, and its failures traced (done 2026-10-14; $0)
+- **Judge:** Claude Opus 5.5 (subagents of this session, the judge model of R157, R166 and R173 kept so the
+  four measurements share one judge), two blind judges per file with R71's rules, scope "all", a lead judge
+  for disagreements (one: NE17, a trailing clause of a free-text answer left out, judge A a missing part,
+  judge B a qualifier; the lead read it as a qualifier, the reading of R173's five such cases; six more
+  close calls of the same shape, HE15, HE16, NE16, LE14, GE13, GE15, both judges read as qualifiers);
+  `tests/gold/r179/<dataset>_confirm3_agent_{meaning,verdicts}.json`, scored by `kg qa-score` into
+  `out/r179/{exact,meaning}`; the per-question record `tests/gold/r179/outcomes.json`.
+- **Results** (the fixed agent of R175-R176; n = 20 per dataset; 95% Wilson intervals):
+
+  | | generality | held-out | furniture | NTSB | lighthouses | **pooled (100)** |
+  |---|---|---|---|---|---|---|
+  | exact match | 20 | 15 | 18 | 20 | 20 | **93 (86.3-96.6)** |
+  | by meaning | 20 | 17 | 18 | 20 | 20 | **95 (88.8-97.8)** |
+  | R173 by meaning (R167-R170's engine, other questions) | 20 | 19 | 20 | 19 | 20 | 98 (93.0-99.4) |
+  | R166 by meaning (R161-R164's engine, other questions) | 20 | 19 | 19 | 19 | 17 | 94 (87.5-97.2) |
+  | R157 by meaning (the frozen engine, other questions) | 50/50 | 49/50 | 46/50 | 50/50 | 48/50 | 243/250 (94.3-98.6) |
+
+  By type (exact / meaning): multi_hop 19/19 of 20, aggregation 16/17 of 19 (68.6-97.1 by meaning),
+  structured_filter 15/15, disambiguation 14/14, negation 14/14, lookup 15/16 of 16.
+- **Compared with R173, R166 and R157** (the question sets differ, one run each): 95% against R173's 98%
+  (z = -1.15, p = 0.25), R166's 94% (z = 0.31, p = 0.76) and R157's 97.2% (z = -1.02, p = 0.31) is not a
+  significant difference in any direction; the numbers are not attributed to the fixes. The four
+  measurements on 550 unseen questions lie between 94% and 98% by meaning, every interval overlapping
+  every other.
+- **The fixes at work** (from all 100 traces): the recheck (R176) fired on 9 answers (GE11, HE12, HE14,
+  FE05, LE07, LE16, NE06, NE14, NE15), each sent back after one `find_passages` search; every one of the
+  nine is right by both scores afterwards (what the model did: a `read_document` or a second search, or
+  the same answer again). `word` (R175) was asked by no query: by chance of the blind writing no question
+  of this set turned on a word inside a longer word (HE07's "interim" is a whole word in both the counted
+  and the uncounted remedy, so `word` could not have separated them). No fix caused a failure.
+- **Causes of the 7 failures by exact match** (5 by meaning; each traced through its trace):
+
+  | Question | Cause |
+  |---|---|
+  | HE05 (the complaint filed longest after its incident) | right by meaning: the complaint id 11209676 given in `number`, the gold a set (`answer_form`) |
+  | HE18 (floor of the parking structure) | right by meaning: "6th floor" given in `entities`, the gold the number 6 (`answer_form`) |
+  | HE04 (recalls received before their vehicle's first complaint: 1 of 2) | the two tables write dates in different orders (recalls day/month/year, complaints month/day/year) as text; no tool compares them, and the agent compared by eye and found one (`tool_limit`, `agent_reasoning`) |
+  | HE06 (distinct phone numbers in the remedies: 7 for 10) | no tool extracts values from inside a text field; the agent read 29 remedies over two pages and missed three (`tool_limit`, `agent_reasoning`) |
+  | HE07 (remedies with an interim notice: 8 for 7) | `contains 'interim'` counted 20V286000's "interim numbers"; the question asks for a notice, which only reading tells apart (`agent_reasoning`) |
+  | FE12 (Canadian Timber's lead time for the desk's drawer back: 21 for 10) | two parts named Drawer Back; `find_nodes` returned the dresser's and the agent did not check the product (`agent_reasoning`) |
+  | FE16 (lamp reviews calling the dimmer smooth: 1 for 2) | one `find_passages` search, then a number answer; the recheck fires for "things" answers only, so a counted set from one search was not sent back (`agent_reasoning`; a scope the R176 rule leaves open) |
+
+  No failure is caused by a graph-build gap or a gold error. By meaning the five failures are two
+  aggregations over values inside text fields (HE06, HE07), one cross-table date comparison (HE04), one
+  same-name disambiguation (FE12) and one count from a single search (FE16).
+- **What it says:** aggregation stays the weakest type (16/19 exact, 17/19 by meaning, as in R157 42/46,
+  R166 14/19, R173 17/18): what remains are counts whose values sit inside free text (phone numbers, a
+  notice named in a remedy), which no structured tool extracts. The recheck's one open scope (a number
+  counted from one search, FE16) is a candidate for a later step; HE05 and HE18 are the answer-form slips
+  R147's rule already covers in words (an id that looks like a number; a number written as a thing).
+- **Read with care:** gold (Claude Fable 5.1 subagents), judges (Opus 5.5) and the fixes are one model
+  family; one run, no repeat; 100 questions give the interval above, not finer; held-out's five misses on
+  one dataset (15/20 exact) are within what one dataset of 20 shows (R166's lighthouses were 17/20).
+- **R179 done 2026-10-14; plan R177-R179 done** ($1.674: the run; the gold and the judging $0). The thesis
+  numbers now: R157 243/250 (97.2%) frozen, R166 94/100 before R167-R170, R173 98/100 after them, R179
+  95/100 after R175-R176, each on its own unseen questions. Next: the user decides (candidates: the
+  recheck for counted numbers; the figures of R174 extended with R179; or stop here).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

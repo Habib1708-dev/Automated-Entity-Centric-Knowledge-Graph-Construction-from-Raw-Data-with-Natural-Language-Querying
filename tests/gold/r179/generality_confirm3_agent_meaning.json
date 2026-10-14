@@ -1,0 +1,113 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "c344c8d54dd84af0a27407bc96dcd9ba",
+  "git_sha": "f1cd9f2"
+ },
+ "gold": "tests/gold/qa/generality_qa_confirm3.json",
+ "answers": "out/r178_generality/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "GE01",
+   "correct": true,
+   "reason": "Answer 14 equals the expected 14 years (2023 - 2009), not the tempting ten."
+  },
+  {
+   "question_id": "GE02",
+   "correct": true,
+   "reason": "Answer 15000 equals the expected 15,000 pounds for the east railing line of the 2026 budget."
+  },
+  {
+   "question_id": "GE03",
+   "correct": true,
+   "reason": "Answer says the children's section received new carpets and a reading corner, as expected."
+  },
+  {
+   "question_id": "GE04",
+   "correct": true,
+   "reason": "Answer names exactly Aiko Tanaka, the expected Hydrology team leader; no Pike or Osei."
+  },
+  {
+   "question_id": "GE05",
+   "correct": true,
+   "reason": "Answer 6 equals the expected 6 news documents, citing exactly the six gold documents."
+  },
+  {
+   "question_id": "GE06",
+   "correct": true,
+   "reason": "Answer names exactly Core AB-17 and Core BF-3, the expected two cores (aliases); nothing extra."
+  },
+  {
+   "question_id": "GE07",
+   "correct": true,
+   "reason": "Answer 3.7 equals the expected lowest pH 3.7 (BF-3), not the Aldmoor-only 3.9."
+  },
+  {
+   "question_id": "GE08",
+   "correct": true,
+   "reason": "Answer names only Aiko Tanaka, as expected; Maria Lopez ('researcher') correctly left out."
+  },
+  {
+   "question_id": "GE09",
+   "correct": true,
+   "reason": "Answer names only Hydrology, as expected; Soil Ecology correctly left out."
+  },
+  {
+   "question_id": "GE10",
+   "correct": true,
+   "reason": "Answer names only WO-311, the expected work order by Rosa Delgado."
+  },
+  {
+   "question_id": "GE11",
+   "correct": true,
+   "reason": "Answer names only HP40-2291, the expected pump whose old seal was kept for the vendor; not HP40-1183."
+  },
+  {
+   "question_id": "GE12",
+   "correct": true,
+   "reason": "Answer 47 equals the expected 47 degrees C at the WO-320 test run, not 52, 48, 49 or the flow 41."
+  },
+  {
+   "question_id": "GE13",
+   "correct": true,
+   "reason": "Answer lists rye bread and pastries, which is what the expected text states; the time 'from five' may be left out per the note."
+  },
+  {
+   "question_id": "GE14",
+   "correct": true,
+   "reason": "Answer is an empty set with text 'None kept running; both pumps were off', matching the expected empty set."
+  },
+  {
+   "question_id": "GE15",
+   "correct": true,
+   "reason": "Answer says No, not yet measured; on 12 May Osei was tasked to measure it before runs above 60 l/s, as expected; the 9 June detail may be left out per the note."
+  },
+  {
+   "question_id": "GE16",
+   "correct": true,
+   "reason": "Answer says No, projects without a data management plan will not receive second-year funding, as expected."
+  },
+  {
+   "question_id": "GE17",
+   "correct": true,
+   "reason": "Answer 2.3 equals the expected 2.3 mm/s, not the 4.5 mm/s limit."
+  },
+  {
+   "question_id": "GE18",
+   "correct": true,
+   "reason": "Answer 31 equals the expected 31 litres per second."
+  },
+  {
+   "question_id": "GE19",
+   "correct": true,
+   "reason": "Answer 1900000 (1.9 million) equals the expected 1,900,000 cubic metres."
+  },
+  {
+   "question_id": "GE20",
+   "correct": true,
+   "reason": "Answer names only North Station, the expected place the alarms are received."
+  }
+ ]
+}
