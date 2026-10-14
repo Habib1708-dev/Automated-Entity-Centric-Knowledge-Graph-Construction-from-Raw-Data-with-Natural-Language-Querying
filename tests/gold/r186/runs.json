@@ -1,0 +1,101 @@
+{
+ "step": "R186: agent and agent_semfilter (git 00538fb) at QA_THINKING=medium on experiment A's run files (R185), paired per dataset",
+ "approved": "the user, 2026-10-14: 'Yes, run it (~$2.5, stop at $3.5)' to the question naming the five reloads, the qa commands and the estimate",
+ "git_sha": "00538fb (only .claude/settings.json differed)",
+ "commands": [
+  "QA_THINKING=medium kg --preset <heldout|quality|lighthouses|ntsb|generality_gemini> qa tests/gold/r185/<dataset>_expA.json --system agent --system agent_semfilter --out out/r186_<dataset>",
+  "reloads ($0, every LLM answer from the cache): R178's recipe into out/r186_<dataset> from out/r165_<dataset>_build (generality from out/r156_generality); held-out as loaded (R181's reload); NTSB's index retried once after an embedding ReadTimeout, its first qa command refused by the layer check before any model call ($0, MLflow 54e28b2a)"
+ ],
+ "graph_digests_equal_r178": {
+  "heldout": "bc7c5a1efe3d",
+  "furniture": "392a170ecc10",
+  "lighthouses": "62573881a3c6",
+  "ntsb": "c7f20fa9c187",
+  "generality": "f79f9411ea81"
+ },
+ "runs": {
+  "heldout": {
+   "agent": {
+    "run": "911a38d196e04faba449df4c65e833ab",
+    "cost_usd": 0.1926,
+    "exact": "2/4"
+   },
+   "agent_semfilter": {
+    "run": "3665347522dc4352ad21273b8649f04e",
+    "cost_usd": 0.2358,
+    "exact": "2/4",
+    "filter_calls": 1
+   }
+  },
+  "furniture": {
+   "agent": {
+    "run": "708e1ff7",
+    "cost_usd": 0.1821,
+    "exact": "3/5"
+   },
+   "agent_semfilter": {
+    "run": "f986b185",
+    "cost_usd": 0.2219,
+    "exact": "3/5",
+    "filter_calls": 1
+   }
+  },
+  "lighthouses": {
+   "agent": {
+    "run": "40e51a47",
+    "cost_usd": 0.0926,
+    "exact": "3/5"
+   },
+   "agent_semfilter": {
+    "run": "ece73e3a",
+    "cost_usd": 0.1555,
+    "exact": "3/5",
+    "filter_calls": 0
+   }
+  },
+  "ntsb": {
+   "agent": {
+    "run": "ab04a98d",
+    "cost_usd": 0.3053,
+    "exact": "3/6"
+   },
+   "agent_semfilter": {
+    "run": "58799dab",
+    "cost_usd": 0.3297,
+    "exact": "4/6",
+    "filter_calls": 0
+   }
+  },
+  "generality": {
+   "agent": {
+    "run": "a8121ff6",
+    "cost_usd": 0.1058,
+    "exact": "3/3",
+    "unjudged_free_text": 1
+   },
+   "agent_semfilter": {
+    "run": "24c22e5c",
+    "cost_usd": 0.0914,
+    "exact": "3/3",
+    "unjudged_free_text": 1,
+    "filter_calls": 1
+   }
+  }
+ },
+ "exact_pooled": {
+  "agent": "14/23",
+  "agent_semfilter": "15/23",
+  "unjudged_free_text_each": 1
+ },
+ "cost_usd": {
+  "agent": 0.8785,
+  "agent_semfilter": 1.0343,
+  "total": 1.9127
+ },
+ "filter_calls_total": 3,
+ "filter_used_on": [
+  "HS01",
+  "FS01",
+  "GS01"
+ ]
+}

@@ -10294,6 +10294,24 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   1672 passed, ruff clean.
 - **R185 done 2026-10-14.** Next: R186, the paired run (paid, asked).
 
+### R186. `agent` and `agent_semfilter` at medium on experiment A's questions (done 2026-10-14; $1.913)
+- **Asked and approved:** the user, "Yes, run it (~$2.5, stop at $3.5)", to the question naming the five
+  reloads, the `kg qa` commands and the estimate; held-out first, its filter call and note checked before
+  the rest.
+- **Runs** (`tests/gold/r186/runs.json`, git 00538fb): `QA_THINKING=medium kg --preset P qa
+  tests/gold/r185/<dataset>_expA.json --system agent --system agent_semfilter --out out/r186_<dataset>`, one
+  command per dataset, so both arms ask one graph; graphs reloaded from cache by R178's recipe ($0; triples and
+  mentions byte-identical to their builds, every digest equal to R178's; generality from
+  `out/r156_generality`). NTSB's index stage met an embedding ReadTimeout; the first qa command was refused by
+  the layer check before any model call ($0), the index was retried and the run made.
+- **Exact match** (23 code-scored; GE16 is free text, judged in R187): **agent 14/23 ($0.879), agent_semfilter
+  15/23 ($1.034)**. The one difference is NS02 (CEN23LA017's "coughing" sound found by the variant), on an
+  answer that never called the filter. **`filter_passages` was called 3 times in 24 questions** (HS01, FS01,
+  GS01); both arms miss the same members of the targeted questions (FS02's roommate reviews, LS01's St
+  Anthony's, HS01's three verdicts worded otherwise, HS02's "water may enter") and of the old failures (FB18,
+  LC08, NC11, ND11). The controls: every code-scored control right in both arms.
+- **R186 done 2026-10-14.** Next: R187, judged by meaning and decided ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
