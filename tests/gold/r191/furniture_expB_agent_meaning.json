@@ -1,0 +1,33 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "b28d2c8a2d61419083e17f32219e8546",
+  "git_sha": "1fc22fd"
+ },
+ "gold": "tests/gold/r189/furniture_expB.json",
+ "answers": "out/r190_furniture/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "FQ01",
+   "correct": false,
+   "reason": "No number given (says tools cannot compute it); expected 42 (judge B agreed: No number given; says the tools cannot compute it, while the expected answer 42 exists.)"
+  },
+  {
+   "question_id": "FQ02",
+   "correct": true,
+   "reason": "Same eight suppliers as expected, Spanish Glass included, no packaging/electronics extras (judge B agreed: Same eight never-preferred suppliers as expected, including Spanish Glass Industries; none extra.)"
+  },
+  {
+   "question_id": "FE04",
+   "correct": true,
+   "reason": "20 days from preferred Shanghai Metal Corp, matching expected (judge B agreed: 20 days from preferred Shanghai Metal Corp for the Stockholm Chair support frame, as expected.)"
+  },
+  {
+   "question_id": "FE05",
+   "correct": true,
+   "reason": "Gothenburg Table and Jönköping Coffee Table, matching expected (judge B agreed: Gothenburg Table and Jönköping Coffee Table, exactly the expected set.)"
+  }
+ ]
+}

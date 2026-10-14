@@ -1,0 +1,33 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "e5b03c1b596a4ab1bd74d918eece7730",
+  "git_sha": "1fc22fd"
+ },
+ "gold": "tests/gold/r189/ntsb_expB.json",
+ "answers": "out/r190_ntsb/answers_agent_sql.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "NQ01",
+   "correct": true,
+   "reason": "Same ten accidents as expected, CEN22LA194 correctly absent (judge B agreed: Same ten accidents as expected; CEN22LA194 correctly excluded.)"
+  },
+  {
+   "question_id": "NQ02",
+   "correct": true,
+   "reason": "9 equals expected 9 (judge B agreed: Number 9 equals expected.)"
+  },
+  {
+   "question_id": "NE01",
+   "correct": true,
+   "reason": "N202SM equals expected (judge B agreed: N202SM, the expected registration.)"
+  },
+  {
+   "question_id": "NE06",
+   "correct": true,
+   "reason": "CEN21FA299 and CEN21LA383, matching expected (judge B agreed: CEN21FA299 and CEN21LA383, exactly the expected set.)"
+  }
+ ]
+}

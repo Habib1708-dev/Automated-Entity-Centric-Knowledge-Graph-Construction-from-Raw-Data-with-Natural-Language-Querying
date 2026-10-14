@@ -10427,6 +10427,38 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   every control right in both arms by exact match.
 - **R190 done 2026-10-14.** Next: R191, judged by meaning and decided ($0).
 
+### R191. Experiment B judged, paired and decided (done 2026-10-14; $0, judging and analysis)
+- **Judge:** Claude Opus 5.5, two subagents blind to the arm (R182's sheet method, seed 191), R71's rules at
+  scope "all"; they agreed on all 44 verdicts, and every verdict equals exact match (GE16's free text right in
+  both). `tests/gold/r191/<dataset>_expB_<arm>_meaning.json`, scored into `out/r191/meaning/<dataset>_<arm>`,
+  paired by `kg qa-compare` (`out/r191/compare`).
+- **Results** (by meaning):
+
+  | | targeted (10) | old failures (2) | controls (10) | **all (22)** | cost |
+  |---|---|---|---|---|---|
+  | `agent` | 9 | 0 | 10 | **19** | $0.557 |
+  | `agent_sql` | 10 | 2 | 10 | **22** | $0.511 |
+
+  **Paired: `agent_sql` right where `agent` is wrong on 3, the reverse on 0, exact McNemar p = 0.25** (all
+  three aggregations). HE06 (old failure): the variant listed the remedies, then extracted the numbers with
+  `regexp_extract_all` in a `WITH` subquery and counted the distinct ones (10; the agent read 29 remedies
+  over two pages and found 8). LB11 (old failure): `count(*)` over the two automation labels and the 1990s
+  dates in one statement (13; the agent 10). FQ01: a per-part comparison of the preferred and the other
+  offer's price (42); the agent answered that its tools cannot compare two rows. Every control right in both
+  arms. The SQL: 39 statements, 38 ran, 1 failed at run time (a GROUP BY over an `unnest`, which DuckDB
+  refuses; the model rewrote it as a `WITH` subquery), none refused by the check; no timeout.
+- **Decision (experiment B): adopt-candidate** — on the questions it targets the SQL variant answered all 12,
+  including both old failures the typed query had left at every thinking level, lost no control, and cost the
+  same; three discordant pairs give p = 0.25, so the gain is a consistent direction on a small set, not a
+  shown difference. Adopting it (in place of `query_tables` in `agent`) is a later plan with its own
+  measurement on fresh questions, not part of this one.
+- **Read with care:** 12 targeted and old questions, 10 controls, one run per arm; gold (Fable 5.1), judges
+  (Opus 5.5) one model family; the typed query's own gaps were the reason this family was chosen, so the
+  targeted questions favour whatever reaches them.
+- **R191 done 2026-10-14; experiment B done; plan R183-R191 done** ($1.913 + $1.068 + dev runs $0.012 =
+  $2.993). Next: the user decides (candidates: adopt `query_sql` in `agent` and measure on fresh questions;
+  make the semantic filter reach the agent by a send-back, as a new experiment; or stop here).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

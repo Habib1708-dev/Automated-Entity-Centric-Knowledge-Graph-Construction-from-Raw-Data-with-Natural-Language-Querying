@@ -1,0 +1,38 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "c9d607ff4b9c4dcdb31c97ebe7232606",
+  "git_sha": "1fc22fd"
+ },
+ "gold": "tests/gold/r189/heldout_expB.json",
+ "answers": "out/r190_heldout/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "HQ01",
+   "correct": true,
+   "reason": "7 equals expected 7, breakdown (5 TEMA, 1 Southeast, 1 Gulf States) matches the note (judge B agreed: Number 7 equals expected, with the correct 5 + 1 + 1 filer breakdown.)"
+  },
+  {
+   "question_id": "HQ02",
+   "correct": true,
+   "reason": "Same five complaints as expected, nothing missing or extra (judge B agreed: Same five complaints as expected (10809523, 10816192, 11209676, 10667633, 11123359), none missing or extra.)"
+  },
+  {
+   "question_id": "HE06",
+   "correct": false,
+   "reason": "8 against expected 10; omits Infiniti 1-888-833-3216 and Chevrolet 1-800-222-1020 (judge B agreed: Gives 8, not 10; misses the Infiniti 1-888-833-3216 and Chevrolet 1-800-222-1020 numbers in 16V244000.)"
+  },
+  {
+   "question_id": "HE03",
+   "correct": true,
+   "reason": "21V839000 alone, matching expected (judge B agreed: Names 21V839000 only, the expected Rogue Hybrid-only recall.)"
+  },
+  {
+   "question_id": "HE09",
+   "correct": true,
+   "reason": "Empty set / none, expected set is empty (judge B agreed: Empty set / none, matching the expected empty set.)"
+  }
+ ]
+}

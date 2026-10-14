@@ -1,0 +1,38 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "5e0d2421ee6b491d83d2be464291c7cb",
+  "git_sha": "1fc22fd"
+ },
+ "gold": "tests/gold/r189/lighthouses_expB.json",
+ "answers": "out/r190_lighthouses/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LQ01",
+   "correct": true,
+   "reason": "34 equals expected 34 (judge B agreed: Number 34 equals expected (80 minus 46 distinct lighthouses with events).)"
+  },
+  {
+   "question_id": "LQ02",
+   "correct": true,
+   "reason": "Same eight lighthouses as expected, no Pendeen/Trevose/Winterton extras (judge B agreed: Same eight lighthouses as expected; none of the trap rows (Pendeen, Winterton, etc.) added.)"
+  },
+  {
+   "question_id": "LB11",
+   "correct": false,
+   "reason": "10 against expected 13 (judge B agreed: Gives 10, not the expected 13 automatization events dated in the 1990s.)"
+  },
+  {
+   "question_id": "LE13",
+   "correct": true,
+   "reason": "1995 equals expected 1995 (judge B agreed: 1995 equals the expected Pendeen automation year.)"
+  },
+  {
+   "question_id": "LE16",
+   "correct": true,
+   "reason": "Inner Dowsing light platform, matching expected (judge B agreed: Inner Dowsing light platform, as expected.)"
+  }
+ ]
+}

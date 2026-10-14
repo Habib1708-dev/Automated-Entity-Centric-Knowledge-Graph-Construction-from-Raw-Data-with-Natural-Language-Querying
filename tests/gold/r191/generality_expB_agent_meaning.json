@@ -1,0 +1,33 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-14",
+  "run_id": "1ef490acb1c94f7db9bb98fe1819f612",
+  "git_sha": "1fc22fd"
+ },
+ "gold": "tests/gold/r189/generality_expB.json",
+ "answers": "out/r190_generality/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "GQ01",
+   "correct": true,
+   "reason": "4 equals expected 4 distinct names (judge B agreed: Number 4 equals the expected count of distinct names.)"
+  },
+  {
+   "question_id": "GQ02",
+   "correct": true,
+   "reason": "60 equals expected 60 (42 + 18, 2016 included) (judge B agreed: Number 60 equals expected 42 + 18 for pumps installed 2016 or earlier.)"
+  },
+  {
+   "question_id": "GE16",
+   "correct": true,
+   "reason": "States No, projects without a plan will not receive second-year funding, matching expected (judge B agreed: Says no, projects without a data management plan will not receive second-year funding, as expected.)"
+  },
+  {
+   "question_id": "GE19",
+   "correct": true,
+   "reason": "1,900,000 (1.9 million cubic metres) equals expected (judge B agreed: 1,900,000 (1.9 million cubic metres) equals expected.)"
+  }
+ ]
+}
