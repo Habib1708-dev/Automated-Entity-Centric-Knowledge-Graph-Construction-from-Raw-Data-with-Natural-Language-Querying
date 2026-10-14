@@ -1,0 +1,478 @@
+{
+  "dataset": "generality",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "tests/fixtures/generality",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "GE01",
+      "type": "multi_hop",
+      "question": "Jonathan Pike received the 2023 Hensley Field-Work Award for ten years of bog monitoring. Going by his start year in the staff records, how many years had he been at the institute in 2023?",
+      "expected": {
+        "number": 14
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/hensley_award.md#0",
+          "quote": "2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-131",
+            "name": "Jonathan Pike",
+            "start_year": "2009"
+          }
+        }
+      ],
+      "sql": "SELECT 2023 - start_year FROM staff WHERE name = 'Jonathan Pike'",
+      "hard_case": null,
+      "note": "The award page names the year, 2023; the staff record of Jonathan Pike (S-131), the only Pike on the staff list, gives the start year 2009: 2023 - 2009 = 14. The tempting answer is the award citation's ten years, which is the length of the bog monitoring, not of his time at the institute."
+    },
+    {
+      "id": "GE02",
+      "type": "multi_hop",
+      "question": "How many pounds does Riverton's 2026 works budget set aside for the part of the Mill Lane footbridge that Gareth Lowe's letter says still moves when leaned on?",
+      "expected": {
+        "number": 15000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/letter_to_the_editor.md#0",
+          "quote": "the east railing still moves when you lean on it"
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Mill Lane footbridge east railing: 15,000 pounds"
+        }
+      ],
+      "note": "Two documents: the letter names the part, the east railing; the 2026 budget has a line for exactly that part, 15,000 pounds. The 180,000 pounds of the 2025 budget is the whole footbridge repair, and the 12,000 pounds the mayor named is the saving on that repair; both are wrong here."
+    },
+    {
+      "id": "GE03",
+      "type": "multi_hop",
+      "question": "The Eastgate library roof had leaked into one section of the library. What did that section get when the library reopened with its new roof?",
+      "expected": {
+        "text": "New carpets and a reading corner (the section is the children's section)."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/mill_lane_and_eastgate.md#0",
+          "quote": "The library roof, which has leaked into the children's section since the autumn storms"
+        },
+        {
+          "chunk_id": "news/library_reopened.md#0",
+          "quote": "The children's section has new carpets and a reading corner."
+        }
+      ],
+      "note": "Two documents: the council item names the section the roof leaked into, the children's section; the reopening item says that section has new carpets and a reading corner. The new roof itself and the unchanged opening hours are not what the section got."
+    },
+    {
+      "id": "GE04",
+      "type": "multi_hop",
+      "question": "According to the spring 2025 newsletter, who leads the team of the person who kept the Brackwater fen field log?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Aiko Tanaka",
+            "aliases": [
+              "research engineer Aiko Tanaka"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Brackwater fen field log, spring 2025, kept by S. Osei."
+        },
+        {
+          "chunk_id": "institute/newsletter_spring_2025.md#0",
+          "quote": "The Hydrology team, led by research engineer Aiko Tanaka"
+        }
+      ],
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-162",
+            "name": "Samuel Osei",
+            "team": "Hydrology"
+          }
+        }
+      ],
+      "hard_case": "two_names",
+      "note": "Three hops: the log is kept by S. Osei, the staff record of Samuel Osei puts him in Hydrology, and the newsletter says the Hydrology team is led by Aiko Tanaka. Dr. Jonathan Pike is the group leader of Soil Ecology, the Aldmoor team to which the fen log's last entry says the corer was lent; he is the wrong answer, and so is Osei's own name. The staff records have no leader field, so the newsletter decides."
+    },
+    {
+      "id": "GE05",
+      "type": "aggregation",
+      "question": "How many of the news documents (the news items and the letters to the editor) mention Harbour Street by name?",
+      "expected": {
+        "number": 6
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "news/bakery_opens.md#0",
+          "quote": "Maria Lopez has opened a bakery at 14 Harbour Street"
+        },
+        {
+          "chunk_id": "news/budget_2025.md#0",
+          "quote": "Harbour Street resurfacing: 95,000 pounds"
+        },
+        {
+          "chunk_id": "news/budget_2026.md#0",
+          "quote": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+        },
+        {
+          "chunk_id": "news/council_notices.md#0",
+          "quote": "Harbour Street: resurfacing postponed to 2026."
+        },
+        {
+          "chunk_id": "news/flood_meeting.md#0",
+          "quote": "move them ahead of the Harbour Street resurfacing"
+        },
+        {
+          "chunk_id": "news/letter_harbour_street.md#0",
+          "quote": "the resurfacing of Harbour Street was promised for this year"
+        }
+      ],
+      "note": "One document per evidence line: the bakery item, the two budget items, the council notices, the flooding meeting item and Judith Pike's letter. The open-day item is about Harbour Station, the pumping station, and never names the street; counting it gives 7, which is wrong. Leaving out the letter because it is not a news item gives 5, also wrong: the question counts the letters. The water documents name only Harbour Station."
+    },
+    {
+      "id": "GE06",
+      "type": "aggregation",
+      "question": "Which cores in the Aldmoor bog and Brackwater fen field logs have the position of the water table recorded?",
+      "expected": {
+        "entities": [
+          {
+            "name": "AB-17",
+            "aliases": [
+              "Core AB-17"
+            ]
+          },
+          {
+            "name": "BF-3",
+            "aliases": [
+              "Core BF-3"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-17, 3 December: depth 4.2 m, pH 4.1, water table 12 cm below surface."
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-3, 22 April: depth 1.9 m, pH 3.7, water table at the surface."
+        }
+      ],
+      "note": "Two entries, one per log, name the water table: AB-17 (12 cm below surface) and BF-3 (at the surface). The other six entries give only depth and pH or were not taken; AB-20's flooded site is a reason the core was not taken, not a water table reading."
+    },
+    {
+      "id": "GE07",
+      "type": "aggregation",
+      "question": "What is the lowest pH recorded in the Aldmoor bog and Brackwater fen field logs?",
+      "expected": {
+        "number": 3.7
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-3, 22 April: depth 1.9 m, pH 3.7"
+        },
+        {
+          "chunk_id": "institute/brackwater_fen_log.txt#0",
+          "quote": "Core BF-1, 14 April: depth 2.1 m, pH 3.8."
+        },
+        {
+          "chunk_id": "institute/fieldwork_log.txt#0",
+          "quote": "Core AB-19, 10 December: depth 5.1 m, pH 3.9"
+        }
+      ],
+      "note": "The six pH values are 4.1, 4.6, 3.9 (Aldmoor) and 3.8, 4.3, 3.7 (Brackwater); the lowest is BF-3's 3.7. Reading only the Aldmoor log gives 3.9, which is wrong; AB-20 and BF-4 were not taken and have no pH."
+    },
+    {
+      "id": "GE08",
+      "type": "structured_filter",
+      "question": "Which institute staff member has the whole word 'Research' in their role title in the staff records, not merely as the start of a longer word such as 'researcher'?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Aiko Tanaka"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-150",
+            "name": "Aiko Tanaka",
+            "role": "Research engineer"
+          }
+        }
+      ],
+      "sql": "SELECT name FROM staff WHERE regexp_matches(role, '\\bResearch\\b')",
+      "note": "Aiko Tanaka's role is 'Research engineer', where 'Research' stands as a word of its own. The tempting extra answer is Maria Lopez (S-104), whose role 'Postdoctoral researcher' contains the letters but only inside the longer word 'researcher'; a substring match returns both names, a whole-word match only Tanaka."
+    },
+    {
+      "id": "GE09",
+      "type": "structured_filter",
+      "question": "Which institute team's members all started in 2018 or later, according to the staff records?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Hydrology",
+            "aliases": [
+              "Hydrology team"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-150",
+            "team": "Hydrology",
+            "start_year": "2018"
+          }
+        },
+        {
+          "file": "institute/staff.csv",
+          "row": {
+            "staff_id": "S-162",
+            "team": "Hydrology",
+            "start_year": "2023"
+          }
+        }
+      ],
+      "sql": "SELECT team FROM staff GROUP BY team HAVING min(start_year) >= 2018",
+      "hard_case": "number_filter",
+      "note": "Hydrology: Aiko Tanaka started in 2018 and Samuel Osei in 2023. Soil Ecology has a 2021 start (Maria Lopez, S-104) but also Jonathan Pike's 2009, and the Finance Office's only member started in 2016. Asking for teams with any member from 2018 on, instead of all members, wrongly adds Soil Ecology."
+    },
+    {
+      "id": "GE10",
+      "type": "structured_filter",
+      "question": "Which of the North Station work orders of June 2025 was carried out by Rosa Delgado?",
+      "expected": {
+        "entities": [
+          {
+            "name": "WO-311"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "water/work_orders_2025-06.md#0",
+          "quote": "WO-311, 2 June. Bearings of HP40-1183 regreased by Rosa Delgado."
+        }
+      ],
+      "hard_case": null,
+      "note": "Only WO-311 names Rosa Delgado: she regreased the bearings of HP40-1183 on 2 June. WO-318 was done by technician Marek Hollis and WO-320, the test run, names nobody. Delgado's inspection of 13 June and the shift notes' 'quarterly inspection by Rosa Delgado' are not work orders and must not be answered."
+    },
+    {
+      "id": "GE11",
+      "type": "disambiguation",
+      "question": "According to the North Station work orders of June 2025, which pump's old mechanical seal was kept for the vendor?",
+      "expected": {
+        "entities": [
+          {
+            "name": "HP40-2291"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/work_orders_2025-06.md#0",
+          "quote": "WO-318, 30 June. Mechanical seal of HP40-2291 replaced by technician Marek Hollis, following the tag from the June inspection. The old seal was kept for the vendor."
+        }
+      ],
+      "hard_case": "serial_numbers",
+      "note": "WO-318 replaced the seal of HP40-2291 and kept the old one for the vendor; the June shift notes add that Tomasz Wren asked for it to be kept. The tempting answer is the other Hydra P-40, HP40-1183: the April shift notes say Calder Pumps phoned about 'the seal returned from HP40-1183', which reads as that seal having been sent back to the vendor, but that is a shift note, not a work order, and a seal sent back is not one kept. Within the work orders only HP40-2291 fits."
+    },
+    {
+      "id": "GE12",
+      "type": "disambiguation",
+      "question": "What bearing temperature in degrees Celsius did pump HP40-2291 show at its test run after the seal change of 30 June 2025?",
+      "expected": {
+        "number": 47
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/work_orders_2025-06.md#0",
+          "quote": "WO-320, 30 June. Test run of HP40-2291 after the seal change: 41 litres per second, no leaks, bearing temperature 47 °C."
+        }
+      ],
+      "hard_case": "serial_numbers",
+      "note": "Work order WO-320 gives 47 °C at the test run. The tempting answers are the inspection readings: 52 °C for HP40-2291 at the June inspection before the seal change, 48 °C for it in March, and 49 °C for the other pump, HP40-1183, at the June inspection. The 41 in the same sentence is the flow, not a temperature."
+    },
+    {
+      "id": "GE13",
+      "type": "disambiguation",
+      "question": "What does the Maria Lopez who opened the bakery on Harbour Street bake every morning?",
+      "expected": {
+        "text": "Rye bread and pastries, from five in the morning."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "news/bakery_opens.md#0",
+          "quote": "She trained in Valencia and bakes rye bread and pastries every morning from five."
+        }
+      ],
+      "hard_case": "same_name",
+      "note": "The baker is the third Maria Lopez of the corpus; the news item says she bakes rye bread and pastries every morning from five. The two institute staff of that name (the Soil Ecology researcher and the grants accountant) bake nothing in the documents; the cakes that sold out at the open-day cafe are another story. The time may be left out."
+    },
+    {
+      "id": "GE14",
+      "type": "negation_sensitive",
+      "question": "Which North Station pumps kept running during the four-hour power cut of 17 November 2024?",
+      "expected": {
+        "entities": []
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "water/north_station_2024_summary.md#0",
+          "quote": "The only stoppage was a four-hour power cut on 17 November, when both pumps were off."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "None: the 2024 summary says both pumps were off during the power cut. HP40-1183, kept on duty for most of 2024, is the tempting answer, but the duty share does not cover the stoppage."
+    },
+    {
+      "id": "GE15",
+      "type": "negation_sensitive",
+      "question": "By the time of the institute committee meeting of 12 May 2025, had the vibration of the flume pump already been measured?",
+      "expected": {
+        "text": "No. On 12 May Samuel Osei was only to measure it before any experiment above 60 litres per second; the measurement was reported at the meeting of 9 June."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-05-12.md#0",
+          "quote": "Samuel Osei will measure the vibration before any experiment runs above 60 litres per second."
+        },
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The May minutes say Osei will measure the vibration, a planned action, not a done one; the measurement appears only in the June minutes. Answering yes because the May minutes mention the measurement is the error. The 9 June detail may be left out."
+    },
+    {
+      "id": "GE16",
+      "type": "negation_sensitive",
+      "question": "According to the committee minutes of 12 May 2025, will a project that has no data management plan receive second-year funding?",
+      "expected": {
+        "text": "No. Projects without a data management plan will not receive second-year funding."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-05-12.md#0",
+          "quote": "Projects without a plan will not receive second-year funding."
+        }
+      ],
+      "hard_case": "negation",
+      "note": "The minutes make second-year funding conditional on the plan: projects without one will not receive it. Answering yes, or answering with the deadline of 30 June 2025 by which the plan is due, misses the negation. The 18,000 euro overrun of the Aldmoor peat project in the same minutes is a separate item."
+    },
+    {
+      "id": "GE17",
+      "type": "lookup",
+      "question": "What vibration, in millimetres per second, did Samuel Osei measure on the flume pump at 60 litres per second?",
+      "expected": {
+        "number": 2.3
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "institute/minutes_2025-06-09.md#0",
+          "quote": "Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit."
+        }
+      ],
+      "note": "The 9 June minutes give 2.3 mm/s. The 4.5 mm/s in the same sentence is the limit the reading was compared with, not the measurement."
+    },
+    {
+      "id": "GE18",
+      "type": "lookup",
+      "question": "To how many litres per second did the flow on the North main drop after the seal failure of 29 March 2025?",
+      "expected": {
+        "number": 31
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/incident_2025-03-29.md#0",
+          "quote": "Flow on the North main dropped to 31 litres per second until HP40-2291 was switched to duty."
+        }
+      ],
+      "note": "The incident report gives 31 litres per second. The 38 and 41 litres per second of the March inspection are pump flows measured two weeks earlier, and 3,000 is the litres that flooded the dry well."
+    },
+    {
+      "id": "GE19",
+      "type": "lookup",
+      "question": "How many cubic metres of water did North Station pump in 2024?",
+      "expected": {
+        "number": 1900000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/north_station_2024_summary.md#0",
+          "quote": "North Station pumped 1.9 million cubic metres in 2024."
+        }
+      ],
+      "note": "The 2024 summary says 1.9 million cubic metres, that is 1,900,000. The 6,100 and 2,300 hours in the next sentence are running hours of the two pumps, not volumes."
+    },
+    {
+      "id": "GE20",
+      "type": "lookup",
+      "question": "Where are the alarms from Harbour Station received when that station is unmanned?",
+      "expected": {
+        "entities": [
+          {
+            "name": "North Station"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "water/harbour_station_may_2025.md#0",
+          "quote": "The station was unmanned for the rest of May, with alarms routed to North Station."
+        },
+        {
+          "chunk_id": "news/harbour_open_day.md#0",
+          "quote": "explained how the alarms reach North Station when the site is unmanned"
+        }
+      ],
+      "note": "Two documents say the same thing in different words: the May report has the alarms routed to North Station, the open-day item has them reaching North Station when the site is unmanned. The June shift notes, written at North Station, show one such alarm arriving. Harbour Station itself, or Harbour Street, is the wrong answer."
+    }
+  ]
+}

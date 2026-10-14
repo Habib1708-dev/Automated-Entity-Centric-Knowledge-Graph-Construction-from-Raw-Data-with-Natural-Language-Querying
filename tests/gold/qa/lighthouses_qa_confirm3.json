@@ -1,0 +1,502 @@
+{
+  "dataset": "lighthouses",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/lighthouses/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "LE01",
+      "type": "multi_hop",
+      "question": "The St Agnes Lighthouse article names two lighthouses that later adopted the revolving array of lamps and reflectors introduced at St Agnes in 1790. Which of the two does the table record with the greater focal height?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Cromer Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_agnes_lighthouse.md#1",
+          "quote": "subsequently adopted in other lighthouses, including those at Cromer and Flamborough Head"
+        }
+      ],
+      "sql": "WITH t AS (SELECT name, CAST(focal_height_m AS DOUBLE) AS f FROM lighthouses WHERE name IN ('Cromer Lighthouse', 'Flamborough Head Lighthouse')) SELECT name FROM t WHERE f = (SELECT max(f) FROM t)",
+      "note": "The two lighthouses are Cromer and Flamborough Head. The table's focal_height_m is 84 for Cromer and 65 for Flamborough Head, so Cromer. The tempting wrong answer is Flamborough Head, which is the taller tower (height_m 26.5 against Cromer's 18): the question asks for focal height, not height."
+    },
+    {
+      "id": "LE02",
+      "type": "multi_hop",
+      "question": "The St Agnes Lighthouse article says the 1891 upgrade of the light was supervised by the chief engineer of Trinity House. Whom does the engineers file name as that man's sibling?",
+      "expected": {
+        "entities": [
+          {
+            "name": "William Douglass",
+            "aliases": [
+              "W. Douglass"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_agnes_lighthouse.md#1",
+          "quote": "supervised by the chief engineer of Trinity House, Sir James Douglass"
+        }
+      ],
+      "records": [
+        {
+          "file": "engineers.csv",
+          "row": {
+            "name": "James Nicholas Douglass",
+            "sibling": "William Douglass"
+          }
+        }
+      ],
+      "sql": "SELECT sibling FROM engineers WHERE name = 'James Nicholas Douglass'",
+      "note": "The article calls him Sir James Douglass; the engineers file holds him as James Nicholas Douglass, the only engineer with a sibling cell, William Douglass. The other three engineers have no sibling. Thomas Matthews, the Trinity House chief engineer of the Berry Head article, is a different man and is not in the engineers file."
+    },
+    {
+      "id": "LE03",
+      "type": "multi_hop",
+      "question": "The Anvil Point and Tater Du Lighthouse articles both say their lighthouse is now monitored from a Trinity House centre in the same town. How many lighthouses does the table locate in that town (its located_in cell)?",
+      "expected": {
+        "number": 2
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/anvil_point_lighthouse.md#2",
+          "quote": "monitored and controlled from the Trinity House Operations Control Centre at Harwich"
+        },
+        {
+          "chunk_id": "articles/tater_du_lighthouse.md#1",
+          "quote": "monitored from the Trinity House Planning Centre at Harwich"
+        }
+      ],
+      "sql": "SELECT count(*) FROM lighthouses WHERE list_contains(string_split(located_in, '; '), 'Harwich')",
+      "note": "The town is Harwich (Anvil Point: the Operations Control Centre; Tater Du: the Planning Centre). Two rows have located_in 'Harwich': Harwich High Lighthouse and Harwich Low Lighthouse. The lookalikes Dovercourt High Light and Dovercourt Low Light are also in Essex but their located_in cell is empty, so 4 is wrong; the two monitored lighthouses themselves are in Dorset and Cornwall."
+    },
+    {
+      "id": "LE04",
+      "type": "multi_hop",
+      "question": "The Farne Lighthouse article credits Daniel Alexander with the design of three lighthouses built in 1811. Which of them does the table name him (as Daniel Asher Alexander) as the architect of?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Farne Lighthouse",
+            "aliases": [
+              "Farne High Lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/farne_lighthouse.md#1",
+          "quote": "both of which were designed by Daniel Alexander"
+        },
+        {
+          "chunk_id": "articles/farne_lighthouse.md#3",
+          "quote": "This light was also designed by Daniel Alexander"
+        }
+      ],
+      "sql": "SELECT name FROM lighthouses WHERE list_contains(string_split(architect, '; '), 'Daniel Asher Alexander')",
+      "note": "The three are the two Inner Farne lights (Farne High, today's Farne Lighthouse, and Farne Low) and the Brownsman Island light. Only the Farne Lighthouse row names Daniel Asher Alexander as architect; Brownsman Lighthouse's architect cell is empty (as is Longstone's, where the Brownsman light was later moved) and Farne Low has no row. Answering all three from the article, or Brownsman, reads the article instead of the table's cell."
+    },
+    {
+      "id": "LE05",
+      "type": "aggregation",
+      "question": "Which historic county has the most lighthouses with a service retirement recorded in the table?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Essex"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH c AS (SELECT historic_county, count(*) AS n FROM lighthouses WHERE service_retirement IS NOT NULL AND historic_county IS NOT NULL GROUP BY 1) SELECT historic_county FROM c WHERE n = (SELECT max(n) FROM c)",
+      "note": "Essex: all four of its rows are retired (Harwich High and Low 1863, Dovercourt High and Low 1917). Next come Cornwall, Devon, Kent, Somerset, Yorkshire and Northumberland with three each. The tempting wrong answers are Cornwall and Devon, the counties with the most lighthouses overall (13 each), of which only three each are retired."
+    },
+    {
+      "id": "LE06",
+      "type": "aggregation",
+      "question": "Which engineer in the engineers file lived the longest, from his birth date to his death date?",
+      "expected": {
+        "entities": [
+          {
+            "name": "James Walker"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH a AS (SELECT name, death - birth AS d FROM engineers) SELECT name FROM a WHERE d = (SELECT max(d) FROM a)",
+      "note": "James Walker, 1781-09-14 to 1862-10-08, 81 years. Daniel Asher Alexander lived 77 years (1768-1846), James Nicholas Douglass 71 (1826-1898) and John Smeaton 68 (1724-1792). The tempting wrong answers are Smeaton (the earliest born) and Douglass (the latest to die): the question asks for the longest life, not the earliest or latest date."
+    },
+    {
+      "id": "LE07",
+      "type": "aggregation",
+      "question": "Of the lighthouses the ten articles are about, which does its own article say was at some time fitted with a first-order optic or lens?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Anvil Point Lighthouse"
+          },
+          {
+            "name": "Godrevy Lighthouse"
+          },
+          {
+            "name": "Old Higher Lighthouse",
+            "aliases": [
+              "Portland Bill High Light",
+              "Portland High Light",
+              "Portland High"
+            ]
+          },
+          {
+            "name": "St Anthony's Lighthouse",
+            "aliases": [
+              "St. Anthony's Lighthouse"
+            ]
+          },
+          {
+            "name": "St Mary's Lighthouse",
+            "aliases": [
+              "St. Mary's Lighthouse"
+            ]
+          },
+          {
+            "name": "Whitby Lighthouse",
+            "aliases": [
+              "Whitby High lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/anvil_point_lighthouse.md#1",
+          "quote": "set within a large (first order) revolving 14-panel dioptric optic by Chance Brothers & Co."
+        },
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#2",
+          "quote": "The first light was an oil lamp within a large (first-order) revolving catadioptric optic by Henri Lepaute of Paris"
+        },
+        {
+          "chunk_id": "articles/old_higher_lighthouse.md#2",
+          "quote": "Both Portland lighthouses were rebuilt in 1869, and provided with large (first-order) fixed optics designed and built by James Chance."
+        },
+        {
+          "chunk_id": "articles/st_anthony_s_lighthouse.md#1",
+          "quote": "a large (first-order) fixed Fresnel optic had been introduced"
+        },
+        {
+          "chunk_id": "articles/st_mary_s_lighthouse.md#1",
+          "quote": "A first-order 'bi-valve' rotating optic was installed by Barbier & Bénard of Paris"
+        },
+        {
+          "chunk_id": "articles/whitby_lighthouse.md#1",
+          "quote": "The light, a 1st Order assembly manufactured by Chance Brothers of Smethwick"
+        }
+      ],
+      "note": "Six articles, which word the idea in four ways: '(first order)' (Anvil Point), '(first-order)' (Godrevy, Old Higher, St Anthony's), 'first-order' (St Mary's) and '1st Order' (Whitby, which also says 'first-order fixed optic' later). Not counted: Berry Head (a third-order optic), Farne (a third order lens), St Agnes and Tater Du (no optic order named). Godrevy's later 1933 lens was second-order, but its first light counts."
+    },
+    {
+      "id": "LE08",
+      "type": "aggregation",
+      "question": "Of the lighthouses the ten articles are about, which does its own article say was fitted with a sun valve?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Berry Head Lighthouse"
+          },
+          {
+            "name": "Farne Lighthouse"
+          },
+          {
+            "name": "Godrevy Lighthouse"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/berry_head_lighthouse.md#1",
+          "quote": "a Dalen sun valve (which automatically brought the light into operation when required)"
+        },
+        {
+          "chunk_id": "articles/farne_lighthouse.md#1",
+          "quote": "the gas was manufactured in an adjacent producer plant and controlled by a sun valve"
+        },
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#2",
+          "quote": "an acetylene burner activated by a sun valve"
+        }
+      ],
+      "note": "Three articles, each at an acetylene conversion: Berry Head (1921, a Dalen sun valve fitted by the AGA company), Farne (1910, the acetylene controlled by a sun valve) and Godrevy (1933, an acetylene burner activated by a sun valve). No other article names a sun valve: Tater Du's 'completely automatic installation' was remotely controlled from Penzance, Anvil Point's 1981 'new automatic equipment' and the automations of St Anthony's and Whitby name no mechanism, so counting every automated lighthouse is wrong."
+    },
+    {
+      "id": "LE09",
+      "type": "structured_filter",
+      "question": "Which lighthouses does the table record with a range of 25 nautical miles or more, counting any value of a range cell that holds several?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Lizard Lighthouse"
+          },
+          {
+            "name": "Start Point Lighthouse"
+          },
+          {
+            "name": "Souter Lighthouse"
+          },
+          {
+            "name": "St. Catherine's Lighthouse",
+            "aliases": [
+              "St Catherine's Lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT name, CAST(unnest(string_split(range_nmi, '; ')) AS DOUBLE) AS r FROM lighthouses WHERE range_nmi IS NOT NULL) SELECT DISTINCT name FROM r WHERE r >= 25",
+      "note": "Lizard (26), Souter (26), Start Point ('25; 9') and St. Catherine's ('25; 13'); the last two qualify by their first value, so the cell has to be split. Just below are Longstone ('24; 18'), Southwold (24) and Lowestoft (23), which do not count. The articles' ranges (Tater Du's 20, Berry Head's 20) are not table cells."
+    },
+    {
+      "id": "LE10",
+      "type": "structured_filter",
+      "question": "Which lighthouses does the table record with a service entry given as a full calendar date (year, month and day), rather than a bare year or a year and month?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Pendeen Lighthouse"
+          },
+          {
+            "name": "Trevose Head Lighthouse"
+          },
+          {
+            "name": "Europa Point Lighthouse"
+          },
+          {
+            "name": "Flamborough Head Lighthouse"
+          },
+          {
+            "name": "Royal Sovereign Lighthouse"
+          },
+          {
+            "name": "Souter Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT name FROM lighthouses WHERE length(CAST(service_entry AS VARCHAR)) = 10",
+      "note": "Six service_entry cells are full dates: Pendeen 1900-10-03, Trevose Head 1847-12-01, Europa Point 1841-08-01, Flamborough Head 1806-12-01, Royal Sovereign 1971-09-06 and Souter 1871-01-11. Helgoland's 1811-02 has only a month and does not count. Godrevy's full date 1859-03-01 is in its inception cell, its service entry is the bare year 1859, so Godrevy is the tempting wrong inclusion."
+    },
+    {
+      "id": "LE11",
+      "type": "structured_filter",
+      "question": "Which lighthouses have an event in the events file whose date gives a month as well as a year?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Europa Point Lighthouse"
+          },
+          {
+            "name": "Royal Sovereign Lighthouse"
+          },
+          {
+            "name": "Casquets lighthouses",
+            "aliases": [
+              "Casquets Lighthouse",
+              "Casquets"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT lighthouse.name FROM events WHERE length(CAST(date AS VARCHAR)) = 7",
+      "note": "Three automatization dates carry a month: Europa Point 1994-02, Royal Sovereign 1994-08 and the Casquets 1990-11. Every other dated event is a bare year, and nine events have no date at all. Royal Sovereign's full-date service entry in the table (1971-09-06) is not an event."
+    },
+    {
+      "id": "LE12",
+      "type": "disambiguation",
+      "question": "According to the Farne Lighthouse article, on which island had Captain Blackett's 1778 light that the Brownsman lighthouse replaced originally been built?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Staple Island",
+            "aliases": [
+              "Staple"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/farne_lighthouse.md#3",
+          "quote": "It likewise replaced an earlier light built by Captain Blackett in 1778 (on nearby Staple Island, but subsequently relocated to Brownsman)"
+        }
+      ],
+      "note": "Staple Island: the light was built there in 1778 and only later relocated to Brownsman. Captain Blackett's other 1778 light, the one the two Inner Farne lighthouses replaced, was on Inner Farne; so Inner Farne answers the wrong Blackett light and Brownsman Island is where the light ended up, not where it was built."
+    },
+    {
+      "id": "LE13",
+      "type": "disambiguation",
+      "question": "In what year does the events file date the automation of Pendeen Lighthouse, as opposed to the similarly named Peninnis Lighthouse?",
+      "expected": {
+        "number": 1995
+      },
+      "route": "exact",
+      "sql": "SELECT CAST(date AS INTEGER) FROM events WHERE lighthouse.name = 'Pendeen Lighthouse' AND event = 'automatization'",
+      "note": "Pendeen Lighthouse's only event is an automatization dated 1995. Peninnis Lighthouse, the lookalike name (both are Cornish rows), has only an undated electrification, so reading its row gives no year; the St Agnes article's 1911 (when Peninnis superseded St Agnes) and Pendeen's table cells (inception 1900, service entry 1900-10-03) are not events. Trevose Head and Hilbre Island are the other 1995 events."
+    },
+    {
+      "id": "LE14",
+      "type": "disambiguation",
+      "question": "The St Anthony's Lighthouse article describes two fog bells. What does it say about the size of the second one, installed in 1882?",
+      "expected": {
+        "text": "It was a larger, two-ton bell, 5 feet (1.5 m) in diameter, reputedly the heaviest bell in Cornwall."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_anthony_s_lighthouse.md#1",
+          "quote": "replaced in 1882 by a larger, two-ton bell, 5-foot (1.5 m) in diameter (reputedly the heaviest bell in Cornwall)"
+        }
+      ],
+      "note": "The 1882 bell weighed two tons and was 5 feet (1.5 m) across; the article only reputes it to be the heaviest in Cornwall. The first bell (1865) is given no size, so a size attached to it is wrong, and the 1954 decommissioning (after which the bell went to Penwerris church and was melted down) is a different fact. An answer that drops the hedge and states it was the heaviest bell in Cornwall overstates the article."
+    },
+    {
+      "id": "LE15",
+      "type": "negation_sensitive",
+      "question": "According to the Godrevy Lighthouse article, where does Virginia Woolf locate the lighthouse of To the Lighthouse?",
+      "expected": {
+        "entities": [
+          {
+            "name": "the Hebrides",
+            "aliases": [
+              "Hebrides"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#3",
+          "quote": "although she locates the lighthouse in the Hebrides"
+        }
+      ],
+      "note": "The Hebrides. Godrevy is only 'said to have inspired' the novel; the article says Woolf locates its lighthouse in the Hebrides, not at Godrevy, St Ives Bay or Cornwall. Answering Godrevy Island, where she visited on 12 September 1892, confuses the real lighthouse with the fictional one."
+    },
+    {
+      "id": "LE16",
+      "type": "negation_sensitive",
+      "question": "According to the St Mary's Lighthouse article, which light was converted to become 'the first major lighthouse to be run using solar power'?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Inner Dowsing light platform",
+            "aliases": [
+              "Inner Dowsing",
+              "the Inner Dowsing light platform",
+              "Inner Dowsing lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_mary_s_lighthouse.md#2",
+          "quote": "on the Inner Dowsing light platform in the North Sea, as part of its conversion to become 'the first major lighthouse to be run using solar power'"
+        }
+      ],
+      "note": "The Inner Dowsing light platform in the North Sea. The tempting wrong answer is St Mary's itself: the phrase sits in its article because its revolving sealed beam array was reused there in 1986, but St Mary's had been decommissioned in 1984 and never ran on solar power. Godrevy (1995) and Farne (1996) say in their own articles that they were converted to solar power, and the events file has solar conversions for Lundy North and Lundy South; none is the light this article calls the first major one."
+    },
+    {
+      "id": "LE17",
+      "type": "negation_sensitive",
+      "question": "According to the Anvil Point Lighthouse article, in what year was the lighthouse fully automated?",
+      "expected": {
+        "number": 1991
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/anvil_point_lighthouse.md#2",
+          "quote": "Anvil Point Lighthouse was fully automated on 31 May 1991"
+        }
+      ],
+      "note": "1991 (31 May). The tempting wrong answer is 1981, when 'new automatic equipment was installed', which the article does not call full automation; 1960 is the modernisation and electrification. The events file agrees: Anvil Point's automatization is dated 1991."
+    },
+    {
+      "id": "LE18",
+      "type": "lookup",
+      "question": "In what year does the Godrevy Lighthouse article say the lighthouse was automated?",
+      "expected": {
+        "number": 1933
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#2",
+          "quote": "in 1933 the lighthouse was automated"
+        }
+      ],
+      "note": "1933, when a fixed catadioptric lens and an acetylene burner activated by a sun valve were installed. The tempting wrong answer is 1939, the year the events file gives for Godrevy's automatization and the year by which the article says the keepers had been withdrawn; the question asks what the article says. 1995 is the solar conversion."
+    },
+    {
+      "id": "LE19",
+      "type": "lookup",
+      "question": "How many bricks does the St Mary's Lighthouse article say were used to build the lighthouse and keepers' cottages in 1898?",
+      "expected": {
+        "number": 750000
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_mary_s_lighthouse.md#1",
+          "quote": "using 645 blocks of stone and 750,000 bricks"
+        }
+      ],
+      "note": "memorisable: 750,000 bricks; 645 is the number of blocks of stone, the other figure in the same sentence. The table's material cell for St. Mary's is empty, so the article is the only source."
+    },
+    {
+      "id": "LE20",
+      "type": "lookup",
+      "question": "Which organisation used the Old Higher Lighthouse tower as a lookout during World War II, according to its article?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Royal Observer Corps",
+            "aliases": [
+              "the Royal Observer Corps",
+              "ROC"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/old_higher_lighthouse.md#2",
+          "quote": "During World War II, the Royal Observer Corps used the tower as a lookout."
+        }
+      ],
+      "note": "memorisable: The Royal Observer Corps. Not Trinity House (which had auctioned the lighthouse after 1905) nor Marie Stopes (its owner from 1923); in the early 1960s the lighthouse was run as a restaurant."
+    }
+  ]
+}

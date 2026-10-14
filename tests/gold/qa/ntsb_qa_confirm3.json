@@ -1,0 +1,444 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "heldout/ntsb/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "NE01",
+      "type": "multi_hop",
+      "question": "What registration number does the aircraft table give for the helicopter that was started at the refueling pad and hover-taxied to the taxiway before the accident?",
+      "expected": {
+        "entities": [
+          {
+            "name": "N202SM",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/robinson_r44_ii_accidents.md#3",
+          "quote": "he started the helicopter at the refueling pad and hover-taxied to the taxiway and then onto the runway"
+        }
+      ],
+      "sql": "SELECT registration FROM aircraft WHERE ntsb_no = 'CEN21LA284'",
+      "note": "The refueling pad is CEN21LA284 (Reserve, LA), a Robinson R44 II; its aircraft record gives the registration N202SM. The narrative names no registration. The other helicopters with a registration are N878CB (ANC21LA079), N704T (ANC23LA032) and N178DF (CEN21LA173); CEN21LA339 has none. No finding or occurrence code names the refueling pad or the hover taxi."
+    },
+    {
+      "id": "NE02",
+      "type": "multi_hop",
+      "question": "How many flight hours in the last 90 days does the crew table give for the pilot who added power and heard the engine spool up after the airplane bounced?",
+      "expected": {
+        "number": 99
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#3",
+          "quote": "He added power and heard the engine spool up."
+        }
+      ],
+      "sql": "SELECT last_90_days_hours FROM crew WHERE ntsb_no = 'CEN22LA310'",
+      "note": "The spool-up is CEN22LA310 (Wyoming, IL), an Air Tractor AT-502B; the crew table gives 99 hours in the last 90 days (column last_90_days_hours). The wrong columns give 3,695 total hours, 15 in the make and model, 43 in the last 30 days and 14 in the last 24 hours. The narrative gives no hours."
+    },
+    {
+      "id": "NE03",
+      "type": "multi_hop",
+      "question": "Which medical certificate does the crew table record for the pilot who did not engage the auxiliary fuel pump while trying to restore engine power?",
+      "expected": {
+        "entities": [
+          {
+            "name": "BasicMed",
+            "aliases": [
+              "Basic Med"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#4",
+          "quote": "the pilot did not engage the auxiliary fuel pump as stated in the emergency procedures checklist"
+        }
+      ],
+      "sql": "SELECT medical_certificate FROM crew WHERE ntsb_no = 'CEN23LA344'",
+      "note": "The auxiliary fuel pump is CEN23LA344 (Oberlin, KS), a Beech A36; the crew table's medical_certificate column records BasicMed for its 75-year-old pilot, the only BasicMed in the table (every other pilot holds Class 1, 2 or 3). The medical_validity column is empty for him, so 'With Waivers/Limitations' or a class number would be wrong."
+    },
+    {
+      "id": "NE04",
+      "type": "multi_hop",
+      "question": "What airport name does the events table give for the accident in which the pilot used a soft field technique and pulled up abruptly during takeoff?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Eagle County Regional",
+            "aliases": [
+              "Eagle County Regional Airport",
+              "EGE"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#3",
+          "quote": "he did a soft field technique, where he pulled up abruptly"
+        }
+      ],
+      "sql": "SELECT airport_name FROM events WHERE ntsb_no = 'CEN21LA383'",
+      "note": "The soft field technique is CEN21LA383 (Gypsum, CO), a Piper PA-28-181; the events table names the airport Eagle County Regional (airport_id EGE, 0.5 miles away). The narrative names no airport. The departure and destination airports of its aircraft record are empty, so they cannot answer."
+    },
+    {
+      "id": "NE05",
+      "type": "aggregation",
+      "question": "In how many accidents does the narrative say the airplane bounced?",
+      "expected": {
+        "number": 5
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+          "quote": "During the landing, the airplane bounced, slid across a road"
+        },
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#3",
+          "quote": "upon landing, the airplane bounced and he elected to go around"
+        },
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#4",
+          "quote": "The airplane contacted the runway and bounced multiple times"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+          "quote": "several witnesses observed the airplane bounce on the runway"
+        },
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+          "quote": "The airplane bounced onto the runway, so the pilot elected to do a go-around"
+        }
+      ],
+      "note": "CEN21LA362 (forced landing to a bean field), CEN22LA310 (landing in corn), CEN22LA244 (aborted takeoff), CEN21FA299 (witnesses saw it bounce; its probable cause says 'bounced landing') and CEN21LA280 (bounced onto the runway). The word appears as 'bounced', 'bounce' and 'bounced landing'. No helicopter bounced: CEN21LA284 touched down hard and slid, ANC21LA079 impacted the ground. The sequence codes give a different count: only ANC21LA079 and CEN22LA310 have a 'Hard landing' occurrence and only CEN22LA244 an 'Abnormal runway contact'."
+    },
+    {
+      "id": "NE06",
+      "type": "aggregation",
+      "question": "In which accidents does the narrative mention the airplane's flaps?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21FA299",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA383",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+          "quote": "The airplane’s flaps were found in the retracted position."
+        },
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#3",
+          "quote": "He lowered the flaps for the forced landing."
+        }
+      ],
+      "note": "CEN21FA299 (Cirrus SR22, flaps found retracted) and CEN21LA383 (Piper PA-28-181, pilot lowered the flaps). No other narrative uses the word; the landing 'flare' of CEN22LA059, CEN22LA310 and CEN23LA017 is not a flap, and no finding or occurrence code mentions flaps."
+    },
+    {
+      "id": "NE07",
+      "type": "aggregation",
+      "question": "Which accident has the most coded findings in the findings table?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA268",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM findings GROUP BY ntsb_no ORDER BY count(*) DESC LIMIT 1",
+      "note": "CEN21LA268 (Saint James, LA) has five findings (numbered 2 to 6: two air conditioning system findings, hoses and tubes, decision making, sign/marker). Four accidents have four each (CEN21LA185, ANC23LA032, CEN23LA017, CEN21LA362), so any of them is the tempting wrong answer. The finding numbers are not consecutive, so the highest finding_no is not the count."
+    },
+    {
+      "id": "NE08",
+      "type": "aggregation",
+      "question": "For how many accidents does the crew table list more than one person (of any category)?",
+      "expected": {
+        "number": 7
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM (SELECT ntsb_no FROM crew GROUP BY ntsb_no HAVING count(*) > 1)",
+      "note": "ANC23LA032 (pilot and two passengers), CEN21FA299 (pilot and passenger), CEN21LA353 (flight instructor and student pilot), CEN21LA414 (pilot and student pilot), CEN22LA194 and CEN22LA249 (two pilots each) and CEN22LA235 (pilot and passenger): seven accidents, 38 rows in all for 30 accidents. Counting rows beyond the first (8) or only the rows of category Pilot (two in CEN22LA194 and CEN22LA249) is wrong, as is counting people on board from the narratives or the injuries table: CEN21LA173 carried three passengers and CEN23LA017 five, but the crew table lists one person for each."
+    },
+    {
+      "id": "NE09",
+      "type": "structured_filter",
+      "question": "Which accidents does the events table record with a weather condition other than visual meteorological conditions?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA232",
+            "aliases": []
+          },
+          {
+            "name": "ANC23LA032",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM events WHERE weather_condition <> 'Visual Meteorological Cond'",
+      "note": "CEN21LA232 (Whitewater, WI) is 'Instrument Meteorological Cond' and ANC23LA032 (Skwentna, AK) is 'Unknown'; the other 28 are 'Visual Meteorological Cond'. Answering only CEN21LA232 misses the Unknown row; the whiteout of ANC23LA032 is not coded as instrument conditions."
+    },
+    {
+      "id": "NE10",
+      "type": "structured_filter",
+      "question": "Which accidents does the aircraft table record as flown under Part 137 (agricultural operations)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA339",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA283",
+            "aliases": []
+          },
+          {
+            "name": "CEN21LA362",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA310",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA312",
+            "aliases": []
+          },
+          {
+            "name": "CEN23LA223",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM aircraft WHERE regulation LIKE 'Part 137%'",
+      "note": "The five Air Tractor AT-502B accidents and the Robinson R44 II CEN21LA339 (West Liberty, IA, an aerial application helicopter): six in all, regulation 'Part 137: Agricultural'. Listing only the five Air Tractors misses the helicopter. The other regulations are Part 91 (22), Part 133 (ANC21LA079) and Part 135 (ANC23LA032)."
+    },
+    {
+      "id": "NE11",
+      "type": "structured_filter",
+      "question": "Among the accidents whose highest injury the events table records as None, in which does the narrative say the pilot or flight instructor declared an emergency?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN22LA194",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "The flight instructor declared an emergency and executed a forced landing to a park area"
+        }
+      ],
+      "records": [
+        {
+          "file": "events.csv",
+          "row": {
+            "ntsb_no": "CEN22LA194",
+            "highest_injury": "None"
+          }
+        }
+      ],
+      "note": "Twenty-three accidents have the highest injury None. Only two narratives say an emergency was declared, both by a flight instructor: CEN22LA194 (Traverse City, MI), whose highest injury is None, and CEN21LA414 (LaSalle, CO), whose highest injury is Minor, so it must not count. CEN21LA268's pilot conducted an 'off-airport emergency landing' and CEN21LA414's flight was a 'simulated off-field emergency landing', neither a declared emergency. No finding or occurrence code records a declaration."
+    },
+    {
+      "id": "NE12",
+      "type": "disambiguation",
+      "question": "Four of the five Cessna 172S accident aircraft have a Lycoming IO-360-L2A engine in the aircraft table. Which Cessna 172S accident's record gives a different engine model?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN22LA244",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT ntsb_no FROM aircraft WHERE model = '172S' AND engine.model <> 'IO-360-L2A'",
+      "note": "CEN22LA244 (Salina, KS) records the engine model IO-360-LTA, one letter apart from the IO-360-L2A of CEN21LA126, CEN21LA268, CEN21LA414 and CEN22LA194. The Piper CEN23LA026 has an IO-360-B4A, but it is not a Cessna 172S. The engine model is the nested engine.model field of aircraft.json."
+    },
+    {
+      "id": "NE13",
+      "type": "disambiguation",
+      "question": "Which operator does the aircraft table name, in its operator column, for the Air Tractor whose doing-business-as name is Crop Doctor?",
+      "expected": {
+        "entities": [
+          {
+            "name": "BAYLEE COMPANY INC",
+            "aliases": [
+              "Baylee Company"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT operator FROM aircraft WHERE operator_dba = 'Crop Doctor'",
+      "note": "CEN23LA223 (Lake Village, AR): operator BAYLEE COMPANY INC, operator_dba Crop Doctor. 'Crop Doctor' is the tempting wrong answer, as is the other crop-dusting dba name, Digger Doug's Crop Dusting Services Inc. (CEN22LA310, whose operator column is empty)."
+    },
+    {
+      "id": "NE14",
+      "type": "disambiguation",
+      "question": "Two airplanes landed on a runway with snow on it, a Cessna 172S at Urbana, Ohio and a Beech A36 at Port Alsworth, Alaska. In which accident did the airplane tip forward and to the right?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA126",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#0",
+          "quote": "it tipped forward and to the right"
+        },
+        {
+          "chunk_id": "documents/beech_a36_accidents.md#0",
+          "quote": "the airplane touchdown in an area of unplowed snow, impacted a snow berm"
+        }
+      ],
+      "note": "CEN21LA126 (Urbana, OH): the airplane struck a snowbank and tipped forward and to the right, bending the right wing tip. ANC21LA027 (Port Alsworth, AK) touched down in unplowed snow and hit a snow berm, and its nosewheel collapsed; the narrative says nothing about tipping. Both carry a snow-covered-surface finding, so the findings table cannot tell them apart."
+    },
+    {
+      "id": "NE15",
+      "type": "negation_sensitive",
+      "question": "In which accidents does the narrative, including its probable cause, say the airplane stalled, rather than only that a stall warning sounded?",
+      "expected": {
+        "entities": [
+          {
+            "name": "CEN21LA280",
+            "aliases": []
+          },
+          {
+            "name": "CEN22LA249",
+            "aliases": []
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+          "quote": "He pulled back on the controls and stalled the airplane."
+        },
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#4",
+          "quote": "which resulted in an aerodynamic stall and subsequent impact with trees"
+        }
+      ],
+      "note": "CEN21LA280 (Hayward, WI): the pilot pulled back and stalled the airplane. CEN22LA249 (Eaton Rapids, MI): the stall warning came on and the probable cause names an aerodynamic stall. CEN21LA185 (Schaumburg, IL) must not count: its stall warning horn came on, the pilot pitched down and landed, and nothing says the airplane stalled. No finding or occurrence code records a stall."
+    },
+    {
+      "id": "NE16",
+      "type": "negation_sensitive",
+      "question": "In accident CEN21LA353, were all eight bolts that secured the landing gear to the wing spar recovered and examined?",
+      "expected": {
+        "text": "No. Remnants of only three of the eight bolts were examined (they showed overstress); the five remaining bolts were not recovered, and their failure mode could not be determined."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/piper_pa_28_181_accidents.md#1",
+          "quote": "The five remaining bolts were not recovered, and their failure mode could not be determined."
+        }
+      ],
+      "note": "Eight bolts secured the gear to the wing spar; remnants of three were examined and showed overstress, the other five were never recovered. A yes drawn from 'Examination of remnants of three of the eight bolts' is wrong: the examination covered three, not all eight. Not asked, so not part of the expected answer: the probable cause blames failure of the landing gear attachment hardware for undetermined reasons."
+    },
+    {
+      "id": "NE17",
+      "type": "negation_sensitive",
+      "question": "In accident CEN21LA414, did the engine respond when the student pilot added power to break off the simulated emergency landing?",
+      "expected": {
+        "text": "No. The engine did not respond when power was added, and the flight instructor's attempt to restart it also failed."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#2",
+          "quote": "the airplane’s engine did not respond when power was added"
+        }
+      ],
+      "note": "The instructor told the student to break off the maneuver and apply power; the engine did not respond, the instructor took control, could not restart it and made a 180-degree power-off turn to a field. A yes drawn from 'apply engine power' or from the later finding of no preaccident malfunction is wrong. Not asked, so not part of the expected answer: the airplane nosed over and came to rest inverted."
+    },
+    {
+      "id": "NE18",
+      "type": "lookup",
+      "question": "About how many minutes before the partial loss of engine power did the low fuel warning light illuminate in accident CEN21LA362?",
+      "expected": {
+        "number": 5
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+          "quote": "the low fuel warning light illuminated about five minutes before the partial loss of engine power"
+        }
+      ],
+      "note": "About five minutes, after which the pilot continued the low-level aerial application maneuvers. The 150 gallons loaded before the flight and the 9 and 5 gallons of diesel added after the accident are not times; the 5 gallons is a quantity of fuel."
+    },
+    {
+      "id": "NE19",
+      "type": "lookup",
+      "question": "According to the narrative of accident CEN23LA017, to how many knots were demonstrated crosswind landings limited in the pilot's operating handbook?",
+      "expected": {
+        "number": 20
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cirrus_sr22_accidents.md#4",
+          "quote": "demonstrated crosswind landings were limited to 20 knots"
+        }
+      ],
+      "note": "20 knots is the handbook's demonstrated crosswind limit. The 31 knots (gust at the time of the accident), the 30 knots of the probable cause and the 23 knots wind speed of the events table are the conditions the pilot met, not the handbook limit."
+    },
+    {
+      "id": "NE20",
+      "type": "lookup",
+      "question": "About how many miles north of the runway was the park area where the flight instructor made the forced landing in accident CEN22LA194?",
+      "expected": {
+        "number": 1
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "documents/cessna_172s_accidents.md#3",
+          "quote": "executed a forced landing to a park area about 1 mile north of the runway"
+        }
+      ],
+      "note": "About 1 mile north of the runway; the events table's airport_distance_sm of 1 for TVC agrees. The 2.7 hours flown since the engine installation is a time, not a distance."
+    }
+  ]
+}

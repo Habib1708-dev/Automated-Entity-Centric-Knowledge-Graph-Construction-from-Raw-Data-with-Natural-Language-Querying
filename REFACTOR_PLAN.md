@@ -9960,6 +9960,53 @@ choose (about $1.6; not part of this plan).
 - **R176 done 2026-10-14; plan R175-R176 done** ($0). Next: the user decides; a third blind confirmation set
   (about $1.6, R171-R173's protocol) would measure R175 and R176 together.
 
+### Plan R177-R179: R175-R176 confirmed on a third fresh question set (accepted 2026-10-14)
+The user, 2026-10-14, after plan R175-R176: "alright proceed". The protocol is R171-R173's: a new set of 100
+questions written blind ($0), one run of the fixed agent on the five graphs reloaded from cache (about $1.6,
+asked explicitly before the first command, with its estimate), then both scores, compared with R157, R166
+and R173 (question sets differ, one run each: a difference is not attributed to the fixes), and the failures
+traced, with whether `word` and the recheck were used. After the run the questions count as seen.
+- **Steps, strictly one after another:**
+  - **R177** 20 new gold questions per dataset (`tests/gold/qa/<dataset>_qa_confirm3.json`, ids
+    FE/HE/GE/LE/NE01-20), written from the sources and the earlier gold only by writer subagents that open
+    no output, record, figure, roadmap or agent code (the lead of this session has read R157-R173's traces
+    for the analysis, so it writes no question itself); the confirm type mix; one adversarial review per
+    file; the gold-file tests extended to the third set ($0).
+  - **R178** The fixed agent (R175-R176, git e5da1c2) on the 100 questions, the five graphs reloaded from
+    cache as in R172 ($0), the run about $1.6 (asked; stop if over $2.5).
+  - **R179** Judged by meaning (two blind judges, a lead judge for disagreements), both scores, compared
+    with R157, R166 and R173, failures traced; whether `word` and the recheck fired and what followed ($0).
+
+### R177. 20 new gold questions on each of the five datasets, the third confirmation set (done 2026-10-14; $0, no run)
+- **Scope:** `tests/gold/qa/<dataset>_qa_confirm3.json`, ids FE/HE/GE/LE/NE01-20, written by Claude Fable 5.1
+  (one writer per dataset, subagents of this session) after plan R175-R176, from the source files and the
+  earlier gold only, each writer given the corpus as the pipeline chunks it (ids and verbatim text) and the
+  staged tables: the writers and the reviewers opened no `out/`, MLflow, verdict, outcome record, figure,
+  roadmap, agent or query code, so neither R173's failure analysis nor R175-R176's operations could shape
+  the questions. The lead of this session had read R157-R173's traces for the analysis, so it wrote and
+  reviewed no question itself. Type mix per file as R160's (every type at least three times; pooled:
+  multi_hop 20, aggregation 19, structured_filter 15, disambiguation 15, negation 15, lookup 16); scored by
+  code 18 / 16 / 16 / 19 / 18 of 20 (87 of 100; 43 with SQL); routes 57 exact, 43 retrieval. Each writer was
+  asked for a few questions whose answer hinges on exact wording or counting discipline (a whole word
+  against a longer word holding it, an idea worded two ways across documents, a lookalike not to count),
+  without trick questions; each re-derived its answers once. Then one independent adversarial review per
+  file (every answer re-derived, every SQL re-run with companion queries, every quote checked, labels
+  against `qa_gold.py`'s definitions, novelty by fact against every earlier question of the dataset),
+  fixing in place: furniture 3 replaced (FE03 an earlier question's shape with another reviewer and an
+  aggregation, not a join; FE10 FB22's shape with another keyword; FE13 F21/FB18's facts, an aggregation),
+  1 wording (FE07 "more than a year"), 1 note; generality 3 replaced (GE12 GD12's seminar by another clue;
+  GE16 no negated mention; GE10 an answer set made of already-asked budget lines), 1 wording (GE05), 1 note,
+  1 hard case cleared; NTSB 2 replaced (NE08 ND10 with another phase value; NE11 a fact NB34's premise
+  states), 1 reworded (NE16); lighthouses 3 replaced (LE08 LC15 with another subset and a filter, not an
+  aggregation; LE13 LC12's pair shape; LE16 no negated mention); held-out 2 replaced (HE14 HB06's
+  distinction from the other side; HE15 derivable from H03/H10 and a record filter), 2 notes, 1 aliases.
+  Doubts the reviewers left standing are in their notes (the recurring "what does supplier X quote for
+  part P" template; a weak negation label on LE17; NE15 resting on a probable cause).
+- **Verified:** `tests/test_qa_gold_files.py` extended to the third set (the per-file checks and the
+  20-question check: every type at least three times, at least 14 by code, no question asked before by
+  wording). 104 passed in the gold-file tests, ruff clean.
+- **R177 done 2026-10-14.** Next: R178, the fixed agent on the 100 questions (paid, about $1.6, asked).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -1,0 +1,294 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-fable-5-1",
+  "date": "2026-10-14",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FE01",
+      "type": "multi_hop",
+      "question": "A reviewer who works from home says a desk's work surface stays perfectly flat under the weight of their drafting equipment. How many zip ties does the cable management sub-assembly of that desk list?",
+      "expected": {"number": 5},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#3", "quote": "The work surface maintains perfect flatness under the weight of my drafting equipment."}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1064", "component_name": "Cable Management", "product_id": "P-1002"}},
+        {"file": "components.csv", "row": {"part_id": "S-1128", "part_name": "Zip Ties", "quantity": "5", "assembly_id": "A-1064"}}
+      ],
+      "sql": "SELECT c.quantity FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Cable Management' AND c.part_name = 'Zip Ties'",
+      "note": "The desk is the Malmö Desk (@architect_amy's review, #3); it is the only product with a Cable Management component (A-1064). Its four parts are 1 cable tray, 4 cable clips, 5 zip ties and 2 adhesive pads, so the answer is 5; 4 (the cable clips) and 2 (the adhesive pads) are the tempting wrong answers."
+    },
+    {
+      "id": "FE02",
+      "type": "multi_hop",
+      "question": "A reviewer put a bed in their guest room and says the guests have commented on how comfortable it is. Which suppliers offer the decorative trim of that bed's headboard?",
+      "expected": {"entities": [{"name": "Nordic Wood Industries", "aliases": ["nordic Wood Industries"]}, {"name": "Canadian Timber Products"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#5", "quote": "The bed feels solid and our guests have commented on how comfortable it is."}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1048", "component_name": "Headboard", "product_id": "P-1006"}},
+        {"file": "components.csv", "row": {"part_id": "S-1089", "part_name": "Decorative Trim", "assembly_id": "A-1048"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1089", "supplier_id": "SUP-001", "preferred_supplier": "yes"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1089", "supplier_id": "SUP-011", "preferred_supplier": "no"}}
+      ],
+      "sql": "SELECT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Linköping Bed' AND a.component_name = 'Headboard' AND c.part_name = 'Decorative Trim'",
+      "note": "The bed is the Linköping Bed (@entertainer_emma's review, #5: 'great addition to our guest room'). The Norrköping Nightstand also has a guest-bedroom review (#5), but it is not a bed and says nothing about comfort. The decorative trim S-1089 has two offers: Nordic Wood Industries (preferred, 16 days) and Canadian Timber Products (not preferred, 19 days); the question asks for every supplier, so naming only the preferred one is wrong. The mapping file spells SUP-001 'nordic Wood Industries'; the supplier table's 'Nordic Wood Industries' is the same supplier."
+    },
+    {
+      "id": "FE03",
+      "type": "multi_hop",
+      "question": "Which supplier is based in the city that reviewer @home_chef signs their reviews from?",
+      "expected": {"entities": [{"name": "American Hardware Inc"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#3", "quote": "- @home_chef (Chicago)"}
+      ],
+      "records": [
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-006", "name": "American Hardware Inc", "city": "Chicago"}}
+      ],
+      "note": "@home_chef signs all six reviews from Chicago, and the suppliers table has exactly one supplier in Chicago: American Hardware Inc (SUP-006). Chicago is the only city that appears both in a review signature and in the suppliers table; Nordic Wood Industries' Stockholm matches a product name (Stockholm Chair), not a reviewer, so it is the tempting wrong answer."
+    },
+    {
+      "id": "FE04",
+      "type": "multi_hop",
+      "question": "A reviewer who is an interior designer says a chair's back angle provides excellent lumbar support. What lead time in days does the preferred supplier quote for the support frame in that chair's back rest?",
+      "expected": {"number": 20},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#4", "quote": "the back angle provides excellent lumbar support"}
+      ],
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1038", "component_name": "Back Rest", "product_id": "P-1000"}},
+        {"file": "components.csv", "row": {"part_id": "S-1110", "part_name": "Support Frame", "assembly_id": "A-1038"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1110", "supplier_id": "SUP-002", "lead_time_days": "20", "preferred_supplier": "yes"}}
+      ],
+      "sql": "SELECT m.lead_time_days FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Stockholm Chair' AND a.component_name = 'Back Rest' AND c.part_name = 'Support Frame' AND m.preferred_supplier",
+      "note": "The chair is the Stockholm Chair (@designer_dave's second review, #4). Its back rest's support frame S-1110 is preferred from Shanghai Metal Corp at 20 days; Korean Metal Works quotes 11 days but is not preferred, so 11 is wrong. The Uppsala Sofa's frame parts (base frame, back frame, side frames) are differently named parts of another product."
+    },
+    {
+      "id": "FE05",
+      "type": "aggregation",
+      "question": "Which products have a review complaining that the surface shows fingerprints easily?",
+      "expected": {"entities": [{"name": "Gothenburg Table"}, {"name": "Jönköping Coffee Table"}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#1", "quote": "The table top also shows fingerprints very easily which is annoying for daily use."},
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#5", "quote": "the surface shows fingerprints easily and requires frequent cleaning"}
+      ],
+      "note": "Fingerprints are mentioned in exactly two reviews across the corpus: @furniture_lover92 on the Gothenburg Table (#1) and @home_chef on the Jönköping Coffee Table (#5). Reviews that praise a surface for cleaning easily (Gothenburg #0, #5) or for resisting scratches and water rings (Jönköping #0, #6) are not fingerprint complaints; the Malmö Desk's finish inconsistencies and scratches (#4) are not fingerprints either."
+    },
+    {
+      "id": "FE06",
+      "type": "aggregation",
+      "question": "How many reviews across all products are signed from Portland?",
+      "expected": {"number": 12},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#2", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#6", "quote": "- @woodworker_amy (Portland)"},
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6", "quote": "- @woodworker_amy (Portland)"},
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#3", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "- @woodworker_amy (Portland)"},
+        {"chunk_id": "product_reviews/malmo_desk_reviews.md#1", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#3", "quote": "- @woodworker_amy (Portland)"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#3", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#1", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#4", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#3", "quote": "- @designer_dave (Portland)"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#5", "quote": "- @designer_dave (Portland)"}
+      ],
+      "note": "Two handles sign from Portland: @designer_dave with 8 reviews (two of them of the Stockholm Chair, #1 and #4, which both count) and @woodworker_amy with 4, so 12 reviews. The question counts reviews, not handles (2) and not products: @designer_dave's two chair reviews make 12, and counting him once per product would give 11."
+    },
+    {
+      "id": "FE07",
+      "type": "aggregation",
+      "question": "How many reviews across all products say the reviewer has had the product for more than a year?",
+      "expected": {"number": 5},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#6", "quote": "We've had our Jönköping Coffee Table for over a year now"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#6", "quote": "We've had our Linköping Bed for over a year now"},
+        {"chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#6", "quote": "We've had our Norrköping Nightstands for over a year now"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#6", "quote": "We've had our Uppsala Sofa for over a year now"},
+        {"chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#6", "quote": "We've had our Västerås Bookshelf for over a year now"}
+      ],
+      "note": "Five reviews say 'for over a year now': the last review (#6) of the Jönköping Coffee Table, Linköping Bed, Norrköping Nightstand, Uppsala Sofa and Västerås Bookshelf. The Gothenburg Table's #5 says the family has used it 'for the past year', which is one year, not more than a year, so it does not count; counting it gives 6 (the question says 'more than a year' so that this reading is excluded). Shorter periods (6 months for the Gothenburg Table #0, Uppsala Sofa #1 and Örebro Lamp #6; 3 months; 2 months; a few weeks) do not count, and the '20 years of experience' (Linköping Bed #3) and 'over the years' (Västerås Bookshelf #3) are not ownership periods."
+    },
+    {
+      "id": "FE08",
+      "type": "aggregation",
+      "question": "How many reviews mention the Allen key?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/stockholm_chair_reviews.md#2", "quote": "no tools needed except the little allen key they give you"}
+      ],
+      "note": "Only @interior_whiz's Stockholm Chair review (#2) mentions the Allen key. The assemblies table lists an Allen Key component for eight products, but those are records, not reviews, so 8 is wrong; the Gothenburg Table's 'the included tools were adequate' (#5) and the Helsingborg Dresser's 'have the right tools' (#6) name no Allen key."
+    },
+    {
+      "id": "FE09",
+      "type": "structured_filter",
+      "question": "Which suppliers quote a lead time of exactly 30 days for at least one part?",
+      "expected": {"entities": [{"name": "Canadian Timber Products"}, {"name": "Singapore Adhesive Tech"}, {"name": "Taiwan Precision Parts"}]},
+      "route": "exact",
+      "records": [
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1160", "supplier_id": "SUP-011", "lead_time_days": "30"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1129", "supplier_id": "SUP-019", "lead_time_days": "30"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1086", "supplier_id": "SUP-014", "lead_time_days": "30"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1111", "supplier_id": "SUP-014", "lead_time_days": "30"}}
+      ],
+      "sql": "SELECT DISTINCT s.name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE m.lead_time_days = 30",
+      "note": "Four offers take 30 days, the longest lead time in the data: Taiwan Precision Parts for two screw parts (S-1086, S-1111), Singapore Adhesive Tech for the adhesive pads S-1129 and Canadian Timber Products for the wooden slat S-1160. Korean Metal Works' longest offers are 29 days (S-1078, S-1090, S-1101), so it does not count; Canadian Timber Products and Taiwan Precision Parts also have 29-day offers but count for their 30-day ones."
+    },
+    {
+      "id": "FE10",
+      "type": "structured_filter",
+      "question": "Which suppliers have a contact email address that starts with 'sales@'?",
+      "expected": {"entities": [{"name": "Shanghai Metal Corp"}, {"name": "Brazilian Foam Solutions"}, {"name": "Cape Town Adhesives"}, {"name": "Canadian Timber Products"}]},
+      "route": "exact",
+      "records": [
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-002", "name": "Shanghai Metal Corp", "contact_email": "sales@shanghaimetal.com"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-005", "name": "Brazilian Foam Solutions", "contact_email": "sales@brazilfoam.com.br"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-009", "name": "Cape Town Adhesives", "contact_email": "sales@capetownadhesives.co.za"}},
+        {"file": "suppliers.csv", "row": {"supplier_id": "SUP-011", "name": "Canadian Timber Products", "contact_email": "sales@canadiantimber.ca"}}
+      ],
+      "sql": "SELECT name FROM suppliers WHERE contact_email LIKE 'sales@%'",
+      "note": "The filter is the contact_email field of the supplier records: four of the twenty addresses start with 'sales@' (Shanghai Metal Corp, Brazilian Foam Solutions, Cape Town Adhesives, Canadian Timber Products). The lookalikes do not count: 'ventas@mexhardware.mx' (Mexican Hardware Solutions; ventas is Spanish for sales but the address does not start with 'sales@'), 'orders@' (Sydney Glass Works, Taiwan Precision Parts), 'support@' (American Hardware Inc) and the 'info@' and 'contact@' mailboxes of the rest."
+    },
+    {
+      "id": "FE11",
+      "type": "structured_filter",
+      "question": "Which reviewers signed from Denver reviewed a product priced over $400?",
+      "expected": {"entities": [{"name": "@familyfirst", "aliases": ["familyfirst"]}]},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#5", "quote": "- @familyfirst (Denver)"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#6", "quote": "- @familyfirst (Denver)"},
+        {"chunk_id": "product_reviews/uppsala_sofa_reviews.md#5", "quote": "- @familyfirst (Denver)"}
+      ],
+      "records": [
+        {"file": "products.csv", "row": {"product_id": "P-1001", "product_name": "Gothenburg Table", "price": "$489"}},
+        {"file": "products.csv", "row": {"product_id": "P-1006", "product_name": "Linköping Bed", "price": "$790"}},
+        {"file": "products.csv", "row": {"product_id": "P-1003", "product_name": "Uppsala Sofa", "price": "$1289"}}
+      ],
+      "note": "Three products cost over $400: Gothenburg Table ($489), Linköping Bed ($790) and Uppsala Sofa ($1289). Two handles sign from Denver: @familyfirst, who reviewed all three (and three cheaper products: the Helsingborg Dresser, Jönköping Coffee Table and Västerås Bookshelf), and @tallguy87, whose only review is of the Malmö Desk ($289), so he does not count. @diydan, who also reviewed the Gothenburg Table, signs from Austin."
+    },
+    {
+      "id": "FE12",
+      "type": "disambiguation",
+      "question": "What lead time in days does Canadian Timber Products quote for the drawer back of the Malmö Desk's drawer unit?",
+      "expected": {"number": 10},
+      "route": "exact",
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1062", "component_name": "Drawer Unit", "product_id": "P-1002"}},
+        {"file": "components.csv", "row": {"sub_assembly_name": "drawer_unit_subassembly", "part_name": "Drawer Back", "part_id": "S-1077", "assembly_id": "A-1062"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1077", "supplier_id": "SUP-011", "lead_time_days": "10", "preferred_supplier": "no"}}
+      ],
+      "sql": "SELECT m.lead_time_days FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Drawer Unit' AND c.part_name = 'Drawer Back' AND s.name = 'Canadian Timber Products'",
+      "note": "Two parts are named Drawer Back, and Canadian Timber Products offers both: the desk's S-1077 in 10 days and the Helsingborg Dresser's S-1084 in 21 days. Only the desk's counts. The question names the supplier, which is not the preferred one: Nordic Wood Industries, preferred, quotes 9 days for S-1077, so 9 is wrong."
+    },
+    {
+      "id": "FE13",
+      "type": "disambiguation",
+      "question": "Which reviewer handle describes themselves as a furniture maker?",
+      "expected": {"entities": [{"name": "@woodworker_amy", "aliases": ["woodworker_amy"]}]},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "As a furniture maker with 20 years of experience"},
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "- @woodworker_amy (Portland)"}
+      ],
+      "note": "Only @woodworker_amy's Linköping Bed review (#3) opens 'As a furniture maker'. The lookalikes to keep apart: @designer_dave calls himself a furniture designer (Jönköping Coffee Table #3) and an interior designer (Stockholm Chair #4, Uppsala Sofa #3), and @architect_amy, the other handle ending in _amy, is a professional architect (Malmö Desk #3). @woodworker_amy also calls herself a furniture restorer (Norrköping Nightstand #3), which is the same handle and changes nothing."
+    },
+    {
+      "id": "FE14",
+      "type": "disambiguation",
+      "question": "What unit cost in dollars does Italian Textile Design quote for the batting of the Uppsala Sofa's seat cushion?",
+      "expected": {"number": 10.57},
+      "route": "exact",
+      "records": [
+        {"file": "assemblies.csv", "row": {"assembly_id": "A-1010", "component_name": "Seat Cushion", "product_id": "P-1003"}},
+        {"file": "components.csv", "row": {"sub_assembly_name": "seat_cushion_subassembly", "part_name": "Batting", "part_id": "S-1100", "assembly_id": "A-1010"}},
+        {"file": "part_supplier_mapping.csv", "row": {"part_id": "S-1100", "supplier_id": "SUP-013", "unit_cost": "$10.57", "preferred_supplier": "no"}}
+      ],
+      "sql": "SELECT CAST(replace(m.unit_cost, '$', '') AS DOUBLE) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Seat Cushion' AND c.part_name = 'Batting' AND s.name = 'Italian Textile Design'",
+      "note": "The sofa has two parts named Batting, and Italian Textile Design offers both without being preferred for either: the seat cushion's S-1100 at $10.57 and the back cushion's S-1115 at $35.19. Only the seat cushion's counts. Bangalore Textiles Ltd, the preferred supplier, asks $26.03 for S-1100, which is the wrong supplier here."
+    },
+    {
+      "id": "FE15",
+      "type": "negation_sensitive",
+      "question": "How many Gothenburg Table reviews say the surface resists scratches?",
+      "expected": {"number": 1},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#0", "quote": "The surface is easy to clean and surprisingly resistant to scratches."}
+      ],
+      "note": "Only @akollegger (#0) says the surface resists scratches. @woodworker_amy (#6) says the opposite, 'it scratches a bit more easily than I'd like', and does not count. @familyfirst (#5) says the surface 'has resisted stains from art projects and spilled drinks', which is about stains, not scratches, so counting it gives a wrong 2. The Jönköping Coffee Table's scratch-resistance praise belongs to another product."
+    },
+    {
+      "id": "FE16",
+      "type": "negation_sensitive",
+      "question": "How many Örebro Lamp reviews say the dimmer is smooth?",
+      "expected": {"number": 2},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#0", "quote": "the dimmer function is smooth and responsive"},
+        {"chunk_id": "product_reviews/orebro_lamp_reviews.md#6", "quote": "The dimmer function has been reliable and smooth."}
+      ],
+      "note": "@scandi_lover (#0) and @entertainer_emma (#6) call the dimmer smooth. Three other reviews mention the dimmer without saying it is smooth and do not count: @petite_patty (#5) says it 'works well though it's a bit stiff to turn', the opposite; @angry_customer (#4) calls the dimmer switch finicky; @interior_whiz (#2) says it is perfect for mood lighting. Counting every dimmer mention gives 5, which is wrong."
+    },
+    {
+      "id": "FE17",
+      "type": "negation_sensitive",
+      "question": "How many Helsingborg Dresser reviews say the screws fit where they were supposed to?",
+      "expected": {"number": 0},
+      "route": "exact",
+      "chunks": [
+        {"chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2", "quote": "half the screws didn't fit where they were supposed to"}
+      ],
+      "note": "The only review that mentions how the screws fit denies it: @college_student (#2) says half the screws did not fit and used random screws instead. A negated mention must not count, so the answer is 0; reading the mention as a match gives a wrong 1. @woodworker_amy (#6) calls the assembly doable but says nothing about the screws."
+    },
+    {
+      "id": "FE18",
+      "type": "lookup",
+      "question": "What thickness in millimetres does a reviewer give for the Linköping Bed's slats?",
+      "expected": {"number": 8},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/linkoping_bed_reviews.md#3", "quote": "appropriate thickness (8mm)"}
+      ],
+      "note": "@woodworker_amy's review (#3) gives the slat thickness as 8mm. The 7cm in the same sentence is the slat spacing, not the thickness, and the 25kg is the drawer slides' load rating; 20 is the reviewer's years of experience."
+    },
+    {
+      "id": "FE19",
+      "type": "lookup",
+      "question": "According to a reviewer, how many people does the Gothenburg Table seat comfortably?",
+      "expected": {"text": "Six to eight people."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/gothenburg_table_reviews.md#3", "quote": "The dimensions (180cm x 90cm) are perfect for seating 6-8 people comfortably."}
+      ],
+      "note": "@home_chef's review (#3) says the table seats 6-8 people comfortably. The 'family of four' in @familyfirst's review (#5) is the size of the household, not the seating capacity, and the Uppsala Sofa's 3-4 people belongs to another product. An answer of '6 to 8' or '6-8 people' is right."
+    },
+    {
+      "id": "FE20",
+      "type": "lookup",
+      "question": "What does @artsy_andy say caused the marks on the Jönköping Coffee Table's surface?",
+      "expected": {"text": "Setting down a laptop on it."},
+      "route": "retrieval",
+      "chunks": [
+        {"chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#2", "quote": "the surface scratches pretty easily - already got a few marks just from setting down my laptop"}
+      ],
+      "note": "@artsy_andy (#2) got the marks just from setting down a laptop. Other causes of marks in the corpus belong to other products or reviewers: the Norrköping Nightstand's marks 'from normal use' (@angry_customer) and the Malmö Desk's scratches present out of the box."
+    }
+  ]
+}
