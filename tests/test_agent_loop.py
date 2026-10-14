@@ -695,11 +695,17 @@ CAPS = ToolCaps(
     nodes=1, relations=1, chunks=1, claims=1, rows=1, value_chars=1, names=1, document_chunks=1, matches=1,
     text_rrf_k=0,
 )  # fmt: skip
-# what a variant reads of the parts besides the agent's tools (R184: the semantic filter's model, stores and
-# settings); the constructors keep them, so stand-ins do
-VARIANT_PARTS = SimpleNamespace(
-    settings=Settings(), llm=object(), store=object(), units=object(), text=object(), embedder=object()
-)
+
+
+@pytest.fixture
+def variant_parts(tmp_path) -> SimpleNamespace:
+    """What a variant reads of the parts besides the agent's tools: the semantic filter's model, stores and
+    settings (R184), which its constructors only keep, and the staged tables the SQL tool loads (R188)."""
+    (tmp_path / "kettles.csv").write_text("id\nK1\n", encoding="utf-8")
+    return SimpleNamespace(
+        settings=Settings(), llm=object(), store=object(), units=object(), text=object(), embedder=object(),
+        staging=tmp_path,
+    )  # fmt: skip
 
 
 def base_tools() -> list:
@@ -718,10 +724,10 @@ def test_the_versioned_tool_list_is_the_list_the_agent_is_built_with():
 
 
 @pytest.mark.parametrize("variant", AGENT_VARIANTS, ids=lambda v: v.name)
-def test_every_agent_variant_is_registered_with_the_tool_list_it_is_built_with(variant):
+def test_every_agent_variant_is_registered_with_the_tool_list_it_is_built_with(variant, variant_parts):
     """R183: a variant's tools, made from the agent's, are the classes its spec versions, in order; its
     params are the agent's and its own, and its prompt the agent's."""
-    tools = variant.tools(base_tools(), VARIANT_PARTS)
+    tools = variant.tools(base_tools(), variant_parts)
     assert [type(t) for t in tools] == list(variant.tool_types)
     params = system_params(Settings(), variant.name)
     assert params["agent_tools_prompt_version"] == prompt_version(tool_list(variant.tool_types))

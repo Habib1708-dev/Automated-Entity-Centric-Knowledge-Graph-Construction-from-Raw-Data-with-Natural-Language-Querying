@@ -10349,6 +10349,41 @@ reads over tables loaded before and cannot be undone by a query, so the SQL chec
   lead (Opus 5.5) are one model family; the lead knew the arm for the one split.
 - **R187 done 2026-10-14; experiment A done** ($1.913 in all). Next: R188, `query_sql` and `agent_sql`.
 
+### R188. The SQL tool `query_sql` and the variant `agent_sql` (done 2026-10-14; one dev run, $0.0038)
+- **Scope:** `agent/tables.py`: `DuckDBTables._load`, the one place a staged CSV becomes a view (behaviour
+  unchanged; the hook a subclass overrides). `agent/sql_tables.py` (new): `LockedTables(DuckDBTables)` loads
+  each staged CSV as an in-memory table, then sets `enable_external_access=false` and
+  `lock_configuration=true`; `select(statement, limit)` returns the first rows, the column names and the
+  total (`count(*)` over the statement as a subquery), under the lock, with a timer that interrupts a query
+  past `qa_cypher_timeout_s` (the timeout `query_records` runs under). `agent/sql_check.py` (new):
+  `check_sql` reads the statement with DuckDB's own parser (`json_serialize_sql` on an empty connection of
+  its own): a parse refusal (anything but SELECT, a syntax error) is answered with the parser's reason; more
+  than one statement, a table function, a name in another schema or catalog, and a table that is neither
+  staged nor a `WITH` subquery of the statement are refused. `agent/sql_tool.py` (new): `QuerySql` (`sql`),
+  a trailing semicolon dropped, the check, the locked run, the typed tools' `QueryResult` with the values cut
+  as they cut them, the total, a note for a cut list ("use LIMIT and OFFSET ... or count and aggregate in
+  it") and an id from the statement's hash. `pipeline/qa_systems.py`: the variant `agent_sql`, the agent's
+  tools with `query_sql` in the place of `query_tables` (same count; `schema` and `query_records`
+  unchanged; the shared prompt's `measure`/`where` line still reads for `query_records`).
+- **Not here:** any change to `agent` (params and version hashes byte-identical to R183's); a SQL path to the
+  graph's records.
+- **Verified:** 16 tests (`tests/test_agent_sql.py`, a real in-memory DuckDB on two staged CSVs, one in a
+  folder): a join with a group and count, a `WITH` subquery with `regexp_extract_all` and a distinct count,
+  a cut list's note and an empty result's, the id equal with and without a trailing semicolon; refused with
+  their reasons: two statements, COPY, ATTACH, PRAGMA, a syntax error, `read_csv`, a file named as a table,
+  `information_schema`, an unknown table; accepted: `main."shop/kettles"`, a `WITH` name; the locked store
+  refuses a file read even for a statement that skipped the check and reports `enable_external_access` off;
+  a query past 0.05 s is stopped and said so, and the connection answers after; no dataset word in what the
+  model reads. R183's variant test covers `agent_sql` (its tools built over a staged folder). 1692 passed,
+  ruff clean.
+- **The dev run** (R135's form): `QA_MODEL=gemini-3.5-flash-lite kg --preset dev qa <GB12> --system agent_sql
+  --out out/r188_dev_generality` on the generality graph as loaded (digest f79f9411ea81), MLflow `96541c1a`
+  (`kgbuilder-dev`): $0.003776, right (34); the run `qa_agent_sql` and `answers_agent_sql.jsonl` as designed.
+  The model answered through `query_records` (generality's records, which R166 found its agent prefers to its
+  tables), so `query_sql` has not yet met the real model; the table-heavy datasets of R190 will show whether
+  it writes valid DuckDB SQL.
+- **R188 done 2026-10-14.** Next: R189, suite B.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

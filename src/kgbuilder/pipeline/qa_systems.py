@@ -26,6 +26,9 @@ from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
 from ..agent.recheck import SingleSearchRecheck
 from ..agent.semantic_filter import FilterOptions, FilterPassages, PassageJudge
+from ..agent.sql_tables import LockedTables
+from ..agent.sql_tool import QuerySql
+from ..agent.structured_tools import QueryTables
 from ..agent.system import AGENT, AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from ..agent.tables import DuckDBTables
 from ..agent.text_reader import Neo4jTextReader, TextReader
@@ -353,8 +356,24 @@ def _filter_params(s: Settings) -> dict[str, object]:
     }
 
 
+def _swapped(types: tuple[type[Tool], ...], old: type[Tool], new: type[Tool]) -> tuple[type[Tool], ...]:
+    """`types` with `new` in the place of `old`, so the variant has as many tools as the agent."""
+    return tuple(new if t is old else t for t in types)
+
+
+def _with_sql(tools: list[Tool], parts: QAParts) -> list[Tool]:
+    """The agent's tools with `query_sql` in the place of `query_tables` (R188): one checked SELECT over the
+    staged tables, locked, under the timeout `query_records` runs under."""
+    s = parts.settings
+    if parts.staging is None:
+        raise ConfigurationError("the SQL tool needs the staged tables of the parts")
+    tool = QuerySql(LockedTables(parts.staging, s.qa_cypher_timeout_s), s.agent_rows, s.agent_value_chars)
+    return [tool if isinstance(t, QueryTables) else t for t in tools]
+
+
 # the agent itself; an experiment's variant is registered beside it, never in its place. Experiment A of plan
-# R183-R191: the agent with the semantic filter, which the recheck names among the wider tools
+# R183-R191: the agent with the semantic filter, which the recheck names among the wider tools; experiment B:
+# the agent with SQL in the place of the typed table query
 AGENT_VARIANTS = (
     AgentVariant(AGENT, _same_tools, AGENT_TOOL_TYPES, _WIDER),
     AgentVariant(
@@ -368,6 +387,7 @@ AGENT_VARIANTS = (
         },
         _filter_params,
     ),
+    AgentVariant("agent_sql", _with_sql, _swapped(AGENT_TOOL_TYPES, QueryTables, QuerySql), _WIDER),
 )
 
 

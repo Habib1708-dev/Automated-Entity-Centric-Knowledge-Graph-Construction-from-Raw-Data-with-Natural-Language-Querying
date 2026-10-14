@@ -68,8 +68,12 @@ class DuckDBTables:
         # reading the top level only left such a dataset with no table at all (found in R164)
         names = [_table_name(path, Path(staging)) for path in sorted(Path(staging).rglob("*.csv"))]
         for name in names:
-            self._con.read_csv(str(Path(staging) / f"{name}.csv"), header=True).create_view(name)
+            self._load(name, Path(staging) / f"{name}.csv")
         self._tables = [self._describe(name) for name in names]
+
+    def _load(self, name: str, path: Path) -> None:
+        """One staged CSV under its table name: a view, which each query reads from the file again."""
+        self._con.read_csv(str(path), header=True).create_view(name)
 
     def tables(self) -> list[TableInfo]:
         return self._tables
