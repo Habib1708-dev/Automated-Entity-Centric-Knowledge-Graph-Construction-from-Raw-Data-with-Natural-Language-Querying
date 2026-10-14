@@ -1,0 +1,89 @@
+{
+ "step": "R181: the agent (git e5da1c2's, unchanged since) on the 20 failures of R180 at qa_thinking low and medium, paired",
+ "approved": "the user, 2026-10-14: 'Yes, both arms (~$1.4)' to the question naming the four reloads, the 8 kg qa commands, the estimate and the $2.5 stop",
+ "git_sha": "f763197-dirty (only .claude/settings.json differed)",
+ "commands": [
+  "QA_THINKING=<low|medium> kg --preset <ntsb|lighthouses|quality|heldout> qa tests/gold/r180/<dataset>_failures.json --system agent --out out/r181_<dataset>_<low|medium>",
+  "reloads ($0, every LLM answer from the cache): R178's recipe into out/r181_<dataset> from out/r165_<dataset>_build (NTSB as loaded); each arm's --out folder a copy of it"
+ ],
+ "graph_digests_equal_r178": {
+  "ntsb": "c7f20fa9c187",
+  "lighthouses": "62573881a3c6",
+  "furniture": "392a170ecc10",
+  "heldout": "bc7c5a1efe3d"
+ },
+ "runs": {
+  "ntsb": {
+   "low": {
+    "run": "9d28544e7be7447ca739f83c8299b5f9",
+    "cost_usd": 0.030886,
+    "thinking_tokens": 0,
+    "exact": "0/2"
+   },
+   "medium": {
+    "run": "db5ebc7a3c47435cb51c416952e76abd",
+    "cost_usd": 0.047168,
+    "thinking_tokens": 1966,
+    "exact": "0/2"
+   }
+  },
+  "lighthouses": {
+   "low": {
+    "run": "04a0081a48be4f8ab3c7f3b0ba4becbe",
+    "cost_usd": 0.10892,
+    "thinking_tokens": 0,
+    "exact": "3/5"
+   },
+   "medium": {
+    "run": "4e682edf7ba643be97b7387942fa98ef",
+    "cost_usd": 0.132791,
+    "thinking_tokens": 3739,
+    "exact": "3/5"
+   }
+  },
+  "furniture": {
+   "low": {
+    "run": "a8e251bd77ce47db9cbd88b1a31f28a1",
+    "cost_usd": 0.148351,
+    "thinking_tokens": 0,
+    "exact": "2/7"
+   },
+   "medium": {
+    "run": "f688b6299be04298a40cd2f2f90d6ece",
+    "cost_usd": 0.349243,
+    "thinking_tokens": 14417,
+    "exact": "6/7"
+   }
+  },
+  "heldout": {
+   "low": {
+    "run": "3c0dcb79b09e44928a487926fd7eeb8c",
+    "cost_usd": 0.046827,
+    "thinking_tokens": 0,
+    "exact": "3/6"
+   },
+   "medium": {
+    "run": "233638d69f474b1fa855e1a42aa4382c",
+    "cost_usd": 0.378684,
+    "thinking_tokens": 16774,
+    "exact": "5/6"
+   }
+  }
+ },
+ "exact_pooled": {
+  "low": "8/20",
+  "medium": "14/20"
+ },
+ "cost_usd": {
+  "low": 0.334984,
+  "medium": 0.907886,
+  "total": 1.24287
+ },
+ "low_from_cache": [
+  "FE12",
+  "FE16",
+  "HE04",
+  "HE06",
+  "HE07"
+ ]
+}

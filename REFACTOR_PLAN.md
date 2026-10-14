@@ -10121,6 +10121,24 @@ as much as the level's, and the questions answered right before are not re-asked
   meaning, read from their gold files, over the same corpus.
 - **R180 done 2026-10-14.** Next: R181, the paired run (paid, asked).
 
+### R181. The agent at thinking low and medium on the 20 failures (done 2026-10-14; $1.243)
+- **Asked and approved:** the user, "Yes, both arms (~$1.4)", to the question naming the four reloads, the
+  8 `kg qa` commands, the estimate and the stop at $2.5.
+- **Runs** (`tests/gold/r181/runs.json`, git f763197, the agent of e5da1c2): NTSB on the graph as loaded;
+  lighthouses, furniture and held-out reloaded from cache by R178's recipe into `out/r181_<dataset>` ($0:
+  triples and mentions byte-identical to `out/r165_<dataset>_build`, every digest equal to R178's); each
+  arm's `--out` a copy of that folder. Low's five R179 answers (FE12, FE16, HE04-HE07) came from the cache,
+  equal to R178's.
+- **Exact match** (all 20 are scored by code): **low 8/20 ($0.335), medium 14/20 ($0.908)**. Medium right
+  where low is wrong: FB14 (5 handles for 1), FB38 (4 products for 1), FE12 (10 for 21: the desk's
+  Drawer Back), FE16 (2 for 1), HE04 (both recalls for 1), HE07 (7 for 8); low right where medium is
+  wrong: none. Right at both (8: the later fixes at work, or chance): LB09, LC05, LC07, FB10, FC05, HB41,
+  HC05, HD05. Wrong at both (6): NC11, ND11, LC08, FB18 (other wordings of an idea), LB11 (10 for 13),
+  HE06 (8 for 10, low 7). Medium ran longer: furniture 7.4 turns and 6.4 calls a question against 5.4 and
+  4.3, held-out 6.8 and 6.0 against 4.0 and 3.0; about 1,800 thinking tokens a question (36,896 in all),
+  low 0. Medium's furniture citations: 20 of 23 quotes faithful (low 17/17), traced in R182.
+- **R181 done 2026-10-14.** Next: R182, judged by meaning and paired ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
