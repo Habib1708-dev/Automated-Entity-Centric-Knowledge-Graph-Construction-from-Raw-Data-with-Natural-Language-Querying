@@ -16,8 +16,10 @@ one of this loop's tool names (`step_model`, R138), and an answer with nothing i
 as that turn's result, with the tools still open (R138). An answer that is not empty but leaves out the
 form its reply declares (`asks`: things, or a number) is written back once the same way (R147), and only
 while a turn is left (on the last turn it stands as the answer); neither send-back happens with the tools
-closed, and each uses a turn, so the loop cannot spin. The trace times the model's calls and the whole loop
-with `timer`, kept apart from the timeout's `clock` (R142).
+closed, and each uses a turn, so the loop cannot spin. A set answer resting on one word search is written
+back once the same way when the loop holds a `recheck` rule (R176, recheck.py), after the form check, so an
+answer may be sent back for its form and then for its search, two turns at most. The trace times the
+model's calls and the whole loop with `timer`, kept apart from the timeout's `clock` (R142).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
 """
@@ -44,6 +46,7 @@ from .prompt import (
     tool_list,
     turn_text,
 )  # fmt: skip
+from .recheck import SingleSearchRecheck
 from .tool import Tool
 
 
@@ -80,6 +83,7 @@ class _State:
     turn: int = 0
     emptied: bool = False  # an empty answer was written back (once per question)
     reformed: bool = False  # an answer missing its declared form was written back (once per question, R147)
+    rechecked: bool = False  # a set answer resting on one search was written back (once per question, R176)
     timed: float = 0.0  # the timer's reading when the loop began (R142)
     llm_s: float = 0.0  # seconds spent in the model's calls (R142)
 
@@ -89,11 +93,13 @@ class _State:
 
 class AgentLoop:
     """Answers one question by tool calls under `limits`; `clock` (the timeout's) and `timer` (the trace's
-    latencies) are injected so both can be tested."""
+    latencies) are injected so both can be tested; `recheck` (R176) is the rule that sends a set answer
+    resting on one search back, or None for a loop that never does."""
 
     def __init__(
         self, tools: list[Tool], llm: LLMClient, model: str, temperature: float, limits: AgentLimits,
         clock: Callable[[], float] = time.monotonic, timer: Callable[[], float] = time.perf_counter,
+        recheck: SingleSearchRecheck | None = None,
     ):  # fmt: skip
         self._tools = {tool.name: tool for tool in tools}
         self._tool_text = tool_list(tools)
@@ -104,6 +110,7 @@ class AgentLoop:
         self._limits = limits
         self._clock = clock
         self._timer = timer
+        self._recheck = recheck
 
     def run(self, question: str) -> AgentRun:
         """The answer to `question`. Raises `LLMResponseError` when the model fails; a tool's database error
@@ -128,6 +135,14 @@ class AgentLoop:
             if step.action == "answer" and not step.is_empty() and step.misses_form() and resend:
                 state.reformed = True
                 state.turns.append(sent_back_text(state.turn, form_answer(step)))
+                continue
+            # R176: after the form check, so a reformed answer is still rechecked; once, and only while a
+            # turn is left, for the reasons R147's send-back has
+            rule = self._recheck if step.action == "answer" and not state.rechecked else None
+            search = rule.applies(step, state.calls) if rule and state.turn < self._limits.turns else None
+            if search is not None and rule is not None:
+                state.rechecked = True
+                state.turns.append(sent_back_text(state.turn, rule.message(search)))
                 continue
             if step.action == "answer":
                 return self._finish(question, state, step, "answer")
@@ -186,7 +201,7 @@ class AgentLoop:
         trace = AgentTrace(
             calls=state.calls, turns=state.turn, stopped=stop, prompt_chars=state.prompt_chars,
             cited=checked.kept, dropped=checked.unknown, retried=retried, emptied=state.emptied,
-            reformed=state.reformed, asks=step.asks,
+            reformed=state.reformed, rechecked=state.rechecked, asks=step.asks,
             llm_ms=round(state.llm_s * 1000, 1), wall_ms=round((self._timer() - state.timed) * 1000, 1),
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)

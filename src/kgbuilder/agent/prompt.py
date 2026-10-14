@@ -15,8 +15,10 @@ R147: the answer-form rule and the answer fields' descriptions are the reader's 
 in here; the reply declares the form the question asks for (`asks`, required in `step_model`), and the
 loop sends an answer back once when it leaves that form's field empty (`AgentStep.misses_form`,
 `FORM_ANSWER`). R163: the shared rule, the fields and `asks` name several years, a month alone and a time of
-day as things, and a date, a day of a month with or without its year, as a statement.
-Not here: the loop and its caps (loop.py), the citation check (citations.py).
+day as things, and a date, a day of a month with or without its year, as a statement. R176: the text a set
+answer resting on one word search is sent back with (`RECHECK_ANSWER`), rendered by recheck.py.
+Not here: the loop and its caps (loop.py), the citation check (citations.py), when a recheck is sent
+(recheck.py).
 """
 
 import json
@@ -136,6 +138,19 @@ FORM_ANSWER = (
     "Your answer says the question asks for {asks} but leaves `{field}` empty; its text was "
     '"{text}"; answer again with the answer in `{field}`, keeping `text` only to add to it. If the results '
     "above do not give it, or the answer is that there are none (`entities` []), send the same answer again."
+)
+
+# Written back, once, as the result of a set answer that rests on one word search (R176, recheck.py): the
+# search tool finds the words given, not other wordings of the idea (its description says so), and R173's
+# ND11, R166's LC08 and R157's FB38 and HB41 each took one such search as complete. The message names the
+# search and its arguments, so the model sees what it searched, and the tools that look further. The way out
+# is the same answer again, which then stands (once per question), so a complete search is never forced to
+# find more. Code decides when it is sent (`SingleSearchRecheck.applies`); the rule needs no wording in
+# PROMPT.
+RECHECK_ANSWER = (
+    "Your answer rests on one {search} search ({arguments}), which finds those words only; the text may "
+    "word the same idea otherwise. Search another wording, or use {wider}, then answer; if that search is "
+    "complete, send the same answer again."
 )
 
 # What `asks` means, as the reply schema writes it (R147); "call" replies carry it too, since it is required.

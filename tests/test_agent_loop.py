@@ -34,12 +34,14 @@ from kgbuilder.agent.prompt import (
     EMPTY_ANSWER,
     FORM_ANSWER,
     PROMPT,
+    RECHECK_ANSWER,
     AgentCitation,
     AgentStep,
     form_answer,
     step_model,
     tool_list,
 )
+from kgbuilder.agent.recheck import SingleSearchRecheck
 from kgbuilder.agent.results import (
     ChunksResult,
     ChunkText,
@@ -122,11 +124,25 @@ class Script:
         return self._steps.pop(0) if len(self._steps) > 1 else self._steps[0]
 
 
-def loop(script: Script, limits: AgentLimits = LIMITS, clock=None, tools=None, timer=None) -> AgentLoop:
+def loop(
+    script: Script, limits: AgentLimits = LIMITS, clock=None, tools=None, timer=None, recheck=None
+) -> AgentLoop:
     kwargs = {"clock": clock} if clock else {}
     if timer:
         kwargs["timer"] = timer
-    return AgentLoop(tools or [FakeFind(), FakeRead()], ScriptedLLM(script), "m", 0.0, limits, **kwargs)
+    return AgentLoop(
+        tools or [FakeFind(), FakeRead()], ScriptedLLM(script), "m", 0.0, limits, recheck=recheck, **kwargs
+    )
+
+
+# R176: the fake "read" stands for the word search, the fake "find" for a tool that looks further
+RECHECK = SingleSearchRecheck("read", ("find",))
+
+
+def things(*cited: str, entities=("It",), asks="things") -> AgentStep:
+    return AgentStep(
+        action="answer", asks=asks, entities=list(entities), citations=[AgentCitation(id=i) for i in cited]
+    )
 
 
 # --- calls and refusals ------------------------------------------------------------------------------
@@ -254,6 +270,70 @@ def test_a_none_answer_is_sent_back_once_with_a_way_out_and_then_stands():
     exit_ = "the answer is that there are none (`entities` []), send the same answer again"
     assert exit_ in script.prompts[1]
     assert (run.trace.reformed, run.trace.stopped, run.answer.entities) == (True, "answer", [])
+
+
+# --- the single-search recheck (R176) ---------------------------------------------------------------
+
+
+def test_a_set_answer_resting_on_one_search_is_sent_back_once_with_the_tools_open():
+    """ND11 answered after one find_passages call with nine calls left; the answer is sent back once, naming
+    the search and the tools that look further, and the same answer sent again stands."""
+    script = Script(call("read", '{"ref": "x"}'), things("d.md#0"), things("d.md#0"))
+    run = loop(script, recheck=RECHECK).run("Which things?")
+    sent = RECHECK_ANSWER.format(search="read", arguments='{"ref": "x"}', wider="find")
+    assert sent in script.prompts[2] and "<tools>" in script.prompts[2]
+    assert 'one read search ({"ref": "x"})' in sent and "or use find, then answer" in sent
+    assert (run.trace.rechecked, run.trace.turns, run.trace.stopped) == (True, 3, "answer")
+    assert run.answer.entities == ["It"] and run.citations.kept == ["d.md#0"]
+
+
+@pytest.mark.parametrize(
+    "steps",
+    [
+        # the model looked further: a wider tool ran
+        (call("find", '{"ref": "k1"}'), call("read", '{"ref": "x"}'), things("d.md#0")),
+        # two searches ran
+        (call("read", '{"ref": "x"}'), call("read", '{"ref": "y"}'), things("d.md#0")),
+        # a cited id came from another call
+        (call("find", '{"ref": "k1"}'), call("read", '{"ref": "x"}'), things("d.md#0", "k1")),
+        # no search at all, or a number asked
+        (call("find", '{"ref": "k1"}'), things("k1")),
+        (call("read", '{"ref": "x"}'), AgentStep(action="answer", asks="number", number=1.0)),
+    ],
+    ids=["wider-tool", "two-searches", "cited-elsewhere", "no-search", "number"],
+)
+def test_the_recheck_does_not_fire_when_the_answer_rests_on_more_than_one_search(steps):
+    script = Script(*steps)
+    run = loop(script, recheck=RECHECK).run("Which things?")
+    assert (run.trace.rechecked, run.trace.stopped) == (False, "answer")
+    assert all("rests on one" not in p for p in script.prompts)
+
+
+def test_a_refused_search_does_not_count_and_a_loop_without_the_rule_never_rechecks():
+    repeated = Script(
+        call("read", '{"ref": "x"}'), call("read", '{"ref": "x"}'), things("d.md#0"), things("d.md#0")
+    )
+    run = loop(repeated, recheck=RECHECK).run("Which things?")
+    assert (run.trace.rechecked, run.trace.turns) == (True, 4)  # the identical call was refused, not run
+    plain = Script(call("read", '{"ref": "x"}'), things("d.md#0"))
+    assert loop(plain).run("Which things?").trace.rechecked is False
+
+
+def test_the_recheck_waits_for_the_form_send_back_and_needs_a_turn_left():
+    """An answer sent back for its form (R147) is rechecked after it is reformed, two turns at most; on the
+    last turn the answer stands, as R147's does."""
+    worded = AgentStep(
+        action="answer", asks="things", text="It is the one.", citations=[AgentCitation(id="d.md#0")]
+    )
+    script = Script(call("read", '{"ref": "x"}'), worded, things("d.md#0"), things("d.md#0"))
+    run = loop(script, recheck=RECHECK).run("Which things?")
+    assert (run.trace.reformed, run.trace.rechecked, run.trace.turns) == (True, True, 4)
+    assert "leaves `entities` empty" in script.prompts[2] and "rests on one read search" in script.prompts[3]
+    last = Script(call("read", '{"ref": "x"}'), things("d.md#0"))
+    run = loop(last, AgentLimits(turns=2, calls=3, prompt_chars=100_000, timeout_s=60), recheck=RECHECK).run(
+        "Q"
+    )
+    assert (run.trace.rechecked, run.trace.stopped, run.trace.turns) == (False, "answer", 2)
 
 
 def test_an_answer_on_the_last_turn_is_not_sent_back_for_its_form():
@@ -575,6 +655,9 @@ def test_the_agents_metrics_count_turns_calls_refusals_and_stops():
     reformed = one.model_copy(update={"agent": one.agent.model_copy(update={"reformed": True})})
     assert _agent_metrics([one, reformed])["agent_answers_reformed"] == 1
     assert metrics["agent_answers_reformed"] == 0
+    rechecked = one.model_copy(update={"agent": one.agent.model_copy(update={"rechecked": True})})
+    assert _agent_metrics([one, rechecked])["agent_answers_rechecked"] == 1
+    assert metrics["agent_answers_rechecked"] == 0
     timed = one.agent.model_copy(
         update={"llm_ms": 3000.0, "wall_ms": 5000.0, "entities_grounded": True, "number_stated": False}
     )
@@ -588,9 +671,9 @@ def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():
     params = system_params(Settings(), "agent")
     assert (params["agent_max_calls"], params["agent_nodes"], params["seed_candidates"]) == (10, 15, 25)
     assert "agent_text_rrf_k" not in params
-    # R147: the text a form send-back writes is versioned with the prompts
+    # R147: the text a form send-back writes is versioned with the prompts; R176: the recheck's too
     assert params["agent_prompt_version"] == prompt_version(
-        PROMPT + CLOSING + CITATION_RETRY + EMPTY_ANSWER + FORM_ANSWER
+        PROMPT + CLOSING + CITATION_RETRY + EMPTY_ANSWER + FORM_ANSWER + RECHECK_ANSWER
     )
     # R146: the tool list and the reply schema are versioned too, from the same text the model reads
     names = [t.name for t in AGENT_TOOL_TYPES]
@@ -621,7 +704,7 @@ def test_the_versioned_tool_list_is_the_list_the_agent_is_built_with():
 
 
 def test_what_the_model_reads_of_the_agent_names_no_evaluated_dataset():
-    texts = [PROMPT, CLOSING, EMPTY_ANSWER, FORM_ANSWER] + [
+    texts = [PROMPT, CLOSING, EMPTY_ANSWER, FORM_ANSWER, RECHECK_ANSWER] + [
         f.description or "" for m in (step_model(["t"]), AgentCitation) for f in m.model_fields.values()
     ]
     assert all(not DATASET_WORDS.search(text) for text in texts)

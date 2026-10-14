@@ -9933,6 +9933,33 @@ choose (about $1.6; not part of this plan).
   21V839000, 23V858000). Whether the agent chooses `word` is unmeasured until a confirmation run.
 - **R175 done 2026-10-14.** Next: R176, the single-search send-back.
 
+### R176. The single-search recheck: a set answer resting on one word search is sent back once (done 2026-10-14; $0, code and an offline replay)
+- **Scope:** `agent/recheck.py` (new): `SingleSearchRecheck(search, wider)`, the rule that fires for an
+  answer declaring "things" whose loop ran exactly one call of the word-search tool, none of the tools that
+  search by meaning or read a document, and whose every cited id that one call returned (a refused call
+  does not count); `agent/prompt.py`: `RECHECK_ANSWER`, naming the search, its arguments and the wider
+  tools, with the way out (the same answer again stands); `agent/loop.py`: the rule injected (`recheck`,
+  None for a loop without it), asked after the form check, once per question and only while a turn is
+  left, as R147's send-back; `query/answers.py`: `AgentTrace.rechecked`; `pipeline/qa_stages.py`: the metric
+  `agent_answers_rechecked`; `pipeline/qa_systems.py`: the rule built with `find_passages` and
+  (`search_text`, `search_claims`, `read_document`) at the composition root, and `RECHECK_ANSWER` in
+  `agent_prompt_version`. Strategy pattern (the loop holds one rule or none); the loop stays ignorant of
+  its tools' names.
+- **Not here:** a thought field, wider caps or any other change to the loop (plan R175-R176's reasoning);
+  a recheck of a "number" or "statement" answer (none of the traced single-search failures was one).
+- **Verified:** 5 new tests, one parametrised over 5 cases (`tests/test_agent_loop.py`): the send-back's
+  text with the tools open and the same answer standing; no send-back when a wider tool ran, two searches
+  ran, a cited id came from another call, no search ran or a number was asked; a refused identical search
+  not counted, and a loop without the rule never rechecking; the recheck after a form send-back (two turns)
+  and none on the last turn; the metric; the version and the dataset-word check extended. **Offline replay
+  over the 450 traces of R156, R165 and R172** ($0, `SingleSearchRecheck.applies` on each final answer with
+  its calls): the rule would have fired on 19 answers (4%: 10 of 250, 2 of 100, 7 of 100), among them all
+  four single-search failures (R157's FB38 and HB41, R166's LC08, R173's ND11) and 15 right answers, which
+  the way out lets stand at the cost of one turn. What the model does with the send-back is unmeasured
+  until a confirmation run.
+- **R176 done 2026-10-14; plan R175-R176 done** ($0). Next: the user decides; a third blind confirmation set
+  (about $1.6, R171-R173's protocol) would measure R175 and R176 together.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

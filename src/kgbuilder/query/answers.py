@@ -162,6 +162,7 @@ class AgentTrace(BaseModel):
     # the final answer declared (None: a model off the schema, or a file from before R147)
     reformed: bool = False
     asks: AnswerForm | None = None
+    rechecked: bool = False  # R176: a set answer resting on one search was sent back once, the tools open
     # R142: time in the model's calls and in the whole loop; whether every named entity, and the number,
     # appear in what the cited results hold (None: the answer names none, or gives none), and the names
     # that do not

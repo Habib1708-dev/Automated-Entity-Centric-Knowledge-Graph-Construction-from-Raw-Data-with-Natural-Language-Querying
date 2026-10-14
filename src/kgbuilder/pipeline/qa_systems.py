@@ -21,9 +21,11 @@ from pathlib import Path
 from ..agent import prompt as agent_prompt
 from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
+from ..agent.recheck import SingleSearchRecheck
 from ..agent.system import AGENT, AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from ..agent.tables import DuckDBTables
 from ..agent.text_reader import Neo4jTextReader, TextReader
+from ..agent.text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..hybrid.seed_fusion import SeedSetting
@@ -316,7 +318,10 @@ def _agent(parts: QAParts) -> QASystem:
     )  # fmt: skip
     limits = AgentLimits(turns=s.agent_max_turns, calls=s.agent_max_calls,
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
-    return AgentSystem(AgentLoop(tools, parts.llm, s.qa_model, s.llm_temperature, limits), parts.store)
+    # R176: the word search, and the tools that look further than its words (by meaning, or a whole document)
+    recheck = SingleSearchRecheck(FindPassages.name, (SearchText.name, SearchClaims.name, ReadDocument.name))
+    loop = AgentLoop(tools, parts.llm, s.qa_model, s.llm_temperature, limits, recheck=recheck)
+    return AgentSystem(loop, parts.store)
 
 
 def _tool_caps(s: Settings) -> ToolCaps:
@@ -387,7 +392,8 @@ SYSTEMS: Mapping[str, SystemSpec] = {
                 + agent_prompt.CLOSING
                 + agent_prompt.CITATION_RETRY
                 + agent_prompt.EMPTY_ANSWER
-                + agent_prompt.FORM_ANSWER,
+                + agent_prompt.FORM_ANSWER
+                + agent_prompt.RECHECK_ANSWER,
                 "agent_tools": agent_prompt.tool_list(AGENT_TOOL_TYPES),
                 "agent_reply": schema_text(agent_prompt.step_model([t.name for t in AGENT_TOOL_TYPES])),
             },
