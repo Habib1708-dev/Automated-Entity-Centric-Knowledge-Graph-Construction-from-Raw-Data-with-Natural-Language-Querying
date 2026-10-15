@@ -4,15 +4,18 @@ Role in the pipeline: `kg build` stages every structured source of a dataset as 
 folder (structured/staging.py: files, JSON flattened, PostgreSQL tables written out), so one reader serves
 every source. The composition root (R135) opens `DuckDBTables` on that folder; `schema` and `query_tables`
 (structured_tools.py) depend on the `TableStore` protocol and are tested with it on small CSVs.
-Design: Adapter over an in-memory DuckDB with one view per staged CSV, subfolders included, named by its path
-in the staging folder without `.csv` (a top-level file by its stem), as the profile and the plan name it.
-Column types are mapped to R74's type names (INTEGER, FLOAT, STRING, DATE, BOOLEAN), so one value check
+Design: Adapter over an in-memory DuckDB with one table per staged CSV, subfolders included, named by its
+path in the staging folder without `.csv` (a top-level file by its stem), as the profile and the plan name
+it. Column types are mapped to R74's type names (INTEGER, FLOAT, STRING, DATE, BOOLEAN), so one value check
 (structured_query.py) serves records and tables. Only statements compiled by code (table_query.py) are run,
-all of them SELECTs over views, so nothing can write; a failed run is reported, not raised, for the agent to
-read. The connection is in memory and lives as long as the system that reads it (one `kg qa` or `kg ask`); a
-lock lets the parallel questions of `kg qa` share it. A column's examples show each shape its lowest values
-take (R164, core/examples.py, the graph schema's rule too), so a text column of years and year-months shows
-both forms, not only its three lowest years.
+all of them SELECTs, and the connection is locked besides (R203): once the CSVs are read into memory,
+`enable_external_access` is turned off (no file, no network, no extension) and `lock_configuration` on, so
+no statement can turn it back on. The staged files are never written, and nothing outside this process can
+be; a failed run is reported, not raised, for the agent to read. The connection is in memory and lives as
+long as the system that reads it (one `kg qa` or `kg ask`); a lock lets the parallel questions of `kg qa`
+share it. A column's examples show each shape its lowest values take (R164, core/examples.py, the graph
+schema's rule too), so a text column of years and year-months shows both forms, not only its three lowest
+years.
 Not here: compiling (table_query.py), the record layer (record_query.py).
 """
 
@@ -59,7 +62,8 @@ class TableStore(Protocol):
 
 
 class DuckDBTables:
-    """`TableStore` over the staged CSVs of one build, read once into in-memory views."""
+    """`TableStore` over the staged CSVs of one build, read once into in-memory tables on a locked
+    connection that reads no file and changes no setting after loading."""
 
     def __init__(self, staging: Path):
         self._con = duckdb.connect()
@@ -70,10 +74,14 @@ class DuckDBTables:
         for name in names:
             self._load(name, Path(staging) / f"{name}.csv")
         self._tables = [self._describe(name) for name in names]
+        # the order matters: the lock goes on last, so it cannot be turned off again
+        self._con.execute("SET enable_external_access = false")
+        self._con.execute("SET lock_configuration = true")
 
     def _load(self, name: str, path: Path) -> None:
-        """One staged CSV under its table name: a view, which each query reads from the file again."""
-        self._con.read_csv(str(path), header=True).create_view(name)
+        """One staged CSV as a table, read once: a view would read its file again at each query, which the
+        locked connection may not."""
+        self._con.read_csv(str(path), header=True).create(name)
 
     def tables(self) -> list[TableInfo]:
         return self._tables

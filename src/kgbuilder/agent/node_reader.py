@@ -24,6 +24,7 @@ from ..core.cypher import cypher_ident
 from ..core.identity import record_ref
 from ..core.text import norm
 from ..graph.canonical import canonical_id, canonical_name, record_ref_of
+from ..graph.connection import read_query
 from ..hybrid.claims import claim_text
 from ..hybrid.unit_store import CardStart
 from ..structured.plan import ConstructionPlan, NodeRule, name_property
@@ -194,7 +195,8 @@ class Neo4jNodeReader:
         located = self._locate(ref)
         if located is None:
             return None
-        rows, _, _ = self._driver.execute_query(
+        rows, _, _ = read_query(
+            self._driver,
             "MATCH (m:Mention)-[:REFERS_TO]->(n) WHERE elementId(n) = $element "
             "RETURN apoc.coll.sort(collect(DISTINCT m.name)) AS names",
             element=located.element,
@@ -226,17 +228,23 @@ class Neo4jNodeReader:
         located = self._locate(ref)
         if located is None or not chunk_ids:
             return []
-        rows, _, _ = self._driver.execute_query(_NODE_CLAIMS, element=located.element, chunks=chunk_ids)
+        rows, _, _ = read_query(self._driver, _NODE_CLAIMS, element=located.element, chunks=chunk_ids)
         return [_claim(r) for r in rows]
 
     def claims(self, claim_ids: list[str]) -> list[ClaimFact]:
-        rows, _, _ = self._driver.execute_query(_CLAIMS, ids=claim_ids)
+        rows, _, _ = read_query(self._driver, _CLAIMS, ids=claim_ids)
         found = {r["id"]: _claim(r) for r in rows}
         return [found[i] for i in claim_ids if i in found]
 
     def mentioned(self, label: str | None, contains: str | None, limit: int, names: int) -> MentionPage:
-        rows, _, _ = self._driver.execute_query(
-            _MENTIONED, label=label, contains=contains, limit=limit, names=names, labels=list(self._rules)
+        rows, _, _ = read_query(
+            self._driver,
+            _MENTIONED,
+            label=label,
+            contains=contains,
+            limit=limit,
+            names=names,
+            labels=list(self._rules),
         )
         # collect() without a grouping key returns one row even when nothing is matched
         row = rows[0]
@@ -262,7 +270,8 @@ class Neo4jNodeReader:
         for label, wanted in keys.items():
             found |= self._records(self._rules[label], wanted)
         if kinds:
-            rows, _, _ = self._driver.execute_query(
+            rows, _, _ = read_query(
+                self._driver,
                 "MATCH (n) WHERE (n:Concept OR n:Individual) AND n.id IN $refs "
                 "RETURN n.id AS ref, elementId(n) AS element, n.name AS name, coalesce(n.type, '') AS type, "
                 "n:Individual AS individual",
@@ -277,7 +286,8 @@ class Neo4jNodeReader:
     def _records(self, rule: NodeRule, keys: list[str]) -> dict[str, _Located]:
         """Ref -> the record of `rule` with each key, titled by its name column, else its key."""
         # the key compared as text, as `record_ref` writes it, so a number key matches its ref too
-        rows, _, _ = self._driver.execute_query(
+        rows, _, _ = read_query(
+            self._driver,
             f"MATCH (n:{cypher_ident(rule.label)}) "
             f"WITH n, toString(n.{cypher_ident(rule.unique_column)}) AS key WHERE key IN $keys "
             "RETURN key, elementId(n) AS element, properties(n) AS props",
@@ -302,7 +312,7 @@ class Neo4jNodeReader:
         return {"rules": rules, "labels": list(self._rules), "types": types}
 
     def _page(self, query: str, **params: object) -> tuple[list[dict], int]:
-        rows, _, _ = self._driver.execute_query(query, **params)
+        rows, _, _ = read_query(self._driver, query, **params)
         return (rows[0]["rows"], rows[0]["total"]) if rows else ([], 0)
 
 

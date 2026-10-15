@@ -18,6 +18,7 @@ from typing import Protocol
 
 from neo4j import Driver
 
+from ..graph.connection import read_query
 from .results import ChunkText
 
 
@@ -64,7 +65,8 @@ class Neo4jTextReader:
     def _page(self, match: str, **params: object) -> tuple[list[ChunkText], int]:
         """The passages `match` binds as `c` (in the document `d`), by document and position, cut to `$limit`
         with their total. The chunk id breaks ties, for a graph whose chunks carry no index."""
-        records, _, _ = self._driver.execute_query(
+        records, _, _ = read_query(
+            self._driver,
             f"{match} WITH c, d ORDER BY d.doc_id, c.index, c.chunk_id WITH collect(c) AS found "
             "RETURN size(found) AS total, [x IN found[0..$limit] | "
             "{chunk_id: x.chunk_id, context: coalesce(x.context, ''), text: x.text}] AS chunks",

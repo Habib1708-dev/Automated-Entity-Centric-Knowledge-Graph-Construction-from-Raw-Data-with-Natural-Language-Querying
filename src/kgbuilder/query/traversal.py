@@ -20,6 +20,7 @@ Not here: which nodes a question names (names.py), which chunks are kept (system
 from neo4j import Driver
 
 from ..graph.canonical import canonical_id
+from ..graph.connection import read_query
 
 # The text of a thing: the chunks its observations come from, the chunks of documents about it (a product's
 # reviews, a record's own prose), the sections about it (a complaint's section of a larger file), and the
@@ -87,11 +88,11 @@ def _chunk_ids(driver: Driver, queries: list[str], ids: list[str]) -> set[str]:
         return set()
     found: set[str] = set()
     for query in queries:
-        records, _, _ = driver.execute_query(query, ids=ids)
+        records, _, _ = read_query(driver, query, ids=ids)
         found.update(r["chunk_id"] for r in records)
     return found
 
 
 def _node_ids(driver: Driver, query: str, ids: list[str], **params: object) -> list[str]:
-    records, _, _ = driver.execute_query(query, ids=ids, **params)
+    records, _, _ = read_query(driver, query, ids=ids, **params)
     return [r["id"] for r in records]

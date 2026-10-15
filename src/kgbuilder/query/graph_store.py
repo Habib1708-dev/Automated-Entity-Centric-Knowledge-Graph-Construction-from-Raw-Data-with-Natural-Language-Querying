@@ -13,13 +13,14 @@ model's query (cypher_check.py).
 
 from typing import Any, Protocol
 
-from neo4j import READ_ACCESS, Driver, RoutingControl
+from neo4j import READ_ACCESS, Driver
 from neo4j.exceptions import ClientError, Neo4jError
 from pydantic import BaseModel
 
 from ..core.errors import MissingInputError
 from ..core.identity import record_ref
 from ..graph.canonical import canonical_id, canonical_kind, canonical_name, record_ref_of
+from ..graph.connection import read_query
 from ..resolution.linking import read_domain_nodes
 from ..structured.plan import ConstructionPlan
 from ..text.lexical import CHUNK_VECTOR_INDEX
@@ -128,9 +129,7 @@ class Neo4jGraphStore:
 
     def explain(self, cypher: str, parameters: dict[str, object]) -> list[str]:
         try:
-            _, summary, _ = self._driver.execute_query(
-                "EXPLAIN " + cypher, parameters, routing_=RoutingControl.READ
-            )
+            _, summary, _ = read_query(self._driver, "EXPLAIN " + cypher, **parameters)
         except Neo4jError as e:  # a syntax error or a missing parameter: a reason for the retry, not a crash
             return [f"the database cannot plan it: {e.message}"]
         issues = []
@@ -157,9 +156,10 @@ class Neo4jGraphStore:
     def node_names(self) -> list[NodeName]:
         # a record is also known by the names of the mentions that refer to it ("2019 Subaru Outback" for
         # the record named "OUTBACK"): a question may write it as the text does
-        records, _, _ = self._driver.execute_query(
+        records, _, _ = read_query(
+            self._driver,
             "MATCH (m:Mention)-[r:REFERS_TO {kind: 'record'}]->(t) "
-            "RETURN elementId(t) AS id, apoc.coll.sort(collect(DISTINCT m.name)) AS aliases"
+            "RETURN elementId(t) AS id, apoc.coll.sort(collect(DISTINCT m.name)) AS aliases",
         )
         aliases = {r["id"]: r["aliases"] for r in records}
         things = [
@@ -173,13 +173,14 @@ class Neo4jGraphStore:
             )
             for n in (read_domain_nodes(self._driver, self._plan) if self._plan else [])
         ]
-        records, _, _ = self._driver.execute_query(
+        records, _, _ = read_query(
+            self._driver,
             # every canonical entity that is not a record, and a mention without an edge as itself
             f"MATCH (m:Mention) WHERE {canonical_kind('m')} <> 'record' "
             f"WITH {canonical_id('m')} AS id, {canonical_name('m')} AS name, m.type AS type, m.name AS said "
             "WITH id, min(name) AS name, min(type) AS type, "
             "apoc.coll.sort(collect(DISTINCT said)) AS aliases "
-            "RETURN id, name, aliases, type ORDER BY id"
+            "RETURN id, name, aliases, type ORDER BY id",
         )
         # a kind is addressed by its canonical id already, which a rebuild keeps: it is its own ref
         kinds = [
@@ -201,7 +202,8 @@ class Neo4jGraphStore:
         return reach(self._driver, things, kinds, labels, self._hops)
 
     def chunks(self, chunk_ids: list[str]) -> list[StoredChunk]:
-        records, _, _ = self._driver.execute_query(
+        records, _, _ = read_query(
+            self._driver,
             "MATCH (c:Chunk) WHERE c.chunk_id IN $ids "
             "RETURN c.chunk_id AS chunk_id, coalesce(c.context, '') AS context, c.text AS text, "
             "c.embedding AS embedding",
@@ -212,7 +214,8 @@ class Neo4jGraphStore:
 
     def nearest_chunks(self, vector: list[float], k: int) -> list[str]:
         try:
-            records, _, _ = self._driver.execute_query(
+            records, _, _ = read_query(
+                self._driver,
                 "CALL db.index.vector.queryNodes($index, $k, $vector) YIELD node, score "
                 "RETURN node.chunk_id AS chunk_id ORDER BY score DESC",
                 index=CHUNK_VECTOR_INDEX,
@@ -228,7 +231,7 @@ class Neo4jGraphStore:
         return [r["chunk_id"] for r in records]
 
     def chunk_nodes(self, chunk_ids: list[str]) -> dict[str, ChunkNodes]:
-        records, _, _ = self._driver.execute_query(_CHUNK_NODES, ids=chunk_ids, rules=self._key_rules())
+        records, _, _ = read_query(self._driver, _CHUNK_NODES, ids=chunk_ids, rules=self._key_rules())
         out = {}
         for r in records:
             names: dict[str, set[str]] = {}
@@ -241,7 +244,7 @@ class Neo4jGraphStore:
         return out
 
     def claim_nodes(self, claim_ids: list[str]) -> dict[str, list[str]]:
-        records, _, _ = self._driver.execute_query(_CLAIM_NODES, ids=claim_ids, rules=self._key_rules())
+        records, _, _ = read_query(self._driver, _CLAIM_NODES, ids=claim_ids, rules=self._key_rules())
         out = {}
         for r in records:
             attached = sorted(ref for ref in r["attached"] if ref)  # a holder no plan label keys: none

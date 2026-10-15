@@ -20,6 +20,7 @@ from pydantic import BaseModel
 
 from ..core.cypher import cypher_ident
 from ..core.examples import EXAMPLE_COUNT, EXAMPLE_SCAN, varied_examples
+from ..graph.connection import read_query
 from ..graph.index_layer import RETRIEVAL_UNIT
 
 # Properties never shown: text and vectors that no filter or count needs, and that would crowd out the rest
@@ -118,7 +119,8 @@ def read_graph_schema(driver: Driver) -> GraphSchema:
 
 
 def _labels(driver: Driver) -> list[LabelInfo]:
-    records, _, _ = driver.execute_query(
+    records, _, _ = read_query(
+        driver,
         # the property keys of every node of a label, flattened in Python: nodes of one label may differ. The
         # layer's label is a value here, not a name, so a graph without the layer gets no server warning
         "MATCH (n) WHERE NOT $layer IN labels(n) UNWIND labels(n) AS label "
@@ -152,9 +154,10 @@ def _examples(driver: Driver, pattern: str, key: str) -> PropertyInfo:
     # raw values, not toString(): a property may hold a list (aliases), which toString() refuses; the type
     # is the first value's, as nodes of one label written by one import rule share their types. The lowest
     # values are read, and the examples chosen among them by shape (R164)
-    records, _, _ = driver.execute_query(
+    records, _, _ = read_query(
+        driver,
         f"MATCH {pattern} WHERE x.{prop} IS NOT NULL "
-        f"RETURN DISTINCT x.{prop} AS v, valueType(x.{prop}) AS t ORDER BY v LIMIT {EXAMPLE_SCAN}"
+        f"RETURN DISTINCT x.{prop} AS v, valueType(x.{prop}) AS t ORDER BY v LIMIT {EXAMPLE_SCAN}",
     )
     value_type = records[0]["t"].replace(" NOT NULL", "") if records else "ANY"
     examples = varied_examples([r["v"] for r in records], EXAMPLE_COUNT)
@@ -184,7 +187,8 @@ def _temporal_function(value: object) -> str:
 
 
 def _relationships(driver: Driver) -> list[RelationshipInfo]:
-    records, _, _ = driver.execute_query(
+    records, _, _ = read_query(
+        driver,
         "MATCH (a)-[r]->(b) WHERE NOT $layer IN labels(a) AND NOT $layer IN labels(b) "
         "UNWIND labels(a) AS source UNWIND labels(b) AS target "
         "RETURN source, type(r) AS type, target, count(*) AS n, collect(DISTINCT keys(r)) AS keys "
@@ -201,11 +205,12 @@ def _relationships(driver: Driver) -> list[RelationshipInfo]:
 
 
 def _claims(driver: Driver) -> list[ClaimInfo]:
-    records, _, _ = driver.execute_query(
+    records, _, _ = read_query(
+        driver,
         "MATCH (s:Mention)<-[:SUBJECT]-(o:Observation)-[:OBJECT]->(t:Mention) "
         # a claim missing a part names no pattern; extraction never writes one, a hand edit might
         "WHERE o.predicate IS NOT NULL AND s.type IS NOT NULL AND t.type IS NOT NULL "
-        "RETURN s.type AS s, o.predicate AS p, t.type AS t, count(*) AS n ORDER BY n DESC, p"
+        "RETURN s.type AS s, o.predicate AS p, t.type AS t, count(*) AS n ORDER BY n DESC, p",
     )
     return [
         ClaimInfo(subject_type=r["s"], predicate=r["p"], object_type=r["t"], count=r["n"]) for r in records

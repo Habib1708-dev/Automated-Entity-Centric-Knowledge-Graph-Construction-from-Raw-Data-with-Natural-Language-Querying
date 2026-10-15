@@ -20,6 +20,7 @@ from neo4j import Driver
 from pydantic import BaseModel
 
 from ..graph.canonical import canonical_id
+from ..graph.connection import read_query
 from ..graph.index_layer import (
     CARD_OF,
     CHUNK_FULLTEXT_INDEX,
@@ -157,7 +158,7 @@ class Neo4jUnitStore:
         )  # fmt: skip
 
     def search_chunks(self, query: str, k: int) -> list[str]:
-        rows, _, _ = self._driver.execute_query(
+        rows, _, _ = read_query(self._driver,
             "CALL db.index.fulltext.queryNodes($index, $query, {limit: $k}) YIELD node, score "
             "RETURN node.chunk_id AS id ORDER BY score DESC, id",
             index=CHUNK_FULLTEXT_INDEX, query=query, k=k,
@@ -166,7 +167,8 @@ class Neo4jUnitStore:
 
     def card_starts(self, refs: list[str]) -> dict[str, CardStart]:
         # the card of any representation names the same node; a kind is addressed by its canonical id
-        rows, _, _ = self._driver.execute_query(
+        rows, _, _ = read_query(
+            self._driver,
             f"MATCH (u:{NODE_CARD})-[:{CARD_OF}]->(n) WHERE u.ref IN $refs "
             "RETURN DISTINCT u.ref AS ref, elementId(n) AS element, n.id AS id, "
             "(n:Concept OR n:Individual) AS kind",
@@ -181,7 +183,7 @@ class Neo4jUnitStore:
 
     def index_state(self, representation: str) -> IndexState:
         names = card_indexes(representation)
-        rows, _, _ = self._driver.execute_query(
+        rows, _, _ = read_query(self._driver,
             # the labels as values: on a graph without the layer, naming them would make the server warn
             "MATCH (u) WHERE $layer IN labels(u) "
             "WITH u, CASE WHEN $card IN labels(u) THEN 'card' "
@@ -192,7 +194,8 @@ class Neo4jUnitStore:
             layer=RETRIEVAL_UNIT, card=card_label(representation), claim=CLAIM_SENTENCE,
         )  # fmt: skip
         by_unit = {r["unit"]: r for r in rows}
-        indexes, _, _ = self._driver.execute_query(
+        indexes, _, _ = read_query(
+            self._driver,
             "SHOW INDEXES YIELD name, state WHERE name IN $names AND state = 'ONLINE' RETURN name",
             names=[
                 names.vector,
@@ -213,14 +216,14 @@ class Neo4jUnitStore:
         )
 
     def _refs(self, search: str, **params: object) -> list[str]:
-        rows, _, _ = self._driver.execute_query(
-            f"{search} RETURN node.ref AS ref ORDER BY score DESC, ref", **params
+        rows, _, _ = read_query(
+            self._driver, f"{search} RETURN node.ref AS ref ORDER BY score DESC, ref", **params
         )
         return [r["ref"] for r in rows]
 
     def _claims(self, search: str, claim_filter: ClaimFilter, k: int, **params: object) -> list[ClaimHit]:
         fetch = k * _OVERFETCH if claim_filter.active else k
-        rows, _, _ = self._driver.execute_query(
+        rows, _, _ = read_query(self._driver,
             f"{search} {_CLAIM_HITS}",
             k=k, fetch=fetch, truth=claim_filter.triple_truth, modality=claim_filter.modality, **params,
         )  # fmt: skip

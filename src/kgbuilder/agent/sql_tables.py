@@ -1,16 +1,14 @@
-"""The source tables locked for SQL the model writes (R188): loaded into memory, then cut off from the file
-system and from any change of settings, with a time limit on every query.
+"""The source tables for SQL the model writes (R188): the locked tables of `DuckDBTables`, with a time limit
+on every query and a count of the rows a query gives in all.
 
 Role in the pipeline: the store `query_sql` (sql_tool.py) runs a checked SELECT on, in the experimental
-variant `agent_sql` of plan R183-R191; the agent's own `query_tables` keeps reading `DuckDBTables`.
-Design: a subclass of `DuckDBTables` (Template Method: `_load` makes each staged CSV a table instead of a
-view, since a view reads its file again at each query and a locked connection may read no file). After
-loading, `enable_external_access` is turned off (no file, no network, no extension) and
-`lock_configuration` on, so no statement can turn it back on (both checked when plan R183-R191 was
-written: a file read is refused and the setting cannot be changed). This is the second line of defence:
-sql_check.py refuses anything but one SELECT over the staged tables before a statement gets here. A query
-past `timeout_s` is interrupted from a timer started under the lock, so it can only stop the query it was
-started for.
+variant `agent_sql` of plan R183-R191; the agent's own `query_tables` reads `DuckDBTables`.
+Design: a subclass of `DuckDBTables`, which loads the staged CSVs as in-memory tables, then turns
+`enable_external_access` off and `lock_configuration` on (R188 here; moved into `DuckDBTables` in R203, so
+`query_tables` is locked too): a file read is refused and the setting cannot be changed. This is the second
+line of defence: sql_check.py refuses anything but one SELECT over the staged tables before a statement gets
+here. A query past `timeout_s` is interrupted from a timer started under the lock, so it can only stop the
+query it was started for.
 Not here: deciding what may run (sql_check.py), the tool and its result (sql_tool.py).
 """
 
@@ -33,17 +31,11 @@ class SqlRead(BaseModel):
 
 
 class LockedTables(DuckDBTables):
-    """The staged CSVs as in-memory tables on a connection that reads no file and changes no setting."""
+    """The locked staged tables, with a time limit on every query the model writes."""
 
     def __init__(self, staging: Path, timeout_s: float):
         self._timeout_s = timeout_s
         super().__init__(staging)
-        self._con.execute("SET enable_external_access = false")
-        self._con.execute("SET lock_configuration = true")
-
-    def _load(self, name: str, path: Path) -> None:
-        """One staged CSV as a table, read once, so nothing is read from a file after the lock."""
-        self._con.read_csv(str(path), header=True).create(name)
 
     def select(self, statement: str, limit: int) -> SqlRead:
         """The first `limit` rows of `statement` (a SELECT sql_check.py accepted) and how many rows it gives

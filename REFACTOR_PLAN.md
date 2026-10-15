@@ -10855,6 +10855,29 @@ to it). R201 is another session's step, so these are R202-R203. Both $0, no run.
   screen; R203's read-only layer is what makes it harmless.
 - **R202 done 2026-10-15.** Next: R203.
 
+### R203. Read-only access below the planner (done 2026-10-15; code, no run)
+- **Scope:** `graph/connection.py` (`read_query`: `execute_query` with `routing_=READ`, the parameters as a
+  dict so a parameter may be called `query`); every query-side read goes through it:
+  `agent/node_reader.py`, `agent/text_reader.py`, `hybrid/unit_store.py`, `query/graph_store.py` (its
+  EXPLAIN too, which was READ already), `query/graph_schema.py`, `query/traversal.py`. `run_read` keeps
+  its READ session. The build's modules (`hybrid/unit_graph.py`, `unit_sources.py`, the builder stages)
+  write and stay as they were. `agent/tables.py`: `DuckDBTables` loads the staged CSVs as tables and then
+  turns `enable_external_access` off and `lock_configuration` on (moved from `LockedTables`, which keeps
+  only its timer and `select`), so `query_tables` is locked like `query_sql`.
+- **Why READ mode:** Neo4j 5 Community has no read-only users (RBAC is Enterprise). A READ transaction is
+  refused any write by the server itself (`Neo.ClientError.Statement.AccessMode`), checked here on the
+  test server over `bolt://` (single instance).
+- **Verified:** `tests/test_read_only.py` 16 tests: CREATE, MERGE, DETACH DELETE and SET sent through
+  `read_query` and through `run_read` are refused and the graph is unchanged (test Neo4j, not skipped); a
+  read still answers, with a parameter called `query`; `DuckDBTables` refuses COPY TO, `read_csv`, ATTACH
+  and both settings, writes no file, and still answers a SELECT; no query-side module calls
+  `.execute_query(` except through `read_query`. `uv run pytest`: 1817 passed; `uv run ruff check .`:
+  clean. No run ($0).
+- **Found along the way:** full `pytest` runs from two sessions at once collide on the shared test Neo4j
+  (7688): each wipes the other's data, giving 18-36 spurious failures that pass in isolation. Sessions now
+  announce "pytest 7688 start/done" to each other; R203's gate was rerun with no other pytest running.
+- **R203 done 2026-10-15.** Plan R202-R203 done. Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
