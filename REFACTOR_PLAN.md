@@ -10813,6 +10813,48 @@ the grid does not use `search_text`, so R199's default changes nothing here.
   names the model; a kind without its reranker refused; the grid run with both rerankers, keyed by
   method; the BGE pools equal the LLM's). `uv run pytest`: 1763 passed; `uv run ruff check .`: clean.
 - **R200 done 2026-10-15.** Next: R201, the grid on R198's data (approved by the user: "Yes, both datasets").
+  A fix before any run (d23fbb2): the scores are raw logits, not the model's sigmoid (same order; far-off
+  passages can no longer round to equal scores and fall into ties).
+
+### R201. BGE-reranker-v2-m3 against the LLM reranker on R198's data (done 2026-10-15; $0)
+- **Asked and approved:** the user, "Yes, both datasets (Recommended)" (~$0 expected, $0.32 worst case).
+  Runs and commands in `tests/gold/r201/runs.json`: held-out on the graph as loaded (MLflow `531634c8`),
+  furniture reloaded from cache by R172's recipe into `out/r201_furniture` (byte-identical, digest
+  392a170ecc10 as R198's; `810bcb39`). Every LLM order a cache hit of R198's (446 of 446), so every RRF, dense
+  and `rerank_*` row equals R198's; $0 in all. BGE on the GPU (RTX 5060): 123 s for 446 pools, about 0.28 s
+  a pool, against the LLM's about 0.95 s a call (R198) and $0.0007.
+- **Results** (recall at 5, mean over questions; n = 223 pooled; paired per question, exact sign test):
+
+  | method | furniture (117) | held-out (106) | **pooled (223)** | vs `rrf_5x5` better / worse |
+  |---|---|---|---|---|
+  | `rrf_5x5` (R198's baseline) | 0.775 | 0.894 | 0.831 | - |
+  | `rerank_5x5` (LLM) | 0.855 | 0.928 | **0.890** | 32 / 0 |
+  | `bge_5x5` | 0.831 | 0.925 | **0.876** | 27 / 7 |
+  | `rerank_10x10` (LLM) | 0.881 | 0.967 | **0.922** | 40 / 0 |
+  | `bge_10x10` | 0.854 | 0.945 | **0.897** | 34 / 7 |
+
+  **BGE against the LLM on the same pool:** 5x5 pooled 0.876 vs 0.890, BGE better on 1 question and worse on
+  11 (p = 0.006; furniture 0 / 10, held-out 1 / 1); 10x10 pooled 0.897 vs 0.922, 3 / 17 (p = 0.003; furniture
+  3 / 12, held-out 0 / 5). `bge_10x10` equals `rerank_5x5` (0.897 vs 0.890, 15 / 15, p = 1): BGE needs the
+  pool twice as deep to match the LLM.
+- **Where BGE loses:** passages that answer by a symbol or a handle, not by topic, and paraphrases. FC05
+  ("reviews ... three stars out of five"): the LLM shows 5 of the 10 gold passages, BGE 2; the lost ones say
+  `## Rating: ★★★☆☆ (3/5)`. F13 ("which reviewer handle appears on reviews of the most different
+  products"): the LLM shows the two `@scandi_lover` passages, BGE shows other passages about the same products.
+  HS01 (10x10, "the dealer or the manufacturer told the owner that the behaviour ... was normal"): the LLM 4 of
+  4, BGE 2 of 4, losing "NISSAN ENGINEERING DECLARED THE SYSTEM WORKED AS INTENDED" and "THEY SAID THAT
+  NOTHING IS WRONG WITH IT", R196's paraphrase cases.
+- **Decision:** BGE-reranker-v2-m3 is **not equal**: it is significantly below the flash-lite LLM reranker on
+  both pool depths (pooled, paired), though still clearly above RRF. It is faster (about 0.3 s a pool against
+  about 1 s) and free; R199's LLM reranker in `search_text` stays.
+- **Read with care:** retrieval only, not answers; two datasets, one run; the rerank prompt was written after
+  R196 looked at HS01 and FS02 (both in this set), which may favour the LLM on those 2 of 223; BGE read the
+  passage with its document's name, as the LLM did, with no instruction (a cross-encoder takes none); gold
+  (Fable 5.1) and this analysis (Opus 5.5) are one model family; recall at 5 caps questions with more than
+  5 gold passages below 1. The held-out run's tree held another session's uncommitted R203 read-only routing
+  (committed as 4c063c1), which changes no result (every LLM and RRF row equals R198's).
+- **R201 done 2026-10-15; plan R200-R201 done** ($0). Working Neo4j = furniture (`out/r201_furniture`).
+  Next: the user decides.
 
 ### Plan R202-R203: a security screen in front of the planner, read-only access below it (asked 2026-10-15)
 The user, 2026-10-15: "User -> Deterministic security screen -> LLM planner -> Restricted tools. The screen

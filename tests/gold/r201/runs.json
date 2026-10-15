@@ -1,0 +1,18 @@
+{
+ "step": "R201: the passage grid with BGE-reranker-v2-m3 (R200, git 24ad439 + d23fbb2) on R198's data, furniture and held-out, every gold question citing evidence",
+ "approved": "the user, 2026-10-15: 'Yes, both datasets (Recommended)', to the question naming ~$0 (LLM orders from R198's cache), a $0.32 worst case and a stop above $0.05",
+ "cross_encoder": {"model": "BAAI/bge-reranker-v2-m3", "device": "cuda (RTX 5060 Laptop, 8 GB)", "version": "a448053f0706", "max_length": 2048, "scores": "raw logits", "torch": "2.11.0+cu128", "sentence_transformers": "6.1.0"},
+ "llm_reranker": {"model": "flash-lite (index_summary_model)", "version": "b6e41679c43a", "orders": "every one a cache hit of R198's"},
+ "commands": [
+  "kg --preset heldout passage-grid tests/gold/qa/heldout_qa*.json (8 files) --out out/r201_heldout_grid, on the held-out graph as loaded (out/r198_heldout)",
+  "reload ($0, every LLM answer from the cache): R172's recipe from out/r165_furniture_build into out/r201_furniture (plan, text schema, profile and staging seeded; profile copied back after build; mention-pass on an invalid key; index --cards template); triples.jsonl, mentions.jsonl and index/units.jsonl byte-identical to the build's",
+  "kg --preset quality passage-grid tests/gold/qa/furniture_qa*.json (8 files) --out out/r201_furniture_grid"
+ ],
+ "runs": {
+  "heldout": {"run": "531634c8", "experiment": "kgbuilder-heldout", "git_sha": "d23fbb2-dirty (another session's uncommitted R203 read-only routing, committed later as 4c063c1)", "graph_digest": "bc7c5a1efe3d", "questions": 106, "llm_calls": 212, "cache_hits": 212, "cross_seconds": 65.8, "cost_usd": 0.0},
+  "furniture": {"run": "810bcb39", "experiment": "kgbuilder", "git_sha": "4c063c1-dirty (.claude/settings.json only)", "graph_digest": "392a170ecc10", "questions": 117, "llm_calls": 234, "cache_hits": 234, "cross_seconds": 57.3, "cost_usd": 0.0}
+ },
+ "reload_runs_furniture": {"resolve": "6b01c7f8 (790/790 cache hits)", "mention_pass": "75c3d365 (70/70 cache hits)", "index": "e71beeb0", "cost_usd": 0.0},
+ "reproduces_r198": "every rrf, dense and rerank row equal to R198's on both datasets",
+ "cost_usd": 0.0
+}
