@@ -8,7 +8,8 @@ checked against them without a graph) and a trace of the retrieval (which node e
 chunks the traversal reached), from which failures are grouped by cause; for a plan system (R74), the
 plans tried, why they were refused, the steps they ran and the fallback that answered, if any; for the
 agent (R135), its tool calls and why its loop stopped, and (R147) the answer form it declared and whether
-an answer was sent back for leaving that form out.
+an answer was sent back for leaving that form out; (R202) the security screen's verdict when it refused the
+request.
 Not here: producing answers (systems.py), scoring them (validation/qa.py).
 """
 
@@ -178,10 +179,19 @@ class AgentTrace(BaseModel):
     ungrounded: list[str] = []
 
 
+class ScreenVerdict(BaseModel):
+    """The security screen's decision on one request (R202, query/screen.py): allowed, or refused by `rule`
+    because of the words `matched`."""
+
+    allowed: bool
+    rule: str | None = None
+    matched: str | None = None
+
+
 class SystemAnswer(QAAnswer):
     """One system's answer to one question, with the chunks shown and its traces: the retrieval route's,
-    the exact route's (R71's graph system, and the text2cypher fallback of a plan system), the plans', and
-    the agent's (R135)."""
+    the exact route's (R71's graph system, and the text2cypher fallback of a plan system), the plans', the
+    agent's (R135), and the security screen's verdict when it refused the request (R202)."""
 
     system: str
     shown: list[ShownChunk] = []
@@ -189,6 +199,7 @@ class SystemAnswer(QAAnswer):
     exact: ExactTrace | None = None
     plan: PlanTrace | None = None
     agent: AgentTrace | None = None
+    screen: ScreenVerdict | None = None  # set only on a refusal: no system saw the request
     latency_s: float | None = None  # wall-clock of answering it in `kg qa` (R142); None before R142
 
 

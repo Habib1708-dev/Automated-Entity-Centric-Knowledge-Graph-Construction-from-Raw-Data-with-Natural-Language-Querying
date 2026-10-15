@@ -35,6 +35,7 @@ from kgbuilder.pipeline.qa_systems import (
 )
 from kgbuilder.pipeline.retrieval_stages import RetrieveEvalStage
 from kgbuilder.query import exact, planner, read_check, reader
+from kgbuilder.query.screen import SCREEN_VERSION
 
 from .fakes import ScriptedLLM
 from .graphs import PLAN
@@ -67,6 +68,7 @@ def expected_params(s: Settings, system: str) -> dict[str, object]:
         "reader_reply_version": prompt_version(schema_text(reader.ReaderAnswer)),
         "qa_top_k": s.qa_top_k,
         "embed_model": s.embed_model,
+        "screen_version": SCREEN_VERSION,  # R202: every system answers behind the security screen
     }
     if system in ("graph_retrieval", "hybrid"):  # the linker's settings and the hop limit
         params.update(

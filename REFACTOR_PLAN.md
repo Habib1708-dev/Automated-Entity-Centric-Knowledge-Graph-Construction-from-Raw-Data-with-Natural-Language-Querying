@@ -10814,6 +10814,47 @@ the grid does not use `search_text`, so R199's default changes nothing here.
   method; the BGE pools equal the LLM's). `uv run pytest`: 1763 passed; `uv run ruff check .`: clean.
 - **R200 done 2026-10-15.** Next: R201, the grid on R198's data (approved by the user: "Yes, both datasets").
 
+### Plan R202-R203: a security screen in front of the planner, read-only access below it (asked 2026-10-15)
+The user, 2026-10-15: "User -> Deterministic security screen -> LLM planner -> Restricted tools. The screen
+should reject clearly unauthorized operations, particularly database modifications ('Delete all
+complaints.', 'Update the supplier's address.', 'Drop the vehicle table.') but allow informational questions
+such as 'What does SQL DELETE mean?' Security must also be enforced independently by read-only database
+permissions and query validation." The user's choices: the screen refuses commands led by a write verb and
+pasted write statements, and lets anything framed as a question pass; on the database side, every Neo4j
+read of the query engine uses READ access mode (Neo4j 5 Community has no read-only users) and `query_tables`'
+DuckDB connection is locked like `query_sql`'s; Postgres is out of scope (the query engine never connects
+to it). R201 is another session's step, so these are R202-R203. Both $0, no run.
+- **R202** The screen (`query/screen.py`, pure code, no LLM), a Decorator around every system built by
+  `build_system`; a refused request gets a fixed refusal answer, with no LLM or database call; the
+  `screen_refused` metric and the screen's version param; tests, including that no committed gold question
+  is refused.
+- **R203** Read-only below the planner: one READ-routed Neo4j read helper used by every query-side reader;
+  `DuckDBTables` loads tables and locks its configuration like `LockedTables`; tests that a write through
+  each path is refused (the Neo4j ones marked `neo4j`).
+
+### R202. The security screen in front of every system (done 2026-10-15; code, no run)
+- **Scope:** `query/screen.py` (new: `screen_request`, the Strategy rules `WriteStatementRule` and
+  `WriteCommandRule`, the Decorator `ScreenedSystem`, `SCREEN_VERSION`); `query/answers.py`
+  (`ScreenVerdict`, `SystemAnswer.screen`, set only on a refusal); `pipeline/qa_systems.py` (`build_system`
+  wraps every system; `screen_version` param); `pipeline/qa_stages.py` (`screen_refused` and
+  `screen_refused_<rule>` metrics in `kg ask` and `kg qa`, logged at 0 too); README module map.
+- **How it decides:** the request is split into sentences; polite and indirect openings ("please", "can
+  you", "I want to", "run this query:") are removed; a sentence is refused when its main verb is a write
+  verb (25 base forms, "add up" excepted) or when it opens with an SQL/Cypher keyword and holds a write
+  clause (`DELETE FROM`, `DROP TABLE`, `UPDATE t SET`, `DETACH DELETE`, `MERGE (`, `SET n.p =`, ...). It looks
+  at how a sentence begins, never at a write word inside it, so "What does SQL DELETE mean?", "What does
+  DROP TABLE t do?" and "Which parts were replaced?" pass. A refusal is a fixed answer naming the rule; no
+  model or database is called.
+- **Verified:** `tests/test_query_screen.py` 38 tests: the user's three examples and 18 more refused, each
+  by its expected rule; 13 questions about writing or changes allowed; **all 783 distinct questions of the
+  151 committed gold files allowed (0 false refusals)**; the screened system refuses without calling the
+  system it wraps and passes an allowed question through; the metrics count per rule.
+  `tests/test_qa_systems.py` expects the new `screen_version` param. `uv run pytest`: 1801 passed;
+  `uv run ruff check .`: clean. No run: the screen is pure code, fully covered by tests ($0).
+- **Known limit:** a command phrased as a question ("Is it possible to delete all rows?") passes the
+  screen; R203's read-only layer is what makes it harmless.
+- **R202 done 2026-10-15.** Next: R203.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

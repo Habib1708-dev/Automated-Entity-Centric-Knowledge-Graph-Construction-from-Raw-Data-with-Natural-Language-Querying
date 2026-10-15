@@ -13,6 +13,7 @@ the stages. R183: the agent's spec is built from an `AgentVariant`, so an experi
 (other tools, the same loop) is one more variant, registered beside `agent` under its own name; R193: a
 variant may also give the loop an evidence ledger (agent/evidence.py), its tools the agent's. R199: every
 agent's `search_text` is given the passage reranker (hybrid/passage_rerank.py), its options and prompt logged.
+R202: `build_system` puts every system behind the security screen (query/screen.py).
 Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py,
 retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py).
 """
@@ -53,6 +54,7 @@ from ..query.graph_store import Neo4jGraphStore
 from ..query.plan_run import ChunkSource, PlanStore
 from ..query.reader import PROMPT as READER_PROMPT
 from ..query.reader import Reader, ReaderAnswer
+from ..query.screen import SCREEN_VERSION, ScreenedSystem
 from ..query.systems import (
     RECORDS_VECTOR,
     QASettings,
@@ -614,6 +616,8 @@ def system_params(settings: Settings, name: str) -> dict[str, object]:
         "reader_reply_version": prompt_version(READER_REPLY),
         "qa_top_k": settings.qa_top_k,
         "embed_model": settings.embed_model,
+        # the security screen's word lists and patterns (R202): a change to them changes what is refused
+        "screen_version": SCREEN_VERSION,
         **{f"{key}_prompt_version": prompt_version(text) for key, text in spec.prompts.items()},
         **spec.params(settings),
     }
@@ -661,5 +665,6 @@ def qa_parts(
 def build_system(
     ctx: PipelineContext, state: PipelineState, name: str, frozen: Mapping[str, FrozenQuery] | None = None
 ) -> QASystem:
-    """The system `name` over the current graph; a plan system replays `frozen` (R80) when given."""
-    return check_system(name).build(qa_parts(ctx, state, frozen))
+    """The system `name` over the current graph, behind the security screen (R202): a request to change the
+    data is refused before the system sees it. A plan system replays `frozen` (R80) when given."""
+    return ScreenedSystem(check_system(name).build(qa_parts(ctx, state, frozen)))

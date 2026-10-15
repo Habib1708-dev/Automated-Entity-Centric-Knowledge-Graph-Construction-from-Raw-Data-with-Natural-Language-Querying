@@ -12,7 +12,8 @@ logs what code can score at once (sets, numbers, recall@k, citation faithfulness
 for the judge, and `kg qa-score` scores the answers file with the verdicts and writes one outcome row per
 question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
 earlier run's plans (query/frozen.py) and logs which file they came from. Before any call, `kg qa`
-refuses a gold whose evidence chunks the loaded graph lacks and logs the graph's digest (R117).
+refuses a gold whose evidence chunks the loaded graph lacks and logs the graph's digest (R117). Both `kg ask`
+and `kg qa` log how many requests the security screen refused (R202).
 Not here: how a system is built and what it logs as params (qa_systems.py), retrieval and reading (query/),
 scoring (validation/qa.py), the paired test (validation/paired.py).
 """
@@ -127,6 +128,13 @@ def _rank(ordered: list[float], share: float) -> float:
     return ordered[max(math.ceil(share * len(ordered)) - 1, 0)]
 
 
+def _screen_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
+    """The requests the security screen refused (R202), in all and per rule. Logged even when 0, so a run
+    shows the screen was in place, not only that it never fired."""
+    refused = [a.screen.rule for a in answers if a.screen is not None and a.screen.rule is not None]
+    return {"screen_refused": len(refused), **{f"screen_refused_{r}": refused.count(r) for r in set(refused)}}
+
+
 def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
     each loop stopped, answers sent back for their citations, for being empty (R138), for leaving out the
@@ -185,7 +193,9 @@ class AskStage(BaseStage):
         log_prompts(run, self.system)
         answer = build_system(ctx, state, self.system).answer("ask", state.question)
         state.answer = answer
-        run.metrics(retrieved=len(answer.retrieved), citations=len(answer.citations))
+        run.metrics(
+            retrieved=len(answer.retrieved), citations=len(answer.citations), **_screen_metrics([answer])
+        )
         run.artifact(ctx.write(self.ANSWER_FILE, answer.model_dump_json(indent=2)))
 
 
@@ -229,7 +239,12 @@ class QAStage(BaseStage):
         report = score_qa(gold, answers, shown_texts(answers), s.qa_top_k, allow_unjudged=True)
         state.qa_reports[self.system] = report
         _log_report(ctx, run, report, f"qa_report_{self.system}.json")
-        run.metrics(**_retrieval_metrics(answers), **_agent_metrics(answers), **_latency_metrics(answers))
+        run.metrics(
+            **_retrieval_metrics(answers),
+            **_agent_metrics(answers),
+            **_latency_metrics(answers),
+            **_screen_metrics(answers),
+        )
         if self.spec.planned:
             run.metrics(**_plan_metrics(answers))
         run.artifact(path)

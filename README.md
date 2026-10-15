@@ -318,7 +318,8 @@ src/kgbuilder/
                     targets (target gold on a build's nodes) -> criteria (C2, C5, C7, C8, C9) -> report
                     -> vector (arm C, C5 by cosine) -> compare (McNemar, question by question)
                     sheets <- sheet_builder (blind sheets of C3, C4, C6, R93) -> judged -> judged_report
-  query/            names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
+  query/            screen (security screen in front of every system: refuses requests to change the data)
+                    names -> traversal / graph_store -> reader ; ranking ; systems (graph system, records plus
                     vector RAG, vector-only baseline, the graph route alone)
                     planner -> plan (primitives, check) -> plan_cypher -> plan_run, read_check ; graph_schema
                     exact (text2cypher, the plans' logged fallback) with cypher_check
