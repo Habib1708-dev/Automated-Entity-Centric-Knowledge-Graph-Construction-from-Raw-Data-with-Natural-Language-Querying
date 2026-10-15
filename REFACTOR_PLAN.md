@@ -10583,6 +10583,48 @@ candidate cap), and what it sends back holds each left-out passage whole.
 - **R194 done 2026-10-15.** Next: R195, judged by meaning, paired, the added entities' passages read one
   by one, decided against the user's four criteria ($0).
 
+### R195. The evidence ledger judged, paired and decided (done 2026-10-15; $0, judging and analysis)
+- **Judge:** Claude Opus 5.5 (R187's and R191's judge model), two subagents blind to the arm: one sheet
+  (`out/r195/sheet.json`) of the 13 questions with R186's `agent` answer and R194's `agent_evidence` answer
+  labelled A and B by `random.Random(195)`, R71's rules at scope "all"; the key kept apart. They agreed on
+  all 26 verdicts, and the `agent` verdicts equal R187's on these 13. `tests/gold/r195/<dataset>_evidence_
+  <arm>_meaning.json`, scored by `kg qa-score` into `out/r195/meaning/<dataset>_<arm>`, paired by `kg
+  qa-compare` over the pooled outcomes (`out/r195/compare`). Every verdict equals exact match.
+- **Results** (by meaning, n = 13, the 8 chosen because they failed):
+
+  | | failures (8) | controls (5) | **all (13)** |
+  |---|---|---|---|
+  | `agent` (R186) | 0 | 5 | **5** |
+  | `agent_evidence` (R194) | 4 | 5 | **9** |
+
+  **Paired: `agent_evidence` right where `agent` is wrong on 4 (NC11, ND11, FB18, LS01), the reverse on 0,
+  exact McNemar p = 0.125.**
+- **The user's four criteria:**
+  1. *Corrects at least 2 earlier failures:* 4 of 8. **Met.**
+  2. *No control regression:* 5 of 5 right, none sent back. **Met.**
+  3. *Entity-to-evidence associations preserved:* all 9 members the send-backs added (4 fixed questions,
+     plus 10689793 in HS01 and Linköping in FS02) are expected members, each cites a passage about it
+     (its heading or its document) with a quote verbatim in it; no wrong member added (the judges found no
+     extra member in any answer); faithfulness 1.0 (29/29), entities grounded in every answer. **Met.**
+  4. *Latency and cost:* the ledger cost $0.0063 a question (R186's medium agent about $0.037, so about +17%)
+     and at most about 11 s a question on average (R194's mean 10.9 s includes the cached replay of the
+     agent's turns; R186's agent 21.2 s on the same questions), up to 33 s on FB18 (16 passages judged and 3
+     sent back). **Acceptable**, as a per-question addition, not a multiple.
+- **Decision: the small evidence ledger succeeds on the known failures** — answer-time verification against
+  the passages read improves completeness there with no loss on the controls. Not adopted into `agent`:
+  as the user set out, fresh questions are needed to establish that it generalises (a paid run, asked
+  first). The four failures left show its reach: two need passages never read (HS01's Nissan and Subaru
+  complaints, FS02's Helsingborg "roommate" review), one is a table row (HS02), and one is the ledger's own
+  judge missing a plain statement (LC08: St Anthony's "A fog-bell was installed in 1865" judged "does not
+  state it" at low thinking, traced in MLflow).
+- **Read with care:** 13 questions, 8 chosen for failing and seen before (part of any gain on them may be
+  regression to the mean, though R182 found these 4 wrong at both thinking levels); one run; p = 0.125 is a
+  consistent direction, not a shown difference; gold (Fable 5.1), judges and this decision (Opus 5.5) are
+  one model family.
+- **R195 done 2026-10-15; plan R193-R195 done** ($0.0104 dev + $0.0824 = $0.0928). Next: the user decides
+  (candidates: measure `agent_evidence` on fresh questions, alone or with `agent_sql` from R191, on one
+  shared set; the ledger's judge at medium for misses like LC08).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

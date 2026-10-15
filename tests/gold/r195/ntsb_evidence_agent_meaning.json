@@ -1,0 +1,28 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-15",
+  "run_id": "ab04a98d",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r194/ntsb_evidence.json",
+ "answers": "out/r195/base/ntsb_answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "NC11",
+   "correct": false,
+   "reason": "names only CEN22LA312; missing CEN21LA362 and CEN23LA223 (judge B agreed: names CEN22LA312 only; missing CEN21LA362, CEN23LA223)"
+  },
+  {
+   "question_id": "ND11",
+   "correct": false,
+   "reason": "names only CEN21LA339; missing ANC23LA032 (dynamic rollover) (judge B agreed: names CEN21LA339 only; missing ANC23LA032 (dynamic rollover))"
+  },
+  {
+   "question_id": "NE06",
+   "correct": true,
+   "reason": "names CEN21FA299 and CEN21LA383, exactly the expected set (judge B agreed: names CEN21FA299 and CEN21LA383, exactly the expected set)"
+  }
+ ]
+}

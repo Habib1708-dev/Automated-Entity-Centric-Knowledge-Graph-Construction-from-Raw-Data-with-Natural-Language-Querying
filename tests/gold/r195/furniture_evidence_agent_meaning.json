@@ -1,0 +1,28 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-15",
+  "run_id": "708e1ff7",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r194/furniture_evidence.json",
+ "answers": "out/r195/base/furniture_answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "FS02",
+   "correct": false,
+   "reason": "names Gothenburg Table and Uppsala Sofa; missing Helsingborg Dresser and Linkoping Bed (judge B agreed: names Gothenburg Table, Uppsala Sofa; missing Helsingborg Dresser, Linkoping Bed)"
+  },
+  {
+   "question_id": "FB18",
+   "correct": false,
+   "reason": "names Helsingborg, Linkoping, Malmo, Norrkoping; missing Gothenburg Table, Uppsala Sofa, Orebro Lamp (judge B agreed: names Helsingborg, Linkoping, Malmo, Norrkoping; missing Gothenburg Table, Uppsala Sofa, Orebro Lamp)"
+  },
+  {
+   "question_id": "FE05",
+   "correct": true,
+   "reason": "names Gothenburg Table and Jonkoping Coffee Table, exactly the expected set (judge B agreed: names Gothenburg Table and Jonkoping Coffee Table, exactly the expected set)"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-15",
+  "run_id": "40e51a47",
+  "git_sha": "00538fb"
+ },
+ "gold": "tests/gold/r194/lighthouses_evidence.json",
+ "answers": "out/r195/base/lighthouses_answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LS01",
+   "correct": false,
+   "reason": "names Berry Head and Godrevy; missing St Anthony's Lighthouse (descending weights) (judge B agreed: names Berry Head, Godrevy; missing St Anthony's Lighthouse)"
+  },
+  {
+   "question_id": "LC08",
+   "correct": false,
+   "reason": "names only Godrevy Lighthouse; missing St Anthony's Lighthouse (fog-bell installed 1865) (judge B agreed: names Godrevy only; missing St Anthony's Lighthouse)"
+  },
+  {
+   "question_id": "LE16",
+   "correct": true,
+   "reason": "names Inner Dowsing light platform, the expected member (judge B agreed: names Inner Dowsing light platform, the expected answer)"
+  }
+ ]
+}
