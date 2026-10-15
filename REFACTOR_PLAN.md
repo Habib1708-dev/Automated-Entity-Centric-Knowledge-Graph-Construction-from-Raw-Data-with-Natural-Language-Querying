@@ -11425,6 +11425,58 @@ What the experiment adds to the thesis:
 - the ledger's isolated judging extended with the working set's reach (query rows, abstentions);
 - stopping here, and recording the result as a thesis finding.
 
+### Plan R214-R216: the working set without the draft, and with a targeted rule (accepted 2026-10-15)
+
+**The question.** After R213 the user said: "i think that a targetted prompt is worth testing then". Asked how, the
+user chose two variants, about $0.55 in all:
+- **`agent_workset_nodraft`**: the working set without the draft answer. This tests R213's anchoring reading.
+- **`agent_workset_meaning`**: the same, plus a rule against literal reading.
+
+Both run on R212's 13 questions over the cached agent turns, so only the review is paid. `agent_workset` keeps
+its prompt (version a163c54d4b52).
+
+**Steps:**
+- **R214** The two variants, code only.
+- **R215** Both on the 13 questions (paid, the user's choice of about $0.55).
+- **R216** Blind judging by meaning against R212's three arms, and the decision against the four criteria ($0).
+
+### R214. The working set without the draft, and the targeted rule (done 2026-10-15; code, no run)
+
+**Scope:**
+- `agent/workset.py`:
+  - `PROMPT_NO_DRAFT`: PROMPT's rules, no draft shown, and "answer so that" in place of "answer again";
+  - `MEANING`, the targeted rule;
+  - `Workset(template, meaning)`.
+- `pipeline/qa_systems.py`: `_workset(template, meaning)`, and the variants `agent_workset_nodraft` (prompt
+  version 752f63a9c42a) and `agent_workset_meaning` (eb8b87923cf6).
+
+**The rule, as the model reads it** (domain-neutral; the example is from an invented domain):
+"Read the question for its meaning, not its words. An item states what the question asks for when it states a
+more specific case of it, the same idea in other words, or the same fact told as what happened. Never exclude
+an item only because its words differ from the question's. For example, for "Which kettles were faulty on
+arrival?", "the lid was cracked when I unpacked it" states it."
+
+Its three cases are R213's three excluded kinds:
+- a dent for "damaged" (FB18);
+- "operates as expected" for "normal" (HS01);
+- "took two people" for "needs two people" (FS02).
+
+**Code-side check.** Code checks the verdict per item and its quote, as R211 does. A reading by meaning cannot be
+checked by code; R215's controls measure whether the rule adds wrong members.
+
+**Verified:**
+- `tests/test_agent_workset.py`, 16 tests (3 new):
+  - without the draft, the prompt shows no answer and every item whole, and the change is still measured against
+    the draft;
+  - the rule sits among the verdict rules;
+  - both variants are registered, with the agent's tools and prompt versions and three distinct working-set
+    versions;
+  - no dataset words.
+- `uv run pytest`: 1896 passed. `uv run ruff check .`: clean.
+- **No run ($0).** R215 runs the live call, on the graph loaded first.
+
+**R214 done 2026-10-15.** Next: R215.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

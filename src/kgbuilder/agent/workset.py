@@ -56,6 +56,40 @@ Rules:
 {items}
 </items>"""
 
+# The working-set prompt without the draft (R214), for the variants testing R213's reading that the agent
+# anchors on its own answer: in 5 of the 6 failures R213 left, the gold passage was in the set and the agent
+# excluded it on a literal reason (a dent judged "not damaged"), where the ledger's judge, which never sees an
+# answer, included it. The rules are PROMPT's; "answer so that" replaces "answer again", since no answer is
+# shown; `{meaning}` is empty, or MEANING for the variant that adds the targeted rule.
+PROMPT_NO_DRAFT = """Before you answer, check every item you read. Below is each passage and query result \
+the tools returned to you, whole.{left_out}
+
+Rules:
+- In `verdicts`, give one verdict for every item below, by the id in its tag.
+- `include` is true only when the item itself states something the question asks for, in any wording: other
+  words for the same idea count. An item saying the opposite, saying it did not happen, or saying only that
+  it might happen, does not.{meaning}
+- When `include` is true, give the thing it states it about in `thing` and ONE contiguous quote copied
+  verbatim from the item's text in `quote`; when it is false, say why in `reason`.
+- Then answer so that your answer agrees with your verdicts: name what each included item states and cite
+  the item; keep what other results you cite support; set `outcome` as the rules say.
+
+<items>
+{items}
+</items>"""
+
+# The targeted rule against literal reading (R214), the user's choice after R213. It names the three ways
+# R213's excluded gold passages differed from the question: a more specific case (a dent for "damaged"), the
+# same verdict in other words ("operates as expected" for "normal"), the same fact told as what happened
+# ("took two people" for "needs two people"); and it forbids the reason the agent gave for each, a difference
+# of words. The example is from an invented domain (prompt-engineering skill). Code cannot check a reading by
+# meaning, so the check is the measurement: R215's controls show whether it adds wrong members.
+MEANING = """
+- Read the question for its meaning, not its words. An item states what the question asks for when it
+  states a more specific case of it, the same idea in other words, or the same fact told as what happened.
+  Never exclude an item only because its words differ from the question's. For example, for "Which kettles
+  were faulty on arrival?", "the lid was cracked when I unpacked it" states it."""
+
 # Said in PROMPT when the set is cut at its limit (R207: every cut is announced), naming what is left out.
 LEFT_OUT = " {count} more items you read are not shown here: {ids}."
 
@@ -101,11 +135,14 @@ class WorksetReview(BaseModel):
 
 class Workset:
     """Builds the set from the loop's ledger and checks the agent's verdicts; `store` gives each passage
-    whole, `limit` the most items shown."""
+    whole, `limit` the most items shown, `template` the prompt (PROMPT shows the draft, PROMPT_NO_DRAFT does
+    not, R214) and `meaning` the text put in its `{meaning}` ("" or MEANING; PROMPT has no such place)."""
 
-    def __init__(self, store: GraphStore, limit: int):
+    def __init__(self, store: GraphStore, limit: int, template: str = PROMPT, meaning: str = ""):
         self._store = store
         self._limit = limit
+        self._template = template
+        self._meaning = meaning
 
     def applies(self, step: AgentStep) -> bool:
         """Whether `step` is a reply the working set reviews: an answer declaring things or a number, or an
@@ -137,10 +174,13 @@ class Workset:
         return items, left_out
 
     def message(self, draft: AgentStep, items: list[WorksetItem], left_out: list[str]) -> str:
-        """`PROMPT` with the draft answer, every item whole, and the items cut at the limit named."""
+        """The template with the draft answer (when it shows one), every item whole, the items cut at the
+        limit named, and the meaning rule (when it has a place for one)."""
         cut = LEFT_OUT.format(count=len(left_out), ids=", ".join(left_out)) if left_out else ""
         fields = {"outcome", "entities", "number", "text", "citations"}
-        return PROMPT.format(draft=draft.model_dump_json(include=fields), left_out=cut, items=render(items))
+        # str.format ignores the names a template does not use, so one call serves every template
+        return self._template.format(draft=draft.model_dump_json(include=fields), left_out=cut,
+                                     items=render(items), meaning=self._meaning)  # fmt: skip
 
     def send_back(self, problems: list[str]) -> str:
         """`SEND_BACK` naming the problems of a reply."""

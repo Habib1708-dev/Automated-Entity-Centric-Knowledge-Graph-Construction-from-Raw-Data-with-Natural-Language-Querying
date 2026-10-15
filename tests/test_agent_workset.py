@@ -17,7 +17,9 @@ from kgbuilder.agent.results import ChunksResult, ChunkText
 from kgbuilder.agent.structured_tools import QueryResult
 from kgbuilder.agent.workset import (
     LEFT_OUT,
+    MEANING,
     PROMPT,
+    PROMPT_NO_DRAFT,
     SEND_BACK,
     VERDICTS,
     ItemVerdict,
@@ -116,9 +118,9 @@ class Model:
         return self._steps.pop(0) if len(self._steps) > 1 else self._steps[0]
 
 
-def run_loop(model: Model, tools=None, limit: int = 30, workset: bool = True):
+def run_loop(model: Model, tools=None, limit: int = 30, workset: bool = True, **prompt):
     llm = ScriptedLLM(model)
-    rule = Workset(store(), limit) if workset else None
+    rule = Workset(store(), limit, **prompt) if workset else None
     loop = AgentLoop(tools or [Excerpts()], llm, "m", 0.0, LIMITS, workset=rule)
     return loop.run(QUESTION), llm
 
@@ -304,7 +306,48 @@ def test_the_variant_has_the_agents_tools_and_prompts_and_versions_its_own():
 
 
 def test_what_the_model_reads_of_the_working_set_names_no_evaluated_dataset():
-    texts = [PROMPT, LEFT_OUT, SEND_BACK, VERDICTS]
+    texts = [PROMPT, PROMPT_NO_DRAFT, MEANING, LEFT_OUT, SEND_BACK, VERDICTS]
     texts += [f.description or "" for f in ItemVerdict.model_fields.values()]
     assert all(not DATASET_WORDS.search(text) for text in texts), texts
     assert re.search(r"ONE contiguous quote copied\s+verbatim", PROMPT)
+    assert re.search(r"ONE contiguous quote copied\s+verbatim", PROMPT_NO_DRAFT)
+
+
+# --- R214: the variants without the draft, and with the targeted rule ---------------------------------
+
+
+def test_without_the_draft_the_prompt_shows_no_answer_and_still_every_item_whole():
+    draft = answer("Meridian Kettle", cited=("kettles.md#0",))
+    model = Model([call(*TEXTS), draft], [(FAST, BOTH)])
+    run, _ = run_loop(model, template=PROMPT_NO_DRAFT)
+    [prompt] = workset_prompts(model)
+    assert "<draft>" not in prompt and '"entities":["Meridian Kettle"]' not in prompt
+    assert all(text in prompt for text in TEXTS.values()) and MEANING.strip() not in prompt
+    # the change is still measured against the draft the loop held
+    assert run.answer.entities == ["Meridian Kettle", "Solstice Kettle"] and run.trace.workset_changed
+
+
+def test_the_meaning_variant_adds_the_targeted_rule_among_the_verdict_rules():
+    model = Model([call(*TEXTS), BOTH], [(FAST, BOTH)])
+    run_loop(model, template=PROMPT_NO_DRAFT, meaning=MEANING)
+    [prompt] = workset_prompts(model)
+    rules = prompt[prompt.index("Rules:") : prompt.index("<items>")]
+    assert "Read the question for its meaning, not its words." in rules
+    assert rules.index("in any wording") < rules.index("for its meaning")
+    assert rules.index("for its meaning") < rules.index("ONE contiguous quote")
+
+
+def test_the_two_variants_are_registered_with_the_agents_tools_and_their_own_prompt_versions():
+    variants = {v.name: v for v in AGENT_VARIANTS}
+    settings = Settings(_env_file=None)
+    versions = {
+        name: system_params(settings, name)["agent_workset_prompt_version"]
+        for name in ("agent_workset", "agent_workset_nodraft", "agent_workset_meaning")
+    }
+    assert len(set(versions.values())) == 3
+    plain = system_params(settings, "agent")
+    for name in ("agent_workset_nodraft", "agent_workset_meaning"):
+        assert variants[name].tool_types == variants["agent"].tool_types
+        params = system_params(settings, name)
+        shared = [k for k in plain if k.endswith("_prompt_version")]
+        assert all(params[k] == plain[k] for k in shared)

@@ -392,10 +392,11 @@ def _evidence_params(s: Settings) -> dict[str, object]:
     return {"agent_filter_batch": s.agent_filter_batch, "agent_filter_thinking": s.agent_filter_thinking}
 
 
-def _workset(parts: QAParts) -> Workset:
+def _workset(parts: QAParts, template: str = workset.PROMPT, meaning: str = "") -> Workset:
     """The working set (R211): passages whole from the store, at most `agent_workset_items` items; the agent's
-    own model and thinking level give the verdicts, so no judge's options are set here."""
-    return Workset(parts.store, parts.settings.agent_workset_items)
+    own model and thinking level give the verdicts, so no judge's options are set here; `template` and
+    `meaning` the prompt of its variant (R214)."""
+    return Workset(parts.store, parts.settings.agent_workset_items, template, meaning)
 
 
 def _workset_params(s: Settings) -> dict[str, object]:
@@ -458,6 +459,32 @@ AGENT_VARIANTS = (
         },
         _workset_params,
         workset=_workset,
+    ),
+    # plan R214-R216: the working set without the draft answer (R213's anchoring reading), and without it
+    # with the targeted rule against literal reading; each versions its own prompt text under the same key
+    AgentVariant(
+        "agent_workset_nodraft",
+        _same_tools,
+        AGENT_TOOL_TYPES,
+        _WIDER,
+        {
+            "agent_workset": workset.PROMPT_NO_DRAFT + workset.LEFT_OUT + workset.SEND_BACK,
+            "agent_workset_reply": schema_text(workset.ItemVerdict) + workset.VERDICTS,
+        },
+        _workset_params,
+        workset=partial(_workset, template=workset.PROMPT_NO_DRAFT),
+    ),
+    AgentVariant(
+        "agent_workset_meaning",
+        _same_tools,
+        AGENT_TOOL_TYPES,
+        _WIDER,
+        {
+            "agent_workset": workset.PROMPT_NO_DRAFT + workset.MEANING + workset.LEFT_OUT + workset.SEND_BACK,
+            "agent_workset_reply": schema_text(workset.ItemVerdict) + workset.VERDICTS,
+        },
+        _workset_params,
+        workset=partial(_workset, template=workset.PROMPT_NO_DRAFT, meaning=workset.MEANING),
     ),
 )
 
