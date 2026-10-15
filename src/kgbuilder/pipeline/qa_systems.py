@@ -11,7 +11,8 @@ frozen-plan replay, plan metrics), and for a reading system its chunk source. Th
 property of the construction, not a promise. A new approach is one more spec here, not one more branch in
 the stages. R183: the agent's spec is built from an `AgentVariant`, so an experiment's variant of the agent
 (other tools, the same loop) is one more variant, registered beside `agent` under its own name; R193: a
-variant may also give the loop an evidence ledger (agent/evidence.py), its tools the agent's.
+variant may also give the loop an evidence ledger (agent/evidence.py), its tools the agent's. R199: every
+agent's `search_text` is given the passage reranker (hybrid/passage_rerank.py), its options and prompt logged.
 Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py,
 retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py).
 """
@@ -38,7 +39,10 @@ from ..agent.text_tools import FindPassages, ReadDocument, SearchClaims, SearchT
 from ..agent.tool import Tool
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
+from ..hybrid import passage_rerank
+from ..hybrid.passage_rerank import PassageReranker
 from ..hybrid.seed_fusion import SeedSetting
+from ..hybrid.seed_rerank import RerankOptions
 from ..hybrid.source import HybridSettings, build_hybrid, check_layer
 from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
 from ..llm.base import Embedder, LLMClient, prompt_version, schema_text
@@ -449,6 +453,7 @@ def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
     tools = build_tools(
         parts.store, parts.units, parts.nodes, parts.text, parts.embedder, DuckDBTables(parts.staging),
         parts.store.schema(), parts.plan, seeding, _tool_caps(s),
+        PassageReranker(parts.llm, _rerank_options(s)),
     )  # fmt: skip
     limits = AgentLimits(turns=s.agent_max_turns, calls=s.agent_max_calls,
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
@@ -479,6 +484,8 @@ def agent_spec(variant: AgentVariant) -> SystemSpec:
             + agent_prompt.RECHECK_ANSWER,
             "agent_tools": agent_prompt.tool_list(variant.tool_types),
             "agent_reply": schema_text(agent_prompt.step_model(names)),
+            # search_text's reranker (R199): its prompt and reply schema, read on every search_text call
+            "agent_text_rerank": passage_rerank.PROMPT + schema_text(passage_rerank.RankedPassages),
             **variant.prompts,
         },
     )
@@ -489,7 +496,15 @@ def _tool_caps(s: Settings) -> ToolCaps:
         nodes=s.agent_nodes, relations=s.agent_relations, chunks=s.agent_chunks, claims=s.agent_claims,
         rows=s.agent_rows, value_chars=s.agent_value_chars, names=s.agent_names, text_rrf_k=s.hybrid_rrf_k,
         document_chunks=s.agent_document_chunks, matches=s.agent_matches,
+        text_candidates=s.agent_text_candidates, text_shown=s.agent_text_shown,
     )  # fmt: skip
+
+
+def _rerank_options(s: Settings) -> RerankOptions:
+    """search_text's passage reranker (R199): R198's model and thinking level, at the run's temperature."""
+    return RerankOptions(
+        model=s.agent_rerank_model, temperature=s.llm_temperature, thinking=s.agent_rerank_thinking
+    )
 
 
 def _agent_params(s: Settings) -> dict[str, object]:
@@ -501,6 +516,8 @@ def _agent_params(s: Settings) -> dict[str, object]:
         "agent_max_prompt_chars": s.agent_max_prompt_chars,
         "agent_timeout_s": s.agent_timeout_s,
         **{f"agent_{k}": v for k, v in _tool_caps(s).model_dump().items() if k != "text_rrf_k"},
+        "agent_rerank_model": s.agent_rerank_model,
+        "agent_rerank_thinking": s.agent_rerank_thinking,
         "seed_candidates": s.seed_candidates,
         "seed_rrf_k": s.seed_rrf_k,
         "hybrid_rrf_k": s.hybrid_rrf_k,

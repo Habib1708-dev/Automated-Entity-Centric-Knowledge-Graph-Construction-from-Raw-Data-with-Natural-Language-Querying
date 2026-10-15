@@ -255,6 +255,15 @@ class Settings(BaseSettings):
     agent_nodes: int = Field(default=15, ge=1)
     agent_relations: int = Field(default=20, ge=1)
     agent_chunks: int = Field(default=5, ge=1)
+    # search_text's retrieval, frozen at R199 on R198's measurement (rerank_10x10: recall at 5 0.831 with RRF,
+    # 0.922 reranked, 223 questions on two datasets, retrieval only): each passage list read 10 deep, the
+    # fused pool ordered by the passage reranker with flash-lite at no thinking (R198's model and level),
+    # and its first 10 shown whole (the user's choice at R199: more of the pool's gold reaches the agent,
+    # R198's saved orders give recall at 10 in the roadmap); RRF's order is the fallback when a rerank fails
+    agent_text_candidates: int = Field(default=10, ge=1)
+    agent_text_shown: int = Field(default=10, ge=1)
+    agent_rerank_model: str = "gemini-3.5-flash-lite"
+    agent_rerank_thinking: ThinkingLevel = ""
     agent_claims: int = Field(default=10, ge=1)
     agent_rows: int = Field(default=20, ge=1)
     agent_value_chars: int = Field(default=300, ge=20)

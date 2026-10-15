@@ -693,7 +693,7 @@ class NoTables:
 
 CAPS = ToolCaps(
     nodes=1, relations=1, chunks=1, claims=1, rows=1, value_chars=1, names=1, document_chunks=1, matches=1,
-    text_rrf_k=0,
+    text_rrf_k=0, text_candidates=1, text_shown=1,
 )  # fmt: skip
 
 
@@ -712,7 +712,7 @@ def base_tools() -> list:
     stand_in = object()  # the constructors keep their stores; only Schema reads its schema and tables
     schema = GraphSchema(labels=[], relationships=[], claims=[])
     return build_tools(
-        stand_in, stand_in, stand_in, stand_in, stand_in, NoTables(), schema, None, SETTING, CAPS
+        stand_in, stand_in, stand_in, stand_in, stand_in, NoTables(), schema, None, SETTING, CAPS, None
     )
 
 

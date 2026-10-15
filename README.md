@@ -509,7 +509,13 @@ how they choose:
   claims join (subject, object, then the things a claim is attached to). Meant for `kg retrieve-eval`;
 - the agent's seeding (R132): `card_fused_template`, both template-card lists read `SEED_CANDIDATES` (25)
   deep and fused by RRF with `SEED_RRF_K` (60), the setting R131 chose and R131b kept; its seeds are the
-  fused nodes, best first, and they start the cards' traversal for its chunks. Meant for `kg retrieve-eval`.
+  fused nodes, best first, and they start the cards' traversal for its chunks. Meant for `kg retrieve-eval`;
+- the agent's `search_text` (R199, frozen): both passage lists read `AGENT_TEXT_CANDIDATES` (10) deep, fused
+  by RRF (`HYBRID_RRF_K`), the pool ordered by the passage reranker (`hybrid/passage_rerank.py`, model
+  `AGENT_RERANK_MODEL` flash-lite at no thinking, every passage read whole) and its first `AGENT_TEXT_SHOWN`
+  (10) shown whole; when a rerank call fails, RRF's order is kept. Chosen on R198's `kg passage-grid`: recall
+  at 5 0.831 (RRF) -> 0.922 (reranked from 10 + 10), 223 questions on furniture and held-out, 40 better and
+  0 worse; retrieval only, with the gold questions as queries; answer accuracy not yet measured.
 
 Before any call, `kg qa` and `kg retrieve-eval` check that the loaded graph holds every chunk the gold
 cites as evidence (otherwise the graph is not the build the gold was written on, and the run stops), and

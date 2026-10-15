@@ -10732,6 +10732,56 @@ query, as `search_text` would get it, and each method's 5 shown passages are sco
   (`out/r198_heldout`). Next: the user decides (candidates: a `search_text` variant reranking 10x10 pools,
   measured on answers; the grid on the other three datasets, ~$0.40).
 
+### R199. `search_text` reranks by default; retrieval frozen (done 2026-10-15; code, no benchmark run)
+- **Asked:** the user, 2026-10-15: adopt R198's `rerank_10x10` as the default `search_text` retrieval and
+  freeze retrieval development: dense 10 and lexical 10, the existing flash-lite passage reranker choosing
+  the final passages, RRF kept as the fallback when reranking fails; tool interface, citations, provenance
+  and safety unchanged; deterministic tests, lint and a minimal smoke test, no more paid benchmarking; the
+  results and their limitations documented. Mid-step the user changed the shown count: "Return the top 10
+  passages instead of top 5 to the agent, preserving full text and provenance."
+- **Scope:** `agent/text_tools.py` (`SearchText` takes `depth`, `limit` and an optional `PassageReranker`:
+  both lists read `depth` deep, RRF fuses them into the pool, the reranker orders the pool read whole from
+  the store, `limit` shown; without a reranker, or when its call raises `LLMResponseError`, RRF's order is
+  kept and a warning logged); `agent/system.py` (`ToolCaps.text_candidates`, `ToolCaps.text_shown`;
+  `build_tools` takes the reranker; `chunks` now caps `node_evidence` alone); `pipeline/qa_systems.py`
+  (every agent variant's `search_text` gets the reranker with `_rerank_options`; params
+  `agent_text_candidates`, `agent_text_shown`, `agent_rerank_model`, `agent_rerank_thinking`; prompt version
+  `agent_text_rerank` = the rerank prompt and its reply schema); `config.py` (`agent_text_candidates` 10,
+  `agent_text_shown` 10, `agent_rerank_model` gemini-3.5-flash-lite, `agent_rerank_thinking` "": R198's
+  model and level); README (the frozen setting and its evidence).
+- **Unchanged:** the tool's name, description and arguments (the `agent_tools` prompt version is the same),
+  `ChunksResult` (whole passages with their chunk ids and document names, `total` = the fused pool's size),
+  citations (the shown chunk ids, checked as before), `node_evidence`'s 5 passages, every other tool, the
+  loop and its caps. Each rerank call goes through the run's cached, traced LLM client, so it is a traced
+  span and counts in `llm_calls`, `cost_usd` and, failed, `llm_failures`.
+- **The evidence (R198, `kg passage-grid`, furniture 117 + held-out 106 = 223 questions):** recall at 5 (the
+  share of a question's gold passages among those shown) 0.831 with RRF (`rrf_5x5`, the old `search_text`),
+  0.922 with `rerank_10x10`, **40 questions better and 0 worse** (exact sign test p = 2e-12). For the 10
+  shown, from R198's saved orders (`out/r198_*/passage_rerank.jsonl`, $0): recall at 10 0.943 of the pool's
+  0.947, 43 questions better than RRF's 5 and 0 worse.
+- **Limitations (stated with every use of these numbers):** only two datasets were tested (furniture,
+  held-out); the original gold questions were the retrieval queries, not the agent's own query strings
+  (R196: those differ); the measure is retrieval only, end-to-end answer accuracy is not yet validated;
+  one run; the rerank prompt was written after looking at two of the 223 questions (HS01, FS02); 10 shown
+  passages double what each `search_text` result adds to the agent's prompt (about 5 000 characters).
+- **Frozen:** the retrieval of `search_text` (these four settings, `hybrid_rrf_k` 10, the rerank prompt
+  version) is not tuned further; a change needs a new roadmap step with the user's decision.
+- **Verified:** `tests/test_agent_tools.py` (RRF only: both lists `depth` deep and the cap; reranked: the
+  reranker's order of the whole pool, passages whole, the cap; the reranker failing: RRF's order kept);
+  `tests/test_agent_loop.py` (the tool list unchanged). `uv run pytest`: 1746 passed, with the 16 tests of
+  `tests/test_passage_grid.py` deselected because another session (R200, a cross-encoder comparison) was
+  editing that file in the same checkout; ruff clean.
+- **Smoke test** (asked first: the free key is not configured, so the run used the paid key; the user said
+  yes): `QA_MODEL=gemini-3.5-flash-lite kg --preset dev qa tests/gold/qa/heldout_qa_semantic.json --system
+  agent --out out/r199_smoke_heldout` on the held-out graph as loaded (`out/r198_heldout`), MLflow `d99b7e1c`
+  (`kgbuilder-dev`): $0.010245, 6 calls, 0 failures; params `agent_text_candidates` 10, `agent_text_shown`
+  10, `agent_rerank_model`, `agent_rerank_thinking` and `agent_text_rerank_prompt_version` 655f1680bd48
+  logged. HS01's one `search_text` call ("normal") returned 10 whole passages, the second Nissan #1 "declared
+  the system worked as intended" (no word of the query), which the answer cited (complaint 10972343). It
+  shows the path works, not a result (flash-lite, 2 questions, 0/2 exact).
+- **R199 done 2026-10-15.** Next: the user decides (the step that adoption needs: the agent with the
+  reranked `search_text` measured on answers, ideally on fresh questions; paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

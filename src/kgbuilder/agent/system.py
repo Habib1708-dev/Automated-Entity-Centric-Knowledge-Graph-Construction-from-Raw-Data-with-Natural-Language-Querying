@@ -19,6 +19,7 @@ Not here: the loop (loop.py), the tools, opening any database.
 
 from pydantic import BaseModel, Field
 
+from ..hybrid.passage_rerank import PassageReranker
 from ..hybrid.seed_fusion import SeedSetting
 from ..hybrid.unit_store import UnitStore
 from ..llm.base import Embedder
@@ -52,7 +53,9 @@ class ToolCaps(BaseModel):
 
     nodes: int = Field(ge=1)  # find_nodes: the seeding's K (R131b: 15)
     relations: int = Field(ge=1)  # neighbours: relation groups
-    chunks: int = Field(ge=1)  # node_evidence and search_text: passages
+    chunks: int = Field(ge=1)  # node_evidence: passages
+    text_candidates: int = Field(ge=1)  # search_text: each passage list's depth before reranking (R199)
+    text_shown: int = Field(ge=1)  # search_text: the reranked passages shown, whole (R199)
     claims: int = Field(ge=1)  # search_claims: claims, siblings included
     rows: int = Field(ge=1)  # query_records, query_tables and rank_by_documents: rows, groups or things
     value_chars: int = Field(ge=1)  # get_node and the queries: characters of one value
@@ -65,16 +68,17 @@ class ToolCaps(BaseModel):
 def build_tools(
     store: PlanStore, units: UnitStore, nodes: NodeReader, text: TextReader, embedder: Embedder,
     tables: TableStore, schema: GraphSchema, plan: ConstructionPlan | None, seeding: SeedSetting,
-    caps: ToolCaps,
+    caps: ToolCaps, reranker: PassageReranker | None,
 ) -> list[Tool]:  # fmt: skip
     """The agent's tools, in the order the model reads them: seeding, the graph walk, the text (ranked,
-    then exhaustive), the count of what the text names, the structured queries."""
+    then exhaustive), the count of what the text names, the structured queries. `reranker` orders
+    `search_text`'s pool (R199); without one the pool keeps RRF's order."""
     return [
         FindNodes(units, nodes, embedder, seeding.representation, seeding, caps.nodes),
         GetNode(nodes, caps.value_chars, caps.names),
         Neighbours(nodes, caps.relations),
         NodeEvidence(nodes, store, embedder, caps.chunks),
-        SearchText(store, units, embedder, caps.text_rrf_k, caps.chunks),
+        SearchText(store, units, embedder, caps.text_rrf_k, caps.text_candidates, caps.text_shown, reranker),
         SearchClaims(units, nodes, embedder, caps.text_rrf_k, caps.claims),
         ReadDocument(text, caps.document_chunks),
         FindPassages(text, caps.matches, caps.value_chars),

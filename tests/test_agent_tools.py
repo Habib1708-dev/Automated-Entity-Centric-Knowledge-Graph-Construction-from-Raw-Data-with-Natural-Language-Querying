@@ -4,7 +4,8 @@ fused order, cards without a node left out, the first k kept, no word search wit
 cutting long values and extra names with a note; `neighbours` passing the type and the limit and saying when
 the total is larger; `node_evidence` starting a record as a thing and a kind as a kind, ranking the reached
 chunks by `about`, keeping the cap and the total, and giving each chunk its own claims; `search_text` and
-`search_claims` fusing their two lists, a claim followed by its opposite-truth siblings; an unknown ref
+`search_claims` fusing their two lists (R199: `search_text`'s pool ordered by the passage reranker, RRF's
+order kept when it fails), a claim followed by its opposite-truth siblings; an unknown ref
 answered with a note; the ids each result offers for citation; and every text the model reads free of the
 evaluated datasets' words. R150: `rank_by_documents` passing its filters trimmed and lowercase with its
 caps, offering the counted refs, saying when more exist, when a label is unknown (with the labels there
@@ -41,10 +42,14 @@ from kgbuilder.agent.graph_tools import (
     RankArguments,
 )
 from kgbuilder.agent.text_tools import FindPassages, ReadDocument, SearchArguments
+from kgbuilder.core.errors import LLMResponseError
+from kgbuilder.hybrid.passage_rerank import PassageReranker, RankedPassages
 from kgbuilder.hybrid.seed_fusion import SeedSetting
+from kgbuilder.hybrid.seed_rerank import RerankOptions
 from kgbuilder.hybrid.unit_store import CardStart
 from kgbuilder.query.answers import ClaimHit
 
+from .fakes import ScriptedLLM
 from .test_query import FakeStore, FixedEmbedder, chunk
 
 SETTING = SeedSetting(name="rrf60_c2", representation="template", method="rrf", candidates=2, rrf_k=60)
@@ -250,17 +255,48 @@ def test_node_evidence_ranks_the_reached_chunks_by_about_and_gives_each_its_clai
 # --- search_text and search_claims -------------------------------------------------------------------
 
 
-def test_search_text_fuses_the_vector_and_word_lists_and_keeps_the_cap():
+def search_store():
     store = FakeStore(chunks=[chunk(f"d.md#{i}", [1.0, 0.0], f"text {i}") for i in range(4)],
                       nearest=["d.md#0", "d.md#1", "d.md#3"])  # fmt: skip
-    units = SplitUnitStore(chunks=["d.md#2", "d.md#1"])
-    result = SearchText(store, units, FixedEmbedder(), rrf_k=60, limit=2).run(
+    return store, SplitUnitStore(chunks=["d.md#2", "d.md#1"])
+
+
+def test_search_text_without_a_reranker_fuses_both_lists_depth_deep_and_shows_the_cap():
+    store, units = search_store()
+    result = SearchText(store, units, FixedEmbedder(), rrf_k=60, depth=2, limit=2).run(
         SearchArguments(query="kettle lid")
     )
     # d.md#1 is in both lists; each list is read two deep, so d.md#3 is never asked for
     assert [c.chunk_id for c in result.chunks] == ["d.md#1", "d.md#0"]
     assert result.chunks[0].text == "text 1" and result.total == 3
     assert store.nearest_calls == [2]
+
+
+def test_search_text_shows_the_rerankers_order_of_the_whole_pool_up_to_the_cap():
+    """R199: both lists read `depth` deep, the fused pool ordered by the reranker, `limit` of it shown."""
+    store, units = search_store()
+    prompts = []
+    llm = ScriptedLLM(lambda prompt, schema: prompts.append(prompt) or RankedPassages(order=["P3", "P2"]))
+    reranker = PassageReranker(llm, RerankOptions(model="m", temperature=0.0, thinking=""))
+    result = SearchText(store, units, FixedEmbedder(), rrf_k=60, depth=3, limit=2, reranker=reranker).run(
+        SearchArguments(query="kettle lid")
+    )
+    # RRF's pool is d.md#1, d.md#0, d.md#2, d.md#3; the reranker puts its third and second first
+    assert [c.chunk_id for c in result.chunks] == ["d.md#2", "d.md#0"] and result.total == 4
+    assert result.chunks[0].text == "text 2"  # the passage whole, from the store
+    assert store.nearest_calls == [3] and "kettle lid" in prompts[0] and "[P4]" in prompts[0]
+
+
+def test_search_text_keeps_rrfs_order_when_the_reranker_fails():
+    def fail(prompt, schema):
+        raise LLMResponseError("the provider kept failing")
+
+    store, units = search_store()
+    reranker = PassageReranker(ScriptedLLM(fail), RerankOptions(model="m", temperature=0.0, thinking=""))
+    result = SearchText(store, units, FixedEmbedder(), rrf_k=60, depth=3, limit=2, reranker=reranker).run(
+        SearchArguments(query="kettle lid")
+    )
+    assert [c.chunk_id for c in result.chunks] == ["d.md#1", "d.md#0"] and result.total == 4
 
 
 def claim_hit(claim_id: str, siblings=()) -> ClaimHit:

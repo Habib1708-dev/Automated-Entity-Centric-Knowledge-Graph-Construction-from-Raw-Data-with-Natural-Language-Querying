@@ -5,7 +5,9 @@ Role in the pipeline: the agent (R135) uses them when the question is about text
 check what the graph walk found against the passages themselves.
 Design: Strategy, one class per tool (tool.py), built on the hybrid retrievers R128 measured
 (`chunk_dense` and `chunk_lexical`, `claim_dense` and `claim_lexical`), each list read `limit` deep and
-the two fused by reciprocal rank fusion (`hybrid/fusion.py`). A claim comes with its opposite-truth
+the two fused by reciprocal rank fusion (`hybrid/fusion.py`); since R199 `search_text` reads each passage list
+`depth` deep and has the passage reranker (hybrid/passage_rerank.py) order the fused pool, RRF kept as its
+fallback (R198's `rerank_10x10`, frozen). A claim comes with its opposite-truth
 siblings (the same triple stated and denied), as the claim retrievers read them, so a denial is never shown
 without the statement it denies; the truth fields are the stored ones, never read from a sentence.
 The two exhaustive tools (R141) exist for counting and listing: a ranked search shows the best few passages,
@@ -29,19 +31,24 @@ Not here: the graph-walk tools (graph_tools.py), the Cypher (node_reader.py, tex
 hybrid/unit_store.py).
 """
 
+import logging
 import re
 
 from pydantic import BaseModel, Field, field_validator
 
+from ..core.errors import LLMResponseError
 from ..core.identity import document_of
 from ..hybrid.fusion import rrf
+from ..hybrid.passage_rerank import PassageReranker
 from ..hybrid.retrievers import ChunkDense, ChunkLexical, ClaimRetriever
 from ..hybrid.unit_store import UnitStore
 from ..llm.base import Embedder
-from ..query.graph_store import GraphStore
+from ..query.graph_store import GraphStore, StoredChunk
 from .node_reader import NodeReader
 from .results import ChunksResult, ChunkText, ClaimsResult
 from .text_reader import TextReader
+
+logger = logging.getLogger(__name__)
 
 # a sentence ends at . ! or ? followed by space, or at a line break (a list item, a heading)
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
@@ -63,28 +70,54 @@ class SearchArguments(BaseModel):
 
 
 class SearchText:
-    """`search_text`: the chunks nearest the query and scored highest by its words, fused, at most `limit`."""
+    """`search_text`: the chunks nearest the query and scored highest by its words, each list read `depth`
+    deep, fused by RRF into one pool, ordered by the passage reranker, at most `limit` shown.
+
+    R199 (frozen after R198): the reranker reads every pooled passage whole and orders the pool by what each
+    states, so a passage saying the asked idea in other words is not pushed out by passages sharing the
+    query's words (R196, R198: recall at 5 0.831 with RRF, 0.922 reranked from 10 + 10). RRF's order is the
+    fallback: without a reranker, and when the reranker's call fails, which is logged and never breaks the
+    search. Either way the result is the same `ChunksResult`, whole passages from the store.
+    """
 
     name = "search_text"
     description = "Search every text passage by meaning and by words, best first."
     arguments = SearchArguments
 
-    def __init__(self, store: GraphStore, units: UnitStore, embedder: Embedder, rrf_k: int, limit: int):
+    def __init__(
+        self, store: GraphStore, units: UnitStore, embedder: Embedder, rrf_k: int, depth: int, limit: int,
+        reranker: PassageReranker | None = None,
+    ):  # fmt: skip
         self._lists = (ChunkDense(store), ChunkLexical(units))
         self._store = store
         self._embedder = embedder
         self._rrf_k = rrf_k
+        self._depth = depth
         self._limit = limit
+        self._reranker = reranker
 
     def run(self, arguments: SearchArguments) -> ChunksResult:
         vector = self._embedder.embed([arguments.query])[0]
-        lists = {r.name: r.retrieve(arguments.query, vector, self._limit).chunks for r in self._lists}
+        lists = {r.name: r.retrieve(arguments.query, vector, self._depth).chunks for r in self._lists}
         fused = rrf(lists, self._rrf_k)
-        chunks = [
-            ChunkText(chunk_id=c.chunk_id, context=c.context, text=c.text)
-            for c in self._store.chunks(fused[: self._limit])
-        ]
+        pool = self._store.chunks(fused)
+        shown = self._ordered(arguments.query, pool)[: self._limit]
+        chunks = [ChunkText(chunk_id=c.chunk_id, context=c.context, text=c.text) for c in shown]
         return ChunksResult(chunks=chunks, total=len(fused), note="" if chunks else "No passage found.")
+
+    def _ordered(self, query: str, pool: list[StoredChunk]) -> list[StoredChunk]:
+        """The pool in the reranker's order, or in RRF's when there is no reranker or its call fails."""
+        if self._reranker is None or not pool:
+            return pool
+        try:
+            order = self._reranker.rerank(query, pool).order
+        except LLMResponseError as e:
+            # the provider kept failing: the search still answers, in RRF's order (MLflow counts the failed
+            # attempts as llm_failures)
+            logger.warning("search_text reranking failed, RRF order kept: %s", e)
+            return pool
+        by_id = {c.chunk_id: c for c in pool}
+        return [by_id[i] for i in order]
 
 
 class SearchClaims:
