@@ -1,0 +1,33 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-15",
+  "run_id": "2c3b37b201d649a19bb8b1d8ce594dac",
+  "git_sha": "ef3a159"
+ },
+ "gold": "tests/gold/r194/heldout_evidence.json",
+ "answers": "out/r212_heldout/answers_agent_evidence.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "HS01",
+   "correct": false,
+   "reason": "names 10689793, 10690483, 10972343; missing 11176393 (Subaru dealer 'nothing is wrong'); no extra (judge B agreed: names 10689793, 10690483, 10972343; missing 11176393; no extra)"
+  },
+  {
+   "question_id": "HS02",
+   "correct": true,
+   "reason": "names all four: 20V064000, 20V373000, 22V875000, 26V011000; none missing; no extra (judge B agreed: names all four: 20V064000, 20V373000, 22V875000, 26V011000; no missing, no extra)"
+  },
+  {
+   "question_id": "HE03",
+   "correct": true,
+   "reason": "names 21V839000; none missing; no extra (16V244000 lookalike left out) (judge B agreed: names 21V839000; no missing, no extra (16V244000 lookalike left out))"
+  },
+  {
+   "question_id": "HE09",
+   "correct": true,
+   "reason": "expected none; answers that no recall is flagged over-the-air; nothing missing; no extra (software-update recalls left out) (judge B agreed: expected set is empty; answer says none are flagged, names nothing; no extra (software-update recalls left out))"
+  }
+ ]
+}

@@ -11342,6 +11342,89 @@ is not empty. It holds furniture, reloaded for the R207-R210 check (`out/r207_fu
 **R212 done 2026-10-15.** Next: R213, judged blind by meaning, paired, the verdicts behind each failure read,
 and the decision ($0).
 
+### R213. The working set judged, paired and decided (done 2026-10-15; $0, judging and analysis)
+
+**Judge.** Claude Opus 5.5, as two blind subagents (the model of R187, R191 and R195).
+- They read one sheet, `out/r213/sheet.json`: the 13 questions with the three arms' answers labelled A, B and
+  C by `random.Random(213)`. The key (`out/r213/key.json`) was kept apart.
+- They used R71's rules at scope "all".
+- **They agreed on all 39 verdicts, and every verdict equals exact match.**
+- Files: `tests/gold/r213/<dataset>_evidence_<arm>_meaning.json`, scored by `kg qa-score` into
+  `out/r213/meaning/<dataset>_<arm>`, and paired by `kg qa-compare` over the pooled outcomes
+  (`out/r213/compare/`).
+
+**Results** (by meaning, n = 13; the 8 failures were chosen because they failed):
+
+| | failures (8) | controls (5) | **all (13)** |
+|---|---|---|---|
+| `agent` | 0 | 5 | **5** |
+| `agent_evidence` | 3: FB18, NC11, HS02 | 5 | **8** |
+| `agent_workset` | 2: NC11, LC08 | 5 | **7** |
+
+**Paired (exact McNemar):**
+- `agent_workset` against `agent`: 2 to 0, p = 0.50.
+- `agent_evidence` against `agent`: 3 to 0, p = 0.25.
+- `agent_workset` against `agent_evidence`: 1 (LC08) to 2 (FB18, HS02), p = 1.0.
+
+No answer of any arm named a member that was not expected. Every wrong answer leaves members out.
+
+**Where the gold items were, and what the agent decided.** This comes from the `workset_marks` of
+`out/r212_<dataset>/answers_agent_workset.jsonl`. In 5 of the 6 failures the working set left wrong, the gold
+passage was in the set, whole, and the agent excluded it with a literal reason:
+- **FB18:** Gothenburg's "arrived with a small dent", judged "not damaged or scratched out of the box".
+  Uppsala's chip and Örebro's dent were judged the same way.
+- **HS01:** "OPERATES AS EXPECTED", judged "rather than saying the behaviour was normal". "worked as intended"
+  and "nothing is wrong" were judged the same way.
+- **FS02:** "Assembly took ... with two people", judged "not that two people were needed". Helsingborg's
+  "me and my roommate" was judged the same way.
+- **LS01:** St Anthony's passage was excluded ("occulting the light rather than turning it").
+- **HS02:** 20V373000 was excluded as "water entering, not leaking". This is the doubt R185's review left
+  standing.
+- **ND11:** the one failure outside this pattern. The gold passage (`robinson_r44_ii_accidents.md#1`) was never
+  read, so it was not in the set.
+
+Both fixes came from verdicts the ledger's separate judge got wrong or did not need. In LC08, the agent
+included St Anthony's "fog-bell" passage; the ledger read the same 7 passages and kept 1 row. In NC11, all
+three "forced landing" passages were included.
+
+**The reading of the cause** (this session's reading of the traces, not a measured cause): the per-item verdict
+did not stop the literal reading. The agent wrote its literal reading into its reasons. The ledger's judge sees
+each passage beside the question only. The working set shows the agent its own draft and transcript, so the
+agent may anchor on what it already answered. FB18 is the clearest case: the same dent and chip passages were
+included by the ledger's judge and excluded by the agent.
+
+**The user's four criteria, for `agent_workset`:**
+1. *Corrects at least 2 earlier failures:* 2 of 8 (NC11, LC08). **Met, at the bound.**
+2. *No control regression:* 5 of 5 right. **Met.**
+3. *Entity-to-evidence associations preserved:* every member it added is backed by an item it included, with
+   its quote verbatim. It was never sent back, and every included quote passed code's check. Faithfulness is
+   1.0 on every dataset. No extra member was named. **Met.**
+4. *Latency and cost:* +$0.021 a question (the agent costs $0.056) and about +20 s a question (mean wall time
+   with the agent's turns replayed from the cache: 22 s, against the agent's 35 s). The ledger costs +$0.009
+   and about +10 s. **Acceptable as an addition, but more than twice the ledger's.**
+
+**Decision.** The working set meets the four criteria, but it is **not better than the evidence ledger**: 7
+against 8, 1 to 2 discordant. It costs about twice as much. Its own mechanism, the agent judging its own read
+items, keeps the literal reading that causes the failures. **Not adopted, and not preferred over the ledger.**
+
+What the experiment adds to the thesis:
+- **Reach was not the bottleneck.** In 5 of the 6 failures left, the gold item was in front of the deciding
+  model, whole.
+- **Who judges matters.** A judge separate from the planner, without the draft, included the paraphrases
+  that the planner excluded (FB18).
+
+**Read with care:**
+- 13 questions, 8 of them seen failures; one run per arm.
+- p = 0.50 and p = 1.0 show no difference.
+- The anchoring reading is a hypothesis. It could be tested at about $0.27: the same variant with the draft
+  and transcript left out of its prompt, replayed over the cached agent turns.
+- The gold (Fable 5.1), the judges and this analysis (Opus 5.5) are one model family.
+
+**R213 done 2026-10-15; plan R211-R213 done** (R212's $1.122, R213 $0). Next: the user decides. Candidates:
+- the anchoring test above;
+- the ledger's isolated judging extended with the working set's reach (query rows, abstentions);
+- stopping here, and recording the result as a thesis finding.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
