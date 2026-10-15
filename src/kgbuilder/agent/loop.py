@@ -245,6 +245,7 @@ class AgentLoop:
             evidence_rows=len(state.evidence.rows) if state.evidence else 0,
             evidence_sent=[r.chunk_id for r in state.evidence.left_out] if state.evidence else [],
             llm_ms=round(state.llm_s * 1000, 1), wall_ms=round((self._timer() - state.timed) * 1000, 1),
+            queries=state.ledger.queries(),
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)
 

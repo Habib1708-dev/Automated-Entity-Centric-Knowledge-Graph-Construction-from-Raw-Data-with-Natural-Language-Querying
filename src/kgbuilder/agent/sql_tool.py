@@ -17,10 +17,18 @@ Not here: the check (sql_check.py), the locked store (sql_tables.py), the schema
 
 from pydantic import BaseModel, Field
 
-from .sql_check import check_sql
+from .sql_check import check_sql, tables_read
 from .sql_tables import LockedTables, SqlRead
 from .structured_query import Compiled
-from .structured_tools import QueryResult, _query_id, _refused, cells, joined  # the typed tools' rendering
+from .structured_tools import (  # the typed tools' rendering and provenance
+    Origin,
+    QueryResult,
+    _query_id,
+    _refused,
+    cells,
+    joined,
+    traced,
+)
 
 # What the tool's text tells the model. "count in SQL" is R161's rule for the typed tools (a count read off
 # listed rows was wrong in LB11), said here for the statement the model writes; quoting names is what a
@@ -59,14 +67,20 @@ class QuerySql:
         if read.error is not None:
             return QueryResult(issues=[read.error], note="The query failed to run.")
         rows, cut = cells(read.keys, read.rows, self._value_chars)
-        query_id = _query_id(Compiled(statement=statement, parameters={}, shape="rows"))
-        return QueryResult(
+        compiled = Compiled(statement=statement, parameters={}, shape="rows")
+        query_id = _query_id(compiled)
+        result = QueryResult(
             query_id=query_id,
             columns=read.keys,
             rows=rows,
             total=read.total,
             note=joined(self._note(len(rows), read), cut),
         )
+        # R208: the tables the statement reads, their staged files, the rows uncut; out of the model's sight
+        read_tables = tables_read(statement, self._names)
+        files = [self._tables.source_file(t) for t in read_tables]
+        origin = Origin(tool=self.name, sources=read_tables, files=files)
+        return result.traced(traced(query_id, compiled, origin, read.keys, read.rows, [], read.total))
 
     def _note(self, shown: int, read: SqlRead) -> str:
         """Said by code: nothing found, or which rows are shown of how many and how to see or count more."""

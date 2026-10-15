@@ -60,6 +60,10 @@ class TableStore(Protocol):
         """The rows of a compiled SELECT; `error` set instead when it fails."""
         ...
 
+    def source_file(self, table: str) -> str:
+        """The staged CSV a table was read from (R208), for the provenance of a query over it."""
+        ...
+
 
 class DuckDBTables:
     """`TableStore` over the staged CSVs of one build, read once into in-memory tables on a locked
@@ -71,6 +75,7 @@ class DuckDBTables:
         # every staged CSV, in subfolders too: a dataset whose files sit in folders is staged in folders, and
         # reading the top level only left such a dataset with no table at all (found in R164)
         names = [_table_name(path, Path(staging)) for path in sorted(Path(staging).rglob("*.csv"))]
+        self._files = {name: (Path(staging) / f"{name}.csv").as_posix() for name in names}
         for name in names:
             self._load(name, Path(staging) / f"{name}.csv")
         self._tables = [self._describe(name) for name in names]
@@ -95,6 +100,9 @@ class DuckDBTables:
             return ReadResult(rows=rows, keys=keys)
         except duckdb.Error as e:  # a runtime error (a cast, a type): the agent reads it as the result
             return ReadResult(error=str(e))
+
+    def source_file(self, table: str) -> str:
+        return self._files[table]
 
     def close(self) -> None:
         self._con.close()

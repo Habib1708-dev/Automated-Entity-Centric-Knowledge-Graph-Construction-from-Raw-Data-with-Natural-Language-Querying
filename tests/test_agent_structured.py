@@ -25,7 +25,9 @@ refused. R168: the measure `distinct` and a `period` (year or decade) of the gro
 the refusals (no field, a list, a period with nothing to read or on a number or a time of day, with a split),
 the Cypher as text (a date's year, its decade, a text's year through APOC with the pattern parameter, and a
 grouped count unchanged with no such parameter), DuckDB over a CSV with a text column of mixed date shapes
-and a date column, and the descriptions naming distinct and decade."""
+and a date column, and the descriptions naming distinct and decade. R207: the columns a value was cut in
+are named in the note. R208: a run keeps its provenance (statement, parameters, label or table, source file,
+rows uncut) out of the JSON the model reads."""
 
 import pytest
 
@@ -40,7 +42,7 @@ from kgbuilder.agent.structured_query import (
     pair_kind,
     word_pattern,
 )
-from kgbuilder.agent.structured_tools import QueryRecords, QueryTables, Schema
+from kgbuilder.agent.structured_tools import QueryRecords, QueryResult, QueryTables, Schema
 from kgbuilder.agent.table_query import compile_table
 from kgbuilder.agent.tables import DuckDBTables
 from kgbuilder.hybrid.unit_store import CardStart
@@ -660,6 +662,20 @@ def test_query_tables_answers_rows_with_their_total_and_a_stable_id(tables):
     assert (value.rows, value.total) == ([["2017.0"]], 1)
 
 
+def test_a_table_query_keeps_its_provenance_out_of_the_models_sight(tables, tmp_path):
+    """R208: the statement, the table, its staged file and the rows uncut were thrown away after the run, so
+    a cited `q-` id could not be traced; kept now, but never in the JSON the model reads."""
+    result = QueryTables(tables, limit=2, value_chars=6).run(TableQuery(table="kettles", order_by="id"))
+    record = result.record()
+    assert (record.query_id, record.tool, record.total) == (result.query_id, "query_tables", 3)
+    assert (record.sources, record.files) == (["kettles"], [(tmp_path / "kettles.csv").as_posix()])
+    assert record.columns == result.columns and record.statement.startswith("SELECT")
+    assert record.rows[0][:2] == ["K1", "Meridian Kettle"]  # uncut: the agent saw "Meridi..."
+    shown = result.model_dump_json()
+    assert "statement" not in shown and shown == QueryResult(**result.model_dump()).model_dump_json()
+    assert QueryTables(tables, 2, 6).run(TableQuery(table="nope")).record() is None  # refused: no run
+
+
 def test_query_tables_pages_a_cut_list_by_offset(tables):
     assert check_query(TableQuery(table="t", offset=20), FIELDS) == []
     assert check_query(TableQuery(table="t", measure="count", group_by="year", offset=5), FIELDS) == []
@@ -795,9 +811,14 @@ def test_query_records_lists_records_with_their_refs_and_reports_a_failed_run():
     assert result.names == ["S1", "S2"]  # no name in the rows: the key the ref ends in
     assert result.cites() == [result.query_id, "Part:S1", "Part:S2"]
     assert store.reads[0][1]["anchor"] == "4:x:1"
+    # R208: the run's provenance names the label, the plan's source file, the Cypher and its parameters
+    record = result.record()
+    assert (record.sources, record.files, record.refs) == (["Part"], ["parts.csv"], ["Part:S1", "Part:S2"])
+    assert record.statement == store.reads[0][0] and '"anchor": "4:x:1"' in record.parameters
     failed, _ = query_records(ReadResult(error="the timeout"))
     result = failed.run(RecordQuery(label="Press"))
     assert (result.issues, result.note, result.cites()) == (["the timeout"], "The query failed to run.", [])
+    assert result.record() is None
 
 
 def test_the_schema_shows_the_record_layer_the_claim_patterns_and_the_tables(tables):

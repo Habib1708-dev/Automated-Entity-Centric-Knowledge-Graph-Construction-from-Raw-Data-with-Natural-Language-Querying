@@ -11080,6 +11080,29 @@ afterwards, only with the user's yes.
   check .`: clean. No run ($0).
 - **R207 done 2026-10-15.** Next: R208.
 
+### R208. Structured query provenance saved per answer (done 2026-10-15; code, no run)
+- **Scope:** `query/answers.py` (`QueryRecord`: query id, tool, statement, parameters as JSON text, the
+  labels or tables read, the source files behind them, columns, rows uncut, refs, total;
+  `AgentTrace.queries`); `agent/structured_tools.py` (`QueryResult` holds its record as a pydantic private
+  attribute, never in the JSON the model reads; `Origin`, `traced`; `query_records` names the label and the
+  plan's source file, `query_tables` the table and its staged CSV); `agent/tables.py`
+  (`TableStore.source_file`); `agent/sql_check.py` (`tables_read`: the staged tables a checked SELECT reads,
+  from DuckDB's parse tree); `agent/sql_tool.py` (its record); `agent/citations.py` (`Ledger.queries`, the
+  first run of each id); `agent/loop.py` (the trace carries them).
+- **Before / after:** R206's FO01 (`out/r206_furniture/answers_agent.jsonl`) states prices backed only by
+  `q-19a37be8dc`, which nothing in the file resolves. Now every answer's `agent.queries` holds, e.g. for
+  the loop test, `{"query_id": "q-…", "tool": "query_tables", "statement": "SELECT count(*) …",
+  "sources": ["kettles"], "files": [".../kettles.csv"], "rows": [["2"]], "total": 1}`.
+- **No behaviour change:** the model's JSON is byte-identical (tested: the dump equals that of a result
+  built without the record, and the prompt holds no `"statement"`). A table row has no id of its own (the
+  user's choice): the statement run again over the named staged file finds it. Rows kept are those
+  returned (one page, at most `agent_rows`), each value uncut.
+- **Verified:** new tests failing before (a table query's record and its JSON unchanged; a record query's
+  label, plan source file, Cypher and parameters; `query_sql`'s statement, tables and files; a cited id
+  resolving in the trace and surviving a JSON round trip). `uv run pytest`: 1871 passed; `uv run ruff
+  check .`: clean. No run ($0).
+- **R208 done 2026-10-15.** Next: R209.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -46,6 +46,14 @@ def check_sql(statement: str, tables: set[str]) -> list[str]:
     return list(dict.fromkeys(issues))
 
 
+def tables_read(statement: str, tables: set[str]) -> list[str]:
+    """The staged tables of `tables` a checked `statement` reads, each once, in the order the parse tree
+    names them (R208: the provenance of a `query_sql` run); its own subqueries are not tables."""
+    tree = json.loads(_parse(statement))
+    found = (n.get("table_name", "") for n in _nodes(tree.get("statements", [])) if n.get("type") == _TABLE)
+    return list(dict.fromkeys(name for name in found if name in tables))
+
+
 def _parse(statement: str) -> str:
     """DuckDB's parse tree of `statement` as JSON text, from an empty connection of its own."""
     with duckdb.connect() as con:

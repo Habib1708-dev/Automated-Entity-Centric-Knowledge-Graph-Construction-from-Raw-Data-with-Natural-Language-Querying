@@ -5,7 +5,8 @@ trailing semicolon is dropped; DuckDB's parser refuses anything but one SELECT (
 ATTACH, PRAGMA, a syntax error), and the check refuses a table function, a file read as a table, another
 schema and an unknown table, each with its reason; the locked connection reads no file and keeps its
 settings even for a statement that passed no check, and a query past the time limit is stopped; a cut list
-says how to see more; what the model reads names no evaluated dataset."""
+says how to see more; what the model reads names no evaluated dataset. R207: a cut value is named in the
+note. R208: a run keeps its statement, the tables it read and their staged files, out of the model's sight."""
 
 from pathlib import Path
 
@@ -53,6 +54,21 @@ def test_a_select_that_joins_and_counts_runs_with_its_total_and_an_id(tool):
     assert result.query_id.startswith("q-") and result.cites() == [result.query_id]
     assert ask(tool, 'SELECT k.maker, count(*) AS n FROM "shop/kettles" k JOIN notes n ON n.kettle = k.id '
                      "GROUP BY k.maker ORDER BY k.maker;").query_id == result.query_id  # fmt: skip
+
+
+def test_a_run_keeps_its_statement_the_tables_it_read_and_their_staged_files(tool, staging):
+    """R208: the SQL, its tables and rows lived only in the prompt; kept now, out of the model's sight."""
+    sql = 'SELECT k.id, n.note FROM "shop/kettles" k JOIN notes n ON n.kettle = k.id ORDER BY k.id'
+    result = ask(tool, sql)
+    record = result.record()
+    assert (record.query_id, record.tool, record.statement) == (result.query_id, "query_sql", sql)
+    assert sorted(record.sources) == ["notes", "shop/kettles"]
+    assert sorted(record.files) == [
+        (staging / "notes.csv").as_posix(),
+        (staging / "shop/kettles.csv").as_posix(),
+    ]
+    assert record.rows == [["K1", "call 555-0101 or 555-0102"], ["K3", "no number given"]]
+    assert "statement" not in result.model_dump_json()
 
 
 def test_a_named_subquery_and_a_regular_expression_are_read_as_written(tool):

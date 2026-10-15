@@ -155,6 +155,24 @@ AgentOutcome = Literal["answer", "clarify", "out_of_scope", "insufficient_eviden
 # the gold expects outcomes as well; `QAAnswer.outcome` carries it into every answers file.
 
 
+class QueryRecord(BaseModel):
+    """One structured query the agent ran (R208), kept so the `q-` id an answer cites resolves within the
+    answers file: the tool, the statement and its parameters as run, what it read (record labels or tables)
+    and the source files behind them, and its result uncut (the agent saw the values cut at its cap). A
+    table row has no id of its own: the statement run again over the named staged file finds it."""
+
+    query_id: str
+    tool: str
+    statement: str
+    parameters: str  # the parameters as JSON text: values of any type, kept as they were bound
+    sources: list[str]  # the record labels or the tables it read
+    files: list[str]  # the source files behind them: a table's staged CSV, a label's plan source file
+    columns: list[str]
+    rows: list[list[str]]  # every row returned, values as text, uncut
+    refs: list[str] = []  # listed records: each row's record ref, in row order
+    total: int
+
+
 class AgentTrace(BaseModel):
     """How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model
     answered, or a cap was reached and it answered with the tools closed), the characters of every prompt
@@ -191,6 +209,9 @@ class AgentTrace(BaseModel):
     outcome: AgentOutcome | None = None
     outcome_sent: bool = False
     readings: list[str] = []
+    # R208: every structured query that ran, in the order run, so a cited `q-` id resolves (empty: no query
+    # ran, or a file from before R208)
+    queries: list[QueryRecord] = []
 
 
 class ScreenVerdict(BaseModel):

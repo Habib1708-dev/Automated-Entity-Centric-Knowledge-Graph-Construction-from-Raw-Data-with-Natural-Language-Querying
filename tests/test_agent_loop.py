@@ -21,7 +21,8 @@ back with. R150: a thing `rank_by_documents` counted is given its name, and its 
 R161: the prompt asks for counts and sums of entries from a tool's measure, never by counting listed rows,
 and for one list less another by `!=` conditions. R163: the form rule, the `entities` field and `asks` list
 several years, a month alone or a time of day as things, keep a date (a day of a month, with or without
-its year) as text and a year alone as a number."""
+its year) as text and a year alone as a number. R208: a cited query id resolves in the trace to the query's
+statement, source table and file, and rows."""
 
 from types import SimpleNamespace
 
@@ -58,7 +59,10 @@ from kgbuilder.agent.results import (
     NodeHit,
     NodesResult,
 )
+from kgbuilder.agent.structured_query import TableQuery
+from kgbuilder.agent.structured_tools import QueryTables
 from kgbuilder.agent.system import AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
+from kgbuilder.agent.tables import DuckDBTables
 from kgbuilder.config import Settings
 from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
@@ -165,6 +169,23 @@ def test_a_call_runs_and_its_result_is_in_the_next_prompt_with_the_calls_left():
     assert "Tool calls left: 3." in script.prompts[0] and "Tool calls left: 2." in script.prompts[1]
     assert '<turn n="1" tool="find">' in script.prompts[1] and '"ref":"k1"' in script.prompts[1]
     assert run.trace.prompt_chars == sum(len(p) for p in script.prompts)
+
+
+def test_a_cited_query_id_resolves_in_the_trace_to_its_statement_source_and_rows(tmp_path):
+    """R208: an answer resting on a query cited only `q-<sha10>`, which nothing saved could resolve."""
+    (tmp_path / "kettles.csv").write_text("id,name\nK1,Lark Kettle\nK2,Wren Kettle\n", encoding="utf-8")
+    tool = QueryTables(DuckDBTables(tmp_path), limit=5, value_chars=300)
+    query_id = tool.run(TableQuery(table="kettles", measure="count")).query_id
+    script = Script(
+        call("query_tables", '{"table": "kettles", "measure": "count"}'), answer(query_id, text="2")
+    )
+    run = loop(script, tools=[tool]).run("How many kettles?")
+    assert run.trace.cited == [query_id]
+    [record] = run.trace.queries
+    assert (record.query_id, record.sources, record.rows) == (query_id, ["kettles"], [["2"]])
+    assert record.files == [(tmp_path / "kettles.csv").as_posix()]
+    assert '"statement"' not in script.prompts[1]  # the model reads the result as before
+    assert AgentTrace.model_validate_json(run.trace.model_dump_json()).queries == [record]
 
 
 def test_refused_calls_are_written_back_with_their_reason_and_use_a_turn_but_no_call():

@@ -23,8 +23,9 @@ import hashlib
 import json
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, PrivateAttr
 
+from ..query.answers import QueryRecord
 from ..query.graph_schema import GraphSchema
 from ..query.graph_store import CypherStore, ReadResult
 from ..structured.plan import ConstructionPlan, name_property
@@ -65,9 +66,21 @@ class QueryResult(ToolResult):
     names: list[str] = []  # and each one's display name (its name column, else its key), in row order
     total: int = 0  # the entries or groups before the cut; 1 for a single measured value
     issues: list[str] = []  # why the query was refused, or the error of its run
+    # R208: what the run read and returned uncut, for the answer's trace. Private, so never in the JSON the
+    # model reads: the prompt is the same with it as without it
+    _record: QueryRecord | None = PrivateAttr(default=None)
 
     def cites(self) -> list[str]:
         return [self.query_id, *self.refs] if self.query_id else []
+
+    def record(self) -> QueryRecord | None:
+        """The run's provenance (R208), or None for a refused or failed query."""
+        return self._record
+
+    def traced(self, record: QueryRecord) -> "QueryResult":
+        """This result with `record` as its provenance."""
+        self._record = record
+        return self
 
 
 class Schema:
@@ -117,6 +130,7 @@ class QueryRecords:
         self._fields = {i.label: {p.name: p for p in i.properties} for i in records.labels}
         self._keys = {rule.label: rule.unique_column for rule in plan.nodes} if plan else {}
         self._names = {rule.label: name_property(rule) for rule in plan.nodes} if plan else {}
+        self._files = {rule.label: rule.source_file for rule in plan.nodes} if plan else {}
         self._relationships = {r.type for r in records.relationships}
         self._store = store
         self._reader = reader
@@ -135,7 +149,8 @@ class QueryRecords:
         compiled = compile_records(arguments, fields, self._keys[arguments.label], rules, anchor, self._limit)
         read = self._store.run_read(compiled.statement, compiled.parameters)
         name = self._names[arguments.label]
-        return _result(compiled, read, sorted(fields), self._value_chars, arguments.offset, name)
+        origin = Origin(tool=self.name, sources=[arguments.label], files=[self._files[arguments.label]])
+        return _result(compiled, read, sorted(fields), self._value_chars, arguments.offset, origin, name)
 
     def _anchor(self, query: RecordQuery) -> tuple[list[str], str | None]:
         """Why `related_to` and `relationship` (a type, or a path of types) cannot be used, and the related
@@ -188,7 +203,10 @@ class QueryTables:
             return _refused(issues)
         compiled = compile_table(arguments, fields, self._limit)
         read = self._tables.run(compiled.statement, compiled.parameters)
-        return _result(compiled, read, list(fields), self._value_chars, arguments.offset)
+        origin = Origin(
+            tool=self.name, sources=[arguments.table], files=[self._tables.source_file(arguments.table)]
+        )
+        return _result(compiled, read, list(fields), self._value_chars, arguments.offset, origin)
 
 
 def _listed(names) -> str:
@@ -200,17 +218,27 @@ def _refused(issues: list[str]) -> QueryResult:
     return QueryResult(issues=issues, note="The query was refused; correct it and ask again.")
 
 
+class Origin(BaseModel):
+    """Where a query read (R208): the tool, the record labels or tables, and the source files behind them."""
+
+    tool: str
+    sources: list[str]
+    files: list[str]
+
+
 def _result(
     compiled: Compiled,
     read: ReadResult,
     columns: list[str],
     value_chars: int,
     offset: int,
+    origin: Origin,
     name_column: str = "",
 ) -> QueryResult:
     """A run's rows as the agent reads them: values as text and cut, the total, the paging note (`offset`:
     the entries the page skipped) followed by the columns whose values were cut (R207), and the statement's
-    id; listed records with their refs and their names (`name_column`, else the key the ref ends in)."""
+    id; listed records with their refs and their names (`name_column`, else the key the ref ends in); and,
+    out of the model's sight, the run's provenance from `origin` (R208)."""
     if read.error is not None:
         return QueryResult(issues=[read.error], note="The query failed to run.")
     query_id = _query_id(compiled)
@@ -231,9 +259,23 @@ def _result(
         else:
             shown, raw = columns, [[r[c] for c in columns] for r in rows]
     values, cut = cells(shown, raw, value_chars)
-    return QueryResult(
+    result = QueryResult(
         query_id=query_id, columns=shown, rows=values, refs=refs, names=names, total=total,
         note=joined(note, cut),
+    )  # fmt: skip
+    return result.traced(traced(query_id, compiled, origin, shown, raw, refs, total))
+
+
+def traced(
+    query_id: str, compiled: Compiled, origin: Origin, columns: list[str], raw: list[list[Any]],
+    refs: list[str], total: int,
+) -> QueryRecord:  # fmt: skip
+    """The provenance of one run (R208): `origin`, the statement and parameters as run, and the rows uncut."""
+    return QueryRecord(
+        query_id=query_id, tool=origin.tool, statement=compiled.statement,
+        parameters=json.dumps(compiled.parameters, sort_keys=True, default=str), sources=origin.sources,
+        files=origin.files, columns=columns, rows=[[_plain(v) for v in row] for row in raw], refs=refs,
+        total=total,
     )  # fmt: skip
 
 

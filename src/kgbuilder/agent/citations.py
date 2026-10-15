@@ -23,6 +23,7 @@ import re
 from pydantic import BaseModel
 
 from ..core.text import norm
+from ..query.answers import QueryRecord
 from ..validation.qa import Citation
 from .prompt import AgentCitation
 from .results import (
@@ -65,6 +66,7 @@ class Ledger:
         self._read: dict[str, ChunkText] = {}  # chunks whose text a tool returned, in the order first read
         self._names: dict[str, str] = {}  # node ref -> the display name a tool gave it
         self._evidence: dict[str, list[str]] = {}  # id -> the results that offered it, as JSON (R142)
+        self._queries: dict[str, QueryRecord] = {}  # query id -> its run's provenance, first run kept (R208)
 
     def add(self, result: ToolResult) -> None:
         """Keep the ids `result` offers, the chunk of every claim in it, and the text of every chunk in it."""
@@ -82,6 +84,9 @@ class Ledger:
                 self._claim_chunk.update({c.id: c.chunk_id for c in chunk.claims})
         if isinstance(result, ClaimsResult):
             self._claim_chunk.update({c.id: c.chunk_id for c in result.claims})
+        if isinstance(result, QueryResult) and (record := result.record()) is not None:
+            # an equal query has an equal id, so a repeated run adds nothing new
+            self._queries.setdefault(record.query_id, record)
         self._names.update(_names(result))
 
     def check(self, citations: list[AgentCitation]) -> CheckedCitations:
@@ -118,6 +123,10 @@ class Ledger:
     def read(self) -> list[ChunkText]:
         """The chunks whose text the agent read, in the order it first read them."""
         return list(self._read.values())
+
+    def queries(self) -> list[QueryRecord]:
+        """Every structured query that ran, with its provenance, in the order first run (R208)."""
+        return list(self._queries.values())
 
 
 def _names(result: ToolResult) -> dict[str, str]:
