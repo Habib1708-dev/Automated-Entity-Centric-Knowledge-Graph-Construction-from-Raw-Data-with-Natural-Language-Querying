@@ -22,7 +22,9 @@ R161: the prompt asks for counts and sums of entries from a tool's measure, neve
 and for one list less another by `!=` conditions. R163: the form rule, the `entities` field and `asks` list
 several years, a month alone or a time of day as things, keep a date (a day of a month, with or without
 its year) as text and a year alone as a number. R208: a cited query id resolves in the trace to the query's
-statement, source table and file, and rows."""
+statement, source table and file, and rows. R209: a cited chunk read as a cut view is recorded whole, its
+view and document beside it. R210: each citation checked against its own content (a note's number is not
+the item's), the answer's strict support, and an abstention that still cites, with their metrics."""
 
 from types import SimpleNamespace
 
@@ -60,7 +62,7 @@ from kgbuilder.agent.results import (
     NodesResult,
 )
 from kgbuilder.agent.structured_query import TableQuery
-from kgbuilder.agent.structured_tools import QueryTables
+from kgbuilder.agent.structured_tools import QueryResult, QueryTables
 from kgbuilder.agent.system import AGENT_TOOL_TYPES, AgentSystem, ToolCaps, build_tools
 from kgbuilder.agent.tables import DuckDBTables
 from kgbuilder.config import Settings
@@ -68,7 +70,7 @@ from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
 from kgbuilder.pipeline.qa_systems import AGENT_VARIANTS, system_params
 from kgbuilder.query import reader
-from kgbuilder.query.answers import AgentTrace, SystemAnswer, shown_texts
+from kgbuilder.query.answers import AgentTrace, QueryRecord, SystemAnswer, shown_texts
 from kgbuilder.query.graph_schema import GraphSchema
 from kgbuilder.query.reader import ANSWER_FIELDS, FORM_RULE, ReaderAnswer
 from kgbuilder.validation.qa import citation_is_faithful
@@ -692,6 +694,54 @@ def test_a_cited_chunk_read_as_a_cut_view_is_recorded_whole_with_its_view_and_do
     uncited = AgentSystem(loop(Script(call("read", '{"ref": "x"}'), answer())), store).answer("Q2", "?")
     # a chunk neither cited nor holding a cited claim stays as the agent read it
     assert (uncited.shown[0].text, uncited.shown[0].excerpt) == ("The lid is loose.", "")
+
+
+def test_each_citation_is_checked_against_its_own_content_only():
+    """R210: R142's check reads every result offering a cited id whole, so a number held only by a note
+    counted as stated; each citation is now also checked against what its id itself stands for."""
+    ledger = Ledger()
+    record = QueryRecord(query_id="q-1", tool="query_tables", statement="SELECT", parameters="{}",
+                         sources=["t"], files=["t.csv"], columns=["name"], rows=[["Lark Kettle"]],
+                         total=1)  # fmt: skip
+    note = "1-1 of 1 shown; 20 more were left out"
+    ledger.add(
+        QueryResult(query_id="q-1", columns=["name"], rows=[["Lark Kettle"]], total=1, note=note).traced(
+            record
+        )
+    )
+    ledger.add(
+        ChunksResult(chunks=[ChunkText(chunk_id="d.md#0", context="Doc", text="The lid is lo...")], total=1)
+    )
+    citations = [AgentCitation(id="q-1"), AgentCitation(id="d.md#0", quote="It rattles")]
+    kept = ledger.check(citations).kept
+    assert ledger.support(["Lark Kettle"], 20, kept).number_stated is True  # R142 read the note
+    checks = ledger.check_each(
+        citations, kept, ["Lark Kettle"], 20, {"d.md#0": "The lid is loose. It rattles."}
+    )
+    assert [(c.id, c.kind, c.quote_found, c.entities_found, c.number_found) for c in checks] == [
+        ("q-1", "query", None, ["Lark Kettle"], False),
+        ("d.md#0", "chunk", True, [], False),  # the quote found in the whole passage, not the cut view
+    ]
+
+
+def test_the_answer_records_its_strict_support_and_an_abstention_that_still_cites():
+    entity = AgentStep(action="answer", entities=["k1"], citations=[AgentCitation(id="k1")])
+    one = AgentSystem(loop(Script(call("find", '{"ref": "k1"}'), entity)), FakeStore()).answer("Q1", "Which?")
+    assert (one.agent.entities_supported, one.agent.number_supported, one.agent.abstention_cited) == (
+        True,
+        None,
+        False,
+    )
+    assert [(c.id, c.kind, c.entities_found) for c in one.agent.citation_checks] == [("k1", "node", ["It"])]
+    abstain = AgentStep(action="answer", outcome="insufficient_evidence", text="It costs $40, I think.",
+                        citations=[AgentCitation(id="k1")])  # fmt: skip
+    two = AgentSystem(loop(Script(call("find", '{"ref": "k1"}'), abstain)), FakeStore()).answer(
+        "Q2", "Price?"
+    )
+    assert two.agent.abstention_cited is True
+    metrics = _agent_metrics([one, two])
+    assert (metrics["agent_entity_answers_supported"], metrics["agent_abstentions_cited"]) == (1, 1)
+    assert (metrics["agent_quotes_checked"], metrics["agent_quotes_found"]) == (0, 0)
 
 
 def test_the_agents_metrics_count_turns_calls_refusals_and_stops():

@@ -184,6 +184,22 @@ class QueryRecord(BaseModel):
     total: int
 
 
+CitationKind = Literal["chunk", "claim", "node", "query"]
+
+
+class CitationCheck(BaseModel):
+    """One kept citation checked against its own content (R210), recorded, never enforced: which of the
+    answer's entities and whether its number that content holds, and for a chunk whether its quote is in
+    the whole passage (None: no quote, or no number given). R142's check reads every result offering a
+    cited id, notes and column names included; this one reads only what the id itself stands for."""
+
+    id: str
+    kind: CitationKind
+    quote_found: bool | None = None
+    entities_found: list[str] = []
+    number_found: bool | None = None
+
+
 class AgentTrace(BaseModel):
     """How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model
     answered, or a cap was reached and it answered with the tools closed), the characters of every prompt
@@ -223,6 +239,13 @@ class AgentTrace(BaseModel):
     # R208: every structured query that ran, in the order run, so a cited `q-` id resolves (empty: no query
     # ran, or a file from before R208)
     queries: list[QueryRecord] = []
+    # R210 (recorded, never enforced): each kept citation against its own content; whether every named
+    # entity, and the number, is held by some cited item itself (None: none named, no number); and an
+    # abstention or a question back that still cites what the tools returned, so its text may state facts
+    citation_checks: list[CitationCheck] = []
+    entities_supported: bool | None = None
+    number_supported: bool | None = None
+    abstention_cited: bool = False
 
 
 class ScreenVerdict(BaseModel):

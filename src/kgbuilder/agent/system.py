@@ -114,10 +114,22 @@ class AgentSystem:
         entities = None if step.entities is None else [run.ledger.name_of(e) for e in step.entities]
         # R142: the named entities and the number checked against what the kept citations' results hold
         support = run.ledger.support(entities, step.number, run.citations.kept)
+        # R210 (recorded only): each kept citation against its own content, a chunk's against its whole text
+        checks = run.ledger.check_each(
+            step.citations, run.citations.kept, entities, step.number, {c.chunk_id: c.text for c in shown}
+        )
+        strict = {
+            "citation_checks": checks,
+            "entities_supported": None if not entities
+            else all(any(e in c.entities_found for c in checks) for e in entities),
+            "number_supported": None if step.number is None else any(c.number_found for c in checks),
+            "abstention_cited": step.outcome not in (None, "answer") and bool(run.citations.kept),
+        }  # fmt: skip
+        trace = run.trace.model_copy(update=support.model_dump() | strict)
         return SystemAnswer(
             question_id=question_id, system=self.name, retrieved=[c.chunk_id for c in shown],
             entities=entities, number=step.number, text=step.text, citations=run.citations.chunks,
-            shown=shown, agent=run.trace.model_copy(update=support.model_dump()), outcome=step.outcome,
+            shown=shown, agent=trace, outcome=step.outcome,
         )  # fmt: skip
 
 

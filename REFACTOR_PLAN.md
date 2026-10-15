@@ -11124,6 +11124,55 @@ afterwards, only with the user's yes.
   check .`: clean. No run ($0).
 - **R209 done 2026-10-15.** Next: R210.
 
+### R210. Per-citation support recorded, and the gap list (done 2026-10-15; code, no run)
+- **Scope:** `query/answers.py` (`CitationCheck`: id, kind chunk/claim/node/query, `quote_found`,
+  `entities_found`, `number_found`; `AgentTrace.citation_checks`, `entities_supported`, `number_supported`,
+  `abstention_cited`); `agent/citations.py` (the ledger keeps what each result states of each id itself,
+  `_contents`: a passage's text, a claim's sentence, a node's name, other names and values, a counted thing's
+  spellings and document count, a query's cells and total, a listed record's own row; never a note or a
+  column name; `check_each`; `_holds_number` shared with R142's check); `agent/system.py` (the answer
+  carries them, a chunk checked against its whole passage from R209); `pipeline/qa_stages.py` (MLflow
+  metrics `agent_entity_answers_supported`, `agent_number_answers_supported`, `agent_quotes_checked`,
+  `agent_quotes_found`, `agent_abstentions_cited`, beside R142's). The metrics go to MLflow with every other
+  agent metric; `qa_report_<system>.json` holds the scores only, as before.
+- **Record only (the user's choice):** nothing is sent back, so the agent's behaviour is unchanged. R142's
+  fields (`entities_grounded`, `number_stated`) are kept as they were, so their numbers stay comparable.
+- **Before / after** (the test's own case): a query result whose rows hold "Lark Kettle" and whose note says
+  "20 more were left out": R142's check calls an answer of 20 stated (it reads the note); the new check
+  gives `number_found` false for the query id. A chunk read as "The lid is lo..." and quoted "It rattles":
+  `quote_found` true against the whole passage. An `insufficient_evidence` reply whose text gives a price
+  and cites a node: `abstention_cited` true (R206's FO01 pattern, its prices backed only by a query id).
+- **Not measurable on older files ($0):** the per-id content lives in the loop, not in answers files
+  written before R210, so the strict rates exist only for runs from now on.
+- **The gap list** (the 2026-10-15 inspection), and where each stands:
+  1. Silent cuts in the agent's tools: closed (R207) for every agent tool site.
+  2. Query results not traceable (`q-` ids unresolvable): closed (R208).
+  3. No document id in the answer: closed (R209). A cited chunk recorded as one cut view: closed (R209).
+  4. Node, claim and query citations never checked for content: recorded per citation (R210), not enforced.
+  5. A quote checked only at scoring, against a view: recorded in the trace against the whole passage
+     (R209, R210). It still shows that the quote is in the passage, not that it supports the answer.
+  6. An abstention or a question back that keeps citations and factual text: flagged (R210), not cleared.
+  Open:
+  7. Enforcement: no send-back on a failing per-citation check. Needs a paid comparison, with the user's yes.
+  8. Table rows have no id of their own (the user's choice): the statement over the staged file finds them.
+  9. Unknown ids dropped after the one retry while the answer text stands (`agent_citations_dropped`
+     counts them).
+  10. A chunk citation with an empty quote is kept in `cited` (only dropped from `citations`).
+  11. `query_sql`'s paging note always starts at 1, even when the model's SQL has an OFFSET.
+  12. `filter_passages` shows each passage as its verified quote: a cited one is recorded whole (R209), but
+      the agent reads only the quote.
+  13. The loop's `prompt_chars` stop sends CLOSING without naming the cap that was reached.
+  14. The plan system (`query/`, not the agent) cuts silently: `step_cap` 200, `top_k` 5, `check_chunks`
+      3, `cypher_limit` 100. Its planner never sees step results, and the system is frozen.
+  15. The evidence ledger (R193) still runs only in the variant `agent_evidence`, for "things" answers.
+- **Verified:** two new tests failing before (each citation against its own content, the note's number not
+  the query's, the quote found in the whole passage; the answer's strict support, an abstention that still
+  cites, and the metrics). `uv run pytest`: 1874 passed; `uv run ruff check .`: clean. No run ($0).
+- **R210 done 2026-10-15.** Plan R207-R210 closed. Measurement note for every later agent number: R207
+  changed the tool results the model reads (cut notes and markers), so agent accuracy before and after R207
+  is compared only with that named. A small check (R206's furniture outcome questions, ~$0.24) would show
+  whether the notes change answers; it is proposed, not run. Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

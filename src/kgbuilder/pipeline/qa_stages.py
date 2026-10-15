@@ -178,6 +178,13 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_entity_answers_grounded": sum(t.entities_grounded is True for t in traces),
         "agent_number_answers": sum(t.number_stated is not None for t in traces),
         "agent_number_answers_stated": sum(t.number_stated is True for t in traces),
+        # R210 (recorded, never enforced): the same answers checked against each cited item's own content,
+        # the chunk citations whose quote is in the whole passage, and the abstentions still citing
+        "agent_entity_answers_supported": sum(t.entities_supported is True for t in traces),
+        "agent_number_answers_supported": sum(t.number_supported is True for t in traces),
+        "agent_quotes_checked": sum(c.quote_found is not None for t in traces for c in t.citation_checks),
+        "agent_quotes_found": sum(c.quote_found is True for t in traces for c in t.citation_checks),
+        "agent_abstentions_cited": sum(t.abstention_cited for t in traces),
     }
     for tool in sorted({c.tool for c in calls if not c.refused}):
         metrics[f"agent_calls_{tool}"] = sum(c.tool == tool and not c.refused for c in calls)

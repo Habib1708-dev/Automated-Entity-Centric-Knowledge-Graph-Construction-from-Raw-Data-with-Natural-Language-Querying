@@ -14,7 +14,10 @@ copies the ref, as in R135's dev run). The ledger also says whether an answer is
 chunk's quote is checked by `kg qa`; this check covers the node and query ids, which carry no quote. A
 number the model counted itself (passages read) appears in no result: that check is read with care.
 A thing `rank_by_documents` counted (R150) is named like any other node, so its name and its document count
-are found in the result its ref cites.
+are found in the result its ref cites. R210 adds a stricter check, recorded and never enforced: each kept
+citation against what its own id stands for (a passage's whole text, a claim's sentence, a node's name,
+other names and values, a query's rows and total), never against another row, a note or a column name, and
+a chunk citation's quote against the whole passage.
 Not here: sending an answer back (loop.py), turning chunks into the answer's shown list (system.py).
 """
 
@@ -23,7 +26,7 @@ import re
 from pydantic import BaseModel
 
 from ..core.text import norm
-from ..query.answers import QueryRecord
+from ..query.answers import CitationCheck, CitationKind, QueryRecord
 from ..validation.qa import Citation
 from .prompt import AgentCitation
 from .results import (
@@ -67,6 +70,7 @@ class Ledger:
         self._names: dict[str, str] = {}  # node ref -> the display name a tool gave it
         self._evidence: dict[str, list[str]] = {}  # id -> the results that offered it, as JSON (R142)
         self._queries: dict[str, QueryRecord] = {}  # query id -> its run's provenance, first run kept (R208)
+        self._content: dict[str, list[str]] = {}  # id -> what results state of it, notes left out (R210)
 
     def add(self, result: ToolResult) -> None:
         """Keep the ids `result` offers, the chunk of every claim in it, and the text of every chunk in it."""
@@ -87,6 +91,8 @@ class Ledger:
         if isinstance(result, QueryResult) and (record := result.record()) is not None:
             # an equal query has an equal id, so a repeated run adds nothing new
             self._queries.setdefault(record.query_id, record)
+        for i, texts in _contents(result).items():
+            self._content.setdefault(i, []).extend(texts)
         self._names.update(_names(result))
 
     def check(self, citations: list[AgentCitation]) -> CheckedCitations:
@@ -113,12 +119,39 @@ class Ledger:
         `cited` ids, compared by `norm`; a number as a whole token ("10" not inside "2010")."""
         held = norm(" ".join(text for i in cited for text in self._evidence.get(i, [])))
         missing = [e for e in entities or [] if norm(e) not in held]
-        stated = None
-        if number is not None:
-            token = str(int(number)) if float(number).is_integer() else str(number)
-            stated = re.search(rf"(?<![0-9.]){re.escape(token)}(?![0-9])", held) is not None
+        stated = None if number is None else _holds_number(held, number)
         grounded = None if not entities else not missing
         return Support(entities_grounded=grounded, number_stated=stated, ungrounded=missing)
+
+    def check_each(
+        self, citations: list[AgentCitation], kept: list[str], entities: list[str] | None,
+        number: float | None, whole: dict[str, str],
+    ) -> list[CitationCheck]:  # fmt: skip
+        """Each `kept` id checked against its own content (R210): which of `entities` and whether `number`
+        it holds, and for a chunk its quote, against `whole` (chunk id -> the whole passage, R209) or the
+        text read. Recorded only: the answer is never sent back for it."""
+        quotes = {c.id: c.quote for c in reversed(citations) if c.quote}  # the first quote of an id wins
+        checks = []
+        for i in kept:
+            kind = self._kind(i)
+            # a chunk's whole passage when known, else the text read of it; any other id its own content
+            read = self._read[i].text if i in self._read else " ".join(self._content.get(i, []))
+            held = norm(whole.get(i) or read)
+            quote = quotes.get(i, "") if kind == "chunk" else ""
+            checks.append(CitationCheck(
+                id=i, kind=kind, quote_found=(norm(quote) in held) if quote else None,
+                entities_found=[e for e in entities or [] if norm(e) in held],
+                number_found=None if number is None else _holds_number(held, number),
+            ))  # fmt: skip
+        return checks
+
+    def _kind(self, ref: str) -> CitationKind:
+        """What a returned id names: a claim, a chunk, a query run, or else a node."""
+        if ref in self._claim_chunk:
+            return "claim"
+        if self.is_chunk(ref):
+            return "chunk"
+        return "query" if ref in self._queries else "node"
 
     def read(self) -> list[ChunkText]:
         """The chunks whose text the agent read, in the order it first read them."""
@@ -127,6 +160,37 @@ class Ledger:
     def queries(self) -> list[QueryRecord]:
         """Every structured query that ran, with its provenance, in the order first run (R208)."""
         return list(self._queries.values())
+
+
+def _holds_number(held: str, number: float) -> bool:
+    """Whether `held` writes `number` as a whole token ("10" not inside "2010")."""
+    token = str(int(number)) if float(number).is_integer() else str(number)
+    return re.search(rf"(?<![0-9.]){re.escape(token)}(?![0-9])", held) is not None
+
+
+def _contents(result: ToolResult) -> dict[str, list[str]]:
+    """Id -> what `result` states of that id itself (R210): a passage's text, a claim's sentence, a node's
+    name, other names and values, a counted thing's spellings and document count, a query's cells and total
+    and a listed record's own row. Never its note or a column name: those say how a result was cut or
+    shaped, not what the cited item holds."""
+    if isinstance(result, ChunksResult):  # filter_passages' too: each passage shown as its verified quote
+        texts = {c.chunk_id: [c.text] for c in result.chunks}
+        return texts | {f.id: [f.sentence] for c in result.chunks for f in c.claims}
+    if isinstance(result, ClaimsResult):
+        return {c.id: [c.sentence] for c in result.claims}
+    if isinstance(result, NodesResult):
+        return {n.ref: [n.title] for n in result.nodes}
+    if isinstance(result, NodeResult) and result.node is not None:
+        node = result.node
+        return {node.ref: [node.title, *node.aliases, *(p.value for p in node.properties)]}
+    if isinstance(result, RelationsResult):
+        return {r.ref: [r.name] for r in result.relations}
+    if isinstance(result, MentionCountsResult):
+        return {t.ref: [t.name, *t.spellings, str(t.documents)] for t in result.things}
+    if isinstance(result, QueryResult) and (record := result.record()) is not None:
+        rows = {ref: row for ref, row in zip(record.refs, record.rows, strict=False)}
+        return {record.query_id: [*(v for row in record.rows for v in row), str(record.total)]} | rows
+    return {}
 
 
 def _names(result: ToolResult) -> dict[str, str]:
