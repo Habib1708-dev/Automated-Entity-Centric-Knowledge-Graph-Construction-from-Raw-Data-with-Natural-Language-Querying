@@ -36,6 +36,7 @@ from .pipeline import claim_stages as cls
 from .pipeline import index_stages as ixs
 from .pipeline import judging_stages as jus
 from .pipeline import mention_stages as mes
+from .pipeline import passage_stages as pas
 from .pipeline import qa_stages as qs
 from .pipeline import retrieval_stages as rs
 from .pipeline import seed_stages as ses
@@ -46,6 +47,7 @@ from .resolution.resolver import ResolvePreview
 from .sampling import preset_samples, write_sample
 from .structured.postgres import PostgresTables
 from .tracking.mlflow_tracker import create_tracker
+from .validation.passage_grid import markdown as passage_table
 from .validation.qa import QAReport
 from .validation.report import ValidationReport
 from .validation.retrieval_scores import RetrievalReport
@@ -932,6 +934,21 @@ def seed_grid(
         choice = run_stages(ctx, PipelineState(), [stage]).seed_choice
     typer.echo(f"Chosen: {choice.setting} with K = {choice.k} ({choice.reason})")
     typer.echo(f"Wrote {out / ses.SeedGridStage.MARKDOWN_FILE} and {out / ses.SeedGridStage.CHOICE_FILE}")
+
+
+@app.command("passage-grid")
+def passage_grid(gold: list[Path], out: Path = OUT):
+    """Ask every question of the QA gold files that cites evidence as search_text would, read its dense and
+    lexical chunk lists from the loaded graph, have a model order the rerank methods' pools (paid), and score
+    each method's first five passages against the gold's evidence, paired with RRF (R197)."""
+    stage = pas.PassageGridStage(gold)
+    with session(out) as ctx:
+        run_stages(ctx, PipelineState(), [stage])
+    if stage.report is not None:
+        typer.echo(passage_table(stage.report.scores))
+    typer.echo(
+        f"Wrote {out / pas.PassageGridStage.REPORT_FILE} and {out / pas.PassageGridStage.MARKDOWN_FILE}"
+    )
 
 
 @app.command()

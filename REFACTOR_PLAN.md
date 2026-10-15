@@ -10657,6 +10657,45 @@ candidate cap), and what it sends back holds each left-out passage whole.
   fix; ranks depend on these exact query strings.
 - **R196 done 2026-10-15** ($0). Working Neo4j = furniture (`out/r196_furniture`). Next: the user decides.
 
+### Plan R197-R198: a model reranking `search_text`'s passages instead of RRF (asked 2026-10-15)
+The user, 2026-10-15, after R196: "experiment with reranking instead of rrf. and report the results". An
+offline retrieval experiment, no answer and no agent: every gold question with evidence passages is the
+query, as `search_text` would get it, and each method's 5 shown passages are scored against the gold's.
+- **The grid, fixed before any run** (validation/passage_grid.py): `rrf_5x5` (today's `search_text`: dense 5
+  and lexical 5, RRF at `hybrid_rrf_k`, first 5; the baseline), `rrf_10x10`, `dense_5`, `rerank_5x5` (a model
+  orders the same candidates RRF fuses, so only the ordering differs) and `rerank_10x10` (the model orders
+  dense 10 and lexical 10). Score: recall at 5 of the gold passages (mean, with n), questions with at least
+  one gold passage in the 5, each pool's recall (the ceiling a reranker can reach); each method paired
+  against `rrf_5x5` question by question on recall (better / worse, exact sign test).
+- **Steps, strictly one after another:**
+  - **R197** `PassageReranker` (hybrid/passage_rerank.py: a listwise model order of a pool of whole passages,
+    checked by code as R130's), the grid and its scores, the stage and `kg passage-grid GOLD... --out`; tests;
+    $0, no run.
+  - **R198** The grid on the five graphs (each reloaded from cache), every gold question with evidence (paid
+    rerank calls, asked first), the result recorded and reported.
+
+### R197. The passage reranker, the grid and `kg passage-grid` (done 2026-10-15; one dev run, $0.0113)
+- **Scope:** `hybrid/passage_rerank.py` (new: `PassageReranker`, its prompt `PROMPT`, reusing R130's
+  `RerankOptions`, `Reranked` and `check_order`); `validation/passage_grid.py` (new: the fixed `GRID`, `pool`,
+  `outcome`, `score`, `metrics`, `markdown`); `pipeline/passage_stages.py` (new: `PassageGridStage`,
+  `read_lists`, `run_grid`); `cli.py` (`kg passage-grid GOLD... --out`); `hybrid/__init__.py` header.
+- **How it works:** each gold question citing chunks (a question worded alike in two files asked once) is
+  embedded once; `ChunkDense` and `ChunkLexical`, the agent's own retrievers, read 10 deep; each `rerank`
+  method's pool (its RRF fusion, in RRF order) is read whole from the store and shown to the model under
+  P1, P2, ...; code checks the reply and appends left-out passages in RRF order; each method's first 5 are
+  scored. The reranker reads with R130's reranker model (`index_summary_model`, flash-lite). MLflow run
+  `passage_grid`: params (golds and hashes, graph digest, grid, `rrf_k`, budget, embed model, reranker model
+  and version), metrics (`<method>_<score>`, `rerank_*` slips, embedding volume), artifacts (report, table,
+  orders, prompt).
+- **Verified:** `tests/test_passage_grid.py` (12 tests: whole passages under short ids, the reply checked,
+  an empty pool not asked, no evaluation corpus quoted; the fixed grid; pools; outcomes and the pool's
+  ceiling; the pairing; reading each question once; the grid run on fakes). 1755 passed, ruff clean.
+- **The dev run:** `kg --preset dev passage-grid tests/gold/qa/furniture_qa_fresh.json --out
+  out/r197_dev_furniture` on the furniture graph (`out/r196_furniture`, digest 392a170ecc10), MLflow
+  `4f51f3e5` (`kgbuilder-dev`): 8 questions, 16 rerank calls, none off the pool, $0.011263 ($0.0007 a call).
+  It shows only that the path works (n = 8, not a result).
+- **R197 done 2026-10-15.** Next: R198, the grid on the five graphs (asked).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
