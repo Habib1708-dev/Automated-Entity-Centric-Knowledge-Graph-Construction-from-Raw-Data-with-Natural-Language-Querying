@@ -22,7 +22,11 @@ answer may be sent back for its form and then for its search, two turns at most.
 evidence ledger (R193, evidence.py; the variant `agent_evidence` only), the answer it is about to finish
 with, whether given with the tools open or at a cap, is reviewed once against every passage read; when the
 ledger finds members it leaves out, they go back with the tools closed (no turn, no call), and the reply is
-the answer, before the citation check as every answer is. The trace times the
+the answer, before the citation check as every answer is. R204: a reply's `outcome` is checked by the
+loop's `outcome` check (outcome.py) after the empty check and sent back once, the tools open, when what the
+loop saw does not bear it out; the form check, the recheck and the evidence review apply only to a reply
+claiming an answer (`AgentStep.answers`); every final reply is settled (outcome.py's `settle`) after its
+citation check, and its outcome goes into the trace. The trace times the
 model's calls and the whole loop with `timer`, kept apart from the timeout's `clock` (R142).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
@@ -39,6 +43,7 @@ from ..llm.base import LLMClient
 from ..query.answers import AgentCall, AgentStop, AgentTrace
 from .citations import CheckedCitations, Ledger
 from .evidence import EvidenceLedger, EvidenceReview
+from .outcome import OutcomeCheck, settle
 from .prompt import (
     CITATION_RETRY,
     CLOSING,
@@ -89,6 +94,7 @@ class _State:
     emptied: bool = False  # an empty answer was written back (once per question)
     reformed: bool = False  # an answer missing its declared form was written back (once per question, R147)
     rechecked: bool = False  # a set answer resting on one search was written back (once per question, R176)
+    outcome_sent: bool = False  # a reply failing an outcome check was written back (once per question, R204)
     evidence: EvidenceReview | None = None  # the evidence ledger's review of the answer (R193)
     timed: float = 0.0  # the timer's reading when the loop began (R142)
     llm_s: float = 0.0  # seconds spent in the model's calls (R142)
@@ -101,12 +107,15 @@ class AgentLoop:
     """Answers one question by tool calls under `limits`; `clock` (the timeout's) and `timer` (the trace's
     latencies) are injected so both can be tested; `recheck` (R176) is the rule that sends a set answer
     resting on one search back, or None for a loop that never does; `evidence` (R193) the ledger reviewing
-    a set answer against the passages read, or None for a loop that never does."""
+    a set answer against the passages read, or None for a loop that never does; `outcome` (R204) the
+    check a reply's outcome must pass, or None for a loop that never sends one back (its replies are still
+    settled)."""
 
     def __init__(
         self, tools: list[Tool], llm: LLMClient, model: str, temperature: float, limits: AgentLimits,
         clock: Callable[[], float] = time.monotonic, timer: Callable[[], float] = time.perf_counter,
         recheck: SingleSearchRecheck | None = None, evidence: EvidenceLedger | None = None,
+        outcome: OutcomeCheck | None = None,
     ):  # fmt: skip
         self._tools = {tool.name: tool for tool in tools}
         self._tool_text = tool_list(tools)
@@ -119,6 +128,7 @@ class AgentLoop:
         self._timer = timer
         self._recheck = recheck
         self._evidence = evidence
+        self._outcome = outcome
 
     def run(self, question: str) -> AgentRun:
         """The answer to `question`. Raises `LLMResponseError` when the model fails; a tool's database error
@@ -136,17 +146,25 @@ class AgentLoop:
                 state.emptied = True
                 state.turns.append(sent_back_text(state.turn, EMPTY_ANSWER))
                 continue
+            # R204, after R138's check (an empty reply is sent back as empty) and before R147's (which asks
+            # only a reply claiming an answer for its form); once, and only while a turn is left, for the
+            # reasons R147's send-back has
+            if message := self._outcome_problem(step, state):
+                state.outcome_sent = True
+                state.turns.append(sent_back_text(state.turn, message))
+                continue
             # R147, after R138's check: an empty answer is sent back as empty, never also for its form; and
             # only while a turn is left, so the reply comes with the tools open (an answer on the last turn
             # stands, rather than ending as a "turns" stop). An answer runs no call, so the calls cap holds.
             resend = not state.reformed and state.turn < self._limits.turns
-            if step.action == "answer" and not step.is_empty() and step.misses_form() and resend:
+            claims = step.action == "answer" and step.answers()
+            if claims and not step.is_empty() and step.misses_form() and resend:
                 state.reformed = True
                 state.turns.append(sent_back_text(state.turn, form_answer(step)))
                 continue
             # R176: after the form check, so a reformed answer is still rechecked; once, and only while a
             # turn is left, for the reasons R147's send-back has
-            rule = self._recheck if step.action == "answer" and not state.rechecked else None
+            rule = self._recheck if claims and not state.rechecked else None
             search = rule.applies(step, state.calls) if rule and state.turn < self._limits.turns else None
             if search is not None and rule is not None:
                 state.rechecked = True
@@ -156,6 +174,15 @@ class AgentLoop:
                 return self._finish(question, state, step, "answer")
             self._call(step, state)
         return self._close(question, state, "turns")
+
+    def _outcome_problem(self, step: AgentStep, state: _State) -> str | None:
+        """The message a reply failing an outcome check is sent back with (R204), or None."""
+        check = self._outcome
+        if check is None or step.action != "answer" or state.outcome_sent:
+            return None
+        if state.turn >= self._limits.turns:
+            return None
+        return check.problem(step, state.ledger.check(step.citations).kept, state.calls_run())
 
     def _cap(self, state: _State, next_prompt: int) -> AgentStop | None:
         """The cap the next turn would break, if any."""
@@ -208,10 +235,12 @@ class AgentLoop:
         if retried:
             step = self._closing_reply(question, state, CITATION_RETRY.format(ids=", ".join(checked.unknown)))
             checked = state.ledger.check(step.citations)
+        step = settle(step)  # R204: after every send-back, so the outcome scored is the final reply's
         trace = AgentTrace(
             calls=state.calls, turns=state.turn, stopped=stop, prompt_chars=state.prompt_chars,
             cited=checked.kept, dropped=checked.unknown, retried=retried, emptied=state.emptied,
             reformed=state.reformed, rechecked=state.rechecked, asks=step.asks,
+            outcome=step.outcome, outcome_sent=state.outcome_sent, readings=step.readings or [],
             evidence_read=state.evidence.read if state.evidence else 0,
             evidence_rows=len(state.evidence.rows) if state.evidence else 0,
             evidence_sent=[r.chunk_id for r in state.evidence.left_out] if state.evidence else [],
@@ -221,9 +250,10 @@ class AgentLoop:
 
     def _reviewed(self, question: str, state: _State, step: AgentStep) -> AgentStep:
         """`step`, or the model's reply to the passages the evidence ledger finds it leaves out (once, tools
-        closed). An empty answer is not reviewed: it names no set to complete."""
+        closed). An empty answer is not reviewed: it names no set to complete; nor is a reply saying why it
+        cannot answer (R204)."""
         rule = self._evidence
-        if rule is None or not rule.applies(step) or step.is_empty():
+        if rule is None or not step.answers() or not rule.applies(step) or step.is_empty():
             return step
         names = [state.ledger.name_of(e) for e in step.entities or []]
         read = [c.chunk_id for c in state.ledger.read()]

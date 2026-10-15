@@ -13,7 +13,8 @@ injected stores: the composition root (pipeline/qa_systems.py) opens the adapter
 `AGENT_TOOL_TYPES` names the same tools by class, so what the model reads of them can be versioned without
 building them (R146). R150 adds `rank_by_documents` after `find_passages`, reading the node reader with
 the `rows` and `names` caps. R183: the system takes its name, so a variant of the agent with other tools
-(pipeline/qa_systems.py's `AgentVariant`) writes its own answers file and MLflow run.
+(pipeline/qa_systems.py's `AgentVariant`) writes its own answers file and MLflow run. R204: the answer
+carries the outcome the loop settled on.
 Not here: the loop (loop.py), the tools, opening any database.
 """
 
@@ -115,5 +116,5 @@ class AgentSystem:
         return SystemAnswer(
             question_id=question_id, system=self.name, retrieved=[c.chunk_id for c in shown],
             entities=entities, number=step.number, text=step.text, citations=run.citations.chunks,
-            shown=shown, agent=run.trace.model_copy(update=support.model_dump()),
+            shown=shown, agent=run.trace.model_copy(update=support.model_dump()), outcome=step.outcome,
         )  # fmt: skip

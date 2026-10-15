@@ -9,7 +9,7 @@ chunks the traversal reached), from which failures are grouped by cause; for a p
 plans tried, why they were refused, the steps they ran and the fallback that answered, if any; for the
 agent (R135), its tool calls and why its loop stopped, and (R147) the answer form it declared and whether
 an answer was sent back for leaving that form out; (R202) the security screen's verdict when it refused the
-request.
+request; (R204) the outcome: whether the system answered, asked back, or said why it could not answer.
 Not here: producing answers (systems.py), scoring them (validation/qa.py).
 """
 
@@ -145,6 +145,15 @@ AgentStop = Literal["answer", "turns", "calls", "prompt_chars", "timeout"]
 # can keep it (query must not import agent).
 AnswerForm = Literal["things", "number", "statement"]
 
+# What a request ended in (R204): an answer the evidence supports, a question back because the request has
+# several readings, the dataset not covering its subject, the dataset covering it but stating no answer, or a
+# refusal. The agent proposes the first four (agent/outcome.py checks them); only the security screen
+# (screen.py) refuses, so the model is never offered "refuse". Here, not in agent/, so the trace and the
+# answer can keep it (query must not import agent).
+AgentOutcome = Literal["answer", "clarify", "out_of_scope", "insufficient_evidence"]
+Outcome = Literal[AgentOutcome, "refuse"]
+OUTCOMES: tuple[Outcome, ...] = ("answer", "clarify", "out_of_scope", "insufficient_evidence", "refuse")
+
 
 class AgentTrace(BaseModel):
     """How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model
@@ -177,6 +186,11 @@ class AgentTrace(BaseModel):
     entities_grounded: bool | None = None
     number_stated: bool | None = None
     ungrounded: list[str] = []
+    # R204: the outcome code settled on (None: a file from before R204), whether an answer was sent back
+    # once for an outcome what the loop saw did not bear out, and the readings a "clarify" outcome named
+    outcome: AgentOutcome | None = None
+    outcome_sent: bool = False
+    readings: list[str] = []
 
 
 class ScreenVerdict(BaseModel):
@@ -200,6 +214,9 @@ class SystemAnswer(QAAnswer):
     plan: PlanTrace | None = None
     agent: AgentTrace | None = None
     screen: ScreenVerdict | None = None  # set only on a refusal: no system saw the request
+    # R204: set by the agent and by the screen; None for a system without outcomes (the baselines) and for
+    # files from before R204
+    outcome: Outcome | None = None
     latency_s: float | None = None  # wall-clock of answering it in `kg qa` (R142); None before R142
 
 

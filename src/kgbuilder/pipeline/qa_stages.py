@@ -13,7 +13,8 @@ for the judge, and `kg qa-score` scores the answers file with the verdicts and w
 question, which `kg qa-compare` compares between two systems or two steps. `kg qa --plans` (R80) replays an
 earlier run's plans (query/frozen.py) and logs which file they came from. Before any call, `kg qa`
 refuses a gold whose evidence chunks the loaded graph lacks and logs the graph's digest (R117). Both `kg ask`
-and `kg qa` log how many requests the security screen refused (R202).
+and `kg qa` log how many requests the security screen refused (R202) and how many ended in each
+outcome (R204).
 Not here: how a system is built and what it logs as params (qa_systems.py), retrieval and reading (query/),
 scoring (validation/qa.py), the paired test (validation/paired.py).
 """
@@ -25,7 +26,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from ..core.errors import ConfigurationError
-from ..query.answers import SystemAnswer, load_system_answers, shown_texts
+from ..query.answers import OUTCOMES, SystemAnswer, load_system_answers, shown_texts
 from ..query.frozen import load_frozen
 from ..query.systems import QASystem
 from ..tracking.base import Run
@@ -135,6 +136,14 @@ def _screen_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     return {"screen_refused": len(refused), **{f"screen_refused_{r}": refused.count(r) for r in set(refused)}}
 
 
+def _outcome_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
+    """How many requests ended in each outcome (R204), every outcome logged, 0 included, so a run shows
+    which ones never occurred. None for a system without outcomes (the baselines): it sets none."""
+    if all(a.outcome is None for a in answers):
+        return {}
+    return {f"outcome_{o}": sum(a.outcome == o for a in answers) for o in OUTCOMES}
+
+
 def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
     """How the agent answered (R135): turns and tool calls per answer, calls per tool, refused calls, why
     each loop stopped, answers sent back for their citations, for being empty (R138), for leaving out the
@@ -152,6 +161,7 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_answers_emptied": sum(t.emptied for t in traces),
         "agent_answers_reformed": sum(t.reformed for t in traces),
         "agent_answers_rechecked": sum(t.rechecked for t in traces),
+        "agent_outcomes_sent": sum(t.outcome_sent for t in traces),  # R204: sent back for their outcome
         # R193 (variant agent_evidence): passages judged whole, verified rows, and the answers sent back
         # with the passages stating members they left out, with those passages' count
         "agent_evidence_read": sum(t.evidence_read for t in traces),
@@ -194,7 +204,10 @@ class AskStage(BaseStage):
         answer = build_system(ctx, state, self.system).answer("ask", state.question)
         state.answer = answer
         run.metrics(
-            retrieved=len(answer.retrieved), citations=len(answer.citations), **_screen_metrics([answer])
+            retrieved=len(answer.retrieved),
+            citations=len(answer.citations),
+            **_screen_metrics([answer]),
+            **_outcome_metrics([answer]),
         )
         run.artifact(ctx.write(self.ANSWER_FILE, answer.model_dump_json(indent=2)))
 
@@ -244,6 +257,7 @@ class QAStage(BaseStage):
             **_agent_metrics(answers),
             **_latency_metrics(answers),
             **_screen_metrics(answers),
+            **_outcome_metrics(answers),
         )
         if self.spec.planned:
             run.metrics(**_plan_metrics(answers))

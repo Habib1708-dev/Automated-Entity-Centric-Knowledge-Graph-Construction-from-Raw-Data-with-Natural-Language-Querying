@@ -797,6 +797,8 @@ def ask(
     """Answer one question from the current graph, with the chunks it cites (R71)."""
     with session(out) as ctx:
         answer = run_stages(ctx, PipelineState(question=question), [qs.AskStage(system)]).answer
+    if answer.outcome is not None:
+        typer.echo(f"outcome: {answer.outcome}")  # R204
     for name, value in (("entities", answer.entities), ("number", answer.number), ("text", answer.text)):
         if value is not None:
             typer.echo(f"{name}: {value}")

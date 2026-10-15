@@ -16,9 +16,12 @@ in here; the reply declares the form the question asks for (`asks`, required in 
 loop sends an answer back once when it leaves that form's field empty (`AgentStep.misses_form`,
 `FORM_ANSWER`). R163: the shared rule, the fields and `asks` name several years, a month alone and a time of
 day as things, and a date, a day of a month with or without its year, as a statement. R176: the text a set
-answer resting on one word search is sent back with (`RECHECK_ANSWER`), rendered by recheck.py.
+answer resting on one word search is sent back with (`RECHECK_ANSWER`), rendered by recheck.py. R204: the
+reply's `outcome` (answer, clarify, out_of_scope, insufficient_evidence) with `readings` for a question
+back, the outcome rule in PROMPT and CLOSING, and the texts a reply failing an outcome check is sent back
+with (`OUTCOME_*`).
 Not here: the loop and its caps (loop.py), the citation check (citations.py), when a recheck is sent
-(recheck.py).
+(recheck.py), the outcome checks (outcome.py).
 """
 
 import json
@@ -27,12 +30,30 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, create_model
 
-from ..query.answers import AnswerForm
+from ..query.answers import AgentOutcome, AnswerForm
 from ..query.reader import ANSWER_FIELDS, FORM_RULE
 from .tool import Tool
 
 # The reader's answer-form rule as the agent reads it (R147), in PROMPT and CLOSING alike
 _FORM_RULE = FORM_RULE.format(source="the tools")
+
+# The outcome rule (R204), in PROMPT and CLOSING alike: the user asked that the planner tell an answer apart
+# from a question back, a subject the dataset does not cover, and a covered subject whose answer no result
+# states (a refusal is the screen's, never the model's). Before R204 every "cannot answer" was free text, so
+# a missing fact and an off-topic question looked alike. The split the rule spells out is the one a model
+# gets wrong: "there are none" shown by a result is an answer (`entities` []), not missing evidence. The
+# label is the model's reading; code checks it against what the loop saw (agent/outcome.py: an answer cites
+# what it rests on, a label other than "answer" fills no answer field and follows at least one tool call, a
+# "clarify" names two readings) and sends a reply failing a check back once.
+_OUTCOME_RULE = """- Set `outcome` to what the results let you give:
+  - "answer": they state the answer, and you cite them; a result showing there are none is an answer
+    (`entities` []);
+  - "insufficient_evidence": the dataset holds what the question is about, but no result states the answer;
+  - "out_of_scope": the schema and your searches show the dataset does not hold what the question is about;
+  - "clarify": the question can be read in several ways that would get different answers; list them in
+    `readings` and ask in `text` which one is meant.
+  With any outcome but "answer", leave `entities` and `number` empty and say why in `text`.
+"""
 
 # The agent's prompt. Rule by rule:
 # - one call per turn: the loop runs and checks one call at a time, so each result is seen before the next
@@ -48,7 +69,8 @@ _FORM_RULE = FORM_RULE.format(source="the tools")
 #   hold) over the ids a tool returned, which the rule names; no single operator does it. The rule asks only
 #   what a tool can do: comparing values from two calls has no operator, so it is not forbidden;
 # - "only what the tools return": the answer is judged on grounded facts; the model's own knowledge would
-#   hide a failed search behind a lucky guess (the reader's rule);
+#   hide a failed search behind a lucky guess (the reader's rule); what to do when they do not answer is
+#   the outcome rule (R204, above);
 # - the answer-form rule is the reader's `FORM_RULE` (R147), because the same code scores both (sets and
 #   numbers by code); the loop checks it against the form the reply declares (`asks`);
 # - "never by a ref": R135's dev run listed refs as the answer (code maps a ref to its name as well);
@@ -68,9 +90,9 @@ Rules:
 - Take a count or a sum of entries from a tool's `measure`, with their conditions in `where`, never by
   counting listed rows yourself; to leave out the entries another result returned, add one `!=` condition
   per id it returned.
-- Use only what the tools returned. When it does not answer the question, say so in `text` and leave
-  `entities` and `number` empty.
+- Use only what the tools returned.
 """
+    + _OUTCOME_RULE
     + _FORM_RULE
     + """
 - Write an entity by its name, never by a ref.
@@ -93,12 +115,13 @@ Tool calls left: {left}."""
 
 # Sent instead of PROMPT when a cap is reached: the same turns, no tool left, so the model answers from what
 # it has or says that the turns do not answer the question (the plan's containment rule). The answer-form
-# rule is PROMPT's (R147): the closing answer is scored as any other, though no code check follows it.
+# rule is PROMPT's (R147): the closing answer is scored as any other, though no code check follows it. The
+# outcome rule is PROMPT's too (R204); a closing reply is never sent back for it, only settled by code.
 CLOSING = (
     """You answer a question about one dataset from the tool results below. No tool can be called any \
-more: answer now (`action` "answer") from these results alone, or say in `text` that they do not answer the \
-question.
+more: reply now (`action` "answer") from these results alone.
 """
+    + _OUTCOME_RULE
     + _FORM_RULE
     + """
 - Cite every id your answer relies on exactly as a tool returned it; a passage by its chunk id with ONE \
@@ -123,7 +146,31 @@ CITATION_RETRY = (
 # PROMPT's form rule instead of restating an older one, so the two cannot disagree.
 EMPTY_ANSWER = (
     "Your answer was empty: no entities, no number and no text. Answer again from the results above, in the "
-    "field the rules call for; if the results do not answer the question, say so in `text`."
+    "field the rules call for; if the results do not answer the question, set `outcome` as the rules say "
+    "and say why in `text`."
+)
+
+# Written back, once per question, as the result of a reply whose outcome what the loop saw does not bear out
+# (R204, agent/outcome.py decides which). One text per check, each naming the way out, so a reply that was
+# right after all is sent again and then stands (an uncited answer, an abstention without a search), or is
+# settled by code (a "clarify" with fewer than two readings becomes "insufficient_evidence"; answer fields
+# beside a label other than "answer" are cleared). The tools stay open.
+OUTCOME_UNCITED = (
+    'Your reply has `outcome` "answer" but cites nothing the tools returned. Cite the results the answer '
+    'rests on; if no result states it, set `outcome` "insufficient_evidence" or "out_of_scope" and say why '
+    "in `text`."
+)
+OUTCOME_FIELDS = (
+    'Your reply has `outcome` "{outcome}" but fills `entities` or `number`. If the results state the '
+    'answer, reply with `outcome` "answer" and cite them; otherwise leave `entities` and `number` empty.'
+)
+OUTCOME_READINGS = (
+    'Your reply has `outcome` "clarify" but `readings` does not list two different readings of the '
+    "question. List them, or answer, or set the outcome the results call for."
+)
+OUTCOME_UNSEARCHED = (
+    'Your reply has `outcome` "{outcome}" before any tool was called. Search the dataset (its schema and '
+    "its text) first; if the outcome still holds, send the same reply again."
 )
 
 # Written back, once, as the result of an answer that declares a form (`asks`) and leaves that form's field
@@ -166,6 +213,11 @@ ASKS = (
     'or without its year); with "call" any value, unread.'
 )
 
+# What `outcome` and `readings` mean, as the reply schema writes them (R204); the rule itself is
+# `_OUTCOME_RULE`, so the descriptions only point to it and cannot disagree with it.
+OUTCOME = 'answer: what the results let you give, as the outcome rule says; with "call" any value, unread.'
+READINGS = 'answer with outcome "clarify": the different readings of the question, each in a few words.'
+
 
 class AgentCitation(BaseModel):
     id: str = Field(description="An id exactly as a tool returned it: a chunk, a claim, a node or a query.")
@@ -183,6 +235,10 @@ class AgentStep(BaseModel):
     # before the answer fields, so a model writing fields in order declares the form before it answers;
     # optional here (a test or an older reply may leave it out), required in `step_model`
     asks: AnswerForm | None = Field(default=None, description=ASKS)
+    # R204: before the answer fields for the reason `asks` is; optional here (None reads as "answer", as
+    # an older reply or a test gives it), required in `step_model`
+    outcome: AgentOutcome | None = Field(default=None, description=OUTCOME)
+    readings: list[str] | None = Field(default=None, description=READINGS)
     entities: list[str] | None = Field(default=None, description=f"answer: {ANSWER_FIELDS['entities']}.")
     number: float | None = Field(default=None, description=f"answer: {ANSWER_FIELDS['number']}.")
     text: str | None = Field(default=None, description=f"answer: {ANSWER_FIELDS['text']}.")
@@ -191,6 +247,12 @@ class AgentStep(BaseModel):
     def is_empty(self) -> bool:
         """An answer naming nothing, with no number and no text. `entities` [] is an answer ("none")."""
         return self.entities is None and self.number is None and not (self.text or "").strip()
+
+    def answers(self) -> bool:
+        """The reply claims an answer (R204): `outcome` "answer", or none given. Only such a reply is sent
+        back for its form (R147) or its one search (R176), or reviewed against the passages read (R193): a
+        reply saying why it cannot answer must not be pushed into a made-up value."""
+        return self.outcome in (None, "answer")
 
     def misses_form(self) -> bool:
         """The answer leaves out the form it declares (R147): "things" with no entity named while it gives
@@ -215,6 +277,7 @@ def step_model(names: list[str]) -> type[AgentStep]:
         __base__=AgentStep,
         tool=(tool, Field(description='The tool to call with "call"; with "answer" any name, unread.')),
         asks=(AnswerForm, Field(description=ASKS)),
+        outcome=(AgentOutcome, Field(description=OUTCOME)),
     )
 
 

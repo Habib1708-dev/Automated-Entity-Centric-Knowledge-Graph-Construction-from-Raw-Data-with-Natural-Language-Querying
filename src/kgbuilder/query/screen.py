@@ -151,7 +151,8 @@ def screen_request(text: str, rules: tuple[ScreenRule, ...] = RULES) -> ScreenVe
 
 class ScreenedSystem:
     """A question-answering system behind the screen (Decorator over `QASystem`): a refused request gets
-    the fixed refusal, with no model and no database call; an allowed one goes to the wrapped system."""
+    the fixed refusal and the outcome "refuse" (R204), with no model and no database call; an allowed one
+    goes to the wrapped system."""
 
     def __init__(self, inner: QASystem):
         self._inner = inner
@@ -166,4 +167,5 @@ class ScreenedSystem:
             system=self.name,
             text=REFUSAL.format(rule=verdict.rule),
             screen=verdict,
+            outcome="refuse",  # R204: the only place a request is refused
         )

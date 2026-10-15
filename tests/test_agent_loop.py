@@ -36,6 +36,10 @@ from kgbuilder.agent.prompt import (
     CLOSING,
     EMPTY_ANSWER,
     FORM_ANSWER,
+    OUTCOME_FIELDS,
+    OUTCOME_READINGS,
+    OUTCOME_UNCITED,
+    OUTCOME_UNSEARCHED,
     PROMPT,
     RECHECK_ANSWER,
     AgentCitation,
@@ -198,7 +202,8 @@ def test_the_reply_model_names_one_of_the_loops_tools_and_cannot_leave_the_tool_
         schema.model_validate({"action": "call", "arguments": '{"ref": "k1"}', "asks": "statement"})
     with pytest.raises(ValidationError):
         schema.model_validate({"action": "call", "tool": "nope", "asks": "statement"})
-    assert schema.model_validate({"action": "call", "tool": "find", "asks": "statement"}).tool == "find"
+    call = {"action": "call", "tool": "find", "asks": "statement", "outcome": "answer"}  # R204: outcome
+    assert schema.model_validate(call).tool == "find"
     with pytest.raises(ValidationError):
         step_model(["find"]).model_validate({"action": "lookup", "tool": "find", "asks": "statement"})
 
@@ -394,7 +399,8 @@ def test_a_number_given_in_words_is_sent_back_once_then_the_second_reply_is_the_
 def test_an_answer_in_its_declared_form_or_a_statement_is_never_sent_back(step):
     run = loop(Script(step)).run("Which thing?")
     assert (run.trace.reformed, run.trace.emptied, run.trace.turns) == (False, False, 1)
-    assert run.answer == step and run.trace.asks == step.asks
+    # R204: the reply is settled, its outcome written out ("answer" when it gives none) and nothing else
+    assert run.answer == step.model_copy(update={"outcome": "answer"}) and run.trace.asks == step.asks
 
 
 def test_an_empty_answer_is_sent_back_as_empty_and_not_again_for_its_form():
@@ -674,9 +680,11 @@ def test_the_agent_is_registered_with_its_caps_and_its_prompt_version():
     params = system_params(Settings(), "agent")
     assert (params["agent_max_calls"], params["agent_nodes"], params["seed_candidates"]) == (10, 15, 25)
     assert "agent_text_rrf_k" not in params
-    # R147: the text a form send-back writes is versioned with the prompts; R176: the recheck's too
+    # R147: the text a form send-back writes is versioned with the prompts; R176: the recheck's too; R204:
+    # the outcome checks' texts
+    outcome = OUTCOME_UNCITED + OUTCOME_FIELDS + OUTCOME_READINGS + OUTCOME_UNSEARCHED
     assert params["agent_prompt_version"] == prompt_version(
-        PROMPT + CLOSING + CITATION_RETRY + EMPTY_ANSWER + FORM_ANSWER + RECHECK_ANSWER
+        PROMPT + CLOSING + CITATION_RETRY + EMPTY_ANSWER + FORM_ANSWER + RECHECK_ANSWER + outcome
     )
     # R146: the tool list and the reply schema are versioned too, from the same text the model reads
     names = [t.name for t in AGENT_TOOL_TYPES]
@@ -744,7 +752,17 @@ def test_the_agent_system_writes_its_name_into_every_answer():
 
 
 def test_what_the_model_reads_of_the_agent_names_no_evaluated_dataset():
-    texts = [PROMPT, CLOSING, EMPTY_ANSWER, FORM_ANSWER, RECHECK_ANSWER] + [
+    texts = [
+        PROMPT,
+        CLOSING,
+        EMPTY_ANSWER,
+        FORM_ANSWER,
+        RECHECK_ANSWER,
+        OUTCOME_UNCITED,
+        OUTCOME_FIELDS,
+        OUTCOME_READINGS,
+        OUTCOME_UNSEARCHED,
+    ] + [  # fmt: skip
         f.description or "" for m in (step_model(["t"]), AgentCitation) for f in m.model_fields.values()
     ]
     assert all(not DATASET_WORDS.search(text) for text in texts)

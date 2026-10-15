@@ -10920,6 +10920,53 @@ to it). R201 is another session's step, so these are R202-R203. Both $0, no run.
   announce "pytest 7688 start/done" to each other; R203's gate was rerun with no other pytest running.
 - **R203 done 2026-10-15.** Plan R202-R203 done. Next: the user decides.
 
+### Plan R204-R206: five outcomes for the planner (asked 2026-10-15)
+The user, 2026-10-15: "Ensure the existing planner correctly distinguishes: ANSWER (sufficient evidence
+exists), CLARIFY (question is ambiguous), OUT_OF_SCOPE (outside the indexed knowledge),
+INSUFFICIENT_EVIDENCE (relevant question, but supporting evidence is missing), REFUSE (request is
+unauthorized). The deterministic security screen is complete. We don't need another security layer or an
+LLM intent classifier." Until now the agent had no outcome: "not found" was free text, a refusal the
+screen's text, ambiguity not modelled, and every gold question answerable. The user's choices: the agent and
+the screen only (the plan, graph and vector baselines keep no outcome); measured on about 50 questions
+(~$1.1), asked for again before the run.
+- **R204** The outcome in the agent and the screen: the model proposes `answer`, `clarify`, `out_of_scope`
+  or `insufficient_evidence` in the reply it already gives (no separate classifier call); code checks each
+  label against what the loop saw (`agent/outcome.py`) and sends a failing one back once; the screen's
+  refusal is `refuse`. Metrics per outcome. Code, $0.
+- **R205** Scoring outcomes and outcome gold: `Expected.outcome` (default `answer`, old files unchanged),
+  outcome accuracy and false abstentions scored by code; `*_qa_outcomes.json` gold written by Claude on the
+  five benchmark datasets (clarify, out_of_scope, insufficient_evidence, refuse, and answerable controls).
+  $0.
+- **R206** The measured run (~50 questions, ~$1.1), only with the user's yes.
+
+### R204. The outcome in the agent and the screen (done 2026-10-15; code, no run)
+- **Scope:** `query/answers.py` (`AgentOutcome`, `Outcome`, `OUTCOMES`; `SystemAnswer.outcome`;
+  `AgentTrace.outcome`, `outcome_sent`, `readings`); `query/screen.py` (a refusal is `refuse`, the only
+  place one is made); `agent/prompt.py` (`AgentStep.outcome`, required in `step_model` and offering no
+  `refuse`, and `readings`; one outcome rule in PROMPT and CLOSING; the four `OUTCOME_*` send-back texts;
+  `AgentStep.answers`); `agent/outcome.py` (new: `OutcomeCheck`, `settle`); `agent/loop.py` (the check
+  after the empty check, once, while a turn is left; the form check, the recheck and the evidence review
+  only for a reply claiming an answer; every final reply settled after its citation check);
+  `agent/system.py` (the answer carries the outcome); `pipeline/qa_systems.py` (the agent built with the
+  check; its prompt version covers the new texts); `pipeline/qa_stages.py` (`outcome_<label>` for all five,
+  0 included, when any answer has an outcome; `agent_outcomes_sent`); `kg ask` prints the outcome; README.
+- **The checks (code decides):** an `answer` cites at least one id a tool returned; another label names no
+  entity and gives no number; a `clarify` lists two different readings; `out_of_scope` and
+  `insufficient_evidence` follow at least one tool call that ran. A failing reply is sent back once with
+  its way out named; the second reply stands (uncited answer, abstention before a search) or is settled (a
+  `clarify` without two readings becomes `insufficient_evidence`; answer fields beside another label are
+  cleared). A closing reply is only settled. "There are none" shown by a result stays `answer`
+  (`entities` []).
+- **Verified:** `tests/test_agent_outcome.py` 25 tests (each check, settling, every send-back in the loop,
+  abstentions skipped by the form check and the recheck, the closing reply, the schema without `refuse`,
+  both prompts naming every outcome, the screen as the only refuser, the metrics);
+  `tests/test_agent_loop.py` updated for the required `outcome`, the settled reply and the prompt version,
+  and the no-dataset-words test covers the new texts. `uv run pytest`: 1843 passed; `uv run ruff check .`:
+  clean. No run ($0): the prompt changed, so its effect is R206's measurement.
+- **Not measured yet:** whether the new uncited-answer send-back changes accuracy on answerable questions
+  (an answer citing nothing now costs one turn); R206's controls answer that.
+- **R204 done 2026-10-15.** Next: R205.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

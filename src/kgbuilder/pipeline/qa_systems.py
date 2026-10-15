@@ -28,6 +28,7 @@ from ..agent import prompt as agent_prompt
 from ..agent.evidence import EvidenceLedger
 from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
+from ..agent.outcome import OutcomeCheck
 from ..agent.recheck import SingleSearchRecheck
 from ..agent.semantic_filter import FilterOptions, FilterPassages, PassageJudge
 from ..agent.sql_tables import LockedTables
@@ -461,7 +462,7 @@ def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
     recheck = SingleSearchRecheck(FindPassages.name, variant.wider)
     loop = AgentLoop(variant.tools(tools, parts), parts.llm, s.qa_model, s.llm_temperature, limits,
-                     recheck=recheck, evidence=variant.evidence(parts))  # fmt: skip
+                     recheck=recheck, evidence=variant.evidence(parts), outcome=OutcomeCheck())  # fmt: skip
     return AgentSystem(loop, parts.store, variant.name)
 
 
@@ -476,14 +477,19 @@ def agent_spec(variant: AgentVariant) -> SystemSpec:
         {
             # the agent's prompt, the closing prompt, the citation retry, the text an empty answer is sent
             # back with (R138), the text an answer leaving out its declared form is sent back with (R147)
-            # and the recheck's (R176); then what the model reads besides (R146): the tool list rendered
+            # and the recheck's (R176), and the outcome checks' (R204); then what the model reads besides
+            # (R146): the tool list rendered
             # into every turn, and the reply schema with its field descriptions
             "agent": agent_prompt.PROMPT
             + agent_prompt.CLOSING
             + agent_prompt.CITATION_RETRY
             + agent_prompt.EMPTY_ANSWER
             + agent_prompt.FORM_ANSWER
-            + agent_prompt.RECHECK_ANSWER,
+            + agent_prompt.RECHECK_ANSWER
+            + agent_prompt.OUTCOME_UNCITED
+            + agent_prompt.OUTCOME_FIELDS
+            + agent_prompt.OUTCOME_READINGS
+            + agent_prompt.OUTCOME_UNSEARCHED,
             "agent_tools": agent_prompt.tool_list(variant.tool_types),
             "agent_reply": schema_text(agent_prompt.step_model(names)),
             # search_text's reranker (R199): its prompt and reply schema, read on every search_text call

@@ -337,7 +337,9 @@ src/kgbuilder/
                     R134: schema, query_records, query_tables (structured_tools): structured_query (typed
                     query, checked) -> record_query (Cypher) / table_query (SQL over tables, DuckDB) ;
                     R135: loop (one call per turn, caps, closing answer) with prompt and citations
-                    (ids the tools returned) -> system (the `agent` QA system, build_tools)
+                    (ids the tools returned) -> system (the `agent` QA system, build_tools) ;
+                    R204: outcome (answer / clarify / out_of_scope / insufficient_evidence, checked against
+                    what the loop saw; `refuse` comes only from query/screen)
   pipeline/         Stage protocol + context/state, the concrete stages, the runner ;
                     qa_systems (R116: each QA system built by name from the parts every system shares) ;
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
