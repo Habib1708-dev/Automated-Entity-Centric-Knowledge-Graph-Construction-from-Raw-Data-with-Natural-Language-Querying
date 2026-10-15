@@ -11172,6 +11172,18 @@ afterwards, only with the user's yes.
   changed the tool results the model reads (cut notes and markers), so agent accuracy before and after R207
   is compared only with that named. A small check (R206's furniture outcome questions, ~$0.24) would show
   whether the notes change answers; it is proposed, not run. Next: the user decides.
+- **The check, run (2026-10-15, $0.175; the user's "yes"):** R206's 12 furniture outcome questions on the
+  same graph (reloaded from cache by R172's recipe into `out/r207_furniture`, $0, 70/70 and 790/790 cache
+  hits, digest 392a170ecc10 as R206's), MLflow `07458b51`, 50 LLM calls (19 cache hits), 221,089 prompt /
+  2,576 completion tokens. **Outcome accuracy 12/12 (exact, by code; R206 12/12); every outcome, entity list
+  and number equal to R206's; false abstentions 0/4; faithfulness 10/10.** The cut notes were seen (`find_nodes`
+  "The 15 best of N candidate nodes are shown." in 5 questions, `search_text` in 2); no `find_passages`
+  excerpt and no table value reached its cap here, so R207's markers on cut text were not exercised. R208:
+  FO01's prices now resolve (`q-e80fd43f67` -> Product rows, Gothenburg Table $489, Jönköping Coffee Table
+  $212). R210: 10/10 quotes found, 2 abstentions citing (FO01, FO02, both `clarify` replies naming the rows
+  or passages they choose between). Prompt versions equal to R206's. What it shows: on these 12 questions
+  the notes changed no answer; it is n = 12 on one dataset, not evidence for the 100-question sets. Record:
+  `tests/gold/r207/runs.json` with the answers and report.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is

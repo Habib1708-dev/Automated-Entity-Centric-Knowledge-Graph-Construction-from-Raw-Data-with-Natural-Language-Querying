@@ -1,0 +1,35 @@
+{
+ "step": "R207-R210 check: the agent after the evidence-integrity steps (R207's cut notes and markers in the tool results) on R206's furniture outcome questions, to see whether the notes change answers",
+ "approved": "the user, 2026-10-15: 'yes' to the proposed ~$0.24 re-check of R206's furniture questions; the reload and the run pasted by the user into their own terminal after the auto-mode classifier denied the reset",
+ "git_sha": "98ed130 (only .claude/settings.json differed, hence -dirty in MLflow)",
+ "versions": {
+  "agent_prompt_version": "d247bbb2d790",
+  "agent_reply_prompt_version": "c9c0d1e6264d",
+  "agent_tools_prompt_version": "bfded79a6e26",
+  "note": "all equal to R206's: R207 changed the tool results' text, not the prompt, the reply schema or the tool descriptions"
+ },
+ "commands": [
+  "reload ($0): R172's recipe from out/r165_furniture_build into out/r207_furniture (plan, text schema, profile and staging seeded; kg --preset quality reset | build data | profile copied back | ingest-text data | extract --from-build | link | GEMINI_API_KEY=invalid mention-pass | resolve | attach | index --cards template); triples.jsonl and mentions.jsonl byte-identical to the build's",
+  "kg --preset quality qa tests/gold/outcomes/furniture_outcomes.json --system agent --out out/r207_furniture"
+ ],
+ "reload_runs": {"mention_pass": "9f54764b (70/70 cache hits)", "resolve": "bd0d4f13 (790/790 cache hits)", "index": "bda7a1f5", "graph_digest": "392a170ecc10 (equal to R206's)", "cost_usd": 0.0},
+ "run": {
+  "run": "07458b51b50b4997b2cf0f971ac65461",
+  "experiment": "kgbuilder",
+  "questions": 12,
+  "llm_calls": 50,
+  "cache_hits": 19,
+  "prompt_tokens": 221089,
+  "completion_tokens": 2576,
+  "thinking_tokens": 0,
+  "cost_usd": 0.175477,
+  "outcome_accuracy": "12/12, exact, by code (R206: 12/12)",
+  "per_question": "every outcome, entity list and number equal to R206's; tool calls per question equal but FO04 (3 -> 2), FO06 (9 -> 10), FE01 (6 -> 7)",
+  "false_abstention": "0/4 (R206: 0/4)",
+  "faithful": "10/10 chunk citations",
+  "r207_notes_seen": "find_nodes 'The 15 best of N candidate nodes are shown.' in 5 questions, search_text 'The 10 best of N candidate passages are shown.' in 2; no find_passages excerpt and no table value reached its cap",
+  "r208_queries": "FO01's prices now resolve: q-e80fd43f67 -> Product rows (Gothenburg Table $489, Jonkoping Coffee Table $212); FE01 two table queries (products, assemblies)",
+  "r210": {"agent_quotes_checked": 10, "agent_quotes_found": 10, "agent_entity_answers_supported": 1, "agent_number_answers_supported": 2, "agent_abstentions_cited": 2, "abstentions_cited": "FO01 and FO02 (clarify replies citing the rows and passages they name)"}
+ },
+ "cost_usd": 0.175477
+}
