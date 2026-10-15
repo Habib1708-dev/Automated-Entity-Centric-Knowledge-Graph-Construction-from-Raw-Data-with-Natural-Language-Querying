@@ -9,7 +9,10 @@ order kept when it fails), a claim followed by its opposite-truth siblings; an u
 answered with a note; the ids each result offers for citation; and every text the model reads free of the
 evaluated datasets' words. R150: `rank_by_documents` passing its filters trimmed and lowercase with its
 caps, offering the counted refs, saying when more exist, when a label is unknown (with the labels there
-are, never an empty one) and when nothing matches, and refusing a blank text to look for."""
+are, never an empty one) and when nothing matches, and refusing a blank text to look for. R207: every cut is
+said: `find_nodes`, `search_text` and `search_claims` give how many of their candidates they show,
+`search_claims` never cuts a claim from its opposite-truth sibling, and `rank_by_documents` says when a
+thing's spellings are cut."""
 
 import re
 
@@ -153,6 +156,16 @@ def test_find_nodes_without_a_word_searches_by_vector_only_and_says_when_nothing
     assert [c[0] for c in units.calls] == ["nearest_cards"]
 
 
+def test_find_nodes_says_how_many_candidates_its_cut_left_out():
+    """R207: the first k were shown as if they were all the nodes found."""
+    units = SplitUnitStore(dense=["a", "b"], lexical=["b", "x"])
+    reader = FakeReader(nodes=[hit("a"), hit("b"), hit("x")])
+    cut = find_nodes(units, reader, k=2).run(FindNodesArguments(query="the Meridian Kettle"))
+    assert (len(cut.nodes), cut.total, cut.note) == (2, 3, "The 2 best of 3 candidate nodes are shown.")
+    whole = find_nodes(units, reader, k=3).run(FindNodesArguments(query="the Meridian Kettle"))
+    assert (whole.total, whole.note) == (3, "")  # nothing cut: nothing to say
+
+
 # --- get_node and neighbours -------------------------------------------------------------------------
 
 
@@ -269,6 +282,7 @@ def test_search_text_without_a_reranker_fuses_both_lists_depth_deep_and_shows_th
     # d.md#1 is in both lists; each list is read two deep, so d.md#3 is never asked for
     assert [c.chunk_id for c in result.chunks] == ["d.md#1", "d.md#0"]
     assert result.chunks[0].text == "text 1" and result.total == 3
+    assert result.note == "The 2 best of 3 candidate passages are shown."  # R207: the cut is said
     assert store.nearest_calls == [2]
 
 
@@ -312,6 +326,21 @@ def test_search_claims_follows_each_claim_with_its_opposite_truth_siblings_withi
     assert [c.id for c in result.claims] == ["o1", "o9", "o2"]
     assert reader.asked == [("claims", ["o1", "o9", "o2"])]
     assert result.cites() == ["o1", "d.md#0", "o9", "o2"]
+    # R207: o3 was cut, which the total and the note say
+    assert (result.total, result.note) == (4, "The 3 best of 4 candidate claims are shown.")
+
+
+def test_search_claims_never_cuts_a_claim_from_its_opposite_truth_sibling():
+    """R207: cut at the cap, o2 was shown without its denial o8, which the module promises beside it."""
+    units = SplitUnitStore(claims_dense=[claim_hit("o1"), claim_hit("o2", ["o8"])])
+    reader = FakeReader(claims=[fact(i) for i in ("o1", "o2", "o8")])
+    result = SearchClaims(units, reader, FixedEmbedder(), rrf_k=60, limit=2).run(SearchArguments(query="lid"))
+    assert [c.id for c in result.claims] == ["o1"] and result.total == 3
+    first = SearchClaims(
+        SplitUnitStore(claims_dense=[claim_hit("o2", ["o8"])]), reader, FixedEmbedder(), 60, 1
+    )
+    # the first group is shown whole even past the cap: a search never shows nothing it found
+    assert [c.id for c in first.run(SearchArguments(query="lid")).claims] == ["o2", "o8"]
 
 
 def test_search_claims_says_when_nothing_was_found():
@@ -326,7 +355,7 @@ def test_search_claims_says_when_nothing_was_found():
 
 def counted(ref: str, documents: int) -> MentionCount:
     return MentionCount(ref=ref, kind="individual", label="Person", name=ref.title(), documents=documents,
-                        spellings=[ref])  # fmt: skip
+                        spellings=[ref], written=1)  # fmt: skip
 
 
 def test_rank_by_documents_passes_the_filters_trimmed_and_lowercase_with_its_caps_and_offers_the_refs():
@@ -356,6 +385,14 @@ def test_rank_by_documents_says_when_more_exist_when_a_label_is_unknown_and_when
     assert RankByDocuments(FakeReader(mentioned=empty), 2, 3).run(RankArguments()).note == (
         "No named thing matches."
     )
+
+
+def test_rank_by_documents_says_when_a_things_spellings_are_cut():
+    """R207: the spellings were cut at `names` with nothing said."""
+    many = counted("i-a", 4).model_copy(update={"spellings": ["A", "Aa"], "written": 5})
+    page = MentionPage(things=[many, counted("i-b", 2)], total=2, labels=["Person"])
+    result = RankByDocuments(FakeReader(mentioned=page), 2, 2).run(RankArguments())
+    assert result.note == "Spellings are cut at 2 per thing; 'written' counts them all."
 
 
 def test_rank_by_documents_lists_no_labels_when_the_text_names_nothing():

@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 from .sql_check import check_sql
 from .sql_tables import LockedTables, SqlRead
 from .structured_query import Compiled
-from .structured_tools import QueryResult, _query_id, _refused, _text  # the typed tools' own rendering
+from .structured_tools import QueryResult, _query_id, _refused, cells, joined  # the typed tools' rendering
 
 # What the tool's text tells the model. "count in SQL" is R161's rule for the typed tools (a count read off
 # listed rows was wrong in LB11), said here for the statement the model writes; quoting names is what a
@@ -58,14 +58,14 @@ class QuerySql:
         read = self._tables.select(statement, self._limit)
         if read.error is not None:
             return QueryResult(issues=[read.error], note="The query failed to run.")
-        rows = [[_text(value, self._value_chars) for value in row] for row in read.rows]
+        rows, cut = cells(read.keys, read.rows, self._value_chars)
         query_id = _query_id(Compiled(statement=statement, parameters={}, shape="rows"))
         return QueryResult(
             query_id=query_id,
             columns=read.keys,
             rows=rows,
             total=read.total,
-            note=self._note(len(rows), read),
+            note=joined(self._note(len(rows), read), cut),
         )
 
     def _note(self, shown: int, read: SqlRead) -> str:

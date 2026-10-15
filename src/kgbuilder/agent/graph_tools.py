@@ -31,6 +31,7 @@ from .results import (
     NodeResult,
     NodesResult,
     RelationsResult,
+    ranked_note,
 )
 
 
@@ -107,8 +108,10 @@ class FindNodes:
     def run(self, arguments: FindNodesArguments) -> NodesResult:
         vector = self._embedder.embed([arguments.query])[0]
         refs = fused_cards(self._units, self._representation, self._setting, arguments.query, vector)
-        nodes = self._reader.nodes(refs)[: self._k]  # a card whose node is gone is left out, as in R132
-        return NodesResult(nodes=nodes, note="" if nodes else "No node matches the query.")
+        found = self._reader.nodes(refs)  # a card whose node is gone is left out, as in R132
+        nodes = found[: self._k]
+        note = ranked_note(len(nodes), len(found), "node") if nodes else "No node matches the query."
+        return NodesResult(nodes=nodes, total=len(found), note=note)
 
 
 class GetNode:
@@ -249,7 +252,11 @@ class RankByDocuments:
     def run(self, arguments: RankArguments) -> MentionCountsResult:
         contains = arguments.contains.strip().lower() if arguments.contains else None
         page = self._reader.mentioned(arguments.label, contains, self._limit, self._names)
-        return MentionCountsResult(things=page.things, total=page.total, note=_counted(page, arguments.label))
+        # R207: a thing's spellings are cut at `names`; the cut is said, with the field counting them all
+        cut = any(t.written > len(t.spellings) for t in page.things)
+        spelled = f"Spellings are cut at {self._names} per thing; 'written' counts them all." if cut else ""
+        note = " ".join(n for n in (_counted(page, arguments.label), spelled) if n)
+        return MentionCountsResult(things=page.things, total=page.total, note=note)
 
 
 def _counted(page: MentionPage, label: str | None) -> str:

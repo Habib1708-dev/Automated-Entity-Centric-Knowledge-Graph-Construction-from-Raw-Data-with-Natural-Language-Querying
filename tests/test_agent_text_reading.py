@@ -12,7 +12,9 @@ only as a whole word with an ending, so it never finds an unrelated word holding
 its limits, is what the code does. R169: a space or a hyphen in a phrase matches either, in the literal and
 in the stem form, the excerpt shows the sentence found so, and the rule's example is what the code does.
 R170: a passage's heading lines stay in the excerpt, in order with the matching sentences, once when a
-heading itself holds the word, and a passage with no matching sentence is still shown whole."""
+heading itself holds the word, and a passage with no matching sentence is still shown whole. R207: an
+excerpt cut at the cap ends in "...", and `find_passages` says how many passages it cut and which tool shows
+them whole."""
 
 import re
 
@@ -97,6 +99,20 @@ def test_every_passage_holding_the_words_is_found_and_shown_as_its_sentences():
     assert result.cites() == ["notes.md#0", "notes.md#1", "log.md#0"]
 
 
+def test_find_passages_marks_a_cut_passage_and_says_how_many_were_cut():
+    """R207: an excerpt cut at `chars` ended mid-word with nothing said, so it read as the passage's end."""
+    reader = FakeText({"notes.md": NOTES, "log.md": [passage("log.md#0", "A LID was replaced.")]})
+    result = FindPassages(reader, limit=5, chars=19).run(PassageArguments(words=["lid"]))
+    assert [c.text for c in result.chunks] == [
+        "Its lid is loose.",
+        "The lid rattles whe...",
+        "A LID was replaced.",
+    ]
+    assert result.note == (
+        "1 of these passages are cut at 19 characters, ending in '...'; read_document shows them whole."
+    )
+
+
 def test_find_passages_says_when_it_cut_the_list_or_found_nothing():
     reader = FakeText({"notes.md": NOTES})
     cut = FindPassages(reader, limit=1, chars=300).run(PassageArguments(words=["lid"]))
@@ -153,7 +169,7 @@ def test_the_words_must_be_one_to_five_and_none_blank():
 def test_an_excerpt_keeps_the_sentences_holding_a_word_and_is_cut():
     text = "First line.\nThe lid is loose! Nothing else. Is the lid new? Yes."
     assert excerpt(text, ["lid"], 300) == "The lid is loose! ... Is the lid new?"
-    assert excerpt(text, ["lid"], 10) == "The lid is"
+    assert excerpt(text, ["lid"], 10) == "The lid is..."  # R207: a cut is marked
     # a phrase across a sentence end matches no single sentence: the passage is shown whole
     assert excerpt("It is loose. Lid off.", [form_pattern("loose. lid")], 300) == "It is loose. Lid off."
 
@@ -250,7 +266,7 @@ def test_the_excerpt_keeps_every_heading_line_with_the_matching_sentences():
         excerpt(text, ["lid"], 300)
         == "## Rating: 3 of 5 ... The lid is loose! ... ## Notes ... Is the lid new?"
     )
-    assert excerpt(text, ["lid"], 20) == "## Rating: 3 of 5 .."  # the cut is the same
+    assert excerpt(text, ["lid"], 20) == "## Rating: 3 of 5 ....."  # the cut is the same, marked (R207)
     assert (
         excerpt("## Lid notes\nAll fine.", ["lid"], 300) == "## Lid notes"
     )  # a heading holding the word, once

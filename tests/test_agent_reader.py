@@ -182,6 +182,7 @@ def test_mentioned_filters_by_a_part_of_any_spelling_and_by_label_and_cuts_with_
     cut = nodes.mentioned(None, None, 1, 1)
     assert ([counted(t)[0] for t in cut.things], cut.total) == (["k-wobble"], 4)
     assert cut.things[0].spellings == ["wobbles"]  # the spellings cut to the first, sorted
+    assert cut.things[0].written == 2  # R207: with how many there are in all
     nothing = nodes.mentioned("Nope", None, 10, 5)  # an unknown label matches nothing, the labels stay
     assert (nothing.things, nothing.total, nothing.labels) == ([], 0, NAMED_LABELS)
 

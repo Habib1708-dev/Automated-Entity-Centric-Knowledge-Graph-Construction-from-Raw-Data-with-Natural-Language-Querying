@@ -91,9 +91,10 @@ class ToolResult(BaseModel):
 
 
 class NodesResult(ToolResult):
-    """`find_nodes`: the nodes found, best first."""
+    """`find_nodes`: the nodes found, best first, and how many there were before the cap (R207)."""
 
     nodes: list[NodeHit]
+    total: int
 
     def cites(self) -> list[str]:
         return [n.ref for n in self.nodes]
@@ -141,9 +142,10 @@ class FilteredResult(ChunksResult):
 
 
 class ClaimsResult(ToolResult):
-    """`search_claims`: claims, best first."""
+    """`search_claims`: claims, best first, and how many there were before the cap (R207)."""
 
     claims: list[ClaimFact]
+    total: int
 
     def cites(self) -> list[str]:
         return _unique(i for c in self.claims for i in (c.id, c.chunk_id))
@@ -160,6 +162,7 @@ class MentionCount(BaseModel):
     name: str  # its display name
     documents: int  # the documents with a mention of it
     spellings: list[str]  # the names its mentions write, sorted, cut
+    written: int  # how many names its mentions write in all, before the cut (R207)
 
 
 class MentionCountsResult(ToolResult):
@@ -170,6 +173,12 @@ class MentionCountsResult(ToolResult):
 
     def cites(self) -> list[str]:
         return [t.ref for t in self.things]
+
+
+def ranked_note(shown: int, total: int, kind: str) -> str:
+    """The note of a ranked search that found something (R207): how many of its `total` candidates are
+    shown when it cut them, so the agent reads a ranked list as the best few, not as all there are."""
+    return f"The {shown} best of {total} candidate {kind}s are shown." if total > shown else ""
 
 
 def _unique(ids) -> list[str]:

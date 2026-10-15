@@ -199,6 +199,8 @@ def test_values_are_shown_as_cypher_literals_of_their_type():
         "2015", "2.5", "true", "'it\\'s'", "['a', 1]",
     ]  # fmt: skip
     assert cypher_literal(Date(2015, 12, 10)) == "date('2015-12-10')"
+    # R207: a long text is cut to its start, marked, never read as a whole value
+    assert cypher_literal("x" * 70) == "'" + "x" * 60 + "...'"
 
 
 def test_a_refused_query_gets_one_retry_with_its_reasons():

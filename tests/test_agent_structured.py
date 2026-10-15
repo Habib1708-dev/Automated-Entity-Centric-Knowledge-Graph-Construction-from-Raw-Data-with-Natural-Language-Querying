@@ -647,7 +647,12 @@ def test_query_tables_answers_rows_with_their_total_and_a_stable_id(tables):
     result = tool.run(TableQuery(table="kettles", order_by="id"))
     assert result.columns == ["id", "name", "price", "made", "since", "noted"]
     assert result.rows[0][:3] == ["K1", "Meridi...", "$1,289"]  # a long value cut
-    assert (result.total, result.note) == (3, f"1-2 of 3 shown; offset 2 shows the next ones; {COUNT_HINT}")
+    # R207: the columns a value was cut in are named after the paging note
+    cut = "values of name, since, noted cut at 6 characters, ending in '...'"
+    assert (result.total, result.note) == (
+        3,
+        f"1-2 of 3 shown; offset 2 shows the next ones; {COUNT_HINT}; {cut}",
+    )
     again = tool.run(TableQuery(table="kettles", order_by="id"))
     assert result.query_id == again.query_id and result.query_id.startswith("q-")
     assert result.cites() == [result.query_id]

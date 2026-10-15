@@ -174,7 +174,10 @@ def cypher_literal(value: object) -> str:
     if isinstance(value, list):
         return "[" + ", ".join(cypher_literal(item) for item in value) + "]"
     if isinstance(value, str):
-        return "'" + value[:_EXAMPLE_CHARS].replace("'", "\\'") + "'"
+        # R207: a cut example ends in "...", as the table examples' do (agent/tables.py), so the cut start is
+        # never read as a whole value
+        shown = value if len(value) <= _EXAMPLE_CHARS else value[:_EXAMPLE_CHARS] + "..."
+        return "'" + shown.replace("'", "\\'") + "'"
     # neo4j.time values (Date, DateTime, ...) print as ISO text; their Cypher function is their type's name
     return (
         f"{_temporal_function(value)}('{value.iso_format()}')" if hasattr(value, "iso_format") else str(value)

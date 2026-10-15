@@ -209,29 +209,32 @@ def _result(
     name_column: str = "",
 ) -> QueryResult:
     """A run's rows as the agent reads them: values as text and cut, the total, the paging note (`offset`:
-    the entries the page skipped) and the statement's id; listed records with their refs and their names
-    (`name_column`, else the key the ref ends in)."""
+    the entries the page skipped) followed by the columns whose values were cut (R207), and the statement's
+    id; listed records with their refs and their names (`name_column`, else the key the ref ends in)."""
     if read.error is not None:
         return QueryResult(issues=[read.error], note="The query failed to run.")
     query_id = _query_id(compiled)
     rows = [dict(zip(read.keys, row, strict=True)) for row in read.rows]
+    refs: list[str] = []
+    names: list[str] = []
     if compiled.shape == "value":
-        value = rows[0]["value"] if rows else None
-        return QueryResult(query_id=query_id, columns=["value"], rows=[[_text(value, value_chars)]], total=1)
-    total = int(rows[0].get("total", rows[0].get(total_column(), 0))) if rows else 0
-    note = _note(len(rows), total, offset, listing=compiled.shape == "rows")
-    if compiled.shape == "groups":
-        values = [[_text(r["bucket"], value_chars), _text(r["value"], value_chars)] for r in rows]
-        return QueryResult(query_id=query_id, columns=["group", "value"], rows=values, total=total, note=note)
-    if "props" in read.keys:  # records: each row's properties and its ref
-        values = [[_text(r["props"].get(c), value_chars) for c in columns] for r in rows]
-        refs = [r["ref"] for r in rows]
-        names = [str(r["props"].get(name_column) or r["ref"].partition(":")[2]) for r in rows]
-        return QueryResult(
-            query_id=query_id, columns=columns, rows=values, refs=refs, names=names, total=total, note=note
-        )
-    values = [[_text(r[c], value_chars) for c in columns] for r in rows]
-    return QueryResult(query_id=query_id, columns=columns, rows=values, total=total, note=note)
+        shown, raw, total, note = ["value"], [[rows[0]["value"] if rows else None]], 1, ""
+    else:
+        total = int(rows[0].get("total", rows[0].get(total_column(), 0))) if rows else 0
+        note = _note(len(rows), total, offset, listing=compiled.shape == "rows")
+        if compiled.shape == "groups":
+            shown, raw = ["group", "value"], [[r["bucket"], r["value"]] for r in rows]
+        elif "props" in read.keys:  # records: each row's properties and its ref
+            shown, raw = columns, [[r["props"].get(c) for c in columns] for r in rows]
+            refs = [r["ref"] for r in rows]
+            names = [str(r["props"].get(name_column) or r["ref"].partition(":")[2]) for r in rows]
+        else:
+            shown, raw = columns, [[r[c] for c in columns] for r in rows]
+    values, cut = cells(shown, raw, value_chars)
+    return QueryResult(
+        query_id=query_id, columns=shown, rows=values, refs=refs, names=names, total=total,
+        note=joined(note, cut),
+    )  # fmt: skip
 
 
 def _note(shown: int, total: int, offset: int, listing: bool) -> str:
@@ -258,7 +261,25 @@ def _query_id(compiled: Compiled) -> str:
     return "q-" + hashlib.sha256(content.encode("utf-8")).hexdigest()[:10]
 
 
+def cells(columns: list[str], raw: list[list[Any]], chars: int) -> tuple[list[list[str]], str]:
+    """`raw` rows as text, each value cut at `chars`, and the note naming the `columns` a value was cut in
+    (R207): the "..." alone did not say a value went on, nor how far it was cut ("" when nothing was cut)."""
+    rows = [[_text(value, chars) for value in row] for row in raw]
+    over = [c for i, c in enumerate(columns) if any(len(_plain(row[i])) > chars for row in raw)]
+    return rows, f"values of {', '.join(over)} cut at {chars} characters, ending in '...'" if over else ""
+
+
+def joined(*notes: str) -> str:
+    """The non-empty `notes`, joined as one note."""
+    return "; ".join(n for n in notes if n)
+
+
+def _plain(value: Any) -> str:  # Any: whatever a database cell holds
+    """A cell as text, uncut; an empty cell as ''."""
+    return "" if value is None else str(value)
+
+
 def _text(value: Any, chars: int) -> str:  # Any: whatever a database cell holds
     """A cell as text, cut at `chars`; an empty cell as ''."""
-    text = "" if value is None else str(value)
+    text = _plain(value)
     return text if len(text) <= chars else text[:chars] + "..."

@@ -156,7 +156,8 @@ _CLAIMS = (
 # and kind, graph/canonical.py). A mention is one name of one type in one document (core/identity.py
 # `mention_id`), so distinct doc_ids count documents, not occurrences: one document writing a name two ways
 # holds two mentions of it (R150's replay: @designer_dave, 8 mentions in 7 documents). The mentions are
-# sorted by name before they are collected, so the spellings come sorted and are cut to the first `$names`.
+# sorted by name before they are collected, so the spellings come sorted and are cut to the first `$names`,
+# with how many there are in all (`written`, R207: so the tool can say the cut).
 # A record's label is its plan label, an individual's or a concept's its type. Every row is ranked, then the
 # labels of all of them are kept before the filters, so the tool can list them when a label matches
 # nothing; the matching rows are cut to `$limit` in the database with their total.
@@ -174,7 +175,8 @@ _MENTIONED = (
     "WITH labels, [r IN every WHERE ($label IS NULL OR r.label = $label) AND ($contains IS NULL OR "
     "any(s IN r.spellings + [r.name] WHERE toLower(s) CONTAINS $contains))] AS found "
     "RETURN labels, size(found) AS total, [r IN found[0..$limit] | {ref: r.ref, kind: r.kind, name: r.name, "
-    "label: r.label, documents: r.documents, spellings: r.spellings[0..$names]}] AS rows"
+    "label: r.label, documents: r.documents, spellings: r.spellings[0..$names], "
+    "written: size(r.spellings)}] AS rows"
 )
 
 

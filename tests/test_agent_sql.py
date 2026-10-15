@@ -70,6 +70,14 @@ def test_a_cut_list_says_which_rows_are_shown_and_how_to_see_or_count_more(tool)
     assert ask(tool, "SELECT * FROM notes WHERE kettle = 'K9'").note == "No row."
 
 
+def test_a_cut_value_is_named_in_the_note(staging):
+    """R207: a value cut at `value_chars` ended in "..." with nothing in the note saying so."""
+    short = QuerySql(LockedTables(staging, timeout_s=5.0), limit=5, value_chars=8)
+    result = ask(short, "SELECT kettle, note FROM notes ORDER BY kettle")
+    assert result.rows == [["K1", "call 555..."], ["K3", "no numbe..."]]
+    assert result.note == "values of note cut at 8 characters, ending in '...'"
+
+
 @pytest.mark.parametrize(
     ("sql", "reason"),
     [

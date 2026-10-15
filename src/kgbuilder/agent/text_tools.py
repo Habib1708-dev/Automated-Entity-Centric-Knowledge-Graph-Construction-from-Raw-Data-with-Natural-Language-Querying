@@ -45,7 +45,7 @@ from ..hybrid.unit_store import UnitStore
 from ..llm.base import Embedder
 from ..query.graph_store import GraphStore, StoredChunk
 from .node_reader import NodeReader
-from .results import ChunksResult, ChunkText, ClaimsResult
+from .results import ChunksResult, ChunkText, ClaimsResult, ranked_note
 from .text_reader import TextReader
 
 logger = logging.getLogger(__name__)
@@ -103,7 +103,8 @@ class SearchText:
         pool = self._store.chunks(fused)
         shown = self._ordered(arguments.query, pool)[: self._limit]
         chunks = [ChunkText(chunk_id=c.chunk_id, context=c.context, text=c.text) for c in shown]
-        return ChunksResult(chunks=chunks, total=len(fused), note="" if chunks else "No passage found.")
+        note = ranked_note(len(chunks), len(fused), "passage") if chunks else "No passage found."
+        return ChunksResult(chunks=chunks, total=len(fused), note=note)
 
     def _ordered(self, query: str, pool: list[StoredChunk]) -> list[StoredChunk]:
         """The pool in the reranker's order, or in RRF's when there is no reranker or its call fails."""
@@ -145,8 +146,22 @@ class SearchClaims:
         siblings = {h.id: h.siblings for found in hits.values() for h in found}
         fused = rrf({name: [h.id for h in found] for name, found in hits.items()}, self._rrf_k)
         ordered = list(dict.fromkeys(i for claim in fused for i in (claim, *siblings[claim])))
-        claims = self._reader.claims(ordered[: self._limit])
-        return ClaimsResult(claims=claims, note="" if claims else "No claim found.")
+        claims = self._reader.claims(_whole_groups(fused, siblings, self._limit))
+        note = ranked_note(len(claims), len(ordered), "claim") if claims else "No claim found."
+        return ClaimsResult(claims=claims, total=len(ordered), note=note)
+
+
+def _whole_groups(fused: list[str], siblings: dict[str, list[str]], limit: int) -> list[str]:
+    """The claim ids in `fused` order, each followed by its opposite-truth siblings, at most `limit`, cut
+    between groups (R207): cut inside one, a statement was shown without the denial the module promises
+    beside it. The first group is kept whole even past `limit`, so a search never shows nothing."""
+    kept: list[str] = []
+    for claim in fused:
+        group = [i for i in (claim, *siblings[claim]) if i not in kept]
+        if kept and len(kept) + len(group) > limit:
+            break
+        kept += group
+    return kept
 
 
 class DocumentArguments(BaseModel):
@@ -236,7 +251,16 @@ class FindPassages:
         patterns = [form_pattern(w.strip().lower()) for w in arguments.words]
         chunks, total = self._reader.matching(patterns, self._limit)
         shown = [c.model_copy(update={"text": excerpt(c.text, patterns, self._chars)}) for c in chunks]
-        return ChunksResult(chunks=shown, total=total, note=self._note(shown, total))
+        cut = sum(len(excerpted(c.text, patterns)) > self._chars for c in chunks)
+        notes = (self._note(shown, total), self._cut(cut))
+        return ChunksResult(chunks=shown, total=total, note=" ".join(n for n in notes if n))
+
+    def _cut(self, cut: int) -> str:
+        """The note on the passages cut at `chars` (R207), naming the tool that shows them whole."""
+        if not cut:
+            return ""
+        whole = f"{ReadDocument.name} shows them whole"
+        return f"{cut} of these passages are cut at {self._chars} characters, ending in '...'; {whole}."
 
     def _note(self, shown: list[ChunkText], total: int) -> str:
         """That nothing was found; how many of the total are shown when cut; or, when every match is one
@@ -308,12 +332,19 @@ def _phrase(text: str) -> str:
 
 
 def excerpt(text: str, patterns: list[str], chars: int) -> str:
+    """`excerpted` cut at `chars`, a cut one ending in "..." (R207: cut silently, mid-word, it read as the
+    passage's end; R186's lighthouse answers kept 42 of their 64 passages at exactly 300 characters)."""
+    kept = excerpted(text, patterns)
+    return kept if len(kept) <= chars else kept[:chars] + "..."
+
+
+def excerpted(text: str, patterns: list[str]) -> str:
     """The sentences of `text` matching one of `patterns` (`form_pattern`s) and every heading line of `text`
-    (R170), in order, cut at `chars`; the text itself when no sentence matches (a phrase across a sentence
-    end, or words held only by the passage's context)."""
+    (R170), in order, uncut; the text itself when no sentence matches (a phrase across a sentence end, or
+    words held only by the passage's context)."""
     sentences = [part.strip() for part in _SENTENCE_END.split(text) if part.strip()]
     matched = [sentence for sentence in sentences if any(re.search(p, sentence.lower()) for p in patterns)]
     if not matched:
-        return text[:chars]
+        return text
     kept = [s for s in sentences if s in matched or _HEADING.match(s)]
-    return " ... ".join(kept)[:chars]
+    return " ... ".join(kept)

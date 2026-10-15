@@ -91,7 +91,9 @@ class FakeFind:
 
     def run(self, arguments):
         self.asked.append(arguments.ref)
-        return NodesResult(nodes=[NodeHit(ref=arguments.ref, kind="concept", label="Thing", title="It")])
+        return NodesResult(
+            nodes=[NodeHit(ref=arguments.ref, kind="concept", label="Thing", title="It")], total=1
+        )
 
 
 class FakeRead:
@@ -103,7 +105,7 @@ class FakeRead:
 
     def run(self, arguments):
         if arguments.ref == "claims":
-            return ClaimsResult(claims=[fact("o9", "d.md#9")])
+            return ClaimsResult(claims=[fact("o9", "d.md#9")], total=1)
         return ChunksResult(chunks=[ChunkText(chunk_id="d.md#0", context="Doc", text="The lid is loose.",
                                               claims=[fact("o1", "d.md#0")])], total=1)  # fmt: skip
 
@@ -587,7 +589,9 @@ def test_the_trace_times_the_models_calls_and_the_whole_loop():
 
 def test_an_answer_is_supported_when_its_cited_results_hold_its_names_and_number():
     ledger = Ledger()
-    ledger.add(NodesResult(nodes=[NodeHit(ref="k1", kind="record", label="Thing", title="Lárk Kettle")]))
+    ledger.add(
+        NodesResult(nodes=[NodeHit(ref="k1", kind="record", label="Thing", title="Lárk Kettle")], total=1)
+    )
     ledger.add(ChunksResult(chunks=[ChunkText(chunk_id="d.md#0", context="Doc",
                                               text="12 pots were sold in 2010.")], total=1))  # fmt: skip
     found = ledger.support(["lark kettle"], 12.0, ["k1", "d.md#0"])
@@ -779,7 +783,7 @@ def test_a_counted_things_ref_is_given_its_name_and_supports_its_count():
     """R150: a thing `rank_by_documents` returned is named like any node, and its result holds its count."""
     ledger = Ledger()
     thing = MentionCount(ref="i-x", kind="individual", label="Person", name="Ada Brook", documents=4,
-                         spellings=["Ada", "Ada Brook"])  # fmt: skip
+                         spellings=["Ada", "Ada Brook"], written=2)  # fmt: skip
     ledger.add(MentionCountsResult(things=[thing], total=1))
     assert ledger.name_of("i-x") == "Ada Brook"
     found = ledger.support(["Ada Brook"], 4.0, ["i-x"])

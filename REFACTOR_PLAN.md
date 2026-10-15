@@ -11028,6 +11028,58 @@ the screen only (the plan, graph and vector baselines keep no outcome); measured
   engine's results, decisions and limitations in one place, `docs/evaluation/results_2026-10-15_query_engine.md`
   (local, not committed, like every `docs/` file).
 
+### Plan R207-R210: evidence integrity in the QA agent (asked 2026-10-15)
+The user, 2026-10-15, reopening the frozen engine for this concern only: "We want to fix the identified
+evidence-integrity gaps rather than leave them as limitations. Prioritize complete, reliable provenance
+across the QA system", deterministic fixes with tests, no paid evaluation without approval, no new tools.
+A read-only inspection found: passage excerpts cut at 300 characters with no marker (`excerpt`), cell
+values cut with "..." and no note, graph-schema examples cut silently, `find_nodes`, `search_claims` and the
+`rank_by_documents` spellings capped with no total, `search_text` never saying it showed 10 of its pool; a
+query cited as `q-<sha10>` whose statement, table and rows are thrown away (R206's FO01 states prices backed
+only by `q-19a37be8dc`); `shown` keeping one 300-character view per chunk (the open R182 entry below); and
+citation checks that test only that an id was seen. The user's choices: citation checks record only (no
+send-back); a table row traced by the statement, the rows and the staged file (no row-id column).
+- **R207** Every cut the agent sees is announced (behaviour change: the tool results' text changes).
+- **R208** Structured query provenance saved per answer (`AgentTrace.queries`; the model's JSON unchanged).
+- **R209** Cited passages traced to their whole text and document (`ShownChunk.doc_id`, `view`); closes
+  the R182 entry; faithfulness against older records can rise.
+- **R210** Per-citation support recorded (record only), the gap list and what stays open.
+No pipeline run in any of the four; an optional ~$0.24 re-run of R206's furniture questions is proposed
+afterwards, only with the user's yes.
+
+### R207. Every cut the agent sees is announced (done 2026-10-15; code, no run)
+- **Scope:** `agent/text_tools.py` (`excerpt` = `excerpted` cut at `chars`, a cut ending in "..."; the
+  `find_passages` note counts the cut passages and names `read_document`; `search_text` and `search_claims`
+  say how many of their candidates they show; `search_claims` cuts between a claim and its opposite-truth
+  siblings, never inside, the first group kept whole); `agent/structured_tools.py` (`cells`: values as text,
+  cut, and a note naming the columns cut, after the paging note; `joined`); `agent/sql_tool.py` (the same
+  for `query_sql`); `agent/graph_tools.py` (`find_nodes`: `total` and the note; `rank_by_documents`: a note
+  when a thing's spellings are cut); `agent/results.py` (`NodesResult.total`, `ClaimsResult.total`,
+  `MentionCount.written`, `ranked_note`); `agent/node_reader.py` (`written: size(r.spellings)`);
+  `query/graph_schema.py` (`cypher_literal` marks a cut example with "...", as table examples are).
+- **Before / after** (the tests' own cases): an excerpt cut at 10 was `The lid is`, now `The lid is...`;
+  `find_passages` cutting one passage now says `1 of these passages are cut at 19 characters, ending in
+  '...'; read_document shows them whole.`; a table query cutting values at 6 now ends its note with
+  `values of name, since, noted cut at 6 characters, ending in '...'`; `search_text` now says `The 2 best of
+  3 candidate passages are shown.`
+- **Measurement impact (behaviour change):** the tool results' text changes, the tool descriptions do not
+  (so `agent_tools_prompt_version` is unchanged; the results are not versioned). Every agent number before
+  R207 (R157's 243/250, the confirm sets, R206's 12/12) was measured on the silent cuts. `search_text` and
+  `find_nodes` now carry a note on almost every call (their pools are larger than what they show).
+  `cypher_literal` is also read by the plan system's planner and text2cypher prompts: their schema text
+  changes only for an example longer than 60 characters. `search_claims` can now show fewer claims than
+  `limit` (a group that does not fit is left out whole).
+- **How often the cut mattered ($0 replay, R169's method):** every recorded `find_passages` call of R165,
+  R172 and R178 replayed over the rebuilt corpora (`audit/inputs.read_corpus`): **54 of 367 shown passages
+  were cut at 300 characters** with nothing said (R165 9/106, R172 30/145, R178 15/116; lighthouses 16/41,
+  furniture 20/205).
+- **Verified:** new tests failing before (`find_passages` marks and counts cut passages; `query_sql` and
+  `query_tables` name the cut columns; `find_nodes`, `search_text`, `search_claims` say their cuts; a claim
+  never cut from its sibling; spellings cut said; `written` read from Neo4j; a cut Cypher example marked);
+  three expectations updated to the marker. `uv run pytest`: 1868 passed (baseline 1863); `uv run ruff
+  check .`: clean. No run ($0).
+- **R207 done 2026-10-15.** Next: R208.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
