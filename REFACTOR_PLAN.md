@@ -10625,6 +10625,38 @@ candidate cap), and what it sends back holds each left-out passage whole.
   (candidates: measure `agent_evidence` on fresh questions, alone or with `agent_sql` from R191, on one
   shared set; the ledger's judge at medium for misses like LC08).
 
+### R196. Where `search_text` loses the passages HS01 and FS02 never read (done 2026-10-15; $0, a diagnostic)
+- **Asked:** the user, 2026-10-15, after R195: how many passages `search_text` retrieves before fusion and
+  sends to the model, and whether the never-read gold passages were retrieved before the cut to 5; "yes" to
+  reloading held-out and furniture from cache to replay the searches.
+- **How the tool works** (`agent/text_tools.py` `SearchText.run`): one `limit` (`agent_chunks` = 5, unchanged
+  since R135) is both the depth of each list and the number shown: the dense list's 5 and the lexical list's
+  5 are fused by RRF (`hybrid_rrf_k` = 10) into 5 to 10 distinct passages, and the first 5 are sent, whole.
+- **Replay:** held-out and furniture reloaded by R172's recipe into `out/r196_heldout` and `out/r196_furniture`
+  (every LLM call a cache hit, the mention pass on an invalid key; `triples.jsonl`, `mentions.jsonl` and
+  `index/units.jsonl` byte-identical to `out/r165_<dataset>_build`); a scratch script (not committed) ran the
+  agents' own `search_text` queries through `ChunkDense` and `ChunkLexical` at depth 5 and 50 and fused them
+  with `rrf`. The depth-5 replay reproduces the trace's shown list exactly. Embeddings of 5 queries, unpriced.
+- **Finding: two of the three never-read passages were retrieved, then cut by the fusion's top 5.**
+
+  | query (R186 trace) | passage | dense rank | lexical rank (of 50) | fused at depth 50 |
+  |---|---|---|---|---|
+  | HS01 `agent` t2 | nissan_rogue#1 "worked as intended" | 9 | not in 50 | 26 |
+  | HS01 `agent` t2 | subaru_outback#2 "nothing is wrong" | **5** | not in 50 | 18 |
+  | FS02 `agent` t7 | helsingborg_dresser#2 "me and my roommate" | **4** | not in 50 | 16 |
+
+  Subaru #2 and Helsingborg #2 were in the dense list's 5, among the 7 and 9 fused passages, and below the
+  cut: lexical-only passages took the places. Nissan #1 was dense rank 9.
+- **Deeper fusion does not fix it:** the lexical list is an OR of the query's words and matches 42-50 of the
+  70-81 passages, so at depth 50 a passage in both lists outranks a dense-only one and the three fall to fused
+  ranks 16-26. Dense alone at depth 10 holds all four HS01 gold passages (ranks 2, 3, 5, 9) and Helsingborg #2.
+- **The question as the query:** with the question's own words, Helsingborg #2 is dense rank 1 and shown;
+  HS01's nissan #1 and subaru #2 are dense 8 and 5, still below the fused cut. The agents searched with their
+  own keyword strings, never the question.
+- **Read with care:** 2 questions and 5 queries, both chosen because they failed; a diagnosis, not a measured
+  fix; ranks depend on these exact query strings.
+- **R196 done 2026-10-15** ($0). Working Neo4j = furniture (`out/r196_furniture`). Next: the user decides.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
