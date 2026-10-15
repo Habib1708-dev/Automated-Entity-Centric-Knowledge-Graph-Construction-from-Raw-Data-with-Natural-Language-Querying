@@ -1,0 +1,368 @@
+{
+  "k": 5,
+  "overall": {
+    "questions": 3,
+    "correct": {
+      "k": 1,
+      "n": 3,
+      "rate": 0.3333333333333333,
+      "low": 0.0614903152761605,
+      "high": 0.7923450448735121
+    },
+    "unjudged": 0,
+    "recall_at_k": {
+      "k": 6,
+      "n": 7,
+      "rate": 0.8571428571428571,
+      "low": 0.48686549668097007,
+      "high": 0.9743210440510253
+    },
+    "recall_all_at_k": {
+      "k": 6,
+      "n": 7,
+      "rate": 0.8571428571428571,
+      "low": 0.48686549668097007,
+      "high": 0.9743210440510253
+    },
+    "faithful": {
+      "k": 5,
+      "n": 5,
+      "rate": 1.0,
+      "low": 0.5655085052479191,
+      "high": 1.0
+    },
+    "route": {
+      "k": 0,
+      "n": 0,
+      "rate": null,
+      "low": null,
+      "high": null
+    }
+  },
+  "by_type": {
+    "multi_hop": {
+      "questions": 0,
+      "correct": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "unjudged": 0,
+      "recall_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "recall_all_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "faithful": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "route": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "aggregation": {
+      "questions": 2,
+      "correct": {
+        "k": 0,
+        "n": 2,
+        "rate": 0.0,
+        "low": 0.0,
+        "high": 0.6576280471103807
+      },
+      "unjudged": 0,
+      "recall_at_k": {
+        "k": 5,
+        "n": 6,
+        "rate": 0.8333333333333334,
+        "low": 0.43649056343635395,
+        "high": 0.9699474141282697
+      },
+      "recall_all_at_k": {
+        "k": 5,
+        "n": 6,
+        "rate": 0.8333333333333334,
+        "low": 0.43649056343635395,
+        "high": 0.9699474141282697
+      },
+      "faithful": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "low": 0.5100999795960008,
+        "high": 1.0
+      },
+      "route": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "structured_filter": {
+      "questions": 0,
+      "correct": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "unjudged": 0,
+      "recall_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "recall_all_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "faithful": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "route": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "disambiguation": {
+      "questions": 0,
+      "correct": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "unjudged": 0,
+      "recall_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "recall_all_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "faithful": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "route": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "negation_sensitive": {
+      "questions": 1,
+      "correct": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "low": 0.20654329147389294,
+        "high": 1.0
+      },
+      "unjudged": 0,
+      "recall_at_k": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "low": 0.20654329147389294,
+        "high": 1.0
+      },
+      "recall_all_at_k": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "low": 0.20654329147389294,
+        "high": 1.0
+      },
+      "faithful": {
+        "k": 1,
+        "n": 1,
+        "rate": 1.0,
+        "low": 0.20654329147389294,
+        "high": 1.0
+      },
+      "route": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "lookup": {
+      "questions": 0,
+      "correct": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "unjudged": 0,
+      "recall_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "recall_all_at_k": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "faithful": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "route": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    }
+  },
+  "outcome_scores": {
+    "accuracy": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0,
+      "low": 0.43849391955098227,
+      "high": 1.0
+    },
+    "recall": {
+      "answer": {
+        "k": 3,
+        "n": 3,
+        "rate": 1.0,
+        "low": 0.43849391955098227,
+        "high": 1.0
+      },
+      "clarify": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "out_of_scope": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "insufficient_evidence": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "refuse": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "precision": {
+      "answer": {
+        "k": 3,
+        "n": 3,
+        "rate": 1.0,
+        "low": 0.43849391955098227,
+        "high": 1.0
+      },
+      "clarify": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "out_of_scope": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "insufficient_evidence": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      },
+      "refuse": {
+        "k": 0,
+        "n": 0,
+        "rate": null,
+        "low": null,
+        "high": null
+      }
+    },
+    "false_abstention": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0,
+      "low": 0.0,
+      "high": 0.5615060804490177
+    }
+  }
+}

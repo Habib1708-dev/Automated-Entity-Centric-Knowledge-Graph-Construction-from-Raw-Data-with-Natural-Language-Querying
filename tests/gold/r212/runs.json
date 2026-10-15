@@ -1,0 +1,51 @@
+{
+ "step": "R212: agent, agent_evidence and agent_workset at QA_THINKING=medium on R194's 13 questions (experiment A's 8 failures and 5 seeded controls), the current engine (after R199, R204, R207-R211); agent first, so the other two arms reuse its turns from the LLM cache",
+ "approved": "the user, 2026-10-15: 'yes' to the question naming the three kg qa commands per dataset, the reloads from cache, furniture first as loaded, and the estimate (~$0.9, stop and ask at $1.5)",
+ "git_sha": "ef3a159 (only .claude/settings.json differed, hence -dirty in MLflow)",
+ "versions": {
+  "agent_prompt_version": "d247bbb2d790",
+  "agent_reply_prompt_version": "c9c0d1e6264d",
+  "agent_tools_prompt_version": "bfded79a6e26",
+  "agent_evidence_prompt_version": "f708a73a1d9b",
+  "agent_workset_prompt_version": "a163c54d4b52",
+  "note": "the agent's three versions are equal in all 12 runs and to R206's/R207's"
+ },
+ "commands": [
+  "QA_THINKING=medium kg --preset <quality|ntsb|heldout|lighthouses> qa tests/gold/r194/<dataset>_evidence.json --system <agent|agent_evidence|agent_workset> --out out/r212_<dataset>, the three arms in that order per dataset",
+  "furniture on the graph as loaded (out/r207_furniture's reload), its folder seeded with that build's plan, text schema, profile and staging",
+  "reloads ($0, every LLM answer from the cache): R178's recipe from out/r165_<dataset>_build into out/r212_<dataset> for ntsb, heldout, lighthouses (reset | build DATA | pinned profile copied back | ingest-text DATA | extract --from-build BUILD | link | GEMINI_API_KEY=invalid mention-pass | resolve | attach | index --cards template); triples.jsonl and mentions.jsonl byte-identical to the build's; every reload stage's cost_usd 0.0"
+ ],
+ "graph_digests_equal_r194": {"furniture": "392a170ecc10", "ntsb": "c7f20fa9c187", "heldout": "bc7c5a1efe3d", "lighthouses": "62573881a3c6"},
+ "runs": {
+  "furniture": {
+   "agent": {"run": "b31a841282554fb7ad3afb585a5ceaa6", "cost_usd": 0.160443, "exact": "1/3"},
+   "agent_evidence": {"run": "a5e8f03678174a1fa6823655d76ebc2c", "cost_usd": 0.024941, "exact": "2/3"},
+   "agent_workset": {"run": "2b6930fe5eba455ba8f60a63b9e9c567", "cost_usd": 0.047599, "exact": "1/3"}
+  },
+  "ntsb": {
+   "agent": {"run": "a159f4e761b141449109346d908c0937", "cost_usd": 0.173692, "exact": "1/3"},
+   "agent_evidence": {"run": "e1a411febeb3409cbb0a6a4e5dbd7e6a", "cost_usd": 0.020589, "exact": "2/3"},
+   "agent_workset": {"run": "6857e28127704db998bd03327c2baaf8", "cost_usd": 0.058912, "exact": "2/3"}
+  },
+  "heldout": {
+   "agent": {"run": "eddc9e0bff0e4bebbb8cb8fc45bb1203", "cost_usd": 0.261077, "exact": "2/4"},
+   "agent_evidence": {"run": "2c3b37b201d649a19bb8b1d8ce594dac", "cost_usd": 0.049742, "exact": "3/4"},
+   "agent_workset": {"run": "0cda6579e97c49f1a8135b35703125fb", "cost_usd": 0.118705, "exact": "2/4"}
+  },
+  "lighthouses": {
+   "agent": {"run": "6ccc31bac19e4b1d857649bc9050d247", "cost_usd": 0.13325, "exact": "1/3"},
+   "agent_evidence": {"run": "c51ae7913f174b2fac88c1265c95c376", "cost_usd": 0.025021, "exact": "1/3"},
+   "agent_workset": {"run": "074020dacb794f95964e390b4670d9d0", "cost_usd": 0.048079, "exact": "2/3"}
+  }
+ },
+ "cost_by_arm_usd": {"agent": 0.728462, "agent_evidence": 0.120293, "agent_workset": 0.273295},
+ "cost_usd": 1.12205,
+ "exact_per_question": {
+  "FS02": ["n", "n", "n"], "FB18": ["n", "Y", "n"], "FE05": ["Y", "Y", "Y"],
+  "NC11": ["n", "Y", "Y"], "ND11": ["n", "n", "n"], "NE06": ["Y", "Y", "Y"],
+  "HS01": ["n", "n", "n"], "HS02": ["n", "Y", "n"], "HE03": ["Y", "Y", "Y"], "HE09": ["Y", "Y", "Y"],
+  "LS01": ["n", "n", "n"], "LC08": ["n", "n", "Y"], "LE16": ["Y", "Y", "Y"],
+  "order": ["agent", "agent_evidence", "agent_workset"]
+ },
+ "note": "exact match by code (kgbuilder.validation.qa.is_correct, no verdicts); judged by meaning in R213. The working set reviewed all 13 answers (items per answer 2-30, none left out at the limit), was never sent back, and changed 2 answers (NC11, LC08)"
+}

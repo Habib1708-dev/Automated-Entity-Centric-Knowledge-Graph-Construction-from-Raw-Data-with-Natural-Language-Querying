@@ -11284,6 +11284,64 @@ is not empty. It holds furniture, reloaded for the R207-R210 check (`out/r207_fu
 
 **R211 done 2026-10-15.** Next: R212, the paid run, only with the user's yes.
 
+### R212. The three arms on R194's 13 questions (done 2026-10-15; $1.122)
+
+**Asked and approved.** The user said "yes" to the question naming:
+- the three `kg qa` commands per dataset;
+- the reloads from cache, with furniture first as loaded;
+- the estimate (~$0.9, stop and ask at $1.5).
+
+**Runs** (`tests/gold/r212/runs.json`, git ef3a159; the answers and reports are copied into
+`tests/gold/r212/<dataset>/`):
+- **Command:** `QA_THINKING=medium kg --preset P qa tests/gold/r194/<dataset>_evidence.json --system S
+  --out out/r212_<dataset>`, with `agent`, `agent_evidence` and `agent_workset` in that order.
+- **Graphs:** furniture as loaded. NTSB, held-out and lighthouses were reloaded by R178's recipe:
+  - every reload stage cost $0;
+  - triples and mentions are byte-identical to `out/r165_<dataset>_build`;
+  - every digest is equal to R194's.
+- **Pairing:** the agent's prompt versions (d247bbb2d790 / c9c0d1e6264d / bfded79a6e26) are equal in all 12
+  runs. The second and third arms' agent turns were cache hits, so they paid only for their review (prompt
+  tokens 13-62k against the agent's 132-285k).
+- **Live check:** the working set was checked live on furniture first: it reviewed all 3 answers, with 49 items
+  shown. Then the other datasets ran.
+
+**Cost:** $1.122 in all.
+
+| arm | cost | per question |
+|---|---|---|
+| `agent` | $0.728 | $0.056 |
+| `agent_evidence` | $0.120 | +$0.009 |
+| `agent_workset` | $0.273 | +$0.021 |
+
+**Exact match (by code; judged by meaning in R213; n = 13):**
+
+| | failures (8) | controls (5) | all |
+|---|---|---|---|
+| `agent` | 0 | 5 | **5** |
+| `agent_evidence` | 3 (FB18, NC11, HS02) | 5 | **8** |
+| `agent_workset` | 2 (NC11, LC08) | 5 | **7** |
+
+- No arm lost a control.
+- Left wrong by all three: FS02, ND11, HS01, LS01.
+- **The working set:**
+  - it reviewed all 13 answers, showing 2-30 items each, none cut at the limit;
+  - it was never sent back: every reply gave a verdict for every item, with quotes verbatim;
+  - it changed 2 answers. NC11 now names all 3 "forced landing" accidents. LC08 adds St Anthony's: the
+    "fog-bell" passage that the ledger's judge missed in R195, and missed again here.
+- **The ledger and the working set split two failures each way:**
+  - only the ledger fixed FB18 and HS02;
+  - only the working set fixed LC08.
+
+**Read with care:**
+- 13 questions, 8 of them chosen because they failed and seen before; one run per arm.
+- The ledger's results differ from R194's (there 4/8 fixed: NC11, ND11, FB18, LS01). The agent answers it
+  reviewed are new: the engine changed after R194 (R199's reranked `search_text`, R204's outcomes, R207's
+  notes).
+- Whether the working set read the gold item and still excluded it (FB18, LS01) is R213's analysis.
+
+**R212 done 2026-10-15.** Next: R213, judged blind by meaning, paired, the verdicts behind each failure read,
+and the decision ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
