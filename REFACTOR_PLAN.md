@@ -11477,6 +11477,42 @@ checked by code; R215's controls measure whether the rule adds wrong members.
 
 **R214 done 2026-10-15.** Next: R215.
 
+### R215. The two variants on the 13 questions (done 2026-10-15; $0.831)
+
+**Asked and approved.** The user chose "Both, as two variants" (about $0.55). After three datasets at $0.455, the
+user chose "Run held-out" (about $0.25 more).
+
+**Runs** (`tests/gold/r215/runs.json`, git 47424fe; the answers and reports are in `tests/gold/r215/<dataset>/`):
+- **Command:** `QA_THINKING=medium kg --preset P qa tests/gold/r194/<dataset>_evidence.json --system S --out
+  out/r212_<dataset>`.
+- **Graphs:** lighthouses as loaded; NTSB, furniture and held-out reloaded from cache ($0, byte-identical,
+  digests equal).
+
+**Cost:** `agent_workset_nodraft` $0.399, `agent_workset_meaning` $0.432; **$0.831 in all**, over the $0.70 named
+before held-out. Held-out alone cost $0.376 against about $0.25 projected: its rule arm thought for 44k tokens.
+
+**Paths.** Every question's tool calls equal R212's agent's, except ND11 in both arms. After the NTSB reload, its
+third turn differed: a `query_records` over Aircraft, then `read_document` of the Robinson document, where R212's
+agent queried one Accident. Those agent turns were paid in the first NTSB arm (87k prompt tokens). Both arms then
+answered ND11 right, but from another path, so ND11 is not paired.
+
+**Exact match (by code; n = 13):**
+- `agent_workset_nodraft` 8/13 and `agent_workset_meaning` 8/13 (R212: `agent` 5, `agent_evidence` 8,
+  `agent_workset` 7).
+- On the 12 paired questions, all three working-set prompts are right on exactly the same questions:
+  FE05, NC11, NE06, HE03, HE09, LC08 and LE16, 7/12.
+- **Neither hiding the draft nor the targeted rule changed any result.**
+
+**The verdicts.** On FB18 the agent excluded the same three gold passages in both arms, with the reason R213
+found:
+- without the draft: "mentions arriving with a small dent rather than damaged or scratched out of the box";
+- with the rule: "Mentions arriving with a small dent rather than arrived damaged or scratched out of the box".
+
+The rule names exactly that case ("a more specific case") and says "never exclude an item only because its words
+differ". FS02's "assembling with two people, not that two people were needed" holds in both arms as well.
+
+**R215 done 2026-10-15.** Next: R216, blind judging by meaning against R212's arms, and the decision ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

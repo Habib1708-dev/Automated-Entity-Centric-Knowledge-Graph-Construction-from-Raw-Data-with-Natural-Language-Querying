@@ -1,0 +1,29 @@
+{
+ "step": "R215: agent_workset_nodraft and agent_workset_meaning at QA_THINKING=medium on R194's 13 questions, over R212's agent turns from the LLM cache, in R212's out folders",
+ "approved": "the user, 2026-10-15: chose 'Both, as two variants' to the question naming the cost (about $0.55); after three datasets at $0.455, 'Run held-out (Recommended)' to the question naming about $0.25 more (about $0.70 in all)",
+ "git_sha": "47424fe (only .claude/settings.json differed, hence -dirty in MLflow)",
+ "versions": {"agent_prompt_version": "d247bbb2d790", "agent_workset_nodraft": "752f63a9c42a", "agent_workset_meaning": "eb8b87923cf6"},
+ "commands": [
+  "QA_THINKING=medium kg --preset <lighthouses|ntsb|quality|heldout> qa tests/gold/r194/<dataset>_evidence.json --system <agent_workset_nodraft|agent_workset_meaning> --out out/r212_<dataset>, in that order of datasets",
+  "lighthouses on the graph R212 left loaded; ntsb, furniture and heldout reloaded from cache by R178's recipe into their R212 folders ($0, triples and mentions byte-identical, digests equal to R212's)"
+ ],
+ "runs": {
+  "lighthouses": {"agent_workset_nodraft": {"run": "80adbcc5f27746a2bf99d90a4b94c4e7", "cost_usd": 0.052184, "exact": "2/3"},
+                  "agent_workset_meaning": {"run": "b76d731bdf154d0990d386c657656017", "cost_usd": 0.06758, "exact": "2/3"}},
+  "ntsb": {"agent_workset_nodraft": {"run": "1a5bfe91ae6741559249a1a4ca5ce1d9", "cost_usd": 0.141747, "exact": "3/3"},
+           "agent_workset_meaning": {"run": "f67428e410bd4f48ae9fb7cb1c1fdee1", "cost_usd": 0.064222, "exact": "3/3"}},
+  "furniture": {"agent_workset_nodraft": {"run": "e8257ff0b4bf409da53f2fc778e58485", "cost_usd": 0.057157, "exact": "1/3"},
+                "agent_workset_meaning": {"run": "8b79b147f7a2403da066c8099a0141d3", "cost_usd": 0.07184, "exact": "1/3"}},
+  "heldout": {"agent_workset_nodraft": {"run": "e302089020f94e06a1c39843d99360f3", "cost_usd": 0.147682, "exact": "2/4"},
+              "agent_workset_meaning": {"run": "52b1fdc662714002ad75c9330b7f7915", "cost_usd": 0.228496, "exact": "2/4"}}
+ },
+ "cost_by_arm_usd": {"agent_workset_nodraft": 0.39877, "agent_workset_meaning": 0.432138},
+ "cost_usd": 0.830908,
+ "paths": "every question's tool calls equal R212's agent's but ND11 in both arms: after the NTSB reload its third turn differed (query_records over Aircraft and read_document of the Robinson document, where R212's agent queried one Accident), so ND11's answers come from another path and its fix is not the review's; the first NTSB arm paid those agent turns (87k prompt tokens)",
+ "exact_per_question": {
+  "order": ["agent", "agent_evidence", "agent_workset", "agent_workset_nodraft", "agent_workset_meaning"],
+  "FS02": "n n n n n", "FB18": "n Y n n n", "FE05": "Y Y Y Y Y", "NC11": "n Y Y Y Y", "ND11": "n n n Y Y (other path)",
+  "NE06": "Y Y Y Y Y", "HS01": "n n n n n", "HS02": "n Y n n n", "HE03": "Y Y Y Y Y", "HE09": "Y Y Y Y Y",
+  "LS01": "n n n n n", "LC08": "n n Y Y Y", "LE16": "Y Y Y Y Y"
+ }
+}
