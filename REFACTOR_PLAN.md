@@ -11024,6 +11024,9 @@ the screen only (the plan, graph and vector baselines keep no outcome); measured
 - **R206 done 2026-10-15 (partial).** Plan R204-R206 closed. **The query engine is frozen here** (the
   user, 2026-10-15): the agent, its tools, the screen, the read-only layer and the outcomes stay as they
   are; no further tuning or paid evaluation. Next: thesis finalization.
+- **Results write-up** (thesis finalization, 2026-10-15, $0, from committed records only): the query
+  engine's results, decisions and limitations in one place, `docs/evaluation/results_2026-10-15_query_engine.md`
+  (local, not committed, like every `docs/` file).
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
