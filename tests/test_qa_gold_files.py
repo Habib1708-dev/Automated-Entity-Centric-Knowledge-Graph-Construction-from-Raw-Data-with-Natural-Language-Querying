@@ -14,7 +14,9 @@ of an idea; its run files (`tests/gold/r185/`) are those questions, the experime
 seeded controls, copied unchanged. R189: so do experiment B's (`_qa_sql.json`, 2 questions each answered by
 a query over the tables; run files in `tests/gold/r189/`, with the same controls). R194: the evidence
 ledger's run files (`tests/gold/r194/`) are experiment A's 8 failures and 5 controls drawn by seed from R185's
-10, copied unchanged from R185's run files. No Neo4j, no LLM.
+10, copied unchanged from R185's run files. R205: the outcome files (`tests/gold/outcomes/`) pass the
+per-file checks and hold, per dataset, two questions expecting each outcome other than an answer and four
+answerable controls copied unchanged from the third confirmation set. No Neo4j, no LLM.
 """
 
 import json
@@ -305,3 +307,34 @@ def test_an_evidence_run_file_is_r185s_failures_and_drawn_controls_copied_unchan
     keep = {*FAILURES_EVIDENCE[dataset], *drawn}
     assert run.corpus == source.corpus
     assert run.questions == [q for q in source.questions if q.id in keep]
+
+
+# R205: the outcome gold, written from the source files before any outcome output existed: per dataset two
+# questions expecting each of clarify, out_of_scope, insufficient_evidence and refuse, then four answerable
+# controls from the third confirmation set (its "none" question if any, then the first of each of
+# negation_sensitive, lookup, aggregation and multi_hop), copied unchanged
+OUTCOME_GOLD = REPO / "tests" / "gold" / "outcomes"
+ABSTAINING = ("clarify", "out_of_scope", "insufficient_evidence", "refuse")
+
+
+@pytest.mark.parametrize("dataset", CONFIRM_DATASETS)
+def test_an_outcome_file_fits_its_corpus_and_its_controls_compute(dataset, tmp_path):
+    gold = load_qa_gold(OUTCOME_GOLD / f"{dataset}_outcomes.json")
+    corpus = rebuild_corpus(gold.corpus, tmp_path / "staging")
+    check_qa_gold(gold, corpus.chunks, corpus.rows)
+    check_record_answers(gold, REPO / gold.corpus.data_dir)
+
+
+@pytest.mark.parametrize("dataset", CONFIRM_DATASETS)
+def test_an_outcome_file_asks_two_of_each_outcome_and_four_controls_copied_unchanged(dataset):
+    gold = load_qa_gold(OUTCOME_GOLD / f"{dataset}_outcomes.json")
+    assert Counter(q.expected.outcome for q in gold.questions) == {**{o: 2 for o in ABSTAINING}, "answer": 4}
+    third = load_qa_gold(QA_GOLD / f"{dataset}_qa_confirm3.json")
+    assert gold.corpus == third.corpus
+    for control in (q for q in gold.questions if q.expected.outcome == "answer"):
+        source, index = control.origin.split("#")
+        assert source == f"tests/gold/qa/{dataset}_qa_confirm3.json"
+        assert control.model_copy(update={"origin": None}) == third.questions[int(index)]
+    # the questions expecting no answer are new: no gold file of the dataset asks them
+    asked = {norm(q.question) for f in QA_GOLD.glob(f"{dataset}_qa*.json") for q in load_qa_gold(f).questions}
+    assert all(norm(q.question) not in asked for q in gold.questions if q.expected.outcome != "answer")

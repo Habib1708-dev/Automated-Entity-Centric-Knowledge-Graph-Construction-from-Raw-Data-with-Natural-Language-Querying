@@ -26,12 +26,12 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from ..core.errors import ConfigurationError
-from ..query.answers import OUTCOMES, SystemAnswer, load_system_answers, shown_texts
+from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.frozen import load_frozen
 from ..query.systems import QASystem
 from ..tracking.base import Run
 from ..validation.paired import compare_outcomes
-from ..validation.qa import QAReport, load_outcomes, load_qa_verdicts, score_qa
+from ..validation.qa import OUTCOMES, QAReport, load_outcomes, load_qa_verdicts, score_qa
 from ..validation.qa_gold import load_qa_gold
 from .inputs import digest, input_file
 from .qa_graph import check_graph

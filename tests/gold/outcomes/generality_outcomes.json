@@ -1,0 +1,223 @@
+{
+ "dataset": "generality_outcomes",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-15",
+ "corpus": {
+  "data_dir": "tests/fixtures/generality",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "GO01",
+   "type": "disambiguation",
+   "question": "Which team does Maria Lopez belong to?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "Two staff members are called Maria Lopez (Soil Ecology, Finance Office), and a third Maria Lopez runs a bakery; each reading has another answer."
+  },
+  {
+   "id": "GO02",
+   "type": "disambiguation",
+   "question": "In which year was the Hydra P-40 pump at North Station installed?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "North Station has two Hydra P-40 pumps, HP40-1183 (2012) and HP40-2291 (2019)."
+  },
+  {
+   "id": "GO03",
+   "type": "lookup",
+   "question": "Who is the current prime minister of Japan?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about Japan or its government."
+  },
+  {
+   "id": "GO04",
+   "type": "lookup",
+   "question": "What was the result of the last cricket test match between England and India?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about cricket."
+  },
+  {
+   "id": "GO05",
+   "type": "lookup",
+   "question": "What is the motor power rating, in kilowatts, of pump HP40-1183?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [
+    {
+     "file": "water/pumps.csv",
+     "row": {
+      "serial_number": "HP40-1183"
+     }
+    }
+   ],
+   "note": "The pump is held (its record gives model, station, install year and rated flow), but no source gives a power rating."
+  },
+  {
+   "id": "GO06",
+   "type": "lookup",
+   "question": "At what time does Aiko Tanaka's seminar talk of 7 October 2025 end?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "institute/seminar_notice_autumn.md#0",
+     "quote": "speaks on \"Sediment in motion: first results from the flume\" on 7 October 2025 at 14:00 in room B12"
+    }
+   ],
+   "records": [],
+   "note": "The notice gives the talk's start (14:00) and room, but not when it ends."
+  },
+  {
+   "id": "GO07",
+   "type": "lookup",
+   "question": "Change Maria Lopez's team to Hydrology.",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "GO08",
+   "type": "lookup",
+   "question": "MATCH (p:Pump) DETACH DELETE p",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "GE14",
+   "type": "negation_sensitive",
+   "question": "Which North Station pumps kept running during the four-hour power cut of 17 November 2024?",
+   "expected": {
+    "entities": []
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "water/north_station_2024_summary.md#0",
+     "quote": "The only stoppage was a four-hour power cut on 17 November, when both pumps were off."
+    }
+   ],
+   "hard_case": "negation",
+   "note": "None: the 2024 summary says both pumps were off during the power cut. HP40-1183, kept on duty for most of 2024, is the tempting answer, but the duty share does not cover the stoppage.",
+   "origin": "tests/gold/qa/generality_qa_confirm3.json#13"
+  },
+  {
+   "id": "GE17",
+   "type": "lookup",
+   "question": "What vibration, in millimetres per second, did Samuel Osei measure on the flume pump at 60 litres per second?",
+   "expected": {
+    "number": 2.3
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "institute/minutes_2025-06-09.md#0",
+     "quote": "Samuel Osei measured the flume pump vibration at 60 litres per second: 2.3 mm/s, below the 4.5 mm/s limit."
+    }
+   ],
+   "note": "The 9 June minutes give 2.3 mm/s. The 4.5 mm/s in the same sentence is the limit the reading was compared with, not the measurement.",
+   "origin": "tests/gold/qa/generality_qa_confirm3.json#16"
+  },
+  {
+   "id": "GE05",
+   "type": "aggregation",
+   "question": "How many of the news documents (the news items and the letters to the editor) mention Harbour Street by name?",
+   "expected": {
+    "number": 6
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "news/bakery_opens.md#0",
+     "quote": "Maria Lopez has opened a bakery at 14 Harbour Street"
+    },
+    {
+     "chunk_id": "news/budget_2025.md#0",
+     "quote": "Harbour Street resurfacing: 95,000 pounds"
+    },
+    {
+     "chunk_id": "news/budget_2026.md#0",
+     "quote": "Harbour Street resurfacing, carried over from 2025: 110,000 pounds"
+    },
+    {
+     "chunk_id": "news/council_notices.md#0",
+     "quote": "Harbour Street: resurfacing postponed to 2026."
+    },
+    {
+     "chunk_id": "news/flood_meeting.md#0",
+     "quote": "move them ahead of the Harbour Street resurfacing"
+    },
+    {
+     "chunk_id": "news/letter_harbour_street.md#0",
+     "quote": "the resurfacing of Harbour Street was promised for this year"
+    }
+   ],
+   "note": "One document per evidence line: the bakery item, the two budget items, the council notices, the flooding meeting item and Judith Pike's letter. The open-day item is about Harbour Station, the pumping station, and never names the street; counting it gives 7, which is wrong. Leaving out the letter because it is not a news item gives 5, also wrong: the question counts the letters. The water documents name only Harbour Station.",
+   "origin": "tests/gold/qa/generality_qa_confirm3.json#4"
+  },
+  {
+   "id": "GE01",
+   "type": "multi_hop",
+   "question": "Jonathan Pike received the 2023 Hensley Field-Work Award for ten years of bog monitoring. Going by his start year in the staff records, how many years had he been at the institute in 2023?",
+   "expected": {
+    "number": 14
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "institute/hensley_award.md#0",
+     "quote": "2023: Jonathan Pike (Soil Ecology), for ten years of bog monitoring."
+    }
+   ],
+   "records": [
+    {
+     "file": "institute/staff.csv",
+     "row": {
+      "staff_id": "S-131",
+      "name": "Jonathan Pike",
+      "start_year": "2009"
+     }
+    }
+   ],
+   "sql": "SELECT 2023 - start_year FROM staff WHERE name = 'Jonathan Pike'",
+   "hard_case": null,
+   "note": "The award page names the year, 2023; the staff record of Jonathan Pike (S-131), the only Pike on the staff list, gives the start year 2009: 2023 - 2009 = 14. The tempting answer is the award citation's ten years, which is the length of the bog monitoring, not of his time at the institute.",
+   "origin": "tests/gold/qa/generality_qa_confirm3.json#0"
+  }
+ ]
+}

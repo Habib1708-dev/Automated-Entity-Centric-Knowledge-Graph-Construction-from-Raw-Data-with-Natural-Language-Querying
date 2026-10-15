@@ -1,0 +1,219 @@
+{
+ "dataset": "furniture_outcomes",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-15",
+ "corpus": {
+  "data_dir": "data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "FO01",
+   "type": "disambiguation",
+   "question": "What is the price of the table?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "Two products are tables: the Gothenburg Table ($489) and the Jönköping Coffee Table ($212); the question presupposes one."
+  },
+  {
+   "id": "FO02",
+   "type": "disambiguation",
+   "question": "What star rating did @designer_dave give?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "@designer_dave reviewed seven products (the Stockholm Chair twice) with different ratings; the question names none of them."
+  },
+  {
+   "id": "FO03",
+   "type": "lookup",
+   "question": "What is the weather forecast for Stockholm tomorrow?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about weather or forecasts; Stockholm appears only as a supplier's city."
+  },
+  {
+   "id": "FO04",
+   "type": "lookup",
+   "question": "Who won the 2022 FIFA World Cup?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about football."
+  },
+  {
+   "id": "FO05",
+   "type": "lookup",
+   "question": "How wide is the Uppsala Sofa?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#1",
+     "quote": "the sofa is slightly deeper than I expected (92cm)"
+    }
+   ],
+   "records": [],
+   "note": "The sofa is held (product, assembly, seven reviews) and a review gives its depth (92cm), but no source gives its width."
+  },
+  {
+   "id": "FO06",
+   "type": "lookup",
+   "question": "Which wood species is the Stockholm Chair made of?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/stockholm_chair_reviews.md#4",
+     "quote": "The natural wood grain is beautifully highlighted by the finish."
+    }
+   ],
+   "records": [],
+   "note": "Reviews speak of the chair's wood grain and finish, and its parts come from wood suppliers, but no source names the species."
+  },
+  {
+   "id": "FO07",
+   "type": "lookup",
+   "question": "Delete every review of the Stockholm Chair.",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "FO08",
+   "type": "lookup",
+   "question": "Please update the price of the Malmö Desk to $199.",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "FE15",
+   "type": "negation_sensitive",
+   "question": "How many Gothenburg Table reviews say the surface resists scratches?",
+   "expected": {
+    "number": 1
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+     "quote": "The surface is easy to clean and surprisingly resistant to scratches."
+    }
+   ],
+   "note": "Only @akollegger (#0) says the surface resists scratches. @woodworker_amy (#6) says the opposite, 'it scratches a bit more easily than I'd like', and does not count. @familyfirst (#5) says the surface 'has resisted stains from art projects and spilled drinks', which is about stains, not scratches, so counting it gives a wrong 2. The Jönköping Coffee Table's scratch-resistance praise belongs to another product.",
+   "origin": "tests/gold/qa/furniture_qa_confirm3.json#14"
+  },
+  {
+   "id": "FE18",
+   "type": "lookup",
+   "question": "What thickness in millimetres does a reviewer give for the Linköping Bed's slats?",
+   "expected": {
+    "number": 8
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/linkoping_bed_reviews.md#3",
+     "quote": "appropriate thickness (8mm)"
+    }
+   ],
+   "note": "@woodworker_amy's review (#3) gives the slat thickness as 8mm. The 7cm in the same sentence is the slat spacing, not the thickness, and the 25kg is the drawer slides' load rating; 20 is the reviewer's years of experience.",
+   "origin": "tests/gold/qa/furniture_qa_confirm3.json#17"
+  },
+  {
+   "id": "FE05",
+   "type": "aggregation",
+   "question": "Which products have a review complaining that the surface shows fingerprints easily?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Gothenburg Table"
+     },
+     {
+      "name": "Jönköping Coffee Table"
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#1",
+     "quote": "The table top also shows fingerprints very easily which is annoying for daily use."
+    },
+    {
+     "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#5",
+     "quote": "the surface shows fingerprints easily and requires frequent cleaning"
+    }
+   ],
+   "note": "Fingerprints are mentioned in exactly two reviews across the corpus: @furniture_lover92 on the Gothenburg Table (#1) and @home_chef on the Jönköping Coffee Table (#5). Reviews that praise a surface for cleaning easily (Gothenburg #0, #5) or for resisting scratches and water rings (Jönköping #0, #6) are not fingerprint complaints; the Malmö Desk's finish inconsistencies and scratches (#4) are not fingerprints either.",
+   "origin": "tests/gold/qa/furniture_qa_confirm3.json#4"
+  },
+  {
+   "id": "FE01",
+   "type": "multi_hop",
+   "question": "A reviewer who works from home says a desk's work surface stays perfectly flat under the weight of their drafting equipment. How many zip ties does the cable management sub-assembly of that desk list?",
+   "expected": {
+    "number": 5
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/malmo_desk_reviews.md#3",
+     "quote": "The work surface maintains perfect flatness under the weight of my drafting equipment."
+    }
+   ],
+   "records": [
+    {
+     "file": "assemblies.csv",
+     "row": {
+      "assembly_id": "A-1064",
+      "component_name": "Cable Management",
+      "product_id": "P-1002"
+     }
+    },
+    {
+     "file": "components.csv",
+     "row": {
+      "part_id": "S-1128",
+      "part_name": "Zip Ties",
+      "quantity": "5",
+      "assembly_id": "A-1064"
+     }
+    }
+   ],
+   "sql": "SELECT c.quantity FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Cable Management' AND c.part_name = 'Zip Ties'",
+   "note": "The desk is the Malmö Desk (@architect_amy's review, #3); it is the only product with a Cable Management component (A-1064). Its four parts are 1 cable tray, 4 cable clips, 5 zip ties and 2 adhesive pads, so the answer is 5; 4 (the cable clips) and 2 (the adhesive pads) are the tempting wrong answers.",
+   "origin": "tests/gold/qa/furniture_qa_confirm3.json#0"
+  }
+ ]
+}

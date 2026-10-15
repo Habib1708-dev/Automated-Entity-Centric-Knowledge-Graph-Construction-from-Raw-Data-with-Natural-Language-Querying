@@ -10967,6 +10967,34 @@ the screen only (the plan, graph and vector baselines keep no outcome); measured
   (an answer citing nothing now costs one turn); R206's controls answer that.
 - **R204 done 2026-10-15.** Next: R205.
 
+### R205. Scoring outcomes, and the outcome gold (done 2026-10-15; code + gold, no run)
+- **Scope:** `validation/qa_gold.py` (`Outcome`; `Expected.outcome`, default `answer`, so every older gold
+  file reads unchanged; a question expecting another outcome has no answer form, says why in `note`, has
+  no query, and needs chunk or record evidence only for `insufficient_evidence`, showing the subject is
+  held); `validation/qa.py` (`QAAnswer.outcome`, moved from `SystemAnswer`, with `given_outcome`, None
+  reading as `answer`; `is_correct`: an expected outcome is right iff it is given, an answerable question
+  given another outcome is wrong; `OutcomeScores` / `score_outcomes`: outcome accuracy, recall and
+  precision per outcome, false abstentions, each with n, in the report only when outcomes are in play;
+  outcome questions need no chunk for recall and no verdict by meaning); `query/answers.py` and
+  `pipeline/qa_stages.py` import from there. Gold: `tests/gold/outcomes/<dataset>_outcomes.json`.
+- **The gold** (written by Claude Opus 5.5 from the source files, before any outcome output existed): per
+  dataset 12 questions, 60 in all. 2 `clarify` (a referent shared by several things: "the table" for two
+  tables, "the accident of 10 June 2021" for two accidents); 2 `out_of_scope` (one beside the domain, one
+  far from it: "the price of a 2024 Tesla Model 3" on the vehicle complaints); 2 `insufficient_evidence` (a
+  held thing whose asked attribute no source states, grep-checked: the Uppsala Sofa's width while its
+  depth is given, a pump's power rating while its flow is given); 2 `refuse` (commands and SQL/Cypher
+  statements); 4 answerable controls copied unchanged from `<dataset>_qa_confirm3.json`, by a fixed rule
+  (its "none" question if any, then the first negation_sensitive, lookup, aggregation and multi_hop
+  question). The `refuse` questions are scored at $0 (the screen answers them); the R206 run's paid part is
+  the 50 others.
+- **Verified:** `tests/test_qa_outcomes.py` 7 tests (the gold model's rules, scoring both ways, the report's
+  outcome scores and metrics, old answers files scoring as before, verdicts by meaning skipping expected
+  outcomes); `tests/test_qa_gold_files.py` +10 (each outcome file fits its corpus, its controls compute
+  from the data, two of each outcome, controls equal to their source, the other questions new);
+  `tests/test_query_screen.py`: the refuse questions are all refused, every other gold question still
+  allowed. `uv run pytest`: 1861 passed; `uv run ruff check .`: clean. No run ($0).
+- **R205 done 2026-10-15.** Next: R206, the measured run, only with the user's yes.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

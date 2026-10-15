@@ -1,0 +1,195 @@
+{
+ "dataset": "heldout_outcomes",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-15",
+ "corpus": {
+  "data_dir": "heldout/nhtsa/data",
+  "plan": "tests/gold/heldout_nhtsa_plan.json",
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "HO01",
+   "type": "disambiguation",
+   "question": "When was the complaint about the engine filed?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Several complaints, on several vehicles, are about the engine (the Civic's piston snap ring among them), each filed on another date; the question presupposes one."
+  },
+  {
+   "id": "HO02",
+   "type": "disambiguation",
+   "question": "What remedy does the Honda Civic recall offer?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "Five recall campaigns concern the 2016 Honda Civic, each with its own remedy."
+  },
+  {
+   "id": "HO03",
+   "type": "lookup",
+   "question": "What is the price of a new 2024 Tesla Model 3?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about Tesla or vehicle prices; the vehicles are five other models."
+  },
+  {
+   "id": "HO04",
+   "type": "lookup",
+   "question": "Who won the 2018 Formula One world championship?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about motor racing."
+  },
+  {
+   "id": "HO05",
+   "type": "lookup",
+   "question": "What fuel economy, in miles per gallon, does the 2019 Toyota RAV4 get?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+     "quote": "THE CONTACT OWNS A 2019 TOYOTA RAV4."
+    }
+   ],
+   "records": [],
+   "note": "The 2019 RAV4 is held (vehicle record, complaints, recalls), but no source gives its fuel economy."
+  },
+  {
+   "id": "HO06",
+   "type": "lookup",
+   "question": "Which trim level is the 2016 Honda Civic of complaint 10809523?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "complaints/honda_civic_complaints.md#0",
+     "quote": "THE TRUNK AND GLOVE COMPARTMENT DO NOT LOCK"
+    }
+   ],
+   "records": [],
+   "note": "Complaint 10809523 is held, about the trunk and glove compartment, but neither it nor its record names a trim level."
+  },
+  {
+   "id": "HO07",
+   "type": "lookup",
+   "question": "Remove all complaints about the 2015 Ford Escape.",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "HO08",
+   "type": "lookup",
+   "question": "DELETE FROM recalls WHERE Component = 'AIR BAGS'",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "HE09",
+   "type": "structured_filter",
+   "question": "Which recall campaigns are flagged as an over-the-air update in the recall records?",
+   "expected": {
+    "entities": []
+   },
+   "route": "exact",
+   "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE overTheAirUpdate = true",
+   "note": "None: the overTheAirUpdate flag is false on all 29 recalls (as are parkIt and parkOutSide). The tempting answer lists the recalls whose remedy is a software update or reprogramming (15V406000, 15V436000, 16V725000, 16V244000), but those are done by dealers, and the flag says so.",
+   "origin": "tests/gold/qa/heldout_qa_confirm3.json#8"
+  },
+  {
+   "id": "HE15",
+   "type": "negation_sensitive",
+   "question": "According to the remedy of recall 16V074000, were replacement parts already available when owners were mailed the interim notification?",
+   "expected": {
+    "text": "No. Parts were only expected to be available in the summer of 2016; owners were to be mailed a second notice when parts became available."
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "record/Recall/16V074000#1",
+     "quote": "Parts are expected to be available in the Summer of 2016.  Owners were mailed an interim notification beginning March 31, 2016, and will be mailed a second notice when parts are available."
+    }
+   ],
+   "note": "The interim notification went out from March 31, 2016, while the remedy says parts are only expected in the summer of 2016 and promises a second notice when they are available: an expectation, not availability. A reader that takes 'dealers will inspect and replace the piston assemblies' or 'Parts are expected to be available' as parts being on hand answers yes. H19 asks what dealers do under this recall and HE07 counts its interim notification; neither asks about the parts.",
+   "origin": "tests/gold/qa/heldout_qa_confirm3.json#14"
+  },
+  {
+   "id": "HE18",
+   "type": "lookup",
+   "question": "On which floor of the parking structure did the vehicle in complaint 11010220 hit the concrete wall?",
+   "expected": {
+    "number": 6
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "complaints/nissan_rogue_complaints.md#2",
+     "quote": "HITTING THE CONCRETE WALL ON THE 6TH FLOOR OF THE STRUCTURE."
+    }
+   ],
+   "note": "The owner pumped the brake pedal twice before hitting the concrete wall on the 6th floor of the structure. The other numbers in the complaint (twice on the pedal, this Friday morning) are not floors.",
+   "origin": "tests/gold/qa/heldout_qa_confirm3.json#17"
+  },
+  {
+   "id": "HE05",
+   "type": "aggregation",
+   "question": "Which complaint was filed the largest number of days after the incident it reports?",
+   "expected": {
+    "entities": [
+     {
+      "name": "11209676",
+      "aliases": [
+       "Complaint 11209676"
+      ]
+     }
+    ]
+   },
+   "route": "exact",
+   "records": [
+    {
+     "file": "complaints.csv",
+     "row": {
+      "odiNumber": "11209676",
+      "dateOfIncident": "12/20/2018",
+      "dateComplaintFiled": "05/24/2019"
+     }
+    }
+   ],
+   "sql": "SELECT odiNumber FROM complaints ORDER BY date_diff('day', strptime(dateOfIncident, '%m/%d/%Y'), strptime(dateComplaintFiled, '%m/%d/%Y')) DESC LIMIT 1",
+   "note": "11209676 (2019 Toyota RAV4, will not accelerate) reports an incident on 12/20/2018 and was filed 05/24/2019, 155 days later. The runner-up is 11229137 (incident 03/01/2019, filed 07/03/2019, 124 days); the next, 11180230, waited 35 days. Dates are month/day/year.",
+   "origin": "tests/gold/qa/heldout_qa_confirm3.json#4"
+  }
+ ]
+}

@@ -7,6 +7,9 @@ Step 1). Claude writes the gold from whole files before any answer exists (`eval
 Design: the validators make each question checkable on its own (one answer form, evidence present, a
 retrieval question has chunk evidence); `check_qa_gold` then checks the file against the corpus's chunks
 and staged rows, which the caller supplies, so this module stays pure.
+R205: a question may expect an outcome other than an answer (`Expected.outcome`: a question back, a subject
+the dataset does not hold, a held subject whose answer no source states, a refusal); such a question has no
+answer form, says why in `note`, and needs evidence only when its subject must be shown to be held.
 Not here: scoring (qa.py); building the chunks (the pipeline's own loader, record documents and chunker);
 computing the answers of record questions from their query (qa_records.py, R73).
 """
@@ -54,7 +57,12 @@ class HardCase(StrEnum):
     NUANCE_CONTROL = "nuance_control"  # negative control: the answer is nuance the graph does not model
 
 
-AnswerKind = Literal["entities", "number", "text"]
+AnswerKind = Literal["entities", "number", "text", "outcome"]
+
+# What a request should end in (R205; the systems' side is query/answers.py, which imports it): an answer,
+# a question back because the request has several readings, a subject the dataset does not hold, a held
+# subject whose answer no source states, or a refusal (the security screen's).
+Outcome = Literal["answer", "clarify", "out_of_scope", "insufficient_evidence", "refuse"]
 
 
 class ExpectedEntity(BaseModel):
@@ -66,19 +74,27 @@ class ExpectedEntity(BaseModel):
 
 
 class Expected(BaseModel):
-    """The expected answer in exactly one form: a set of names, a number, or a short text.
+    """The expected answer in exactly one form: a set of names, a number, or a short text; or, for a
+    question that should get no answer (R205), its outcome alone.
 
-    Sets and numbers are compared by code, a text by the judge (qa.py). An empty set is a valid answer
-    ("no product is reported with ...").
+    Sets and numbers are compared by code, a text by the judge (qa.py), an outcome by code. An empty set is
+    a valid answer ("no product is reported with ..."), and an answer, not missing evidence.
     """
 
+    # "answer" by default, so every gold file from before R205 reads unchanged
+    outcome: Outcome = "answer"
     entities: list[ExpectedEntity] | None = None
     number: float | None = None
     text: str | None = None
 
     @model_validator(mode="after")
     def _one_form(self) -> "Expected":
-        if sum(form is not None for form in (self.entities, self.number, self.text)) != 1:
+        forms = sum(form is not None for form in (self.entities, self.number, self.text))
+        if self.outcome != "answer":
+            if forms:
+                raise ValueError(f"an expected {self.outcome!r} gives no answer form")
+            return self
+        if forms != 1:
             raise ValueError("give exactly one of entities, number and text")
         if self.text is not None and not self.text.strip():
             raise ValueError("an expected text answer cannot be empty")
@@ -86,6 +102,8 @@ class Expected(BaseModel):
 
     @property
     def kind(self) -> AnswerKind:
+        if self.outcome != "answer":
+            return "outcome"
         if self.entities is not None:
             return "entities"
         return "number" if self.number is not None else "text"
@@ -131,6 +149,8 @@ class QAQuestion(BaseModel):
 
     @model_validator(mode="after")
     def _evidence(self) -> "QAQuestion":
+        if self.expected.outcome != "answer":
+            return self._outcome_evidence()
         if not self.chunks and not self.records and self.sql is None:
             raise ValueError(f"question {self.id}: give its evidence (chunks, records or a query)")
         # code compares a query's rows with a set or a number; a text answer is the judge's
@@ -139,6 +159,19 @@ class QAQuestion(BaseModel):
         # recall@k is measured on retrieval questions against their chunks: without any it is undefined
         if self.route == Route.RETRIEVAL and not self.chunks:
             raise ValueError(f"question {self.id}: a retrieval question needs chunk evidence")
+        return self
+
+    def _outcome_evidence(self) -> "QAQuestion":
+        """A question expecting no answer (R205) says why in `note`; one whose subject the dataset holds
+        (`insufficient_evidence`) shows that it does with chunks or records, while a question back, a subject
+        not held and a refusal have no source to cite. None carries a query: there is no answer to compute."""
+        outcome = self.expected.outcome
+        if not self.note.strip():
+            raise ValueError(f"question {self.id}: an expected {outcome!r} says why in `note`")
+        if self.sql is not None:
+            raise ValueError(f"question {self.id}: an expected {outcome!r} has no query")
+        if outcome == "insufficient_evidence" and not self.chunks and not self.records:
+            raise ValueError(f"question {self.id}: show that the dataset holds the subject (chunks, records)")
         return self
 
 

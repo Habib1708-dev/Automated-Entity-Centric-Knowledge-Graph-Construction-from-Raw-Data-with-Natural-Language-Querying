@@ -1,0 +1,227 @@
+{
+ "dataset": "ntsb_outcomes",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-15",
+ "corpus": {
+  "data_dir": "heldout/ntsb/data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "NO01",
+   "type": "disambiguation",
+   "question": "What was the probable cause of the Cessna 172S accident?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Five Cessna 172S accidents are recorded, each with its own probable cause."
+  },
+  {
+   "id": "NO02",
+   "type": "disambiguation",
+   "question": "How old was the pilot in the accident of 10 June 2021?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "Two accidents happened on 10 June 2021, at Saint James (pilot aged 67) and at Reserve (pilot aged 47), both in Louisiana."
+  },
+  {
+   "id": "NO03",
+   "type": "lookup",
+   "question": "What does a flight from London to New York cost?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about airline fares or scheduled flights."
+  },
+  {
+   "id": "NO04",
+   "type": "lookup",
+   "question": "Which airline operates the most Airbus A380s?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about airlines or Airbus aircraft; the accidents involve six general-aviation models."
+  },
+  {
+   "id": "NO05",
+   "type": "lookup",
+   "question": "What was the outside air temperature at the time of accident CEN21LA126?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [
+    {
+     "file": "events.csv",
+     "row": {
+      "ntsb_no": "CEN21LA126"
+     }
+    }
+   ],
+   "note": "Accident CEN21LA126 is held (event record with weather condition and wind, narrative), but no source gives the temperature."
+  },
+  {
+   "id": "NO06",
+   "type": "lookup",
+   "question": "What colour was the aircraft with registration N348RM?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [
+    {
+     "file": "aircraft.csv",
+     "row": {
+      "registration": "N348RM"
+     }
+    }
+   ],
+   "note": "The aircraft is held (its record gives model, year built, operator and engine), but no source gives its colour."
+  },
+  {
+   "id": "NO07",
+   "type": "lookup",
+   "question": "Insert a new accident record for a Boeing 737 crash in Denver.",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "NO08",
+   "type": "lookup",
+   "question": "UPDATE crew SET age = 30 WHERE ntsb_no = 'CEN21LA126'",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "NE15",
+   "type": "negation_sensitive",
+   "question": "In which accidents does the narrative, including its probable cause, say the airplane stalled, rather than only that a stall warning sounded?",
+   "expected": {
+    "entities": [
+     {
+      "name": "CEN21LA280",
+      "aliases": []
+     },
+     {
+      "name": "CEN22LA249",
+      "aliases": []
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+     "quote": "He pulled back on the controls and stalled the airplane."
+    },
+    {
+     "chunk_id": "documents/piper_pa_28_181_accidents.md#4",
+     "quote": "which resulted in an aerodynamic stall and subsequent impact with trees"
+    }
+   ],
+   "note": "CEN21LA280 (Hayward, WI): the pilot pulled back and stalled the airplane. CEN22LA249 (Eaton Rapids, MI): the stall warning came on and the probable cause names an aerodynamic stall. CEN21LA185 (Schaumburg, IL) must not count: its stall warning horn came on, the pilot pitched down and landed, and nothing says the airplane stalled. No finding or occurrence code records a stall.",
+   "origin": "tests/gold/qa/ntsb_qa_confirm3.json#14"
+  },
+  {
+   "id": "NE18",
+   "type": "lookup",
+   "question": "About how many minutes before the partial loss of engine power did the low fuel warning light illuminate in accident CEN21LA362?",
+   "expected": {
+    "number": 5
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+     "quote": "the low fuel warning light illuminated about five minutes before the partial loss of engine power"
+    }
+   ],
+   "note": "About five minutes, after which the pilot continued the low-level aerial application maneuvers. The 150 gallons loaded before the flight and the 9 and 5 gallons of diesel added after the accident are not times; the 5 gallons is a quantity of fuel.",
+   "origin": "tests/gold/qa/ntsb_qa_confirm3.json#17"
+  },
+  {
+   "id": "NE05",
+   "type": "aggregation",
+   "question": "In how many accidents does the narrative say the airplane bounced?",
+   "expected": {
+    "number": 5
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+     "quote": "During the landing, the airplane bounced, slid across a road"
+    },
+    {
+     "chunk_id": "documents/air_tractor_at_502b_accidents.md#3",
+     "quote": "upon landing, the airplane bounced and he elected to go around"
+    },
+    {
+     "chunk_id": "documents/cessna_172s_accidents.md#4",
+     "quote": "The airplane contacted the runway and bounced multiple times"
+    },
+    {
+     "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+     "quote": "several witnesses observed the airplane bounce on the runway"
+    },
+    {
+     "chunk_id": "documents/cirrus_sr22_accidents.md#2",
+     "quote": "The airplane bounced onto the runway, so the pilot elected to do a go-around"
+    }
+   ],
+   "note": "CEN21LA362 (forced landing to a bean field), CEN22LA310 (landing in corn), CEN22LA244 (aborted takeoff), CEN21FA299 (witnesses saw it bounce; its probable cause says 'bounced landing') and CEN21LA280 (bounced onto the runway). The word appears as 'bounced', 'bounce' and 'bounced landing'. No helicopter bounced: CEN21LA284 touched down hard and slid, ANC21LA079 impacted the ground. The sequence codes give a different count: only ANC21LA079 and CEN22LA310 have a 'Hard landing' occurrence and only CEN22LA244 an 'Abnormal runway contact'.",
+   "origin": "tests/gold/qa/ntsb_qa_confirm3.json#4"
+  },
+  {
+   "id": "NE01",
+   "type": "multi_hop",
+   "question": "What registration number does the aircraft table give for the helicopter that was started at the refueling pad and hover-taxied to the taxiway before the accident?",
+   "expected": {
+    "entities": [
+     {
+      "name": "N202SM",
+      "aliases": []
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "documents/robinson_r44_ii_accidents.md#3",
+     "quote": "he started the helicopter at the refueling pad and hover-taxied to the taxiway and then onto the runway"
+    }
+   ],
+   "sql": "SELECT registration FROM aircraft WHERE ntsb_no = 'CEN21LA284'",
+   "note": "The refueling pad is CEN21LA284 (Reserve, LA), a Robinson R44 II; its aircraft record gives the registration N202SM. The narrative names no registration. The other helicopters with a registration are N878CB (ANC21LA079), N704T (ANC23LA032) and N178DF (CEN21LA173); CEN21LA339 has none. No finding or occurrence code names the refueling pad or the hover taxi.",
+   "origin": "tests/gold/qa/ntsb_qa_confirm3.json#0"
+  }
+ ]
+}

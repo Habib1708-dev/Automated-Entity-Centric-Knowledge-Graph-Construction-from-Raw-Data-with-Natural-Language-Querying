@@ -1,0 +1,201 @@
+{
+ "dataset": "lighthouses_outcomes",
+ "written_by": "claude-opus-5-5",
+ "date": "2026-10-15",
+ "corpus": {
+  "data_dir": "heldout/lighthouses/data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "LO01",
+   "type": "disambiguation",
+   "question": "How tall is the Lundy lighthouse?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "Three lighthouses on Lundy are recorded: Lundy North (17 m), Lundy South (16 m) and Lundy Old Light (29 m)."
+  },
+  {
+   "id": "LO02",
+   "type": "disambiguation",
+   "question": "What is the focal height of the Instow lighthouse?",
+   "expected": {
+    "outcome": "clarify"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "Instow has a front (22 m) and a rear (38 m) lighthouse."
+  },
+  {
+   "id": "LO03",
+   "type": "lookup",
+   "question": "What time is high tide at Plymouth tomorrow?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about tide times or forecasts."
+  },
+  {
+   "id": "LO04",
+   "type": "lookup",
+   "question": "Which act won the Eurovision Song Contest in 2019?",
+   "expected": {
+    "outcome": "out_of_scope"
+   },
+   "route": "retrieval",
+   "chunks": [],
+   "records": [],
+   "note": "Out of scope: nothing in the dataset is about music contests."
+  },
+  {
+   "id": "LO05",
+   "type": "lookup",
+   "question": "How much did it cost to build Whitby Lighthouse?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "articles/whitby_lighthouse.md#1",
+     "quote": "Foundations were laid on 12 April 1857"
+    }
+   ],
+   "records": [],
+   "note": "The Whitby Lighthouse article tells its construction (designer, builder, foundation date), but gives no cost, and no other source does."
+  },
+  {
+   "id": "LO06",
+   "type": "lookup",
+   "question": "What is the range, in nautical miles, of Withernsea Lighthouse?",
+   "expected": {
+    "outcome": "insufficient_evidence"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [
+    {
+     "file": "lighthouses.csv",
+     "row": {
+      "qid": "Q8028157"
+     }
+    }
+   ],
+   "note": "Withernsea Lighthouse is in the table, but its range cell is empty and no article is about it."
+  },
+  {
+   "id": "LO07",
+   "type": "lookup",
+   "question": "Add a new lighthouse called Gull Rock Light to the table.",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "LO08",
+   "type": "lookup",
+   "question": "Can you drop the lighthouses table?",
+   "expected": {
+    "outcome": "refuse"
+   },
+   "route": "exact",
+   "chunks": [],
+   "records": [],
+   "note": "A request to change the data; the security screen refuses it before any model is called."
+  },
+  {
+   "id": "LE15",
+   "type": "negation_sensitive",
+   "question": "According to the Godrevy Lighthouse article, where does Virginia Woolf locate the lighthouse of To the Lighthouse?",
+   "expected": {
+    "entities": [
+     {
+      "name": "the Hebrides",
+      "aliases": [
+       "Hebrides"
+      ]
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "articles/godrevy_lighthouse.md#3",
+     "quote": "although she locates the lighthouse in the Hebrides"
+    }
+   ],
+   "note": "The Hebrides. Godrevy is only 'said to have inspired' the novel; the article says Woolf locates its lighthouse in the Hebrides, not at Godrevy, St Ives Bay or Cornwall. Answering Godrevy Island, where she visited on 12 September 1892, confuses the real lighthouse with the fictional one.",
+   "origin": "tests/gold/qa/lighthouses_qa_confirm3.json#14"
+  },
+  {
+   "id": "LE18",
+   "type": "lookup",
+   "question": "In what year does the Godrevy Lighthouse article say the lighthouse was automated?",
+   "expected": {
+    "number": 1933
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "articles/godrevy_lighthouse.md#2",
+     "quote": "in 1933 the lighthouse was automated"
+    }
+   ],
+   "note": "1933, when a fixed catadioptric lens and an acetylene burner activated by a sun valve were installed. The tempting wrong answer is 1939, the year the events file gives for Godrevy's automatization and the year by which the article says the keepers had been withdrawn; the question asks what the article says. 1995 is the solar conversion.",
+   "origin": "tests/gold/qa/lighthouses_qa_confirm3.json#17"
+  },
+  {
+   "id": "LE05",
+   "type": "aggregation",
+   "question": "Which historic county has the most lighthouses with a service retirement recorded in the table?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Essex"
+     }
+    ]
+   },
+   "route": "exact",
+   "sql": "WITH c AS (SELECT historic_county, count(*) AS n FROM lighthouses WHERE service_retirement IS NOT NULL AND historic_county IS NOT NULL GROUP BY 1) SELECT historic_county FROM c WHERE n = (SELECT max(n) FROM c)",
+   "note": "Essex: all four of its rows are retired (Harwich High and Low 1863, Dovercourt High and Low 1917). Next come Cornwall, Devon, Kent, Somerset, Yorkshire and Northumberland with three each. The tempting wrong answers are Cornwall and Devon, the counties with the most lighthouses overall (13 each), of which only three each are retired.",
+   "origin": "tests/gold/qa/lighthouses_qa_confirm3.json#4"
+  },
+  {
+   "id": "LE01",
+   "type": "multi_hop",
+   "question": "The St Agnes Lighthouse article names two lighthouses that later adopted the revolving array of lamps and reflectors introduced at St Agnes in 1790. Which of the two does the table record with the greater focal height?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Cromer Lighthouse"
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "articles/st_agnes_lighthouse.md#1",
+     "quote": "subsequently adopted in other lighthouses, including those at Cromer and Flamborough Head"
+    }
+   ],
+   "sql": "WITH t AS (SELECT name, CAST(focal_height_m AS DOUBLE) AS f FROM lighthouses WHERE name IN ('Cromer Lighthouse', 'Flamborough Head Lighthouse')) SELECT name FROM t WHERE f = (SELECT max(f) FROM t)",
+   "note": "The two lighthouses are Cromer and Flamborough Head. The table's focal_height_m is 84 for Cromer and 65 for Flamborough Head, so Cromer. The tempting wrong answer is Flamborough Head, which is the taller tower (height_m 26.5 against Cromer's 18): the question asks for focal height, not height.",
+   "origin": "tests/gold/qa/lighthouses_qa_confirm3.json#0"
+  }
+ ]
+}

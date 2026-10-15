@@ -151,8 +151,8 @@ AnswerForm = Literal["things", "number", "statement"]
 # (screen.py) refuses, so the model is never offered "refuse". Here, not in agent/, so the trace and the
 # answer can keep it (query must not import agent).
 AgentOutcome = Literal["answer", "clarify", "out_of_scope", "insufficient_evidence"]
-Outcome = Literal[AgentOutcome, "refuse"]
-OUTCOMES: tuple[Outcome, ...] = ("answer", "clarify", "out_of_scope", "insufficient_evidence", "refuse")
+# R205: every outcome (`Outcome`) and the answer's `outcome` field are the scoring side's (validation/), since
+# the gold expects outcomes as well; `QAAnswer.outcome` carries it into every answers file.
 
 
 class AgentTrace(BaseModel):
@@ -214,9 +214,6 @@ class SystemAnswer(QAAnswer):
     plan: PlanTrace | None = None
     agent: AgentTrace | None = None
     screen: ScreenVerdict | None = None  # set only on a refusal: no system saw the request
-    # R204: set by the agent and by the screen; None for a system without outcomes (the baselines) and for
-    # files from before R204
-    outcome: Outcome | None = None
     latency_s: float | None = None  # wall-clock of answering it in `kg qa` (R142); None before R142
 
 

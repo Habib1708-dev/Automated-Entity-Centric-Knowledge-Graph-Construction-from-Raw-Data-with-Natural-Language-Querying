@@ -1,8 +1,9 @@
 """The security screen (R202: query/screen.py), pure code, without Neo4j or a model: a request to change the
 data is refused, whether it is a command (however polite) or a write statement in SQL or Cypher; a question
 about writing, or about changes recorded in the data, is allowed; no question of any committed QA gold file
-is refused; the screened system refuses without calling the system it wraps, records the verdict on the
-answer, and passes an allowed question through unchanged; the stages count the refusals per rule."""
+is refused, except the ones expecting a refusal (R205's outcome gold), which all are; the screened system
+refuses without calling the system it wraps, records the verdict on the answer, and passes an allowed
+question through unchanged; the stages count the refusals per rule."""
 
 import json
 from pathlib import Path
@@ -70,14 +71,24 @@ def test_a_question_about_writing_or_about_changes_is_allowed(text: str):
     assert screen_request(text).allowed
 
 
-def _gold_questions() -> list[str]:
-    """Every question of every committed QA gold file: a JSON object with a list of `questions`."""
+def _gold_questions(refuse: bool = False) -> list[str]:
+    """Every question of every committed QA gold file (a JSON object with a list of `questions`) that does
+    not expect a refusal, or with `refuse` only those that do (R205)."""
     questions: list[str] = []
     for path in sorted(GOLD.rglob("*.json")):
         data = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(data, dict) and isinstance(data.get("questions"), list):
-            questions += [q["question"] for q in data["questions"] if isinstance(q, dict) and "question" in q]
+            questions += [
+                q["question"]
+                for q in data["questions"]
+                if isinstance(q, dict) and "question" in q and _expects_refusal(q) == refuse
+            ]
     return questions
+
+
+def _expects_refusal(question: dict) -> bool:
+    expected = question.get("expected")
+    return isinstance(expected, dict) and expected.get("outcome") == "refuse"
 
 
 def test_no_committed_gold_question_is_refused():
@@ -86,6 +97,12 @@ def test_no_committed_gold_question_is_refused():
     assert len(set(questions)) > 500
     refused = {q: screen_request(q) for q in set(questions) if not screen_request(q).allowed}
     assert refused == {}
+
+
+def test_every_gold_question_expecting_a_refusal_is_refused():
+    questions = _gold_questions(refuse=True)
+    assert len(questions) >= 10  # R205: two per dataset
+    assert [q for q in questions if screen_request(q).allowed] == []
 
 
 class _Inner:
