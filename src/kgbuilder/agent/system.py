@@ -26,6 +26,7 @@ from ..hybrid.unit_store import UnitStore
 from ..llm.base import Embedder
 from ..query.answers import ShownChunk, SystemAnswer
 from ..query.graph_schema import GraphSchema
+from ..query.graph_store import StoredChunk
 from ..query.plan_run import PlanStore
 from ..structured.plan import ConstructionPlan
 from .graph_tools import FindNodes, GetNode, Neighbours, NodeEvidence, RankByDocuments
@@ -101,13 +102,13 @@ class AgentSystem:
 
     def answer(self, question_id: str, question: str) -> SystemAnswer:
         run = self._loop.run(question)
-        read = [ShownChunk(chunk_id=c.chunk_id, context=c.context, text=c.text) for c in run.ledger.read()]
+        cited_chunks = [i for i in run.citations.kept if run.ledger.is_chunk(i)]
+        # R209: every cited chunk's whole stored text, read once: a cited chunk read only as a cut view is
+        # recorded whole with that view beside it, and one never read is recorded for the judge
+        whole = {c.chunk_id: c for c in self._store.chunks(cited_chunks)}
+        read = [_shown(c.chunk_id, c.context, c.text, whole.get(c.chunk_id)) for c in run.ledger.read()]
         seen = {c.chunk_id for c in read}
-        unread = [i for i in run.citations.kept if run.ledger.is_chunk(i) and i not in seen]
-        cited = [
-            ShownChunk(chunk_id=c.chunk_id, context=c.context, text=c.text)
-            for c in self._store.chunks(unread)
-        ]
+        cited = [_shown(c.chunk_id, c.context, c.text, None) for i, c in whole.items() if i not in seen]
         shown = read + cited
         step = run.answer
         entities = None if step.entities is None else [run.ledger.name_of(e) for e in step.entities]
@@ -118,3 +119,11 @@ class AgentSystem:
             entities=entities, number=step.number, text=step.text, citations=run.citations.chunks,
             shown=shown, agent=run.trace.model_copy(update=support.model_dump()), outcome=step.outcome,
         )  # fmt: skip
+
+
+def _shown(chunk_id: str, context: str, text: str, stored: StoredChunk | None) -> ShownChunk:
+    """A chunk as the answer records it: the `text` the agent read, or, when `stored` (the whole passage of a
+    cited chunk) differs from it, the whole passage with the read view as its `excerpt` (R209)."""
+    if stored is None or stored.text == text:
+        return ShownChunk(chunk_id=chunk_id, context=context, text=text)
+    return ShownChunk(chunk_id=chunk_id, context=context, text=stored.text, excerpt=text)

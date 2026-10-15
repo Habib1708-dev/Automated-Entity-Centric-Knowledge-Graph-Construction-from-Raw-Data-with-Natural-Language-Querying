@@ -16,19 +16,30 @@ Not here: producing answers (systems.py), scoring them (validation/qa.py).
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, computed_field
 
 from ..core.errors import EvaluationError
+from ..core.identity import document_of
 from ..validation.qa import QAAnswer
 from .plan import QueryPlan
 
 
 class ShownChunk(BaseModel):
-    """A chunk as the reader saw it: its id, the document it belongs to, and its text."""
+    """A chunk as the reader saw it: its id, the document it belongs to, and its text. R209: for a chunk the
+    agent cited after reading only a cut view of it (a `find_passages` excerpt, a `filter_passages` quote),
+    `text` is the whole stored passage and `excerpt` the view it read, so a quote is checked against the
+    source, not against one view of it (R182: three verbatim quotes failed against another view)."""
 
     chunk_id: str
     context: str  # the document's name (its first heading), which the chunk text may not repeat
     text: str
+    excerpt: str = ""  # the cut view the agent read, when `text` is the whole passage in its place (R209)
+
+    @computed_field
+    @property
+    def doc_id(self) -> str:
+        """The document the chunk belongs to (R209), the path back to the source file."""
+        return document_of(self.chunk_id)
 
 
 class LinkedNode(BaseModel):

@@ -11103,6 +11103,27 @@ afterwards, only with the user's yes.
   check .`: clean. No run ($0).
 - **R208 done 2026-10-15.** Next: R209.
 
+### R209. Cited passages traced to their whole text and document (done 2026-10-15; code, no run)
+- **Scope:** `query/answers.py` (`ShownChunk.excerpt`, the cut view the agent read when `text` is the whole
+  passage in its place; `ShownChunk.doc_id`, computed from the chunk id by `core/identity.document_of`, so
+  older files get it too); `agent/system.py` (`AgentSystem.answer` reads every cited chunk's stored text
+  once, through the store it already used for cited chunks never read; `_shown` records a cited chunk read
+  as a cut view whole, with the view beside it). One field instead of the planned `view` + `excerpt`: an
+  empty `excerpt` already says the text is what the agent read. Uncited chunks stay as read.
+- **Closes the R182 entry** under "Found along the way". Replay ($0, `out/r181_furniture_medium` over the
+  rebuilt corpus): **citation faithfulness 20/23 against the recorded views, 23/23 against the whole
+  passages**; the three recovered are R182's own (FB14 `- @artsy_andy (Austin)`, FB18's drawer-pull
+  sentence, FB38 `The construction remains solid with no wobbling or loose parts.`). R178's lighthouses: 23/23
+  either way.
+- **Measurement impact:** the agent's behaviour is unchanged (nothing the model reads changed); the
+  faithfulness metric can rise against answers files written before R209, which recorded views only, so a
+  faithfulness number before and after R209 is not compared without this note.
+- **Verified:** a new test failing before (a chunk read as "The lid is loose." and cited with a quote from
+  its whole text is recorded whole, its view and document beside it, the quote faithful, the answer
+  surviving a JSON round trip; an uncited chunk stays as read). `uv run pytest`: 1872 passed; `uv run ruff
+  check .`: clean. No run ($0).
+- **R209 done 2026-10-15.** Next: R210.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -11136,7 +11157,7 @@ with its evidence and the direction a later step would take:
 
 ## Found along the way
 - **An agent's quote can fail the offline citation check while being verbatim in its chunk (found in R182,
-  2026-10-14; open).** `kg qa`/`kg qa-score` check a quote against `shown_texts`, built from the answer's
+  2026-10-14; fixed in R209: a cited chunk is recorded whole, its view beside it; the replay gives 23/23).** `kg qa`/`kg qa-score` check a quote against `shown_texts`, built from the answer's
   `shown` record, which keeps one view of each chunk the agent read (`agent/system.py`, the ledger's
   `read`), and a view may be a 300-character cut. R181's medium furniture answers cited three sentences the
   agent read in another view of the same chunk (FB14's `- @artsy_andy (Austin)`, FB18's drawer-pull

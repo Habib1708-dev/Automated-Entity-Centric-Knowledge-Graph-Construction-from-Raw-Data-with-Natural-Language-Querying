@@ -68,9 +68,10 @@ from kgbuilder.llm.base import prompt_version, schema_text
 from kgbuilder.pipeline.qa_stages import _agent_metrics, _latency_metrics
 from kgbuilder.pipeline.qa_systems import AGENT_VARIANTS, system_params
 from kgbuilder.query import reader
-from kgbuilder.query.answers import AgentTrace
+from kgbuilder.query.answers import AgentTrace, SystemAnswer, shown_texts
 from kgbuilder.query.graph_schema import GraphSchema
 from kgbuilder.query.reader import ANSWER_FIELDS, FORM_RULE, ReaderAnswer
+from kgbuilder.validation.qa import citation_is_faithful
 
 from .fakes import ScriptedLLM
 from .test_agent_tools import DATASET_WORDS, SETTING, fact
@@ -671,6 +672,26 @@ def test_the_agents_answer_shows_the_chunks_it_read_then_the_cited_ones_it_saw_b
         "answer",
         ["d.md#0", "o9", "d.md#9"],
     )
+
+
+def test_a_cited_chunk_read_as_a_cut_view_is_recorded_whole_with_its_view_and_document():
+    """R209 (R182's false negatives): a quote verbatim in the passage failed the offline check because the
+    answer recorded one cut view of it; the whole stored passage is recorded now, the view beside it."""
+    cited = [AgentCitation(id="d.md#0", quote="It rattles when hot.")]
+    reply = AgentStep(action="answer", entities=["lid"], citations=cited)
+    store = FakeStore(chunks=[chunk("d.md#0", None, "The lid is loose. It rattles when hot.")])
+    result = AgentSystem(loop(Script(call("read", '{"ref": "x"}'), reply)), store).answer("Q1", "Which?")
+    [shown] = result.shown
+    assert (shown.text, shown.excerpt, shown.doc_id) == (
+        "The lid is loose. It rattles when hot.",
+        "The lid is loose.",
+        "d.md",
+    )
+    assert citation_is_faithful(result.citations[0], result, shown_texts([result]))
+    assert SystemAnswer.model_validate_json(result.model_dump_json()).shown == [shown]
+    uncited = AgentSystem(loop(Script(call("read", '{"ref": "x"}'), answer())), store).answer("Q2", "?")
+    # a chunk neither cited nor holding a cited claim stays as the agent read it
+    assert (uncited.shown[0].text, uncited.shown[0].excerpt) == ("The lid is loose.", "")
 
 
 def test_the_agents_metrics_count_turns_calls_refusals_and_stops():
