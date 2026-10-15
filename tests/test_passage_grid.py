@@ -1,12 +1,14 @@
 """The passage grid (R197): the passage reranker (whole passages under short ids, its reply checked by code,
 an empty pool not asked), the grid's pools (RRF, dense, a rerank method over RRF's candidates), the scores
 (recall at 5 per question, the pool's ceiling, the sign test against RRF), reading each question's lists
-once, and the grid run end to end on fakes with its rerank calls keyed by method and question. No Neo4j: the
-retrievers, the store and the model are fakes."""
+once, and the grid run end to end on fakes with its rerank calls keyed by method and question; the
+cross-encoder reranker (R200: ordered by score, ties in the pool's order, passages read whole). No Neo4j, no
+torch: the retrievers, the store, the model and the cross-encoder are fakes."""
 
 import pytest
 
 from kgbuilder.core.errors import ConfigurationError
+from kgbuilder.hybrid.cross_rerank import CrossEncoderReranker
 from kgbuilder.hybrid.passage_rerank import PROMPT, PassageReranker, RankedPassages
 from kgbuilder.hybrid.retrievers import Retrieved
 from kgbuilder.hybrid.seed_rerank import RerankOptions
@@ -88,7 +90,9 @@ LISTS = PassageLists(
 
 
 def test_the_grid_is_fixed_with_todays_search_text_as_the_baseline():
-    assert [m.name for m in GRID] == ["rrf_5x5", "rrf_10x10", "dense_5", "rerank_5x5", "rerank_10x10"]
+    assert [m.name for m in GRID] == [
+        "rrf_5x5", "rrf_10x10", "dense_5", "rerank_5x5", "rerank_10x10", "bge_5x5", "bge_10x10",
+    ]  # fmt: skip
     assert (BASELINE, SHOWN, DEPTH) == ("rrf_5x5", 5, 10)
 
 
@@ -100,11 +104,15 @@ def test_rrf_and_rerank_methods_pool_both_lists_depth_deep_and_dense_takes_its_l
     )
     # a rerank method reads the very candidates RRF fuses, in RRF's order
     assert pool(method("rerank_5x5"), LISTS, RRF_K) == pool(method("rrf_5x5"), LISTS, RRF_K)
+    # the cross-encoder orders the very pools the LLM orders, so the two differ only by the model
+    assert pool(method("bge_5x5"), LISTS, RRF_K) == pool(method("rerank_5x5"), LISTS, RRF_K)
+    assert pool(method("bge_10x10"), LISTS, RRF_K) == pool(method("rerank_10x10"), LISTS, RRF_K)
     assert pool(method("dense_5"), LISTS, RRF_K) == ["d1", "d2", "d3", "d4", "d5"]
 
 
 def test_an_outcome_shows_the_first_five_of_each_method_and_the_pools_ceiling():
     orders = {"rerank_5x5": ["x1", "d1"], "rerank_10x10": ["d6", "x1", "d1", "d2", "d3", "d4"]}
+    orders |= {"bge_5x5": ["x1"], "bge_10x10": ["d6"]}
     o = outcome(LISTS, RRF_K, orders, GRID)
     assert o.shown["rrf_5x5"] == ["d1", "x1", "d2", "x2", "d3"] and o.recall("rrf_5x5") == 0.5
     assert o.shown["rerank_10x10"] == ["d6", "x1", "d1", "d2", "d3"] and o.recall("rerank_10x10") == 1.0
@@ -115,7 +123,7 @@ def test_an_outcome_shows_the_first_five_of_each_method_and_the_pools_ceiling():
 
 def test_scores_pair_each_method_with_the_baseline_question_by_question():
     second = LISTS.model_copy(update={"key": "g/Q2", "gold": ["d1"]})
-    orders = {"rerank_5x5": ["d2"], "rerank_10x10": ["d6", "x1"]}
+    orders = {"rerank_5x5": ["d2"], "rerank_10x10": ["d6", "x1"], "bge_5x5": ["d2"], "bge_10x10": ["d2"]}
     outcomes = [outcome(q, RRF_K, orders, GRID) for q in (LISTS, second)]
     scores = {s.method: s for s in score(outcomes, GRID)}
     base = scores[BASELINE]
@@ -186,13 +194,63 @@ def test_the_grid_reranks_one_pool_per_rerank_method_and_question_and_scores_eve
         prompts.append(prompt)
         return RankedPassages(order=["P2"])  # the rest follows in RRF order
 
-    report, orders = run_grid([LISTS], FakeStore(), PassageReranker(ScriptedLLM(reply), OPTIONS), RRF_K)
-    assert sorted(orders) == ["rerank_10x10|g/Q1", "rerank_5x5|g/Q1"] and len(prompts) == 2
+    scorer = FakeScorer({"d2": 9.0})
+    rerankers = {
+        "rerank": PassageReranker(ScriptedLLM(reply), OPTIONS),
+        "cross": CrossEncoderReranker(scorer, "bge"),
+    }
+    report, orders, seconds = run_grid([LISTS], FakeStore(), rerankers, RRF_K)
+    assert sorted(orders) == [
+        "bge_10x10|g/Q1", "bge_5x5|g/Q1", "rerank_10x10|g/Q1", "rerank_5x5|g/Q1",
+    ] and len(prompts) == 2  # fmt: skip
     assert orders["rerank_5x5|g/Q1"].order[:2] == ["x1", "d1"]  # RRF's second moved first
+    assert orders["bge_5x5|g/Q1"].order[:3] == ["d2", "d1", "x1"]  # d2 scored highest, then RRF's order
     assert [s.method for s in report.scores] == [m.name for m in GRID] and len(report.outcomes) == 1
-    assert prompts[0].count("[P") in (10, 20)
+    assert (
+        prompts[0].count("[P") in (10, 20) and len(scorer.calls) == 2 and set(seconds) == {"rerank", "cross"}
+    )
+
+
+def test_a_kind_without_its_reranker_is_refused():
+    llm = ScriptedLLM(lambda prompt, schema: RankedPassages(order=[]))
+    with pytest.raises(KeyError):
+        run_grid([LISTS], FakeStore(), {"rerank": PassageReranker(llm, OPTIONS)}, RRF_K)
+
+
+# the cross-encoder reranker
+
+
+class FakeScorer:
+    """Scores a text by the chunk id its document name carries; unknown ids score 0."""
+
+    def __init__(self, scores: dict[str, float]):
+        self._scores = scores
+        self.calls: list[tuple[str, list[str]]] = []
+
+    def score(self, query, texts):
+        self.calls.append((query, list(texts)))
+        return [self._scores.get(t.split("\n", 1)[0].removeprefix("doc of "), 0.0) for t in texts]
+
+
+def test_the_cross_encoder_orders_by_score_and_keeps_the_pools_order_on_ties():
+    scorer = FakeScorer({"c": 2.0, "b": 1.0})
+    out = CrossEncoderReranker(scorer, "bge").rerank("q", [chunk("a"), chunk("b"), chunk("c"), chunk("d")])
+    assert out.order == ["c", "b", "a", "d"] and (out.dropped, out.repeated, out.missing) == (0, 0, 0)
+
+
+def test_the_cross_encoder_reads_each_passage_whole_with_its_document_name():
+    scorer = FakeScorer({})
+    long = "a sentence. " * 200
+    CrossEncoderReranker(scorer, "bge").rerank("which one?", [chunk("d.md#0", long)])
+    assert scorer.calls == [("which one?", [f"doc of d.md#0\n{long}"])]
+
+
+def test_the_cross_encoder_scores_nothing_for_an_empty_pool_and_versions_by_model():
+    scorer = FakeScorer({})
+    assert CrossEncoderReranker(scorer, "bge").rerank("q", []).order == [] and scorer.calls == []
+    assert CrossEncoderReranker(scorer, "bge").version != CrossEncoderReranker(scorer, "other").version
 
 
 def test_the_stage_needs_a_gold_file():
     with pytest.raises(ConfigurationError):
-        PassageGridStage([])
+        PassageGridStage([], CrossEncoderReranker(FakeScorer({}), "bge"), {})

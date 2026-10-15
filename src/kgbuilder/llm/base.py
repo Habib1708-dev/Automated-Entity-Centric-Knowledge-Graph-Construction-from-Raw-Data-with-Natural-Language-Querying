@@ -1,7 +1,8 @@
 """The LLM port: what the pipeline needs from a language model, independent of any provider.
 
 Role in the pipeline: every stage that asks a model for something (plan, text schema, triples, entity
-adjudication, embeddings) depends on these protocols and receives an implementation from outside.
+adjudication, embeddings, cross-encoder scores) depends on these protocols and receives an implementation
+from outside.
 Design: Dependency Inversion. Small protocols (Interface Segregation): generating and embedding are
 separate, because most stages need only one of them. Calls are reported to an optional listener
 (Observer), which is how tracing and usage metering attach without the stages knowing.
@@ -10,7 +11,7 @@ Not here: any provider SDK (llm/gemini.py) or caching (llm/cache.py).
 
 import hashlib
 import json
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import Literal, Protocol, TypeVar
 
 from pydantic import BaseModel
@@ -71,6 +72,14 @@ class Embedder(Protocol):
 
     def embed(self, texts: list[str]) -> list[list[float]]:
         """Return one vector per input text, in the same order."""
+        ...
+
+
+class PairScorer(Protocol):
+    """A cross-encoder: how relevant each text is to a query, read together (R200)."""
+
+    def score(self, query: str, texts: Sequence[str]) -> list[float]:
+        """Return one score per text, higher for more relevant, in the texts' order."""
         ...
 
 

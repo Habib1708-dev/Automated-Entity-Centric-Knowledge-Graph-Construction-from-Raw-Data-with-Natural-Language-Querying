@@ -1,39 +1,47 @@
 """The passage grid's stage (R197): `kg passage-grid`, plan R197-R198's experiment on whether a model's order
-of `search_text`'s candidates shows more gold passages than RRF's.
+of `search_text`'s candidates shows more gold passages than RRF's, and plan R200-R201's on whether a local
+cross-encoder orders them as well as the LLM.
 
 Role in the pipeline: on a loaded graph, without any reader or agent. Every question of the given QA gold
 files that cites evidence passages is the query, as `search_text` would get it: embedded once, its dense and
-lexical chunk lists read `DEPTH` deep from the graph (the agent's own retrievers), each `rerank` method's
-pool read whole from the store and ordered by the reranker (hybrid/passage_rerank.py), then every method of
-the grid scored (validation/passage_grid.py).
+lexical chunk lists read `DEPTH` deep from the graph (the agent's own retrievers), each reranked method's
+pool read whole from the store and ordered by its kind's reranker (the LLM's, hybrid/passage_rerank.py, for
+`rerank`; the cross-encoder's, hybrid/cross_rerank.py, for `cross`), then every method of the grid scored
+(validation/passage_grid.py).
 Design: wiring and logging only, like seed_stages.py. One MLflow run (`passage_grid`): params name every gold
 file with its hash, the graph digest, the grid, the fusion constant, the budget, the embedding model, the
-reranker's model and settings and its version; metrics are every method's scores, the reranker's slips and
-the embedding volume; artifacts are the report with every question's shown passages, the table, every
-reranked order and the prompt. Questions are embedded one at a time: the Gemini embedder has no retry
-(retrieval_stages.py). A question worded alike in two gold files is asked once.
-Not here: fusing, reranking, scoring (hybrid/, validation/).
+LLM reranker's model, settings and version, and the cross-encoder's model, device and version; metrics are
+every method's scores, the LLM reranker's slips, each reranker's seconds and the embedding volume; artifacts
+are the report with every question's shown passages, the table, every reranked order and the prompt.
+Questions are embedded one at a time: the Gemini embedder has no retry (retrieval_stages.py). A question
+worded alike in two gold files is asked once.
+Not here: fusing, reranking, scoring (hybrid/, validation/); loading the cross-encoder (the composition root).
 """
 
 import json
-from collections.abc import Sequence
+import time
+from collections.abc import Mapping, Sequence
 from pathlib import Path
+from typing import Protocol
 
 from pydantic import BaseModel
 
 from ..core.errors import ConfigurationError
+from ..hybrid.cross_rerank import CrossEncoderReranker
 from ..hybrid.passage_rerank import PROMPT as RERANK_PROMPT
 from ..hybrid.passage_rerank import PassageReranker
 from ..hybrid.retrievers import ChunkDense, ChunkLexical, Retriever
 from ..hybrid.seed_rerank import Reranked, RerankOptions
 from ..llm.base import Embedder
 from ..llm.counting import CountingEmbedder
-from ..query.graph_store import GraphStore
+from ..query.graph_store import GraphStore, StoredChunk
 from ..validation.passage_grid import (
     BASELINE,
     DEPTH,
     GRID,
+    RERANKED,
     SHOWN,
+    Kind,
     MethodScore,
     PassageLists,
     PassageOutcome,
@@ -48,6 +56,13 @@ from .inputs import digest, input_file
 from .qa_graph import check_graph
 from .qa_systems import source_parts
 from .stages import BaseStage
+
+
+class PoolReranker(Protocol):
+    """What the grid needs of a reranker: an order of every pool (`PassageReranker`,
+    `CrossEncoderReranker`)."""
+
+    def rerank_all(self, pools: Mapping[str, tuple[str, Sequence[StoredChunk]]]) -> dict[str, Reranked]: ...
 
 
 class PassageGridReport(BaseModel):
@@ -65,10 +80,14 @@ class PassageGridStage(BaseStage):
     MARKDOWN_FILE = "passage_grid.md"
     RERANK_FILE = "passage_rerank.jsonl"
 
-    def __init__(self, golds: Sequence[Path]):
+    def __init__(self, golds: Sequence[Path], cross: CrossEncoderReranker, cross_details: Mapping[str, str]):
+        """`cross` orders the `cross` methods' pools; `cross_details` (its model and device) are logged.
+        Raises `ConfigurationError` for no gold file."""
         if not golds:
             raise ConfigurationError("kg passage-grid needs at least one QA gold file")
         self.golds = list(golds)
+        self.cross = cross
+        self.cross_details = dict(cross_details)
         self.report: PassageGridReport | None = None  # set by `run`, for the command to print
 
     def params(self, ctx, state):
@@ -82,6 +101,8 @@ class PassageGridStage(BaseStage):
             "embed_model": s.embed_model,
             "rerank_version": PassageReranker.version,
             **{f"rerank_{k}": v for k, v in _options(ctx).model_dump(mode="json").items()},
+            **{f"cross_{k}": v for k, v in self.cross_details.items()},
+            "cross_version": self.cross.version,
         }
         for n, path in enumerate(self.golds, start=1):
             out.update({f"gold_{n}": str(path), f"gold_{n}_hash": digest(input_file(path, "QA gold file"))})
@@ -98,9 +119,14 @@ class PassageGridStage(BaseStage):
         embedder = CountingEmbedder(parts.embedder)
         lists = read_lists(questions, ChunkDense(parts.store), ChunkLexical(parts.units), embedder)
         run.metrics(questions_read=len(lists), embedded_texts=embedder.texts, embedded_chars=embedder.chars)
-        reranker = PassageReranker(ctx.require_llm(), _options(ctx))
-        self.report, orders = run_grid(lists, parts.store, reranker, ctx.settings.hybrid_rrf_k)
-        run.metrics(**metrics(self.report.scores), **_slips(orders.values()))
+        rerankers: dict[Kind, PoolReranker] = {
+            "rerank": PassageReranker(ctx.require_llm(), _options(ctx)),
+            "cross": self.cross,
+        }
+        self.report, orders, seconds = run_grid(lists, parts.store, rerankers, ctx.settings.hybrid_rrf_k)
+        llm_orders = [r for key, r in orders.items() if _kind(key) == "rerank"]
+        run.metrics(**metrics(self.report.scores), **_slips(llm_orders))
+        run.metrics(**{f"{kind}_seconds": s for kind, s in seconds.items()})
         run.artifact(ctx.write(self.REPORT_FILE, self.report.model_dump_json(indent=1)))
         run.artifact(ctx.write(self.MARKDOWN_FILE, markdown(self.report.scores)))
         lines = [json.dumps({"key": k, **r.model_dump()}) for k, r in orders.items()]
@@ -133,19 +159,29 @@ def read_lists(
 
 
 def run_grid(
-    lists: Sequence[PassageLists], store: GraphStore, reranker: PassageReranker, rrf_k: int
-) -> tuple[PassageGridReport, dict[str, Reranked]]:
-    """Every method of the grid on every question: each `rerank` method's pool read whole from `store` and
-    ordered by `reranker` (one call per pool, keyed `<method>|<question key>`), then scored."""
-    rerank = [m for m in GRID if m.kind == "rerank"]
-    pools = {
-        f"{m.name}|{q.key}": (q.question, store.chunks(pool(m, q, rrf_k))) for m in rerank for q in lists
-    }
-    orders = reranker.rerank_all(pools)
+    lists: Sequence[PassageLists], store: GraphStore, rerankers: Mapping[Kind, PoolReranker], rrf_k: int
+) -> tuple[PassageGridReport, dict[str, Reranked], dict[Kind, float]]:
+    """Every method of the grid on every question: each reranked method's pool read whole from `store` and
+    ordered by its kind's reranker in `rerankers` (one order per pool, keyed `<method>|<question key>`), then
+    scored. Also returns each reranker's wall-clock seconds. Raises `KeyError` for a kind without a
+    reranker."""
+    reranked = [m for m in GRID if m.kind in RERANKED]
+    orders: dict[str, Reranked] = {}
+    seconds: dict[Kind, float] = {}
+    for kind in RERANKED:
+        pools = {
+            f"{m.name}|{q.key}": (q.question, store.chunks(pool(m, q, rrf_k)))
+            for m in reranked
+            if m.kind == kind
+            for q in lists
+        }
+        started = time.perf_counter()
+        orders |= rerankers[kind].rerank_all(pools)
+        seconds[kind] = time.perf_counter() - started
     outcomes = [
-        outcome(q, rrf_k, {m.name: orders[f"{m.name}|{q.key}"].order for m in rerank}, GRID) for q in lists
+        outcome(q, rrf_k, {m.name: orders[f"{m.name}|{q.key}"].order for m in reranked}, GRID) for q in lists
     ]
-    return PassageGridReport(scores=score(outcomes, GRID), outcomes=outcomes), orders
+    return PassageGridReport(scores=score(outcomes, GRID), outcomes=outcomes), orders, seconds
 
 
 def _options(ctx) -> RerankOptions:
@@ -157,8 +193,15 @@ def _options(ctx) -> RerankOptions:
     )
 
 
+def _kind(key: str) -> Kind:
+    """The kind of the method an order's key (`<method>|<question key>`) names."""
+    name = key.split("|", 1)[0]
+    return next(m.kind for m in GRID if m.name == name)
+
+
 def _slips(orders) -> dict[str, int]:
-    """How many pools were reranked, and how far the replies were off in total."""
+    """How many pools the LLM reranked, and how far its replies were off in total (a cross-encoder's order
+    cannot be off)."""
     every: list[Reranked] = list(orders)
     return {
         "rerank_pools": len(every),

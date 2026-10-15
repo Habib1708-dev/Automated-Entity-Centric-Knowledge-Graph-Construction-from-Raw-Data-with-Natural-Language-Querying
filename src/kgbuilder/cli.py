@@ -24,8 +24,10 @@ from .config import PRESETS_FILE, PRICES_FILE, Settings, read_presets, read_pric
 from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
 from .hybrid import REPRESENTATIONS
+from .hybrid.cross_rerank import CrossEncoderReranker
 from .llm.base import CallListener, Embedder
 from .llm.cache import CachedLLM
+from .llm.cross_encoder import SentenceTransformersScorer
 from .llm.deepseek import DeepSeekClient
 from .llm.gemini import GeminiClient
 from .llm.ollama import OllamaClient
@@ -78,6 +80,10 @@ SEED_RERANK = typer.Option(
     False, "--rerank", help="Also order the rerank settings' pools with a model (paid)."
 )
 SEED_CHOOSE_ON = typer.Option("furniture", help="The dataset the rule chooses on; the others confirm.")
+# the passage grid's local cross-encoder (R200), read from the Hugging Face cache, never downloaded in a run
+CROSS_MODEL = typer.Option(
+    "BAAI/bge-reranker-v2-m3", help="The cross-encoder ordering the cross methods' pools."
+)
 # the retrieval units (R118): the node representation whose cards are rendered
 UNIT_CARDS = typer.Option("template", help=f"Node representation ({', '.join(REPRESENTATIONS)}).")
 FROZEN_PLANS = typer.Option(
@@ -937,12 +943,16 @@ def seed_grid(
 
 
 @app.command("passage-grid")
-def passage_grid(gold: list[Path], out: Path = OUT):
+def passage_grid(gold: list[Path], out: Path = OUT, cross_model: str = CROSS_MODEL):
     """Ask every question of the QA gold files that cites evidence as search_text would, read its dense and
-    lexical chunk lists from the loaded graph, have a model order the rerank methods' pools (paid), and score
-    each method's first five passages against the gold's evidence, paired with RRF (R197)."""
-    stage = pas.PassageGridStage(gold)
+    lexical chunk lists from the loaded graph, have a model order the rerank methods' pools (paid) and a local
+    cross-encoder the cross methods' pools (R200), and score each method's first five passages against the
+    gold's evidence, paired with RRF (R197)."""
     with session(out) as ctx:
+        # built here, in the composition root, before any paid call: a missing model fails for free
+        scorer = SentenceTransformersScorer(cross_model)
+        cross = CrossEncoderReranker(scorer, cross_model)
+        stage = pas.PassageGridStage(gold, cross, {"model": cross_model, "device": scorer.device})
         run_stages(ctx, PipelineState(), [stage])
     if stage.report is not None:
         typer.echo(passage_table(stage.report.scores))

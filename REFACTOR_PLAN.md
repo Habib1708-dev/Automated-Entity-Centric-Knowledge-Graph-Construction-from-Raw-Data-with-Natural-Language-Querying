@@ -10782,6 +10782,38 @@ query, as `search_text` would get it, and each method's 5 shown passages are sco
 - **R199 done 2026-10-15.** Next: the user decides (the step that adoption needs: the agent with the
   reranked `search_text` measured on answers, ideally on fresh questions; paid, asked first).
 
+### Plan R200-R201: a local cross-encoder (BGE-reranker-v2-m3) against the LLM reranker (asked 2026-10-15)
+The user, 2026-10-15: "We want to see if using BGE-reranker-v2-m3 as the reranker would be better or equal
+than using an llm for reranking, over the same data used in the last experiment." The same offline retrieval
+experiment as R198 (passage grid, no answer, no agent), with two methods added before any run: `bge_5x5` and
+`bge_10x10` order the very pools of `rerank_5x5` and `rerank_10x10` with the cross-encoder, so the two
+rerankers differ only by the model. Run separately from R199 (another session's step in the same checkout):
+the grid does not use `search_text`, so R199's default changes nothing here.
+- **R200** The `PairScorer` port, the sentence-transformers adapter (local cache only, GPU when present),
+  `CrossEncoderReranker`, the two grid methods, the `cross` reranker wired into `kg passage-grid`
+  (`--cross-model`, default `BAAI/bge-reranker-v2-m3`); tests; $0, no run.
+- **R201** The grid on R198's data (furniture and held-out, 223 questions), the LLM orders replayed from
+  R198's cache; BGE paired against `rerank_*` as well as against RRF; recorded and reported.
+
+### R200. The cross-encoder reranker in the passage grid (done 2026-10-15; code, no run)
+- **Scope:** `llm/base.py` (`PairScorer` protocol); `llm/cross_encoder.py` (new: `SentenceTransformersScorer`,
+  the Adapter: torch and sentence-transformers imported only when the model is built, `local_files_only`,
+  `max_length` 2048 so every passage (at most 1 500 characters) is read whole, as the LLM reads it);
+  `hybrid/cross_rerank.py` (new: `CrossEncoderReranker`, a Strategy beside `PassageReranker`: same
+  `rerank`/`rerank_all` and `Reranked`, ordered by score, ties in RRF order, the passage shown as
+  `context\ntext`, `version` = model + text template, scoring seconds); `validation/passage_grid.py` (kind
+  `cross`, `RERANKED`, `bge_5x5`, `bge_10x10`); `pipeline/passage_stages.py` (`PoolReranker` protocol, one
+  reranker per kind, `rerank_seconds` / `cross_seconds` metrics, `cross_model` / `cross_device` /
+  `cross_version` params; the slip metrics count only the LLM's orders); `cli.py` (the scorer built in the
+  composition root before any paid call, `--cross-model`); `pyproject.toml` / `uv.lock` (a `rerank`
+  dependency group: `sentence-transformers`, `torch>=2.7` from PyTorch's CUDA 12.8 index for the RTX 5060;
+  `uv sync --group rerank`; the default install stays without torch).
+- **Verified:** `tests/test_passage_grid.py` 16 tests (4 new: ordered by score with ties in the pool's
+  order; each passage read whole with its document's name; an empty pool scores nothing and the version
+  names the model; a kind without its reranker refused; the grid run with both rerankers, keyed by
+  method; the BGE pools equal the LLM's). `uv run pytest`: 1763 passed; `uv run ruff check .`: clean.
+- **R200 done 2026-10-15.** Next: R201, the grid on R198's data (approved by the user: "Yes, both datasets").
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

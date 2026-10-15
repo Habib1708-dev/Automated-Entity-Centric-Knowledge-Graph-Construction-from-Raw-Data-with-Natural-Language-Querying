@@ -26,6 +26,22 @@ dev = [
     "pytest>=8",
     "ruff>=0.16.8",
 ]
+# the local cross-encoder reranker (R199, llm/cross_encoder.py): only `kg passage-grid` needs it, so the
+# default install stays without torch; install with `uv sync --group rerank`
+rerank = [
+    "sentence-transformers>=3.0",
+    "torch>=2.7",  # 2.7 is the first with wheels for Blackwell GPUs (CUDA 12.8)
+]
+
+# torch from PyTorch's CUDA 12.8 index (the PyPI wheel for Windows is CPU only); explicit: nothing else is
+# looked up there
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
 
 [build-system]
 requires = ["hatchling"]
