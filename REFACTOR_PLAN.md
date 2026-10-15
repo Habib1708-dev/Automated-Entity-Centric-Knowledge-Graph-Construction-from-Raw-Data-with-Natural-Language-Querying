@@ -11275,8 +11275,10 @@ Then:
   - no evaluated dataset's words, and the verbatim-quote wording kept.
 - `uv run pytest`: 1889 passed (baseline 1875). `uv run ruff check .`: clean.
 
-**No `dev` run.** The working Neo4j is empty since R206, and R212 reloads the graphs anyway. The live
-working-set call is checked on R212's first dataset before the others, as R194 did for the ledger's judge.
+**No `dev` run.** R212 runs on the real graphs anyway. The live working-set call is checked on R212's first
+dataset before the others, as R194 did for the ledger's judge. (Corrected after the commit: the working Neo4j
+is not empty. It holds furniture, reloaded for the R207-R210 check (`out/r207_furniture`, digest
+392a170ecc10), so R212 starts with furniture as loaded.)
 
 **Read with care.** The prompt is new and unmeasured. `agent`'s prompts and versions are unchanged.
 
