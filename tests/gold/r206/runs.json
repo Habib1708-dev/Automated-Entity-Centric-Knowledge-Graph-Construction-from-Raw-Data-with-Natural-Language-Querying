@@ -1,0 +1,45 @@
+{
+ "step": "R206 (partial): the agent with R204's outcomes on R205's outcome gold; furniture only, stopped by the user after a permission interruption",
+ "approved": "the user, 2026-10-15: 'proceed' to the question naming the five kg qa commands, the graph reloads from cache and the estimate (~$1.1, 50 paid questions)",
+ "stopped": "the user, 2026-10-15: stop R206 after furniture to conserve time and tokens; no further paid evaluation, no Neo4j reload",
+ "git_sha": "0a23538 (only .claude/settings.json differed, hence -dirty in MLflow)",
+ "versions": {
+  "agent_prompt_version": "d247bbb2d790",
+  "agent_reply_prompt_version": "c9c0d1e6264d",
+  "agent_tools_prompt_version": "bfded79a6e26",
+  "screen_version": "84616be23795",
+  "gold_hash": "20c41d625338"
+ },
+ "commands": [
+  "kg --preset quality qa tests/gold/outcomes/furniture_outcomes.json --system agent --out out/r206_furniture, on the furniture graph as loaded (out/r201_furniture; plan, text schema, profile and staging copied into the --out folder first)"
+ ],
+ "runs": {
+  "furniture": {
+   "run": "dbeb9e2f19334973aec21ddafeb1cf8c",
+   "experiment": "kgbuilder",
+   "graph_digest": "392a170ecc10",
+   "answers": "tests/gold/r206/furniture_outcomes_answers_agent.jsonl (copy of out/r206_furniture/answers_agent.jsonl)",
+   "report": "tests/gold/r206/furniture_outcomes_qa_report_agent.json",
+   "questions": 12,
+   "paid_questions": 10,
+   "llm_calls": 51,
+   "prompt_tokens": 302439,
+   "completion_tokens": 3895,
+   "thinking_tokens": 0,
+   "cost_usd": 0.236763,
+   "outcome_accuracy": "12/12 (Wilson 95% 0.757-1.0), exact, by code",
+   "per_outcome": {"answer": "4/4", "clarify": "2/2", "out_of_scope": "2/2", "insufficient_evidence": "2/2", "refuse": "2/2"},
+   "false_abstention": "0/4",
+   "answer_accuracy_controls": "4/4 exact (all four controls scored by code)",
+   "outcomes_sent_back": 0
+  }
+ },
+ "not_run": {
+  "datasets": ["heldout", "generality", "lighthouses", "ntsb"],
+  "questions": 48,
+  "paid_questions": 40,
+  "why": "the auto-mode permission classifier denied `kg build`, the first reload command for held-out; the user then decided to stop further paid evaluation"
+ },
+ "working_neo4j": "EMPTY: `kg --preset heldout reset --out out/r206_heldout` ran before the denied build, so the working graph (7687) holds no dataset; out/r206_heldout holds only the pinned plan, text schema, profile and staging copied from out/r165_heldout_build. The test Neo4j (7688) is untouched.",
+ "cost_usd": 0.236763
+}

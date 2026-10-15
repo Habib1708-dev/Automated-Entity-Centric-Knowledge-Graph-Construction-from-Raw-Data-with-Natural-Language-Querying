@@ -10995,6 +10995,36 @@ the screen only (the plan, graph and vector baselines keep no outcome); measured
   allowed. `uv run pytest`: 1861 passed; `uv run ruff check .`: clean. No run ($0).
 - **R205 done 2026-10-15.** Next: R206, the measured run, only with the user's yes.
 
+### R206. The outcome run, partial: furniture only (done 2026-10-15 as a partial evaluation; $0.237)
+- **Asked and approved:** the user, "proceed", to the question naming the five `kg qa` commands, the graph
+  reloads from cache and the estimate (~$1.1 for 50 paid questions).
+- **Run** (`tests/gold/r206/runs.json`, git 0a23538; agent prompt version d247bbb2d790, screen 84616be23795):
+  `kg --preset quality qa tests/gold/outcomes/furniture_outcomes.json --system agent --out out/r206_furniture`
+  on the furniture graph as loaded (digest 392a170ecc10, equal to R178's), MLflow run `dbeb9e2f`
+  (experiment `kgbuilder`): 51 LLM calls, 302,439 prompt / 3,895 completion / 0 thinking tokens,
+  **$0.237** for the 10 paid questions (the 2 refusals cost nothing: the screen answered them). Answers and
+  report copied to `tests/gold/r206/`.
+- **Result (exact, by code; n = 12, Wilson 95% 0.757-1.0): outcome accuracy 12/12**: answer 4/4, clarify
+  2/2, out_of_scope 2/2, insufficient_evidence 2/2, refuse 2/2; **false abstentions 0/4**; the four controls
+  4/4 by exact match; no reply sent back for its outcome. Examples: "What is the price of the table?" got
+  `clarify` with the readings Gothenburg Table and Jönköping Coffee Table; "How wide is the Uppsala Sofa?"
+  got `insufficient_evidence` after 7 turns, its text noting the reviews hold the sofa but not its width.
+- **What it shows, and what not:** a successful preliminary evaluation on one dataset: the outcome field,
+  its checks and the scoring work end to end on the real model, and the four controls did not turn into
+  abstentions. It is **not** evidence that the outcomes generalise across datasets: n = 12 on one domain,
+  two questions per outcome, written by the same model family that answers and is scored by code.
+- **Not run: 48 questions** (held-out, generality, lighthouses, NTSB; 40 of them paid). The auto-mode
+  permission classifier denied `kg build`, the first command of the held-out reload, and the user then
+  decided to stop further paid evaluation (2026-10-15). The outcome gold for those datasets stays committed
+  and unmeasured.
+- **Working Neo4j (7687) is EMPTY:** `kg --preset heldout reset` ran before the denied build, so no dataset
+  is loaded; `out/r206_heldout` holds only the plan, text schema, profile and staging copied from
+  `out/r165_heldout_build`. The test Neo4j (7688) is untouched. Any later `kg qa` needs a reload first
+  (R178's recipe, $0 from the cache).
+- **R206 done 2026-10-15 (partial).** Plan R204-R206 closed. **The query engine is frozen here** (the
+  user, 2026-10-15): the agent, its tools, the screen, the read-only layer and the outcomes stay as they
+  are; no further tuning or paid evaluation. Next: thesis finalization.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
