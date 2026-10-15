@@ -10696,6 +10696,42 @@ query, as `search_text` would get it, and each method's 5 shown passages are sco
   It shows only that the path works (n = 8, not a result).
 - **R197 done 2026-10-15.** Next: R198, the grid on the five graphs (asked).
 
+### R198. The passage grid on furniture and held-out (done 2026-10-15; $0.316)
+- **Asked and approved:** the user chose "Smaller: 2 datasets" (furniture and held-out, 223 questions, about
+  $0.31) over the five-dataset run (~$0.71). Runs and commands in `tests/gold/r198/runs.json` (git 1f58330):
+  furniture on the graph as loaded (MLflow `60554e17`, $0.156), held-out reloaded from cache by R172's recipe
+  into `out/r198_heldout` (byte-identical, `8177e5ec`, $0.160); the reranker flash-lite, version
+  b6e41679c43a; 446 rerank calls, no reply off the pool (0 dropped, repeated or missing); about 0.95 s of
+  model time a call.
+- **Results** (recall at 5 = the share of a question's gold passages among the 5 shown, mean over questions;
+  paired against `rrf_5x5` on per-question recall, exact sign test):
+
+  | method | furniture (117) | held-out (106) | **pooled (223)** | any gold shown | better / worse | p |
+  |---|---|---|---|---|---|---|
+  | `rrf_5x5` (today) | 0.775 | 0.894 | **0.831** | 204 | - | - |
+  | `rrf_10x10` | 0.772 | 0.919 | 0.842 | 207 | 12 / 6 | 0.24 |
+  | `dense_5` | 0.672 | 0.820 | 0.743 | 185 | 14 / 40 | 0.0005 |
+  | `rerank_5x5` | 0.855 | 0.928 | **0.890** | 213 | **32 / 0** | 5e-10 |
+  | `rerank_10x10` | 0.881 | 0.967 | **0.922** | 216 | **40 / 0** | 2e-12 |
+
+  Pool recall (the ceiling): 0.893 for the 5x5 pool, 0.947 for the 10x10. `rerank_5x5` reaches 0.890 of
+  its 0.893: the model puts nearly every gold passage RRF retrieved into the first 5, and never shows fewer
+  gold passages than RRF on any question, on either dataset.
+- **R196's cases, with the question as the query:** HS01 0.25 (RRF: Ford #2 only) -> 0.75 (`rerank_5x5`: Ford
+  #1, #2 and Subaru #2 "nothing is wrong with it") -> 1.0 (`rerank_10x10`: Nissan #1 "worked as intended" too).
+  FS02 0.29 -> 0.43 -> 0.71 (5 of 7 gold, the most 5 places can hold). HS02 0.75 -> 1.0 at 10x10 (20V373000).
+- **Decision:** a model ordering `search_text`'s candidates shows clearly more gold passages than RRF on
+  both datasets (pooled 0.831 -> 0.890 on the same candidates, 0.922 from a pool twice as deep, no question
+  worse). Not adopted into the agent here: this measures retrieval, not answers. Adopting means `search_text`
+  reranks (about 1 s and $0.0007 a call) and is measured on answers, ideally on fresh questions.
+- **Read with care:** the query is the gold question's wording, not the agent's own keyword strings (R196's
+  queries); two datasets, one run; the rerank prompt was written after R196 looked at HS01 and FS02 (both in
+  this set; 2 of 223); gold (Fable 5.1) and this analysis (Opus 5.5) are one model family, the reranker is
+  Gemini; recall at 5 caps questions with more than 5 gold passages below 1.
+- **R198 done 2026-10-15; plan R197-R198 done** ($0.0113 dev + $0.316 = $0.327). Working Neo4j = held-out
+  (`out/r198_heldout`). Next: the user decides (candidates: a `search_text` variant reranking 10x10 pools,
+  measured on answers; the grid on the other three datasets, ~$0.40).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
