@@ -49,7 +49,7 @@ from ..hybrid.seed_fusion import SeedSetting
 from ..hybrid.seed_rerank import RerankOptions
 from ..hybrid.source import HybridSettings, build_hybrid, check_layer
 from ..hybrid.unit_store import Neo4jUnitStore, UnitStore
-from ..llm.base import Embedder, LLMClient, prompt_version, schema_text
+from ..llm.base import Embedder, LLMClient, ThinkingLevel, prompt_version, schema_text
 from ..llm.thinking import with_thinking
 from ..query import exact, planner, read_check
 from ..query.frozen import FrozenQuery
@@ -333,8 +333,9 @@ class AgentVariant:
     classes in that order (versioned as `AGENT_TOOL_TYPES` is, R146; a test holds the two equal), the tools
     the R176 recheck names as looking further than the word search, the prompts and params its own tools or
     ledger add, the evidence ledger its loop holds (R193; none for the agent) and its working set (R211;
-    none for the agent). The loop, its prompt and caps are the agent's, so two variants differ in tools, or
-    in the review of the answer only."""
+    none for the agent), and the thinking level its calls are sent with (R218; empty: the run's
+    `qa_thinking`). The loop, its prompt and caps are the agent's, so two variants differ in tools, in the
+    thinking level, or in the review of the answer only."""
 
     name: str
     tools: ToolsFromBase
@@ -344,6 +345,7 @@ class AgentVariant:
     params: Callable[[Settings], dict[str, object]] = _no_params
     evidence: Callable[[QAParts], EvidenceLedger | None] = _no_ledger
     workset: Callable[[QAParts], Workset | None] = _no_workset
+    thinking: ThinkingLevel = ""
 
 
 # R176: the tools that look further than the word search's words (by meaning, or a whole document)
@@ -462,6 +464,7 @@ AGENT_VARIANTS = (
         },
         _evidence_params,
         _evidence_ledger,
+        thinking="medium",
     ),
     AgentVariant(
         "agent_workset",
@@ -525,15 +528,18 @@ def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
     layer = HybridSettings(retrievers=list(AGENT_RETRIEVERS), rrf_k=s.hybrid_rrf_k, depth=s.agent_chunks,
                            cards="template", seeding=seeding)  # fmt: skip
     check_layer(layer, parts.units, card_representation(s, "template").version, s.embed_model)
+    # R218: a variant with its own thinking level sends it with every call the agent makes; a call that names
+    # a level itself (the ledger's judge) keeps it, so only the agent's turns and rerank follow the variant
+    llm = with_thinking(parts.llm, variant.thinking)
     tools = build_tools(
         parts.store, parts.units, parts.nodes, parts.text, parts.embedder, DuckDBTables(parts.staging),
         parts.store.schema(), parts.plan, seeding, _tool_caps(s),
-        PassageReranker(parts.llm, _rerank_options(s)),
+        PassageReranker(llm, _rerank_options(s)),
     )  # fmt: skip
     limits = AgentLimits(turns=s.agent_max_turns, calls=s.agent_max_calls,
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
     recheck = SingleSearchRecheck(FindPassages.name, variant.wider)
-    loop = AgentLoop(variant.tools(tools, parts), parts.llm, s.qa_model, s.llm_temperature, limits,
+    loop = AgentLoop(variant.tools(tools, parts), llm, s.qa_model, s.llm_temperature, limits,
                      recheck=recheck, evidence=variant.evidence(parts), outcome=OutcomeCheck(),
                      workset=variant.workset(parts))  # fmt: skip
     return AgentSystem(loop, parts.store, variant.name)
@@ -546,7 +552,11 @@ def agent_spec(variant: AgentVariant) -> SystemSpec:
     return SystemSpec(
         variant.name,
         partial(_agent, variant),
-        lambda s: {**_agent_params(s), **variant.params(s)},
+        lambda s: {
+            **_agent_params(s),
+            **variant.params(s),
+            **({"thinking": variant.thinking} if variant.thinking else {}),
+        },
         {
             # the agent's prompt, the closing prompt, the citation retry, the text an empty answer is sent
             # back with (R138), the text an answer leaving out its declared form is sent back with (R147)

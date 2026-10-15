@@ -278,3 +278,14 @@ def test_what_the_model_reads_of_the_ledger_names_no_evaluated_dataset():
     texts = [PROMPT, SEND_BACK, *(f.description or "" for f in EvidenceVerdict.model_fields.values())]
     texts += [f.description or "" for f in EvidenceReply.model_fields.values()]
     assert all(not DATASET_WORDS.search(text) for text in texts), texts
+
+
+def test_only_the_combined_variant_sends_its_own_thinking_level():
+    # R218: the level is the variant's, so the baselines keep the run's `qa_thinking` as measured
+    settings = Settings(_env_file=None, qa_thinking="low")
+    variants = {v.name: v for v in AGENT_VARIANTS}
+    assert variants["agent_best"].thinking == "medium"
+    assert all(v.thinking == "" for n, v in variants.items() if n != "agent_best")
+    assert system_params(settings, "agent_best")["thinking"] == "medium"
+    assert system_params(settings, "agent")["thinking"] == "low"
+    assert system_params(settings, "graph")["thinking"] == "low"

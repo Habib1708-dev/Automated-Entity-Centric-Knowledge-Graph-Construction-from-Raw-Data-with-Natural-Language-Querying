@@ -11590,6 +11590,29 @@ a validation budget of about $1.50.
 
 **R217 done 2026-10-15.** Next: R218.
 
+### R218. Medium thinking for `agent_best` only (done 2026-10-15; code, no run)
+
+**Why not the preset.** `qa_thinking` is run-wide: `qa_parts` wraps the one LLM every system and the reader share
+(`pipeline/qa_systems.py`, `with_thinking`). Setting `medium` in `presets.yaml` would also change the graph and
+vector baselines, which R182's comparison left at their own level, and double the agent baseline's cost.
+
+**Scope:**
+- `AgentVariant.thinking` (empty: the run's level); `agent_best` sets `medium`.
+- `_agent` wraps the parts' model with `with_thinking(parts.llm, variant.thinking)` for the agent's turns and the
+  passage reranker, as R182's `QA_THINKING=medium` run did. A call that names a level itself (the ledger's judge,
+  `agent_filter_thinking` low) keeps it.
+- The `thinking` param of the system's MLflow run reads `medium` for `agent_best`.
+- `presets.yaml` and `config.py` unchanged; `agent` and the other variants unchanged.
+
+**Verified:**
+- `tests/test_agent_evidence.py`: only `agent_best` has a level; its `thinking` param is `medium` while `agent`
+  and `graph` read the run's `low`.
+- `uv run pytest -m "not neo4j and not postgres"`: 1730 passed. `uv run ruff check .` and `ruff format --check`:
+  clean.
+- **No run ($0).**
+
+**R218 done 2026-10-15.** Next: R219 (paid, asked first).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
