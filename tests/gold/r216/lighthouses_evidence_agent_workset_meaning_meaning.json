@@ -1,0 +1,28 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-15",
+  "run_id": "b76d731bdf154d0990d386c657656017",
+  "git_sha": "47424fe"
+ },
+ "gold": "tests/gold/r194/lighthouses_evidence.json",
+ "answers": "out/r212_lighthouses/answers_agent_workset_meaning.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "LS01",
+   "correct": false,
+   "reason": "names Godrevy only; missing Berry Head and St Anthony's (judge B agreed: names Godrevy only; missing Berry Head and St Anthony's)"
+  },
+  {
+   "question_id": "LC08",
+   "correct": true,
+   "reason": "names Godrevy and St Anthony's, exactly the expected set (judge B agreed: names both expected members, Godrevy and St Anthony's, nothing extra)"
+  },
+  {
+   "question_id": "LE16",
+   "correct": true,
+   "reason": "names the Inner Dowsing light platform, the expected member (judge B agreed: names Inner Dowsing light platform, the expected member)"
+  }
+ ]
+}

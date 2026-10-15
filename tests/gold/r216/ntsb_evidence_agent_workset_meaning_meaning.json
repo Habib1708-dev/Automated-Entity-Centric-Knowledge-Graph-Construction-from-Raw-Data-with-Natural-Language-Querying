@@ -1,0 +1,28 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-15",
+  "run_id": "f67428e410bd4f48ae9fb7cb1c1fdee1",
+  "git_sha": "47424fe"
+ },
+ "gold": "tests/gold/r194/ntsb_evidence.json",
+ "answers": "out/r212_ntsb/answers_agent_workset_meaning.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "NC11",
+   "correct": true,
+   "reason": "names CEN21LA362, CEN22LA312, CEN23LA223, exactly the expected set (judge B agreed: names all three expected members CEN21LA362, CEN22LA312, CEN23LA223, nothing extra)"
+  },
+  {
+   "question_id": "ND11",
+   "correct": true,
+   "reason": "names ANC23LA032 and CEN21LA339, exactly the expected set (judge B agreed: names both expected members ANC23LA032 and CEN21LA339, nothing extra)"
+  },
+  {
+   "question_id": "NE06",
+   "correct": true,
+   "reason": "names CEN21FA299 and CEN21LA383, exactly the expected set (judge B agreed: names both expected members CEN21FA299 and CEN21LA383, nothing extra)"
+  }
+ ]
+}

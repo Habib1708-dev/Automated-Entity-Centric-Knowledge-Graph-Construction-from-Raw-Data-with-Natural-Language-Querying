@@ -11513,6 +11513,50 @@ differ". FS02's "assembling with two people, not that two people were needed" ho
 
 **R215 done 2026-10-15.** Next: R216, blind judging by meaning against R212's arms, and the decision ($0).
 
+### R216. The two variants judged and decided (done 2026-10-15; $0, judging and analysis)
+
+**Judge.** Claude Opus 5.5, as two blind subagents, R213's procedure:
+- one sheet, `out/r216/sheet.json`, with the two arms as A and B by `random.Random(216)`;
+- the key kept apart;
+- R71's rules at scope "all".
+
+**They agreed on all 26 verdicts, and every verdict equals exact match.**
+- Files: `tests/gold/r216/<dataset>_evidence_<arm>_meaning.json`, scored by `kg qa-score`, and paired by
+  `kg qa-compare` with R213's pooled outcomes (`out/r216/compare/`).
+
+**Results** (by meaning, n = 13):
+- `agent_workset_nodraft` 8 and `agent_workset_meaning` 8.
+- Against R213's arms (`agent` 5, `agent_evidence` 8, `agent_workset` 7):
+  - `nodraft` against `agent_workset`: 1 to 0 (ND11, from another agent path; R215), p = 1.0;
+  - `meaning` against `nodraft`: 0 to 0 (the same questions right);
+  - `meaning` against `agent_evidence`: 2 to 2, p = 1.0;
+  - `meaning` against `agent`: 3 to 0, p = 0.25.
+- No answer named a member that was not expected.
+- The only answer that differs between the two variants is LS01's: `meaning` names Berry Head beside Godrevy.
+  It is still wrong, because St Anthony's is missing.
+
+**Decision.** The targeted prompt does not work, and neither does hiding the draft:
+- On the 12 paired questions, the three working-set prompts are right on the same 7 questions.
+- On FB18 and FS02 the agent repeats the literal reason word for word, under a rule that names that exact case.
+- R213's anchoring reading is not supported: without the draft, the same passages are excluded for the same
+  reasons.
+
+What this leaves: when the planner judges its own read items, it reads literally whatever the prompt says. The
+one arm that included FB18's paraphrases is the evidence ledger. Its separate judge reads each passage only
+beside the question, with no transcript and no answer, at low thinking. **Neither variant is adopted.**
+
+**Read with care:**
+- 13 questions, one run per arm.
+- The agent turns are R212's, so these are the same failures re-judged, not new questions.
+- "The isolated reading is what helps" rests on FB18 and HS02 alone.
+- The gold (Fable 5.1), the judges and this analysis (Opus 5.5) are one model family.
+
+**R216 done 2026-10-15; plan R214-R216 done** ($0.831). Next: the user decides. Candidates:
+- the ledger's isolated judge extended with the working set's reach (query rows, abstentions): code, then a
+  small paid check;
+- or stop, and record the result as a thesis finding: the gold items were in front of the planner, and only a
+  judge separate from it accepted their paraphrases.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
