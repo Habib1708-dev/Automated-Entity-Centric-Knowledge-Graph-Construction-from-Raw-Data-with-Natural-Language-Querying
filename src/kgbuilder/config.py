@@ -280,6 +280,10 @@ class Settings(BaseSettings):
     agent_filter_candidates: int = Field(default=60, ge=1)
     agent_filter_batch: int = Field(default=15, ge=1)
     agent_filter_thinking: ThinkingLevel = "low"
+    # the working set of the variant agent_workset (R211): the most items (passages read, queries run) shown
+    # whole for the agent's verdicts, the rest named. R194's FB18 read 16 passages; since R199 a search_text
+    # call shows 10, so 30 holds about three searches' worth while keeping the reply's prompt bounded
+    agent_workset_items: int = Field(default=30, ge=1)
     # the anchor-graph evaluation (R90): the chunk budgets of evidence reach (C5), fixed at 5 and 10 by the
     # direction before measuring, and the share of the corpus above which a node a lookup returns is
     # listed as a hub (C7): a start that leads to a fifth of the corpus no longer narrows anything

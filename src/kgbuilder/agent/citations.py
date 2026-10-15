@@ -157,6 +157,10 @@ class Ledger:
         """The chunks whose text the agent read, in the order it first read them."""
         return list(self._read.values())
 
+    def returned(self) -> list[str]:
+        """Every id the tools returned, in the order first returned (R211: the working set's order)."""
+        return list(self._ids)
+
     def queries(self) -> list[QueryRecord]:
         """Every structured query that ran, with its provenance, in the order first run (R208)."""
         return list(self._queries.values())

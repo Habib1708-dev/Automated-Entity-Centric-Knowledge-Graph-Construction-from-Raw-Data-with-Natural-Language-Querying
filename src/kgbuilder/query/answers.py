@@ -200,6 +200,19 @@ class CitationCheck(BaseModel):
     number_found: bool | None = None
 
 
+class WorksetMark(BaseModel):
+    """The agent's verdict on one item of its working set (R211, variant `agent_workset`), as code checked
+    it: whether it included the item, the thing and quote it gave or why not, and whether the quote is
+    verbatim in the item (None: the item was not included)."""
+
+    id: str
+    include: bool
+    thing: str = ""
+    quote: str = ""
+    reason: str = ""
+    quote_found: bool | None = None
+
+
 class AgentTrace(BaseModel):
     """How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model
     answered, or a cap was reached and it answered with the tools closed), the characters of every prompt
@@ -246,6 +259,16 @@ class AgentTrace(BaseModel):
     entities_supported: bool | None = None
     number_supported: bool | None = None
     abstention_cited: bool = False
+    # R211 (variant `agent_workset` only): the items of the working set shown whole, the ids cut at its
+    # limit, the agent's verdict on each, whether its reply was sent back once for a missing verdict or a
+    # quote not in its item, the problems its final reply still had, and whether the answer changed from the
+    # draft it reviewed
+    workset_items: list[str] = []
+    workset_left_out: list[str] = []
+    workset_marks: list[WorksetMark] = []
+    workset_sent: bool = False
+    workset_problems: list[str] = []
+    workset_changed: bool = False
 
 
 class ScreenVerdict(BaseModel):

@@ -11185,6 +11185,103 @@ afterwards, only with the user's yes.
   the notes changed no answer; it is n = 12 on one dataset, not evidence for the 100-question sets. Record:
   `tests/gold/r207/runs.json` with the answers and report.
 
+### Plan R211-R213: the planner judges its own working set, as a variant (accepted 2026-10-15)
+
+**The question.** After R210, the user asked how to handle the evidence ledger's limits:
+- its judge misses statements itself (R195, LC08);
+- it reaches passages only (HS02's evidence is table rows);
+- it checks "things" answers only.
+
+The user's idea: keep every tool return whole in a cache, give the planner agent a limited set of those items,
+and let the planner itself reason over them.
+
+**What this session suggested, and the user accepted** ("Alright lets experiment with that go ahead"):
+- **Code picks the set:** everything the loop read, whole, at most 30 items, with the rest named.
+- **The planner gives one verdict per item** before its final answer. This keeps the forced decision per item
+  that fixed R192's NC11 pattern: all gold passages were shown and two members were still dropped.
+- **Code checks the verdicts** and adds no member.
+
+The variant runs beside `agent` and `agent_evidence`; neither of those changes. The criteria are the user's
+four from R193:
+1. at least 2 failures fixed;
+2. no control lost;
+3. every added member backed by its item;
+4. latency and cost acceptable.
+
+**Steps, strictly one after another:**
+- **R211** `Workset` (agent/workset.py) and the variant `agent_workset`; tests; code only, $0.
+- **R212** `agent`, `agent_evidence` and `agent_workset` at medium on R194's 13 questions (8 failures,
+  5 controls). The four graphs are reloaded from cache. `agent` runs first, so the other two arms reuse its
+  turns from the LLM cache. Paid, about $0.9; asked first, stop at $1.5.
+- **R213** The arms are judged blind by meaning, compared pair by pair, the items behind each failure read, and
+  the decision is made against the four criteria ($0).
+
+### R211. The working set and the variant `agent_workset` (done 2026-10-15; code, no run)
+
+**Scope:**
+- `agent/workset.py` (new):
+  - `Workset`, with `applies` and `items`;
+  - `WorksetItem`, `ItemVerdict` and `WorksetReview`;
+  - the prompt `PROMPT`, `LEFT_OUT` and `SEND_BACK`;
+  - `reply_model`, `check`, `changed` and `render`.
+- `agent/loop.py`:
+  - an optional `workset`, applied in `_finish` after the evidence review and before the citation check;
+  - `_ask`, one model call as any reply model;
+  - `_closing_prompt`.
+- `agent/citations.py`: `Ledger.returned`, every returned id in the order first returned.
+- `query/answers.py`: `WorksetMark`, and the trace fields `workset_items`, `workset_left_out`, `workset_marks`,
+  `workset_sent`, `workset_problems` and `workset_changed`.
+- `config.py`: `agent_workset_items` = 30.
+- `pipeline/qa_systems.py`: `AgentVariant.workset`, and the variant `agent_workset` (the agent's tools, the
+  prompts `agent_workset` and `agent_workset_reply`, the param `agent_workset_items`).
+- `pipeline/qa_stages.py`: seven `agent_workset_*` metrics.
+
+**How it works.** It reviews these replies:
+- an answer declaring things or a number;
+- an `insufficient_evidence` or `out_of_scope` reply after something was read.
+
+It does not review a `clarify` reply, a statement, or an empty answer.
+
+Code builds the set:
+1. every passage read, fetched whole from the store;
+2. every structured query run, with its statement and every row returned, uncut (R208's record);
+3. all in the order first returned, keeping the first 30; the ids past the limit are named in the prompt
+   (R207: no silent cut).
+
+Then:
+- The closing prompt (tools closed) is sent with the draft answer and the items. The agent's own model, at its
+  own thinking level, replies with `verdicts` first (one per item: include with thing and verbatim quote, or
+  exclude with a reason), then every field of its usual reply.
+- Code checks that every item has a verdict, and that every included quote is verbatim in its item. A failing
+  reply is sent back once with the problems named; the second reply stands, and its remaining problems are
+  recorded.
+- The reply's answer is the answer: code adds and removes nothing. No turn or call is used.
+
+**Pairing.** The agent's turns are the agent's own prompts (tested). So in R212, `agent_workset` run after
+`agent` on the same engine pays only for the working-set replies.
+
+**Verified:**
+- `tests/test_agent_workset.py`, 13 tests:
+  - passages whole, not as the excerpt shown;
+  - query rows uncut, with the statement and "3 of 5 rows returned";
+  - the order first returned, and the limit with the rest named;
+  - the send-back on a missing verdict, and on a quote not in its item, the second reply standing;
+  - the reply as the answer, code adding nothing, the change recorded;
+  - numbers and abstentions reviewed; `clarify`, statements, nothing read and the plain loop not reviewed;
+  - the agent's turn prompts identical with and without the working set;
+  - `verdicts` first in the reply model, `asks` and `outcome` still required;
+  - the metrics;
+  - the registration (the agent's tools, its prompt versions equal to `agent`'s, its own versioned);
+  - no evaluated dataset's words, and the verbatim-quote wording kept.
+- `uv run pytest`: 1889 passed (baseline 1875). `uv run ruff check .`: clean.
+
+**No `dev` run.** The working Neo4j is empty since R206, and R212 reloads the graphs anyway. The live
+working-set call is checked on R212's first dataset before the others, as R194 did for the ledger's judge.
+
+**Read with care.** The prompt is new and unmeasured. `agent`'s prompts and versions are unchanged.
+
+**R211 done 2026-10-15.** Next: R212, the paid run, only with the user's yes.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

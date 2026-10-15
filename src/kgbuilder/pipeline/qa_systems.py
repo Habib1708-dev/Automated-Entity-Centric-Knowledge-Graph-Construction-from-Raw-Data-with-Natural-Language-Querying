@@ -13,7 +13,8 @@ the stages. R183: the agent's spec is built from an `AgentVariant`, so an experi
 (other tools, the same loop) is one more variant, registered beside `agent` under its own name; R193: a
 variant may also give the loop an evidence ledger (agent/evidence.py), its tools the agent's. R199: every
 agent's `search_text` is given the passage reranker (hybrid/passage_rerank.py), its options and prompt logged.
-R202: `build_system` puts every system behind the security screen (query/screen.py).
+R202: `build_system` puts every system behind the security screen (query/screen.py). R211: a variant may
+give the loop a working set instead (agent/workset.py), its tools the agent's.
 Not here: the systems themselves (query/systems.py), the stages and their metrics (qa_stages.py,
 retrieval_stages.py), the check that the loaded graph fits the gold (qa_graph.py).
 """
@@ -23,7 +24,7 @@ from dataclasses import dataclass, field, fields
 from functools import partial
 from pathlib import Path
 
-from ..agent import evidence, semantic_filter
+from ..agent import evidence, semantic_filter, workset
 from ..agent import prompt as agent_prompt
 from ..agent.evidence import EvidenceLedger
 from ..agent.loop import AgentLimits, AgentLoop
@@ -39,6 +40,7 @@ from ..agent.tables import DuckDBTables
 from ..agent.text_reader import Neo4jTextReader, TextReader
 from ..agent.text_tools import FindPassages, ReadDocument, SearchClaims, SearchText
 from ..agent.tool import Tool
+from ..agent.workset import Workset
 from ..config import Settings
 from ..core.errors import ConfigurationError, LLMUnavailableError
 from ..hybrid import passage_rerank
@@ -321,13 +323,18 @@ def _no_ledger(parts: QAParts) -> EvidenceLedger | None:
     return None
 
 
+def _no_workset(parts: QAParts) -> Workset | None:
+    return None
+
+
 @dataclass(frozen=True)
 class AgentVariant:
     """One agent system by its tools (R183): its name, how its tools are made from the agent's, their
     classes in that order (versioned as `AGENT_TOOL_TYPES` is, R146; a test holds the two equal), the tools
     the R176 recheck names as looking further than the word search, the prompts and params its own tools or
-    ledger add, and the evidence ledger its loop holds (R193; none for the agent). The loop, its prompt and
-    caps are the agent's, so two variants differ in tools, or in the ledger only."""
+    ledger add, the evidence ledger its loop holds (R193; none for the agent) and its working set (R211;
+    none for the agent). The loop, its prompt and caps are the agent's, so two variants differ in tools, or
+    in the review of the answer only."""
 
     name: str
     tools: ToolsFromBase
@@ -336,6 +343,7 @@ class AgentVariant:
     prompts: Mapping[str, str] = field(default_factory=dict)
     params: Callable[[Settings], dict[str, object]] = _no_params
     evidence: Callable[[QAParts], EvidenceLedger | None] = _no_ledger
+    workset: Callable[[QAParts], Workset | None] = _no_workset
 
 
 # R176: the tools that look further than the word search's words (by meaning, or a whole document)
@@ -384,6 +392,16 @@ def _evidence_params(s: Settings) -> dict[str, object]:
     return {"agent_filter_batch": s.agent_filter_batch, "agent_filter_thinking": s.agent_filter_thinking}
 
 
+def _workset(parts: QAParts) -> Workset:
+    """The working set (R211): passages whole from the store, at most `agent_workset_items` items; the agent's
+    own model and thinking level give the verdicts, so no judge's options are set here."""
+    return Workset(parts.store, parts.settings.agent_workset_items)
+
+
+def _workset_params(s: Settings) -> dict[str, object]:
+    return {"agent_workset_items": s.agent_workset_items}
+
+
 def _swapped(types: tuple[type[Tool], ...], old: type[Tool], new: type[Tool]) -> tuple[type[Tool], ...]:
     """`types` with `new` in the place of `old`, so the variant has as many tools as the agent."""
     return tuple(new if t is old else t for t in types)
@@ -429,6 +447,18 @@ AGENT_VARIANTS = (
         _evidence_params,
         _evidence_ledger,
     ),
+    AgentVariant(
+        "agent_workset",
+        _same_tools,
+        AGENT_TOOL_TYPES,
+        _WIDER,
+        {
+            "agent_workset": workset.PROMPT + workset.LEFT_OUT + workset.SEND_BACK,
+            "agent_workset_reply": schema_text(workset.ItemVerdict) + workset.VERDICTS,
+        },
+        _workset_params,
+        workset=_workset,
+    ),
 )
 
 
@@ -462,7 +492,8 @@ def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
                          prompt_chars=s.agent_max_prompt_chars, timeout_s=s.agent_timeout_s)  # fmt: skip
     recheck = SingleSearchRecheck(FindPassages.name, variant.wider)
     loop = AgentLoop(variant.tools(tools, parts), parts.llm, s.qa_model, s.llm_temperature, limits,
-                     recheck=recheck, evidence=variant.evidence(parts), outcome=OutcomeCheck())  # fmt: skip
+                     recheck=recheck, evidence=variant.evidence(parts), outcome=OutcomeCheck(),
+                     workset=variant.workset(parts))  # fmt: skip
     return AgentSystem(loop, parts.store, variant.name)
 
 

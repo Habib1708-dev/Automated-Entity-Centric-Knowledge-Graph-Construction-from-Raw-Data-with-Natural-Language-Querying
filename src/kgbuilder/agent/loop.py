@@ -26,7 +26,11 @@ the answer, before the citation check as every answer is. R204: a reply's `outco
 loop's `outcome` check (outcome.py) after the empty check and sent back once, the tools open, when what the
 loop saw does not bear it out; the form check, the recheck and the evidence review apply only to a reply
 claiming an answer (`AgentStep.answers`); every final reply is settled (outcome.py's `settle`) after its
-citation check, and its outcome goes into the trace. The trace times the
+citation check, and its outcome goes into the trace. R211: when the loop holds a working set (workset.py;
+the variant `agent_workset` only), the answer it is about to finish with, after any evidence review, is
+given back to the model with every item it read shown whole; the model gives a verdict per item and answers
+again, the tools closed, sent back once when code finds a verdict missing or a quote not in its item. The
+trace times the
 model's calls and the whole loop with `timer`, kept apart from the timeout's `clock` (R142).
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
@@ -36,6 +40,7 @@ import json
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from typing import TypeVar
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -58,6 +63,9 @@ from .prompt import (
 )  # fmt: skip
 from .recheck import SingleSearchRecheck
 from .tool import Tool
+from .workset import Workset, WorksetReview, answer_of, changed, check, reply_model, verdicts_of
+
+M = TypeVar("M", bound=BaseModel)
 
 
 class AgentLimits(BaseModel):
@@ -96,6 +104,7 @@ class _State:
     rechecked: bool = False  # a set answer resting on one search was written back (once per question, R176)
     outcome_sent: bool = False  # a reply failing an outcome check was written back (once per question, R204)
     evidence: EvidenceReview | None = None  # the evidence ledger's review of the answer (R193)
+    workset: WorksetReview | None = None  # what the working set did for the answer (R211)
     timed: float = 0.0  # the timer's reading when the loop began (R142)
     llm_s: float = 0.0  # seconds spent in the model's calls (R142)
 
@@ -109,13 +118,14 @@ class AgentLoop:
     resting on one search back, or None for a loop that never does; `evidence` (R193) the ledger reviewing
     a set answer against the passages read, or None for a loop that never does; `outcome` (R204) the
     check a reply's outcome must pass, or None for a loop that never sends one back (its replies are still
-    settled)."""
+    settled); `workset` (R211) the working set the agent reviews its answer against, or None for a loop that
+    never does."""
 
     def __init__(
         self, tools: list[Tool], llm: LLMClient, model: str, temperature: float, limits: AgentLimits,
         clock: Callable[[], float] = time.monotonic, timer: Callable[[], float] = time.perf_counter,
         recheck: SingleSearchRecheck | None = None, evidence: EvidenceLedger | None = None,
-        outcome: OutcomeCheck | None = None,
+        outcome: OutcomeCheck | None = None, workset: Workset | None = None,
     ):  # fmt: skip
         self._tools = {tool.name: tool for tool in tools}
         self._tool_text = tool_list(tools)
@@ -129,6 +139,7 @@ class AgentLoop:
         self._recheck = recheck
         self._evidence = evidence
         self._outcome = outcome
+        self._workset = workset
 
     def run(self, question: str) -> AgentRun:
         """The answer to `question`. Raises `LLMResponseError` when the model fails; a tool's database error
@@ -230,6 +241,7 @@ class AgentLoop:
         """Review the answer against the passages read (R193, when the loop holds an evidence ledger), then
         check its citations, sending it back once (tools closed) when it cites unknown ids."""
         step = self._reviewed(question, state, step)
+        step = self._worked(question, state, step)
         checked = state.ledger.check(step.citations)
         retried = bool(checked.unknown)
         if retried:
@@ -246,6 +258,7 @@ class AgentLoop:
             evidence_sent=[r.chunk_id for r in state.evidence.left_out] if state.evidence else [],
             llm_ms=round(state.llm_s * 1000, 1), wall_ms=round((self._timer() - state.timed) * 1000, 1),
             queries=state.ledger.queries(),
+            **_workset_fields(state.workset),
         )  # fmt: skip
         return AgentRun(answer=step, citations=checked, ledger=state.ledger, trace=trace)
 
@@ -263,18 +276,48 @@ class AgentLoop:
             return step
         return self._closing_reply(question, state, rule.message(state.evidence))
 
+    def _worked(self, question: str, state: _State, step: AgentStep) -> AgentStep:
+        """`step`, or the agent's answer after its verdicts on every item of the working set (R211, when the
+        loop holds one): asked with the tools closed, sent back once when a verdict is missing or an
+        included item's quote is not in it; the second reply stands. No turn or call is used."""
+        rule = self._workset
+        if rule is None or not rule.applies(step):
+            return step
+        items, left_out = rule.items(state.ledger)
+        if not items:
+            return step
+        prompt = self._closing_prompt(question, state, rule.message(step, items, left_out))
+        schema = reply_model(self._step)
+        reply = self._ask(prompt, state, schema)
+        marks, problems = check(verdicts_of(reply), items)
+        sent = bool(problems)
+        if sent:
+            reply = self._ask(f"{prompt}\n\n{rule.send_back(problems)}", state, schema)
+            marks, problems = check(verdicts_of(reply), items)
+        final = answer_of(reply, self._step)
+        state.workset = WorksetReview(items=[i.id for i in items], left_out=left_out, marks=marks, sent=sent,
+                                      problems=problems, changed=changed(step, final))  # fmt: skip
+        return final
+
     def _closing_reply(self, question: str, state: _State, extra: str) -> AgentStep:
         """The model's answer with the tools closed; its prompt is not counted against the cap, which it
         ends."""
-        prompt = CLOSING.format(question=question, turns=_turns(state)) + (f"\n\n{extra}" if extra else "")
-        return self._generate(prompt, state)
+        return self._generate(self._closing_prompt(question, state, extra), state)
+
+    def _closing_prompt(self, question: str, state: _State, extra: str) -> str:
+        """`CLOSING` over the turns so far, with `extra` after it."""
+        return CLOSING.format(question=question, turns=_turns(state)) + (f"\n\n{extra}" if extra else "")
 
     def _generate(self, prompt: str, state: _State) -> AgentStep:
-        """One reply of the model, its time added to the loop's model time."""
+        """One reply of the model as the loop's reply model."""
+        return self._ask(prompt, state, self._step)
+
+    def _ask(self, prompt: str, state: _State, schema: type[M]) -> M:
+        """One reply of the model as `schema`, its time added to the loop's model time."""
         started = self._timer()
-        step = self._llm.generate(prompt, self._step, model=self._model, temperature=self._temperature)
+        reply = self._llm.generate(prompt, schema, model=self._model, temperature=self._temperature)
         state.llm_s += self._timer() - started
-        return step
+        return reply
 
 
 def _parse(tool: Tool, arguments: str) -> tuple[BaseModel | None, str]:
@@ -292,6 +335,16 @@ def _parse(tool: Tool, arguments: str) -> tuple[BaseModel | None, str]:
             f"{'.'.join(str(p) for p in err['loc']) or 'arguments'}: {err['msg']}" for err in e.errors()
         )
         return None, f"the arguments do not fit {tool.name}: {problems}"
+
+
+def _workset_fields(review: WorksetReview | None) -> dict[str, object]:
+    """The trace's working-set fields (R211); none without a working set, or for an answer it skipped."""
+    if review is None:
+        return {}
+    return {
+        "workset_items": review.items, "workset_left_out": review.left_out, "workset_marks": review.marks,
+        "workset_sent": review.sent, "workset_problems": review.problems, "workset_changed": review.changed,
+    }  # fmt: skip
 
 
 def _turns(state: _State) -> str:

@@ -168,6 +168,16 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
         "agent_evidence_rows": sum(t.evidence_rows for t in traces),
         "agent_answers_evidenced": sum(bool(t.evidence_sent) for t in traces),
         "agent_evidence_sent": sum(len(t.evidence_sent) for t in traces),
+        # R211 (variant agent_workset): the answers reviewed against their working set, the items shown and
+        # cut, those the agent included, the replies sent back once, those still failing the check, and the
+        # answers the review changed
+        "agent_workset_reviewed": sum(bool(t.workset_items) for t in traces),
+        "agent_workset_items": sum(len(t.workset_items) for t in traces),
+        "agent_workset_left_out": sum(len(t.workset_left_out) for t in traces),
+        "agent_workset_included": sum(m.include for t in traces for m in t.workset_marks),
+        "agent_workset_sent": sum(t.workset_sent for t in traces),
+        "agent_workset_unresolved": sum(bool(t.workset_problems) for t in traces),
+        "agent_workset_changed": sum(t.workset_changed for t in traces),
         "agent_citations_dropped": sum(len(t.dropped) for t in traces),
         "agent_prompt_chars_mean": sum(t.prompt_chars for t in traces) / len(traces),
         # R142: time in the model and in the loop, and the answers whose names and number the cited results
