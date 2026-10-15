@@ -33,6 +33,9 @@ class SentenceTransformersScorer:
                 "the cross-encoder reranker needs the rerank dependency group: uv sync --group rerank"
             ) from e
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        # raw logits, not the model's sigmoid: the same order, but far-off passages do not round to equal
+        # scores (0.0 or 1.0 in float32), which would turn into ties
+        self._identity = torch.nn.Identity()
         try:
             self._model = CrossEncoder(
                 model, max_length=MAX_LENGTH, device=self.device, local_files_only=True
@@ -44,5 +47,10 @@ class SentenceTransformersScorer:
         """One relevance score per text against `query` (higher is more relevant), in the texts' order."""
         if not texts:
             return []
-        scores = self._model.predict([(query, t) for t in texts], batch_size=_BATCH, show_progress_bar=False)
+        scores = self._model.predict(
+            [(query, t) for t in texts],
+            batch_size=_BATCH,
+            show_progress_bar=False,
+            activation_fn=self._identity,
+        )
         return [float(s) for s in scores]
