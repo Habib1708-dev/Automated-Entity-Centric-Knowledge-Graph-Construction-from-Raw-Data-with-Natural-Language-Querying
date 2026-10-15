@@ -1,0 +1,148 @@
+{
+ "dataset": "ntsb",
+ "written_by": "claude-fable-5-1, claude-opus-5-5",
+ "date": "2026-10-14",
+ "corpus": {
+  "data_dir": "heldout/ntsb/data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "NC11",
+   "type": "structured_filter",
+   "question": "Among the Air Tractor AT-502B accidents, in which does the narrative say the pilot made a forced landing?",
+   "expected": {
+    "entities": [
+     {
+      "name": "CEN21LA362",
+      "aliases": []
+     },
+     {
+      "name": "CEN22LA312",
+      "aliases": []
+     },
+     {
+      "name": "CEN23LA223",
+      "aliases": []
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "documents/air_tractor_at_502b_accidents.md#1",
+     "quote": "The pilot performed a forced landing to a bean field."
+    },
+    {
+     "chunk_id": "documents/air_tractor_at_502b_accidents.md#4",
+     "quote": "The pilot made a forced landing"
+    },
+    {
+     "chunk_id": "documents/air_tractor_at_502b_accidents.md#5",
+     "quote": "completed a forced landing to a field"
+    }
+   ],
+   "records": [
+    {
+     "file": "aircraft.csv",
+     "row": {
+      "ntsb_no": "CEN21LA362",
+      "model": "AT-502B"
+     }
+    },
+    {
+     "file": "aircraft.csv",
+     "row": {
+      "ntsb_no": "CEN22LA312",
+      "model": "AT-502B"
+     }
+    },
+    {
+     "file": "aircraft.csv",
+     "row": {
+      "ntsb_no": "CEN23LA223",
+      "model": "AT-502B"
+     }
+    }
+   ],
+   "note": "Five accidents are Air Tractor AT-502B. CEN21LA362 (fuel exhaustion, bean field), CEN22LA312 (turbine failure, perimeter fence) and CEN23LA223 (loss of thrust, field). CEN21LA283 struck trees during an application pass and CEN22LA310 bounced on landing and spun into corn: neither was a forced landing. Only CEN21LA362 and CEN23LA223 have an 'Off-field or emergency landing' occurrence, so the codes alone miss CEN22LA312."
+  },
+  {
+   "id": "ND11",
+   "type": "structured_filter",
+   "question": "Among the Robinson R44 II accidents, in which does the narrative say the helicopter rolled over?",
+   "expected": {
+    "entities": [
+     {
+      "name": "ANC23LA032",
+      "aliases": []
+     },
+     {
+      "name": "CEN21LA339",
+      "aliases": []
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "documents/robinson_r44_ii_accidents.md#1",
+     "quote": "the helicopter entered a dynamic rollover to the right"
+    },
+    {
+     "chunk_id": "documents/robinson_r44_ii_accidents.md#4",
+     "quote": "rolled over coming to rest on its left side"
+    }
+   ],
+   "records": [
+    {
+     "file": "aircraft.csv",
+     "row": {
+      "ntsb_no": "ANC23LA032",
+      "model": "R44 II"
+     }
+    },
+    {
+     "file": "aircraft.csv",
+     "row": {
+      "ntsb_no": "CEN21LA339",
+      "model": "R44 II"
+     }
+    }
+   ],
+   "note": "Five accidents are Robinson R44 II. ANC23LA032 (Skwentna, AK) entered a dynamic rollover; CEN21LA339 (West Liberty, IA) rolled over onto its left side. ANC21LA079 came to rest on top of its cargo, CEN21LA284 touched down hard and slid off the runway, CEN21LA173 impacted a tree and terrain: none rolled over. No finding or occurrence code names a rollover."
+  },
+  {
+   "id": "NE06",
+   "type": "aggregation",
+   "question": "In which accidents does the narrative mention the airplane's flaps?",
+   "expected": {
+    "entities": [
+     {
+      "name": "CEN21FA299",
+      "aliases": []
+     },
+     {
+      "name": "CEN21LA383",
+      "aliases": []
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "documents/cirrus_sr22_accidents.md#0",
+     "quote": "The airplane’s flaps were found in the retracted position."
+    },
+    {
+     "chunk_id": "documents/piper_pa_28_181_accidents.md#3",
+     "quote": "He lowered the flaps for the forced landing."
+    }
+   ],
+   "note": "CEN21FA299 (Cirrus SR22, flaps found retracted) and CEN21LA383 (Piper PA-28-181, pilot lowered the flaps). No other narrative uses the word; the landing 'flare' of CEN22LA059, CEN22LA310 and CEN23LA017 is not a flap, and no finding or occurrence code mentions flaps."
+  }
+ ]
+}

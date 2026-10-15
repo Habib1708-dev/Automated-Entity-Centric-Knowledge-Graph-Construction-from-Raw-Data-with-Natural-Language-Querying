@@ -10555,6 +10555,34 @@ candidate cap), and what it sends back holds each left-out passage whole.
   checks it on the first dataset before the rest.
 - **R193 done 2026-10-14.** Next: R194, the run file and the paid run (asked).
 
+### R194. `agent_evidence` at medium on the 8 failures and 5 controls (done 2026-10-15; $0.0824)
+- **Run files** (`tests/gold/r194/`): per dataset, experiment A's failures (HS01, HS02; FS02, FB18; LS01, LC08;
+  NC11, ND11) and the controls `random.Random(194).sample` drew from R185's 10 (FE05, HE03, HE09, LE16, NE06;
+  none in generality, so no generality run), copied unchanged from R185's run files; two tests hold the draw
+  and the copies.
+- **Asked and approved:** the user, "194 is approved", to the question naming the four `kg qa` commands, the
+  reloads, the `quality` preset for furniture and the estimate (~$0.75, stop at $1.25).
+- **Runs** (`tests/gold/r194/runs.json`, git 7a356b5): `QA_THINKING=medium kg --preset P qa
+  tests/gold/r194/<dataset>_evidence.json --system agent_evidence --out out/r194_<dataset>`; NTSB first on
+  the graph as loaded, its judge checked before the rest; the other three reloaded from cache by R172's
+  recipe ($0, triples and mentions byte-identical); every graph digest equal to R186's. Lighthouses: the
+  session ended mid-run and the machine restarted; Neo4j had lost the index layer, two attempts were
+  refused before any model call ($0) and `kg index --cards template` rebuilt it (units byte-identical).
+- **Paired by construction:** every agent turn before the ledger was a cache hit of R186's `agent` run, so the
+  answer each review started from is R186's `agent` answer, and only the judge and the send-back were paid
+  ($0.0824 for 13 questions, $0.0063 a question). Latencies are not comparable with R186's for the same
+  reason; the ledger's own time is the difference on a question R186 answered fast (NC11 0.9 s to 15.0 s).
+- **Exact match: 9/13** (R186's `agent` on the same questions 5/13: the 5 controls). Failures fixed 4 of 8,
+  each by a send-back: NC11 ("performed" and "completed a forced landing" sent back, both accidents added),
+  ND11 ("entered a dynamic rollover", ANC23LA032 added), FB18 (the "dent" and "chip" reviews, Gothenburg,
+  Uppsala and Örebro added) and LS01 (St Anthony's "set of weights ... drove the rotating optic"). Better
+  but still wrong: HS01 (10689793 added, 2 of 4: the other two passages were never read) and FS02 (Linköping
+  added, Helsingborg's "roommate" review never read). Unchanged: HS02 (answered from table rows, no passage to
+  judge) and LC08 (St Anthony's "fog-bell" passage read and judged, yet no row kept: traced in R195). Every
+  control right, none sent back; faithfulness 1.0 on every dataset (29/29 quotes).
+- **R194 done 2026-10-15.** Next: R195, judged by meaning, paired, the added entities' passages read one
+  by one, decided against the user's four criteria ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

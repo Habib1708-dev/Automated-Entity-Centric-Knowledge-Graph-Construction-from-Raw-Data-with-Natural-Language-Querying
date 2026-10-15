@@ -1,0 +1,12 @@
+{
+ "step": "R194: 5 controls of plan R193-R195 drawn with random.Random(194).sample from R185's 10 controls (in R185's dataset order), sorted",
+ "source": "tests/gold/r185/controls.json",
+ "seed": 194,
+ "controls": [
+  "FE05",
+  "HE03",
+  "HE09",
+  "LE16",
+  "NE06"
+ ]
+}

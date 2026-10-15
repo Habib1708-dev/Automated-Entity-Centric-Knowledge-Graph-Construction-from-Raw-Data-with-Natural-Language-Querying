@@ -1,0 +1,19 @@
+{
+ "step": "R194: agent_evidence (git 7a356b5) at QA_THINKING=medium on experiment A's 8 failures and 5 seeded controls, paired with R186's agent answers on the same graphs",
+ "approved": "the user, 2026-10-14: '194 is approved', to the question naming the four qa commands, the reloads from cache, the quality preset for furniture and the estimate (~$0.75, stop at $1.25)",
+ "git_sha": "7a356b5 (only .claude/settings.json, tests/test_qa_gold_files.py and tests/gold/r194/ differed)",
+ "commands": [
+  "QA_THINKING=medium kg --preset <ntsb|heldout|quality|lighthouses> qa tests/gold/r194/<dataset>_evidence.json --system agent_evidence --out out/r194_<dataset>",
+  "reloads ($0, every LLM answer from the cache): R172's recipe into out/r194_<dataset> from out/r165_<dataset>_build (heldout, furniture, lighthouses); NTSB on the graph as loaded, its folder seeded from out/r190_ntsb; triples.jsonl and mentions.jsonl byte-identical to the builds'",
+  "lighthouses: the session ended during the qa command (no answers written); Docker Desktop was down after the restart and the index layer was missing from Neo4j (lost with the restart), so two qa attempts were refused before any model call ($0, MLflow 8cd41a23, aaeefed2); kg index --cards template rebuilt it (units.jsonl byte-identical to out/r186_lighthouses'), then the run"
+ ],
+ "graph_digests_equal_r186": {"ntsb": "c7f20fa9c187", "heldout": "bc7c5a1efe3d", "furniture": "392a170ecc10", "lighthouses": "62573881a3c6"},
+ "runs": {
+  "ntsb": {"run": "d1e38c3761d940649e364cd727a1b375", "cost_usd": 0.021133, "exact": "3/3", "evidenced": 2},
+  "heldout": {"run": "91b13c9386be47a5b29d96d588799c24", "cost_usd": 0.008538, "exact": "2/4", "evidenced": 1},
+  "furniture": {"run": "5f26ae2024c0462190a9dbba82a33b95", "cost_usd": 0.036047, "exact": "2/3", "evidenced": 2},
+  "lighthouses": {"run": "cfdbf42e81494eafa9fbbfd8e0c8204a", "cost_usd": 0.016716, "exact": "2/3", "evidenced": 1}
+ },
+ "cost_usd": 0.082434,
+ "note": "every agent turn before the ledger was an LLM cache hit of R186's agent run (same agent, prompts, graph and thinking level), so the answer the ledger reviewed is R186's agent answer and only the judge and the send-back were paid; latencies are therefore not comparable with R186's"
+}

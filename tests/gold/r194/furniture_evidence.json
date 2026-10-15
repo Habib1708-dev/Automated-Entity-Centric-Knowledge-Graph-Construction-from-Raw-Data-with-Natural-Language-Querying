@@ -1,0 +1,159 @@
+{
+ "dataset": "furniture",
+ "written_by": "claude-fable-5-1, claude-opus-5-5",
+ "date": "2026-10-14",
+ "corpus": {
+  "data_dir": "data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "FS02",
+   "type": "aggregation",
+   "question": "Which products do reviewers say needed two people to put together?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Gothenburg Table"
+     },
+     {
+      "name": "Helsingborg Dresser"
+     },
+     {
+      "name": "Linköping Bed",
+      "aliases": [
+       "Linkoping Bed"
+      ]
+     },
+     {
+      "name": "Uppsala Sofa"
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+     "quote": "Assembly took about an hour with two people."
+    },
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#6",
+     "quote": "Assembly was straightforward but definitely needs two people."
+    },
+    {
+     "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+     "quote": "took me and my roommate like 6 hours"
+    },
+    {
+     "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+     "quote": "Assembly took about 2 hours with two people"
+    },
+    {
+     "chunk_id": "product_reviews/linkoping_bed_reviews.md#2",
+     "quote": "took me and my roommate like 4 hours"
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+     "quote": "Assembly was straightforward and took about 45 minutes with two people."
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+     "quote": "Assembly was straightforward though it definitely requires two people."
+    }
+   ],
+   "note": "Seven reviews across four products say the assembly was a two-person job: 'with two people' (Gothenburg #0, Linköping #0, Uppsala #0), 'definitely needs two people' (Gothenburg #6), 'definitely requires two people' (Uppsala #5) and, worded without 'two', 'people', 'need', 'put' or 'together', 'took me and my roommate like 6 hours' (Helsingborg Dresser #2, @college_student) and 'took me and my roommate like 4 hours' (Linköping Bed #2, @college_student); those two chunks share no key word with the question, and the Helsingborg Dresser is in the answer only through the roommate wording, so a word match on 'two people' misses it. The question says 'needed two people', so the two reviews that state the need ('needs' / 'requires two people') count as well as the four that report two people at work; both products also have a 'with two people' review, so the set does not depend on that reading. Lookalikes that do not count: @college_student's Malmö Desk review (#5) says the opposite, 'Assembly took about 90 minutes by myself'; @petite_patty bought two Norrköping Nightstands and @wfh_warrior two Västerås Bookshelves and give a time 'per unit' (Norrköping #1, Västerås #1), which is two units, not two people; @entertainer_emma's six Stockholm Chairs (#6) are six units; 'put together' appears without any helper in Gothenburg #2, Stockholm #5 and Västerås #2; 'two' appears in 'daily use with two kids' (Gothenburg #0, which counts for its other sentence), 'Two of the drawers' (Helsingborg #3) and 'after just two months' (Linköping #4, Uppsala #4); 'people' appears in 'seating 6-8 people' (Gothenburg #3) and 'seating 3-4 people' (Uppsala #6), about the finished product, not its assembly; the other Helsingborg reviews (#0, #1, #4, #5, #6) describe a single reviewer struggling alone ('I spent 3 hours', 'Took me about 3 hours total'). No Jönköping Coffee Table, Malmö Desk, Norrköping Nightstand, Örebro Lamp, Stockholm Chair or Västerås Bookshelf review mentions a helper."
+  },
+  {
+   "id": "FB18",
+   "type": "aggregation",
+   "question": "Which products have a review saying the product or one of its parts arrived damaged or was already scratched out of the box?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Gothenburg Table"
+     },
+     {
+      "name": "Helsingborg Dresser"
+     },
+     {
+      "name": "Linköping Bed"
+     },
+     {
+      "name": "Malmö Desk"
+     },
+     {
+      "name": "Norrköping Nightstand"
+     },
+     {
+      "name": "Uppsala Sofa"
+     },
+     {
+      "name": "Örebro Lamp"
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#4",
+     "quote": "The table arrived with a small dent on one edge"
+    },
+    {
+     "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+     "quote": "One of the drawer handles was scratched right out of the box."
+    },
+    {
+     "chunk_id": "product_reviews/linkoping_bed_reviews.md#5",
+     "quote": "one of the drawer pulls arrived damaged"
+    },
+    {
+     "chunk_id": "product_reviews/malmo_desk_reviews.md#4",
+     "quote": "there were several scratches right out of the box"
+    },
+    {
+     "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#5",
+     "quote": "one corner arrived slightly damaged"
+    },
+    {
+     "chunk_id": "product_reviews/uppsala_sofa_reviews.md#5",
+     "quote": "one of the legs arrived with a small chip"
+    },
+    {
+     "chunk_id": "product_reviews/orebro_lamp_reviews.md#5",
+     "quote": "the shade arrived with a small dent"
+    }
+   ],
+   "note": "Damage present on delivery only. Damage that came later does not count: the Västerås Bookshelf veneer 'chipped in several places during assembly' and the Jönköping Coffee Table veneer is 'chipping at the corners after just a few weeks'. 'Arrived on time' (Stockholm Chair) is not damage. The Helsingborg Dresser reviewer who found warped panels after 4 hours of assembly (#4) does not say they arrived so; the dresser counts anyway through the handle scratched out of the box (#5). Overlap: the Helsingborg, Gothenburg, Uppsala and Örebro chunks were already asked one at a time in F21, F22, F24 and F37."
+  },
+  {
+   "id": "FE05",
+   "type": "aggregation",
+   "question": "Which products have a review complaining that the surface shows fingerprints easily?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Gothenburg Table"
+     },
+     {
+      "name": "Jönköping Coffee Table"
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "product_reviews/gothenburg_table_reviews.md#1",
+     "quote": "The table top also shows fingerprints very easily which is annoying for daily use."
+    },
+    {
+     "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#5",
+     "quote": "the surface shows fingerprints easily and requires frequent cleaning"
+    }
+   ],
+   "note": "Fingerprints are mentioned in exactly two reviews across the corpus: @furniture_lover92 on the Gothenburg Table (#1) and @home_chef on the Jönköping Coffee Table (#5). Reviews that praise a surface for cleaning easily (Gothenburg #0, #5) or for resisting scratches and water rings (Jönköping #0, #6) are not fingerprint complaints; the Malmö Desk's finish inconsistencies and scratches (#4) are not fingerprints either."
+  }
+ ]
+}

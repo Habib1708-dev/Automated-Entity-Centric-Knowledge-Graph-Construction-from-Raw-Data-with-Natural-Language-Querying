@@ -1,0 +1,110 @@
+{
+ "dataset": "lighthouses",
+ "written_by": "claude-fable-5-1, claude-opus-5-5",
+ "date": "2026-10-14",
+ "corpus": {
+  "data_dir": "heldout/lighthouses/data",
+  "plan": null,
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "LS01",
+   "type": "aggregation",
+   "question": "Of the lighthouses the ten articles are about, which does its own article say had its light turned by clockwork, that is by a gravity-run movement rather than by gas, electricity or batteries?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Berry Head Lighthouse"
+     },
+     {
+      "name": "Godrevy Lighthouse"
+     },
+     {
+      "name": "St Anthony's Lighthouse",
+      "aliases": [
+       "St. Anthony's Lighthouse"
+      ]
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "articles/berry_head_lighthouse.md#0",
+     "quote": "the optic was originally turned by a weight falling down a 45 metres (148 ft) deep shaft"
+    },
+    {
+     "chunk_id": "articles/berry_head_lighthouse.md#1",
+     "quote": "the clockwork mechanism  which turned the optic required regular winding"
+    },
+    {
+     "chunk_id": "articles/godrevy_lighthouse.md#2",
+     "quote": "The main light's rotation was powered by a clockwork motor, driven by a large weight that descended down a cavity in the wall of the tower"
+    },
+    {
+     "chunk_id": "articles/st_anthony_s_lighthouse.md#1",
+     "quote": "A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic"
+    }
+   ],
+   "note": "Three lighthouses, whose articles word the same device (a clockwork drive: a weight descending a shaft turns the optic, and is wound back up) in four ways. Berry Head says it twice: as a description ('turned by a weight falling down a ... deep shaft') and by name ('the clockwork mechanism which turned the optic required regular winding'). Godrevy names it ('a clockwork motor, driven by a large weight that descended down a cavity'). St Anthony's only describes it, with no word of the question ('A set of weights, descending a 38-foot shaft, drove the rotating optic'); the same mechanism also rang its fog bell, and the separate 'clockwork occulting mechanism' of 1920 eclipsed the light rather than turning it, which changes nothing for the count. Reviewer's rewording: the gloss 'that is by a gravity-run movement rather than by gas, electricity or batteries' was added so that St Anthony's descending weights count without the reader having to know that a weight drive is clockwork; the gloss deliberately avoids 'weight', 'drive', 'mechanism', 'rotating' and 'optic', so the St Anthony's passage still shares no key word with the question. 'Had' covers a drive used at any time, so Berry Head's later acetylene drive does not disqualify it. Lookalikes left out: St Mary's, whose revolving sealed beam array was 'powered by two 12-volt batteries' (an electric drive, not clockwork) and whose first-order rotating optic has no drive named; Berry Head's 1921 'acetylene-powered drive to turn the lens' is a later gas drive at a lighthouse that counts anyway; St Anthony's 'clockwork occulting mechanism' carries the key word but eclipsed the light instead of turning it; Anvil Point ('rotating Fresnel lens'), Farne, St Agnes and Old Higher ('revolving array', 'revolving apparatus') and Tater Du ('revolving optic') name no drive at all, and Whitby's lights were fixed, its occulting mechanism eclipsing rather than turning them."
+  },
+  {
+   "id": "LC08",
+   "type": "aggregation",
+   "question": "Of the lighthouses the ten articles are about, which does its own article say was provided with a fog bell?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Godrevy Lighthouse"
+     },
+     {
+      "name": "St Anthony's Lighthouse",
+      "aliases": [
+       "St. Anthony's Lighthouse"
+      ]
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "articles/godrevy_lighthouse.md#2",
+     "quote": "A fog bell was also provided"
+    },
+    {
+     "chunk_id": "articles/st_anthony_s_lighthouse.md#1",
+     "quote": "A fog-bell was installed in 1865"
+    }
+   ],
+   "note": "Only these two articles mention a bell. The other fog signals in the corpus are an explosive signal and Tannoy emitters (Anvil Point), Tannoy units and an electric emitter (Tater Du), sirens through Rayleigh trumpets (Whitby), and St Anthony's own 1954 electric Tannoy signal and present-day fog horn (which replaced its bell): none is a bell."
+  },
+  {
+   "id": "LE16",
+   "type": "negation_sensitive",
+   "question": "According to the St Mary's Lighthouse article, which light was converted to become 'the first major lighthouse to be run using solar power'?",
+   "expected": {
+    "entities": [
+     {
+      "name": "Inner Dowsing light platform",
+      "aliases": [
+       "Inner Dowsing",
+       "the Inner Dowsing light platform",
+       "Inner Dowsing lighthouse"
+      ]
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "articles/st_mary_s_lighthouse.md#2",
+     "quote": "on the Inner Dowsing light platform in the North Sea, as part of its conversion to become 'the first major lighthouse to be run using solar power'"
+    }
+   ],
+   "note": "The Inner Dowsing light platform in the North Sea. The tempting wrong answer is St Mary's itself: the phrase sits in its article because its revolving sealed beam array was reused there in 1986, but St Mary's had been decommissioned in 1984 and never ran on solar power. Godrevy (1995) and Farne (1996) say in their own articles that they were converted to solar power, and the events file has solar conversions for Lundy North and Lundy South; none is the light this article calls the first major one."
+  }
+ ]
+}

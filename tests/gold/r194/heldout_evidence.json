@@ -1,0 +1,144 @@
+{
+ "dataset": "heldout",
+ "written_by": "claude-fable-5-1, claude-opus-5-5",
+ "date": "2026-10-14",
+ "corpus": {
+  "data_dir": "heldout/nhtsa/data",
+  "plan": "tests/gold/heldout_nhtsa_plan.json",
+  "chunk_max_chars": 1500,
+  "chunk_min_chars": 200,
+  "chunk_overlap_chars": 0
+ },
+ "questions": [
+  {
+   "id": "HS01",
+   "type": "aggregation",
+   "question": "Which complaints say that the dealer or the manufacturer told the owner that the behaviour they complained about was normal?",
+   "expected": {
+    "entities": [
+     {
+      "name": "10689793",
+      "aliases": [
+       "Complaint 10689793"
+      ]
+     },
+     {
+      "name": "10690483",
+      "aliases": [
+       "Complaint 10690483"
+      ]
+     },
+     {
+      "name": "10972343",
+      "aliases": [
+       "Complaint 10972343"
+      ]
+     },
+     {
+      "name": "11176393",
+      "aliases": [
+       "Complaint 11176393"
+      ]
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "complaints/ford_escape_complaints.md#1",
+     "quote": "SERVICE DRIVE AND MANUFACTURER EXPLANATION FOR HESITATION IS:  \"ENGINE IS GEARING DOWN\"  \"THE TURBO IS SPOOLING UP\"  \"OPERATES AS EXPECTED\""
+    },
+    {
+     "chunk_id": "complaints/ford_escape_complaints.md#2",
+     "quote": "ADVISED BY FORD THIS IS NORMAL"
+    },
+    {
+     "chunk_id": "complaints/nissan_rogue_complaints.md#1",
+     "quote": "ON THE 2ND OCCASION NISSAN ENGINEERING DECLARED THE SYSTEM WORKED AS INTENDED."
+    },
+    {
+     "chunk_id": "complaints/subaru_outback_complaints.md#2",
+     "quote": "WENT TO A DEALER AND THEY SAID THAT NOTHING IS WRONG WITH IT."
+    }
+   ],
+   "note": "Four complaints, each wording the verdict differently: 10689793 (2015 Ford Escape, accelerator hesitation) quotes the dealer's and Ford's explanation 'OPERATES AS EXPECTED'; 10690483 (Escape, brake squeal) was 'ADVISED BY FORD THIS IS NORMAL'; 10972343 (2017 Nissan Rogue, car braked on its own) says Nissan engineering 'DECLARED THE SYSTEM WORKED AS INTENDED'; 11176393 (2019 Subaru Outback, no steering feedback) says the dealer 'SAID THAT NOTHING IS WRONG WITH IT'. Only 10690483 shares the idea word 'normal' with the question; the other three say it as 'expected', 'as intended' and 'nothing wrong', and share no idea word with the question (only 'dealer'/'manufacturer', which appear in most complaints). The question asks for a verdict on the behaviour the owner reported, so a dealer that merely failed to reproduce it does not count. Lookalikes left out: 10667633, where the technician said the rusted wheel wells were 'A KNOWN ISSUE', and 11205702, where the dealer called the rattling mirrors a 'MANUFACTURER'S DEFECT' (both admit a defect, the opposite verdict); 11030208 and 11209676, where the dealer 'COULD NOT DUPLICATE' the failure (no verdict on the behaviour itself); 10957753 and 11205702, 'NOT DIAGNOSED OR REPAIRED'; 11032133, where the owner, not the dealer, writes 'NORMALY' about their usual miles to empty (a substring search on 'normal' hits it); and the three Civic complaints where Honda confirmed a recall. HB38 asks only whether 10689793's dealer denied the hesitation, H37 only what Nissan engineering declared in 10972343, HB18 the 'could not duplicate' set; no earlier question asks for this set."
+  },
+  {
+   "id": "HS02",
+   "type": "aggregation",
+   "question": "Which recall campaigns describe a liquid leaking into or out of a vehicle part?",
+   "expected": {
+    "entities": [
+     {
+      "name": "20V064000"
+     },
+     {
+      "name": "20V373000"
+     },
+     {
+      "name": "22V875000"
+     },
+     {
+      "name": "26V011000"
+     }
+    ]
+   },
+   "route": "retrieval",
+   "chunks": [
+    {
+     "chunk_id": "record/Recall/20V064000#0",
+     "quote": "Porosity in the engine castings may result in cracks than can allow coolant to leak internally and/or externally."
+    },
+    {
+     "chunk_id": "record/Recall/20V373000#0",
+     "quote": "Water may enter through the steering gear box cover and cause a loss of electric power steering assist."
+    },
+    {
+     "chunk_id": "record/Recall/22V875000#0",
+     "quote": "Water may leak into and corrode the dash side harness connector."
+    },
+    {
+     "chunk_id": "record/Recall/26V011000#0",
+     "quote": "The engine block heater may crack and develop a coolant leak, causing it to short circuit when the block heater is plugged in."
+    }
+   ],
+   "note": "Four recall summaries: 20V064000 (2019 Toyota RAV4) cracks in the engine castings 'allow coolant to leak internally and/or externally'; 22V875000 (2017 Nissan Rogue) 'Water may leak into and corrode the dash side harness connector'; 26V011000 (2015 Ford Escape) the block heater 'may crack and develop a coolant leak'; and 20V373000 (RAV4) 'Water may enter through the steering gear box cover', which names neither 'liquid' nor 'leak' but is the same idea (water getting into the gear box). The liquid is water in two and coolant in two; the question names neither. All 30 recall summary and remedy chunks were read: no other mentions a liquid moving anywhere. Lookalikes left out: the four fuel pump recalls (23V858000, 20V682000, 21V587000, 20V218000), where a pump 'inside the fuel tank may fail' but no fuel leaks; 26V332000, where a seat weight sensor may 'crack and short circuit' like the block heater but with no liquid; 22V875000's remedy 'apply grease' is not a leak (same campaign anyway); and complaint 11229137, which smells freon (a complaint, not a recall, and the leak is only implied). In the recall table only 20V064000's own consequence text mentions a further oil leak, so the table adds no campaign. HB05 uses 22V875000's water sentence only as a clue to the vehicle; HE12, HB45 and HD20 ask the remedies of 20V064000, 26V011000 and 20V373000; no earlier question asks for the set of leak campaigns."
+  },
+  {
+   "id": "HE03",
+   "type": "multi_hop",
+   "question": "An owner says the gas gauge stays on full although the display shows 203 miles to empty. Which recall campaign for that vehicle is, according to its summary, for Rogue Hybrid vehicles only?",
+   "expected": {
+    "entities": [
+     {
+      "name": "21V839000"
+     }
+    ]
+   },
+   "route": "exact",
+   "chunks": [
+    {
+     "chunk_id": "complaints/nissan_rogue_complaints.md#4",
+     "quote": "203 MILES TO EMPTY"
+    },
+    {
+     "chunk_id": "record/Recall/21V839000#0",
+     "quote": "Nissan North America, Inc. (Nissan) is recalling certain 2017-2019 Rogue Hybrid vehicles."
+    }
+   ],
+   "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11032133 AND r.Summary LIKE '%Rogue Hybrid%'",
+   "note": "The complaint is 11032133 about the 2017 Nissan Rogue. Of its five recalls only 21V839000 (engine harness damaged by the ECM bracket) is for 'certain 2017-2019 Rogue Hybrid vehicles' alone. 16V244000 also contains the word Hybrid (QX60 Hybrid, Q50 Hybrid, Murano Hybrid, Pathfinder Hybrid) but covers many Nissan and Infiniti models, so a plain match on 'Hybrid' gives two answers."
+  },
+  {
+   "id": "HE09",
+   "type": "structured_filter",
+   "question": "Which recall campaigns are flagged as an over-the-air update in the recall records?",
+   "expected": {
+    "entities": []
+   },
+   "route": "exact",
+   "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE overTheAirUpdate = true",
+   "note": "None: the overTheAirUpdate flag is false on all 29 recalls (as are parkIt and parkOutSide). The tempting answer lists the recalls whose remedy is a software update or reprogramming (15V406000, 15V436000, 16V725000, 16V244000), but those are done by dealers, and the flag says so."
+  }
+ ]
+}

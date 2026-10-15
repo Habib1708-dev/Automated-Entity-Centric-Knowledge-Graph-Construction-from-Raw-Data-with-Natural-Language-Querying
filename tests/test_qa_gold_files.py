@@ -12,7 +12,9 @@ the confirmation files, 20 questions each, every type at least three times; R171
 files (`_qa_semantic.json`) pass the per-file checks and ask 2 retrieval questions each over every passage
 of an idea; its run files (`tests/gold/r185/`) are those questions, the experiment's old failures and the 10
 seeded controls, copied unchanged. R189: so do experiment B's (`_qa_sql.json`, 2 questions each answered by
-a query over the tables; run files in `tests/gold/r189/`, with the same controls). No Neo4j, no LLM.
+a query over the tables; run files in `tests/gold/r189/`, with the same controls). R194: the evidence
+ledger's run files (`tests/gold/r194/`) are experiment A's 8 failures and 5 controls drawn by seed from R185's
+10, copied unchanged from R185's run files. No Neo4j, no LLM.
 """
 
 import json
@@ -276,3 +278,30 @@ def test_a_run_file_of_experiment_b_is_its_questions_copied_unchanged(dataset):
     third = load_qa_gold(QA_GOLD / f"{dataset}_qa_confirm3.json")
     assert run.corpus == third.corpus
     assert run.questions == [*targeted, *failures, *(q for q in third.questions if q.id in controls)]
+
+
+# R194: the 8 questions both arms of R186 answered wrong (R187), the failures R192 diagnosed
+RUNS_EVIDENCE = REPO / "tests" / "gold" / "r194"
+FAILURES_EVIDENCE = {
+    "heldout": ["HS01", "HS02"], "furniture": ["FS02", "FB18"], "lighthouses": ["LS01", "LC08"],
+    "ntsb": ["NC11", "ND11"],
+}  # fmt: skip
+
+
+def test_the_evidence_controls_are_five_of_r185s_drawn_by_seed():
+    """R194: `random.Random(194).sample` of R185's 10 controls in R185's dataset order, sorted."""
+    drawn = json.loads((RUNS_EVIDENCE / "controls.json").read_text(encoding="utf-8"))["controls"]
+    r185 = json.loads((RUNS_A / "controls.json").read_text(encoding="utf-8"))["controls"]
+    assert drawn == sorted(random.Random(194).sample([i for ids in r185.values() for i in ids], 5))
+
+
+@pytest.mark.parametrize("dataset", list(FAILURES_EVIDENCE))
+def test_an_evidence_run_file_is_r185s_failures_and_drawn_controls_copied_unchanged(dataset):
+    """R194: the dataset's failures, then its drawn controls, in R185's order and equal field by field to
+    R185's run file, over the same corpus."""
+    run = load_qa_gold(RUNS_EVIDENCE / f"{dataset}_evidence.json")
+    source = load_qa_gold(RUNS_A / f"{dataset}_expA.json")
+    drawn = json.loads((RUNS_EVIDENCE / "controls.json").read_text(encoding="utf-8"))["controls"]
+    keep = {*FAILURES_EVIDENCE[dataset], *drawn}
+    assert run.corpus == source.corpus
+    assert run.questions == [q for q in source.questions if q.id in keep]
