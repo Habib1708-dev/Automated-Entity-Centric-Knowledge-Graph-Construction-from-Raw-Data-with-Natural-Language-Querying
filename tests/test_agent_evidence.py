@@ -25,6 +25,8 @@ from kgbuilder.agent.loop import AgentLimits, AgentLoop
 from kgbuilder.agent.prompt import AgentCitation, AgentStep
 from kgbuilder.agent.results import ChunksResult, ChunkText
 from kgbuilder.agent.semantic_filter import FilterOptions
+from kgbuilder.agent.sql_tool import QuerySql
+from kgbuilder.agent.structured_tools import QueryTables
 from kgbuilder.config import Settings
 from kgbuilder.pipeline.qa_stages import _agent_metrics
 from kgbuilder.pipeline.qa_systems import AGENT_VARIANTS, system_params
@@ -253,6 +255,23 @@ def test_the_variant_has_the_agents_tools_logs_its_judge_and_versions_its_prompt
     params = system_params(Settings(_env_file=None), "agent_evidence")
     assert {"agent_filter_batch", "agent_filter_thinking", "agent_evidence_prompt_version"} <= set(params)
     assert "agent_evidence_prompt_version" not in system_params(Settings(_env_file=None), "agent")
+
+
+def test_the_combined_variant_is_the_sql_agent_with_the_ledger():
+    variants = {v.name: v for v in AGENT_VARIANTS}
+    best, sql, ledger = variants["agent_best"], variants["agent_sql"], variants["agent_evidence"]
+    assert best.tool_types == sql.tool_types
+    assert QuerySql in best.tool_types and QueryTables not in best.tool_types
+    assert best.evidence is ledger.evidence and best.prompts == ledger.prompts and best.wider == ledger.wider
+    settings = Settings(_env_file=None)
+    params = {n: system_params(settings, n) for n in ("agent", "agent_sql", "agent_evidence", "agent_best")}
+    # the tool list is versioned as the SQL agent's and the ledger's prompt as the ledger agent's, so MLflow
+    # tells the arms apart by these params
+    tools = "agent_tools_prompt_version"
+    assert params["agent_best"][tools] == params["agent_sql"][tools] != params["agent"][tools]
+    ledger_key = "agent_evidence_prompt_version"
+    assert params["agent_best"][ledger_key] == params["agent_evidence"][ledger_key]
+    assert ledger_key not in params["agent_sql"]
 
 
 def test_what_the_model_reads_of_the_ledger_names_no_evaluated_dataset():

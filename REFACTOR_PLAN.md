@@ -11557,6 +11557,39 @@ beside the question, with no transcript and no answer, at low thinking. **Neithe
 - or stop, and record the result as a thesis finding: the gold items were in front of the planner, and only a
   judge separate from it accepted their paraphrases.
 
+### Plan R217-R220: the three adopt-candidates as the default (accepted 2026-10-15)
+
+**The question.** The user asked to test adding the SQL tool (R191: 22/22 vs 19/22, p 0.25), the evidence ledger
+(R195: 9/13 vs 5/13, p 0.125; R213 re-run 8/13) and medium thinking (R182: 14/20 vs 8/20, p 0.031) as the
+project's default. All three were measured on questions chosen for failing or used to design them, never
+together and never on fresh questions. The user chose a new combined variant (`agent` stays as the baseline) and
+a validation budget of about $1.50.
+
+**Steps:**
+- **R217** `agent_best` = `agent_sql` + `agent_evidence`, code only ($0).
+- **R218** The agent's thinking level at medium without changing the baselines' level, code only ($0).
+- **R219** Fresh questions written blind, then `agent` at low vs `agent_best` at medium on them (paid, asked
+  first; the rule is fixed before the run: adopt if `agent_best` loses no question `agent` got right and wins at
+  least as many as it loses).
+- **R220** Only if R219 passes: the default of `kg qa` and `kg ask` is the agent.
+
+### R217. The combined variant `agent_best` (done 2026-10-15; code, no run)
+
+**Scope:**
+- `pipeline/qa_systems.py`: `AgentVariant("agent_best")` with `agent_sql`'s tools and `agent_evidence`'s ledger,
+  prompts and params. No new class; the loop already applies the tools and the review independently.
+- `agent`, `agent_sql` and `agent_evidence` are unchanged.
+
+**Verified:**
+- `tests/test_agent_evidence.py`: the variant has `agent_sql`'s tool classes (`QuerySql`, no `QueryTables`), the
+  ledger's factory, prompts and wider tools, the tool-list version of `agent_sql`, and the ledger's prompt
+  version. The parametrised tests of `tests/test_agent_loop.py` cover it as a variant.
+- `uv run pytest -m "not neo4j and not postgres"`: 1729 passed (Neo4j tests not run: nothing here touches
+  Neo4j). `uv run ruff check .`: clean.
+- **No run ($0).**
+
+**R217 done 2026-10-15.** Next: R218.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

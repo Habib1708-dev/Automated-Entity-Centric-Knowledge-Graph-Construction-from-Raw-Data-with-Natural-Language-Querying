@@ -448,6 +448,21 @@ AGENT_VARIANTS = (
         _evidence_params,
         _evidence_ledger,
     ),
+    # plan R217-R220: the two adopt-candidates together, SQL in the place of the typed table query and the
+    # loop given the evidence ledger; they act on different parts of the loop (tools, review of the answer),
+    # so the variant is only the union of the two entries above, with the ledger's prompts and params
+    AgentVariant(
+        "agent_best",
+        _with_sql,
+        _swapped(AGENT_TOOL_TYPES, QueryTables, QuerySql),
+        _WIDER,
+        {
+            "agent_evidence": evidence.PROMPT + evidence.SEND_BACK,
+            "agent_evidence_reply": schema_text(evidence.EvidenceReply),
+        },
+        _evidence_params,
+        _evidence_ledger,
+    ),
     AgentVariant(
         "agent_workset",
         _same_tools,
