@@ -1,0 +1,18 @@
+{
+ "step": "R219: agent (low) vs agent_best (SQL tool + evidence ledger + medium thinking, R217-R218) on 10 fresh blind questions per dataset (furniture FF, held-out HF, lighthouses LF; tests/gold/qa/<dataset>_qa_confirm4.json)",
+ "approved": "the user, 2026-10-15: '3 datasets x 10 Qs (~$2.0)' chosen to the question naming the comparison, its size and cost",
+ "git_sha": "f247ac9 (dirty: .claude/settings.json, tests/test_qa_gold_files.py, the three confirm4 files)",
+ "commands": [
+  "kg --preset <quality|heldout|lighthouses> qa tests/gold/qa/<dataset>_qa_confirm4.json --system <agent|agent_best> --out out/r219_<dataset>, agent first",
+  "held-out on the graph as loaded (digest bc7c5a1efe3d); furniture and lighthouses reloaded from cache by R178's recipe from out/r165_<dataset>_build ($0; triples and mentions byte-identical, digests 392a170ecc10 and 62573881a3c6)"
+ ],
+ "judge": "claude-fable-5-1 subagents, one blind judge per dataset reading both arms with the arm hidden (random A/B, seed 219), scope all; mapping in the session scratchpad: furniture A=agent, heldout A=agent_best, lighthouses A=agent",
+ "runs": {
+  "heldout": {"agent": {"run": "ef85028d17fd4db7b09a486986798e5e", "cost_usd": 0.224203, "meaning": "10/10"}, "agent_best": {"run": "3bad96501746475a97be06d6ec29b6c4", "cost_usd": 0.348547, "meaning": "10/10"}},
+  "furniture": {"agent": {"run": "7775780a913d4b52a80ae7fc65b8519b", "cost_usd": 0.336648, "meaning": "9/10"}, "agent_best": {"run": "4b1dccbd5ad843edb5a3b6242504766e", "cost_usd": 0.27973, "meaning": "9/10"}},
+  "lighthouses": {"agent": {"run": "187ecf0439b64a409fc2cc86bc760bf7", "cost_usd": 0.171613, "meaning": "9/10"}, "agent_best": {"run": "06023ed1993f4264839ee75ef7930238", "cost_usd": 0.370245, "meaning": "9/10"}}
+ },
+ "cost_by_arm_usd": {"agent": 0.732464, "agent_best": 0.998522},
+ "cost_usd": 1.730986,
+ "paired": {"agent_only_right": ["LF10"], "agent_best_only_right": ["LF04"], "both_wrong": ["FF05"], "pooled_meaning": "28/30 each"}
+}

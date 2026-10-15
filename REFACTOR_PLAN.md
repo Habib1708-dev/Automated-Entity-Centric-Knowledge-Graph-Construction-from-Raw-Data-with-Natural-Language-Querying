@@ -11613,6 +11613,59 @@ vector baselines, which R182's comparison left at their own level, and double th
 
 **R218 done 2026-10-15.** Next: R219 (paid, asked first).
 
+### R219. `agent` vs `agent_best` on 30 fresh questions (done 2026-10-15; $1.731)
+
+**Asked and approved.** The user chose "3 datasets x 10 Qs (~$2.0)" to the question naming the comparison, the size
+and the cost.
+
+**The questions.** `tests/gold/qa/<dataset>_qa_confirm4.json`, ids FF/HF/LF01-10 (furniture, held-out,
+lighthouses), written blind by Claude Sonnet 5.5 (one subagent writer per dataset): from the source files and the
+earlier gold only, no `out/`, MLflow, verdict, roadmap, agent or query code opened. Each passes the per-file checks of
+`tests/test_qa_gold_files.py` (9 new cases; the held-out writer rebuilt the chunks itself, the real corpus rebuild
+agrees), every `sql` answer re-run by code. Type mix: every type at least once; 28 of 30 scored by code (HF08 and
+HF09 are free text). **No independent adversarial review** (R171's practice), only the writers' own double
+derivation; noted writers' doubts: LF02/LD01 share a source sentence, LF01 reuses LB28's row (another cell), LF07
+follows LC12's shape, FF08 and FF05 are judgement-based.
+
+**Runs** (`tests/gold/r219/runs.json`, git f247ac9; `kg --preset P qa .../<dataset>_qa_confirm4.json --system S
+--out out/r219_<dataset>`, `agent` first): held-out on the graph as loaded (digest equal to R194's); furniture and
+lighthouses reloaded from cache by R178's recipe ($0: triples and mentions byte-identical to the pinned builds,
+digests equal). `agent` ran at the preset's `low`, `agent_best` at its own `medium` (R218); the agent's turns are
+not shared, so both arms paid in full.
+
+**Judge:** Claude Fable 5.1 (subagents), one blind judge per dataset reading both arms with the arm hidden (random
+A/B), scope all (every question). **One judge, not two** (R173's two blind judges per file was not repeated, to keep
+the cost down).
+
+| by meaning (n = 10 each) | furniture | held-out | lighthouses | **pooled (30)** | cost |
+|---|---|---|---|---|---|
+| `agent` (low) | 9 | 10 | 9 | **28** | $0.733 |
+| `agent_best` (medium) | 9 | 10 | 9 | **28** | $0.999 (+36%) |
+
+- **Paired:** `agent` only right on LF10, `agent_best` only right on LF04, FF05 wrong in both; p = 1.0.
+- **LF04** (13 lighthouses with an electrification and an automation event, either spelling): `agent` counted 12
+  with `query_tables`; `agent_best` 13 with `query_sql`. The SQL tool did what R191 measured.
+- **LF10** (lighthouses fitted with Argand lamps): `agent` named the four; `agent_best` wandered through 10 turns
+  and 10 calls (stopped at the cap, 30 passages read by the ledger, 4 sent back), left out Old Higher and named
+  Farne Low. A longer search path under medium thinking, not an error of the ledger's verdict.
+- Exact match on the 28 code-scored questions equalled the meaning scores on the datasets that could be code-scored
+  (furniture 9/10 and lighthouses 9/10 for both arms; held-out needs the judge for HF08 and HF09).
+
+**Decision against the rule fixed before the run** ("adopt if `agent_best` loses no question `agent` got right and
+wins at least as many as it loses"): **not met**: it lost LF10. `agent_best` is **not adopted as the default**; it
+stays registered.
+
+**Read with care:**
+- 30 questions, both arms near the ceiling (28/30; earlier fresh sets: 93-98%): no difference could show. This is a
+  null result, not evidence against the three: R182, R191 and R195 measured gains on failure sets, where `agent`
+  already got 5/13 and 8/20.
+- The ledger sent back nothing in the 2 lighthouse answers read; its use here is untested on a question it would fix.
+- One run per arm, one judge, no adversarial review of the new gold.
+
+**R219 done 2026-10-15.** R220 (the default switch) is **not** done: the rule failed. Next: the user decides, e.g.
+re-measure on a set where `agent` fails (failures need fresh ones), or adopt only the SQL tool (no cost increase
+at R191).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

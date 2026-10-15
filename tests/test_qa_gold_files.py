@@ -58,7 +58,10 @@ CONFIRM += [f"{name}_qa_confirm3.json" for name in CONFIRM_DATASETS]
 SEMANTIC = [f"{name}_qa_semantic.json" for name in CONFIRM_DATASETS]
 # R189: experiment B's targeted questions, 2 per dataset written blind on table operations
 TABLE_OPS = [f"{name}_qa_sql.json" for name in CONFIRM_DATASETS]
-GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM, *SEMANTIC, *TABLE_OPS]
+# R219: ten fresh questions on three datasets for the combined agent's validation (plan R217-R220), written
+# blind after R218; the per-file checks hold for them too
+VALIDATION = [f"{name}_qa_confirm4.json" for name in ("furniture", "heldout", "lighthouses")]
+GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM, *SEMANTIC, *TABLE_OPS, *VALIDATION]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)

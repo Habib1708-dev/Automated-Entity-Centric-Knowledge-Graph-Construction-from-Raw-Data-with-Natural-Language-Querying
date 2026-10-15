@@ -1,0 +1,232 @@
+{
+  "dataset": "lighthouses",
+  "written_by": "claude-sonnet-5-5",
+  "date": "2026-10-15",
+  "corpus": {
+    "data_dir": "heldout/lighthouses/data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "LF01",
+      "type": "multi_hop",
+      "question": "The Old Higher Lighthouse article says Trinity House planned a new lighthouse at Bill Point to replace both of the original Portland lighthouses. In what year does the table record the inception of that new lighthouse (its inception cell, not its service entry)?",
+      "expected": {
+        "number": 1903
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/old_higher_lighthouse.md#2",
+          "quote": "The new lighthouse was completed in 1905"
+        }
+      ],
+      "sql": "SELECT CAST(inception AS INTEGER) FROM lighthouses WHERE name = 'Portland Bill Lighthouse'",
+      "note": "The new lighthouse is Portland Bill Lighthouse. The table gives it inception 1903 and service entry 1906; the article says it was completed in 1905, which matches neither cell. The two lookalike rows Portland Bill High Light and Portland Bill Low Light (the old towers) both have inception 1869, so 1869 is the wrong row, and 1906 the wrong cell."
+    },
+    {
+      "id": "LF02",
+      "type": "multi_hop",
+      "question": "The St Agnes Lighthouse article says St Agnes was only the second lighthouse station established by Trinity House, after one at a named town. In what year does the events file date the automation of that town's lighthouse (the file spells the event 'automatization' or 'automation')?",
+      "expected": {
+        "number": 1975
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "articles/st_agnes_lighthouse.md#0",
+          "quote": "the second lighthouse station to be established by Trinity House (after Lowestoft in 1609)"
+        }
+      ],
+      "sql": "SELECT CAST(date AS INTEGER) FROM events WHERE lighthouse.name = 'Lowestoft Lighthouse' AND event IN ('automatization', 'automation')",
+      "note": "The town is Lowestoft. Its one automatization event is dated 1975. Pakefield Lighthouse (also Suffolk) and Bull Point Lighthouse have automatization events in 1975 as well, so the year alone does not check the hop; the article's 1609 and 1676 (Lowestoft) are building dates, not events."
+    },
+    {
+      "id": "LF03",
+      "type": "aggregation",
+      "question": "How many lighthouses does the table record with more than one heritage designation, that is, a heritage_designation cell that lists two or more (separated by semicolons)?",
+      "expected": {
+        "number": 5
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM lighthouses WHERE len(string_split(heritage_designation, '; ')) >= 2",
+      "note": "Five rows: St Agnes, Harwich High and Lundy Old Light (each 'Grade II* listed building; scheduled monument'), Harwich Low (the same two in the other order) and Smalls (a Grade II listing and 'National Monument of Wales'). Counting rows whose cell contains 'scheduled monument' gives 4, and counting rows that are Grade II* gives 3; both miss the point. Rows with a single designation or none are not counted."
+    },
+    {
+      "id": "LF04",
+      "type": "aggregation",
+      "question": "How many lighthouses have both an electrification event and an automation event in the events file, counting the spellings 'automatization' and 'automation' alike?",
+      "expected": {
+        "number": 13
+      },
+      "route": "exact",
+      "sql": "SELECT count(*) FROM (SELECT lighthouse.qid FROM events GROUP BY lighthouse.qid HAVING bool_or(event = 'electrification') AND bool_or(event IN ('automatization', 'automation')))",
+      "note": "Thirteen: Eddystone, Lizard, St Anthony's, Trevose Head, Cromer, Longstone, Coquet, Casquets, Wolf Rock, Lundy North, North Foreland, Round Island and Bishop Rock. Lizard's automation is spelled 'automation' (the only other lighthouse with that spelling, Longships, has no electrification), so a count that reads only 'automatization' gives 12. Seventeen lighthouses have an electrification event; those with only one of the two kinds (for example Bamburgh, Hilbre Island) are not counted. Undated events count as events."
+    },
+    {
+      "id": "LF05",
+      "type": "structured_filter",
+      "question": "Which lighthouses does the table record with an isophase light, meaning a characteristic that starts with 'Iso', counting a cell that holds several characteristics if any one of them starts with 'Iso'?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Eddystone Lighthouse"
+          },
+          {
+            "name": "Europa Point Lighthouse"
+          },
+          {
+            "name": "Hurst Point Lighthouse"
+          },
+          {
+            "name": "Smalls Lighthouse"
+          },
+          {
+            "name": "St Anthony's Lighthouse"
+          },
+          {
+            "name": "Whitby Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT name FROM lighthouses WHERE regexp_matches(light_characteristic, '(^|; )Iso ')",
+      "note": "Six lighthouses. Europa Point ('Iso W 10s'), St Anthony's ('Iso WR 15s') and Whitby ('Iso WR 10s') have it as their only characteristic; Eddystone ('Fl(2) W 10s; Iso R 10s'), Hurst Point ('Fl(4) WR 15s; Iso WRG 4s') and Smalls ('Fl(3) W 15s; Iso R 4s') have it as the second one, which a test on the start of the whole cell misses (giving 3). The occulting lights (Oc ...) are a different kind and are not counted."
+    },
+    {
+      "id": "LF06",
+      "type": "structured_filter",
+      "question": "Which lighthouses in historic county Devon have more than one place in their located_in cell (several places separated by semicolons)?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Berry Head Lighthouse"
+          },
+          {
+            "name": "Lundy North Lighthouse"
+          },
+          {
+            "name": "Lundy Old Light"
+          },
+          {
+            "name": "Lundy South Lighthouse"
+          },
+          {
+            "name": "Start Point Lighthouse"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT name FROM lighthouses WHERE historic_county = 'Devon' AND len(string_split(located_in, '; ')) >= 2",
+      "note": "Five: Start Point ('Stokenham; South Hams'), Berry Head ('Devon; Torbay') and the three Lundy lights ('Torridge; Lundy'). Eddystone's located_in is the single word 'Devon' but its historic county is Cornwall, so it is out on both counts; the other Devon rows (Hartland Point, Bull Point, Instow, Crow Point, Plymouth Breakwater and others) hold one place."
+    },
+    {
+      "id": "LF07",
+      "type": "disambiguation",
+      "question": "What height, in metres, does the table give Dovercourt Low Light, as opposed to Dovercourt High Light?",
+      "expected": {
+        "number": 8
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "lighthouses.csv",
+          "row": {
+            "name": "Dovercourt Low Light",
+            "height_m": "8"
+          }
+        }
+      ],
+      "sql": "SELECT CAST(height_m AS DOUBLE) FROM lighthouses WHERE name = 'Dovercourt Low Light'",
+      "note": "Dovercourt Low Light is 8 m; Dovercourt High Light is 14 m. Both rows are Essex, inception 1863, retired 1917, so only the height tells the pair apart. Harwich Low Lighthouse (9 m) is a different, neighbouring lighthouse."
+    },
+    {
+      "id": "LF08",
+      "type": "negation_sensitive",
+      "question": "According to the Tater Du Lighthouse article, in what year was the fog signal decommissioned?",
+      "expected": {
+        "number": 2012
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/tater_du_lighthouse.md#1",
+          "quote": "The fog signal was decommissioned in 2012."
+        }
+      ],
+      "note": "2012. The article gives other years for the lighthouse that are not the fog signal's end: 1965 (first lit), 1997 (modernised), 2022 (optic replaced by LED lanterns and the range cut to 12 nmi). The Tannoy units were 'later replaced' by an emitter with the same characteristic, and it is that emitter that was decommissioned in 2012."
+    },
+    {
+      "id": "LF09",
+      "type": "lookup",
+      "question": "According to the Godrevy Lighthouse article, who had been appointed as the engineer for the project by December 1857?",
+      "expected": {
+        "entities": [
+          {
+            "name": "James Sutcliffe"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/godrevy_lighthouse.md#1",
+          "quote": "James Sutcliffe had been appointed as the engineer for the project"
+        }
+      ],
+      "note": "James Sutcliffe. The same sentence names James Walker, who was contracted to design the lighthouse, so Walker is the tempting wrong answer (and is the architect of Godrevy in the table); Sutcliffe is not in the engineers file."
+    },
+    {
+      "id": "LF10",
+      "type": "aggregation",
+      "question": "Of the lighthouses the ten articles are about, which does its own article say was at some time fitted with Argand lamps?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Farne Lighthouse"
+          },
+          {
+            "name": "Old Higher Lighthouse",
+            "aliases": [
+              "Portland Bill High Light",
+              "Portland High Light",
+              "Portland High"
+            ]
+          },
+          {
+            "name": "St Agnes Lighthouse"
+          },
+          {
+            "name": "St Anthony's Lighthouse",
+            "aliases": [
+              "St. Anthony's Lighthouse"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "articles/farne_lighthouse.md#1",
+          "quote": "a revolving array of seven Argand lamps and reflectors"
+        },
+        {
+          "chunk_id": "articles/old_higher_lighthouse.md#1",
+          "quote": "Trinity House had Argand lamps installed within the higher lighthouse"
+        },
+        {
+          "chunk_id": "articles/st_agnes_lighthouse.md#1",
+          "quote": "twenty-one Argand lamps with reflectors"
+        },
+        {
+          "chunk_id": "articles/st_anthony_s_lighthouse.md#0",
+          "quote": "eight Argand oil lamps mounted on a revolving frame"
+        }
+      ],
+      "note": "Four articles: Farne (seven lamps in 1811, and a single lamp in the Low Light), Old Higher (1788, and again in the 1824 revolving apparatus), St Agnes (twenty-one lamps in 1790) and St Anthony's (eight lamps in 1835). Not counted: Anvil Point (a mineral oil burner), Berry Head (an incandescent lamp), Godrevy (an oil lamp), St Mary's (paraffin), Tater Du (electric) and Whitby (paraffin and mineral-oil burners). The Old Higher article ties the lamps to the higher lighthouse; Old Lower had none named."
+    }
+  ]
+}

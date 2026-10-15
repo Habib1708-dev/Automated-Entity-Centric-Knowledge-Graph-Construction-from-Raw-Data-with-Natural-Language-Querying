@@ -1,0 +1,302 @@
+{
+  "dataset": "heldout_nhtsa",
+  "written_by": "claude-sonnet-5-5",
+  "date": "2026-10-15",
+  "corpus": {
+    "data_dir": "heldout/nhtsa/data",
+    "plan": "tests/gold/heldout_nhtsa_plan.json",
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "HF01",
+      "type": "multi_hop",
+      "question": "An owner reports that the fuel pump nozzle shuts off automatically when the tank is at least 2 gallons short of full. Which recall campaigns for that vehicle give a Lexus customer service telephone number in their remedy?",
+      "expected": {
+        "entities": [
+          {
+            "name": "20V064000"
+          },
+          {
+            "name": "20V682000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#3",
+          "quote": "WHEN FILLING MY TANK, AUTO-SHUTOFF HAPPENS WHEN THE TANK IS AT LEAST 2 GALLONS SHY OF BEING FULL."
+        },
+        {
+          "chunk_id": "record/Recall/20V682000#1",
+          "quote": "Lexus customer service at 1-800-255-3987"
+        },
+        {
+          "chunk_id": "record/Recall/20V064000#1",
+          "quote": "Lexus at 1-800-255-3987"
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT r.NHTSACampaignNumber FROM r JOIN complaints c ON c.product.productModel = r.Model WHERE c.odiNumber = 11221492 AND r.Remedy LIKE '%Lexus%1-800-255-3987%'",
+      "note": "The complaint is 11221492 about the 2019 Toyota RAV4. Of its seven recalls only two give a Lexus customer service number in the remedy: 20V682000 ('Lexus customer service at 1-800-255-3987') and 20V064000, which words the same idea differently ('or Lexus at 1-800-255-3987'). The other five RAV4 remedies name only Toyota, Gulf States Toyota or Southeast Toyota Distributors numbers. The two Lexus numbers are the same telephone number, so the answer is a set of campaigns, not of numbers."
+    },
+    {
+      "id": "HF02",
+      "type": "multi_hop",
+      "question": "Which owner complaints, filed between July and December 2017, concern the vehicle affected by the recall campaign whose remedy says that Chevrolet City Express owners will be notified by General Motors?",
+      "expected": {
+        "entities": [
+          {
+            "name": "11010220"
+          },
+          {
+            "name": "11030208"
+          },
+          {
+            "name": "11032133"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/16V244000#1",
+          "quote": "Chevrolet City Express owners will be notified by General Motors."
+        },
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#2",
+          "quote": "## Complaint 11010220 (filed 07/24/2017)"
+        },
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#3",
+          "quote": "## Complaint 11030208 (filed 09/27/2017)"
+        },
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#4",
+          "quote": "## Complaint 11032133 (filed 10/06/2017)"
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT c.odiNumber FROM complaints c JOIN r ON r.Model = c.product.productModel WHERE r.NHTSACampaignNumber = '16V244000' AND strptime(c.dateComplaintFiled, '%m/%d/%Y') >= DATE '2017-07-01' AND strptime(c.dateComplaintFiled, '%m/%d/%Y') < DATE '2018-01-01'",
+      "note": "Recall 16V244000 (occupant classification system, air bags) is the only remedy that mentions Chevrolet City Express; its vehicle in the recall records is the 2017 Nissan Rogue. The five Rogue complaints were filed 03/01/2017 (10957753), 04/13/2017 (10972343), 07/24/2017 (11010220), 09/27/2017 (11030208) and 10/06/2017 (11032133); the first two fall before July and are left out."
+    },
+    {
+      "id": "HF03",
+      "type": "aggregation",
+      "question": "How many recall campaigns say in their remedy on what date the recall began?",
+      "expected": {
+        "number": 14
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/16V526000#1",
+          "quote": "The recall began on August 31, 2016."
+        },
+        {
+          "chunk_id": "record/Recall/16V725000#1",
+          "quote": "The recall began on November 8, 2016."
+        },
+        {
+          "chunk_id": "record/Recall/17V663000#1",
+          "quote": "The recall began December 6, 2017."
+        },
+        {
+          "chunk_id": "record/Recall/20V064000#1",
+          "quote": "The recall began April 3, 2020."
+        },
+        {
+          "chunk_id": "record/Recall/20V373000#1",
+          "quote": "The recall began August 17, 2020."
+        },
+        {
+          "chunk_id": "record/Recall/20V286000#1",
+          "quote": "This recall began August 10, 2020."
+        },
+        {
+          "chunk_id": "record/Recall/19V503000#1",
+          "quote": "The recall began August 23, 2019."
+        },
+        {
+          "chunk_id": "record/Recall/19V576000#1",
+          "quote": "The recall began September 27, 2019."
+        },
+        {
+          "chunk_id": "record/Recall/19V244000#1",
+          "quote": "The recall began May 24, 2019."
+        },
+        {
+          "chunk_id": "record/Recall/16V643000#1",
+          "quote": "The recall began on January 27, 2017."
+        },
+        {
+          "chunk_id": "record/Recall/15V406000#1",
+          "quote": "The recall began on August 4, 2015."
+        },
+        {
+          "chunk_id": "record/Recall/15V436000#1",
+          "quote": "The recall began on July 27, 2015."
+        },
+        {
+          "chunk_id": "record/Recall/19V493000#1",
+          "quote": "The recall began July 26, 2019."
+        },
+        {
+          "chunk_id": "record/Recall/20V218000#0",
+          "quote": "The recall began June 4, 2020."
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT count(*) FROM r WHERE regexp_matches(Remedy, 'recall began')",
+      "note": "14 of the 29 remedies state a start date. 13 say 'The recall began ...' (with or without 'on') and one, 20V286000, says 'This recall began August 10, 2020', so a search for 'The recall began' alone finds only 13. The other 15 remedies give other dates (owner letters mailed or expected, parts available, interim notices) and do not say when the recall began; they must not be counted."
+    },
+    {
+      "id": "HF04",
+      "type": "aggregation",
+      "question": "What is the total of the mileages that the complaints give as 'the failure mileage'?",
+      "expected": {
+        "number": 11830
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#0",
+          "quote": "THE FAILURE MILEAGE WAS 1,800."
+        },
+        {
+          "chunk_id": "complaints/ford_escape_complaints.md#3",
+          "quote": "THE FAILURE MILEAGE WAS 2,361."
+        },
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#0",
+          "quote": "THE FAILURE MILEAGE WAS 130."
+        },
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#3",
+          "quote": "THE FAILURE MILEAGE WAS 400."
+        },
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#0",
+          "quote": "THE FAILURE MILEAGE WAS 5,218."
+        },
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#1",
+          "quote": "THE FAILURE MILEAGE WAS 1,921."
+        }
+      ],
+      "note": "Six complaints (10667633, 10691672, 10957753, 11030208, 11204698, 11205702) state 'THE FAILURE MILEAGE WAS ...': 1,800 + 2,361 + 130 + 400 + 5,218 + 1,921 = 11,830. Other complaints give a mileage in other words (350 miles, 3200 miles, 800 + miles, less than 400 miles, 810 miles on pick-up) and are not a 'failure mileage'; they must not be added."
+    },
+    {
+      "id": "HF05",
+      "type": "structured_filter",
+      "question": "Which recall campaigns list a component with at least four parts separated by colons?",
+      "expected": {
+        "entities": [
+          {
+            "name": "20V286000"
+          },
+          {
+            "name": "23V093000"
+          },
+          {
+            "name": "26V332000"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE len(string_split(Component, ':')) >= 4",
+      "note": "The Component field of a recall is a path of parts separated by colons. Four or more parts: 20V286000 (SUSPENSION:FRONT:CONTROL ARM:LOWER ARM), 26V332000 (AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION:FRONT PASSENGER) and 23V093000 (five parts, ELECTRICAL SYSTEM:IGNITION:ANTI-THEFT:IMMOBILIZER/PROXIMITY:KEY/SENDER). 19V576000 and 25V695000 (BACK OVER PREVENTION: SENSING SYSTEM: CAMERA) have three parts with spaces after the colons and are not counted; neither are the other components of three parts or fewer."
+    },
+    {
+      "id": "HF06",
+      "type": "structured_filter",
+      "question": "Which owner complaints were filed on a Saturday or a Sunday?",
+      "expected": {
+        "entities": [
+          {
+            "name": "10689793"
+          },
+          {
+            "name": "10692693"
+          }
+        ]
+      },
+      "route": "exact",
+      "sql": "SELECT odiNumber FROM complaints WHERE dayname(strptime(dateComplaintFiled, '%m/%d/%Y')) IN ('Saturday', 'Sunday')",
+      "note": "Complaint 10689793 was filed 02/22/2015 (a Sunday) and 10692693 on 03/07/2015 (a Saturday). The other 23 complaints were filed on weekdays. Complaint dates are month/day/year."
+    },
+    {
+      "id": "HF07",
+      "type": "disambiguation",
+      "question": "Two Honda recalls give several Honda numbers for the same recall instead of one. Which one gives exactly two?",
+      "expected": {
+        "entities": [
+          {
+            "name": "23V858000"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/23V858000#1",
+          "quote": "Honda's numbers for this recall are KGC and KGD."
+        },
+        {
+          "chunk_id": "record/Recall/26V332000#1",
+          "quote": "Honda's numbers for this recall are BOL, WO9, OOA"
+        }
+      ],
+      "sql": "WITH r AS (SELECT unnest(results, recursive := true) FROM recalls) SELECT NHTSACampaignNumber FROM r WHERE regexp_matches(Remedy, 'numbers for this recall are [A-Z0-9]+ and [A-Z0-9]+\\.')",
+      "note": "23V858000 (fuel pump module) says 'Honda's numbers for this recall are KGC and KGD.' 26V332000 (seat weight sensor) lists sixteen numbers (BOL, WO9, OOA, ...). Every other Honda remedy gives a single 'Honda's number for this recall is ...' (KB8, KC6, JX9). The Toyota recalls 20V682000 and 20V064000 also name two numbers, but as one Toyota and one Lexus number, and they are not Honda recalls."
+    },
+    {
+      "id": "HF08",
+      "type": "negation_sensitive",
+      "question": "According to complaint 11209676, does the engine stop running when the vehicle does not accelerate after the gas pedal is pushed?",
+      "expected": {
+        "text": "No. The engine does not stop running."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/toyota_rav4_complaints.md#2",
+          "quote": "THE ENGINE DOES NOT STOP RUNNING."
+        }
+      ],
+      "note": "The owner of the 2019 RAV4 writes that the vehicle will not accelerate when pushing down on the gas pedal and that 'THE ENGINE DOES NOT STOP RUNNING'. A reader that drops the 'not' would answer yes. The complaint's component list includes ENGINE, which does not mean the engine stalls."
+    },
+    {
+      "id": "HF09",
+      "type": "lookup",
+      "question": "When are remedy parts expected to be available under recall 22V413000?",
+      "expected": {
+        "text": "In the 4th quarter of 2022."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "record/Recall/22V413000#1",
+          "quote": "Remedy parts are expected to be available in 4th Quarter 2022."
+        }
+      ],
+      "note": "The remedy of 22V413000 (2015 Ford Escape, shifter cable bushing) says remedy parts are expected in 4th Quarter 2022. Other remedies give other parts dates (17V472000: the fourth quarter of 2017; 16V074000: the Summer of 2016; 20V682000: late March 2021) and must not be mixed in."
+    },
+    {
+      "id": "HF10",
+      "type": "lookup",
+      "question": "How many times did the owner in complaint 11010220 pump the brake pedal before hitting the concrete wall?",
+      "expected": {
+        "number": 2
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "complaints/nissan_rogue_complaints.md#2",
+          "quote": "I PUMPED ON THE BRAKE PEDAL TWICE BEFORE HITTING THE CONCRETE WALL"
+        }
+      ],
+      "note": "The 2017 Nissan Rogue owner pumped the brake pedal twice ('TWICE') before the vehicle hit the wall of the parking structure."
+    }
+  ]
+}

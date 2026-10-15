@@ -1,0 +1,407 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-sonnet-5-5",
+  "date": "2026-10-15",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FF01",
+      "type": "multi_hop",
+      "question": "A reviewer says the removable covers of a sofa came out perfect after a wine spill. How many screws does that sofa's frame sub-assembly list in total?",
+      "expected": {
+        "number": 32
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#2",
+          "quote": "already had to wash them after a wine spill and they came out perfect"
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1012",
+            "component_name": "Frame",
+            "product_id": "P-1003"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1106",
+            "part_name": "Screws",
+            "quantity": "32",
+            "assembly_id": "A-1012"
+          }
+        }
+      ],
+      "sql": "SELECT sum(c.quantity) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Frame' AND c.part_name = 'Screws'",
+      "note": "The sofa is the Uppsala Sofa (@interior_whiz's review, #2, a wine spill; the first review's toddler spilled juice, not wine). Its Frame sub-assembly (A-1012) has one Screws part row, S-1106, with quantity 32. The sofa's top-level Screws assembly component (A-1016) has quantity 24; 24 is the tempting wrong answer."
+    },
+    {
+      "id": "FF02",
+      "type": "multi_hop",
+      "question": "A reviewer says a table has been used daily for meals, homework and game nights for the past year. Which supplier is the non-preferred supplier of the wood glue in that table's table top?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Singapore Adhesive Tech"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#5",
+          "quote": "We've been using it daily for meals, homework, and game nights for the past year."
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1055",
+            "component_name": "Table Top",
+            "product_id": "P-1001"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1123",
+            "part_name": "Wood Glue",
+            "assembly_id": "A-1055"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1123",
+            "supplier_id": "SUP-019",
+            "preferred_supplier": "no"
+          }
+        }
+      ],
+      "sql": "SELECT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Gothenburg Table' AND a.component_name = 'Table Top' AND c.part_name = 'Wood Glue' AND NOT m.preferred_supplier",
+      "note": "The table is the Gothenburg Table (@familyfirst's review, #5). Its only Wood Glue part, S-1123, is offered by Cape Town Adhesives (preferred) and Singapore Adhesive Tech (not preferred); both quote 17 days, so the lead time does not tell them apart. The answer is the non-preferred one."
+    },
+    {
+      "id": "FF03",
+      "type": "aggregation",
+      "question": "How many Wooden Slat parts does the Linköping Bed's Slats sub-assembly list?",
+      "expected": {
+        "number": 15
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1051",
+            "component_name": "Slats",
+            "quantity": "14",
+            "product_id": "P-1006"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1124",
+            "part_name": "Wooden Slat",
+            "assembly_id": "A-1051"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1160",
+            "part_name": "Wooden Slat",
+            "assembly_id": "A-1051"
+          }
+        }
+      ],
+      "sql": "SELECT count(*) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Linköping Bed' AND a.component_name = 'Slats' AND c.part_name = 'Wooden Slat'",
+      "note": "The Slats sub-assembly (A-1051) lists 30 part rows with separate part ids: 15 Wooden Slat rows (S-1124, S-1134, S-1136, ... S-1160) alternating with 15 Fabric Sleeve rows, each of quantity 1. The assemblies table gives the Slats component quantity 14, and the 30 rows include the sleeves; 14 and 30 are the wrong answers."
+    },
+    {
+      "id": "FF04",
+      "type": "aggregation",
+      "question": "For how many part ids do the two suppliers that offer the part quote the same lead time in days?",
+      "expected": {
+        "number": 4
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1087",
+            "supplier_id": "SUP-001",
+            "lead_time_days": "7"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1087",
+            "supplier_id": "SUP-011",
+            "lead_time_days": "7"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1141",
+            "supplier_id": "SUP-013",
+            "lead_time_days": "7"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1141",
+            "supplier_id": "SUP-003",
+            "lead_time_days": "7"
+          }
+        }
+      ],
+      "sql": "SELECT count(*) FROM (SELECT part_id FROM part_supplier_mapping GROUP BY part_id HAVING count(*) = 2 AND count(DISTINCT lead_time_days) = 1)",
+      "note": "Each of the 88 part ids has exactly two supplier offers (176 rows). Four part ids have equal lead times: S-1087 Headboard Panel (7 and 7), S-1106 Screws of the Uppsala Sofa's frame (21 and 21), S-1123 Wood Glue (17 and 17) and S-1141 Fabric Sleeve (7 and 7). The question counts part ids, not part names: the other Fabric Sleeve ids have different lead times and do not count."
+    },
+    {
+      "id": "FF05",
+      "type": "structured_filter",
+      "question": "Which products priced over $200 have a review in which the reviewer says they have had the product for about six months?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Gothenburg Table"
+          },
+          {
+            "name": "Uppsala Sofa"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+          "quote": "We've had it for 6 months now"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#1",
+          "quote": "I've had the Uppsala Sofa for about 6 months now"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#6",
+          "quote": "We've had our Örebro Lamp for about 6 months now"
+        }
+      ],
+      "records": [
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Gothenburg Table",
+            "price": "$489",
+            "product_id": "P-1001"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Uppsala Sofa",
+            "price": "$1289",
+            "product_id": "P-1003"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Örebro Lamp",
+            "price": "$111",
+            "product_id": "P-1005"
+          }
+        }
+      ],
+      "note": "Three products have a review of about six months' use: the Gothenburg Table ($489, @akollegger, #0), the Uppsala Sofa ($1289, @petite_patty, #1) and the Örebro Lamp ($111, @entertainer_emma, #6). The lamp is under $200 and drops out. The reviews of 'over a year', 'about 3 months' and 'just two months' are other durations."
+    },
+    {
+      "id": "FF06",
+      "type": "structured_filter",
+      "question": "By part name, which parts does some supplier offer with a minimum order quantity of exactly 100 units?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Drawer Front"
+          },
+          {
+            "name": "Foam Padding"
+          },
+          {
+            "name": "Wooden Slat"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1081",
+            "supplier_id": "SUP-001",
+            "minimum_order_quantity": "100"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1093",
+            "supplier_id": "SUP-005",
+            "minimum_order_quantity": "100"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1148",
+            "supplier_id": "SUP-011",
+            "minimum_order_quantity": "100"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT part_name FROM part_supplier_mapping WHERE minimum_order_quantity = 100",
+      "note": "Three offers have a minimum order quantity of exactly 100: S-1081 Drawer Front (Nordic Wood Industries, the Helsingborg Dresser's drawers), S-1093 Foam Padding (Brazilian Foam Solutions, the Stockholm Chair's seat) and S-1148 Wooden Slat (Canadian Timber Products, the Linköping Bed's slats). Offers of 99 (Foam Insert, Cable Clips, a Fabric Sleeve) and 98 are close but do not count."
+    },
+    {
+      "id": "FF07",
+      "type": "disambiguation",
+      "question": "What unit cost in dollars does the preferred supplier quote for the foam padding of the Stockholm Chair's seat?",
+      "expected": {
+        "number": 7.43
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1037",
+            "component_name": "Seat",
+            "product_id": "P-1000"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1093",
+            "part_name": "Foam Padding",
+            "assembly_id": "A-1037"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1093",
+            "supplier_id": "SUP-005",
+            "unit_cost": "$7.43",
+            "preferred_supplier": "yes"
+          }
+        }
+      ],
+      "sql": "SELECT CAST(replace(m.unit_cost, '$', '') AS DOUBLE) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Stockholm Chair' AND a.component_name = 'Seat' AND c.part_name = 'Foam Padding' AND m.preferred_supplier",
+      "note": "The Stockholm Chair has two Foam Padding parts: S-1093 in the Seat (preferred Brazilian Foam Solutions at $7.43, the other supplier UK Foam Manufacturers at $40.06) and S-1108 in the Back Rest (preferred $14.41, other $11.09). The question names the Seat, so 7.43; 14.41 is the back rest's and 40.06 is the non-preferred offer."
+    },
+    {
+      "id": "FF08",
+      "type": "negation_sensitive",
+      "question": "How many Västerås Bookshelf reviews say the shelves hold up without sagging, bending or deflection?",
+      "expected": {
+        "number": 4
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#0",
+          "quote": "without any sagging"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1",
+          "quote": "without any sign of bending"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+          "quote": "with no deflection"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#6",
+          "quote": "there's been no sagging despite heavy use"
+        }
+      ],
+      "note": "Four of the seven Västerås Bookshelf reviews say the shelves are not giving way, in three wordings: 'without any sagging' (@scandi_lover, #0), 'without any sign of bending' (@wfh_warrior, #1), 'no deflection' (@bookworm_betty, #3) and 'no sagging despite heavy use' (@familyfirst, #6). Counting only the word 'sagging' gives 2. @angry_customer (#4) says the opposite ('I don't trust putting anything heavy on the upper shelves') and does not count. The Jönköping Coffee Table's 'prevents sagging' and the Norrköping Nightstand's 'no signs of sagging' are other products."
+    },
+    {
+      "id": "FF09",
+      "type": "lookup",
+      "question": "How many years of experience as an interior designer does the Uppsala Sofa reviewer who gives its cushion density state?",
+      "expected": {
+        "number": 15
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#3",
+          "quote": "As an interior designer with over 15 years of experience"
+        }
+      ],
+      "note": "@designer_dave's Uppsala Sofa review (#3) states over 15 years of experience and gives the cushion density (28kg/m³). Only one Uppsala Sofa review gives a density."
+    },
+    {
+      "id": "FF10",
+      "type": "multi_hop",
+      "question": "Which reviewers who reviewed the Jönköping Coffee Table also gave the Linköping Bed five stars?",
+      "expected": {
+        "entities": [
+          {
+            "name": "@scandi_lover",
+            "aliases": [
+              "scandi_lover"
+            ]
+          },
+          {
+            "name": "@familyfirst",
+            "aliases": [
+              "familyfirst"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#0",
+          "quote": "- @scandi_lover (Minneapolis)"
+        },
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#6",
+          "quote": "- @familyfirst (Denver)"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+          "quote": "- @scandi_lover (Minneapolis)"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+          "quote": "- @familyfirst (Denver)"
+        }
+      ],
+      "note": "The Linköping Bed has three five-star reviews: @scandi_lover (#0), @woodworker_amy (#3) and @familyfirst (#6). The Jönköping Coffee Table was reviewed by @scandi_lover, @interior_whiz, @artsy_andy, @designer_dave, @angry_customer, @home_chef and @familyfirst, so the overlap is @scandi_lover and @familyfirst; @woodworker_amy never reviewed the coffee table."
+    }
+  ]
+}
