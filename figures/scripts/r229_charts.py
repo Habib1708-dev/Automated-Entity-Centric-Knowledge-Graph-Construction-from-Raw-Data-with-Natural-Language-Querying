@@ -45,7 +45,7 @@ OFFSET = 0.17  # how far each measure's dot sits above or below its row's centre
 # y positions: the two new datasets, a gap, the three thesis datasets (R157's fig. 1 layout)
 YS = {"ntsb": 0.0, "furniture": 1.4, "heldout": 2.4, "generality": 3.4}
 # fig4: the dots whose label goes left, where an interval line of a neighbouring dot would cross it
-LABEL_LEFT = frozenset({"ntsb", "lighthouses"})
+LABEL_LEFT = frozenset({"ntsb"})
 BOUND = 0.95  # the audit's bound for C4 link precision and C6 purity (R93, config.py)
 
 STRICT = Score("Strict: every stored field right", TEXT_BLUE, "s")
@@ -140,15 +140,12 @@ def _kn(p) -> str:
 
 
 def _selected_note() -> str:
-    """The first subtitle line of every figure (R230): the figures are a selected comparison, and the left-out
-    builds' audit result is stated, so no figure reads as the builder passing on every measured dataset."""
-    left_out = []
-    for b in data.excluded():
-        fails = [c for c, ok in (("C3", b.c3_passed), ("C4", b.c4_passed), ("C6", b.c6_passed)) if not ok]
-        verdict = f"fails {' and '.join(fails)} (C4 {_kn(b.c4)})" if fails else "passes the audit"
-        left_out.append(f"{data.LABELS[b.dataset]}, measured with the same rules, is excluded and {verdict}")
-    head = f"Selected comparison of {len(data.SELECTED)} datasets, not all measured ones"
-    return f"{head}: {'; '.join(left_out)}.\n"
+    """The first subtitle line of every figure (R230, R231): the figures are a selected comparison of some of
+    the measured datasets, so none reads as the builder passing on all of them. Which dataset is left out,
+    and its result, is in the captions (R231: the user asked that the figures themselves not name it)."""
+    measured = len(data.SELECTED) + len(data.EXCLUDED)
+    head = f"Selected comparison of {len(data.SELECTED)} of the {measured} measured datasets"
+    return f"{head}; see the captions.\n"
 
 
 # --- fig1: claim precision ---------------------------------------------------------------------------------
@@ -380,7 +377,7 @@ def fig5_audit(builds: list[data.BuildAccuracy], out: Path) -> list[Path]:
     shown = f"{len(builds) - len(failed)} of the {len(builds)} builds shown pass every audit criterion"
     title(
         fig,
-        shown + " (a selected comparison; the excluded build fails, see below)",
+        shown + " (a selected comparison)",
         _selected_note()
         + "R108 (thesis datasets) and R228 (NTSB), judged blind by Claude Opus 5.5 under R93's rules. "
         "Each row: the judged rate with its interval and k/n; bold = the criterion's\nhard rule fails. "

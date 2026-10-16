@@ -22,6 +22,8 @@ from . import (
     r173_data,
     r229_charts,
     r229_data,
+    r231_charts,
+    r231_data,
 )
 from .style import apply_style
 
@@ -62,6 +64,7 @@ def build(results: Path | None = None, diagrams: Path | None = None) -> list[Pat
         measurements, run_costs, place(r160_r173_diagrams.OUT, diagrams, "diagrams")
     )
     files += r229_charts.draw_all(r229_data.load_all(), place(r229_charts.OUT, results, "results"))
+    files += r231_charts.draw_all(r231_data.measurements(), place(r231_charts.OUT, results, "results"))
     return files
 
 

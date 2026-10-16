@@ -3,15 +3,15 @@ a chart can only show a committed number), the build draws every figure into a f
 committed figure is built, captioned in its folder's README.md and listed in the index, with no caption naming
 a missing file. R174: the r173 data functions return the three measurements' committed counts, the
 wrong answers by cause, the operations used and the costs. R229/R230: the r229 data functions return the four
-selected builds' committed precision, recall, mention and audit counts, and every figure states the excluded
-lighthouses result. No Neo4j, no network: the figures read
-committed records only."""
+selected builds' committed precision, recall, mention and audit counts, and every figure says it is a selected
+comparison. R231: the r231 data functions return the four datasets' question-answering counts. No Neo4j, no
+network: the figures read committed records only."""
 
 import re
 from pathlib import Path
 
 import pytest
-from figures.scripts import r128_data, r131_data, r157_data, r173_data, r229_charts, r229_data
+from figures.scripts import r128_data, r131_data, r157_data, r173_data, r229_charts, r229_data, r231_data
 from figures.scripts.build import build
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -163,20 +163,46 @@ def test_the_r229_data_functions_return_the_committed_counts():
     assert all(b.c3_passed and b.c4_passed and b.c6_passed for b in builds.values())
 
 
-def test_the_excluded_lighthouses_result_is_kept_and_stated_on_every_figure():
-    # R230: lighthouses leaves the figures, not the records; it fails C4 and so C3 on the same two links
+def test_the_excluded_dataset_is_kept_in_the_records_and_the_figures_say_they_are_a_selection():
+    # R230/R231: lighthouses leaves the figures, not the records; it fails C4 and so C3 on the same two links
     (lighthouses,) = r229_data.excluded()
     assert lighthouses.dataset == "lighthouses" and (lighthouses.c4.k, lighthouses.c4.n) == (34, 36)
     assert not lighthouses.c3_passed and not lighthouses.c4_passed and lighthouses.c6_passed
+    # every build figure's subtitle says it is a selection; by the user's request it names no left-out dataset
     note = r229_charts._selected_note()
-    assert note.startswith("Selected comparison of 4 datasets") and "Lighthouses" in note
-    assert "fails C3 and C4 (C4 34/36)" in note
+    assert note == "Selected comparison of 4 of the 5 measured datasets; see the captions.\n"
+
+
+def test_the_r231_data_functions_return_the_committed_counts():
+    measurements = r231_data.measurements()
+    assert [m.key for m in measurements] == ["r157", "r166", "r173"]
+    assert all({o.dataset for o in m.outcomes} == set(r229_data.SELECTED) for m in measurements)
+    accuracy = {
+        m.key: {
+            a.group: (a.exact.k, a.meaning.k, a.meaning.n) for a in r231_data.by_dataset(list(m.outcomes))
+        }
+        for m in measurements
+    }
+    assert {k: a["pooled"] for k, a in accuracy.items()} == {
+        "r157": (193, 195, 200),
+        "r166": (77, 77, 80),
+        "r173": (78, 78, 80),
+    }
+    assert accuracy["r157"]["generality"] == (48, 50, 50) and accuracy["r157"]["furniture"] == (46, 46, 50)
+    wrong = [o.question_id for o in r157_data.wrong(list(measurements[0].outcomes))]
+    assert wrong == ["FB10", "FB14", "FB18", "FB38", "HB41", "GB05", "GB33"]
+    weakest = [min(r157_data.by_type(list(m.outcomes)), key=lambda a: a.meaning.rate) for m in measurements]
+    assert [(a.group, a.meaning.k, a.meaning.n) for a in weakest] == [
+        ("aggregation", 34, 37),
+        ("aggregation", 13, 15),
+        ("structured_filter", 12, 13),
+    ]
 
 
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):
     built = build(results=tmp_path / "results", diagrams=tmp_path / "diagrams")
     names = sorted(p.name for p in built)
-    assert all(p.stat().st_size > 0 for p in built) and len(names) == 50  # twenty-five figures, SVG and PNG
+    assert all(p.stat().st_size > 0 for p in built) and len(names) == 56  # twenty-eight figures, SVG and PNG
     committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png"))
     assert sorted(p.name for p in committed) == names  # nothing committed that the build does not make
     index = (FIGURES / "README.md").read_text(encoding="utf-8")

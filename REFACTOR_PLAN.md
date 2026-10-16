@@ -12114,6 +12114,38 @@ Lighthouses and NTSB use the R155b builds, with R226 and R228 for the same measu
 
 **R230 done 2026-10-16. The KG builder is frozen.**
 
+### R231. QA figures for the four selected datasets; the build figures name no excluded dataset (done 2026-10-16; $0, no run)
+
+**The user's decisions, 2026-10-16:**
+- QA benchmark figures for the four datasets, alongside the build figures.
+- The build figures do not mention Lighthouses.
+
+**What changed:**
+- **New `figures/results/evaluation/r231_qa_four_datasets/`:**
+  - `r231_data.py` keeps the R157, R166 and R173 outcomes of the four `SELECTED` datasets.
+  - `r231_charts.py` reuses the R157 and R173 panel routines for three figures:
+    1. accuracy per dataset in each measurement: pooled by meaning 195/200, 77/80, 78/80; by exact 193/200, 77/80, 78/80;
+    2. accuracy per question type. The title names the weakest type found in each measurement: aggregation 34/37, aggregation 13/15, structured filter 12/13;
+    3. the 7 wrong R157 answers by cause.
+  - The five-dataset R157 and R173 figures stay as the record.
+- **Build figures (R229 folder):**
+  - The subtitle note reads "Selected comparison of 4 of the 5 measured datasets; see the captions."
+  - Fig. 5's title is "4 of the 4 builds shown pass every audit criterion (a selected comparison)".
+  - The caption README keeps its section on the excluded dataset and its audit failure, so a reader of the figures can find what was left out. The index line no longer names it.
+- **Tests (`tests/test_figures.py`, CRLF kept):**
+  - the r231 counts;
+  - the neutral note;
+  - the excluded dataset still failing in the records;
+  - 28 figures built.
+
+Gate:
+- `uv run pytest -m "not neo4j and not postgres"`: 1795 passed. Baseline 1791.
+- `uv run ruff check .`: clean.
+
+**Runs.** No model call ($0).
+
+**R231 done 2026-10-16.**
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -14,7 +14,7 @@ These figures are a **selected comparison of four of the five measured datasets*
 - mention recall, exact / judged: 119/167 / 138/167; pass precision 55/57;
 - **audit: it fails C4 (34/36 record links right, below the 95 % bound), and so C3**. The two wrong links attach the generic word "lighthouse" to the article's own lighthouse while the sentence means another tower. C6 passes at 77/79.
 
-Every figure's subtitle states this exclusion and the failure.
+Every figure's subtitle says it is a selected comparison of 4 of the 5 measured datasets; by the user's request (R231) the figures do not name the excluded dataset, these captions do.
 
 ## The sources and the judging
 
@@ -145,7 +145,7 @@ n is the build's extracted claims: 293, 530, 530 and 216.
 - A selected comparison: Lighthouses (precision 152/160, recall 11/73) would widen both ranges.
 - The points are different builds and corpora, not one system's trade-off curve.
 
-## Fig. 5: 4 of the 4 builds shown pass every audit criterion (a selected comparison; the excluded build fails, see below)
+## Fig. 5: 4 of the 4 builds shown pass every audit criterion (a selected comparison)
 
 **Files:** [r229_fig5_audit_by_dataset.svg](r229_fig5_audit_by_dataset.svg), [.png](r229_fig5_audit_by_dataset.png)
 

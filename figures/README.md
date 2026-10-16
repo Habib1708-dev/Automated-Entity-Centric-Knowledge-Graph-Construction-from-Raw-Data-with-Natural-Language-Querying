@@ -6,7 +6,7 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 
 ## Results (charts of measured numbers)
 
-### Construction: [r229_build_accuracy](results/construction/r229_build_accuracy/README.md), the build accuracy of a selected comparison of four datasets (NTSB, furniture, held-out, generality; Lighthouses, measured and failing the audit, excluded)
+### Construction: [r229_build_accuracy](results/construction/r229_build_accuracy/README.md), the build accuracy of a selected comparison of four of the five measured datasets (NTSB, furniture, held-out, generality)
 
 | Figure | Shows |
 |---|---|
@@ -14,7 +14,7 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 | [r229_fig2_claim_recall_by_dataset](results/construction/r229_build_accuracy/r229_fig2_claim_recall_by_dataset.png) | a reader's claims stored, missed with a fact type, missed without one, 13/74 to 42/72 stored (stacked bars) |
 | [r229_fig3_mention_recall_and_precision](results/construction/r229_build_accuracy/r229_fig3_mention_recall_and_precision.png) | mention recall by exact name and judged, and the pass's judged precision (dots, Wilson intervals) |
 | [r229_fig4_precision_against_recall](results/construction/r229_build_accuracy/r229_fig4_precision_against_recall.png) | content precision against claim recall per dataset (scatter, Wilson intervals on both axes) |
-| [r229_fig5_audit_by_dataset](results/construction/r229_build_accuracy/r229_fig5_audit_by_dataset.png) | C3, C4, C6 judged rates; the four shown pass, the excluded Lighthouses fails C4 34/36 and so C3 (dots, the 95 % bound) |
+| [r229_fig5_audit_by_dataset](results/construction/r229_build_accuracy/r229_fig5_audit_by_dataset.png) | C3, C4, C6 judged rates; the four shown pass (dots, the 95 % bound) |
 
 ### Retrieval: [r128_techniques](results/retrieval/r128_techniques/README.md), each technique alone, K = 5 to 50
 
@@ -32,6 +32,14 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 |---|---|
 | [r131_fig1_recall_by_k](results/retrieval/r131_seed_grid/r131_fig1_recall_by_k.png) | Seed Recall against K for the chosen fusion, the reranker and each card list alone (small multiples) |
 | [r131_fig2_paired_decision](results/retrieval/r131_seed_grid/r131_fig2_paired_decision.png) | fusion against one card list at K = 15, reranker against its pool at K = 5 and 10 (diverging bars) |
+
+### Evaluation: [r231_qa_four_datasets](results/evaluation/r231_qa_four_datasets/README.md), question answering on the four selected datasets (NTSB, furniture, held-out, generality)
+
+| Figure | Shows |
+|---|---|
+| [r231_fig1_accuracy_by_dataset](results/evaluation/r231_qa_four_datasets/r231_fig1_accuracy_by_dataset.png) | both scores per dataset and pooled over the four, three measurements, 195/200, 77/80, 78/80 by meaning (dots, Wilson intervals) |
+| [r231_fig2_accuracy_by_type](results/evaluation/r231_qa_four_datasets/r231_fig2_accuracy_by_type.png) | both scores per question type, three measurements; weakest aggregation 34/37, 13/15, structured filter 12/13 (dots, Wilson intervals) |
+| [r231_fig3_failures_by_cause](results/evaluation/r231_qa_four_datasets/r231_fig3_failures_by_cause.png) | the 7 wrong benchmark answers by cause, with their ids (bars) |
 
 ### Evaluation: [r157_benchmark](results/evaluation/r157_benchmark/README.md), the frozen agent on 250 questions written before any output
 
