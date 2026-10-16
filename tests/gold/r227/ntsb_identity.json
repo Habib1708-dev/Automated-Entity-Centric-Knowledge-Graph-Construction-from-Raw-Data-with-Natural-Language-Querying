@@ -1,0 +1,720 @@
+{
+  "_comment": [
+    "R227 identity pairs (R75 format), 2026-10-16, Claude Opus 5.5, written from the NTSB corpus text only; no build output opened."
+  ],
+  "identity_pairs": [
+    {
+      "a": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "NTSB"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "National Transportation Safety Board"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "# Beech A36 accidents investigated by the NTSB"
+        },
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "A National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report was not received from the right seat pilot."
+        }
+      ],
+      "note": "One organisation: the abbreviation in the Beech heading and the full name in the Piper report CEN22LA249. Trap: abbreviation vs full name across documents."
+    },
+    {
+      "a": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "NTSB Accident/Incident Reporting Form 6120.1"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/robinson_r44_ii_accidents.md",
+        "names": [
+          "National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report Form 6120.1"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "In the recommendation section of the NTSB Accident/Incident Reporting Form 6120.1, the pilot stated"
+        },
+        {
+          "doc_id": "documents/robinson_r44_ii_accidents.md",
+          "quote": "The pilot did not submit the National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report Form 6120.1."
+        }
+      ],
+      "note": "One document type, the NTSB pilot report form 6120.1, written two ways (Beech ANC21LA027, Robinson CEN21LA339). Same form number decides it; the wording differs."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The student pilot",
+          "student pilot"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The student pilot’s",
+          "student pilot"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The student pilot reported that he was 0n a solo cross-country flight"
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+        }
+      ],
+      "note": "One person: the solo student pilot of Cessna CEN21LA126 in the narrative and in that accident's probable cause (the snowbank ties the two)."
+    },
+    {
+      "a": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "The pilot in the right seat"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "the right seat pilot"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "The pilot in the right seat was flying and rotated 1,000 ft down the runway"
+        },
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "A National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report was not received from the right seat pilot."
+        }
+      ],
+      "note": "One person in Piper CEN22LA249: the right-seat pilot, who was flying, written two ways."
+    },
+    {
+      "a": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "The pilot in the airplane’s left seat"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "The left seat pilot"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway"
+        },
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "The left seat pilot reported that there were no preaccident mechanical malfunctions"
+        }
+      ],
+      "note": "One person in Piper CEN22LA249: the left-seat pilot (the one who reported), written two ways."
+    },
+    {
+      "a": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "compressor turbine (CT) rotor blades"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "CT blades",
+          "compressor turbine (CT) blades"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "Examination revealed that all compressor turbine (CT) rotor blades were fractured at varying spanwise locations."
+        },
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "Metallurgical analysis of the CT blades revealed micro-voids"
+        },
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "Fracture of the compressor turbine (CT) blades due to creep."
+        }
+      ],
+      "note": "One part set in Air Tractor CEN22LA312: the compressor turbine blades, written in full, with 'rotor', and as the abbreviation CT."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cirrus_sr22_accidents.md",
+        "names": [
+          "Cirrus airframe parachute system"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cirrus_sr22_accidents.md",
+        "names": [
+          "airframe parachute system"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/cirrus_sr22_accidents.md",
+          "quote": "he elected to activate the Cirrus airframe parachute system."
+        },
+        {
+          "doc_id": "documents/cirrus_sr22_accidents.md",
+          "quote": "which led to the pilot’s decision to activate the airframe parachute system."
+        }
+      ],
+      "note": "One system on the Cirrus of CEN21LA232, with and without the maker's name (narrative vs probable cause)."
+    },
+    {
+      "a": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "the left fuel tank"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "the left-wing fuel tank"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "the pilot switched back to the left fuel tank and then focused his attention on maintaining airplane control"
+        },
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+        },
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "The blockage of the left fuel tank vent"
+        }
+      ],
+      "note": "One tank of the Beech A36 in CEN23LA344, written 'left fuel tank' and 'left-wing fuel tank'."
+    },
+    {
+      "a": {
+        "doc_id": "documents/robinson_r44_ii_accidents.md",
+        "names": [
+          "a wire"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/robinson_r44_ii_accidents.md",
+        "names": [
+          "the wire"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/robinson_r44_ii_accidents.md",
+          "quote": "The pilot realized he had struck a wire as the helicopter pitched up and started to slow."
+        },
+        {
+          "doc_id": "documents/robinson_r44_ii_accidents.md",
+          "quote": "the pilot observed the wire wrapped around the helicopter."
+        }
+      ],
+      "note": "One wire in Robinson CEN21LA339: first introduced as 'a wire', then 'the wire' wrapped round the helicopter."
+    },
+    {
+      "a": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "The commercial pilot"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "The pilot"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "The commercial pilot reported that before the aerial application flight, he added Jet A fuel to both wing tanks"
+        },
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "The pilot performed a forced landing to a bean field."
+        }
+      ],
+      "note": "One person in Air Tractor CEN21LA362: introduced with his certificate ('commercial pilot'), then 'the pilot'. Trap: a qualifier added to a generic word."
+    },
+    {
+      "a": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "a bean field"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "the bean field"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "The pilot performed a forced landing to a bean field."
+        },
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "The property owner of the bean field reported that he helped the pilot add about 9 gallons"
+        }
+      ],
+      "note": "One field in Air Tractor CEN21LA362: the forced-landing site and the field whose owner helped refuel."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "maintenance personnel"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "maintenance personnel"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The engine had recently been installed by maintenance personnel"
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The failure of maintenance personnel to properly torque a fuel line “B” nut"
+        }
+      ],
+      "note": "The same maintenance personnel of Cessna CEN22LA194 (engine installation; probable cause). Not the maintenance personnel of CEN22LA244, who examined a different airplane."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cirrus_sr22_accidents.md",
+        "names": [
+          "the flight instruments"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cirrus_sr22_accidents.md",
+        "names": [
+          "the flight instruments"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "documents/cirrus_sr22_accidents.md",
+          "quote": "he began receiving conflicting information from the flight instruments and digital flight information display."
+        },
+        {
+          "doc_id": "documents/cirrus_sr22_accidents.md",
+          "quote": "After determining that he could not rely on the information from the flight instruments"
+        }
+      ],
+      "note": "The same instruments of the Cirrus in CEN21LA232, twice in one paragraph."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The flight instructor"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The flight instructor"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The flight instructor told the student pilot to break off the maneuver and apply engine power"
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The flight instructor declared an emergency and executed a forced landing to a park area"
+        }
+      ],
+      "note": "Two people: the instructor of CEN21LA414 (LaSalle, CO) and the instructor of CEN22LA194 (Traverse City, MI). Trap: identical generic role in one document."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "A flight instructor"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "the pilot"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "A flight instructor, who flew the airplane earlier in the day, reported that he heard a noise"
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "Except for the noise the pilot heard, he reported no other mechanical malfunctions"
+        }
+      ],
+      "note": "Two people in one accident, Cessna CEN22LA244: the instructor flew the airplane earlier that day; the pilot flew the accident flight."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The pilot receiving instruction"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The flight instructor"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The pilot receiving instruction was on a visual approach to the runway during an instructional flight"
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The flight instructor took control of the airplane and made multiple attempts to restart the engine"
+        }
+      ],
+      "note": "Two people in Cessna CEN22LA194: the trainee and the instructor who took control. Trap: both are 'pilots' of one flight."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "The student pilot"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "The student pilot"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The student pilot reported that he was 0n a solo cross-country flight"
+        },
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight"
+        }
+      ],
+      "note": "Two people: the Cessna student of CEN21LA126 (Urbana, OH) and the Piper student of CEN23LA026 (Mesquite, TX). Trap: identical name and sentence frame across documents."
+    },
+    {
+      "a": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "a pilot-rated passenger"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "The pilot"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "On short final a pilot-rated passenger seated in the right front seat recommended adding power."
+        },
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "The pilot assumed this was to “cushion” the landing"
+        }
+      ],
+      "note": "Two people in Beech ANC21LA027: the passenger who holds a pilot rating and the pilot flying. Trap: 'pilot' inside the passenger's name."
+    },
+    {
+      "a": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "The left seat pilot"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/piper_pa_28_181_accidents.md",
+        "names": [
+          "the right seat pilot"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "The left seat pilot reported that there were no preaccident mechanical malfunctions"
+        },
+        {
+          "doc_id": "documents/piper_pa_28_181_accidents.md",
+          "quote": "The pilot in the right seat was flying and rotated 1,000 ft down the runway"
+        }
+      ],
+      "note": "Two people in one airplane, Piper CEN22LA249: the left-seat pilot reported, the right-seat pilot flew. Trap: same role word, one seat apart."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cirrus_sr22_accidents.md",
+        "names": [
+          "The airplane"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cirrus_sr22_accidents.md",
+        "names": [
+          "The airplane"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/cirrus_sr22_accidents.md",
+          "quote": "The airplane banked left, with the left-wing tip striking the ground."
+        },
+        {
+          "doc_id": "documents/cirrus_sr22_accidents.md",
+          "quote": "The airplane subsequently impacted a fence off the end of the runway"
+        }
+      ],
+      "note": "Two aircraft: the Cirrus of CEN21FA299 (Lamoni, IA) and the Cirrus of CEN22LA235 (Nashville, AR). Trap: same model, same word, different accidents."
+    },
+    {
+      "a": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "the pilot"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "the pilot"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "It is likely the pilot failed to identify the rising terrain in time to clear the trees."
+        },
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "the pilot felt the right wing rapidly dip and he applied left aileron to correct it."
+        }
+      ],
+      "note": "Two people: the pilot of Air Tractor CEN21LA283 (Edwardsburg, MI) and the pilot of CEN22LA310 (Wyoming, IL)."
+    },
+    {
+      "a": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "right wing"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "the right wing"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "Postaccident examination of the airplane revealed substantial damage to the right wing and engine mount."
+        }
+      ],
+      "note": "Two wings of two Cessnas: CEN21LA126 (snowbank) and CEN22LA194 (forced landing in a park)."
+    },
+    {
+      "a": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "the engine"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "the engine"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "the engine began to shake and lost total power."
+        },
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "A test run of the engine was subsequently conducted and the engine ran at various power settings"
+        }
+      ],
+      "note": "Two engines: the failed engine of Beech CEN21LA221 (fractured connecting rods) and the engine of CEN21LA382 that test-ran normally."
+    },
+    {
+      "a": {
+        "doc_id": "documents/robinson_r44_ii_accidents.md",
+        "names": [
+          "the helicopter"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/robinson_r44_ii_accidents.md",
+        "names": [
+          "The helicopter"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/robinson_r44_ii_accidents.md",
+          "quote": "he felt the helicopter begin to settle."
+        },
+        {
+          "doc_id": "documents/robinson_r44_ii_accidents.md",
+          "quote": "The helicopter touched down hard onto the runway surface."
+        }
+      ],
+      "note": "Two helicopters: the Robinson of ANC21LA079 (Pelican, AK) and the one of CEN21LA284 (Reserve, LA)."
+    },
+    {
+      "a": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "connecting rods 2 through 5"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/beech_a36_accidents.md",
+        "names": [
+          "connecting rod bearings number 1 and 6"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "Postaccident examination of the engine revealed that connecting rods 2 through 5 were fractured and separated from the crankshaft"
+        },
+        {
+          "doc_id": "documents/beech_a36_accidents.md",
+          "quote": "The connecting rod bearings number 1 and 6 displayed significant scoring consistent with a lack of oil lubrication."
+        }
+      ],
+      "note": "Two different part groups in one engine (Beech CEN21LA221): rods 2-5 vs bearings 1 and 6. Trap: shared head word 'connecting rod'."
+    },
+    {
+      "a": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "compressor turbine (CT) rotor blades"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "power turbine (PT) rotor blades"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "Examination revealed that all compressor turbine (CT) rotor blades were fractured at varying spanwise locations."
+        },
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "The power turbine (PT) rotor blades downstream of the CT blades exhibited impact damage"
+        }
+      ],
+      "note": "Two blade sets of one engine in Air Tractor CEN22LA312: CT blades failed by creep, PT blades downstream were damaged by them."
+    },
+    {
+      "a": {
+        "doc_id": "documents/air_tractor_at_502b_accidents.md",
+        "names": [
+          "an airport perimeter fence"
+        ]
+      },
+      "b": {
+        "doc_id": "documents/cessna_172s_accidents.md",
+        "names": [
+          "a perimeter fence"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "documents/air_tractor_at_502b_accidents.md",
+          "quote": "the airplane struck an airport perimeter fence that resulted in substantial damaged to both wings."
+        },
+        {
+          "doc_id": "documents/cessna_172s_accidents.md",
+          "quote": "During the forced landing, the airplane impacted terrain and a perimeter fence."
+        }
+      ],
+      "note": "Two fences: at the airport of Air Tractor CEN22LA312 (Decatur, IL) and at the park of Cessna CEN22LA194 (Traverse City, MI)."
+    }
+  ]
+}

@@ -11951,6 +11951,52 @@ MLflow runs:
 
 **R226 done 2026-10-16.** Next: R227 (the audit: C3, C4, C6).
 
+**Split (2026-10-16, before R227 started).** `kg anchor-eval` requires an R89 target gold, and C6's sheet starts from the placed targets. C3 also needs R75 identity pairs. Neither exists for lighthouses or NTSB. Writing them is a concern of its own, so the audit is split and the figures move on by one:
+- **R227 The audit gold.**
+  - R75 identity pairs, written from the documents alone.
+  - R89 targets for the 50 benchmark questions of `tests/gold/qa/<ds>_qa_bench.json`, written from the questions and the source data.
+  - Not blind to earlier answers on these questions, as R89 states for its datasets.
+- **R228 The audit judged.** `kg anchor-eval`, then `kg anchor-sheets`, then blind judging, then `kg anchor-judged`.
+- **R229 Figures.** As planned for R228 above.
+
+### R227. The audit gold of the lighthouses and NTSB builds (done 2026-10-16; $0, no run)
+
+**Scope.** New files in `tests/gold/r227/` and a test file. No code change.
+
+**Writers.** Four Opus 5.5 subagents, one per dataset and file. Each read the format, the earlier files as examples, and the source data under `heldout/<ds>/data`. None opened `out/`, MLflow, a verdict, or the R155-R226 records.
+
+| | Identity pairs (R75 format) | same / different | Targets (R89 format), 50 bench questions | with records / with mentions | questions without a start |
+|---|---|---|---|---|---|
+| lighthouses | 28 | 16 / 12 | 50 | 34 / 41 | 15 |
+| NTSB | 27 | 13 / 14 | 66 | 33 / 64 | 10 |
+
+**The identity traps:**
+- **Lighthouses:**
+  - a person and the firm or thing named after them: Chance Brothers / James Chance, James Walker / Messrs. Walker, Burgess & Cooper, Sir James Douglass / the Douglass burner, Marie Stopes / Stopes Cottage;
+  - the two towers of one pair: Farne High / Low, Old Higher / Lower, Whitby South / North;
+  - a place and its lighthouse: St Agnes, St Anthony Head;
+  - two St Mary's;
+  - the book "Godrevy Light".
+- **NTSB:** one generic word for different accidents in one document ("the pilot", "the airplane", "the engine", "the helicopter", "right wing"), and two people in one accident (left-seat and right-seat pilot, instructor and student).
+
+**Target choices** (each recorded in a note):
+- An accident is named by its number: its events row plus its report section.
+- A model reaches its models row and the document it titles.
+- What a question only rules out ("not CEN21LA284", "Dungeness Old Lighthouse") is not a start.
+- **One departure from R89 on lighthouses:** event kinds are starts, because they are what an events row is ("automation" reaches both spellings of the `events.csv` kind). R89 read a component field (H42) as a filter. With kinds as filters, 17 of 50 questions would have no start, above R89's limit of a third.
+
+**Stated limitation.** The targets are not blind to earlier answers on these benchmark questions, as R89 states for its datasets. The identity pairs come from the documents alone.
+
+**Tests.** `tests/test_r227_gold.py`, 4 tests, using R75's and R89's own rules:
+- every pair names its mentions and quotes both documents verbatim, no pair appears twice, and both answers are present;
+- every question is answered once, each target fits the rebuilt corpus (`check_target_gold`), and fewer than a third of questions are without a start.
+
+Gate:
+- `uv run pytest -m "not neo4j and not postgres"`: 1781 passed. Baseline 1777.
+- `uv run ruff check .`: clean.
+
+**R227 done 2026-10-16.** Next: R228.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

@@ -1,0 +1,757 @@
+{
+  "_comment": [
+    "R227 identity pairs (R75 format), 2026-10-16, Claude Opus 5.5, written from the lighthouses corpus text only; no build output opened."
+  ],
+  "identity_pairs": [
+    {
+      "a": {
+        "doc_id": "articles/anvil_point_lighthouse.md",
+        "names": [
+          "Trinity House"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/farne_lighthouse.md",
+        "names": [
+          "Corporation of Trinity House",
+          "Trinity House"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/anvil_point_lighthouse.md",
+          "quote": "It is owned by Trinity House."
+        },
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "Farne Lighthouse was one of a pair built on Inner Farne by the Corporation of Trinity House in 1811"
+        }
+      ],
+      "note": "One organisation, England's general lighthouse authority, with and without its formal 'Corporation of' title."
+    },
+    {
+      "a": {
+        "doc_id": "articles/anvil_point_lighthouse.md",
+        "names": [
+          "James Douglass"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "Sir James Douglass",
+          "James Douglass"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/anvil_point_lighthouse.md",
+          "quote": "The lamp was also specially designed for Anvil Point by James Douglass"
+        },
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "A further upgrade took place in 1891, supervised by the chief engineer of Trinity House, Sir James Douglass"
+        }
+      ],
+      "note": "The same Trinity House engineer, once without and once with his title 'Sir'."
+    },
+    {
+      "a": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "James Walker"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "James Walker"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "with James Walker contracted to design the lighthouse"
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "The lighthouse, a white octagonal brick tower, was designed by James Walker of civil engineers Messrs. Walker, Burgess & Cooper."
+        }
+      ],
+      "note": "The same lighthouse designer (civil engineer) in two articles; exact same spelling across documents."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_anthony_s_lighthouse.md",
+        "names": [
+          "James Walker"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "James Walker"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/st_anthony_s_lighthouse.md",
+          "quote": "The lighthouse was designed by James Walker and built in 1835 by Olver of Falmouth, for Trinity House"
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "Supervising the construction Henry Norris of James Walker's firm was engaged as Superintendent of the Works on behalf of Trinity House."
+        }
+      ],
+      "note": "The same designer of Trinity House lighthouses; second cross-document link of one person."
+    },
+    {
+      "a": {
+        "doc_id": "articles/anvil_point_lighthouse.md",
+        "names": [
+          "Chance Brothers & Co.",
+          "Chance Brothers"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Chance Brothers"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/anvil_point_lighthouse.md",
+          "quote": "revolving 14-panel dioptric optic by Chance Brothers & Co."
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "The light, a 1st Order assembly manufactured by Chance Brothers of Smethwick"
+        }
+      ],
+      "note": "One optics manufacturer, with and without '& Co.'."
+    },
+    {
+      "a": {
+        "doc_id": "articles/farne_lighthouse.md",
+        "names": [
+          "Farne Lighthouse",
+          "Farne High Lighthouse",
+          "Farne Island Lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/farne_lighthouse.md",
+        "names": [
+          "High Light",
+          "High Lighthouse"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "Farne Lighthouse (originally named Farne High Lighthouse) is a cylindrical white tower"
+        },
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "Whereas the High Light revolved, the Low Light showed a fixed beam from a single Argand lamp and reflector; it was monitored by the keeper at the High Lighthouse"
+        },
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "Farne Island Lighthouse was sold on 6 June 2005 to the National Trust for £132,000"
+        }
+      ],
+      "note": "One lighthouse under its current name, its original name, a variant ('Farne Island') and the short form 'High Light'. Trap: 'High Light' must not join the Low Light (separate pair)."
+    },
+    {
+      "a": {
+        "doc_id": "articles/farne_lighthouse.md",
+        "names": [
+          "Farne Islands"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "Farne Islands"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "Trinity House also built a new lighthouse on one of the outer Farne Islands: Brownsman Island."
+        },
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "To the north, Trinity House maintains two operational lighthouses on the Farne Islands."
+        }
+      ],
+      "note": "The same island group off Northumberland named in two articles."
+    },
+    {
+      "a": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "Old Higher Lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "Portland High Light",
+          "Portland High",
+          "higher lighthouse"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England."
+        },
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "In 1788 Trinity House had Argand lamps installed within the higher lighthouse"
+        },
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "In 1824 Portland High Light was improved by Trinity House"
+        }
+      ],
+      "note": "The article's subject under its present name and its historical names 'Portland High Light' / 'Portland High'. Trap: 'Old Higher' vs 'Portland High' share almost no words."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "St Agnes Lighthouse",
+          "St Agnes lighthouse",
+          "St Agnes light"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_anthony_s_lighthouse.md",
+        "names": [
+          "St Agnes",
+          "lighthouse at St Agnes"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "In 1911 the St Agnes lighthouse was decommissioned, having been superseded by Peninnis Lighthouse"
+        },
+        {
+          "doc_id": "articles/st_anthony_s_lighthouse.md",
+          "quote": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911"
+        }
+      ],
+      "note": "The St Anthony's article refers to the St Agnes lighthouse by its place ('the lighthouse at St Agnes'); the closure year 1911 matches. Trap: the bare 'St Agnes' here means the lighthouse, while in the St Agnes article it can mean the island."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "St Mary's Lighthouse",
+          "St Mary's lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "St Mary's"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England."
+        },
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "St Mary's was by then the last Trinity House lighthouse lit by oil."
+        }
+      ],
+      "note": "The lighthouse and its short form 'St Mary's' in one article. Trap: the island 'St Mary's Island' is a different thing (separate pair)."
+    },
+    {
+      "a": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Whitby Lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Whitby High lighthouse",
+          "Whitby South",
+          "South Light"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "it is sometimes known as Whitby High lighthouse (and is referred to as such on Admiralty charts)"
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "known as the twin lights of Whitby South (the present lighthouse) and Whitby North (since demolished)"
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "In 1890, a more efficient lamp (a powerful eight-wick mineral-oil burner) was installed in the South Light"
+        }
+      ],
+      "note": "One surviving tower: 'Whitby Lighthouse', its chart name 'Whitby High lighthouse', and as the southern twin 'Whitby South' / 'South Light'."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "Withernsea"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Withernsea"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "Trinity House offered a smaller one from their decommissioned lighthouse at Withernsea"
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "its lantern and optic both went on to be re-used at a new lighthouse then being built at Withernsea"
+        }
+      ],
+      "note": "Both articles mean the Withernsea lighthouse, named only by its place. Trap: a builder may keep it as a place, which is acceptable only if both mentions land on the same node."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_anthony_s_lighthouse.md",
+        "names": [
+          "St Anthony's Lighthouse",
+          "St. Anthony's lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_anthony_s_lighthouse.md",
+        "names": [
+          "Fraggle Rock Lighthouse"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/st_anthony_s_lighthouse.md",
+          "quote": "St. Anthony's lighthouse was featured in the intro of the UK version of Jim Henson's Fraggle Rock, as \"Fraggle Rock Lighthouse\"."
+        }
+      ],
+      "note": "The real tower shown on television under a fictional name; one physical lighthouse. Also covers the 'St.' vs 'St' spelling."
+    },
+    {
+      "a": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "Godrevy Lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "Golowji Godrevi",
+          "Godrevy"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+        },
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "Godrevy is still listed by Trinity House as a lighthouse, and the tower is maintained by them as a daymark."
+        }
+      ],
+      "note": "The lighthouse, its Cornish name, and the short form 'Godrevy'. Trap: Godrevy Island, Godrevy Head and the book 'Godrevy Light' are other things."
+    },
+    {
+      "a": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "Virginia Woolf"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "Virginia Stephen"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "One of those whom the lighthouse is said to have inspired was Virginia Woolf, author of To the Lighthouse"
+        },
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "The lighthouse's visitors' book, containing the signature of Virginia Stephen (Woolf), was sold at auction"
+        }
+      ],
+      "note": "One person under her married name and her maiden name (the text adds '(Woolf)')."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "National Lighthouse Museum"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "Penzance lighthouse museum"
+        ]
+      },
+      "same": true,
+      "evidence": [
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "it was later put on display in their National Lighthouse Museum in Penzance"
+        },
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "Following closure of the Penzance lighthouse museum, the original lens was returned to St Mary's in 2011"
+        }
+      ],
+      "note": "The same Trinity House museum, by its name and by a description; the lens went there and came back from there."
+    },
+    {
+      "a": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Chance Brothers"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "James Chance"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "Each was equipped with a paraffin lamp and a large (first-order) fixed optic designed by Chance Brothers."
+        },
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "provided with large (first-order) fixed optics designed and built by James Chance"
+        }
+      ],
+      "note": "A firm and a person who share the name Chance and do the same job (first-order fixed optics); the texts never say he is the firm. Trap: person vs firm named after a family."
+    },
+    {
+      "a": {
+        "doc_id": "articles/anvil_point_lighthouse.md",
+        "names": [
+          "Douglass multi-wick mineral oil burner"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "Sir James Douglass"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/anvil_point_lighthouse.md",
+          "quote": "Originally the light was illuminated by a Douglass multi-wick mineral oil burner"
+        },
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "supervised by the chief engineer of Trinity House, Sir James Douglass"
+        }
+      ],
+      "note": "An apparatus named after its designer is not the designer. Trap: shared surname."
+    },
+    {
+      "a": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "James Walker"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Messrs. Walker, Burgess & Cooper"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "was designed by James Walker of civil engineers Messrs. Walker, Burgess & Cooper."
+        }
+      ],
+      "note": "A person and the engineering firm that carries his name; he works for it, he is not it. Trap: person vs firm named after them."
+    },
+    {
+      "a": {
+        "doc_id": "articles/farne_lighthouse.md",
+        "names": [
+          "Farne Lighthouse",
+          "High Light"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/farne_lighthouse.md",
+        "names": [
+          "Farne Low Lighthouse",
+          "Low Light",
+          "Low Lighthouse"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall, placed 150 m (490 ft) away from the first"
+        },
+        {
+          "doc_id": "articles/farne_lighthouse.md",
+          "quote": "After the High Light had been modified and automated in 1910, use of the Low Light was discontinued"
+        }
+      ],
+      "note": "Two towers of one pair on the same island: the High Light still stands, the Low Light was demolished. Trap: 'Farne', 'Light' and 'Lighthouse' shared."
+    },
+    {
+      "a": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "Old Higher Lighthouse",
+          "Portland High Light"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "Old Lower Lighthouse",
+          "Low Light"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "This one was built at Branscombe Hill, and the other, the Old Lower Lighthouse, on lower land."
+        },
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "Portland High was again made a fixed light (matching the Low Light, which had remained fixed throughout)"
+        }
+      ],
+      "note": "The two Portland leading lights built together in 1716; different towers. Trap: 'Old ... Lighthouse' and one-letter-level name differences (Higher/Lower)."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "St Agnes Lighthouse",
+          "St Agnes lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "St Agnes"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "St Agnes lighthouse is a 17th-century lighthouse situated on St Agnes on the Isles of Scilly."
+        },
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "St Agnes was chosen as it is the most westerly of the habitable islands"
+        }
+      ],
+      "note": "The island and the lighthouse named after it. Trap: the bare name 'St Agnes' means the island here."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "St Agnes lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "Peninnis Lighthouse"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "In 1911 the St Agnes lighthouse was decommissioned, having been superseded by Peninnis Lighthouse"
+        }
+      ],
+      "note": "Old and new light for the same waters: the successor is a different tower on another island. Trap: one replaces the other, so a builder may merge them."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_agnes_lighthouse.md",
+        "names": [
+          "St. Mary's"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_mary_s_lighthouse.md",
+        "names": [
+          "St Mary's Island",
+          "St Mary's (or Bait) Island"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/st_agnes_lighthouse.md",
+          "quote": "situated on the southern extremity of St. Mary's island"
+        },
+        {
+          "doc_id": "articles/st_mary_s_lighthouse.md",
+          "quote": "built in 1898 on St Mary's Island by the John Miller company of Tynemouth"
+        }
+      ],
+      "note": "Two islands with the same name: St Mary's in the Isles of Scilly and St Mary's (Bait) Island off Whitley Bay, North East England. Trap: identical name, different place."
+    },
+    {
+      "a": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Whitby Lighthouse",
+          "South Light"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/whitby_lighthouse.md",
+        "names": [
+          "Whitby North",
+          "North Light",
+          "North Lighthouse"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "known as the twin lights of Whitby South (the present lighthouse) and Whitby North (since demolished)"
+        },
+        {
+          "doc_id": "articles/whitby_lighthouse.md",
+          "quote": "The North Lighthouse was then demolished"
+        }
+      ],
+      "note": "The two Whitby twin towers: the south one survives, the north one was demolished. Trap: 'Whitby' and the pair naming."
+    },
+    {
+      "a": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "Godrevy Lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/godrevy_lighthouse.md",
+        "names": [
+          "Godrevy Light"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "The lighthouse is a white octagonal tower, 86 feet (26 m) high"
+        },
+        {
+          "doc_id": "articles/godrevy_lighthouse.md",
+          "quote": "Godrevy Light by Charles Thomas and Jessica Mann describes the history of this lighthouse"
+        }
+      ],
+      "note": "A book titled after the lighthouse, by Charles Thomas and Jessica Mann, is not the lighthouse. Trap: 'Godrevy Light' reads like a lighthouse name."
+    },
+    {
+      "a": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "Marie Stopes"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/old_higher_lighthouse.md",
+        "names": [
+          "Stopes Cottage"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "In 1923 the lighthouse was purchased by the palaeobotanist, campaigner for eugenics, pioneer of birth control and Portland Museum founder Marie Stopes as a summer residence."
+        },
+        {
+          "doc_id": "articles/old_higher_lighthouse.md",
+          "quote": "both the Branscombe Lodge Cottage and Stopes Cottage are now available as holiday lets"
+        }
+      ],
+      "note": "A person and a holiday cottage named after her. Trap: shared surname."
+    },
+    {
+      "a": {
+        "doc_id": "articles/st_anthony_s_lighthouse.md",
+        "names": [
+          "St Anthony's Lighthouse"
+        ]
+      },
+      "b": {
+        "doc_id": "articles/st_anthony_s_lighthouse.md",
+        "names": [
+          "St Anthony Head"
+        ]
+      },
+      "same": false,
+      "evidence": [
+        {
+          "doc_id": "articles/st_anthony_s_lighthouse.md",
+          "quote": "St Anthony's Lighthouse is the lighthouse at St Anthony Head, on the eastern side of the entrance to Falmouth harbour"
+        }
+      ],
+      "note": "The headland and the lighthouse that stands on it and is named after it. Trap: place vs lighthouse named after it."
+    }
+  ]
+}
