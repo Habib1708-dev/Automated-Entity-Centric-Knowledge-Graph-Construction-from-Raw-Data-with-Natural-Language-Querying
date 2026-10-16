@@ -1,0 +1,38 @@
+% Knowledge Graph Constructor: Design and Implementation: about 17 pages of the main body.
+% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+\chapter{Knowledge Graph Constructor: Design and Implementation}\label{ch04}
+
+\section{Objectives and Design Principles}\label{sec:ch04-objectives-and-design-principl}
+% Sources: LLM proposes, code decides; MERGE; parameterised Cypher
+
+\section{Architecture Overview}\label{sec:ch04-architecture-overview}
+% Sources: Figure F2
+
+\section{Structured Ingestion}\label{sec:ch04-structured-ingestion}
+% Sources: structured/profiler.py, proposer.py, importer.py, postgres.py
+
+\section{Text Ingestion}\label{sec:ch04-text-ingestion}
+% Sources: text/documents.py, chunking.py, lexical.py
+
+\section{Text Schema Proposal and Claim Extraction}\label{sec:ch04-text-schema-proposal-and-claim}
+% Sources: text/schema.py, extraction.py
+
+\section{Design Evolution: From Exhaustive Facts to an Anchor Graph}\label{sec:ch04-design-evolution-from-exhausti}
+% Sources: Figures F3, F5; E2-E5; docs/direction/*
+
+\section{The Anchor Graph Schema}\label{sec:ch04-the-anchor-graph-schema}
+% Sources: Figure F4
+
+\section{Mentions and Identity}\label{sec:ch04-mentions-and-identity}
+% Sources: text/mention_pass.py; resolution/*; Figure F6
+
+\section{Record Linking and Attachment}\label{sec:ch04-record-linking-and-attachment}
+% Sources: resolution/records.py, record_choice.py, attachment.py; Figure F7
+
+\section{Provenance Model}\label{sec:ch04-provenance-model}
+
+\section{The Navigation Contract}\label{sec:ch04-the-navigation-contract}
+% Sources: W1-W5; Figure F8
+
+\section{Engineering}\label{sec:ch04-engineering}
+% Sources: Neo4j indexes; MLflow; cache; tests

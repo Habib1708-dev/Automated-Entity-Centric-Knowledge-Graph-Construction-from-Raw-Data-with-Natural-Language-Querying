@@ -1,0 +1,41 @@
+% Preamble: packages, page layout and macros of the thesis.
+% No official university template exists (author, 2026-10-16), so the layout follows common thesis practice:
+% A4, 12 pt, 1.5 line spacing, a wider binding margin.
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,inner=3cm,outer=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\usepackage[style=ieee,backend=biber]{biblatex}
+\addbibresource{refs.bib}
+
+\usepackage[acronym,toc]{glossaries}
+\makeglossaries
+
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,capitalise]{cleveref}
+
+% Figures are drawn by figures/scripts/ (repository root); the thesis only includes them.
+\graphicspath{{../figures/results/}{../figures/diagrams/}}
+
+% A proportion with its denominator, e.g. \kn{195}{200}; every rate in the text is written this way.
+\newcommand{\kn}[2]{#1/#2}
+% The two accuracy scores are always named (evaluation rule of the project).
+\newcommand{\exact}{exact match}
+\newcommand{\meaning}{by meaning}

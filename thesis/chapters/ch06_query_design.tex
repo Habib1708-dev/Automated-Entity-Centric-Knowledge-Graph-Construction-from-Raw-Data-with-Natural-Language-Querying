@@ -1,0 +1,36 @@
+% Natural Language Query Engine: Design and Implementation: about 16 pages of the main body.
+% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+\chapter{Natural Language Query Engine: Design and Implementation}\label{ch06}
+
+\section{Objectives and Earlier Query Designs}\label{sec:ch06-objectives-and-earlier-query-d}
+% Sources: R71 router + text2cypher; R74 query plans; why replaced
+
+\section{Agent Architecture}\label{sec:ch06-agent-architecture}
+% Sources: agent/loop.py; hand-written ReAct-style loop; Figures F16, F17
+
+\section{Tool Design}\label{sec:ch06-tool-design}
+% Sources: agent/system.py; Table T8
+
+\section{Graph Navigation and Seeding}\label{sec:ch06-graph-navigation-and-seeding}
+% Sources: hybrid/ cards; RRF k=60, 25+25, K=15
+
+\section{Text Retrieval}\label{sec:ch06-text-retrieval}
+% Sources: Neo4j vector + Lucene; RRF; LLM rerank; find_passages; Figure F18
+
+\section{Structured Querying}\label{sec:ch06-structured-querying}
+% Sources: agent/structured_query.py; sql_tool.py (experimental); Figure F19
+
+\section{Answer Generation and Grounding}\label{sec:ch06-answer-generation-and-groundin}
+% Sources: citations.py; recheck.py
+
+\section{Answer Outcomes}\label{sec:ch06-answer-outcomes}
+% Sources: agent/outcome.py; Figure F20
+
+\section{Safety}\label{sec:ch06-safety}
+% Sources: query/screen.py; read-only layer
+
+\section{Evidence Integrity}\label{sec:ch06-evidence-integrity}
+% Sources: R207-R210
+
+\section{Performance Engineering}\label{sec:ch06-performance-engineering}
+% Sources: cache; caps; model tiers
