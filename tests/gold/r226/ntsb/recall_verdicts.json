@@ -1,0 +1,866 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "git_sha": "f84e97a"
+ },
+ "sheet": "tests/gold/r226/ntsb/recall_sheet.json",
+ "verdicts": [
+  {
+   "key": "8303b1cd9057#0",
+   "claim": "pilot reported no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operations",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "a5724641c81b#0",
+   "claim": "CEN21LA362 occurred on 2021-08-06",
+   "matched": [
+    "cd06689c3d58"
+   ],
+   "reason": "stored 'CEN21LA362 OCCURRED_AT Topeka, KS' carries time 2021-08-06"
+  },
+  {
+   "key": "a5724641c81b#1",
+   "claim": "CEN21LA362 occurred in Topeka, KS",
+   "matched": [
+    "cd06689c3d58"
+   ],
+   "reason": "stored 'CEN21LA362 OCCURRED_AT Topeka, KS'"
+  },
+  {
+   "key": "4534e6ff9865#0",
+   "claim": "he maneuvered the airplane out of the field",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "plain pilot action; no Occurrence stored for the section"
+  },
+  {
+   "key": "4534e6ff9865#1",
+   "claim": "the engine steadily lost power",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "engine power loss not stored; only 'engine COMPONENT_OF airplane'"
+  },
+  {
+   "key": "a5f807bedb80#0",
+   "claim": "the pilot performed a forced landing to a bean field",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "forced landing to a bean field not stored as an Occurrence"
+  },
+  {
+   "key": "c0ff2f985b15#0",
+   "claim": "the airplane sustained substantial damage to the fuselage and the right wing",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "damage not stored; only COMPONENT_OF claims for fuselage and right wing"
+  },
+  {
+   "key": "877b6d6f102e#0",
+   "claim": "operator reported no preimpact mechanical malfunctions or failures with the airframe and engine that would have precluded normal operation",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "454c8111983e#0",
+   "claim": "the right wing started to rise",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "right wing rising not stored; only 'right wing COMPONENT_OF airplane'"
+  },
+  {
+   "key": "454c8111983e#1",
+   "claim": "the right wing contacted the corn before it leveled off",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "wing contact with the corn not stored"
+  },
+  {
+   "key": "ec7bf13b07f4#0",
+   "claim": "the airplane's gross weight and center-of-gravity limits could be definitively determined",
+   "cause": "assertion",
+   "schema_type": "HAD_MEASUREMENT",
+   "reason": "negated determination; only the separate possible '8,000 lbs' measurement stored"
+  },
+  {
+   "key": "a3270c9a58db#0",
+   "claim": "probable cause: a reported loss of thrust",
+   "matched": [
+    "c74b0a87aec7"
+   ],
+   "reason": "stored Finding 'A reported loss of thrust ...' FOUND_FOR CEN23LA223"
+  },
+  {
+   "key": "a3270c9a58db#1",
+   "claim": "the reasons for the loss of thrust could be determined",
+   "matched": [
+    "c74b0a87aec7"
+   ],
+   "reason": "the stored Finding's name states the reasons could not be determined"
+  },
+  {
+   "key": "3f54e64b71f6#0",
+   "claim": "Beech A36 accidents were investigated by the NTSB",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "being investigated by the NTSB is no fact type of the schema"
+  },
+  {
+   "key": "9b37bf98339a#0",
+   "claim": "the pilot assumed this was to cushion the landing",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a pilot's assumption is no fact type"
+  },
+  {
+   "key": "9b37bf98339a#1",
+   "claim": "the pilot realized he was landing short of the runway's plowed surface",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a pilot's (non-)realisation is no fact type"
+  },
+  {
+   "key": "9b37bf98339a#2",
+   "claim": "he was landing short of the runway's plowed surface",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "landing short of the plowed surface not stored; finding names an off-runway landing from misidentification, not this"
+  },
+  {
+   "key": "ce38e98112cd#0",
+   "claim": "pilot reported no preaccident mechanical failures or malfunctions that would have precluded normal operations",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "a83f33f97fcc#0",
+   "claim": "during the landing, the airplane's nose wheel landing gear impacted a ditch",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "nose wheel gear impact with a ditch not stored; only COMPONENT_OF"
+  },
+  {
+   "key": "2c56065e5dec#0",
+   "claim": "the engine failure was the result of oil starvation to the connecting rod bearings",
+   "matched": [
+    "65bf72a214e3",
+    "74acdfece70b"
+   ],
+   "reason": "stored Finding 'total loss of engine power due to oil starvation' (FOUND_FOR, CITED_COMPONENT engine); bearings detail dropped"
+  },
+  {
+   "key": "2c56065e5dec#1",
+   "claim": "the reason for the oil starvation could be determined based on the available evidence",
+   "cause": "assertion",
+   "schema_type": "FOUND_FOR",
+   "reason": "negated: undetermined reason for oil starvation not in the stored Finding"
+  },
+  {
+   "key": "111cddace4c6#0",
+   "claim": "the pilot selected a nearby field for a forced landing",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "pilot's field selection / forced landing not stored"
+  },
+  {
+   "key": "beaa10cfaef8#0",
+   "claim": "an initial inspection noted damage to the airplane's wings and fuselage",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "damage to wings and fuselage not stored; only COMPONENT_OF"
+  },
+  {
+   "key": "b5adbb8e72c2#0",
+   "claim": "a visual inspection of the engine revealed pre-impact abnormalities",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated examination result; nothing stored"
+  },
+  {
+   "key": "1aa6f8f05791#0",
+   "claim": "an examination of the fuel system revealed anomalies",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated fuel system examination result; nothing stored"
+  },
+  {
+   "key": "1fac0fbdcab6#0",
+   "claim": "the data illustrated abnormalities with the cylinder head temperature or exhaust gas temperatures",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated engine monitor result; nothing stored"
+  },
+  {
+   "key": "1fac0fbdcab6#1",
+   "claim": "the total loss of power was evident",
+   "matched": [
+    "325b097c23b9"
+   ],
+   "reason": "stored Finding 'The loss of engine power ...' FOUND_FOR CEN21LA382 states the power loss"
+  },
+  {
+   "key": "76956c490ca6#0",
+   "claim": "abnormalities were noted during the engine test run",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated test-run result; nothing stored"
+  },
+  {
+   "key": "76956c490ca6#1",
+   "claim": "the engine appeared to make rated power",
+   "cause": "extraction",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "engine making rated power in the test run not stored"
+  },
+  {
+   "key": "0320a0453f63#0",
+   "claim": "a reason for the loss of engine power could be determined with the available information",
+   "matched": [
+    "325b097c23b9"
+   ],
+   "reason": "stored Finding 'loss of engine power for reasons that could not be determined ...' states it"
+  },
+  {
+   "key": "3da8a0817dcc#0",
+   "claim": "the fuel flow to the engine dropped (pilot reported)",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "fuel flow drop not stored; finding names fuel starvation as cause, not the drop itself"
+  },
+  {
+   "key": "3da8a0817dcc#1",
+   "claim": "the engine lost power",
+   "matched": [
+    "d2a54677393f"
+   ],
+   "reason": "stored Finding 'A total loss of engine power due to fuel starvation ...' states the power loss"
+  },
+  {
+   "key": "3da8a0817dcc#2",
+   "claim": "the fuel flow drop and power loss are supported by engine monitor data",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "support by engine monitor data (evidence source) is no fact type"
+  },
+  {
+   "key": "ee151067872b#0",
+   "claim": "the airplane exited the highway",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "airplane exiting the highway not stored"
+  },
+  {
+   "key": "ee151067872b#1",
+   "claim": "the airplane came to rest nose down in a ditch",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "coming to rest nose down in a ditch not stored"
+  },
+  {
+   "key": "ee151067872b#2",
+   "claim": "coming to rest in the ditch resulted in substantial damage to the fuselage",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "fuselage damage not stored; only COMPONENT_OF"
+  },
+  {
+   "key": "90c119f6c262#0",
+   "claim": "the engine lost power due to a fuel flow interruption",
+   "matched": [
+    "d2a54677393f"
+   ],
+   "reason": "stored Finding 'total loss of engine power due to fuel starvation' (fuel starvation = interrupted fuel flow)"
+  },
+  {
+   "key": "90c119f6c262#1",
+   "claim": "the reasons for the fuel flow interruption could be determined",
+   "matched": [
+    "d2a54677393f"
+   ],
+   "reason": "stored Finding's name states the reason could not be determined"
+  },
+  {
+   "key": "7fd484f37d65#0",
+   "claim": "the engine lost power while in cruise flight over a cloud layer, as if it were out of fuel",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "engine power loss in cruise not stored; section stores no Occurrence or Finding"
+  },
+  {
+   "key": "ac6f28fc4b51#0",
+   "claim": "the airplane descended below the cloud layer",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "descent below the cloud layer not stored"
+  },
+  {
+   "key": "ac6f28fc4b51#1",
+   "claim": "the pilot maneuvered the airplane for a forced landing to a road",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "forced landing to a road not stored"
+  },
+  {
+   "key": "8542c8953bcf#0",
+   "claim": "during the forced landing, the airplane impacted terrain",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "terrain impact not stored"
+  },
+  {
+   "key": "8542c8953bcf#1",
+   "claim": "the impact resulted in substantial damage to the left wing and fuselage",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "damage to left wing and fuselage not stored; only COMPONENT_OF"
+  },
+  {
+   "key": "f04e17a38168#0",
+   "claim": "he expected to perform a touch-and-go landing at the accident airport",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a planned/expected manoeuvre is no fact type"
+  },
+  {
+   "key": "d6de54ba8163#0",
+   "claim": "upon landing the airplane veered to the left",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "veer to the left not stored; finding only names loss of directional control"
+  },
+  {
+   "key": "d6de54ba8163#1",
+   "claim": "the student pilot believed the veer was due to the unresponsiveness of the controls and the ice",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "student pilot's causal account (controls, ice) not stored; ice not stored as a condition"
+  },
+  {
+   "key": "60dbc73ebc3f#0",
+   "claim": "the flight was a low-level pipeline patrol flight",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "the pipeline patrol operation not stored"
+  },
+  {
+   "key": "60dbc73ebc3f#1",
+   "claim": "a very loud pop noise emitted from behind the instrument panel after about one hour into the flight",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "loud pop behind the instrument panel not stored"
+  },
+  {
+   "key": "60dbc73ebc3f#2",
+   "claim": "the pop was followed by an unidentified high-pressure air/gas release into the cabin",
+   "cause": "event_structure",
+   "schema_type": "OCCURRED_IN",
+   "reason": "the pop followed by a gas release (order of occurrences) not stored"
+  },
+  {
+   "key": "20010a8d3080#0",
+   "claim": "the flight instructor took control of the airplane",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "instructor taking control not stored"
+  },
+  {
+   "key": "20010a8d3080#1",
+   "claim": "the flight instructor attempted to restart the engine",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "restart attempt not stored"
+  },
+  {
+   "key": "20010a8d3080#2",
+   "claim": "the engine restarted",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated restart; nothing stored"
+  },
+  {
+   "key": "1e72c4540b27#0",
+   "claim": "the pilot receiving instruction was on a visual approach to the runway during an instructional flight",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "visual approach during instructional flight not stored"
+  },
+  {
+   "key": "1e72c4540b27#1",
+   "claim": "the engine lost total power during the approach",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "engine power loss appears only inside the maintenance-failure Finding's name, not stored as its own claim"
+  },
+  {
+   "key": "68b1df088d99#0",
+   "claim": "the turn coordinator and GPS were displaying opposite information",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "conflicting turn coordinator/GPS display not stored"
+  },
+  {
+   "key": "68b1df088d99#1",
+   "claim": "the heading bug was moving erratically",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "erratic heading bug not stored"
+  },
+  {
+   "key": "68b1df088d99#2",
+   "claim": "he felt as if he was flying in circles",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "pilot's sensation of flying in circles is no fact type"
+  },
+  {
+   "key": "fbc3c15a39fd#0",
+   "claim": "he could rely on the information from the flight instruments",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "pilot's judgement about relying on instruments is no fact type"
+  },
+  {
+   "key": "fbc3c15a39fd#1",
+   "claim": "he elected to activate the Cirrus airframe parachute system",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "decision to activate the parachute only merged into the Finding's name"
+  },
+  {
+   "key": "2d290b0f0ba6#0",
+   "claim": "postaccident testing of the electronic horizontal situation indicator, directional gyro and horizon reference indicator revealed anomalies (other than the directional gyro counterclockwise heading stability)",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated test result; nothing stored"
+  },
+  {
+   "key": "2d290b0f0ba6#1",
+   "claim": "the directional gyro counterclockwise heading stability exceeded the testing limits by about 3 degrees",
+   "cause": "extraction",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "directional gyro heading stability exceedance not stored; only COMPONENT_OF"
+  },
+  {
+   "key": "ee019eabfcbb#0",
+   "claim": "the reason for the flight instrument disagreement/malfunction could be determined based on the available information",
+   "matched": [
+    "569afe4ada4d"
+   ],
+   "reason": "stored Finding 'An inflight instrument malfunction for reasons that could not be determined ...' states it"
+  },
+  {
+   "key": "e60a774b6939#0",
+   "claim": "the airplane was hit with a gust of wind when it was about 30 to 50 ft agl",
+   "cause": "role",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "stored 'CEN21LA280 ENCOUNTERED_CONDITION gust of wind' drops the 30-50 ft agl position"
+  },
+  {
+   "key": "b332646c0333#0",
+   "claim": "CEN22LA235 occurred on 2022-06-06",
+   "matched": [
+    "ad5e1ec19ba0"
+   ],
+   "reason": "stored 'CEN22LA235 OCCURRED_AT Nashville, AR' carries time 2022-06-06"
+  },
+  {
+   "key": "b332646c0333#1",
+   "claim": "CEN22LA235 occurred in Nashville, AR",
+   "matched": [
+    "ad5e1ec19ba0"
+   ],
+   "reason": "stored 'CEN22LA235 OCCURRED_AT Nashville, AR'"
+  },
+  {
+   "key": "b98b1da4dffd#0",
+   "claim": "following the accident, the pilot recognized he should have diverted to another airport",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a pilot's hindsight recognition is no fact type"
+  },
+  {
+   "key": "22da797e5cbb#0",
+   "claim": "he initiated a go-around",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "go-around not stored"
+  },
+  {
+   "key": "22da797e5cbb#1",
+   "claim": "the engine made a coughing sound",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "engine coughing not stored"
+  },
+  {
+   "key": "22da797e5cbb#2",
+   "claim": "the engine lost power",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "engine power loss not stored; section stores no Finding"
+  },
+  {
+   "key": "149a214f4c5f#0",
+   "claim": "postaccident airplane examination revealed anomalies consistent with an inability of the engine to produce rated power",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated examination result; nothing stored"
+  },
+  {
+   "key": "40d23f9a5aed#0",
+   "claim": "the airplane lifted off",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "lift-off not stored"
+  },
+  {
+   "key": "40d23f9a5aed#1",
+   "claim": "the pilot noticed a gain in airspeed and altitude as he began to climb out",
+   "cause": "assertion",
+   "schema_type": "OCCURRED_IN",
+   "reason": "negated airspeed/altitude gain; nothing stored"
+  },
+  {
+   "key": "eb08fe2e915e#0",
+   "claim": "the pilot could maintain directional control following the firm landing",
+   "matched": [
+    "324a2d8660bf",
+    "b0303145bd70"
+   ],
+   "reason": "stored Finding 'pilot's failure to maintain directional control ...' (FOUND_FOR, CITED_CREW pilot)"
+  },
+  {
+   "key": "eb08fe2e915e#1",
+   "claim": "the airplane exited the runway",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "runway excursion not stored"
+  },
+  {
+   "key": "eb08fe2e915e#2",
+   "claim": "the airplane struck a windsock with its right wing",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "windsock strike with the right wing not stored"
+  },
+  {
+   "key": "a38565037367#0",
+   "claim": "the airplane sustained substantial damage to the outboard right wing",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "damage to the outboard right wing not stored; only COMPONENT_OF"
+  },
+  {
+   "key": "f50553bac0ad#0",
+   "claim": "at the time of the accident, the pilot was taking off on runway 29",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "takeoff on runway 29 not stored"
+  },
+  {
+   "key": "f50553bac0ad#1",
+   "claim": "there was a left quartering crosswind of 10 knots",
+   "matched": [
+    "83ec26ce87ff"
+   ],
+   "reason": "stored 'CEN21LA185 ENCOUNTERED_CONDITION left quartering crosswind of 10 knots ...'"
+  },
+  {
+   "key": "f50553bac0ad#2",
+   "claim": "the crosswind shifted to a tailwind",
+   "matched": [
+    "83ec26ce87ff"
+   ],
+   "reason": "same stored condition '... that shifted to a tailwind' states the shift"
+  },
+  {
+   "key": "10cfd6f70412#0",
+   "claim": "while performing takeoff and landing practice, the airplane touched down normally",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "normal touchdown not stored"
+  },
+  {
+   "key": "10cfd6f70412#1",
+   "claim": "the airplane then began drifting to the right",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "drift to the right not stored; stored 'loss of directional control' is a different occurrence"
+  },
+  {
+   "key": "10cfd6f70412#2",
+   "claim": "both the flight instructor and the student pilot attempted to correct",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "crew correction attempt not stored"
+  },
+  {
+   "key": "10cfd6f70412#3",
+   "claim": "the correction succeeded",
+   "cause": "assertion",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "negated success of the correction; nothing stored"
+  },
+  {
+   "key": "a50ee4f8fe8f#0",
+   "claim": "they were taking off from a turf runway",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "turf runway not stored"
+  },
+  {
+   "key": "a50ee4f8fe8f#1",
+   "claim": "they were taking off with a quartering tailwind",
+   "matched": [
+    "cd010d3333c3"
+   ],
+   "reason": "stored 'CEN22LA249 ENCOUNTERED_CONDITION quartering tailwind'"
+  },
+  {
+   "key": "5afa46cd94a1#0",
+   "claim": "left seat pilot reported no preaccident mechanical malfunctions or failures with the airplane that would have precluded normal operation",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "88379924b003#0",
+   "claim": "an NTSB Pilot/Operator Aircraft Accident/Incident Report was received from the right seat pilot",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "receipt of a report form is no fact type"
+  },
+  {
+   "key": "f547e35feca4#0",
+   "claim": "at the time of the accident, the airplane was taking off on runway 08",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "takeoff on runway 08 not stored"
+  },
+  {
+   "key": "f547e35feca4#1",
+   "claim": "winds were 140 degrees at 10 kts",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "wind 140 degrees at 10 kts not stored"
+  },
+  {
+   "key": "f547e35feca4#2",
+   "claim": "the density altitude was 2,805 ft",
+   "cause": "extraction",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "density altitude not stored"
+  },
+  {
+   "key": "83ee3f559a18#0",
+   "claim": "student pilot reported no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operation",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "6a89e9f82e72#0",
+   "claim": "the pilot was conducting helicopter external sling load operations to a remote mountain top",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "external sling load operation not stored"
+  },
+  {
+   "key": "5292f9c64db7#0",
+   "claim": "pilot reported no preaccident mechanical malfunctions or anomalies that would have precluded normal operation",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "dff8d760daf2#0",
+   "claim": "probable cause: the pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions",
+   "matched": [
+    "7d48ea208566",
+    "1d42111842ef"
+   ],
+   "reason": "stored Finding 'The pilot's failure to maintain adequate altitude/clearance ...' (FOUND_FOR, CITED_CREW pilot)"
+  },
+  {
+   "key": "dff8d760daf2#1",
+   "claim": "the failure resulted in a dynamic rollover",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no fact type links a Finding to the Occurrence it caused; rollover stored only as OCCURRED_IN"
+  },
+  {
+   "key": "c5e1d1237cd9#0",
+   "claim": "the pilot was maneuvering low and slow with three passengers onboard",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "low and slow manoeuvring with passengers not stored; only inside the Finding's name"
+  },
+  {
+   "key": "c5e1d1237cd9#1",
+   "claim": "he noticed insufficient power",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "insufficient power not stored"
+  },
+  {
+   "key": "c5e1d1237cd9#2",
+   "claim": "shortly thereafter, the low rotor rpm warning annunciated",
+   "cause": "extraction",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "low rotor rpm warning not stored"
+  },
+  {
+   "key": "779077ee076f#0",
+   "claim": "the pilot started the helicopter at the refueling pad",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "engine start at the refueling pad not stored"
+  },
+  {
+   "key": "779077ee076f#1",
+   "claim": "the helicopter hover-taxied to the taxiway and then onto the runway",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "hover-taxi not stored"
+  },
+  {
+   "key": "50f1833b247a#0",
+   "claim": "examination of the helicopter and engine revealed evidence of preimpact failure of the engine that would have precluded normal operation",
+   "cause": "assertion",
+   "schema_type": "CITED_COMPONENT",
+   "reason": "negated examination result; nothing stored"
+  },
+  {
+   "key": "b0eb7e12c361#0",
+   "claim": "the pilot was performing an aerial application pass",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "aerial application pass not stored"
+  },
+  {
+   "key": "b0eb7e12c361#1",
+   "claim": "he felt a big tug on the helicopter",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_IN",
+   "reason": "the 'big tug' not stored"
+  },
+  {
+   "key": "e07f78e025e5#0",
+   "claim": "pilot reported no preaccident mechanical failures or malfunctions with the helicopter that would have precluded normal operations",
+   "cause": "assertion",
+   "schema_type": "AFFECTED_COMPONENT",
+   "reason": "negated report of no mechanical failure; nothing stored"
+  },
+  {
+   "key": "7d7e77d0a352#0",
+   "claim": "prior to the aerial application pass, he circled the field",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_CREW",
+   "reason": "circling the field not stored"
+  },
+  {
+   "key": "7d7e77d0a352#1",
+   "claim": "he observed obstructions",
+   "cause": "assertion",
+   "schema_type": "ENCOUNTERED_CONDITION",
+   "reason": "negated observation of obstructions; nothing stored"
+  }
+ ],
+ "reviewed": [
+  "10cfd6f70412#0",
+  "10cfd6f70412#1",
+  "10cfd6f70412#2",
+  "10cfd6f70412#3",
+  "111cddace4c6#0",
+  "149a214f4c5f#0",
+  "1aa6f8f05791#0",
+  "1e72c4540b27#0",
+  "1e72c4540b27#1",
+  "1fac0fbdcab6#0",
+  "20010a8d3080#0",
+  "20010a8d3080#1",
+  "20010a8d3080#2",
+  "22da797e5cbb#0",
+  "22da797e5cbb#1",
+  "22da797e5cbb#2",
+  "2c56065e5dec#1",
+  "2d290b0f0ba6#0",
+  "2d290b0f0ba6#1",
+  "3da8a0817dcc#0",
+  "3da8a0817dcc#2",
+  "3f54e64b71f6#0",
+  "40d23f9a5aed#0",
+  "40d23f9a5aed#1",
+  "4534e6ff9865#0",
+  "4534e6ff9865#1",
+  "454c8111983e#0",
+  "454c8111983e#1",
+  "50f1833b247a#0",
+  "5292f9c64db7#0",
+  "5afa46cd94a1#0",
+  "60dbc73ebc3f#0",
+  "60dbc73ebc3f#1",
+  "60dbc73ebc3f#2",
+  "68b1df088d99#0",
+  "68b1df088d99#1",
+  "68b1df088d99#2",
+  "6a89e9f82e72#0",
+  "76956c490ca6#0",
+  "76956c490ca6#1",
+  "779077ee076f#0",
+  "779077ee076f#1",
+  "7d7e77d0a352#0",
+  "7d7e77d0a352#1",
+  "7fd484f37d65#0",
+  "8303b1cd9057#0",
+  "83ee3f559a18#0",
+  "8542c8953bcf#0",
+  "8542c8953bcf#1",
+  "877b6d6f102e#0",
+  "88379924b003#0",
+  "9b37bf98339a#0",
+  "9b37bf98339a#1",
+  "9b37bf98339a#2",
+  "a38565037367#0",
+  "a50ee4f8fe8f#0",
+  "a5f807bedb80#0",
+  "a83f33f97fcc#0",
+  "ac6f28fc4b51#0",
+  "ac6f28fc4b51#1",
+  "b0eb7e12c361#0",
+  "b0eb7e12c361#1",
+  "b332646c0333#0",
+  "b5adbb8e72c2#0",
+  "b98b1da4dffd#0",
+  "beaa10cfaef8#0",
+  "c0ff2f985b15#0",
+  "c5e1d1237cd9#0",
+  "c5e1d1237cd9#1",
+  "c5e1d1237cd9#2",
+  "ce38e98112cd#0",
+  "d6de54ba8163#0",
+  "d6de54ba8163#1",
+  "dff8d760daf2#1",
+  "e07f78e025e5#0",
+  "e60a774b6939#0",
+  "eb08fe2e915e#1",
+  "eb08fe2e915e#2",
+  "ec7bf13b07f4#0",
+  "ee019eabfcbb#0",
+  "ee151067872b#0",
+  "ee151067872b#1",
+  "ee151067872b#2",
+  "f04e17a38168#0",
+  "f50553bac0ad#0",
+  "f547e35feca4#0",
+  "f547e35feca4#1",
+  "f547e35feca4#2",
+  "fbc3c15a39fd#0",
+  "fbc3c15a39fd#1"
+ ],
+ "changes": []
+}

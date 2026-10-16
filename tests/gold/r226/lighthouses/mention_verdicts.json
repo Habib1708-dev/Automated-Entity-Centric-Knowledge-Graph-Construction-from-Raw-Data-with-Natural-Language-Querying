@@ -1,0 +1,742 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "cbd9d23e02e4",
+  "sheet": "tests/gold/r226/lighthouses/mention_sheet.json",
+  "sheet_hash": "82ca2d7963e1",
+  "sheets_git_sha": "committed with the verdicts in step R226 (built from out/r155b at f84e97a)"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "d4f92541b93b|lighthouse",
+   "label": "VALID",
+   "reason": "The sentence's 'the lighthouse' is the article's lighthouse; candidate Anvil Point Lighthouse names that same lighthouse.",
+   "evidence": "established at the lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4ef688227455|lighthouse",
+   "label": "VALID",
+   "reason": "'the lighthouse' in this chunk is Anvil Point Lighthouse, the candidate.",
+   "evidence": "tour of the lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4ef688227455|p.",
+   "label": "VALID",
+   "reason": "The sentence is cut after the initial; 'P.' is the start of the name the candidate P. Halil gives in full.",
+   "evidence": "by P.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5aa04c7883a3|optic",
+   "label": "VALID",
+   "reason": "'the optic' turned by the mechanism is the chunk's revolving third-order dioptric optic.",
+   "evidence": "which turned the optic",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ce69f1af9125|lighthouse",
+   "label": "VALID",
+   "reason": "'the lighthouse' run on mains electricity is Berry Head Lighthouse, the candidate.",
+   "evidence": "the lighthouse has run on mains electricity",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "136e5093b747|optic",
+   "label": "VALID",
+   "reason": "The optic removed in 2019 is the chunk's revolving third-order dioptric optic.",
+   "evidence": "the optic and lamp were removed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b016907bf747|revolving array",
+   "label": "VALID",
+   "reason": "The candidate is the same revolving array, written with its contents.",
+   "evidence": "a revolving array of seven Argand lamps and reflectors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b016907bf747|argand lamps",
+   "label": "INCORRECT",
+   "reason": "The candidate names the whole array; the Argand lamps are a piece of it, and a whole is never its piece.",
+   "evidence": "seven Argand lamps and reflectors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b016907bf747|reflectors",
+   "label": "INCORRECT",
+   "reason": "The candidate names the whole array; the reflectors are a piece of it.",
+   "evidence": "Argand lamps and reflectors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b016907bf747|white flash",
+   "label": "VALID",
+   "reason": "'single white flash' names the same flash as 'white flash'.",
+   "evidence": "a single white flash",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c665afe2a6f0|light",
+   "label": "INCORRECT",
+   "reason": "'This light' is a lighthouse designed by Daniel Alexander; LED light source is a different thing.",
+   "evidence": "This light was also designed by Daniel Alexander",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c665afe2a6f0|lamps",
+   "label": "INCORRECT",
+   "reason": "The candidate names the whole revolving set; the lamps are a piece of it.",
+   "evidence": "a revolving set of lamps and reflectors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c665afe2a6f0|reflectors",
+   "label": "INCORRECT",
+   "reason": "The candidate names the whole revolving set; the reflectors are a piece of it.",
+   "evidence": "lamps and reflectors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "0f07845d9c89|light",
+   "label": "INCORRECT",
+   "reason": "'an earlier light' is an older lighthouse built by Blackett, not the LED light source.",
+   "evidence": "an earlier light built by Captain Blackett",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "0f07845d9c89|blackett",
+   "label": "VALID",
+   "reason": "Captain Blackett names the same person; the title only sits next to the name.",
+   "evidence": "Captain Blackett",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f578e5f66e14|original lens",
+   "label": "VALID",
+   "reason": "The chunk's 'lens' is the original lens the LED light source works within.",
+   "evidence": "within the original lens",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2957e56ac7e8|lighthouse",
+   "label": "VALID",
+   "reason": "'this lighthouse' whose history Godrevy Light describes is Godrevy Lighthouse.",
+   "evidence": "the history of this lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e4d777284358|light-houses",
+   "label": "VALID",
+   "reason": "'Light-Houses of Stone' names the same two lighthouses with the describing phrase.",
+   "evidence": "two round Light-Houses of Stone",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6592fe2f47ed|lighthouse",
+   "label": "VALID",
+   "reason": "In the Old Higher Lighthouse article the lighthouse refurbished with its cottages is Old Higher Lighthouse.",
+   "evidence": "The lighthouse and its cottages were refurbished in 1981.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "99cc77e8ed0c|filament lamp",
+   "label": "VALID",
+   "reason": "'24kW filament lamp' is the same filament lamp with its rating.",
+   "evidence": "a 24kW filament lamp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a3294835cb20|lighthouse",
+   "label": "VALID",
+   "reason": "The heading's 'The lighthouse' is the article's subject, St Anthony's Lighthouse.",
+   "evidence": "The lighthouse in popular culture",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d89312f41410|new lighthouse",
+   "label": "AMBIGUOUS",
+   "reason": "The chunk's bare 'lighthouse' entry may be the new lighthouse or the demolished old one ('This lighthouse'); the item does not settle which.",
+   "evidence": "This lighthouse was demolished when the new lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "35825583c5a8|lighthouse",
+   "label": "VALID",
+   "reason": "The heading's 'The lighthouse' is St Mary's Lighthouse, the candidate.",
+   "evidence": "The lighthouse today",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "aa398f32a7d0|lighthouses",
+   "label": "VALID",
+   "reason": "'operational lighthouses' names the same two Farne lighthouses.",
+   "evidence": "two operational lighthouses on the Farne Islands",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "457b010c92e7|led lanterns",
+   "label": "VALID",
+   "reason": "'static LED lanterns' are the same LED lanterns.",
+   "evidence": "static LED lanterns",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a8cca857f9a7|geological conservation review",
+   "label": "AMBIGUOUS",
+   "reason": "The candidate names a site designation, the gold names the Review itself; a reader looking for the Review is led here, yet the two names refer to different things.",
+   "evidence": "a Geological Conservation Review site",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4409a05cc25c|catherine's lighthouse",
+   "label": "VALID",
+   "reason": "The sentence is cut after 'St.'; the candidate St. Catherine's Lighthouse is the same lighthouse.",
+   "evidence": "Catherine's Lighthouse in 1901)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4409a05cc25c|whitby",
+   "label": "INCORRECT",
+   "reason": "'Whitby' here is the place; each candidate names a thing at Whitby (lighthouse, fog signal, museum, rock), not the place.",
+   "evidence": "use sirens at Whitby",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "163442a2f62f7226",
+   "label": "VALID",
+   "reason": "A person known by role (the assistant keeper), written as a kind.",
+   "evidence": "the assistant lived in the cottage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "190a1060fd71fd2f",
+   "label": "VALID",
+   "reason": "A piece of the light the text says was added, a kind.",
+   "evidence": "a red sector was added marking Whitby Rock",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1a38590393d2830b",
+   "label": "VALID",
+   "reason": "A named work (publication) cited as a source, a particular.",
+   "evidence": "Torbytes. Torbay Council.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "203065ca9992a3bf",
+   "label": "VALID",
+   "reason": "An incident of a thing written as a verb (the ship was lost), a kind.",
+   "evidence": "the SS Garonne was lost",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "212531e6e4f2eebe",
+   "label": "VALID",
+   "reason": "A named person, co-author of the book, a particular.",
+   "evidence": "Charles Thomas and Jessica Mann",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "25baade356282bc2",
+   "label": "VALID",
+   "reason": "The two Farne lighthouses; 'operational' tells them apart from the decommissioned ones named nearby; a kind.",
+   "evidence": "two operational lighthouses on the Farne Islands",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "29177f40b1cefebd",
+   "label": "VALID",
+   "reason": "A work done to the lighthouse written as a verb, a kind.",
+   "evidence": "in 1933 the lighthouse was automated",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "356b0558e6a4dad8",
+   "label": "VALID",
+   "reason": "Upkeep work done to the clockwork mechanism, a kind.",
+   "evidence": "the optic required regular winding",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3d162081007c6d92",
+   "label": "VALID",
+   "reason": "A kind of place the text says was surveyed.",
+   "evidence": "a survey of the coasts of England",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3e65afbd3289fa29",
+   "label": "VALID",
+   "reason": "The fuel the lighthouse was converted to, a kind.",
+   "evidence": "when it was converted to oil",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "40e752c3e658bab4",
+   "label": "VALID",
+   "reason": "A named place (place of publication), a particular.",
+   "evidence": "Truro: Twelveheads Press",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4720f170de06424c",
+   "label": "VALID",
+   "reason": "The subsidiary low light, written as a common noun, a kind.",
+   "evidence": "abolition of [the] low light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "493444fbab9fd581",
+   "label": "VALID",
+   "reason": "A named place, a particular.",
+   "evidence": "from the Bill of Portland",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "50da91262925814f",
+   "label": "VALID",
+   "reason": "An object the text says something about, a kind.",
+   "evidence": "The size of the lens meant",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5458157bf1203706",
+   "label": "VALID",
+   "reason": "A named region, a particular.",
+   "evidence": "the geological history of SW England",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "54dc7b1113457a66",
+   "label": "AMBIGUOUS",
+   "reason": "Selling the lighthouses at auction may be read as an event of the lighthouses or as an everyday act of selling (Out 8).",
+   "evidence": "the original two lighthouses were then auctioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "587742c10c07945d",
+   "label": "VALID",
+   "reason": "The chunk names the Farne high light by a capitalised name, a particular.",
+   "evidence": "the keeper at the High Lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "59039e5f71aef8bf",
+   "label": "VALID",
+   "reason": "A grant the text says something about, written as a common noun, a kind.",
+   "evidence": "George I granted the patent in 1716",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5918eee830ebc9e4",
+   "label": "VALID",
+   "reason": "A group known by role, a kind.",
+   "evidence": "whose monks maintained a lantern",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5c9e2c2b0076f77f",
+   "label": "VALID",
+   "reason": "The light source the lamp was changed to, a kind.",
+   "evidence": "changed to pressure vapour",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5fb51f1e5b19cf96",
+   "label": "AMBIGUOUS",
+   "reason": "'shipping' may be a role (ships and their operators) or a generic collective word (Out 7).",
+   "evidence": "as shipping would prefer to use the Isles of Scilly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "60f5c45851297e99",
+   "label": "VALID",
+   "reason": "The capitalised name of the Farne high light, a particular.",
+   "evidence": "Whereas the High Light revolved",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "69637bbccad7a6be",
+   "label": "VALID",
+   "reason": "The capitalised name of Whitby's north tower, a particular.",
+   "evidence": "The North Light was of a similar octagonal design",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6aaa55f9f70f0d04",
+   "label": "VALID",
+   "reason": "A unit of a named organisation called with that name, a particular.",
+   "evidence": "the Trinity House Planning Centre at Harwich",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6f2b2f46a3214864",
+   "label": "VALID",
+   "reason": "Withdrawal of the light written as a verb, a kind.",
+   "evidence": "Trinity House discontinued use of the light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "74a3024782f0d080",
+   "label": "AMBIGUOUS",
+   "reason": "A named device type used as a pair; may be read as a named model (particular) or a kind of trumpet.",
+   "evidence": "a pair of 'Rayleigh trumpets'",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "753933aa83535525",
+   "label": "VALID",
+   "reason": "A named country, a particular.",
+   "evidence": "the shortest lighthouse in Great Britain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7ee94380443a96a5",
+   "label": "VALID",
+   "reason": "A named town, a particular.",
+   "evidence": "National Lighthouse Museum in Penzance",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8d3c79b54f30830b",
+   "label": "VALID",
+   "reason": "An object the text says something about, a kind.",
+   "evidence": "The lamp was powered by paraffin",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8f364d945e3a450a",
+   "label": "VALID",
+   "reason": "The rocks form a dive site, a kind the text says something about.",
+   "evidence": "a popular sub-aqua dive site",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "96320a0162d2b08f",
+   "label": "VALID",
+   "reason": "A named city, a particular.",
+   "evidence": "the Great Western Railway at Exeter",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9d657ec1f111152a",
+   "label": "VALID",
+   "reason": "An object installed, a kind.",
+   "evidence": "an additional lamp and reflector were installed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "aaf12000c3062225",
+   "label": "VALID",
+   "reason": "A proposal for work on the site, written as a common noun, a kind.",
+   "evidence": "A new refurbishment proposal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "af216137c4724a9d",
+   "label": "VALID",
+   "reason": "A named newspaper, a particular.",
+   "evidence": "the Shipping and Mercantile Gazette",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b28cbadc7622ec4d",
+   "label": "INCORRECT",
+   "reason": "'revolved' is the ordinary working of the light, not a fault, incident or work done to it; Out (other verbs).",
+   "evidence": "Whereas the High Light revolved",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b7d49978e4f72493",
+   "label": "VALID",
+   "reason": "The name the two Whitby towers were known by, a particular.",
+   "evidence": "referred to as the High Whitby lights",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b9581cc076eee44a",
+   "label": "VALID",
+   "reason": "A natural feature the text says something about, a kind.",
+   "evidence": "rocks, tidal flows and currents",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bbcc80786657c6bc",
+   "label": "VALID",
+   "reason": "A plan for work on the site, a kind.",
+   "evidence": "a renovation plan for the site",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "be36da44e433ff63",
+   "label": "VALID",
+   "reason": "A work done to the lighthouse written as a verb, a kind.",
+   "evidence": "Trinity House lighthouses to be automated",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c2ee5d90ce577621",
+   "label": "VALID",
+   "reason": "An object the text says something about (the fog signal building), a kind.",
+   "evidence": "The building, which retains the twin roof-mounted 20-ft trumpets",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c94d3c80ffe1ecf2",
+   "label": "VALID",
+   "reason": "A class of light the lighthouse was classed as, a kind.",
+   "evidence": "classed as an unwatched light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "cb310b382a638d9d",
+   "label": "VALID",
+   "reason": "Incidents, a kind.",
+   "evidence": "less lethal, accidents followed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "cc015519e68c55ac",
+   "label": "VALID",
+   "reason": "A named country, a particular.",
+   "evidence": "the coasts of England",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ccb7cc68b49859ba",
+   "label": "VALID",
+   "reason": "Objects proposed for the site, a kind.",
+   "evidence": "including roof-top viewing platforms",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d2f3bb271d0e7761",
+   "label": "VALID",
+   "reason": "A rock kind the text says something about.",
+   "evidence": "the occurrence of pillow lavas",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d307fd0ae3e3bf16",
+   "label": "VALID",
+   "reason": "A material the lighthouse was built with, a kind.",
+   "evidence": "750,000 bricks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d5ae652403a9a23d",
+   "label": "VALID",
+   "reason": "A named company, a particular.",
+   "evidence": "manufactured by Chance Brothers of Smethwick",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "dff536c933ac8070",
+   "label": "VALID",
+   "reason": "An object the bell hung from, a kind.",
+   "evidence": "It hung from a girder",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e28b005270915f50",
+   "label": "VALID",
+   "reason": "Objects the text says were provided and demolished, a kind.",
+   "evidence": "their cottages were subsequently demolished",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e6ce4babd2b804f6",
+   "label": "VALID",
+   "reason": "An object (the main light) a red sector was added to, a kind.",
+   "evidence": "a red sector was added to the main light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "ed5ed52faea7a471",
+   "label": "VALID",
+   "reason": "Work done to the lighthouse, a kind.",
+   "evidence": "general repairs were carried out",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f0abdae9ff0e2531",
+   "label": "VALID",
+   "reason": "An object the text says something about, a kind.",
+   "evidence": "the height of a Fresnel lens could be significantly increased",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f0d8a3dec15e8250",
+   "label": "VALID",
+   "reason": "An object powering the light, a kind.",
+   "evidence": "powered from batteries",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f55eb33a77781200",
+   "label": "VALID",
+   "reason": "Work done to the lighthouse written as a verb, a kind.",
+   "evidence": "the lighthouse was converted by the AGA company",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f70eb656d24f092d",
+   "label": "VALID",
+   "reason": "A named country, a particular.",
+   "evidence": "England's general lighthouse authority",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f7dfe235b4de1aa8",
+   "label": "VALID",
+   "reason": "An event that reduced the range, a kind.",
+   "evidence": "a review of aids to navigation in 2010",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f8b8e8b1708ca0a4",
+   "label": "VALID",
+   "reason": "Events (two protests), a kind.",
+   "evidence": "There were two protests against the building",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f8ce5e7726c70f6b",
+   "label": "VALID",
+   "reason": "A piece of the light the text says changed, a kind.",
+   "evidence": "the light source had been changed to pressure vapour",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "faa8a296f4ac0e33",
+   "label": "VALID",
+   "reason": "An object installed, a kind.",
+   "evidence": "an acetylene-powered drive to turn the lens",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "fba5d7a43a73b4af",
+   "label": "INCORRECT",
+   "reason": "'high' is an adjective fragment of '[the] high ... light', not the thing's name.",
+   "evidence": "'improvement of [the] high and abolition",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "0f07845d9c89|light",
+  "35825583c5a8|lighthouse",
+  "40e752c3e658bab4",
+  "4409a05cc25c|whitby",
+  "493444fbab9fd581",
+  "5458157bf1203706",
+  "54dc7b1113457a66",
+  "5fb51f1e5b19cf96",
+  "74a3024782f0d080",
+  "a8cca857f9a7|geological conservation review",
+  "b016907bf747|argand lamps",
+  "b016907bf747|reflectors",
+  "b016907bf747|white flash",
+  "b28cbadc7622ec4d",
+  "c665afe2a6f0|lamps",
+  "c665afe2a6f0|light",
+  "c665afe2a6f0|reflectors",
+  "d89312f41410|new lighthouse",
+  "e6ce4babd2b804f6",
+  "f8b8e8b1708ca0a4",
+  "f8ce5e7726c70f6b",
+  "fba5d7a43a73b4af"
+ ],
+ "changes": []
+}

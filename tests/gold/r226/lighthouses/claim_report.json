@@ -1,0 +1,198 @@
+{
+ "claims": 161,
+ "merged": 0,
+ "by_origin": {
+  "extracted": {
+   "claims": 161,
+   "ambiguous": 0,
+   "unjudgeable": 1,
+   "precision": {
+    "k": 145,
+    "n": 160,
+    "rate": 0.90625,
+    "low": 0.8510867768996389,
+    "high": 0.9423625058222096
+   },
+   "content_precision": {
+    "k": 152,
+    "n": 160,
+    "rate": 0.95,
+    "low": 0.904447957015184,
+    "high": 0.9744497099997864
+   },
+   "faults": {
+    "not_in_text": 1,
+    "wrong_entity": 1,
+    "wrong_relation": 6,
+    "truth": 0,
+    "modality": 1,
+    "condition": 0,
+    "polarity": 0,
+    "time": 6,
+    "type": 0
+   },
+   "incorrect": [
+    "00f2a53e44e9",
+    "08702e7a4526",
+    "08e46b12a2f3",
+    "17af97877f8d",
+    "1d8ce1677db4",
+    "2b430db1cad5",
+    "43a6c615efcf",
+    "4dd363b915b5",
+    "7f978309562f",
+    "86714a24af09",
+    "88612712351b",
+    "93519f79c727",
+    "cf2d3d5711f9",
+    "e1746b3326f5",
+    "f2288980e59d"
+   ]
+  },
+  "derived": {
+   "claims": 0,
+   "ambiguous": 0,
+   "unjudgeable": 0,
+   "precision": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "low": null,
+    "high": null
+   },
+   "content_precision": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "low": null,
+    "high": null
+   },
+   "faults": {
+    "not_in_text": 0,
+    "wrong_entity": 0,
+    "wrong_relation": 0,
+    "truth": 0,
+    "modality": 0,
+    "condition": 0,
+    "polarity": 0,
+    "time": 0,
+    "type": 0
+   },
+   "incorrect": []
+  }
+ },
+ "by_relation": {
+  "ASSOCIATED_WITH": {
+   "k": 9,
+   "n": 9,
+   "rate": 1.0,
+   "low": 0.7008472464490407,
+   "high": 1.0
+  },
+  "COMPONENT_OF": {
+   "k": 36,
+   "n": 39,
+   "rate": 0.9230769230769231,
+   "low": 0.7967862687194474,
+   "high": 0.9734930859265043
+  },
+  "CONSTRUCTED_BY": {
+   "k": 3,
+   "n": 3,
+   "rate": 1.0,
+   "low": 0.43849391955098227,
+   "high": 1.0
+  },
+  "ENGINEERED_BY": {
+   "k": 7,
+   "n": 7,
+   "rate": 1.0,
+   "low": 0.6456611570247934,
+   "high": 1.0
+  },
+  "HAS_FOCAL_HEIGHT": {
+   "k": 5,
+   "n": 5,
+   "rate": 1.0,
+   "low": 0.5655085052479191,
+   "high": 1.0
+  },
+  "HAS_HEIGHT": {
+   "k": 11,
+   "n": 12,
+   "rate": 0.9166666666666666,
+   "low": 0.6461140782014047,
+   "high": 0.9851352905492264
+  },
+  "HAS_RANGE": {
+   "k": 7,
+   "n": 10,
+   "rate": 0.7,
+   "low": 0.39677321997956516,
+   "high": 0.892210712513788
+  },
+  "LOCATED_AT": {
+   "k": 29,
+   "n": 36,
+   "rate": 0.8055555555555556,
+   "low": 0.6497163793648479,
+   "high": 0.9024702798054665
+  },
+  "MANUFACTURED_BY": {
+   "k": 4,
+   "n": 4,
+   "rate": 1.0,
+   "low": 0.5100999795960008,
+   "high": 1.0
+  },
+  "OCCURRED_AT": {
+   "k": 1,
+   "n": 1,
+   "rate": 1.0,
+   "low": 0.20654329147389294,
+   "high": 1.0
+  },
+  "OPERATED_BY": {
+   "k": 12,
+   "n": 13,
+   "rate": 0.9230769230769231,
+   "low": 0.6668546607175265,
+   "high": 0.9862899336203037
+  },
+  "OWNED_BY": {
+   "k": 2,
+   "n": 2,
+   "rate": 1.0,
+   "low": 0.34237195288961925,
+   "high": 1.0
+  },
+  "REPLACED": {
+   "k": 2,
+   "n": 2,
+   "rate": 1.0,
+   "low": 0.34237195288961925,
+   "high": 1.0
+  },
+  "TRANSFERRED_TO": {
+   "k": 3,
+   "n": 3,
+   "rate": 1.0,
+   "low": 0.43849391955098227,
+   "high": 1.0
+  },
+  "WARNS_OF": {
+   "k": 11,
+   "n": 11,
+   "rate": 1.0,
+   "low": 0.7411599827511859,
+   "high": 1.0
+  },
+  "WRECKED_AT": {
+   "k": 3,
+   "n": 3,
+   "rate": 1.0,
+   "low": 0.43849391955098227,
+   "high": 1.0
+  }
+ }
+}

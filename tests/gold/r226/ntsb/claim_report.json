@@ -1,0 +1,184 @@
+{
+ "claims": 293,
+ "merged": 0,
+ "by_origin": {
+  "extracted": {
+   "claims": 293,
+   "ambiguous": 0,
+   "unjudgeable": 0,
+   "precision": {
+    "k": 285,
+    "n": 293,
+    "rate": 0.9726962457337884,
+    "low": 0.9470562844873175,
+    "high": 0.9861013322348672
+   },
+   "content_precision": {
+    "k": 289,
+    "n": 293,
+    "rate": 0.9863481228668942,
+    "low": 0.965429344682128,
+    "high": 0.9946786725230077
+   },
+   "faults": {
+    "not_in_text": 1,
+    "wrong_entity": 0,
+    "wrong_relation": 3,
+    "truth": 0,
+    "modality": 0,
+    "condition": 0,
+    "polarity": 0,
+    "time": 4,
+    "type": 0
+   },
+   "incorrect": [
+    "160c117def0b",
+    "1a4a36f42d37",
+    "706235159cfa",
+    "7ec928f063ba",
+    "9370535551c9",
+    "9eb97a46912c",
+    "c1f5cff30321",
+    "d0b79f001680"
+   ]
+  },
+  "derived": {
+   "claims": 0,
+   "ambiguous": 0,
+   "unjudgeable": 0,
+   "precision": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "low": null,
+    "high": null
+   },
+   "content_precision": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "low": null,
+    "high": null
+   },
+   "faults": {
+    "not_in_text": 0,
+    "wrong_entity": 0,
+    "wrong_relation": 0,
+    "truth": 0,
+    "modality": 0,
+    "condition": 0,
+    "polarity": 0,
+    "time": 0,
+    "type": 0
+   },
+   "incorrect": []
+  }
+ },
+ "by_relation": {
+  "AFFECTED_COMPONENT": {
+   "k": 1,
+   "n": 1,
+   "rate": 1.0,
+   "low": 0.20654329147389294,
+   "high": 1.0
+  },
+  "CITED_COMPONENT": {
+   "k": 9,
+   "n": 11,
+   "rate": 0.8181818181818182,
+   "low": 0.5230138624217553,
+   "high": 0.9486333993289995
+  },
+  "CITED_CONDITION": {
+   "k": 10,
+   "n": 11,
+   "rate": 0.9090909090909091,
+   "low": 0.6226353745137962,
+   "high": 0.9837682477371741
+  },
+  "CITED_CREW": {
+   "k": 20,
+   "n": 20,
+   "rate": 1.0,
+   "low": 0.8388698745050667,
+   "high": 1.0
+  },
+  "COMPONENT_OF": {
+   "k": 84,
+   "n": 88,
+   "rate": 0.9545454545454546,
+   "low": 0.888880924960137,
+   "high": 0.9821840390648802
+  },
+  "ENCOUNTERED_CONDITION": {
+   "k": 15,
+   "n": 15,
+   "rate": 1.0,
+   "low": 0.7961107336956521,
+   "high": 1.0
+  },
+  "FOUND_FOR": {
+   "k": 28,
+   "n": 28,
+   "rate": 1.0,
+   "low": 0.8793527963418923,
+   "high": 1.0
+  },
+  "HAD_MEASUREMENT": {
+   "k": 2,
+   "n": 2,
+   "rate": 1.0,
+   "low": 0.34237195288961925,
+   "high": 1.0
+  },
+  "HAD_SERVICE_TIME": {
+   "k": 1,
+   "n": 1,
+   "rate": 1.0,
+   "low": 0.20654329147389294,
+   "high": 1.0
+  },
+  "INVOLVED_CREW": {
+   "k": 1,
+   "n": 1,
+   "rate": 1.0,
+   "low": 0.20654329147389294,
+   "high": 1.0
+  },
+  "INVOLVED_IN": {
+   "k": 48,
+   "n": 48,
+   "rate": 1.0,
+   "low": 0.9258973488472576,
+   "high": 0.9999999999999999
+  },
+  "OCCURRED_AT": {
+   "k": 30,
+   "n": 30,
+   "rate": 1.0,
+   "low": 0.8864829086095221,
+   "high": 1.0
+  },
+  "OCCURRED_IN": {
+   "k": 5,
+   "n": 5,
+   "rate": 1.0,
+   "low": 0.5655085052479191,
+   "high": 1.0
+  },
+  "OF_MODEL": {
+   "k": 6,
+   "n": 6,
+   "rate": 1.0,
+   "low": 0.6096569663469354,
+   "high": 0.9999999999999999
+  },
+  "ON_BOARD": {
+   "k": 25,
+   "n": 26,
+   "rate": 0.9615384615384616,
+   "low": 0.811068230080416,
+   "high": 0.9931781910230102
+  }
+ }
+}

@@ -1,0 +1,1078 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "git_sha": "f84e97a"
+ },
+ "sheet": "tests/gold/r226/lighthouses/recall_sheet.json",
+ "verdicts": [
+  {
+   "key": "5adf774fb43e#0",
+   "claim": "the lighthouse is built of local stone",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "building material has no fact type"
+  },
+  {
+   "key": "5adf774fb43e#1",
+   "claim": "the lighthouse was completed in 1881",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "completion in 1881 is a milestone an Event OCCURRED_AT could hold; nothing stored"
+  },
+  {
+   "key": "57694ec2437b#0",
+   "claim": "the lighthouse was opened by Joseph Chamberlain",
+   "reason": "stored only 'Joseph Chamberlain ASSOCIATED_WITH Anvil Point Lighthouse', which drops the opening; ruling: a stored Person ASSOCIATED_WITH Lighthouse (lived at, acquired, visited, inspected, advocated) keeps the two ends but not what the person did; as R111's job titles kept only as an employer, a miss; an Event with Person INVOLVED_IN could hold it",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_IN"
+  },
+  {
+   "key": "57694ec2437b#1",
+   "claim": "Joseph Chamberlain was the President of the Board of Trade",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no Person-Organization fact type for an office held"
+  },
+  {
+   "key": "2afa9c53fc8f#0",
+   "claim": "the light is positioned to give a waypoint for vessels passing along the English Channel coast",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a waypoint purpose along a coast is no hazard (WARNS_OF) nor a location"
+  },
+  {
+   "key": "d4f92541b93b#0",
+   "claim": "an explosive fog signal was established at the lighthouse in February 1894",
+   "matched": [
+    "35825c266e64"
+   ],
+   "reason": "stored 'explosive fog signal COMPONENT_OF Anvil Point' quotes this establishment"
+  },
+  {
+   "key": "d4f92541b93b#1",
+   "claim": "the fog signal sounded once every ten minutes in foggy weather",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "sounding interval of a signal has no fact type"
+  },
+  {
+   "key": "d4f92541b93b#2",
+   "claim": "the fog signal interval was later altered to every five minutes",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a change of the sounding interval has no fact type"
+  },
+  {
+   "key": "63dab09ccad8#0",
+   "claim": "Anvil Point Lighthouse was fully automated on 31 May 1991",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "automation on 31 May 1991 is an operational milestone; no Event stored"
+  },
+  {
+   "key": "63dab09ccad8#1",
+   "claim": "Anvil Point Lighthouse is now monitored and controlled from the Trinity House Operations Control Centre at Harwich",
+   "matched": [
+    "a622489bc08f"
+   ],
+   "reason": "stored 'Anvil Point OPERATED_BY Trinity House' from this sentence; the control centre is Trinity House's"
+  },
+  {
+   "key": "957543ca3632#0",
+   "claim": "the old lens is in use",
+   "cause": "assertion",
+   "schema_type": "COMPONENT_OF",
+   "reason": "negated: the old lens is not in use; nothing stored about the old lens"
+  },
+  {
+   "key": "957543ca3632#1",
+   "claim": "the old lens remains in place in the tower",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "old lens remaining in the tower could be an Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "ca4c63540be7#0",
+   "claim": "Berry Head Lighthouse is an active lighthouse",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "active status has no fact type"
+  },
+  {
+   "key": "ca4c63540be7#1",
+   "claim": "Berry Head Lighthouse is located at the end of Berry Head near Brixham in Devon",
+   "matched": [
+    "c7ddc4c84983",
+    "70e845b1bcc0"
+   ],
+   "reason": "stored LOCATED_AT Berry Head, Brixham and Devon from this sentence; lead: 1d8ce1677db4 dropped (judged wrong in content in R226's claim verdicts)"
+  },
+  {
+   "key": "ca4c63540be7#2",
+   "claim": "Berry Head Lighthouse has been in operation since 4 May 1906",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "start of operation on 4 May 1906 is a milestone; no Event stored"
+  },
+  {
+   "key": "136e5093b747#0",
+   "claim": "in 2019 the optic and lamp were removed",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "removal of optic and lamp in 2019 is an alteration Event; nothing stored"
+  },
+  {
+   "key": "136e5093b747#1",
+   "claim": "the optic and lamp were replaced with a pair of self-contained LED lanterns",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "LED lanterns could be stored as Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "136e5093b747#2",
+   "claim": "one LED lantern serves as the main light, the other as a standby",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "main/standby roles of lanterns have no fact type"
+  },
+  {
+   "key": "136e5093b747#3",
+   "claim": "the old characteristic was retained",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "light characteristic has no fact type"
+  },
+  {
+   "key": "5650fc9752c0#0",
+   "claim": "a new fixed third order Fresnel lens was installed in the lantern",
+   "matched": [
+    "df9fc1d7023f"
+   ],
+   "reason": "stored 'fixed third order Fresnel lens COMPONENT_OF Farne Lighthouse'"
+  },
+  {
+   "key": "5650fc9752c0#1",
+   "claim": "a red sector was added to the main light",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "adding a red sector is an alteration Event; nothing stored"
+  },
+  {
+   "key": "5650fc9752c0#2",
+   "claim": "the red sector indicates lines of approach that were hazardous for shipping",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "'lines of approach' is no named hazard Location, so WARNS_OF cannot hold it"
+  },
+  {
+   "key": "07fccc17614f#0",
+   "claim": "this arrangement largely remains in place",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "only the lens is stored, from its install sentence; the arrangement (lens and red sector) remaining in place is not stated"
+  },
+  {
+   "key": "07fccc17614f#1",
+   "claim": "in 1996 the light was converted from acetylene to solar powered electric operation",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "conversion to solar electric in 1996 is an alteration Event; nothing stored"
+  },
+  {
+   "key": "37ed07d5cd76#0",
+   "claim": "the High Light revolved",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a revolving characteristic has no fact type"
+  },
+  {
+   "key": "37ed07d5cd76#1",
+   "claim": "the Low Light showed a fixed beam from a single Argand lamp and reflector",
+   "matched": [
+    "414d721e0a02"
+   ],
+   "reason": "stored 'Argand lamp and reflector COMPONENT_OF Farne Low Lighthouse'"
+  },
+  {
+   "key": "37ed07d5cd76#2",
+   "claim": "the Low Light was monitored by the keeper at the High Lighthouse",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "an unnamed keeper is no Person and no Organization operates here"
+  },
+  {
+   "key": "37ed07d5cd76#3",
+   "claim": "the Low Light was made visible through a small aperture in the rear of the Low Lighthouse",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "visibility through an aperture has no fact type"
+  },
+  {
+   "key": "c63ba8e9b0e8#0",
+   "claim": "the High Light was modified and automated in 1910",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "modification and automation in 1910 is an Event; nothing stored"
+  },
+  {
+   "key": "c63ba8e9b0e8#1",
+   "claim": "use of the Low Light was discontinued after the High Light was automated",
+   "cause": "event_structure",
+   "schema_type": "OCCURRED_AT",
+   "reason": "discontinuation ordered after another event; nothing stored"
+  },
+  {
+   "key": "c63ba8e9b0e8#2",
+   "claim": "the Low Light was demolished",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "demolition of the Low Light is an Event; nothing stored"
+  },
+  {
+   "key": "c63ba8e9b0e8#3",
+   "claim": "most of the keepers' accommodation was demolished",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "demolition of keepers' accommodation at the station is an Event; nothing stored"
+  },
+  {
+   "key": "c63ba8e9b0e8#4",
+   "claim": "the keepers' accommodation was still needed",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "whether accommodation was needed has no fact type"
+  },
+  {
+   "key": "f578e5f66e14#0",
+   "claim": "in 2022 permission was given for the lamp to be replaced with an LED light source",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "permission for the LED replacement in 2022 is an Event; nothing stored"
+  },
+  {
+   "key": "f578e5f66e14#1",
+   "claim": "the LED light source is designed to function within the original lens",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no Apparatus-Apparatus fact type for working within the lens"
+  },
+  {
+   "key": "f578e5f66e14#2",
+   "claim": "the upgrade was completed in March 2022",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "completion of the upgrade in March 2022 is an Event; nothing stored"
+  },
+  {
+   "key": "a9b025f35a53#0",
+   "claim": "Godrevy Lighthouse stands approximately 300 metres off Godrevy Head",
+   "cause": "extraction",
+   "schema_type": "LOCATED_AT",
+   "reason": "lying off Godrevy Head fits LOCATED_AT (overlooks); only Godrevy Island, St Ives Bay, Cornwall stored"
+  },
+  {
+   "key": "a9b025f35a53#1",
+   "claim": "Godrevy Lighthouse marks the Stones reef",
+   "matched": [
+    "cbc9aa3c0930"
+   ],
+   "reason": "stored 'Godrevy Lighthouse WARNS_OF Stones reef'"
+  },
+  {
+   "key": "a9b025f35a53#2",
+   "claim": "the Stones reef has been a hazard to shipping for centuries",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a hazard's history is a property of a Location; no fact type"
+  },
+  {
+   "key": "8c5e130119c2#0",
+   "claim": "the Stones claimed many ships",
+   "cause": "event_structure",
+   "schema_type": "WRECKED_AT",
+   "reason": "many unnamed wrecks, a count of occurrences; only SS Nile stored"
+  },
+  {
+   "key": "8c5e130119c2#1",
+   "claim": "the shipwrecks prompted calls for a lighthouse to be built",
+   "cause": "event_structure",
+   "schema_type": "OCCURRED_AT",
+   "reason": "causal link from wrecks to calls for a light; nothing stored"
+  },
+  {
+   "key": "8c5e130119c2#2",
+   "claim": "something came of the plans before the wreck of SS Nile",
+   "cause": "assertion",
+   "schema_type": "OCCURRED_AT",
+   "reason": "negated: nothing came of the plans; nothing stored"
+  },
+  {
+   "key": "8c5e130119c2#3",
+   "claim": "the iron screw steamer SS Nile was wrecked during a storm on 30 November 1854",
+   "matched": [
+    "3874a5fa047b"
+   ],
+   "reason": "stored 'SS Nile WRECKED_AT Stones' from this sentence"
+  },
+  {
+   "key": "5cd8c9a2ec33#0",
+   "claim": "many applications were made concerning the erection of a light to warn mariners against the reef",
+   "cause": "attribution",
+   "schema_type": "OCCURRED_AT",
+   "reason": "quoted third-party letter; nothing stored about the applications"
+  },
+  {
+   "key": "5cd8c9a2ec33#1",
+   "claim": "the applications have been attended to",
+   "cause": "assertion",
+   "schema_type": "OCCURRED_AT",
+   "reason": "negated: applications never attended to; nothing stored"
+  },
+  {
+   "key": "5cd8c9a2ec33#2",
+   "claim": "the destruction of hundreds of lives and a mass of property may be attributed to the lack of a light",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a causal attribution of losses to the lack of a light has no fact type"
+  },
+  {
+   "key": "ad17c8cfa896#0",
+   "claim": "scarcely a month passes in the winter season without some vessel striking on these rocks",
+   "cause": "attribution",
+   "schema_type": "WRECKED_AT",
+   "reason": "quoted third party; unnamed recurring strikes not stored"
+  },
+  {
+   "key": "ad17c8cfa896#1",
+   "claim": "hundreds of men have perished on these rocks in dark dreary nights",
+   "cause": "attribution",
+   "schema_type": "LOCATED_AT",
+   "reason": "quoted third party; loss of life on the rocks not stored as an Event"
+  },
+  {
+   "key": "ad17c8cfa896#2",
+   "claim": "one was left to tell the tale",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "nobody surviving to tell the tale has no fact type"
+  },
+  {
+   "key": "841a2020f812#0",
+   "claim": "its construction took around a year",
+   "cause": "role",
+   "schema_type": "OCCURRED_AT",
+   "reason": "construction duration needs a time window no fact type carries; nothing stored"
+  },
+  {
+   "key": "841a2020f812#1",
+   "claim": "its construction cost £7,082 15s 12d",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "construction cost has no fact type"
+  },
+  {
+   "key": "841a2020f812#2",
+   "claim": "the light began operating on 1 March 1859",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "start of operation on 1 March 1859 is a milestone; nothing stored"
+  },
+  {
+   "key": "c9367b77b07e#0",
+   "claim": "there was a fixed red light below the main light",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "the fixed red light could be an Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "c9367b77b07e#1",
+   "claim": "the red light could be seen over a 45-degree arc of danger from the reef",
+   "matched": [
+    "1998848a6f7d"
+   ],
+   "reason": "stored 'Godrevy Lighthouse WARNS_OF reef' from this sentence; the danger sector warns of the reef"
+  },
+  {
+   "key": "0e60fb0da1d1#0",
+   "claim": "by 1939 the keepers had been withdrawn",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "withdrawal of keepers by 1939 is an Event; nothing stored"
+  },
+  {
+   "key": "0e60fb0da1d1#1",
+   "claim": "the keepers' cottages were subsequently demolished",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "demolition of cottages is an Event; nothing stored"
+  },
+  {
+   "key": "fcf4fb5edf2e#0",
+   "claim": "the Old Higher Lighthouse was built at Branscombe Hill",
+   "matched": [
+    "435fad5995f4"
+   ],
+   "reason": "stored 'Old Higher Lighthouse LOCATED_AT Branscombe Hill'"
+  },
+  {
+   "key": "fcf4fb5edf2e#1",
+   "claim": "the Old Lower Lighthouse was built on lower land",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "'lower land' is no named Location"
+  },
+  {
+   "key": "aaf9cd6c8d54#0",
+   "claim": "the lighthouse was owned by Marie Stopes",
+   "matched": [
+    "2f1a7e349236"
+   ],
+   "reason": "stored 'Marie Stopes ASSOCIATED_WITH Old Higher Lighthouse' (acquired it)"
+  },
+  {
+   "key": "9a15c8ad5f1a#0",
+   "claim": "on 24 May 1680 Trinity House was given permission to erect and maintain one or more lighthouses on the islands",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "permission granted on 24 May 1680 is an Event; stored OPERATED_BY says only that Trinity House established it"
+  },
+  {
+   "key": "49bfb5e255ca#0",
+   "claim": "there were two protests against the building of the St Agnes light",
+   "cause": "event_structure",
+   "schema_type": "OCCURRED_AT",
+   "reason": "two protests is a count of occurrences; nothing stored"
+  },
+  {
+   "key": "49bfb5e255ca#1",
+   "claim": "officials from the Isle of Wight complained that they would lose revenue from harbour dues and victualling as shipping would prefer the Isles of Scilly",
+   "cause": "role",
+   "schema_type": "OCCURRED_AT",
+   "reason": "protest needs its agent (unnamed officials, no Person) and grounds; nothing stored"
+  },
+  {
+   "key": "49bfb5e255ca#2",
+   "claim": "the Governor of Scilly objected on the grounds that he would lose money from wrecks",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_IN",
+   "reason": "Governor of Scilly objecting could be Person INVOLVED_IN Event; nothing stored"
+  },
+  {
+   "key": "ac2926c29ca4#0",
+   "claim": "the lighthouse was coal fired until 1790",
+   "cause": "role",
+   "schema_type": "COMPONENT_OF",
+   "reason": "coal fire as illuminant needs the time window until 1790; nothing stored"
+  },
+  {
+   "key": "ac2926c29ca4#1",
+   "claim": "in 1790 the lighthouse was converted to oil",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "conversion to oil in 1790 is an Event; nothing stored"
+  },
+  {
+   "key": "ac2926c29ca4#2",
+   "claim": "the oil light used twenty-one Argand lamps with reflectors",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "the 21 Argand lamps are not stored; only the later 30-lamp and 14-lamp arrays"
+  },
+  {
+   "key": "ac2926c29ca4#3",
+   "claim": "the lamps were mounted on a three-sided revolving array",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "the 1790 three-sided array is not stored; the stored one is the enlarged 1806 array of 30 lamps"
+  },
+  {
+   "key": "331e287b6fe7#0",
+   "claim": "the harbour is also known as Carrick Roads",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "an alternative name of a harbour has no fact type"
+  },
+  {
+   "key": "331e287b6fe7#1",
+   "claim": "the harbour is one of the largest natural harbours in the world",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a harbour's size ranking has no fact type"
+  },
+  {
+   "key": "886b7a47da3b#0",
+   "claim": "in 1912-13 work was underway for the improvement of the high and abolition of the low light",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "improvement works in 1912-13 are an Event; nothing stored"
+  },
+  {
+   "key": "886b7a47da3b#1",
+   "claim": "by 1920 the light source had been changed to pressure vapour",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "pressure vapour light source could be an Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "886b7a47da3b#2",
+   "claim": "by 1920 a large first-order fixed Fresnel optic had been introduced",
+   "matched": [
+    "b2e51dbb4a9d"
+   ],
+   "reason": "stored 'fixed Fresnel optic COMPONENT_OF St Anthony's'"
+  },
+  {
+   "key": "886b7a47da3b#3",
+   "claim": "a clockwork occulting mechanism had been introduced",
+   "matched": [
+    "519b94688c78"
+   ],
+   "reason": "stored 'clockwork occulting mechanism COMPONENT_OF St Anthony's'"
+  },
+  {
+   "key": "886b7a47da3b#4",
+   "claim": "the occulting mechanism eclipsed the light for three seconds in every twenty",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "eclipse timing of the light has no fact type"
+  },
+  {
+   "key": "99cc77e8ed0c#0",
+   "claim": "electric light was introduced in the form of a 24kW filament lamp",
+   "matched": [
+    "599b79312ee2"
+   ],
+   "reason": "stored '24kW filament lamp COMPONENT_OF St Anthony's'"
+  },
+  {
+   "key": "99cc77e8ed0c#1",
+   "claim": "electricity was connected to the lighthouse in 1954",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "connection of electricity in 1954 is an Event; nothing stored"
+  },
+  {
+   "key": "4584350abc60#0",
+   "claim": "the fog horn blasts once every 30 seconds",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a fog horn's blast interval has no fact type"
+  },
+  {
+   "key": "a4994fb9542a#0",
+   "claim": "the small rocky tidal island is linked to the mainland by a short concrete causeway",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no Location-Location fact type for a causeway link"
+  },
+  {
+   "key": "a4994fb9542a#1",
+   "claim": "the causeway is submerged at high tide",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "tidal submersion of a causeway has no fact type"
+  },
+  {
+   "key": "d89312f41410#0",
+   "claim": "the old lighthouse was demolished when the new lighthouse was built in 1898",
+   "cause": "event_structure",
+   "schema_type": "OCCURRED_AT",
+   "reason": "demolition tied to the time of the new building; nothing stored"
+  },
+  {
+   "key": "d89312f41410#1",
+   "claim": "the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island",
+   "matched": [
+    "f0490327251c"
+   ],
+   "reason": "stored 'St Mary's Lighthouse LOCATED_AT St Mary's Island' quotes this building claim"
+  },
+  {
+   "key": "d89312f41410#2",
+   "claim": "they were built by the John Miller company of Tynemouth",
+   "matched": [
+    "83594d074d8d"
+   ],
+   "reason": "stored 'St Mary's Lighthouse CONSTRUCTED_BY John Miller company'"
+  },
+  {
+   "key": "d89312f41410#3",
+   "claim": "they were built using 645 blocks of stone and 750,000 bricks",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "building materials and quantities have no fact type"
+  },
+  {
+   "key": "f7d41d5f5bf9#0",
+   "claim": "the lamp was powered by paraffin",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "a paraffin lamp could be an Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "f7d41d5f5bf9#1",
+   "claim": "the lamp was electrified before 1977",
+   "cause": "assertion",
+   "schema_type": "OCCURRED_AT",
+   "reason": "negated: not electrified before 1977; nothing stored"
+  },
+  {
+   "key": "f7d41d5f5bf9#2",
+   "claim": "the lamp was electrified in 1977",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "electrification in 1977 is an Event; nothing stored"
+  },
+  {
+   "key": "f7d41d5f5bf9#3",
+   "claim": "St Mary's was by then the last Trinity House lighthouse lit by oil",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "being the last oil-lit light is a ranking; stored OPERATED_BY Trinity House keeps only the operator"
+  },
+  {
+   "key": "700773ab5407#0",
+   "claim": "it functions as a working lighthouse",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "working status has no fact type"
+  },
+  {
+   "key": "700773ab5407#1",
+   "claim": "it is easily accessible when the tide is out",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "accessibility has no fact type"
+  },
+  {
+   "key": "700773ab5407#2",
+   "claim": "it is regularly open to visitors",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "opening to visitors has no fact type"
+  },
+  {
+   "key": "700773ab5407#3",
+   "claim": "there is a small museum, a visitor's centre and a café at the site",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "site facilities have no fact type"
+  },
+  {
+   "key": "77fcea63c577#0",
+   "claim": "in 2017 a renovation plan for the site was rejected by the local planning authority",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "rejection of a renovation plan in 2017 is an Event; nothing stored"
+  },
+  {
+   "key": "77fcea63c577#1",
+   "claim": "the plan was rejected due to environmental concerns",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "the reason for a rejection has no fact type"
+  },
+  {
+   "key": "77fcea63c577#2",
+   "claim": "the plan included roof-top viewing platforms and various glass-covered extensions",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "the content of a plan has no fact type"
+  },
+  {
+   "key": "79abd0261623#0",
+   "claim": "another Victorian lighthouse, Souter Lighthouse, is a few miles to the south of the River Tyne",
+   "reason": "the one stored match, Souter LOCATED_AT River Tyne, is judged wrong in R226's claim verdicts (wrong_relation); LOCATED_AT is 'on or overlooks' and no fact type holds 'a few miles to the south of'",
+   "cause": "no_schema_type",
+   "schema_type": null
+  },
+  {
+   "key": "79abd0261623#1",
+   "claim": "Souter Lighthouse is now decommissioned",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "decommissioning is an operational milestone Event; nothing stored"
+  },
+  {
+   "key": "79abd0261623#2",
+   "claim": "Souter Lighthouse is open to visitors",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "opening to visitors has no fact type"
+  },
+  {
+   "key": "79abd0261623#3",
+   "claim": "Souter Lighthouse can be seen with the naked eye from the top of St Mary's Lighthouse",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "visibility between lighthouses has no fact type"
+  },
+  {
+   "key": "300ebfa50448#0",
+   "claim": "the Newlyn and Mousehole Fishermen's Association put pressure on Trinity House for a lighthouse to be built after the tragedy",
+   "cause": "role",
+   "schema_type": "OCCURRED_AT",
+   "reason": "a campaign Event needs its agent, an Organization no fact type links to an Event; nothing stored"
+  },
+  {
+   "key": "300ebfa50448#1",
+   "claim": "similar tragedies could happen again",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a hypothetical future tragedy has no fact type"
+  },
+  {
+   "key": "973a07be098e#0",
+   "claim": "there is a separate red fixed light that shows in the line over the Runnelstone Rock",
+   "matched": [
+    "b07cd1d30144"
+   ],
+   "reason": "stored 'Tater Du Lighthouse WARNS_OF Runnelstone Rock' from this sentence"
+  },
+  {
+   "key": "973a07be098e#1",
+   "claim": "the red light is shone from a lower window in the tower",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "the window a light shines from has no fact type"
+  },
+  {
+   "key": "457b010c92e7#0",
+   "claim": "in May 2022 the revolving optic was replaced with static LED lanterns",
+   "matched": [
+    "53614995ba13",
+    "2b430db1cad5"
+   ],
+   "reason": "stored 'static LED lanterns' and 'revolving optic' COMPONENT_OF Tater Du, both quoting this replacement"
+  },
+  {
+   "key": "457b010c92e7#1",
+   "claim": "the replacement was part of Trinity House's lighthouse modernisation programme",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "membership in a programme has no fact type"
+  },
+  {
+   "key": "6ca9b57d7823#0",
+   "claim": "the fog signal was decommissioned in 2012",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "decommissioning of the fog signal in 2012 is an Event; nothing stored"
+  },
+  {
+   "key": "019bc36b8bc8#0",
+   "claim": "the coastal slope and cliffs around the lighthouse are designated the Tater-du SSSI",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "a conservation designation has no fact type"
+  },
+  {
+   "key": "019bc36b8bc8#1",
+   "claim": "the SSSI was notified in 1992",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "notification date of a designation has no fact type"
+  },
+  {
+   "key": "02da6911222b#0",
+   "claim": "the nearest point for launching a dive-boat is Penzance",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "dive-boat launch points have no fact type"
+  },
+  {
+   "key": "02da6911222b#1",
+   "claim": "Lamorna Cove allows launching",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "launching permission at a cove has no fact type"
+  },
+  {
+   "key": "02da6911222b#2",
+   "claim": "Lamorna Cove is just around the corner from The Bucks",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no Location-Location fact type"
+  },
+  {
+   "key": "66d1e9795ab6#0",
+   "claim": "the lighthouse is a white octagonal brick tower",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "tower shape, colour and material have no fact type"
+  },
+  {
+   "key": "66d1e9795ab6#1",
+   "claim": "the lighthouse was designed by James Walker",
+   "matched": [
+    "760969cbaefa"
+   ],
+   "reason": "stored 'Whitby Lighthouse ENGINEERED_BY James Walker'"
+  },
+  {
+   "key": "66d1e9795ab6#2",
+   "claim": "James Walker was of the civil engineers Messrs. Walker, Burgess & Cooper",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no Engineer-Organization fact type for a firm"
+  },
+  {
+   "key": "df3310267d1b#0",
+   "claim": "Henry Norris of James Walker's firm supervised the construction",
+   "reason": "stored only 'Henry Norris ASSOCIATED_WITH Whitby Lighthouse', which drops the supervision of the construction; ruling: a stored Person ASSOCIATED_WITH Lighthouse (lived at, acquired, visited, inspected, advocated) keeps the two ends but not what the person did; as R111's job titles kept only as an employer, a miss; an Event with Person INVOLVED_IN could hold it",
+   "cause": "extraction",
+   "schema_type": "INVOLVED_IN"
+  },
+  {
+   "key": "df3310267d1b#1",
+   "claim": "Henry Norris was engaged as Superintendent of the Works on behalf of Trinity House",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "no Person-Organization fact type for an appointment"
+  },
+  {
+   "key": "60febfc50afc#0",
+   "claim": "the light is a 1st Order assembly",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "the 1st Order assembly could be an Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "60febfc50afc#1",
+   "claim": "the light was manufactured by Chance Brothers of Smethwick",
+   "cause": "extraction",
+   "schema_type": "MANUFACTURED_BY",
+   "reason": "Chance Brothers as maker fits MANUFACTURED_BY; nothing stored"
+  },
+  {
+   "key": "60febfc50afc#2",
+   "claim": "the light was first lit on 1 October 1858",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "first lighting on 1 October 1858 is a milestone; nothing stored"
+  },
+  {
+   "key": "60febfc50afc#3",
+   "claim": "the costs of construction ran to about £8,000",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "construction cost has no fact type"
+  },
+  {
+   "key": "7714a96f6743#0",
+   "claim": "a pair of single-storey keepers' cottages was attached to each tower",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "cottages are neither Lighthouse, Apparatus nor Location; no fact type"
+  },
+  {
+   "key": "bd6b7cfc2168#0",
+   "claim": "a mechanism was also installed",
+   "cause": "extraction",
+   "schema_type": "COMPONENT_OF",
+   "reason": "the eclipsing mechanism could be an Apparatus COMPONENT_OF; nothing stored"
+  },
+  {
+   "key": "bd6b7cfc2168#1",
+   "claim": "the mechanism eclipsed the light once every thirty seconds",
+   "cause": "no_schema_type",
+   "schema_type": null,
+   "reason": "eclipse interval has no fact type"
+  },
+  {
+   "key": "bd6b7cfc2168#2",
+   "claim": "a red sector was added marking Whitby Rock",
+   "matched": [
+    "95afaab772e5"
+   ],
+   "reason": "stored 'Whitby Lighthouse WARNS_OF Whitby Rock' from this sentence"
+  },
+  {
+   "key": "0c7f493b8fbe#0",
+   "claim": "the North Lighthouse was then demolished",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "demolition of the North Lighthouse is an Event; nothing stored"
+  },
+  {
+   "key": "0c7f493b8fbe#1",
+   "claim": "the North Lighthouse's lantern and optic were re-used at a new lighthouse at Withernsea",
+   "matched": [
+    "dc7abe71ac90"
+   ],
+   "reason": "stored 'lantern and optic COMPONENT_OF Withernsea' from this sentence"
+  },
+  {
+   "key": "0c7f493b8fbe#2",
+   "claim": "a new lighthouse was then being built at Withernsea",
+   "cause": "extraction",
+   "schema_type": "LOCATED_AT",
+   "reason": "the new lighthouse at Withernsea could be LOCATED_AT Withernsea; Withernsea stored only as a lighthouse name"
+  },
+  {
+   "key": "5b9786a32610#0",
+   "claim": "trials of different types of signal were conducted",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "signal trials are an Event; nothing stored"
+  },
+  {
+   "key": "e41232074477#0",
+   "claim": "Whitby High lighthouse was electrified in 1976",
+   "cause": "extraction",
+   "schema_type": "OCCURRED_AT",
+   "reason": "electrification in 1976 is an Event; nothing stored"
+  },
+  {
+   "key": "e41232074477#1",
+   "claim": "after electrification the 'Hood' paraffin vapour burner was donated to the Whitby Museum",
+   "cause": "extraction",
+   "schema_type": "TRANSFERRED_TO",
+   "reason": "burner donated to Whitby Museum fits TRANSFERRED_TO; nothing stored"
+  },
+  {
+   "key": "e41232074477#2",
+   "claim": "the 'Hood' paraffin vapour burner had been the active light source up until 1976",
+   "matched": [
+    "92d96cd36152"
+   ],
+   "reason": "stored 'Hood paraffin vapour burner COMPONENT_OF Whitby High lighthouse'"
+  }
+ ],
+ "reviewed": [
+  "019bc36b8bc8#0",
+  "019bc36b8bc8#1",
+  "02da6911222b#0",
+  "02da6911222b#1",
+  "02da6911222b#2",
+  "07fccc17614f#0",
+  "07fccc17614f#1",
+  "0c7f493b8fbe#0",
+  "0c7f493b8fbe#2",
+  "0e60fb0da1d1#0",
+  "0e60fb0da1d1#1",
+  "136e5093b747#0",
+  "136e5093b747#1",
+  "136e5093b747#2",
+  "136e5093b747#3",
+  "2afa9c53fc8f#0",
+  "300ebfa50448#0",
+  "300ebfa50448#1",
+  "331e287b6fe7#0",
+  "331e287b6fe7#1",
+  "37ed07d5cd76#0",
+  "37ed07d5cd76#2",
+  "37ed07d5cd76#3",
+  "457b010c92e7#1",
+  "4584350abc60#0",
+  "49bfb5e255ca#0",
+  "49bfb5e255ca#1",
+  "49bfb5e255ca#2",
+  "5650fc9752c0#1",
+  "5650fc9752c0#2",
+  "57694ec2437b#0",
+  "57694ec2437b#1",
+  "5adf774fb43e#0",
+  "5adf774fb43e#1",
+  "5b9786a32610#0",
+  "5cd8c9a2ec33#0",
+  "5cd8c9a2ec33#1",
+  "5cd8c9a2ec33#2",
+  "60febfc50afc#0",
+  "60febfc50afc#1",
+  "60febfc50afc#2",
+  "60febfc50afc#3",
+  "63dab09ccad8#0",
+  "66d1e9795ab6#0",
+  "66d1e9795ab6#2",
+  "6ca9b57d7823#0",
+  "700773ab5407#0",
+  "700773ab5407#1",
+  "700773ab5407#2",
+  "700773ab5407#3",
+  "7714a96f6743#0",
+  "77fcea63c577#0",
+  "77fcea63c577#1",
+  "77fcea63c577#2",
+  "79abd0261623#0",
+  "79abd0261623#1",
+  "79abd0261623#2",
+  "79abd0261623#3",
+  "841a2020f812#0",
+  "841a2020f812#1",
+  "841a2020f812#2",
+  "886b7a47da3b#0",
+  "886b7a47da3b#1",
+  "886b7a47da3b#4",
+  "8c5e130119c2#0",
+  "8c5e130119c2#1",
+  "8c5e130119c2#2",
+  "957543ca3632#0",
+  "957543ca3632#1",
+  "973a07be098e#1",
+  "99cc77e8ed0c#1",
+  "9a15c8ad5f1a#0",
+  "a4994fb9542a#0",
+  "a4994fb9542a#1",
+  "a9b025f35a53#0",
+  "a9b025f35a53#2",
+  "ac2926c29ca4#0",
+  "ac2926c29ca4#1",
+  "ac2926c29ca4#2",
+  "ac2926c29ca4#3",
+  "ad17c8cfa896#0",
+  "ad17c8cfa896#1",
+  "ad17c8cfa896#2",
+  "bd6b7cfc2168#0",
+  "bd6b7cfc2168#1",
+  "bd6b7cfc2168#2",
+  "c63ba8e9b0e8#0",
+  "c63ba8e9b0e8#1",
+  "c63ba8e9b0e8#2",
+  "c63ba8e9b0e8#3",
+  "c63ba8e9b0e8#4",
+  "c9367b77b07e#0",
+  "ca4c63540be7#0",
+  "ca4c63540be7#1",
+  "ca4c63540be7#2",
+  "d4f92541b93b#0",
+  "d4f92541b93b#1",
+  "d4f92541b93b#2",
+  "d89312f41410#0",
+  "d89312f41410#3",
+  "df3310267d1b#0",
+  "df3310267d1b#1",
+  "e41232074477#0",
+  "e41232074477#1",
+  "f578e5f66e14#0",
+  "f578e5f66e14#1",
+  "f578e5f66e14#2",
+  "f7d41d5f5bf9#0",
+  "f7d41d5f5bf9#1",
+  "f7d41d5f5bf9#2",
+  "f7d41d5f5bf9#3",
+  "fcf4fb5edf2e#0",
+  "fcf4fb5edf2e#1"
+ ],
+ "changes": [
+  {
+   "key": "57694ec2437b#0",
+   "before": "matched",
+   "after": "extraction",
+   "reason": "stored only 'Joseph Chamberlain ASSOCIATED_WITH Anvil Point Lighthouse', which drops the opening; ruling: a stored Person ASSOCIATED_WITH Lighthouse (lived at, acquired, visited, inspected, advocated) keeps the two ends but not what the person did; as R111's job titles kept only as an employer, a miss; an Event with Person INVOLVED_IN could hold it"
+  },
+  {
+   "key": "79abd0261623#0",
+   "before": "matched",
+   "after": "no_schema_type",
+   "reason": "the one stored match, Souter LOCATED_AT River Tyne, is judged wrong in R226's claim verdicts (wrong_relation); LOCATED_AT is 'on or overlooks' and no fact type holds 'a few miles to the south of'"
+  },
+  {
+   "key": "df3310267d1b#0",
+   "before": "matched",
+   "after": "extraction",
+   "reason": "stored only 'Henry Norris ASSOCIATED_WITH Whitby Lighthouse', which drops the supervision of the construction; ruling: a stored Person ASSOCIATED_WITH Lighthouse (lived at, acquired, visited, inspected, advocated) keeps the two ends but not what the person did; as R111's job titles kept only as an employer, a miss; an Event with Person INVOLVED_IN could hold it"
+  }
+ ]
+}

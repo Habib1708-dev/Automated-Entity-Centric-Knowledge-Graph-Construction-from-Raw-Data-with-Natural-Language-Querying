@@ -1,0 +1,1890 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "d47aca1f30c7",
+  "sheet": "tests/gold/r226/ntsb/claim_sheet.json",
+  "sheet_hash": "3040693a7b1d",
+  "sheets_git_sha": "committed with the verdicts in step R226 (built from out/r155b at f84e97a)"
+ },
+ "criterion": "claims",
+ "verdicts": [
+  {
+   "id": "2b0c37fe6b0e",
+   "label": "VALID",
+   "reason": "header gives Edwardsburg, MI as the accident location",
+   "evidence": "CEN21LA283 (2021-06-20, Edwardsburg, MI)"
+  },
+  {
+   "id": "2d6037050b04",
+   "label": "VALID",
+   "reason": "the airplane could not climb above the rising terrain during the accident",
+   "evidence": "The pilot reported that the field had rising terrain toward its southern edge and as the airplane approached the southern edge, the airplane was unable to climb above the rising terrain."
+  },
+  {
+   "id": "2da6d7c10724",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the accident airplane",
+   "evidence": "The airplane sustained substantial damage to the fuselage, both wings, and empennage."
+  },
+  {
+   "id": "4e869993a685",
+   "label": "VALID",
+   "reason": "the document covers Air Tractor AT-502B accidents; this airplane is of that model",
+   "evidence": "# Air Tractor AT-502B accidents investigated by the NTSB"
+  },
+  {
+   "id": "82bde8feec1d",
+   "label": "VALID",
+   "reason": "both wings are parts of the airplane",
+   "evidence": "The airplane sustained substantial damage to the fuselage, both wings, and empennage."
+  },
+  {
+   "id": "8463bf63f317",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA283",
+   "evidence": "Probable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+  },
+  {
+   "id": "9ba5cf538f51",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's failure",
+   "evidence": "Probable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+  },
+  {
+   "id": "af9b51818047",
+   "label": "VALID",
+   "reason": "the probable cause names the failure to identify rising terrain",
+   "evidence": "Probable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+  },
+  {
+   "id": "c0a375522458",
+   "label": "VALID",
+   "reason": "the airplane struck trees and impacted the ground in this accident",
+   "evidence": "The pilot reported that while conducting an aerial application pass over a field, the airplane stuck trees and subsequently impacted the ground."
+  },
+  {
+   "id": "e7eea2372f2c",
+   "label": "VALID",
+   "reason": "the empennage is a part of the airplane",
+   "evidence": "The airplane sustained substantial damage to the fuselage, both wings, and empennage."
+  },
+  {
+   "id": "f7561888007e",
+   "label": "VALID",
+   "reason": "the pilot was flying the accident airplane",
+   "evidence": "The pilot reported that while conducting an aerial application pass over a field, the airplane stuck trees and subsequently impacted the ground."
+  },
+  {
+   "id": "08d238e6333e",
+   "label": "VALID",
+   "reason": "the airplane has a left fuel tank",
+   "evidence": "The property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank"
+  },
+  {
+   "id": "167bfd2b7472",
+   "label": "VALID",
+   "reason": "the airplane has a right fuel tank",
+   "evidence": "about 5 gallons of the fuel to the right fuel tank after the accident."
+  },
+  {
+   "id": "184d6c91d73e",
+   "label": "VALID",
+   "reason": "the right wing is a part of the airplane; negative tone reflects the damage, not clearly wrong",
+   "evidence": "The airplane sustained substantial damage to the fuselage and the right wing."
+  },
+  {
+   "id": "38368b272e34",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "The airplane sustained substantial damage to the fuselage and the right wing."
+  },
+  {
+   "id": "51288b2ff245",
+   "label": "VALID",
+   "reason": "the pilot flew the airplane out of the field",
+   "evidence": "He maneuvered the airplane out of the field and the engine steadily lost power."
+  },
+  {
+   "id": "6759f7291ebf",
+   "label": "VALID",
+   "reason": "the low fuel warning light is a part of the airplane",
+   "evidence": "The pilot reported that the low fuel warning light illuminated about five minutes before the partial loss of engine power"
+  },
+  {
+   "id": "cd06689c3d58",
+   "label": "VALID",
+   "reason": "header gives Topeka, KS as the location",
+   "evidence": "CEN21LA362 (2021-08-06, Topeka, KS)"
+  },
+  {
+   "id": "f4d96740a68e",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "He maneuvered the airplane out of the field and the engine steadily lost power."
+  },
+  {
+   "id": "ff68a8353ffb",
+   "label": "VALID",
+   "reason": "the airframe is the airplane's structural assembly",
+   "evidence": "The operator reported that there were no preimpact mechanical malfunctions or failures with the airframe and engine that would have precluded normal operation."
+  },
+  {
+   "id": "1a67a0f89fab",
+   "label": "VALID",
+   "reason": "the probable cause names the partial loss of engine power",
+   "evidence": "The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion."
+  },
+  {
+   "id": "6ea1d3516f85",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's decision",
+   "evidence": "The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion."
+  },
+  {
+   "id": "7ec928f063ba",
+   "label": "INCORRECT",
+   "faults": [
+    "wrong_relation"
+   ],
+   "reason": "stored: the finding cites a failure or condition of the warning light; the text cites the pilot's decision to continue after the light worked as intended, not any fault of the light",
+   "evidence": "The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion."
+  },
+  {
+   "id": "0f0eb6f42742",
+   "label": "VALID",
+   "reason": "the airplane bounced on landing in this accident",
+   "evidence": "The pilot reported that, upon landing, the airplane bounced and he elected to go around."
+  },
+  {
+   "id": "402f4057a703",
+   "label": "VALID",
+   "reason": "the pilot was flying the airplane",
+   "evidence": "The airplane became airborne again, but at the top of the bounce, the pilot felt the right wing rapidly dip and he applied left aileron to correct it."
+  },
+  {
+   "id": "4842a8f0b431",
+   "label": "VALID",
+   "reason": "the right wing is a part of the airplane",
+   "evidence": "The airplane became airborne again, but at the top of the bounce, the pilot felt the right wing rapidly dip and he applied left aileron to correct it."
+  },
+  {
+   "id": "8a399c04a98f",
+   "label": "VALID",
+   "reason": "the aft fuselage is a part of the airplane",
+   "evidence": "The airplane spun to the right and landed in the corn field, resulting in substantial damage to aft fuselage and empennage."
+  },
+  {
+   "id": "8f3d13fde651",
+   "label": "VALID",
+   "reason": "the empennage is a part of the airplane",
+   "evidence": "The airplane spun to the right and landed in the corn field, resulting in substantial damage to aft fuselage and empennage."
+  },
+  {
+   "id": "a9d92d358a48",
+   "label": "VALID",
+   "reason": "the pilot was involved in the accident",
+   "evidence": "The pilot reported that, upon landing, the airplane bounced and he elected to go around."
+  },
+  {
+   "id": "abe87734a099",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's improper landing flare",
+   "evidence": "Probable cause: The pilot’s improper landing flare, which resulted in a hard, bounced landing."
+  },
+  {
+   "id": "b8df2d8c4afb",
+   "label": "VALID",
+   "reason": "the left aileron is a control surface of the airplane",
+   "evidence": "The airplane became airborne again, but at the top of the bounce, the pilot felt the right wing rapidly dip and he applied left aileron to correct it."
+  },
+  {
+   "id": "c372d86eccbb",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "He added power and heard the engine spool up."
+  },
+  {
+   "id": "df6bdb1e4201",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN22LA310",
+   "evidence": "Probable cause: The pilot’s improper landing flare, which resulted in a hard, bounced landing."
+  },
+  {
+   "id": "f04e1a45c7ac",
+   "label": "VALID",
+   "reason": "header gives Wyoming, IL as the location",
+   "evidence": "CEN22LA310 (2022-07-10, Wyoming, IL)"
+  },
+  {
+   "id": "004560cb0a88",
+   "label": "VALID",
+   "reason": "both wings are parts of the airplane",
+   "evidence": "The pilot made a forced landing, during which the airplane struck an airport perimeter fence that resulted in substantial damaged to both wings."
+  },
+  {
+   "id": "4815a074b886",
+   "label": "VALID",
+   "reason": "the pilot was flying the airplane during climbout",
+   "evidence": "During departure climbout for spray operations, the pilot heard a “pop” and observed white smoke trailing the airplane."
+  },
+  {
+   "id": "7bf9edd83d51",
+   "label": "VALID",
+   "reason": "the pilot was involved in the accident",
+   "evidence": "During departure climbout for spray operations, the pilot heard a “pop” and observed white smoke trailing the airplane."
+  },
+  {
+   "id": "aef742c08980",
+   "label": "VALID",
+   "reason": "header gives Decatur, IL as the location",
+   "evidence": "CEN22LA312 (2022-07-11, Decatur, IL)"
+  },
+  {
+   "id": "c57d9eb86efd",
+   "label": "VALID",
+   "reason": "the airplane struck a fence in this accident",
+   "evidence": "The pilot made a forced landing, during which the airplane struck an airport perimeter fence that resulted in substantial damaged to both wings."
+  },
+  {
+   "id": "e2ec369ed71a",
+   "label": "VALID",
+   "reason": "the probable cause cites the CT blade fracture",
+   "evidence": "Probable cause: Fracture of the compressor turbine (CT) blades due to creep."
+  },
+  {
+   "id": "fe228229c0fc",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN22LA312",
+   "evidence": "Probable cause: Fracture of the compressor turbine (CT) blades due to creep."
+  },
+  {
+   "id": "18bb4b3e0762",
+   "label": "VALID",
+   "reason": "the airplane lost thrust in this accident",
+   "evidence": "The pilot reported that shortly after departure, the airplane lost thrust, but the engine remained operating."
+  },
+  {
+   "id": "3656fb750d36",
+   "label": "VALID",
+   "reason": "the document is about AT-502B accidents; the quote is irrelevant but the context supports the model",
+   "evidence": "## CEN23LA223 (2023-06-03, Lake Village, AR)"
+  },
+  {
+   "id": "4b23b4be506e",
+   "label": "VALID",
+   "reason": "the pilot was flying the airplane shortly after departure",
+   "evidence": "The pilot reported that shortly after departure, the airplane lost thrust, but the engine remained operating."
+  },
+  {
+   "id": "733f105d916c",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "Unable to continue flight with diminished thrust, the pilot started to jettison fertilizer and completed a forced landing to a field, which resulted in substantial damage to the fuselage, empennage, and both wings."
+  },
+  {
+   "id": "7b2d9f06b545",
+   "label": "VALID",
+   "reason": "the propeller blades are parts of the airplane",
+   "evidence": "Damage to the propeller blades was consistent with high impact forces while the propeller was rotating at low power at a low blade pitch angle."
+  },
+  {
+   "id": "98beace6d0ec",
+   "label": "VALID",
+   "reason": "header gives Lake Village, AR as the location",
+   "evidence": "CEN23LA223 (2023-06-03, Lake Village, AR)"
+  },
+  {
+   "id": "a7f228d09801",
+   "label": "VALID",
+   "reason": "the empennage is a part of the airplane",
+   "evidence": "Unable to continue flight with diminished thrust, the pilot started to jettison fertilizer and completed a forced landing to a field, which resulted in substantial damage to the fuselage, empennage, and both wings."
+  },
+  {
+   "id": "ad6cd198fb1b",
+   "label": "VALID",
+   "reason": "both wings are parts of the airplane",
+   "evidence": "Unable to continue flight with diminished thrust, the pilot started to jettison fertilizer and completed a forced landing to a field, which resulted in substantial damage to the fuselage, empennage, and both wings."
+  },
+  {
+   "id": "c74b0a87aec7",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN23LA223",
+   "evidence": "Probable cause: A reported loss of thrust for reasons that could not be determined."
+  },
+  {
+   "id": "c9cc3808352f",
+   "label": "VALID",
+   "reason": "the propeller is a part of the airplane",
+   "evidence": "A postaccident engine and propeller examination did not reveal any evidence of a mechanical malfunction or failure consistent with an inability to produce rated engine power."
+  },
+  {
+   "id": "cc3cf31ec9af",
+   "label": "VALID",
+   "reason": "the weight was estimated at or above 8,000 lbs; possible with hedge \"estimated\" fits (the lower-bound wording is lost)",
+   "evidence": "However, based on the available evidence, the airplane weight was estimated to be at or above 8,000 lbs."
+  },
+  {
+   "id": "e03fc4bf2db1",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "The pilot reported that shortly after departure, the airplane lost thrust, but the engine remained operating."
+  },
+  {
+   "id": "e6074c17ea6e",
+   "label": "VALID",
+   "reason": "the pilot was departing in the accident flight",
+   "evidence": "The pilot was departing from a 2,100-ft-long airstrip used for agricultural operations."
+  },
+  {
+   "id": "041a241008cd",
+   "label": "VALID",
+   "reason": "a pilot-rated passenger sat in the right front seat",
+   "evidence": "On short final a pilot-rated passenger seated in the right front seat recommended adding power."
+  },
+  {
+   "id": "0fc698f4465d",
+   "label": "VALID",
+   "reason": "the text names the lack of markings as contributing to the accident",
+   "evidence": "Contributing to the accident was the runway’s lack of identifying markings."
+  },
+  {
+   "id": "2a883297d731",
+   "label": "VALID",
+   "reason": "the probable cause stated for ANC21LA027",
+   "evidence": "Probable cause: The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm."
+  },
+  {
+   "id": "44ce5d28bfcd",
+   "label": "VALID",
+   "reason": "the nosewheel is a part of the airplane",
+   "evidence": "Subsequently, the airplane touchdown in an area of unplowed snow, impacted a snow berm, and the nosewheel collapsed."
+  },
+  {
+   "id": "624ef3336200",
+   "label": "VALID",
+   "reason": "the document covers Beech A36 accidents; this airplane is of that model",
+   "evidence": "# Beech A36 accidents investigated by the NTSB"
+  },
+  {
+   "id": "7b71e2e35506",
+   "label": "VALID",
+   "reason": "the pilot was flying the approach in this accident",
+   "evidence": "According to the pilot, during the approach to land on a plowed- snow-covered runway, he selected a touchdown point near, what he had identified as, the runway threshold."
+  },
+  {
+   "id": "7eb5a576995f",
+   "label": "VALID",
+   "reason": "the airplane impacted a snow berm",
+   "evidence": "Subsequently, the airplane touchdown in an area of unplowed snow, impacted a snow berm, and the nosewheel collapsed."
+  },
+  {
+   "id": "a34b6c054e19",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "The airplane sustained substantial damage to the fuselage."
+  },
+  {
+   "id": "d2198d531447",
+   "label": "VALID",
+   "reason": "the airplane touched down in unplowed snow in this accident",
+   "evidence": "Subsequently, the airplane touchdown in an area of unplowed snow, impacted a snow berm, and the nosewheel collapsed."
+  },
+  {
+   "id": "d68c194114e5",
+   "label": "VALID",
+   "reason": "header gives Port Alsworth, AK as the location",
+   "evidence": "ANC21LA027 (2021-03-20, Port Alsworth, AK)"
+  },
+  {
+   "id": "f20bd571c2ff",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's misidentification",
+   "evidence": "Probable cause: The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm."
+  },
+  {
+   "id": "19e2cef50891",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "The airplane sustained substantial damage to the left wing and fuselage."
+  },
+  {
+   "id": "29e8cf269269",
+   "label": "VALID",
+   "reason": "header gives Pinckneyville, IL as the location",
+   "evidence": "CEN21LA221 (2021-05-14, Pinckneyville, IL)"
+  },
+  {
+   "id": "32c1488d79d0",
+   "label": "VALID",
+   "reason": "the left wing is a part of the airplane",
+   "evidence": "The airplane sustained substantial damage to the left wing and fuselage."
+  },
+  {
+   "id": "6090c9351b7e",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "The pilot then requested to divert to the nearest airport, and shortly thereafter, the engine began to shake and lost total power."
+  },
+  {
+   "id": "65bf72a214e3",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA221",
+   "evidence": "Probable cause: The total loss of engine power due to oil starvation."
+  },
+  {
+   "id": "74acdfece70b",
+   "label": "VALID",
+   "reason": "the probable cause cites the engine power loss due to oil starvation",
+   "evidence": "Probable cause: The total loss of engine power due to oil starvation."
+  },
+  {
+   "id": "79a28a0ae4a9",
+   "label": "VALID",
+   "reason": "the pilot was flying the accident flight",
+   "evidence": "While at an altitude of 8,000 ft mean sea level, the pilot noticed the engine oil pressure began to fluctuate."
+  },
+  {
+   "id": "da06fbea2ee5",
+   "label": "VALID",
+   "reason": "the airplane landed in a field and hit a ditch",
+   "evidence": "During the landing, the airplane’s nose wheel landing gear impacted a ditch."
+  },
+  {
+   "id": "db6331e03de3",
+   "label": "VALID",
+   "reason": "the nose wheel landing gear is a part of the airplane",
+   "evidence": "During the landing, the airplane’s nose wheel landing gear impacted a ditch."
+  },
+  {
+   "id": "eb374558324e",
+   "label": "VALID",
+   "reason": "the pilot executed the forced landing",
+   "evidence": "Unable to make the airport, the pilot executed a forced landing to a field."
+  },
+  {
+   "id": "325b097c23b9",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA382",
+   "evidence": "Probable cause: The loss of engine power for reasons that could not be determined with the available information."
+  },
+  {
+   "id": "441a0fbd1206",
+   "label": "VALID",
+   "reason": "the airplane has fuel tanks",
+   "evidence": "Fuel was available in the airplane’s fuel tanks"
+  },
+  {
+   "id": "50c7f6ba15f5",
+   "label": "VALID",
+   "reason": "the wings are parts of the airplane",
+   "evidence": "An initial inspection of the airplane noted damage to the airplane’s wings and fuselage."
+  },
+  {
+   "id": "7511b2c54f55",
+   "label": "VALID",
+   "reason": "the fuel system is a part of the airplane",
+   "evidence": "An examination of the fuel system revealed no anomalies."
+  },
+  {
+   "id": "a81088f41888",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "shortly after departure the airplane’s engine lost power."
+  },
+  {
+   "id": "c6d90273f8fd",
+   "label": "VALID",
+   "reason": "header gives Granbury, TX as the location",
+   "evidence": "CEN21LA382 (2021-08-24, Granbury, TX)"
+  },
+  {
+   "id": "d8a6995b1edc",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "An initial inspection of the airplane noted damage to the airplane’s wings and fuselage."
+  },
+  {
+   "id": "ddc879bff757",
+   "label": "VALID",
+   "reason": "the pilot flew the airplane and chose a field for the forced landing",
+   "evidence": "The pilot selected a nearby field for a forced landing."
+  },
+  {
+   "id": "12dabd73353f",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "The airplane exited the highway and came to rest nose down in a ditch which resulted in substantial damage to the fuselage."
+  },
+  {
+   "id": "1f01bad77656",
+   "label": "VALID",
+   "reason": "the airplane has left-wing fuel tanks",
+   "evidence": "26 gallons were recovered from the left-wing fuel tanks."
+  },
+  {
+   "id": "265e68cc9395",
+   "label": "VALID",
+   "reason": "the airplane has right-wing fuel tanks",
+   "evidence": "During recovery of the airplane, 22 gallons of fuel were recovered from the right-wing fuel tanks"
+  },
+  {
+   "id": "684b14f99018",
+   "label": "VALID",
+   "reason": "the document covers Beech A36 accidents; the quote is not about the model",
+   "evidence": "## CEN22LA059 (2021-12-02, Cleveland, TX)"
+  },
+  {
+   "id": "87fdac11c139",
+   "label": "VALID",
+   "reason": "the pilot was flying the accident flight",
+   "evidence": "The pilot reported that while in cruise flight, the airplane’s engine lost power suddenly."
+  },
+  {
+   "id": "8f4c1f9cc1e3",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "the airplane’s engine lost power suddenly."
+  },
+  {
+   "id": "908ccbd74b82",
+   "label": "VALID",
+   "reason": "header gives Cleveland, TX as the location",
+   "evidence": "CEN22LA059 (2021-12-02, Cleveland, TX)"
+  },
+  {
+   "id": "ba520cee2b66",
+   "label": "VALID",
+   "reason": "the right-wing tip is a part of the airplane",
+   "evidence": "During the landing flare on the highway, the right-wing tip struck a road sign."
+  },
+  {
+   "id": "d2a54677393f",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN22LA059",
+   "evidence": "Probable cause: A total loss of engine power due to fuel starvation, the reason for which could not be determined."
+  },
+  {
+   "id": "d5a90867c020",
+   "label": "VALID",
+   "reason": "the airplane was in the accident (landed on a highway, came to rest in a ditch); the quote is about the examination",
+   "evidence": "The airplane exited the highway and came to rest nose down in a ditch which resulted in substantial damage to the fuselage."
+  },
+  {
+   "id": "ebac64ca6320",
+   "label": "VALID",
+   "reason": "the pilot redirected the airplane",
+   "evidence": "The pilot realized that he would not be able to reach the airport he had selected and redirected the airplane toward a nearby highway."
+  },
+  {
+   "id": "212742114717",
+   "label": "VALID",
+   "reason": "the fuselage is a part of the airplane",
+   "evidence": "During the forced landing, the airplane impacted terrain, resulting in substantial damage to the left wing and fuselage."
+  },
+  {
+   "id": "2675f2b1b2f2",
+   "label": "VALID",
+   "reason": "the airplane impacted terrain in this accident; negative tone fits the damage",
+   "evidence": "During the forced landing, the airplane impacted terrain, resulting in substantial damage to the left wing and fuselage."
+  },
+  {
+   "id": "476266e2bc92",
+   "label": "VALID",
+   "reason": "the left wing is a part of the airplane",
+   "evidence": "During the forced landing, the airplane impacted terrain, resulting in substantial damage to the left wing and fuselage."
+  },
+  {
+   "id": "630b7f6662e0",
+   "label": "VALID",
+   "reason": "the engine is a part of the airplane",
+   "evidence": "The pilot reported that while in cruise flight over a cloud layer, the engine lost power as if it were out of fuel."
+  },
+  {
+   "id": "74864ee2dee9",
+   "label": "VALID",
+   "reason": "the airplane has an auxiliary fuel pump (not engaged, but present)",
+   "evidence": "During the attempt to restore engine power, the pilot did not engage the auxiliary fuel pump as stated in the emergency procedures checklist, which may have aided in restoring engine power."
+  },
+  {
+   "id": "83fe06a30686",
+   "label": "VALID",
+   "reason": "header gives Oberlin, KS as the location",
+   "evidence": "CEN23LA344 (2023-07-20, Oberlin, KS)"
+  },
+  {
+   "id": "af907c9755c3",
+   "label": "VALID",
+   "reason": "the fuel system is a part of the airplane",
+   "evidence": "Examination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+  },
+  {
+   "id": "c73931fdf297",
+   "label": "VALID",
+   "reason": "the pilot was flying the airplane as it descended",
+   "evidence": "As the airplane descended through the cloud layer, the pilot switched back to the left fuel tank and then focused his attention on maintaining airplane control."
+  },
+  {
+   "id": "d4b1d5d80887",
+   "label": "VALID",
+   "reason": "the fuel venting system is a part of the airplane",
+   "evidence": "Examination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+  },
+  {
+   "id": "ea85c924d1b5",
+   "label": "VALID",
+   "reason": "the left-wing fuel tank is a part of the airplane",
+   "evidence": "Examination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+  },
+  {
+   "id": "f7dd5e72297e",
+   "label": "VALID",
+   "reason": "the pilot was flying when the engine lost power",
+   "evidence": "The pilot reported that while in cruise flight over a cloud layer, the engine lost power as if it were out of fuel."
+  },
+  {
+   "id": "3d497f5616d0",
+   "label": "VALID",
+   "reason": "the probable cause cites the blocked left fuel tank vent",
+   "evidence": "The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation."
+  },
+  {
+   "id": "c05a7d13454f",
+   "label": "VALID",
+   "reason": "the contributing factor cites the pilot's failure to use his checklist",
+   "evidence": "Contributing to the accident of the pilot’s failure to use his checklist to address the loss of engine power."
+  },
+  {
+   "id": "131a7164247d",
+   "label": "VALID",
+   "reason": "the airport manager confirmed patchy compressed snow on the runway",
+   "evidence": "The airport manager confirmed that the runway had patchy compressed snow covering about 25% of the runway surface."
+  },
+  {
+   "id": "2f48ffaff17a",
+   "label": "VALID",
+   "reason": "the airplane's right wing is a part of the airplane",
+   "evidence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+  },
+  {
+   "id": "53437b049cee",
+   "label": "VALID",
+   "reason": "solo flight by the student pilot; the quote is weak but the chunk puts him on board",
+   "evidence": "The student pilot reported that he was 0n a solo cross-country flight"
+  },
+  {
+   "id": "5d961750dd4a",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+  },
+  {
+   "id": "74229e6236fc",
+   "label": "VALID",
+   "reason": "contributing factor stated for this accident",
+   "evidence": "The slippery runway condition contributed to the accident."
+  },
+  {
+   "id": "77a463ee913a",
+   "label": "VALID",
+   "reason": "the student pilot flew the accident flight",
+   "evidence": "The student pilot reported that he was 0n a solo cross-country flight and the takeoff, climb, and en route portions of the flight were uneventful. He expected to perform a touch-and-go landing at the accident airport."
+  },
+  {
+   "id": "9374fb7089b3",
+   "label": "VALID",
+   "reason": "heading gives Urbana, OH and the date",
+   "evidence": "CEN21LA126 (2021-02-07, Urbana, OH)"
+  },
+  {
+   "id": "9f3d69380dc5",
+   "label": "VALID",
+   "reason": "the airplane struck a snowbank and was damaged; quote is weak",
+   "evidence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+  },
+  {
+   "id": "ad4ba57218b5",
+   "label": "VALID",
+   "reason": "the finding cites the slippery runway condition",
+   "evidence": "The slippery runway condition contributed to the accident."
+  },
+  {
+   "id": "f6a9e6ff05ba",
+   "label": "VALID",
+   "reason": "runway had patchy snow, noticed during the approach",
+   "evidence": "During the approach, he noticed that the runway had patchy snow on it."
+  },
+  {
+   "id": "fa2e7004a9f8",
+   "label": "VALID",
+   "reason": "probable cause cites the student pilot's loss of control",
+   "evidence": "Probable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+  },
+  {
+   "id": "3c72e9bc16ff",
+   "label": "VALID",
+   "reason": "hose accumulated 12,512.5 total hours over about 20 years",
+   "evidence": "Maintenance records revealed that the hose had been in service for about 20 years, accumulating 12,512.5 total hours."
+  },
+  {
+   "id": "59ac72d1c6c7",
+   "label": "VALID",
+   "reason": "heading gives Saint James, LA",
+   "evidence": "CEN21LA268 (2021-06-10, Saint James, LA)"
+  },
+  {
+   "id": "706235159cfa",
+   "label": "INCORRECT",
+   "faults": [
+    "time"
+   ],
+   "reason": "left wing is a part of the airplane, but stored time 'during the landing rollout' dates the sign impact, not the part-of relation",
+   "evidence": "During the landing rollout, the left wing impacted a metal road sign, and the airplane came to a stop on a grass median."
+  },
+  {
+   "id": "81a5c8f3bd5c",
+   "label": "VALID",
+   "reason": "the airplane was damaged in this accident",
+   "evidence": "The airplane sustained substantial damage to the left wing."
+  },
+  {
+   "id": "8d60254161f7",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "The pilot of the low-level pipeline patrol flight reported that after about one hour into the flight, a “very loud pop” noise emitted from behind the instrument panel"
+  },
+  {
+   "id": "b4189536038b",
+   "label": "VALID",
+   "reason": "probable cause cites the failure of the air-conditioning hose",
+   "evidence": "Probable cause: The in-flight fatigue failure of an air-conditioning system hose which resulted in a precautionary landing and impact with a road sign."
+  },
+  {
+   "id": "bf262d973bbb",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The in-flight fatigue failure of an air-conditioning system hose which resulted in a precautionary landing and impact with a road sign."
+  },
+  {
+   "id": "cd154d54b732",
+   "label": "VALID",
+   "reason": "examination of the airplane found its high-pressure air conditioning hose failed",
+   "evidence": "A postaccident examination of the airplane revealed that a high-pressure air conditioning hose failed and separated at a metal crimp connection at the firewall pass-through."
+  },
+  {
+   "id": "3a43cacd182b",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: A loss of engine power for undetermined reasons."
+  },
+  {
+   "id": "519916a2f2de",
+   "label": "VALID",
+   "reason": "the instructor took control of the airplane in flight",
+   "evidence": "The flight instructor took control of the airplane and attempted to restart the engine with no success."
+  },
+  {
+   "id": "68c5f551af2a",
+   "label": "VALID",
+   "reason": "heading gives LaSalle, CO",
+   "evidence": "CEN21LA414 (2021-09-10, LaSalle, CO)"
+  },
+  {
+   "id": "89ccd8ae1c36",
+   "label": "VALID",
+   "reason": "the airplane's engine",
+   "evidence": "the airplane’s engine did not respond when power was added."
+  },
+  {
+   "id": "8a25bc0ad153",
+   "label": "VALID",
+   "reason": "the student pilot was conducting the maneuver",
+   "evidence": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+  },
+  {
+   "id": "bdad08b6a42a",
+   "label": "VALID",
+   "reason": "the flight instructor was conducting the maneuver",
+   "evidence": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+  },
+  {
+   "id": "e6da9abfe4cd",
+   "label": "VALID",
+   "reason": "the airplane's wings were damaged",
+   "evidence": "The airplane sustained substantial damage to both wings and the fuselage."
+  },
+  {
+   "id": "eedb222a80fa",
+   "label": "VALID",
+   "reason": "the airplane's fuselage was damaged",
+   "evidence": "The airplane sustained substantial damage to both wings and the fuselage."
+  },
+  {
+   "id": "27d261630285",
+   "label": "VALID",
+   "reason": "probable cause cites the improperly torqued B nut",
+   "evidence": "Probable cause: The failure of maintenance personnel to properly torque a fuel line “B” nut, which resulted in a total loss of engine power."
+  },
+  {
+   "id": "336040ad4536",
+   "label": "VALID",
+   "reason": "the airplane flew about 2.7 hours after the engine installation",
+   "evidence": "the airplane had flown about 2.7 hours after the installation and before the accident."
+  },
+  {
+   "id": "56a25312e1f4",
+   "label": "VALID",
+   "reason": "the flight instructor executed the forced landing",
+   "evidence": "The flight instructor declared an emergency and executed a forced landing to a park area about 1 mile north of the runway."
+  },
+  {
+   "id": "733bfd67fbfd",
+   "label": "VALID",
+   "reason": "the flight instructor took control during the accident flight",
+   "evidence": "The flight instructor took control of the airplane and made multiple attempts to restart the engine, which were unsuccessful."
+  },
+  {
+   "id": "7f713006e376",
+   "label": "VALID",
+   "reason": "heading gives Traverse City, MI",
+   "evidence": "CEN22LA194 (2022-05-10, Traverse City, MI)"
+  },
+  {
+   "id": "812c6f42b0a4",
+   "label": "VALID",
+   "reason": "the flight instructor took control of the airplane in flight",
+   "evidence": "The flight instructor took control of the airplane and made multiple attempts to restart the engine, which were unsuccessful."
+  },
+  {
+   "id": "82a565d86abf",
+   "label": "VALID",
+   "reason": "the airplane's engine mount was damaged",
+   "evidence": "Postaccident examination of the airplane revealed substantial damage to the right wing and engine mount."
+  },
+  {
+   "id": "8bb0bd6a512f",
+   "label": "VALID",
+   "reason": "the airplane's right wing was damaged",
+   "evidence": "Postaccident examination of the airplane revealed substantial damage to the right wing and engine mount."
+  },
+  {
+   "id": "acf553a337f0",
+   "label": "VALID",
+   "reason": "the engine installed in the airplane",
+   "evidence": "The engine had recently been installed by maintenance personnel; the airplane had flown about 2.7 hours after the installation and before the accident."
+  },
+  {
+   "id": "c546938dc6e7",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The failure of maintenance personnel to properly torque a fuel line “B” nut, which resulted in a total loss of engine power."
+  },
+  {
+   "id": "cba3e8ca38c3",
+   "label": "VALID",
+   "reason": "the forced landing was part of the accident sequence",
+   "evidence": "The flight instructor declared an emergency and executed a forced landing to a park area about 1 mile north of the runway."
+  },
+  {
+   "id": "cca850b6b65f",
+   "label": "VALID",
+   "reason": "the airplane of the accident flight",
+   "evidence": "The flight instructor took control of the airplane and made multiple attempts to restart the engine, which were unsuccessful."
+  },
+  {
+   "id": "d83ca2efd604",
+   "label": "VALID",
+   "reason": "the pilot receiving instruction flew the approach when power was lost",
+   "evidence": "The pilot receiving instruction was on a visual approach to the runway during an instructional flight, at which time the engine lost total power."
+  },
+  {
+   "id": "160c117def0b",
+   "label": "INCORRECT",
+   "faults": [
+    "not_in_text"
+   ],
+   "reason": "stored as on board during the flight; the text says the instructor flew the airplane earlier in the day, not on the accident flight",
+   "evidence": "A flight instructor, who flew the airplane earlier in the day, reported that he heard a noise that he thought was coming from the nosewheel shimmy dampener."
+  },
+  {
+   "id": "171dee70a395",
+   "label": "VALID",
+   "reason": "the nosewheel shimmy dampener is a part of the airplane",
+   "evidence": "A flight instructor, who flew the airplane earlier in the day, reported that he heard a noise that he thought was coming from the nosewheel shimmy dampener."
+  },
+  {
+   "id": "297c3c3bbd69",
+   "label": "VALID",
+   "reason": "probable cause cites the pilot's pitch control",
+   "evidence": "Probable cause: The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing."
+  },
+  {
+   "id": "4591e7c7bb25",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "The pilot reported that while taxiing for a local night flight, he heard a slight noise that originated from the front of the airplane."
+  },
+  {
+   "id": "9477d72d3791",
+   "label": "VALID",
+   "reason": "heading gives Salina, KS",
+   "evidence": "CEN22LA244 (2022-06-09, Salina, KS)"
+  },
+  {
+   "id": "b7176cb2d924",
+   "label": "VALID",
+   "reason": "the airplane's fuselage was damaged",
+   "evidence": "The airplane contacted the runway and bounced multiple times, which resulted in substantial damage to the fuselage."
+  },
+  {
+   "id": "c02e7c36907c",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing."
+  },
+  {
+   "id": "ffbcf07b6236",
+   "label": "VALID",
+   "reason": "the pilot was taxiing the airplane",
+   "evidence": "The pilot reported that while taxiing for a local night flight, he heard a slight noise that originated from the front of the airplane."
+  },
+  {
+   "id": "1114f9d0b64e",
+   "label": "VALID",
+   "reason": "the airplane's flaps",
+   "evidence": "The airplane’s flaps were found in the retracted position."
+  },
+  {
+   "id": "4aa0ec480a63",
+   "label": "VALID",
+   "reason": "the airplane bounced and crashed in this accident",
+   "evidence": "The pilot flew a visual approach to the airport, where several witnesses observed the airplane bounce on the runway then heard an increase in engine power"
+  },
+  {
+   "id": "847bd230404c",
+   "label": "VALID",
+   "reason": "the passenger could not egress after the crash",
+   "evidence": "A postimpact fire ensued, and the pilot and passenger were not able to egress the airplane."
+  },
+  {
+   "id": "96ed7604c34e",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "The pilot flew a visual approach to the airport"
+  },
+  {
+   "id": "b83f8c1819c3",
+   "label": "VALID",
+   "reason": "the passenger was in the airplane",
+   "evidence": "the pilot and passenger were not able to egress the airplane."
+  },
+  {
+   "id": "c619871540af",
+   "label": "VALID",
+   "reason": "heading gives Lamoni, IA",
+   "evidence": "CEN21FA299 (2021-07-01, Lamoni, IA)"
+  },
+  {
+   "id": "d1560ba82d14",
+   "label": "VALID",
+   "reason": "probable cause cites the pilot's loss of control",
+   "evidence": "Probable cause: The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire."
+  },
+  {
+   "id": "df5ec86c929d",
+   "label": "VALID",
+   "reason": "the pilot was in the airplane",
+   "evidence": "the pilot and passenger were not able to egress the airplane."
+  },
+  {
+   "id": "fefac85b5bf1",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire."
+  },
+  {
+   "id": "1a4a36f42d37",
+   "label": "INCORRECT",
+   "faults": [
+    "wrong_relation"
+   ],
+   "reason": "stored as the finding citing a failure or condition of the parachute system; the finding cites an instrument malfunction, the parachute only as the pilot's chosen response",
+   "evidence": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+  },
+  {
+   "id": "48f86b2c1196",
+   "label": "VALID",
+   "reason": "the airplane's EHSI was tested after the accident",
+   "evidence": "Postaccident testing of the electronic horizonal situation indicator, directional gyro, and horizon reference indicator revealed no anomalies"
+  },
+  {
+   "id": "569afe4ada4d",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+  },
+  {
+   "id": "6f1793421ad5",
+   "label": "VALID",
+   "reason": "the airplane's Cirrus airframe parachute system",
+   "evidence": "he elected to activate the Cirrus airframe parachute system"
+  },
+  {
+   "id": "a3c67355e64e",
+   "label": "VALID",
+   "reason": "heading gives Whitewater, WI",
+   "evidence": "CEN21LA232 (2021-05-16, Whitewater, WI)"
+  },
+  {
+   "id": "bc641c822faa",
+   "label": "VALID",
+   "reason": "the airplane's horizon reference indicator was tested",
+   "evidence": "Postaccident testing of the electronic horizonal situation indicator, directional gyro, and horizon reference indicator revealed no anomalies"
+  },
+  {
+   "id": "c551d6934844",
+   "label": "VALID",
+   "reason": "the finding cites the pilot's decision to activate the parachute",
+   "evidence": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+  },
+  {
+   "id": "efa1a9a8ca95",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "The pilot reported that, during an instrument flight rules flight, he began receiving conflicting information from the flight instruments and digital flight information display."
+  },
+  {
+   "id": "f7813333a1b3",
+   "label": "VALID",
+   "reason": "the airplane's directional gyro was tested",
+   "evidence": "Postaccident testing of the electronic horizonal situation indicator, directional gyro, and horizon reference indicator revealed no anomalies"
+  },
+  {
+   "id": "1dfe0ccf456b",
+   "label": "VALID",
+   "reason": "probable cause cites the pilot's directional control",
+   "evidence": "Probable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+  },
+  {
+   "id": "2534385e11b6",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+  },
+  {
+   "id": "2dc9c6061f7e",
+   "label": "VALID",
+   "reason": "the airplane was damaged during the accident",
+   "evidence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+  },
+  {
+   "id": "8f6e2bd1f047",
+   "label": "VALID",
+   "reason": "heading gives Hayward, WI",
+   "evidence": "CEN21LA280 (2021-06-18, Hayward, WI)"
+  },
+  {
+   "id": "9370535551c9",
+   "label": "INCORRECT",
+   "faults": [
+    "time"
+   ],
+   "reason": "nose landing gear is a part of the airplane, but stored time 'during the accident' dates the collapse, not the part-of relation",
+   "evidence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+  },
+  {
+   "id": "9eb97a46912c",
+   "label": "INCORRECT",
+   "faults": [
+    "time"
+   ],
+   "reason": "right wing is a part of the airplane, but stored time 'during the accident' dates the damage, not the part-of relation",
+   "evidence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+  },
+  {
+   "id": "a149e0266bdf",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "The pilot completed a short cross-country flight and checked the wind conditions at the destination airport."
+  },
+  {
+   "id": "cf5a850c24d9",
+   "label": "VALID",
+   "reason": "the finding cites the gusting wind",
+   "evidence": "Probable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+  },
+  {
+   "id": "d5ce918ed2db",
+   "label": "VALID",
+   "reason": "the airplane was hit by a gust at 30 to 50 ft agl",
+   "evidence": "The pilot added that when he was about 30 to 50 ft agl, the airplane was hit with a gust of wind."
+  },
+  {
+   "id": "0db12f9faf7e",
+   "label": "VALID",
+   "reason": "the airplane impacted a fence in this accident",
+   "evidence": "The airplane subsequently impacted a fence off the end of the runway, which resulted in substantial damage to both wings."
+  },
+  {
+   "id": "3bc6358916c6",
+   "label": "VALID",
+   "reason": "the pilot landed the airplane",
+   "evidence": "The pilot reported that he landed on a runway that was wet due to recent rain showers."
+  },
+  {
+   "id": "3e4235009dd3",
+   "label": "VALID",
+   "reason": "the pilot was braking the airplane",
+   "evidence": "The pilot then reapplied the brakes but was unable to stop the airplane on the remaining runway."
+  },
+  {
+   "id": "478db27bbecd",
+   "label": "VALID",
+   "reason": "the runway was wet from rain",
+   "evidence": "The pilot reported that he landed on a runway that was wet due to recent rain showers."
+  },
+  {
+   "id": "652533a05496",
+   "label": "VALID",
+   "reason": "probable cause stated for this accident",
+   "evidence": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+  },
+  {
+   "id": "665761530c36",
+   "label": "VALID",
+   "reason": "the airplane's brakes",
+   "evidence": "As he applied the brakes, the airplane began to hydroplane, so he released braking pressure to regain directional control."
+  },
+  {
+   "id": "6ccc0200a0d2",
+   "label": "VALID",
+   "reason": "the airplane's wings were damaged",
+   "evidence": "The airplane subsequently impacted a fence off the end of the runway, which resulted in substantial damage to both wings."
+  },
+  {
+   "id": "7630e3d34f87",
+   "label": "VALID",
+   "reason": "the finding cites the wet runway",
+   "evidence": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+  },
+  {
+   "id": "a34a3d644669",
+   "label": "VALID",
+   "reason": "the finding names the pilot's inability to stop the airplane",
+   "evidence": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+  },
+  {
+   "id": "ad5e1ec19ba0",
+   "label": "VALID",
+   "reason": "heading gives Nashville, AR",
+   "evidence": "CEN22LA235 (2022-06-06, Nashville, AR)"
+  },
+  {
+   "id": "16ac5407963a",
+   "label": "VALID",
+   "reason": "the pilot was landing the airplane",
+   "evidence": "The pilot reported that the airplane encountered low-level wind shear as it crossed the runway threshold while landing."
+  },
+  {
+   "id": "17a9fddec8b2",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "The pilot reported that the airplane encountered low-level wind shear as it crossed the runway threshold while landing."
+  },
+  {
+   "id": "327de142892c",
+   "label": "VALID",
+   "reason": "the airplane encountered a strong right crosswind while landing",
+   "evidence": "He stated that as he was about to flare for landing, the airplane encountered a strong crosswind from the right causing it to drift toward the left side of the runway."
+  },
+  {
+   "id": "4e187c89b710",
+   "label": "VALID",
+   "reason": "the airplane encountered low-level wind shear",
+   "evidence": "The pilot reported that the airplane encountered low-level wind shear as it crossed the runway threshold while landing."
+  },
+  {
+   "id": "6d96239e7964",
+   "label": "VALID",
+   "reason": "heading gives Loveland, CO",
+   "evidence": "CEN23LA017 (2022-10-23, Loveland, CO)"
+  },
+  {
+   "id": "8e06779baa56",
+   "label": "VALID",
+   "reason": "the airplane of the accident flight",
+   "evidence": "The pilot reported that the airplane encountered low-level wind shear as it crossed the runway threshold while landing."
+  },
+  {
+   "id": "a1f6c8f07207",
+   "label": "VALID",
+   "reason": "the pilot encountered a 90 degree crosswind gusting to 31 knots",
+   "evidence": "At the time of the accident, the pilot encountered a 90° direct crosswind, gusting to 31 knots."
+  },
+  {
+   "id": "d4e0c7f7fb21",
+   "label": "VALID",
+   "reason": "the airplane's engine",
+   "evidence": "He initiated a go-around; however, the engine made a “coughing” sound and lost power."
+  },
+  {
+   "id": "160c4cd37f82",
+   "label": "VALID",
+   "reason": "the contributing finding cites the 90-degree 30-knot crosswind",
+   "evidence": "Contributing was pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots."
+  },
+  {
+   "id": "aca72450b450",
+   "label": "VALID",
+   "reason": "probable cause cites windshear",
+   "evidence": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind."
+  },
+  {
+   "id": "b4c0f8af5f64",
+   "label": "VALID",
+   "reason": "probable cause cites the pilot's loss of control",
+   "evidence": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind."
+  },
+  {
+   "id": "cb8ce00e41ea",
+   "label": "VALID",
+   "reason": "probable cause cites the strong gusting crosswind",
+   "evidence": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind."
+  },
+  {
+   "id": "d6e7975e62ae",
+   "label": "VALID",
+   "reason": "contributing finding cites the pilot's decision",
+   "evidence": "Contributing was pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots."
+  },
+  {
+   "id": "324a2d8660bf",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA185 is this finding",
+   "evidence": "Probable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+  },
+  {
+   "id": "3f0c67e5ac8d",
+   "label": "VALID",
+   "reason": "the document is about Piper PA-28-181 accidents; the accident airplane is of that model",
+   "evidence": "# Piper PA-28-181 accidents investigated by the NTSB"
+  },
+  {
+   "id": "6612d0c5062a",
+   "label": "VALID",
+   "reason": "the pilot was flying the airplane in CEN21LA185",
+   "evidence": "At the time of the accident, the pilot was taking off on runway 29 with a left quartering crosswind of 10 knots that shifted to a tailwind."
+  },
+  {
+   "id": "83ec26ce87ff",
+   "label": "VALID",
+   "reason": "the accident takeoff was made with this crosswind shifting to a tailwind",
+   "evidence": "At the time of the accident, the pilot was taking off on runway 29 with a left quartering crosswind of 10 knots that shifted to a tailwind."
+  },
+  {
+   "id": "924c1f73a118",
+   "label": "VALID",
+   "reason": "the pilot flew and landed the airplane",
+   "evidence": "He pitched the nose down as the stall warning horn came on, and he landed the airplane firmly on the remaining runway."
+  },
+  {
+   "id": "98c0c3829fdd",
+   "label": "VALID",
+   "reason": "the airplane struck the windsock with its right wing",
+   "evidence": "The pilot could not maintain directional control following the firm landing and the airplane exited the runway striking a windsock with its right wing."
+  },
+  {
+   "id": "9b0f3968916d",
+   "label": "VALID",
+   "reason": "the outboard right wing of the airplane was damaged",
+   "evidence": "The airplane sustained substantial damage to the outboard right wing."
+  },
+  {
+   "id": "b0303145bd70",
+   "label": "VALID",
+   "reason": "the probable cause names the pilot's failure",
+   "evidence": "Probable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+  },
+  {
+   "id": "ebc5f2d07ddb",
+   "label": "VALID",
+   "reason": "heading places CEN21LA185 in Schaumburg, IL on 2021-04-07",
+   "evidence": "## CEN21LA185 (2021-04-07, Schaumburg, IL)"
+  },
+  {
+   "id": "ee76ab86363a",
+   "label": "VALID",
+   "reason": "the probable cause cites the crosswind that shifted to a tailwind",
+   "evidence": "Probable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+  },
+  {
+   "id": "fa0b148df042",
+   "label": "VALID",
+   "reason": "the airplane is the one in the CEN21LA185 account",
+   "evidence": "The pilot reported that during takeoff, the airplane’s airspeed momentarily stopped about 40 knots and then increased again"
+  },
+  {
+   "id": "179a0453799e",
+   "label": "VALID",
+   "reason": "the failure of the attachment hardware involved that hardware",
+   "evidence": "The circumstances of the accident were consistent with a loss of directional control due to the failure of the right main landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  {
+   "id": "1c31c6174b61",
+   "label": "VALID",
+   "reason": "the student pilot was in the airplane during CEN21LA353 and tried to correct",
+   "evidence": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+  },
+  {
+   "id": "222e96a6104d",
+   "label": "VALID",
+   "reason": "the hardware failure took place in CEN21LA353",
+   "evidence": "The circumstances of the accident were consistent with a loss of directional control due to the failure of the right main landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  {
+   "id": "3220ae1443f0",
+   "label": "VALID",
+   "reason": "the right main landing gear separated from the airplane, so it was part of it",
+   "evidence": "The airplane continued off the right side of the runway, and the right main landing gear impacted a runway light and separated from the airplane."
+  },
+  {
+   "id": "41a9a51a2822",
+   "label": "VALID",
+   "reason": "the accident involved a loss of directional control",
+   "evidence": "The circumstances of the accident were consistent with a loss of directional control due to the failure of the right main landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  {
+   "id": "9694660f0aed",
+   "label": "VALID",
+   "reason": "the instructor was performing practice and correcting the airplane, so on board",
+   "evidence": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+  },
+  {
+   "id": "a3293a56cd32",
+   "label": "VALID",
+   "reason": "the attachment hardware secured the airplane's landing gear",
+   "evidence": "The circumstances of the accident were consistent with a loss of directional control due to the failure of the right main landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  {
+   "id": "ae73f434579c",
+   "label": "VALID",
+   "reason": "the student pilot attempted to correct the airplane, so on board",
+   "evidence": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+  },
+  {
+   "id": "b26aabdbdb5a",
+   "label": "VALID",
+   "reason": "the landing gear was bolted to the airplane's wing spar",
+   "evidence": "Examination of remnants of three of the eight bolts that secured the landing gear to the wing spar revealed fracture features consistent with overstress."
+  },
+  {
+   "id": "dd9c5c9c40b5",
+   "label": "VALID",
+   "reason": "heading places CEN21LA353 in Jeffersonville, IN on 2021-08-03",
+   "evidence": "## CEN21LA353 (2021-08-03, Jeffersonville, IN)"
+  },
+  {
+   "id": "e61e414a5b65",
+   "label": "VALID",
+   "reason": "the flight instructor was involved in CEN21LA353",
+   "evidence": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+  },
+  {
+   "id": "f7d257cc1a9c",
+   "label": "VALID",
+   "reason": "the airplane left the runway in CEN21LA353",
+   "evidence": "The airplane continued off the right side of the runway, and the right main landing gear impacted a runway light and separated from the airplane."
+  },
+  {
+   "id": "04284baf4a47",
+   "label": "VALID",
+   "reason": "the probable cause cites failure of the landing gear attachment hardware",
+   "evidence": "Probable cause: A loss of directional control due to failure of the landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  {
+   "id": "74cc78b9242f",
+   "label": "VALID",
+   "reason": "the probable cause refers to the accident airplane's attachment hardware; the quote is about the model's service bulletin",
+   "evidence": "Probable cause: A loss of directional control due to failure of the landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  {
+   "id": "03a71f617eba",
+   "label": "VALID",
+   "reason": "the probable cause cites a loss of engine power",
+   "evidence": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+  },
+  {
+   "id": "04d60a91b5bf",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA383",
+   "evidence": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+  },
+  {
+   "id": "6c435acb8ab9",
+   "label": "VALID",
+   "reason": "heading places CEN21LA383 in Gypsum, CO on 2021-08-24",
+   "evidence": "## CEN21LA383 (2021-08-24, Gypsum, CO)"
+  },
+  {
+   "id": "7fccc092694f",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's fuel mismanagement",
+   "evidence": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+  },
+  {
+   "id": "ae9ecaeb128b",
+   "label": "VALID",
+   "reason": "the pilot flew the accident flight",
+   "evidence": "He then departed on about a two-hour local flight, which included touch and go landings."
+  },
+  {
+   "id": "c1f5cff30321",
+   "label": "INCORRECT",
+   "reason": "the fuel tanks are part of the airplane, but 'during the preflight' dates their filling, not the part-of relation; ruling (time): a stored time is the claim's time when it dates the start of the relation or a moment it held; one that dates another event (damage, removal, reuse, closure, refuelling) is a time fault (as left wing / nose gear / right wing 'during the accident')",
+   "evidence": "The pilot reported that the airplane’s fuel tanks were filled to the tabs during the preflight.",
+   "faults": [
+    "time"
+   ]
+  },
+  {
+   "id": "ca255c5f196c",
+   "label": "VALID",
+   "reason": "the left wing separated from the airplane",
+   "evidence": "During the forced landing, the left wing separated from the airplane after impact with a fence post."
+  },
+  {
+   "id": "2bb3a1fc92a2",
+   "label": "VALID",
+   "reason": "the airplane's forward fuselage was damaged",
+   "evidence": "The airplane sustained substantial damage to both wings and the forward fuselage."
+  },
+  {
+   "id": "49c413c87fa3",
+   "label": "VALID",
+   "reason": "the right seat pilot was flying the airplane",
+   "evidence": "The pilot in the right seat was flying and rotated 1,000 ft down the runway where they got into ground effect."
+  },
+  {
+   "id": "54a09a8d5180",
+   "label": "VALID",
+   "reason": "the airplane's tires caught in trees",
+   "evidence": "The pilot pushed the nose over to regain airspeed, but the airplane’s tires caught in a second set of trees."
+  },
+  {
+   "id": "54a76521ff85",
+   "label": "VALID",
+   "reason": "the pilot sat in the airplane's left seat",
+   "evidence": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind."
+  },
+  {
+   "id": "65ebd2b01c9f",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN22LA249",
+   "evidence": "Probable cause: The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees."
+  },
+  {
+   "id": "8327c35574a7",
+   "label": "VALID",
+   "reason": "the probable cause cites the quartering tailwind",
+   "evidence": "Probable cause: The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees."
+  },
+  {
+   "id": "9d00fd86a7de",
+   "label": "VALID",
+   "reason": "heading places CEN22LA249 in Eaton Rapids, MI on 2022-06-14",
+   "evidence": "## CEN22LA249 (2022-06-14, Eaton Rapids, MI)"
+  },
+  {
+   "id": "cd010d3333c3",
+   "label": "VALID",
+   "reason": "the takeoff was made with a quartering tailwind",
+   "evidence": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind."
+  },
+  {
+   "id": "f4b82b612361",
+   "label": "VALID",
+   "reason": "both wings of the airplane were damaged",
+   "evidence": "The airplane sustained substantial damage to both wings and the forward fuselage."
+  },
+  {
+   "id": "0921ebd5f6ae",
+   "label": "VALID",
+   "reason": "the student pilot flew the CEN23LA026 flight",
+   "evidence": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder."
+  },
+  {
+   "id": "182d31196cb4",
+   "label": "VALID",
+   "reason": "heading places CEN23LA026 in Mesquite, TX on 2022-11-05",
+   "evidence": "## CEN23LA026 (2022-11-05, Mesquite, TX)"
+  },
+  {
+   "id": "184db39e8869",
+   "label": "VALID",
+   "reason": "the student pilot flew the airplane solo",
+   "evidence": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder."
+  },
+  {
+   "id": "52b1dc4f4e0b",
+   "label": "VALID",
+   "reason": "the airplane departed the runway in CEN23LA026",
+   "evidence": "He continued to apply corrective directional control inputs, but the airplane departed the runway surface and impacted terrain in a field adjacent to the runway."
+  },
+  {
+   "id": "64d00cc2d320",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN23LA026",
+   "evidence": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+  },
+  {
+   "id": "95c78f6d1b33",
+   "label": "VALID",
+   "reason": "the airplane's right wing was damaged",
+   "evidence": "The airplane sustained substantial damage to the right wing."
+  },
+  {
+   "id": "b2685fdad38e",
+   "label": "VALID",
+   "reason": "the probable cause cites the student pilot's failure",
+   "evidence": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+  },
+  {
+   "id": "375cb52943c4",
+   "label": "VALID",
+   "reason": "the helicopter's rotor system was damaged",
+   "evidence": "The helicopter sustained substantial damage to the rotor system and vertical stabilizer."
+  },
+  {
+   "id": "7eee9ba6c731",
+   "label": "VALID",
+   "reason": "the helicopter's vertical stabilizer was damaged",
+   "evidence": "The helicopter sustained substantial damage to the rotor system and vertical stabilizer."
+  },
+  {
+   "id": "815aef857520",
+   "label": "VALID",
+   "reason": "the pilot flew the ANC21LA079 sling load flight",
+   "evidence": "The pilot reported that he was conducting helicopter external sling load operations to a remote mountain top."
+  },
+  {
+   "id": "90b70196fee1",
+   "label": "VALID",
+   "reason": "the probable cause stated for ANC21LA079",
+   "evidence": "Probable cause: The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations."
+  },
+  {
+   "id": "c63640e69110",
+   "label": "VALID",
+   "reason": "heading places ANC21LA079 in Pelican, AK on 2021-08-30",
+   "evidence": "## ANC21LA079 (2021-08-30, Pelican, AK)"
+  },
+  {
+   "id": "f76a646a5787",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's planning",
+   "evidence": "Probable cause: The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations."
+  },
+  {
+   "id": "0f50830f04c2",
+   "label": "VALID",
+   "reason": "the helicopter's fuselage was damaged",
+   "evidence": "Subsequently, the right landing gear skid contacted terrain and the helicopter entered a dynamic rollover to the right, resulting in substantial damage to the fuselage, tail boom, and powertrain system."
+  },
+  {
+   "id": "1d42111842ef",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's failure",
+   "evidence": "Probable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+  },
+  {
+   "id": "40afebbded48",
+   "label": "VALID",
+   "reason": "the helicopter's powertrain system was damaged",
+   "evidence": "Subsequently, the right landing gear skid contacted terrain and the helicopter entered a dynamic rollover to the right, resulting in substantial damage to the fuselage, tail boom, and powertrain system."
+  },
+  {
+   "id": "555c57833f36",
+   "label": "VALID",
+   "reason": "the pilot encountered flat light",
+   "evidence": "The pilot reported that, he was flying uphill over an area of snow-covered, mountainous terrain, when he encountered flat light and whiteout conditions, which made it difficult to discern topographical features."
+  },
+  {
+   "id": "5e8154e5cbfb",
+   "label": "VALID",
+   "reason": "the helicopter entered a dynamic rollover in ANC23LA032",
+   "evidence": "Subsequently, the right landing gear skid contacted terrain and the helicopter entered a dynamic rollover to the right, resulting in substantial damage to the fuselage, tail boom, and powertrain system."
+  },
+  {
+   "id": "7591b3a6104d",
+   "label": "VALID",
+   "reason": "the pilot flew the ANC23LA032 flight",
+   "evidence": "The pilot reported that, he was flying uphill over an area of snow-covered, mountainous terrain, when he encountered flat light and whiteout conditions, which made it difficult to discern topographical features."
+  },
+  {
+   "id": "7d48ea208566",
+   "label": "VALID",
+   "reason": "the probable cause stated for ANC23LA032",
+   "evidence": "Probable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+  },
+  {
+   "id": "88d2cca99b38",
+   "label": "VALID",
+   "reason": "the helicopter's right landing gear skid contacted terrain",
+   "evidence": "Subsequently, the right landing gear skid contacted terrain and the helicopter entered a dynamic rollover to the right, resulting in substantial damage to the fuselage, tail boom, and powertrain system."
+  },
+  {
+   "id": "91d89acde685",
+   "label": "VALID",
+   "reason": "the probable cause cites maneuvering in adverse weather conditions",
+   "evidence": "Probable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+  },
+  {
+   "id": "af53d9663785",
+   "label": "VALID",
+   "reason": "the flight was over snow-covered, mountainous terrain",
+   "evidence": "The pilot reported that, he was flying uphill over an area of snow-covered, mountainous terrain, when he encountered flat light and whiteout conditions, which made it difficult to discern topographical features."
+  },
+  {
+   "id": "df3b62331acd",
+   "label": "VALID",
+   "reason": "heading places ANC23LA032 in Skwentna, AK on 2023-05-09",
+   "evidence": "## ANC23LA032 (2023-05-09, Skwentna, AK)"
+  },
+  {
+   "id": "ed5efba21668",
+   "label": "VALID",
+   "reason": "the helicopter's tail boom was damaged",
+   "evidence": "Subsequently, the right landing gear skid contacted terrain and the helicopter entered a dynamic rollover to the right, resulting in substantial damage to the fuselage, tail boom, and powertrain system."
+  },
+  {
+   "id": "fab94e80d194",
+   "label": "VALID",
+   "reason": "the pilot encountered whiteout conditions",
+   "evidence": "The pilot reported that, he was flying uphill over an area of snow-covered, mountainous terrain, when he encountered flat light and whiteout conditions, which made it difficult to discern topographical features."
+  },
+  {
+   "id": "025bbf880999",
+   "label": "VALID",
+   "reason": "the helicopter impacted a tree then terrain in CEN21LA173",
+   "evidence": "the helicopter impacted a tree then terrain, resulting in substantial damage."
+  },
+  {
+   "id": "2b13c23cb231",
+   "label": "VALID",
+   "reason": "heading places CEN21LA173 in Dustin, OK on 2021-03-26",
+   "evidence": "## CEN21LA173 (2021-03-26, Dustin, OK)"
+  },
+  {
+   "id": "7510e1d873ad",
+   "label": "VALID",
+   "reason": "the helicopter is the one in the CEN21LA173 account",
+   "evidence": "The pilot of the helicopter stated that, while maneuvering “low and slow” with three passengers onboard, he noticed “insufficient power” and shortly thereafter, the low rotor rpm warning annunciated."
+  },
+  {
+   "id": "751d661337c1",
+   "label": "VALID",
+   "reason": "the impact sequence met terrain",
+   "evidence": "the helicopter impacted a tree then terrain, resulting in substantial damage."
+  },
+  {
+   "id": "83f4b13967b2",
+   "label": "VALID",
+   "reason": "the pilot flew the CEN21LA173 flight",
+   "evidence": "The pilot of the helicopter stated that, while maneuvering “low and slow” with three passengers onboard, he noticed “insufficient power” and shortly thereafter, the low rotor rpm warning annunciated."
+  },
+  {
+   "id": "a00fe3419148",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's insufficient monitoring",
+   "evidence": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+  },
+  {
+   "id": "b33be240d6c1",
+   "label": "VALID",
+   "reason": "the pilot of the helicopter was maneuvering it",
+   "evidence": "The pilot of the helicopter stated that, while maneuvering “low and slow” with three passengers onboard, he noticed “insufficient power” and shortly thereafter, the low rotor rpm warning annunciated."
+  },
+  {
+   "id": "d0b79f001680",
+   "label": "INCORRECT",
+   "faults": [
+    "wrong_relation"
+   ],
+   "reason": "stored: finding cites terrain as a causal or contributing condition; the finding names terrain only as the impact outcome, not as a cause",
+   "evidence": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+  },
+  {
+   "id": "ddfe35b81e04",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA173",
+   "evidence": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+  },
+  {
+   "id": "f56d04e79b04",
+   "label": "VALID",
+   "reason": "the document is about Robinson R44 II accidents; this helicopter is of that model (from context; quote does not name the model)",
+   "evidence": "The pilot of the helicopter stated that, while maneuvering “low and slow” with three passengers onboard, he noticed “insufficient power” and shortly thereafter, the low rotor rpm warning annunciated."
+  },
+  {
+   "id": "5d5dd3d1a955",
+   "label": "VALID",
+   "reason": "the helicopter's right landing skid collapsed",
+   "evidence": "The right landing skid collapsed, and the helicopter slid off the runway surface onto the grass."
+  },
+  {
+   "id": "7e3eb3f80ad3",
+   "label": "VALID",
+   "reason": "the probable cause cites a total loss of engine power",
+   "evidence": "Probable cause: A total loss of engine power for undetermined reasons."
+  },
+  {
+   "id": "9f3c4f48bf8b",
+   "label": "VALID",
+   "reason": "the pilot started and hover-taxied the helicopter",
+   "evidence": "The pilot reported that he started the helicopter at the refueling pad and hover-taxied to the taxiway and then onto the runway."
+  },
+  {
+   "id": "b8bd6e1e77fd",
+   "label": "VALID",
+   "reason": "the helicopter's lower fuselage structure was damaged",
+   "evidence": "The helicopter’s lower fuselage structure sustained substantial damage."
+  },
+  {
+   "id": "b8dfdb964edd",
+   "label": "VALID",
+   "reason": "the helicopter's engine lost power and was examined",
+   "evidence": "Examination of the helicopter and engine revealed no evidence of preimpact failure of the engine that would have precluded normal operation."
+  },
+  {
+   "id": "be24cd3b3b0c",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA284",
+   "evidence": "Probable cause: A total loss of engine power for undetermined reasons."
+  },
+  {
+   "id": "ddb952e2370b",
+   "label": "VALID",
+   "reason": "heading places CEN21LA284 in Reserve, LA on 2021-06-10",
+   "evidence": "## CEN21LA284 (2021-06-10, Reserve, LA)"
+  },
+  {
+   "id": "4aaf90441dab",
+   "label": "VALID",
+   "reason": "heading places CEN21LA339 in West Liberty, IA on 2021-07-20",
+   "evidence": "## CEN21LA339 (2021-07-20, West Liberty, IA)"
+  },
+  {
+   "id": "74c1e14fd23f",
+   "label": "VALID",
+   "reason": "the wire tore the tail rotor gearbox off the helicopter",
+   "evidence": "It had cut into the tail rotor gearbox “tearing it” off the helicopter."
+  },
+  {
+   "id": "8f7b13f522bb",
+   "label": "VALID",
+   "reason": "the probable cause cites the pilot's failure to see and avoid the wire",
+   "evidence": "Probable cause: The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire."
+  },
+  {
+   "id": "9af8af3d5c64",
+   "label": "VALID",
+   "reason": "the probable cause stated for CEN21LA339",
+   "evidence": "Probable cause: The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire."
+  }
+ ],
+ "reviewed": [
+  "041a241008cd",
+  "160c117def0b",
+  "167bfd2b7472",
+  "182d31196cb4",
+  "1a4a36f42d37",
+  "1d42111842ef",
+  "222e96a6104d",
+  "2675f2b1b2f2",
+  "27d261630285",
+  "29e8cf269269",
+  "2b0c37fe6b0e",
+  "2b13c23cb231",
+  "2dc9c6061f7e",
+  "3220ae1443f0",
+  "327de142892c",
+  "336040ad4536",
+  "3656fb750d36",
+  "3c72e9bc16ff",
+  "3e4235009dd3",
+  "402f4057a703",
+  "40afebbded48",
+  "4591e7c7bb25",
+  "4815a074b886",
+  "4aaf90441dab",
+  "4b23b4be506e",
+  "4e187c89b710",
+  "52b1dc4f4e0b",
+  "555c57833f36",
+  "56a25312e1f4",
+  "59ac72d1c6c7",
+  "5e8154e5cbfb",
+  "6612d0c5062a",
+  "68c5f551af2a",
+  "6c435acb8ab9",
+  "6d96239e7964",
+  "6ea1d3516f85",
+  "706235159cfa",
+  "74864ee2dee9",
+  "7bf9edd83d51",
+  "7ec928f063ba",
+  "7f713006e376",
+  "83ec26ce87ff",
+  "83fe06a30686",
+  "8bb0bd6a512f",
+  "8d60254161f7",
+  "8e06779baa56",
+  "8f6e2bd1f047",
+  "908ccbd74b82",
+  "9370535551c9",
+  "9374fb7089b3",
+  "9477d72d3791",
+  "98beace6d0ec",
+  "9d00fd86a7de",
+  "9eb97a46912c",
+  "a00fe3419148",
+  "a1f6c8f07207",
+  "a3c67355e64e",
+  "a7f228d09801",
+  "a81088f41888",
+  "ad5e1ec19ba0",
+  "ad6cd198fb1b",
+  "aef742c08980",
+  "b4c0f8af5f64",
+  "b8df2d8c4afb",
+  "c1f5cff30321",
+  "c619871540af",
+  "c63640e69110",
+  "c6d90273f8fd",
+  "c73931fdf297",
+  "cd06689c3d58",
+  "d0b79f001680",
+  "d5ce918ed2db",
+  "d68c194114e5",
+  "d6e7975e62ae",
+  "db6331e03de3",
+  "dd9c5c9c40b5",
+  "ddb952e2370b",
+  "df3b62331acd",
+  "df6bdb1e4201",
+  "ebc5f2d07ddb",
+  "f04e1a45c7ac",
+  "f6a9e6ff05ba",
+  "f7dd5e72297e",
+  "fefac85b5bf1",
+  "ffbcf07b6236"
+ ],
+ "changes": [
+  {
+   "id": "c1f5cff30321",
+   "before": "VALID",
+   "after": "INCORRECT",
+   "reason": "the fuel tanks are part of the airplane, but 'during the preflight' dates their filling, not the part-of relation; ruling (time): a stored time is the claim's time when it dates the start of the relation or a moment it held; one that dates another event (damage, removal, reuse, closure, refuelling) is a time fault (as left wing / nose gear / right wing 'during the accident')"
+  }
+ ]
+}

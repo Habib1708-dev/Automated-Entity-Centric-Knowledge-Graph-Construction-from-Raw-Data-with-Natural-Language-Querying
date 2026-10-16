@@ -11878,6 +11878,79 @@ Things to know about the gold:
 
 **R225 done 2026-10-16.** Next: R226.
 
+### R226. The lighthouses and NTSB claims and mentions judged (done 2026-10-16; $0, no run)
+
+**Sheets.** Built offline from `out/r155b_<ds>`; the C0 gate passed. They are committed in `tests/gold/r226/<ds>/`:
+- `kg claim-eval` → `claim_sheet.json`. Lighthouses has 161 claims, NTSB 293. All are extracted; none derived, none merged.
+- `kg claim-recall --claims <that sheet> --gold/--sample tests/gold/r225/...` → `recall_sheet.json`.
+- `kg mention-eval --gold-dir tests/gold/r225` → `mention_sheet.json`.
+
+**Blind judging.** Nine Opus 5.5 subagents worked from R110's, R111's and R105's rules files and one batch each. Each self-checked its order, labels and verbatim quotes.
+- Claims: whole documents, 2 batches for lighthouses (88 and 73 claims) and 3 for NTSB (107, 98, 88).
+- Recall: one batch per dataset (the whole sheet).
+- Mentions: one batch per dataset, made of the recall items with candidates and the 60 precision items.
+
+**Lead review.** Every INCORRECT, AMBIGUOUS, UNJUDGEABLE and miss was reviewed, plus the seeded 10% of the blind VALID and matched items. Every stored time and every LOCATED_AT claim was also reviewed. Two rulings settled points where the batches split, each applied to every claim of its pattern:
+
+1. **Time.** A stored time is the claim's time when it dates the start of the relation or a moment it held: "installed in 1933", "built on the island in 1898", "now", "originally". A time that dates another event is a `time` fault: damage, removal, reuse, closure, refuelling.
+   - NTSB "fuel tanks COMPONENT_OF airplane", time "during the preflight": VALID → INCORRECT.
+   - The batch-2 faults on parts stamped "during the accident" were confirmed.
+2. **Place.** LOCATED_AT means "situated on or overlooks". A lighthouse the text places only near, north of or beyond a place is not located at that place (`wrong_relation`).
+   - "Anvil Point LOCATED_AT Swanage" ("near Swanage"): VALID → INCORRECT.
+   - "Berry Head LOCATED_AT Brixham" ("near Brixham"): VALID → INCORRECT.
+   - The four batch-2 verdicts were confirmed: Whitley Bay, River Tyne, Whitby, Saltwick Bay.
+
+**Recall review, beyond the rulings:**
+- **R111's cross-check** (a match resting on a claim judged wrong in content is no match):
+  - "Souter is a few miles to the south of the River Tyne" becomes a miss, `no_schema_type`.
+  - The Berry Head sentence keeps its match without the Brixham claim.
+- **Generic links.** "opened by Joseph Chamberlain" and "Norris supervised the construction" were stored only as `Person ASSOCIATED_WITH Lighthouse` (lived at, acquired, visited, inspected, advocated). That drops what the person did, so both become misses with cause `extraction` (`INVOLVED_IN`), as R111 ruled for job titles kept only as an employer.
+  - Marie Stopes "owned" stays matched, because "acquired" is in the description.
+- No mention verdict changed.
+
+| Judge: Claude Opus 5.5; k/n with Wilson 95% | lighthouses | NTSB |
+|---|---|---|
+| claim precision, **strict** (every field right) | 145/160 = **0.906** [0.851, 0.942] | 285/293 = **0.973** [0.947, 0.986] |
+| claim precision, **content** (the triple right) | 152/160 = **0.950** [0.904, 0.974] | 289/293 = **0.986** [0.965, 0.995] |
+| UNJUDGEABLE left out | 1 (a sentence cut at the chunk's edge) | 0 |
+| faults | wrong_relation 6, time 6, not_in_text 1, wrong_entity 1, modality 1 | time 4, wrong_relation 3, not_in_text 1 |
+| claim recall, **random strata** | **11/73 = 0.151** [0.086, 0.250] | **13/74 = 0.176** [0.106, 0.278] |
+| random strata, within the schema | 11/43 = 0.256 | 13/68 = 0.191 |
+| all strata | 21/130 = 0.162 | 18/106 = 0.170 |
+| random misses: no fact type / the model's own (`extraction`) / other | 30 / 28 / 4 | 6 / 45 / 10 (9 `assertion`) |
+| matched claims keeping truth / modality (code, exact) | 21/21, 21/21 | 13/18, 17/18 |
+| mention recall, **exact** (code) | 119/167 = **0.713** | 133/184 = **0.723** |
+| mention recall, **judged** mapping | 138/167 = **0.826** [0.762, 0.876] | 153/184 = **0.832** [0.771, 0.879] |
+| mention-pass precision, judged sample | 55/57 = **0.965** [0.881, 0.990] | 51/57 = **0.895** [0.789, 0.951] |
+
+**Read with care:**
+- **Precise but sparse, as on the first three datasets.** Precision is at the level of R110's (furniture 0.887 / 0.925, held-out 0.906 / 0.981, generality 0.931 / 0.958, strict / content). Claim recall on the random strata is the lowest measured so far: 0.151 and 0.176, against furniture 0.583, held-out 0.284 and generality 0.182 (R111).
+- **Lighthouses misses are mostly the schema's (30 of 62).** There is no fact type for building material, status, cost, light characteristic, timing or visitor access. Its 28 `extraction` misses are almost all dated milestones that `Event OCCURRED_AT Lighthouse` could hold (automation 1991, electrification 1954/1976/1977, demolitions, first lighting). The build stored one Event.
+- **NTSB misses are mostly the model's (45 `extraction` of 61).** The schema's Occurrence relations (`AFFECTED_COMPONENT`, `INVOLVED_CREW`) could hold the narrative: engine power losses, forced landings, damage, go-arounds. The build stores Occurrence claims in only 3 of the sampled sections.
+  - Instead every section keeps the same structural set: OCCURRED_AT, INVOLVED_IN, ON_BOARD, OF_MODEL, "X COMPONENT_OF airplane", one Finding.
+  - The 9 `assertion` misses are the repeated "no preaccident mechanical failures" reports, which nothing stores.
+- **NTSB truth kept 13/18.** Five matched claims are negated in the gold ("the reason could not be determined"). The match is to a Finding whose name holds the words, and that Finding is stored affirmed.
+- **Mentions match the first three datasets:** R105 judged recall was 0.880 / 0.896 / 0.908, precision 0.883 / 0.864 / 0.883. Lighthouses precision is the highest so far. Two of its recall misses come from the sentence splitter cutting at "St." and "P.".
+- **Stated limitation.** Gold (R225) and verdicts come from one model family (Opus 5.5). There is no human agreement number. The lead saw the claim verdicts before the recall review (as in R111). The gold was fixed before either.
+
+**Records:** `tests/gold/r226/<ds>/` holds, for each dataset:
+- `{claim,recall,mention}_sheet.json`;
+- `{claim,recall,mention}_verdicts.json`;
+- `{claim,recall,mention}_report.json`.
+
+MLflow runs:
+- `claim_eval`: `3f2b2207` (lighthouses), `30619df0` (NTSB);
+- `claim_recall`: `760a7690`, `9915ded4`;
+- `mention_eval`: `13a3a7a4`, `bba1e18e`.
+
+**Tests.** `tests/test_r226_records.py`, 6 tests: each verdict file answers its sheet under the review rules, the lead changes are the ones recorded, each report is what the scorer computes, and every k/n above holds. The recall sheet is rebuilt from its committed inputs.
+- `uv run pytest -m "not neo4j and not postgres"`: 1777 passed. Baseline 1771.
+- `uv run ruff check .`: clean.
+
+**Runs.** No model call ($0). The judges are Claude subagents in the session.
+
+**R226 done 2026-10-16.** Next: R227 (the audit: C3, C4, C6).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

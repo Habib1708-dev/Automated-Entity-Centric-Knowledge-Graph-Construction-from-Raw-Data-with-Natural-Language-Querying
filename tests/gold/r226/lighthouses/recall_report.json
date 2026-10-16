@@ -1,0 +1,94 @@
+{
+ "claims": 130,
+ "recall": {
+  "k": 21,
+  "n": 130,
+  "rate": 0.16153846153846155,
+  "low": 0.10815038800230982,
+  "high": 0.23435597773151284
+ },
+ "recall_random": {
+  "k": 11,
+  "n": 73,
+  "rate": 0.1506849315068493,
+  "low": 0.08627588209726772,
+  "high": 0.25002112369126345
+ },
+ "recall_by_stratum": {
+  "cue": {
+   "k": 10,
+   "n": 57,
+   "rate": 0.17543859649122806,
+   "low": 0.09818747133596609,
+   "high": 0.2936759905059315
+  },
+  "natural": {
+   "k": 11,
+   "n": 73,
+   "rate": 0.1506849315068493,
+   "low": 0.08627588209726772,
+   "high": 0.25002112369126345
+  }
+ },
+ "recall_in_schema": {
+  "k": 21,
+  "n": 80,
+  "rate": 0.2625,
+  "low": 0.1785727122600286,
+  "high": 0.3681916624656446
+ },
+ "recall_in_schema_random": {
+  "k": 11,
+  "n": 43,
+  "rate": 0.2558139534883721,
+  "low": 0.14929365877065542,
+  "high": 0.40238689868254857
+ },
+ "misses": {
+  "extraction": 43,
+  "no_schema_type": 50,
+  "identity": 0,
+  "attachment": 0,
+  "assertion": 4,
+  "attribution": 3,
+  "role": 4,
+  "event_structure": 5,
+  "concept": 0,
+  "other": 0
+ },
+ "misses_random": {
+  "extraction": 28,
+  "no_schema_type": 30,
+  "identity": 0,
+  "attachment": 0,
+  "assertion": 1,
+  "attribution": 2,
+  "role": 1,
+  "event_structure": 0,
+  "concept": 0,
+  "other": 0
+ },
+ "fields_exact": {
+  "truth": {
+   "k": 21,
+   "n": 21,
+   "rate": 1.0,
+   "low": 0.8453561767357979,
+   "high": 0.9999999999999999
+  },
+  "modality": {
+   "k": 21,
+   "n": 21,
+   "rate": 1.0,
+   "low": 0.8453561767357979,
+   "high": 0.9999999999999999
+  },
+  "condition": {
+   "k": 0,
+   "n": 0,
+   "rate": null,
+   "low": null,
+   "high": null
+  }
+ }
+}

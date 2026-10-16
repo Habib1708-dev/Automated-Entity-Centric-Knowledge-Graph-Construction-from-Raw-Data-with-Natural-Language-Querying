@@ -1,0 +1,781 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "d47aca1f30c7",
+  "sheet": "tests/gold/r226/ntsb/mention_sheet.json",
+  "sheet_hash": "9aab553ceeea",
+  "sheets_git_sha": "committed with the verdicts in step R226 (built from out/r155b at f84e97a)"
+ },
+ "criterion": "mentions",
+ "verdicts": [
+  {
+   "id": "c95b318dee33|power",
+   "label": "INCORRECT",
+   "reason": "candidates name a change or loss of engine power (events), not the power setting the pilot advanced",
+   "evidence": "tried to advance the power forward with no change",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6d29c356b94f|decatur",
+   "label": "VALID",
+   "reason": "'Decatur, IL' names the city Decatur itself",
+   "evidence": "Decatur, IL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6d29c356b94f|il",
+   "label": "INCORRECT",
+   "reason": "'Decatur, IL' names the city, not the state IL",
+   "evidence": "Decatur, IL",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "471eb5bb0e37|power",
+   "label": "INCORRECT",
+   "reason": "'loss of engine power' is an event, not the low power setting of the rotating propeller",
+   "evidence": "rotating at low power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "21942b5b9d41|runway",
+   "label": "VALID",
+   "reason": "'plowed- snow-covered runway' is the very runway the sentence names",
+   "evidence": "plowed- snow-covered runway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1fac0fbdcab6|loss of power",
+   "label": "VALID",
+   "reason": "'total loss of power' is the same loss of power, written with its describing word",
+   "evidence": "the total loss of power was evident",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "54a8e3393257|“b” nut fitting",
+   "label": "VALID",
+   "reason": "'fitting' is the head of 'B nut fitting' and refers to that same fitting in the chunk",
+   "evidence": "nut fitting on the fuel line between the fuel injector and fuel manifold",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5864f7c5bdf2|“b” nut",
+   "label": "VALID",
+   "reason": "'fuel line B nut' names the same nut on the fuel line",
+   "evidence": "nut on the fuel line was likely not properly tightened",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5864f7c5bdf2|engine installation",
+   "label": "VALID",
+   "reason": "'installation' in this chunk is the same engine installation (the engine had recently been installed)",
+   "evidence": "not properly tightened during engine installation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5864f7c5bdf2|loss of engine power",
+   "label": "VALID",
+   "reason": "'total loss of engine power' names the same loss",
+   "evidence": "resulted in total loss of engine power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f6e598ad5857|salina",
+   "label": "VALID",
+   "reason": "'Salina, KS' names the city Salina",
+   "evidence": "Salina, KS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f6e598ad5857|ks",
+   "label": "INCORRECT",
+   "reason": "'Salina, KS' names the city, not the state KS",
+   "evidence": "Salina, KS",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6c6be396d659|noise",
+   "label": "VALID",
+   "reason": "'louder noise' is the same noise in this sentence",
+   "evidence": "a louder noise occurred",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6c6be396d659|abort",
+   "label": "VALID",
+   "reason": "'abort the takeoff' names the same abort act",
+   "evidence": "elected to abort the takeoff",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6c6be396d659|takeoff",
+   "label": "INCORRECT",
+   "reason": "'takeoff roll' is a phase (piece) of the takeoff, 'abort the takeoff' is the abort, the long candidate is a cause clause; none names the takeoff itself",
+   "evidence": "During the takeoff roll",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "df604f73864f|engine power",
+   "label": "INCORRECT",
+   "reason": "'increase in engine power' is a change event, not the engine power itself",
+   "evidence": "heard an increase in engine power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b3fb9cee89e4|instrument malfunction",
+   "label": "VALID",
+   "reason": "the candidate's head phrase is this same instrument malfunction, extended by a relative clause",
+   "evidence": "An inflight instrument malfunction for reasons that could not be determined",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f1d4b51e1ae4|gusting",
+   "label": "VALID",
+   "reason": "'gusting wind' names the same gusting condition of the reported wind",
+   "evidence": "at 10 kts gusting to 21 kts",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b94e94325e16|runway",
+   "label": "VALID",
+   "reason": "the candidate 'runway that was wet due to recent rain showers' is this same runway",
+   "evidence": "landed on a runway that was wet due to recent rain showers",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "728e74752005|runway",
+   "label": "VALID",
+   "reason": "the remaining runway is the same wet runway the chunk names as 'wet runway'",
+   "evidence": "unable to stop the airplane on the remaining runway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d666120a8cca|maximum allowable crosswind velocity",
+   "label": "INCORRECT",
+   "reason": "'crosswind velocity' is the actual wind value, not the maximum allowable limit",
+   "evidence": "the maximum allowable crosswind velocity depends on pilot capability",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d666120a8cca|pilot capability",
+   "label": "INCORRECT",
+   "reason": "'pilot' is a person, not the pilot's capability",
+   "evidence": "depends on pilot capability",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d666120a8cca|airplane limitations",
+   "label": "INCORRECT",
+   "reason": "'airplane' is the aircraft, not its limitations",
+   "evidence": "and airplane limitations",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eb08fe2e915e|exited",
+   "label": "VALID",
+   "reason": "'exited the runway' names the same exit event",
+   "evidence": "the airplane exited the runway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "eb08fe2e915e|striking",
+   "label": "VALID",
+   "reason": "'striking a windsock' names the same strike",
+   "evidence": "striking a windsock with its right wing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5205eca5045b|loss of directional control",
+   "label": "VALID",
+   "reason": "the long candidate's head phrase is this same loss of directional control, extended by its cause",
+   "evidence": "A loss of directional control due to failure of the landing gear attachment hardware",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "51f4b6583dcb|eaton rapids",
+   "label": "VALID",
+   "reason": "'Eaton Rapids, MI' names the town Eaton Rapids",
+   "evidence": "Eaton Rapids, MI",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "51f4b6583dcb|mi",
+   "label": "INCORRECT",
+   "reason": "'Eaton Rapids, MI' names the town, not the state MI",
+   "evidence": "Eaton Rapids, MI",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "42d805e43c78|damage",
+   "label": "VALID",
+   "reason": "'substantial damage' is the same damage in this sentence",
+   "evidence": "resulting in substantial damage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2f16690e14ca|altitude",
+   "label": "INCORRECT",
+   "reason": "the only candidate is a whole cause clause whose head is the monitoring, not the altitude",
+   "evidence": "while flying at low altitude",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2f16690e14ca|airspeed",
+   "label": "INCORRECT",
+   "reason": "the only candidate is a whole cause clause whose head is the monitoring, not the airspeed",
+   "evidence": "at low airspeed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2f16690e14ca|impact",
+   "label": "VALID",
+   "reason": "'impact with a tree and terrain' names the same impact",
+   "evidence": "impact with a tree and terrain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "0ce412b01074e3bb",
+   "label": "VALID",
+   "reason": "event the text reports, verbatim, kind; 'off-airport' tells it apart",
+   "evidence": "decided to conduct an off-airport emergency landing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "0f80c877443cf15a",
+   "label": "VALID",
+   "reason": "an object the text says something about, kind",
+   "evidence": "data from an onboard engine monitor was downloaded",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "143aa3f8a66885a5",
+   "label": "VALID",
+   "reason": "organisation named verbatim inside the form's title, particular; it names another thing than the form (like a named model before a noun)",
+   "evidence": "National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report Form 6120.1",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1aedfcf88d4b8c20",
+   "label": "AMBIGUOUS",
+   "reason": "jettisoning fertilizer is an emergency action on the load; may or may not count as a work done to a thing rather than an act of the pilot",
+   "evidence": "the pilot started to jettison fertilizer",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "1e5486e11ea66505",
+   "label": "INCORRECT",
+   "reason": "verb plus object span; the verb form entry would be 'aborted' with 'takeoff' separate",
+   "evidence": "the student pilot aborted the takeoff",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "268f40db5d6267ad",
+   "label": "VALID",
+   "reason": "fault written as a verb, kind",
+   "evidence": "the nose landing gear collapsed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2a8244f00ab2b826",
+   "label": "VALID",
+   "reason": "an object the text says something about, kind",
+   "evidence": "switching to the right fuel tank",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "2a91c5afa886fba1",
+   "label": "VALID",
+   "reason": "fault (event), verbatim, kind",
+   "evidence": "The reason for a loss of engine power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "308e6eb56418c66b",
+   "label": "VALID",
+   "reason": "incident, kind",
+   "evidence": "to the right fuel tank after the accident",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "33413fa7ed6782b6",
+   "label": "VALID",
+   "reason": "the control the pilot applied, an object, kind",
+   "evidence": "He applied throttle",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "334b7f06282cd151",
+   "label": "VALID",
+   "reason": "place/object the text says something about, kind",
+   "evidence": "redirected the airplane toward a nearby highway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "34da0425a3f97f2e",
+   "label": "VALID",
+   "reason": "a work done to a thing (test of the engine), kind",
+   "evidence": "A test run of the engine was subsequently conducted",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "3f140b0e89277465",
+   "label": "INCORRECT",
+   "reason": "an ordinary motion of the wing after a control input, not a fault, incident or work",
+   "evidence": "The right-wing started to rise",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "401de85803ad6cb6",
+   "label": "VALID",
+   "reason": "incident written as a verb, kind",
+   "evidence": "During the landing, the airplane bounced",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "43d61d98498651fe",
+   "label": "VALID",
+   "reason": "fault (event), verbatim, kind",
+   "evidence": "the cause of the total loss of engine power could not be determined",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "4fc63b7c2334a6ae",
+   "label": "VALID",
+   "reason": "person known by role, kind",
+   "evidence": "The property owner of the bean field reported",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "56ce912cdfb173d8",
+   "label": "VALID",
+   "reason": "fault written as a verb phrase, kind",
+   "evidence": "sound and lost power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "5e96c121436911a7",
+   "label": "VALID",
+   "reason": "an event (training manoeuvre) the text says something about, kind",
+   "evidence": "conducting a simulated off-field emergency landing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "632db3329dfac22e",
+   "label": "VALID",
+   "reason": "fault, kind",
+   "evidence": "The circumstances of the power loss",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6458f2a356b16455",
+   "label": "VALID",
+   "reason": "fault, kind",
+   "evidence": "the reason for the reported loss of engine power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "69a5753f61a5c578",
+   "label": "VALID",
+   "reason": "incident, kind",
+   "evidence": "the accident may have been prevented",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6c2723c2ca3416c8",
+   "label": "AMBIGUOUS",
+   "reason": "'substantial' may be a degree word (shortest span 'damage') or the defined damage-severity category that tells the damage apart",
+   "evidence": "The airplane sustained substantial damage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6c27d1bdcd6450a4",
+   "label": "INCORRECT",
+   "reason": "an ordinary flight phase as a verb (normal use of the airplane), not a fault or incident",
+   "evidence": "as he began to climb out",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "6f57811734dc533b",
+   "label": "VALID",
+   "reason": "incident written as a verb, kind",
+   "evidence": "observed the airplane bounce on the runway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7992ebdda942ed52",
+   "label": "VALID",
+   "reason": "fault the text says is absent (In 4); 'preimpact' tells it apart",
+   "evidence": "no evidence of preimpact mechanical malfunctions or failures",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "7dee2fe543096c89",
+   "label": "VALID",
+   "reason": "incident, kind",
+   "evidence": "before the accident",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "80a9b0370c7236c9",
+   "label": "VALID",
+   "reason": "incident written as a verb, kind",
+   "evidence": "released the cargo and impacted the ground",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "82e6a804f09c60c4",
+   "label": "VALID",
+   "reason": "fault said to be absent, kind",
+   "evidence": "no mechanical malfunctions or failures of the helicopter",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8472c4e3a5d5495f",
+   "label": "AMBIGUOUS",
+   "reason": "'landed' is usually an ordinary act, but here it is the uncontrolled arrival in the field that caused damage",
+   "evidence": "spun to the right and landed in the corn field",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8736921eb535794c",
+   "label": "VALID",
+   "reason": "the operation during which the event happened, kind",
+   "evidence": "while conducting an aerial application pass over a field",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8804059976e2bdea",
+   "label": "VALID",
+   "reason": "a place/object the text says something about, kind (type is not judged)",
+   "evidence": "departing from a 2,100-ft-long airstrip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "8bac559fb651bf46",
+   "label": "VALID",
+   "reason": "condition, kind",
+   "evidence": "showed signs of age deterioration",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "90f7681321fa7f97",
+   "label": "VALID",
+   "reason": "a property the text says something about (it fluctuates), kind",
+   "evidence": "the engine oil pressure began to fluctuate",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "951f15d5578b8d77",
+   "label": "VALID",
+   "reason": "incident, kind",
+   "evidence": "the pilot executed a forced landing to a field",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9a3692253d2e919f",
+   "label": "VALID",
+   "reason": "an environmental thing the text says something about, kind",
+   "evidence": "while in cruise flight over a cloud layer",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "9accea9bcb054e8f",
+   "label": "VALID",
+   "reason": "an event the text says something about, kind",
+   "evidence": "during takeoff, the airplane",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a0f90a0bcf1fd1f0",
+   "label": "VALID",
+   "reason": "incident, kind",
+   "evidence": "which resulted in impact with terrain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a1e8dbc4b8f23442",
+   "label": "VALID",
+   "reason": "the flight event, kind; 'solo traffic pattern' tells it apart",
+   "evidence": "during a solo traffic pattern flight",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a3afb20102314602",
+   "label": "VALID",
+   "reason": "persons by role, kind",
+   "evidence": "with three passengers onboard",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a47046d67a67b991",
+   "label": "VALID",
+   "reason": "condition, kind",
+   "evidence": "resulting in substantial damage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a4b57305fd8ce99f",
+   "label": "INCORRECT",
+   "reason": "'short' is a describing word; the shortest span is 'cross-country flight'",
+   "evidence": "The pilot completed a short cross-country flight",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a4c42fe9db9e16db",
+   "label": "VALID",
+   "reason": "the handbook, named by its abbreviation verbatim, kind (the first of its two names, 'pilot's operating handbook', would be the preferred entry)",
+   "evidence": "(POH)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "a611aec9a879895b",
+   "label": "VALID",
+   "reason": "fault said to be absent, kind",
+   "evidence": "no preaccident mechanical malfunctions or failures",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b07ad3b639b12ef8",
+   "label": "INCORRECT",
+   "reason": "'front' is a generic position word, not a component the text names",
+   "evidence": "originated from the front of the airplane",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b3e8915c95122986",
+   "label": "VALID",
+   "reason": "a fault (deformation) written as a verb, kind",
+   "evidence": "right wing was bent up at the tip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b5ab9c823ae8b142",
+   "label": "INCORRECT",
+   "reason": "'Probable cause' is a section label of the document, not a thing",
+   "evidence": "Probable cause: A loss of directional control",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b865cafaabc05b36",
+   "label": "VALID",
+   "reason": "a work done to a thing (inspection), kind",
+   "evidence": "Postaccident airplane examination did not reveal any anomalies",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "b8c14de1eb657f58",
+   "label": "VALID",
+   "reason": "fault said to be absent, kind",
+   "evidence": "preimpact mechanical malfunctions or failures",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "bf5fe89d865a0c63",
+   "label": "VALID",
+   "reason": "condition/fault, kind",
+   "evidence": "fracture features consistent with overstress",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c1a7287cae4e8ed3",
+   "label": "VALID",
+   "reason": "an environmental condition the text says something about, kind",
+   "evidence": "checked the wind conditions at the destination airport",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c29791921edb1952",
+   "label": "VALID",
+   "reason": "an object the text says something about, kind",
+   "evidence": "The runway light was mounted on a concrete base",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c6e25e8f0321a2ca",
+   "label": "VALID",
+   "reason": "a piece of the airplane, kind",
+   "evidence": "seated in the right front seat",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "c8a221c150a94c96",
+   "label": "VALID",
+   "reason": "fault, kind",
+   "evidence": "It is likely the engine failure was the result of oil starvation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "d4198691543d48da",
+   "label": "VALID",
+   "reason": "organisation named verbatim, particular",
+   "evidence": "accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "db9d0ce5000ca019",
+   "label": "VALID",
+   "reason": "incident written as a verb, kind",
+   "evidence": "subsequently impacted the terrain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "df978ab94c097afa",
+   "label": "VALID",
+   "reason": "a terrain feature the airplane contacted, kind",
+   "evidence": "the airplane contacted a raised embankment",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "e2388daef64fd956",
+   "label": "VALID",
+   "reason": "fault written as a verb, kind",
+   "evidence": "broke at the threads at its base",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f108255d2a2ac976",
+   "label": "VALID",
+   "reason": "an incident/state of the helicopter written as a verb, kind",
+   "evidence": "he felt the helicopter begin to settle",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f2820dfbd5cf9d09",
+   "label": "VALID",
+   "reason": "fault written as a verb phrase, kind",
+   "evidence": "The engine then ran rough",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "f97f282a30c9092d",
+   "label": "VALID",
+   "reason": "objects the text says something about, kind",
+   "evidence": "to the corresponding cockpit controls",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "1aedfcf88d4b8c20",
+  "1e5486e11ea66505",
+  "2f16690e14ca|airspeed",
+  "2f16690e14ca|altitude",
+  "334b7f06282cd151",
+  "3f140b0e89277465",
+  "42d805e43c78|damage",
+  "471eb5bb0e37|power",
+  "51f4b6583dcb|mi",
+  "5205eca5045b|loss of directional control",
+  "5864f7c5bdf2|loss of engine power",
+  "6c2723c2ca3416c8",
+  "6c27d1bdcd6450a4",
+  "6c6be396d659|takeoff",
+  "6d29c356b94f|il",
+  "8472c4e3a5d5495f",
+  "a1e8dbc4b8f23442",
+  "a4b57305fd8ce99f",
+  "b07ad3b639b12ef8",
+  "b3e8915c95122986",
+  "b5ab9c823ae8b142",
+  "c95b318dee33|power",
+  "d666120a8cca|airplane limitations",
+  "d666120a8cca|maximum allowable crosswind velocity",
+  "d666120a8cca|pilot capability",
+  "df604f73864f|engine power",
+  "e2388daef64fd956",
+  "f6e598ad5857|ks",
+  "f6e598ad5857|salina"
+ ],
+ "changes": []
+}
