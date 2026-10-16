@@ -202,8 +202,8 @@ def test_the_r231_data_functions_return_the_committed_counts():
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):
     built = build(results=tmp_path / "results", diagrams=tmp_path / "diagrams")
     names = sorted(p.name for p in built)
-    # thirty-two figures, each as SVG, PNG and PDF (the PDF since R232, for the LaTeX thesis)
-    assert all(p.stat().st_size > 0 for p in built) and len(names) == 96
+    # thirty-five figures, each as SVG, PNG and PDF (the PDF since R232, for the LaTeX thesis)
+    assert all(p.stat().st_size > 0 for p in built) and len(names) == 105
     committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png", ".pdf"))
     assert sorted(p.name for p in committed) == names  # nothing committed that the build does not make
     index = (FIGURES / "README.md").read_text(encoding="utf-8")

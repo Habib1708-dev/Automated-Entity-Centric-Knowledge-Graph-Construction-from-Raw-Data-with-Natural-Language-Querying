@@ -14,6 +14,7 @@ from . import (
     r128_charts,
     r128_data,
     r130_r131_diagrams,
+    r130_r210_diagrams,
     r131_charts,
     r131_data,
     r152_r157_diagrams,
@@ -69,6 +70,7 @@ def build(results: Path | None = None, diagrams: Path | None = None) -> list[Pat
     files += r231_charts.draw_all(r231_data.measurements(), place(r231_charts.OUT, results, "results"))
     files += r0_r231_diagrams.draw_all(place(r0_r231_diagrams.OUT, diagrams, "diagrams"))
     files += r63_r230_diagrams.draw_all(place(r63_r230_diagrams.OUT, diagrams, "diagrams"))
+    files += r130_r210_diagrams.draw_all(place(r130_r210_diagrams.OUT, diagrams, "diagrams"))
     return files
 
 

@@ -12310,6 +12310,18 @@ whose cases are generated from git-ignored data present only in the main checkou
 
 **R233 done 2026-10-16.**
 
+### R234. The query engine's diagrams for the thesis (done 2026-10-16; $0, no run; branch `thesis`)
+
+**Why:** Chapter 6 of the thesis needs diagrams of the final query engine; R173's agent-loop and R131's seeding
+diagrams were drawn for the screen and describe earlier versions.
+
+**What changed:** new `figures/scripts/r130_r210_diagrams.py` (the engine from question to answer, the two ranked
+retrieval paths, the typed structured query), drawn from the code at R210 and the code report of the thesis's
+Stage 6, captioned and indexed; fonts sized for a landscape page (8.1 pt printed, measured on the PDFs).
+`tests/test_figures.py`: 35 figures x 3 files. No measured number in any diagram.
+
+**R234 done 2026-10-16.**
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

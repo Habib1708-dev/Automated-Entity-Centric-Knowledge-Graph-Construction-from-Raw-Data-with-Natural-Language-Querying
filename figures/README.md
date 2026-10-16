@@ -76,6 +76,14 @@ Every figure is saved as SVG (source), PDF (what the LaTeX thesis includes, R232
 | [r230_diag2_anchor_graph_layers](diagrams/construction/r63_r230/r230_diag2_anchor_graph_layers.png) | the anchor graph's layers, edges and walks W1-W5; the claim layer kept aside |
 | [r230_diag3_identity_resolution](diagrams/construction/r63_r230/r230_diag3_identity_resolution.png) | identity per class of thing: rules first, a model only for near misses, its quotes checked |
 
+### Query: [r130_r210](diagrams/query/r130_r210/README.md)
+
+| Diagram | Shows |
+|---|---|
+| [r210_diag1_query_engine](diagrams/query/r130_r210/r210_diag1_query_engine.png) | the query engine: screen, the agent loop with its caps, the tools and stores, the answer checks and outcomes |
+| [r210_diag2_retrieval_paths](diagrams/query/r130_r210/r210_diag2_retrieval_paths.png) | the two ranked retrieval paths: fused card lists for start nodes, fused and reranked chunks for passages |
+| [r210_diag3_structured_query](diagrams/query/r130_r210/r210_diag3_structured_query.png) | the typed structured query: validated, compiled to Cypher or SQL, read-only; the free-SQL variant |
+
 ### Retrieval: [r126_r128](diagrams/retrieval/r126_r128/README.md)
 
 | Diagram | Shows |

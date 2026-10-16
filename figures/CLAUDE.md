@@ -54,7 +54,8 @@ figures/
   Every figure the thesis includes must print its smallest text at 8 pt or more: a chart is drawn at most
   `style.PRINT_WIDTH` (9.6 in) wide with 8-9 pt text; a diagram drawn W inches wide uses fonts of at least
   8 x W / 9.7 pt. The PDF leaves out the title and subtitle (`style.save`), which the thesis caption carries.
-  The thesis set, checked in R233: the system and construction diagrams (r0_r231, r63_r230), r229 fig1, fig2
+  The thesis set, checked in R233 and R234: the system, construction and query diagrams (r0_r231,
+  r63_r230, r130_r210), r229 fig1, fig2
   and fig5, r231 fig1-fig3, r128 fig1, r131 fig1 and fig2. The five-dataset R157/R173 figures and the other
   R128 figures stay screen records.
 - **Changes:** a change to a figure is a change to its script, followed by a rebuild. A changed number means
