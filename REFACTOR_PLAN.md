@@ -12049,6 +12049,43 @@ Gate:
 
 **R228 done 2026-10-16.** Next: R229 (figures).
 
+### R229. Build-accuracy figures for the five benchmarked graphs (done 2026-10-16; $0, no run)
+
+**Scope.** Five charts in `figures/results/construction/r229_build_accuracy/`, drawn from committed records only.
+
+**Builds and sources.** The thesis datasets use the r108 builds:
+- claims: R110 / R111;
+- mentions: R103, the pass r108 reused;
+- audit: R108.
+
+Lighthouses and NTSB use the R155b builds, with R226 and R228 for the same measures.
+- `figures/scripts/r229_data.py`: pure readers. Each rate is rebuilt from its k/n with a Wilson interval.
+- `figures/scripts/r229_charts.py`: registered in `build.py`.
+- Captions in the folder's `README.md`, and one index section in `figures/README.md`.
+
+**The figures:**
+1. **Claim precision, strict and content** (dots). Content is 95 % or more on all five: 289/293, 152/160, 518/530, 520/530, 208/216.
+2. **Claim recall on the random sentences** (stacked bars): stored, missed with a fact type, missed without one.
+   - Stored: 13/74, 11/73, 42/72, 19/67, 12/66.
+   - NTSB's misses are the model's (55 of 61); generality's are the schema's (39 of 54).
+3. **Mention recall, exact and judged, and the pass's judged precision** (two panels of dots).
+4. **Content precision against claim recall** (scatter, intervals on both axes). Precision sits in a 95-99 % band; recall runs from 15 % to 58 %.
+5. **C3, C4 and C6 with the 95 % bound and pass/fail per row.** Only lighthouses fails: C4 34/36, and so C3, on the same two links.
+
+**Checked.** I looked at every PNG; fixed: repeated percent ticks, dataset names blanked by a shared y axis, labels crossed by interval lines, and an interval clipped at the axis edge. The rebuild leaves every older figure byte-identical.
+
+**One note on R110's numbers.** The committed R110 reports are the corrected ones: furniture strict is 498/530, not the first-pass 470/530 in R110's table. The figures show the records, and the caption says so.
+
+**Tests.** `tests/test_figures.py`:
+- `test_the_r229_data_functions_return_the_committed_counts` checks every count above and that only lighthouses fails;
+- the build test now expects 25 figures.
+- `uv run pytest -m "not neo4j and not postgres"`: 1790 passed. Baseline 1789.
+- `uv run ruff check .`: clean.
+
+**Runs.** No model call ($0).
+
+**R229 done 2026-10-16. Plan R225-R229 done.** Next: the user decides, for example whether to take up the per-document mention identity found in R228.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

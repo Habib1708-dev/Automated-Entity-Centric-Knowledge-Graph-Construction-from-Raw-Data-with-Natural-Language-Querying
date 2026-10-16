@@ -6,6 +6,16 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 
 ## Results (charts of measured numbers)
 
+### Construction: [r229_build_accuracy](results/construction/r229_build_accuracy/README.md), the build accuracy of the five benchmarked graphs
+
+| Figure | Shows |
+|---|---|
+| [r229_fig1_claim_precision_by_dataset](results/construction/r229_build_accuracy/r229_fig1_claim_precision_by_dataset.png) | strict and content precision of every stored claim per dataset, content 95 % or more on all five (dots, Wilson intervals) |
+| [r229_fig2_claim_recall_by_dataset](results/construction/r229_build_accuracy/r229_fig2_claim_recall_by_dataset.png) | a reader's claims stored, missed with a fact type, missed without one, 11/73 to 42/72 stored (stacked bars) |
+| [r229_fig3_mention_recall_and_precision](results/construction/r229_build_accuracy/r229_fig3_mention_recall_and_precision.png) | mention recall by exact name and judged, and the pass's judged precision (dots, Wilson intervals) |
+| [r229_fig4_precision_against_recall](results/construction/r229_build_accuracy/r229_fig4_precision_against_recall.png) | content precision against claim recall per dataset (scatter, Wilson intervals on both axes) |
+| [r229_fig5_audit_by_dataset](results/construction/r229_build_accuracy/r229_fig5_audit_by_dataset.png) | C3, C4, C6 judged rates with their pass or fail; lighthouses fails C4 34/36 and so C3 (dots, the 95 % bound) |
+
 ### Retrieval: [r128_techniques](results/retrieval/r128_techniques/README.md), each technique alone, K = 5 to 50
 
 | Figure | Shows |

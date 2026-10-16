@@ -2,14 +2,15 @@
 a chart can only show a committed number), the build draws every figure into a fresh folder, and every
 committed figure is built, captioned in its folder's README.md and listed in the index, with no caption naming
 a missing file. R174: the r173 data functions return the three measurements' committed counts, the
-wrong answers by cause, the operations used and the costs. No Neo4j, no network: the figures read committed
-records only."""
+wrong answers by cause, the operations used and the costs. R229: the r229 data functions return the five
+builds' committed precision, recall, mention and audit counts. No Neo4j, no network: the figures read
+committed records only."""
 
 import re
 from pathlib import Path
 
 import pytest
-from figures.scripts import r128_data, r131_data, r157_data, r173_data
+from figures.scripts import r128_data, r131_data, r157_data, r173_data, r229_data
 from figures.scripts.build import build
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -128,10 +129,50 @@ def test_the_r173_data_functions_return_the_committed_counts():
     assert costs == {"r157": (3.870, 250, 0.0), "r166": (1.603, 100, 0.0), "r173": (1.627, 100, 0.501)}
 
 
+def test_the_r229_data_functions_return_the_committed_counts():
+    builds = {b.dataset: b for b in r229_data.load_all()}
+    assert list(builds) == list(r157_data.DATASETS)
+    kn = {ds: ((b.strict.k, b.content.k, b.content.n), (b.recall.k, b.recall.n)) for ds, b in builds.items()}
+    assert kn == {
+        "ntsb": ((285, 289, 293), (13, 74)),
+        "lighthouses": ((145, 152, 160), (11, 73)),
+        "furniture": ((498, 518, 530), (42, 72)),
+        "heldout": ((480, 520, 530), (19, 67)),
+        "generality": ((202, 208, 216), (12, 66)),
+    }
+    # fig2's split of the misses: the schema's (no fact type) and the rest
+    assert {ds: (b.schema_misses, b.other_misses) for ds, b in builds.items()} == {
+        "ntsb": (6, 55),
+        "lighthouses": (30, 32),
+        "furniture": (11, 19),
+        "heldout": (32, 16),
+        "generality": (39, 15),
+    }
+    mentions = {
+        ds: (b.mention_exact.k, b.mention_judged.k, b.mention_precision.k) for ds, b in builds.items()
+    }
+    assert mentions == {
+        "ntsb": (133, 153, 51),
+        "lighthouses": (119, 138, 55),
+        "furniture": (53, 68, 54),
+        "heldout": (100, 116, 55),
+        "generality": (88, 103, 49),
+    }
+    audit = {ds: ((b.c3.k, b.c3.n), (b.c4.k, b.c4.n), (b.c6.k, b.c6.n)) for ds, b in builds.items()}
+    assert audit["lighthouses"] == ((87, 87), (34, 36), (77, 79))
+    assert audit["ntsb"] == ((80, 81), (36, 36), (58, 60))
+    assert audit["furniture"] == ((150, 151), (63, 63), (109, 109))
+    # only lighthouses fails, and it fails C3 and C4 on the same two links (R93)
+    failing = {ds for ds, b in builds.items() if not (b.c3_passed and b.c4_passed and b.c6_passed)}
+    assert (
+        failing == {"lighthouses"} and not builds["lighthouses"].c3_passed and builds["lighthouses"].c6_passed
+    )
+
+
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):
     built = build(results=tmp_path / "results", diagrams=tmp_path / "diagrams")
     names = sorted(p.name for p in built)
-    assert all(p.stat().st_size > 0 for p in built) and len(names) == 40  # twenty figures, SVG and PNG
+    assert all(p.stat().st_size > 0 for p in built) and len(names) == 50  # twenty-five figures, SVG and PNG
     committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png"))
     assert sorted(p.name for p in committed) == names  # nothing committed that the build does not make
     index = (FIGURES / "README.md").read_text(encoding="utf-8")
