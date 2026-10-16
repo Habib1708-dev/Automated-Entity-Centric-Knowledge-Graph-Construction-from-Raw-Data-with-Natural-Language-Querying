@@ -11666,6 +11666,19 @@ stays registered.
 re-measure on a set where `agent` fails (failures need fresh ones), or adopt only the SQL tool (no cost increase
 at R191).
 
+### Plan R217-R220 closed (2026-10-16): the user's verdict
+
+The user: "Keep the original agent as the final benchmarked system. Preserve SQL as the most promising practical
+upgrade."
+- **The final benchmarked system is `agent`** at the preset's `low` thinking, as measured in R157-R179 (243/250,
+  98/100 and 95/100 by meaning). Every reported number of the query engine is `agent`'s.
+- **R220 is dropped**: the defaults of `kg qa` (`graph`, `vector`, `records_vector`) and `kg ask` (`graph`) stay.
+- **`agent_sql` is preserved** as the most promising practical upgrade, the thesis's recommended next step: R191
+  22/22 vs 19/22 by meaning (p 0.25) at no extra cost, and R219's one win (LF04) came from `query_sql`. Not
+  adopted, since no measurement on fresh questions shows it better.
+- `agent_evidence`, `agent_best` and medium thinking stay registered as measured experiments, not recommended:
+  their gains were shown only on failure sets, and `agent_best` cost 36% more for no gain on fresh questions.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
