@@ -22,16 +22,16 @@ as experiment identifiers; \cref{app:complete-result-tables} maps each one to it
 \paragraph{Alternatives as parallel arms.} When a design question could not be settled by reasoning, the
 alternatives were built as separate arms on their own version-control branches and measured against each
 other on the same inputs. The graph representation went through four such arms (\cref{sec:ch04-evolution});
-the retrieval and query components through several more (\cref{sec:ch07-retrieval-components}).
+the retrieval and query components through several more (\cref{sec:ch07-retrieval}).
 Because each arm is preserved on its branch, every comparison can be re-run from the code that produced it.
 
 \paragraph{Decision rules fixed before measuring.} Where a measurement decided between designs, the rule
 that would decide was written down before the measurement was made. Three examples recur in later chapters.
 The pass thresholds of the builder's audit criteria C0--C9 were fixed in the design document before the
 first audit~(\cref{sec:ch05-method}). The choice of the agent's start-node seeding
-was made by a rule chosen before the grid of candidate settings was scored~(\cref{sec:ch07-retrieval-components}).
+was made by a rule chosen before the grid of candidate settings was scored~(\cref{sec:ch07-retrieval}).
 The adoption of a combined agent variant required, in advance, that it lose no question the baseline
-answered; it did lose one, and it was not adopted~(\cref{sec:ch07-targeted-ablations}). Fixing the rule
+answered; it did lose one, and it was not adopted~(\cref{sec:ch07-ablations}). Fixing the rule
 first protects a small study from the most common error of iterative development: choosing, after the
 fact, the reading of the numbers that favours the newest change.
 

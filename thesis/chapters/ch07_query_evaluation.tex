@@ -1,33 +1,380 @@
-% Natural Language Query Engine: Evaluation: about 16 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Natural Language Query Engine: Evaluation (about 16 pages). Written in Stage 6.
+% Every number has a row in evidence_registry.csv. Sets that included the excluded dataset are reported on the four
+% thesis datasets, recomputed from the committed outcome records; the published five-dataset values are in
+% Appendix H or the registry.
 \chapter{Natural Language Query Engine: Evaluation}\label{ch07}
 
-\section{Evaluation Method}\label{sec:ch07-evaluation-method}
-% Sources: question sets; comparability
+This chapter evaluates the query engine of \cref{ch06}. It asks how accurately the engine answers questions over the
+anchored data, compared with retrieval-only baselines (RQ3), and how retrieval choices, tool design and the model's
+reasoning budget affect accuracy, cost and latency (RQ4). It moves from the components to the whole: the retrieval
+experiments that set the tools' rankings (\cref{sec:ch07-retrieval}), the earlier query systems
+(\cref{sec:ch07-earlier}), the agent against baselines (\cref{sec:ch07-baselines}), its accuracy on unseen questions
+(\cref{sec:ch07-unseen}), targeted ablations (\cref{sec:ch07-ablations}), safety and outcomes
+(\cref{sec:ch07-safety}), cost and latency (\cref{sec:ch07-cost}) and the errors that remain
+(\cref{sec:ch07-errors}).
 
-\section{Retrieval Components}\label{sec:ch07-retrieval-components}
-% Sources: R121, R125, R128, R131, R198, R201; Figures F21-F23; Table T9
+\section{Evaluation Method}\label{sec:ch07-method}
 
-\section{Earlier Query Systems}\label{sec:ch07-earlier-query-systems}
-% Sources: R71-R73
+\paragraph{Scores.} Answers are scored by exact match and by meaning (\cref{sec:ch03-scoring-exact-match-and-judgement});
+retrieval is scored by code against gold evidence chunks or gold start nodes, with the metrics of
+\cref{tab:metrics}. A retrieval result says whether the evidence was \emph{available} to the reader, never whether
+the answer was right; the two are kept apart throughout.
 
-\section{The Agent against Retrieval Baselines}\label{sec:ch07-the-agent-against-retrieval-ba}
-% Sources: R136, R137, R151; Figure F24; Table T10
+\paragraph{Question sets and comparability.} The question sets of \cref{tab:question-sets} serve different purposes,
+and only results on the \emph{same} questions are compared by paired tests. The development sets were seen while the
+engine was built, so results on them show what the engine can do, not how it generalises. The fresh, benchmark and
+confirmation sets were written blind, before the engine answered them. The targeted sets were chosen \emph{because} the
+engine had failed them; their rates describe those failures only.
 
-\section{Accuracy on Unseen Questions}\label{sec:ch07-accuracy-on-unseen-questions}
-% Sources: R157, R166, R173, R179 (four datasets); Figures F25-F27; Table T11
+\paragraph{Which engine was measured.} The engine changed between measurements, and each result belongs to the
+version that produced it. \Cref{tab:engine-versions} names them. In particular, the benchmark measured the engine
+frozen as \texttt{query-engine-r151}; the passage reranker (R199), the screen (R202), the outcome labels (R204) and the
+evidence-integrity changes (R207--R210) came later. The final engine was measured on answers only by the outcome set
+(\cref{sec:ch07-safety}) and by one targeted comparison (\cref{sec:ch07-ablations}); the high accuracy reported below is
+therefore that of the versions named, not a measurement of the final code on fresh questions.
 
-\section{Targeted Ablations}\label{sec:ch07-targeted-ablations}
-% Sources: R182, R191, R195, R187, R213, R216, R219; Figure F28; Table T12
+\begin{table}[htbp]
+\centering
+\caption{The engine version behind each measurement.}
+\label{tab:engine-versions}
+\small
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+\toprule
+Measurement & Engine \\
+\midrule
+Agent vs baselines (R136--R151) & the agent as developed, frozen at R151 (tag \texttt{query-engine-r151}) \\
+Benchmark (R157) & the frozen engine \\
+Confirmation 1 (R166) & after fixes R161--R164 \\
+Confirmation 2 (R173) & after fixes R167--R170 \\
+Confirmation 3 (R179) & after fixes R175--R176 \\
+Thinking, filter, SQL, ledger (R182--R195) & the R176 engine and variants of it \\
+Passage reranking (R198, R201) & retrieval only, no answers \\
+Outcomes (R206) & after the reranker, screen and outcomes (R199--R204) \\
+Outcomes recheck, R219 & after evidence integrity (R207--R210): the final engine \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-\section{Safety and Answer Outcomes}\label{sec:ch07-safety-and-answer-outcomes}
-% Sources: R202, R206 (preliminary, n=12)
+\section{Retrieval Components}\label{sec:ch07-retrieval}
 
-\section{Latency, Tokens and Cost}\label{sec:ch07-latency-tokens-and-cost}
-% Sources: Table T13; Figure F29
+The retrieval experiments were run on the furniture, NHTSA and generality datasets, scored by code, at no or little
+model cost. They chose the settings inside the tools (\cref{sec:ch06-retrieval}).
 
-\section{Error Analysis}\label{sec:ch07-error-analysis}
-% Sources: cause classes
+\paragraph{Hybrid passage retrieval.} On the furniture tuning set (33 questions with gold chunks), a hybrid of dense
+and lexical retrieval over chunks and claims, fused by RRF with $k=10$, completed the evidence of 27/33 questions
+within five chunks, against 20/33 for vector retrieval (7/0, $p = 0.016$) and 24/33 for walking the graph from linked
+names (3/0, $p = 0.25$). The setting was chosen on the same questions, so these p-values are optimistic. It was not
+enough on its own: given the same reader, answers from the hybrid's passages were no better than from vector
+retrieval (NHTSA 27 against 26 of 68, generality 26 against 26 of 41).
+
+\paragraph{Node cards against model-written summaries.} Start nodes are found through \emph{cards}
+(\cref{sec:ch06-retrieval}). An alternative replaced the deterministic cards by summaries a model wrote for each node.
+The hypothesis that summaries find start nodes better was not supported (\cref{tab:cards}); the summaries cost
+\$0.12--0.29 per dataset, and 5--18\,\% of those judged contained a fault. Deterministic cards were kept.
+
+\begin{table}[htbp]
+\centering
+\caption{Start nodes found in the first five, template cards (A) against model summaries (B); exact McNemar.}
+\label{tab:cards}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Dataset & Questions & A & B & only A / only B, $p$ \\
+\midrule
+Furniture & 50 & 27 & 29 & 5/7, 0.77 \\
+NHTSA & 51 & 37 & 35 & 3/1, 0.63 \\
+Generality & 40 & 19 & 21 & 2/4, 0.69 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Each technique alone.} Every retrieval technique was then measured alone at budgets from 5 to 50, pooled
+over three datasets (99 questions with gold chunks, 213 gold start nodes; \cref{fig:techniques}). Two families do two
+jobs. Text retrieval finds evidence: lexical search over chunks completes the evidence of 86/99 questions at five.
+Node cards find start nodes: lexical search over template cards finds 164/213 targets at five. Paired, cards find start
+nodes that chunks do not on 58 questions against 14 ($p < 0.001$), while chunks lead on evidence (10/3, $p = 0.09$).
+This division is the reason the agent has separate tools for finding nodes and finding passages.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=0.95\linewidth]{results/retrieval/r128_techniques/r128_fig1_evidence_vs_start_nodes.pdf}
+\caption{Each retrieval technique alone: questions whose gold evidence is all in the first $K$ (horizontal) against
+gold start nodes found in the first $K$ (vertical), at $K = 5$ and $K = 20$, with 95\,\% Wilson intervals. Pooled over
+furniture, NHTSA and generality; scored by code.}
+\label{fig:techniques}
+\end{sidewaysfigure}
+
+\paragraph{Seeding the agent.} The fusion that feeds \texttt{find\_nodes} was chosen on a grid of settings by a rule
+fixed before scoring: the best pooled seed recall at $K = 15$, the number of nodes the agent is shown. The rule chose
+RRF with $k = 60$ over the 25 best dense and 25 best lexical cards: 203/213 targets at 15, against the best single list
+11/2 questions ($p = 0.022$; \cref{fig:seed-grid}). A model reranking the fused list helped only at five (189 against
+171 targets, $p = 0.0015$, exploratory) and was not adopted, since the agent reads the list itself. Run live through the
+tool, the setting found 204/213.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=0.85\linewidth]{results/retrieval/r131_seed_grid/r131_fig1_recall_by_k.pdf}
+\caption{Seed recall against the number of nodes shown $K$: the chosen fusion, the reranked fusion, and each card list
+alone; gray: every other setting of the grid. Dotted line: $K = 15$, the agent's list.}
+\label{fig:seed-grid}
+\end{sidewaysfigure}
+
+\paragraph{Passage reranking.} The agent's text search was improved last. On 223 questions (furniture 117, NHTSA
+106), passages were retrieved by RRF of the 5 or 10 best dense and lexical chunks, with or without a reranker, and
+recall of the gold passages in the five shown was scored (\cref{tab:rerank}). Rerankings by a small language model
+improved recall on every question they changed --- 40 better, none worse, for the pool of 10 + 10 --- at a cost of
+\$0.316 for all 446 rerank calls. A local cross-encoder (BGE-reranker-v2-m3~\cite{baai2024bgererankerv2m3}) was faster
+(0.28 against about 0.95 seconds per pool) but less accurate than the model (3/17 questions, $p = 0.003$), and was not
+adopted. The adopted setting shows ten passages, not five.
+
+\begin{table}[htbp]
+\centering
+\caption{Recall of the gold passages in the five shown; better/worse: questions against RRF 5 + 5 (sign test).}
+\label{tab:rerank}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Method & Furniture & NHTSA & Pooled & better / worse & $p$ \\
+\midrule
+RRF, 5 + 5 & 0.775 & 0.894 & 0.831 & --- & --- \\
+RRF, 10 + 10 & 0.772 & 0.919 & 0.842 & 12 / 6 & 0.24 \\
+Dense only, 5 & 0.672 & 0.820 & 0.743 & 14 / 40 & 0.0005 \\
+Cross-encoder, 10 + 10 & 0.854 & 0.945 & 0.897 & 34 / 7 & --- \\
+LLM rerank, 5 + 5 & 0.855 & 0.928 & 0.890 & 32 / 0 & $5 \cdot 10^{-10}$ \\
+\textbf{LLM rerank, 10 + 10} & \textbf{0.881} & \textbf{0.967} & \textbf{0.922} & \textbf{40 / 0} & $\mathbf{2 \cdot 10^{-12}}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The reranker's benefit is measured on retrieval only: the agent's answers were never measured with and without it on
+the same questions. It entered the engine after the benchmark.
+
+\section{Earlier Query Systems}\label{sec:ch07-earlier}
+
+The query designs that preceded the agent (\cref{sec:ch06-history}) were measured against vector retrieval with the
+same reader. The router design answered 29/38 NHTSA questions against 22/38 for vector retrieval, and 23/38 against
+13/38 on furniture, but only 9/21 against 16/21 on the generality corpus. On the full development sets
+(\cref{tab:representations}), the claim-graph system matched or beat records plus vector retrieval on NHTSA and
+furniture and lost on generality (0/8, $p = 0.008$), and its plan-based successor reached 46, 55 and 16 correct answers
+on furniture, NHTSA and generality (of 68, 68 and 41). These numbers motivated the agent: the systems were strong where
+fixed query shapes fit the data and weak elsewhere.
+
+\section{The Agent against Retrieval Baselines}\label{sec:ch07-baselines}
+
+The agent was compared with three \emph{reading systems} that give the five best chunks to a reader using the same
+model and answer rule: vector retrieval, walking the graph from linked names, and the hybrid of
+\cref{sec:ch07-retrieval}. \Cref{tab:agent-baselines} gives the results on the development sets and on a fresh set
+written after a round of failure analysis.
+
+\begin{table}[htbp]
+\centering
+\caption{The agent against the reading systems. Development sets: exact match with judged free text; fresh set: by
+meaning. McNemar: questions only the agent / only the baseline answers.}
+\label{tab:agent-baselines}
+\small
+\begin{tabularx}{\linewidth}{@{}Xccccc@{}}
+\toprule
+Set & Agent & Vector & Graph walk & Hybrid & Agent vs best baseline \\
+\midrule
+NHTSA, development (68) & \textbf{63} & 26 & 31 & 27 & 32/0, $p < 10^{-9}$ \\
+Furniture, development (68) & \textbf{58} & 13 & 18 & 19 & 40/1, $p < 10^{-10}$ \\
+Generality, development (41) & \textbf{34} & 26 & 27 & 26 & 10/3, $p = 0.092$ \\
+Fresh, three datasets (30), R144 & \textbf{29} & 13 & 13 & 14 & 15/0, $p < 10^{-4}$ \\
+Fresh, three datasets (30), R151 & \textbf{30} & 13 & 13 & 14 & 16/0, $p < 10^{-4}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The gap comes from the question types a reader of five passages cannot answer: almost all of the baselines' failures
+were questions about tables, joins and counts --- 0 of 6 multi-hop and structured-filter questions on the fresh set,
+against 6 of 6 for the agent. On generality, where most questions are about text, the gap is not significant. The
+agent costs more: about \$0.016 per question against \$0.001 for a reading system, and a median of 7--15 seconds per
+answer against 2--7.
+
+\section{Accuracy on Unseen Questions}\label{sec:ch07-unseen}
+
+\paragraph{The benchmark.} After the engine was frozen, 50 new questions per dataset were written blind and reviewed
+twice (\cref{sec:ch03-ground-truth}). On the four thesis datasets the frozen engine answered 193 of 200 right by exact
+match and 195 by meaning (97.5\,\%, Wilson interval 94.3--98.9\,\%; \cref{fig:qa-by-dataset}). Every NTSB question ---
+the one dataset never seen during development --- was answered right.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{results/evaluation/r231_qa_four_datasets/r231_fig1_accuracy_by_dataset.pdf}
+\caption{Accuracy on unseen questions by dataset and pooled over the four datasets, in three measurements: the frozen
+engine on the benchmark (R157) and two confirmation sets before and after fixes (R166, R173). Square: exact match;
+circle: by meaning; lines: 95\,\% Wilson intervals; counts are k/n.}
+\label{fig:qa-by-dataset}
+\end{sidewaysfigure}
+
+\paragraph{Confirmation sets.} The benchmark's failures were analysed and fixed, and each round of fixes was followed
+by a new set of 20 questions per dataset, written before the fixes existed or blind to them. \Cref{tab:unseen}
+summarises the four measurements. None of the differences between them is significant (two-proportion $z$-tests, all
+$p \geq 0.13$ by meaning). Since every set has different questions, the four values are best read as repeated
+measurements of one level --- about 94--98\,\% by meaning --- and not as a trend that the fixes produced. Pooled over all
+440 unseen questions, the engines answered 421 right by exact match and 425 by meaning (96.6\,\%, 94.4--97.9\,\%).
+
+\begin{table}[htbp]
+\centering
+\caption{Accuracy on unseen questions, four datasets.}
+\label{tab:unseen}
+\small
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Set & Engine & $n$ & Exact match & By meaning (95\,\% Wilson) \\
+\midrule
+Benchmark (R157) & frozen & 200 & 193 & 195 (94.3--98.9\,\%) \\
+Confirmation 1 (R166) & + R161--R164 & 80 & 77 & 77 (89.5--98.7\,\%) \\
+Confirmation 2 (R173) & + R167--R170 & 80 & 78 & 78 (91.3--99.3\,\%) \\
+Confirmation 3 (R179) & + R175--R176 & 80 & 73 & 75 (86.2--97.3\,\%) \\
+\midrule
+All & & 440 & 421 & 425 (94.4--97.9\,\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{By question type.} \Cref{fig:qa-by-type} breaks the first three measurements down by type. Aggregation is
+the weakest type in the benchmark (34/37) and the first confirmation set (13/15); lookups, multi-hop and
+disambiguation questions were answered right in every set. With 12--17 questions per type in a confirmation set, the
+intervals overlap widely and no type can be called the weakest with confidence.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{results/evaluation/r231_qa_four_datasets/r231_fig2_accuracy_by_type.pdf}
+\caption{Accuracy on unseen questions by question type, four datasets, in the three measurements of
+\cref{fig:qa-by-dataset}.}
+\label{fig:qa-by-type}
+\end{sidewaysfigure}
+
+\section{Targeted Ablations}\label{sec:ch07-ablations}
+
+With accuracy near the ceiling on fresh questions, a change can only be measured on the questions the engine gets
+wrong. Six variants were therefore compared with the engine on sets built from its failures, each with a few
+correctly answered questions as controls. \Cref{tab:ablations} gives the results on the four thesis datasets; the
+numbers with the excluded dataset's questions are listed in the evidence registry. All are judged by meaning.
+
+\begin{table}[htbp]
+\centering
+\caption{Targeted ablations on failure sets (four datasets). A: the engine; B: the variant. McNemar: only A / only B.}
+\label{tab:ablations}
+\small
+\begin{tabularx}{\linewidth}{@{}>{\raggedright}Xccccc@{}}
+\toprule
+Variant (step) & $n$ & A & B & only A / only B, $p$ & Cost A / B (USD) \\
+\midrule
+Medium instead of low thinking (R182) & 15 & 5 & 11 & 0/6, 0.031 & 0.226 / 0.775 \\
+Semantic passage filter (R187) & 19 & 13 & 13 & 0/0, 1.0 & 0.786 / 0.879 \\
+Free SQL over the tables (R191) & 17 & 15 & 17 & 0/2, 0.50 & 0.484 / 0.411 \\
+Evidence ledger (R195) & 10 & 4 & 7 & 0/3, 0.25 & --- / 0.066 \\
+Working set (R213) & 10 & 4 & 5 & 0/1, 1.0 & 0.595 / 0.225 \\
+SQL + ledger + medium thinking (R219) & 20 & 19 & 19 & 0/0, 1.0 & 0.561 / 0.628 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Reasoning budget.} Medium thinking answered six more failing questions than low thinking and lost none
+($p = 0.031$), at about three times the cost and three times the latency (about 34 against 9 seconds per question on
+this set). It was not adopted: its effect on questions the engine already answers was never measured, and on the fresh
+set of R219, where both arms answered 19 of 20, a combined variant at medium thinking gained nothing.
+
+\paragraph{Tool expressiveness.} Replacing the typed table query with free SQL answered two more failures and lost
+none; the gain is not significant ($p = 0.5$; with the excluded dataset's questions, 3/0 and $p = 0.25$), and the
+variant was slightly cheaper. It is recorded as the engine's most promising upgrade but was not adopted without a
+measurement on fresh questions.
+
+\paragraph{Checking the answer's evidence.} A ledger that has every passage the agent read judged whole, and sends
+back passages that state left-out members, answered three more failures ($p = 0.25$). A variant in which the agent
+itself judges every item it read gained one. The analysis behind both found the dominant remaining failure
+(\cref{sec:ch07-errors}): the agent had read the passage that held a missing answer and left it out on a literal
+reading of the question --- a ``dent'' not counted as ``damaged''. Neither prompt changes nor a working set moved this
+behaviour; only a separate judge accepted the paraphrases.
+
+\paragraph{What the ablations show.} The engine's remaining errors are not mainly retrieval errors. More reasoning
+helps on hard questions at a high price; a more expressive table tool helps where the typed language cannot express a
+query; and a separate judgement of the evidence helps where the agent reads too literally. Each effect is small and
+measured on 10--20 chosen questions; none was large enough, or measured broadly enough, to justify changing the
+benchmarked engine.
+
+\section{Safety and Answer Outcomes}\label{sec:ch07-safety}
+
+\paragraph{The screen.} The deterministic screen refused none of the 713 distinct questions in the gold files of the
+four datasets (0 of 783 over all five datasets when it was introduced), and refused all eight write requests in the
+outcome sets of the four datasets. Its known gap --- a command phrased as a question --- is not covered by any test set.
+
+\paragraph{Outcomes, preliminary.} The outcome set gives each dataset 12 questions: two of each non-answer outcome and
+four answerable controls (\cref{sec:ch06-outcomes}). Only the furniture set was run: all 12 outcomes were right (Wilson
+interval 0.76--1.0), no answerable control was refused, and all four controls were answered correctly, for \$0.237.
+After the evidence-integrity changes the same 12 questions gave identical outcomes and answers. This shows that the
+mechanism works on one dataset; with two questions per outcome and gold written by the judge's model family, it does
+not show that the outcomes generalise. The other 48 questions were not run.
+
+\section{Latency, Tokens and Cost}\label{sec:ch07-cost}
+
+\Cref{tab:cost} summarises the engine's cost and latency on the unseen sets. A question costs about 1.6--1.7 cents
+at list prices and takes about 10 seconds on average, of which about 95\,\% is the model's time. Furniture, whose
+questions need the most calls (3--4 per question), is the most expensive dataset (about 2 cents per question);
+generality the cheapest (about 1 cent). At low thinking the model spends no thinking tokens; at medium it spends about
+2{,}000 per question and the cost per question rises to about 5 cents.
+
+\begin{table}[htbp]
+\centering
+\caption{Cost and latency of the engine on the unseen sets, four datasets.}
+\label{tab:cost}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Set & Cost (USD) & per question & mean (s) & median (s) & 90th pct. (s) \\
+\midrule
+Benchmark (R157) & 3.200 & 0.0160 & 10.2 & 9.2 & 17.2 \\
+Confirmation 1 (R166) & 1.314 & 0.0164 & 10.8 & 9.5 & 16.6 \\
+Confirmation 2 (R173) & 1.327 & 0.0166 & 9.9 & 8.3 & 17.6 \\
+Confirmation 3 (R179) & 1.374 & 0.0172 & 11.4 & 10.3 & 18.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Error Analysis}\label{sec:ch07-errors}
+
+Every wrong answer on the unseen sets was traced through its recorded calls to one or more causes
+(\cref{fig:qa-failures} for the benchmark). On the four datasets, the benchmark's seven wrong answers comprise five
+wrong by both scores --- all involving the agent's reasoning (counting by eye, searching once, misreading a column,
+spending its call budget), four also a limit of the tools, one a retrieval miss and one a fault in the built graph ---
+and two that are right by meaning but in a form code cannot read. The confirmation sets show the same pattern:
+reasoning and tool limits, and answers in an unreadable form.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=0.85\linewidth]{results/evaluation/r231_qa_four_datasets/r231_fig3_failures_by_cause.pdf}
+\caption{The benchmark's wrong answers on the four datasets by cause, with their question identifiers. A question can
+have several causes. Orange: wrong by both scores; blue: wrong by exact match only.}
+\label{fig:qa-failures}
+\end{sidewaysfigure}
+
+Two causes recur. The first are aggregations the tools could not express --- a count of distinct values, a grouping
+by decade, a test for an empty cell, a comparison of two fields --- each later added to the typed query language
+(\cref{sec:ch06-structured}) and confirmed on the following set. The second is \emph{literal reading}: in a detailed
+analysis of the failures that remained, the agent had at least one missing member's passage in front of it in most
+cases, and code had dropped nothing; it excluded the passage because its wording differed from the question's. This is
+a limit of the reading model, not of retrieval or of the graph, and the targeted ablations of \cref{sec:ch07-ablations}
+show that a separate judge of the evidence, not a better prompt, is what moves it.
 
 \section{Discussion}\label{sec:ch07-discussion}
-% Sources: answers RQ3, RQ4
+
+\paragraph{RQ3: how accurately can a tool-using agent answer questions over tables and text, with verifiable
+citations?} On 440 unseen questions over four datasets, the engines answered 96.6\,\% right by meaning and 95.7\,\% by
+exact match, including all 50 benchmark questions on the one dataset never seen during development; on paired sets the agent
+answered far more questions than retrieval-only readers (for example 63 against at most 31 of 68 on NHTSA). Its
+advantage lies where the anchor graph and the typed queries do exact work: questions about records, joins and counts,
+which readers of five passages cannot answer. Every answer cites identifiers that tools returned, and code verifies
+them. These results are bounded by small corpora, by gold and judges from one model family, and by the engine versions
+of \cref{tab:engine-versions}.
+
+\paragraph{RQ4: how do retrieval, tool design and reasoning budget affect accuracy, cost and latency?} Retrieval
+settings were decided on retrieval metrics: fused card lists find start nodes (203/213 at 15), and a model reranker
+lifts passage recall from 0.831 to 0.922 at about a third of a cent per question. Tool design mattered most on
+unseen questions: about half of the fixes between the confirmation sets added an operation to the typed query
+language (counts by the tool, distinct values, years and decades, empty cells) and most of the rest widened the word
+search. The
+reasoning budget trades cost for accuracy on hard questions (6/0 on failures at three times the cost) with no gain
+measured on fresh ones. The remaining errors are mostly in how the agent reads, which the next steps of
+\cref{ch09} address.

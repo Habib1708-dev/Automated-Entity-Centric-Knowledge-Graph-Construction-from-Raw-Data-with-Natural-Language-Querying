@@ -1,36 +1,284 @@
-% Natural Language Query Engine: Design and Implementation: about 16 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Natural Language Query Engine: Design and Implementation (about 16 pages). Written in Stage 6.
+% Facts about the code cite the final engine (src/kgbuilder/agent, query, hybrid) at R210; numbers have rows in
+% evidence_registry.csv.
 \chapter{Natural Language Query Engine: Design and Implementation}\label{ch06}
 
-\section{Objectives and Earlier Query Designs}\label{sec:ch06-objectives-and-earlier-query-d}
-% Sources: R71 router + text2cypher; R74 query plans; why replaced
+This chapter describes how the system answers a question in natural language over the anchor graph, its text and
+its tables. It first traces the two designs that preceded the final one and why they were replaced
+(\cref{sec:ch06-history}), then describes the final engine: an agent that calls read-only tools one at a time
+(\cref{sec:ch06-agent}), its tools (\cref{sec:ch06-tools}), the two ranked retrieval paths inside them
+(\cref{sec:ch06-retrieval}), its typed structured queries (\cref{sec:ch06-structured}), the checks on its answers
+and outcomes (\cref{sec:ch06-checks,sec:ch06-outcomes}), and the safety and provenance layers around it
+(\cref{sec:ch06-safety,sec:ch06-integrity}). \Cref{ch07} evaluates it.
 
-\section{Agent Architecture}\label{sec:ch06-agent-architecture}
-% Sources: agent/loop.py; hand-written ReAct-style loop; Figures F16, F17
+\section{Objectives and Earlier Query Designs}\label{sec:ch06-history}
 
-\section{Tool Design}\label{sec:ch06-tool-design}
-% Sources: agent/system.py; Table T8
+\paragraph{Objectives.} The engine must answer questions that combine records and text --- a recall's component
+and what owners wrote about it, the number of products whose reviews mention a defect --- and show the evidence for
+each answer. Following \cref{ch04}, it uses the graph as an index: to find what a question is about and to reach
+the records and passages concerning it. What a passage says is read by a language model; anything that can be
+computed exactly --- a count, a filter, a join over records --- is computed by a database.
 
-\section{Graph Navigation and Seeding}\label{sec:ch06-graph-navigation-and-seeding}
-% Sources: hybrid/ cards; RRF k=60, 25+25, K=15
+\paragraph{First design: a router and generated queries.} The first query stage (step R71) labelled each question
+as needing an \emph{exact} answer or \emph{retrieval}. Exact questions were translated into Cypher by the model,
+behind three guards: a text check that rejected write keywords and unbounded queries, a dry run of the query
+plan, and a read-only transaction with a time-out. Retrieval questions linked the question's names to nodes, walked
+fixed paths and gave the five most similar chunks to a reader. The router was the largest single cause of wrong
+answers: it sent record questions to text retrieval (seven times on furniture), and its routing accuracy was 0.61
+and 0.79 on the two datasets. Generated queries made the next most errors, for example counting claims that the
+text negates.
 
-\section{Text Retrieval}\label{sec:ch06-text-retrieval}
-% Sources: Neo4j vector + Lucene; RRF; LLM rerank; find_passages; Figure F18
+\paragraph{Second design: checked query plans.} The second design (R74) replaced the router and free query
+generation with \emph{plans}: the model composed a short sequence of fixed primitives --- find an entity, filter
+records, follow a relation, find claims, read and check passages --- ending in a list, a count, a sum or a ranking.
+Code validated each plan against the schema and compiled it to parameterised Cypher. A failure table of its wrong
+answers (R83) found that 41 of 69 came from the query layer: plans that asked the wrong thing, and needs for which no
+primitive existed. Patches added primitives one by one, but the planner never saw the results of its own steps and
+could not recover from an empty one.
 
-\section{Structured Querying}\label{sec:ch06-structured-querying}
-% Sources: agent/structured_query.py; sql_tool.py (experimental); Figure F19
+\paragraph{The step to an agent.} The final design inverts the relation between the model and the queries. Instead
+of writing a whole query or plan in advance, the model takes one step at a time, sees each result, and decides the
+next step --- the pattern of ReAct~\cite{yao2023react} and of tool-using agents over structured data such as
+StructGPT~\cite{jiang2023structgpt}. What the model may do in a step is restricted to a fixed set of typed,
+read-only tools, and code checks every step.
 
-\section{Answer Generation and Grounding}\label{sec:ch06-answer-generation-and-groundin}
-% Sources: citations.py; recheck.py
+\section{Agent Architecture}\label{sec:ch06-agent}
 
-\section{Answer Outcomes}\label{sec:ch06-answer-outcomes}
-% Sources: agent/outcome.py; Figure F20
+\Cref{fig:query-engine} shows the engine. A deterministic screen first refuses requests to change the data
+(\cref{sec:ch06-safety}). The question then enters a loop.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{diagrams/query/r130_r210/r210_diag1_query_engine.pdf}
+\caption{The query engine. Orange rounded: the model proposes; square: code decides (blue: the tools); cylinders:
+stores. Every check on an answer sends it back to the model at most once.}
+\label{fig:query-engine}
+\end{sidewaysfigure}
+
+\paragraph{One typed step per turn.} Each turn, the model returns one \emph{step} as a typed structure: either a
+call (a tool name, chosen from the fixed list, and its arguments as JSON) or an answer (the declared form of the
+answer --- \emph{things}, a \emph{number} or a \emph{statement} --- an outcome label, the entities, number or text,
+and citations, each an identifier a tool returned, with a verbatim quotation for a passage). Code parses the step;
+a call is refused, with the reason written back as that turn's result, if the tool is unknown, its arguments do not
+parse against the tool's argument model, or it repeats an earlier call exactly. A call that runs returns a typed
+result, which is written back into the next prompt. The loop is a ReAct loop in shape --- reason, act, observe,
+repeat --- but not in letter: the model writes no free-text thought (its reasoning is the model's own internal
+thinking, set to a low level), and every action is a typed structure that code validates, refuses or caps.
+
+\paragraph{The prompt.} The prompt states the agent's role and nine rules, then the question, the tool list with
+each tool's argument schema, every earlier turn with its result, and the number of calls left. The rules tell the
+agent, among other things, to start from the nodes the question names, to read the schema first when a question
+counts, ranks or filters, to take counts and sums from a tool's measure and never by counting listed rows, to use
+only what the tools returned, and to cite a passage by its identifier with one contiguous verbatim quotation. The
+schema itself is not in the prompt; the agent reads it with a tool when it needs it. The prompt text and the tool
+descriptions are hashed and logged with every run, so a changed prompt is visible in the records.
+
+\paragraph{Caps.} The loop is bounded by four caps: 12 turns, 10 tool calls, 400{,}000 prompt characters (about
+100{,}000 tokens, standing in for a cost cap) and 180 seconds. When a cap is reached the tools close and a final
+prompt asks the model to answer from what it has, under the same rules. The reason the loop stopped is recorded.
+
+\paragraph{Model and settings.} The agent uses Gemini~3.8~Flash at temperature 0 and low thinking. Every call is
+cached, logged with its tokens and cost, and observable: a null observer by default, and in the web interface an
+observer that streams each model reply, tool call and send-back to the page (\cref{sec:ch08-end-to-end-operation}).
+
+\section{Tool Design}\label{sec:ch06-tools}
+
+The agent has twelve tools in three families (\cref{tab:tools}). They were designed around three principles. First,
+each tool does one thing a question needs and returns typed results with identifiers the agent can cite. Second,
+every list is capped, and every cut is announced: a result says how many items it shows of how many, and an excerpt
+ends in an ellipsis (\cref{sec:ch06-integrity}). Third, tools only read.
+
+\begin{table}[htbp]
+\centering
+\caption{The agent's tools. Limits are the code's settings.}
+\label{tab:tools}
+\small
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+\toprule
+Tool & What it returns \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Graph}} \\
+\texttt{find\_nodes} & the 15 nodes whose cards best match the words (\cref{sec:ch06-retrieval}) \\
+\texttt{get\_node} & a node's label, names and fields, each with the table and row it came from \\
+\texttt{neighbours} & a node's record relationships and its claims grouped by relation, up to 20 groups \\
+\texttt{node\_evidence} & the 5 chunks reached from a node that are most similar to a given topic, with the node's claims in them \\
+\texttt{rank\_by\_documents} & the things the text names, ranked by the number of documents that name them \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Text}} \\
+\texttt{search\_text} & the 10 passages ranked best for the query, whole (\cref{sec:ch06-retrieval}) \\
+\texttt{search\_claims} & stored claims ranked for the query, each with its claims of opposite truth \\
+\texttt{read\_document} & every passage of one document in order, up to 20 \\
+\texttt{find\_passages} & every passage containing all of 1--5 words, up to 30, as excerpts \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Structured}} \\
+\texttt{schema} & the record labels, fields and relationships, the claim patterns, and the source tables with example values \\
+\texttt{query\_records} & a typed query over the graph's records (\cref{sec:ch06-structured}) \\
+\texttt{query\_tables} & the same typed query over the source tables \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Ranked and exhaustive search.} Two tools search the text in complementary ways. \texttt{search\_text}
+ranks: it returns the best passages for a query in any wording, but only ten. \texttt{find\_passages} is
+exhaustive: it returns \emph{every} passage containing the given words, so that a question that collects or counts
+mentions can be answered completely. Its matching was extended after failure analyses: a word also matches its
+common endings (``fail'' finds ``failed'' and ``failing''), a space matches a hyphen, and a document's title counts
+towards a match. Because an exact word search misses paraphrases, an answer that collects things from one such
+search alone is sent back once with the advice to search more widely (\cref{sec:ch06-checks}).
+
+\paragraph{Graph tools.} The graph tools implement the navigation contract of \cref{sec:ch04-navigation} for the
+agent: \texttt{find\_nodes} is a ranked version of W1, \texttt{node\_evidence} of W2, \texttt{neighbours} of W4,
+and \texttt{read\_document} of W5. \texttt{get\_node} shows each field with the table and row it came from, so the
+agent can cite a record value precisely.
+
+\section{Graph Navigation and Text Retrieval}\label{sec:ch06-retrieval}
+
+Two tools rank candidates before the agent sees them (\cref{fig:retrieval-paths}). Their settings were chosen by
+the experiments of \cref{sec:ch07-retrieval}.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{diagrams/query/r130_r210/r210_diag2_retrieval_paths.pdf}
+\caption{The two ranked retrieval paths inside the tools: start nodes (A) and passages (B).}
+\label{fig:retrieval-paths}
+\end{sidewaysfigure}
+
+\paragraph{Start nodes from node cards.} Every node has a \emph{card}: a short text built deterministically from
+the graph --- its name and type, its other names, its fields, its relationships with counts and up to five related
+names, and up to three of its claims, tagged when denied, hedged or conditional, all within 1{,}500 characters.
+\texttt{find\_nodes} retrieves the 25 cards most similar to the query by embedding and the 25 best by BM25 over a
+full-text index, fuses the two lists by Reciprocal Rank Fusion with $k = 60$ (\cref{sec:ch02-information-retrieval}),
+and shows the first 15 nodes. The agent reads the titles and chooses where to go; no model reranks the list.
+Cards generated by a language model were tested as an alternative and rejected (\cref{sec:ch07-retrieval}).
+
+\paragraph{Passages, fused and reranked.} \texttt{search\_text} retrieves the 10 chunks most similar to the query
+by embedding and the 10 best by BM25, and fuses them by RRF with $k = 10$ into a pool. A small language model
+(Gemini~3.5~Flash-Lite) then orders the pool by how directly each passage states something the query asks for, in
+any wording; code checks that the order contains each pool passage exactly once, and the first ten are shown whole.
+If the reranking call fails, the fused order is used. The reranker sees the agent's search query, not the original
+question.
+
+\section{Structured Querying}\label{sec:ch06-structured}
+
+Counting, filtering and joining over records are exact operations, so the engine never asks the model to perform
+them on listed rows. Instead the model fills a \emph{typed query} and code executes it (\cref{fig:structured}).
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{diagrams/query/r130_r210/r210_diag3_structured_query.pdf}
+\caption{Structured questions: the model fills a typed query, which code validates against the schema and compiles
+to a read-only query. Dashed: the free-SQL variant, measured but not adopted.}
+\label{fig:structured}
+\end{sidewaysfigure}
+
+\paragraph{The query language.} A query names a record label (or a source table) and may give:
+\begin{itemize}[nosep]
+\item conditions, all of which must hold: a field compared with a value by $=$, $\neq$, $<$, $\leq$, $>$, $\geq$,
+\emph{contains}, \emph{whole word}, \emph{year} or \emph{in} (a list of up to 50 values), or compared with another
+field; the empty value means ``null or blank'';
+\item a measure: the rows themselves, a count, a count of distinct values, or the sum, average, minimum or maximum
+of a field;
+\item a grouping by a field, by the parts of a field split at punctuation, or by year or decade of a date;
+\item an ordering and an offset for paging;
+\item for records, a starting record and a path of up to three relationship types to reach the records queried.
+\end{itemize}
+
+\paragraph{Validation and compilation.} Code checks the query against the schema before it runs: unknown fields,
+values of the wrong type, a measure without the field it needs, a sum over text, a grouping with the
+\emph{rows} measure, a year grouping on a field without years, and similar mistakes are refused with a reason the
+model can act on. A valid record query is compiled into Cypher, with every value passed as a parameter and every
+label and type through the escaping function; a table query is compiled into a DuckDB \texttt{SELECT}. Both run
+read-only with a time-out of ten seconds. A result shows up to 20 rows or groups, with the total and a paging hint,
+and carries a query identifier the answer can cite.
+
+\paragraph{Free SQL, measured but not adopted.} A variant of the engine replaces the table query with free SQL: the
+model writes one \texttt{SELECT}, DuckDB's own parser checks that it is a single read-only statement over the known
+tables, with no table functions (which could read files) and no other schemas, and it runs on in-memory tables
+with external access disabled, under a time-out. It answered more questions on a targeted set but was not adopted
+(\cref{sec:ch07-ablations}); it is the engine's recommended next step (\cref{ch09}).
+
+\section{Answer Generation and Grounding}\label{sec:ch06-checks}
+
+The answer is a typed step like any other, and code checks it before it is returned. Each check sends a failing
+answer back to the model once, with the reason; a second failure stands.
+\begin{itemize}[nosep]
+\item \emph{Empty.} An answer with no entities, number or text.
+\item \emph{Outcome.} The outcome label must be consistent with what the agent did (\cref{sec:ch06-outcomes}).
+\item \emph{Form.} An answer that declares it gives things but gives only prose, or declares a number but gives
+none.
+\item \emph{One search.} An answer that collects things, rests on a single exhaustive word search, and used no
+ranked search or whole document.
+\item \emph{Citations.} Every cited identifier must be one a tool returned in this question's loop; unknown
+identifiers are sent back once with the tools closed, then dropped.
+\end{itemize}
+Two further measures of support are computed and recorded, but not enforced: whether every entity of the answer
+appears in the results the citations point to, and whether the answer's number is stated there. Since R210, each
+citation is also checked against its own content --- is the quotation in the passage, are the answer's entities
+in it --- and the result is stored with the answer.
+
+\section{Answer Outcomes}\label{sec:ch06-outcomes}
+
+Not every question should be answered. The agent labels its final reply with one of four outcomes; a fifth comes
+from the screen (\cref{tab:outcomes}). There is no separate intent classifier: the label is the agent's, and code
+checks that it is consistent with the loop.
+
+\begin{table}[htbp]
+\centering
+\caption{The five outcomes and the checks code applies to each.}
+\label{tab:outcomes}
+\small
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Outcome & Meaning & Code's check \\
+\midrule
+answer & the answer, with its evidence & at least one citation survives the citation check \\
+clarify & the question has several readings & at least two distinct readings are given; no entity or number \\
+out of scope & the data does not cover the question's subject & at least one tool was called; no entity or number \\
+insufficient evidence & the data could hold it, but the search found no support & at least one tool was called; no entity or number \\
+refuse & a request to change the data & produced by the screen only, before any model call \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+A failing label is sent back once. After the loop, a \emph{clarify} with fewer than two readings becomes
+\emph{insufficient evidence}, and every non-answer has its entities and number cleared, so an abstention never
+carries an answer.
 
 \section{Safety}\label{sec:ch06-safety}
-% Sources: query/screen.py; read-only layer
 
-\section{Evidence Integrity}\label{sec:ch06-evidence-integrity}
-% Sources: R207-R210
+\paragraph{The screen.} A deterministic screen runs before any model call. It splits the question into sentences
+and refuses one that starts with a write verb (delete, remove, update, insert, create, merge, rename and 18 more,
+after stripping polite openings; ``add up'' is exempt), or that is a pasted statement of SQL or Cypher containing a
+write clause. It lets questions about writing pass (``What does SQL DELETE mean?''). It is implemented as a
+decorator around every query system, so no system can be built without it. Its known limit: a command phrased as a
+question (``Is it possible to delete \dots?'') passes it.
 
-\section{Performance Engineering}\label{sec:ch06-performance-engineering}
-% Sources: cache; caps; model tiers
+\paragraph{Read-only access.} The screen is not the only protection. Every Neo4j read is sent with the read access
+mode, which the server enforces --- a write in a read transaction fails --- and every DuckDB connection disables
+external access and locks its configuration after loading the tables. Tests confirm that writes through each path are
+refused. The agent never writes Cypher or SQL in the final engine; the only generated statements are those the
+compilers of \cref{sec:ch06-structured} produce.
+
+\section{Evidence Integrity and Provenance}\label{sec:ch06-integrity}
+
+The last changes to the engine (R207--R210) made the evidence behind an answer complete and inspectable.
+\begin{itemize}[nosep]
+\item \emph{Announced cuts.} Every tool states what it left out: excerpts end in an ellipsis, cut values are named,
+and lists say how many items they show of how many. A replay of earlier runs found that 54 of 367 passages shown
+by the exhaustive search had been cut without notice.
+\item \emph{Query provenance.} Every structured query is recorded with its statement, parameters, source tables and
+uncut rows, so an answer that cites a query can be reproduced.
+\item \emph{Whole passages.} A passage cited after the agent saw only an excerpt is recorded whole, with its
+document.
+\item \emph{Per-citation checks.} Each citation is checked against its own content and the result stored.
+\end{itemize}
+These changes are recorded, not enforced, and they were not measured on answers (\cref{sec:ch07-method}).
+
+\section{Performance Engineering}\label{sec:ch06-performance}
+
+Three choices keep a question at about one and a half cents and ten seconds (\cref{sec:ch07-cost}). The agent uses a
+fast model at low thinking, which a targeted experiment showed is less accurate on hard questions than medium
+thinking but about a third of the cost (\cref{sec:ch07-ablations}). The passage reranker uses a smaller model still.
+And every model response is cached, so a repeated question, a replay for analysis or the web interface's
+demonstration questions cost nothing. Every run logs its calls, tokens, cache hits, cost and latency (mean, median,
+90th percentile), and every question's trace records each call's latency, the model's time and the wall time.
