@@ -1,4 +1,4 @@
-"""The five result charts of R229: the build accuracy of the five benchmarked graphs, drawn from `r229_data`.
+"""The five result charts of R229: the build accuracy of the selected benchmarked graphs, from `r229_data`.
 
 Role: `build.py` calls `draw_all`; the files land in
 `figures/results/construction/r229_build_accuracy/`, whose README.md is their caption list.
@@ -43,7 +43,7 @@ from .style import (
 OUT = Path(__file__).resolve().parents[1] / "results" / "construction" / "r229_build_accuracy"
 OFFSET = 0.17  # how far each measure's dot sits above or below its row's centre
 # y positions: the two new datasets, a gap, the three thesis datasets (R157's fig. 1 layout)
-YS = {"ntsb": 0.0, "lighthouses": 1.0, "furniture": 2.4, "heldout": 3.4, "generality": 4.4}
+YS = {"ntsb": 0.0, "furniture": 1.4, "heldout": 2.4, "generality": 3.4}
 # fig4: the dots whose label goes left, where an interval line of a neighbouring dot would cross it
 LABEL_LEFT = frozenset({"ntsb", "lighthouses"})
 BOUND = 0.95  # the audit's bound for C4 link precision and C6 purity (R93, config.py)
@@ -99,18 +99,18 @@ def _dot(ax, y: float, p, score: Score, size: float = 7.5, hollow: bool = False)
 def _rows(ax, builds: list[data.BuildAccuracy], labels: bool = True) -> None:
     """The dataset rows: the gray band of the new datasets, the y labels, the group names."""
     ax.add_patch(
-        Rectangle((0, -0.5), 1, 2.0, transform=ax.get_yaxis_transform(), color=SURFACE_TINT, zorder=0, lw=0)
+        Rectangle((0, -0.5), 1, 1.0, transform=ax.get_yaxis_transform(), color=SURFACE_TINT, zorder=0, lw=0)
     )
     ax.set_yticks([YS[b.dataset] for b in builds], [data.LABELS[b.dataset] for b in builds] if labels else [])
     for tick in ax.get_yticklabels():
         tick.set_color(INK)
-    ax.set_ylim(4.95, -0.95)
+    ax.set_ylim(3.95, -0.95)
     ax.grid(axis="y", visible=False)
     ax.tick_params(axis="y", length=0)
 
 
 def _group_names(ax, x: float) -> None:
-    for y, text in ((-0.75, "New datasets (R155b builds)"), (1.85, "Thesis datasets (r108 builds)")):
+    for y, text in ((-0.75, "New dataset (R155b build)"), (0.85, "Thesis datasets (r108 builds)")):
         ax.text(x, y, text, ha="left", va="center", fontsize=8, color=INK_SECONDARY, style="italic")
 
 
@@ -139,6 +139,18 @@ def _kn(p) -> str:
     return f"{p.k}/{p.n}"
 
 
+def _selected_note() -> str:
+    """The first subtitle line of every figure (R230): the figures are a selected comparison, and the left-out
+    builds' audit result is stated, so no figure reads as the builder passing on every measured dataset."""
+    left_out = []
+    for b in data.excluded():
+        fails = [c for c, ok in (("C3", b.c3_passed), ("C4", b.c4_passed), ("C6", b.c6_passed)) if not ok]
+        verdict = f"fails {' and '.join(fails)} (C4 {_kn(b.c4)})" if fails else "passes the audit"
+        left_out.append(f"{data.LABELS[b.dataset]}, measured with the same rules, is excluded and {verdict}")
+    head = f"Selected comparison of {len(data.SELECTED)} datasets, not all measured ones"
+    return f"{head}: {'; '.join(left_out)}.\n"
+
+
 # --- fig1: claim precision ---------------------------------------------------------------------------------
 
 
@@ -162,9 +174,10 @@ def fig1_claim_precision(builds: list[data.BuildAccuracy], out: Path) -> list[Pa
     _key(fig, (STRICT, CONTENT), top=0.83)
     title(
         fig,
-        f"What the builds store is right: content precision {lowest.content.rate:.0%} or more on all five "
-        "datasets",
-        "R110 (thesis datasets) and R226 (new datasets): every extracted claim judged blind against its "
+        f"What the builds store is right: content precision {lowest.content.rate:.0%} or more on the four "
+        "datasets shown",
+        _selected_note()
+        + "R110 (thesis datasets) and R226 (NTSB): every extracted claim judged blind against its "
         "chunk by Claude Opus 5.5. Square: strict (every field: truth,\nmodality, condition, time, type "
         "right); circle: content (the subject-relation-object triple right). Lines: 95 % Wilson intervals; "
         "k/n at right. The axis starts at 80 %.",
@@ -219,7 +232,8 @@ def fig2_claim_recall(builds: list[data.BuildAccuracy], out: Path) -> list[Path]
         fig,
         f"The builds store few of a reader's claims: from {min(b.recall.rate for b in builds):.0%} to "
         f"{best.recall.rate:.0%} ({data.LABELS[best.dataset].lower()})",
-        "R111 and R226: every claim a careful reader lists for 40 random sentences per dataset "
+        _selected_note()
+        + "R111 and R226: every claim a careful reader lists for 40 random sentences per dataset "
         "(written blind, R77 / R225), matched by a blind judge to the stored claims.\n"
         "Orange: a fact type existed (the model's miss); gray: no fact type could hold it (the schema's). "
         "The numbers in the bars are claims.",
@@ -259,7 +273,8 @@ def fig3_mentions(builds: list[data.BuildAccuracy], out: Path) -> list[Path]:
         fig,
         f"The mention index finds {min(found):.0%}-{max(found):.0%} of what a reader names, and most of what "
         "it adds is a real mention",
-        "R103 (thesis datasets, the pass r108 reused) and R226: 40 random sentences per dataset with every "
+        _selected_note()
+        + "R103 (thesis datasets, the pass r108 reused) and R226: 40 random sentences per dataset with every "
         "mention a reader names (R101 / R225 gold, written blind).\nLeft: found by exact name (square, code) "
         "and with near names the judge mapped (circle). Right: a seeded sample of the pass's own mentions "
         "judged inside the definition.",
@@ -317,7 +332,7 @@ def fig4_precision_against_recall(builds: list[data.BuildAccuracy], out: Path) -
     fig.legend(
         handles=[
             Line2D([], [], marker="o", color=INK, mfc=INK, lw=0, label="Thesis datasets (r108 builds)"),
-            Line2D([], [], marker="o", color=INK, mfc=SURFACE, lw=0, label="New datasets (R155b builds)"),
+            Line2D([], [], marker="o", color=INK, mfc=SURFACE, lw=0, label="New dataset (R155b build)"),
         ],
         loc="upper left",
         bbox_to_anchor=(0.005, 0.86),
@@ -325,8 +340,9 @@ def fig4_precision_against_recall(builds: list[data.BuildAccuracy], out: Path) -
     )
     title(
         fig,
-        "Every build is precise; recall is what separates them",
-        "R110/R111 and R226: each dataset's content precision (all stored claims) against its claim recall "
+        "Every build shown is precise; recall is what separates them",
+        _selected_note()
+        + "R110/R111 and R226: each dataset's content precision (all stored claims) against its claim recall "
         "(the reader's claims\nof 40 random sentences). Lines: 95 % Wilson intervals on both axes; labels: "
         "recall k/n · precision k/n. The y axis starts at 85 %.",
     )
@@ -353,7 +369,7 @@ def fig5_audit(builds: list[data.BuildAccuracy], out: Path) -> list[Path]:
             verdict = "passes" if passed else "fails"
             _counts(ax, YS[b.dataset], f"{_kn(p)} {verdict}", weight="normal" if passed else "bold")
         ax.axvline(BOUND, color=INK_SECONDARY, lw=0.9, zorder=1)
-        ax.text(BOUND, 4.85, " bound 95 %", fontsize=7.5, color=INK_SECONDARY, va="bottom")
+        ax.text(BOUND, 3.85, " bound 95 %", fontsize=7.5, color=INK_SECONDARY, va="bottom")
         # every panel starts at 75 %: the lowest interval's low end (lighthouses C4) is 82 %
         ax.set_xlim(0.75, 1.005)
         ax.xaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
@@ -361,15 +377,12 @@ def fig5_audit(builds: list[data.BuildAccuracy], out: Path) -> list[Path]:
     axes[1].set_xlabel("Judged rate (95 % Wilson interval); C6: record and individual starts, anchor arm")
     _group_names(axes[0], 0.752)
     failed = [b for b in builds if not (b.c3_passed and b.c4_passed and b.c6_passed)]
-    # the failing builds and, for each, its wrong record links (C3 fails on them too, R93)
-    fails = "; ".join(
-        f"{data.LABELS[b.dataset]} fails on {b.c4.n - b.c4.k} wrong record links" for b in failed
-    )
+    shown = f"{len(builds) - len(failed)} of the {len(builds)} builds shown pass every audit criterion"
     title(
         fig,
-        f"{len(builds) - len(failed)} of {len(builds)} builds pass every audit criterion"
-        + (f"; {fails}" if fails else ""),
-        "R108 (thesis datasets) and R228 (new datasets), judged blind by Claude Opus 5.5 under R93's rules. "
+        shown + " (a selected comparison; the excluded build fails, see below)",
+        _selected_note()
+        + "R108 (thesis datasets) and R228 (NTSB), judged blind by Claude Opus 5.5 under R93's rules. "
         "Each row: the judged rate with its interval and k/n; bold = the criterion's\nhard rule fails. "
         "C3 also fails on a wrong record link (C4's), so a 100 % merge rate can fail; the bound line applies "
         "to C4 and C6.",

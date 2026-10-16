@@ -2,15 +2,16 @@
 a chart can only show a committed number), the build draws every figure into a fresh folder, and every
 committed figure is built, captioned in its folder's README.md and listed in the index, with no caption naming
 a missing file. R174: the r173 data functions return the three measurements' committed counts, the
-wrong answers by cause, the operations used and the costs. R229: the r229 data functions return the five
-builds' committed precision, recall, mention and audit counts. No Neo4j, no network: the figures read
+wrong answers by cause, the operations used and the costs. R229/R230: the r229 data functions return the four
+selected builds' committed precision, recall, mention and audit counts, and every figure states the excluded
+lighthouses result. No Neo4j, no network: the figures read
 committed records only."""
 
 import re
 from pathlib import Path
 
 import pytest
-from figures.scripts import r128_data, r131_data, r157_data, r173_data, r229_data
+from figures.scripts import r128_data, r131_data, r157_data, r173_data, r229_charts, r229_data
 from figures.scripts.build import build
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -131,11 +132,11 @@ def test_the_r173_data_functions_return_the_committed_counts():
 
 def test_the_r229_data_functions_return_the_committed_counts():
     builds = {b.dataset: b for b in r229_data.load_all()}
-    assert list(builds) == list(r157_data.DATASETS)
+    # R230: the figures are a selected comparison of four datasets
+    assert list(builds) == list(r229_data.SELECTED) == ["ntsb", "furniture", "heldout", "generality"]
     kn = {ds: ((b.strict.k, b.content.k, b.content.n), (b.recall.k, b.recall.n)) for ds, b in builds.items()}
     assert kn == {
         "ntsb": ((285, 289, 293), (13, 74)),
-        "lighthouses": ((145, 152, 160), (11, 73)),
         "furniture": ((498, 518, 530), (42, 72)),
         "heldout": ((480, 520, 530), (19, 67)),
         "generality": ((202, 208, 216), (12, 66)),
@@ -143,7 +144,6 @@ def test_the_r229_data_functions_return_the_committed_counts():
     # fig2's split of the misses: the schema's (no fact type) and the rest
     assert {ds: (b.schema_misses, b.other_misses) for ds, b in builds.items()} == {
         "ntsb": (6, 55),
-        "lighthouses": (30, 32),
         "furniture": (11, 19),
         "heldout": (32, 16),
         "generality": (39, 15),
@@ -153,20 +153,24 @@ def test_the_r229_data_functions_return_the_committed_counts():
     }
     assert mentions == {
         "ntsb": (133, 153, 51),
-        "lighthouses": (119, 138, 55),
         "furniture": (53, 68, 54),
         "heldout": (100, 116, 55),
         "generality": (88, 103, 49),
     }
     audit = {ds: ((b.c3.k, b.c3.n), (b.c4.k, b.c4.n), (b.c6.k, b.c6.n)) for ds, b in builds.items()}
-    assert audit["lighthouses"] == ((87, 87), (34, 36), (77, 79))
     assert audit["ntsb"] == ((80, 81), (36, 36), (58, 60))
     assert audit["furniture"] == ((150, 151), (63, 63), (109, 109))
-    # only lighthouses fails, and it fails C3 and C4 on the same two links (R93)
-    failing = {ds for ds, b in builds.items() if not (b.c3_passed and b.c4_passed and b.c6_passed)}
-    assert (
-        failing == {"lighthouses"} and not builds["lighthouses"].c3_passed and builds["lighthouses"].c6_passed
-    )
+    assert all(b.c3_passed and b.c4_passed and b.c6_passed for b in builds.values())
+
+
+def test_the_excluded_lighthouses_result_is_kept_and_stated_on_every_figure():
+    # R230: lighthouses leaves the figures, not the records; it fails C4 and so C3 on the same two links
+    (lighthouses,) = r229_data.excluded()
+    assert lighthouses.dataset == "lighthouses" and (lighthouses.c4.k, lighthouses.c4.n) == (34, 36)
+    assert not lighthouses.c3_passed and not lighthouses.c4_passed and lighthouses.c6_passed
+    note = r229_charts._selected_note()
+    assert note.startswith("Selected comparison of 4 datasets") and "Lighthouses" in note
+    assert "fails C3 and C4 (C4 34/36)" in note
 
 
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):

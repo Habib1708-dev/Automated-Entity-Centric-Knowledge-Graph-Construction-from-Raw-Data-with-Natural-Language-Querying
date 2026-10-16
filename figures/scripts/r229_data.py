@@ -1,5 +1,5 @@
-"""The numbers the R229 figures show: the build accuracy of the five benchmarked graphs, read from the
-committed judging records.
+"""The numbers the R229 figures show: the build accuracy of the benchmarked graphs, read from the committed
+judging records.
 
 Sources, one build per dataset:
 - **Furniture, held-out, generality:** the r108 builds.
@@ -11,7 +11,8 @@ Sources, one build per dataset:
 - **Lighthouses, NTSB:** the r155b builds, judged with the same rules in R226 (claims, recall,
   mentions) and R228 (audit).
 
-Role: the only reader of data for `r229_charts.py`. The test checks these functions against the counts the
+Role: the only reader of data for `r229_charts.py`, which draws the four `SELECTED` datasets (R230).
+The test checks these functions against the counts the
 roadmap quotes.
 Design: pure functions over the committed reports. Every rate is rebuilt from its recorded k and n with
 `Proportion.of`, so it carries its 95% Wilson interval and a figure can only show what the record holds.
@@ -27,7 +28,12 @@ from kgbuilder.validation.interval import Proportion
 from .r157_data import DATASETS, LABELS, NEW
 
 GOLD = Path(__file__).resolve().parents[2] / "tests" / "gold"
-__all__ = ["DATASETS", "LABELS", "NEW", "BuildAccuracy", "load", "load_all"]
+__all__ = ["DATASETS", "LABELS", "NEW", "SELECTED", "BuildAccuracy", "excluded", "load", "load_all"]
+# The datasets the figures compare (R230, the user's choice for the final presentation): a selected
+# comparison of four. Lighthouses was measured with the same rules (R226, R228) and fails C4 (34/36) and so
+# C3; it is left out of the figures, not out of the records, and every caption says so.
+SELECTED = ("ntsb", "furniture", "heldout", "generality")
+EXCLUDED = tuple(ds for ds in DATASETS if ds not in SELECTED)
 
 
 @dataclass(frozen=True)
@@ -121,6 +127,11 @@ def load(ds: str) -> BuildAccuracy:
     )
 
 
+def excluded() -> list[BuildAccuracy]:
+    """The measured datasets the figures leave out (R230), read so every caption can state their result."""
+    return [load(ds) for ds in EXCLUDED]
+
+
 def load_all() -> list[BuildAccuracy]:
-    """Every dataset's build accuracy, in the benchmark figures' dataset order."""
-    return [load(ds) for ds in DATASETS]
+    """The selected datasets' build accuracy, in the benchmark figures' dataset order."""
+    return [load(ds) for ds in SELECTED]

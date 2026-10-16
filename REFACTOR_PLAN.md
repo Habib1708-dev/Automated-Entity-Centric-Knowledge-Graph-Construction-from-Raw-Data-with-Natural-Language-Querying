@@ -12086,6 +12086,34 @@ Lighthouses and NTSB use the R155b builds, with R226 and R228 for the same measu
 
 **R229 done 2026-10-16. Plan R225-R229 done.** Next: the user decides, for example whether to take up the per-document mention identity found in R228.
 
+### R230. The KG builder frozen; build-accuracy figures as a selected comparison of four datasets (done 2026-10-16; $0, no run)
+
+**The user's decisions, 2026-10-16, given the thesis deadline:**
+- **No further experiments. The KG builder is frozen** at its current code: no construction change, no rebuild, no new measurement. The per-document mention identity of R228 stays a recorded, unfixed limitation.
+- **The final build-accuracy presentation uses four primary datasets:** furniture, held-out, generality and NTSB. Lighthouses is excluded from the main comparison figures.
+- **The four-dataset results are labelled as a selected comparison,** not as evidence that the builder passes on all five measured datasets.
+
+**Scope.** The changes are minimal and kept in the R229 folder by the user's instruction: the R229 figures are revised in place, not copied to a new step folder.
+- **`figures/scripts/r229_data.py`:**
+  - `SELECTED` holds the four datasets the figures draw; `EXCLUDED` holds lighthouses.
+  - `excluded()` reads the left-out builds, so their result can be stated.
+  - `load` still reads any dataset.
+- **`figures/scripts/r229_charts.py`:** four rows. Every subtitle opens with a note built from the records: "Selected comparison of 4 datasets, not all measured ones: Lighthouses, measured with the same rules, is excluded and fails C3 and C4 (C4 34/36)."
+  - Fig. 1's title says "the four datasets shown".
+  - Fig. 4's title says "Every build shown".
+  - Fig. 5's title says "4 of the 4 builds shown pass every audit criterion (a selected comparison; the excluded build fails, see below)".
+- **The caption README** opens with a "Selected comparison" section giving every lighthouses number and its audit failure, and where its records are. The index line in `figures/README.md` says the same.
+- **Unchanged:** all records, including lighthouses' (`tests/gold/r225`-`r228`). The roadmap entries R225-R228 still give the five-dataset numbers.
+
+**Tests.** `tests/test_figures.py`, restored to its CRLF line ends:
+- the r229 test checks the four selected datasets' counts and that all four pass;
+- a new test checks that lighthouses' record still reads as failing C3 and C4 (34/36), and that the figure note states it.
+- `uv run pytest -m "not neo4j and not postgres"`: 1791 passed (baseline 1790). `uv run ruff check .`: clean.
+
+**Runs.** No model call ($0).
+
+**R230 done 2026-10-16. The KG builder is frozen.**
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
