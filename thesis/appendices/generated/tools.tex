@@ -1,0 +1,47 @@
+\paragraph{\texttt{find\_nodes}} Find the nodes of the graph that a text names or is about: records, named individuals and kinds of thing, best first. Start here: the other graph tools take the refs it returns.
+
+\noindent\emph{Arguments:} \texttt{query}: What to look for: a name, or words saying what the wanted nodes are about.
+
+\paragraph{\texttt{get\_node}} Read one node: what it is, its name, its other names, and its properties, each with the source row it comes from.
+
+\noindent\emph{Arguments:} \texttt{ref}: The ref of a node, exactly as a tool returned it.
+
+\paragraph{\texttt{neighbours}} List the nodes one node relates to: each relation's type and direction, the other node's ref and name, and the ids of up to three claims stating it. To go a step further, call it again on a listed node.
+
+\noindent\emph{Arguments:} \texttt{ref}: The ref of a node, exactly as a tool returned it; \texttt{relation}: Only relations of this type, exactly as a listed relation names it.
+
+\paragraph{\texttt{node\_evidence}} Read the text passages the graph links to one node, those closest to `about` first, each with the claims read from it that concern the node.
+
+\noindent\emph{Arguments:} \texttt{ref}: The ref of a node, exactly as a tool returned it; \texttt{about}: What the passages should say: the passages closest to it come first.
+
+\paragraph{\texttt{search\_text}} Search every text passage by meaning and by words, best first.
+
+\noindent\emph{Arguments:} \texttt{query}: What the text should say, in words.
+
+\paragraph{\texttt{search\_claims}} Search the claims read from the text by meaning and by words, best first. Each claim says whether the text states or denies it, whether it only may hold, and under what condition; a claim the text also denies, or states, comes with its opposite.
+
+\noindent\emph{Arguments:} \texttt{query}: What the text should say, in words.
+
+\paragraph{\texttt{read\_document}} Read every passage of one document, in order: use it to count or list what one document says, which a search, showing only the best few passages, cannot.
+
+\noindent\emph{Arguments:} \texttt{document}: The document: what a passage id has before '\#', or a passage id of it.
+
+\paragraph{\texttt{find\_passages}} Find every passage that contains all the given words, in every document, not only the best few: use it to count or list everything the text says about something. A word in a passage's context (its document's title) counts for every passage of that document, even one that does not repeat it. It finds the words, not other words for the same idea: search\_text searches by meaning. Each passage shows its headings and its sentences that hold the words.
+
+\noindent\emph{Arguments:} \texttt{words}: Words or short phrases every passage must contain, in its text or its context, ignoring case: the fewest that pick out what is counted. A word also finds itself with -s, -es, -ed, -ing or -e added or removed when four letters stay ('brews' finds 'brew', 'brewed' and 'brewing'); a shorter word, a doubled letter or a y turned to i is not joined, so search those forms too. A phrase varies only its last word; a word with a digit or a sign is matched as written; a space or a hyphen in a phrase matches either ('lid-seal' finds 'lid seal').
+
+\paragraph{\texttt{rank\_by\_documents}} Rank the things the text names (records, named individuals and kinds of thing) by how many documents mention them, by name or by a word for them, most first, each with that number and the words it is written with. A document is what a passage id has before '\#', not one passage. It counts documents, never passages or how often something is said: to count passages, statements or occurrences, use find\_passages.
+
+\noindent\emph{Arguments:} \texttt{contains}: Only things with a name containing this text anywhere, even inside a word, ignoring case: a word, or a few characters the wanted names share; \texttt{label}: Only things of this label, exactly as a tool returned it.
+
+\paragraph{\texttt{schema}} Read what can be queried: the record labels and their properties, the relationships between records, the patterns of the claims read from the text, and the source tables and their columns, with types and example values.
+
+\noindent\emph{Arguments:} none.
+
+\paragraph{\texttt{query\_records}} Query the records of one label: list them, count them or their different values, or measure a property (sum, average, min, max), optionally per value, year or decade of a property, for the records that meet every condition. Read the schema first: names must be written exactly as it gives them.
+
+\noindent\emph{Arguments:} \texttt{where}: Conditions every result must meet (all of them); \texttt{measure}: rows lists the matching entries; count counts them; distinct counts the different values of `field` among them; sum, average, min and max measure `field` over them; \texttt{field}: The field sum, average, min and max measure, or whose different values distinct counts; \texttt{group\_by}: Measure each value of this field separately (largest first), with a measure other than rows; count counts the entries of each value; \texttt{group\_split}: With group\_by, for a text field holding several values joined by a separator (as its examples show): the separator; each value is then measured on its own. A list field needs none; \texttt{period}: year or decade: with group\_by, each group is the year or the decade of the grouped field; without group\_by, distinct counts the different years or decades of `field`. The field must be a date or a text holding one (its examples show a year, as '1740' or '1740-05-02'). A decade is named by its first year, as 1740s; \texttt{order\_by}: rows: the field to sort the entries by; \texttt{descending}: rows: sort from the largest value down; \texttt{offset}: rows and groups: how many entries to skip, to read the ones after those a cut list showed; \texttt{label}: The record label to query, exactly as the schema names it; \texttt{related\_to}: Only records related to this record: its ref, exactly as a tool returned it; \texttt{relationship}: With related\_to: the relationship type joining the two, as the schema names it; or the types along a path of several relationships, in order from the related record (at most 3).
+
+\paragraph{\texttt{query\_tables}} Query one source table: list its rows, count them or their different values, or measure a column (sum, average, min, max), optionally per value, year or decade of a column, for the rows that meet every condition. Read the schema first: names must be written exactly as it gives them.
+
+\noindent\emph{Arguments:} \texttt{where}: Conditions every result must meet (all of them); \texttt{measure}: rows lists the matching entries; count counts them; distinct counts the different values of `field` among them; sum, average, min and max measure `field` over them; \texttt{field}: The field sum, average, min and max measure, or whose different values distinct counts; \texttt{group\_by}: Measure each value of this field separately (largest first), with a measure other than rows; count counts the entries of each value; \texttt{group\_split}: With group\_by, for a text field holding several values joined by a separator (as its examples show): the separator; each value is then measured on its own. A list field needs none; \texttt{period}: year or decade: with group\_by, each group is the year or the decade of the grouped field; without group\_by, distinct counts the different years or decades of `field`. The field must be a date or a text holding one (its examples show a year, as '1740' or '1740-05-02'). A decade is named by its first year, as 1740s; \texttt{order\_by}: rows: the field to sort the entries by; \texttt{descending}: rows: sort from the largest value down; \texttt{offset}: rows and groups: how many entries to skip, to read the ones after those a cut list showed; \texttt{table}: The source table to query, exactly as the schema names it.

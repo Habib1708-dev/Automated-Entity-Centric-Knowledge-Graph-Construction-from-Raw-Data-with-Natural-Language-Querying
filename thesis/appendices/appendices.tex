@@ -1,25 +1,162 @@
-% Appendices A-G: not counted toward the page limit.
+% Appendices A-H: not counted toward the page limit. A, D and F include files exported verbatim from the code and the
+% gold by thesis/tools/export_appendix.py; the rest cite the committed records named in each section.
 
 \chapter{Prompt Templates}\label{app:prompt-templates}
-% Sources: domain-neutral prompt texts of the builder and the agent
+
+The prompts below are copied verbatim from the final code by an export script, so they cannot drift from what the
+system sends. Placeholders in braces are filled at run time (the question, the tools, the earlier turns). Every
+example in them uses an invented domain; tests reject a prompt that contains a four-word sequence of an evaluation
+corpus or a domain word of the datasets (\cref{sec:ch04-engineering}). The pydantic field descriptions that travel
+with each prompt as its response schema, and the short send-back messages of the agent, are omitted.
+
+\input{appendices/generated/prompts}
 
 \chapter{Gold and Judge Protocols}\label{app:gold-and-judge-protocols}
-% Sources: evaluation skill; tests/gold/r71/qa_judge_rules.md
+
+\section*{Writing the gold}
+\begin{enumerate}[nosep]
+\item The gold is written by Claude from the source files only, before any output of the system for those files is
+opened; the writer records which files it read.
+\item Every item carries verbatim evidence: a sentence of its chunk, a record of its table, or a SQL query whose
+answer equals the gold answer. A test checks all three on every committed gold file.
+\item Each benchmark and confirmation file is reviewed twice by independent reviewers, who re-derive every answer from
+the sources, re-run every query and look for repeats of facts asked before; a third pass applies or answers every
+finding.
+\item A gold item changed after outputs were seen is a \emph{gold correction}, listed with its reason in the step that
+made it.
+\end{enumerate}
+
+\section*{Judging answers by meaning}
+The judge decides each answer against the gold answer and its evidence by six fixed rules (the examples in the rules
+are invented):
+\begin{enumerate}[nosep]
+\item \emph{Correct by meaning}: an answer is correct when it states what the expected answer states, in any wording;
+extra detail is fine when it is true of the source and contradicts nothing.
+\item \emph{Every part}: when the expected answer has several parts, an answer missing one part is wrong.
+\item \emph{Content, not form}: what the answer says is judged in whichever field it gives it.
+\item \emph{A partial value is wrong}: only the year of an expected date, or a generic phrase for a specific one, does
+not answer the question.
+\item \emph{No answer is wrong}: ``the texts do not say'' is wrong when the expected answer exists in the source.
+\item Judge against the expected answer and its evidence only, never against outside knowledge.
+\end{enumerate}
+Two judges work blind and independently on each answers file; a lead judge decides their disagreements. Verdicts are
+written to a file with a one-line reason per verdict, and code computes the scores from it.
+
+\section*{Judging builder outputs}
+Each item (a stored claim, a merge, a mention-to-record link, a pair of a start and a chunk) receives one of five
+labels: \emph{valid}, \emph{valid alternative}, \emph{incorrect}, \emph{ambiguous}, \emph{unjudgeable}. One blind judge
+labels each batch; the lead reviews every label other than valid and a seeded random 10\,\% of the valid ones. Rates
+are computed by code as defined in \cref{sec:ch03-scoring-exact-match-and-judgement}.
 
 \chapter{Builder Criteria per Dataset}\label{app:builder-criteria-per-dataset}
-% Sources: full C0-C9 tables
+
+\Cref{tab:criteria-full} gives every criterion of \cref{tab:criteria} on the final builds (arm A, the anchor graph).
+Records: \path{tests/gold/r108/<dataset>/}, \path{tests/gold/r109/heldout/} and \path{tests/gold/r228/ntsb/}.
+
+\begin{table}[htbp]
+\centering
+\caption{The audit criteria C0--C9 on the final builds. NTSB was not compared with vector retrieval (C5).}
+\label{tab:criteria-full}
+\scriptsize
+\begin{tabularx}{\linewidth}{@{}>{\raggedright}p{3.7cm}>{\centering}X>{\centering}X>{\centering}X>{\centering\arraybackslash}X@{}}
+\toprule
+Criterion & NTSB & Furniture & NHTSA & Generality \\
+\midrule
+C0 fidelity & pass & pass & pass & pass \\
+C1 provenance & 1.0 & 1.0 & 1.0 & 1.0 \\
+C2 targets at rank 1 / in first 5 & 62/66 / 64/66 & 72/86 / 80/86 & 53/65 / 60/65 & 45/62 / 54/62 \\
+C3 wrong merges of records or individuals & 0 & 0 & 0 & 0 \\
+C3 individual merges judged right & 1/1 & 27/27 & 27/27 & 33/33 \\
+C3 concept merges accepted & 79/80 & 123/124 & 66/68 & 52/53 \\
+C4 mention-to-record links right & 36/36 & 63/63 & 77/77 & 48/48 \\
+C5 complete@10, end to end (graph vs vector) & 25/30 (---) & 23 vs 26 of 31 & 24 vs 26 of 28 & 34 vs 37 of 38 \\
+C6 purity, record and individual starts & 58/60 & 109/109 & 86/86 & 100/100 \\
+C6 purity, concept starts & 58/58 & 51/51 & 69/69 & 31/31 \\
+C7 median / 90th percentile share of corpus & 2.9 / 8.8\,\% & 1.4 / 7.1\,\% & 1.2 / 7.4\,\% & 3.1 / 12.5\,\% \\
+C8 connections reached; unwitnessed hops & 7/7; 0 & 14/14; 0 & 16/16; 0 & 12/12; 0 \\
+C9 nodes / edges per chunk & 47.3 / 60.9 & 26.2 / 38.8 & 22.0 / 30.4 & 28.8 / 33.9 \\
+C9 build cost (USD) & 0.640 & 0.696 & 1.417 & 0.365 \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \chapter{Question Types}\label{app:question-types}
-% Sources: taxonomy with examples
+
+One benchmark question of each type with its gold answer. To avoid a picked example, type $i$ takes the first
+question of its type in the benchmark file of the $i$-th dataset (modulo four), as written by the export script.
+
+\input{appendices/generated/question_types}
 
 \chapter{Complete Result Tables}\label{app:complete-result-tables}
-% Sources: with MLflow run ids
+
+\begin{table}[htbp]
+\centering
+\caption{Accuracy on unseen questions per dataset: right by exact match / by meaning, of $n$, with the MLflow run of each answers file.}
+\label{tab:results-full}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Set & NTSB & Furniture & NHTSA & Generality \\
+\midrule
+R157 benchmark & 50 / 50 of 50 (\texttt{fbf2339f}) & 46 / 46 of 50 (\texttt{fb74f46a}) & 49 / 49 of 50 (\texttt{ab12ca9d}) & 48 / 50 of 50 (\texttt{61432a24}) \\
+R166 confirmation 1 & 19 / 19 of 20 (\texttt{00372eb4}) & 19 / 19 of 20 (\texttt{2f56dbd5}) & 19 / 19 of 20 (\texttt{94ba4784}) & 20 / 20 of 20 (\texttt{80eb7c27}) \\
+R173 confirmation 2 & 19 / 19 of 20 (\texttt{ec1a6518}) & 20 / 20 of 20 (\texttt{35afadc8}) & 19 / 19 of 20 (\texttt{e4899ff3}) & 20 / 20 of 20 (\texttt{2e7fa121}) \\
+R179 confirmation 3 & 20 / 20 of 20 (\texttt{544e71e0}) & 18 / 18 of 20 (\texttt{0fdf90be}) & 15 / 17 of 20 (\texttt{dd99ba2a}) & 20 / 20 of 20 (\texttt{c344c8d5}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Per-question outcomes, verdicts and causes are in \path{tests/gold/r157/}, \texttt{r166/}, \texttt{r173/} and
+\texttt{r179/} (\texttt{outcomes.json}). The builder's judged reports are in \path{tests/gold/r110/},
+\texttt{r111/}, \texttt{r103/}, \texttt{r108/}, \texttt{r109/}, \texttt{r226/} and \texttt{r228/}, with the MLflow
+runs named in them. The evidence registry of the thesis sources (\path{thesis/evidence_registry.csv}) lists every
+number in the text with its step, record, run and commit.
 
 \chapter{Tool Reference}\label{app:tool-reference}
-% Sources: the agent's twelve tools
+
+The twelve tools of the agent, with the descriptions and argument descriptions the model reads, exported from the
+final code. Limits and behaviour are described in \cref{sec:ch06-tools}.
+
+\input{appendices/generated/tools}
 
 \chapter{Reproducibility Guide}\label{app:reproducibility-guide}
-% Sources: commands, presets, costs
+
+\section*{Environment}
+The code, records and figures are in the project repository; the thesis is built from the branch \texttt{thesis}.
+Python dependencies are installed with \texttt{uv sync}; Neo4j~5 with APOC (and an optional PostgreSQL) run from the
+repository's Docker Compose file. Model calls need a Gemini API key; every response is cached under
+\texttt{.cache/llm}, so a repeated command costs nothing.
+
+\section*{Building a graph}
+\begin{lstlisting}
+uv run kg --preset quality run --goal "supply chain root cause analysis"   # furniture
+uv run kg --preset heldout run --goal "..."     # NHTSA; generality_gemini, ntsb likewise
+\end{lstlisting}
+Each stage can be run alone (\texttt{profile}, \texttt{plan}, \texttt{build}, \texttt{ingest-text},
+\texttt{text-schema}, \texttt{extract}, \texttt{link}, \texttt{mention-pass}, \texttt{resolve}, \texttt{attach},
+\texttt{index}); the recipe each final build used is recorded in \path{tests/gold/<step>/runs.json}. Reloading a
+graph from the cache reproduces it exactly, which its digest confirms.
+
+\section*{Answering and scoring}
+\begin{lstlisting}
+uv run kg --preset quality qa tests/gold/qa/furniture_qa_bench.json --system agent --out out/run
+uv run kg qa-score ...    # exact match, or by meaning with a verdicts file
+uv run kg qa-compare ...  # paired McNemar between two outcome files
+uv run kg serve           # the web interface
+\end{lstlisting}
+
+\section*{Figures and the thesis}
+\begin{lstlisting}
+uv run python -m figures.scripts.build          # every figure from committed records
+uv run python thesis/tools/export_appendix.py   # Appendices A, D, F
+cd thesis && latexmk -xelatex main.tex          # or Tectonic with biber 2.17
+\end{lstlisting}
+
+\section*{Cost}
+At list prices, a build costs \$0.37--1.42, a question about \$0.016 at low thinking, and the whole sequence of
+unseen-question runs on the four datasets \$7.22. Judging was done in a Claude session at no API cost. Embedding calls
+are not priced.
 
 \chapter{The Excluded Dataset}\label{app:excluded-dataset}
 % Sources: tests/gold/r225-r228/lighthouses; tests/gold/r157, r166, r173, r179 outcomes.json;

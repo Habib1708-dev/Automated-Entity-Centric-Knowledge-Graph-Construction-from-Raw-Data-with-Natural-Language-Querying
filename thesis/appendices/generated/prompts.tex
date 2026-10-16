@@ -1,0 +1,391 @@
+\section*{Builder: construction plan}
+\noindent Source: \texttt{structured/proposer.py}
+\begin{lstlisting}
+You are an expert at knowledge graph modeling with property graphs.
+Design construction rules that turn the CSV files below into a graph serving the user's goal.
+
+<goal>
+{goal}
+</goal>
+
+The data profile below was computed exactly from the files. Trust it over your intuition:
+- `is_unique` tells you which columns can be node keys. Never use a non-unique column as `unique_column`.
+- `foreign_keys` lists columns whose values are contained in another file's unique column.
+  Candidates with `name_match: false` on small integer columns are usually coincidences.{declared_rule}
+
+<profile>
+{profile}
+</profile>
+
+Modeling rules:
+- A file with one unique identifier is a node. Its foreign key columns become relationships
+  (source_file is that same file, from_column is its own key, to_column is the foreign key column).
+- A file with no unique identifier and two foreign keys is a relationship file; its other columns
+  are relationship properties.
+- A file with no unique column whose rows describe things of their own, not only a link between two other
+  files, is a node with `key_columns` (e.g. frames listed per hive, keyed by hive_id and frame_no): the
+  fewest columns that together tell its rows apart and are never empty. Its `unique_column` is a new name
+  for the key that code builds from them.
+- Do not import foreign key columns as node properties.
+- Set `name_column` to the column holding the name a person would write in a document
+  (e.g. hive_name "Linden Hive", not a code like "hive_unit_07"); text is linked to nodes by it.
+- Connect every pair of tables that the foreign keys join, directly or through a link table; tables that
+  no key joins may stay apart. Skip files that are irrelevant to the goal.
+- No two relationships between the same pair of labels may be inverses or synonyms of each other.
+
+{feedback}
+\end{lstlisting}
+
+\section*{Builder: plan critic}
+\noindent Source: \texttt{structured/proposer.py}
+\begin{lstlisting}
+You are reviewing a proposed knowledge graph construction plan.
+The plan already passed mechanical checks (columns exist, keys are unique, whether one column or the
+columns in key_columns, tables the keys join are connected),
+so judge only the modeling:
+- Could any node really be a relationship, or the reverse?
+- Are relationship directions and types natural for the goal?
+- Are obvious relationships from the foreign key candidates missing?
+- Are any relationships redundant?
+- Can the goal's typical questions be answered by traversing this schema?
+
+Reply "retry" only for problems that would change the plan; otherwise "valid".
+
+<goal>
+{goal}
+</goal>
+
+<profile>
+{profile}
+</profile>
+
+<plan>
+{plan}
+</plan>
+\end{lstlisting}
+
+\section*{Builder: text schema}
+\noindent Source: \texttt{text/schema.py}
+\begin{lstlisting}
+You design the schema for extracting knowledge from unstructured text into a knowledge graph.
+
+<goal>
+{goal}
+</goal>
+
+The graph already contains this structured (domain) data. When the text talks about the same kind of
+thing as a domain node, name the entity type like that node, so that code can link the two, and keep the
+meaning of each type distinct from these:
+<domain_graph>
+{domain}
+</domain_graph>
+
+Representative text chunks:
+<chunks>
+{chunks}
+</chunks>
+
+Rules:
+- Derive the entity types from the goal and the text: the things the text makes statements about that
+  the goal cares about. Do not make types for ratings, dates or generic adjectives.
+- Do not make an entity type for the source a statement comes from (a document, a report, a message, a
+  post), and do not connect facts through such a source: where each fact comes from is recorded outside
+  the schema. Connect the things a statement is about directly to each other.
+- Propose fact types as (subject_type, PREDICATE, object_type) for every kind of claim the text makes
+  about those things, not only the claims one question needs: a claim the schema cannot hold is lost.
+- Describe aspects of the things, not only what goes wrong: what they are made of, how they are
+  measured or rated, what they do well and what they do badly. Each extracted claim records whether it is
+  positive, negative or neutral, so one fact type holds all three; do not split a fact type by tone.
+- When the object of a claim is a number with a unit (a measure, a weight, a limit, a price), use the
+  built-in object type {value_type}. It needs no entity type of its own.
+- Give every entity type its identity. "keyed": each thing of the type is one record of the domain
+  graph; name its labels in record_labels, and in key_attributes the record properties the text writes
+  next to a name to tell two records of the same name apart. "individual": each thing is one particular
+  person, organisation, place or object that the text names and the domain graph does not hold.
+  "concept": the type names kinds, states or properties that many things share.
+- Mark a fact type part_of when its claims state that the subject is one of the pieces the object is
+  made of.
+- Every fact type must reference only entity types you defined, and every entity type must be used by a
+  fact type. Keep both lists small and precise (at most 12 entity types and 20 fact types).
+
+{feedback}
+\end{lstlisting}
+
+\section*{Builder: claim extraction}
+\noindent Source: \texttt{text/extraction.py}
+\begin{lstlisting}
+Extract facts from the text chunk as subject-predicate-object triples.
+
+Allowed entity types:
+{entity_types}
+
+Allowed fact types (subject_type -[PREDICATE]-> object_type):
+{fact_types}
+
+Rules:
+- Use only the entity types and fact types above. Skip anything that does not fit.
+- Be exhaustive: one triple per distinct claim. A sentence that lists several claims gives one triple
+  per item of the list. A mild or hedged claim ("a bit", "somewhat", "seems to", "more than expected")
+  still counts. A claim about the thing the document is about as a whole goes on that thing. When one
+  statement supports two of the allowed fact types, state both facts.
+- `subject` and `object` are names exactly as written in the text, with only the words that name the thing:
+  leave out a clause that says when or under which condition the claim holds ("when ...", "if ...",
+  "after ..."), words of frequency ("sometimes", "often"), and the words that deny the fact or say it only
+  may hold; they stay in the evidence and in the fields below. Never use pronouns.
+- The chunk comes from the document named in <document>. When the text refers to the thing the document
+  is about with a pronoun or a generic word ("it", "this kettle"), use the proper name from the document
+  name as the entity name.
+- `evidence` must be ONE contiguous quote copied verbatim from the chunk that supports the fact.
+- `polarity` is the claim's own tone toward its subject: "positive" when it speaks well of it, "negative"
+  when it reports a fault, a harm or dissatisfaction, "neutral" when it only states what is so.
+- `time`: when the quote says when the claim holds or after how long ("since ...", "within ..."),
+  copy those words verbatim from the quote; otherwise leave it empty. A condition is not a time.
+- `truth`: "negated" when the text says the fact does not hold or did not happen, in whatever words:
+  "the kettle never leaked" denies a leak, "the filter prevents scale" denies scale; otherwise "affirmed".
+  Name the fact itself ("leak", not "never leaked"). Keep the denial in a name only when the name is itself
+  the denied state; the fact is still negated and still has its `negation`: "the kettle will not switch
+  off" can give the object "will not switch off" with truth "negated" and negation "will not".
+- `negation`: for a negated fact, the words of the quote that deny it, copied verbatim ("never",
+  "prevents"); otherwise leave it empty.
+- `modality`: "possible" when the text says the fact may hold or happen, not that it does; "conditional"
+  when it holds under a condition the text states, in whatever words ("if ...", "unless ...", "when ..."
+  meaning whenever, "had the lid been shut"); otherwise "actual", also for what a thing is able to do
+  ("holds two litres"). A fact with both a condition and a possibility is conditional.
+- `hedge`: the words of the quote that say the fact only may hold, copied verbatim ("may", "could", "a
+  risk of"); required for a possible fact, allowed for a conditional one, otherwise empty.
+- `condition`: for a conditional fact, the words of the condition copied verbatim from the quote ("when
+  the water boils"); otherwise leave it empty.
+- When a fact type's object type is {value_type}, `object` is only the number and its unit, copied from
+  the quote.
+- Extract only what the text states. Do not infer. Return an empty list when nothing qualifies.
+
+<document>{context}</document>
+<chunk id="{chunk_id}">
+{text}
+</chunk>
+\end{lstlisting}
+
+\section*{Builder: mention pass}
+\noindent Source: \texttt{text/mention\_pass.py}
+\begin{lstlisting}
+List the things this text names or talks about that are not listed yet: the entries an
+index of the text would have, so that a reader looking for one of them finds this text.
+
+In:
+- named things: people, places, organisations, events, works, awards and identifiers;
+- kinds the text says something about: an object or a piece of one; a state, condition or fault, a property
+  included ("the brightness fades": brightness); an incident or event; a work done to a thing that makes,
+  fits, repairs, cleans, tests, replaces or withdraws it (an installation, a recalibration, an inspection);
+  a person or organisation known only by its role ("technician", "ferry operator");
+- a fault, state or incident of a thing, or a work done to it, written as a verb, as the text writes it
+  ("the shutter sticks": sticks; "the hull was repainted": repainted);
+- each of these also when the text says it is absent or did not happen ("No condensation was found on the
+  mirror": condensation, mirror).
+Out:
+- a describing word alone; a light or reporting verb such as "is", "has", "showed" or "explained"; a clause
+  or evaluation that names no thing; a quantity, date, time or season; a pronoun;
+- words that would fit any text, even as the subject or object of a sentence ("thing", "issue",
+  "experience", "number", "time", "people");
+- everyday acts of people, the ordinary use of a thing included, that are not a fault, an incident or a work
+  done to the thing (contacting, filing, buying, reading, boarding a ferry, looking through a telescope);
+- the text or document itself; its writer or reader referred to only as such ("the writer", "the person
+  reporting", "the undersigned"); a form of address ("Madam", "Dear neighbours"), though a name in it counts;
+- a title, role or common noun written next to a name or in apposition with it when it names that very
+  thing: the name is the only entry, also when the name is already listed ("dome technician Edit Varga" and
+  "Edit Varga, the dome technician": Edit Varga; "ferry T-4471": T-4471). A noun for the many things of a
+  named model or class names other things and stays ("the Skylark 30 ferries": Skylark 30, ferries).
+
+Copy each name verbatim from the text, as whole words and without "a", "an" or "the": the shortest span that
+names the thing, keeping a describing word only when it tells the thing apart ("shutter motor", not "old
+shutter motor in the dome"). List each thing once; when the text gives it two names ("Night Vision Unit
+(NVU)"), list the first.
+
+Give every thing two separate answers:
+- mention_class, how the text refers to it: "particular" when the text calls one individual thing by its own
+  name, a proper name or an identifier ("North Dome", "Lakeside Ferries", "Varga Prize", "T-4471"), also a
+  unit of a named organisation called with that name ("Lakeside Ferries ticket office"); "kind" for
+  everything else, also for a common noun that means one thing here ("the dome" is a kind even where it is
+  North Dome, and so are "the ticket office" and "the morning crossing");
+- type, what it is: the type below whose description fits it, whatever its mention_class; "{none}" when no
+  type fits.
+
+Types:
+{types}
+
+Already listed (do not list these again): {known}
+
+Text ({document}):
+{text}
+\end{lstlisting}
+
+\section*{Builder: record chooser}
+\noindent Source: \texttt{resolution/record\_choice.py}
+\begin{lstlisting}
+A text names a thing "{name}". Is it the very same thing as one of the records below?
+
+Where "{name}" is named ([document] sentence):
+{lines}
+
+Records (id, then what the data holds about it):
+{records}
+
+Choose a record if "{name}" is that record itself, perhaps written in other words: a plural, a fuller or
+shorter name, the name with a describing word, a version of it (a variant of the same line, in another size
+or form), or the name with a word for the side of it the sentence talks about, such as its design or how it
+is made ("the brass focuser" and "the focuser design" are the record "Focuser"; "the Corvid ED" is the record
+"Corvid").
+Answer none if "{name}" is another thing that only shares words with a record: a piece of it, something made
+for it or fixed to it, or a larger thing it belongs to ("the thread of the focuser" and "the focuser cap" are
+not the record "Focuser").
+Answer none if a word added to the record's name makes the name of another line sold under a name of its own
+("the Corvid Voyager" is not the record "Corvid" when the Voyager is a line of its own).
+Answer none if "{name}" means other things of the record's kind than the ones it stands for, such as earlier
+ones the sentence sets apart from it ("the Corvids I owned before" are not the record "Corvid" whose data
+gives this year's edition).
+If "{name}" fits a whole and also pieces of that whole (the relations show which record is a piece of which),
+it is the whole, unless the sentences name the piece. Answer none when several records still fit equally well.
+If you choose a record, copy its id into record and copy one sentence from the lines above into quote,
+verbatim. Otherwise answer none and leave quote empty.
+\end{lstlisting}
+
+\section*{Builder: individual identity}
+\noindent Source: \texttt{resolution/individuals.py}
+\begin{lstlisting}
+Are A and B, both of type {etype}, the same particular person, organisation, place or
+object? Two different ones may share a name, and one may be written in several ways.
+
+Answer "same" only when the lines show that A and B are one: the same role, position, place, organisation,
+date or event is stated for both. A similar name is not enough, and neither is naming the same record or
+place: two different people can belong to one organisation. Answer "different" when the lines show two
+different ones (a role, a place or a time that cannot hold for both). Answer "unsure" when the lines do not
+settle it.
+For example, "E. Varga (dome technician)" and "Edit Varga, who services the dome" can be "same"; two
+"E. Varga" whose lines only both mention the observatory are "unsure".
+If you answer "same", copy one of A's lines into quote_a and one of B's lines into quote_b, verbatim: the
+lines that show it. Otherwise leave both quotes empty.
+
+A: {a}
+{record_a}Lines that name A, with their neighbours ([document] sentence; "*" marks a line that names A):
+{lines_a}
+
+B: {b}
+{record_b}Lines that name B, with their neighbours ([document] sentence; "*" marks a line that names B):
+{lines_b}
+
+Records the texts of both A and B also name:
+{shared}
+\end{lstlisting}
+
+\section*{Builder: concept identity}
+\noindent Source: \texttt{resolution/concepts.py}
+\begin{lstlisting}
+Do these two names, both of type {etype}, name the same kind of thing?
+{etype} names kinds, states or properties that many things share, so the names may come from different
+documents: answer whether A and B are the same kind, even when they are mentioned in different documents.
+Different sizes, models, materials, pieces or people are NOT the same. Answer conservatively.
+
+A: {a}
+B: {b}
+
+Where A is mentioned ([document] sentence):
+{ctx_a}
+
+Where B is mentioned ([document] sentence):
+{ctx_b}
+\end{lstlisting}
+
+\section*{Query engine: agent}
+\noindent Source: \texttt{agent/prompt.py}
+\begin{lstlisting}
+You answer a question about one dataset. Tools search its knowledge graph, the text it was read from and its source tables; you call them one at a time, then answer from what they returned.
+
+Rules:
+- Each turn, either call one tool (`action` "call", `tool` its name, `arguments` a JSON object of its
+  arguments) or answer (`action` "answer").
+- Start from the nodes the question names (find_nodes) and walk from them; read the schema first when the
+  question asks how many, which is largest or which records meet a condition.
+- Take a count or a sum of entries from a tool's `measure`, with their conditions in `where`, never by
+  counting listed rows yourself; to leave out the entries another result returned, add one `!=` condition
+  per id it returned.
+- Use only what the tools returned.
+- Set `outcome` to what the results let you give:
+  - "answer": they state the answer, and you cite them; a result showing there are none is an answer
+    (`entities` []);
+  - "insufficient_evidence": the dataset holds what the question is about, but no result states the answer;
+  - "out_of_scope": the schema and your searches show the dataset does not hold what the question is about;
+  - "clarify": the question can be read in several ways that would get different answers; list them in
+    `readings` and ask in `text` which one is meant.
+  With any outcome but "answer", leave `entities` and `number` empty and say why in `text`.
+- Put the answer in the field its form calls for:
+  - one number (a count, an amount, a measurement, a year; how many, how much, how far, which year): give
+    it in `number`, also when it is stated as a bound or an estimate;
+  - one or several named things, or values that are neither one number nor a date (who, which, where,
+    what is the name or the value of ...; several years; a month alone or a time of day): list them in
+    `entities`, each once, by its name or value alone, as the tools or the question give it;
+  - anything else (what was said or done, why, whether, a date: a day of a month, with or without its
+    year): answer in a short `text`.
+  `text` may add to `entities` or `number`; it never replaces them.
+- Write an entity by its name, never by a ref.
+- Cite every id your answer relies on, exactly as a tool returned it: a passage by its chunk id with ONE
+  contiguous quote copied verbatim from its text; a node, a claim or a query result by its id alone.
+- Never repeat a call: its result is already below.
+
+<question>{question}</question>
+
+<tools>
+{tools}
+</tools>
+
+<turns>
+{turns}
+</turns>
+
+Tool calls left: {left}.
+\end{lstlisting}
+
+\section*{Query engine: closing prompt at a cap}
+\noindent Source: \texttt{agent/prompt.py}
+\begin{lstlisting}
+You answer a question about one dataset from the tool results below. No tool can be called any more: reply now (`action` "answer") from these results alone.
+- Set `outcome` to what the results let you give:
+  - "answer": they state the answer, and you cite them; a result showing there are none is an answer
+    (`entities` []);
+  - "insufficient_evidence": the dataset holds what the question is about, but no result states the answer;
+  - "out_of_scope": the schema and your searches show the dataset does not hold what the question is about;
+  - "clarify": the question can be read in several ways that would get different answers; list them in
+    `readings` and ask in `text` which one is meant.
+  With any outcome but "answer", leave `entities` and `number` empty and say why in `text`.
+- Put the answer in the field its form calls for:
+  - one number (a count, an amount, a measurement, a year; how many, how much, how far, which year): give
+    it in `number`, also when it is stated as a bound or an estimate;
+  - one or several named things, or values that are neither one number nor a date (who, which, where,
+    what is the name or the value of ...; several years; a month alone or a time of day): list them in
+    `entities`, each once, by its name or value alone, as the tools or the question give it;
+  - anything else (what was said or done, why, whether, a date: a day of a month, with or without its
+    year): answer in a short `text`.
+  `text` may add to `entities` or `number`; it never replaces them.
+- Cite every id your answer relies on exactly as a tool returned it; a passage by its chunk id with ONE contiguous quote copied verbatim from its text.
+
+<question>{question}</question>
+
+<turns>
+{turns}
+</turns>
+\end{lstlisting}
+
+\section*{Query engine: passage reranker}
+\noindent Source: \texttt{hybrid/passage\_rerank.py}
+\begin{lstlisting}
+You order text passages for a reader who must answer a question from them. Each passage is shown whole, under its document's name.
+
+The question: {question}
+
+The passages:
+{passages}
+
+Rules:
+1. Order the passages by how directly each one states something the question asks for, in any wording: a passage that says it in other words counts as much as one that repeats the question's words.
+2. A question can have several answers in several passages. Rank each of them high, not only the single best one.
+3. Judge from the passages only.
+4. In order, best first, give the id of every passage, such as "P3", each exactly once.
+\end{lstlisting}
